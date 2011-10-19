@@ -1,0 +1,21 @@
+<MainConfiguration>
+  <version>8.2.0.0000.0221</version>
+  <ServerConfiguration>
+    <revision>248</revision>
+    <useNonSecuredPort>true</useNonSecuredPort>
+    <nonSecuredPort>2323</nonSecuredPort>
+    <useSecuredPort>true</useSecuredPort>
+    <securedPort>23443</securedPort>
+    <serverHttpPort>2380</serverHttpPort>
+    <serverShutdownPort>2305</serverShutdownPort>
+    <useRecordingEncryption>false</useRecordingEncryption>
+    <archiveLoadInterval>0</archiveLoadInterval>
+    <smtpConfig>
+      <serverAddress></serverAddress>
+      <replayAddress></replayAddress>
+      <requiresAuthentication>false</requiresAuthentication>
+      <accountName></accountName>
+      <accountPassword></accountPassword>
+    </smtpConfig>
+  </ServerConfiguration>
+</MainConfiguration>
