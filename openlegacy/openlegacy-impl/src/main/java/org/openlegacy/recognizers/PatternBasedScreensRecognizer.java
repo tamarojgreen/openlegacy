@@ -1,22 +1,20 @@
 package org.openlegacy.recognizers;
 
-import java.text.MessageFormat;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostEntitiesRegistry;
+import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.MessageFormat;
+import java.util.List;
+
 /***
- * Pattern based screen recognizer. Looks for fields in the given screen in the
- * given positions. If one of the fields content matches a screen name in the
- * Screens Registry, then a matching screen class is returned The found content
- * is
+ * Pattern based screen recognizer. Looks for fields in the given screen in the given positions. If one of the fields content
+ * matches a screen name in the Screens Registry, then a matching screen class is returned The found content is
  * 
  * @author RoiM
  * 
@@ -28,13 +26,12 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 
 	private List<ScreenPosition> positions;
 
-	private final static Log logger = LogFactory
-			.getLog(PatternBasedScreensRecognizer.class);
+	private final static Log logger = LogFactory.getLog(PatternBasedScreensRecognizer.class);
 
 	private char[] ignoreChars = new char[] { ' ' };
 
 	public Class<?> match(TerminalScreen terminalScreen) {
-		if (positions == null){
+		if (positions == null) {
 			return null;
 		}
 		for (ScreenPosition position : positions) {
@@ -43,9 +40,8 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 			if (patternFromScreen.length() > 0) {
 				Class<?> screenModel = screensRegistry.get(patternFromScreen);
 				if (screenModel != null) {
-					logger.debug(MessageFormat
-							.format("Found matched screen. Found pattern '{0}' in position {1}:",
-									patternFromScreen, position));
+					logger.debug(MessageFormat.format("Found matched screen. Found pattern '{0}' in position {1}:",
+							patternFromScreen, position));
 					return screenModel;
 				}
 			}

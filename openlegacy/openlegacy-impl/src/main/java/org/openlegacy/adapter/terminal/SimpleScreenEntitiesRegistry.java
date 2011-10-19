@@ -1,37 +1,32 @@
 package org.openlegacy.adapter.terminal;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.openlegacy.adapter.SimpleHostEntitiesRegistry;
 import org.openlegacy.terminal.FieldMapping;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
- * A simple implementation of a screen entities registry.
- * Holds information collection from @ScreenEntity, @FieldMapping and more
- *
+ * A simple implementation of a screen entities registry. Holds information collection from @ScreenEntity, @FieldMapping and more
+ * 
  */
-public class SimpleScreenEntitiesRegistry extends SimpleHostEntitiesRegistry
-		implements ScreenEntitiesRegistry{
+public class SimpleScreenEntitiesRegistry extends SimpleHostEntitiesRegistry implements ScreenEntitiesRegistry {
 
 	private final Map<String, ScreenIdentification> screenIdentifications = new HashMap<String, ScreenIdentification>();
 	private final Map<Class<?>, Map<String, FieldMapping>> screenFields = new HashMap<Class<?>, Map<String, FieldMapping>>();
 
-	public void addScreenIdentification(
-			ScreenIdentification screenIdentification) {
-		screenIdentifications.put(screenIdentification.getName(),
-				screenIdentification);
+	public void addScreenIdentification(ScreenIdentification screenIdentification) {
+		screenIdentifications.put(screenIdentification.getName(), screenIdentification);
 	}
 
 	public Class<?> match(TerminalScreen hostScreen) {
-		Collection<ScreenIdentification> screensIdentifiersList = screenIdentifications
-				.values();
+		Collection<ScreenIdentification> screensIdentifiersList = screenIdentifications.values();
 		for (ScreenIdentification screenIdentification : screensIdentifiersList) {
 			String screenName = screenIdentification.match(hostScreen);
 			if (screenName != null) {
@@ -43,8 +38,7 @@ public class SimpleScreenEntitiesRegistry extends SimpleHostEntitiesRegistry
 
 	public void addFieldMapping(Class<?> screenEntity, FieldMapping fieldMapping) {
 		if (!getHostEntities().containsValue(screenEntity)) {
-			throw (new IllegalArgumentException("Registry doesn''t contain Entity of type:"
-					+ screenEntity));
+			throw (new IllegalArgumentException("Registry doesn''t contain Entity of type:" + screenEntity));
 		}
 		Map<String, FieldMapping> fields = screenFields.get(screenEntity);
 		if (fields == null) {

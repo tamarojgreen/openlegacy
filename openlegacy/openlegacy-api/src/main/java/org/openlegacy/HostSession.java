@@ -4,7 +4,7 @@ import org.openlegacy.exceptions.HostEntityNotFoundException;
 
 /**
  * A common interface for a host session
- *
+ * 
  */
 public interface HostSession {
 

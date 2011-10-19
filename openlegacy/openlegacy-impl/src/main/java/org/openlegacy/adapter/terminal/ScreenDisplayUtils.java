@@ -1,13 +1,13 @@
 package org.openlegacy.adapter.terminal;
 
-import java.util.Collection;
-
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 
+import java.util.Collection;
+
 /**
  * A textual utility which format terminal screen in to a preventable text which is very comfort for debugging purposes
- *
+ * 
  */
 public class ScreenDisplayUtils {
 
@@ -31,8 +31,7 @@ public class ScreenDisplayUtils {
 				}
 			}
 			if (decorated) {
-				out.append(text.substring(beginIndex, beginIndex
-						+ terminalScreen.getSize().getColumns()));
+				out.append(text.substring(beginIndex, beginIndex + terminalScreen.getSize().getColumns()));
 				out.append("|");
 			}
 			out.append(newline);
@@ -47,8 +46,7 @@ public class ScreenDisplayUtils {
 
 	}
 
-	private static void generateHeader(TerminalScreen hostScreen, String newline,
-			StringBuffer out) {
+	private static void generateHeader(TerminalScreen hostScreen, String newline, StringBuffer out) {
 		StringBuilder headerLine1 = new StringBuilder("    ");
 		StringBuilder headerLine2 = new StringBuilder("    ");
 		for (int i = 2; i <= hostScreen.getSize().getColumns(); i++) {
@@ -76,12 +74,10 @@ public class ScreenDisplayUtils {
 		for (TerminalField terminalField : inputFields) {
 			// +6 - line numbers + |
 			int beforeInputBufferLocation = (hostScreen.getSize().getColumns() + 6)
-					// -1 - 0 base, +3 - header
-					* (terminalField.getPosition().getRow() - 1 + 3)
-					+ terminalField.getPosition().getColumn() - 2;
+			// -1 - 0 base, +3 - header
+					* (terminalField.getPosition().getRow() - 1 + 3) + terminalField.getPosition().getColumn() - 2;
 			out.setCharAt(beforeInputBufferLocation, '[');
-			int afterInputBufferLocation = beforeInputBufferLocation
-					+ terminalField.getLength() + 1;
+			int afterInputBufferLocation = beforeInputBufferLocation + terminalField.getLength() + 1;
 			out.setCharAt(afterInputBufferLocation, ']');
 		}
 	}

@@ -3,13 +3,13 @@ package org.openlegacy.adapter.terminal;
 import org.openlegacy.HostAction;
 
 /**
- * A utility class for exposing common host keys action 
- *
+ * A utility class for exposing common host keys action
+ * 
  */
 public class SendKeyActions {
 
 	public static final HostAction ENTER = new SendKeyAction("[enter]");
-	
+
 	public static final HostAction PF1 = new SendKeyAction("[pf1]");
 	public static final HostAction PF2 = new SendKeyAction("[pf2]");
 	public static final HostAction PF3 = new SendKeyAction("[pf3]");

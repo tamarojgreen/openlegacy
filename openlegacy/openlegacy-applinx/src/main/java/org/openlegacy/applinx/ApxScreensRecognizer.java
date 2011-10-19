@@ -1,13 +1,13 @@
 package org.openlegacy.applinx;
 
+import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 
 public class ApxScreensRecognizer implements ScreensRecognizer {
 
@@ -16,15 +16,14 @@ public class ApxScreensRecognizer implements ScreensRecognizer {
 	@Autowired
 	private HostEntitiesRegistry screensRegistry;
 
-	private final static Log logger = LogFactory
-			.getLog(ApxScreensRecognizer.class);
+	private final static Log logger = LogFactory.getLog(ApxScreensRecognizer.class);
 
 	public Class<?> match(TerminalScreen terminalScreen) {
-		GXRuntimeScreen apxScreen = (GXRuntimeScreen) terminalScreen.getDelegate();
+		GXRuntimeScreen apxScreen = (GXRuntimeScreen)terminalScreen.getDelegate();
 		if (apxScreen.getName().equals(UNKNOWN)) {
 			return null;
 		}
-		if (logger.isDebugEnabled()){
+		if (logger.isDebugEnabled()) {
 			logger.debug("Screen matched by ApplinX:" + apxScreen.getName());
 		}
 		return screensRegistry.get(apxScreen.getName());

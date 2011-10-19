@@ -1,10 +1,17 @@
 package org.openlegacy.applinx;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
+import com.sabratec.applinx.baseobject.GXClientBaseObjectFactory;
+import com.sabratec.applinx.baseobject.GXCreateSessionRequest;
+import com.sabratec.applinx.baseobject.GXGeneralException;
+import com.sabratec.applinx.baseobject.GXIClientBaseObject;
+import com.sabratec.applinx.common.designtime.exceptions.GXConfigurationStorageException;
+import com.sabratec.applinx.common.designtime.exceptions.GXDesignTimeException;
+import com.sabratec.applinx.common.designtime.model.GXIApplicationContext;
+import com.sabratec.applinx.common.designtime.model.config.GXApplicationConfiguration;
+import com.sabratec.applinx.common.designtime.model.config.GXPreDefinedType;
+import com.sabratec.applinx.common.designtime.model.db.GXInnerDBConfiguration;
+import com.sabratec.applinx.server.runtime.GXServerContext;
+import com.sabratec.util.GXSystem;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
@@ -18,18 +25,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import com.sabratec.applinx.baseobject.GXClientBaseObjectFactory;
-import com.sabratec.applinx.baseobject.GXCreateSessionRequest;
-import com.sabratec.applinx.baseobject.GXGeneralException;
-import com.sabratec.applinx.baseobject.GXIClientBaseObject;
-import com.sabratec.applinx.common.designtime.exceptions.GXConfigurationStorageException;
-import com.sabratec.applinx.common.designtime.exceptions.GXDesignTimeException;
-import com.sabratec.applinx.common.designtime.model.GXIApplicationContext;
-import com.sabratec.applinx.common.designtime.model.config.GXApplicationConfiguration;
-import com.sabratec.applinx.common.designtime.model.config.GXPreDefinedType;
-import com.sabratec.applinx.common.designtime.model.db.GXInnerDBConfiguration;
-import com.sabratec.applinx.server.runtime.GXServerContext;
-import com.sabratec.util.GXSystem;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class ApxServerLoader implements InitializingBean, Lifecycle {
 
@@ -69,10 +69,8 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 	private void loadLogger() throws IOException {
 		Resource resource = new ClassPathResource("/log4j.properties");
 		if (resource.exists()) {
-			Properties logProperties = PropertiesLoaderUtils
-					.loadProperties(resource);
-			new PropertyConfigurator().doConfigure(logProperties, LogManager
-					.getLoggerRepository());
+			Properties logProperties = PropertiesLoaderUtils.loadProperties(resource);
+			new PropertyConfigurator().doConfigure(logProperties, LogManager.getLoggerRepository());
 		}
 	}
 
@@ -83,8 +81,7 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 
 	private void addApplicationIfNeeded() throws GXDesignTimeException {
 		if (getApplication() == null) {
-			((GXInnerDBConfiguration) apxConfig.getRepositoryConfig().getDb())
-					.setApplicationName(apxConfig.getName());
+			((GXInnerDBConfiguration)apxConfig.getRepositoryConfig().getDb()).setApplicationName(apxConfig.getName());
 			server.addApplication(apxConfig, GXPreDefinedType.NONE);
 		}
 	}
@@ -100,12 +97,10 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 		initResource(tempDir, fileName, fileResource);
 	}
 
-	private void initResource(File tempDir, String fileName,
-			Resource fileResource) throws IOException, FileNotFoundException {
+	private void initResource(File tempDir, String fileName, Resource fileResource) throws IOException, FileNotFoundException {
 		File targetFile = new File(tempDir, fileName);
 		targetFile.getParentFile().mkdirs();
-		IOUtils.copy(fileResource.getInputStream(),
-				new FileOutputStream(targetFile));
+		IOUtils.copy(fileResource.getInputStream(), new FileOutputStream(targetFile));
 	}
 
 	private void initConfigFiles(File workingDir) throws IOException {
@@ -121,11 +116,9 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 	}
 
 	private File initWorkingDir() {
-		File workingDir = new File(System.getProperty("user.home")
-				+ "/.applinx");
+		File workingDir = new File(System.getProperty("user.home") + "/.applinx");
 		workingDir.mkdirs();
-		GXSystem.setProperty("com.sabratec.gxhome", workingDir
-				.getAbsolutePath());
+		GXSystem.setProperty("com.sabratec.gxhome", workingDir.getAbsolutePath());
 
 		return workingDir;
 	}
@@ -140,8 +133,7 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 
 	private void deleteApplicationIfNeeded() {
 		GXIApplicationContext applinxApplication = getApplication();
-		if (applinxApplication != null
-				&& "true".equals(properties.get("applinx.use.repository"))) {
+		if (applinxApplication != null && "true".equals(properties.get("applinx.use.repository"))) {
 			return;
 		}
 
@@ -155,8 +147,7 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 	}
 
 	public GXIApplicationContext getApplication() {
-		GXIApplicationContext applinxApplication = server
-				.getApplicationByName(apxConfig.getName());
+		GXIApplicationContext applinxApplication = server.getApplicationByName(apxConfig.getName());
 		return applinxApplication;
 	}
 
@@ -171,8 +162,7 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 	}
 
 	public GXIClientBaseObject getSession() throws GXGeneralException {
-		GXCreateSessionRequest sessionRequest = applicationContext
-				.getBean(GXCreateSessionRequest.class);
+		GXCreateSessionRequest sessionRequest = applicationContext.getBean(GXCreateSessionRequest.class);
 		sessionRequest.setServerContext(server.getAppServerContext());
 		GXIClientBaseObject baseObject;
 
