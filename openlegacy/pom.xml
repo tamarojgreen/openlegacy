@@ -11,8 +11,6 @@
 		<module>openlegacy-api</module>
 		<module>openlegacy-impl</module>
 		<module>openlegacy-applinx</module>
-		<module>openlegacy-test</module>
-		<module>openlegacy-eclipse</module>
 	</modules>
 
 	<properties>

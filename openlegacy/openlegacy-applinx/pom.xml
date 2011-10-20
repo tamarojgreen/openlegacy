@@ -8,13 +8,13 @@
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-applinx</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${parent.version}</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.softwareag</groupId>

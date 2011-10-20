@@ -7,7 +7,7 @@
   </parent>
   <groupId>org.openlegacy</groupId>
   <artifactId>openlegacy-api</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+	<version>${parent.version}</version>
   <modules>
   </modules>
 </project>
