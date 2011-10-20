@@ -32,7 +32,7 @@
 		<downloadUrl>http://localhosthost/maven2</downloadUrl>
 		<site>
 			<id>staging</id>
-			<url>file://${deploy.dir}/staging/${pom.artifactId}</url>
+			<url>file://${deploy.dir}/staging/${project.artifactId}</url>
 		</site>
 		<repository>
 			<id>openlegacy-release</id>
