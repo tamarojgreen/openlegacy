@@ -5,6 +5,7 @@ import com.sabratec.applinx.common.runtime.field.GXIField;
 import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 
 import org.openlegacy.adapter.terminal.ScreenDisplayUtils;
+import org.openlegacy.adapter.terminal.SimpleScreenSize;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
@@ -58,7 +59,7 @@ public class ApxTerminalScreen implements TerminalScreen {
 	}
 
 	public ScreenSize getSize() {
-		return new ScreenSize(screen.getSize().getHeight(), screen.getSize().getWidth());
+		return new SimpleScreenSize(screen.getSize().getHeight(), screen.getSize().getWidth());
 	}
 
 	public List<TerminalRow> getRows() {
