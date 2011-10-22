@@ -16,18 +16,11 @@
 	<properties>
 		<spring.framework.version>3.0.5.RELEASE</spring.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<deploy.dir>C:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps\maven2</deploy.dir>
+		<deploy.dir>C:\Program Files\Apache Software Foundation\Tomcat
+			6.0\webapps\maven2</deploy.dir>
 	</properties>
-	
-	<repositories>
-		<repository>
-			<id>openlegacy-snaphost</id>
-			<url>http://localhost/maven2/snapshot/</url>
-		</repository>
-	</repositories>
-	
+
 	<distributionManagement>
-		<downloadUrl>http://localhosthost/maven2</downloadUrl>
 		<site>
 			<id>staging</id>
 			<url>file://${deploy.dir}/staging/${project.artifactId}</url>
@@ -44,4 +37,19 @@
 		</snapshotRepository>
 	</distributionManagement>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
