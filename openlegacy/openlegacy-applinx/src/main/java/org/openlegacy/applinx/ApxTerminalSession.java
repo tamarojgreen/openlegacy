@@ -33,7 +33,7 @@ public class ApxTerminalSession extends TerminalSessionAdapter {
 
 	public void disconnect() {
 		try {
-			GXClientBaseObjectFactory.detachSession(baseObject);
+			GXClientBaseObjectFactory.endSession(baseObject);
 		} catch (GXGeneralException e) {
 			throw (new OpenLegacyProviderException(e));
 		}

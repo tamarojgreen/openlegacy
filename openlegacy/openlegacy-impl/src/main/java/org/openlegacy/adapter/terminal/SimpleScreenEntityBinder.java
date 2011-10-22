@@ -57,19 +57,19 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 		}
 	}
 
-	private <T> void injectHostScreen(T screenEntityInstance, TerminalScreen hostScreen) throws NoSuchFieldException,
+	private static <T> void injectHostScreen(T screenEntityInstance, TerminalScreen hostScreen) throws NoSuchFieldException,
 			IllegalAccessException {
 		Field hostScreenField = screenEntityInstance.getClass().getDeclaredField("hostScreen");
 		hostScreenField.setAccessible(true);
 		hostScreenField.set(screenEntityInstance, hostScreen);
 	}
 
-	private TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMapping fieldMapping) {
+	private static TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMapping fieldMapping) {
 		TerminalField terminalField = terminalScreen.getField(fieldMapping.getScreenPosition());
 		return terminalField;
 	}
 
-	private String formatContent(TerminalField terminalField) {
+	private static String formatContent(TerminalField terminalField) {
 		// TODO add configuration
 		return terminalField.getValue().trim();
 	}

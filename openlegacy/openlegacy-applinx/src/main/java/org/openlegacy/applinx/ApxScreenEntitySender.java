@@ -12,6 +12,7 @@ import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.spi.ScreenEntitySender;
+import org.openlegacy.terminal.spi.TerminalSendAction;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -19,8 +20,11 @@ import java.util.Set;
 
 public class ApxScreenEntitySender implements ScreenEntitySender {
 
-	public void perform(TerminalSession terminalSession, Map<ScreenPosition, String> fields, HostAction hostAction,
-			ScreenPosition cursorPosition) {
+	public void perform(TerminalSession terminalSession, TerminalSendAction terminalSendAction) {
+
+		HostAction hostAction = terminalSendAction.getHostAction();
+		Map<ScreenPosition, String> fields = terminalSendAction.getFields();
+		ScreenPosition cursorPosition = terminalSendAction.getCursorPosition();
 
 		validateAction(hostAction);
 
@@ -37,7 +41,7 @@ public class ApxScreenEntitySender implements ScreenEntitySender {
 		}
 	}
 
-	private GXSendKeysRequest buildRequest(Map<ScreenPosition, String> fieldValues, HostAction hostAction) {
+	private static GXSendKeysRequest buildRequest(Map<ScreenPosition, String> fieldValues, HostAction hostAction) {
 		GXSendKeysRequest sendKeyRequest = new GXSendKeysRequest((String)hostAction.getCommand());
 
 		if (fieldValues == null) {
@@ -54,7 +58,7 @@ public class ApxScreenEntitySender implements ScreenEntitySender {
 		return sendKeyRequest;
 	}
 
-	private void validateAction(HostAction action) {
+	private static void validateAction(HostAction action) {
 		if (!(action.getCommand() instanceof String)) {
 			throw (new IllegalArgumentException(
 					MessageFormat.format("Specified {0} action is not supported", action.getCommand())));

@@ -17,10 +17,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.Lifecycle;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -31,7 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ApxServerLoader implements InitializingBean, Lifecycle {
+public class ApxServerLoader {
 
 	private GXServerContext server;
 
@@ -66,7 +64,7 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 
 	}
 
-	private void loadLogger() throws IOException {
+	private static void loadLogger() throws IOException {
 		Resource resource = new ClassPathResource("/log4j.properties");
 		if (resource.exists()) {
 			Properties logProperties = PropertiesLoaderUtils.loadProperties(resource);
@@ -92,22 +90,23 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 		initConfigFiles(workingDir);
 	}
 
-	private void initFile(File tempDir, String fileName) throws IOException {
+	private static void initFile(File tempDir, String fileName) throws IOException {
 		Resource fileResource = new ClassPathResource(fileName);
 		initResource(tempDir, fileName, fileResource);
 	}
 
-	private void initResource(File tempDir, String fileName, Resource fileResource) throws IOException, FileNotFoundException {
+	private static void initResource(File tempDir, String fileName, Resource fileResource) throws IOException,
+			FileNotFoundException {
 		File targetFile = new File(tempDir, fileName);
 		targetFile.getParentFile().mkdirs();
 		IOUtils.copy(fileResource.getInputStream(), new FileOutputStream(targetFile));
 	}
 
-	private void initConfigFiles(File workingDir) throws IOException {
+	private static void initConfigFiles(File workingDir) throws IOException {
 		initFile(workingDir, "/config/gxconfig.xml");
 		initFile(workingDir, "/config/gxperm.cfg");
 		initFile(workingDir, "/config/gxserver.cfg");
-		// initFile(workingDir, "/config/log/gxlog_config.xml");
+		initFile(workingDir, "/config/log/gxlog_config.xml");
 	}
 
 	private void initLicense(File workingDir) throws IOException {
@@ -115,20 +114,12 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 		System.setProperty("com.sabratec.license", workingDir.getAbsolutePath());
 	}
 
-	private File initWorkingDir() {
+	private static File initWorkingDir() {
 		File workingDir = new File(System.getProperty("user.home") + "/.applinx");
 		workingDir.mkdirs();
 		GXSystem.setProperty("com.sabratec.gxhome", workingDir.getAbsolutePath());
 
 		return workingDir;
-	}
-
-	public void start() {
-		try {
-			startServer();
-		} catch (Exception e) {
-			throw (new OpenLegacyProviderException(e));
-		}
 	}
 
 	private void deleteApplicationIfNeeded() {
@@ -151,7 +142,7 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 		return applinxApplication;
 	}
 
-	public void stop() {
+	public void stopServer() {
 		if (server.isStarted()) {
 			server.stop();
 		}
@@ -169,10 +160,6 @@ public class ApxServerLoader implements InitializingBean, Lifecycle {
 		baseObject = GXClientBaseObjectFactory.getBaseObject(sessionRequest);
 
 		return baseObject;
-	}
-
-	public void afterPropertiesSet() throws Exception {
-		start();
 	}
 
 	public void setLicense(Resource license) {

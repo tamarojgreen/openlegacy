@@ -4,20 +4,32 @@ package org.openlegacy.terminal;
  * A screen position class for bean configuration comfort purposes
  * 
  */
-public class ScreenPositionBean extends ScreenPosition {
+public class ScreenPositionBean implements ScreenPosition {
 
-	public ScreenPositionBean() {
-		super(0, 0);
+	private int row;
+	private int column;
+
+	public int getRow() {
+		return row;
 	}
 
-	@Override
+	public int getColumn() {
+		return column;
+	}
+
 	public void setRow(int row) {
-		super.setRow(row);
+		this.row = row;
 	}
 
-	@Override
 	public void setColumn(int column) {
-		super.setColumn(column);
+		this.column = column;
 	}
 
+	public static ScreenPositionBean newInstance(ScreenPosition position) {
+		ScreenPositionBean screenPosition = new ScreenPositionBean();
+		screenPosition.setRow(position.getRow());
+		screenPosition.setColumn(position.getColumn());
+		return screenPosition;
+
+	}
 }

@@ -8,6 +8,7 @@ import org.openlegacy.adapter.terminal.ScreenDisplayUtils;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalScreen;
 
 import java.util.ArrayList;
@@ -58,5 +59,21 @@ public class ApxTerminalScreen implements TerminalScreen {
 
 	public ScreenSize getSize() {
 		return new ScreenSize(screen.getSize().getHeight(), screen.getSize().getWidth());
+	}
+
+	public List<TerminalRow> getRows() {
+		@SuppressWarnings("unchecked")
+		Collection<GXIField> apxFields = screen.getFields();
+		List<TerminalRow> rows = new ArrayList<TerminalRow>();
+
+		ApxTerminalRow currentRow = new ApxTerminalRow(1);
+		for (GXIField apxField : apxFields) {
+			if (apxField.getPosition().getRow() > currentRow.getRowNumber()) {
+				rows.add(currentRow);
+				currentRow = new ApxTerminalRow(apxField.getPosition().getRow());
+			}
+			currentRow.getFields().add(new ApxTerminalField(apxField));
+		}
+		return rows;
 	}
 }

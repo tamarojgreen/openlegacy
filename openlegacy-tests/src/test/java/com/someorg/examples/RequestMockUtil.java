@@ -8,10 +8,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class RequestMockUtil {
 
 	public static void initRequest() {
-        MockHttpSession session = new MockHttpSession();
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setSession(session);
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+		MockHttpSession session = new MockHttpSession();
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		request.setSession(session);
+		RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 	}
 
 }

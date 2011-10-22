@@ -1,6 +1,7 @@
 package org.openlegacy;
 
 import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.trail.SessionTrail;
 
 /**
  * A common interface for a host session
@@ -9,4 +10,6 @@ import org.openlegacy.exceptions.HostEntityNotFoundException;
 public interface HostSession {
 
 	<T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException;
+
+	SessionTrail getSessionTrail();
 }

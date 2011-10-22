@@ -6,9 +6,12 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<import resource="classpath*:/openlegacy-standalone-context.xml"/>
+
+	<bean id="terminalSession" class="org.openlegacy.terminal.TerminalSession" scope="session" factory-bean="apxTerminalSessionFactory" factory-method="getSession" destroy-method="disconnect" />
 	 
 	<bean id="screensRegistry" class="org.openlegacy.adapter.terminal.SimpleScreenEntitiesRegistry" />
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />
 	<bean id="screenEntityBinder" class="org.openlegacy.adapter.terminal.SimpleScreenEntityBinder" />
 	<bean id="fieldMetadataRetriver" class="org.openlegacy.adapter.terminal.RegistryBasedFieldMappingsProvider" />
+	<bean id="trailWriter" class="org.openlegacy.adapter.terminal.trail.XmlTrailWriter" />
 </beans>

@@ -25,10 +25,9 @@
 		<property name="serverURL" value="local://applinx" />
 	</bean>
 
-	<bean id="serverLoader" class="org.openlegacy.applinx.ApxServerLoader" p:license="${applinx.license.file}" />
+	<bean id="serverLoader" class="org.openlegacy.applinx.ApxServerLoader" p:license="${applinx.license.file}" init-method="startServer" destroy-method="stopServer"/>
 	
-	<bean id="terminalSessionFactory" class="org.openlegacy.applinx.ApxTerminalSessionFactory" />
-	<bean id="terminalSession" class="org.openlegacy.terminal.TerminalSession" scope="request" factory-bean="terminalSessionFactory" factory-method="getSession" />
+	<bean id="apxTerminalSessionFactory" class="org.openlegacy.applinx.ApxTerminalSessionFactory" />
 	<bean id="screenEntitySender" class="org.openlegacy.applinx.ApxScreenEntitySender" />
 	
 </beans>

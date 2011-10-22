@@ -3,6 +3,7 @@ package org.openlegacy.applinx;
 import com.sabratec.applinx.common.runtime.field.GXIField;
 
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.SimpleScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 
 public class ApxTerminalField implements TerminalField {
@@ -24,7 +25,7 @@ public class ApxTerminalField implements TerminalField {
 
 	public ScreenPosition getPosition() {
 		if (position == null) {
-			position = ScreenPosition.newInstance(apxField.getPosition().getRow(), apxField.getPosition().getColumn());
+			position = SimpleScreenPosition.newInstance(apxField.getPosition().getRow(), apxField.getPosition().getColumn());
 		}
 		return position;
 	}

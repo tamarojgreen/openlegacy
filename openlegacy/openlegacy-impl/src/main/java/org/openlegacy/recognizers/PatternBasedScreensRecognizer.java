@@ -40,7 +40,7 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 			if (patternFromScreen.length() > 0) {
 				Class<?> screenModel = screensRegistry.get(patternFromScreen);
 				if (screenModel != null) {
-					logger.debug(MessageFormat.format("Found matched screen. Found pattern '{0}' in position {1}:",
+					logger.debug(MessageFormat.format("Found matched screen. Found pattern \"{0}\" in position {1}:",
 							patternFromScreen, position));
 					return screenModel;
 				}
