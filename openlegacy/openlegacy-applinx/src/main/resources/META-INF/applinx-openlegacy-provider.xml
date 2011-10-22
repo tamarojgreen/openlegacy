@@ -28,6 +28,5 @@
 	<bean id="serverLoader" class="org.openlegacy.applinx.ApxServerLoader" p:license="${applinx.license.file}" init-method="startServer" destroy-method="stopServer"/>
 	
 	<bean id="terminalConnectionFactory" class="org.openlegacy.applinx.ApxTerminalConnctionFactory" />
-	<bean id="terminalConnection" class="org.openlegacy.applinx.ApxTerminalConnection" factory-bean="terminalConnectionFactory" factory-method="getConnection" destroy-method="disconnect" scope="session"/>
 	
 </beans>

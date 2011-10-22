@@ -22,6 +22,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,6 +53,8 @@ public class ApxServerLoader {
 
 		initFiles();
 
+		initServerPorts();
+
 		loadLogger();
 		server = GXServerContext.instance();
 
@@ -60,6 +63,19 @@ public class ApxServerLoader {
 			createDefaultApplication();
 
 			loadLogger();
+		}
+
+	}
+
+	private void initServerPorts() throws Exception {
+
+		String nonSecuredPort = (String)properties.get("applinx.nonsecured.port");
+		if (StringUtils.hasText(nonSecuredPort)) {
+			// TODO handle apx ports
+		}
+		String securedPort = (String)properties.get("applinx.secured.port");
+		if (StringUtils.hasText(securedPort)) {
+			// TODO handle apx ports
 		}
 
 	}
@@ -88,6 +104,7 @@ public class ApxServerLoader {
 		File workingDir = initWorkingDir();
 		initLicense(workingDir);
 		initConfigFiles(workingDir);
+
 	}
 
 	private static void initFile(File tempDir, String fileName) throws IOException {

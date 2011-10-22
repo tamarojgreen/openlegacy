@@ -11,7 +11,10 @@ public class SimpleScreenSize implements ScreenSize {
 	private int rows;
 	private int columns;
 
-	public SimpleScreenSize(int rows, int columns) {}
+	public SimpleScreenSize(int rows, int columns) {
+		this.rows = rows;
+		this.columns = columns;
+	}
 
 	public int getRows() {
 		return rows;

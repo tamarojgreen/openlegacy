@@ -4,6 +4,7 @@ import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalConnection;
+import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
@@ -11,6 +12,7 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.trail.TerminalIncomingTrailStage;
 import org.openlegacy.terminal.trail.TerminalOutgoingTrailStage;
 import org.openlegacy.trail.SessionTrail;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
@@ -20,7 +22,7 @@ import java.util.Map;
  * 
  * 
  */
-public class DefaultTerminalSession implements TerminalSession {
+public class DefaultTerminalSession implements TerminalSession, InitializingBean {
 
 	@Autowired
 	private ScreenEntityBinder screenEntityBinder;
@@ -29,6 +31,8 @@ public class DefaultTerminalSession implements TerminalSession {
 	private SessionTrail sessionTrail;
 
 	@Autowired
+	private TerminalConnectionFactory terminalConnectionFactory;
+
 	private TerminalConnection terminalConnection;
 
 	public <T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException {
@@ -81,5 +85,9 @@ public class DefaultTerminalSession implements TerminalSession {
 
 	public Object getDelegate() {
 		return terminalConnection.getDelegate();
+	}
+
+	public void afterPropertiesSet() throws Exception {
+		terminalConnection = terminalConnectionFactory.getConnection();
 	}
 }
