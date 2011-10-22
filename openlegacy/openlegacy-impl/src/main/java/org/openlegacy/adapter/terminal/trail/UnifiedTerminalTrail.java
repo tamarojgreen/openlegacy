@@ -1,8 +1,8 @@
 package org.openlegacy.adapter.terminal.trail;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.openlegacy.adapter.terminal.ScreenPositionBean;
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.ScreenPositionBean;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalScreen;

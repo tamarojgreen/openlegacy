@@ -1,7 +1,7 @@
 package org.openlegacy.adapter.terminal.trail;
 
+import org.openlegacy.adapter.terminal.ScreenPositionBean;
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.ScreenPositionBean;
 import org.openlegacy.terminal.TerminalField;
 
 import javax.xml.bind.annotation.XmlElement;

@@ -10,5 +10,5 @@
 	<import resource="classpath*:/META-INF/*-openlegacy-provider.xml" /> 
 
 	<context:annotation-config />
-	
+		
 </beans>

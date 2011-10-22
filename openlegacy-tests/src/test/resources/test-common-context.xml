@@ -7,7 +7,7 @@
 
 	<import resource="classpath*:/openlegacy-standalone-context.xml"/>
 
-	<bean id="terminalSession" class="org.openlegacy.terminal.TerminalSession" scope="session" factory-bean="apxTerminalSessionFactory" factory-method="getSession" destroy-method="disconnect" />
+	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession"/>
 	 
 	<bean id="screensRegistry" class="org.openlegacy.adapter.terminal.SimpleScreenEntitiesRegistry" />
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />

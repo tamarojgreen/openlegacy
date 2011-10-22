@@ -6,7 +6,6 @@ import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.terminal.FieldMapping;
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.SimpleScreenPosition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,6 @@
-package org.openlegacy.terminal;
+package org.openlegacy.adapter.terminal;
+
+import org.openlegacy.terminal.ScreenPosition;
 
 /**
  * A screen position class for bean configuration comfort purposes

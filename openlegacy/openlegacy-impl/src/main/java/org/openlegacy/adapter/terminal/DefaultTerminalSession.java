@@ -3,10 +3,10 @@ package org.openlegacy.adapter.terminal;
 import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
-import org.openlegacy.terminal.spi.ScreenEntitySender;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.trail.TerminalIncomingTrailStage;
 import org.openlegacy.terminal.trail.TerminalOutgoingTrailStage;
@@ -16,20 +16,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 
 /**
- * An abstract class which should extended by terminal vendors which exposes screenEntity building and sending
+ * A default session class exposes screenEntity building and sending
  * 
  * 
  */
-public abstract class TerminalSessionAdapter implements TerminalSession {
+public class DefaultTerminalSession implements TerminalSession {
 
 	@Autowired
 	private ScreenEntityBinder screenEntityBinder;
 
-	@Autowired
-	private ScreenEntitySender screenEntitySender;
-
 	@Autowired(required = false)
 	private SessionTrail sessionTrail;
+
+	@Autowired
+	private TerminalConnection terminalConnection;
 
 	public <T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException {
 		TerminalScreen hostScreen = getSnapshot();
@@ -57,7 +57,7 @@ public abstract class TerminalSessionAdapter implements TerminalSession {
 			sessionTrail.appendStage(new TerminalOutgoingTrailStage(getSnapshot(), terminalSendAction));
 		}
 
-		screenEntitySender.perform(this, terminalSendAction);
+		terminalConnection.doAction(terminalSendAction);
 
 		// TODO should be located in event
 		if (sessionTrail != null) {
@@ -73,5 +73,13 @@ public abstract class TerminalSessionAdapter implements TerminalSession {
 
 	public void setSessionTrail(SessionTrail sessionTrail) {
 		this.sessionTrail = sessionTrail;
+	}
+
+	public TerminalScreen getSnapshot() {
+		return terminalConnection.getSnapshot();
+	}
+
+	public Object getDelegate() {
+		return terminalConnection.getDelegate();
 	}
 }
