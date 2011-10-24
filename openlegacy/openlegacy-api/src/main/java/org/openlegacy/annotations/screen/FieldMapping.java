@@ -23,7 +23,7 @@ public @interface FieldMapping {
 
 	int column();
 
-	boolean updatable() default false;
+	boolean editable() default false;
 
 	int length() default 0;
 }
