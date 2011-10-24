@@ -10,31 +10,20 @@ import org.springframework.stereotype.Component;
 privileged aspect SignOn_Aspect {
     
     declare @type: SignOn : @Component;
-    //declare parents: SignOn implements HostScreen;
     
-    private TerminalScreen SignOn.hostScreen;
+    private TerminalScreen SignOn.terminalScreen;
     
-    private TerminalField SignOn.userField;
     private TerminalField SignOn.passwordField;
+    private TerminalField SignOn.userField;
     
-    public TerminalScreen SignOn.getHostScreen(){
-		return hostScreen;
-    }
-    
-    public String SignOn.getUser(){
-    	return this.user;
-    }
-    public void SignOn.setUser(String user){
-    	this.user = user;
-    }
-
-    public TerminalField SignOn.getUserField(){
-    	return userField;
+    public TerminalScreen SignOn.getTerminalScreen(){
+		return terminalScreen;
     }
 
     public String SignOn.getPassword(){
     	return this.password;
     }
+    
     public void SignOn.setPassword(String password){
     	this.password = password;
     }
@@ -42,4 +31,16 @@ privileged aspect SignOn_Aspect {
     public TerminalField SignOn.getPasswordField(){
     	return passwordField;
     }
+    public String SignOn.getUser(){
+    	return this.user;
+    }
+    
+    public void SignOn.setUser(String user){
+    	this.user = user;
+    }
+
+    public TerminalField SignOn.getUserField(){
+    	return userField;
+    }
+    
 }

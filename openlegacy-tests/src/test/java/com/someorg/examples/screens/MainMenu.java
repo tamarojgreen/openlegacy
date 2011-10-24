@@ -7,8 +7,8 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 @ScreenEntity(identifiers = { @Identifier(row = 1, column = 37, value = "Demo Environment") })
 public class MainMenu {
 
-	@FieldMapping(row = 21, column = 74, updatable = true)
+	@FieldMapping(row = 21, column = 74, editable = true)
 	private String company;
-	@FieldMapping(row = 21, column = 8, updatable = true)
+	@FieldMapping(row = 21, column = 8, editable = true)
 	private String selection;
 }

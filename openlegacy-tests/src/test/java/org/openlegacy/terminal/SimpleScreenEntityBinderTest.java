@@ -25,7 +25,7 @@ public class SimpleScreenEntityBinderTest extends AbstractTest {
 	public void testScreenBinder() throws IOException {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
-		Assert.assertNotNull(signOn.getHostScreen());
+		Assert.assertNotNull(signOn.getTerminalScreen());
 		Assert.assertNotNull(signOn.getUserField());
 
 		terminalSession.doAction(SendKeyActions.ENTER);

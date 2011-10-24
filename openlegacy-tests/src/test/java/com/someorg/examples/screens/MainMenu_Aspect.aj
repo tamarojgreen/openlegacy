@@ -11,18 +11,19 @@ privileged aspect MainMenu_Aspect {
     
     declare @type: MainMenu : @Component;
     
-    private TerminalScreen MainMenu.hostScreen;
+    private TerminalScreen MainMenu.terminalScreen;
     
     private TerminalField MainMenu.companyField;
     private TerminalField MainMenu.selectionField;
     
-    public TerminalScreen MainMenu.getHostScreen(){
-		return hostScreen;
+    public TerminalScreen MainMenu.getTerminalScreen(){
+		return terminalScreen;
     }
-    
+
     public String MainMenu.getCompany(){
     	return this.company;
     }
+    
     public void MainMenu.setCompany(String company){
     	this.company = company;
     }
@@ -30,10 +31,10 @@ privileged aspect MainMenu_Aspect {
     public TerminalField MainMenu.getCompanyField(){
     	return companyField;
     }
-
     public String MainMenu.getSelection(){
-    	return this.company;
+    	return this.selection;
     }
+    
     public void MainMenu.setSelection(String selection){
     	this.selection = selection;
     }
@@ -41,4 +42,5 @@ privileged aspect MainMenu_Aspect {
     public TerminalField MainMenu.getSelectionField(){
     	return selectionField;
     }
+    
 }
