@@ -9,7 +9,8 @@
 
 	<bean class="org.openlegacy.adapter.terminal.ScreenAnnotationProccesor"/>
 
-	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession"/>
+	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession" />
+	<bean id="terminalTrail" class="org.openlegacy.adapter.terminal.trail.DefaultTerminalTrail" scope="session"/>
 	 
 	<!-- Open legacy default beans -->
 	<bean id="screensRegistry" class="org.openlegacy.adapter.terminal.SimpleScreenEntitiesRegistry" />
@@ -25,5 +26,4 @@
 	
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
-	<bean class="org.openlegacy.adapter.terminal.TrailAspect" />		
 </beans>

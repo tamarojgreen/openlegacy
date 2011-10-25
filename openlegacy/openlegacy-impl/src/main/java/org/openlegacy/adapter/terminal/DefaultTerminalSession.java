@@ -28,27 +28,18 @@ public class DefaultTerminalSession implements TerminalSession, InitializingBean
 	@Autowired
 	private ScreenEntityBinder screenEntityBinder;
 
-	@Autowired(required = false)
-	private SessionTrail sessionTrail;
-
 	private TerminalConnection terminalConnection;
 
 	@Autowired
 	private ApplicationContext applicationContext;
 
+	@Autowired
+	private SessionTrail sessionTrail;
+
 	public <T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException {
 		TerminalScreen hostScreen = getSnapshot();
 
 		return screenEntityBinder.buildScreenEntity(hostEntity, hostScreen);
-	}
-
-	public TerminalSession doAction(HostAction hostAction) {
-		doAction(hostAction, null, null);
-		return this;
-	}
-
-	public TerminalSession doAction(HostAction hostAction, Object screenEntityInstance) {
-		return doAction(hostAction, screenEntityInstance, null);
 	}
 
 	public TerminalSession doAction(HostAction hostAction, Object screenEntityInstance, ScreenPosition cursorPosition) {
@@ -57,27 +48,15 @@ public class DefaultTerminalSession implements TerminalSession, InitializingBean
 
 		TerminalSendAction terminalSendAction = new TerminalSendAction(fieldValues, hostAction, cursorPosition);
 
-		// TODO should be located in event
-		if (sessionTrail != null) {
-			sessionTrail.appendStage(new TerminalOutgoingTrailStage(getSnapshot(), terminalSendAction));
-		}
-
+		sessionTrail.appendStage(new TerminalOutgoingTrailStage(getSnapshot(), terminalSendAction));
 		terminalConnection.doAction(terminalSendAction);
-
-		// TODO should be located in event
-		if (sessionTrail != null) {
-			sessionTrail.appendStage(new TerminalIncomingTrailStage(getSnapshot()));
-		}
+		sessionTrail.appendStage(new TerminalIncomingTrailStage(getSnapshot()));
 
 		return this;
 	}
 
 	public SessionTrail getSessionTrail() {
 		return sessionTrail;
-	}
-
-	public void setSessionTrail(SessionTrail sessionTrail) {
-		this.sessionTrail = sessionTrail;
 	}
 
 	public TerminalScreen getSnapshot() {

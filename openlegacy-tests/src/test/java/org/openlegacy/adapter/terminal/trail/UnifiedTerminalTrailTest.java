@@ -20,14 +20,14 @@ public class UnifiedTerminalTrailTest extends AbstractTest {
 	private TerminalSession terminalSession;
 
 	@Autowired
-	private TrailWriter<UnifiedTerminalTrail> trailWriter;
+	private TrailWriter trailWriter;
 
 	@Test
 	public void testTrail() {
-		terminalSession.doAction(SendKeyActions.ENTER);
+		terminalSession.doAction(SendKeyActions.ENTER, null, null);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		trailWriter.write((UnifiedTerminalTrail)terminalSession.getSessionTrail(), baos);
+		trailWriter.write(terminalSession.getSessionTrail(), baos);
 		System.out.println(new String(baos.toByteArray()));
 	}
 }

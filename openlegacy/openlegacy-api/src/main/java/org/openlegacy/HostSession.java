@@ -12,6 +12,4 @@ public interface HostSession {
 	<T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException;
 
 	SessionTrail getSessionTrail();
-
-	void setSessionTrail(SessionTrail sessionTrail);
 }

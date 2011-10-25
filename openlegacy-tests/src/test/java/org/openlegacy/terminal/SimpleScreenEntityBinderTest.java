@@ -28,7 +28,7 @@ public class SimpleScreenEntityBinderTest extends AbstractTest {
 		Assert.assertNotNull(signOn.getTerminalScreen());
 		Assert.assertNotNull(signOn.getUserField());
 
-		terminalSession.doAction(SendKeyActions.ENTER);
+		terminalSession.doAction(SendKeyActions.ENTER, null, null);
 		MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
 		Assert.assertNotNull(mainMenu);
 		Assert.assertEquals("101", mainMenu.getCompany());

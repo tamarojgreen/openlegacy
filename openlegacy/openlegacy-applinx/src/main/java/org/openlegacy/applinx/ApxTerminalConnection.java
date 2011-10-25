@@ -58,10 +58,6 @@ public class ApxTerminalConnection implements TerminalConnection {
 		return baseObject;
 	}
 
-	public TerminalConnection doAction(HostAction hostAction) {
-		return doAction(new TerminalSendAction(null, hostAction, null));
-	}
-
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
 
 		HostAction hostAction = terminalSendAction.getHostAction();

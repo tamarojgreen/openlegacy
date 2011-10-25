@@ -7,10 +7,4 @@
 
 	<import resource="classpath*:/test-common-context.xml" />
 
-	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession">
-		<property name="sessionTrail">
-			<bean class="org.openlegacy.adapter.terminal.trail.UnifiedTerminalTrail" />
-		</property>
-	</bean>
-
 </beans>
