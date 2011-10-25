@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-impl</artifactId>
-	<version>${parent.version}</version>
+	<version>${project.parent.version}</version>
 
 	<dependencies>
 		<dependency>
@@ -28,9 +28,24 @@
 			<version>${spring.framework.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.5.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
