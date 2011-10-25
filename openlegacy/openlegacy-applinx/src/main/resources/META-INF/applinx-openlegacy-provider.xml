@@ -25,7 +25,7 @@
 		<property name="serverURL" value="local://applinx" />
 	</bean>
 
-	<bean id="serverLoader" class="org.openlegacy.applinx.ApxServerLoader" p:license="${applinx.license.file}" init-method="startServer" destroy-method="stopServer"/>
+	<bean id="apxServerLoader" class="org.openlegacy.applinx.ApxServerLoader" p:license="${applinx.license.file}" init-method="startServer" destroy-method="stopServer"/>
 	
 	<bean id="terminalConnectionFactory" class="org.openlegacy.applinx.ApxTerminalConnctionFactory" />
 	

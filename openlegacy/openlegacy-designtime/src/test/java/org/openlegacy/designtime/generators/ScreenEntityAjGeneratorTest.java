@@ -15,22 +15,22 @@ import java.lang.reflect.Method;
 public class ScreenEntityAjGeneratorTest {
 
 	@Test
-	public void testSimple() throws IOException, TemplateException, ParseException {
+	public void testSimple() throws Exception {
 		testGenerate();
 	}
 
 	@Test
-	public void testLightWeight() throws IOException, TemplateException, ParseException {
+	public void testLightWeight() throws Exception {
 		testGenerate();
 	}
 
 	@Test
-	public void testHasGetter() throws IOException, TemplateException, ParseException {
+	public void testHasGetter() throws Exception {
 		testGenerate();
 	}
 
 	@Test
-	public void testNotScreenEntity() throws IOException, TemplateException, ParseException {
+	public void testNotScreenEntity() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		new ScreenEntityAjGenerator().generate(getClass().getResourceAsStream("testNotScreenEntity.java"), baos);
 
@@ -38,14 +38,18 @@ public class ScreenEntityAjGeneratorTest {
 	}
 
 	@Test
-	public void testNonJavaFile() throws IOException, TemplateException, ParseException {
+	public void testNonJavaFile() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		new ScreenEntityAjGenerator().generate(getClass().getResourceAsStream("testNonJavaFile.txt"), baos);
+		try {
+			new ScreenEntityAjGenerator().generate(getClass().getResourceAsStream("testNonJavaFile.txt"), baos);
+			Assert.fail("Parsing should have failed");
+		} catch (ParseException e) {
+			// good!
+		}
 
-		Assert.assertEquals(0, baos.toByteArray().length);
 	}
 
-	private void testGenerate() throws IOException, TemplateException, ParseException {
+	private void testGenerate() throws Exception {
 		String testMethodName = getTestMethodName();
 		testGenerate(testMethodName + ".java", testMethodName + "_Aspect.aj");
 	}

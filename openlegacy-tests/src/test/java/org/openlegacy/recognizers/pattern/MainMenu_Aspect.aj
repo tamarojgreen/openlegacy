@@ -11,13 +11,13 @@ privileged aspect MainMenu_Aspect {
     
     declare @type: MainMenu : @Component;
     
-    private TerminalScreen MainMenu.hostScreen;
+    private TerminalScreen MainMenu.terminalScreen;
     
     private TerminalField MainMenu.companyField;
     private TerminalField MainMenu.selectionField;
     
-    public TerminalScreen MainMenu.getHostScreen(){
-		return hostScreen;
+    public TerminalScreen MainMenu.getTerminalScreen(){
+		return terminalScreen;
     }
     
     public String MainMenu.getCompany(){

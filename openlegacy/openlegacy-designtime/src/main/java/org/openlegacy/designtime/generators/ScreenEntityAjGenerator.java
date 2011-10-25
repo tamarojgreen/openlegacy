@@ -58,7 +58,7 @@ public class ScreenEntityAjGenerator {
 
 	private static ScreenEntityCodeModel buildModel(InputStream input) throws FileNotFoundException, ParseException {
 		CompilationUnit compilationUnit = JavaParser.parse(input);
-		ScreenEntityCodeModel screenEntityCodeModel = new ScreenEntityCodeModel(compilationUnit);
+		ScreenEntityCodeModel screenEntityCodeModel = new ScreenEntityCodeModelImpl(compilationUnit);
 		return screenEntityCodeModel;
 	}
 

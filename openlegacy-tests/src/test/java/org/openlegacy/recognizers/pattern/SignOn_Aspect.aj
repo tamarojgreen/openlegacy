@@ -11,13 +11,13 @@ privileged aspect SignOn_Aspect {
     
     declare @type: SignOn : @Component;
     
-    private TerminalScreen SignOn.hostScreen;
+    private TerminalScreen SignOn.terminalScreen;
     
     private TerminalField SignOn.userField;
     private TerminalField SignOn.passwordField;
     
-    public TerminalScreen SignOn.getHostScreen(){
-		return hostScreen;
+    public TerminalScreen SignOn.getTerminalScreen(){
+		return terminalScreen;
     }
     
     public String SignOn.getUser(){

@@ -39,27 +39,29 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 
 	private final static Log logger = LogFactory.getLog(SimpleScreenEntityBinder.class);
 
-	public <T> T buildScreenEntity(Class<T> screenEntity, TerminalScreen hostScreen) throws HostEntityNotFoundException,
+	private static final String TERMINAL_SCREEN = "terminalScreen";
+
+	public <T> T buildScreenEntity(Class<T> screenEntity, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
 			HostEntityNotAccessibleException {
 
-		Class<?> matchedScreenEntity = screensRecognizer.match(hostScreen);
+		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
 		ScreenSyncValidator.validateCurrentScreen(screenEntity, matchedScreenEntity);
 
 		try {
 			T screenEntityInstance = screenEntity.newInstance();
 
-			injectHostScreen(screenEntityInstance, hostScreen);
+			injectTerminalScreen(screenEntityInstance, terminalScreen);
 
-			injectFields(screenEntityInstance, hostScreen);
+			injectFields(screenEntityInstance, terminalScreen);
 			return screenEntityInstance;
 		} catch (Exception e) {
 			throw (new IllegalArgumentException(e));
 		}
 	}
 
-	private static <T> void injectHostScreen(T screenEntityInstance, TerminalScreen hostScreen) throws NoSuchFieldException,
+	private static <T> void injectTerminalScreen(T screenEntityInstance, TerminalScreen hostScreen) throws NoSuchFieldException,
 			IllegalAccessException {
-		Field hostScreenField = screenEntityInstance.getClass().getDeclaredField("hostScreen");
+		Field hostScreenField = screenEntityInstance.getClass().getDeclaredField(TERMINAL_SCREEN);
 		hostScreenField.setAccessible(true);
 		hostScreenField.set(screenEntityInstance, hostScreen);
 	}

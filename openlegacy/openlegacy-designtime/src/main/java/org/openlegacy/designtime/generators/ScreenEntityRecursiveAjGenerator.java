@@ -32,7 +32,14 @@ public class ScreenEntityRecursiveAjGenerator {
 			if (file.getName().endsWith("aj")) {
 				return false;
 			}
-			return true;
+			if (file.isDirectory()) {
+				return true;
+			}
+			if (file.getName().endsWith("java")) {
+				return true;
+			}
+
+			return false;
 		}
 
 		public void doCommand(File file) {
