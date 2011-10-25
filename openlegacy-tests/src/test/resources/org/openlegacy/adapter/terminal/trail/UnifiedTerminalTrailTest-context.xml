@@ -7,7 +7,7 @@
 
 	<import resource="classpath*:/test-common-context.xml" />
 
-	<bean id="terminalSession" class="org.openlegacy.terminal.TerminalSession" scope="session" factory-bean="apxTerminalSessionFactory" factory-method="getSession" destroy-method="disconnect">
+	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession">
 		<property name="sessionTrail">
 			<bean class="org.openlegacy.adapter.terminal.trail.UnifiedTerminalTrail" />
 		</property>
