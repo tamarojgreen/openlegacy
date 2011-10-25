@@ -9,8 +9,7 @@
 	<import resource="classpath:/test-common-context.xml"/>
 	 
 	<context:component-scan base-package="com.someorg.examples.screens" />
-	 
-	<bean id="screensRegistry" class="org.openlegacy.adapter.terminal.SimpleScreenEntitiesRegistry" />
+
 	<bean id="screensRecognizer" class="org.openlegacy.applinx.ApxScreensRecognizer" />
 
 </beans>

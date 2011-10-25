@@ -28,5 +28,9 @@
 	<bean id="apxServerLoader" class="org.openlegacy.applinx.ApxServerLoader" p:license="${applinx.license.file}" init-method="startServer" destroy-method="stopServer"/>
 	
 	<bean id="terminalConnectionFactory" class="org.openlegacy.applinx.ApxTerminalConnctionFactory" />
+
+	<!-- APX implementation of openlegacy services beans -->
+	<bean id="screensRecognizer" class="org.openlegacy.applinx.ApxScreensRecognizer" />
+	<bean id="fieldMappingsProvider" class="org.openlegacy.applinx.ApxRuntimeFieldMappingsProvider" />
 	
 </beans>
