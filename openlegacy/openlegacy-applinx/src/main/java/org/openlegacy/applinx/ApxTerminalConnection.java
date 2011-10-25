@@ -12,6 +12,7 @@ import com.sabratec.util.GXPosition;
 
 import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
+import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalScreen;
@@ -25,8 +26,11 @@ public class ApxTerminalConnection implements TerminalConnection {
 
 	private final GXIClientBaseObject baseObject;
 
-	public ApxTerminalConnection(GXIClientBaseObject baseObject) {
+	private HostActionMapper hostActionMapper;
+
+	public ApxTerminalConnection(GXIClientBaseObject baseObject, HostActionMapper hostActionMapper) {
 		this.baseObject = baseObject;
+		this.hostActionMapper = hostActionMapper;
 	}
 
 	public TerminalScreen getSnapshot() {
@@ -80,8 +84,9 @@ public class ApxTerminalConnection implements TerminalConnection {
 		return this;
 	}
 
-	private static GXSendKeysRequest buildRequest(Map<ScreenPosition, String> fields, HostAction hostAction) {
-		GXSendKeysRequest sendKeyRequest = new GXSendKeysRequest((String)hostAction.getCommand());
+	private GXSendKeysRequest buildRequest(Map<ScreenPosition, String> fields, HostAction hostAction) {
+		String command = hostActionMapper.map(hostAction);
+		GXSendKeysRequest sendKeyRequest = new GXSendKeysRequest(command);
 
 		if (fields == null) {
 			return sendKeyRequest;

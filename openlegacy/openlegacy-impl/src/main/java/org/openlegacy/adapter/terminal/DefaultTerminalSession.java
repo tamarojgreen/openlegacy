@@ -14,6 +14,7 @@ import org.openlegacy.terminal.trail.TerminalOutgoingTrailStage;
 import org.openlegacy.trail.SessionTrail;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import java.util.Map;
 
@@ -30,10 +31,10 @@ public class DefaultTerminalSession implements TerminalSession, InitializingBean
 	@Autowired(required = false)
 	private SessionTrail sessionTrail;
 
-	@Autowired
-	private TerminalConnectionFactory terminalConnectionFactory;
-
 	private TerminalConnection terminalConnection;
+
+	@Autowired
+	private ApplicationContext applicationContext;
 
 	public <T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException {
 		TerminalScreen hostScreen = getSnapshot();
@@ -88,6 +89,7 @@ public class DefaultTerminalSession implements TerminalSession, InitializingBean
 	}
 
 	public void afterPropertiesSet() throws Exception {
+		TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
 		terminalConnection = terminalConnectionFactory.getConnection();
 	}
 }

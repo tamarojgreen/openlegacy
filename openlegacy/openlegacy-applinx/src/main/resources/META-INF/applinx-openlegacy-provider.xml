@@ -29,8 +29,9 @@
 	
 	<bean id="terminalConnectionFactory" class="org.openlegacy.applinx.ApxTerminalConnctionFactory" />
 
-	<!-- APX implementation of openlegacy services beans -->
+	<!-- APX implementation of open legacy services beans -->
 	<bean id="screensRecognizer" class="org.openlegacy.applinx.ApxScreensRecognizer" />
 	<bean id="fieldMappingsProvider" class="org.openlegacy.applinx.ApxRuntimeFieldMappingsProvider" />
+	<bean id="hostActionMapper" class="org.openlegacy.applinx.ApxHostActionMapper" />
 	
 </beans>
