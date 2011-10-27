@@ -34,4 +34,7 @@ public class SendKeyActions {
 	public static final HostAction PF22 = new SendKeyAction("PF22");
 	public static final HostAction PF23 = new SendKeyAction("PF23");
 	public static final HostAction PF24 = new SendKeyAction("PF24");
+
+	public static final HostAction PAGEUP = new SendKeyAction("PAGEUP");
+	public static final HostAction PAGEDN = new SendKeyAction("PAGEDN");
 }

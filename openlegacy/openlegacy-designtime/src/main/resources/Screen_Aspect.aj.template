@@ -4,8 +4,10 @@
 package com.someorg.examples.screens;
 
 <#if !lightWeight>
+import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.CursorContainer;
 </#if>
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,10 @@ privileged aspect ${className}_Aspect {
     
 	<#if !lightWeight>
     private TerminalScreen ${className}.terminalScreen;
+
+    declare parents: ${className} implements CursorContainer;
+
+    private ScreenPosition ${className}.cursorPosition;
 	</#if>
     
 	<#list fields as field>
@@ -48,5 +54,14 @@ privileged aspect ${className}_Aspect {
     }
 		</#if>
 	</#list>	
+
+	<#if !lightWeight>
+    public ScreenPosition ${className}.getCursorPosition(){
+    	return cursorPosition;
+    }
+    public void ${className}.setCursorPosition(ScreenPosition cursorPosition){
+    	this.cursorPosition = cursorPosition;
+    }
+	</#if>
     
 }

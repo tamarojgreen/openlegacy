@@ -17,7 +17,7 @@ public class ScreenDisplayUtils {
 		int rows = terminalScreen.getSize().getRows();
 		StringBuffer out = new StringBuffer();
 		if (decorated) {
-			generateHeader(terminalScreen, newline, out);
+			generateColumnNumbers(terminalScreen, newline, out);
 		}
 		for (int i = 0; i < rows; i++) {
 			int beginIndex = i * terminalScreen.getSize().getColumns();
@@ -39,6 +39,10 @@ public class ScreenDisplayUtils {
 		if (decorated) {
 			out.append("___________________________________________________________________________________");
 		}
+		if (decorated) {
+			out.append(newline);
+			generateColumnNumbers(terminalScreen, newline, out);
+		}
 
 		markInputs(terminalScreen, out);
 
@@ -46,7 +50,7 @@ public class ScreenDisplayUtils {
 
 	}
 
-	private static void generateHeader(TerminalScreen hostScreen, String newline, StringBuffer out) {
+	private static void generateColumnNumbers(TerminalScreen hostScreen, String newline, StringBuffer out) {
 		StringBuilder headerLine1 = new StringBuilder("    ");
 		StringBuilder headerLine2 = new StringBuilder("    ");
 		for (int i = 2; i <= hostScreen.getSize().getColumns(); i++) {

@@ -5,27 +5,11 @@ import org.openlegacy.terminal.ScreenPosition;
 
 import java.util.Map;
 
-public class TerminalSendAction {
+public interface TerminalSendAction {
 
-	private Map<ScreenPosition, String> fields;
-	private HostAction hostAction;
-	private ScreenPosition cursorPosition;
+	Map<ScreenPosition, String> getFields();
 
-	public TerminalSendAction(Map<ScreenPosition, String> fields, HostAction hostAction, ScreenPosition cursorPosition) {
-		this.fields = fields;
-		this.hostAction = hostAction;
-		this.cursorPosition = cursorPosition;
-	}
+	HostAction getHostAction();
 
-	public Map<ScreenPosition, String> getFields() {
-		return fields;
-	}
-
-	public HostAction getHostAction() {
-		return hostAction;
-	}
-
-	public ScreenPosition getCursorPosition() {
-		return cursorPosition;
-	}
+	ScreenPosition getCursorPosition();
 }

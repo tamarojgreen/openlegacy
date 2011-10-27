@@ -27,7 +27,7 @@ public class RegistryBasedScreensRecognizerTest extends AbstractTest {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
 
-		terminalSession.doAction(SendKeyActions.ENTER, null, null);
+		terminalSession.doAction(SendKeyActions.ENTER, null);
 		MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
 		Assert.assertNotNull(mainMenu);
 	}

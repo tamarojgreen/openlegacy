@@ -17,7 +17,8 @@ public class ScreenSyncValidator {
 		}
 		if (matchedScreenEntity != expectedScreenEntity) {
 			throw (new HostEntityNotAccessibleException(MessageFormat.format(
-					"Current host screen wasn''t matched to the requested host entity:{0}", expectedScreenEntity)));
+					"Current host screen {0} wasn''t matched to the requested host entity:{1}", matchedScreenEntity,
+					expectedScreenEntity)));
 		}
 	}
 

@@ -9,7 +9,10 @@
 
 	<bean class="org.openlegacy.adapter.terminal.ScreenAnnotationProccesor"/>
 
+	<context:component-scan base-package="org.openlegacy.adapter.terminal" />
+	
 	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession" />
+	<bean id="terminalConnection" class="org.openlegacy.adapter.terminal.TerminalConnectionDelegator" />
 	<bean id="terminalTrail" class="org.openlegacy.adapter.terminal.trail.DefaultTerminalTrail" scope="session"/>
 	 
 	<!-- Open legacy default beans -->

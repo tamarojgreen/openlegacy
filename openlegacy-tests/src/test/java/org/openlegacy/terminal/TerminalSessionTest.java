@@ -23,7 +23,7 @@ public class TerminalSessionTest extends AbstractTest {
 
 		String signOnText = readResource("/screens/SignOn.txt");
 		Assert.assertEquals(signOnText, terminalSession.getSnapshot().toString());
-		terminalSession.doAction(SendKeyActions.ENTER, null, null);
+		terminalSession.doAction(SendKeyActions.ENTER, null);
 		String displayProgramMessagesText = readResource("/screens/MainMenu.txt");
 		Assert.assertEquals(displayProgramMessagesText, terminalSession.getSnapshot().toString());
 	}

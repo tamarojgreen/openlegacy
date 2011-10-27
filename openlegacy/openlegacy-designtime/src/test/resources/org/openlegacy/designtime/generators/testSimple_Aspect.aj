@@ -3,8 +3,10 @@
 
 package com.someorg.examples.screens;
 
+import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.CursorContainer;
 import org.springframework.stereotype.Component;
 
 privileged aspect SignOn_Aspect {
@@ -12,6 +14,10 @@ privileged aspect SignOn_Aspect {
     declare @type: SignOn : @Component;
     
     private TerminalScreen SignOn.terminalScreen;
+
+    declare parents: SignOn implements CursorContainer;
+
+    private ScreenPosition SignOn.cursorPosition;
     
     private TerminalField SignOn.passwordField;
     private TerminalField SignOn.userField;
@@ -41,6 +47,13 @@ privileged aspect SignOn_Aspect {
 
     public TerminalField SignOn.getUserField(){
     	return userField;
+    }
+
+    public ScreenPosition SignOn.getCursorPosition(){
+    	return cursorPosition;
+    }
+    public void SignOn.setCursorPosition(ScreenPosition cursorPosition){
+    	this.cursorPosition = cursorPosition;
     }
     
 }

@@ -25,7 +25,7 @@ public class PatternBasedScreensRecognizerTest extends AbstractTest {
 	public void testPattern() throws IOException {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
-		terminalSession.doAction(SendKeyActions.ENTER, null, null);
+		terminalSession.doAction(SendKeyActions.ENTER, null);
 		MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
 		Assert.assertNotNull(mainMenu);
 	}

@@ -24,7 +24,7 @@ public class UnifiedTerminalTrailTest extends AbstractTest {
 
 	@Test
 	public void testTrail() {
-		terminalSession.doAction(SendKeyActions.ENTER, null, null);
+		terminalSession.doAction(SendKeyActions.ENTER, null);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		trailWriter.write(terminalSession.getSessionTrail(), baos);

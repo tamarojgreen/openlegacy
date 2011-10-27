@@ -31,7 +31,7 @@ public class GenerateScreens {
 				Writer writer = new FileWriter(file);
 				writer.write(hostSession.getSnapshot().toString());
 				writer.close();
-				hostSession.doAction(SendKeyActions.ENTER, null, null);
+				hostSession.doAction(SendKeyActions.ENTER, null);
 			} catch (OpenLegacyProviderException e) {
 				return;
 			}

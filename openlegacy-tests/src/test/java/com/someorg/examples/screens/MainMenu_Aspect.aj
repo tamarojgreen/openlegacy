@@ -3,8 +3,10 @@
 
 package com.someorg.examples.screens;
 
+import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.CursorContainer;
 import org.springframework.stereotype.Component;
 
 privileged aspect MainMenu_Aspect {
@@ -12,6 +14,10 @@ privileged aspect MainMenu_Aspect {
     declare @type: MainMenu : @Component;
     
     private TerminalScreen MainMenu.terminalScreen;
+
+    declare parents: MainMenu implements CursorContainer;
+
+    private ScreenPosition MainMenu.cursorPosition;
     
     private TerminalField MainMenu.companyField;
     private TerminalField MainMenu.selectionField;
@@ -41,6 +47,13 @@ privileged aspect MainMenu_Aspect {
 
     public TerminalField MainMenu.getSelectionField(){
     	return selectionField;
+    }
+
+    public ScreenPosition MainMenu.getCursorPosition(){
+    	return cursorPosition;
+    }
+    public void MainMenu.setCursorPosition(ScreenPosition cursorPosition){
+    	this.cursorPosition = cursorPosition;
     }
     
 }

@@ -26,7 +26,7 @@ public class CompositeScreensRecognizerTest extends AbstractTest {
 	public void testComposite() throws IOException {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
-		terminalSession.doAction(SendKeyActions.ENTER, null, null);
+		terminalSession.doAction(SendKeyActions.ENTER, null);
 		MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
 		Assert.assertNotNull(mainMenu);
 	}
