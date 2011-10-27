@@ -6,8 +6,8 @@ import java.util.Collection;
  * FieldMapping meta-data provider purpose is to return mappings for a given screenEntity
  * 
  */
-public interface FieldMappingsProvider {
+public interface FieldMappingsDefinitionProvider {
 
-	Collection<FieldMapping> getFieldsMappings(TerminalScreen terminalScreen, Class<?> screenEntity);
+	Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity);
 
 }

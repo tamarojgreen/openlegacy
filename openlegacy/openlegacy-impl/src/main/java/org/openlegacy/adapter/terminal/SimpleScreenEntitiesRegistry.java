@@ -1,7 +1,7 @@
 package org.openlegacy.adapter.terminal;
 
 import org.openlegacy.adapter.SimpleHostEntitiesRegistry;
-import org.openlegacy.terminal.FieldMapping;
+import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreenIdentification;
@@ -19,7 +19,7 @@ import java.util.TreeMap;
 public class SimpleScreenEntitiesRegistry extends SimpleHostEntitiesRegistry implements ScreenEntitiesRegistry {
 
 	private final Map<String, ScreenIdentification> screenIdentifications = new HashMap<String, ScreenIdentification>();
-	private final Map<Class<?>, Map<String, FieldMapping>> screenFields = new HashMap<Class<?>, Map<String, FieldMapping>>();
+	private final Map<Class<?>, Map<String, FieldMappingDefinition>> screenFields = new HashMap<Class<?>, Map<String, FieldMappingDefinition>>();
 
 	public void addScreenIdentification(ScreenIdentification screenIdentification) {
 		screenIdentifications.put(screenIdentification.getName(), screenIdentification);
@@ -36,23 +36,23 @@ public class SimpleScreenEntitiesRegistry extends SimpleHostEntitiesRegistry imp
 		return null;
 	}
 
-	public void addFieldMapping(Class<?> screenEntity, FieldMapping fieldMapping) {
+	public void addFieldMappingDefinition(Class<?> screenEntity, FieldMappingDefinition fieldMappingDefinition) {
 		if (!getHostEntities().containsValue(screenEntity)) {
 			throw (new IllegalArgumentException("Registry doesn''t contain Entity of type:" + screenEntity));
 		}
-		Map<String, FieldMapping> fields = screenFields.get(screenEntity);
+		Map<String, FieldMappingDefinition> fields = screenFields.get(screenEntity);
 		if (fields == null) {
-			fields = new TreeMap<String, FieldMapping>();
+			fields = new TreeMap<String, FieldMappingDefinition>();
 			screenFields.put(screenEntity, fields);
 		}
-		if (!fields.containsKey(fieldMapping.getName())) {
-			fields.put(fieldMapping.getName(), fieldMapping);
+		if (!fields.containsKey(fieldMappingDefinition.getName())) {
+			fields.put(fieldMappingDefinition.getName(), fieldMappingDefinition);
 		}
 
 	}
 
-	public Collection<FieldMapping> getFieldsMappings(Class<?> screenEntity) {
-		Map<String, FieldMapping> fieldMappings = screenFields.get(screenEntity);
+	public Collection<FieldMappingDefinition> getFieldsMappings(Class<?> screenEntity) {
+		Map<String, FieldMappingDefinition> fieldMappings = screenFields.get(screenEntity);
 		if (fieldMappings == null) {
 			return Collections.emptyList();
 		}

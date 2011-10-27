@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
-import org.openlegacy.terminal.FieldMapping;
+import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
@@ -89,7 +89,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
 				if (field.isAnnotationPresent(org.openlegacy.annotations.screen.FieldMapping.class)) {
-					screensRegistry.addFieldMapping(beanClass, extractFieldMapping(field));
+					screensRegistry.addFieldMappingDefinition(beanClass, extractFieldMappingDefinition(field));
 				}
 			}
 
@@ -97,11 +97,11 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
 	}
 
-	private static FieldMapping extractFieldMapping(Field field) {
+	private static FieldMappingDefinition extractFieldMappingDefinition(Field field) {
 		org.openlegacy.annotations.screen.FieldMapping fieldAnnotation = field.getAnnotation(org.openlegacy.annotations.screen.FieldMapping.class);
 
-		return new FieldMapping(field.getName(),
-				SimpleScreenPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column()), fieldAnnotation.length());
+		return new FieldMappingDefinition(field.getName(), SimpleScreenPosition.newInstance(fieldAnnotation.row(),
+				fieldAnnotation.column()), fieldAnnotation.length());
 
 	}
 

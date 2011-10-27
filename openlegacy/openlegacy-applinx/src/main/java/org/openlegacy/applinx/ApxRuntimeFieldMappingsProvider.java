@@ -6,8 +6,8 @@ import com.sabratec.applinx.baseobject.GXIScreen;
 
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.exceptions.OpenLegacyException;
-import org.openlegacy.terminal.FieldMapping;
-import org.openlegacy.terminal.FieldMappingsProvider;
+import org.openlegacy.terminal.FieldMappingDefinition;
+import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +17,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ApxRuntimeFieldMappingsProvider implements FieldMappingsProvider {
+public class ApxRuntimeFieldMappingsProvider implements FieldMappingsDefinitionProvider {
 
 	@Autowired
 	private HostEntitiesRegistry hostEntitiesRegistry;
 
-	public Collection<FieldMapping> getFieldsMappings(TerminalScreen terminalScreen, Class<?> screenEntity) {
+	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {
 
 		String screenName = hostEntitiesRegistry.get(screenEntity);
 
-		List<FieldMapping> fieldMappings = new ArrayList<FieldMapping>();
+		List<FieldMappingDefinition> fieldMappingDefinitions = new ArrayList<FieldMappingDefinition>();
 
 		GXIScreen apxScreen = (GXIScreen)terminalScreen.getDelegate();
 
@@ -39,9 +39,9 @@ public class ApxRuntimeFieldMappingsProvider implements FieldMappingsProvider {
 			GXIField apxField = apxApplicationFields.getFieldAt(i);
 
 			ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(apxField.getPosition());
-			fieldMappings.add(new FieldMapping(apxField.getName(), screenPosition, apxField.getLength()));
+			fieldMappingDefinitions.add(new FieldMappingDefinition(apxField.getName(), screenPosition, apxField.getLength()));
 		}
-		return fieldMappings;
+		return fieldMappingDefinitions;
 	}
 
 }

@@ -5,8 +5,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.HostEntityNotAccessibleException;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
-import org.openlegacy.terminal.FieldMapping;
-import org.openlegacy.terminal.FieldMappingsProvider;
+import org.openlegacy.terminal.FieldMappingDefinition;
+import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
@@ -37,7 +37,7 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 	private ScreensRecognizer screensRecognizer;
 
 	@Autowired
-	private FieldMappingsProvider fieldMappingsProvider;
+	private FieldMappingsDefinitionProvider fieldMappingsProvider;
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -75,7 +75,7 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 		hostScreenField.set(realScreenEntityInstance, hostScreen);
 	}
 
-	private static TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMapping fieldMapping) {
+	private static TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMappingDefinition fieldMapping) {
 		TerminalField terminalField = terminalScreen.getField(fieldMapping.getScreenPosition());
 		return terminalField;
 	}
@@ -88,9 +88,10 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 	private void injectFields(final Object screenEntityInstance, final TerminalScreen terminalScreen) throws Exception {
 
 		Class<? extends Object> screenEntity = ProxyUtil.getRealClass(screenEntityInstance);
-		Collection<FieldMapping> fieldMappings = fieldMappingsProvider.getFieldsMappings(terminalScreen, screenEntity);
+		Collection<FieldMappingDefinition> fieldMappings = fieldMappingsProvider.getFieldsMappingDefinitions(terminalScreen,
+				screenEntity);
 
-		for (FieldMapping fieldMapping : fieldMappings) {
+		for (FieldMappingDefinition fieldMapping : fieldMappings) {
 			Field javaSimpleField = screenEntity.getDeclaredField(fieldMapping.getName());
 			Field javaTerminalField = screenEntity.getDeclaredField(fieldMapping.getName() + FIELD_SUFFIX);
 
@@ -121,14 +122,14 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 			return fieldValues;
 		}
 
-		Collection<FieldMapping> fieldsInfo = fieldMappingsProvider.getFieldsMappings(terminalScreen,
+		Collection<FieldMappingDefinition> fieldsInfo = fieldMappingsProvider.getFieldsMappingDefinitions(terminalScreen,
 				screenEntityInstance.getClass());
 
 		if (fieldsInfo == null) {
 			return fieldValues;
 		}
 
-		for (FieldMapping fieldMapping : fieldsInfo) {
+		for (FieldMappingDefinition fieldMapping : fieldsInfo) {
 			try {
 				PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(screenEntityInstance, fieldMapping.getName());
 

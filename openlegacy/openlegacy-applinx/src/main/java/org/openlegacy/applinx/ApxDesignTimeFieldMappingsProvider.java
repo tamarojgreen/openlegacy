@@ -10,8 +10,8 @@ import com.sabratec.applinx.common.designtime.model.entity.type.GXSingleScreenTy
 
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
-import org.openlegacy.terminal.FieldMapping;
-import org.openlegacy.terminal.FieldMappingsProvider;
+import org.openlegacy.terminal.FieldMappingDefinition;
+import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsProvider {
+public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefinitionProvider {
 
 	@Autowired
 	private HostEntitiesRegistry hostEntitiesRegistry;
@@ -28,12 +28,12 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsProvider
 	@Autowired
 	private ApxServerLoader apxServerLoader;
 
-	public Collection<FieldMapping> getFieldsMappings(TerminalScreen terminalScreen, Class<?> screenEntity) {
+	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {
 
 		String screenName = hostEntitiesRegistry.get(screenEntity);
 		GXIApplicationContext apxApplication = apxServerLoader.getApplication();
 
-		List<FieldMapping> fieldMappings = new ArrayList<FieldMapping>();
+		List<FieldMappingDefinition> fieldMappingDefinitions = new ArrayList<FieldMappingDefinition>();
 
 		try {
 			GXIEntityDescriptor screenDescriptor = apxApplication.getEntityDescriptorByName(screenName,
@@ -44,9 +44,9 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsProvider
 				if (apxFieldMapping.getArea() instanceof GXScreenAreaPosition) {
 					GXScreenAreaPosition positionArea = (GXScreenAreaPosition)apxFieldMapping.getArea();
 					ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(positionArea.getStartPosition());
-					FieldMapping fieldMapping = new FieldMapping(apxFieldMapping.getField().getName(), screenPosition,
-							apxFieldMapping.getLength());
-					fieldMappings.add(fieldMapping);
+					FieldMappingDefinition fieldMappingDefinition = new FieldMappingDefinition(apxFieldMapping.getField().getName(),
+							screenPosition, apxFieldMapping.getLength());
+					fieldMappingDefinitions.add(fieldMappingDefinition);
 				} else {
 					throw (new UnsupportedOperationException(
 							"Only field mappings of type screen area position are supported with ApplinX"));
@@ -55,7 +55,7 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsProvider
 		} catch (GXDesignTimeException e) {
 			throw (new OpenLegacyProviderException(e));
 		}
-		return fieldMappings;
+		return fieldMappingDefinitions;
 	}
 
 }
