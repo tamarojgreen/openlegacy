@@ -58,6 +58,9 @@ public class SimpleScreenEntityBinderTest extends AbstractTest {
 		Assert.assertNotNull(itemDetails1);
 		Assert.assertEquals("2000", itemDetails1.getItemNumber());
 
+		// TODO - make this work!
+		// Assert.assertEquals("2000", itemDetails1.fetchItemDetails2().getItemNumber());
+
 		terminalSession.doAction(SendKeyActions.ENTER, null);
 		ItemDetails2 itemDetails2 = terminalSession.getEntity(ItemDetails2.class);
 		Assert.assertNotNull(itemDetails2);

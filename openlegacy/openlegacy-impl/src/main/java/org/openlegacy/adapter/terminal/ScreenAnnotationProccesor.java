@@ -8,8 +8,11 @@ import org.openlegacy.terminal.FieldMapping;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
@@ -23,15 +26,27 @@ import java.text.MessageFormat;
  * 
  * @param <T>
  */
-public class ScreenAnnotationProccesor<T> implements BeanPostProcessor {
+public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
 	@Autowired
 	private ScreenEntitiesRegistry screensRegistry;
 
 	private final static Log logger = LogFactory.getLog(ScreenAnnotationProccesor.class);
 
-	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		Class<?> beanClass = bean.getClass();
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+		screensRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
+		for (String beanName : beanFactory.getBeanDefinitionNames()) {
+			try {
+				postProcessBeforeInitialization(beanFactory.getBeanDefinition(beanName), beanName);
+			} catch (ClassNotFoundException e) {
+				throw (new BeanCreationException(e.getMessage(), e));
+			}
+		}
+	}
+
+	public Object postProcessBeforeInitialization(BeanDefinition bean, String beanName) throws BeansException,
+			ClassNotFoundException {
+		Class<?> beanClass = Class.forName(bean.getBeanClassName());
 
 		ScreenEntity screenEntity = AnnotationUtils.findAnnotation(beanClass, ScreenEntity.class);
 		if (screenEntity != null) {
@@ -88,10 +103,6 @@ public class ScreenAnnotationProccesor<T> implements BeanPostProcessor {
 		return new FieldMapping(field.getName(),
 				SimpleScreenPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column()), fieldAnnotation.length());
 
-	}
-
-	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		return bean;
 	}
 
 }

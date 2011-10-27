@@ -12,7 +12,9 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
+import org.openlegacy.util.ProxyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -37,6 +39,9 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 	@Autowired
 	private FieldMappingsProvider fieldMappingsProvider;
 
+	@Autowired
+	private ApplicationContext applicationContext;
+
 	private final static Log logger = LogFactory.getLog(SimpleScreenEntityBinder.class);
 
 	private static final String TERMINAL_SCREEN = "terminalScreen";
@@ -48,7 +53,8 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 		ScreenSyncValidator.validateCurrentScreen(screenEntity, matchedScreenEntity);
 
 		try {
-			T screenEntityInstance = screenEntity.newInstance();
+			T screenEntityInstance = applicationContext.getBean(screenEntity);
+			// T screenEntityInstance = screenEntity.newInstance();
 
 			injectTerminalScreen(screenEntityInstance, terminalScreen);
 
@@ -59,11 +65,14 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 		}
 	}
 
-	private static <T> void injectTerminalScreen(T screenEntityInstance, TerminalScreen hostScreen) throws NoSuchFieldException,
-			IllegalAccessException {
-		Field hostScreenField = screenEntityInstance.getClass().getDeclaredField(TERMINAL_SCREEN);
+	private static <T> void injectTerminalScreen(T screenEntityInstance, TerminalScreen hostScreen) throws Exception {
+		Field hostScreenField = null;
+
+		Class<?> realClass = ProxyUtil.getRealClass(screenEntityInstance);
+		hostScreenField = realClass.getDeclaredField(TERMINAL_SCREEN);
 		hostScreenField.setAccessible(true);
-		hostScreenField.set(screenEntityInstance, hostScreen);
+		Object realScreenEntityInstance = ProxyUtil.getTargetObject(screenEntityInstance, realClass);
+		hostScreenField.set(realScreenEntityInstance, hostScreen);
 	}
 
 	private static TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMapping fieldMapping) {
@@ -76,10 +85,9 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 		return terminalField.getValue().trim();
 	}
 
-	private void injectFields(final Object screenEntityInstance, final TerminalScreen terminalScreen)
-			throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+	private void injectFields(final Object screenEntityInstance, final TerminalScreen terminalScreen) throws Exception {
 
-		Class<? extends Object> screenEntity = screenEntityInstance.getClass();
+		Class<? extends Object> screenEntity = ProxyUtil.getRealClass(screenEntityInstance);
 		Collection<FieldMapping> fieldMappings = fieldMappingsProvider.getFieldsMappings(terminalScreen, screenEntity);
 
 		for (FieldMapping fieldMapping : fieldMappings) {
@@ -92,9 +100,11 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 			TerminalField terminalField = extractTerminalField(terminalScreen, fieldMapping);
 
 			String formattedContent = formatContent(terminalField);
-			javaSimpleField.set(screenEntityInstance, formattedContent);
 
-			javaTerminalField.set(screenEntityInstance, terminalField);
+			Object realScreenEntityInstance = ProxyUtil.getTargetObject(screenEntityInstance, screenEntity);
+
+			javaSimpleField.set(realScreenEntityInstance, formattedContent);
+			javaTerminalField.set(realScreenEntityInstance, terminalField);
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(MessageFormat.format("Field {0} was set with value \"{1}\"", fieldMapping.getName(),
