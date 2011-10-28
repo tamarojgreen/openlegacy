@@ -9,6 +9,6 @@ public interface ScreenEntityDefinition extends HostEntityDefinition {
 
 	ScreenIdentification getScreenIdentification();
 
-	Map<String, FieldMappingDefinition> getFieldMappings();
+	Map<String, FieldMappingDefinition> getFieldMappingDefinitions();
 
 }

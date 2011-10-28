@@ -94,7 +94,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
 				if (field.isAnnotationPresent(org.openlegacy.annotations.screen.FieldMapping.class)) {
-					screenEntityDefinition.getFieldMappings().put(field.getName(), extractFieldMappingDefinition(field));
+					screenEntityDefinition.getFieldMappingDefinitions().put(field.getName(), extractFieldMappingDefinition(field));
 				}
 			}
 

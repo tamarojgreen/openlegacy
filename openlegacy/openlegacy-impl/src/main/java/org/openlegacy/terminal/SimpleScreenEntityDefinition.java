@@ -23,7 +23,7 @@ public class SimpleScreenEntityDefinition extends SimpleHostEntityDefinition imp
 		this.screenIdentification = screenIdentification;
 	}
 
-	public Map<String, FieldMappingDefinition> getFieldMappings() {
+	public Map<String, FieldMappingDefinition> getFieldMappingDefinitions() {
 		return FieldMappings;
 	}
 
