@@ -7,6 +7,7 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.ScreenEntityDefinition;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
@@ -53,7 +54,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
 	public void processScreenEntity(Class<?> screenEntityClass, ScreenEntity screenEntity) {
 		String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : screenEntityClass.getSimpleName();
-		ScreenEntityDefinition screenEntityDefinition = new ScreenEntityDefinition(screenName, screenEntityClass);
+		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenName, screenEntityClass);
 		screenEntityDefinition.setName(screenName);
 
 		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
@@ -65,7 +66,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 		screensRegistry.add(screenEntityDefinition);
 	}
 
-	private static void addIdentifiers(ScreenEntityDefinition screenEntityDefinition, ScreenEntity screenEntity) {
+	private static void addIdentifiers(SimpleScreenEntityDefinition screenEntityDefinition, ScreenEntity screenEntity) {
 		if (screenEntity.identifiers().length > 0) {
 			Identifier[] identifiers = screenEntity.identifiers();
 			SimpleScreenIdentification screenIdentification = new SimpleScreenIdentification();
