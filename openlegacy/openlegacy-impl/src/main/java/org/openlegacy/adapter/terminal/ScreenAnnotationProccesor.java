@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.terminal.FieldMappingDefinition;
+import org.openlegacy.terminal.ScreenEntityDefinition;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
@@ -37,34 +38,37 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 		screensRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
 		for (String beanName : beanFactory.getBeanDefinitionNames()) {
 			try {
-				postProcessBeforeInitialization(beanFactory.getBeanDefinition(beanName), beanName);
+				BeanDefinition bean = beanFactory.getBeanDefinition(beanName);
+				Class<?> beanClass = Class.forName(bean.getBeanClassName());
+
+				ScreenEntity screenEntity = AnnotationUtils.findAnnotation(beanClass, ScreenEntity.class);
+				if (screenEntity != null) {
+					processScreenEntity(beanClass, screenEntity);
+				}
 			} catch (ClassNotFoundException e) {
 				throw (new BeanCreationException(e.getMessage(), e));
 			}
 		}
 	}
 
-	public Object postProcessBeforeInitialization(BeanDefinition bean, String beanName) throws BeansException,
-			ClassNotFoundException {
-		Class<?> beanClass = Class.forName(bean.getBeanClassName());
+	public void processScreenEntity(Class<?> screenEntityClass, ScreenEntity screenEntity) {
+		String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : screenEntityClass.getSimpleName();
+		ScreenEntityDefinition screenEntityDefinition = new ScreenEntityDefinition(screenName, screenEntityClass);
+		screenEntityDefinition.setName(screenName);
 
-		ScreenEntity screenEntity = AnnotationUtils.findAnnotation(beanClass, ScreenEntity.class);
-		if (screenEntity != null) {
-			String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : beanClass.getSimpleName();
-			screensRegistry.add(screenName, beanClass);
-			logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
-					beanClass.getName()));
-			addIdentifiers(beanClass, screenName, screenEntity);
+		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
+				screenEntityClass.getName()));
+		addIdentifiers(screenEntityDefinition, screenEntity);
 
-			addFieldMappings(beanClass, screenName, screenEntity);
-		}
-		return bean;
+		addFieldMappings(screenEntityDefinition, screenEntity);
+
+		screensRegistry.add(screenEntityDefinition);
 	}
 
-	private void addIdentifiers(Class<? extends Object> beanClass, String screenEntityName, ScreenEntity screenEntity) {
+	private static void addIdentifiers(ScreenEntityDefinition screenEntityDefinition, ScreenEntity screenEntity) {
 		if (screenEntity.identifiers().length > 0) {
 			Identifier[] identifiers = screenEntity.identifiers();
-			SimpleScreenIdentification screenIdentification = new SimpleScreenIdentification(screenEntityName);
+			SimpleScreenIdentification screenIdentification = new SimpleScreenIdentification();
 			for (Identifier identifier : identifiers) {
 				ScreenPosition position = SimpleScreenPosition.newInstance(identifier.row(), identifier.column());
 				String text = identifier.value();
@@ -72,24 +76,24 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 				screenIdentification.addIdentifier(simpleIdentifier);
 
 				if (logger.isDebugEnabled()) {
-					logger.debug(MessageFormat.format("Identifier {0} - \"{1}\" was added to the repository for screen {2}",
-							position, text, screenIdentification.getName()));
+					logger.debug(MessageFormat.format("Identifier {0} - \"{1}\" was added to the registry for screen {2}",
+							position, text, screenEntityDefinition.getHostEntityClass()));
 				}
 
 			}
-			screensRegistry.addScreenIdentification(screenIdentification);
-			logger.info(MessageFormat.format("Screen identification for \"{0}\" was added to the screen registry",
-					screenIdentification.getName()));
+			screenEntityDefinition.setScreenIdentification(screenIdentification);
+			logger.info(MessageFormat.format("Screen identifications for \"{0}\" was added to the screen registry",
+					screenEntityDefinition.getHostEntityClass()));
 		}
 	}
 
-	private void addFieldMappings(final Class<?> beanClass, String screenName, ScreenEntity hostEntity) {
-		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
+	private static void addFieldMappings(final ScreenEntityDefinition screenEntityDefinition, ScreenEntity hostEntity) {
+		ReflectionUtils.doWithFields(screenEntityDefinition.getHostEntityClass(), new FieldCallback() {
 
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
 				if (field.isAnnotationPresent(org.openlegacy.annotations.screen.FieldMapping.class)) {
-					screensRegistry.addFieldMappingDefinition(beanClass, extractFieldMappingDefinition(field));
+					screenEntityDefinition.getFieldMappings().put(field.getName(), extractFieldMappingDefinition(field));
 				}
 			}
 

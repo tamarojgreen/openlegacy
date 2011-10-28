@@ -8,12 +8,12 @@ import com.sabratec.applinx.common.designtime.model.entity.screen.GXAbstractFiel
 import com.sabratec.applinx.common.designtime.model.entity.screen.GXSingleScreenEntity;
 import com.sabratec.applinx.common.designtime.model.entity.type.GXSingleScreenType;
 
-import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -23,14 +23,14 @@ import java.util.List;
 public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefinitionProvider {
 
 	@Autowired
-	private HostEntitiesRegistry hostEntitiesRegistry;
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Autowired
 	private ApxServerLoader apxServerLoader;
 
 	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {
 
-		String screenName = hostEntitiesRegistry.get(screenEntity);
+		String screenName = screenEntitiesRegistry.getEntityName(screenEntity);
 		GXIApplicationContext apxApplication = apxServerLoader.getApplication();
 
 		List<FieldMappingDefinition> fieldMappingDefinitions = new ArrayList<FieldMappingDefinition>();
@@ -44,8 +44,8 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefiniti
 				if (apxFieldMapping.getArea() instanceof GXScreenAreaPosition) {
 					GXScreenAreaPosition positionArea = (GXScreenAreaPosition)apxFieldMapping.getArea();
 					ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(positionArea.getStartPosition());
-					FieldMappingDefinition fieldMappingDefinition = new FieldMappingDefinition(apxFieldMapping.getField().getName(),
-							screenPosition, apxFieldMapping.getLength());
+					FieldMappingDefinition fieldMappingDefinition = new FieldMappingDefinition(
+							apxFieldMapping.getField().getName(), screenPosition, apxFieldMapping.getLength());
 					fieldMappingDefinitions.add(fieldMappingDefinition);
 				} else {
 					throw (new UnsupportedOperationException(

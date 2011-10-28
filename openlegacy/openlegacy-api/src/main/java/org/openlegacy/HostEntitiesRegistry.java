@@ -6,14 +6,15 @@ import java.util.List;
  * A common interface for defining a registry for host entity, and retrieving an entity class by name
  * 
  */
-public interface HostEntitiesRegistry {
+public interface HostEntitiesRegistry<D extends HostEntityDefinition> {
 
-	void add(String entityName, Class<?> hostEntity);
+	Class<?> getEntityClass(String entityName);
 
-	Class<?> get(String entityName);
-
-	String get(Class<?> hostEntity);
+	String getEntityName(Class<?> hostEntity);
 
 	List<Class<?>> getAll();
 
+	void add(D entityDefinition);
+
+	D get(Class<?> entityClass);
 }

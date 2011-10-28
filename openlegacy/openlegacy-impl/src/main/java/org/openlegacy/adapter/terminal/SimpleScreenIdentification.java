@@ -13,28 +13,20 @@ import java.util.List;
  */
 public class SimpleScreenIdentification implements ScreenIdentification {
 
-	private String screenName;
 	private List<ScreenIdentifier> screenIdentifiers = new ArrayList<ScreenIdentifier>();
-
-	public SimpleScreenIdentification(String screenName) {
-		this.screenName = screenName;
-	}
 
 	public void addIdentifier(ScreenIdentifier screenIdentifier) {
 		screenIdentifiers.add(screenIdentifier);
 	}
 
-	public String match(TerminalScreen hostScreen) {
+	public boolean match(TerminalScreen hostScreen) {
 		List<ScreenIdentifier> identifiers = screenIdentifiers;
 		for (ScreenIdentifier screenIdentifier : identifiers) {
 			if (!screenIdentifier.match(hostScreen)) {
-				return null;
+				return false;
 			}
 		}
-		return screenName;
+		return true;
 	}
 
-	public String getName() {
-		return screenName;
-	}
 }

@@ -2,10 +2,10 @@ package org.openlegacy.recognizers;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +22,7 @@ import java.util.List;
 public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 
 	@Autowired
-	private HostEntitiesRegistry screensRegistry;
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	private List<ScreenPosition> positions;
 
@@ -38,7 +38,7 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 			TerminalField field = terminalScreen.getField(position);
 			String patternFromScreen = handleIgnoreChars(field.getValue());
 			if (patternFromScreen.length() > 0) {
-				Class<?> screenModel = screensRegistry.get(patternFromScreen);
+				Class<?> screenModel = screenEntitiesRegistry.getEntityClass(patternFromScreen);
 				if (screenModel != null) {
 					logger.debug(MessageFormat.format("Found matched screen. Found pattern \"{0}\" in position {1}:",
 							patternFromScreen, position));

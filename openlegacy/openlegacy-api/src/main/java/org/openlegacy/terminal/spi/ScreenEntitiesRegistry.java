@@ -1,15 +1,14 @@
 package org.openlegacy.terminal.spi;
 
 import org.openlegacy.HostEntitiesRegistry;
-import org.openlegacy.terminal.FieldMappingDefinition;
+import org.openlegacy.terminal.ScreenEntityDefinition;
 
 /**
  * Define a registry spi for screen related entities registration
  * 
  */
-public interface ScreenEntitiesRegistry extends HostEntitiesRegistry {
+public interface ScreenEntitiesRegistry extends HostEntitiesRegistry<ScreenEntityDefinition> {
 
-	void addScreenIdentification(ScreenIdentification screenIdentification);
+	void add(ScreenEntityDefinition screenEntityDefinition);
 
-	void addFieldMappingDefinition(Class<?> screenEntity, FieldMappingDefinition fieldMappingDefinition);
 }

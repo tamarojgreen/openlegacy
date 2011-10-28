@@ -2,6 +2,7 @@ package org.openlegacy.adapter.terminal;
 
 import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
+import org.openlegacy.terminal.ScreenEntityDefinition;
 import org.openlegacy.terminal.TerminalScreen;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +18,7 @@ public class RegistryBasedFieldMappingsProvider implements FieldMappingsDefiniti
 	private SimpleScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {
-		return screenEntitiesRegistry.getFieldsMappings(screenEntity);
+		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);
+		return screenEntityDefinition.getFieldMappings().values();
 	}
 }

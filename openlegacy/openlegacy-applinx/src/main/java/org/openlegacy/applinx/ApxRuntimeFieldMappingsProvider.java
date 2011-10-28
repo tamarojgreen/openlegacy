@@ -4,12 +4,12 @@ import com.sabratec.applinx.baseobject.GXIField;
 import com.sabratec.applinx.baseobject.GXIFieldCollection;
 import com.sabratec.applinx.baseobject.GXIScreen;
 
-import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.MessageFormat;
@@ -20,11 +20,11 @@ import java.util.List;
 public class ApxRuntimeFieldMappingsProvider implements FieldMappingsDefinitionProvider {
 
 	@Autowired
-	private HostEntitiesRegistry hostEntitiesRegistry;
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {
 
-		String screenName = hostEntitiesRegistry.get(screenEntity);
+		String screenName = screenEntitiesRegistry.getEntityName(screenEntity);
 
 		List<FieldMappingDefinition> fieldMappingDefinitions = new ArrayList<FieldMappingDefinition>();
 
