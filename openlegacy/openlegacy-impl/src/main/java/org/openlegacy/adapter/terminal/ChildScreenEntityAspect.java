@@ -12,6 +12,7 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.util.ProxyUtil;
 import org.openlegacy.util.TypesUtil;
+import org.openlegacy.utils.PropertyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -37,10 +38,11 @@ public class ChildScreenEntityAspect {
 
 	private final static Log logger = LogFactory.getLog(ChildScreenEntityAspect.class);
 
-	@Around("execution(* *.fetch*(..))")
-	public Object captureChildScreens(ProceedingJoinPoint joinPoint) throws Throwable {
+	@Around("execution(* *.get*(..)) && target(org.openlegacy.terminal.ScreenEntity)")
+	public Object handleScreenEntityGetters(ProceedingJoinPoint joinPoint) throws Throwable {
 
 		Class<?> returnType = null;
+
 		// method doesn't match
 		if (!(joinPoint.getSignature() instanceof MethodSignature)) {
 			return joinPoint.proceed();
@@ -53,12 +55,18 @@ public class ChildScreenEntityAspect {
 			return joinPoint.proceed();
 		}
 
-		// exit if return type is not in the registry
-		if (screenEntitiesRegistry.get(returnType) == null) {
-			return joinPoint.proceed();
+		// if return type is in the registry - handle child entity fetching
+		if (screenEntitiesRegistry.get(returnType) != null) {
+			return handleChildScreenGetter(joinPoint, returnType);
 		}
 
-		String fieldName = joinPoint.getSignature().getName().substring(5); // 5- fetch
+		return joinPoint.proceed();
+	}
+
+	private Object handleChildScreenGetter(ProceedingJoinPoint joinPoint, Class<?> returnType) throws Exception,
+			NoSuchFieldException, Throwable, IllegalAccessException, InstantiationException {
+
+		String fieldName = joinPoint.getSignature().getName().substring(PropertyUtil.GET.length());
 		fieldName = StringUtils.uncapitalize(fieldName);
 
 		Object target = ProxyUtil.getTargetObject(joinPoint.getTarget(), returnType);

@@ -1,11 +1,11 @@
 package org.openlegacy.utils;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 public class PropertyUtil {
 
-	private static final String GET = "get";
-	private static final String SET = "set";
+	public static final String GET = "get";
+	public static final String SET = "set";
 
 	/**
 	 * Return a bean property name from a getter method, if the method is in the format of getXXX

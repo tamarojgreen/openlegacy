@@ -35,7 +35,7 @@ import java.util.Map;
  * 
  */
 @Scope("sesssion")
-// since perforing action on terminalSession
+// since performing action on terminalSession
 public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 
 	protected static final String FIELD_SUFFIX = "Field";

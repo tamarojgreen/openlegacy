@@ -33,9 +33,9 @@ public class SimpleScreenEntityBinderTest extends AbstractTest {
 		Assert.assertNotNull(itemDetails1);
 		Assert.assertEquals("2000", itemDetails1.getItemNumber());
 
-		Assert.assertEquals("2000", itemDetails1.fetchItemDetails2().getItemNumber());
+		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
 		// make sure no extra fetch is made
-		Assert.assertEquals("2000", itemDetails1.fetchItemDetails2().getItemNumber());
+		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
 
 	}
 

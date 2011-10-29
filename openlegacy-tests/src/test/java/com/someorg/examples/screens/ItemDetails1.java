@@ -1,5 +1,6 @@
 package com.someorg.examples.screens;
 
+import org.openlegacy.FetchMode;
 import org.openlegacy.adapter.terminal.SendKeyClasses;
 import org.openlegacy.annotations.screen.ChildScreenEntity;
 import org.openlegacy.annotations.screen.FieldMapping;
@@ -13,10 +14,10 @@ public class ItemDetails1 {
 	@FieldMapping(row = 6, column = 33)
 	private String ItemNumber;
 
-	@ChildScreenEntity(stepInto = SendKeyClasses.ENTER.class)
+	@ChildScreenEntity(stepInto = SendKeyClasses.ENTER.class, fetchMode = FetchMode.LAZY)
 	private ItemDetails2 itemDetails2;
 
-	public ItemDetails2 fetchItemDetails2() {
+	public ItemDetails2 getItemDetails2() {
 		return itemDetails2;
 	}
 }

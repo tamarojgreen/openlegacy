@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-applinx</artifactId>
-	<version>${parent.version}</version>
+	<version>${project.parent.version}</version>
 
 	<dependencies>
 		<dependency>

@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-designtime</artifactId>
-	<version>${parent.version}</version>
+	<version>${project.parent.version}</version>
 
 	<repositories>
 		<repository>
@@ -22,6 +22,11 @@
 	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
