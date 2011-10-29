@@ -1,18 +1,21 @@
 package org.openlegacy.adapter.terminal;
 
 import org.openlegacy.HostAction;
+import org.openlegacy.HostSessionModule;
+import org.openlegacy.adapter.AbstractHostSession;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.terminal.CursorContainer;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.TerminalSessionModule;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.SimpleTerminalSendAction;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.trail.SessionTrail;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -20,16 +23,12 @@ import java.util.Map;
  * 
  * 
  */
-public class DefaultTerminalSession implements TerminalSession {
+public class DefaultTerminalSession extends AbstractHostSession implements TerminalSession {
 
 	@Autowired
 	private ScreenEntityBinder screenEntityBinder;
 
-	@Autowired
 	private TerminalConnection terminalConnection;
-
-	@Autowired
-	private SessionTrail sessionTrail;
 
 	public <T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException {
 		TerminalScreen hostScreen = getSnapshot();
@@ -47,13 +46,29 @@ public class DefaultTerminalSession implements TerminalSession {
 		}
 		TerminalSendAction terminalSendAction = new SimpleTerminalSendAction(fieldValues, hostAction, cursorPosition);
 
+		notifyModulesBeforeSend(terminalSendAction);
 		terminalConnection.doAction(terminalSendAction);
+		notifyModulesAfterSend();
 
 		return this;
 	}
 
-	public SessionTrail getSessionTrail() {
-		return sessionTrail;
+	private void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {
+		Collection<? extends HostSessionModule> modulesList = getSessionModules().getModules();
+		for (HostSessionModule sessionModule : modulesList) {
+			if (sessionModule instanceof TerminalSessionModule) {
+				((TerminalSessionModule)sessionModule).beforeSendAction(terminalConnection, terminalSendAction);
+			}
+		}
+	}
+
+	private void notifyModulesAfterSend() {
+		Collection<? extends HostSessionModule> modulesList = getSessionModules().getModules();
+		for (HostSessionModule sessionModule : modulesList) {
+			if (sessionModule instanceof TerminalSessionModule) {
+				((TerminalSessionModule)sessionModule).afterSendAction(terminalConnection);
+			}
+		}
 	}
 
 	public TerminalScreen getSnapshot() {
@@ -62,6 +77,10 @@ public class DefaultTerminalSession implements TerminalSession {
 
 	public Object getDelegate() {
 		return terminalConnection.getDelegate();
+	}
+
+	public void setTerminalConnection(TerminalConnection terminalConnection) {
+		this.terminalConnection = terminalConnection;
 	}
 
 }

@@ -11,10 +11,15 @@
 
 	<context:component-scan base-package="org.openlegacy.adapter.terminal" />
 	
-	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession" />
-	<bean id="terminalConnection" class="org.openlegacy.adapter.terminal.TerminalConnectionDelegator" />
-	<bean id="terminalTrail" class="org.openlegacy.adapter.terminal.trail.DefaultTerminalTrail" scope="session"/>
-	 
+	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession" scope="session">
+		<property name="terminalConnection">
+			<bean class="org.openlegacy.adapter.terminal.TerminalConnectionDelegator" />
+		</property>
+		<property name="sessionModules" ref="terminalSessionModules" />
+	</bean>
+	
+	<bean id="terminalSessionModules" class="org.openlegacy.adapter.HostSessionModules"/>
+	
 	<!-- Open legacy default beans -->
 	<bean id="screensRegistry" class="org.openlegacy.adapter.terminal.SimpleScreenEntitiesRegistry" />
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />

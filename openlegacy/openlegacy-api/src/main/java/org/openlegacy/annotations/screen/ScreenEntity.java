@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * @ScreenEntity(identifiers = { @Identifier(row = 1, column = 36, value = "Sign On") }) </code> <br/>
  * <br/>
  * 
- * Option 2: When using a vendor ScreenRecognizer <code>
+ *                           Option 2: When using a vendor ScreenRecognizer <code>
  * @ScreenEntity </code>
  * 
  */

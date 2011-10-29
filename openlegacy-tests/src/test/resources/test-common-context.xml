@@ -10,6 +10,18 @@
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />
 	<bean id="fieldMappingsProvider" class="org.openlegacy.adapter.terminal.RegistryBasedFieldMappingsProvider" />
 	
+	<bean id="terminalSessionModules" class="org.openlegacy.adapter.HostSessionModules">
+		<property name="modules">
+			<list>
+				<bean class="org.openlegacy.adapter.SessionTrailModule">
+					<property name="sessionTrail">
+						<bean class="org.openlegacy.adapter.terminal.trail.DefaultTerminalTrail"/>
+					</property>
+				</bean>	
+			</list>
+		</property>
+	</bean>
+	
 	<!-- 
 	<bean id="screenEntityBinder" class="org.openlegacy.adapter.terminal.SimpleScreenEntityBinder" />
 	<bean id="trailWriter" class="org.openlegacy.adapter.terminal.trail.XmlTrailWriter" />
