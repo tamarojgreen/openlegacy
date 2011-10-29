@@ -3,5 +3,6 @@ package org.openlegacy;
 public enum FetchMode {
 
 	LAZY,
-	EAGER
+	EAGER,
+	DEFAULT
 }

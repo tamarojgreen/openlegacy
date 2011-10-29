@@ -20,6 +20,7 @@
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />
 	<bean id="screenEntityBinder" class="org.openlegacy.adapter.terminal.SimpleScreenEntityBinder" />
 	<bean id="fieldMappingsProvider" class="org.openlegacy.adapter.terminal.RegistryBasedFieldMappingsProvider" />
+	<bean id="childScreensDefinitionProvider" class="org.openlegacy.adapter.terminal.RegistryBasedChildScreensDefinitionProvider" />
 	<bean id="trailWriter" class="org.openlegacy.adapter.terminal.trail.XmlTrailWriter" />
 
 	<!-- Providers may override the default beans -->

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collection;
 
 /**
- * A FieldMappingsProvider based on open legacy @FieldMapping annotation kept in ScreenEntitiesRegistry
+ * A FieldMappingsDefinitionProvider based on open legacy @FieldMapping annotation kept in ScreenEntitiesRegistry
  * 
  */
 public class RegistryBasedFieldMappingsProvider implements FieldMappingsDefinitionProvider {

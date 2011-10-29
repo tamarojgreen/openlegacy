@@ -3,18 +3,23 @@ package org.openlegacy.adapter.terminal;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.FetchMode;
 import org.openlegacy.exceptions.HostEntityNotAccessibleException;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.terminal.ChildScreenDefinition;
+import org.openlegacy.terminal.ChildScreensDefinitionProvider;
 import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.util.ProxyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -29,6 +34,8 @@ import java.util.Map;
  * screenEntity
  * 
  */
+@Scope("sesssion")
+// since perforing action on terminalSession
 public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 
 	protected static final String FIELD_SUFFIX = "Field";
@@ -40,7 +47,13 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 	private FieldMappingsDefinitionProvider fieldMappingsProvider;
 
 	@Autowired
+	private ChildScreensDefinitionProvider childScreensDefinitionProvider;
+
+	@Autowired
 	private ApplicationContext applicationContext;
+
+	@Autowired
+	private TerminalSession terminalSession;
 
 	private final static Log logger = LogFactory.getLog(SimpleScreenEntityBinder.class);
 
@@ -54,11 +67,15 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 
 		try {
 			T screenEntityInstance = applicationContext.getBean(screenEntity);
-			// T screenEntityInstance = screenEntity.newInstance();
 
-			injectTerminalScreen(screenEntityInstance, terminalScreen);
+			Object realScreenEntityInstance = ProxyUtil.getTargetObject(screenEntityInstance, screenEntity);
 
-			injectFields(screenEntityInstance, terminalScreen);
+			injectTerminalScreen(realScreenEntityInstance, terminalScreen);
+
+			injectFields(realScreenEntityInstance, terminalScreen);
+
+			injectChildScreens(realScreenEntityInstance, terminalScreen);
+
 			return screenEntityInstance;
 		} catch (Exception e) {
 			throw (new IllegalArgumentException(e));
@@ -68,11 +85,9 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 	private static <T> void injectTerminalScreen(T screenEntityInstance, TerminalScreen hostScreen) throws Exception {
 		Field hostScreenField = null;
 
-		Class<?> realClass = ProxyUtil.getRealClass(screenEntityInstance);
-		hostScreenField = realClass.getDeclaredField(TERMINAL_SCREEN);
+		hostScreenField = screenEntityInstance.getClass().getDeclaredField(TERMINAL_SCREEN);
 		hostScreenField.setAccessible(true);
-		Object realScreenEntityInstance = ProxyUtil.getTargetObject(screenEntityInstance, realClass);
-		hostScreenField.set(realScreenEntityInstance, hostScreen);
+		hostScreenField.set(screenEntityInstance, hostScreen);
 	}
 
 	private static TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMappingDefinition fieldMapping) {
@@ -87,30 +102,53 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 
 	private void injectFields(final Object screenEntityInstance, final TerminalScreen terminalScreen) throws Exception {
 
-		Class<? extends Object> screenEntity = ProxyUtil.getRealClass(screenEntityInstance);
-		Collection<FieldMappingDefinition> fieldMappings = fieldMappingsProvider.getFieldsMappingDefinitions(terminalScreen,
-				screenEntity);
+		Class<? extends Object> screenEntity = screenEntityInstance.getClass();
+		Collection<FieldMappingDefinition> fieldMappingDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
+				terminalScreen, screenEntity);
 
-		for (FieldMappingDefinition fieldMapping : fieldMappings) {
-			Field javaSimpleField = screenEntity.getDeclaredField(fieldMapping.getName());
-			Field javaTerminalField = screenEntity.getDeclaredField(fieldMapping.getName() + FIELD_SUFFIX);
+		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingDefinitions) {
+			Field javaSimpleField = screenEntity.getDeclaredField(fieldMappingDefinition.getName());
+			Field javaTerminalField = screenEntity.getDeclaredField(fieldMappingDefinition.getName() + FIELD_SUFFIX);
 
 			javaSimpleField.setAccessible(true);
-			javaTerminalField.setAccessible(true);
 
-			TerminalField terminalField = extractTerminalField(terminalScreen, fieldMapping);
+			TerminalField terminalField = extractTerminalField(terminalScreen, fieldMappingDefinition);
 
 			String formattedContent = formatContent(terminalField);
 
-			Object realScreenEntityInstance = ProxyUtil.getTargetObject(screenEntityInstance, screenEntity);
+			javaSimpleField.set(screenEntityInstance, formattedContent);
 
-			javaSimpleField.set(realScreenEntityInstance, formattedContent);
-			javaTerminalField.set(realScreenEntityInstance, terminalField);
+			if (javaTerminalField != null) {
+				javaTerminalField.setAccessible(true);
+				javaTerminalField.set(screenEntityInstance, terminalField);
+			}
 
 			if (logger.isDebugEnabled()) {
-				logger.debug(MessageFormat.format("Field {0} was set with value \"{1}\"", fieldMapping.getName(),
+				logger.debug(MessageFormat.format("Field {0} was set with value \"{1}\"", fieldMappingDefinition.getName(),
 						formattedContent));
 			}
+		}
+
+	}
+
+	private void injectChildScreens(final Object screenEntityInstance, final TerminalScreen terminalScreen) throws Exception {
+
+		Class<? extends Object> screenEntity = screenEntityInstance.getClass();
+		Collection<ChildScreenDefinition> childScreenDefinitions = childScreensDefinitionProvider.getChildScreenDefinitions(screenEntity);
+
+		for (ChildScreenDefinition childScreenDefinition : childScreenDefinitions) {
+
+			if (childScreenDefinition.getFetchMode() == FetchMode.LAZY) {
+				continue;
+			}
+
+			String fieldName = childScreenDefinition.getFieldName();
+			Field javaField = screenEntity.getDeclaredField(fieldName);
+
+			javaField.setAccessible(true);
+
+			ScreenBindUtil.populateChildScreenField(terminalSession, javaField.getType(), screenEntityInstance, javaField,
+					childScreenDefinition);
 		}
 
 	}

@@ -2,11 +2,15 @@ package org.openlegacy.adapter.terminal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.annotations.screen.ChildScreenEntity;
+import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.terminal.ChildScreenDefinition;
 import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.ScreenEntityDefinition;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.SimpleChildScreenDefinition;
 import org.openlegacy.terminal.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
@@ -61,8 +65,9 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 				screenEntityClass.getName()));
 		addIdentifiers(screenEntityDefinition, screenEntity);
 
-		addFieldMappings(screenEntityDefinition, screenEntity);
+		addFieldMappingDefinitions(screenEntityDefinition, screenEntity);
 
+		addChildScreenDefinitions(screenEntityDefinition, screenEntity);
 		screensRegistry.add(screenEntityDefinition);
 	}
 
@@ -88,26 +93,46 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 		}
 	}
 
-	private static void addFieldMappings(final ScreenEntityDefinition screenEntityDefinition, ScreenEntity hostEntity) {
+	private static void addFieldMappingDefinitions(final ScreenEntityDefinition screenEntityDefinition, ScreenEntity hostEntity) {
 		ReflectionUtils.doWithFields(screenEntityDefinition.getHostEntityClass(), new FieldCallback() {
 
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
-				if (field.isAnnotationPresent(org.openlegacy.annotations.screen.FieldMapping.class)) {
+				if (field.isAnnotationPresent(FieldMapping.class)) {
 					screenEntityDefinition.getFieldMappingDefinitions().put(field.getName(), extractFieldMappingDefinition(field));
 				}
 			}
-
 		});
 
 	}
 
 	private static FieldMappingDefinition extractFieldMappingDefinition(Field field) {
-		org.openlegacy.annotations.screen.FieldMapping fieldAnnotation = field.getAnnotation(org.openlegacy.annotations.screen.FieldMapping.class);
+		FieldMapping fieldAnnotation = field.getAnnotation(FieldMapping.class);
 
 		return new FieldMappingDefinition(field.getName(), SimpleScreenPosition.newInstance(fieldAnnotation.row(),
 				fieldAnnotation.column()), fieldAnnotation.length());
 
 	}
 
+	private static void addChildScreenDefinitions(final SimpleScreenEntityDefinition screenEntityDefinition,
+			ScreenEntity screenEntity) {
+		ReflectionUtils.doWithFields(screenEntityDefinition.getHostEntityClass(), new FieldCallback() {
+
+			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
+
+				if (field.isAnnotationPresent(ChildScreenEntity.class)) {
+					screenEntityDefinition.getChildScreenDefinitions().put(field.getName(), extractChildScreenDefinition(field));
+				}
+			}
+		});
+	}
+
+	private static ChildScreenDefinition extractChildScreenDefinition(Field field) {
+		ChildScreenEntity childScreenEntityAnnotation = field.getAnnotation(ChildScreenEntity.class);
+
+		SimpleChildScreenDefinition simpleChildScreenDefinition = new SimpleChildScreenDefinition(field.getName());
+		simpleChildScreenDefinition.setFetchMode(childScreenEntityAnnotation.fetchMode());
+		simpleChildScreenDefinition.setStepInto(childScreenEntityAnnotation.stepInto());
+		return simpleChildScreenDefinition;
+	}
 }

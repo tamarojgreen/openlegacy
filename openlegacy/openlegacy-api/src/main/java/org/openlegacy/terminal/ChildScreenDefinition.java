@@ -3,17 +3,12 @@ package org.openlegacy.terminal;
 import org.openlegacy.FetchMode;
 import org.openlegacy.HostAction;
 
-public class ChildScreenDefinition {
+public interface ChildScreenDefinition {
 
-	private Class<? extends HostAction> stepInto;
-	private FetchMode fetchMode;
+	String getFieldName();
 
-	public Class<? extends HostAction> getStepInto() {
-		return stepInto;
-	}
+	Class<? extends HostAction> getStepInto();
 
-	public FetchMode getFetchMode() {
-		return fetchMode;
-	}
+	FetchMode getFetchMode();
 
 }

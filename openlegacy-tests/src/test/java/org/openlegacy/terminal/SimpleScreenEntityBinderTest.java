@@ -2,7 +2,6 @@ package org.openlegacy.terminal;
 
 import com.someorg.examples.screens.InventoryManagement;
 import com.someorg.examples.screens.ItemDetails1;
-import com.someorg.examples.screens.ItemDetails2;
 import com.someorg.examples.screens.ItemsList;
 import com.someorg.examples.screens.MainMenu;
 import com.someorg.examples.screens.SignOn;
@@ -27,6 +26,20 @@ public class SimpleScreenEntityBinderTest extends AbstractTest {
 
 	@Test
 	public void testScreenBinder() throws IOException {
+		getToItemDetails();
+
+		terminalSession.doAction(SendKeyActions.ENTER, null);
+		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class);
+		Assert.assertNotNull(itemDetails1);
+		Assert.assertEquals("2000", itemDetails1.getItemNumber());
+
+		Assert.assertEquals("2000", itemDetails1.fetchItemDetails2().getItemNumber());
+		// make sure no extra fetch is made
+		Assert.assertEquals("2000", itemDetails1.fetchItemDetails2().getItemNumber());
+
+	}
+
+	private void getToItemDetails() {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
 		Assert.assertNotNull(signOn.getTerminalScreen());
@@ -52,18 +65,5 @@ public class SimpleScreenEntityBinderTest extends AbstractTest {
 		terminalSession.doAction(SendKeyActions.PAGEDN, null);
 		ItemsList workwithItemMaster3 = terminalSession.getEntity(ItemsList.class);
 		Assert.assertNotNull(workwithItemMaster3);
-
-		terminalSession.doAction(SendKeyActions.ENTER, null);
-		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class);
-		Assert.assertNotNull(itemDetails1);
-		Assert.assertEquals("2000", itemDetails1.getItemNumber());
-
-		// TODO - make this work!
-		// Assert.assertEquals("2000", itemDetails1.fetchItemDetails2().getItemNumber());
-
-		terminalSession.doAction(SendKeyActions.ENTER, null);
-		ItemDetails2 itemDetails2 = terminalSession.getEntity(ItemDetails2.class);
-		Assert.assertNotNull(itemDetails2);
-		Assert.assertEquals("2000", itemDetails2.getItemNumber());
 	}
 }

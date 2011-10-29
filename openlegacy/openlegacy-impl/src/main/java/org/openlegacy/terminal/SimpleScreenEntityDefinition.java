@@ -9,7 +9,8 @@ import java.util.Map;
 public class SimpleScreenEntityDefinition extends SimpleHostEntityDefinition implements ScreenEntityDefinition {
 
 	private ScreenIdentification screenIdentification;
-	private final Map<String, FieldMappingDefinition> FieldMappings = new HashMap<String, FieldMappingDefinition>();
+	private final Map<String, FieldMappingDefinition> fieldMappingDefinitions = new HashMap<String, FieldMappingDefinition>();
+	private final Map<String, ChildScreenDefinition> childScreenDefinitions = new HashMap<String, ChildScreenDefinition>();
 
 	public SimpleScreenEntityDefinition(String hostEntityName, Class<?> hostEntityClass) {
 		super(hostEntityName, hostEntityClass);
@@ -24,7 +25,11 @@ public class SimpleScreenEntityDefinition extends SimpleHostEntityDefinition imp
 	}
 
 	public Map<String, FieldMappingDefinition> getFieldMappingDefinitions() {
-		return FieldMappings;
+		return fieldMappingDefinitions;
+	}
+
+	public Map<String, ChildScreenDefinition> getChildScreenDefinitions() {
+		return childScreenDefinitions;
 	}
 
 }
