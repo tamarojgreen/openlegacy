@@ -3,6 +3,7 @@
 
 package com.someorg.examples.screens;
 
+import org.openlegacy.terminal.ScreenEntity;
 <#if !lightWeight>
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
@@ -10,21 +11,27 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.CursorContainer;
 </#if>
 import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
 
 privileged aspect ${className}_Aspect {
     
     declare @type: ${className} : @Component;
+	declare @type: ${className} : @Scope("prototype");
     
 	<#if !lightWeight>
     private TerminalScreen ${className}.terminalScreen;
+	</#if>
 
+    declare parents: ${className} implements ScreenEntity;
+	<#if !lightWeight>
     declare parents: ${className} implements CursorContainer;
 
     private ScreenPosition ${className}.cursorPosition;
 	</#if>
     
 	<#list fields as field>
-	<#if !lightWeight && !field.hasGetterField>
+	
+	<#if !lightWeight && !field.hasGetterField && field.primitiveType>
     private TerminalField ${className}.${field.name}Field;
 	</#if>
 	</#list>	
@@ -37,18 +44,18 @@ privileged aspect ${className}_Aspect {
 
 	<#list fields as field>
 		<#if !field.hasGetter>
-    public String ${className}.get${field.name?cap_first}(){
+    public ${field.type} ${className}.get${field.name?cap_first}(){
     	return this.${field.name};
     }
 		</#if>
     
-		<#if !field.hasSetter>
-    public void ${className}.set${field.name?cap_first}(String ${field.name}){
+		<#if !field.hasSetter && field.editable>
+    public void ${className}.set${field.name?cap_first}(${field.type} ${field.name}){
     	this.${field.name} = ${field.name};
     }
 		</#if>
 
-		<#if !lightWeight && !field.hasGetterField>
+		<#if !lightWeight && !field.hasGetterField && field.primitiveType>
     public TerminalField ${className}.get${field.name?cap_first}Field(){
     	return ${field.name}Field;
     }

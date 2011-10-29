@@ -3,18 +3,22 @@
 
 package com.someorg.examples.screens;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.CursorContainer;
 import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
 
 privileged aspect SignOn_Aspect {
     
     declare @type: SignOn : @Component;
+	declare @type: SignOn : @Scope("prototype");
     
     private TerminalScreen SignOn.terminalScreen;
 
+    declare parents: SignOn implements ScreenEntity;
     declare parents: SignOn implements CursorContainer;
 
     private ScreenPosition SignOn.cursorPosition;
@@ -30,17 +34,11 @@ privileged aspect SignOn_Aspect {
     	return this.password;
     }
     
-    public void SignOn.setPassword(String password){
-    	this.password = password;
-    }
 
     public TerminalField SignOn.getPasswordField(){
     	return passwordField;
     }
     
-    public void SignOn.setUser(String user){
-    	this.user = user;
-    }
 
     public TerminalField SignOn.getUserField(){
     	return userField;

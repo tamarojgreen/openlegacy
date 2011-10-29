@@ -59,7 +59,11 @@ public class ScreenEntityAjGeneratorTest {
 		new ScreenEntityAjGenerator().generate(getClass().getResourceAsStream(javaSource), baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectAspect));
-		Assert.assertEquals(new String(expectedBytes), new String(baos.toByteArray()));
+		Assert.assertEquals(initTestString(expectedBytes), initTestString(baos.toByteArray()));
+	}
+
+	private static String initTestString(byte[] expectedBytes) {
+		return new String(expectedBytes).replaceAll("\r\n", "").replaceAll("\n", "").replaceAll("\t", "");
 	}
 
 	protected String getTestMethodName() {

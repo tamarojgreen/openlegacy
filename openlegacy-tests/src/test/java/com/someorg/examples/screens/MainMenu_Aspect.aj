@@ -3,28 +3,29 @@
 
 package com.someorg.examples.screens;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.CursorContainer;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
 privileged aspect MainMenu_Aspect {
     
-    declare parents: MainMenu implements ScreenEntity;
-    declare parents: MainMenu implements CursorContainer;
-
-	declare @type: MainMenu : @Component;
+    declare @type: MainMenu : @Component;
 	declare @type: MainMenu : @Scope("prototype");
     
     private TerminalScreen MainMenu.terminalScreen;
 
+    declare parents: MainMenu implements ScreenEntity;
+    declare parents: MainMenu implements CursorContainer;
 
     private ScreenPosition MainMenu.cursorPosition;
     
+	
     private TerminalField MainMenu.companyField;
+	
     private TerminalField MainMenu.selectionField;
     
     public TerminalScreen MainMenu.getTerminalScreen(){

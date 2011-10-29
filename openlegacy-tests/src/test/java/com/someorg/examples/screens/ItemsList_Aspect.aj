@@ -3,26 +3,27 @@
 
 package com.someorg.examples.screens;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.CursorContainer;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
 privileged aspect ItemsList_Aspect {
     
-    declare parents: ItemsList implements ScreenEntity;
-    declare parents: ItemsList implements CursorContainer;
-
-	declare @type: ItemsList : @Component;
+    declare @type: ItemsList : @Component;
 	declare @type: ItemsList : @Scope("prototype");
     
     private TerminalScreen ItemsList.terminalScreen;
 
+    declare parents: ItemsList implements ScreenEntity;
+    declare parents: ItemsList implements CursorContainer;
+
     private ScreenPosition ItemsList.cursorPosition;
     
+	
     private TerminalField ItemsList.PositionToField;
     
     public TerminalScreen ItemsList.getTerminalScreen(){
@@ -33,9 +34,6 @@ privileged aspect ItemsList_Aspect {
     	return this.PositionTo;
     }
     
-    public void ItemsList.setPositionTo(String PositionTo){
-    	this.PositionTo = PositionTo;
-    }
 
     public TerminalField ItemsList.getPositionToField(){
     	return PositionToField;

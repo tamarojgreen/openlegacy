@@ -1,5 +1,10 @@
 package org.openlegacy.designtime.generators;
 
+import org.openlegacy.annotations.screen.ChildScreenEntity;
+import org.openlegacy.annotations.screen.FieldMapping;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.util.TypesUtil;
+import org.openlegacy.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
 
 import japa.parser.ast.CompilationUnit;
@@ -24,13 +29,19 @@ import java.util.TreeMap;
  */
 public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 
-	private static final Object SCREEN_ENTITY = "ScreenEntity";
+	private static final Object SCREEN_ENTITY_ANNOTATION = ScreenEntity.class.getSimpleName();
 
 	private static final String LIGHTWEIGHT = "lightWeight";
 
 	private static final String TRUE = "true";
 
 	private static final String FIELD_SUFFIX = "Field";
+
+	private static final Object FIELD_MAPPING_ANNOTATION = FieldMapping.class.getSimpleName();
+
+	private static final String EDITABLE = "editable";
+
+	private static final Object CHILD_SCREEN_ANNOTATION = ChildScreenEntity.class.getSimpleName();
 
 	private String className;
 	private TypeDeclaration mainType;
@@ -58,14 +69,33 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 				FieldDeclaration fieldDeclaration = (FieldDeclaration)bodyDeclaration;
 				List<VariableDeclarator> variables = fieldDeclaration.getVariables();
 				if (variables.size() > 0) {
+					List<AnnotationExpr> fieldAnnotations = fieldDeclaration.getAnnotations();
 					String fieldName = variables.get(0).getId().getName();
 					Field field = new Field(fieldName, fieldDeclaration.getType().toString());
+					field.setPrimitiveType(TypesUtil.isPrimitive(fieldDeclaration.getType().toString()));
+					if (fieldAnnotations != null && fieldAnnotations.size() > 0) {
+						for (AnnotationExpr annotationExpr : fieldAnnotations) {
+							if (annotationExpr.getName().getName().equals(FIELD_MAPPING_ANNOTATION)) {
+								handleFieldMappingAnnotation(fieldDeclaration, annotationExpr, field);
+							}
+							if (annotationExpr.getName().getName().equals(CHILD_SCREEN_ANNOTATION)) {
+								// empty for now
+							}
+						}
+					}
 					fields.put(fieldName, field);
 				}
 			}
 		}
 
 		checkHasGetterAndSetter(members);
+	}
+
+	private static void handleFieldMappingAnnotation(FieldDeclaration fieldDeclaration, AnnotationExpr annotationExpr, Field field) {
+		String annotationValue = JavaParserUtil.findAnnotationAttribute(annotationExpr, EDITABLE);
+		if (TRUE.equals(annotationValue)) {
+			field.setEditable(true);
+		}
 	}
 
 	private void checkHasGetterAndSetter(List<BodyDeclaration> members) {
@@ -113,7 +143,7 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 			return;
 		}
 		for (AnnotationExpr annotationExpr : annotations) {
-			if (annotationExpr.getName().getName().equals(SCREEN_ENTITY)) {
+			if (annotationExpr.getName().getName().equals(SCREEN_ENTITY_ANNOTATION)) {
 				enabled = true;
 				if (annotationExpr instanceof NormalAnnotationExpr) {
 					NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
@@ -133,28 +163,36 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#isRelevant()
 	 */
 	public boolean isRelevant() {
 		return enabled;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#isLightWeight()
 	 */
 	public boolean isLightWeight() {
 		return lightWeight;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#getClassName()
 	 */
 	public String getClassName() {
 		return className;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#getFields()
 	 */
 	public Collection<Field> getFields() {
@@ -167,9 +205,13 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 		private boolean hasGetter;
 		private boolean hasSetter;
 		private boolean hasGetterField;
+		private String type;
+		private boolean editable;
+		private boolean primitiveType;
 
 		public Field(String name, String type) {
 			this.name = name;
+			this.type = type;
 		}
 
 		public String getName() {
@@ -199,5 +241,26 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 		public void setHasGetterField(boolean hasGetterField) {
 			this.hasGetterField = hasGetterField;
 		}
+
+		public String getType() {
+			return type;
+		}
+
+		public boolean isEditable() {
+			return editable;
+		}
+
+		public void setEditable(boolean editable) {
+			this.editable = editable;
+		}
+
+		public boolean isPrimitiveType() {
+			return primitiveType;
+		}
+
+		public void setPrimitiveType(boolean primitiveType) {
+			this.primitiveType = primitiveType;
+		}
+
 	}
 }

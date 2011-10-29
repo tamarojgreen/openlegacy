@@ -3,26 +3,27 @@
 
 package com.someorg.examples.screens;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.CursorContainer;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
 privileged aspect InventoryManagement_Aspect {
     
-    declare parents: InventoryManagement implements ScreenEntity;
-    declare parents: InventoryManagement implements CursorContainer;
-
-	declare @type: InventoryManagement : @Component;
+    declare @type: InventoryManagement : @Component;
 	declare @type: InventoryManagement : @Scope("prototype");
     
     private TerminalScreen InventoryManagement.terminalScreen;
 
+    declare parents: InventoryManagement implements ScreenEntity;
+    declare parents: InventoryManagement implements CursorContainer;
+
     private ScreenPosition InventoryManagement.cursorPosition;
     
+	
     private TerminalField InventoryManagement.SelectionField;
     
     public TerminalScreen InventoryManagement.getTerminalScreen(){
@@ -33,9 +34,6 @@ privileged aspect InventoryManagement_Aspect {
     	return this.Selection;
     }
     
-    public void InventoryManagement.setSelection(String Selection){
-    	this.Selection = Selection;
-    }
 
     public TerminalField InventoryManagement.getSelectionField(){
     	return SelectionField;

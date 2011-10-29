@@ -3,12 +3,17 @@
 
 package com.someorg.examples.screens;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
 
 privileged aspect SignOn_Aspect {
     
     declare @type: SignOn : @Component;
+	declare @type: SignOn : @Scope("prototype");
     
+
+    declare parents: SignOn implements ScreenEntity;
     
     
 
@@ -16,17 +21,11 @@ privileged aspect SignOn_Aspect {
     	return this.password;
     }
     
-    public void SignOn.setPassword(String password){
-    	this.password = password;
-    }
 
     public String SignOn.getUser(){
     	return this.user;
     }
     
-    public void SignOn.setUser(String user){
-    	this.user = user;
-    }
 
 
     

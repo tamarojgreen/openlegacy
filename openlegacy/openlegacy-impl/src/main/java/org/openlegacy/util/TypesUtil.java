@@ -9,4 +9,15 @@ public class TypesUtil {
 		return false;
 	}
 
+	public static boolean isPrimitive(String typeName) {
+		// TODO add more type
+		if (typeName.equals("int")) {
+			return true;
+		}
+		if (typeName.equals("String")) {
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -17,7 +17,4 @@ public class ItemDetails1 {
 	@ChildScreenEntity(stepInto = SendKeyClasses.ENTER.class, fetchMode = FetchMode.LAZY)
 	private ItemDetails2 itemDetails2;
 
-	public ItemDetails2 getItemDetails2() {
-		return itemDetails2;
-	}
 }
