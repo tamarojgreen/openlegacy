@@ -9,9 +9,10 @@
 
 	<bean class="org.openlegacy.adapter.terminal.ScreenAnnotationProccesor"/>
 
-	<context:component-scan base-package="org.openlegacy.adapter.terminal" />
+	<context:component-scan base-package="org.openlegacy.adapter.terminal" scoped-proxy="targetClass" />
 	
 	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession" scope="session">
+        <aop:scoped-proxy/>
 		<property name="terminalConnection">
 			<bean class="org.openlegacy.adapter.terminal.TerminalConnectionDelegator" />
 		</property>
