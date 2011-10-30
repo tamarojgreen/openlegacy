@@ -2,13 +2,14 @@ package org.openlegacy.modules.login;
 
 import org.openlegacy.FieldType;
 import org.openlegacy.HostEntityType;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.HostSessionModule;
 
 public interface Login extends HostSessionModule {
 
-	void login(String user, String password) throws LoginException;
+	void login(String user, String password) throws LoginException, RegistryException;
 
-	void login(Object loginScreen) throws LoginException;
+	void login(Object loginScreen) throws LoginException, RegistryException;
 
 	boolean isLoggedIn();
 

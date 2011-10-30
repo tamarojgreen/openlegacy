@@ -1,5 +1,7 @@
 package org.openlegacy;
 
+import org.openlegacy.exceptions.RegistryException;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ public interface HostEntitiesRegistry<D extends HostEntityDefinition> {
 
 	List<Class<?>> getByType(Class<? extends HostEntityType> hostEntityType);
 
-	D findFirstEntityDefinitionByType(Class<? extends HostEntityType> hostEntityType);
+	D findFirstEntityDefinitionByType(Class<? extends HostEntityType> hostEntityType) throws RegistryException;
 
 	List<Class<?>> getAll();
 

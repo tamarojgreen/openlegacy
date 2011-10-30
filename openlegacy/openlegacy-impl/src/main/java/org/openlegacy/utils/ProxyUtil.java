@@ -8,7 +8,7 @@ import org.springframework.aop.framework.Advised;
 public class ProxyUtil {
 
 	@SuppressWarnings("unchecked")
-	public static <T> T getTargetObject(Object proxy, Class<T> targetClass) throws Exception {
+	public static <T> T getTargetObject(Object proxy) throws Exception {
 		if (proxy instanceof Advised) {
 			return (T)((Advised)proxy).getTargetSource().getTarget();
 		}

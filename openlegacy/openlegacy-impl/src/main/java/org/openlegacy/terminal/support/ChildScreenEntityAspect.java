@@ -11,15 +11,14 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenBindUtil;
+import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.utils.PropertyUtil;
-import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.TypesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Field;
 import java.text.MessageFormat;
 
 @Component
@@ -70,22 +69,20 @@ public class ChildScreenEntityAspect {
 		String fieldName = joinPoint.getSignature().getName().substring(PropertyUtil.GET.length());
 		fieldName = StringUtils.uncapitalize(fieldName);
 
-		Object target = ProxyUtil.getTargetObject(joinPoint.getTarget(), returnType);
+		Object target = joinPoint.getTarget();
+		ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(target);
 
-		Class<?> targetClass = ProxyUtil.getObjectRealClass(target);
-
-		Field declaredField = targetClass.getDeclaredField(fieldName);
-		if (declaredField == null) {
+		if (!fieldAccessor.isReadableProperty(fieldName)) {
 			return joinPoint.proceed();
 		}
-
-		declaredField.setAccessible(true);
 
 		// if value already been set - continue
-		if (declaredField.get(target) != null) {
+
+		if (fieldAccessor.getFieldValue(fieldName) != null) {
 			return joinPoint.proceed();
 		}
 
+		Class<? extends Object> targetClass = target.getClass();
 		ChildScreenDefinition childScreenDefinition = childScreenDefinitionProvider.getChildScreenDefinitions(targetClass,
 				fieldName);
 
@@ -94,8 +91,8 @@ public class ChildScreenEntityAspect {
 			return joinPoint.proceed();
 		}
 
-		Object returnTypeInstance = ScreenBindUtil.populateChildScreenField(terminalSession, returnType, target, declaredField,
-				childScreenDefinition);
+		Object returnTypeInstance = ScreenBindUtil.getChildScreen(terminalSession, returnType, childScreenDefinition);
+		fieldAccessor.setFieldValue(fieldName, returnTypeInstance);
 		return returnTypeInstance;
 	}
 

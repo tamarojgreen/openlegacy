@@ -17,14 +17,13 @@ import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.utils.ScreenBindUtil;
+import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.terminal.utils.ScreenSyncValidator;
-import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -39,8 +38,6 @@ import java.util.Map;
 @Scope("sesssion")
 // since performing action on terminalSession
 public class SimpleScreenEntityBinder implements ScreenEntityBinder {
-
-	protected static final String FIELD_SUFFIX = "Field";
 
 	@Autowired
 	private ScreensRecognizer screensRecognizer;
@@ -80,13 +77,13 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 		try {
 			Object screenEntityInstance = applicationContext.getBean(screenEntity);
 
-			Object realScreenEntityInstance = ProxyUtil.getTargetObject(screenEntityInstance, screenEntity);
+			ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntityInstance);
 
-			injectTerminalScreen(realScreenEntityInstance, terminalScreen);
+			fieldAccessor.setFieldValue(TERMINAL_SCREEN, terminalScreen);
 
-			injectFields(realScreenEntityInstance, terminalScreen);
+			injectFields(fieldAccessor, screenEntity, terminalScreen);
 
-			injectChildScreens(realScreenEntityInstance, terminalScreen);
+			injectChildScreens(fieldAccessor, screenEntity, terminalScreen);
 
 			return screenEntityInstance;
 		} catch (Exception e) {
@@ -95,58 +92,30 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 
 	}
 
-	private static <T> void injectTerminalScreen(T screenEntityInstance, TerminalScreen hostScreen) throws Exception {
-		Field hostScreenField = null;
-
-		hostScreenField = screenEntityInstance.getClass().getDeclaredField(TERMINAL_SCREEN);
-		hostScreenField.setAccessible(true);
-		hostScreenField.set(screenEntityInstance, hostScreen);
-	}
-
 	private static TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMappingDefinition fieldMapping) {
 		TerminalField terminalField = terminalScreen.getField(fieldMapping.getScreenPosition());
 		return terminalField;
 	}
 
-	private static String formatContent(TerminalField terminalField) {
-		// TODO add configuration
-		return terminalField.getValue().trim();
-	}
+	private void injectFields(ScreenEntityDirectFieldAccessor fieldAccessor, Class<?> screenEntity,
+			final TerminalScreen terminalScreen) throws Exception {
 
-	private void injectFields(final Object screenEntityInstance, final TerminalScreen terminalScreen) throws Exception {
-
-		Class<? extends Object> screenEntity = screenEntityInstance.getClass();
 		Collection<FieldMappingDefinition> fieldMappingDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
 				terminalScreen, screenEntity);
 
 		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingDefinitions) {
-			Field javaSimpleField = screenEntity.getDeclaredField(fieldMappingDefinition.getName());
-			Field javaTerminalField = screenEntity.getDeclaredField(fieldMappingDefinition.getName() + FIELD_SUFFIX);
-
-			javaSimpleField.setAccessible(true);
 
 			TerminalField terminalField = extractTerminalField(terminalScreen, fieldMappingDefinition);
 
-			String formattedContent = formatContent(terminalField);
+			fieldAccessor.setTerminalField(fieldMappingDefinition.getName(), terminalField);
 
-			javaSimpleField.set(screenEntityInstance, formattedContent);
-
-			if (javaTerminalField != null) {
-				javaTerminalField.setAccessible(true);
-				javaTerminalField.set(screenEntityInstance, terminalField);
-			}
-
-			if (logger.isDebugEnabled()) {
-				logger.debug(MessageFormat.format("Field {0} was set with value \"{1}\"", fieldMappingDefinition.getName(),
-						formattedContent));
-			}
 		}
 
 	}
 
-	private void injectChildScreens(final Object screenEntityInstance, final TerminalScreen terminalScreen) throws Exception {
+	private void injectChildScreens(ScreenEntityDirectFieldAccessor fieldAccessor, Class<?> screenEntity,
+			final TerminalScreen terminalScreen) throws Exception {
 
-		Class<? extends Object> screenEntity = screenEntityInstance.getClass();
 		Collection<ChildScreenDefinition> childScreenDefinitions = childScreensDefinitionProvider.getChildScreenDefinitions(screenEntity);
 
 		for (ChildScreenDefinition childScreenDefinition : childScreenDefinitions) {
@@ -156,12 +125,11 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 			}
 
 			String fieldName = childScreenDefinition.getFieldName();
-			Field javaField = screenEntity.getDeclaredField(fieldName);
 
-			javaField.setAccessible(true);
+			Class<?> fieldType = fieldAccessor.getFieldType(fieldName);
+			Object childScreen = ScreenBindUtil.getChildScreen(terminalSession, fieldType, childScreenDefinition);
 
-			ScreenBindUtil.populateChildScreenField(terminalSession, javaField.getType(), screenEntityInstance, javaField,
-					childScreenDefinition);
+			fieldAccessor.setFieldValue(fieldName, childScreen);
 		}
 
 	}

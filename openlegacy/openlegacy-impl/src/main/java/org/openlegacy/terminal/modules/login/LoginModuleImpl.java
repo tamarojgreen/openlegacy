@@ -25,13 +25,18 @@ public class LoginModuleImpl extends TerminalSessionModuleAdapter implements Log
 	private ScreenEntityDefinition loginScreenDefinition;;
 
 	public void login(String user, String password) throws LoginException {
-		// TODO
+		try {
+			// Object loginScreen = loginScreenDefinition.getHostEntityClass().newInstance();
+			// loginScreen.
+		} catch (Exception e) {
+		}
+
 	}
 
-	public void login(Object loginEntityInstance) throws LoginException {
+	public void login(Object loginEntityInstance) throws LoginException, RegistryException {
 
 		Class<?> registryLoginClass = loginScreenDefinition.getHostEntityClass();
-		if (registryLoginClass != loginEntityInstance.getClass()) {
+		if (loginEntityInstance.getClass().isAssignableFrom(registryLoginClass)) {
 			throw (new RegistryException("Login entity instance " + loginEntityInstance.getClass()
 					+ " doesn't match registry login screen" + registryLoginClass));
 		}
@@ -54,13 +59,13 @@ public class LoginModuleImpl extends TerminalSessionModuleAdapter implements Log
 
 		Class<?> hostEntityClass = loginScreenDefinition.getHostEntityClass();
 		if (userField == null) {
-			throw (new LoginException("User field not defined in " + hostEntityClass));
+			throw (new RegistryException("User field not defined in " + hostEntityClass));
 		}
 		if (passwordField == null) {
-			throw (new LoginException("Password field not defined in " + hostEntityClass));
+			throw (new RegistryException("Password field not defined in " + hostEntityClass));
 		}
 		if (errorField == null) {
-			throw (new LoginException("Error field not defined in " + hostEntityClass));
+			throw (new RegistryException("Error field not defined in " + hostEntityClass));
 		}
 	}
 

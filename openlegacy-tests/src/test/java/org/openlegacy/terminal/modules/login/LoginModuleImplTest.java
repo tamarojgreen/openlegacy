@@ -22,7 +22,7 @@ public class LoginModuleImplTest extends AbstractTest {
 
 	@Test
 	public void testLogin() {
-		SignOn signOn = new SignOn();
+		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		signOn.setUser("TestUser");
 		signOn.setPassword("TestPwd");
 		terminalSession.getModule(Login.class).login(signOn);

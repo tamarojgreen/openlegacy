@@ -59,6 +59,7 @@ public abstract class SimpleHostEntitiesRegistry<D extends HostEntityDefinition>
 		return hostEntities;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void add(D hostEntityDefinition) {
 		add(hostEntityDefinition.getHostEntityName(), hostEntityDefinition.getHostEntityClass());
 		addToTypes(hostEntityDefinition.getType(), hostEntityDefinition.getHostEntityClass());
@@ -78,7 +79,7 @@ public abstract class SimpleHostEntitiesRegistry<D extends HostEntityDefinition>
 		return entitiesByTypes.get(hostEntityType);
 	}
 
-	public D findFirstEntityDefinitionByType(Class<? extends HostEntityType> hostEntityType) {
+	public D findFirstEntityDefinitionByType(Class<? extends HostEntityType> hostEntityType) throws RegistryException {
 		List<Class<?>> matchingTypes = getByType(hostEntityType);
 
 		if (matchingTypes.size() == 0) {
