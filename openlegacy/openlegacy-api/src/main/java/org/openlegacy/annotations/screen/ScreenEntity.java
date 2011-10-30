@@ -1,5 +1,7 @@
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.HostEntityType;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,4 +30,6 @@ public @interface ScreenEntity {
 	boolean lightWeight() default false;
 
 	Identifier[] identifiers() default {};
+
+	Class<? extends HostEntityType> screenType() default HostEntityType.General.class;
 }

@@ -29,13 +29,30 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	private TerminalConnection terminalConnection;
 
-	public <T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException {
-		TerminalScreen hostScreen = getSnapshot();
+	private Object entity;
 
-		return screenEntityBinder.buildScreenEntity(hostEntity, hostScreen);
+	@SuppressWarnings("unchecked")
+	public <T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException {
+
+		// check if the entity matched the cached entity
+		if (entity == null || entity.getClass() != hostEntity) {
+			TerminalScreen hostScreen = getSnapshot();
+			entity = screenEntityBinder.buildScreenEntity(hostEntity, hostScreen);
+		}
+		return (T)entity;
+	}
+
+	public Object getEntity() {
+		if (entity == null) {
+			TerminalScreen hostScreen = getSnapshot();
+			entity = screenEntityBinder.buildScreenEntity(hostScreen);
+		}
+		return entity;
 	}
 
 	public TerminalSession doAction(HostAction hostAction, Object screenEntityInstance) {
+
+		entity = null;
 
 		Map<ScreenPosition, String> fieldValues = screenEntityBinder.buildSendFields(getSnapshot(), screenEntityInstance);
 

@@ -1,5 +1,7 @@
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.FieldType;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,4 +28,7 @@ public @interface FieldMapping {
 	boolean editable() default false;
 
 	int length() default 0;
+
+	Class<? extends FieldType> fieldType() default FieldType.General.class;
+
 }

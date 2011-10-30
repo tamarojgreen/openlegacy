@@ -1,5 +1,7 @@
 package org.openlegacy.utils;
 
+import net.sf.cglib.proxy.Enhancer;
+
 import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.framework.Advised;
 
@@ -13,11 +15,18 @@ public class ProxyUtil {
 		return (T)proxy;
 	}
 
-	public static Class<?> getRealClass(Object object) {
+	public static Class<?> getObjectRealClass(Object object) {
 		if (object instanceof TargetClassAware) {
 			return ((TargetClassAware)object).getTargetClass();
 		} else {
 			return object.getClass();
 		}
+	}
+
+	public static Class<?> getOriginalClass(Class<?> entityClass) {
+		if (Enhancer.isEnhanced(entityClass)) {
+			entityClass = entityClass.getSuperclass();
+		}
+		return entityClass;
 	}
 }

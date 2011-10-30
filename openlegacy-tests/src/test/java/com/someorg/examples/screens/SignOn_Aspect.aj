@@ -24,6 +24,8 @@ privileged aspect SignOn_Aspect {
     private ScreenPosition SignOn.cursorPosition;
     
 	
+    private TerminalField SignOn.errorField;
+	
     private TerminalField SignOn.passwordField;
 	
     private TerminalField SignOn.userField;
@@ -32,10 +34,21 @@ privileged aspect SignOn_Aspect {
 		return terminalScreen;
     }
 
+    public String SignOn.getError(){
+    	return this.error;
+    }
+    
+
+    public TerminalField SignOn.getErrorField(){
+    	return errorField;
+    }
     public String SignOn.getPassword(){
     	return this.password;
     }
     
+    public void SignOn.setPassword(String password){
+    	this.password = password;
+    }
 
     public TerminalField SignOn.getPasswordField(){
     	return passwordField;
@@ -44,6 +57,9 @@ privileged aspect SignOn_Aspect {
     	return this.user;
     }
     
+    public void SignOn.setUser(String user){
+    	this.user = user;
+    }
 
     public TerminalField SignOn.getUserField(){
     	return userField;

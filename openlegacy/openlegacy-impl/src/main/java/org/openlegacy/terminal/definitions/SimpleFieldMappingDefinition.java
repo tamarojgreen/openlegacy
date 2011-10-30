@@ -1,19 +1,21 @@
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.AbstractFieldDefinition;
+import org.openlegacy.FieldType;
 import org.openlegacy.terminal.ScreenPosition;
 
 /**
  * Defines a mapping between a screenEntity java field name and it's screen position and length
  * 
  */
-public class SimpleFieldMappingDefinition implements FieldMappingDefinition {
+public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<FieldMappingDefinition> implements FieldMappingDefinition {
 
-	private final String name;
 	private final ScreenPosition screenPosition;
 	private final int length;
 
-	public SimpleFieldMappingDefinition(String name, ScreenPosition screenPosition, int length) {
-		this.name = name;
+	public SimpleFieldMappingDefinition(String name, Class<? extends FieldType> fieldType, ScreenPosition screenPosition,
+			int length) {
+		super(name, fieldType);
 		this.screenPosition = screenPosition;
 		this.length = length;
 	}
@@ -24,9 +26,5 @@ public class SimpleFieldMappingDefinition implements FieldMappingDefinition {
 
 	public int getLength() {
 		return length;
-	}
-
-	public String getName() {
-		return name;
 	}
 }

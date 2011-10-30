@@ -61,14 +61,24 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 
 	private static final String TERMINAL_SCREEN = "terminalScreen";
 
+	@SuppressWarnings("unchecked")
 	public <T> T buildScreenEntity(Class<T> screenEntity, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
 			HostEntityNotAccessibleException {
 
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
 		ScreenSyncValidator.validateCurrentScreen(screenEntity, matchedScreenEntity);
 
+		return (T)buildScreenEntityInner(matchedScreenEntity, terminalScreen);
+	}
+
+	public Object buildScreenEntity(TerminalScreen terminalScreen) {
+		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
+		return buildScreenEntityInner(matchedScreenEntity, terminalScreen);
+	}
+
+	private Object buildScreenEntityInner(Class<?> screenEntity, TerminalScreen terminalScreen) {
 		try {
-			T screenEntityInstance = applicationContext.getBean(screenEntity);
+			Object screenEntityInstance = applicationContext.getBean(screenEntity);
 
 			Object realScreenEntityInstance = ProxyUtil.getTargetObject(screenEntityInstance, screenEntity);
 
@@ -82,6 +92,7 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 		} catch (Exception e) {
 			throw (new IllegalArgumentException(e));
 		}
+
 	}
 
 	private static <T> void injectTerminalScreen(T screenEntityInstance, TerminalScreen hostScreen) throws Exception {

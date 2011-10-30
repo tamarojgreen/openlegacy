@@ -72,7 +72,7 @@ public class ChildScreenEntityAspect {
 
 		Object target = ProxyUtil.getTargetObject(joinPoint.getTarget(), returnType);
 
-		Class<?> targetClass = ProxyUtil.getRealClass(target);
+		Class<?> targetClass = ProxyUtil.getObjectRealClass(target);
 
 		Field declaredField = targetClass.getDeclaredField(fieldName);
 		if (declaredField == null) {

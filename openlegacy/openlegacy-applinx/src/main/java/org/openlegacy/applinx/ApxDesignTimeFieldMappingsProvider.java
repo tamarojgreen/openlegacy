@@ -8,6 +8,7 @@ import com.sabratec.applinx.common.designtime.model.entity.screen.GXAbstractFiel
 import com.sabratec.applinx.common.designtime.model.entity.screen.GXSingleScreenEntity;
 import com.sabratec.applinx.common.designtime.model.entity.type.GXSingleScreenType;
 
+import org.openlegacy.FieldType;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
@@ -46,7 +47,8 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefiniti
 					GXScreenAreaPosition positionArea = (GXScreenAreaPosition)apxFieldMapping.getArea();
 					ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(positionArea.getStartPosition());
 					FieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(
-							apxFieldMapping.getField().getName(), screenPosition, apxFieldMapping.getLength());
+							apxFieldMapping.getField().getName(), FieldType.General.class, screenPosition,
+							apxFieldMapping.getLength());
 					fieldMappingDefinitions.add(fieldMappingDefinition);
 				} else {
 					throw (new UnsupportedOperationException(

@@ -61,7 +61,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 		String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : screenEntityClass.getSimpleName();
 		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenName, screenEntityClass);
 		screenEntityDefinition.setName(screenName);
-
+		screenEntityDefinition.setType(screenEntity.screenType());
 		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
 				screenEntityClass.getName()));
 		addIdentifiers(screenEntityDefinition, screenEntity);
@@ -100,7 +100,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
 				if (field.isAnnotationPresent(FieldMapping.class)) {
-					screenEntityDefinition.getFieldMappingDefinitions().put(field.getName(), extractFieldMappingDefinition(field));
+					screenEntityDefinition.getFieldDefinitions().put(field.getName(), extractFieldMappingDefinition(field));
 				}
 			}
 		});
@@ -110,8 +110,8 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 	private static FieldMappingDefinition extractFieldMappingDefinition(Field field) {
 		FieldMapping fieldAnnotation = field.getAnnotation(FieldMapping.class);
 
-		return new SimpleFieldMappingDefinition(field.getName(), SimpleScreenPosition.newInstance(fieldAnnotation.row(),
-				fieldAnnotation.column()), fieldAnnotation.length());
+		return new SimpleFieldMappingDefinition(field.getName(), fieldAnnotation.fieldType(), SimpleScreenPosition.newInstance(
+				fieldAnnotation.row(), fieldAnnotation.column()), fieldAnnotation.length());
 
 	}
 
