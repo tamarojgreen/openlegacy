@@ -8,8 +8,7 @@ import java.util.List;
  * A common interface for defining a registry for host entity, and retrieving an entity class by name
  * 
  */
-@SuppressWarnings("rawtypes")
-public interface HostEntitiesRegistry<D extends HostEntityDefinition> {
+public interface HostEntitiesRegistry<H extends HostEntityDefinition<D>, D extends FieldDefinition> {
 
 	Class<?> getEntityClass(String entityName);
 
@@ -17,11 +16,11 @@ public interface HostEntitiesRegistry<D extends HostEntityDefinition> {
 
 	List<Class<?>> getByType(Class<? extends HostEntityType> hostEntityType);
 
-	D getFirstEntityDefinition(Class<? extends HostEntityType> hostEntityType) throws RegistryException;
+	H getFirstEntityDefinition(Class<? extends HostEntityType> hostEntityType) throws RegistryException;
 
 	List<Class<?>> getAll();
 
-	void add(D entityDefinition);
+	void add(H entityDefinition);
 
-	D get(Class<?> entityClass);
+	H get(Class<?> entityClass);
 }

@@ -1,6 +1,7 @@
 package org.openlegacy.support;
 
 import org.apache.commons.collections.map.CaseInsensitiveMap;
+import org.openlegacy.FieldDefinition;
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.HostEntityDefinition;
 import org.openlegacy.HostEntityType;
@@ -17,9 +18,9 @@ import java.util.Map;
  * A simple implementation for host entities registry
  * 
  */
-public abstract class SimpleHostEntitiesRegistry<D extends HostEntityDefinition> implements HostEntitiesRegistry<D> {
+public abstract class SimpleHostEntitiesRegistry<H extends HostEntityDefinition<D>, D extends FieldDefinition> implements HostEntitiesRegistry<H, D> {
 
-	private final Map<Class<?>, D> entitiesDefinitions = new HashMap<Class<?>, D>();
+	private final Map<Class<?>, H> entitiesDefinitions = new HashMap<Class<?>, H>();
 
 	@SuppressWarnings("unchecked")
 	private Map<String, Class<?>> hostEntities = new CaseInsensitiveMap();
@@ -59,19 +60,18 @@ public abstract class SimpleHostEntitiesRegistry<D extends HostEntityDefinition>
 		return hostEntities;
 	}
 
-	@SuppressWarnings("unchecked")
-	public void add(D hostEntityDefinition) {
+	public void add(H hostEntityDefinition) {
 		add(hostEntityDefinition.getEntityName(), hostEntityDefinition.getEntityClass());
 		addToTypes(hostEntityDefinition.getType(), hostEntityDefinition.getEntityClass());
 		getEntitiesDefinitions().put(hostEntityDefinition.getEntityClass(), hostEntityDefinition);
 	}
 
-	public D get(Class<?> entityClass) {
+	public H get(Class<?> entityClass) {
 		entityClass = ProxyUtil.getOriginalClass(entityClass);
 		return getEntitiesDefinitions().get(entityClass);
 	}
 
-	public Map<Class<?>, D> getEntitiesDefinitions() {
+	public Map<Class<?>, H> getEntitiesDefinitions() {
 		return entitiesDefinitions;
 	}
 
@@ -79,7 +79,7 @@ public abstract class SimpleHostEntitiesRegistry<D extends HostEntityDefinition>
 		return entitiesByTypes.get(hostEntityType);
 	}
 
-	public D getFirstEntityDefinition(Class<? extends HostEntityType> hostEntityType) throws RegistryException {
+	public H getFirstEntityDefinition(Class<? extends HostEntityType> hostEntityType) throws RegistryException {
 		List<Class<?>> matchingTypes = getByType(hostEntityType);
 
 		if (matchingTypes.size() == 0) {
