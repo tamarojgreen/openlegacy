@@ -5,10 +5,10 @@ import com.sabratec.applinx.baseobject.GXIFieldCollection;
 import com.sabratec.applinx.baseobject.GXIScreen;
 
 import org.openlegacy.exceptions.OpenLegacyException;
-import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;

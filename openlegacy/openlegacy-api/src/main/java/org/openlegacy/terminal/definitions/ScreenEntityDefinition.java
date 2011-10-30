@@ -1,4 +1,4 @@
-package org.openlegacy.terminal;
+package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.HostEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;

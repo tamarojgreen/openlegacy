@@ -2,8 +2,8 @@ package org.openlegacy.recognizers;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.terminal.ScreenEntityDefinition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.support.SimpleScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;

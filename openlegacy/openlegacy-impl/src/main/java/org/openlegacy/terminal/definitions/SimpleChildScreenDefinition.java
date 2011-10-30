@@ -2,7 +2,6 @@ package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.FetchMode;
 import org.openlegacy.HostAction;
-import org.openlegacy.terminal.ChildScreenDefinition;
 
 public class SimpleChildScreenDefinition implements ChildScreenDefinition {
 

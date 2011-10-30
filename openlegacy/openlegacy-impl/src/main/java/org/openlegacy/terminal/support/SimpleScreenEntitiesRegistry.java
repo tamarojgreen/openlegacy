@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.support.SimpleHostEntitiesRegistry;
-import org.openlegacy.terminal.ScreenEntityDefinition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 

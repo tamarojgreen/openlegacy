@@ -9,10 +9,10 @@ import com.sabratec.applinx.common.designtime.model.entity.screen.GXSingleScreen
 import com.sabratec.applinx.common.designtime.model.entity.type.GXSingleScreenType;
 
 import org.openlegacy.exceptions.OpenLegacyProviderException;
-import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,8 +2,8 @@ package org.openlegacy.terminal.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.terminal.ChildScreenDefinition;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 
 import java.lang.reflect.Field;
 import java.text.MessageFormat;

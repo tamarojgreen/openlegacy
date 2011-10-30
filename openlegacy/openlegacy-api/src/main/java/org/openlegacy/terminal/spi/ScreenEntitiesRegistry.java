@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.spi;
 
 import org.openlegacy.HostEntitiesRegistry;
-import org.openlegacy.terminal.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 /**
  * Define a registry spi for screen related entities registration

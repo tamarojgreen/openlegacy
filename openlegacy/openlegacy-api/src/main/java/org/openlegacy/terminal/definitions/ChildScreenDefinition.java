@@ -1,4 +1,4 @@
-package org.openlegacy.terminal;
+package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.FetchMode;
 import org.openlegacy.HostAction;

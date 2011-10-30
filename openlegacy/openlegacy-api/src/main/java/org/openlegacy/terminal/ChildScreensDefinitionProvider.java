@@ -1,5 +1,7 @@
 package org.openlegacy.terminal;
 
+import org.openlegacy.terminal.definitions.ChildScreenDefinition;
+
 import java.util.Collection;
 
 /**

@@ -1,9 +1,9 @@
 package org.openlegacy.terminal.support.providers;
 
-import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
-import org.openlegacy.terminal.ScreenEntityDefinition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.support.SimpleScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 

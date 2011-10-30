@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.support.providers;
 
-import org.openlegacy.terminal.ChildScreenDefinition;
 import org.openlegacy.terminal.ChildScreensDefinitionProvider;
-import org.openlegacy.terminal.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ChildScreenDefinition;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.support.SimpleScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 

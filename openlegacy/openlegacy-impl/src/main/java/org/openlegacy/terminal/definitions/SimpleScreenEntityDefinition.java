@@ -1,9 +1,6 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.SimpleHostEntityDefinition;
-import org.openlegacy.terminal.ChildScreenDefinition;
-import org.openlegacy.terminal.FieldMappingDefinition;
-import org.openlegacy.terminal.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 
 import java.util.HashMap;
