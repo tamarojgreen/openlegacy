@@ -1,14 +1,14 @@
 package org.openlegacy.terminal.modules.trail;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.openlegacy.modules.trail.SessionTrail;
+import org.openlegacy.modules.trail.TrailStage;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.ScreenPositionBean;
-import org.openlegacy.trail.SessionTrail;
-import org.openlegacy.trail.TrailStage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

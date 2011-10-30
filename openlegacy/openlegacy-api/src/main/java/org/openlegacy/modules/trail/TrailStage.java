@@ -1,4 +1,4 @@
-package org.openlegacy.trail;
+package org.openlegacy.modules.trail;
 
 public interface TrailStage {
 

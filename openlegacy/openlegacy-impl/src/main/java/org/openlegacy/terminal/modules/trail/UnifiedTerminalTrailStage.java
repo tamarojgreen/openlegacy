@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.modules.trail;
 
-import org.openlegacy.trail.TrailStage;
+import org.openlegacy.modules.trail.TrailStage;
 
 import java.util.ArrayList;
 import java.util.List;

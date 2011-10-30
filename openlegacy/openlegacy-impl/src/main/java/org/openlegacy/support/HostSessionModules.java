@@ -1,6 +1,6 @@
 package org.openlegacy.support;
 
-import org.openlegacy.HostSessionModule;
+import org.openlegacy.modules.HostSessionModule;
 
 import java.util.List;
 

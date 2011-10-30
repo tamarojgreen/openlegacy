@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.HostAction;
-import org.openlegacy.HostSessionModule;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.modules.HostSessionModule;
 import org.openlegacy.support.AbstractHostSession;
 import org.openlegacy.terminal.CursorContainer;
 import org.openlegacy.terminal.ScreenPosition;

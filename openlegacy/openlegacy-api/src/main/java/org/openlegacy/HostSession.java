@@ -1,6 +1,7 @@
 package org.openlegacy;
 
 import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.modules.HostSessionModule;
 
 /**
  * A common interface for a host session

@@ -1,6 +1,6 @@
 package org.openlegacy.terminal;
 
-import org.openlegacy.HostSessionModule;
+import org.openlegacy.modules.HostSessionModule;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
 public interface TerminalSessionModule extends HostSessionModule {

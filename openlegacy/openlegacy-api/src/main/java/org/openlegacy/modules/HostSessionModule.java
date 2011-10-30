@@ -1,4 +1,4 @@
-package org.openlegacy;
+package org.openlegacy.modules;
 
 /**
  * Define a host session plug-able module into HostSession. Purpose is to allow extending the HostSession functionality with

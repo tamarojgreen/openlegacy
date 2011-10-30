@@ -1,6 +1,6 @@
 package org.openlegacy.support;
 
-import org.openlegacy.HostSessionModule;
+import org.openlegacy.modules.HostSessionModule;
 
 /**
  * Place holder for host session module future override-able methods

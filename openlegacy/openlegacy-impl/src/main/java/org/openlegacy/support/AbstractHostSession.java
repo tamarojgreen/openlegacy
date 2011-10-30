@@ -1,8 +1,8 @@
 package org.openlegacy.support;
 
 import org.openlegacy.HostSession;
-import org.openlegacy.HostSessionModule;
 import org.openlegacy.exceptions.OpenLegacyException;
+import org.openlegacy.modules.HostSessionModule;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -23,7 +23,7 @@ public abstract class AbstractHostSession implements HostSession {
 		}
 		List<? extends HostSessionModule> modules = sessionModules.getModules();
 		for (HostSessionModule registeredModule : modules) {
-			if (registeredModule.getClass() == module) {
+			if (module.isAssignableFrom(registeredModule.getClass())) {
 				return (M)registeredModule;
 			}
 		}

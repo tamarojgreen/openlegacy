@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.modules.trail;
 
-import org.openlegacy.trail.SessionTrail;
-import org.openlegacy.trail.TrailStage;
-import org.openlegacy.trail.TrailWriter;
+import org.openlegacy.modules.trail.SessionTrail;
+import org.openlegacy.modules.trail.TrailStage;
+import org.openlegacy.modules.trail.TrailWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;

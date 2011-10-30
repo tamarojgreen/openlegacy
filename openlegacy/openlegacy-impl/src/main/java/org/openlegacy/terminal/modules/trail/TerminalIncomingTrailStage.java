@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.modules.trail;
 
+import org.openlegacy.modules.trail.TrailStage;
 import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.trail.TrailStage;
 
 public class TerminalIncomingTrailStage implements TrailStage {
 

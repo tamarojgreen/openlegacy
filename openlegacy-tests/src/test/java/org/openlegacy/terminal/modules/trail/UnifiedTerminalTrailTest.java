@@ -3,9 +3,10 @@ package org.openlegacy.terminal.modules.trail;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
+import org.openlegacy.modules.trail.HostSessionTrailModule;
+import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.support.actions.SendKeyActions;
-import org.openlegacy.trail.TrailWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -27,7 +28,7 @@ public class UnifiedTerminalTrailTest extends AbstractTest {
 		terminalSession.doAction(SendKeyActions.ENTER, null);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		trailWriter.write(terminalSession.getModule(SessionTrailModule.class).getSessionTrail(), baos);
+		trailWriter.write(terminalSession.getModule(HostSessionTrailModule.class).getSessionTrail(), baos);
 		System.out.println(new String(baos.toByteArray()));
 	}
 }
