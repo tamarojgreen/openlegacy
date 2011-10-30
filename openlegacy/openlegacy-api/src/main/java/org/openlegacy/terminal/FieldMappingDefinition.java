@@ -4,27 +4,11 @@ package org.openlegacy.terminal;
  * Defines a mapping between a screenEntity java field name and it's screen position and length
  * 
  */
-public class FieldMappingDefinition {
+public interface FieldMappingDefinition {
 
-	private final String name;
-	private final ScreenPosition screenPosition;
-	private final int length;
+	ScreenPosition getScreenPosition();
 
-	public FieldMappingDefinition(String name, ScreenPosition screenPosition, int length) {
-		this.name = name;
-		this.screenPosition = screenPosition;
-		this.length = length;
-	}
+	int getLength();
 
-	public ScreenPosition getScreenPosition() {
-		return screenPosition;
-	}
-
-	public int getLength() {
-		return length;
-	}
-
-	public String getName() {
-		return name;
-	}
+	String getName();
 }

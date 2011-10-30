@@ -11,6 +11,7 @@ import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.ScreenEntityDefinition;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.definitions.SimpleChildScreenDefinition;
+import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
@@ -109,7 +110,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 	private static FieldMappingDefinition extractFieldMappingDefinition(Field field) {
 		FieldMapping fieldAnnotation = field.getAnnotation(FieldMapping.class);
 
-		return new FieldMappingDefinition(field.getName(), SimpleScreenPosition.newInstance(fieldAnnotation.row(),
+		return new SimpleFieldMappingDefinition(field.getName(), SimpleScreenPosition.newInstance(fieldAnnotation.row(),
 				fieldAnnotation.column()), fieldAnnotation.length());
 
 	}

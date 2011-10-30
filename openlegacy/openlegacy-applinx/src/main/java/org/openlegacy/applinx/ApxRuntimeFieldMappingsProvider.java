@@ -9,6 +9,7 @@ import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,7 +40,7 @@ public class ApxRuntimeFieldMappingsProvider implements FieldMappingsDefinitionP
 			GXIField apxField = apxApplicationFields.getFieldAt(i);
 
 			ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(apxField.getPosition());
-			fieldMappingDefinitions.add(new FieldMappingDefinition(apxField.getName(), screenPosition, apxField.getLength()));
+			fieldMappingDefinitions.add(new SimpleFieldMappingDefinition(apxField.getName(), screenPosition, apxField.getLength()));
 		}
 		return fieldMappingDefinitions;
 	}

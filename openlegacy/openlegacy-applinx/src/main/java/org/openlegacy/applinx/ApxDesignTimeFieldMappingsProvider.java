@@ -13,6 +13,7 @@ import org.openlegacy.terminal.FieldMappingDefinition;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,7 +45,7 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefiniti
 				if (apxFieldMapping.getArea() instanceof GXScreenAreaPosition) {
 					GXScreenAreaPosition positionArea = (GXScreenAreaPosition)apxFieldMapping.getArea();
 					ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(positionArea.getStartPosition());
-					FieldMappingDefinition fieldMappingDefinition = new FieldMappingDefinition(
+					FieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(
 							apxFieldMapping.getField().getName(), screenPosition, apxFieldMapping.getLength());
 					fieldMappingDefinitions.add(fieldMappingDefinition);
 				} else {
