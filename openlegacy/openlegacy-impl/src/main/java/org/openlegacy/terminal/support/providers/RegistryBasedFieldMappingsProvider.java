@@ -20,6 +20,6 @@ public class RegistryBasedFieldMappingsProvider implements FieldMappingsDefiniti
 
 	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);
-		return screenEntityDefinition.getFieldDefinitions().values();
+		return screenEntityDefinition.getFieldsDefinitions().values();
 	}
 }

@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public abstract class SimpleHostEntitiesRegistry<D extends HostEntityDefinition> implements HostEntitiesRegistry<D> {
 
-	private final Map<Class<?>, D> entityDefinitions = new HashMap<Class<?>, D>();
+	private final Map<Class<?>, D> entitiesDefinitions = new HashMap<Class<?>, D>();
 
 	@SuppressWarnings("unchecked")
 	private Map<String, Class<?>> hostEntities = new CaseInsensitiveMap();
@@ -61,25 +61,25 @@ public abstract class SimpleHostEntitiesRegistry<D extends HostEntityDefinition>
 
 	@SuppressWarnings("unchecked")
 	public void add(D hostEntityDefinition) {
-		add(hostEntityDefinition.getHostEntityName(), hostEntityDefinition.getHostEntityClass());
-		addToTypes(hostEntityDefinition.getType(), hostEntityDefinition.getHostEntityClass());
-		getEntityDefinitions().put(hostEntityDefinition.getHostEntityClass(), hostEntityDefinition);
+		add(hostEntityDefinition.getEntityName(), hostEntityDefinition.getEntityClass());
+		addToTypes(hostEntityDefinition.getType(), hostEntityDefinition.getEntityClass());
+		getEntitiesDefinitions().put(hostEntityDefinition.getEntityClass(), hostEntityDefinition);
 	}
 
 	public D get(Class<?> entityClass) {
 		entityClass = ProxyUtil.getOriginalClass(entityClass);
-		return getEntityDefinitions().get(entityClass);
+		return getEntitiesDefinitions().get(entityClass);
 	}
 
-	public Map<Class<?>, D> getEntityDefinitions() {
-		return entityDefinitions;
+	public Map<Class<?>, D> getEntitiesDefinitions() {
+		return entitiesDefinitions;
 	}
 
 	public List<Class<?>> getByType(Class<? extends HostEntityType> hostEntityType) {
 		return entitiesByTypes.get(hostEntityType);
 	}
 
-	public D findFirstEntityDefinitionByType(Class<? extends HostEntityType> hostEntityType) throws RegistryException {
+	public D getFirstEntityDefinition(Class<? extends HostEntityType> hostEntityType) throws RegistryException {
 		List<Class<?>> matchingTypes = getByType(hostEntityType);
 
 		if (matchingTypes.size() == 0) {

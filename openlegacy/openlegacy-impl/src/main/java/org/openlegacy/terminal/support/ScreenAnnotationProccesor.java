@@ -47,9 +47,9 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 				BeanDefinition bean = beanFactory.getBeanDefinition(beanName);
 				Class<?> beanClass = Class.forName(bean.getBeanClassName());
 
-				ScreenEntity screenEntity = AnnotationUtils.findAnnotation(beanClass, ScreenEntity.class);
-				if (screenEntity != null) {
-					processScreenEntity(beanClass, screenEntity);
+				ScreenEntity screenEntityAnnotation = AnnotationUtils.findAnnotation(beanClass, ScreenEntity.class);
+				if (screenEntityAnnotation != null) {
+					processScreenEntity(beanClass, screenEntityAnnotation);
 				}
 			} catch (ClassNotFoundException e) {
 				throw (new BeanCreationException(e.getMessage(), e));
@@ -84,23 +84,23 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
 				if (logger.isDebugEnabled()) {
 					logger.debug(MessageFormat.format("Identifier {0} - \"{1}\" was added to the registry for screen {2}",
-							position, text, screenEntityDefinition.getHostEntityClass()));
+							position, text, screenEntityDefinition.getEntityClass()));
 				}
 
 			}
 			screenEntityDefinition.setScreenIdentification(screenIdentification);
 			logger.info(MessageFormat.format("Screen identifications for \"{0}\" was added to the screen registry",
-					screenEntityDefinition.getHostEntityClass()));
+					screenEntityDefinition.getEntityClass()));
 		}
 	}
 
 	private static void addFieldMappingDefinitions(final ScreenEntityDefinition screenEntityDefinition, ScreenEntity hostEntity) {
-		ReflectionUtils.doWithFields(screenEntityDefinition.getHostEntityClass(), new FieldCallback() {
+		ReflectionUtils.doWithFields(screenEntityDefinition.getEntityClass(), new FieldCallback() {
 
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
 				if (field.isAnnotationPresent(FieldMapping.class)) {
-					screenEntityDefinition.getFieldDefinitions().put(field.getName(), extractFieldMappingDefinition(field));
+					screenEntityDefinition.getFieldsDefinitions().put(field.getName(), extractFieldMappingDefinition(field));
 				}
 			}
 		});
@@ -117,7 +117,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
 	private static void addChildScreenDefinitions(final SimpleScreenEntityDefinition screenEntityDefinition,
 			ScreenEntity screenEntity) {
-		ReflectionUtils.doWithFields(screenEntityDefinition.getHostEntityClass(), new FieldCallback() {
+		ReflectionUtils.doWithFields(screenEntityDefinition.getEntityClass(), new FieldCallback() {
 
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 

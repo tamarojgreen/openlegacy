@@ -9,6 +9,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.support.actions.SendKeyActions;
+import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,17 +34,18 @@ public class LoginModuleImpl extends TerminalSessionModuleAdapter implements Log
 
 	}
 
-	public void login(Object loginEntityInstance) throws LoginException, RegistryException {
+	public void login(Object loginEntity) throws LoginException, RegistryException {
 
-		Class<?> registryLoginClass = loginScreenDefinition.getHostEntityClass();
-		if (loginEntityInstance.getClass().isAssignableFrom(registryLoginClass)) {
-			throw (new RegistryException("Login entity instance " + loginEntityInstance.getClass()
-					+ " doesn't match registry login screen" + registryLoginClass));
+		Class<?> registryLoginClass = loginScreenDefinition.getEntityClass();
+		if (loginEntity.getClass().isAssignableFrom(registryLoginClass)) {
+			throw (new RegistryException("Login entity " + loginEntity.getClass() + " doesn't match registry login screen"
+					+ registryLoginClass));
 		}
-		getTerminalSession().doAction(hostAction, loginEntityInstance);
+		getTerminalSession().doAction(hostAction, loginEntity);
 
+		ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(loginEntity);
 		if (getTerminalSession().getEntity() instanceof LoginScreen) {
-			Object value = loginScreenDefinition.getFieldValue(loginEntityInstance, errorField);
+			Object value = fieldAccessor.getFieldValue(errorField.getName());
 			throw (new LoginException(value.toString()));
 		}
 		loggedIn = true;
@@ -51,13 +53,13 @@ public class LoginModuleImpl extends TerminalSessionModuleAdapter implements Log
 
 	private void initMetadata() {
 
-		loginScreenDefinition = screenEntitiesRegistry.findFirstEntityDefinitionByType(Login.LoginScreen.class);
+		loginScreenDefinition = screenEntitiesRegistry.getFirstEntityDefinition(Login.LoginScreen.class);
 
-		userField = loginScreenDefinition.findFirstFieldDefinitionByType(Login.UserField.class);
-		passwordField = loginScreenDefinition.findFirstFieldDefinitionByType(Login.PasswordField.class);
-		errorField = loginScreenDefinition.findFirstFieldDefinitionByType(Login.ErrorField.class);
+		userField = loginScreenDefinition.getFirstFieldDefinition(Login.UserField.class);
+		passwordField = loginScreenDefinition.getFirstFieldDefinition(Login.PasswordField.class);
+		errorField = loginScreenDefinition.getFirstFieldDefinition(Login.ErrorField.class);
 
-		Class<?> hostEntityClass = loginScreenDefinition.getHostEntityClass();
+		Class<?> hostEntityClass = loginScreenDefinition.getEntityClass();
 		if (userField == null) {
 			throw (new RegistryException("User field not defined in " + hostEntityClass));
 		}

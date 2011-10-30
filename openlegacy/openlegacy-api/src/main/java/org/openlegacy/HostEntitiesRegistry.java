@@ -17,7 +17,7 @@ public interface HostEntitiesRegistry<D extends HostEntityDefinition> {
 
 	List<Class<?>> getByType(Class<? extends HostEntityType> hostEntityType);
 
-	D findFirstEntityDefinitionByType(Class<? extends HostEntityType> hostEntityType) throws RegistryException;
+	D getFirstEntityDefinition(Class<? extends HostEntityType> hostEntityType) throws RegistryException;
 
 	List<Class<?>> getAll();
 

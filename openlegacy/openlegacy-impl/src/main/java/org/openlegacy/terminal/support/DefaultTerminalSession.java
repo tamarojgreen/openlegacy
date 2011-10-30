@@ -50,15 +50,15 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		return entity;
 	}
 
-	public TerminalSession doAction(HostAction hostAction, Object screenEntityInstance) {
+	public TerminalSession doAction(HostAction hostAction, Object screenEntity) {
 
 		entity = null;
 
-		Map<ScreenPosition, String> fieldValues = screenEntityBinder.buildSendFields(getSnapshot(), screenEntityInstance);
+		Map<ScreenPosition, String> fieldValues = screenEntityBinder.buildSendFields(getSnapshot(), screenEntity);
 
 		ScreenPosition cursorPosition = null;
-		if (screenEntityInstance instanceof CursorContainer) {
-			cursorPosition = ((CursorContainer)screenEntityInstance).getCursorPosition();
+		if (screenEntity instanceof CursorContainer) {
+			cursorPosition = ((CursorContainer)screenEntity).getCursorPosition();
 		}
 		TerminalSendAction terminalSendAction = new SimpleTerminalSendAction(fieldValues, hostAction, cursorPosition);
 

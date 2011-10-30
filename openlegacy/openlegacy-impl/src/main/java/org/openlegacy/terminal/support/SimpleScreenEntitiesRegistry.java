@@ -15,7 +15,7 @@ import java.util.Collection;
 public class SimpleScreenEntitiesRegistry extends SimpleHostEntitiesRegistry<ScreenEntityDefinition> implements ScreenEntitiesRegistry {
 
 	public ScreenEntityDefinition match(TerminalScreen hostScreen) {
-		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntityDefinitions().values();
+		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();
 		for (ScreenEntityDefinition screenDefinition : screenDefinitionsValues) {
 			ScreenIdentification screenIdentification = screenDefinition.getScreenIdentification();
 			if (screenIdentification != null && screenIdentification.match(hostScreen)) {

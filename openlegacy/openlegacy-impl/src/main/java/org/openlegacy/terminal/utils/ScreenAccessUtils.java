@@ -7,19 +7,19 @@ import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 
 import java.text.MessageFormat;
 
-public class ScreenBindUtil {
+public class ScreenAccessUtils {
 
-	private final static Log logger = LogFactory.getLog(ScreenBindUtil.class);
+	private final static Log logger = LogFactory.getLog(ScreenAccessUtils.class);
 
 	public static Object getChildScreen(TerminalSession terminalSession, Class<?> screenEnity,
 			ChildScreenDefinition childScreenDefinition) throws InstantiationException, IllegalAccessException {
 
 		terminalSession.doAction(childScreenDefinition.getStepInto().newInstance(), null);
-		Object returnTypeInstance = terminalSession.getEntity(screenEnity);
+		Object childEntity = terminalSession.getEntity(screenEnity);
 
 		logger.info(MessageFormat.format("Collected child screen for class {1}", childScreenDefinition.getFieldName(),
 				screenEnity));
 
-		return returnTypeInstance;
+		return childEntity;
 	}
 }

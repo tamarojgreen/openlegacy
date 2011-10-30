@@ -4,9 +4,9 @@ import java.util.Map;
 
 public interface HostEntityDefinition<D extends FieldDefinition> {
 
-	String getHostEntityName();
+	String getEntityName();
 
-	Class<?> getHostEntityClass();
+	Class<?> getEntityClass();
 
 	Class<? extends HostEntityType> getType();
 
@@ -15,9 +15,8 @@ public interface HostEntityDefinition<D extends FieldDefinition> {
 	 * 
 	 * @return
 	 */
-	Map<String, D> getFieldDefinitions();
+	Map<String, D> getFieldsDefinitions();
 
-	D findFirstFieldDefinitionByType(Class<? extends FieldType> fieldType);
+	D getFirstFieldDefinition(Class<? extends FieldType> fieldType);
 
-	Object getFieldValue(Object entityInstance, FieldDefinition fieldDefinition);
 }

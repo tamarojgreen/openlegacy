@@ -1,9 +1,7 @@
 package org.openlegacy;
 
-import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.exceptions.RegistryException;
 
-import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,7 +21,7 @@ public abstract class SimpleHostEntityDefinition<F extends FieldDefinition> impl
 		this.hostEntityClass = screenEntityClass;
 	}
 
-	public String getHostEntityName() {
+	public String getEntityName() {
 		return hostEntityName;
 	}
 
@@ -31,11 +29,11 @@ public abstract class SimpleHostEntityDefinition<F extends FieldDefinition> impl
 		this.hostEntityName = hostEntityName;
 	}
 
-	public Class<?> getHostEntityClass() {
+	public Class<?> getEntityClass() {
 		return hostEntityClass;
 	}
 
-	public Map<String, F> getFieldDefinitions() {
+	public Map<String, F> getFieldsDefinitions() {
 		return fieldDefinitions;
 	}
 
@@ -52,31 +50,19 @@ public abstract class SimpleHostEntityDefinition<F extends FieldDefinition> impl
 	}
 
 	@SuppressWarnings("unchecked")
-	public F findFirstFieldDefinitionByType(Class<? extends FieldType> fieldType) {
+	public F getFirstFieldDefinition(Class<? extends FieldType> fieldType) {
 		Collection<? extends FieldDefinition> fieldValues = fieldDefinitions.values();
 		FieldDefinition matchedFieldDefinition = null;
 		for (FieldDefinition fieldDefinition : fieldValues) {
 			if (fieldDefinition.getType() == fieldType) {
 				if (matchedFieldDefinition != null) {
 					throw (new RegistryException(MessageFormat.format("Found 2 field of type{0}in class {1}", fieldType,
-							getHostEntityClass())));
+							getEntityClass())));
 				}
 				matchedFieldDefinition = fieldDefinition;
 			}
 		}
 		return (F)matchedFieldDefinition;
-	}
-
-	public Object getFieldValue(Object entityInstance, FieldDefinition fieldDefinition) {
-		try {
-			Field field = entityInstance.getClass().getDeclaredField(fieldDefinition.getName());
-			field.setAccessible(true);
-			Object value = field.get(entityInstance);
-			return value;
-		} catch (Exception e) {
-			throw (new OpenLegacyException(e));
-		}
-
 	}
 
 }

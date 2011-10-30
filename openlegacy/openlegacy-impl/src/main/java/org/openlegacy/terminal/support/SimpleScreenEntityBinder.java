@@ -16,7 +16,7 @@ import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.openlegacy.terminal.utils.ScreenBindUtil;
+import org.openlegacy.terminal.utils.ScreenAccessUtils;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.terminal.utils.ScreenSyncValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,19 +73,19 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 		return buildScreenEntityInner(matchedScreenEntity, terminalScreen);
 	}
 
-	private Object buildScreenEntityInner(Class<?> screenEntity, TerminalScreen terminalScreen) {
+	private Object buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen) {
 		try {
-			Object screenEntityInstance = applicationContext.getBean(screenEntity);
+			Object screenEntity = applicationContext.getBean(screenEntityClass);
 
-			ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntityInstance);
+			ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
 
 			fieldAccessor.setFieldValue(TERMINAL_SCREEN, terminalScreen);
 
-			injectFields(fieldAccessor, screenEntity, terminalScreen);
+			injectFields(fieldAccessor, screenEntityClass, terminalScreen);
 
-			injectChildScreens(fieldAccessor, screenEntity, terminalScreen);
+			injectChildScreens(fieldAccessor, screenEntityClass, terminalScreen);
 
-			return screenEntityInstance;
+			return screenEntity;
 		} catch (Exception e) {
 			throw (new IllegalArgumentException(e));
 		}
@@ -127,22 +127,22 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 			String fieldName = childScreenDefinition.getFieldName();
 
 			Class<?> fieldType = fieldAccessor.getFieldType(fieldName);
-			Object childScreen = ScreenBindUtil.getChildScreen(terminalSession, fieldType, childScreenDefinition);
+			Object childScreen = ScreenAccessUtils.getChildScreen(terminalSession, fieldType, childScreenDefinition);
 
 			fieldAccessor.setFieldValue(fieldName, childScreen);
 		}
 
 	}
 
-	public Map<ScreenPosition, String> buildSendFields(TerminalScreen terminalScreen, Object screenEntityInstance) {
+	public Map<ScreenPosition, String> buildSendFields(TerminalScreen terminalScreen, Object screenEntity) {
 		Map<ScreenPosition, String> fieldValues = new HashMap<ScreenPosition, String>();
 
-		if (screenEntityInstance == null) {
+		if (screenEntity == null) {
 			return fieldValues;
 		}
 
 		Collection<FieldMappingDefinition> fieldsInfo = fieldMappingsProvider.getFieldsMappingDefinitions(terminalScreen,
-				screenEntityInstance.getClass());
+				screenEntity.getClass());
 
 		if (fieldsInfo == null) {
 			return fieldValues;
@@ -150,11 +150,11 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 
 		for (FieldMappingDefinition fieldMapping : fieldsInfo) {
 			try {
-				PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(screenEntityInstance, fieldMapping.getName());
+				PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(screenEntity, fieldMapping.getName());
 
 				Method readMethod = descriptor.getReadMethod();
 				if (readMethod != null) {
-					Object value = readMethod.invoke(screenEntityInstance);
+					Object value = readMethod.invoke(screenEntity);
 					ScreenPosition hostScreenPosition = fieldMapping.getScreenPosition();
 
 					if (value != null) {
@@ -162,7 +162,7 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 						if (logger.isDebugEnabled()) {
 							logger.debug(MessageFormat.format(
 									"Field {0} was set with value \"{1}\" to send fields for screenEntity {2}",
-									fieldMapping.getName(), value, screenEntityInstance));
+									fieldMapping.getName(), value, screenEntity));
 						}
 					}
 				}

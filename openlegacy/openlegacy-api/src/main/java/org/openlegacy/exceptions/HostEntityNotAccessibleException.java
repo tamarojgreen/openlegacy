@@ -1,7 +1,7 @@
 package org.openlegacy.exceptions;
 
 /**
- * This exception is typically thrown when open legacy is unable to retrieve a host entity instance
+ * This exception is typically thrown when open legacy is unable to retrieve a host entity
  * 
  */
 public class HostEntityNotAccessibleException extends OpenLegacyException {

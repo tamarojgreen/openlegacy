@@ -9,7 +9,7 @@ import org.openlegacy.StatefullHostSession;
  */
 public interface TerminalSession extends StatefullHostSession<TerminalScreen> {
 
-	TerminalSession doAction(HostAction action, Object screenEntityInstance);
+	TerminalSession doAction(HostAction action, Object screenEntity);
 
 	Object getDelegate();
 

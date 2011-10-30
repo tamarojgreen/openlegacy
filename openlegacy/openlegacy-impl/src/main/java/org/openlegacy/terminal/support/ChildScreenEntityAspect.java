@@ -10,7 +10,7 @@ import org.openlegacy.terminal.ChildScreensDefinitionProvider;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.utils.ScreenBindUtil;
+import org.openlegacy.terminal.utils.ScreenAccessUtils;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
@@ -63,7 +63,7 @@ public class ChildScreenEntityAspect {
 		return joinPoint.proceed();
 	}
 
-	private Object handleChildScreenGetter(ProceedingJoinPoint joinPoint, Class<?> returnType) throws Exception,
+	private Object handleChildScreenGetter(ProceedingJoinPoint joinPoint, Class<?> childClass) throws Exception,
 			NoSuchFieldException, Throwable, IllegalAccessException, InstantiationException {
 
 		String fieldName = joinPoint.getSignature().getName().substring(PropertyUtil.GET.length());
@@ -87,13 +87,13 @@ public class ChildScreenEntityAspect {
 				fieldName);
 
 		if (childScreenDefinition == null) {
-			logger.warn(MessageFormat.format("Child entity definitions not found for {0} in class {1}", returnType, targetClass));
+			logger.warn(MessageFormat.format("Child entity definitions not found for {0} in class {1}", childClass, targetClass));
 			return joinPoint.proceed();
 		}
 
-		Object returnTypeInstance = ScreenBindUtil.getChildScreen(terminalSession, returnType, childScreenDefinition);
-		fieldAccessor.setFieldValue(fieldName, returnTypeInstance);
-		return returnTypeInstance;
+		Object childScreenEntity = ScreenAccessUtils.getChildScreen(terminalSession, childClass, childScreenDefinition);
+		fieldAccessor.setFieldValue(fieldName, childScreenEntity);
+		return childScreenEntity;
 	}
 
 }

@@ -8,16 +8,16 @@ import org.openlegacy.terminal.TerminalScreen;
 import java.util.Map;
 
 /**
- * Define a binder API for building a screenEntity instance from a terminalScreen and collecting fields from a given screenEntity
+ * Define a binder API for building a screen entity from a terminalScreen and collecting fields from a given screenEntity
  * 
  */
 public interface ScreenEntityBinder {
 
 	Object buildScreenEntity(TerminalScreen hostScreen);
 
-	<T> T buildScreenEntity(Class<T> screenEntity, TerminalScreen hostScreen) throws HostEntityNotFoundException,
+	<T> T buildScreenEntity(Class<T> screenEntityClass, TerminalScreen hostScreen) throws HostEntityNotFoundException,
 			HostEntityNotAccessibleException;
 
-	Map<ScreenPosition, String> buildSendFields(TerminalScreen terminalScreen, Object screenEntityInstance);
+	Map<ScreenPosition, String> buildSendFields(TerminalScreen terminalScreen, Object screenEntity);
 
 }

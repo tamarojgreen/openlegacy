@@ -23,7 +23,7 @@ public class RegistryBasedScreensRecognizer implements ScreensRecognizer {
 		ScreenEntityDefinition screenEntityDefinition = screensRegistry.match(terminalScreen);
 		if (screenEntityDefinition != null && logger.isDebugEnabled()) {
 			logger.debug("Screen matched by registry:" + screenEntityDefinition.getClass());
-			return screenEntityDefinition.getHostEntityClass();
+			return screenEntityDefinition.getEntityClass();
 		}
 		return null;
 	}
