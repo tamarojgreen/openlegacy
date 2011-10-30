@@ -3,9 +3,9 @@ package org.openlegacy.designtime.generators;
 import org.openlegacy.annotations.screen.ChildScreenEntity;
 import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.ScreenEntity;
-import org.openlegacy.util.TypesUtil;
 import org.openlegacy.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
+import org.openlegacy.utils.TypesUtil;
 
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.BodyDeclaration;

@@ -2,9 +2,9 @@ package org.openlegacy.applinx;
 
 import com.sabratec.applinx.common.runtime.field.GXIField;
 
-import org.openlegacy.adapter.terminal.SimpleScreenPosition;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.support.SimpleScreenPosition;
 
 public class ApxTerminalField implements TerminalField {
 

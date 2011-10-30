@@ -2,7 +2,7 @@ package org.openlegacy.applinx;
 
 import java.io.IOException;
 
-import org.openlegacy.util.RequestMockUtil;
+import org.openlegacy.utils.RequestMockUtil;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class StartServer {

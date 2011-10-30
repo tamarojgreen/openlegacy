@@ -2,8 +2,8 @@ package org.openlegacy.applinx;
 
 import com.sabratec.util.GXPosition;
 
-import org.openlegacy.adapter.terminal.SimpleScreenPosition;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.support.SimpleScreenPosition;
 
 public class ApxPositionUtil {
 

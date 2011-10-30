@@ -5,10 +5,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.openlegacy.applinx.ApxSuite;
 import org.openlegacy.recognizers.RecognizersSuite;
+import org.openlegacy.terminal.modules.trail.UnifiedTerminalTrailTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SimpleScreenEntityBinderTest.class, RecognizersSuite.class,
-		ApxSuite.class })
+@SuiteClasses({ SimpleScreenEntityBinderTest.class, RecognizersSuite.class, ApxSuite.class, UnifiedTerminalTrailTest.class })
 public class AllTests {
 
 }

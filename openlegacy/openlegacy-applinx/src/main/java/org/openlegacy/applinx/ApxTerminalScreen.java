@@ -4,13 +4,13 @@ import com.sabratec.applinx.common.runtime.GXScreenPosition;
 import com.sabratec.applinx.common.runtime.field.GXIField;
 import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 
-import org.openlegacy.adapter.terminal.ScreenDisplayUtils;
-import org.openlegacy.adapter.terminal.SimpleScreenSize;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.support.SimpleScreenSize;
+import org.openlegacy.terminal.utils.ScreenDisplayUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
