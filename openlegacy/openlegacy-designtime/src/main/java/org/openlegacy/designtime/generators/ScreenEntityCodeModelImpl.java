@@ -30,17 +30,9 @@ import java.util.TreeMap;
 public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 
 	private static final Object SCREEN_ENTITY_ANNOTATION = ScreenEntity.class.getSimpleName();
-
-	private static final String LIGHTWEIGHT = "lightWeight";
-
 	private static final String TRUE = "true";
-
 	private static final String FIELD_SUFFIX = "Field";
-
 	private static final Object FIELD_MAPPING_ANNOTATION = FieldMapping.class.getSimpleName();
-
-	private static final String EDITABLE = "editable";
-
 	private static final Object CHILD_SCREEN_ANNOTATION = ChildScreenEntity.class.getSimpleName();
 
 	private String className;
@@ -48,7 +40,7 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 	private Map<String, Field> fields = new TreeMap<String, Field>();
 
 	private boolean enabled;
-	private boolean lightWeight;
+	private boolean supportTerminalData;
 
 	public ScreenEntityCodeModelImpl(CompilationUnit compilationUnit) {
 
@@ -92,7 +84,7 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 	}
 
 	private static void handleFieldMappingAnnotation(FieldDeclaration fieldDeclaration, AnnotationExpr annotationExpr, Field field) {
-		String annotationValue = JavaParserUtil.findAnnotationAttribute(annotationExpr, EDITABLE);
+		String annotationValue = JavaParserUtil.findAnnotationAttribute(annotationExpr, AnnotationConstants.EDITABLE);
 		if (TRUE.equals(annotationValue)) {
 			field.setEditable(true);
 		}
@@ -147,16 +139,17 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 				enabled = true;
 				if (annotationExpr instanceof NormalAnnotationExpr) {
 					NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
-					String lightWeightString = findAnnotationAttribute(LIGHTWEIGHT, normalAnnotationExpr.getPairs());
-					lightWeight = lightWeightString != null && lightWeightString.equals(TRUE);
+					String supportTerminalDataString = findAnnotationAttribute(AnnotationConstants.SUPPORT_TERMINAL_DATA,
+							normalAnnotationExpr.getPairs());
+					supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(TRUE);
 				}
 			}
 		}
 	}
 
-	private static String findAnnotationAttribute(String lightweight, List<MemberValuePair> pairs) {
+	private static String findAnnotationAttribute(String annotationName, List<MemberValuePair> pairs) {
 		for (MemberValuePair memberValuePair : pairs) {
-			if (memberValuePair.getName().equals(LIGHTWEIGHT)) {
+			if (memberValuePair.getName().equals(annotationName)) {
 				return memberValuePair.getValue().toString();
 			}
 		}
@@ -172,13 +165,8 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 		return enabled;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#isLightWeight()
-	 */
-	public boolean isLightWeight() {
-		return lightWeight;
+	public boolean isSupportTerminalData() {
+		return supportTerminalData;
 	}
 
 	/*

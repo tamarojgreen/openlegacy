@@ -4,10 +4,6 @@
 package com.someorg.examples.screens;
 
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.terminal.CursorContainer;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
@@ -16,34 +12,17 @@ privileged aspect ItemDetails2_Aspect {
     declare @type: ItemDetails2 : @Component;
 	declare @type: ItemDetails2 : @Scope("prototype");
     
-    private TerminalScreen ItemDetails2.terminalScreen;
 
     declare parents: ItemDetails2 implements ScreenEntity;
-    declare parents: ItemDetails2 implements CursorContainer;
-
-    private ScreenPosition ItemDetails2.cursorPosition;
     
 	
-    private TerminalField ItemDetails2.ItemNumberField;
     
-    public TerminalScreen ItemDetails2.getTerminalScreen(){
-		return terminalScreen;
-    }
 
     public String ItemDetails2.getItemNumber(){
     	return this.ItemNumber;
     }
     
 
-    public TerminalField ItemDetails2.getItemNumberField(){
-    	return ItemNumberField;
-    }
 
-    public ScreenPosition ItemDetails2.getCursorPosition(){
-    	return cursorPosition;
-    }
-    public void ItemDetails2.setCursorPosition(ScreenPosition cursorPosition){
-    	this.cursorPosition = cursorPosition;
-    }
     
 }

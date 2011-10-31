@@ -5,7 +5,7 @@ import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.modules.login.LoginModule;
 
-@ScreenEntity(screenType = LoginModule.LoginScreen.class, identifiers = { @Identifier(row = 1, column = 36, value = "Sign On") })
+@ScreenEntity(supportTerminalData = true, screenType = LoginModule.LoginScreen.class, identifiers = { @Identifier(row = 1, column = 36, value = "Sign On") })
 public class SignOn {
 
 	@FieldMapping(row = 6, column = 53, fieldType = LoginModule.UserField.class, editable = true)

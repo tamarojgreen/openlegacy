@@ -29,6 +29,10 @@ public class ScreenEntityDirectFieldAccessor {
 		return directFieldAccessor.isReadableProperty(fieldName);
 	}
 
+	public boolean isWritableProperty(String fieldName) {
+		return directFieldAccessor.isWritableProperty(fieldName);
+	}
+
 	public void setTerminalField(String fieldName, TerminalField terminalField) {
 		String terminalFieldName = fieldName + FIELD_SUFFIX;
 		if (directFieldAccessor.isReadableProperty(terminalFieldName)) {

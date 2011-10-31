@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * @ScreenEntity(identifiers = { @Identifier(row = 1, column = 36, value = "Sign On") }) </code> <br/>
  * <br/>
  * 
- *                           Option 2: When using a vendor ScreenRecognizer <code>
+ * Option 2: When using a vendor ScreenRecognizer <code>
  * @ScreenEntity </code>
  * 
  */
@@ -27,7 +27,7 @@ public @interface ScreenEntity {
 
 	String name() default "";
 
-	boolean lightWeight() default false;
+	boolean supportTerminalData() default false;
 
 	Identifier[] identifiers() default {};
 

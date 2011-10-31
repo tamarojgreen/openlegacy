@@ -76,7 +76,10 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 			ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
 
-			fieldAccessor.setFieldValue(TERMINAL_SCREEN, terminalScreen);
+			if (fieldAccessor.isWritableProperty(TERMINAL_SCREEN)) {
+				fieldAccessor.setFieldValue(TERMINAL_SCREEN, terminalScreen);
+
+			}
 
 			injectFields(fieldAccessor, screenEntityClass, terminalScreen);
 
@@ -104,7 +107,10 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 			TerminalField terminalField = extractTerminalField(terminalScreen, fieldMappingDefinition);
 
-			fieldAccessor.setTerminalField(fieldMappingDefinition.getName(), terminalField);
+			String fieldName = fieldMappingDefinition.getName();
+			if (fieldAccessor.isWritableProperty(fieldName)) {
+				fieldAccessor.setTerminalField(fieldName, terminalField);
+			}
 
 		}
 

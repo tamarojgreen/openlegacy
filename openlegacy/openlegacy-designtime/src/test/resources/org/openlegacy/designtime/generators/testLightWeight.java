@@ -4,7 +4,7 @@ import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 
-@ScreenEntity(lightWeight = true)
+@ScreenEntity(supportTerminalData=false)
 public class SignOn {
 
 	private String user;

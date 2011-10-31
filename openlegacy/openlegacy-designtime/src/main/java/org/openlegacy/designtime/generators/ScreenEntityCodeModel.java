@@ -8,7 +8,7 @@ public interface ScreenEntityCodeModel {
 
 	boolean isRelevant();
 
-	boolean isLightWeight();
+	boolean isSupportTerminalData();
 
 	String getClassName();
 

@@ -4,10 +4,6 @@
 package com.someorg.examples.screens;
 
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.terminal.CursorContainer;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
@@ -16,34 +12,17 @@ privileged aspect InventoryManagement_Aspect {
     declare @type: InventoryManagement : @Component;
 	declare @type: InventoryManagement : @Scope("prototype");
     
-    private TerminalScreen InventoryManagement.terminalScreen;
 
     declare parents: InventoryManagement implements ScreenEntity;
-    declare parents: InventoryManagement implements CursorContainer;
-
-    private ScreenPosition InventoryManagement.cursorPosition;
     
 	
-    private TerminalField InventoryManagement.SelectionField;
     
-    public TerminalScreen InventoryManagement.getTerminalScreen(){
-		return terminalScreen;
-    }
 
     public String InventoryManagement.getSelection(){
     	return this.Selection;
     }
     
 
-    public TerminalField InventoryManagement.getSelectionField(){
-    	return SelectionField;
-    }
 
-    public ScreenPosition InventoryManagement.getCursorPosition(){
-    	return cursorPosition;
-    }
-    public void InventoryManagement.setCursorPosition(ScreenPosition cursorPosition){
-    	this.cursorPosition = cursorPosition;
-    }
     
 }
