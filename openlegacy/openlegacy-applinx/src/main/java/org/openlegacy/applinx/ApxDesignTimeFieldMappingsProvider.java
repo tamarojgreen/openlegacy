@@ -5,6 +5,7 @@ import com.sabratec.applinx.common.designtime.model.GXIApplicationContext;
 import com.sabratec.applinx.common.designtime.model.entity.area.GXScreenAreaPosition;
 import com.sabratec.applinx.common.designtime.model.entity.interfaces.GXIEntityDescriptor;
 import com.sabratec.applinx.common.designtime.model.entity.screen.GXAbstractFieldMapping;
+import com.sabratec.applinx.common.designtime.model.entity.screen.GXAbstractFieldMapping.GXProtection;
 import com.sabratec.applinx.common.designtime.model.entity.screen.GXSingleScreenEntity;
 import com.sabratec.applinx.common.designtime.model.entity.type.GXSingleScreenType;
 
@@ -46,9 +47,12 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefiniti
 				if (apxFieldMapping.getArea() instanceof GXScreenAreaPosition) {
 					GXScreenAreaPosition positionArea = (GXScreenAreaPosition)apxFieldMapping.getArea();
 					ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(positionArea.getStartPosition());
-					FieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(
-							apxFieldMapping.getField().getName(), FieldType.General.class, screenPosition,
-							apxFieldMapping.getLength());
+					SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(
+							apxFieldMapping.getField().getName(), FieldType.General.class);
+
+					fieldMappingDefinition.setScreenPosition(screenPosition);
+					fieldMappingDefinition.setLength(positionArea.getLength());
+					fieldMappingDefinition.setEditable(apxFieldMapping.getProtection() != GXProtection.PROTECTED);
 					fieldMappingDefinitions.add(fieldMappingDefinition);
 				} else {
 					throw (new UnsupportedOperationException(
@@ -60,5 +64,4 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefiniti
 		}
 		return fieldMappingDefinitions;
 	}
-
 }

@@ -11,14 +11,15 @@
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />
 	<bean id="fieldMappingsProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedFieldMappingsProvider" />
 	
-	<bean id="terminalSessionModules" class="org.openlegacy.support.HostSessionModules">
+	<bean id="terminalSessionModules" class="org.openlegacy.support.HostSessionModules" scope="session">
 		<property name="modules">
 			<list>
 				<bean class="org.openlegacy.terminal.modules.trail.HostSessionTrailModuleImpl">
 					<property name="sessionTrail">
-						<bean class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrail" p:historyCount="1" />
+						<bean class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrail" p:historyCount="5" />
 					</property>
 				</bean>	
+				<bean class="org.openlegacy.terminal.modules.login.LoginModuleImpl" />
 			</list>
 		</property>
 	</bean>

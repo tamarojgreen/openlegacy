@@ -12,4 +12,5 @@ public interface TerminalConnection {
 	TerminalConnection doAction(TerminalSendAction terminalSendAction);
 
 	Object getDelegate();
+
 }

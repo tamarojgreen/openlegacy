@@ -12,4 +12,6 @@ public interface FieldMappingDefinition extends FieldDefinition {
 	ScreenPosition getScreenPosition();
 
 	int getLength();
+
+	boolean isEditable();
 }

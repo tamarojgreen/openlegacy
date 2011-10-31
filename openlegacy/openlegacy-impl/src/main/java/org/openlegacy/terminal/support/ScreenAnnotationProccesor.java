@@ -110,8 +110,13 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 	private static FieldMappingDefinition extractFieldMappingDefinition(Field field) {
 		FieldMapping fieldAnnotation = field.getAnnotation(FieldMapping.class);
 
-		return new SimpleFieldMappingDefinition(field.getName(), fieldAnnotation.fieldType(), SimpleScreenPosition.newInstance(
-				fieldAnnotation.row(), fieldAnnotation.column()), fieldAnnotation.length());
+		SimpleScreenPosition screenPosition = SimpleScreenPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
+		SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(field.getName(),
+				fieldAnnotation.fieldType());
+		fieldMappingDefinition.setScreenPosition(screenPosition);
+		fieldMappingDefinition.setLength(fieldAnnotation.length());
+		fieldMappingDefinition.setEditable(fieldAnnotation.editable());
+		return fieldMappingDefinition;
 
 	}
 

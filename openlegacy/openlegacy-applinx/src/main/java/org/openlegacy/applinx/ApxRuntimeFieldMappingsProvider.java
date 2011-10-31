@@ -41,8 +41,12 @@ public class ApxRuntimeFieldMappingsProvider implements FieldMappingsDefinitionP
 			GXIField apxField = apxApplicationFields.getFieldAt(i);
 
 			ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(apxField.getPosition());
-			fieldMappingDefinitions.add(new SimpleFieldMappingDefinition(apxField.getName(), FieldType.General.class,
-					screenPosition, apxField.getLength()));
+			SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(apxField.getName(),
+					FieldType.General.class);
+			fieldMappingDefinition.setLength(apxField.getLength());
+			fieldMappingDefinition.setScreenPosition(screenPosition);
+			fieldMappingDefinition.setEditable(!apxField.isProtected());
+			fieldMappingDefinitions.add(fieldMappingDefinition);
 		}
 		return fieldMappingDefinitions;
 	}

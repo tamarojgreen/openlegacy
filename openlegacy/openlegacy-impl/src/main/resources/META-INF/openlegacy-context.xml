@@ -19,7 +19,7 @@
 		<property name="sessionModules" ref="terminalSessionModules" />
 	</bean>
 	
-	<bean id="terminalSessionModules" class="org.openlegacy.support.HostSessionModules"/>
+	<bean id="terminalSessionModules" class="org.openlegacy.support.HostSessionModules" scope="session" />
 	
 	<!-- Open legacy default beans -->
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.SimpleScreenEntitiesRegistry" />

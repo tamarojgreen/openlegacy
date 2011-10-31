@@ -6,7 +6,6 @@ import org.openlegacy.modules.HostSessionModule;
 import org.openlegacy.support.AbstractHostSession;
 import org.openlegacy.terminal.CursorContainer;
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionModule;
@@ -27,7 +26,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	@Autowired
 	private ScreenEntityBinder screenEntityBinder;
 
-	private TerminalConnection terminalConnection;
+	private TerminalConnectionDelegator terminalConnection;
 
 	private Object entity;
 
@@ -95,8 +94,16 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		return terminalConnection.getDelegate();
 	}
 
-	public void setTerminalConnection(TerminalConnection terminalConnection) {
+	public void setTerminalConnection(TerminalConnectionDelegator terminalConnection) {
 		this.terminalConnection = terminalConnection;
+	}
+
+	public void disconnect() {
+		terminalConnection.disconnect();
+	}
+
+	public boolean isConnected() {
+		return terminalConnection.isConnected();
 	}
 
 }

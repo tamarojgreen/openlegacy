@@ -3,7 +3,7 @@ package org.openlegacy.terminal.modules.trail;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
-import org.openlegacy.modules.trail.Trail;
+import org.openlegacy.modules.trail.TrailModule;
 import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.support.actions.SendKeyActions;
@@ -28,7 +28,7 @@ public class UnifiedTerminalTrailTest extends AbstractTest {
 		terminalSession.doAction(SendKeyActions.ENTER, null);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		trailWriter.write(terminalSession.getModule(Trail.class).getSessionTrail(), baos);
+		trailWriter.write(terminalSession.getModule(TrailModule.class).getSessionTrail(), baos);
 		System.out.println(new String(baos.toByteArray()));
 	}
 }

@@ -5,7 +5,7 @@ import org.openlegacy.HostEntityType;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.HostSessionModule;
 
-public interface Login extends HostSessionModule {
+public interface LoginModule extends HostSessionModule {
 
 	void login(String user, String password) throws LoginException, RegistryException;
 

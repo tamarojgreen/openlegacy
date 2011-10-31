@@ -1,12 +1,12 @@
 package org.openlegacy.terminal.modules.trail;
 
-import org.openlegacy.modules.trail.Trail;
+import org.openlegacy.modules.trail.TrailModule;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 
-public class HostSessionTrailModuleImpl extends TerminalSessionModuleAdapter implements Trail{
+public class HostSessionTrailModuleImpl extends TerminalSessionModuleAdapter implements TrailModule{
 
 	private SessionTrail sessionTrail;
 

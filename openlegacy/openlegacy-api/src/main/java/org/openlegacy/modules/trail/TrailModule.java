@@ -3,10 +3,10 @@ package org.openlegacy.modules.trail;
 import org.openlegacy.modules.HostSessionModule;
 
 /**
- * Session Trail module interface. Uses of the name "Trail" is for shorter API accessibility
+ * Session TrailModule module interface
  * 
  */
-public interface Trail extends HostSessionModule {
+public interface TrailModule extends HostSessionModule {
 
 	public SessionTrail getSessionTrail();
 }

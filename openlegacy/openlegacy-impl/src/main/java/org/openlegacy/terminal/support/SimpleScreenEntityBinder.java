@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.support;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FetchMode;
@@ -23,11 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -135,7 +132,7 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 	}
 
 	public Map<ScreenPosition, String> buildSendFields(TerminalScreen terminalScreen, Object screenEntity) {
-		Map<ScreenPosition, String> fieldValues = new HashMap<ScreenPosition, String>();
+		Map<ScreenPosition, String> fieldValues = new LinkedHashMap<ScreenPosition, String>();
 
 		if (screenEntity == null) {
 			return fieldValues;
@@ -148,26 +145,21 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 			return fieldValues;
 		}
 
+		ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
 		for (FieldMappingDefinition fieldMapping : fieldsInfo) {
-			try {
-				PropertyDescriptor descriptor = PropertyUtils.getPropertyDescriptor(screenEntity, fieldMapping.getName());
 
-				Method readMethod = descriptor.getReadMethod();
-				if (readMethod != null) {
-					Object value = readMethod.invoke(screenEntity);
-					ScreenPosition hostScreenPosition = fieldMapping.getScreenPosition();
+			if (fieldMapping.isEditable()) {
+				Object value = fieldAccessor.getFieldValue(fieldMapping.getName());
+				ScreenPosition hostScreenPosition = fieldMapping.getScreenPosition();
 
-					if (value != null) {
-						fieldValues.put(hostScreenPosition, value.toString());
-						if (logger.isDebugEnabled()) {
-							logger.debug(MessageFormat.format(
-									"Field {0} was set with value \"{1}\" to send fields for screenEntity {2}",
-									fieldMapping.getName(), value, screenEntity));
-						}
+				if (value != null) {
+					fieldValues.put(hostScreenPosition, value.toString());
+					if (logger.isDebugEnabled()) {
+						logger.debug(MessageFormat.format(
+								"Field {0} was set with value \"{1}\" to send fields for screenEntity {2}",
+								fieldMapping.getName(), value, screenEntity));
 					}
 				}
-			} catch (Exception e) {
-				throw (new IllegalStateException(e));
 			}
 
 		}

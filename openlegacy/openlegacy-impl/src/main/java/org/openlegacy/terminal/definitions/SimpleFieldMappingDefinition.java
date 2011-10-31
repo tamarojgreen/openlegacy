@@ -10,21 +10,35 @@ import org.openlegacy.terminal.ScreenPosition;
  */
 public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<FieldMappingDefinition> implements FieldMappingDefinition {
 
-	private final ScreenPosition screenPosition;
-	private final int length;
+	private ScreenPosition screenPosition = null;
+	private int length;
+	private boolean editable;
 
-	public SimpleFieldMappingDefinition(String name, Class<? extends FieldType> fieldType, ScreenPosition screenPosition,
-			int length) {
+	public SimpleFieldMappingDefinition(String name, Class<? extends FieldType> fieldType) {
 		super(name, fieldType);
-		this.screenPosition = screenPosition;
-		this.length = length;
 	}
 
 	public ScreenPosition getScreenPosition() {
 		return screenPosition;
 	}
 
+	public void setScreenPosition(ScreenPosition screenPosition) {
+		this.screenPosition = screenPosition;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
 	public int getLength() {
 		return length;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 }

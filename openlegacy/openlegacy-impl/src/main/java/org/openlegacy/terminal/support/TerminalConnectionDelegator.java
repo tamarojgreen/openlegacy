@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalScreen;
@@ -15,6 +17,8 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 	private TerminalConnection terminalConnection;
 
 	private TerminalScreen terminalScreen;
+
+	private final static Log logger = LogFactory.getLog(TerminalConnectionDelegator.class);
 
 	public TerminalScreen getSnapshot() {
 		lazyConnect();
@@ -39,7 +43,23 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 		if (terminalConnection == null) {
 			TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
 			terminalConnection = terminalConnectionFactory.getConnection();
+			logger.info("Opened new session");
 		}
 	}
 
+	public void disconnect() {
+		logger.info("Disconnecting session");
+
+		if (terminalConnection == null) {
+			logger.debug("Session not connected");
+			return;
+		}
+		TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
+		terminalConnectionFactory.disconnect(terminalConnection);
+		terminalConnection = null;
+	}
+
+	public boolean isConnected() {
+		return terminalConnection != null;
+	}
 }

@@ -7,4 +7,6 @@ package org.openlegacy.terminal;
 public interface TerminalConnectionFactory {
 
 	TerminalConnection getConnection();
+
+	void disconnect(TerminalConnection terminalConnection);
 }

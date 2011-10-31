@@ -29,4 +29,11 @@ public class ProxyUtil {
 		}
 		return entityClass;
 	}
+
+	public static boolean isClassesMatch(Class<?> classA, Class<?> classB) {
+		classA = getObjectRealClass(classA);
+		classB = getObjectRealClass(classB);
+
+		return (classA == classB);
+	}
 }

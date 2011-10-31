@@ -8,7 +8,6 @@ import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
-import org.openlegacy.terminal.TerminalSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ApxTerminalConnctionFactory implements TerminalConnectionFactory {
@@ -27,9 +26,9 @@ public class ApxTerminalConnctionFactory implements TerminalConnectionFactory {
 		}
 	}
 
-	public void disconnect(TerminalSession terminalSession) {
+	public void disconnect(TerminalConnection terminalConnection) {
 		try {
-			GXClientBaseObjectFactory.endSession((GXIClientBaseObject)terminalSession.getDelegate());
+			GXClientBaseObjectFactory.endSession((GXIClientBaseObject)terminalConnection.getDelegate());
 		} catch (GXGeneralException e) {
 			throw (new OpenLegacyProviderException(e));
 		}

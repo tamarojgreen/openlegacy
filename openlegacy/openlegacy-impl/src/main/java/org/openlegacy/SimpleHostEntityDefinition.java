@@ -4,7 +4,7 @@ import org.openlegacy.exceptions.RegistryException;
 
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class SimpleHostEntityDefinition<F extends FieldDefinition> implements HostEntityDefinition<F> {
@@ -14,7 +14,8 @@ public abstract class SimpleHostEntityDefinition<F extends FieldDefinition> impl
 
 	private Class<? extends HostEntityType> hostEntityType;
 
-	private final Map<String, F> fieldDefinitions = new HashMap<String, F>();
+	// LinkedHashMap preserve insert order
+	private final Map<String, F> fieldDefinitions = new LinkedHashMap<String, F>();
 
 	public SimpleHostEntityDefinition(String hostEntityName, Class<?> screenEntityClass) {
 		this.hostEntityName = hostEntityName;
