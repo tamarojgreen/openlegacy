@@ -1,10 +1,11 @@
-package org.openlegacy.support.annotation_loaders;
+package org.openlegacy.loaders.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;

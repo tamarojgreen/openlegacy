@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.support.annotation_loaders.ClassAnnotationsLoader;
-import org.openlegacy.support.annotation_loaders.FieldAnnotationsLoader;
+import org.openlegacy.loaders.ClassAnnotationsLoader;
+import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;

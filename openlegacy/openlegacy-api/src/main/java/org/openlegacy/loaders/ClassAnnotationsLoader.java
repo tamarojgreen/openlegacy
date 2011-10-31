@@ -1,4 +1,4 @@
-package org.openlegacy.support.annotation_loaders;
+package org.openlegacy.loaders;
 
 import org.openlegacy.HostEntitiesRegistry;
 

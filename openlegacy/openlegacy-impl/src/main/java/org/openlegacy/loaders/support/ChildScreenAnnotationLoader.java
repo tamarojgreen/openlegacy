@@ -1,7 +1,8 @@
-package org.openlegacy.support.annotation_loaders;
+package org.openlegacy.loaders.support;
 
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.annotations.screen.ChildScreenEntity;
+import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.definitions.SimpleChildScreenDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 

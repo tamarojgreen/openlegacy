@@ -1,7 +1,8 @@
-package org.openlegacy.support.annotation_loaders;
+package org.openlegacy.loaders.support;
 
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.annotations.screen.FieldMapping;
+import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
 
