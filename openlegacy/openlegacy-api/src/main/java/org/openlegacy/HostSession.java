@@ -12,4 +12,8 @@ public interface HostSession {
 	<T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException;
 
 	<M extends HostSessionModule> M getModule(Class<M> module);
+
+	void disconnect();
+
+	boolean isConnected();
 }

@@ -17,8 +17,4 @@ public interface TerminalSession extends StatefullHostSession<TerminalScreen> {
 	 * Returns the current screen entity
 	 */
 	Object getEntity();
-
-	void disconnect();
-
-	boolean isConnected();
 }
