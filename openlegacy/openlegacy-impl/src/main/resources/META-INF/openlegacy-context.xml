@@ -29,6 +29,10 @@
 	<bean id="childScreensDefinitionProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedChildScreensDefinitionProvider" />
 	<bean id="trailWriter" class="org.openlegacy.terminal.modules.trail.XmlTrailWriter" />
 
+	<bean class="org.openlegacy.support.annotation_loaders.ScreenEntityAnnotationLoader"/>
+	<bean class="org.openlegacy.support.annotation_loaders.FieldMappingAnnotationLoader"/>
+	<bean class="org.openlegacy.support.annotation_loaders.ChildScreenAnnotationLoader"/>
+	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-provider.xml" /> 
 

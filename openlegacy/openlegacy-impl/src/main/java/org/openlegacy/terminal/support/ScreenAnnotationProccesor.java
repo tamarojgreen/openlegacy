@@ -1,31 +1,19 @@
 package org.openlegacy.terminal.support;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openlegacy.annotations.screen.ChildScreenEntity;
-import org.openlegacy.annotations.screen.FieldMapping;
-import org.openlegacy.annotations.screen.Identifier;
-import org.openlegacy.annotations.screen.ScreenEntity;
-import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.definitions.ChildScreenDefinition;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.definitions.SimpleChildScreenDefinition;
-import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
-import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
+import org.openlegacy.support.annotation_loaders.ClassAnnotationsLoader;
+import org.openlegacy.support.annotation_loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.text.MessageFormat;
+import java.util.Collection;
 
 /**
  * Open legacy integration point with spring component-scan. The classes are scanned for @ScreenEntity annotation and all the
@@ -35,21 +23,24 @@ import java.text.MessageFormat;
  */
 public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
-	@Autowired
-	private ScreenEntitiesRegistry screensRegistry;
-
-	private final static Log logger = LogFactory.getLog(ScreenAnnotationProccesor.class);
-
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		screensRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
+		Collection<ClassAnnotationsLoader> annotationLoaders = beanFactory.getBeansOfType(ClassAnnotationsLoader.class).values();
+
+		ScreenEntitiesRegistry screenEntitiesRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
 		for (String beanName : beanFactory.getBeanDefinitionNames()) {
 			try {
 				BeanDefinition bean = beanFactory.getBeanDefinition(beanName);
 				Class<?> beanClass = Class.forName(bean.getBeanClassName());
 
-				ScreenEntity screenEntityAnnotation = AnnotationUtils.findAnnotation(beanClass, ScreenEntity.class);
-				if (screenEntityAnnotation != null) {
-					processScreenEntity(beanClass, screenEntityAnnotation);
+				Annotation[] annotations = beanClass.getAnnotations();
+				for (Annotation annotation : annotations) {
+					for (ClassAnnotationsLoader annotationsLoader : annotationLoaders) {
+						if (annotationsLoader.match(annotation)) {
+							annotationsLoader.load(screenEntitiesRegistry, annotation, beanClass);
+
+							handleChilds(beanFactory, screenEntitiesRegistry, annotation, beanClass);
+						}
+					}
 				}
 			} catch (ClassNotFoundException e) {
 				throw (new BeanCreationException(e.getMessage(), e));
@@ -57,88 +48,23 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 		}
 	}
 
-	public void processScreenEntity(Class<?> screenEntityClass, ScreenEntity screenEntity) {
-		String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : screenEntityClass.getSimpleName();
-		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenName, screenEntityClass);
-		screenEntityDefinition.setName(screenName);
-		screenEntityDefinition.setType(screenEntity.screenType());
-		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
-				screenEntityClass.getName()));
-		addIdentifiers(screenEntityDefinition, screenEntity);
-
-		addFieldMappingDefinitions(screenEntityDefinition, screenEntity);
-
-		addChildScreenDefinitions(screenEntityDefinition, screenEntity);
-		screensRegistry.add(screenEntityDefinition);
-	}
-
-	private static void addIdentifiers(SimpleScreenEntityDefinition screenEntityDefinition, ScreenEntity screenEntity) {
-		if (screenEntity.identifiers().length > 0) {
-			Identifier[] identifiers = screenEntity.identifiers();
-			SimpleScreenIdentification screenIdentification = new SimpleScreenIdentification();
-			for (Identifier identifier : identifiers) {
-				ScreenPosition position = SimpleScreenPosition.newInstance(identifier.row(), identifier.column());
-				String text = identifier.value();
-				SimpleScreenIdentifier simpleIdentifier = new SimpleScreenIdentifier(position, text);
-				screenIdentification.addIdentifier(simpleIdentifier);
-
-				if (logger.isDebugEnabled()) {
-					logger.debug(MessageFormat.format("Identifier {0} - \"{1}\" was added to the registry for screen {2}",
-							position, text, screenEntityDefinition.getEntityClass()));
-				}
-
-			}
-			screenEntityDefinition.setScreenIdentification(screenIdentification);
-			logger.info(MessageFormat.format("Screen identifications for \"{0}\" was added to the screen registry",
-					screenEntityDefinition.getEntityClass()));
-		}
-	}
-
-	private static void addFieldMappingDefinitions(final ScreenEntityDefinition screenEntityDefinition, ScreenEntity hostEntity) {
-		ReflectionUtils.doWithFields(screenEntityDefinition.getEntityClass(), new FieldCallback() {
+	private static void handleChilds(final ConfigurableListableBeanFactory beanFactory,
+			final ScreenEntitiesRegistry screenEntitiesRegistry, Annotation annotation, final Class<?> beanClass) {
+		final Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(FieldAnnotationsLoader.class).values();
+		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
 
 			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
 
-				if (field.isAnnotationPresent(FieldMapping.class)) {
-					screenEntityDefinition.getFieldsDefinitions().put(field.getName(), extractFieldMappingDefinition(field));
+				Annotation[] annotations = field.getAnnotations();
+				for (Annotation annotation : annotations) {
+					for (FieldAnnotationsLoader fieldAnnotationsLoader : fieldAnnotationLoaders) {
+						if (fieldAnnotationsLoader.match(annotation)) {
+							fieldAnnotationsLoader.load(screenEntitiesRegistry, field.getName(), annotation, beanClass);
+						}
+					}
 				}
 			}
 		});
 
-	}
-
-	private static FieldMappingDefinition extractFieldMappingDefinition(Field field) {
-		FieldMapping fieldAnnotation = field.getAnnotation(FieldMapping.class);
-
-		SimpleScreenPosition screenPosition = SimpleScreenPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
-		SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(field.getName(),
-				fieldAnnotation.fieldType());
-		fieldMappingDefinition.setScreenPosition(screenPosition);
-		fieldMappingDefinition.setLength(fieldAnnotation.length());
-		fieldMappingDefinition.setEditable(fieldAnnotation.editable());
-		return fieldMappingDefinition;
-
-	}
-
-	private static void addChildScreenDefinitions(final SimpleScreenEntityDefinition screenEntityDefinition,
-			ScreenEntity screenEntity) {
-		ReflectionUtils.doWithFields(screenEntityDefinition.getEntityClass(), new FieldCallback() {
-
-			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
-
-				if (field.isAnnotationPresent(ChildScreenEntity.class)) {
-					screenEntityDefinition.getChildScreenDefinitions().put(field.getName(), extractChildScreenDefinition(field));
-				}
-			}
-		});
-	}
-
-	private static ChildScreenDefinition extractChildScreenDefinition(Field field) {
-		ChildScreenEntity childScreenEntityAnnotation = field.getAnnotation(ChildScreenEntity.class);
-
-		SimpleChildScreenDefinition simpleChildScreenDefinition = new SimpleChildScreenDefinition(field.getName());
-		simpleChildScreenDefinition.setFetchMode(childScreenEntityAnnotation.fetchMode());
-		simpleChildScreenDefinition.setStepInto(childScreenEntityAnnotation.stepInto());
-		return simpleChildScreenDefinition;
 	}
 }
