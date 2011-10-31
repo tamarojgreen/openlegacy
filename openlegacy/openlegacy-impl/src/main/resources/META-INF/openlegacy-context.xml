@@ -30,6 +30,7 @@
 	<bean id="trailWriter" class="org.openlegacy.terminal.modules.trail.XmlTrailWriter" />
 
 	<bean class="org.openlegacy.loaders.support.ScreenEntityAnnotationLoader"/>
+	<bean class="org.openlegacy.loaders.support.SimpleScreenIdentifiersAnnotationLoader"/>
 	<bean class="org.openlegacy.loaders.support.FieldMappingAnnotationLoader"/>
 	<bean class="org.openlegacy.loaders.support.ChildScreenAnnotationLoader"/>
 	

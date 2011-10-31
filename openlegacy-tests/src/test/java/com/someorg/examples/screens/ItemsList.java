@@ -3,8 +3,10 @@ package com.someorg.examples.screens;
 import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.SimpleScreenIdentifiers;
 
-@ScreenEntity(identifiers = { @Identifier(row = 2, column = 30, value = "Work with Item Master"),
+@ScreenEntity
+@SimpleScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 30, value = "Work with Item Master"),
 		@Identifier(row = 4, column = 2, value = "Type one or more action codes. Then Enter.") })
 public class ItemsList {
 

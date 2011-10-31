@@ -15,6 +15,10 @@ public class SimpleScreenIdentification implements ScreenIdentification {
 
 	private List<ScreenIdentifier> screenIdentifiers = new ArrayList<ScreenIdentifier>();
 
+	public List<ScreenIdentifier> getScreenIdentifiers() {
+		return screenIdentifiers;
+	}
+
 	public void addIdentifier(ScreenIdentifier screenIdentifier) {
 		screenIdentifiers.add(screenIdentifier);
 	}
