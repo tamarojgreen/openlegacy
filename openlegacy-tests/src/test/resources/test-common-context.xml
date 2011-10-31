@@ -19,13 +19,13 @@
 						<bean class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrail" p:historyCount="5" />
 					</property>
 				</bean>	
-				<bean class="org.openlegacy.terminal.modules.login.LoginModuleImpl" />
+				<bean class="org.openlegacy.terminal.modules.login.DefaultLoginModule" />
 			</list>
 		</property>
 	</bean>
 	
 	<!-- 
-	<bean id="screenEntityBinder" class="org.openlegacy.terminal.support.SimpleScreenEntityBinder" />
+	<bean id="screenEntityBinder" class="org.openlegacy.terminal.support.DefaultScreenEntityBinder" />
 	<bean id="trailWriter" class="org.openlegacy.terminal.support.trail.XmlTrailWriter" />
  	-->
 

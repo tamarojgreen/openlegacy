@@ -3,7 +3,7 @@ package org.openlegacy.terminal.support.providers;
 import org.openlegacy.terminal.ChildScreensDefinitionProvider;
 import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.support.SimpleScreenEntitiesRegistry;
+import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
@@ -15,7 +15,7 @@ import java.util.Collection;
 public class RegistryBasedChildScreensDefinitionProvider implements ChildScreensDefinitionProvider {
 
 	@Autowired
-	private SimpleScreenEntitiesRegistry screenEntitiesRegistry;
+	private DefaultScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public Collection<ChildScreenDefinition> getChildScreenDefinitions(Class<?> screenEntity) {
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);

@@ -13,7 +13,7 @@ import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class LoginModuleImpl extends TerminalSessionModuleAdapter implements LoginModule {
+public class DefaultLoginModule extends TerminalSessionModuleAdapter implements LoginModule {
 
 	@Autowired
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

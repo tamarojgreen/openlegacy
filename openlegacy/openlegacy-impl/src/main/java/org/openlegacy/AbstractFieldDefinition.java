@@ -1,6 +1,6 @@
 package org.openlegacy;
 
-public class AbstractFieldDefinition<D extends FieldDefinition> implements FieldDefinition {
+public abstract class AbstractFieldDefinition<D extends FieldDefinition> implements FieldDefinition {
 
 	private final String name;
 	private Class<? extends FieldType> fieldType;

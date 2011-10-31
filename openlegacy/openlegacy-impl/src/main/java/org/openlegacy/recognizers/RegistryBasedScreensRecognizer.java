@@ -5,7 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.openlegacy.terminal.support.SimpleScreenEntitiesRegistry;
+import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RegistryBasedScreensRecognizer implements ScreensRecognizer {
 
 	@Autowired
-	private SimpleScreenEntitiesRegistry screensRegistry;
+	private DefaultScreenEntitiesRegistry screensRegistry;
 
 	private final static Log logger = LogFactory.getLog(RegistryBasedScreensRecognizer.class);
 

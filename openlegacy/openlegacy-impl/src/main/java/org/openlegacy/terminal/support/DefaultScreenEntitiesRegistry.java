@@ -13,7 +13,7 @@ import java.util.Collection;
  * A simple implementation of a screen entities registry. Holds information collection from @ScreenEntity, @FieldMapping and more
  * 
  */
-public class SimpleScreenEntitiesRegistry extends SimpleHostEntitiesRegistry<ScreenEntityDefinition, FieldMappingDefinition> implements ScreenEntitiesRegistry {
+public class DefaultScreenEntitiesRegistry extends SimpleHostEntitiesRegistry<ScreenEntityDefinition, FieldMappingDefinition> implements ScreenEntitiesRegistry {
 
 	public ScreenEntityDefinition match(TerminalScreen hostScreen) {
 		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();

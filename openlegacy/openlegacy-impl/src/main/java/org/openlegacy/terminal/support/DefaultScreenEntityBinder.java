@@ -34,7 +34,7 @@ import java.util.Map;
  */
 @Scope("sesssion")
 // since performing action on terminalSession
-public class SimpleScreenEntityBinder implements ScreenEntityBinder {
+public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 	@Autowired
 	private ScreensRecognizer screensRecognizer;
@@ -51,7 +51,7 @@ public class SimpleScreenEntityBinder implements ScreenEntityBinder {
 	@Autowired
 	private TerminalSession terminalSession;
 
-	private final static Log logger = LogFactory.getLog(SimpleScreenEntityBinder.class);
+	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
 
 	private static final String TERMINAL_SCREEN = "terminalScreen";
 
