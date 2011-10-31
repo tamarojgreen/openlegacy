@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
-import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.support.actions.SendKeyActions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,9 +18,6 @@ import java.io.IOException;
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ApxScreensRecognizerTest extends AbstractTest {
-
-	@Autowired
-	private TerminalSession terminalSession;
 
 	@Autowired
 	private ApxServerLoader apxServerLoader;

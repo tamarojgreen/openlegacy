@@ -10,10 +10,8 @@ import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.TrailModule;
 import org.openlegacy.modules.trail.TrailStage;
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.modules.trail.TerminalOutgoingTrailStage;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -26,9 +24,6 @@ import junit.framework.Assert;
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 public class LoginModuleImplTest extends AbstractTest {
-
-	@Autowired
-	private TerminalSession terminalSession;
 
 	@Test
 	public void testLoginObject() {

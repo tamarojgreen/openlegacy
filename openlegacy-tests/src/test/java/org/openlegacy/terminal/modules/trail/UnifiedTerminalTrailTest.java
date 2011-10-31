@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.trail.TrailModule;
 import org.openlegacy.modules.trail.TrailWriter;
-import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.support.actions.SendKeyActions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,9 +15,6 @@ import java.io.ByteArrayOutputStream;
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UnifiedTerminalTrailTest extends AbstractTest {
-
-	@Autowired
-	private TerminalSession terminalSession;
 
 	@Autowired
 	private TrailWriter trailWriter;

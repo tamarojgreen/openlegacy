@@ -46,6 +46,10 @@ public class ApxServerLoader {
 
 	public void startServer() throws Exception {
 
+		if (server != null) {
+			return;
+		}
+
 		Resource resource = new ClassPathResource("/applinx.properties");
 		properties = PropertiesLoaderUtils.loadProperties(resource);
 
@@ -123,7 +127,7 @@ public class ApxServerLoader {
 		initFile(workingDir, "/config/gxconfig.xml");
 		initFile(workingDir, "/config/gxperm.cfg");
 		initFile(workingDir, "/config/gxserver.cfg");
-		initFile(workingDir, "/config/log/gxlog_config.xml");
+		// initFile(workingDir, "/config/log/gxlog_config.xml");
 	}
 
 	private void initLicense(File workingDir) throws IOException {
@@ -159,10 +163,14 @@ public class ApxServerLoader {
 		return applinxApplication;
 	}
 
-	public void stopServer() {
+	public synchronized void stopServer() {
+		if (server == null) {
+			return;
+		}
 		if (server.isStarted()) {
 			server.stop();
 		}
+		server = null;
 	}
 
 	public boolean isRunning() {
