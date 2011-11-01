@@ -60,6 +60,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 			HostEntityNotAccessibleException {
 
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
+
 		ScreenSyncValidator.validateCurrentScreen(screenEntity, matchedScreenEntity);
 
 		return (T)buildScreenEntityInner(matchedScreenEntity, terminalScreen);

@@ -29,8 +29,12 @@
 	<bean id="childScreensDefinitionProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedChildScreensDefinitionProvider" />
 	<bean id="trailWriter" class="org.openlegacy.terminal.modules.trail.XmlTrailWriter" />
 
+	<!-- entity level annotation loaders - ordered! -->
 	<bean class="org.openlegacy.loaders.support.ScreenEntityAnnotationLoader"/>
 	<bean class="org.openlegacy.loaders.support.SimpleScreenIdentifiersAnnotationLoader"/>
+	<bean class="org.openlegacy.loaders.support.ScreenNavigationAnnotationLoader"/>
+
+	<!-- field level annotation loaders - ordered! -->
 	<bean class="org.openlegacy.loaders.support.FieldMappingAnnotationLoader"/>
 	<bean class="org.openlegacy.loaders.support.ChildScreenAnnotationLoader"/>
 	

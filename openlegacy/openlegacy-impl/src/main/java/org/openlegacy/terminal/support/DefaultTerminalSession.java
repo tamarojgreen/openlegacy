@@ -10,6 +10,7 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionModule;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
+import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,13 +31,19 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	private Object entity;
 
+	@Autowired
+	private SessionNavigator sessionNavigator;
+
 	@SuppressWarnings("unchecked")
-	public <T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException {
+	public <T> T getEntity(Class<T> screenEntityClass) throws HostEntityNotFoundException {
 
 		// check if the entity matched the cached entity
-		if (entity == null || entity.getClass() != hostEntity) {
+		if (entity == null || entity.getClass() != screenEntityClass) {
+			sessionNavigator.navigate(this, screenEntityClass);
+
 			TerminalScreen hostScreen = getSnapshot();
-			entity = screenEntityBinder.buildScreenEntity(hostEntity, hostScreen);
+
+			entity = screenEntityBinder.buildScreenEntity(screenEntityClass, hostScreen);
 		}
 		return (T)entity;
 	}

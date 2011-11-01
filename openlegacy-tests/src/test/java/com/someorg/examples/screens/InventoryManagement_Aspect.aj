@@ -19,7 +19,7 @@ privileged aspect InventoryManagement_Aspect {
     
 
     public String InventoryManagement.getSelection(){
-    	return this.Selection;
+    	return this.selection;
     }
     
 

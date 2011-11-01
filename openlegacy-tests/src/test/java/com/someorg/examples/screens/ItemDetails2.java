@@ -11,5 +11,5 @@ import org.openlegacy.annotations.screen.SimpleScreenIdentifiers;
 public class ItemDetails2 {
 
 	@FieldMapping(row = 6, column = 22)
-	private String ItemNumber;
+	private String itemNumber;
 }

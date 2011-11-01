@@ -14,7 +14,7 @@ import org.openlegacy.terminal.support.actions.SendKeyClasses;
 public class ItemDetails1 {
 
 	@FieldMapping(row = 6, column = 33)
-	private String ItemNumber;
+	private String itemNumber;
 
 	@ChildScreenEntity(stepInto = SendKeyClasses.ENTER.class, fetchMode = FetchMode.LAZY)
 	private ItemDetails2 itemDetails2;

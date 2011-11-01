@@ -15,4 +15,6 @@ public interface ScreenEntityDefinition extends HostEntityDefinition<FieldMappin
 	 * @return
 	 */
 	Map<String, ChildScreenDefinition> getChildScreenDefinitions();
+
+	NavigationDefinition getNavigationDefinition();
 }

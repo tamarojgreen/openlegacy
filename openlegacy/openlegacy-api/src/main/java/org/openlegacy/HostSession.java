@@ -9,7 +9,7 @@ import org.openlegacy.modules.HostSessionModule;
  */
 public interface HostSession {
 
-	<T> T getEntity(Class<T> hostEntity) throws HostEntityNotFoundException;
+	<T> T getEntity(Class<T> hostEntityClass) throws HostEntityNotFoundException;
 
 	<M extends HostSessionModule> M getModule(Class<M> module);
 

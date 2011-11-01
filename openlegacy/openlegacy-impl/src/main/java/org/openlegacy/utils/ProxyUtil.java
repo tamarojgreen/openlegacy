@@ -31,8 +31,8 @@ public class ProxyUtil {
 	}
 
 	public static boolean isClassesMatch(Class<?> classA, Class<?> classB) {
-		classA = getObjectRealClass(classA);
-		classB = getObjectRealClass(classB);
+		classA = getOriginalClass(classA);
+		classB = getOriginalClass(classB);
 
 		return (classA == classB);
 	}

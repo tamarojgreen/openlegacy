@@ -19,13 +19,13 @@ privileged aspect ItemDetails1_Aspect {
 	
     
 
-    public String ItemDetails1.getItemNumber(){
-    	return this.ItemNumber;
+    public ItemDetails2 ItemDetails1.getItemDetails2(){
+    	return this.itemDetails2;
     }
     
 
-    public ItemDetails2 ItemDetails1.getItemDetails2(){
-    	return this.itemDetails2;
+    public String ItemDetails1.getItemNumber(){
+    	return this.itemNumber;
     }
     
 

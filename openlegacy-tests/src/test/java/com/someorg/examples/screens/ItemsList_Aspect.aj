@@ -19,7 +19,7 @@ privileged aspect ItemsList_Aspect {
     
 
     public String ItemsList.getPositionTo(){
-    	return this.PositionTo;
+    	return this.positionTo;
     }
     
 

@@ -33,8 +33,8 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 				Class<?> beanClass = Class.forName(bean.getBeanClassName());
 
 				Annotation[] annotations = beanClass.getAnnotations();
-				for (Annotation annotation : annotations) {
-					for (ClassAnnotationsLoader annotationsLoader : annotationLoaders) {
+				for (ClassAnnotationsLoader annotationsLoader : annotationLoaders) {
+					for (Annotation annotation : annotations) {
 						if (annotationsLoader.match(annotation)) {
 							annotationsLoader.load(screenEntitiesRegistry, annotation, beanClass);
 

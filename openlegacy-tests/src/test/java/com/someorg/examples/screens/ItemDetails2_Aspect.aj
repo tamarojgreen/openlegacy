@@ -19,7 +19,7 @@ privileged aspect ItemDetails2_Aspect {
     
 
     public String ItemDetails2.getItemNumber(){
-    	return this.ItemNumber;
+    	return this.itemNumber;
     }
     
 

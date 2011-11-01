@@ -14,24 +14,22 @@ import java.text.MessageFormat;
 public class ScreenEntityAnnotationLoader implements ClassAnnotationsLoader {
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityAnnotationLoader.class);
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenEntity.class;
 	}
 
-	public void load(HostEntitiesRegistry<?, ?> screenEntitiesRegistry, Annotation annotation, Class<?> containingClass) {
-		this.screenEntitiesRegistry = (ScreenEntitiesRegistry)screenEntitiesRegistry;
-		processScreenEntity((ScreenEntity)annotation, containingClass);
-	}
+	public void load(HostEntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
-	public void processScreenEntity(ScreenEntity screenEntity, Class<?> screenEntityClass) {
-		String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : screenEntityClass.getSimpleName();
-		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenName, screenEntityClass);
+		ScreenEntity screenEntity = (ScreenEntity)annotation;
+		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
+
+		String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : containingClass.getSimpleName();
+		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenName, containingClass);
 		screenEntityDefinition.setName(screenName);
 		screenEntityDefinition.setType(screenEntity.screenType());
 		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
-				screenEntityClass.getName()));
+				containingClass.getName()));
 
 		screenEntitiesRegistry.add(screenEntityDefinition);
 	}

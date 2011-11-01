@@ -54,6 +54,9 @@ public class ScreenEntityDirectFieldAccessor {
 
 	public void setFieldValue(String fieldName, Object value) {
 		directFieldAccessor.setPropertyValue(fieldName, value);
+		if (logger.isDebugEnabled()) {
+			logger.debug(MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value));
+		}
 	}
 
 	public Class<?> getFieldType(String fieldName) {
