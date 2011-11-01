@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.recognizers.pattern.MainMenu;
 import org.openlegacy.recognizers.pattern.SignOn;
-import org.openlegacy.terminal.support.actions.SendKeyActions;
+import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

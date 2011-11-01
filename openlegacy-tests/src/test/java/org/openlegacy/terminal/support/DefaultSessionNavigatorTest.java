@@ -16,7 +16,7 @@ import junit.framework.Assert;
 public class DefaultSessionNavigatorTest extends AbstractTest {
 
 	@Test
-	public void testNavigation() {
+	public void testSimpleNavigation() {
 		terminalSession.getModule(LoginModule.class).login("user", "pwd");
 
 		Assert.assertTrue(terminalSession.isConnected());
@@ -24,4 +24,5 @@ public class DefaultSessionNavigatorTest extends AbstractTest {
 		ItemsList itemsList = terminalSession.getEntity(ItemsList.class);
 		Assert.assertNotNull(itemsList);
 	}
+
 }

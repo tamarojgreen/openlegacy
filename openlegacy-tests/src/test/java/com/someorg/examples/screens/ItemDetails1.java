@@ -6,7 +6,7 @@ import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.SimpleScreenIdentifiers;
-import org.openlegacy.terminal.support.actions.SendKeyClasses;
+import org.openlegacy.terminal.actions.SendKeyClasses;
 
 @ScreenEntity
 @SimpleScreenIdentifiers(identifiers = { @Identifier(row = 6, column = 2, value = "Item Number . ."),

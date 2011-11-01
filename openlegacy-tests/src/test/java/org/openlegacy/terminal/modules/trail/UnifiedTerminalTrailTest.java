@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.trail.TrailModule;
 import org.openlegacy.modules.trail.TrailWriter;
-import org.openlegacy.terminal.support.actions.SendKeyActions;
+import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.support.actions;
+package org.openlegacy.terminal.actions;
 
 import org.openlegacy.HostAction;
 

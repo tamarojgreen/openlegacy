@@ -7,7 +7,6 @@ import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.SessionNavigator;
-import org.openlegacy.terminal.support.actions.SendKeyActions;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +40,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 				for (FieldAssignDefinition fieldAssignDefinition : assignedFields) {
 					fieldAccessor.setFieldValue(fieldAssignDefinition.getName(), fieldAssignDefinition.getValue());
 				}
-				// TODO ENTER should come from navigation configuration
-				terminalSession.doAction(SendKeyActions.ENTER, currentEntity);
-				currentEntity = terminalSession.getEntity();
+				terminalSession.doAction(navigationDefinition.getHostAction(), currentEntity);
 			}
 		}
 	}

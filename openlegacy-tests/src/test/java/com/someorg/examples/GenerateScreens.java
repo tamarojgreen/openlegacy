@@ -2,7 +2,7 @@ package com.someorg.examples;
 
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.support.actions.SendKeyActions;
+import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
