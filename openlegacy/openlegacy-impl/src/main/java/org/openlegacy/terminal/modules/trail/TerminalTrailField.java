@@ -4,28 +4,39 @@ import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.support.ScreenPositionBean;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType
+@XmlAccessorType(XmlAccessType.FIELD)
 public class TerminalTrailField implements TerminalField {
 
-	@XmlElement(name = "position")
-	private ScreenPositionBean screenPosition;
+	@XmlElement(name = "position", type = ScreenPositionBean.class)
+	private ScreenPosition screenPosition;
+
+	@XmlAttribute
 	private String value;
+	@XmlAttribute
 	private int length;
 
+	@XmlAttribute
 	private boolean modified;
 
+	@XmlAttribute
 	private boolean editable;
 
 	public ScreenPosition getScreenPosition() {
 		return screenPosition;
 	}
 
-	public void setScreenPosition(ScreenPositionBean screenPosition) {
+	public void setScreenPosition(ScreenPosition screenPosition) {
 		this.screenPosition = screenPosition;
 	}
 
-	public ScreenPositionBean getPosition() {
+	public ScreenPosition getPosition() {
 		return screenPosition;
 	}
 

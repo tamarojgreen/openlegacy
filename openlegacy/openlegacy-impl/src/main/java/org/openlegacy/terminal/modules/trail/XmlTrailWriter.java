@@ -23,7 +23,7 @@ public class XmlTrailWriter implements TrailWriter {
 
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			JAXBContext context = JAXBContext.newInstance(UnifiedTerminalTrail.class, UnifiedTerminalTrailStage.class);
+			JAXBContext context = JAXBContext.newInstance(UnifiedTerminalTrail.class);
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			m.marshal(unifiedTerminalTrail, baos);

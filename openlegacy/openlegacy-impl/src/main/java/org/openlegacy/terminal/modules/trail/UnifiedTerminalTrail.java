@@ -16,13 +16,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "terminal-trail")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class UnifiedTerminalTrail implements SessionTrail {
 
-	@XmlElement(name = "stage", type = UnifiedTerminalTrail.class)
+	@XmlElement(name = "stage", type = UnifiedTerminalTrailStage.class)
 	private List<TrailStage> stages = new ArrayList<TrailStage>();
 
 	public List<TrailStage> getStages() {
@@ -63,6 +66,7 @@ public class UnifiedTerminalTrail implements SessionTrail {
 		return unifiedStage;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static TrailStage transformCommonStage(UnifiedTerminalTrailStage unifiedStage, TerminalScreen screen)
 			throws IllegalAccessException, InvocationTargetException {
 
@@ -96,7 +100,7 @@ public class UnifiedTerminalTrail implements SessionTrail {
 		Map<ScreenPosition, String> fields = sendAction.getFields();
 		Set<ScreenPosition> fieldPositions = fields.keySet();
 		for (ScreenPosition fieldPosition : fieldPositions) {
-			TerminalTrailRow row = unifiedStage.getRows().get(fieldPosition.getRow() - 1);
+			TerminalTrailRow row = (TerminalTrailRow)unifiedStage.getRows().get(fieldPosition.getRow() - 1);
 			TerminalTrailField field = (TerminalTrailField)row.getField(fieldPosition.getColumn());
 			field.setValue(fields.get(fieldPosition));
 			field.setModified(true);
