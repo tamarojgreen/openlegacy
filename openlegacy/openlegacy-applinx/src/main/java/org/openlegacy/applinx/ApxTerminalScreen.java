@@ -77,4 +77,8 @@ public class ApxTerminalScreen implements TerminalScreen {
 		}
 		return rows;
 	}
+
+	public SnapshotType getSnapshotType() {
+		return SnapshotType.INCOMING;
+	}
 }

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stage type="INCOMING">
+    <row rowNumber="1">
+        <field value="                    " length="20" modified="false" editable="false">
+            <position row="1" column="2"/>
+        </field>
+        <field value="             " length="13" modified="false" editable="false">
+            <position row="1" column="23"/>
+        </field>
+        <field value="Sign On             " length="20" modified="false" editable="false">
+            <position row="1" column="36"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="1" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="2">
+        <field value="                                              " length="46" modified="false" editable="false">
+            <position row="2" column="1"/>
+        </field>
+        <field value="System  " length="8" modified="false" editable="false">
+            <position row="2" column="48"/>
+        </field>
+        <field value=". . . . . :" length="11" modified="false" editable="false">
+            <position row="2" column="56"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="2" column="68"/>
+        </field>
+        <field value="S44R5550" length="8" modified="false" editable="false">
+            <position row="2" column="70"/>
+        </field>
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="2" column="79"/>
+        </field>
+    </row>
+    <row rowNumber="3">
+        <field value="                                              " length="46" modified="false" editable="false">
+            <position row="3" column="1"/>
+        </field>
+        <field value="Subsystem . . . . :" length="19" modified="false" editable="false">
+            <position row="3" column="48"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="3" column="68"/>
+        </field>
+        <field value="QBASE     " length="10" modified="false" editable="false">
+            <position row="3" column="70"/>
+        </field>
+    </row>
+    <row rowNumber="4">
+        <field value="                                              " length="46" modified="false" editable="false">
+            <position row="4" column="1"/>
+        </field>
+        <field value="Display . . . . . :" length="19" modified="false" editable="false">
+            <position row="4" column="48"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="4" column="68"/>
+        </field>
+        <field value="QPADEV00RT" length="10" modified="false" editable="false">
+            <position row="4" column="70"/>
+        </field>
+    </row>
+    <row rowNumber="5">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="5" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="6">
+        <field value="               " length="15" modified="false" editable="false">
+            <position row="6" column="1"/>
+        </field>
+        <field value="User  " length="6" modified="false" editable="false">
+            <position row="6" column="17"/>
+        </field>
+        <field value=". . . . . . . . . . . . . ." length="27" modified="false" editable="false">
+            <position row="6" column="23"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="6" column="51"/>
+        </field>
+        <field value="" length="10" modified="false" editable="true">
+            <position row="6" column="53"/>
+        </field>
+        <field value="                 " length="17" modified="false" editable="false">
+            <position row="6" column="64"/>
+        </field>
+    </row>
+    <row rowNumber="7">
+        <field value="               " length="15" modified="false" editable="false">
+            <position row="7" column="1"/>
+        </field>
+        <field value="Password  " length="10" modified="false" editable="false">
+            <position row="7" column="17"/>
+        </field>
+        <field value=". . . . . . . . . . . ." length="23" modified="false" editable="false">
+            <position row="7" column="27"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="7" column="51"/>
+        </field>
+        <field value="" length="10" modified="false" editable="true">
+            <position row="7" column="53"/>
+        </field>
+        <field value="                 " length="17" modified="false" editable="false">
+            <position row="7" column="64"/>
+        </field>
+    </row>
+    <row rowNumber="8">
+        <field value="               " length="15" modified="false" editable="false">
+            <position row="8" column="1"/>
+        </field>
+        <field value="Program/procedure . . . . . . . ." length="33" modified="false" editable="false">
+            <position row="8" column="17"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="8" column="51"/>
+        </field>
+        <field value="" length="10" modified="false" editable="true">
+            <position row="8" column="53"/>
+        </field>
+        <field value="                 " length="17" modified="false" editable="false">
+            <position row="8" column="64"/>
+        </field>
+    </row>
+    <row rowNumber="9">
+        <field value="               " length="15" modified="false" editable="false">
+            <position row="9" column="1"/>
+        </field>
+        <field value="Menu  " length="6" modified="false" editable="false">
+            <position row="9" column="17"/>
+        </field>
+        <field value=". . . . . . . . . . . . . ." length="27" modified="false" editable="false">
+            <position row="9" column="23"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="9" column="51"/>
+        </field>
+        <field value="" length="10" modified="false" editable="true">
+            <position row="9" column="53"/>
+        </field>
+        <field value="                 " length="17" modified="false" editable="false">
+            <position row="9" column="64"/>
+        </field>
+    </row>
+    <row rowNumber="10">
+        <field value="               " length="15" modified="false" editable="false">
+            <position row="10" column="1"/>
+        </field>
+        <field value="Current library . . . . . . . . ." length="33" modified="false" editable="false">
+            <position row="10" column="17"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="10" column="51"/>
+        </field>
+        <field value="" length="10" modified="false" editable="true">
+            <position row="10" column="53"/>
+        </field>
+        <field value="                 " length="17" modified="false" editable="false">
+            <position row="10" column="64"/>
+        </field>
+    </row>
+    <row rowNumber="11">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="11" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="12">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="12" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="13">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="13" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="14">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="14" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="15">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="15" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="16">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="16" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="17">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="17" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="18">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="18" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="19">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="19" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="20">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="20" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="21">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="21" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="22">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="22" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="23">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="23" column="1"/>
+        </field>
+    </row>
+    <size rows="24" columns="80"/>
+</stage>

@@ -25,9 +25,4 @@
 		</property>
 	</bean>
 	
-	<!-- 
-	<bean id="screenEntityBinder" class="org.openlegacy.terminal.support.DefaultScreenEntityBinder" />
-	<bean id="trailWriter" class="org.openlegacy.terminal.support.trail.XmlTrailWriter" />
- 	-->
-
 </beans>
