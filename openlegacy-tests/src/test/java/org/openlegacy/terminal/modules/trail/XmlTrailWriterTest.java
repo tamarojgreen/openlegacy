@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream;
 
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UnifiedTerminalTrailTest extends AbstractTest {
+public class XmlTrailWriterTest extends AbstractTest {
 
 	@Autowired
 	private TrailWriter trailWriter;

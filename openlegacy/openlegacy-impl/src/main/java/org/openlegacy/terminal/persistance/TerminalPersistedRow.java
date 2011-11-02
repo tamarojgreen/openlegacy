@@ -22,14 +22,15 @@ public class TerminalPersistedRow implements TerminalRow {
 	@XmlElement(name = "field", type = TerminalPersistedField.class)
 	private List<TerminalField> fields = new ArrayList<TerminalField>();
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List getFields() {
+	public List<TerminalField> getFields() {
 		return fields;
 	}
 
 	public TerminalField getField(int column) {
 		for (TerminalField field : fields) {
-			if (field.getPosition().getColumn() == column) {
+			int startColumn = field.getPosition().getColumn();
+			int endColumn = startColumn + field.getLength();
+			if (startColumn <= column && endColumn >= column) {
 				return field;
 			}
 		}

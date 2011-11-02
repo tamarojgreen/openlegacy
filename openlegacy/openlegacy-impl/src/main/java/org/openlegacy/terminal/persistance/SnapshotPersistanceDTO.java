@@ -69,7 +69,6 @@ public class SnapshotPersistanceDTO {
 		return persistedSnapshot;
 	}
 
-	@SuppressWarnings("unchecked")
 	private static TerminalSnapshot transformCommonSnapshot(TerminalPersistedSnapshot persistedSnapshot, TerminalScreen screen)
 			throws IllegalAccessException, InvocationTargetException {
 
