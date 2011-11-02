@@ -4,12 +4,14 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1-RELEASE</version>
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-designtime</artifactId>
+	<name>Open Legacy Designtime API</name>
 	<version>${project.parent.version}</version>
 
+	<description>An API for Open Legacy designtime tools such as code generator, etc</description>
 	<repositories>
 		<repository>
 			<id>javaparser</id>

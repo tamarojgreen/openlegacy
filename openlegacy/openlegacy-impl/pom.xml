@@ -4,12 +4,15 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1-RELEASE</version>
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-impl</artifactId>
+	<name>Open Legacy implementation</name>
 	<version>${project.parent.version}</version>
 
+	<description>Open Legacy implementation provides a default implementation for Open Legacy API along with a legacy provider adapter.</description>
+	<url>http://openlegacy.org</url>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>

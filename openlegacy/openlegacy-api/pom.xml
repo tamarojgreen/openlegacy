@@ -3,11 +3,20 @@
   <parent>
     <artifactId>openlegacy</artifactId>
     <groupId>org.openlegacy</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1-RELEASE</version>
   </parent>
   <groupId>org.openlegacy</groupId>
   <artifactId>openlegacy-api</artifactId>
-	<version>${parent.version}</version>
+  <name>Open Legacy API</name>
+  <version>${project.parent.version}</version>
+  <description>Open Legacy API provides a specification for legacy application mostrly throught interfaces &amp; annotations.</description>
+  <url>http://openlegacy.org</url>
+  <issueManagement>
+  </issueManagement>
+  <scm>
+  </scm>
+  <organization>
+  </organization>
   <modules>
   </modules>
 </project>

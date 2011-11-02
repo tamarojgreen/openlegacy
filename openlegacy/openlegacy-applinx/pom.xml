@@ -4,12 +4,14 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1-RELEASE</version>
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-applinx</artifactId>
+	<name>Open Legacy Applinx adapter</name>
 	<version>${project.parent.version}</version>
 
+	<description>Open Legacy adapter  implementation for Applinx legacy provider.</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
