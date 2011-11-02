@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.modules.trail;
+package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
@@ -14,12 +14,12 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalTrailRow implements TerminalRow {
+public class TerminalPersistedRow implements TerminalRow {
 
 	@XmlAttribute
 	private int rowNumber;
 
-	@XmlElement(name = "field", type = TerminalTrailField.class)
+	@XmlElement(name = "field", type = TerminalPersistedField.class)
 	private List<TerminalField> fields = new ArrayList<TerminalField>();
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })

@@ -1,8 +1,9 @@
-package com.someorg.examples;
+package org.openlegacy.tools;
+
+import org.openlegacy.utils.RequestMockUtil;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
-
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class StartServer {
 

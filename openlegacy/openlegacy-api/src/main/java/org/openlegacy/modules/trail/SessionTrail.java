@@ -1,10 +1,12 @@
 package org.openlegacy.modules.trail;
 
+import org.openlegacy.Snapshot;
+
 import java.util.List;
 
-public interface SessionTrail {
+public interface SessionTrail<S extends Snapshot> {
 
-	List<TrailStage> getStages();
+	List<S> getSnapshots();
 
-	void appendStage(TrailStage stage);
+	void appendSnapshot(S snapshot);
 }

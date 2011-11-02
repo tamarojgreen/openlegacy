@@ -1,12 +1,11 @@
 package org.openlegacy;
 
-import com.someorg.examples.RequestMockUtil;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.utils.RequestMockUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 

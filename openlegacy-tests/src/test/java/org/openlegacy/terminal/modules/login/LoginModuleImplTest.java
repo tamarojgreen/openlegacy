@@ -8,10 +8,10 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.login.LoginModule;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.TrailModule;
-import org.openlegacy.modules.trail.TrailStage;
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.modules.trail.TerminalOutgoingTrailStage;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -43,12 +43,12 @@ public class LoginModuleImplTest extends AbstractTest {
 	}
 
 	private void assertLoginPeformed() {
-		SessionTrail trail = terminalSession.getModule(TrailModule.class).getSessionTrail();
-		Assert.assertEquals(2, trail.getStages().size());
-		TrailStage loginStage = trail.getStages().get(0);
-		Assert.assertEquals(loginStage.getClass(), TerminalOutgoingTrailStage.class);
+		SessionTrail<TerminalSnapshot> trail = terminalSession.getModule(TrailModule.class).getSessionTrail();
+		Assert.assertEquals(2, trail.getSnapshots().size());
+		TerminalSnapshot loginSnapshot = trail.getSnapshots().get(0);
+		Assert.assertEquals(loginSnapshot.getClass(), TerminalOutgoingSnapshot.class);
 
-		Map<ScreenPosition, String> fields = ((TerminalOutgoingTrailStage)loginStage).getTerminalSendAction().getFields();
+		Map<ScreenPosition, String> fields = ((TerminalOutgoingSnapshot)loginSnapshot).getTerminalSendAction().getFields();
 		Set<ScreenPosition> fieldPositions = fields.keySet();
 		Iterator<ScreenPosition> iterator = fieldPositions.iterator();
 

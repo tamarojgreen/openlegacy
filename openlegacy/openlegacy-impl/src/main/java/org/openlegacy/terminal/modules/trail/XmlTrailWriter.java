@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.modules.trail;
 
 import org.openlegacy.modules.trail.SessionTrail;
-import org.openlegacy.modules.trail.TrailStage;
 import org.openlegacy.modules.trail.TrailWriter;
+import org.openlegacy.terminal.TerminalSnapshot;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -13,17 +13,17 @@ import javax.xml.bind.Marshaller;
 
 public class XmlTrailWriter implements TrailWriter {
 
-	public void write(SessionTrail trail, OutputStream out) {
+	public void write(SessionTrail<TerminalSnapshot> trail, OutputStream out) {
 
-		UnifiedTerminalTrail unifiedTerminalTrail = new UnifiedTerminalTrail();
-		List<TrailStage> stages = trail.getStages();
-		for (TrailStage trailStage : stages) {
-			unifiedTerminalTrail.appendStage(trailStage);
+		TerminalPersistedTrail unifiedTerminalTrail = new TerminalPersistedTrail();
+		List<TerminalSnapshot> snapshots = trail.getSnapshots();
+		for (TerminalSnapshot snapshot : snapshots) {
+			unifiedTerminalTrail.appendSnapshot(snapshot);
 		}
 
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			JAXBContext context = JAXBContext.newInstance(UnifiedTerminalTrail.class);
+			JAXBContext context = JAXBContext.newInstance(TerminalPersistedTrail.class);
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			m.marshal(unifiedTerminalTrail, baos);

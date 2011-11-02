@@ -1,6 +1,7 @@
 package org.openlegacy.modules.trail;
 
 import org.openlegacy.modules.HostSessionModule;
+import org.openlegacy.terminal.TerminalSnapshot;
 
 /**
  * Session TrailModule module interface
@@ -8,5 +9,5 @@ import org.openlegacy.modules.HostSessionModule;
  */
 public interface TrailModule extends HostSessionModule {
 
-	public SessionTrail getSessionTrail();
+	public SessionTrail<TerminalSnapshot> getSessionTrail();
 }

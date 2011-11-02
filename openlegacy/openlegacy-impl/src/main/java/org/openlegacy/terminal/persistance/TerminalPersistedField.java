@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.modules.trail;
+package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalTrailField implements TerminalField {
+public class TerminalPersistedField implements TerminalField {
 
 	@XmlElement(name = "position", type = ScreenPositionBean.class)
 	private ScreenPosition screenPosition;
