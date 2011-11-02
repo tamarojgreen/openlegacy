@@ -111,23 +111,26 @@ public class ApxServerLoader {
 
 	}
 
-	private static void initFile(File tempDir, String fileName) throws IOException {
+	private static void initFile(File tempDir, String fileName, String targetFileName) throws IOException {
+		if (targetFileName == null) {
+			targetFileName = fileName;
+		}
+
 		Resource fileResource = new ClassPathResource(fileName);
-		initResource(tempDir, fileName, fileResource);
+		initResource(tempDir, targetFileName, fileResource);
 	}
 
-	private static void initResource(File tempDir, String fileName, Resource fileResource) throws IOException,
+	private static void initResource(File tempDir, String targetFileName, Resource fileResource) throws IOException,
 			FileNotFoundException {
-		File targetFile = new File(tempDir, fileName);
+		File targetFile = new File(tempDir, targetFileName);
 		targetFile.getParentFile().mkdirs();
 		IOUtils.copy(fileResource.getInputStream(), new FileOutputStream(targetFile));
 	}
 
 	private static void initConfigFiles(File workingDir) throws IOException {
-		initFile(workingDir, "/config/gxconfig.xml");
-		initFile(workingDir, "/config/gxperm.cfg");
-		initFile(workingDir, "/config/gxserver.cfg");
-		// initFile(workingDir, "/config/log/gxlog_config.xml");
+		initFile(workingDir, "/config/gxconfig.apx", "/config/gxconfig.xml");
+		initFile(workingDir, "/config/gxperm.cfg", null);
+		initFile(workingDir, "/config/gxserver.cfg", null);
 	}
 
 	private void initLicense(File workingDir) throws IOException {
