@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 /**
- * A default session class exposes screenEntity building and sending
+ * An abstract session class which exposes modules management functionality
  * 
  * 
  */

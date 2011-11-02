@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.support.SimpleHostEntitiesRegistry;
+import org.openlegacy.support.AbstractHostEntitiesRegistry;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -17,7 +17,7 @@ import java.util.List;
  * A simple implementation of a screen entities registry. Holds information collection from @ScreenEntity, @FieldMapping and more
  * 
  */
-public class DefaultScreenEntitiesRegistry extends SimpleHostEntitiesRegistry<ScreenEntityDefinition, FieldMappingDefinition> implements ScreenEntitiesRegistry {
+public class DefaultScreenEntitiesRegistry extends AbstractHostEntitiesRegistry<ScreenEntityDefinition, FieldMappingDefinition> implements ScreenEntitiesRegistry {
 
 	public ScreenEntityDefinition match(TerminalScreen hostScreen) {
 		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();

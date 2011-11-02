@@ -18,7 +18,7 @@ import java.util.Map;
  * A simple implementation for host entities registry
  * 
  */
-public abstract class SimpleHostEntitiesRegistry<H extends HostEntityDefinition<D>, D extends FieldDefinition> implements HostEntitiesRegistry<H, D> {
+public abstract class AbstractHostEntitiesRegistry<H extends HostEntityDefinition<D>, D extends FieldDefinition> implements HostEntitiesRegistry<H, D> {
 
 	private final Map<Class<?>, H> entitiesDefinitions = new HashMap<Class<?>, H>();
 
