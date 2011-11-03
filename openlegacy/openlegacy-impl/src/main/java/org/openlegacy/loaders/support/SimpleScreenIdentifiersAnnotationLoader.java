@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.annotations.screen.Identifier;
-import org.openlegacy.annotations.screen.SimpleScreenIdentifiers;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -22,15 +22,15 @@ public class SimpleScreenIdentifiersAnnotationLoader implements ClassAnnotations
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public boolean match(Annotation annotation) {
-		return annotation.annotationType() == SimpleScreenIdentifiers.class;
+		return annotation.annotationType() == ScreenIdentifiers.class;
 	}
 
 	public void load(HostEntitiesRegistry<?, ?> screenEntitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		this.screenEntitiesRegistry = (ScreenEntitiesRegistry)screenEntitiesRegistry;
-		processScreenEntity((SimpleScreenIdentifiers)annotation, containingClass);
+		processScreenEntity((ScreenIdentifiers)annotation, containingClass);
 	}
 
-	public void processScreenEntity(SimpleScreenIdentifiers screenIdentifiers, Class<?> screenEntityClass) {
+	public void processScreenEntity(ScreenIdentifiers screenIdentifiers, Class<?> screenEntityClass) {
 
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntityClass);
 		Identifier[] identifiers = screenIdentifiers.identifiers();
