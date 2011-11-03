@@ -10,6 +10,16 @@
 	<bean name="SignOn" class="com.someorg.examples.screens.SignOn" />
 	<bean name="MainMenu" class="org.openlegacy.recognizers.pattern.MainMenu" />
 
+	<bean id="terminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+		<property name="files">
+			<list>
+				<value>/screens_xml/SignOn.xml</value>
+				<value>/screens_xml/MainMenu.xml</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.CompositeScreenRecognizer">
 		<property name="screensRecognizers">
 			<list>

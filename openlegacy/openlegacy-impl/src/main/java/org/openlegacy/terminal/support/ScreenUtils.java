@@ -27,7 +27,7 @@ public class ScreenUtils {
 		if (value.length() == 0) {
 			return;
 		}
-		for (int i = 0; i < terminalField.getLength(); i++) {
+		for (int i = 0; i < value.length(); i++) {
 			buffer.setCharAt(beginIndex + i, value.charAt(i));
 		}
 	}

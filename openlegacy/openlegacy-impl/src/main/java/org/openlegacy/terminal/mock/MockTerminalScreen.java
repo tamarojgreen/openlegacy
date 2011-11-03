@@ -46,11 +46,11 @@ public class MockTerminalScreen implements TerminalScreen {
 	public String getText(ScreenPosition position, int length) {
 		initContent();
 		int beginIndex = ScreenUtils.toAbsolutePosition(position, getSize());
-		return screenText.substring(beginIndex, beginIndex + getSize().getColumns());
+		return screenText.substring(beginIndex, beginIndex + length);
 	}
 
 	public TerminalField getField(ScreenPosition position) {
-		TerminalRow row = terminalSnapshot.getRows().get(position.getRow());
+		TerminalRow row = terminalSnapshot.getRows().get(position.getRow() - 1);
 		return row.getField(position.getColumn());
 	}
 

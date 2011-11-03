@@ -26,7 +26,7 @@ public abstract class AbstractScreensDumper {
 
 	public void dumpSession(File baseDir, boolean cleanupFolder) throws Exception {
 		RequestMockUtil.initRequest();
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/test-common-context.xml");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath*:/test-host-context.xml");
 
 		ScreensRecognizer screensRecognizer = applicationContext.getBean(ScreensRecognizer.class);
 		ScreenEntitiesRegistry screenEntitiesRegistry = applicationContext.getBean(ScreenEntitiesRegistry.class);

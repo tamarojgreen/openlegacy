@@ -46,9 +46,9 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 	}
 
 	public void setSize(ScreenSize size) {
-		ScreenSizeBean size1 = new ScreenSizeBean();
-		size1.setRows(size.getRows());
-		size1.setColumns(size.getColumns());
-		this.size = size1;
+		ScreenSizeBean tempSize = new ScreenSizeBean();
+		tempSize.setRows(size.getRows());
+		tempSize.setColumns(size.getColumns());
+		this.size = tempSize;
 	}
 }

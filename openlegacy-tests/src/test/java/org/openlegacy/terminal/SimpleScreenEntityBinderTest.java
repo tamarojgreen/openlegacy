@@ -53,13 +53,5 @@ public class SimpleScreenEntityBinderTest extends AbstractTest {
 		terminalSession.doAction(SendKeyActions.ENTER, null);
 		ItemsList workwithItemMaster = terminalSession.getEntity(ItemsList.class);
 		Assert.assertNotNull(workwithItemMaster);
-
-		terminalSession.doAction(SendKeyActions.PAGEDN, null);
-		ItemsList workwithItemMaster2 = terminalSession.getEntity(ItemsList.class);
-		Assert.assertNotNull(workwithItemMaster2);
-
-		terminalSession.doAction(SendKeyActions.PAGEDN, null);
-		ItemsList workwithItemMaster3 = terminalSession.getEntity(ItemsList.class);
-		Assert.assertNotNull(workwithItemMaster3);
 	}
 }

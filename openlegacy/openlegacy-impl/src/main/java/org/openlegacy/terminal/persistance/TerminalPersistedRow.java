@@ -29,7 +29,7 @@ public class TerminalPersistedRow implements TerminalRow {
 	public TerminalField getField(int column) {
 		for (TerminalField field : fields) {
 			int startColumn = field.getPosition().getColumn();
-			int endColumn = startColumn + field.getLength();
+			int endColumn = startColumn + field.getLength() - 1;
 			if (startColumn <= column && endColumn >= column) {
 				return field;
 			}

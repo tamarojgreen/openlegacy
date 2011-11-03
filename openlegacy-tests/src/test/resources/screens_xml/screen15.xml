@@ -406,5 +406,13 @@
             <position row="23" column="42"/>
         </field>
     </row>
+    <row rowNumber="24">
+        <field value="The end of the file was reached.                                            " length="76" modified="false" editable="false">
+            <position row="24" column="2"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="24" column="79"/>
+        </field>
+    </row>
     <size rows="24" columns="80"/>
 </snapshot>

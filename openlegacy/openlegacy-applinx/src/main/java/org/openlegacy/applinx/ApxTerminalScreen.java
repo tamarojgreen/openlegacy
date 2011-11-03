@@ -75,6 +75,7 @@ public class ApxTerminalScreen implements TerminalScreen {
 			}
 			currentRow.getFields().add(new ApxTerminalField(apxField));
 		}
+		rows.add(currentRow);
 		return rows;
 	}
 

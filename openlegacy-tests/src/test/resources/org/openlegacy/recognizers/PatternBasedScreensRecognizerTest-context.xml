@@ -9,6 +9,16 @@
 	<import resource="classpath*:/test-basic-context.xml"/>
 
 	<context:component-scan base-package="org.openlegacy.recognizers.pattern" />
+
+	<bean id="terminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+		<property name="files">
+			<list>
+				<value>/screens_xml/SignOn.xml</value>
+				<value>/screens_xml/MainMenu.xml</value>
+			</list>
+		</property>
+	</bean>
 	 
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.PatternBasedScreensRecognizer" p:ignoreChars=" ._=-;&quot;">
 		<property name="positions">
