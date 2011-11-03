@@ -30,6 +30,7 @@ public class ScreenNavigationAnnotationLoader implements ClassAnnotationsLoader 
 		navigationDefinition.setAccessedFrom(screenNavigation.accessedFrom());
 		try {
 			navigationDefinition.setHostAction(screenNavigation.hostAction().newInstance());
+			navigationDefinition.setExitAction(screenNavigation.exitAction().newInstance());
 		} catch (Exception e) {
 			throw (new IllegalStateException(e));
 		}

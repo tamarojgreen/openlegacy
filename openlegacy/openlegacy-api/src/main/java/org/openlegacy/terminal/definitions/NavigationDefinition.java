@@ -11,4 +11,6 @@ public interface NavigationDefinition {
 	List<FieldAssignDefinition> getAssignedFields();
 
 	HostAction getHostAction();
+
+	HostAction getExitAction();
 }

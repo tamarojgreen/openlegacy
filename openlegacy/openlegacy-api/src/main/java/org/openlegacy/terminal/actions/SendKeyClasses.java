@@ -22,6 +22,9 @@ public class SendKeyClasses {
 	public static class PF1 extends HostActionAdapter {
 	}
 
+	public static class PF3 extends HostActionAdapter {
+	}
+
 	public static class PAGEDN extends HostActionAdapter {
 	}
 

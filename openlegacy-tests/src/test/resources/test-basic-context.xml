@@ -10,7 +10,7 @@
 
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />
 	<bean id="fieldMappingsProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedFieldMappingsProvider" />
-	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.DefaultSessionNavigator" />
+	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
 	
 	<bean id="terminalSessionModules" class="org.openlegacy.support.HostSessionModules" scope="session">
 		<property name="modules">

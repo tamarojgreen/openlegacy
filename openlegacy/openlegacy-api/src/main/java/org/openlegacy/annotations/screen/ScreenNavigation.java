@@ -20,4 +20,5 @@ public @interface ScreenNavigation {
 
 	AssignedField[] assignedFields() default {};
 
+	Class<? extends HostAction> exitAction();
 }
