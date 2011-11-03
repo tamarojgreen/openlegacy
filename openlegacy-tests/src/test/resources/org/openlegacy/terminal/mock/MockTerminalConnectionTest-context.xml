@@ -11,12 +11,10 @@
 	<bean id="terminalConnectionFactory" class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="files">
 			<list>
-				<value>/screens_xml/screen1.xml</value>
-				<value>/screens_xml/screen2.xml</value>
+				<value>/screens_xml/SignOn.xml</value>
+				<value>/screens_xml/MainMenu.xml</value>
 			</list>
 		</property>
 	</bean>
-
-	<context:component-scan base-package="com.someorg.examples.screens" />
 
 </beans>

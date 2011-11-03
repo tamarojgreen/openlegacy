@@ -14,7 +14,7 @@ public class ScreenEntityRecursiveAjGenerator {
 
 	public static void main(String[] args) throws ParseException, IOException, TemplateException {
 		if (args.length == 0) {
-			System.out.println("Usage:\nScreenEntityRecursiveAjGenerator java-source-folder");
+			System.out.println("Usage:\njava ScreenEntityRecursiveAjGenerator java-source-folder");
 			return;
 		}
 		String root = args[0];

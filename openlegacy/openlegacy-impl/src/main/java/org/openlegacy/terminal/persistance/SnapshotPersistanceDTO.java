@@ -18,7 +18,7 @@ import java.util.Set;
 
 public class SnapshotPersistanceDTO {
 
-	public static TerminalSnapshot transformSnapshot(TerminalSnapshot snapshot) {
+	public static TerminalPersistedSnapshot transformSnapshot(TerminalSnapshot snapshot) {
 		try {
 			if (snapshot instanceof TerminalIncomingSnapshot) {
 				return transformIncomingSnapshot((TerminalIncomingSnapshot)snapshot);
@@ -36,8 +36,8 @@ public class SnapshotPersistanceDTO {
 
 	}
 
-	public static TerminalSnapshot transformIncomingSnapshot(TerminalIncomingSnapshot snapshot) throws IllegalAccessException,
-			InvocationTargetException {
+	public static TerminalPersistedSnapshot transformIncomingSnapshot(TerminalIncomingSnapshot snapshot)
+			throws IllegalAccessException, InvocationTargetException {
 		TerminalPersistedSnapshot persistedSnapshot = new TerminalPersistedSnapshot();
 		BeanUtils.copyProperties(persistedSnapshot, snapshot);
 
@@ -48,8 +48,8 @@ public class SnapshotPersistanceDTO {
 		return persistedSnapshot;
 	}
 
-	private static TerminalSnapshot transformOutgoingSnapshot(TerminalOutgoingSnapshot snapshot) throws IllegalAccessException,
-			InvocationTargetException {
+	private static TerminalPersistedSnapshot transformOutgoingSnapshot(TerminalOutgoingSnapshot snapshot)
+			throws IllegalAccessException, InvocationTargetException {
 		TerminalPersistedSnapshot persistedSnapshot = new TerminalPersistedSnapshot();
 		persistedSnapshot.setSnapshotType(snapshot.getSnapshotType());
 

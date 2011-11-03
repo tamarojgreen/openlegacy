@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<stage type="INCOMING">
+<snapshot type="INCOMING">
     <row rowNumber="1">
         <field value="                    " length="20" modified="false" editable="false">
             <position row="1" column="2"/>
@@ -227,4 +227,4 @@
         </field>
     </row>
     <size rows="24" columns="80"/>
-</stage>
+</snapshot>
