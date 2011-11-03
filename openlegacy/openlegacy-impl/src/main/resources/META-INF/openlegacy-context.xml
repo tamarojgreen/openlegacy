@@ -29,8 +29,10 @@
 	<bean id="childScreensDefinitionProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedChildScreensDefinitionProvider" />
 	<bean id="trailWriter" class="org.openlegacy.terminal.modules.trail.XmlTrailWriter" />
 
-	<bean id="navigationCache" class="org.openlegacy.terminal.support.navigation.NavigationCache" />
 	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
+
+	<bean id="navigationCache" class="org.openlegacy.terminal.support.navigation.NavigationCache" />
+	<bean id="loginCache" class="org.openlegacy.terminal.modules.login.LoginCache" />
 
 	<!-- entity level annotation loaders - ordered! -->
 	<bean class="org.openlegacy.loaders.support.ScreenEntityAnnotationLoader"/>
