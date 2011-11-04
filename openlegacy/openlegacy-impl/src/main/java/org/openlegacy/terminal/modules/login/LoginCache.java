@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.modules.login;
 
 import org.openlegacy.exceptions.RegistryException;
-import org.openlegacy.modules.login.LoginModule;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -19,11 +19,11 @@ public class LoginCache {
 
 	public void initCache() {
 
-		loginScreenDefinition = screenEntitiesRegistry.getFirstEntityDefinition(LoginModule.LoginScreen.class);
+		loginScreenDefinition = screenEntitiesRegistry.getFirstEntityDefinition(Login.LoginScreen.class);
 
-		userField = loginScreenDefinition.getFirstFieldDefinition(LoginModule.UserField.class);
-		passwordField = loginScreenDefinition.getFirstFieldDefinition(LoginModule.PasswordField.class);
-		errorField = loginScreenDefinition.getFirstFieldDefinition(LoginModule.ErrorField.class);
+		userField = loginScreenDefinition.getFirstFieldDefinition(Login.UserField.class);
+		passwordField = loginScreenDefinition.getFirstFieldDefinition(Login.PasswordField.class);
+		errorField = loginScreenDefinition.getFirstFieldDefinition(Login.ErrorField.class);
 
 		Class<?> hostEntityClass = loginScreenDefinition.getEntityClass();
 		if (userField == null) {

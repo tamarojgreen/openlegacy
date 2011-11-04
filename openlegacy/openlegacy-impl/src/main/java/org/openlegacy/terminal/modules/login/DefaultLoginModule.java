@@ -3,14 +3,14 @@ package org.openlegacy.terminal.modules.login;
 import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.LoginException;
-import org.openlegacy.modules.login.LoginModule;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class DefaultLoginModule extends TerminalSessionModuleAdapter implements LoginModule {
+public class DefaultLoginModule extends TerminalSessionModuleAdapter implements Login {
 
 	@Autowired
 	private LoginCache loginCache;

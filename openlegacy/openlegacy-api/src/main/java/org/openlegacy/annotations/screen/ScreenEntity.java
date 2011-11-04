@@ -1,6 +1,6 @@
 package org.openlegacy.annotations.screen;
 
-import org.openlegacy.HostEntityType;
+import org.openlegacy.terminal.ScreenEntityType;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -24,5 +24,5 @@ public @interface ScreenEntity {
 
 	boolean supportTerminalData() default false;
 
-	Class<? extends HostEntityType> screenType() default HostEntityType.General.class;
+	Class<? extends ScreenEntityType> screenType() default ScreenEntityType.General.class;
 }

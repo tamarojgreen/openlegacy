@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.modules.trail;
 
 import org.openlegacy.modules.trail.SessionTrail;
-import org.openlegacy.modules.trail.TrailModule;
+import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
@@ -9,7 +9,7 @@ import org.openlegacy.terminal.support.TerminalIncomingSnapshot;
 import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 
-public class HostSessionTrailModuleImpl extends TerminalSessionModuleAdapter implements TrailModule {
+public class TerminalSessionTrailModuleImpl extends TerminalSessionModuleAdapter implements Trail {
 
 	private SessionTrail<TerminalSnapshot> sessionTrail;
 

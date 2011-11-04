@@ -5,11 +5,11 @@ import com.someorg.examples.screens.SignOn;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
-import org.openlegacy.modules.login.LoginModule;
+import org.openlegacy.Snapshot;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.trail.SessionTrail;
-import org.openlegacy.modules.trail.TrailModule;
+import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,22 +30,22 @@ public class LoginModuleImplTest extends AbstractTest {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		signOn.setUser("someuser");
 		signOn.setPassword("somepwd");
-		terminalSession.getModule(LoginModule.class).login(signOn);
+		terminalSession.getModule(Login.class).login(signOn);
 
 		assertLoginPeformed();
 	}
 
 	@Test
 	public void testLoginSimple() {
-		terminalSession.getModule(LoginModule.class).login("someuser", "somepwd");
+		terminalSession.getModule(Login.class).login("someuser", "somepwd");
 
 		assertLoginPeformed();
 	}
 
 	private void assertLoginPeformed() {
-		SessionTrail<TerminalSnapshot> trail = terminalSession.getModule(TrailModule.class).getSessionTrail();
+		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
 		Assert.assertEquals(2, trail.getSnapshots().size());
-		TerminalSnapshot loginSnapshot = trail.getSnapshots().get(0);
+		Snapshot loginSnapshot = trail.getSnapshots().get(0);
 		Assert.assertEquals(loginSnapshot.getClass(), TerminalOutgoingSnapshot.class);
 
 		Map<ScreenPosition, String> fields = ((TerminalOutgoingSnapshot)loginSnapshot).getTerminalSendAction().getFields();
@@ -60,6 +60,6 @@ public class LoginModuleImplTest extends AbstractTest {
 		Assert.assertEquals(new SimpleScreenPosition(7, 53), secondPosition);
 		Assert.assertEquals("somepwd", fields.get(secondPosition));
 
-		Assert.assertTrue(terminalSession.getModule(LoginModule.class).isLoggedIn());
+		Assert.assertTrue(terminalSession.getModule(Login.class).isLoggedIn());
 	}
 }

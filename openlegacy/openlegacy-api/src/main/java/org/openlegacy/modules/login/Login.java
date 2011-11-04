@@ -1,11 +1,11 @@
 package org.openlegacy.modules.login;
 
 import org.openlegacy.FieldType;
-import org.openlegacy.HostEntityType;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.HostSessionModule;
+import org.openlegacy.terminal.ScreenEntityType;
 
-public interface LoginModule extends HostSessionModule {
+public interface Login extends HostSessionModule {
 
 	void login(String user, String password) throws LoginException, RegistryException;
 
@@ -15,7 +15,7 @@ public interface LoginModule extends HostSessionModule {
 
 	void logoff();
 
-	public static class LoginScreen implements HostEntityType {
+	public static class LoginScreen implements ScreenEntityType {
 	}
 
 	public static class UserField implements FieldType {

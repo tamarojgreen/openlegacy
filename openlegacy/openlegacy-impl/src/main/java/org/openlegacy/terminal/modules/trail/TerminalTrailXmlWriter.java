@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.modules.trail;
 
+import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -8,14 +9,14 @@ import org.openlegacy.utils.JaxbUtil;
 import java.io.OutputStream;
 import java.util.List;
 
-public class XmlTrailWriter implements TrailWriter {
+public class TerminalTrailXmlWriter implements TrailWriter {
 
-	public void write(SessionTrail<TerminalSnapshot> trail, OutputStream out) {
+	public void write(SessionTrail<? extends Snapshot> trail, OutputStream out) {
 
 		TerminalPersistedTrail persistedTrail = new TerminalPersistedTrail();
-		List<TerminalSnapshot> snapshots = trail.getSnapshots();
-		for (TerminalSnapshot snapshot : snapshots) {
-			persistedTrail.appendSnapshot(snapshot);
+		List<? extends Snapshot> snapshots = trail.getSnapshots();
+		for (Snapshot snapshot : snapshots) {
+			persistedTrail.appendSnapshot((TerminalSnapshot)snapshot);
 		}
 
 		try {
