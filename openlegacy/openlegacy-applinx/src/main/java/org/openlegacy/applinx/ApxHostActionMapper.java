@@ -7,8 +7,9 @@ import java.text.MessageFormat;
 
 public class ApxHostActionMapper implements HostActionMapper {
 
-	public String map(HostAction hostAction) {
-		return MessageFormat.format("[{0}]", hostAction.getCommand().toString().toLowerCase());
+	public String getCommand(Class<? extends HostAction> hostAction) {
+		String simpleName = hostAction.getSimpleName().toLowerCase();
+		return MessageFormat.format("[{0}]", simpleName);
 	}
 
 }

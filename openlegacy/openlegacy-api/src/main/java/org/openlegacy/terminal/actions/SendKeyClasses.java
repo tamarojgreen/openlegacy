@@ -8,26 +8,21 @@ import org.openlegacy.HostAction;
  */
 public class SendKeyClasses {
 
-	public static class HostActionAdapter implements HostAction {
-
-		public Object getCommand() {
-			return getClass().getSimpleName();
-		}
-
+	public static class SimpleHostAction implements HostAction {
 	}
 
-	public static class ENTER extends HostActionAdapter {
+	public static class ENTER extends SimpleHostAction {
 	}
 
-	public static class PF1 extends HostActionAdapter {
+	public static class F1 extends SimpleHostAction {
 	}
 
-	public static class PF3 extends HostActionAdapter {
+	public static class F3 extends SimpleHostAction {
 	}
 
-	public static class PAGEDN extends HostActionAdapter {
+	public static class PAGEDOWN extends SimpleHostAction {
 	}
 
-	public static class PAGEUP extends HostActionAdapter {
+	public static class PAGEUP extends SimpleHostAction {
 	}
 }

@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.HostAction;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
@@ -9,12 +8,12 @@ import java.util.Map;
 public class SimpleTerminalSendAction implements TerminalSendAction {
 
 	private Map<ScreenPosition, String> fields;
-	private HostAction hostAction;
+	private Object command;
 	private ScreenPosition cursorPosition;
 
-	public SimpleTerminalSendAction(Map<ScreenPosition, String> fields, HostAction hostAction, ScreenPosition cursorPosition) {
+	public SimpleTerminalSendAction(Map<ScreenPosition, String> fields, Object command, ScreenPosition cursorPosition) {
 		this.fields = fields;
-		this.hostAction = hostAction;
+		this.command = command;
 		this.cursorPosition = cursorPosition;
 	}
 
@@ -22,8 +21,8 @@ public class SimpleTerminalSendAction implements TerminalSendAction {
 		return fields;
 	}
 
-	public HostAction getHostAction() {
-		return hostAction;
+	public Object getCommand() {
+		return command;
 	}
 
 	public ScreenPosition getCursorPosition() {

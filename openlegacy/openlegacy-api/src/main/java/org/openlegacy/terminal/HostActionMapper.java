@@ -4,5 +4,5 @@ import org.openlegacy.HostAction;
 
 public interface HostActionMapper {
 
-	String map(HostAction hostAction);
+	Object getCommand(Class<? extends HostAction> hostAction);
 }

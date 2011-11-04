@@ -10,15 +10,12 @@ import com.sabratec.applinx.baseobject.internal.GXClientScreen;
 import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 import com.sabratec.util.GXPosition;
 
-import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
-import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
-import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,11 +23,8 @@ public class ApxTerminalConnection implements TerminalConnection {
 
 	private final GXIClientBaseObject baseObject;
 
-	private HostActionMapper hostActionMapper;
-
-	public ApxTerminalConnection(GXIClientBaseObject baseObject, HostActionMapper hostActionMapper) {
+	public ApxTerminalConnection(GXIClientBaseObject baseObject) {
 		this.baseObject = baseObject;
-		this.hostActionMapper = hostActionMapper;
 	}
 
 	public TerminalScreen getSnapshot() {
@@ -60,13 +54,10 @@ public class ApxTerminalConnection implements TerminalConnection {
 
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
 
-		HostAction hostAction = terminalSendAction.getHostAction();
 		Map<ScreenPosition, String> fields = terminalSendAction.getFields();
 		ScreenPosition cursorPosition = terminalSendAction.getCursorPosition();
 
-		validateAction(hostAction);
-
-		GXSendKeysRequest sendKeyRequest = buildRequest(fields, hostAction);
+		GXSendKeysRequest sendKeyRequest = buildRequest(fields, terminalSendAction.getCommand());
 		GXIClientBaseObject baseObject = (GXIClientBaseObject)getDelegate();
 
 		if (cursorPosition != null) {
@@ -80,9 +71,8 @@ public class ApxTerminalConnection implements TerminalConnection {
 		return this;
 	}
 
-	private GXSendKeysRequest buildRequest(Map<ScreenPosition, String> fields, HostAction hostAction) {
-		String command = hostActionMapper.map(hostAction);
-		GXSendKeysRequest sendKeyRequest = new GXSendKeysRequest(command);
+	private static GXSendKeysRequest buildRequest(Map<ScreenPosition, String> fields, Object command) {
+		GXSendKeysRequest sendKeyRequest = new GXSendKeysRequest((String)command);
 
 		if (fields == null) {
 			return sendKeyRequest;
@@ -96,13 +86,6 @@ public class ApxTerminalConnection implements TerminalConnection {
 			sendKeyRequest.addInputField(inputField);
 		}
 		return sendKeyRequest;
-	}
-
-	private static void validateAction(HostAction action) {
-		if (!(action.getCommand() instanceof String)) {
-			throw (new IllegalArgumentException(
-					MessageFormat.format("Specified {0} action is not supported", action.getCommand())));
-		}
 	}
 
 }

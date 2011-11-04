@@ -23,12 +23,23 @@
 					</property>
 				</bean>	
 				<bean class="org.openlegacy.terminal.modules.login.DefaultLoginModule">
-					<property name="defaultExitAction" ref="PF3" />
+					<property name="defaultExitAction" ref="F3" />
 					<property name="maxActionsToLogin" value="5" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
-	<util:constant id="PF3" static-field="org.openlegacy.terminal.actions.SendKeyActions.PF3" />	
+	<util:constant id="F3" static-field="org.openlegacy.terminal.actions.SendKeyActions.F3" />
+	
+	<bean id="hostActionMapper" class="org.openlegacy.terminal.support.SimpleHostActionMapper">
+		<property name="actionMappings">
+			<map>
+				<entry key="org.openlegacy.terminal.actions.SendKeyClasses.ENTER" value="[enter]" />
+				<entry key="org.openlegacy.terminal.actions.SendKeyClasses.F1" value="[pf1]" />
+				<entry key="org.openlegacy.terminal.actions.SendKeyClasses.F3" value="[pf3]" />
+			</map>
+			
+		</property>
+	</bean>
 </beans>

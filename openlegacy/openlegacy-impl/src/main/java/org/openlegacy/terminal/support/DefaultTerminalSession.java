@@ -1,10 +1,12 @@
 package org.openlegacy.terminal.support;
 
+import org.openlegacy.CustomHostAction;
 import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.modules.HostSessionModule;
 import org.openlegacy.support.AbstractHostSession;
 import org.openlegacy.terminal.CursorContainer;
+import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
@@ -33,6 +35,9 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	@Autowired
 	private SessionNavigator sessionNavigator;
+
+	@Autowired
+	private HostActionMapper hostActionMapper;
 
 	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> screenEntityClass) throws HostEntityNotFoundException {
@@ -66,11 +71,16 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		if (screenEntity instanceof CursorContainer) {
 			cursorPosition = ((CursorContainer)screenEntity).getCursorPosition();
 		}
-		TerminalSendAction terminalSendAction = new SimpleTerminalSendAction(fieldValues, hostAction, cursorPosition);
+		if (hostAction instanceof CustomHostAction) {
+			((CustomHostAction)hostAction).perform(this);
+		} else {
+			TerminalSendAction terminalSendAction = new SimpleTerminalSendAction(fieldValues,
+					hostActionMapper.getCommand(hostAction.getClass()), cursorPosition);
 
-		notifyModulesBeforeSend(terminalSendAction);
-		terminalConnection.doAction(terminalSendAction);
-		notifyModulesAfterSend();
+			notifyModulesBeforeSend(terminalSendAction);
+			terminalConnection.doAction(terminalSendAction);
+			notifyModulesAfterSend();
+		}
 
 		return this;
 	}

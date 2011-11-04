@@ -5,7 +5,6 @@ import com.sabratec.applinx.baseobject.GXGeneralException;
 import com.sabratec.applinx.baseobject.GXIClientBaseObject;
 
 import org.openlegacy.exceptions.OpenLegacyProviderException;
-import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +14,9 @@ public class ApxTerminalConnctionFactory implements TerminalConnectionFactory {
 	@Autowired
 	private ApxServerLoader apxServerLoader;
 
-	@Autowired
-	private HostActionMapper hostActionMapper;
-
 	public TerminalConnection getConnection() {
 		try {
-			return new ApxTerminalConnection(apxServerLoader.getSession(), hostActionMapper);
+			return new ApxTerminalConnection(apxServerLoader.getSession());
 		} catch (GXGeneralException e) {
 			throw (new OpenLegacyProviderException(e));
 		}
