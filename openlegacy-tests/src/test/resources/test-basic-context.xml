@@ -3,8 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<import resource="classpath*:/META-INF/openlegacy-standalone-context.xml"/>
 
@@ -20,9 +22,13 @@
 						<bean class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrail" p:historyCount="5" />
 					</property>
 				</bean>	
-				<bean class="org.openlegacy.terminal.modules.login.DefaultLoginModule" />
+				<bean class="org.openlegacy.terminal.modules.login.DefaultLoginModule">
+					<property name="defaultExitAction" ref="PF3" />
+					<property name="maxActionsToLogin" value="5" />
+				</bean>
 			</list>
 		</property>
 	</bean>
-	
+
+	<util:constant id="PF3" static-field="org.openlegacy.terminal.actions.SendKeyActions.PF3" />	
 </beans>
