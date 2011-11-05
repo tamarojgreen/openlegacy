@@ -54,8 +54,6 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
 
-	private static final String TERMINAL_SCREEN = "terminalScreen";
-
 	@SuppressWarnings("unchecked")
 	public <T> T buildScreenEntity(Class<T> screenEntity, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
 			ScreenEntityNotAccessibleException {
@@ -78,10 +76,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 			ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
 
-			if (fieldAccessor.isWritableProperty(TERMINAL_SCREEN)) {
-				fieldAccessor.setFieldValue(TERMINAL_SCREEN, terminalScreen);
-
-			}
+			fieldAccessor.setTerminalScreen(terminalScreen);
 
 			injectFields(fieldAccessor, screenEntityClass, terminalScreen);
 

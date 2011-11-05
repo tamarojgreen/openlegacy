@@ -3,6 +3,7 @@ package org.openlegacy.terminal.utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.DirectFieldAccessor;
 
@@ -15,6 +16,8 @@ public class ScreenEntityDirectFieldAccessor {
 	protected static final String FIELD_SUFFIX = "Field";
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityDirectFieldAccessor.class);
+
+	private static final String TERMINAL_SCREEN = "terminalScreen";
 
 	public ScreenEntityDirectFieldAccessor(Object target) {
 		try {
@@ -56,6 +59,15 @@ public class ScreenEntityDirectFieldAccessor {
 		directFieldAccessor.setPropertyValue(fieldName, value);
 		if (logger.isDebugEnabled()) {
 			logger.debug(MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value));
+		}
+	}
+
+	public void setTerminalScreen(TerminalScreen terminalScreen) {
+		if (directFieldAccessor.isWritableProperty(TERMINAL_SCREEN)) {
+			directFieldAccessor.setPropertyValue(TERMINAL_SCREEN, terminalScreen);
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("Terminal screen was set to screen entity");
 		}
 	}
 

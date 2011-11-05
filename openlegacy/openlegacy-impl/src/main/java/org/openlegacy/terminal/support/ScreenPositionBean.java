@@ -2,6 +2,8 @@ package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.ScreenPosition;
 
+import java.text.MessageFormat;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -43,5 +45,10 @@ public class ScreenPositionBean implements ScreenPosition {
 		screenPosition.setColumn(position.getColumn());
 		return screenPosition;
 
+	}
+
+	@Override
+	public String toString() {
+		return MessageFormat.format("{0},{1}", row, column);
 	}
 }
