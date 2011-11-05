@@ -3,7 +3,6 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FetchMode;
-import org.openlegacy.exceptions.HostEntityNotAccessibleException;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.terminal.ChildScreensDefinitionProvider;
 import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
@@ -13,6 +12,7 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.utils.ScreenAccessUtils;
@@ -58,7 +58,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 	@SuppressWarnings("unchecked")
 	public <T> T buildScreenEntity(Class<T> screenEntity, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
-			HostEntityNotAccessibleException {
+			ScreenEntityNotAccessibleException {
 
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
 

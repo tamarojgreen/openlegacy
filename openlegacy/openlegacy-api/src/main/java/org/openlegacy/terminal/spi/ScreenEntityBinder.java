@@ -1,9 +1,9 @@
 package org.openlegacy.terminal.spi;
 
-import org.openlegacy.exceptions.HostEntityNotAccessibleException;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public interface ScreenEntityBinder {
 	Object buildScreenEntity(TerminalScreen hostScreen, boolean deep);
 
 	<T> T buildScreenEntity(Class<T> screenEntityClass, TerminalScreen hostScreen) throws HostEntityNotFoundException,
-			HostEntityNotAccessibleException;
+			ScreenEntityNotAccessibleException;
 
 	Map<ScreenPosition, String> buildSendFields(TerminalScreen terminalScreen, Object screenEntity);
 

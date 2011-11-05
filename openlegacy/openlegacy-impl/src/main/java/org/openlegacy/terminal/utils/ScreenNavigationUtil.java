@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.utils;
 
-import org.openlegacy.exceptions.HostEntityNotAccessibleException;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.utils.ProxyUtil;
 
 import java.text.MessageFormat;
@@ -17,7 +17,7 @@ public class ScreenNavigationUtil {
 			throw (new HostEntityNotFoundException("Current host screen wasn''t found in the screens registry"));
 		}
 		if (!ProxyUtil.isClassesMatch(matchedScreenEntity, expectedScreenEntity)) {
-			throw (new HostEntityNotAccessibleException(MessageFormat.format(
+			throw (new ScreenEntityNotAccessibleException(MessageFormat.format(
 					"Current host screen {0} wasn''t matched to the requested host entity:{1}", matchedScreenEntity,
 					expectedScreenEntity)));
 		}
