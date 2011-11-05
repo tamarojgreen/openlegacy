@@ -6,7 +6,6 @@ import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
-import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -105,8 +104,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 		Class<?> loginClass = loginCache.getLoginScreenDefinition().getEntityClass();
 
-		TerminalScreen snapshot = getTerminalSession().getSnapshot();
-		Class<?> currentEntityClass = screensRecognizer.match(snapshot);
+		Class<?> currentEntityClass = screensRecognizer.match(getTerminalSession().getSnapshot());
 
 		int exitActionsCount = 0;
 		// while current entity is not login screen and haven't reach a maximum exit actions
@@ -120,8 +118,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 				logger.debug(MessageFormat.format("Exiting screen {0} using {1}", currentEntityClass, exitAction));
 			}
 			getTerminalSession().doAction(exitAction, null);
-			snapshot = getTerminalSession().getSnapshot();
-			currentEntityClass = screensRecognizer.match(snapshot);
+			currentEntityClass = screensRecognizer.match(getTerminalSession().getSnapshot());
 
 		}
 
