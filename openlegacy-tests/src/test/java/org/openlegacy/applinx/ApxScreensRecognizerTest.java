@@ -1,8 +1,9 @@
 package org.openlegacy.applinx;
 
+import apps.inventory.screens.MainMenu;
+import apps.inventory.screens.SignOn;
+
 import com.sabratec.applinx.common.designtime.exceptions.GXDesignTimeException;
-import com.someorg.examples.screens.MainMenu;
-import com.someorg.examples.screens.SignOn;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 import java.io.IOException;
 

@@ -7,18 +7,19 @@
 
 	<import resource="classpath:/test-basic-context.xml" />
 
-	<context:component-scan base-package="com.someorg.examples.screens" />
+	<context:component-scan base-package="apps.inventory.screens" />
 
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+		<property name="root" value="/apps/inventory/screens_xml" />
 		<property name="files">
 			<list>
-				<value>/screens_xml/SignOn.xml</value>
-				<value>/screens_xml/MainMenu.xml</value>
-				<value>/screens_xml/InventoryManagement.xml</value>
-				<value>/screens_xml/ItemsList.xml</value>
-				<value>/screens_xml/ItemDetails1.xml</value>
-				<value>/screens_xml/ItemDetails2.xml</value>
+				<value>SignOn.xml</value>
+				<value>MainMenu.xml</value>
+				<value>InventoryManagement.xml</value>
+				<value>ItemsList.xml</value>
+				<value>ItemDetails1.xml</value>
+				<value>ItemDetails2.xml</value>
 			</list>
 		</property>
 	</bean>

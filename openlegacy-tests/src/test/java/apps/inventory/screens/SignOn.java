@@ -1,4 +1,4 @@
-package com.someorg.examples.screens;
+package apps.inventory.screens;
 
 import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.Identifier;

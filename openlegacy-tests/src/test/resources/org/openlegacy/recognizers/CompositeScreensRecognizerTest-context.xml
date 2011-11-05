@@ -7,15 +7,16 @@
 
 	<import resource="classpath*:/test-basic-context.xml" />
 
-	<bean name="SignOn" class="com.someorg.examples.screens.SignOn" />
+	<bean name="SignOn" class="apps.inventory.screens.SignOn" />
 	<bean name="MainMenu" class="org.openlegacy.recognizers.pattern.MainMenu" />
 
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+		<property name="root" value="/apps/inventory/screens_xml" />
 		<property name="files">
 			<list>
-				<value>/screens_xml/SignOn.xml</value>
-				<value>/screens_xml/MainMenu.xml</value>
+				<value>SignOn.xml</value>
+				<value>MainMenu.xml</value>
 			</list>
 		</property>
 	</bean>

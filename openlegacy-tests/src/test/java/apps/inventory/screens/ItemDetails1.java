@@ -1,4 +1,4 @@
-package com.someorg.examples.screens;
+package apps.inventory.screens;
 
 import org.openlegacy.FetchMode;
 import org.openlegacy.annotations.screen.ChildScreenEntity;

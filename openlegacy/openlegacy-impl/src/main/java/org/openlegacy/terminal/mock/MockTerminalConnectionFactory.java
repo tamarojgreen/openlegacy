@@ -14,6 +14,7 @@ public class MockTerminalConnectionFactory implements TerminalConnectionFactory 
 
 	private List<String> files = null;
 	private List<TerminalSnapshot> snapshots = null;
+	private String root;
 
 	public TerminalConnection getConnection() {
 		initSnapshots();
@@ -28,7 +29,7 @@ public class MockTerminalConnectionFactory implements TerminalConnectionFactory 
 		for (String resourceName : files) {
 			try {
 				TerminalPersistedSnapshot persistedSnapshot = JaxbUtil.unmarshal(TerminalPersistedSnapshot.class,
-						getClass().getResourceAsStream(resourceName));
+						getClass().getResourceAsStream(MessageFormat.format("{0}/{1}", root, resourceName)));
 				snapshots.add(persistedSnapshot);
 			} catch (Exception e) {
 				throw (new IllegalStateException(MessageFormat.format("Faild reading XML trail:{0}", resourceName), e));
@@ -39,6 +40,10 @@ public class MockTerminalConnectionFactory implements TerminalConnectionFactory 
 
 	public void disconnect(TerminalConnection terminalConnection) {
 		// do nothing
+	}
+
+	public void setRoot(String root) {
+		this.root = root;
 	}
 
 	public void setFiles(List<String> files) {

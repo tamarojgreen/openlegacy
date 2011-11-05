@@ -1,7 +1,8 @@
 package org.openlegacy.terminal.modules.login;
 
-import com.someorg.examples.screens.ItemsList;
-import com.someorg.examples.screens.SignOn;
+
+import apps.inventory.screens.ItemsList;
+import apps.inventory.screens.SignOn;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 import java.util.Iterator;
 import java.util.Map;

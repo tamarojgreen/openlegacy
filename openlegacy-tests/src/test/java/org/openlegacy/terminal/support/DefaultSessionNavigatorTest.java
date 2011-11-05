@@ -1,8 +1,9 @@
 package org.openlegacy.terminal.support;
 
-import com.someorg.examples.screens.InventoryManagement;
-import com.someorg.examples.screens.ItemsList;
-import com.someorg.examples.screens.WarehouseDetails;
+
+import apps.inventory.screens.InventoryManagement;
+import apps.inventory.screens.ItemsList;
+import apps.inventory.screens.WarehouseDetails;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +15,7 @@ import org.openlegacy.terminal.support.navigation.NavigationCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 import junit.framework.Assert;
 

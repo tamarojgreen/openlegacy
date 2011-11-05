@@ -1,6 +1,7 @@
 package org.openlegacy.recognizers;
 
-import com.someorg.examples.screens.SignOn;
+
+import apps.inventory.screens.SignOn;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.openlegacy.recognizers.pattern.MainMenu;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 import java.io.IOException;
 

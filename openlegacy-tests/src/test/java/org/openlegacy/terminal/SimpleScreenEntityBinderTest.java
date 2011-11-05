@@ -1,10 +1,11 @@
 package org.openlegacy.terminal;
 
-import com.someorg.examples.screens.InventoryManagement;
-import com.someorg.examples.screens.ItemDetails1;
-import com.someorg.examples.screens.ItemsList;
-import com.someorg.examples.screens.MainMenu;
-import com.someorg.examples.screens.SignOn;
+
+import apps.inventory.screens.InventoryManagement;
+import apps.inventory.screens.ItemDetails1;
+import apps.inventory.screens.ItemsList;
+import apps.inventory.screens.MainMenu;
+import apps.inventory.screens.SignOn;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 import java.io.IOException;
 
