@@ -14,12 +14,13 @@ import org.openlegacy.terminal.utils.ScreenAccessUtils;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
+
+import javax.inject.Inject;
 
 @Component
 // to be synchronize with terminalSession which is also in session scope
@@ -27,13 +28,13 @@ import java.text.MessageFormat;
 @Aspect
 public class ChildScreenEntityAspect {
 
-	@Autowired
+	@Inject
 	private ChildScreensDefinitionProvider childScreenDefinitionProvider;
 
-	@Autowired
+	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	@Autowired
+	@Inject
 	private TerminalSession terminalSession;
 
 	private final static Log logger = LogFactory.getLog(ChildScreenEntityAspect.class);

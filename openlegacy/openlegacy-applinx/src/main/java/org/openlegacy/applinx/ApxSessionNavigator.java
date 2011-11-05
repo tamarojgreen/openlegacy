@@ -10,11 +10,12 @@ import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.SessionNavigator;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.inject.Inject;
 
 public class ApxSessionNavigator implements SessionNavigator {
 
-	@Autowired
+	@Inject
 	ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntity) throws HostEntityNotAccessibleException {

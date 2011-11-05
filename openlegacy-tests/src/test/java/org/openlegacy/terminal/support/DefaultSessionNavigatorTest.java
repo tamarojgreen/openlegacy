@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.support;
 
-
 import apps.inventory.screens.InventoryManagement;
 import apps.inventory.screens.ItemsList;
 import apps.inventory.screens.WarehouseDetails;
@@ -12,10 +11,10 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.navigation.NavigationCache;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.inject.Inject;
 
 import junit.framework.Assert;
 
@@ -23,10 +22,10 @@ import junit.framework.Assert;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultSessionNavigatorTest extends AbstractTest {
 
-	@Autowired
+	@Inject
 	private NavigationCache navigationCache;
 
-	@Autowired
+	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Test

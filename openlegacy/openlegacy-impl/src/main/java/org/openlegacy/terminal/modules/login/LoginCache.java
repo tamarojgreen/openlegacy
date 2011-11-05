@@ -5,11 +5,12 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.inject.Inject;
 
 public class LoginCache {
 
-	@Autowired
+	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	private FieldMappingDefinition userField;

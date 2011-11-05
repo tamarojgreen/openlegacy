@@ -14,10 +14,11 @@ import org.openlegacy.terminal.TerminalSessionModule;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /**
  * A default session class exposes screenEntity building and sending
@@ -26,17 +27,17 @@ import java.util.Map;
  */
 public class DefaultTerminalSession extends AbstractHostSession implements TerminalSession {
 
-	@Autowired
+	@Inject
 	private ScreenEntityBinder screenEntityBinder;
 
 	private TerminalConnectionDelegator terminalConnection;
 
 	private Object entity;
 
-	@Autowired
+	@Inject
 	private SessionNavigator sessionNavigator;
 
-	@Autowired
+	@Inject
 	private HostActionMapper hostActionMapper;
 
 	@SuppressWarnings("unchecked")

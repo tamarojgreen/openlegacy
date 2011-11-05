@@ -5,9 +5,10 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
+
+import javax.inject.Inject;
 
 /**
  * A FieldMappingsDefinitionProvider based on open legacy @FieldMapping annotation kept in ScreenEntitiesRegistry
@@ -15,7 +16,7 @@ import java.util.Collection;
  */
 public class RegistryBasedFieldMappingsProvider implements FieldMappingsDefinitionProvider {
 
-	@Autowired
+	@Inject
 	private DefaultScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {

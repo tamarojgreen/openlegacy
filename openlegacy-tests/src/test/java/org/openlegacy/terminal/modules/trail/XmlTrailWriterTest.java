@@ -6,17 +6,18 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.actions.SendKeyActions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.ByteArrayOutputStream;
 
+import javax.inject.Inject;
+
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 public class XmlTrailWriterTest extends AbstractTest {
 
-	@Autowired
+	@Inject
 	private TrailWriter trailWriter;
 
 	@Test

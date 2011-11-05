@@ -1,6 +1,5 @@
 package org.openlegacy.recognizers;
 
-
 import apps.inventory.screens.MainMenu;
 import apps.inventory.screens.SignOn;
 
@@ -10,18 +9,18 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.SendKeyActions;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RegistryBasedScreensRecognizerTest extends AbstractTest {
 
-	@Autowired
+	@Inject
 	private TerminalSession terminalSession;
 
 	@Test

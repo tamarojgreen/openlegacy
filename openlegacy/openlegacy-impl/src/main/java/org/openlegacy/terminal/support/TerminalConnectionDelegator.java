@@ -6,12 +6,13 @@ import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+
+import javax.inject.Inject;
 
 public class TerminalConnectionDelegator implements TerminalConnection {
 
-	@Autowired
+	@Inject
 	private ApplicationContext applicationContext;
 
 	private TerminalConnection terminalConnection;

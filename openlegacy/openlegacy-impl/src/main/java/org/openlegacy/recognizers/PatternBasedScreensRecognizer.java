@@ -7,10 +7,11 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.MessageFormat;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /***
  * Pattern based screen recognizer. Looks for fields in the given screen in the given positions. If one of the fields content
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 
-	@Autowired
+	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	private List<ScreenPosition> positions;

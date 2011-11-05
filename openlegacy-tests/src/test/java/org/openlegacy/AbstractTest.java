@@ -6,14 +6,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.utils.RequestMockUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 public class AbstractTest {
 
-	@Autowired
+	@Inject
 	protected TerminalSession terminalSession;
 
 	@BeforeClass

@@ -14,22 +14,23 @@ import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class DefaultSessionNavigator implements SessionNavigator {
 
-	@Autowired
+	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	@Autowired
+	@Inject
 	private ScreensRecognizer screensRecognizer;
 
-	@Autowired
+	@Inject
 	private NavigationCache navigationCache;
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);

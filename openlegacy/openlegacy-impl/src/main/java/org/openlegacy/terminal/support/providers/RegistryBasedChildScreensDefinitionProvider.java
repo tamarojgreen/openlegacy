@@ -4,9 +4,10 @@ import org.openlegacy.terminal.ChildScreensDefinitionProvider;
 import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
+
+import javax.inject.Inject;
 
 /**
  * A ChildScreensDefinitionProvider based on open legacy @ChildScreenEntity annotation kept in ScreenEntitiesRegistry
@@ -14,7 +15,7 @@ import java.util.Collection;
  */
 public class RegistryBasedChildScreensDefinitionProvider implements ChildScreensDefinitionProvider {
 
-	@Autowired
+	@Inject
 	private DefaultScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public Collection<ChildScreenDefinition> getChildScreenDefinitions(Class<?> screenEntity) {

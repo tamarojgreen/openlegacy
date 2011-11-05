@@ -7,13 +7,14 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.inject.Inject;
 
 public class ApxScreensRecognizer implements ScreensRecognizer {
 
 	private static final Object UNKNOWN = "UNKNOWN";
 
-	@Autowired
+	@Inject
 	private ScreenEntitiesRegistry screensEntitiesRegistry;
 
 	private final static Log logger = LogFactory.getLog(ApxScreensRecognizer.class);

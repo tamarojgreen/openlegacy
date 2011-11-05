@@ -14,19 +14,20 @@ import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.MessageFormat;
 
+import javax.inject.Inject;
+
 public class DefaultLoginModule extends TerminalSessionModuleAdapter implements Login {
 
-	@Autowired
+	@Inject
 	private LoginCache loginCache;
 
-	@Autowired
+	@Inject
 	private ScreensRecognizer screensRecognizer;
 
-	@Autowired
+	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	private HostAction hostAction = SendKeyActions.ENTER;

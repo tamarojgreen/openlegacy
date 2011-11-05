@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.modules.login;
 
-
 import apps.inventory.screens.ItemsList;
 import apps.inventory.screens.SignOn;
 
@@ -17,14 +16,14 @@ import org.openlegacy.terminal.mock.MockTerminalScreen;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 import junit.framework.Assert;
 
@@ -32,7 +31,7 @@ import junit.framework.Assert;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultLoginModuleTest extends AbstractTest {
 
-	@Autowired
+	@Inject
 	private ScreensRecognizer screensRecognizer;
 
 	@Test

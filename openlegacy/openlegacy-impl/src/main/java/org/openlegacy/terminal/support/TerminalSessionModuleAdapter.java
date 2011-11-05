@@ -5,7 +5,8 @@ import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionModule;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.inject.Inject;
 
 /**
  * Define a terminal session override-able methods which happens before & after a terminal session action
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class TerminalSessionModuleAdapter extends HostSessionModuleAdapter implements TerminalSessionModule {
 
-	@Autowired
+	@Inject
 	private TerminalSession terminalSession;
 
 	public void beforeSendAction(TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {

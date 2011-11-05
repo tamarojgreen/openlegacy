@@ -18,7 +18,6 @@ import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.utils.ScreenAccessUtils;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 
@@ -26,6 +25,8 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /**
  * Data binder implementation for building a screenEntity from a given terminal screen, and build fields to send from a given
@@ -36,19 +37,19 @@ import java.util.Map;
 // since performing action on terminalSession
 public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
-	@Autowired
+	@Inject
 	private ScreensRecognizer screensRecognizer;
 
-	@Autowired
+	@Inject
 	private FieldMappingsDefinitionProvider fieldMappingsProvider;
 
-	@Autowired
+	@Inject
 	private ChildScreensDefinitionProvider childScreensDefinitionProvider;
 
-	@Autowired
+	@Inject
 	private ApplicationContext applicationContext;
 
-	@Autowired
+	@Inject
 	private TerminalSession terminalSession;
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
