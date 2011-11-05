@@ -1,9 +1,9 @@
 package org.openlegacy.terminal.support.providers;
 
-import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
 
 import java.util.Collection;

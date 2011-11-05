@@ -12,6 +12,7 @@ public class SimpleScreenEntityDefinition extends SimpleHostEntityDefinition<Fie
 	private ScreenIdentification screenIdentification = new SimpleScreenIdentification();
 	private final Map<String, ChildScreenDefinition> childScreenDefinitions = new HashMap<String, ChildScreenDefinition>();
 	private NavigationDefinition navigationDefinition;
+	private Map<Class<?>, TableDefinition> tableDefinitions = new HashMap<Class<?>, TableDefinition>();
 
 	public SimpleScreenEntityDefinition(String hostEntityName, Class<?> hostEntityClass) {
 		super(hostEntityName, hostEntityClass);
@@ -35,5 +36,9 @@ public class SimpleScreenEntityDefinition extends SimpleHostEntityDefinition<Fie
 
 	public void setNavigationDefinition(NavigationDefinition navigationDefinition) {
 		this.navigationDefinition = navigationDefinition;
+	}
+
+	public Map<Class<?>, TableDefinition> getTableDefinitions() {
+		return tableDefinitions;
 	}
 }

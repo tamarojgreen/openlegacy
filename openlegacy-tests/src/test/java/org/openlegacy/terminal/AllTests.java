@@ -13,7 +13,7 @@ import org.openlegacy.terminal.support.DefaultSessionNavigatorTest;
 import org.openlegacy.terminal.support.DefaultTerminalSessionTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ SimpleScreenEntityBinderTest.class, RecognizersSuite.class, ApxSuite.class, XmlTrailWriterTest.class,
+@SuiteClasses({ DefaultScreenEntityBinderTest.class, RecognizersSuite.class, ApxSuite.class, XmlTrailWriterTest.class,
 		DefaultLoginModuleTest.class, DefaultLoginModuleFailedTest.class, DefaultTerminalSessionTest.class,
 		DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class })
 public class AllTests {

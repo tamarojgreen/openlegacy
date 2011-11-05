@@ -20,7 +20,7 @@ import java.io.IOException;
 
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-public class SimpleScreenEntityBinderTest extends AbstractTest {
+public class DefaultScreenEntityBinderTest extends AbstractTest {
 
 	@Test
 	public void testScreenBinder() throws IOException {

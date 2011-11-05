@@ -2,6 +2,7 @@ package org.openlegacy.terminal.support.navigation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
@@ -87,7 +88,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 		Collections.reverse(navigationSteps);
 		Object currentEntity = terminalSession.getEntity(false);
 		for (NavigationDefinition navigationDefinition : navigationSteps) {
-			ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(currentEntity);
+			ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(currentEntity);
 			List<FieldAssignDefinition> assignedFields = navigationDefinition.getAssignedFields();
 			if (logger.isDebugEnabled()) {
 				currentEntityClass = ProxyUtil.getOriginalClass(currentEntity.getClass());

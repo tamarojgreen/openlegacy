@@ -6,9 +6,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.openlegacy.terminal.ChildScreensDefinitionProvider;
+import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ChildScreenDefinition;
+import org.openlegacy.terminal.providers.ChildScreensDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenAccessUtils;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
@@ -71,7 +72,7 @@ public class ChildScreenEntityAspect {
 		fieldName = StringUtils.uncapitalize(fieldName);
 
 		Object target = joinPoint.getTarget();
-		ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(target);
+		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(target);
 
 		if (!fieldAccessor.isReadableProperty(fieldName)) {
 			return joinPoint.proceed();

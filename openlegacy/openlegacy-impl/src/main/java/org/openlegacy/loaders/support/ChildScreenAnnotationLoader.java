@@ -3,6 +3,7 @@ package org.openlegacy.loaders.support;
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.annotations.screen.ChildScreenEntity;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleChildScreenDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 
@@ -23,7 +24,8 @@ public class ChildScreenAnnotationLoader implements FieldAnnotationsLoader {
 		ChildScreenDefinition.setFetchMode(childScreenEntityAnnotation.fetchMode());
 		ChildScreenDefinition.setStepInto(childScreenEntityAnnotation.stepInto());
 
-		screenEntitiesRegistry.get(containingClass).getChildScreenDefinitions().put(fieldName, ChildScreenDefinition);
+		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
+		screenEntityDefinition.getChildScreenDefinitions().put(fieldName, ChildScreenDefinition);
 	}
 
 }

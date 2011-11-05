@@ -6,6 +6,7 @@ import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -49,7 +50,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 		try {
 			Object loginEntity = loginCache.getLoginScreenDefinition().getEntityClass().newInstance();
-			ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(loginEntity);
+			ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(loginEntity);
 			fieldAccessor.setFieldValue(loginCache.getUserField().getName(), user);
 			fieldAccessor.setFieldValue(loginCache.getPasswordField().getName(), password);
 			login(loginEntity);
@@ -75,7 +76,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		}
 		getTerminalSession().doAction(hostAction, loginEntity);
 
-		ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(loginEntity);
+		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(loginEntity);
 		Object currentEntity = getTerminalSession().getEntity(false);
 
 		Class<? extends Object> currentEntityClass = currentEntity.getClass();

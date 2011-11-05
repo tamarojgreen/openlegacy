@@ -11,11 +11,11 @@ import com.sabratec.applinx.common.designtime.model.entity.type.GXSingleScreenTy
 
 import org.openlegacy.FieldType;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
-import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
+import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 
 import java.util.ArrayList;

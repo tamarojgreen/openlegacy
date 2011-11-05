@@ -2,20 +2,16 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.FetchMode;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
-import org.openlegacy.terminal.ChildScreensDefinitionProvider;
-import org.openlegacy.terminal.FieldMappingsDefinitionProvider;
+import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
+import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
+import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.openlegacy.terminal.utils.ScreenAccessUtils;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.springframework.context.ApplicationContext;
@@ -24,6 +20,7 @@ import org.springframework.context.annotation.Scope;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -44,13 +41,10 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	private FieldMappingsDefinitionProvider fieldMappingsProvider;
 
 	@Inject
-	private ChildScreensDefinitionProvider childScreensDefinitionProvider;
-
-	@Inject
 	private ApplicationContext applicationContext;
 
 	@Inject
-	private TerminalSession terminalSession;
+	private List<ScreenEntityDataInjector> screenEntityDataInjectors;
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
 
@@ -74,64 +68,17 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 		try {
 			Object screenEntity = applicationContext.getBean(screenEntityClass);
 
-			ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
+			ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
 
 			fieldAccessor.setTerminalScreen(terminalScreen);
 
-			injectFields(fieldAccessor, screenEntityClass, terminalScreen);
-
-			if (deep) {
-				injectChildScreens(fieldAccessor, screenEntityClass, terminalScreen);
+			for (ScreenEntityDataInjector screenEntityDataInjector : screenEntityDataInjectors) {
+				screenEntityDataInjector.inject(fieldAccessor, screenEntityClass, terminalScreen, deep);
 			}
 
 			return screenEntity;
 		} catch (Exception e) {
 			throw (new IllegalArgumentException(e));
-		}
-
-	}
-
-	private static TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMappingDefinition fieldMapping) {
-		TerminalField terminalField = terminalScreen.getField(fieldMapping.getScreenPosition());
-		return terminalField;
-	}
-
-	private void injectFields(ScreenEntityDirectFieldAccessor fieldAccessor, Class<?> screenEntity,
-			final TerminalScreen terminalScreen) throws Exception {
-
-		Collection<FieldMappingDefinition> fieldMappingDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
-				terminalScreen, screenEntity);
-
-		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingDefinitions) {
-
-			TerminalField terminalField = extractTerminalField(terminalScreen, fieldMappingDefinition);
-
-			String fieldName = fieldMappingDefinition.getName();
-			if (fieldAccessor.isWritableProperty(fieldName)) {
-				fieldAccessor.setTerminalField(fieldName, terminalField);
-			}
-
-		}
-
-	}
-
-	private void injectChildScreens(ScreenEntityDirectFieldAccessor fieldAccessor, Class<?> screenEntity,
-			final TerminalScreen terminalScreen) throws Exception {
-
-		Collection<ChildScreenDefinition> childScreenDefinitions = childScreensDefinitionProvider.getChildScreenDefinitions(screenEntity);
-
-		for (ChildScreenDefinition childScreenDefinition : childScreenDefinitions) {
-
-			if (childScreenDefinition.getFetchMode() == FetchMode.LAZY) {
-				continue;
-			}
-
-			String fieldName = childScreenDefinition.getFieldName();
-
-			Class<?> fieldType = fieldAccessor.getFieldType(fieldName);
-			Object childScreen = ScreenAccessUtils.getChildScreen(terminalSession, fieldType, childScreenDefinition);
-
-			fieldAccessor.setFieldValue(fieldName, childScreen);
 		}
 
 	}
@@ -150,7 +97,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 			return fieldValues;
 		}
 
-		ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
+		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
 		for (FieldMappingDefinition fieldMapping : fieldsInfo) {
 
 			if (fieldMapping.isEditable()) {

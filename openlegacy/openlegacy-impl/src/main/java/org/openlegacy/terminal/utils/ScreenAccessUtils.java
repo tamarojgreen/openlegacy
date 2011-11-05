@@ -12,9 +12,16 @@ public class ScreenAccessUtils {
 	private final static Log logger = LogFactory.getLog(ScreenAccessUtils.class);
 
 	public static Object getChildScreen(TerminalSession terminalSession, Class<?> screenEnity,
-			ChildScreenDefinition childScreenDefinition) throws InstantiationException, IllegalAccessException {
+			ChildScreenDefinition childScreenDefinition) {
 
-		terminalSession.doAction(childScreenDefinition.getStepInto().newInstance(), null);
+		try {
+			terminalSession.doAction(childScreenDefinition.getStepInto().newInstance(), null);
+		} catch (InstantiationException e) {
+			throw (new IllegalStateException(e));
+		} catch (IllegalAccessException e) {
+			throw (new IllegalStateException(e));
+		}
+
 		Object childEntity = terminalSession.getEntity(screenEnity);
 
 		logger.info(MessageFormat.format("Collected child screen for class {1}", childScreenDefinition.getFieldName(),

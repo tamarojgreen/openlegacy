@@ -27,6 +27,7 @@
 	<bean id="screenEntityBinder" class="org.openlegacy.terminal.support.DefaultScreenEntityBinder" />
 	<bean id="fieldMappingsProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedFieldMappingsProvider" />
 	<bean id="childScreensDefinitionProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedChildScreensDefinitionProvider" />
+	<bean id="tableDefinitionsProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedTablesDefinitionProvider" />
 	<bean id="trailWriter" class="org.openlegacy.terminal.modules.trail.TerminalTrailXmlWriter" />
 
 	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
@@ -42,6 +43,13 @@
 	<!-- field level annotation loaders - ordered! -->
 	<bean class="org.openlegacy.loaders.support.FieldMappingAnnotationLoader"/>
 	<bean class="org.openlegacy.loaders.support.ChildScreenAnnotationLoader"/>
+	<bean class="org.openlegacy.loaders.support.ScreenTableAnnotationLoader"/>
+
+	<!-- data injectors -->	
+	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityFieldsInjector"/>
+	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityTablesInjector"/>
+	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityChildScreensInjector"/>
+	
 	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-provider.xml" /> 

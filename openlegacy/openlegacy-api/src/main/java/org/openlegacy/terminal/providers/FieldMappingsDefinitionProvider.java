@@ -1,5 +1,6 @@
-package org.openlegacy.terminal;
+package org.openlegacy.terminal.providers;
 
+import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 
 import java.util.Collection;
