@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.modules.login;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
@@ -14,6 +16,8 @@ import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.text.MessageFormat;
 
 public class DefaultLoginModule extends TerminalSessionModuleAdapter implements Login {
 
@@ -34,7 +38,13 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	// the maximum number of actions allowed in order to exit back to login screen
 	private int maxActionsToLogin = 7;
 
+	private final static Log logger = LogFactory.getLog(DefaultLoginModule.class);
+
 	public void login(String user, String password) throws LoginException {
+		if (loggedIn) {
+			return;
+		}
+
 		lazyMetadataInit();
 
 		try {
@@ -43,6 +53,8 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 			fieldAccessor.setFieldValue(loginCache.getUserField().getName(), user);
 			fieldAccessor.setFieldValue(loginCache.getPasswordField().getName(), password);
 			login(loginEntity);
+		} catch (LoginException e) {
+			throw (e);
 		} catch (Exception e) {
 			throw (new IllegalStateException(e));
 		}
@@ -50,6 +62,10 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	}
 
 	public void login(Object loginEntity) throws LoginException, RegistryException {
+		if (loggedIn) {
+			return;
+		}
+
 		lazyMetadataInit();
 
 		Class<?> registryLoginClass = loginCache.getLoginScreenDefinition().getEntityClass();
@@ -60,7 +76,17 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		getTerminalSession().doAction(hostAction, loginEntity);
 
 		ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(loginEntity);
-		if (getTerminalSession().getEntity() instanceof LoginScreen) {
+		Object currentEntity = getTerminalSession().getEntity(false);
+
+		Class<? extends Object> currentEntityClass = currentEntity.getClass();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug(MessageFormat.format("After performing login action current entity is:{0}", currentEntityClass));
+		}
+
+		// throw exception if after login screen is still login
+		if (ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
+			fieldAccessor = new ScreenEntityDirectFieldAccessor(currentEntity);
 			Object value = fieldAccessor.getFieldValue(loginCache.getErrorField().getName());
 			throw (new LoginException(value.toString()));
 		}
@@ -90,6 +116,9 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 			exitAction = findCurrentEntityExitAction(currentEntityClass, exitAction);
 
+			if (logger.isDebugEnabled()) {
+				logger.debug(MessageFormat.format("Exiting screen {0} using {1}", currentEntityClass, exitAction));
+			}
 			getTerminalSession().doAction(exitAction, null);
 			snapshot = getTerminalSession().getSnapshot();
 			currentEntityClass = screensRecognizer.match(snapshot);

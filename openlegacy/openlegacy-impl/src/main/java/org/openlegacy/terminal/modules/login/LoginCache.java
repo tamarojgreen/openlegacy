@@ -19,6 +19,10 @@ public class LoginCache {
 
 	public void initCache() {
 
+		if (loginScreenDefinition != null) {
+			return;
+		}
+
 		loginScreenDefinition = screenEntitiesRegistry.getFirstEntityDefinition(Login.LoginScreen.class);
 
 		userField = loginScreenDefinition.getFirstFieldDefinition(Login.UserField.class);

@@ -17,7 +17,7 @@ import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.utils.ScreenAccessUtils;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
-import org.openlegacy.terminal.utils.ScreenSyncValidator;
+import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -61,17 +61,17 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
 
-		ScreenSyncValidator.validateCurrentScreen(screenEntity, matchedScreenEntity);
+		ScreenNavigationUtil.validateCurrentScreen(screenEntity, matchedScreenEntity);
 
-		return (T)buildScreenEntityInner(matchedScreenEntity, terminalScreen);
+		return (T)buildScreenEntityInner(matchedScreenEntity, terminalScreen, true);
 	}
 
-	public Object buildScreenEntity(TerminalScreen terminalScreen) {
+	public Object buildScreenEntity(TerminalScreen terminalScreen, boolean deep) {
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
-		return buildScreenEntityInner(matchedScreenEntity, terminalScreen);
+		return buildScreenEntityInner(matchedScreenEntity, terminalScreen, deep);
 	}
 
-	private Object buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen) {
+	private Object buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen, boolean deep) {
 		try {
 			Object screenEntity = applicationContext.getBean(screenEntityClass);
 
@@ -84,7 +84,9 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 			injectFields(fieldAccessor, screenEntityClass, terminalScreen);
 
-			injectChildScreens(fieldAccessor, screenEntityClass, terminalScreen);
+			if (deep) {
+				injectChildScreens(fieldAccessor, screenEntityClass, terminalScreen);
+			}
 
 			return screenEntity;
 		} catch (Exception e) {

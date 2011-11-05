@@ -53,10 +53,10 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		return (T)entity;
 	}
 
-	public Object getEntity() {
+	public Object getEntity(boolean deep) {
 		if (entity == null) {
 			TerminalScreen hostScreen = getSnapshot();
-			entity = screenEntityBinder.buildScreenEntity(hostScreen);
+			entity = screenEntityBinder.buildScreenEntity(hostScreen, deep);
 		}
 		return entity;
 	}

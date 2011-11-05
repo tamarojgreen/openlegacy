@@ -3,14 +3,16 @@ package org.openlegacy.terminal.support.navigation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.HostEntityNotAccessibleException;
+import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
-import org.openlegacy.terminal.utils.ScreenSyncValidator;
+import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,19 +27,23 @@ public class DefaultSessionNavigator implements SessionNavigator {
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Autowired
+	private ScreensRecognizer screensRecognizer;
+
+	@Autowired
 	private NavigationCache navigationCache;
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 
 	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntity) throws HostEntityNotAccessibleException {
 
-		Object currentEntity = terminalSession.getEntity();
+		TerminalScreen snapshot = terminalSession.getSnapshot();
+		Class<?> currentEntityClass = screensRecognizer.match(snapshot);
 
-		if (ProxyUtil.isClassesMatch(currentEntity.getClass(), targetScreenEntity)) {
+		if (ProxyUtil.isClassesMatch(currentEntityClass, targetScreenEntity)) {
 			return;
 		}
 
-		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
+		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntityClass);
 		ScreenEntityDefinition targetEntityDefinition = screenEntitiesRegistry.get(targetScreenEntity);
 
 		List<NavigationDefinition> navigationSteps = navigationCache.get(currentEntityDefinition, targetEntityDefinition);
@@ -50,44 +56,47 @@ public class DefaultSessionNavigator implements SessionNavigator {
 				if (currentScreenNavigationDefinition == null) {
 					break;
 				}
-				exitCurrentScreen(terminalSession, currentEntity, currentScreenNavigationDefinition);
-				currentEntity = terminalSession.getEntity();
-				currentEntityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
+				exitCurrentScreen(terminalSession, currentEntityClass, currentScreenNavigationDefinition);
+				snapshot = terminalSession.getSnapshot();
+				currentEntityClass = screensRecognizer.match(snapshot);
+				currentEntityDefinition = screenEntitiesRegistry.get(currentEntityClass);
 			}
 		}
 
 		if (navigationSteps == null) {
-			ScreenSyncValidator.validateCurrentScreen(targetScreenEntity, currentEntity.getClass());
+			ScreenNavigationUtil.validateCurrentScreen(targetScreenEntity, currentEntityClass);
 		}
 
 		navigationCache.add(currentEntityDefinition, targetEntityDefinition, navigationSteps);
 
-		performDirectNavigation(terminalSession, currentEntity, navigationSteps);
+		performDirectNavigation(terminalSession, currentEntityClass, navigationSteps);
 	}
 
-	private static void exitCurrentScreen(TerminalSession terminalSession, Object currentEntity,
+	private static void exitCurrentScreen(TerminalSession terminalSession, Class<?> currentEntityClass,
 			NavigationDefinition currentScreenNavigationDefinition) {
 		if (logger.isDebugEnabled()) {
-			logger.debug(MessageFormat.format("Steping back of screen {0} using {1}", currentEntity.getClass(),
+			logger.debug(MessageFormat.format("Steping back of screen {0} using {1}", currentEntityClass,
 					currentScreenNavigationDefinition.getExitAction()));
 		}
 		terminalSession.doAction(currentScreenNavigationDefinition.getExitAction(), null);
 	}
 
-	private static void performDirectNavigation(TerminalSession terminalSession, Object currentEntity,
+	private static void performDirectNavigation(TerminalSession terminalSession, Class<?> currentEntityClass,
 			List<NavigationDefinition> navigationSteps) {
 		Collections.reverse(navigationSteps);
+		Object currentEntity = terminalSession.getEntity(false);
 		for (NavigationDefinition navigationDefinition : navigationSteps) {
 			ScreenEntityDirectFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(currentEntity);
 			List<FieldAssignDefinition> assignedFields = navigationDefinition.getAssignedFields();
 			if (logger.isDebugEnabled()) {
-				Class<? extends Object> currentEntityClass = ProxyUtil.getOriginalClass(currentEntity.getClass());
+				currentEntityClass = ProxyUtil.getOriginalClass(currentEntity.getClass());
 				logger.debug("Performing navigation actions from screen " + currentEntityClass);
 			}
 			for (FieldAssignDefinition fieldAssignDefinition : assignedFields) {
 				fieldAccessor.setFieldValue(fieldAssignDefinition.getName(), fieldAssignDefinition.getValue());
 			}
 			terminalSession.doAction(navigationDefinition.getHostAction(), currentEntity);
+			currentEntity = terminalSession.getEntity(false);
 		}
 	}
 

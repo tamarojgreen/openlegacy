@@ -10,7 +10,7 @@ import java.text.MessageFormat;
  * Utility class for checking terminal state against the expected state
  * 
  */
-public class ScreenSyncValidator {
+public class ScreenNavigationUtil {
 
 	public static <T> void validateCurrentScreen(Class<T> expectedScreenEntity, Class<?> matchedScreenEntity) {
 		if (matchedScreenEntity == null) {

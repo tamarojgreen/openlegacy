@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface ScreenEntityBinder {
 
-	Object buildScreenEntity(TerminalScreen hostScreen);
+	Object buildScreenEntity(TerminalScreen hostScreen, boolean deep);
 
 	<T> T buildScreenEntity(Class<T> screenEntityClass, TerminalScreen hostScreen) throws HostEntityNotFoundException,
 			HostEntityNotAccessibleException;
