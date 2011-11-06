@@ -5,10 +5,12 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
-public class LoginCache {
+@Component
+public class LoginMetadata {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

@@ -10,7 +10,7 @@
 
 	<bean class="org.openlegacy.terminal.support.ScreenAnnotationProccesor"/>
 
-	<context:component-scan base-package="org.openlegacy.terminal.support" scoped-proxy="targetClass" />
+	<context:component-scan base-package="org.openlegacy" scoped-proxy="targetClass" />
 	
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session">
         <aop:scoped-proxy/>
@@ -35,22 +35,10 @@
 
 	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
 
-	<bean id="navigationCache" class="org.openlegacy.terminal.support.navigation.NavigationCache" />
-	<bean id="loginCache" class="org.openlegacy.terminal.modules.login.LoginCache" />
-
-	<!-- entity level annotation loaders - ordered! -->
-	<bean class="org.openlegacy.loaders.support.ScreenEntityAnnotationLoader"/>
-	<bean class="org.openlegacy.loaders.support.SimpleScreenIdentifiersAnnotationLoader"/>
-	<bean class="org.openlegacy.loaders.support.ScreenNavigationAnnotationLoader"/>
-
-	<!-- field level annotation loaders - ordered! -->
-	<bean class="org.openlegacy.loaders.support.FieldMappingAnnotationLoader"/>
-	<bean class="org.openlegacy.loaders.support.ChildScreenAnnotationLoader"/>
-	<bean class="org.openlegacy.loaders.support.ScreenTableAnnotationLoader"/>
-
-	<!-- data injectors -->	
+	<!-- data injectors. ordered!-->	
 	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityFieldsInjector"/>
 	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityTablesInjector"/>
+	<!--  should be last. may perform navigation -->
 	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityChildScreensInjector"/>
 	
 	

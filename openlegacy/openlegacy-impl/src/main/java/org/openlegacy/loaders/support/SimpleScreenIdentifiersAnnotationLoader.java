@@ -12,10 +12,12 @@ import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
 
+@Component
 public class SimpleScreenIdentifiersAnnotationLoader implements ClassAnnotationsLoader {
 
 	private final static Log logger = LogFactory.getLog(SimpleScreenIdentifiersAnnotationLoader.class);

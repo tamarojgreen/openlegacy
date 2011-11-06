@@ -5,9 +5,11 @@ import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 
+@Component
 public class FieldMappingAnnotationLoader implements FieldAnnotationsLoader {
 
 	public boolean match(Annotation annotation) {

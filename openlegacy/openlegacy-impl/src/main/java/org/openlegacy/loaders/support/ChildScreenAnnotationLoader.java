@@ -6,9 +6,11 @@ import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleChildScreenDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 
+@Component
 public class ChildScreenAnnotationLoader implements FieldAnnotationsLoader {
 
 	public boolean match(Annotation annotation) {

@@ -11,9 +11,11 @@ import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
+import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 
+@Component
 public class ScreenNavigationAnnotationLoader implements ClassAnnotationsLoader {
 
 	private final static Log logger = LogFactory.getLog(ScreenNavigationAnnotationLoader.class);

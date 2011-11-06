@@ -24,7 +24,7 @@ import javax.inject.Inject;
 public class DefaultLoginModule extends TerminalSessionModuleAdapter implements Login {
 
 	@Inject
-	private LoginCache loginCache;
+	private LoginMetadata loginCache;
 
 	@Inject
 	private ScreensRecognizer screensRecognizer;
