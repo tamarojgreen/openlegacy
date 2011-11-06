@@ -1,4 +1,4 @@
-package org.openlegacy.recognizers.pattern;
+package tests.recognizers.pattern;
 
 import org.openlegacy.annotations.screen.ScreenEntity;
 

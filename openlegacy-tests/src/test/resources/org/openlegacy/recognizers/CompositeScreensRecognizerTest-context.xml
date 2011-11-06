@@ -8,7 +8,7 @@
 	<import resource="classpath*:/test-basic-context.xml" />
 
 	<bean name="SignOn" class="apps.inventory.screens.SignOn" />
-	<bean name="MainMenu" class="org.openlegacy.recognizers.pattern.MainMenu" />
+	<bean name="MainMenu" class="tests.recognizers.pattern.MainMenu" />
 
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">

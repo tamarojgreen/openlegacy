@@ -8,7 +8,7 @@
 
 	<import resource="classpath*:/test-basic-context.xml"/>
 
-	<context:component-scan base-package="org.openlegacy.recognizers.pattern" />
+	<context:component-scan base-package="tests.recognizers.pattern" />
 
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
