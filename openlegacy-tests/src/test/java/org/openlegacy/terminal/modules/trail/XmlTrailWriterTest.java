@@ -1,5 +1,8 @@
 package org.openlegacy.terminal.modules.trail;
 
+import apps.inventory.screens.SignOn;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
@@ -22,10 +25,18 @@ public class XmlTrailWriterTest extends AbstractTest {
 
 	@Test
 	public void testTrail() {
-		terminalSession.doAction(SendKeyActions.ENTER, null);
+		SignOn signOn = terminalSession.getEntity(SignOn.class);
+		signOn.setUser("user");
+		terminalSession.doAction(SendKeyActions.ENTER, signOn);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		trailWriter.write(terminalSession.getModule(Trail.class).getSessionTrail(), baos);
-		System.out.println(new String(baos.toByteArray()));
+		String result = new String(baos.toByteArray());
+
+		String userSent = "<field value=\"user\" length=\"10\" modified=\"true\" editable=\"true\">";
+		Assert.assertTrue(result.contains(userSent));
+
+		System.out.println(result);
+
 	}
 }
