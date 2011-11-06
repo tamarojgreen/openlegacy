@@ -13,4 +13,14 @@ public interface TableDefinition {
 	int getEndRow();
 
 	List<ColumnDefinition> getColumnDefinitions();
+
+	public interface ColumnDefinition {
+
+		String getName();
+
+		int getStartColumn();
+
+		int getEndColumn();
+	}
+
 }

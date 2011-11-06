@@ -4,6 +4,10 @@ import org.openlegacy.HostAction;
 
 import java.util.List;
 
+/**
+ * A screen navigation definitions. Define how to step into and out from the given screen entity
+ * 
+ */
 public interface NavigationDefinition {
 
 	Class<?> getAccessedFrom();
@@ -13,4 +17,5 @@ public interface NavigationDefinition {
 	HostAction getHostAction();
 
 	HostAction getExitAction();
+
 }

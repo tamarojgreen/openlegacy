@@ -15,7 +15,7 @@ import java.util.Collection;
 import javax.inject.Inject;
 
 @Scope("sesssion")
-public class ScreenEntityChildScreensInjector implements ScreenEntityDataInjector {
+public class ScreenEntityChildScreensInjector implements ScreenEntityDataInjector<ChildScreensDefinitionProvider> {
 
 	@Inject
 	private ChildScreensDefinitionProvider childScreensDefinitionProvider;
@@ -46,6 +46,10 @@ public class ScreenEntityChildScreensInjector implements ScreenEntityDataInjecto
 			fieldAccessor.setFieldValue(fieldName, childScreen);
 		}
 
+	}
+
+	public ChildScreensDefinitionProvider DefinitionsProvider() {
+		return childScreensDefinitionProvider;
 	}
 
 }

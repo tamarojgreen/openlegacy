@@ -3,8 +3,8 @@ package org.openlegacy.terminal.support.injectors;
 import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.terminal.definitions.ColumnDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
+public class ScreenEntityTablesInjector implements ScreenEntityDataInjector<TablesDefinitionProvider> {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
@@ -54,5 +54,9 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 			}
 			fieldAccessor.setFieldValue(tableDefinition.getName(), rows);
 		}
+	}
+
+	public TablesDefinitionProvider DefinitionsProvider() {
+		return tablesDefinitionProvider;
 	}
 }

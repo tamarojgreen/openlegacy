@@ -14,6 +14,6 @@ public class SendKeyActions {
 	public static final HostAction F3 = new SendKeyClasses.F3();
 
 	public static final HostAction PAGEUP = new SendKeyClasses.PAGEUP();
-	public static final HostAction PAGEDN = new SendKeyClasses.PAGEDOWN();
+	public static final HostAction PAGEDDOWN = new SendKeyClasses.PAGEDOWN();
 
 }

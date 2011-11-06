@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
+
 public class SimpleColumnDefinition implements ColumnDefinition {
 
 	private String name;

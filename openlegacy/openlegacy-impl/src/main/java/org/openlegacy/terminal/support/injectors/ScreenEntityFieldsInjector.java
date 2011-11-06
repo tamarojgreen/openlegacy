@@ -11,7 +11,7 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-public class ScreenEntityFieldsInjector implements ScreenEntityDataInjector {
+public class ScreenEntityFieldsInjector implements ScreenEntityDataInjector<FieldMappingsDefinitionProvider> {
 
 	@Inject
 	private FieldMappingsDefinitionProvider fieldMappingsProvider;
@@ -37,6 +37,10 @@ public class ScreenEntityFieldsInjector implements ScreenEntityDataInjector {
 	private static TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMappingDefinition fieldMapping) {
 		TerminalField terminalField = terminalScreen.getField(fieldMapping.getScreenPosition());
 		return terminalField;
+	}
+
+	public FieldMappingsDefinitionProvider DefinitionsProvider() {
+		return fieldMappingsProvider;
 	}
 
 }

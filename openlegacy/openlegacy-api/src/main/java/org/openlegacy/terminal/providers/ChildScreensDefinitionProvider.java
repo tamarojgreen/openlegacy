@@ -8,7 +8,7 @@ import java.util.Collection;
  * Child screen meta-data provider purpose is to return child screen definitions for a given screenEntity or a single field
  * 
  */
-public interface ChildScreensDefinitionProvider {
+public interface ChildScreensDefinitionProvider extends DefinitionsProvider {
 
 	Collection<ChildScreenDefinition> getChildScreenDefinitions(Class<?> screenEntity);
 

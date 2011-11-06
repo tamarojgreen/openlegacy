@@ -13,6 +13,7 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.text.MessageFormat;
 
 public class ScreenTableAnnotationLoader implements FieldAnnotationsLoader {
 
@@ -29,6 +30,10 @@ public class ScreenTableAnnotationLoader implements FieldAnnotationsLoader {
 		try {
 			Field field = containingClass.getDeclaredField(fieldName);
 			rowClass = ReflectionUtil.getListType(field);
+			if (rowClass == null) {
+				throw (new IllegalArgumentException(MessageFormat.format("Row class not declared for List {0}, class:{1}",
+						fieldName, containingClass)));
+			}
 		} catch (Exception e) {
 			throw (new IllegalStateException(e));
 		}

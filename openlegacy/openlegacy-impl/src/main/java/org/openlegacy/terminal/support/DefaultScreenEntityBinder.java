@@ -44,7 +44,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	private ApplicationContext applicationContext;
 
 	@Inject
-	private List<ScreenEntityDataInjector> screenEntityDataInjectors;
+	private List<ScreenEntityDataInjector<?>> screenEntityDataInjectors;
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
 
@@ -72,7 +72,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 			fieldAccessor.setTerminalScreen(terminalScreen);
 
-			for (ScreenEntityDataInjector screenEntityDataInjector : screenEntityDataInjectors) {
+			for (ScreenEntityDataInjector<?> screenEntityDataInjector : screenEntityDataInjectors) {
 				screenEntityDataInjector.inject(fieldAccessor, screenEntityClass, terminalScreen, deep);
 			}
 
