@@ -7,7 +7,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
-import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 		boolean cont = true;
 
 		Object screenEntity = getTerminalSession().getEntity(screenEntityClass);
-		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
+		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
 
 		while (cont) {
 
@@ -53,7 +53,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 				cont = false;
 			} else {
 				screenEntity = getTerminalSession().doAction(defaultNextScreenAction, null);
-				fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
+				fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
 			}
 		}
 

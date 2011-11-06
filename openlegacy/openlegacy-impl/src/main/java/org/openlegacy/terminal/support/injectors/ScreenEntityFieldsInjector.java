@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.support.injectors;
 
+import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
@@ -16,6 +17,9 @@ public class ScreenEntityFieldsInjector implements ScreenEntityDataInjector<Fiel
 	@Inject
 	private FieldMappingsDefinitionProvider fieldMappingsProvider;
 
+	@Inject
+	private FieldFormatter fieldFormatter;
+
 	public void inject(ScreenEntityFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen,
 			boolean deep) {
 
@@ -27,8 +31,8 @@ public class ScreenEntityFieldsInjector implements ScreenEntityDataInjector<Fiel
 			TerminalField terminalField = extractTerminalField(terminalScreen, fieldMappingDefinition);
 
 			String fieldName = fieldMappingDefinition.getName();
-			if (fieldAccessor.isWritableProperty(fieldName)) {
-				fieldAccessor.setTerminalField(fieldName, terminalField);
+			if (fieldAccessor.isEditable(fieldName)) {
+				fieldAccessor.setTerminalField(fieldName, terminalField, fieldFormatter);
 			}
 
 		}
@@ -43,4 +47,7 @@ public class ScreenEntityFieldsInjector implements ScreenEntityDataInjector<Fiel
 		return fieldMappingsProvider;
 	}
 
+	public void setFieldFormatter(FieldFormatter fieldFormatter) {
+		this.fieldFormatter = fieldFormatter;
+	}
 }

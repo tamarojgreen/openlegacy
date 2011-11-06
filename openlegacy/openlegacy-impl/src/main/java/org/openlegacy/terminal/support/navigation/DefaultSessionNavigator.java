@@ -12,7 +12,7 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.SessionNavigator;
-import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.utils.ProxyUtil;
 
@@ -88,7 +88,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 		Collections.reverse(navigationSteps);
 		Object currentEntity = terminalSession.getEntity(false);
 		for (NavigationDefinition navigationDefinition : navigationSteps) {
-			ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(currentEntity);
+			ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(currentEntity);
 			List<FieldAssignDefinition> assignedFields = navigationDefinition.getAssignedFields();
 			if (logger.isDebugEnabled()) {
 				currentEntityClass = ProxyUtil.getOriginalClass(currentEntity.getClass());

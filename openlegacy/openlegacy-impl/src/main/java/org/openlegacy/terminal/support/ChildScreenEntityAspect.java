@@ -12,7 +12,7 @@ import org.openlegacy.terminal.definitions.ChildScreenDefinition;
 import org.openlegacy.terminal.providers.ChildScreensDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenAccessUtils;
-import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
 import org.springframework.context.annotation.Scope;
@@ -72,9 +72,9 @@ public class ChildScreenEntityAspect {
 		fieldName = StringUtils.uncapitalize(fieldName);
 
 		Object target = joinPoint.getTarget();
-		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(target);
+		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(target);
 
-		if (!fieldAccessor.isReadableProperty(fieldName)) {
+		if (!fieldAccessor.isExists(fieldName)) {
 			return joinPoint.proceed();
 		}
 

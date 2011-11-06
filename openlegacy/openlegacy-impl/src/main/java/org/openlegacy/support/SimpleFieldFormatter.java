@@ -18,13 +18,22 @@ public class SimpleFieldFormatter implements FieldFormatter {
 	private final static Log logger = LogFactory.getLog(SimpleFieldFormatter.class);
 
 	public String format(String s) {
-		String result = StringUtil.ignoreChars(s, chars);
+		if (s.length() == 0) {
+			return s;
+		}
+
+		String result = trim ? s.trim() : s;
+
+		if (result.length() == 0) {
+			return result;
+		}
+
+		result = StringUtil.ignoreChars(result, chars);
 
 		if (uppercase && lowercase) {
 			throw (new IllegalArgumentException("Can't define both uppercase and lower case formatting"));
 		}
 
-		result = trim ? result.trim() : result;
 		result = uppercase ? result.toUpperCase() : result;
 		result = lowercase ? result.toLowerCase() : result;
 

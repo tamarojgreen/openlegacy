@@ -13,7 +13,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
-import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 
@@ -51,7 +51,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 		try {
 			Object loginEntity = loginCache.getLoginScreenDefinition().getEntityClass().newInstance();
-			ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(loginEntity);
+			ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(loginEntity);
 			fieldAccessor.setFieldValue(loginCache.getUserField().getName(), user);
 			fieldAccessor.setFieldValue(loginCache.getPasswordField().getName(), password);
 			login(loginEntity);
@@ -77,7 +77,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		}
 		getTerminalSession().doAction(hostAction, loginEntity);
 
-		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(loginEntity);
+		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(loginEntity);
 		Object currentEntity = getTerminalSession().getEntity(false);
 
 		Class<? extends Object> currentEntityClass = currentEntity.getClass();
@@ -88,7 +88,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 		// throw exception if after login screen is still login
 		if (ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
-			fieldAccessor = new ScreenEntityDirectFieldAccessor(currentEntity);
+			fieldAccessor = new SimpleScreenEntityFieldAccessor(currentEntity);
 			Object value = fieldAccessor.getFieldValue(loginCache.getErrorField().getName());
 			throw (new LoginException(value.toString()));
 		}

@@ -1,22 +1,12 @@
 package org.openlegacy.terminal;
 
-import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.FieldFormatter;
+import org.openlegacy.HostEntityFieldAccessor;
 
-public interface ScreenEntityFieldAccessor {
+public interface ScreenEntityFieldAccessor extends HostEntityFieldAccessor {
 
-	public abstract boolean isReadableProperty(String fieldName);
-
-	public abstract boolean isWritableProperty(String fieldName);
-
-	public abstract void setTerminalField(String fieldName, TerminalField terminalField);
-
-	public abstract void setFieldValue(String fieldName, Object value);
+	public abstract void setTerminalField(String fieldName, TerminalField terminalField, FieldFormatter fieldFormatter);
 
 	public abstract void setTerminalScreen(TerminalScreen terminalScreen);
-
-	public abstract Class<?> getFieldType(String fieldName);
-
-	public abstract Object getFieldValue(String fieldName);
 
 }

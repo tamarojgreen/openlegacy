@@ -9,7 +9,7 @@ import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
-import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector<Tabl
 			for (int currentRow = startRow; currentRow <= endRow; currentRow++) {
 
 				Object row = applicationContext.getBean(tableDefinition.getRowClass());
-				ScreenEntityFieldAccessor rowAccessor = new ScreenEntityDirectFieldAccessor(row);
+				ScreenEntityFieldAccessor rowAccessor = new SimpleScreenEntityFieldAccessor(row);
 
 				boolean keyIsEmpty = false;
 
@@ -70,5 +70,9 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector<Tabl
 
 	public TablesDefinitionProvider DefinitionsProvider() {
 		return tablesDefinitionProvider;
+	}
+
+	public void setFieldFormatter(FieldFormatter fieldFormatter) {
+		this.fieldFormatter = fieldFormatter;
 	}
 }

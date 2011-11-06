@@ -13,7 +13,7 @@ import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -67,7 +67,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	private Object buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen, boolean deep) {
 		Object screenEntity = applicationContext.getBean(screenEntityClass);
 
-		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
+		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
 
 		fieldAccessor.setTerminalScreen(terminalScreen);
 
@@ -93,7 +93,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 			return modifiedfields;
 		}
 
-		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
+		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
 		for (FieldMappingDefinition fieldMapping : fieldsInfo) {
 
 			if (fieldMapping.isEditable()) {
