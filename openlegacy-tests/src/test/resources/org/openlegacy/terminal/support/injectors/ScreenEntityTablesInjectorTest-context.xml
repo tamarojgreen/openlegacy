@@ -13,6 +13,8 @@
 		<property name="files">
 			<list>
 				<value>ItemsList.xml</value>
+				<value>ItemsList_1.xml</value>
+				<value>ItemsList_2.xml</value>
 			</list>
 		</property>
 	</bean>

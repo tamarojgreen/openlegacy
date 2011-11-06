@@ -15,6 +15,7 @@ import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.ScreenEntityDirectFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
+import org.openlegacy.utils.ReflectionUtil;
 
 import java.text.MessageFormat;
 
@@ -140,12 +141,12 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		return exitAction;
 	}
 
-	public void setHostAction(HostAction hostAction) {
-		this.hostAction = hostAction;
+	public void setHostAction(Class<? extends HostAction> hostAction) {
+		this.hostAction = ReflectionUtil.newInstance(hostAction);
 	}
 
-	public void setDefaultExitAction(HostAction defaultExitAction) {
-		this.defaultExitAction = defaultExitAction;
+	public void setDefaultExitAction(Class<? extends HostAction> defaultExitAction) {
+		this.defaultExitAction = ReflectionUtil.newInstance(defaultExitAction);
 	}
 
 	public void setMaxActionsToLogin(int maxActionsToLogin) {

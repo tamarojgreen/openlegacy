@@ -18,6 +18,9 @@ public class MockTerminalConnection implements TerminalConnection {
 	}
 
 	public TerminalScreen getSnapshot() {
+		if (currentIndex >= snapshots.size()) {
+			throw (new SessionEndedException("Mock session has been finished"));
+		}
 		return new MockTerminalScreen(snapshots.get(currentIndex));
 	}
 

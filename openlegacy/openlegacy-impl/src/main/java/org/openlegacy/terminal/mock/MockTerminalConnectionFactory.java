@@ -32,7 +32,7 @@ public class MockTerminalConnectionFactory implements TerminalConnectionFactory 
 						getClass().getResourceAsStream(MessageFormat.format("{0}/{1}", root, resourceName)));
 				snapshots.add(persistedSnapshot);
 			} catch (Exception e) {
-				throw (new IllegalStateException(MessageFormat.format("Faild reading XML trail:{0}", resourceName), e));
+				throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", resourceName), e));
 			}
 		}
 

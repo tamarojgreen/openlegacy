@@ -23,8 +23,13 @@
 					</property>
 				</bean>	
 				<bean class="org.openlegacy.terminal.modules.login.DefaultLoginModule">
-					<property name="defaultExitAction" ref="F3" />
+					<property name="hostAction" value="org.openlegacy.terminal.actions.SendKeyClasses.ENTER" />
+					<property name="defaultExitAction" value="org.openlegacy.terminal.actions.SendKeyClasses.F3" />
 					<property name="maxActionsToLogin" value="5" />
+				</bean>
+				<bean class="org.openlegacy.terminal.modules.table.DefaultTableModule">
+					<property name="defaultPreviousScreenAction" value="org.openlegacy.terminal.actions.SendKeyClasses.PAGEUP" />
+					<property name="defaultNextScreenAction" value="org.openlegacy.terminal.actions.SendKeyClasses.PAGEDOWN" />
 				</bean>
 			</list>
 		</property>

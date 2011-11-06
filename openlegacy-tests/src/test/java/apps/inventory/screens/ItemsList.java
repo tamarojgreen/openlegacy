@@ -38,11 +38,22 @@ public class ItemsList {
 	@Scope("prototype")
 	public static class ItemsListRow {
 
+		@ScreenColumn(startColumn = 65, endColumn = 68, key = true)
+		private String itemNumber;
+
 		@ScreenColumn(startColumn = 11, endColumn = 22)
 		private String alphaSearch;
 
 		@ScreenColumn(startColumn = 24, endColumn = 60)
 		private String itemDescription;
+
+		public String getItemNumber() {
+			return itemNumber;
+		}
+
+		public void setItemNumber(String itemNumber) {
+			this.itemNumber = itemNumber;
+		}
 
 		public String getAlphaSearch() {
 			return alphaSearch;

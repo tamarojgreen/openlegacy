@@ -8,6 +8,8 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 	private int startColumn;
 	private int endColumn;
 
+	private boolean key;
+
 	public SimpleColumnDefinition(String name) {
 		this.name = name;
 	}
@@ -32,4 +34,11 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 		this.endColumn = endColumn;
 	}
 
+	public boolean isKey() {
+		return key;
+	}
+
+	public void setKey(boolean key) {
+		this.key = key;
+	}
 }

@@ -53,7 +53,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 		final Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(FieldAnnotationsLoader.class).values();
 		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
 
-			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
+			public void doWith(Field field) {
 
 				Annotation[] annotations = field.getAnnotations();
 				for (Annotation annotation : annotations) {

@@ -65,21 +65,17 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	}
 
 	private Object buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen, boolean deep) {
-		try {
-			Object screenEntity = applicationContext.getBean(screenEntityClass);
+		Object screenEntity = applicationContext.getBean(screenEntityClass);
 
-			ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
+		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
 
-			fieldAccessor.setTerminalScreen(terminalScreen);
+		fieldAccessor.setTerminalScreen(terminalScreen);
 
-			for (ScreenEntityDataInjector<?> screenEntityDataInjector : screenEntityDataInjectors) {
-				screenEntityDataInjector.inject(fieldAccessor, screenEntityClass, terminalScreen, deep);
-			}
-
-			return screenEntity;
-		} catch (Exception e) {
-			throw (new IllegalArgumentException(e));
+		for (ScreenEntityDataInjector<?> screenEntityDataInjector : screenEntityDataInjectors) {
+			screenEntityDataInjector.inject(fieldAccessor, screenEntityClass, terminalScreen, deep);
 		}
+
+		return screenEntity;
 
 	}
 

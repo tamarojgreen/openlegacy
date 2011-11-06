@@ -62,7 +62,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		return entity;
 	}
 
-	public TerminalSession doAction(HostAction hostAction, Object screenEntity) {
+	public Object doAction(HostAction hostAction, Object screenEntity) {
 
 		entity = null;
 
@@ -83,7 +83,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 			notifyModulesAfterSend();
 		}
 
-		return this;
+		return getEntity(false);
 	}
 
 	private void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {

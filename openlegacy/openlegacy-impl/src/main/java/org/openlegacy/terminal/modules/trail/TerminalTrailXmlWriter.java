@@ -22,7 +22,7 @@ public class TerminalTrailXmlWriter implements TrailWriter {
 		try {
 			JaxbUtil.marshal(TerminalPersistedTrail.class, persistedTrail, out);
 		} catch (Exception e) {
-			throw (new IllegalStateException("Faild writing XML trail", e));
+			throw (new IllegalArgumentException("Faild writing XML trail", e));
 		}
 
 	}

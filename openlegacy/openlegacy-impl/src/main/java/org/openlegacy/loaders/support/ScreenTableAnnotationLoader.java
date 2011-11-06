@@ -27,15 +27,10 @@ public class ScreenTableAnnotationLoader implements FieldAnnotationsLoader {
 		ScreenTable screenTableAnnotation = (ScreenTable)annotation;
 
 		Class<?> rowClass = null;
-		try {
-			Field field = containingClass.getDeclaredField(fieldName);
-			rowClass = ReflectionUtil.getListType(field);
-			if (rowClass == null) {
-				throw (new IllegalArgumentException(MessageFormat.format("Row class not declared for List {0}, class:{1}",
-						fieldName, containingClass)));
-			}
-		} catch (Exception e) {
-			throw (new IllegalStateException(e));
+		rowClass = ReflectionUtil.getListType(containingClass, fieldName);
+		if (rowClass == null) {
+			throw (new IllegalArgumentException(MessageFormat.format("Row class not declared for List {0}, class:{1}", fieldName,
+					containingClass)));
 		}
 
 		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(rowClass, fieldName);
@@ -50,7 +45,7 @@ public class ScreenTableAnnotationLoader implements FieldAnnotationsLoader {
 	private static void populateColumnsMetadata(Class<?> rowClass, final SimpleTableDefinition tableDefinition) {
 		ReflectionUtils.doWithFields(rowClass, new FieldCallback() {
 
-			public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
+			public void doWith(Field field) {
 
 				if (!field.isAnnotationPresent(ScreenColumn.class)) {
 					return;
@@ -60,6 +55,7 @@ public class ScreenTableAnnotationLoader implements FieldAnnotationsLoader {
 				SimpleColumnDefinition columnDefinition = new SimpleColumnDefinition(field.getName());
 				columnDefinition.setStartColumn(screenColumnAnnotation.startColumn());
 				columnDefinition.setEndColumn(screenColumnAnnotation.endColumn());
+				columnDefinition.setKey(screenColumnAnnotation.key());
 				tableDefinition.getColumnDefinitions().add(columnDefinition);
 			}
 		});

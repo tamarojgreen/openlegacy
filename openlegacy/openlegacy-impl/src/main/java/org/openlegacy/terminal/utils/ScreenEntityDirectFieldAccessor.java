@@ -24,7 +24,7 @@ public class ScreenEntityDirectFieldAccessor implements ScreenEntityFieldAccesso
 		try {
 			target = ProxyUtil.getTargetObject(target);
 		} catch (Exception e) {
-			throw (new IllegalStateException(e));
+			throw (new IllegalArgumentException(e));
 		}
 		directFieldAccessor = new DirectFieldAccessor(target);
 	}

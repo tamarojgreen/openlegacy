@@ -6,7 +6,9 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.TerminalConnection;
+import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.ScreenDisplayUtils;
 import org.springframework.stereotype.Component;
@@ -29,8 +31,13 @@ public class SessionTraceAspect {
 	@After("execution(* org.openlegacy.terminal.TerminalConnection.doAction(..)) && target(terminalConnection) && args(terminalSendAction)")
 	public void logAfter(JoinPoint joinPoint, TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {
 		if (logger.isTraceEnabled()) {
-			logger.trace("\n\n******* Screen after (* abc * indicates a modified field): ******* \n\n"
-					+ ScreenDisplayUtils.toString(terminalConnection.getSnapshot(), terminalSendAction, true));
+			try {
+				TerminalScreen snapshot = terminalConnection.getSnapshot();
+				logger.trace("\n\n******* Screen after (* abc * indicates a modified field): ******* \n\n"
+						+ ScreenDisplayUtils.toString(snapshot, terminalSendAction, true));
+			} catch (SessionEndedException e) {
+				// ignore
+			}
 		}
 
 	}

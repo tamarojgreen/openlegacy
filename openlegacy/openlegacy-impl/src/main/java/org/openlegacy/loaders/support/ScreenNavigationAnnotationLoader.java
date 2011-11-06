@@ -10,6 +10,7 @@ import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.utils.ReflectionUtil;
 
 import java.lang.annotation.Annotation;
 
@@ -28,12 +29,9 @@ public class ScreenNavigationAnnotationLoader implements ClassAnnotationsLoader 
 
 		SimpleScreenNavigationDefinition navigationDefinition = new SimpleScreenNavigationDefinition();
 		navigationDefinition.setAccessedFrom(screenNavigation.accessedFrom());
-		try {
-			navigationDefinition.setHostAction(screenNavigation.hostAction().newInstance());
-			navigationDefinition.setExitAction(screenNavigation.exitAction().newInstance());
-		} catch (Exception e) {
-			throw (new IllegalStateException(e));
-		}
+
+		navigationDefinition.setHostAction(ReflectionUtil.newInstance(screenNavigation.hostAction()));
+		navigationDefinition.setExitAction(ReflectionUtil.newInstance(screenNavigation.exitAction()));
 
 		AssignedField[] assignedFields = screenNavigation.assignedFields();
 		for (AssignedField assignedField : assignedFields) {

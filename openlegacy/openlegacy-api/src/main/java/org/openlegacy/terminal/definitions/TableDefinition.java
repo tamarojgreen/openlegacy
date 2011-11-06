@@ -18,6 +18,8 @@ public interface TableDefinition {
 
 		String getName();
 
+		boolean isKey();
+
 		int getStartColumn();
 
 		int getEndColumn();

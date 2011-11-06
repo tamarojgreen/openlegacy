@@ -7,6 +7,7 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
+import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -37,7 +38,7 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 		}
 		for (ScreenPosition position : positions) {
 			TerminalField field = terminalScreen.getField(position);
-			String patternFromScreen = handleIgnoreChars(field.getValue());
+			String patternFromScreen = StringUtil.ignoreChars(field.getValue(), ignoreChars);
 			if (patternFromScreen.length() > 0) {
 				Class<?> screenModel = screenEntitiesRegistry.getEntityClass(patternFromScreen);
 				if (screenModel != null) {
@@ -49,14 +50,6 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 		}
 		logger.debug("Didn't found any matched screen");
 		return null;
-	}
-
-	private String handleIgnoreChars(String value) {
-		char[] chars = ignoreChars;
-		for (char c : chars) {
-			value = value.replaceAll("\\" + Character.toString(c), "");
-		}
-		return value;
 	}
 
 	public void setPositions(List<ScreenPosition> positions) {
