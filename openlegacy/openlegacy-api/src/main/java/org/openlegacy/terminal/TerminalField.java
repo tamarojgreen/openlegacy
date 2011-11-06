@@ -10,6 +10,8 @@ public interface TerminalField {
 
 	String getValue();
 
+	void setValue(String value);
+
 	int getLength();
 
 	boolean isEditable();

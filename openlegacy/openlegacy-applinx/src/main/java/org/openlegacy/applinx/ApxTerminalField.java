@@ -10,12 +10,16 @@ public class ApxTerminalField implements TerminalField {
 
 	private final GXIField apxField;
 	private ScreenPosition position;
+	private String modifiedValue;
 
 	public ApxTerminalField(GXIField field) {
 		this.apxField = field;
 	}
 
 	public String getValue() {
+		if (modifiedValue != null) {
+			return modifiedValue;
+		}
 		return apxField.getContent();
 	}
 
@@ -32,6 +36,10 @@ public class ApxTerminalField implements TerminalField {
 
 	public int getLength() {
 		return apxField.getLength();
+	}
+
+	public void setValue(String value) {
+		modifiedValue = value;
 	}
 
 }

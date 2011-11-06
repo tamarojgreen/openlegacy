@@ -1,12 +1,13 @@
 package org.openlegacy.terminal.spi;
 
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalField;
 
-import java.util.Map;
+import java.util.List;
 
 public interface TerminalSendAction {
 
-	Map<ScreenPosition, String> getFields();
+	List<TerminalField> getModifiedFields();
 
 	Object getCommand();
 

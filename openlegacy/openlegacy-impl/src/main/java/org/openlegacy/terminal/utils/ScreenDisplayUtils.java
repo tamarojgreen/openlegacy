@@ -1,14 +1,10 @@
 package org.openlegacy.terminal.utils;
 
-import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * A textual utility which format terminal screen in to a preventable text which is very comfort for debugging purposes
@@ -53,9 +49,10 @@ public class ScreenDisplayUtils {
 			generateColumnNumbers(terminalScreen, newline, out);
 		}
 
-		markInputs(terminalScreen, out, '[', ']');
 		if (terminalSendAction != null) {
-			markSendFields(terminalScreen, out, terminalSendAction.getFields());
+			drawInputs(terminalScreen, out, terminalSendAction.getModifiedFields(), '*', '*');
+		} else {
+			drawInputs(terminalScreen, out, terminalScreen.getEditableFields(), '[', ']');
 		}
 
 		return out.toString();
@@ -85,9 +82,9 @@ public class ScreenDisplayUtils {
 		out.append(newline);
 	}
 
-	private static void markInputs(TerminalScreen terminalScreen, StringBuilder out, char leftMark, char rightMark) {
-		Collection<TerminalField> inputFields = terminalScreen.getEditableFields();
-		for (TerminalField terminalField : inputFields) {
+	private static void drawInputs(TerminalScreen terminalScreen, StringBuilder out, Collection<TerminalField> fields,
+			char leftMark, char rightMark) {
+		for (TerminalField terminalField : fields) {
 			// +6 - line numbers + |
 			int beforeInputBufferLocation = (terminalScreen.getSize().getColumns() + 6)
 			// -1 - 0 base, +3 - header
@@ -95,16 +92,13 @@ public class ScreenDisplayUtils {
 			out.setCharAt(beforeInputBufferLocation, leftMark);
 			int afterInputBufferLocation = beforeInputBufferLocation + terminalField.getLength() + 1;
 			out.setCharAt(afterInputBufferLocation, rightMark);
+
+			String value = terminalField.getValue();
+			for (int i = 0; i < value.length(); i++) {
+				int inputBufferLocation = beforeInputBufferLocation + 1;
+				out.setCharAt(inputBufferLocation + i, value.charAt(i));
+			}
 		}
 	}
 
-	private static void markSendFields(TerminalScreen terminalScreen, StringBuilder out, Map<ScreenPosition, String> fields) {
-		Set<ScreenPosition> positions = fields.keySet();
-		Collection<TerminalField> modiifedFields = new ArrayList<TerminalField>();
-		for (ScreenPosition screenPosition : positions) {
-			modiifedFields.add(terminalScreen.getField(screenPosition));
-		}
-		markInputs(terminalScreen, out, '*', '*');
-
-	}
 }

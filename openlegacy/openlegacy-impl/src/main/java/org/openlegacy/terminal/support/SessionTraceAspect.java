@@ -19,22 +19,22 @@ public class SessionTraceAspect {
 
 	private final static Log logger = LogFactory.getLog(SessionTraceAspect.class);
 
-	@Before("execution(* org.openlegacy.terminal.TerminalConnection.doAction(..))  && target(terminalConnection)")
-	public void logBefore(JoinPoint joinPoint, TerminalConnection terminalConnection) {
+	@Before("execution(* org.openlegacy.terminal.TerminalConnection.doAction(..))  && target(terminalConnection) && args(terminalSendAction)")
+	public void logBefore(JoinPoint joinPoint, TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {
 		if (logger.isTraceEnabled()) {
-			logger.trace("\n\n******* Screen before ([ abc ] indicates an input field): ******* \n\n"
-					+ terminalConnection.getSnapshot());
+			TerminalScreen snapshot = terminalConnection.getSnapshot();
+			logger.trace("\n\n******* Screen before\n(* abc * indicates an modified field, [ abc ] indicates a input field): ******* \n\n"
+					+ ScreenDisplayUtils.toString(snapshot, terminalSendAction, true));
 		}
 
 	}
 
-	@After("execution(* org.openlegacy.terminal.TerminalConnection.doAction(..)) && target(terminalConnection) && args(terminalSendAction)")
-	public void logAfter(JoinPoint joinPoint, TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {
+	@After("execution(* org.openlegacy.terminal.TerminalConnection.doAction(..)) && target(terminalConnection)")
+	public void logAfter(JoinPoint joinPoint, TerminalConnection terminalConnection) {
 		if (logger.isTraceEnabled()) {
 			try {
-				TerminalScreen snapshot = terminalConnection.getSnapshot();
-				logger.trace("\n\n******* Screen after (* abc * indicates a modified field): ******* \n\n"
-						+ ScreenDisplayUtils.toString(snapshot, terminalSendAction, true));
+				logger.trace("\n\n******* Screen after ([ abc ] indicates a input field): ******* \n\n"
+						+ terminalConnection.getSnapshot());
 			} catch (SessionEndedException e) {
 				// ignore
 			}

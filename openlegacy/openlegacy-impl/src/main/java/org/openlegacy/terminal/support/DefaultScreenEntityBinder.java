@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
@@ -18,10 +19,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -79,18 +79,18 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 	}
 
-	public Map<ScreenPosition, String> buildSendFields(TerminalScreen terminalScreen, Object screenEntity) {
-		Map<ScreenPosition, String> fieldValues = new LinkedHashMap<ScreenPosition, String>();
+	public List<TerminalField> buildSendFields(TerminalScreen terminalScreen, Object screenEntity) {
+		List<TerminalField> modifiedfields = new ArrayList<TerminalField>();
 
 		if (screenEntity == null) {
-			return fieldValues;
+			return modifiedfields;
 		}
 
 		Collection<FieldMappingDefinition> fieldsInfo = fieldMappingsProvider.getFieldsMappingDefinitions(terminalScreen,
 				screenEntity.getClass());
 
 		if (fieldsInfo == null) {
-			return fieldValues;
+			return modifiedfields;
 		}
 
 		ScreenEntityFieldAccessor fieldAccessor = new ScreenEntityDirectFieldAccessor(screenEntity);
@@ -98,20 +98,21 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 			if (fieldMapping.isEditable()) {
 				Object value = fieldAccessor.getFieldValue(fieldMapping.getName());
-				ScreenPosition hostScreenPosition = fieldMapping.getScreenPosition();
+				ScreenPosition screenPosition = fieldMapping.getScreenPosition();
 
+				TerminalField terminalField = terminalScreen.getField(screenPosition);
 				if (value != null) {
-					fieldValues.put(hostScreenPosition, value.toString());
+					terminalField.setValue(value.toString());
+					modifiedfields.add(terminalField);
 					if (logger.isDebugEnabled()) {
 						logger.debug(MessageFormat.format(
-								"Field {0} was set with value \"{1}\" to send fields for screenEntity {2}",
+								"Field {0} was set with value \"{1}\" to send fields for screen entity {2}",
 								fieldMapping.getName(), value, screenEntity));
 					}
 				}
 			}
 
 		}
-		return fieldValues;
+		return modifiedfields;
 	}
-
 }

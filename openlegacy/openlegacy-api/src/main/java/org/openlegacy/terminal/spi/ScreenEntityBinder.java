@@ -1,11 +1,11 @@
 package org.openlegacy.terminal.spi;
 
 import org.openlegacy.exceptions.HostEntityNotFoundException;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Define a binder API for building a screen entity from a terminalScreen and collecting fields from a given screenEntity
@@ -18,6 +18,6 @@ public interface ScreenEntityBinder {
 	<T> T buildScreenEntity(Class<T> screenEntityClass, TerminalScreen hostScreen) throws HostEntityNotFoundException,
 			ScreenEntityNotAccessibleException;
 
-	Map<ScreenPosition, String> buildSendFields(TerminalScreen terminalScreen, Object screenEntity);
+	List<TerminalField> buildSendFields(TerminalScreen terminalScreen, Object screenEntity);
 
 }

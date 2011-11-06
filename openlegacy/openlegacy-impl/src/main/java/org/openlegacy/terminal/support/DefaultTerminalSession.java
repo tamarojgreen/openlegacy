@@ -8,6 +8,7 @@ import org.openlegacy.support.AbstractHostSession;
 import org.openlegacy.terminal.CursorContainer;
 import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionModule;
@@ -16,7 +17,7 @@ import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
 import java.util.Collection;
-import java.util.Map;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -66,7 +67,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 		entity = null;
 
-		Map<ScreenPosition, String> fieldValues = screenEntityBinder.buildSendFields(getSnapshot(), screenEntity);
+		List<TerminalField> modifiedFields = screenEntityBinder.buildSendFields(getSnapshot(), screenEntity);
 
 		ScreenPosition cursorPosition = null;
 		if (screenEntity instanceof CursorContainer) {
@@ -75,7 +76,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		if (hostAction instanceof CustomHostAction) {
 			((CustomHostAction)hostAction).perform(this);
 		} else {
-			TerminalSendAction terminalSendAction = new SimpleTerminalSendAction(fieldValues,
+			TerminalSendAction terminalSendAction = new SimpleTerminalSendAction(modifiedFields,
 					hostActionMapper.getCommand(hostAction.getClass()), cursorPosition);
 
 			notifyModulesBeforeSend(terminalSendAction);

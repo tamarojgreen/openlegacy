@@ -12,8 +12,6 @@ import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.openlegacy.utils.ReflectionUtil;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class SnapshotPersistanceDTO {
 
@@ -50,12 +48,12 @@ public class SnapshotPersistanceDTO {
 		transformCommonSnapshot(persistedSnapshot, screen);
 
 		TerminalSendAction sendAction = snapshot.getTerminalSendAction();
-		Map<ScreenPosition, String> fields = sendAction.getFields();
-		Set<ScreenPosition> fieldPositions = fields.keySet();
-		for (ScreenPosition fieldPosition : fieldPositions) {
+		List<TerminalField> fields = sendAction.getModifiedFields();
+		for (TerminalField terminalField : fields) {
+			ScreenPosition fieldPosition = terminalField.getPosition();
 			TerminalPersistedRow row = (TerminalPersistedRow)persistedSnapshot.getRows().get(fieldPosition.getRow() - 1);
 			TerminalPersistedField field = (TerminalPersistedField)row.getField(fieldPosition.getColumn());
-			field.setValue(fields.get(fieldPosition));
+			field.setValue(terminalField.getValue());
 			field.setModified(true);
 		}
 		return persistedSnapshot;

@@ -1,24 +1,25 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
-import java.util.Map;
+import java.util.List;
 
 public class SimpleTerminalSendAction implements TerminalSendAction {
 
-	private Map<ScreenPosition, String> fields;
+	private List<TerminalField> modifiedFields;
 	private Object command;
 	private ScreenPosition cursorPosition;
 
-	public SimpleTerminalSendAction(Map<ScreenPosition, String> fields, Object command, ScreenPosition cursorPosition) {
-		this.fields = fields;
+	public SimpleTerminalSendAction(List<TerminalField> modifiedFields, Object command, ScreenPosition cursorPosition) {
+		this.modifiedFields = modifiedFields;
 		this.command = command;
 		this.cursorPosition = cursorPosition;
 	}
 
-	public Map<ScreenPosition, String> getFields() {
-		return fields;
+	public List<TerminalField> getModifiedFields() {
+		return modifiedFields;
 	}
 
 	public Object getCommand() {
@@ -28,4 +29,5 @@ public class SimpleTerminalSendAction implements TerminalSendAction {
 	public ScreenPosition getCursorPosition() {
 		return cursorPosition;
 	}
+
 }

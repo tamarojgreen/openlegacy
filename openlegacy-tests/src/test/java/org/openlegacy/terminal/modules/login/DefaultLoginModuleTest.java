@@ -10,7 +10,7 @@ import org.openlegacy.Snapshot;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.mock.MockTerminalScreen;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
@@ -19,9 +19,7 @@ import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -81,17 +79,13 @@ public class DefaultLoginModuleTest extends AbstractTest {
 		Snapshot loginSnapshot = trail.getSnapshots().get(0);
 		Assert.assertEquals(loginSnapshot.getClass(), TerminalOutgoingSnapshot.class);
 
-		Map<ScreenPosition, String> fields = ((TerminalOutgoingSnapshot)loginSnapshot).getTerminalSendAction().getFields();
-		Set<ScreenPosition> fieldPositions = fields.keySet();
-		Iterator<ScreenPosition> iterator = fieldPositions.iterator();
+		List<TerminalField> fields = ((TerminalOutgoingSnapshot)loginSnapshot).getTerminalSendAction().getModifiedFields();
 
-		ScreenPosition firstPosition = iterator.next();
-		Assert.assertEquals(new SimpleScreenPosition(6, 53), firstPosition);
-		Assert.assertEquals("someuser", fields.get(firstPosition));
+		Assert.assertEquals(new SimpleScreenPosition(6, 53), fields.get(0).getPosition());
+		Assert.assertEquals("someuser", fields.get(0).getValue());
 
-		ScreenPosition secondPosition = iterator.next();
-		Assert.assertEquals(new SimpleScreenPosition(7, 53), secondPosition);
-		Assert.assertEquals("somepwd", fields.get(secondPosition));
+		Assert.assertEquals(new SimpleScreenPosition(7, 53), fields.get(1).getPosition());
+		Assert.assertEquals("somepwd", fields.get(1).getValue());
 
 		Assert.assertTrue(terminalSession.getModule(Login.class).isLoggedIn());
 	}

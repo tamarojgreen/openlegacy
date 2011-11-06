@@ -13,11 +13,11 @@ import com.sabratec.util.GXPosition;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalConnection;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 public class ApxTerminalConnection implements TerminalConnection {
 
@@ -54,7 +54,7 @@ public class ApxTerminalConnection implements TerminalConnection {
 
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
 
-		Map<ScreenPosition, String> fields = terminalSendAction.getFields();
+		List<TerminalField> fields = terminalSendAction.getModifiedFields();
 		ScreenPosition cursorPosition = terminalSendAction.getCursorPosition();
 
 		GXSendKeysRequest sendKeyRequest = buildRequest(fields, terminalSendAction.getCommand());
@@ -71,17 +71,16 @@ public class ApxTerminalConnection implements TerminalConnection {
 		return this;
 	}
 
-	private static GXSendKeysRequest buildRequest(Map<ScreenPosition, String> fields, Object command) {
+	private static GXSendKeysRequest buildRequest(List<TerminalField> fields, Object command) {
 		GXSendKeysRequest sendKeyRequest = new GXSendKeysRequest((String)command);
 
 		if (fields == null) {
 			return sendKeyRequest;
 		}
 
-		Set<ScreenPosition> fieldPositions = fields.keySet();
-		for (ScreenPosition screenPosition : fieldPositions) {
-			String value = fields.get(screenPosition);
-			GXPosition apxPosition = ApxPositionUtil.toPosition(screenPosition);
+		for (TerminalField terminalField : fields) {
+			String value = terminalField.getValue();
+			GXPosition apxPosition = ApxPositionUtil.toPosition(terminalField.getPosition());
 			GXInputField inputField = new GXInputField(apxPosition, value);
 			sendKeyRequest.addInputField(inputField);
 		}
