@@ -8,10 +8,10 @@ import org.openlegacy.support.AbstractHostSession;
 import org.openlegacy.terminal.CursorContainer;
 import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.TerminalSessionModule;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
@@ -90,8 +90,8 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	private void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {
 		Collection<? extends HostSessionModule> modulesList = getSessionModules().getModules();
 		for (HostSessionModule sessionModule : modulesList) {
-			if (sessionModule instanceof TerminalSessionModule) {
-				((TerminalSessionModule)sessionModule).beforeSendAction(terminalConnection, terminalSendAction);
+			if (sessionModule instanceof TerminalConnectionListener) {
+				((TerminalConnectionListener)sessionModule).beforeSendAction(terminalConnection, terminalSendAction);
 			}
 		}
 	}
@@ -99,8 +99,8 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	private void notifyModulesAfterSend() {
 		Collection<? extends HostSessionModule> modulesList = getSessionModules().getModules();
 		for (HostSessionModule sessionModule : modulesList) {
-			if (sessionModule instanceof TerminalSessionModule) {
-				((TerminalSessionModule)sessionModule).afterSendAction(terminalConnection);
+			if (sessionModule instanceof TerminalConnectionListener) {
+				((TerminalConnectionListener)sessionModule).afterSendAction(terminalConnection);
 			}
 		}
 	}
