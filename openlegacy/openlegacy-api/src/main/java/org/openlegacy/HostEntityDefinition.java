@@ -6,6 +6,8 @@ public interface HostEntityDefinition<D extends FieldDefinition> {
 
 	String getEntityName();
 
+	String getDisplayName();
+
 	Class<?> getEntityClass();
 
 	Class<? extends HostEntityType> getType();

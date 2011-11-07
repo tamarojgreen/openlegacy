@@ -30,8 +30,11 @@ public class ScreenEntityAnnotationLoader implements ClassAnnotationsLoader {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : containingClass.getSimpleName();
+		String displayName = screenEntity.displayName().length() > 0 ? screenEntity.displayName() : screenName;
+
 		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenName, containingClass);
 		screenEntityDefinition.setName(screenName);
+		screenEntityDefinition.setDisplayName(displayName);
 		screenEntityDefinition.setType(screenEntity.screenType());
 		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
 				containingClass.getName()));

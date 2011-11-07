@@ -22,6 +22,8 @@ public @interface ScreenEntity {
 
 	String name() default "";
 
+	String displayName() default "";
+
 	boolean supportTerminalData() default false;
 
 	Class<? extends ScreenEntityType> screenType() default ScreenEntityType.General.class;

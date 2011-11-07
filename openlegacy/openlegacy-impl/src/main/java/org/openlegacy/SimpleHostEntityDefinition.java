@@ -16,6 +16,7 @@ public abstract class SimpleHostEntityDefinition<F extends FieldDefinition> impl
 
 	// LinkedHashMap preserve insert order
 	private final Map<String, F> fieldDefinitions = new LinkedHashMap<String, F>();
+	private String displayName;
 
 	public SimpleHostEntityDefinition(String hostEntityName, Class<?> screenEntityClass) {
 		this.hostEntityName = hostEntityName;
@@ -66,4 +67,11 @@ public abstract class SimpleHostEntityDefinition<F extends FieldDefinition> impl
 		return (F)matchedFieldDefinition;
 	}
 
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 }

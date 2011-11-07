@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@ScreenEntity
+@ScreenEntity(displayName = "Items List")
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 30, value = "Work with Item Master"),
 		@Identifier(row = 4, column = 2, value = "Type one or more action codes. Then Enter.") })
 @ScreenNavigation(accessedFrom = InventoryManagement.class, assignedFields = { @AssignedField(field = "selection", value = "1") }, exitAction = F3.class)
