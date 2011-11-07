@@ -10,9 +10,11 @@ import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -29,11 +31,29 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> List<T> collectAll(Class<?> screenEntityClass, Class<T> rowClass) {
 
-		ScreenEntityDefinition screenEntityDefintions = screenEntitiesRegistry.get(screenEntityClass);
-		Map<Class<?>, TableDefinition> tablesDefinitions = screenEntityDefintions.getTableDefinitions();
-		TableDefinition tableDefinition = tablesDefinitions.get(rowClass);
+		ScreenEntityDefinition screenEntityDefintion = screenEntitiesRegistry.get(screenEntityClass);
+		Map<String, TableDefinition> tableDefinitionsMap = screenEntityDefintion.getTableDefinitions();
+		Set<String> tableNames = tableDefinitionsMap.keySet();
 
-		int rowsCount = tableDefinition.getEndRow() - tableDefinition.getStartRow() + 1;
+		TableDefinition matchingTableDefinition = null;
+		String matchingTableFieldName = null;
+
+		for (String tableName : tableNames) {
+
+			TableDefinition tableDefinition = tableDefinitionsMap.get(tableName);
+			if (tableDefinition.getTableClass() == rowClass) {
+				matchingTableFieldName = tableName;
+				matchingTableDefinition = tableDefinition;
+				break;
+			}
+		}
+
+		if (matchingTableDefinition == null) {
+			throw (new IllegalArgumentException(MessageFormat.format("Could not found table of type {0} in {1}", rowClass,
+					screenEntityDefintion)));
+		}
+
+		int rowsCount = matchingTableDefinition.getEndRow() - matchingTableDefinition.getStartRow() + 1;
 
 		List allRows = new ArrayList();
 
@@ -45,7 +65,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 
 		while (cont) {
 
-			rows = (List<?>)fieldAccessor.getFieldValue(tableDefinition.getName());
+			rows = (List<?>)fieldAccessor.getFieldValue(matchingTableFieldName);
 			allRows.addAll(rows);
 
 			// more rows exists

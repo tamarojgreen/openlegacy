@@ -12,11 +12,11 @@ public interface ScreenEntityDefinition extends HostEntityDefinition<FieldMappin
 	NavigationDefinition getNavigationDefinition();
 
 	/**
-	 * Row class -> table definition
+	 * field name -> table definition
 	 * 
 	 * @return
 	 */
-	Map<Class<?>, TableDefinition> getTableDefinitions();
+	Map<String, TableDefinition> getTableDefinitions();
 
 	/**
 	 * field name -> part defintion

@@ -3,44 +3,34 @@ package org.openlegacy.loaders.support;
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
-import org.openlegacy.loaders.FieldAnnotationsLoader;
+import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.text.MessageFormat;
 
 @Component
-public class ScreenTableAnnotationLoader implements FieldAnnotationsLoader {
+public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
 
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenTable.class;
 	}
 
-	@SuppressWarnings({ "rawtypes" })
-	public void load(HostEntitiesRegistry entitiesRegistry, String fieldName, Annotation annotation, Class<?> containingClass) {
+	public void load(HostEntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 		ScreenTable screenTableAnnotation = (ScreenTable)annotation;
 
-		Class<?> rowClass = null;
-		rowClass = ReflectionUtil.getListType(containingClass, fieldName);
-		if (rowClass == null) {
-			throw (new IllegalArgumentException(MessageFormat.format("Row class not declared for List {0}, class:{1}", fieldName,
-					containingClass)));
-		}
-
-		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(rowClass, fieldName);
+		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(containingClass);
 		tableDefinition.setStartRow(screenTableAnnotation.startRow());
 		tableDefinition.setEndRow(screenTableAnnotation.endRow());
 
-		populateColumnsMetadata(rowClass, tableDefinition);
-		screenEntitiesRegistry.get(containingClass).getTableDefinitions().put(rowClass, tableDefinition);
+		populateColumnsMetadata(containingClass, tableDefinition);
+		screenEntitiesRegistry.addTable(tableDefinition);
 
 	}
 

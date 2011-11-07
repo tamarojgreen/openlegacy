@@ -13,12 +13,13 @@ import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
-public class ScreenEntityTablesInjector implements ScreenEntityDataInjector<TablesDefinitionProvider> {
+public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
@@ -32,44 +33,47 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector<Tabl
 	public void inject(ScreenEntityFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen,
 			boolean deep) {
 
-		Collection<TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(terminalScreen,
+		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(terminalScreen,
 				screenEntityClass);
 
-		for (TableDefinition tableDefinition : tableDefinitions) {
-			@SuppressWarnings({ "rawtypes", "unchecked" })
-			List<Object> rows = new ArrayList();
+		Set<String> tableFieldNames = tableDefinitions.keySet();
+
+		for (String tableFieldName : tableFieldNames) {
+
+			TableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
+			List<Object> rows = new ArrayList<Object>();
 
 			List<ColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
 			int startRow = tableDefinition.getStartRow();
 			int endRow = tableDefinition.getEndRow();
 			for (int currentRow = startRow; currentRow <= endRow; currentRow++) {
 
-				Object row = applicationContext.getBean(tableDefinition.getRowClass());
+				Object row = applicationContext.getBean(tableDefinition.getTableClass());
 				ScreenEntityFieldAccessor rowAccessor = new SimpleScreenEntityFieldAccessor(row);
 
 				boolean keyIsEmpty = false;
 
 				for (ColumnDefinition columnDefinition : columnDefinitions) {
-					ScreenPosition screenPosition = SimpleScreenPosition.newInstance(currentRow,
-							columnDefinition.getStartColumn());
-					int length = columnDefinition.getEndColumn() - columnDefinition.getStartColumn() + 1;
-					String columnText = terminalScreen.getText(screenPosition, length);
-					columnText = fieldFormatter.format(columnText);
-					if (columnDefinition.isKey() && columnText.length() == 0) {
+					String cellText = getCellContent(terminalScreen, currentRow, columnDefinition);
+					if (columnDefinition.isKey() && cellText.length() == 0) {
 						keyIsEmpty = true;
 					}
-					rowAccessor.setFieldValue(columnDefinition.getName(), columnText);
+					rowAccessor.setFieldValue(columnDefinition.getName(), cellText);
 				}
 				if (!keyIsEmpty) {
 					rows.add(row);
 				}
 			}
-			fieldAccessor.setFieldValue(tableDefinition.getName(), rows);
+			fieldAccessor.setFieldValue(tableFieldName, rows);
 		}
 	}
 
-	public TablesDefinitionProvider getDefinitionsProvider() {
-		return tablesDefinitionProvider;
+	private String getCellContent(TerminalScreen terminalScreen, int currentRow, ColumnDefinition columnDefinition) {
+		ScreenPosition screenPosition = SimpleScreenPosition.newInstance(currentRow, columnDefinition.getStartColumn());
+		int length = columnDefinition.getEndColumn() - columnDefinition.getStartColumn() + 1;
+		String columnText = terminalScreen.getText(screenPosition, length);
+		columnText = fieldFormatter.format(columnText);
+		return columnText;
 	}
 
 	public void setFieldFormatter(FieldFormatter fieldFormatter) {

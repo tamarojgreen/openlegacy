@@ -5,23 +5,17 @@ import java.util.List;
 
 public class SimpleTableDefinition implements TableDefinition {
 
-	private String name;
 	private Class<?> rowClass;
 
 	private int startRow;
 	private int endRow;
 	private List<ColumnDefinition> columnDefinitions = new ArrayList<ColumnDefinition>();
 
-	public SimpleTableDefinition(Class<?> rowClass, String name) {
+	public SimpleTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
-		this.name = name;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public Class<?> getRowClass() {
+	public Class<?> getTableClass() {
 		return rowClass;
 	}
 

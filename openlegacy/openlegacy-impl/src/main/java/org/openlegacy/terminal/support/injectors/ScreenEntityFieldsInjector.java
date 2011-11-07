@@ -11,7 +11,7 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-public class ScreenEntityFieldsInjector implements ScreenEntityDataInjector<FieldMappingsDefinitionProvider> {
+public class ScreenEntityFieldsInjector implements ScreenEntityDataInjector {
 
 	@Inject
 	private FieldMappingsDefinitionProvider fieldMappingsProvider;

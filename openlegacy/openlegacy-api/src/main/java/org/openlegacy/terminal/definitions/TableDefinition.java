@@ -4,9 +4,7 @@ import java.util.List;
 
 public interface TableDefinition {
 
-	Class<?> getRowClass();
-
-	String getName();
+	Class<?> getTableClass();
 
 	int getStartRow();
 

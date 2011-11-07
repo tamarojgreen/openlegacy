@@ -5,6 +5,7 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
+import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 
@@ -23,6 +24,7 @@ import java.util.Map;
 public class DefaultScreenEntitiesRegistry extends AbstractHostEntitiesRegistry<ScreenEntityDefinition, FieldMappingDefinition> implements ScreenEntitiesRegistry {
 
 	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
+	private final Map<Class<?>, TableDefinition> tableDefinitions = new HashMap<Class<?>, TableDefinition>();
 
 	public ScreenEntityDefinition match(TerminalScreen hostScreen) {
 		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();
@@ -52,6 +54,14 @@ public class DefaultScreenEntitiesRegistry extends AbstractHostEntitiesRegistry<
 
 	public ScreenPartEntityDefinition getPart(Class<?> containingClass) {
 		return screenPartDefinitions.get(containingClass);
+	}
+
+	public void addTable(TableDefinition tableDefinition) {
+		tableDefinitions.put(tableDefinition.getTableClass(), tableDefinition);
+	}
+
+	public TableDefinition getTable(Class<?> containingClass) {
+		return tableDefinitions.get(containingClass);
 	}
 
 }

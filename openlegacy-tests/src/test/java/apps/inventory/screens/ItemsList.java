@@ -23,7 +23,6 @@ public class ItemsList {
 	@FieldMapping(row = 21, column = 19)
 	private String positionTo;
 
-	@ScreenTable(startRow = 8, endRow = 19)
 	private List<ItemsListRow> itemListRows;
 
 	public List<ItemsListRow> getItemListRows() {
@@ -36,6 +35,7 @@ public class ItemsList {
 
 	@Component
 	@Scope("prototype")
+	@ScreenTable(startRow = 8, endRow = 19)
 	public static class ItemsListRow {
 
 		@ScreenColumn(startColumn = 65, endColumn = 68, key = true)

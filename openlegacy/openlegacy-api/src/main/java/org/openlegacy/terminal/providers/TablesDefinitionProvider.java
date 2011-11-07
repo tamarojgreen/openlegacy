@@ -3,7 +3,7 @@ package org.openlegacy.terminal.providers;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.TableDefinition;
 
-import java.util.Collection;
+import java.util.Map;
 
 /**
  * FieldMapping meta-data provider purpose is to return mappings for a given screenEntity
@@ -11,6 +11,6 @@ import java.util.Collection;
  */
 public interface TablesDefinitionProvider extends DefinitionsProvider {
 
-	Collection<TableDefinition> getTableDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity);
+	Map<String, TableDefinition> getTableDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity);
 
 }

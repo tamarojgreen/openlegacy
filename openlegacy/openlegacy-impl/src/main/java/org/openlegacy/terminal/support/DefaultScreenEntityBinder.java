@@ -13,8 +13,8 @@ import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
+import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 
@@ -44,7 +44,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	private ApplicationContext applicationContext;
 
 	@Inject
-	private List<ScreenEntityDataInjector<?>> screenEntityDataInjectors;
+	private List<ScreenEntityDataInjector> screenEntityDataInjectors;
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
 
@@ -71,7 +71,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 		fieldAccessor.setTerminalScreen(terminalScreen);
 
-		for (ScreenEntityDataInjector<?> screenEntityDataInjector : screenEntityDataInjectors) {
+		for (ScreenEntityDataInjector screenEntityDataInjector : screenEntityDataInjectors) {
 			screenEntityDataInjector.inject(fieldAccessor, screenEntityClass, terminalScreen, deep);
 		}
 

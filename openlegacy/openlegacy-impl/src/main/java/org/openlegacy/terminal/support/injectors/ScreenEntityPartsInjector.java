@@ -6,7 +6,6 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
-import org.openlegacy.terminal.providers.ScreenPartsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
@@ -17,7 +16,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-public class ScreenEntityPartsInjector implements ScreenEntityDataInjector<ScreenPartsDefinitionProvider> {
+public class ScreenEntityPartsInjector implements ScreenEntityDataInjector {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
@@ -47,7 +46,4 @@ public class ScreenEntityPartsInjector implements ScreenEntityDataInjector<Scree
 		this.fieldFormatter = fieldFormatter;
 	}
 
-	public ScreenPartsDefinitionProvider getDefinitionsProvider() {
-		throw (new UnsupportedOperationException("Screen part injector is not using provider"));
-	}
 }
