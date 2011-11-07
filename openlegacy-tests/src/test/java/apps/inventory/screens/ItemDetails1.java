@@ -1,12 +1,9 @@
 package apps.inventory.screens;
 
-import org.openlegacy.FetchMode;
-import org.openlegacy.annotations.screen.ChildScreenEntity;
 import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
-import org.openlegacy.terminal.actions.SendKeyClasses;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 6, column = 2, value = "Item Number . ."),
@@ -16,7 +13,6 @@ public class ItemDetails1 {
 	@FieldMapping(row = 6, column = 33)
 	private String itemNumber;
 
-	@ChildScreenEntity(stepInto = SendKeyClasses.ENTER.class, fetchMode = FetchMode.LAZY)
 	private ItemDetails2 itemDetails2;
 
 }

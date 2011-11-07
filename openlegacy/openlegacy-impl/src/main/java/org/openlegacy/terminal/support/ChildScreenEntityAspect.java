@@ -8,16 +8,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.definitions.ChildScreenDefinition;
-import org.openlegacy.terminal.providers.ChildScreensDefinitionProvider;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.utils.ScreenAccessUtils;
 import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
 
@@ -28,9 +25,6 @@ import javax.inject.Inject;
 @Scope("session")
 @Aspect
 public class ChildScreenEntityAspect {
-
-	@Inject
-	private ChildScreensDefinitionProvider childScreenDefinitionProvider;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
@@ -58,18 +52,18 @@ public class ChildScreenEntityAspect {
 		}
 
 		// if return type is in the registry - handle child entity fetching
-		if (screenEntitiesRegistry.get(returnType) != null) {
+		ScreenEntityDefinition childScreenEntityDefinition = screenEntitiesRegistry.get(returnType);
+		if (childScreenEntityDefinition != null) {
 			return handleChildScreenGetter(joinPoint, returnType);
 		}
 
 		return joinPoint.proceed();
 	}
 
-	private Object handleChildScreenGetter(ProceedingJoinPoint joinPoint, Class<?> childClass) throws Exception,
+	private Object handleChildScreenGetter(ProceedingJoinPoint joinPoint, Class<?> childScreenEntityClass) throws Exception,
 			NoSuchFieldException, Throwable, IllegalAccessException, InstantiationException {
 
-		String fieldName = joinPoint.getSignature().getName().substring(PropertyUtil.GET.length());
-		fieldName = StringUtils.uncapitalize(fieldName);
+		String fieldName = PropertyUtil.getPropertyNameIfGetter(joinPoint.getSignature().getName());
 
 		Object target = joinPoint.getTarget();
 		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(target);
@@ -84,16 +78,9 @@ public class ChildScreenEntityAspect {
 			return joinPoint.proceed();
 		}
 
-		Class<? extends Object> targetClass = target.getClass();
-		ChildScreenDefinition childScreenDefinition = childScreenDefinitionProvider.getChildScreenDefinitions(targetClass,
-				fieldName);
+		Object childScreenEntity = terminalSession.getEntity(childScreenEntityClass);
+		logger.info(MessageFormat.format("Collected child screen for class {1}", childScreenEntityClass));
 
-		if (childScreenDefinition == null) {
-			logger.warn(MessageFormat.format("Child entity definitions not found for {0} in class {1}", childClass, targetClass));
-			return joinPoint.proceed();
-		}
-
-		Object childScreenEntity = ScreenAccessUtils.getChildScreen(terminalSession, childClass, childScreenDefinition);
 		fieldAccessor.setFieldValue(fieldName, childScreenEntity);
 		return childScreenEntity;
 	}

@@ -1,6 +1,5 @@
 package org.openlegacy.designtime.generators;
 
-import org.openlegacy.annotations.screen.ChildScreenEntity;
 import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.utils.JavaParserUtil;
@@ -33,7 +32,6 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 	private static final String TRUE = "true";
 	private static final String FIELD_SUFFIX = "Field";
 	private static final Object FIELD_MAPPING_ANNOTATION = FieldMapping.class.getSimpleName();
-	private static final Object CHILD_SCREEN_ANNOTATION = ChildScreenEntity.class.getSimpleName();
 
 	private String className;
 	private TypeDeclaration mainType;
@@ -69,9 +67,6 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (annotationExpr.getName().getName().equals(FIELD_MAPPING_ANNOTATION)) {
 								handleFieldMappingAnnotation(fieldDeclaration, annotationExpr, field);
-							}
-							if (annotationExpr.getName().getName().equals(CHILD_SCREEN_ANNOTATION)) {
-								// empty for now
 							}
 						}
 					}

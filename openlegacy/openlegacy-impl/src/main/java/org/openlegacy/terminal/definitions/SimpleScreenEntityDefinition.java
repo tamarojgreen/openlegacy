@@ -10,7 +10,6 @@ import java.util.Map;
 public class SimpleScreenEntityDefinition extends SimpleHostEntityDefinition<FieldMappingDefinition> implements ScreenEntityDefinition {
 
 	private ScreenIdentification screenIdentification = new SimpleScreenIdentification();
-	private final Map<String, ChildScreenDefinition> childScreenDefinitions = new HashMap<String, ChildScreenDefinition>();
 	private NavigationDefinition navigationDefinition;
 	private Map<Class<?>, TableDefinition> tableDefinitions = new HashMap<Class<?>, TableDefinition>();
 
@@ -24,10 +23,6 @@ public class SimpleScreenEntityDefinition extends SimpleHostEntityDefinition<Fie
 
 	public void setScreenIdentification(ScreenIdentification screenIdentification) {
 		this.screenIdentification = screenIdentification;
-	}
-
-	public Map<String, ChildScreenDefinition> getChildScreenDefinitions() {
-		return childScreenDefinitions;
 	}
 
 	public NavigationDefinition getNavigationDefinition() {

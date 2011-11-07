@@ -9,13 +9,6 @@ public interface ScreenEntityDefinition extends HostEntityDefinition<FieldMappin
 
 	ScreenIdentification getScreenIdentification();
 
-	/**
-	 * Map of field name -> child screen definition
-	 * 
-	 * @return
-	 */
-	Map<String, ChildScreenDefinition> getChildScreenDefinitions();
-
 	NavigationDefinition getNavigationDefinition();
 
 	/**
