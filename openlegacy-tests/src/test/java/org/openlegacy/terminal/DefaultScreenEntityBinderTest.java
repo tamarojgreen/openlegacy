@@ -1,6 +1,5 @@
 package org.openlegacy.terminal;
 
-
 import apps.inventory.screens.InventoryManagement;
 import apps.inventory.screens.ItemDetails1;
 import apps.inventory.screens.ItemsList;
@@ -14,7 +13,6 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 
 import java.io.IOException;
 
@@ -32,6 +30,9 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 		Assert.assertEquals("2000", itemDetails1.getItemNumber());
 
 		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
+		Assert.assertEquals("17/01/2005", itemDetails1.getItemDetails2().getAuditDetails().getCreatedDate());
+		Assert.assertEquals("STUDENT2", itemDetails1.getItemDetails2().getAuditDetails().getCreatedBy());
+
 		// make sure no extra fetch is made
 		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
 

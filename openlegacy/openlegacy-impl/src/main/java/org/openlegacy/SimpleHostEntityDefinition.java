@@ -58,7 +58,7 @@ public abstract class SimpleHostEntityDefinition<F extends FieldDefinition> impl
 		for (FieldDefinition fieldDefinition : fieldValues) {
 			if (fieldDefinition.getType() == fieldType) {
 				if (matchedFieldDefinition != null) {
-					throw (new RegistryException(MessageFormat.format("Found 2 field of type{0}in class {1}", fieldType,
+					throw (new RegistryException(MessageFormat.format("Found 2 field of type{0} in class {1}", fieldType,
 							getEntityClass())));
 				}
 				matchedFieldDefinition = fieldDefinition;

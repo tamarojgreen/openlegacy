@@ -4,6 +4,7 @@ import org.openlegacy.support.AbstractHostEntitiesRegistry;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 
@@ -11,13 +12,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple implementation of a screen entities registry. Holds information collection from @ScreenEntity, @FieldMapping and more
  * 
  */
 public class DefaultScreenEntitiesRegistry extends AbstractHostEntitiesRegistry<ScreenEntityDefinition, FieldMappingDefinition> implements ScreenEntitiesRegistry {
+
+	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
 
 	public ScreenEntityDefinition match(TerminalScreen hostScreen) {
 		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();
@@ -39,6 +44,14 @@ public class DefaultScreenEntitiesRegistry extends AbstractHostEntitiesRegistry<
 			}
 		}
 		return null;
+	}
+
+	public void addPart(ScreenPartEntityDefinition screenPartEntityDefinition) {
+		screenPartDefinitions.put(screenPartEntityDefinition.getPartClass(), screenPartEntityDefinition);
+	}
+
+	public ScreenPartEntityDefinition getPart(Class<?> containingClass) {
+		return screenPartDefinitions.get(containingClass);
 	}
 
 }

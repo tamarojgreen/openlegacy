@@ -10,7 +10,7 @@ import org.openlegacy.terminal.providers.DefinitionsProvider;
  */
 public interface ScreenEntityDataInjector<P extends DefinitionsProvider> {
 
-	P DefinitionsProvider();
+	P getDefinitionsProvider();
 
 	void inject(ScreenEntityFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen, boolean deep);
 }

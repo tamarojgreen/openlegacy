@@ -17,4 +17,11 @@ public interface ScreenEntityDefinition extends HostEntityDefinition<FieldMappin
 	 * @return
 	 */
 	Map<Class<?>, TableDefinition> getTableDefinitions();
+
+	/**
+	 * field name -> part defintion
+	 * 
+	 * @return
+	 */
+	Map<String, ScreenPartEntityDefinition> getPartsDefinitions();
 }

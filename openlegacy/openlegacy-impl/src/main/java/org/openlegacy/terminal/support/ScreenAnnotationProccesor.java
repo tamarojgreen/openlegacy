@@ -2,6 +2,7 @@ package org.openlegacy.terminal.support;
 
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
+import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
@@ -38,10 +39,10 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 						if (annotationsLoader.match(annotation)) {
 							annotationsLoader.load(screenEntitiesRegistry, annotation, beanClass);
 
-							handleChilds(beanFactory, screenEntitiesRegistry, annotation, beanClass);
 						}
 					}
 				}
+				handleChilds(beanFactory, screenEntitiesRegistry, beanClass);
 			} catch (ClassNotFoundException e) {
 				throw (new BeanCreationException(e.getMessage(), e));
 			}
@@ -49,12 +50,19 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 	}
 
 	private static void handleChilds(final ConfigurableListableBeanFactory beanFactory,
-			final ScreenEntitiesRegistry screenEntitiesRegistry, Annotation annotation, final Class<?> beanClass) {
+			final ScreenEntitiesRegistry screenEntitiesRegistry, final Class<?> beanClass) {
 		final Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(FieldAnnotationsLoader.class).values();
+		final Collection<FieldLoader> fieldLoaders = beanFactory.getBeansOfType(FieldLoader.class).values();
 		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
 
 			public void doWith(Field field) {
 
+				loadDefinition(screenEntitiesRegistry, beanClass, fieldLoaders, field);
+				loadDefinitionFromAnnotations(screenEntitiesRegistry, beanClass, fieldAnnotationLoaders, field);
+			}
+
+			private void loadDefinitionFromAnnotations(final ScreenEntitiesRegistry screenEntitiesRegistry,
+					final Class<?> beanClass, final Collection<FieldAnnotationsLoader> fieldAnnotationLoaders, Field field) {
 				Annotation[] annotations = field.getAnnotations();
 				for (Annotation annotation : annotations) {
 					for (FieldAnnotationsLoader fieldAnnotationsLoader : fieldAnnotationLoaders) {
@@ -64,6 +72,16 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 					}
 				}
 			}
+
+			private void loadDefinition(final ScreenEntitiesRegistry screenEntitiesRegistry, final Class<?> beanClass,
+					final Collection<FieldLoader> fieldLoaders, Field field) {
+				for (FieldLoader fieldLoader : fieldLoaders) {
+					if (fieldLoader.match(screenEntitiesRegistry, field)) {
+						fieldLoader.load(screenEntitiesRegistry, field, beanClass);
+					}
+				}
+			}
+
 		});
 
 	}

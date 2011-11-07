@@ -34,9 +34,9 @@
 
 	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
 
-	<!-- data injectors. ordered!-->	
 	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityFieldsInjector"/>
 	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityTablesInjector"/>
+	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityPartsInjector"/>
 	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-provider.xml" /> 

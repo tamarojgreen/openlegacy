@@ -68,7 +68,7 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector<Tabl
 		}
 	}
 
-	public TablesDefinitionProvider DefinitionsProvider() {
+	public TablesDefinitionProvider getDefinitionsProvider() {
 		return tablesDefinitionProvider;
 	}
 
