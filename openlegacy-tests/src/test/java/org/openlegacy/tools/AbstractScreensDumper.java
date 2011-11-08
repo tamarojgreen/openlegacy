@@ -18,6 +18,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Writer;
 
 public abstract class AbstractScreensDumper {
@@ -60,13 +61,9 @@ public abstract class AbstractScreensDumper {
 					entityName = screenEntitiesRegistry.getEntityName(matchedScreenEntity);
 				}
 
-				File file = getOutputFile(baseDir, entityName, count);
-
 				String s = getDumpContent(terminalscreen);
 
-				Writer writer = new FileWriter(file);
-				writer.write(s);
-				writer.close();
+				writeFileContentIfDifferent(baseDir, entityName, count, s);
 
 				hostSession.doAction(SendKeyActions.ENTER, null);
 			}
@@ -78,11 +75,16 @@ public abstract class AbstractScreensDumper {
 
 	}
 
-	private File getOutputFile(File baseDir, String entityName, int count) {
+	private void writeFileContentIfDifferent(File baseDir, String entityName, int count, String content) throws IOException {
 		String fileNameNoSuffix = entityName != null ? entityName : "screen" + count;
 
-		File file = FileUtils.findFreeFileName(baseDir, fileNameNoSuffix, getDumpFileExtension());
-		return file;
+		File file = FileUtils.findNextAndDifferentFreeFile(baseDir, fileNameNoSuffix, getDumpFileExtension(), content);
+
+		if (file != null) {
+			Writer writer = new FileWriter(file);
+			writer.write(content);
+			writer.close();
+		}
 	}
 
 	protected abstract String getDumpContent(TerminalScreen snapshot) throws Exception;
