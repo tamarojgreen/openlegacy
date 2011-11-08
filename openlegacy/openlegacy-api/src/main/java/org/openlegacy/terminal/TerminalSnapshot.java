@@ -19,4 +19,6 @@ public interface TerminalSnapshot extends Snapshot {
 	List<TerminalRow> getRows();
 
 	SnapshotType getSnapshotType();
+
+	List<ScreenPosition> getAttributes();
 }

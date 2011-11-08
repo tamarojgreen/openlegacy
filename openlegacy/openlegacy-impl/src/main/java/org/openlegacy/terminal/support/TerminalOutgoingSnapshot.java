@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.support;
 
+import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalScreen;
@@ -36,5 +37,9 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot {
 
 	public List<TerminalRow> getRows() {
 		return terminalScreen.getRows();
+	}
+
+	public List<ScreenPosition> getAttributes() {
+		return terminalScreen.getAttributes();
 	}
 }

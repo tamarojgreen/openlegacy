@@ -7,12 +7,17 @@ import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.ScreenUtils;
+import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.utils.ScreenDisplayUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * A mock screen is conducted from a persisted screen, and reconstruct the entire screen data from the persisted fields
+ * 
+ */
 public class MockTerminalScreen implements TerminalScreen {
 
 	private TerminalSnapshot terminalSnapshot;
@@ -21,6 +26,8 @@ public class MockTerminalScreen implements TerminalScreen {
 	private List<TerminalField> editableFields;
 
 	private String screenText;
+
+	private ArrayList<ScreenPosition> attributes;
 
 	public MockTerminalScreen(TerminalSnapshot terminalSnapshot) {
 		this.terminalSnapshot = terminalSnapshot;
@@ -63,10 +70,15 @@ public class MockTerminalScreen implements TerminalScreen {
 		ScreenSize size = getSize();
 
 		StringBuilder buffer = ScreenUtils.initEmptyBuffer(size);
+
 		if (allFields == null) {
+
 			allFields = new ArrayList<TerminalField>();
 			editableFields = new ArrayList<TerminalField>();
+			attributes = new ArrayList<ScreenPosition>();
+
 			List<TerminalRow> rows = terminalSnapshot.getRows();
+
 			for (TerminalRow terminalRow : rows) {
 				List<TerminalField> rowFields = terminalRow.getFields();
 				for (TerminalField terminalField : rowFields) {
@@ -75,6 +87,9 @@ public class MockTerminalScreen implements TerminalScreen {
 					if (terminalField.isEditable()) {
 						editableFields.add(terminalField);
 					}
+
+					ScreenPosition fieldPosition = terminalField.getPosition();
+					attributes.add(new SimpleScreenPosition(fieldPosition.getRow(), fieldPosition.getColumn() - 1));
 				}
 			}
 			screenText = buffer.toString();
@@ -88,5 +103,9 @@ public class MockTerminalScreen implements TerminalScreen {
 	@Override
 	public String toString() {
 		return ScreenDisplayUtils.toString(this, true);
+	}
+
+	public List<ScreenPosition> getAttributes() {
+		return attributes;
 	}
 }

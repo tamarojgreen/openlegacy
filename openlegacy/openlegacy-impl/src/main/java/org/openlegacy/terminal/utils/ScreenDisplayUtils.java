@@ -1,10 +1,13 @@
 package org.openlegacy.terminal.utils;
 
+import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * A textual utility which format terminal screen in to a preventable text which is very comfort for debugging purposes
@@ -49,6 +52,7 @@ public class ScreenDisplayUtils {
 			generateColumnNumbers(terminalScreen, newline, out);
 		}
 
+		drawAttributes(terminalScreen, out);
 		if (terminalSendAction != null) {
 			drawInputs(terminalScreen, out, terminalSendAction.getModifiedFields(), '*', '*');
 		} else {
@@ -56,6 +60,15 @@ public class ScreenDisplayUtils {
 		}
 
 		return out.toString();
+
+	}
+
+	private static void drawAttributes(TerminalScreen terminalScreen, StringBuilder out) {
+		List<ScreenPosition> attributes = terminalScreen.getAttributes();
+		for (ScreenPosition screenPosition : attributes) {
+			int bufferLocation = calculatePositionOnPainter(screenPosition, terminalScreen.getSize());
+			out.setCharAt(bufferLocation, '^');
+		}
 
 	}
 
@@ -86,9 +99,7 @@ public class ScreenDisplayUtils {
 			char leftMark, char rightMark) {
 		for (TerminalField terminalField : fields) {
 			// +6 - line numbers + |
-			int beforeInputBufferLocation = (terminalScreen.getSize().getColumns() + 6)
-			// -1 - 0 base, +3 - header
-					* (terminalField.getPosition().getRow() - 1 + 3) + terminalField.getPosition().getColumn() - 2;
+			int beforeInputBufferLocation = calculatePositionOnPainter(terminalField.getPosition(), terminalScreen.getSize()) - 1;
 			out.setCharAt(beforeInputBufferLocation, leftMark);
 			int afterInputBufferLocation = beforeInputBufferLocation + terminalField.getLength() + 1;
 			out.setCharAt(afterInputBufferLocation, rightMark);
@@ -99,6 +110,13 @@ public class ScreenDisplayUtils {
 				out.setCharAt(inputBufferLocation + i, value.charAt(i));
 			}
 		}
+	}
+
+	private static int calculatePositionOnPainter(ScreenPosition screenPosition, ScreenSize screenSize) {
+		int beforeInputBufferLocation = (screenSize.getColumns() + 6)
+		// -1 - 0 base, +3 - header
+				* (screenPosition.getRow() - 1 + 3) + screenPosition.getColumn() - 1;
+		return beforeInputBufferLocation;
 	}
 
 }

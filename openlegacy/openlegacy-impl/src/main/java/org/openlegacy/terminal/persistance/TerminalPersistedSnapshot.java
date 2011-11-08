@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.persistance;
 
+import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -50,5 +51,10 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 		tempSize.setRows(size.getRows());
 		tempSize.setColumns(size.getColumns());
 		this.size = tempSize;
+	}
+
+	public List<ScreenPosition> getAttributes() {
+		// TODO implement
+		return null;
 	}
 }

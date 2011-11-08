@@ -82,4 +82,16 @@ public class ApxTerminalScreen implements TerminalScreen {
 	public SnapshotType getSnapshotType() {
 		return SnapshotType.INCOMING;
 	}
+
+	public List<ScreenPosition> getAttributes() {
+		@SuppressWarnings("unchecked")
+		List<GXScreenPosition> attributes = screen.getAttributePositions();
+
+		List<ScreenPosition> screenPositions = new ArrayList<ScreenPosition>();
+		for (Object object : attributes) {
+			screenPositions.add(ApxPositionUtil.toScreenPosition((GXScreenPosition)object));
+		}
+		return screenPositions;
+
+	}
 }
