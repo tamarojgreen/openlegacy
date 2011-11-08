@@ -1,0 +1,11 @@
+package openlegacy;
+
+import org.openlegacy.terminal.TerminalSnapshot;
+
+rule "basicRule"
+when
+	TerminalSnapshot()
+	
+then
+	System.out.println("Found screen");
+end
