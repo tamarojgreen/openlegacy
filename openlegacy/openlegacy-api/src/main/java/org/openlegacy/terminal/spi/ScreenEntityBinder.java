@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ScreenEntityBinder {
 
-	Object buildScreenEntity(TerminalScreen hostScreen, boolean deep);
+	Object buildScreenEntity(TerminalScreen hostScreen);
 
 	<T> T buildScreenEntity(Class<T> screenEntityClass, TerminalScreen hostScreen) throws HostEntityNotFoundException,
 			ScreenEntityNotAccessibleException;

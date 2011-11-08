@@ -5,6 +5,10 @@ import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.HostSessionModule;
 import org.openlegacy.terminal.ScreenEntityType;
 
+/**
+ * A Login module is able to perform a host login/log-off based on field and entity declaration
+ * 
+ */
 public interface Login extends HostSessionModule {
 
 	void login(String user, String password) throws LoginException, RegistryException;
@@ -12,6 +16,8 @@ public interface Login extends HostSessionModule {
 	void login(Object loginScreen) throws LoginException, RegistryException;
 
 	boolean isLoggedIn();
+
+	String getLoggedInUser();
 
 	void logoff();
 

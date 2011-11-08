@@ -32,10 +32,11 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	private HostAction hostAction = SendKeyActions.ENTER;
-	private boolean loggedIn = false;
+	private HostAction loginHostAction = SendKeyActions.ENTER;
 
-	private HostAction defaultExitAction;
+	private String loggedInUser = null;
+
+	private HostAction defaultExitAction = SendKeyActions.F3;
 
 	// the maximum number of actions allowed in order to exit back to login screen
 	private int maxActionsToLogin = 7;
@@ -43,7 +44,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	private final static Log logger = LogFactory.getLog(DefaultLoginModule.class);
 
 	public void login(String user, String password) throws LoginException {
-		if (loggedIn) {
+		if (loggedInUser != null) {
 			return;
 		}
 
@@ -64,8 +65,8 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	}
 
 	public void login(Object loginEntity) throws LoginException, RegistryException {
-		if (loggedIn) {
-			return;
+		if (loggedInUser != null) {
+			throw (new LoginException("User is already logged in"));
 		}
 
 		lazyMetadataInit();
@@ -75,10 +76,11 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 			throw (new RegistryException("LoginModule entity " + loginEntity.getClass() + " doesn't match registry login screen"
 					+ registryLoginClass));
 		}
-		getTerminalSession().doAction(hostAction, loginEntity);
 
 		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(loginEntity);
-		Object currentEntity = getTerminalSession().getEntity(false);
+		String user = (String)fieldAccessor.getFieldValue(loginCache.getUserField().getName());
+
+		Object currentEntity = getTerminalSession().doAction(loginHostAction, loginEntity);
 
 		Class<? extends Object> currentEntityClass = currentEntity.getClass();
 
@@ -86,13 +88,16 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 			logger.debug(MessageFormat.format("After performing login action current entity is:{0}", currentEntityClass));
 		}
 
+		fieldAccessor = new SimpleScreenEntityFieldAccessor(currentEntity);
+
 		// throw exception if after login screen is still login
 		if (ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
-			fieldAccessor = new SimpleScreenEntityFieldAccessor(currentEntity);
 			Object value = fieldAccessor.getFieldValue(loginCache.getErrorField().getName());
 			throw (new LoginException(value.toString()));
+		} else {
+			loggedInUser = user;
 		}
-		loggedIn = true;
+
 	}
 
 	private void lazyMetadataInit() {
@@ -100,7 +105,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	}
 
 	public boolean isLoggedIn() {
-		return loggedIn;
+		return loggedInUser != null;
 	}
 
 	public void logoff() {
@@ -127,7 +132,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 		getTerminalSession().disconnect();
 
-		loggedIn = false;
+		loggedInUser = null;
 	}
 
 	private HostAction findCurrentEntityExitAction(Class<? extends Object> currentEntityClass, HostAction exitAction) {
@@ -141,8 +146,8 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		return exitAction;
 	}
 
-	public void setHostAction(Class<? extends HostAction> hostAction) {
-		this.hostAction = ReflectionUtil.newInstance(hostAction);
+	public void setLoginHostAction(Class<? extends HostAction> hostAction) {
+		this.loginHostAction = ReflectionUtil.newInstance(hostAction);
 	}
 
 	public void setDefaultExitAction(Class<? extends HostAction> defaultExitAction) {
@@ -151,5 +156,9 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 	public void setMaxActionsToLogin(int maxActionsToLogin) {
 		this.maxActionsToLogin = maxActionsToLogin;
+	}
+
+	public String getLoggedInUser() {
+		return loggedInUser;
 	}
 }

@@ -16,7 +16,6 @@ import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -30,8 +29,6 @@ import javax.inject.Inject;
  * screenEntity
  * 
  */
-@Scope("sesssion")
-// since performing action on terminalSession
 public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 	@Inject
@@ -56,15 +53,15 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 		ScreenNavigationUtil.validateCurrentScreen(screenEntity, matchedScreenEntity);
 
-		return (T)buildScreenEntityInner(matchedScreenEntity, terminalScreen, true);
+		return (T)buildScreenEntityInner(matchedScreenEntity, terminalScreen);
 	}
 
-	public Object buildScreenEntity(TerminalScreen terminalScreen, boolean deep) {
+	public Object buildScreenEntity(TerminalScreen terminalScreen) {
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
-		return buildScreenEntityInner(matchedScreenEntity, terminalScreen, deep);
+		return buildScreenEntityInner(matchedScreenEntity, terminalScreen);
 	}
 
-	private Object buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen, boolean deep) {
+	private Object buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen) {
 		Object screenEntity = applicationContext.getBean(screenEntityClass);
 
 		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
@@ -72,7 +69,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 		fieldAccessor.setTerminalScreen(terminalScreen);
 
 		for (ScreenEntityDataInjector screenEntityDataInjector : screenEntityDataInjectors) {
-			screenEntityDataInjector.inject(fieldAccessor, screenEntityClass, terminalScreen, deep);
+			screenEntityDataInjector.inject(fieldAccessor, screenEntityClass, terminalScreen);
 		}
 
 		return screenEntity;

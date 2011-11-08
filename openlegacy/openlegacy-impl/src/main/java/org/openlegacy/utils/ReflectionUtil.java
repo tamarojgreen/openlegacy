@@ -30,13 +30,7 @@ public class ReflectionUtil {
 	}
 
 	public static <T> T newInstance(Class<? extends T> clazz) {
-		try {
-			return clazz.newInstance();
-		} catch (InstantiationException e) {
-			throw (new IllegalArgumentException(e));
-		} catch (IllegalAccessException e) {
-			throw (new IllegalArgumentException(e));
-		}
+		return org.springframework.beans.BeanUtils.instantiate(clazz);
 	}
 
 	public static void copyProperties(Object destination, Object source) {

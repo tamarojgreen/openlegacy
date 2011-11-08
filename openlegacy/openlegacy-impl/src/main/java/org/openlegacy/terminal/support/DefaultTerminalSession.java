@@ -55,10 +55,10 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		return (T)entity;
 	}
 
-	public Object getEntity(boolean deep) {
+	public Object getEntity() {
 		if (entity == null) {
 			TerminalScreen hostScreen = getSnapshot();
-			entity = screenEntityBinder.buildScreenEntity(hostScreen, deep);
+			entity = screenEntityBinder.buildScreenEntity(hostScreen);
 		}
 		return entity;
 	}
@@ -84,7 +84,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 			notifyModulesAfterSend();
 		}
 
-		return getEntity(false);
+		return getEntity();
 	}
 
 	private void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {

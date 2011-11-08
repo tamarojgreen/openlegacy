@@ -17,5 +17,5 @@ public interface TerminalSession extends StatefullHostSession<TerminalScreen> {
 	 */
 	Object doAction(HostAction action, Object screenEntity);
 
-	Object getEntity(boolean deep);
+	Object getEntity();
 }

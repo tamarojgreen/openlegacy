@@ -30,8 +30,7 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 	@Inject
 	private ApplicationContext applicationContext;
 
-	public void inject(ScreenEntityFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen,
-			boolean deep) {
+	public void inject(ScreenEntityFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen) {
 
 		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(terminalScreen,
 				screenEntityClass);

@@ -27,7 +27,7 @@
 					</property>
 				</bean>
 				<bean class="org.openlegacy.terminal.modules.login.DefaultLoginModule"
-					p:hostAction="org.openlegacy.terminal.actions.SendKeyClasses.ENTER"
+					p:loginHostAction="org.openlegacy.terminal.actions.SendKeyClasses.ENTER"
 					p:defaultExitAction="org.openlegacy.terminal.actions.SendKeyClasses.F3"
 					p:maxActionsToLogin="5" />
 				<bean class="org.openlegacy.terminal.modules.table.DefaultTableModule"

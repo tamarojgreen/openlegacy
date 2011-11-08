@@ -24,8 +24,7 @@ public class ScreenEntityPartsInjector implements ScreenEntityDataInjector {
 	@Inject
 	private FieldFormatter fieldFormatter;
 
-	public void inject(ScreenEntityFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen,
-			boolean deep) {
+	public void inject(ScreenEntityFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen) {
 
 		Map<String, ScreenPartEntityDefinition> partsDefinitions = screenEntitiesRegistry.get(screenEntityClass).getPartsDefinitions();
 		Set<String> fieldPartNames = partsDefinitions.keySet();
