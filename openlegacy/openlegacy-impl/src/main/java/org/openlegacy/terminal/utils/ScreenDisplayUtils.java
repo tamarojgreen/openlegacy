@@ -66,8 +66,10 @@ public class ScreenDisplayUtils {
 	private static void drawAttributes(TerminalScreen terminalScreen, StringBuilder out) {
 		List<ScreenPosition> attributes = terminalScreen.getFieldSeperators();
 		for (ScreenPosition screenPosition : attributes) {
-			int bufferLocation = calculatePositionOnPainter(screenPosition, terminalScreen.getSize());
-			out.setCharAt(bufferLocation, '^');
+			if (screenPosition.getColumn() > 0) {
+				int bufferLocation = calculatePositionOnPainter(screenPosition, terminalScreen.getSize());
+				out.setCharAt(bufferLocation, '^');
+			}
 		}
 
 	}
@@ -113,10 +115,10 @@ public class ScreenDisplayUtils {
 	}
 
 	private static int calculatePositionOnPainter(ScreenPosition screenPosition, ScreenSize screenSize) {
-		int beforeInputBufferLocation = (screenSize.getColumns() + 6)
-		// -1 - 0 base, +3 - header
+		int fieldStartBufferLocation = (screenSize.getColumns() + 6) // 6- line numbers + | + NL
+				// -1 - 0 base, +3 - header
 				* (screenPosition.getRow() - 1 + 3) + screenPosition.getColumn() - 1;
-		return beforeInputBufferLocation;
+		return fieldStartBufferLocation;
 	}
 
 }
