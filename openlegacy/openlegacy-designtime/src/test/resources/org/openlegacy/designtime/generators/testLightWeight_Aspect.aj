@@ -14,6 +14,7 @@ privileged aspect SignOn_Aspect {
     
 
     declare parents: SignOn implements ScreenEntity;
+    private String SignOn.focusField;
     
     
 
@@ -28,5 +29,12 @@ privileged aspect SignOn_Aspect {
     
 
 
+
+    public String SignOn.getFocusField(){
+    	return focusField;
+    }
+    public void SignOn.setFocusField(String focusField){
+    	this.focusField = focusField;
+    }
     
 }
