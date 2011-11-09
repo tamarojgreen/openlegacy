@@ -3,11 +3,12 @@
 
 package apps.inventory.screens;
 
+import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged aspect WarehouseDetails_Aspect {
+privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     
     declare @type: WarehouseDetails : @Component;
 	declare @type: WarehouseDetails : @Scope("prototype");

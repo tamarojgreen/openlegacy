@@ -9,8 +9,6 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.terminal.actions.SendKeyClasses.F3;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -25,16 +23,6 @@ public class ItemsList {
 
 	private List<ItemsListRow> itemListRows;
 
-	public List<ItemsListRow> getItemListRows() {
-		return itemListRows;
-	}
-
-	public void setItemListRows(List<ItemsListRow> itemListRows) {
-		this.itemListRows = itemListRows;
-	}
-
-	@Component
-	@Scope("prototype")
 	@ScreenTable(startRow = 8, endRow = 19)
 	public static class ItemsListRow {
 
@@ -46,30 +34,6 @@ public class ItemsList {
 
 		@ScreenColumn(startColumn = 24, endColumn = 60)
 		private String itemDescription;
-
-		public String getItemNumber() {
-			return itemNumber;
-		}
-
-		public void setItemNumber(String itemNumber) {
-			this.itemNumber = itemNumber;
-		}
-
-		public String getAlphaSearch() {
-			return alphaSearch;
-		}
-
-		public void setAlphaSearch(String alphaSearch) {
-			this.alphaSearch = alphaSearch;
-		}
-
-		public String getItemDescription() {
-			return itemDescription;
-		}
-
-		public void setItemDescription(String itemDescription) {
-			this.itemDescription = itemDescription;
-		}
 
 	}
 }

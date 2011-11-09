@@ -3,13 +3,14 @@
 
 package apps.inventory.screens;
 
+import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged aspect SignOn_Aspect {
+privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     
     declare @type: SignOn : @Component;
 	declare @type: SignOn : @Scope("prototype");

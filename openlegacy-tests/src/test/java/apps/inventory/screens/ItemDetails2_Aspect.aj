@@ -3,11 +3,12 @@
 
 package apps.inventory.screens;
 
+import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged aspect ItemDetails2_Aspect {
+privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     
     declare @type: ItemDetails2 : @Component;
 	declare @type: ItemDetails2 : @Scope("prototype");
@@ -20,6 +21,9 @@ privileged aspect ItemDetails2_Aspect {
 	
     
 
+    public AuditDetails ItemDetails2.getAuditDetails(){
+    	return this.auditDetails;
+    }
     
 
     public String ItemDetails2.getItemNumber(){

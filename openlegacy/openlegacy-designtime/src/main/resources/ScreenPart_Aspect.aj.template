@@ -9,7 +9,7 @@ import org.openlegacy.terminal.TerminalField;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged aspect ${formattedClassName}Table_Aspect {
+privileged @SuppressWarnings("unused") aspect ${formattedClassName}Table_Aspect {
     
     declare @type: ${className} : @Component;
 	declare @type: ${className} : @Scope("prototype");

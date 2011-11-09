@@ -3,11 +3,12 @@
 
 package apps.inventory.screens;
 
+import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged aspect ItemsList_Aspect {
+privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
     
     declare @type: ItemsList : @Component;
 	declare @type: ItemsList : @Scope("prototype");
@@ -20,6 +21,9 @@ privileged aspect ItemsList_Aspect {
 	
     
 
+    public List<ItemsListRow> ItemsList.getItemListRows(){
+    	return this.itemListRows;
+    }
     
 
     public String ItemsList.getPositionTo(){

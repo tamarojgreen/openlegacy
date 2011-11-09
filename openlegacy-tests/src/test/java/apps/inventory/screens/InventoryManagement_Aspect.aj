@@ -3,11 +3,12 @@
 
 package apps.inventory.screens;
 
+import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged aspect InventoryManagement_Aspect {
+privileged @SuppressWarnings("unused") aspect InventoryManagement_Aspect {
     
     declare @type: InventoryManagement : @Component;
 	declare @type: InventoryManagement : @Scope("prototype");

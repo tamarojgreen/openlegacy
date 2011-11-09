@@ -3,6 +3,7 @@
 
 package ${packageName};
 
+import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 <#if supportTerminalData>
 import org.openlegacy.terminal.TerminalField;
@@ -11,7 +12,7 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged aspect ${className}_Aspect {
+privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
     
     declare @type: ${className} : @Component;
 	declare @type: ${className} : @Scope("prototype");
