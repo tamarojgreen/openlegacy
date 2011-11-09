@@ -4,6 +4,7 @@ import org.openlegacy.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
 
+import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.FieldDeclaration;
@@ -33,10 +34,10 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 	private boolean enabled;
 	private boolean supportTerminalData;
 
-	public ScreenEntityCodeModelImpl(ClassOrInterfaceDeclaration type, String packageName, String className) {
+	public ScreenEntityCodeModelImpl(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className) {
 
 		mainType = type;
-		this.packageName = packageName;
+		this.packageName = compilationUnit.getPackage().getName().toString();
 		this.className = className;
 		calculateClassProperties();
 
