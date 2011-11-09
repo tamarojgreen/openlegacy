@@ -64,7 +64,7 @@ public class ScreenDisplayUtils {
 	}
 
 	private static void drawAttributes(TerminalScreen terminalScreen, StringBuilder out) {
-		List<ScreenPosition> attributes = terminalScreen.getAttributes();
+		List<ScreenPosition> attributes = terminalScreen.getFieldSeperators();
 		for (ScreenPosition screenPosition : attributes) {
 			int bufferLocation = calculatePositionOnPainter(screenPosition, terminalScreen.getSize());
 			out.setCharAt(bufferLocation, '^');

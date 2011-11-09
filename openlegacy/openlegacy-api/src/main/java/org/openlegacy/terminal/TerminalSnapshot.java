@@ -20,5 +20,5 @@ public interface TerminalSnapshot extends Snapshot {
 
 	SnapshotType getSnapshotType();
 
-	List<ScreenPosition> getAttributes();
+	List<ScreenPosition> getFieldSeperators();
 }

@@ -67,11 +67,11 @@ public class MockTerminalScreen implements TerminalScreen {
 	}
 
 	private void initContent() {
-		ScreenSize size = getSize();
-
-		StringBuilder buffer = ScreenUtils.initEmptyBuffer(size);
 
 		if (allFields == null) {
+
+			ScreenSize size = getSize();
+			StringBuilder buffer = ScreenUtils.initEmptyBuffer(size);
 
 			allFields = new ArrayList<TerminalField>();
 			editableFields = new ArrayList<TerminalField>();
@@ -105,7 +105,8 @@ public class MockTerminalScreen implements TerminalScreen {
 		return ScreenDisplayUtils.toString(this, true);
 	}
 
-	public List<ScreenPosition> getAttributes() {
+	public List<ScreenPosition> getFieldSeperators() {
+		initContent();
 		return attributes;
 	}
 }

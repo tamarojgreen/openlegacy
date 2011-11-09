@@ -4,7 +4,9 @@ import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.mock.MockTerminalScreen;
 import org.openlegacy.terminal.support.ScreenSizeBean;
+import org.openlegacy.terminal.utils.ScreenDisplayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +55,13 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 		this.size = tempSize;
 	}
 
-	public List<ScreenPosition> getAttributes() {
+	public List<ScreenPosition> getFieldSeperators() {
 		// TODO implement
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		return ScreenDisplayUtils.toString(new MockTerminalScreen(this), true);
 	}
 }

@@ -39,7 +39,7 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot {
 		return terminalScreen.getRows();
 	}
 
-	public List<ScreenPosition> getAttributes() {
-		return terminalScreen.getAttributes();
+	public List<ScreenPosition> getFieldSeperators() {
+		return terminalScreen.getFieldSeperators();
 	}
 }
