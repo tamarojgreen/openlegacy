@@ -3,6 +3,7 @@ package org.openlegacy.modules.login;
 import org.openlegacy.FieldType;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.HostSessionModule;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityType;
 
 /**
@@ -13,7 +14,7 @@ public interface Login extends HostSessionModule {
 
 	void login(String user, String password) throws LoginException, RegistryException;
 
-	void login(Object loginScreen) throws LoginException, RegistryException;
+	<S extends ScreenEntity> void login(S loginScreen) throws LoginException, RegistryException;
 
 	boolean isLoggedIn();
 

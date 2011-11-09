@@ -7,4 +7,5 @@ public class SignOn {
 
 	private String user;
 	private String password;
+	private String error;
 }

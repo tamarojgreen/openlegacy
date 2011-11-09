@@ -34,6 +34,7 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 	private static final Object FIELD_MAPPING_ANNOTATION = FieldMapping.class.getSimpleName();
 
 	private String className;
+	private String packageName;
 	private TypeDeclaration mainType;
 	private Map<String, Field> fields = new TreeMap<String, Field>();
 
@@ -44,6 +45,7 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 
 		List<TypeDeclaration> types = compilationUnit.getTypes();
 		if (types.size() > 0) {
+			packageName = compilationUnit.getPackage().getName().toString();
 			mainType = types.get(0);
 			calculateClassProperties();
 
@@ -171,6 +173,10 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 	 */
 	public String getClassName() {
 		return className;
+	}
+
+	public String getPackageName() {
+		return packageName;
 	}
 
 	/*

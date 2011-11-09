@@ -30,4 +30,7 @@ public class SimpleTerminalSendAction implements TerminalSendAction {
 		return cursorPosition;
 	}
 
+	public void setCursorPosition(ScreenPosition cursorPosition) {
+		this.cursorPosition = cursorPosition;
+	}
 }

@@ -14,8 +14,12 @@ privileged aspect ItemDetails2_Aspect {
     
 
     declare parents: ItemDetails2 implements ScreenEntity;
+    private String ItemDetails2.focusField;
     
 	
+	
+    
+
     
 
     public String ItemDetails2.getItemNumber(){
@@ -24,5 +28,11 @@ privileged aspect ItemDetails2_Aspect {
     
 
 
+    public String ItemDetails2.getFocusField(){
+    	return focusField;
+    }
+    public void ItemDetails2.setFocusField(String focusField){
+    	this.focusField = focusField;
+    }
     
 }

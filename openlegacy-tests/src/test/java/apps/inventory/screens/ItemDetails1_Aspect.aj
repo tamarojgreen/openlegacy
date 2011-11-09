@@ -14,6 +14,7 @@ privileged aspect ItemDetails1_Aspect {
     
 
     declare parents: ItemDetails1 implements ScreenEntity;
+    private String ItemDetails1.focusField;
     
 	
 	
@@ -30,5 +31,11 @@ privileged aspect ItemDetails1_Aspect {
     
 
 
+    public String ItemDetails1.getFocusField(){
+    	return focusField;
+    }
+    public void ItemDetails1.setFocusField(String focusField){
+    	this.focusField = focusField;
+    }
     
 }

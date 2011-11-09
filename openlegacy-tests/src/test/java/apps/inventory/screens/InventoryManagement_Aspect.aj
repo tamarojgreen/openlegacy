@@ -14,6 +14,7 @@ privileged aspect InventoryManagement_Aspect {
     
 
     declare parents: InventoryManagement implements ScreenEntity;
+    private String InventoryManagement.focusField;
     
 	
     
@@ -24,5 +25,11 @@ privileged aspect InventoryManagement_Aspect {
     
 
 
+    public String InventoryManagement.getFocusField(){
+    	return focusField;
+    }
+    public void InventoryManagement.setFocusField(String focusField){
+    	this.focusField = focusField;
+    }
     
 }

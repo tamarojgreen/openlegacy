@@ -6,6 +6,7 @@ import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
@@ -51,7 +52,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		lazyMetadataInit();
 
 		try {
-			Object loginEntity = loginCache.getLoginScreenDefinition().getEntityClass().newInstance();
+			ScreenEntity loginEntity = (ScreenEntity)loginCache.getLoginScreenDefinition().getEntityClass().newInstance();
 			ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(loginEntity);
 			fieldAccessor.setFieldValue(loginCache.getUserField().getName(), user);
 			fieldAccessor.setFieldValue(loginCache.getPasswordField().getName(), password);
@@ -64,7 +65,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 	}
 
-	public void login(Object loginEntity) throws LoginException, RegistryException {
+	public void login(ScreenEntity loginEntity) throws LoginException, RegistryException {
 		if (loggedInUser != null) {
 			throw (new LoginException("User is already logged in"));
 		}

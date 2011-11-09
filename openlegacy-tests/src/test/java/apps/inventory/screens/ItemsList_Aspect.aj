@@ -14,8 +14,12 @@ privileged aspect ItemsList_Aspect {
     
 
     declare parents: ItemsList implements ScreenEntity;
+    private String ItemsList.focusField;
     
 	
+	
+    
+
     
 
     public String ItemsList.getPositionTo(){
@@ -24,5 +28,11 @@ privileged aspect ItemsList_Aspect {
     
 
 
+    public String ItemsList.getFocusField(){
+    	return focusField;
+    }
+    public void ItemsList.setFocusField(String focusField){
+    	this.focusField = focusField;
+    }
     
 }

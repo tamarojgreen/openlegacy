@@ -5,11 +5,8 @@ import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.modules.HostSessionModule;
 import org.openlegacy.support.AbstractHostSession;
-import org.openlegacy.terminal.CursorContainer;
-import org.openlegacy.terminal.HostActionMapper;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalConnectionListener;
-import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
@@ -18,7 +15,6 @@ import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -34,13 +30,10 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	private TerminalConnectionDelegator terminalConnection;
 
-	private Object entity;
+	private ScreenEntity entity;
 
 	@Inject
 	private SessionNavigator sessionNavigator;
-
-	@Inject
-	private HostActionMapper hostActionMapper;
 
 	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> screenEntityClass) throws HostEntityNotFoundException {
@@ -51,24 +44,26 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 			TerminalScreen hostScreen = getSnapshot();
 
-			entity = screenEntityBinder.buildScreenEntity(screenEntityClass, hostScreen);
+			entity = (ScreenEntity)screenEntityBinder.buildScreenEntity(screenEntityClass, hostScreen);
 		}
 		return (T)entity;
 	}
 
-	public Object getEntity() {
+	@SuppressWarnings("unchecked")
+	public <S extends ScreenEntity> S getEntity() {
 		if (entity == null) {
 			TerminalScreen hostScreen = getSnapshot();
 			entity = screenEntityBinder.buildScreenEntity(hostScreen);
 		}
-		return entity;
+		return (S)entity;
 	}
 
-	public Object doAction(HostAction hostAction, Object screenEntity) {
+	public Object doAction(HostAction hostAction, ScreenEntity screenEntity) {
 		return doActionInner(hostAction, screenEntity);
 	}
 
-	public <T> T doAction(HostAction hostAction, Object screenEntity, Class<T> expectedEntity) {
+	public <S extends ScreenEntity, T extends ScreenEntity> T doAction(HostAction hostAction, S screenEntity,
+			Class<T> expectedEntity) {
 		try {
 			@SuppressWarnings("unchecked")
 			T object = (T)doActionInner(hostAction, screenEntity);
@@ -79,21 +74,14 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	}
 
-	private Object doActionInner(HostAction hostAction, Object screenEntity) {
+	private Object doActionInner(HostAction hostAction, ScreenEntity screenEntity) {
 
 		entity = null;
 
-		List<TerminalField> modifiedFields = screenEntityBinder.buildSendFields(getSnapshot(), screenEntity);
-
-		ScreenPosition cursorPosition = null;
-		if (screenEntity instanceof CursorContainer) {
-			cursorPosition = ((CursorContainer)screenEntity).getCursorPosition();
-		}
 		if (hostAction instanceof CustomHostAction) {
 			((CustomHostAction)hostAction).perform(this);
 		} else {
-			TerminalSendAction terminalSendAction = new SimpleTerminalSendAction(modifiedFields,
-					hostActionMapper.getCommand(hostAction.getClass()), cursorPosition);
+			TerminalSendAction terminalSendAction = screenEntityBinder.buildSendFields(getSnapshot(), hostAction, screenEntity);
 
 			notifyModulesBeforeSend(terminalSendAction);
 			terminalConnection.doAction(terminalSendAction);

@@ -14,9 +14,16 @@ privileged aspect WarehouseDetails_Aspect {
     
 
     declare parents: WarehouseDetails implements ScreenEntity;
+    private String WarehouseDetails.focusField;
     
     
 
 
+    public String WarehouseDetails.getFocusField(){
+    	return focusField;
+    }
+    public void WarehouseDetails.setFocusField(String focusField){
+    	this.focusField = focusField;
+    }
     
 }

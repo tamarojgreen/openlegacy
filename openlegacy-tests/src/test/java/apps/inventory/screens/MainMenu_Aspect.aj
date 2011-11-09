@@ -14,6 +14,7 @@ privileged aspect MainMenu_Aspect {
     
 
     declare parents: MainMenu implements ScreenEntity;
+    private String MainMenu.focusField;
     
 	
 	
@@ -36,5 +37,11 @@ privileged aspect MainMenu_Aspect {
     }
 
 
+    public String MainMenu.getFocusField(){
+    	return focusField;
+    }
+    public void MainMenu.setFocusField(String focusField){
+    	this.focusField = focusField;
+    }
     
 }

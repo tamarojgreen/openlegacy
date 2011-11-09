@@ -4,10 +4,8 @@
 package apps.inventory.screens;
 
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
-import org.openlegacy.terminal.CursorContainer;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
@@ -19,9 +17,7 @@ privileged aspect SignOn_Aspect {
     private TerminalScreen SignOn.terminalScreen;
 
     declare parents: SignOn implements ScreenEntity;
-    declare parents: SignOn implements CursorContainer;
-
-    private ScreenPosition SignOn.cursorPosition;
+    private String SignOn.focusField;
     
 	
     private TerminalField SignOn.errorField;
@@ -65,11 +61,11 @@ privileged aspect SignOn_Aspect {
     	return userField;
     }
 
-    public ScreenPosition SignOn.getCursorPosition(){
-    	return cursorPosition;
+    public String SignOn.getFocusField(){
+    	return focusField;
     }
-    public void SignOn.setCursorPosition(ScreenPosition cursorPosition){
-    	this.cursorPosition = cursorPosition;
+    public void SignOn.setFocusField(String focusField){
+    	this.focusField = focusField;
     }
     
 }

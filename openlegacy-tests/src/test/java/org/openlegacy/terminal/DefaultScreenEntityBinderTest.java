@@ -33,16 +33,13 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 		Assert.assertNotNull(mainMenu);
 		Assert.assertEquals("101", mainMenu.getCompany());
 
-		terminalSession.doAction(SendKeyActions.ENTER, null);
-		InventoryManagement inventoryManagement = terminalSession.getEntity(InventoryManagement.class);
+		InventoryManagement inventoryManagement = terminalSession.doAction(SendKeyActions.ENTER, null, InventoryManagement.class);
 		Assert.assertNotNull(inventoryManagement);
 
-		terminalSession.doAction(SendKeyActions.ENTER, null);
-		ItemsList workwithItemMaster = terminalSession.getEntity(ItemsList.class);
-		Assert.assertNotNull(workwithItemMaster);
+		ItemsList itemList = terminalSession.doAction(SendKeyActions.ENTER, null, ItemsList.class);
+		Assert.assertNotNull(itemList);
 
-		terminalSession.doAction(SendKeyActions.ENTER, null);
-		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class);
+		ItemDetails1 itemDetails1 = terminalSession.doAction(SendKeyActions.ENTER, null, ItemDetails1.class);
 		Assert.assertNotNull(itemDetails1);
 		Assert.assertEquals("2000", itemDetails1.getItemNumber());
 

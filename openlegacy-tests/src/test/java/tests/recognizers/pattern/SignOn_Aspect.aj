@@ -3,26 +3,56 @@
 
 package tests.recognizers.pattern;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
 
 privileged aspect SignOn_Aspect {
     
     declare @type: SignOn : @Component;
+	declare @type: SignOn : @Scope("prototype");
     
     private TerminalScreen SignOn.terminalScreen;
+
+    declare parents: SignOn implements ScreenEntity;
+    private String SignOn.focusField;
     
-    private TerminalField SignOn.userField;
+	
+    private TerminalField SignOn.errorField;
+	
     private TerminalField SignOn.passwordField;
+	
+    private TerminalField SignOn.userField;
     
     public TerminalScreen SignOn.getTerminalScreen(){
 		return terminalScreen;
     }
+
+    public String SignOn.getError(){
+    	return this.error;
+    }
     
+
+    public TerminalField SignOn.getErrorField(){
+    	return errorField;
+    }
+    public String SignOn.getPassword(){
+    	return this.password;
+    }
+    
+    public void SignOn.setPassword(String password){
+    	this.password = password;
+    }
+
+    public TerminalField SignOn.getPasswordField(){
+    	return passwordField;
+    }
     public String SignOn.getUser(){
     	return this.user;
     }
+    
     public void SignOn.setUser(String user){
     	this.user = user;
     }
@@ -31,14 +61,11 @@ privileged aspect SignOn_Aspect {
     	return userField;
     }
 
-    public String SignOn.getPassword(){
-    	return this.password;
+    public String SignOn.getFocusField(){
+    	return focusField;
     }
-    public void SignOn.setPassword(String password){
-    	this.password = password;
+    public void SignOn.setFocusField(String focusField){
+    	this.focusField = focusField;
     }
-
-    public TerminalField SignOn.getPasswordField(){
-    	return passwordField;
-    }
+    
 }

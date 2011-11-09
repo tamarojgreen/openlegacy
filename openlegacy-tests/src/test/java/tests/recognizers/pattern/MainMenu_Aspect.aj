@@ -3,42 +3,45 @@
 
 package tests.recognizers.pattern;
 
-import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
 
 privileged aspect MainMenu_Aspect {
     
     declare @type: MainMenu : @Component;
+	declare @type: MainMenu : @Scope("prototype");
     
-    private TerminalScreen MainMenu.terminalScreen;
+
+    declare parents: MainMenu implements ScreenEntity;
+    private String MainMenu.focusField;
     
-    private TerminalField MainMenu.companyField;
-    private TerminalField MainMenu.selectionField;
+	
+	
     
-    public TerminalScreen MainMenu.getTerminalScreen(){
-		return terminalScreen;
-    }
-    
+
     public String MainMenu.getCompany(){
     	return this.company;
     }
+    
     public void MainMenu.setCompany(String company){
     	this.company = company;
     }
 
-    public TerminalField MainMenu.getCompanyField(){
-    	return companyField;
-    }
-
     public String MainMenu.getSelection(){
-    	return this.company;
+    	return this.selection;
     }
+    
     public void MainMenu.setSelection(String selection){
     	this.selection = selection;
     }
 
-    public TerminalField MainMenu.getSelectionField(){
-    	return selectionField;
+
+    public String MainMenu.getFocusField(){
+    	return focusField;
     }
+    public void MainMenu.setFocusField(String focusField){
+    	this.focusField = focusField;
+    }
+    
 }

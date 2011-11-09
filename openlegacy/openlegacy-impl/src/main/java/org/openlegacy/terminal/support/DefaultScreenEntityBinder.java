@@ -1,18 +1,24 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.terminal.HostActionMapper;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
+import org.openlegacy.terminal.exceptions.SendActionException;
 import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
+import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.springframework.context.ApplicationContext;
@@ -43,6 +49,9 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	@Inject
 	private List<ScreenEntityDataInjector> screenEntityDataInjectors;
 
+	@Inject
+	private HostActionMapper hostActionMapper;
+
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
 
 	@SuppressWarnings("unchecked")
@@ -56,13 +65,14 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 		return (T)buildScreenEntityInner(matchedScreenEntity, terminalScreen);
 	}
 
-	public Object buildScreenEntity(TerminalScreen terminalScreen) {
+	public <S extends ScreenEntity> S buildScreenEntity(TerminalScreen terminalScreen) {
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
 		return buildScreenEntityInner(matchedScreenEntity, terminalScreen);
 	}
 
-	private Object buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen) {
-		Object screenEntity = applicationContext.getBean(screenEntityClass);
+	private <S extends ScreenEntity> S buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen) {
+		@SuppressWarnings("unchecked")
+		S screenEntity = (S)applicationContext.getBean(screenEntityClass);
 
 		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
 
@@ -76,26 +86,33 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 	}
 
-	public List<TerminalField> buildSendFields(TerminalScreen terminalScreen, Object screenEntity) {
+	public TerminalSendAction buildSendFields(TerminalScreen terminalScreen, HostAction hostAction, ScreenEntity screenEntity) {
 		List<TerminalField> modifiedfields = new ArrayList<TerminalField>();
 
+		SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(modifiedfields,
+				hostActionMapper.getCommand(hostAction.getClass()), null);
+
 		if (screenEntity == null) {
-			return modifiedfields;
+			return sendAction;
 		}
 
-		Collection<FieldMappingDefinition> fieldsInfo = fieldMappingsProvider.getFieldsMappingDefinitions(terminalScreen,
-				screenEntity.getClass());
+		Collection<FieldMappingDefinition> fieldMappingsDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
+				terminalScreen, screenEntity.getClass());
 
-		if (fieldsInfo == null) {
-			return modifiedfields;
+		if (fieldMappingsDefinitions == null) {
+			return sendAction;
 		}
+
+		String focusField = screenEntity.getFocusField();
 
 		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
-		for (FieldMappingDefinition fieldMapping : fieldsInfo) {
 
-			if (fieldMapping.isEditable()) {
-				Object value = fieldAccessor.getFieldValue(fieldMapping.getName());
-				ScreenPosition screenPosition = fieldMapping.getScreenPosition();
+		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
+
+			ScreenPosition cursorPosition = fieldMappingDefinition.getScreenPosition();
+			if (fieldMappingDefinition.isEditable()) {
+				Object value = fieldAccessor.getFieldValue(fieldMappingDefinition.getName());
+				ScreenPosition screenPosition = cursorPosition;
 
 				TerminalField terminalField = terminalScreen.getField(screenPosition);
 				if (value != null) {
@@ -104,12 +121,23 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 					if (logger.isDebugEnabled()) {
 						logger.debug(MessageFormat.format(
 								"Field {0} was set with value \"{1}\" to send fields for screen entity {2}",
-								fieldMapping.getName(), value, screenEntity));
+								fieldMappingDefinition.getName(), value, screenEntity));
 					}
+				}
+			}
+			if (fieldMappingDefinition.getName().equals(focusField)) {
+				sendAction.setCursorPosition(cursorPosition);
+				if (logger.isDebugEnabled()) {
+					logger.debug(MessageFormat.format("Cursor was set at position {0} from field {1}", cursorPosition, focusField));
 				}
 			}
 
 		}
-		return modifiedfields;
+
+		if (!StringUtils.isEmpty(focusField) && sendAction.getCursorPosition() == null) {
+			throw (new SendActionException(MessageFormat.format("Cursor field was not found{0} in screen {1}", focusField,
+					screenEntity.getClass())));
+		}
+		return sendAction;
 	}
 }
