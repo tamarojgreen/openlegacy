@@ -22,30 +22,14 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 
 	@Test
 	public void testScreenBinder() throws IOException {
-		getToItemDetails();
 
-		terminalSession.doAction(SendKeyActions.ENTER, null);
-		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class);
-		Assert.assertNotNull(itemDetails1);
-		Assert.assertEquals("2000", itemDetails1.getItemNumber());
-
-		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
-		Assert.assertEquals("17/01/2005", itemDetails1.getItemDetails2().getAuditDetails().getCreatedDate());
-		Assert.assertEquals("STUDENT2", itemDetails1.getItemDetails2().getAuditDetails().getCreatedBy());
-
-		// make sure no extra fetch is made
-		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
-
-	}
-
-	private void getToItemDetails() {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
 		Assert.assertNotNull(signOn.getTerminalScreen());
 		Assert.assertNotNull(signOn.getUserField());
 
-		terminalSession.doAction(SendKeyActions.ENTER, null);
-		MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
+		// tests doAction with expected class type
+		MainMenu mainMenu = terminalSession.doAction(SendKeyActions.ENTER, null, MainMenu.class);
 		Assert.assertNotNull(mainMenu);
 		Assert.assertEquals("101", mainMenu.getCompany());
 
@@ -56,5 +40,21 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 		terminalSession.doAction(SendKeyActions.ENTER, null);
 		ItemsList workwithItemMaster = terminalSession.getEntity(ItemsList.class);
 		Assert.assertNotNull(workwithItemMaster);
+
+		terminalSession.doAction(SendKeyActions.ENTER, null);
+		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class);
+		Assert.assertNotNull(itemDetails1);
+		Assert.assertEquals("2000", itemDetails1.getItemNumber());
+
+		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
+
+		// tests @ScreenPart & related screen entity
+		Assert.assertEquals("17/01/2005", itemDetails1.getItemDetails2().getAuditDetails().getCreatedDate());
+		Assert.assertEquals("STUDENT2", itemDetails1.getItemDetails2().getAuditDetails().getCreatedBy());
+
+		// make sure no extra fetch is made
+		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
+
 	}
+
 }

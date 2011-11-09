@@ -12,6 +12,7 @@ import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
@@ -64,6 +65,21 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	}
 
 	public Object doAction(HostAction hostAction, Object screenEntity) {
+		return doActionInner(hostAction, screenEntity);
+	}
+
+	public <T> T doAction(HostAction hostAction, Object screenEntity, Class<T> expectedEntity) {
+		try {
+			@SuppressWarnings("unchecked")
+			T object = (T)doActionInner(hostAction, screenEntity);
+			return object;
+		} catch (ClassCastException e) {
+			throw (new ScreenEntityNotAccessibleException(e));
+		}
+
+	}
+
+	private Object doActionInner(HostAction hostAction, Object screenEntity) {
 
 		entity = null;
 
