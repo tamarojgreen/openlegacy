@@ -1,16 +1,13 @@
 package org.openlegacy.designtime.generators;
 
-import org.openlegacy.annotations.screen.FieldMapping;
-import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
 
-import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.BodyDeclaration;
+import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.MemberValuePair;
@@ -28,29 +25,22 @@ import java.util.TreeMap;
  */
 public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 
-	private static final Object SCREEN_ENTITY_ANNOTATION = ScreenEntity.class.getSimpleName();
-	private static final String TRUE = "true";
-	private static final String FIELD_SUFFIX = "Field";
-	private static final Object FIELD_MAPPING_ANNOTATION = FieldMapping.class.getSimpleName();
-
 	private String className;
 	private String packageName;
-	private TypeDeclaration mainType;
+	private ClassOrInterfaceDeclaration mainType;
 	private Map<String, Field> fields = new TreeMap<String, Field>();
 
 	private boolean enabled;
 	private boolean supportTerminalData;
 
-	public ScreenEntityCodeModelImpl(CompilationUnit compilationUnit) {
+	public ScreenEntityCodeModelImpl(ClassOrInterfaceDeclaration type, String packageName, String className) {
 
-		List<TypeDeclaration> types = compilationUnit.getTypes();
-		if (types.size() > 0) {
-			packageName = compilationUnit.getPackage().getName().toString();
-			mainType = types.get(0);
-			calculateClassProperties();
+		mainType = type;
+		this.packageName = packageName;
+		this.className = className;
+		calculateClassProperties();
 
-			calculateFieldsProperties();
-		}
+		calculateFieldsProperties();
 
 	}
 
@@ -67,7 +57,7 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 					field.setPrimitiveType(TypesUtil.isPrimitive(fieldDeclaration.getType().toString()));
 					if (fieldAnnotations != null && fieldAnnotations.size() > 0) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
-							if (annotationExpr.getName().getName().equals(FIELD_MAPPING_ANNOTATION)) {
+							if (annotationExpr.getName().getName().equals(AnnotationConstants.FIELD_MAPPING_ANNOTATION)) {
 								handleFieldMappingAnnotation(fieldDeclaration, annotationExpr, field);
 							}
 						}
@@ -82,7 +72,7 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 
 	private static void handleFieldMappingAnnotation(FieldDeclaration fieldDeclaration, AnnotationExpr annotationExpr, Field field) {
 		String annotationValue = JavaParserUtil.findAnnotationAttribute(annotationExpr, AnnotationConstants.EDITABLE);
-		if (TRUE.equals(annotationValue)) {
+		if (AnnotationConstants.TRUE.equals(annotationValue)) {
 			field.setEditable(true);
 		}
 	}
@@ -111,9 +101,9 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 
 				String propertyFieldNameIfGetter = PropertyUtil.getPropertyNameIfGetter(methodName);
 				if (propertyFieldNameIfGetter != null) {
-					if (propertyFieldNameIfGetter.endsWith(FIELD_SUFFIX)) {
+					if (propertyFieldNameIfGetter.endsWith(AnnotationConstants.FIELD_SUFFIX)) {
 						String simplePropertyName = propertyFieldNameIfGetter.substring(0, propertyFieldNameIfGetter.length()
-								- FIELD_SUFFIX.length());
+								- AnnotationConstants.FIELD_SUFFIX.length());
 						Field field = fields.get(simplePropertyName);
 						if (field != null) {
 							field.setHasGetterField(true);
@@ -126,20 +116,27 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 	}
 
 	private void calculateClassProperties() {
-		className = mainType.getName();
 		List<AnnotationExpr> annotations = mainType.getAnnotations();
 		if (annotations == null) {
 			return;
 		}
 		for (AnnotationExpr annotationExpr : annotations) {
-			if (annotationExpr.getName().getName().equals(SCREEN_ENTITY_ANNOTATION)) {
+			String annotationName = annotationExpr.getName().getName();
+			if (annotationName.equals(AnnotationConstants.SCREEN_ENTITY_ANNOTATION)) {
 				enabled = true;
 				if (annotationExpr instanceof NormalAnnotationExpr) {
 					NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
 					String supportTerminalDataString = findAnnotationAttribute(AnnotationConstants.SUPPORT_TERMINAL_DATA,
 							normalAnnotationExpr.getPairs());
-					supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(TRUE);
+					supportTerminalData = supportTerminalDataString != null
+							&& supportTerminalDataString.equals(AnnotationConstants.TRUE);
 				}
+			}
+			if (annotationName.equals(AnnotationConstants.SCREEN_PART_ANNOTATION)) {
+				enabled = true;
+			}
+			if (annotationName.equals(AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
+				enabled = true;
 			}
 		}
 	}
@@ -173,6 +170,10 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 	 */
 	public String getClassName() {
 		return className;
+	}
+
+	public String getFormattedClassName() {
+		return className.replace(".", "");
 	}
 
 	public String getPackageName() {

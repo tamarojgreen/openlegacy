@@ -3,7 +3,7 @@ package org.openlegacy.loaders.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostEntitiesRegistry;
-import org.openlegacy.annotations.screen.ScreenPartEntity;
+import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenPartEntityDefinition;
@@ -22,13 +22,13 @@ public class ScreenPartEntityAnnotationLoader implements ClassAnnotationsLoader 
 	private final static Log logger = LogFactory.getLog(ScreenPartEntityAnnotationLoader.class);
 
 	public boolean match(Annotation annotation) {
-		return annotation.annotationType() == ScreenPartEntity.class;
+		return annotation.annotationType() == ScreenPart.class;
 	}
 
 	public void load(HostEntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
 		@SuppressWarnings("unused")
-		ScreenPartEntity screenPartEntity = (ScreenPartEntity)annotation;
+		ScreenPart screenPartEntity = (ScreenPart)annotation;
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 

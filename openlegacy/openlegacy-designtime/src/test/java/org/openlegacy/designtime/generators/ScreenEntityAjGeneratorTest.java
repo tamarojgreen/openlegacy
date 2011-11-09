@@ -6,10 +6,14 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import japa.parser.JavaParser;
 import japa.parser.ParseException;
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 
 public class ScreenEntityAjGeneratorTest {
@@ -31,17 +35,27 @@ public class ScreenEntityAjGeneratorTest {
 
 	@Test
 	public void testNotScreenEntity() throws Exception {
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		new ScreenEntityAjGenerator().generate(getClass().getResourceAsStream("testNotScreenEntity.java"), baos);
+		InputStream input = getClass().getResourceAsStream("testNotScreenEntity.java");
+		CompilationUnit compilationUnit = JavaParser.parse(input);
+
+		new ScreenEntityAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 
 		Assert.assertEquals(0, baos.toByteArray().length);
+	}
+
+	private static ClassOrInterfaceDeclaration getMainType(CompilationUnit compilationUnit) {
+		return (ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0);
 	}
 
 	@Test
 	public void testNonJavaFile() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
-			new ScreenEntityAjGenerator().generate(getClass().getResourceAsStream("testNonJavaFile.txt"), baos);
+			InputStream input = getClass().getResourceAsStream("testNonJavaFile.txt");
+			CompilationUnit compilationUnit = JavaParser.parse(input);
+			new ScreenEntityAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 			Assert.fail("Parsing should have failed");
 		} catch (ParseException e) {
 			// good!
@@ -56,7 +70,10 @@ public class ScreenEntityAjGeneratorTest {
 
 	private void testGenerate(String javaSource, String expectAspect) throws IOException, TemplateException, ParseException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		new ScreenEntityAjGenerator().generate(getClass().getResourceAsStream(javaSource), baos);
+
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
+
+		new ScreenEntityAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectAspect));
 		Assert.assertEquals(initTestString(expectedBytes), initTestString(baos.toByteArray()));
