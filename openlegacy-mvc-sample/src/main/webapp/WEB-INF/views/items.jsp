@@ -6,12 +6,10 @@
 </head>
 <body>
 <h1>
-	Hello world!  
+	Items list  
 </h1>
 
-<P>
-  
-${snapshot}
-</P>
+	${itemsList}
+
 </body>
 </html>

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
@@ -13,14 +12,36 @@
 	
 	<import resource="classpath*:/META-INF/openlegacy-context.xml"/>
 
-	<bean id="screensRegistry" class="org.openlegacy.adapter.terminal.SimpleScreenEntitiesRegistry" />
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />
-	<bean id="screenEntityBinder" class="org.openlegacy.adapter.terminal.SimpleScreenEntityBinder" />
-	<bean id="fieldMetadataRetriver" class="org.openlegacy.adapter.terminal.RegistryBasedFieldMappingsProvider" />
-	<bean id="trailWriter" class="org.openlegacy.adapter.terminal.trail.XmlTrailWriter" />
+	<bean id="fieldMetadataRetriver" class="org.openlegacy.terminal.support.providers.RegistryBasedFieldMappingsProvider" />
+	<bean id="fieldMappingsProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedFieldMappingsProvider" />
+	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
 		
-	<bean id="terminalSession" class="org.openlegacy.adapter.terminal.DefaultTerminalSession" scope="session">
-          <aop:scoped-proxy/>
-    </bean>	
-	 
+	<bean id="terminalSessionModules" class="org.openlegacy.support.HostSessionModules"
+		scope="session">
+		<property name="modules">
+			<list>
+				<bean
+					class="org.openlegacy.terminal.modules.trail.TerminalSessionTrailModuleImpl">
+					<property name="sessionTrail">
+						<bean class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrail"
+							p:historyCount="5" />
+					</property>
+				</bean>
+				<bean class="org.openlegacy.terminal.modules.login.DefaultLoginModule"
+					p:loginHostAction="org.openlegacy.terminal.actions.SendKeyClasses.ENTER"
+					p:defaultExitAction="org.openlegacy.terminal.actions.SendKeyClasses.F3"
+					p:maxActionsToLogin="5" />
+				<bean class="org.openlegacy.terminal.modules.table.DefaultTableModule"
+					p:defaultPreviousScreenAction="org.openlegacy.terminal.actions.SendKeyClasses.PAGEUP"
+					p:defaultNextScreenAction="org.openlegacy.terminal.actions.SendKeyClasses.PAGEDOWN" />
+				<bean
+					class="org.openlegacy.terminal.modules.navigation.DefaultNavigationModule"
+					p:sessionNavigator-ref="sessionNavigator" />
+			</list>
+		</property>
+	</bean>
+
+	<context:component-scan base-package="org.openlegacy.samples.model" />
+		
 </beans>

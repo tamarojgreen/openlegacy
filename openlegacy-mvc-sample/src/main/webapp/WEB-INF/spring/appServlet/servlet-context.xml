@@ -21,7 +21,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="org.openlegacy.mvc" />
+	<context:component-scan base-package="org.openlegacy.samples.mvc.controllers" />
 	
 	
 	
