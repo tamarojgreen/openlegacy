@@ -21,4 +21,7 @@ public @interface ScreenTable {
 	int startRow();
 
 	int endRow();
+
+	boolean supportTerminalData() default false;
+
 }

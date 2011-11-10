@@ -18,7 +18,10 @@ public class InjectorUtil {
 
 			String fieldName = fieldMappingDefinition.getName();
 			if (fieldAccessor.isEditable(fieldName)) {
-				fieldAccessor.setTerminalField(fieldName, terminalField, fieldFormatter);
+				String content = fieldFormatter.format(terminalField.getValue());
+				fieldAccessor.setFieldValue(fieldName, content);
+
+				fieldAccessor.setTerminalField(fieldName, terminalField);
 			}
 
 		}

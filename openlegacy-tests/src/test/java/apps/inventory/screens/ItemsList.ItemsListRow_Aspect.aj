@@ -4,6 +4,7 @@
 package apps.inventory.screens;
 
 import java.util.List;
+import org.openlegacy.terminal.TerminalField;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
@@ -13,22 +14,34 @@ privileged @SuppressWarnings("unused") aspect ItemsListItemsListRowTable_Aspect 
 	declare @type: ItemsList.ItemsListRow : @Scope("prototype");
     
 	
+    private TerminalField ItemsList.ItemsListRow.alphaSearchField;
 	
+    private TerminalField ItemsList.ItemsListRow.itemDescriptionField;
 	
+    private TerminalField ItemsList.ItemsListRow.itemNumberField;
     
     public String ItemsList.ItemsListRow.getAlphaSearch(){
     	return this.alphaSearch;
     }
     
 
+    public TerminalField ItemsList.ItemsListRow.getAlphaSearchField(){
+    	return alphaSearchField;
+    }
     public String ItemsList.ItemsListRow.getItemDescription(){
     	return this.itemDescription;
     }
     
 
+    public TerminalField ItemsList.ItemsListRow.getItemDescriptionField(){
+    	return itemDescriptionField;
+    }
     public String ItemsList.ItemsListRow.getItemNumber(){
     	return this.itemNumber;
     }
     
 
+    public TerminalField ItemsList.ItemsListRow.getItemNumberField(){
+    	return itemNumberField;
+    }
 }

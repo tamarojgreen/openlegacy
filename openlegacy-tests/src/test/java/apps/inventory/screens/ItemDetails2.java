@@ -19,7 +19,7 @@ public class ItemDetails2 {
 
 	private AuditDetails auditDetails;
 
-	@ScreenPart
+	@ScreenPart(supportTerminalData = true)
 	public static class AuditDetails {
 
 		@FieldMapping(row = 19, column = 69)

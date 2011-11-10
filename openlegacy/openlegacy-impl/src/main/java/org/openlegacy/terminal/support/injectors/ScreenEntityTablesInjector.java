@@ -3,6 +3,7 @@ package org.openlegacy.terminal.support.injectors;
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
@@ -53,11 +54,16 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 				boolean keyIsEmpty = false;
 
 				for (ColumnDefinition columnDefinition : columnDefinitions) {
-					String cellText = getCellContent(terminalScreen, currentRow, columnDefinition);
+					ScreenPosition screenPosition = SimpleScreenPosition.newInstance(currentRow,
+							columnDefinition.getStartColumn());
+					String cellText = getCellContent(terminalScreen, screenPosition, columnDefinition);
 					if (columnDefinition.isKey() && cellText.length() == 0) {
 						keyIsEmpty = true;
 					}
 					rowAccessor.setFieldValue(columnDefinition.getName(), cellText);
+
+					TerminalField terminalField = terminalScreen.getField(screenPosition);
+					rowAccessor.setTerminalField(columnDefinition.getName(), terminalField);
 				}
 				if (!keyIsEmpty) {
 					rows.add(row);
@@ -67,8 +73,7 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 		}
 	}
 
-	private String getCellContent(TerminalScreen terminalScreen, int currentRow, ColumnDefinition columnDefinition) {
-		ScreenPosition screenPosition = SimpleScreenPosition.newInstance(currentRow, columnDefinition.getStartColumn());
+	private String getCellContent(TerminalScreen terminalScreen, ScreenPosition screenPosition, ColumnDefinition columnDefinition) {
 		int length = columnDefinition.getEndColumn() - columnDefinition.getStartColumn() + 1;
 		String columnText = terminalScreen.getText(screenPosition, length);
 		columnText = fieldFormatter.format(columnText);

@@ -21,7 +21,19 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
 
-public class ScreenEntityAjGenerator {
+/**
+ * A generator which generate for screen pojos annotation with @ScreenEntity, @ScreenPart, @ScreenTable (a.k.a
+ * "main screen annotation") Work closely with ScreenPojoCodeModelImpl and freemarker template engine Performs the following
+ * operations:<br/>
+ * <ul>
+ * <li>1.Generate an aspect file (.aj) for each pojo</li>
+ * <li>2. Add getters and setters from the aspect for class member if not exists</li>
+ * <li>3. Add terminal field for each member, if the class main screen annotation with supportedTerminalData=true attribute</li>
+ * <li>4. For @ScreenEntity Add implementation for interface org.openlegacy.terminal.ScreenEntity, and add focusField member</li>
+ * </ul>
+ * 
+ */
+public class ScreenPojosAjGenerator {
 
 	public void generate(File javaFile) throws IOException, TemplateException, ParseException {
 
@@ -37,7 +49,7 @@ public class ScreenEntityAjGenerator {
 			}
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			for (AnnotationExpr annotationExpr : annotations) {
-				ScreenEntityCodeModel screenEntityCodeModel = null;
+				ScreenPojoCodeModel screenEntityCodeModel = null;
 				if (hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_ANNOTATION)) {
 					screenEntityCodeModel = generateScreenEntity(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							baos);
@@ -70,7 +82,7 @@ public class ScreenEntityAjGenerator {
 
 				List<AnnotationExpr> annotations = ((ClassOrInterfaceDeclaration)bodyDeclaration).getAnnotations();
 				for (AnnotationExpr annotationExpr : annotations) {
-					ScreenEntityCodeModel screenEntityCodeModel = null;
+					ScreenPojoCodeModel screenEntityCodeModel = null;
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
 					if (hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
 						screenEntityCodeModel = generateScreenPart(compilationUnit, (ClassOrInterfaceDeclaration)bodyDeclaration,
@@ -86,23 +98,22 @@ public class ScreenEntityAjGenerator {
 		}
 	}
 
-	public ScreenEntityCodeModel generateScreenEntity(CompilationUnit compilationUnit,
-			ClassOrInterfaceDeclaration typeDeclaration, OutputStream out) throws IOException, TemplateException, ParseException {
+	public ScreenPojoCodeModel generateScreenEntity(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
+			OutputStream out) throws IOException, TemplateException, ParseException {
 		return generate(out, compilationUnit, "", typeDeclaration, "Screen_Aspect.aj.template");
 	}
 
-	public ScreenEntityCodeModel generateScreenPart(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
+	public ScreenPojoCodeModel generateScreenPart(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
 			OutputStream out, String parentClass) throws IOException, TemplateException, ParseException {
 		return generate(out, compilationUnit, parentClass + ".", typeDeclaration, "ScreenPart_Aspect.aj.template");
 	}
 
-	public ScreenEntityCodeModel generateScreenTable(CompilationUnit compilationUnit,
-			ClassOrInterfaceDeclaration typeDeclaration, OutputStream out, String parentClass) throws IOException,
-			TemplateException, ParseException {
+	public ScreenPojoCodeModel generateScreenTable(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
+			OutputStream out, String parentClass) throws IOException, TemplateException, ParseException {
 		return generate(out, compilationUnit, parentClass + ".", typeDeclaration, "ScreenTable_Aspect.aj.template");
 	}
 
-	private static void writeToFile(File javaFile, ByteArrayOutputStream baos, ScreenEntityCodeModel screenEntityCodeModel)
+	private static void writeToFile(File javaFile, ByteArrayOutputStream baos, ScreenPojoCodeModel screenEntityCodeModel)
 			throws FileNotFoundException, IOException {
 		if (screenEntityCodeModel != null && screenEntityCodeModel.isRelevant()) {
 			File outputFolder = javaFile.getParentFile().getAbsoluteFile();
@@ -113,12 +124,12 @@ public class ScreenEntityAjGenerator {
 		}
 	}
 
-	public ScreenEntityCodeModel generate(OutputStream out, CompilationUnit compilationUnit, String classPrefix,
+	public ScreenPojoCodeModel generate(OutputStream out, CompilationUnit compilationUnit, String classPrefix,
 			ClassOrInterfaceDeclaration typeDeclaration, String templateFileName) throws IOException, TemplateException,
 			ParseException {
 
 		String className = classPrefix + typeDeclaration.getName();
-		ScreenEntityCodeModel screenEntityCodeModel = new ScreenEntityCodeModelImpl(compilationUnit, typeDeclaration, className);
+		ScreenPojoCodeModel screenEntityCodeModel = new ScreenPojoCodeModelImpl(compilationUnit, typeDeclaration, className);
 
 		if (!screenEntityCodeModel.isRelevant()) {
 			return screenEntityCodeModel;

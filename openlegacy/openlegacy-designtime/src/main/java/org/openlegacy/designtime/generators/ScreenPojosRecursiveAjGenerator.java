@@ -10,7 +10,7 @@ import japa.parser.ParseException;
 import java.io.File;
 import java.io.IOException;
 
-public class ScreenEntityRecursiveAjGenerator {
+public class ScreenPojosRecursiveAjGenerator {
 
 	public static void main(String[] args) throws ParseException, IOException, TemplateException {
 		if (args.length == 0) {
@@ -19,7 +19,7 @@ public class ScreenEntityRecursiveAjGenerator {
 		}
 		String root = args[0];
 
-		new ScreenEntityRecursiveAjGenerator().generateAll(new File(root));
+		new ScreenPojosRecursiveAjGenerator().generateAll(new File(root));
 	}
 
 	public void generateAll(File root) throws IOException, TemplateException {
@@ -44,7 +44,7 @@ public class ScreenEntityRecursiveAjGenerator {
 
 		public void doCommand(File file) {
 			try {
-				new ScreenEntityAjGenerator().generate(file);
+				new ScreenPojosAjGenerator().generate(file);
 			} catch (Exception e) {
 				throw (new RuntimeException(e));
 			}

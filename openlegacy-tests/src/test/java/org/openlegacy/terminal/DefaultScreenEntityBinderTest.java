@@ -47,6 +47,7 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 
 		// tests @ScreenPart & related screen entity
 		Assert.assertEquals("17/01/2005", itemDetails1.getItemDetails2().getAuditDetails().getCreatedDate());
+		Assert.assertNotNull(itemDetails1.getItemDetails2().getAuditDetails().getCreatedDateField());
 		Assert.assertEquals("STUDENT2", itemDetails1.getItemDetails2().getAuditDetails().getCreatedBy());
 
 		// make sure no extra fetch is made

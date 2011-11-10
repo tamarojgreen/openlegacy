@@ -40,7 +40,7 @@ public class ScreenEntityAjGeneratorTest {
 		InputStream input = getClass().getResourceAsStream("testNotScreenEntity.java");
 		CompilationUnit compilationUnit = JavaParser.parse(input);
 
-		new ScreenEntityAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
+		new ScreenPojosAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 
 		Assert.assertEquals(0, baos.toByteArray().length);
 	}
@@ -55,7 +55,7 @@ public class ScreenEntityAjGeneratorTest {
 		try {
 			InputStream input = getClass().getResourceAsStream("testNonJavaFile.txt");
 			CompilationUnit compilationUnit = JavaParser.parse(input);
-			new ScreenEntityAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
+			new ScreenPojosAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 			Assert.fail("Parsing should have failed");
 		} catch (ParseException e) {
 			// good!
@@ -73,7 +73,7 @@ public class ScreenEntityAjGeneratorTest {
 
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
-		new ScreenEntityAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
+		new ScreenPojosAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectAspect));
 		Assert.assertEquals(initTestString(expectedBytes), initTestString(baos.toByteArray()));

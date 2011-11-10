@@ -2,7 +2,6 @@ package org.openlegacy.terminal.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.ScreenEntityFieldAccessor;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
@@ -54,16 +53,13 @@ public class SimpleScreenEntityFieldAccessor implements ScreenEntityFieldAccesso
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setTerminalField(java.lang.String,
 	 * org.openlegacy.terminal.TerminalField)
 	 */
-	public void setTerminalField(String fieldName, TerminalField terminalField, FieldFormatter fieldFormatter) {
+	public void setTerminalField(String fieldName, TerminalField terminalField) {
 		String terminalFieldName = fieldName + FIELD_SUFFIX;
 		if (directFieldAccessor.isReadableProperty(terminalFieldName)) {
 			directFieldAccessor.setPropertyValue(terminalFieldName, terminalField);
 		}
-		String content = fieldFormatter.format(terminalField.getValue());
-		directFieldAccessor.setPropertyValue(fieldName, content);
-
 		if (logger.isDebugEnabled()) {
-			logger.debug(MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, content));
+			logger.debug(MessageFormat.format("Terminal Field {0} was set", fieldName, terminalField));
 		}
 
 	}

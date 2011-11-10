@@ -21,10 +21,9 @@ import java.util.TreeMap;
 
 /**
  * 
- * @author RoiM
  * 
  */
-public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
+public class ScreenPojoCodeModelImpl implements ScreenPojoCodeModel {
 
 	private String className;
 	private String packageName;
@@ -34,7 +33,7 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 	private boolean enabled;
 	private boolean supportTerminalData;
 
-	public ScreenEntityCodeModelImpl(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className) {
+	public ScreenPojoCodeModelImpl(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className) {
 
 		mainType = type;
 		this.packageName = compilationUnit.getPackage().getName().toString();
@@ -123,22 +122,21 @@ public class ScreenEntityCodeModelImpl implements ScreenEntityCodeModel {
 		}
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
-			if (annotationName.equals(AnnotationConstants.SCREEN_ENTITY_ANNOTATION)) {
+			if (annotationName.equals(AnnotationConstants.SCREEN_ENTITY_ANNOTATION)
+					|| annotationName.equals(AnnotationConstants.SCREEN_PART_ANNOTATION)
+					|| annotationName.equals(AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
 				enabled = true;
-				if (annotationExpr instanceof NormalAnnotationExpr) {
-					NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
-					String supportTerminalDataString = findAnnotationAttribute(AnnotationConstants.SUPPORT_TERMINAL_DATA,
-							normalAnnotationExpr.getPairs());
-					supportTerminalData = supportTerminalDataString != null
-							&& supportTerminalDataString.equals(AnnotationConstants.TRUE);
-				}
+				checkSupportTerminalData(annotationExpr);
 			}
-			if (annotationName.equals(AnnotationConstants.SCREEN_PART_ANNOTATION)) {
-				enabled = true;
-			}
-			if (annotationName.equals(AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
-				enabled = true;
-			}
+		}
+	}
+
+	private void checkSupportTerminalData(AnnotationExpr annotationExpr) {
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
+			String supportTerminalDataString = findAnnotationAttribute(AnnotationConstants.SUPPORT_TERMINAL_DATA,
+					normalAnnotationExpr.getPairs());
+			supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 		}
 	}
 

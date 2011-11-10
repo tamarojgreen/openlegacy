@@ -3,6 +3,7 @@
 
 package apps.inventory.screens;
 
+import org.openlegacy.terminal.TerminalField;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
@@ -12,16 +13,24 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2AuditDetailsTable_Aspe
 	declare @type: ItemDetails2.AuditDetails : @Scope("prototype");
     
 	
+    private TerminalField ItemDetails2.AuditDetails.createdByField;
 	
+    private TerminalField ItemDetails2.AuditDetails.createdDateField;
     
     public String ItemDetails2.AuditDetails.getCreatedBy(){
     	return this.createdBy;
     }
     
 
+    public TerminalField ItemDetails2.AuditDetails.getCreatedByField(){
+    	return createdByField;
+    }
     public String ItemDetails2.AuditDetails.getCreatedDate(){
     	return this.createdDate;
     }
     
 
+    public TerminalField ItemDetails2.AuditDetails.getCreatedDateField(){
+    	return createdDateField;
+    }
 }

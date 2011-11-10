@@ -23,7 +23,7 @@ public class ItemsList {
 
 	private List<ItemsListRow> itemListRows;
 
-	@ScreenTable(startRow = 8, endRow = 19)
+	@ScreenTable(startRow = 8, endRow = 19, supportTerminalData = true)
 	public static class ItemsListRow {
 
 		@ScreenColumn(startColumn = 65, endColumn = 68, key = true)
