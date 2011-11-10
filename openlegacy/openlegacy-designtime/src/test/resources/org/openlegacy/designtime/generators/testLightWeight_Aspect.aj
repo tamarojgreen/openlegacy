@@ -3,11 +3,12 @@
 
 package com.someorg.examples.screens;
 
+import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged aspect SignOn_Aspect {
+privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     
     declare @type: SignOn : @Component;
 	declare @type: SignOn : @Scope("prototype");
@@ -16,6 +17,8 @@ privileged aspect SignOn_Aspect {
     declare parents: SignOn implements ScreenEntity;
     private String SignOn.focusField;
     
+	
+	
     
 
     public String SignOn.getPassword(){
@@ -27,7 +30,6 @@ privileged aspect SignOn_Aspect {
     	return this.user;
     }
     
-
 
 
     public String SignOn.getFocusField(){
