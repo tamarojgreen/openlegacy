@@ -31,6 +31,7 @@
 	<bean id="trailWriter" class="org.openlegacy.terminal.modules.trail.TerminalTrailXmlWriter" />
 
 	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" p:trim="true" />
+	<bean id="fieldComparator" class="org.openlegacy.terminal.support.ContentDifferentFieldComparator" />
 
 	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
 

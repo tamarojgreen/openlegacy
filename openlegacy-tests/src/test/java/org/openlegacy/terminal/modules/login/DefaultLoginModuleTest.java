@@ -3,6 +3,7 @@ package org.openlegacy.terminal.modules.login;
 import apps.inventory.screens.ItemsList;
 import apps.inventory.screens.SignOn;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
@@ -32,6 +33,11 @@ public class DefaultLoginModuleTest extends AbstractTest {
 	@Inject
 	private ScreensRecognizer screensRecognizer;
 
+	@After
+	public void logoff() {
+		terminalSession.getModule(Login.class).logoff();
+	}
+
 	@Test
 	public void testLoginObject() {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
@@ -40,6 +46,7 @@ public class DefaultLoginModuleTest extends AbstractTest {
 		terminalSession.getModule(Login.class).login(signOn);
 
 		assertLoginPeformed();
+
 	}
 
 	@Test

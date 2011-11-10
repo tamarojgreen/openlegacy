@@ -5,6 +5,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.terminal.FieldComparator;
 import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityFieldAccessor;
@@ -51,6 +52,9 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 	@Inject
 	private HostActionMapper hostActionMapper;
+
+	@Inject
+	private FieldComparator fieldComparator;
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
 
@@ -110,22 +114,27 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 
 			ScreenPosition cursorPosition = fieldMappingDefinition.getScreenPosition();
+			String fieldName = fieldMappingDefinition.getName();
 			if (fieldMappingDefinition.isEditable()) {
-				Object value = fieldAccessor.getFieldValue(fieldMappingDefinition.getName());
+				Object value = fieldAccessor.getFieldValue(fieldName);
 				ScreenPosition screenPosition = cursorPosition;
 
 				TerminalField terminalField = terminalScreen.getField(screenPosition);
 				if (value != null) {
-					terminalField.setValue(value.toString());
-					modifiedfields.add(terminalField);
-					if (logger.isDebugEnabled()) {
-						logger.debug(MessageFormat.format(
-								"Field {0} was set with value \"{1}\" to send fields for screen entity {2}",
-								fieldMappingDefinition.getName(), value, screenEntity));
+					boolean fieldModified = fieldComparator.isFieldModified(screenEntity, fieldName, terminalField.getValue(),
+							value);
+					if (fieldModified) {
+						terminalField.setValue(value.toString());
+						modifiedfields.add(terminalField);
+						if (logger.isDebugEnabled()) {
+							logger.debug(MessageFormat.format(
+									"Field {0} was set with value \"{1}\" to send fields for screen entity {2}", fieldName,
+									value, screenEntity));
+						}
 					}
 				}
 			}
-			if (fieldMappingDefinition.getName().equals(focusField)) {
+			if (fieldName.equals(focusField)) {
 				sendAction.setCursorPosition(cursorPosition);
 				if (logger.isDebugEnabled()) {
 					logger.debug(MessageFormat.format("Cursor was set at position {0} from field {1}", cursorPosition, focusField));

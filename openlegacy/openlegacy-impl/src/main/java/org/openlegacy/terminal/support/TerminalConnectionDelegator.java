@@ -58,6 +58,7 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 		TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
 		terminalConnectionFactory.disconnect(terminalConnection);
 		terminalConnection = null;
+		terminalScreen = null;
 	}
 
 	public boolean isConnected() {

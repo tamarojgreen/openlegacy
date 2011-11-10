@@ -22,9 +22,6 @@ public class MockTerminalConnectionFactory implements TerminalConnectionFactory 
 	}
 
 	private void initSnapshots() {
-		if (snapshots != null) {
-			return;
-		}
 		snapshots = new ArrayList<TerminalSnapshot>();
 		for (String resourceName : files) {
 			try {
