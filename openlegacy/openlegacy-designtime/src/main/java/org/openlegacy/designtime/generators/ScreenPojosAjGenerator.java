@@ -117,7 +117,7 @@ public class ScreenPojosAjGenerator {
 			throws FileNotFoundException, IOException {
 		if (screenEntityCodeModel != null && screenEntityCodeModel.isRelevant()) {
 			File outputFolder = javaFile.getParentFile().getAbsoluteFile();
-			File outputFile = new File(outputFolder, screenEntityCodeModel.getClassName() + "_Aspect.aj");
+			File outputFile = new File(outputFolder, screenEntityCodeModel.getFormattedClassName() + "_Aspect.aj");
 			FileOutputStream fos = new FileOutputStream(outputFile);
 			fos.write(baos.toByteArray());
 			fos.close();

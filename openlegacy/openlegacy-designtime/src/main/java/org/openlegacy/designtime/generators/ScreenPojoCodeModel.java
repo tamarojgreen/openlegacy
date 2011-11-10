@@ -17,6 +17,8 @@ public interface ScreenPojoCodeModel {
 
 	String getClassName();
 
+	String getFormattedClassName();
+
 	Collection<Field> getFields();
 
 }

@@ -23,6 +23,7 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -62,7 +63,14 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	public <T> T buildScreenEntity(Class<T> screenEntity, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
 			ScreenEntityNotAccessibleException {
 
+		Assert.notNull(screenEntity);
+		Assert.notNull(terminalScreen);
+
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
+
+		if (matchedScreenEntity == null) {
+			return null;
+		}
 
 		ScreenNavigationUtil.validateCurrentScreen(screenEntity, matchedScreenEntity);
 
@@ -70,11 +78,17 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	}
 
 	public <S extends ScreenEntity> S buildScreenEntity(TerminalScreen terminalScreen) {
+		Assert.notNull(terminalScreen);
+
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
+		if (matchedScreenEntity == null) {
+			return null;
+		}
 		return buildScreenEntityInner(matchedScreenEntity, terminalScreen);
 	}
 
 	private <S extends ScreenEntity> S buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen) {
+
 		@SuppressWarnings("unchecked")
 		S screenEntity = (S)applicationContext.getBean(screenEntityClass);
 

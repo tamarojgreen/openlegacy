@@ -10,10 +10,12 @@ import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
+import org.openlegacy.terminal.exceptions.ScreenEntityNotFoundException;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -45,6 +47,10 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 			TerminalScreen hostScreen = getSnapshot();
 
 			entity = (ScreenEntity)screenEntityBinder.buildScreenEntity(screenEntityClass, hostScreen);
+			if (entity == null) {
+				throw (new ScreenEntityNotFoundException(MessageFormat.format("Screen entity class {0} not matched",
+						screenEntityClass)));
+			}
 		}
 		return (T)entity;
 	}
@@ -54,6 +60,9 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		if (entity == null) {
 			TerminalScreen hostScreen = getSnapshot();
 			entity = screenEntityBinder.buildScreenEntity(hostScreen);
+			if (entity == null) {
+				throw (new ScreenEntityNotFoundException("Current screen is has not matched a screen entity is the registry"));
+			}
 		}
 		return (S)entity;
 	}
