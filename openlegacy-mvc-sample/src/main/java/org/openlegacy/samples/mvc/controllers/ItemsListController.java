@@ -22,7 +22,8 @@ public class ItemsListController {
     @RequestMapping(value="/items", method = RequestMethod.GET)
     public String show(Model uiModel) {
     	// page model
-        Object itemListRows = terminalSession.getEntity(ItemsList.class).getItemListRows();
+        ItemsList itemsList = terminalSession.getEntity(ItemsList.class);
+		Object itemListRows = itemsList.getItemListRows();
 		uiModel.addAttribute("itemsList", itemListRows);
         // jsp view name
         return "/items";
