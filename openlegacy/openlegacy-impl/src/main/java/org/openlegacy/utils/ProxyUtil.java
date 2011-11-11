@@ -8,23 +8,26 @@ import org.springframework.aop.framework.Advised;
 public class ProxyUtil {
 
 	@SuppressWarnings("unchecked")
-	public static <T> T getTargetObject(Object proxy) throws Exception {
-		if (proxy instanceof Advised) {
-			return (T)((Advised)proxy).getTargetSource().getTarget();
+	public static <T> T getTargetObject(Object proxy) {
+		while (proxy instanceof Advised) {
+			try {
+				proxy = ((Advised)proxy).getTargetSource().getTarget();
+			} catch (Exception e) {
+				throw (new IllegalStateException(e));
+			}
 		}
 		return (T)proxy;
 	}
 
 	public static Class<?> getObjectRealClass(Object object) {
-		if (object instanceof TargetClassAware) {
-			return ((TargetClassAware)object).getTargetClass();
-		} else {
-			return object.getClass();
+		while (object instanceof TargetClassAware) {
+			object = ((TargetClassAware)object).getTargetClass();
 		}
+		return object.getClass();
 	}
 
 	public static Class<?> getOriginalClass(Class<?> entityClass) {
-		if (Enhancer.isEnhanced(entityClass)) {
+		while (Enhancer.isEnhanced(entityClass)) {
 			entityClass = entityClass.getSuperclass();
 		}
 		return entityClass;

@@ -21,11 +21,7 @@ public class SimpleScreenEntityFieldAccessor implements ScreenEntityFieldAccesso
 	private static final String TERMINAL_SCREEN = "terminalScreen";
 
 	public SimpleScreenEntityFieldAccessor(Object target) {
-		try {
-			target = ProxyUtil.getTargetObject(target);
-		} catch (Exception e) {
-			throw (new IllegalArgumentException(e));
-		}
+		target = ProxyUtil.getTargetObject(target);
 		directFieldAccessor = new DirectFieldAccessor(target);
 	}
 
