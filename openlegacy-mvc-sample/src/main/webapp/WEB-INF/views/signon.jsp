@@ -10,8 +10,8 @@
 </h1>
 
 <form method="post" action="signon">
-	<input id="user" value="${signon.user}" /> 
-	<input id="password" type="password" value="${signon.password}" />
+	<input name="user" value="${signon.user}" /> 
+	<input name="password" type="password" value="${signon.password}" />
 	
 	<span id="error">${signon.error}</span>
 	

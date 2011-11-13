@@ -11,5 +11,7 @@
 
 	${itemsList}
 
+<br/>
+<a href="logoff">logoff</a>
 </body>
 </html>
