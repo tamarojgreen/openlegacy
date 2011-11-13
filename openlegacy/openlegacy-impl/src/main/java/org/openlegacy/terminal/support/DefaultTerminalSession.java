@@ -44,9 +44,9 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		if (entity == null || entity.getClass() != screenEntityClass) {
 			sessionNavigator.navigate(this, screenEntityClass);
 
-			TerminalScreen hostScreen = getSnapshot();
+			TerminalScreen terminalScreen = getSnapshot();
 
-			entity = (ScreenEntity)screenEntityBinder.buildScreenEntity(screenEntityClass, hostScreen);
+			entity = (ScreenEntity)screenEntityBinder.buildScreenEntity(screenEntityClass, terminalScreen);
 			if (entity == null) {
 				throw (new ScreenEntityNotFoundException(MessageFormat.format("Screen entity class {0} not matched",
 						screenEntityClass)));

@@ -7,9 +7,12 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TerminalOutgoingSnapshot implements TerminalSnapshot {
+public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private TerminalScreen terminalScreen;
 	private TerminalSendAction terminalSendAction;

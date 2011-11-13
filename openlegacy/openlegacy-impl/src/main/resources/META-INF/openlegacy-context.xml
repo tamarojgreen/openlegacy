@@ -10,7 +10,7 @@
 
 	<bean class="org.openlegacy.terminal.support.ScreenAnnotationProccesor"/>
 
-	<context:component-scan base-package="org.openlegacy" scoped-proxy="targetClass" />
+	<context:component-scan base-package="org.openlegacy" />
 	
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session">
         <aop:scoped-proxy/>
@@ -19,6 +19,7 @@
 		</property>
 		<property name="sessionModules" ref="terminalSessionModules" />
 	</bean>
+	<bean class="org.openlegacy.terminal.support.ScreenEntityMethodInterceptor" scope="session"/>
 	
 	<bean id="terminalSessionModules" class="org.openlegacy.support.HostSessionModules" scope="session" />
 	
@@ -43,7 +44,9 @@
 	<import resource="classpath*:/META-INF/*-openlegacy-provider.xml" /> 
 
 	<context:annotation-config />
-	
+
+<!-- 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
+ -->	
 
 </beans>

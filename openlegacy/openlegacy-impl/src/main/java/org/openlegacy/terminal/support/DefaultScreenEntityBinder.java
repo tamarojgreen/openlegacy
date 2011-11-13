@@ -22,6 +22,8 @@ import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
+import org.openlegacy.utils.ReflectionUtil;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
@@ -46,9 +48,6 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	private FieldMappingsDefinitionProvider fieldMappingsProvider;
 
 	@Inject
-	private ApplicationContext applicationContext;
-
-	@Inject
 	private List<ScreenEntityDataInjector> screenEntityDataInjectors;
 
 	@Inject
@@ -56,6 +55,9 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 	@Inject
 	private FieldComparator fieldComparator;
+
+	@Inject
+	private ApplicationContext applicationContext;
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
 
@@ -90,7 +92,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 	private <S extends ScreenEntity> S buildScreenEntityInner(Class<?> screenEntityClass, TerminalScreen terminalScreen) {
 
 		@SuppressWarnings("unchecked")
-		S screenEntity = (S)applicationContext.getBean(screenEntityClass);
+		S screenEntity = (S)createEntity((Class<? extends ScreenEntity>)screenEntityClass);
 
 		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
 
@@ -102,6 +104,18 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 		return screenEntity;
 
+	}
+
+	private Object createEntity(Class<? extends ScreenEntity> screenEntityClass) {
+		ScreenEntity screenEntity = ReflectionUtil.newInstance(screenEntityClass);
+		ScreenEntityMethodInterceptor screenEntityMethodInterceptor = applicationContext.getBean(ScreenEntityMethodInterceptor.class);
+		ProxyFactory proxyFactory = new ProxyFactory(ScreenEntity.class, screenEntityMethodInterceptor);
+
+		proxyFactory.setTarget(screenEntity);
+		proxyFactory.setProxyTargetClass(true);
+		Object personProxy = proxyFactory.getProxy();
+
+		return personProxy;
 	}
 
 	public TerminalSendAction buildSendFields(TerminalScreen terminalScreen, HostAction hostAction, ScreenEntity screenEntity) {

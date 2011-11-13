@@ -12,9 +12,9 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
  */
 public interface ScreenEntityBinder {
 
-	<S extends ScreenEntity> S buildScreenEntity(TerminalScreen hostScreen);
+	<S extends ScreenEntity> S buildScreenEntity(TerminalScreen terminalScreen);
 
-	<T> T buildScreenEntity(Class<T> screenEntityClass, TerminalScreen hostScreen) throws HostEntityNotFoundException,
+	<T> T buildScreenEntity(Class<T> screenEntityClass, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
 			ScreenEntityNotAccessibleException;
 
 	TerminalSendAction buildSendFields(TerminalScreen terminalScreen, HostAction hostAction, ScreenEntity screenEntity);

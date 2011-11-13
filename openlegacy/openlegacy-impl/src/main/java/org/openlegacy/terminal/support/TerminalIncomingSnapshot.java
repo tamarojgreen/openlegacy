@@ -6,9 +6,12 @@ import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TerminalIncomingSnapshot implements TerminalSnapshot {
+public class TerminalIncomingSnapshot implements TerminalSnapshot, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private TerminalScreen terminalScreen;
 

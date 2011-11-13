@@ -18,11 +18,14 @@ import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class DefaultLoginModule extends TerminalSessionModuleAdapter implements Login {
+public class DefaultLoginModule extends TerminalSessionModuleAdapter implements Login, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private LoginMetadata loginCache;
