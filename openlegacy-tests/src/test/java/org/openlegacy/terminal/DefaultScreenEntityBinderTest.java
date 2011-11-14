@@ -28,15 +28,17 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 		Assert.assertNotNull(signOn.getTerminalScreen());
 		Assert.assertNotNull(signOn.getUserField());
 
+		signOn.setUser("user");
+		signOn.setPassword("pwd");
 		// tests doAction with expected class type
-		MainMenu mainMenu = terminalSession.doAction(SendKeyActions.ENTER, null, MainMenu.class);
+		MainMenu mainMenu = terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
 		Assert.assertNotNull(mainMenu);
 		Assert.assertEquals("101", mainMenu.getCompany());
 
-		InventoryManagement inventoryManagement = terminalSession.doAction(SendKeyActions.ENTER, null, InventoryManagement.class);
+		InventoryManagement inventoryManagement = terminalSession.getEntity(InventoryManagement.class);
 		Assert.assertNotNull(inventoryManagement);
 
-		ItemsList itemList = terminalSession.doAction(SendKeyActions.ENTER, null, ItemsList.class);
+		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		Assert.assertNotNull(itemList);
 
 		ItemDetails1 itemDetails1 = terminalSession.doAction(SendKeyActions.ENTER, null, ItemDetails1.class);

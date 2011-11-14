@@ -1,8 +1,11 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.CustomHostAction;
 import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.modules.HostSessionModule;
 import org.openlegacy.support.AbstractHostSession;
 import org.openlegacy.terminal.ScreenEntity;
@@ -14,6 +17,7 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotFoundException;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.utils.ScreenDisplayUtils;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -36,6 +40,8 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	@Inject
 	private SessionNavigator sessionNavigator;
+
+	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
 
 	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> screenEntityClass) throws HostEntityNotFoundException {
@@ -92,9 +98,25 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		} else {
 			TerminalSendAction terminalSendAction = screenEntityBinder.buildSendFields(getSnapshot(), hostAction, screenEntity);
 
+			if (logger.isTraceEnabled()) {
+				TerminalScreen snapshot = terminalConnection.getSnapshot();
+				logger.trace("\n\n******* Screen before\n(* abc * indicates an modified field, [ abc ] indicates a input field): ******* \n\n"
+						+ ScreenDisplayUtils.toString(snapshot, terminalSendAction, true));
+			}
+
 			notifyModulesBeforeSend(terminalSendAction);
 			terminalConnection.doAction(terminalSendAction);
 			notifyModulesAfterSend();
+
+			if (logger.isTraceEnabled()) {
+				try {
+					logger.trace("\n\n******* Screen after ([ abc ] indicates a input field): ******* \n\n"
+							+ terminalConnection.getSnapshot());
+				} catch (SessionEndedException e) {
+					// ignore
+				}
+			}
+
 		}
 
 		return getEntity();

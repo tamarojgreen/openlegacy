@@ -52,18 +52,17 @@ public class ScreenDisplayUtils {
 			generateColumnNumbers(terminalScreen, newline, out);
 		}
 
-		drawAttributes(terminalScreen, out);
-		if (terminalSendAction != null) {
-			drawInputs(terminalScreen, out, terminalSendAction.getModifiedFields(), '*', '*');
-		} else {
-			drawInputs(terminalScreen, out, terminalScreen.getEditableFields(), '[', ']');
-		}
+		drawFieldsSeperators(terminalScreen, out);
+		drawEditableFields(terminalScreen, out, terminalScreen.getEditableFields(), '[', ']');
 
+		if (terminalSendAction != null) {
+			drawEditableFields(terminalScreen, out, terminalSendAction.getModifiedFields(), '*', '*');
+		}
 		return out.toString();
 
 	}
 
-	private static void drawAttributes(TerminalScreen terminalScreen, StringBuilder out) {
+	private static void drawFieldsSeperators(TerminalScreen terminalScreen, StringBuilder out) {
 		List<ScreenPosition> attributes = terminalScreen.getFieldSeperators();
 		for (ScreenPosition screenPosition : attributes) {
 			if (screenPosition.getColumn() > 0) {
@@ -97,7 +96,7 @@ public class ScreenDisplayUtils {
 		out.append(newline);
 	}
 
-	private static void drawInputs(TerminalScreen terminalScreen, StringBuilder out, Collection<TerminalField> fields,
+	private static void drawEditableFields(TerminalScreen terminalScreen, StringBuilder out, Collection<TerminalField> fields,
 			char leftMark, char rightMark) {
 		for (TerminalField terminalField : fields) {
 			// +6 - line numbers + |

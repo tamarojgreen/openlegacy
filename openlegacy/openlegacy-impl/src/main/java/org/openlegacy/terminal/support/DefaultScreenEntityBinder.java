@@ -143,15 +143,14 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 			ScreenPosition cursorPosition = fieldMappingDefinition.getScreenPosition();
 			String fieldName = fieldMappingDefinition.getName();
-			if (fieldMappingDefinition.isEditable()) {
-				Object value = fieldAccessor.getFieldValue(fieldName);
-				ScreenPosition screenPosition = cursorPosition;
+			Object value = fieldAccessor.getFieldValue(fieldName);
+			ScreenPosition screenPosition = cursorPosition;
 
-				TerminalField terminalField = terminalScreen.getField(screenPosition);
-				if (value != null) {
-					boolean fieldModified = fieldComparator.isFieldModified(screenEntity, fieldName, terminalField.getValue(),
-							value);
-					if (fieldModified) {
+			TerminalField terminalField = terminalScreen.getField(screenPosition);
+			if (value != null) {
+				boolean fieldModified = fieldComparator.isFieldModified(screenEntity, fieldName, terminalField.getValue(), value);
+				if (fieldModified) {
+					if (fieldMappingDefinition.isEditable()) {
 						terminalField.setValue(value.toString());
 						modifiedfields.add(terminalField);
 						if (logger.isDebugEnabled()) {
@@ -159,6 +158,11 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 									"Field {0} was set with value \"{1}\" to send fields for screen entity {2}", fieldName,
 									value, screenEntity));
 						}
+					} else {
+						throw (new SendActionException(MessageFormat.format(
+								"Field {0} in screen {1} was modified with value {2}, but is not defined as editable", fieldName,
+								screenEntity, value)));
+
 					}
 				}
 			}
