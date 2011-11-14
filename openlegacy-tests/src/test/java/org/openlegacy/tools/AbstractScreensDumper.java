@@ -17,9 +17,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Writer;
 
 public abstract class AbstractScreensDumper {
 
@@ -61,9 +60,9 @@ public abstract class AbstractScreensDumper {
 					entityName = screenEntitiesRegistry.getEntityName(matchedScreenEntity);
 				}
 
-				String s = getDumpContent(terminalscreen);
+				byte[] bytes = getDumpContent(terminalscreen);
 
-				writeFileContentIfDifferent(baseDir, entityName, count, s);
+				writeFileContentIfDifferent(baseDir, entityName, count, bytes);
 
 				hostSession.doAction(SendKeyActions.ENTER, null);
 			}
@@ -75,19 +74,19 @@ public abstract class AbstractScreensDumper {
 
 	}
 
-	private void writeFileContentIfDifferent(File baseDir, String entityName, int count, String content) throws IOException {
+	private void writeFileContentIfDifferent(File baseDir, String entityName, int count, byte[] bytes) throws IOException {
 		String fileNameNoSuffix = entityName != null ? entityName : "screen" + count;
 
-		File file = FileUtils.findNextAndDifferentFreeFile(baseDir, fileNameNoSuffix, getDumpFileExtension(), content);
+		File file = FileUtils.findNextAndDifferentFreeFile(baseDir, fileNameNoSuffix, getDumpFileExtension(), bytes);
 
 		if (file != null) {
-			Writer writer = new FileWriter(file);
-			writer.write(content);
-			writer.close();
+			FileOutputStream fos = new FileOutputStream(file);
+			fos.write(bytes);
+			fos.close();
 		}
 	}
 
-	protected abstract String getDumpContent(TerminalScreen snapshot) throws Exception;
+	protected abstract byte[] getDumpContent(TerminalScreen snapshot) throws Exception;
 
 	protected abstract String getDumpFileExtension();
 

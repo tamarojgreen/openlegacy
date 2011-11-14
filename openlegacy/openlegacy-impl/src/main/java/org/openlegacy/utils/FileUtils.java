@@ -3,6 +3,7 @@ package org.openlegacy.utils;
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 public class FileUtils {
 
@@ -11,7 +12,7 @@ public class FileUtils {
 	 * @return a file name which doesn't exists. null if file content was matched by one of the scanned files
 	 * @throws IOException
 	 */
-	public static File findNextAndDifferentFreeFile(File baseDir, String fileNameNoSuffix, String fileExtension, String content)
+	public static File findNextAndDifferentFreeFile(File baseDir, String fileNameNoSuffix, String fileExtension, byte[] content)
 			throws IOException {
 		File file = null;
 		String fileSuffix = "";
@@ -21,8 +22,8 @@ public class FileUtils {
 			file = new File(baseDir, fileName);
 
 			if (file.exists()) {
-				String fileContent = org.apache.commons.io.FileUtils.readFileToString(file);
-				if (fileContent.equals(content)) {
+				byte[] fileContent = org.apache.commons.io.FileUtils.readFileToByteArray(file);
+				if (Arrays.equals(fileContent, content)) {
 					return null;
 				}
 

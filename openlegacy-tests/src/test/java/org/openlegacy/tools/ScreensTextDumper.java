@@ -22,8 +22,8 @@ public class ScreensTextDumper extends AbstractScreensDumper {
 	}
 
 	@Override
-	protected String getDumpContent(TerminalScreen snapshot) {
-		return snapshot.toString();
+	protected byte[] getDumpContent(TerminalScreen snapshot) {
+		return snapshot.toString().getBytes();
 	}
 
 	@Override

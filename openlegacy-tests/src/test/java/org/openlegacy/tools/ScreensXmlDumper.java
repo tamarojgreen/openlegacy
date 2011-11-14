@@ -27,13 +27,13 @@ public class ScreensXmlDumper extends AbstractScreensDumper {
 	}
 
 	@Override
-	protected String getDumpContent(TerminalScreen snapshot) throws Exception {
+	protected byte[] getDumpContent(TerminalScreen snapshot) throws Exception {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		TerminalIncomingSnapshot incomingSnapshot = new TerminalIncomingSnapshot(snapshot);
 		TerminalPersistedSnapshot persistedSnapshot = SnapshotPersistanceDTO.transformIncomingSnapshot(incomingSnapshot);
 		JaxbUtil.marshal(TerminalPersistedSnapshot.class, persistedSnapshot, baos);
-		return new String(baos.toByteArray());
+		return baos.toByteArray();
 	}
 
 	@Override

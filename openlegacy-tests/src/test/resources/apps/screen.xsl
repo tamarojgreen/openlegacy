@@ -6,13 +6,15 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:template match="/">
   <html>
   <head>
-  	<style>
-		font-family: "Courier New";
-  	</style>
+	<style>
+		body{
+			font-family: "Courier New";
+		}
+	</style>
   </head>
   <body>
       <xsl:for-each select="snapshot/row">
-	  <table border="0" width="800" cellspacing="0" cellpadding="0">
+	  <table style="width:800px;border:0px">
         <tr>
 	      <xsl:for-each select="field">
 	        <td>
