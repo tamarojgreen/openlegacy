@@ -17,6 +17,6 @@ public interface ScreenEntityBinder {
 	<T> T buildScreenEntity(Class<T> screenEntityClass, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
 			ScreenEntityNotAccessibleException;
 
-	TerminalSendAction buildSendFields(TerminalScreen terminalScreen, HostAction hostAction, ScreenEntity screenEntity);
+	TerminalSendAction buildSendAction(TerminalScreen terminalScreen, HostAction hostAction, ScreenEntity screenEntity);
 
 }

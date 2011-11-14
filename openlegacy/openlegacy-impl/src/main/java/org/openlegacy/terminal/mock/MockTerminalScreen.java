@@ -8,7 +8,7 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.ScreenUtils;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
-import org.openlegacy.terminal.utils.ScreenDisplayUtils;
+import org.openlegacy.terminal.utils.ScreenPainter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -102,7 +102,7 @@ public class MockTerminalScreen implements TerminalScreen {
 
 	@Override
 	public String toString() {
-		return ScreenDisplayUtils.toString(this, true);
+		return ScreenPainter.paint(this, true);
 	}
 
 	public List<ScreenPosition> getFieldSeperators() {

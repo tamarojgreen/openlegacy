@@ -13,13 +13,13 @@ import java.util.List;
  * A textual utility which format terminal screen in to a preventable text which is very comfort for debugging purposes
  * 
  */
-public class ScreenDisplayUtils {
+public class ScreenPainter {
 
-	public static String toString(TerminalScreen terminalScreen, boolean decorated) {
-		return toString(terminalScreen, null, decorated);
+	public static String paint(TerminalScreen terminalScreen, boolean decorated) {
+		return paint(terminalScreen, null, decorated);
 	}
 
-	public static String toString(TerminalScreen terminalScreen, TerminalSendAction terminalSendAction, boolean decorated) {
+	public static String paint(TerminalScreen terminalScreen, TerminalSendAction terminalSendAction, boolean decorated) {
 		String text = terminalScreen.getText();
 		String newline = System.getProperty("line.separator");
 		int rows = terminalScreen.getSize().getRows();
@@ -57,8 +57,20 @@ public class ScreenDisplayUtils {
 
 		if (terminalSendAction != null) {
 			drawEditableFields(terminalScreen, out, terminalSendAction.getModifiedFields(), '*', '*');
+			drawCursor(terminalScreen, out, terminalSendAction);
 		}
 		return out.toString();
+
+	}
+
+	private static void drawCursor(TerminalScreen terminalScreen, StringBuilder out, TerminalSendAction terminalSendAction) {
+		if (terminalSendAction.getCursorPosition() == null) {
+			return;
+		}
+		int cursorPainterLocation = calculatePositionOnPainter(terminalSendAction.getCursorPosition(), terminalScreen.getSize());
+		if (out.charAt(cursorPainterLocation) == ' ') {
+			out.setCharAt(cursorPainterLocation, '#');
+		}
 
 	}
 

@@ -6,7 +6,7 @@ import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.mock.MockTerminalScreen;
 import org.openlegacy.terminal.support.ScreenSizeBean;
-import org.openlegacy.terminal.utils.ScreenDisplayUtils;
+import org.openlegacy.terminal.utils.ScreenPainter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +62,6 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 
 	@Override
 	public String toString() {
-		return ScreenDisplayUtils.toString(new MockTerminalScreen(this), true);
+		return ScreenPainter.paint(new MockTerminalScreen(this), true);
 	}
 }

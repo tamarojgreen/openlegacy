@@ -22,6 +22,7 @@ import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
+import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.context.ApplicationContext;
@@ -118,7 +119,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 		return personProxy;
 	}
 
-	public TerminalSendAction buildSendFields(TerminalScreen terminalScreen, HostAction hostAction, ScreenEntity screenEntity) {
+	public TerminalSendAction buildSendAction(TerminalScreen terminalScreen, HostAction hostAction, ScreenEntity screenEntity) {
 		List<TerminalField> modifiedfields = new ArrayList<TerminalField>();
 
 		SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(modifiedfields,
@@ -141,12 +142,11 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 
-			ScreenPosition cursorPosition = fieldMappingDefinition.getScreenPosition();
+			ScreenPosition fieldPosition = fieldMappingDefinition.getScreenPosition();
 			String fieldName = fieldMappingDefinition.getName();
 			Object value = fieldAccessor.getFieldValue(fieldName);
-			ScreenPosition screenPosition = cursorPosition;
 
-			TerminalField terminalField = terminalScreen.getField(screenPosition);
+			TerminalField terminalField = terminalScreen.getField(fieldPosition);
 			if (value != null) {
 				boolean fieldModified = fieldComparator.isFieldModified(screenEntity, fieldName, terminalField.getValue(), value);
 				if (fieldModified) {
@@ -167,17 +167,17 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 				}
 			}
 			if (fieldName.equals(focusField)) {
-				sendAction.setCursorPosition(cursorPosition);
+				sendAction.setCursorPosition(fieldPosition);
 				if (logger.isDebugEnabled()) {
-					logger.debug(MessageFormat.format("Cursor was set at position {0} from field {1}", cursorPosition, focusField));
+					logger.debug(MessageFormat.format("Cursor was set at position {0} from field {1}", fieldPosition, focusField));
 				}
 			}
 
 		}
 
 		if (!StringUtils.isEmpty(focusField) && sendAction.getCursorPosition() == null) {
-			throw (new SendActionException(MessageFormat.format("Cursor field was not found{0} in screen {1}", focusField,
-					screenEntity.getClass())));
+			throw (new SendActionException(MessageFormat.format("Cursor field {0} was not found in screen {1}", focusField,
+					ProxyUtil.getOriginalClass(screenEntity.getClass()))));
 		}
 		return sendAction;
 	}

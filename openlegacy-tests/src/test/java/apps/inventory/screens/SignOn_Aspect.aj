@@ -25,6 +25,8 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 	
     private TerminalField SignOn.passwordField;
 	
+    private TerminalField SignOn.programProcedureField;
+	
     private TerminalField SignOn.userField;
     
     public TerminalScreen SignOn.getTerminalScreen(){
@@ -49,6 +51,17 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 
     public TerminalField SignOn.getPasswordField(){
     	return passwordField;
+    }
+    public String SignOn.getProgramProcedure(){
+    	return this.programProcedure;
+    }
+    
+    public void SignOn.setProgramProcedure(String programProcedure){
+    	this.programProcedure = programProcedure;
+    }
+
+    public TerminalField SignOn.getProgramProcedureField(){
+    	return programProcedureField;
     }
     public String SignOn.getUser(){
     	return this.user;

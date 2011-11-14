@@ -10,7 +10,7 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.support.SimpleScreenSize;
-import org.openlegacy.terminal.utils.ScreenDisplayUtils;
+import org.openlegacy.terminal.utils.ScreenPainter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +26,7 @@ public class ApxTerminalScreen implements TerminalScreen {
 
 	@Override
 	public String toString() {
-		return ScreenDisplayUtils.toString(this, true);
+		return ScreenPainter.paint(this, true);
 	}
 
 	public String getText() {

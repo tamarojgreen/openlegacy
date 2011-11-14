@@ -17,7 +17,7 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotFoundException;
 import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.terminal.utils.ScreenDisplayUtils;
+import org.openlegacy.terminal.utils.ScreenPainter;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -96,12 +96,14 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		if (hostAction instanceof CustomHostAction) {
 			((CustomHostAction)hostAction).perform(this);
 		} else {
-			TerminalSendAction terminalSendAction = screenEntityBinder.buildSendFields(getSnapshot(), hostAction, screenEntity);
+			TerminalSendAction terminalSendAction = screenEntityBinder.buildSendAction(getSnapshot(), hostAction, screenEntity);
 
 			if (logger.isTraceEnabled()) {
 				TerminalScreen snapshot = terminalConnection.getSnapshot();
-				logger.trace("\n\n******* Screen before\n(* abc * indicates an modified field, [ abc ] indicates a input field): ******* \n\n"
-						+ ScreenDisplayUtils.toString(snapshot, terminalSendAction, true));
+				logger.trace(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", terminalSendAction.getCommand(),
+						terminalSendAction.getCursorPosition()));
+				logger.trace("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
+						+ ScreenPainter.paint(snapshot, terminalSendAction, true));
 			}
 
 			notifyModulesBeforeSend(terminalSendAction);
@@ -110,8 +112,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 			if (logger.isTraceEnabled()) {
 				try {
-					logger.trace("\n\n******* Screen after ([ abc ] indicates a input field): ******* \n\n"
-							+ terminalConnection.getSnapshot());
+					logger.trace("\n\nScreen after ([ abc ] indicates a input field):\n\n" + terminalConnection.getSnapshot());
 				} catch (SessionEndedException e) {
 					// ignore
 				}

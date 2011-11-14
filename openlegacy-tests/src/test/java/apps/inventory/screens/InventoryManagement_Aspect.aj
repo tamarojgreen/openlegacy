@@ -24,6 +24,9 @@ privileged @SuppressWarnings("unused") aspect InventoryManagement_Aspect {
     	return this.selection;
     }
     
+    public void InventoryManagement.setSelection(String selection){
+    	this.selection = selection;
+    }
 
 
     public String InventoryManagement.getFocusField(){

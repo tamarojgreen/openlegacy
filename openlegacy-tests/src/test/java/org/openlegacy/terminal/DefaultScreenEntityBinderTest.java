@@ -30,6 +30,8 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 
 		signOn.setUser("user");
 		signOn.setPassword("pwd");
+		signOn.setFocusField("programProcedure");
+
 		// tests doAction with expected class type
 		MainMenu mainMenu = terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
 		Assert.assertNotNull(mainMenu);
