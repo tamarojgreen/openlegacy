@@ -64,7 +64,7 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 			loadLogger();
 		}
 
-		initFile(initWorkingDir(), "/config/log/gxlog_config.xml", null);
+		initFile(initWorkingDir(), "/config/log/gxlog_config.apx", "/config/log/gxlog_config.xml");
 	}
 
 	private static void loadLogger() throws IOException {
