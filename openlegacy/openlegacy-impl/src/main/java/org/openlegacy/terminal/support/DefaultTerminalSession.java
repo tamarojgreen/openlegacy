@@ -67,7 +67,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 			TerminalScreen hostScreen = getSnapshot();
 			entity = screenEntityBinder.buildScreenEntity(hostScreen);
 			if (entity == null) {
-				throw (new ScreenEntityNotFoundException("Current screen is has not matched a screen entity is the registry"));
+				return null;
 			}
 		}
 		return (S)entity;

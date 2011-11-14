@@ -4,46 +4,43 @@ import com.sabratec.applinx.baseobject.GXClientBaseObjectFactory;
 import com.sabratec.applinx.baseobject.GXCreateSessionRequest;
 import com.sabratec.applinx.baseobject.GXGeneralException;
 import com.sabratec.applinx.baseobject.GXIClientBaseObject;
-import com.sabratec.applinx.common.designtime.exceptions.GXConfigurationStorageException;
-import com.sabratec.applinx.common.designtime.exceptions.GXDesignTimeException;
 import com.sabratec.applinx.common.designtime.model.GXIApplicationContext;
-import com.sabratec.applinx.common.designtime.model.config.GXApplicationConfiguration;
-import com.sabratec.applinx.common.designtime.model.config.GXPreDefinedType;
-import com.sabratec.applinx.common.designtime.model.db.GXInnerDBConfiguration;
 import com.sabratec.applinx.server.runtime.GXServerContext;
 import com.sabratec.util.GXSystem;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
-import org.openlegacy.exceptions.OpenLegacyProviderException;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Properties;
 
 import javax.inject.Inject;
 
-public class ApxServerLoader {
+public class ApxServerLoader implements InitializingBean, DisposableBean {
 
 	private GXServerContext server;
 
 	@Inject
 	private ApplicationContext applicationContext;
 
-	@Inject
-	private GXApplicationConfiguration apxConfig;
-
 	private Properties properties;
 
 	private Resource license;
+
+	private Resource applicationConfiguration;
+
+	private Resource serverConfiguration;
 
 	public void startServer() throws Exception {
 
@@ -58,31 +55,16 @@ public class ApxServerLoader {
 
 		initFiles();
 
-		initServerPorts();
-
 		loadLogger();
 		server = GXServerContext.instance();
 
 		if (!server.isStarted()) {
 			server.start(null);
-			createDefaultApplication();
 
 			loadLogger();
 		}
 
-	}
-
-	private void initServerPorts() throws Exception {
-
-		String nonSecuredPort = (String)properties.get("applinx.nonsecured.port");
-		if (StringUtils.hasText(nonSecuredPort)) {
-			// TODO handle apx ports
-		}
-		String securedPort = (String)properties.get("applinx.secured.port");
-		if (StringUtils.hasText(securedPort)) {
-			// TODO handle apx ports
-		}
-
+		initFile(initWorkingDir(), "/config/log/gxlog_config.xml", null);
 	}
 
 	private static void loadLogger() throws IOException {
@@ -90,18 +72,6 @@ public class ApxServerLoader {
 		if (resource.exists()) {
 			Properties logProperties = PropertiesLoaderUtils.loadProperties(resource);
 			new PropertyConfigurator().doConfigure(logProperties, LogManager.getLoggerRepository());
-		}
-	}
-
-	private void createDefaultApplication() throws GXDesignTimeException {
-		deleteApplicationIfNeeded();
-		addApplicationIfNeeded();
-	}
-
-	private void addApplicationIfNeeded() throws GXDesignTimeException {
-		if (getApplication() == null) {
-			((GXInnerDBConfiguration)apxConfig.getRepositoryConfig().getDb()).setApplicationName(apxConfig.getName());
-			server.addApplication(apxConfig, GXPreDefinedType.NONE);
 		}
 	}
 
@@ -118,7 +88,10 @@ public class ApxServerLoader {
 		}
 
 		Resource fileResource = new ClassPathResource(fileName);
-		initResource(tempDir, targetFileName, fileResource);
+
+		if (fileResource.exists()) {
+			initResource(tempDir, targetFileName, fileResource);
+		}
 	}
 
 	private static void initResource(File tempDir, String targetFileName, Resource fileResource) throws IOException,
@@ -128,10 +101,20 @@ public class ApxServerLoader {
 		IOUtils.copy(fileResource.getInputStream(), new FileOutputStream(targetFile));
 	}
 
-	private static void initConfigFiles(File workingDir) throws IOException {
-		initFile(workingDir, "/config/gxconfig.apx", "/config/gxconfig.xml");
+	private void initConfigFiles(File workingDir) throws IOException {
+		initResource(workingDir, "/config/gxconfig.xml", serverConfiguration);
 		initFile(workingDir, "/config/gxperm.cfg", null);
 		initFile(workingDir, "/config/gxserver.cfg", null);
+
+		initResource(workingDir,
+				MessageFormat.format("/host-applications/{0}/gxconfig.xml", properties.getProperty("applinx.application.name")),
+				applicationConfiguration);
+
+		initFile(
+				workingDir,
+				"config/ApplinX.h2.db",
+				MessageFormat.format("/host-applications/{0}/db/repository/ApplinX.h2.db",
+						properties.getProperty("applinx.application.name")));
 	}
 
 	private void initLicense(File workingDir) throws IOException {
@@ -147,23 +130,8 @@ public class ApxServerLoader {
 		return workingDir;
 	}
 
-	private void deleteApplicationIfNeeded() {
-		GXIApplicationContext applinxApplication = getApplication();
-		if (applinxApplication != null && "true".equals(properties.get("applinx.use.repository"))) {
-			return;
-		}
-
-		try {
-			if (applinxApplication != null) {
-				server.deleteApplication(applinxApplication, true, true);
-			}
-		} catch (GXConfigurationStorageException e) {
-			throw (new OpenLegacyProviderException(e));
-		}
-	}
-
 	public GXIApplicationContext getApplication() {
-		GXIApplicationContext applinxApplication = server.getApplicationByName(apxConfig.getName());
+		GXIApplicationContext applinxApplication = server.getApplicationByName(properties.getProperty("applinx.application.name"));
 		return applinxApplication;
 	}
 
@@ -199,4 +167,25 @@ public class ApxServerLoader {
 		return server;
 	}
 
+	public void setApplicationConfiguration(Resource applicationConfiguration) {
+		this.applicationConfiguration = applicationConfiguration;
+	}
+
+	public void setServerConfiguration(Resource serverConfiguration) {
+		this.serverConfiguration = serverConfiguration;
+	}
+
+	public void destroy() throws Exception {
+		stopServer();
+
+	}
+
+	public void afterPropertiesSet() throws Exception {
+		try {
+			startServer();
+		} catch (Exception e) {
+			throw (new RuntimeException(e));
+		}
+
+	}
 }

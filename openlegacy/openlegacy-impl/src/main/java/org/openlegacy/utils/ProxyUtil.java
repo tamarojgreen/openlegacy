@@ -4,6 +4,7 @@ import net.sf.cglib.proxy.Enhancer;
 
 import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.framework.Advised;
+import org.springframework.util.Assert;
 
 public class ProxyUtil {
 
@@ -34,6 +35,8 @@ public class ProxyUtil {
 	}
 
 	public static boolean isClassesMatch(Class<?> classA, Class<?> classB) {
+		Assert.notNull(classA);
+		Assert.notNull(classB);
 		classA = getOriginalClass(classA);
 		classB = getOriginalClass(classB);
 

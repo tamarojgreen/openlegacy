@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<import resource="classpath:/test-basic-context.xml" />
-
-	<context:component-scan base-package="apps.inventory.screens" />
+	<import resource="classpath:/test-host-context.xml"/>
 
 	<bean id="apxServerLoader" class="org.openlegacy.applinx.ApxServerLoader"
-		p:license="classpath:/apx/apx82.xml" p:applicationConfiguration="classpath:/apx/AS400-application.apx" p:serverConfiguration="classpath:/apx/server.apx" />
-	
+		p:license="classpath:/apx/apx82.xml" p:applicationConfiguration="classpath:/apx/MainframeArabic-application.apx" p:serverConfiguration="classpath:/apx/server.apx" />
+
 </beans>
