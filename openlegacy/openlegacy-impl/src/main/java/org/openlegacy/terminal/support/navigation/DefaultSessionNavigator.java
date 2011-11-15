@@ -3,7 +3,7 @@ package org.openlegacy.terminal.support.navigation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenEntityFieldAccessor;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
@@ -14,7 +14,7 @@ import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
-import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 
 import java.text.MessageFormat;
@@ -89,7 +89,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 		Collections.reverse(navigationSteps);
 		ScreenEntity currentEntity = terminalSession.getEntity();
 		for (NavigationDefinition navigationDefinition : navigationSteps) {
-			ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(currentEntity);
+			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 			List<FieldAssignDefinition> assignedFields = navigationDefinition.getAssignedFields();
 			if (logger.isDebugEnabled()) {
 				currentEntityClass = ProxyUtil.getOriginalClass(currentEntity.getClass());

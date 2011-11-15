@@ -1,5 +1,8 @@
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.HostAction;
+import org.openlegacy.terminal.actions.SendKeyClasses;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -21,6 +24,10 @@ public @interface ScreenTable {
 	int startRow();
 
 	int endRow();
+
+	Class<? extends HostAction> nextScreenAction() default SendKeyClasses.UNDEFINED.class;
+
+	Class<? extends HostAction> previousScreenAction() default SendKeyClasses.UNDEFINED.class;
 
 	boolean supportTerminalData() default false;
 

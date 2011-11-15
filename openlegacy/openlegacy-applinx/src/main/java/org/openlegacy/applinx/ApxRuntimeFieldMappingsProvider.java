@@ -25,9 +25,9 @@ public class ApxRuntimeFieldMappingsProvider implements FieldMappingsDefinitionP
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {
+	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntityClass) {
 
-		String screenName = screenEntitiesRegistry.getEntityName(screenEntity);
+		String screenName = screenEntitiesRegistry.getEntityName(screenEntityClass);
 
 		List<FieldMappingDefinition> fieldMappingDefinitions = new ArrayList<FieldMappingDefinition>();
 

@@ -8,6 +8,7 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.terminal.actions.SendKeyClasses;
 import org.openlegacy.terminal.actions.SendKeyClasses.F3;
 
 import java.util.List;
@@ -23,8 +24,14 @@ public class ItemsList {
 
 	private List<ItemsListRow> itemListRows;
 
-	@ScreenTable(startRow = 8, endRow = 19, supportTerminalData = true)
+	@FieldMapping(row = 24, column = 2)
+	private String errorMessage;
+
+	@ScreenTable(startRow = 8, endRow = 19, supportTerminalData = true, nextScreenAction = SendKeyClasses.PAGEDOWN.class)
 	public static class ItemsListRow {
+
+		@ScreenColumn(startColumn = 4, endColumn = 5, editable = true, selectionField = true)
+		private String action;
 
 		@ScreenColumn(startColumn = 65, endColumn = 68, key = true)
 		private String itemNumber;

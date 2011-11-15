@@ -32,9 +32,9 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefiniti
 	@Inject
 	private ApxServerLoader apxServerLoader;
 
-	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {
+	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntityClass) {
 
-		String screenName = screenEntitiesRegistry.getEntityName(screenEntity);
+		String screenName = screenEntitiesRegistry.getEntityName(screenEntityClass);
 		GXIApplicationContext apxApplication = apxServerLoader.getApplication();
 
 		List<FieldMappingDefinition> fieldMappingDefinitions = new ArrayList<FieldMappingDefinition>();

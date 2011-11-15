@@ -4,10 +4,13 @@ import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
+import org.openlegacy.terminal.actions.SendKeyClasses;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
@@ -29,12 +32,19 @@ public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
 		tableDefinition.setStartRow(screenTableAnnotation.startRow());
 		tableDefinition.setEndRow(screenTableAnnotation.endRow());
 
-		populateColumnsMetadata(containingClass, tableDefinition);
+		if (screenTableAnnotation.nextScreenAction() != SendKeyClasses.UNDEFINED.class) {
+			tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));
+		}
+		if (screenTableAnnotation.previousScreenAction() != SendKeyClasses.UNDEFINED.class) {
+			tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));
+		}
+
+		collectColumnsMetadata(containingClass, tableDefinition);
 		screenEntitiesRegistry.addTable(tableDefinition);
 
 	}
 
-	private static void populateColumnsMetadata(Class<?> rowClass, final SimpleTableDefinition tableDefinition) {
+	private static void collectColumnsMetadata(final Class<?> rowClass, final SimpleTableDefinition tableDefinition) {
 		ReflectionUtils.doWithFields(rowClass, new FieldCallback() {
 
 			public void doWith(Field field) {
@@ -49,6 +59,13 @@ public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
 				columnDefinition.setEndColumn(screenColumnAnnotation.endColumn());
 				columnDefinition.setKey(screenColumnAnnotation.key());
 				tableDefinition.getColumnDefinitions().add(columnDefinition);
+
+				if (screenColumnAnnotation.selectionField()) {
+					Assert.isNull(tableDefinition.getRowSelectionDefinition().getSelectionField(),
+							"Table can contain only a single selection field:" + rowClass);
+
+					tableDefinition.getRowSelectionDefinition().setSelectionField(field.getName());
+				}
 			}
 		});
 

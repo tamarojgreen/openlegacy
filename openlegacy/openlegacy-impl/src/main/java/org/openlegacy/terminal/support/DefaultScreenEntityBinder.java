@@ -8,7 +8,7 @@ import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.terminal.FieldComparator;
 import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenEntityFieldAccessor;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
@@ -21,7 +21,7 @@ import org.openlegacy.terminal.spi.ScreenEntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
-import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.aop.framework.ProxyFactory;
@@ -95,7 +95,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 		@SuppressWarnings("unchecked")
 		S screenEntity = (S)createEntity((Class<? extends ScreenEntity>)screenEntityClass);
 
-		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
+		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
 		fieldAccessor.setTerminalScreen(terminalScreen);
 
@@ -138,7 +138,7 @@ public class DefaultScreenEntityBinder implements ScreenEntityBinder {
 
 		String focusField = screenEntity.getFocusField();
 
-		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
+		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
 		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 

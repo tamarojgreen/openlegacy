@@ -11,7 +11,7 @@ public interface HostSession {
 
 	Object getDelegate();
 
-	<T> T getEntity(Class<T> hostEntityClass) throws HostEntityNotFoundException;
+	<T> T getEntity(Class<T> entityClass) throws HostEntityNotFoundException;
 
 	<M extends HostSessionModule> M getModule(Class<M> module);
 

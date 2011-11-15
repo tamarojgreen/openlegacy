@@ -11,7 +11,12 @@ public class SimpleHostActionMapper implements HostActionMapper {
 	private Map<Class<? extends HostAction>, Object> actionMappings = new HashMap<Class<? extends HostAction>, Object>();
 
 	public Object getCommand(Class<? extends HostAction> hostAction) {
-		return actionMappings.get(hostAction);
+		Object command = actionMappings.get(hostAction);
+		if (command != null) {
+			return command;
+		}
+		// support super class as well. DrillDownAction for example
+		return actionMappings.get(hostAction.getSuperclass());
 	}
 
 	public void setActionMappings(Map<Class<? extends HostAction>, Object> actionMappings) {

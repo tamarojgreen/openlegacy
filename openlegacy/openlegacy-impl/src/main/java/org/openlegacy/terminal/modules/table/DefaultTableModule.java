@@ -2,12 +2,15 @@ package org.openlegacy.terminal.modules.table;
 
 import org.openlegacy.HostAction;
 import org.openlegacy.modules.table.Table;
-import org.openlegacy.terminal.ScreenEntityFieldAccessor;
+import org.openlegacy.modules.table.drilldown.DrilldownAction;
+import org.openlegacy.modules.table.drilldown.TableDrilldownPerfomer;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
+import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
-import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
 
 import java.text.MessageFormat;
@@ -27,6 +30,9 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 
 	@SuppressWarnings("unused")
 	private HostAction defaultPreviousScreenAction;
+
+	@Inject
+	private TableDrilldownPerfomer<TerminalSession> tableDrilldownPerfomer;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> List<T> collectAll(Class<?> screenEntityClass, Class<T> rowClass) {
@@ -49,7 +55,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 		}
 
 		if (matchingTableDefinition == null) {
-			throw (new IllegalArgumentException(MessageFormat.format("Could not found table of type {0} in {1}", rowClass,
+			throw (new IllegalArgumentException(MessageFormat.format("Could not find table of type {0} in {1}", rowClass,
 					screenEntityDefintion)));
 		}
 
@@ -61,7 +67,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 		boolean cont = true;
 
 		Object screenEntity = getTerminalSession().getEntity(screenEntityClass);
-		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
+		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
 		while (cont) {
 
@@ -73,7 +79,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 				cont = false;
 			} else {
 				screenEntity = getTerminalSession().doAction(defaultNextScreenAction, null);
-				fieldAccessor = new SimpleScreenEntityFieldAccessor(screenEntity);
+				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
 		}
 
@@ -86,5 +92,11 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 
 	public void setDefaultPreviousScreenAction(Class<? extends HostAction> defaultPreviousScreenAction) {
 		this.defaultPreviousScreenAction = ReflectionUtil.newInstance(defaultPreviousScreenAction);
+	}
+
+	public <T> T drillDown(Class<?> sourceEntityClass, Class<T> targetEntityClass, DrilldownAction drilldownAction,
+			Object... rowKeys) {
+		return tableDrilldownPerfomer.drilldown(getTerminalSession(), sourceEntityClass, targetEntityClass, drilldownAction,
+				rowKeys);
 	}
 }

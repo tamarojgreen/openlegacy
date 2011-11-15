@@ -2,7 +2,7 @@ package org.openlegacy.terminal.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.terminal.ScreenEntityFieldAccessor;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.utils.ProxyUtil;
@@ -10,17 +10,17 @@ import org.springframework.beans.DirectFieldAccessor;
 
 import java.text.MessageFormat;
 
-public class SimpleScreenEntityFieldAccessor implements ScreenEntityFieldAccessor {
+public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 
 	private DirectFieldAccessor directFieldAccessor;
 
 	protected static final String FIELD_SUFFIX = "Field";
 
-	private final static Log logger = LogFactory.getLog(SimpleScreenEntityFieldAccessor.class);
+	private final static Log logger = LogFactory.getLog(SimpleScreenPojoFieldAccessor.class);
 
 	private static final String TERMINAL_SCREEN = "terminalScreen";
 
-	public SimpleScreenEntityFieldAccessor(Object target) {
+	public SimpleScreenPojoFieldAccessor(Object target) {
 		target = ProxyUtil.getTargetObject(target);
 		directFieldAccessor = new DirectFieldAccessor(target);
 	}

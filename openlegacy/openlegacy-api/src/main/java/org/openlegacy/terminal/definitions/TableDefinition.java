@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.HostAction;
+
 import java.util.List;
 
 public interface TableDefinition {
@@ -12,6 +14,16 @@ public interface TableDefinition {
 
 	List<ColumnDefinition> getColumnDefinitions();
 
+	HostAction getNextScreenAction();
+
+	HostAction getPreviousScreenAction();
+
+	List<String> getKeyFieldNames();
+
+	int getMaxRowsCount();
+
+	RowSelectionDefinition getRowSelectionDefinition();
+
 	public interface ColumnDefinition {
 
 		String getName();
@@ -23,4 +35,9 @@ public interface TableDefinition {
 		int getEndColumn();
 	}
 
+	public interface RowSelectionDefinition {
+
+		String getSelectionField();
+
+	}
 }

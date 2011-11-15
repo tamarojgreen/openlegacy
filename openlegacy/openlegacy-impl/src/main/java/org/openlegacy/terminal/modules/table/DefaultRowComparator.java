@@ -1,0 +1,44 @@
+package org.openlegacy.terminal.modules.table;
+
+import org.openlegacy.modules.table.drilldown.RowComparator;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
+import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.springframework.util.Assert;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+/**
+ * Default terminal row comparator implementation. Fetch the given table row definition and it's key fields. If the key fields
+ * values matches the given row POJO field values then a match is declared. False otherwise
+ * 
+ */
+public class DefaultRowComparator implements RowComparator {
+
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	public boolean isRowMatch(Object tableRow, Object... rowKeys) {
+
+		TableDefinition tableDefinition = screenEntitiesRegistry.getTable(tableRow.getClass());
+		List<String> keyFieldNames = tableDefinition.getKeyFieldNames();
+
+		Assert.isTrue(rowKeys.length > 0);
+		Assert.isTrue(keyFieldNames.size() == rowKeys.length);
+
+		ScreenPojoFieldAccessor rowFieldsAccessor = new SimpleScreenPojoFieldAccessor(tableRow);
+
+		int keyCount = 0;
+		for (String keyFieldName : keyFieldNames) {
+			if (!rowFieldsAccessor.getFieldValue(keyFieldName).equals(rowKeys[keyCount].toString())) {
+				return false;
+			}
+			keyCount++;
+		}
+
+		return true;
+	}
+}

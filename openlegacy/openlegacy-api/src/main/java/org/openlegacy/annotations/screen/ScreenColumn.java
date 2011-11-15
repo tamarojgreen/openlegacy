@@ -20,7 +20,11 @@ public @interface ScreenColumn {
 
 	boolean key() default false;
 
+	boolean selectionField() default false;
+
 	int startColumn();
 
 	int endColumn();
+
+	boolean editable() default false;
 }

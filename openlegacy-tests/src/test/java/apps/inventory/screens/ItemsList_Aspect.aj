@@ -19,6 +19,12 @@ privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
     
 	
 	
+	
+    
+
+    public String ItemsList.getErrorMessage(){
+    	return this.errorMessage;
+    }
     
 
     public List<ItemsListRow> ItemsList.getItemListRows(){

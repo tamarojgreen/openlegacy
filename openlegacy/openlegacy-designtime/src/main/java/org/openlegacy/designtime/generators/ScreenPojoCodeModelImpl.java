@@ -57,7 +57,8 @@ public class ScreenPojoCodeModelImpl implements ScreenPojoCodeModel {
 					field.setPrimitiveType(TypesUtil.isPrimitive(fieldDeclaration.getType().toString()));
 					if (fieldAnnotations != null && fieldAnnotations.size() > 0) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
-							if (annotationExpr.getName().getName().equals(AnnotationConstants.FIELD_MAPPING_ANNOTATION)) {
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, AnnotationConstants.FIELD_MAPPING_ANNOTATION,
+									AnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
 								handleFieldMappingAnnotation(fieldDeclaration, annotationExpr, field);
 							}
 						}
@@ -71,7 +72,7 @@ public class ScreenPojoCodeModelImpl implements ScreenPojoCodeModel {
 	}
 
 	private static void handleFieldMappingAnnotation(FieldDeclaration fieldDeclaration, AnnotationExpr annotationExpr, Field field) {
-		String annotationValue = JavaParserUtil.findAnnotationAttribute(annotationExpr, AnnotationConstants.EDITABLE);
+		String annotationValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.EDITABLE);
 		if (AnnotationConstants.TRUE.equals(annotationValue)) {
 			field.setEditable(true);
 		}

@@ -4,6 +4,8 @@
 package apps.inventory.screens;
 
 import java.util.List;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.TerminalField;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
@@ -14,12 +16,25 @@ privileged @SuppressWarnings("unused") aspect ItemsListItemsListRowTable_Aspect 
 	declare @type: ItemsList.ItemsListRow : @Scope("prototype");
     
 	
+    private TerminalField ItemsList.ItemsListRow.actionField;
+	
     private TerminalField ItemsList.ItemsListRow.alphaSearchField;
 	
     private TerminalField ItemsList.ItemsListRow.itemDescriptionField;
 	
     private TerminalField ItemsList.ItemsListRow.itemNumberField;
     
+    public String ItemsList.ItemsListRow.getAction(){
+    	return this.action;
+    }
+    
+    public void ItemsList.ItemsListRow.setAction(String action){
+    	this.action = action;
+    }
+
+    public TerminalField ItemsList.ItemsListRow.getActionField(){
+    	return actionField;
+    }
     public String ItemsList.ItemsListRow.getAlphaSearch(){
     	return this.alphaSearch;
     }
@@ -43,5 +58,14 @@ privileged @SuppressWarnings("unused") aspect ItemsListItemsListRowTable_Aspect 
 
     public TerminalField ItemsList.ItemsListRow.getItemNumberField(){
     	return itemNumberField;
+    }
+
+    public int ItemsList.ItemsListRow.hashCode(){
+		return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    public boolean ItemsList.ItemsListRow.equals(Object other){
+    	// TODO exclude terminal fields
+		return EqualsBuilder.reflectionEquals(this,other);
     }
 }

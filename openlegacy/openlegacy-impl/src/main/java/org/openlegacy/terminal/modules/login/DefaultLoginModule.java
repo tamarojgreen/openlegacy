@@ -7,14 +7,14 @@ import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenEntityFieldAccessor;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
-import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 
@@ -56,7 +56,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 		try {
 			ScreenEntity loginEntity = (ScreenEntity)loginCache.getLoginScreenDefinition().getEntityClass().newInstance();
-			ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(loginEntity);
+			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 			fieldAccessor.setFieldValue(loginCache.getUserField().getName(), user);
 			fieldAccessor.setFieldValue(loginCache.getPasswordField().getName(), password);
 			login(loginEntity);
@@ -81,7 +81,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 					+ registryLoginClass));
 		}
 
-		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(loginEntity);
+		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 		String user = (String)fieldAccessor.getFieldValue(loginCache.getUserField().getName());
 
 		Object currentEntity = getTerminalSession().doAction(loginHostAction, loginEntity);
@@ -92,7 +92,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 			logger.debug(MessageFormat.format("After performing login action current entity is:{0}", currentEntityClass));
 		}
 
-		fieldAccessor = new SimpleScreenEntityFieldAccessor(currentEntity);
+		fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 
 		// throw exception if after login screen is still login
 		if (ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {

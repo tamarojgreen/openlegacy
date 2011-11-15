@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.support.providers;
 
-import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
@@ -11,7 +10,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 /**
- * A ChildScreensDefinitionProvider based on open legacy @ChildScreenEntity annotation kept in ScreenEntitiesRegistry
+ * A table definition provider based on open legacy @ScreenTable annotation
  * 
  */
 public class RegistryBasedTablesDefinitionProvider implements TablesDefinitionProvider {
@@ -19,7 +18,7 @@ public class RegistryBasedTablesDefinitionProvider implements TablesDefinitionPr
 	@Inject
 	private DefaultScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public Map<String, TableDefinition> getTableDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity) {
+	public Map<String, TableDefinition> getTableDefinitions(Class<?> screenEntity) {
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);
 		return screenEntityDefinition.getTableDefinitions();
 	}

@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support.injectors;
 
 import org.openlegacy.FieldFormatter;
-import org.openlegacy.terminal.ScreenEntityFieldAccessor;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
@@ -10,7 +10,7 @@ import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
-import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
@@ -31,10 +31,9 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 	@Inject
 	private ApplicationContext applicationContext;
 
-	public void inject(ScreenEntityFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen) {
+	public void inject(ScreenPojoFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen) {
 
-		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(terminalScreen,
-				screenEntityClass);
+		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(screenEntityClass);
 
 		Set<String> tableFieldNames = tableDefinitions.keySet();
 
@@ -49,7 +48,7 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 			for (int currentRow = startRow; currentRow <= endRow; currentRow++) {
 
 				Object row = applicationContext.getBean(tableDefinition.getTableClass());
-				ScreenEntityFieldAccessor rowAccessor = new SimpleScreenEntityFieldAccessor(row);
+				ScreenPojoFieldAccessor rowAccessor = new SimpleScreenPojoFieldAccessor(row);
 
 				boolean keyIsEmpty = false;
 

@@ -21,7 +21,29 @@
 	</bean>
 	<bean class="org.openlegacy.terminal.support.ScreenEntityMethodInterceptor" scope="session"/>
 	
-	<bean id="terminalSessionModules" class="org.openlegacy.support.HostSessionModules" scope="session" />
+	<bean id="terminalSessionModules" class="org.openlegacy.support.HostSessionModules" scope="session">
+		<property name="modules">
+			<list>
+				<bean
+					class="org.openlegacy.terminal.modules.trail.TerminalSessionTrailModuleImpl">
+					<property name="sessionTrail">
+						<bean class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrail"
+							p:historyCount="5" />
+					</property>
+				</bean>
+				<bean class="org.openlegacy.terminal.modules.login.DefaultLoginModule"
+					p:loginHostAction="org.openlegacy.terminal.actions.SendKeyClasses.ENTER"
+					p:defaultExitAction="org.openlegacy.terminal.actions.SendKeyClasses.F3"
+					p:maxActionsToLogin="5" />
+				<bean class="org.openlegacy.terminal.modules.table.DefaultTableModule"
+					p:defaultPreviousScreenAction="org.openlegacy.terminal.actions.SendKeyClasses.PAGEUP"
+					p:defaultNextScreenAction="org.openlegacy.terminal.actions.SendKeyClasses.PAGEDOWN" />
+				<bean
+					class="org.openlegacy.terminal.modules.navigation.DefaultNavigationModule"
+					p:sessionNavigator-ref="sessionNavigator" />
+			</list>
+		</property>
+	</bean>
 	
 	<!-- Open legacy default beans -->
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry" />
@@ -39,6 +61,8 @@
 	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityFieldsInjector"/>
 	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityTablesInjector"/>
 	<bean class="org.openlegacy.terminal.support.injectors.ScreenEntityPartsInjector"/>
+
+	<import resource="classpath:/META-INF/openlegacy-tables-context.xml" /> 
 	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-provider.xml" /> 

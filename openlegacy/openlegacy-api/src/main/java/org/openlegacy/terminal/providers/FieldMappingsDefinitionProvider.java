@@ -11,6 +11,6 @@ import java.util.Collection;
  */
 public interface FieldMappingsDefinitionProvider extends DefinitionsProvider {
 
-	Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntity);
+	Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntityClass);
 
 }

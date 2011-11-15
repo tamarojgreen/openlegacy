@@ -11,6 +11,9 @@ public class SendKeyClasses {
 	public static class SimpleHostAction implements HostAction {
 	}
 
+	public static class UNDEFINED extends SimpleHostAction {
+	}
+
 	public static class ENTER extends SimpleHostAction {
 	}
 

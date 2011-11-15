@@ -8,7 +8,7 @@ import java.util.List;
 
 public class JavaParserUtil {
 
-	public static String findAnnotationAttribute(AnnotationExpr annotation, String attributeName) {
+	public static String getAnnotationValue(AnnotationExpr annotation, String attributeName) {
 		if (!(annotation instanceof NormalAnnotationExpr)) {
 			return null;
 		}
@@ -21,4 +21,14 @@ public class JavaParserUtil {
 		return null;
 
 	}
+
+	public static boolean isOneOfAnnotationsPresent(AnnotationExpr annotation, String... annotationNames) {
+		for (String annotationName : annotationNames) {
+			if (annotation.getName().getName().equals(annotationName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

@@ -4,11 +4,11 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.terminal.ScreenEntityFieldAccessor;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.utils.SimpleScreenEntityFieldAccessor;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
 
@@ -32,7 +32,7 @@ public class ScreenEntityMethodInterceptor implements MethodInterceptor {
 		String fieldName = PropertyUtil.getPropertyNameIfGetter(invocation.getMethod().getName());
 
 		Object target = invocation.getThis();
-		ScreenEntityFieldAccessor fieldAccessor = new SimpleScreenEntityFieldAccessor(target);
+		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(target);
 
 		if (!fieldAccessor.isExists(fieldName)) {
 			return invocation.proceed();
