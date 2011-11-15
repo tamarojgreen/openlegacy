@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.support;
 
+import org.aopalliance.intercept.Interceptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.CustomHostAction;
@@ -8,16 +9,19 @@ import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.modules.HostSessionModule;
 import org.openlegacy.support.AbstractHostSession;
+import org.openlegacy.terminal.HostActionMapper;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
-import org.openlegacy.terminal.exceptions.ScreenEntityNotFoundException;
-import org.openlegacy.terminal.spi.ScreenEntityBinder;
+import org.openlegacy.terminal.spi.EntityBinder;
+import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.ScreenPainter;
+import org.openlegacy.utils.ProxyUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -32,7 +36,7 @@ import javax.inject.Inject;
 public class DefaultTerminalSession extends AbstractHostSession implements TerminalSession {
 
 	@Inject
-	private ScreenEntityBinder screenEntityBinder;
+	private EntityBinder<TerminalScreen, TerminalSendAction> screenEntityBinder;
 
 	private TerminalConnectionDelegator terminalConnection;
 
@@ -41,47 +45,56 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	@Inject
 	private SessionNavigator sessionNavigator;
 
+	@Inject
+	private ScreensRecognizer screensRecognizer;
+
+	@Inject
+	private ApplicationContext applicationContext;
+
+	@Inject
+	private HostActionMapper hostActionMapper;
+
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
 
 	@SuppressWarnings("unchecked")
-	public <T> T getEntity(Class<T> screenEntityClass) throws HostEntityNotFoundException {
+	public <S> S getEntity(Class<S> screenEntityClass) throws HostEntityNotFoundException {
 
 		// check if the entity matched the cached entity
-		if (entity == null || entity.getClass() != screenEntityClass) {
+		if (entity == null || !ProxyUtil.isClassesMatch(entity.getClass(), screenEntityClass)) {
 			sessionNavigator.navigate(this, screenEntityClass);
 
 			TerminalScreen terminalScreen = getSnapshot();
 
-			entity = (ScreenEntity)screenEntityBinder.buildScreenEntity(screenEntityClass, terminalScreen);
-			if (entity == null) {
-				throw (new ScreenEntityNotFoundException(MessageFormat.format("Screen entity class {0} not matched",
-						screenEntityClass)));
-			}
+			Interceptor interceptor = applicationContext.getBean(ScreenEntityMethodInterceptor.class);
+			ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(screenEntityClass, ScreenEntity.class,
+					interceptor);
+
+			screenEntityBinder.populateEntity(screenEntity, terminalScreen);
+			entity = screenEntity;
 		}
-		return (T)entity;
+		return (S)entity;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <S extends ScreenEntity> S getEntity() {
 		if (entity == null) {
 			TerminalScreen hostScreen = getSnapshot();
-			entity = screenEntityBinder.buildScreenEntity(hostScreen);
-			if (entity == null) {
+
+			Class<?> matchedScreenEntity = screensRecognizer.match(hostScreen);
+			if (matchedScreenEntity == null) {
 				return null;
 			}
+
+			entity = (S)getEntity(matchedScreenEntity);
 		}
 		return (S)entity;
-	}
-
-	public Object doAction(HostAction hostAction, ScreenEntity screenEntity) {
-		return doActionInner(hostAction, screenEntity);
 	}
 
 	public <S extends ScreenEntity, T extends ScreenEntity> T doAction(HostAction hostAction, S screenEntity,
 			Class<T> expectedEntity) {
 		try {
 			@SuppressWarnings("unchecked")
-			T object = (T)doActionInner(hostAction, screenEntity);
+			T object = (T)doAction(hostAction, screenEntity);
 			return object;
 		} catch (ClassCastException e) {
 			throw (new ScreenEntityNotAccessibleException(e));
@@ -89,25 +102,28 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	}
 
-	private Object doActionInner(HostAction hostAction, ScreenEntity screenEntity) {
+	public Object doAction(HostAction hostAction, ScreenEntity screenEntity) {
 
 		entity = null;
 
 		if (hostAction instanceof CustomHostAction) {
 			((CustomHostAction)hostAction).perform(this);
 		} else {
-			TerminalSendAction terminalSendAction = screenEntityBinder.buildSendAction(getSnapshot(), hostAction, screenEntity);
+			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(
+					hostActionMapper.getCommand(hostAction.getClass()), null);
+
+			screenEntityBinder.populateSendAction(sendAction, getSnapshot(), hostAction, screenEntity);
 
 			if (logger.isTraceEnabled()) {
 				TerminalScreen snapshot = terminalConnection.getSnapshot();
-				logger.trace(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", terminalSendAction.getCommand(),
-						terminalSendAction.getCursorPosition()));
+				logger.trace(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
+						sendAction.getCursorPosition()));
 				logger.trace("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
-						+ ScreenPainter.paint(snapshot, terminalSendAction, true));
+						+ ScreenPainter.paint(snapshot, sendAction, true));
 			}
 
-			notifyModulesBeforeSend(terminalSendAction);
-			terminalConnection.doAction(terminalSendAction);
+			notifyModulesBeforeSend(sendAction);
+			terminalConnection.doAction(sendAction);
 			notifyModulesAfterSend();
 
 			if (logger.isTraceEnabled()) {

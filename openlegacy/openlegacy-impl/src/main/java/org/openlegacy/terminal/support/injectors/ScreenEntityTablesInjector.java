@@ -31,9 +31,11 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 	@Inject
 	private ApplicationContext applicationContext;
 
-	public void inject(ScreenPojoFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen) {
+	public void inject(Object screenEntity, TerminalScreen terminalScreen) {
 
-		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(screenEntityClass);
+		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
+
+		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(screenEntity.getClass());
 
 		Set<String> tableFieldNames = tableDefinitions.keySet();
 

@@ -2,8 +2,10 @@ package org.openlegacy.utils;
 
 import net.sf.cglib.proxy.Enhancer;
 
+import org.aopalliance.intercept.Interceptor;
 import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.framework.Advised;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.util.Assert;
 
 public class ProxyUtil {
@@ -41,5 +43,16 @@ public class ProxyUtil {
 		classB = getOriginalClass(classB);
 
 		return (classA == classB);
+	}
+
+	public static Object createPojoProxy(Class<?> entityClass, Class<?> entityInterface, Interceptor interceptor) {
+		Object entity = ReflectionUtil.newInstance(entityClass);
+		ProxyFactory proxyFactory = new ProxyFactory(entityInterface, interceptor);
+
+		proxyFactory.setTarget(entity);
+		proxyFactory.setProxyTargetClass(true);
+		Object entityProxy = proxyFactory.getProxy();
+
+		return entityProxy;
 	}
 }

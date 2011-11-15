@@ -6,6 +6,7 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 
 import java.util.Collection;
 
@@ -19,11 +20,11 @@ public class ScreenEntityFieldsInjector implements ScreenEntityDataInjector {
 	@Inject
 	private FieldFormatter fieldFormatter;
 
-	public void inject(ScreenPojoFieldAccessor fieldAccessor, Class<?> screenEntityClass, TerminalScreen terminalScreen) {
+	public void inject(Object screenEntity, TerminalScreen terminalScreen) {
 
 		Collection<FieldMappingDefinition> fieldMappingDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
-				terminalScreen, screenEntityClass);
-
+				terminalScreen, screenEntity.getClass());
+		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 		InjectorUtil.injectFields(fieldAccessor, terminalScreen, fieldMappingDefinitions, fieldFormatter);
 	}
 

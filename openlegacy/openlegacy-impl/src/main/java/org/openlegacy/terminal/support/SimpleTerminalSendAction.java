@@ -4,16 +4,16 @@ import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleTerminalSendAction implements TerminalSendAction {
 
-	private List<TerminalField> modifiedFields;
+	private List<TerminalField> modifiedFields = new ArrayList<TerminalField>();
 	private Object command;
 	private ScreenPosition cursorPosition;
 
-	public SimpleTerminalSendAction(List<TerminalField> modifiedFields, Object command, ScreenPosition cursorPosition) {
-		this.modifiedFields = modifiedFields;
+	public SimpleTerminalSendAction(Object command, ScreenPosition cursorPosition) {
 		this.command = command;
 		this.cursorPosition = cursorPosition;
 	}
