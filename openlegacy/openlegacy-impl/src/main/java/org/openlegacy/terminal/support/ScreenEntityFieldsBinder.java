@@ -3,7 +3,7 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.HostAction;
+import org.openlegacy.FieldFormatter;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.terminal.FieldComparator;
 import org.openlegacy.terminal.ScreenEntity;
@@ -14,12 +14,13 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.exceptions.SendActionException;
-import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
-import org.openlegacy.terminal.spi.EntityBinder;
 import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.support.binders.InjectorUtil;
+import org.openlegacy.terminal.support.binders.ScreenEntityBinder;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
@@ -33,18 +34,19 @@ import javax.inject.Inject;
  * screenEntity
  * 
  */
-public class DefaultScreenEntityBinder implements EntityBinder<TerminalScreen, TerminalSendAction> {
+@Component
+public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 
 	@Inject
 	private FieldMappingsDefinitionProvider fieldMappingsProvider;
 
 	@Inject
-	private List<ScreenEntityDataInjector> screenEntityDataInjectors;
-
-	@Inject
 	private FieldComparator fieldComparator;
 
-	private final static Log logger = LogFactory.getLog(DefaultScreenEntityBinder.class);
+	@Inject
+	private FieldFormatter fieldFormatter;
+
+	private final static Log logger = LogFactory.getLog(ScreenEntityFieldsBinder.class);
 
 	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
 			ScreenEntityNotAccessibleException {
@@ -53,14 +55,12 @@ public class DefaultScreenEntityBinder implements EntityBinder<TerminalScreen, T
 
 		fieldAccessor.setTerminalScreen(terminalScreen);
 
-		for (ScreenEntityDataInjector screenEntityDataInjector : screenEntityDataInjectors) {
-			screenEntityDataInjector.inject(screenEntity, terminalScreen);
-		}
-
+		Collection<FieldMappingDefinition> fieldMappingDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
+				terminalScreen, screenEntity.getClass());
+		InjectorUtil.injectFields(fieldAccessor, terminalScreen, fieldMappingDefinitions, fieldFormatter);
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen terminalScreen, HostAction hostAction,
-			Object entity) {
+	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen terminalScreen, Object entity) {
 
 		if (entity == null) {
 			return;

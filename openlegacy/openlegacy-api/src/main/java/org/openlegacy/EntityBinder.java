@@ -1,6 +1,5 @@
-package org.openlegacy.terminal.spi;
+package org.openlegacy;
 
-import org.openlegacy.HostAction;
 import org.openlegacy.SendAction;
 import org.openlegacy.Snapshot;
 
@@ -12,6 +11,6 @@ public interface EntityBinder<S extends Snapshot, A extends SendAction> {
 
 	void populateEntity(Object entity, S snapshot);
 
-	void populateSendAction(A sendAction, S snapshot, HostAction hostAction, Object entity);
+	void populateSendAction(A sendAction, S snapshot, Object entity);
 
 }

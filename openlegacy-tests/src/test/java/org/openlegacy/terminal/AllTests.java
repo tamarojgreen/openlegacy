@@ -12,12 +12,12 @@ import org.openlegacy.terminal.modules.navigation.DefaultNavigationModuleTest;
 import org.openlegacy.terminal.modules.trail.XmlTrailWriterTest;
 import org.openlegacy.terminal.support.DefaultSessionNavigatorTest;
 import org.openlegacy.terminal.support.DefaultTerminalSessionTest;
-import org.openlegacy.terminal.support.injectors.ScreenEntityTablesInjectorTest;
+import org.openlegacy.terminal.support.binders.ScreenEntityTablesBinderTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ DefaultScreenEntityBinderTest.class, RecognizersSuite.class, ApxSuite.class, XmlTrailWriterTest.class,
 		DefaultLoginModuleTest.class, DefaultLoginModuleFailedTest.class, DefaultTerminalSessionTest.class,
-		DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, ScreenEntityTablesInjectorTest.class,
+		DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, ScreenEntityTablesBinderTest.class,
 		DefaultNavigationModuleTest.class })
 public class AllTests {
 

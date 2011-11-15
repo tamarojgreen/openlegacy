@@ -1,14 +1,15 @@
-package org.openlegacy.terminal.support.injectors;
+package org.openlegacy.terminal.support.binders;
 
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
-import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Map;
@@ -16,7 +17,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-public class ScreenEntityPartsInjector implements ScreenEntityDataInjector {
+@Component
+public class ScreenEntityPartsBinder implements ScreenEntityBinder {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
@@ -24,7 +26,7 @@ public class ScreenEntityPartsInjector implements ScreenEntityDataInjector {
 	@Inject
 	private FieldFormatter fieldFormatter;
 
-	public void inject(Object screenEntity, TerminalScreen terminalScreen) {
+	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) {
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
@@ -45,6 +47,11 @@ public class ScreenEntityPartsInjector implements ScreenEntityDataInjector {
 
 	public void setFieldFormatter(FieldFormatter fieldFormatter) {
 		this.fieldFormatter = fieldFormatter;
+	}
+
+	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen snapshot, Object entity) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

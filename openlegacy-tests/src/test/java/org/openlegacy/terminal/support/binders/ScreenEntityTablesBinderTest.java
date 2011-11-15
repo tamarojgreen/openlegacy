@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.support.injectors;
+package org.openlegacy.terminal.support.binders;
 
 import apps.inventory.screens.ItemsList;
 import apps.inventory.screens.ItemsList.ItemsListRow;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ScreenEntityTablesInjectorTest extends AbstractTest {
+public class ScreenEntityTablesBinderTest extends AbstractTest {
 
 	@Test
 	public void testTableCreation() {

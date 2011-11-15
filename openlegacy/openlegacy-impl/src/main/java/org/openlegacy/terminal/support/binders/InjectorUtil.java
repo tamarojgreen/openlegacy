@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.support.injectors;
+package org.openlegacy.terminal.support.binders;
 
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;

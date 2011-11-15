@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.support.injectors;
+package org.openlegacy.terminal.support.binders;
 
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -7,11 +7,12 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
-import org.openlegacy.terminal.injectors.ScreenEntityDataInjector;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
+@Component
+public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
@@ -31,7 +33,7 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 	@Inject
 	private ApplicationContext applicationContext;
 
-	public void inject(Object screenEntity, TerminalScreen terminalScreen) {
+	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) {
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
@@ -83,5 +85,10 @@ public class ScreenEntityTablesInjector implements ScreenEntityDataInjector {
 
 	public void setFieldFormatter(FieldFormatter fieldFormatter) {
 		this.fieldFormatter = fieldFormatter;
+	}
+
+	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen snapshot, Object entity) {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -15,16 +15,17 @@ import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
-import org.openlegacy.terminal.spi.EntityBinder;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.support.binders.ScreenEntityBinder;
 import org.openlegacy.terminal.utils.ScreenPainter;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.context.ApplicationContext;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,7 +37,7 @@ import javax.inject.Inject;
 public class DefaultTerminalSession extends AbstractHostSession implements TerminalSession {
 
 	@Inject
-	private EntityBinder<TerminalScreen, TerminalSendAction> screenEntityBinder;
+	private List<ScreenEntityBinder> screenEntityBinders;
 
 	private TerminalConnectionDelegator terminalConnection;
 
@@ -69,7 +70,10 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 			ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(screenEntityClass, ScreenEntity.class,
 					interceptor);
 
-			screenEntityBinder.populateEntity(screenEntity, terminalScreen);
+			for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
+				screenEntityBinder.populateEntity(screenEntity, terminalScreen);
+			}
+
 			entity = screenEntity;
 		}
 		return (S)entity;
@@ -112,7 +116,9 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(
 					hostActionMapper.getCommand(hostAction.getClass()), null);
 
-			screenEntityBinder.populateSendAction(sendAction, getSnapshot(), hostAction, screenEntity);
+			for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
+				screenEntityBinder.populateSendAction(sendAction, getSnapshot(), screenEntity);
+			}
 
 			if (logger.isTraceEnabled()) {
 				TerminalScreen snapshot = terminalConnection.getSnapshot();
