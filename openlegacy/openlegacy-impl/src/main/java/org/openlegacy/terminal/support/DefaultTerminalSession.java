@@ -116,8 +116,10 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(
 					hostActionMapper.getCommand(hostAction.getClass()), null);
 
-			for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
-				screenEntityBinder.populateSendAction(sendAction, getSnapshot(), screenEntity);
+			if (screenEntity != null) {
+				for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
+					screenEntityBinder.populateSendAction(sendAction, getSnapshot(), screenEntity);
+				}
 			}
 
 			if (logger.isTraceEnabled()) {

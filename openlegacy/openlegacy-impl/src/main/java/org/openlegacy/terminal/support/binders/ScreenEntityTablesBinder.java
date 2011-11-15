@@ -13,6 +13,7 @@ import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,8 +88,42 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 		this.fieldFormatter = fieldFormatter;
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen snapshot, Object entity) {
-		// TODO Auto-generated method stub
+	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen terminalScreen, Object entity) {
+		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(entity);
+
+		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(entity.getClass());
+
+		Set<String> tableFieldNames = tableDefinitions.keySet();
+
+		for (String tableFieldName : tableFieldNames) {
+			TableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
+			List<?> rows = (List<?>)fieldAccessor.getFieldValue(tableFieldName);
+
+			int rowCount = 0;
+			for (Object row : rows) {
+				List<ColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
+				fieldAccessor = new SimpleScreenPojoFieldAccessor(row);
+				for (ColumnDefinition columnDefinition : columnDefinitions) {
+					if (columnDefinition.isEditable()) {
+						Object value = fieldAccessor.getFieldValue(columnDefinition.getName());
+						if (value == null) {
+							continue;
+						}
+						String valueString = value.toString();
+						if (StringUtils.hasLength(valueString)) {
+							int screenRow = tableDefinition.getStartRow() + rowCount;
+							TerminalField terminalField = terminalScreen.getField(SimpleScreenPosition.newInstance(screenRow,
+									columnDefinition.getStartColumn()));
+							terminalField.setValue(valueString);
+							sendAction.getModifiedFields().add(terminalField);
+						}
+					}
+
+				}
+				rowCount++;
+			}
+
+		}
 
 	}
 }

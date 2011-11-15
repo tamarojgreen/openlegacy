@@ -58,6 +58,7 @@ public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
 				columnDefinition.setStartColumn(screenColumnAnnotation.startColumn());
 				columnDefinition.setEndColumn(screenColumnAnnotation.endColumn());
 				columnDefinition.setKey(screenColumnAnnotation.key());
+				columnDefinition.setEditable(screenColumnAnnotation.editable());
 				tableDefinition.getColumnDefinitions().add(columnDefinition);
 
 				if (screenColumnAnnotation.selectionField()) {

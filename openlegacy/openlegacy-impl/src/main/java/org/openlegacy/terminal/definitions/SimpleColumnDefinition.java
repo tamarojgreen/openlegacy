@@ -9,6 +9,7 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 	private int endColumn;
 
 	private boolean key;
+	private boolean editable;
 
 	public SimpleColumnDefinition(String name) {
 		this.name = name;
@@ -40,5 +41,13 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 
 	public void setKey(boolean key) {
 		this.key = key;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 }

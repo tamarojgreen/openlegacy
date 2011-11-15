@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.support;
+package org.openlegacy.terminal.support.binders;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -16,8 +16,6 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.exceptions.SendActionException;
 import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.terminal.support.binders.InjectorUtil;
-import org.openlegacy.terminal.support.binders.ScreenEntityBinder;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Component;

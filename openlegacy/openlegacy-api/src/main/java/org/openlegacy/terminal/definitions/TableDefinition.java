@@ -14,6 +14,8 @@ public interface TableDefinition {
 
 	List<ColumnDefinition> getColumnDefinitions();
 
+	ColumnDefinition getColumnDefinition(String fieldName);
+
 	HostAction getNextScreenAction();
 
 	HostAction getPreviousScreenAction();
@@ -33,6 +35,8 @@ public interface TableDefinition {
 		int getStartColumn();
 
 		int getEndColumn();
+
+		boolean isEditable();
 	}
 
 	public interface RowSelectionDefinition {

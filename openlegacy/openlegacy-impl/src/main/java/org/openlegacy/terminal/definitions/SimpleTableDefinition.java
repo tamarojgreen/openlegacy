@@ -93,4 +93,13 @@ public class SimpleTableDefinition implements TableDefinition {
 			this.selectionField = selectionField;
 		}
 	}
+
+	public ColumnDefinition getColumnDefinition(String fieldName) {
+		for (ColumnDefinition columnDefinition : columnDefinitions) {
+			if (columnDefinition.getName().equals(fieldName)) {
+				return columnDefinition;
+			}
+		}
+		return null;
+	}
 }
