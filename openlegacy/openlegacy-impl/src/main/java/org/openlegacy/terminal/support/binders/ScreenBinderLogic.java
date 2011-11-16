@@ -71,8 +71,8 @@ public class ScreenBinderLogic {
 						modifiedfields.add(terminalField);
 						if (logger.isDebugEnabled()) {
 							logger.debug(MessageFormat.format(
-									"Field {0} was set with value \"{1}\" to send fields for screen entity {2}", fieldName,
-									value, screenPojo));
+									"Field {0} was set with value \"{1}\" to send fields for screen {2}", fieldName, value,
+									screenPojo.getClass()));
 						}
 					} else {
 						throw (new SendActionException(MessageFormat.format(

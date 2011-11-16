@@ -2,6 +2,7 @@ package org.openlegacy.terminal.support.navigation;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.openlegacy.SessionModuleMetadata;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.springframework.stereotype.Component;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class NavigationCache {
+public class NavigationMetadata implements SessionModuleMetadata {
 
 	private Map<SourceTarget, List<NavigationDefinition>> navigationCache = new HashMap<SourceTarget, List<NavigationDefinition>>();
 

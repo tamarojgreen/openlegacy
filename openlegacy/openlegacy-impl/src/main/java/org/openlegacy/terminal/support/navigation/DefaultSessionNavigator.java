@@ -33,7 +33,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 	private ScreensRecognizer screensRecognizer;
 
 	@Inject
-	private NavigationCache navigationCache;
+	private NavigationMetadata navigationCache;
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 

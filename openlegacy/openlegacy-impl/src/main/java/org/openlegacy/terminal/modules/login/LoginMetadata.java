@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.modules.login;
 
+import org.openlegacy.SessionModuleMetadata;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.inject.Inject;
 
 @Component
-public class LoginMetadata {
+public class LoginMetadata implements SessionModuleMetadata {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

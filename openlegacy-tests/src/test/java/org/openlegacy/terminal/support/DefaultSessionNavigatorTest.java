@@ -10,7 +10,7 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.support.navigation.NavigationCache;
+import org.openlegacy.terminal.support.navigation.NavigationMetadata;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,7 +23,7 @@ import junit.framework.Assert;
 public class DefaultSessionNavigatorTest extends AbstractTest {
 
 	@Inject
-	private NavigationCache navigationCache;
+	private NavigationMetadata navigationCache;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
