@@ -1,15 +1,9 @@
 package org.openlegacy.terminal.support.binders;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openlegacy.FieldFormatter;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
-import org.openlegacy.terminal.FieldComparator;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
@@ -23,7 +17,6 @@ import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,12 +32,7 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 	private FieldMappingsDefinitionProvider fieldMappingsProvider;
 
 	@Inject
-	private FieldComparator fieldComparator;
-
-	@Inject
-	private FieldFormatter fieldFormatter;
-
-	private final static Log logger = LogFactory.getLog(ScreenEntityFieldsBinder.class);
+	private ScreenBinderLogic screenBinderLogic;
 
 	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
 			ScreenEntityNotAccessibleException {
@@ -55,7 +43,7 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 
 		Collection<FieldMappingDefinition> fieldMappingDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
 				terminalScreen, screenEntity.getClass());
-		InjectorUtil.injectFields(fieldAccessor, terminalScreen, fieldMappingDefinitions, fieldFormatter);
+		screenBinderLogic.populatedFields(fieldAccessor, terminalScreen, fieldMappingDefinitions);
 	}
 
 	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen terminalScreen, Object entity) {
@@ -75,50 +63,12 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 			return;
 		}
 
-		List<TerminalField> modifiedfields = sendAction.getModifiedFields();
+		screenBinderLogic.populateSendAction(sendAction, terminalScreen, screenEntity, fieldMappingsDefinitions);
 
-		String focusField = screenEntity.getFocusField();
-
-		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
-
-		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
-
-			ScreenPosition fieldPosition = fieldMappingDefinition.getScreenPosition();
-			String fieldName = fieldMappingDefinition.getName();
-			Object value = fieldAccessor.getFieldValue(fieldName);
-
-			TerminalField terminalField = terminalScreen.getField(fieldPosition);
-			if (value != null) {
-				boolean fieldModified = fieldComparator.isFieldModified(screenEntity, fieldName, terminalField.getValue(), value);
-				if (fieldModified) {
-					if (fieldMappingDefinition.isEditable()) {
-						terminalField.setValue(value.toString());
-						modifiedfields.add(terminalField);
-						if (logger.isDebugEnabled()) {
-							logger.debug(MessageFormat.format(
-									"Field {0} was set with value \"{1}\" to send fields for screen entity {2}", fieldName,
-									value, screenEntity));
-						}
-					} else {
-						throw (new SendActionException(MessageFormat.format(
-								"Field {0} in screen {1} was modified with value {2}, but is not defined as editable", fieldName,
-								screenEntity, value)));
-
-					}
-				}
-			}
-			if (fieldName.equals(focusField)) {
-				sendAction.setCursorPosition(fieldPosition);
-				if (logger.isDebugEnabled()) {
-					logger.debug(MessageFormat.format("Cursor was set at position {0} from field {1}", fieldPosition, focusField));
-				}
-			}
-
-		}
-
-		if (!StringUtils.isEmpty(focusField) && sendAction.getCursorPosition() == null) {
-			throw (new SendActionException(MessageFormat.format("Cursor field {0} was not found in screen {1}", focusField,
-					ProxyUtil.getOriginalClass(screenEntity.getClass()))));
+		if (!StringUtils.isEmpty(screenEntity.getFocusField()) && sendAction.getCursorPosition() == null) {
+			throw (new SendActionException(MessageFormat.format("Cursor field {0} was not found in screen {1}",
+					screenEntity.getFocusField(), ProxyUtil.getOriginalClass(screenEntity.getClass()))));
 		}
 	}
+
 }

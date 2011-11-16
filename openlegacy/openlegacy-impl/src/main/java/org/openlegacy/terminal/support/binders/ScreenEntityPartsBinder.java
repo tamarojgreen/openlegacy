@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.support.binders;
 
-import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
@@ -24,7 +23,7 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder {
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Inject
-	private FieldFormatter fieldFormatter;
+	private ScreenBinderLogic screenBinderLogic;
 
 	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) {
 
@@ -37,20 +36,27 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder {
 			Object partObject = ReflectionUtil.newInstance(screenPartEntityDefinition.getPartClass());
 			fieldAccessor.setFieldValue(fieldPartName, partObject);
 
-			fieldAccessor = new SimpleScreenPojoFieldAccessor(partObject);
+			SimpleScreenPojoFieldAccessor partFieldAccessor = new SimpleScreenPojoFieldAccessor(partObject);
 
 			Collection<FieldMappingDefinition> fieldMappingDefinitions = screenPartEntityDefinition.getFieldsDefinitions().values();
-			InjectorUtil.injectFields(fieldAccessor, terminalScreen, fieldMappingDefinitions, fieldFormatter);
+			screenBinderLogic.populatedFields(partFieldAccessor, terminalScreen, fieldMappingDefinitions);
 		}
 
 	}
 
-	public void setFieldFormatter(FieldFormatter fieldFormatter) {
-		this.fieldFormatter = fieldFormatter;
-	}
+	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen terminalScreen, Object entity) {
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen snapshot, Object entity) {
-		// TODO Auto-generated method stub
+		Map<String, ScreenPartEntityDefinition> partsDefinitions = screenEntitiesRegistry.get(entity.getClass()).getPartsDefinitions();
+
+		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(entity);
+
+		Set<String> fieldPartNames = partsDefinitions.keySet();
+		for (String fieldPartName : fieldPartNames) {
+			ScreenPartEntityDefinition screenPartEntityDefinition = partsDefinitions.get(fieldPartName);
+			Object screenPart = fieldAccessor.getFieldValue(fieldPartName);
+			screenBinderLogic.populateSendAction(sendAction, terminalScreen, screenPart,
+					screenPartEntityDefinition.getFieldsDefinitions().values());
+		}
 
 	}
 

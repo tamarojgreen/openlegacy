@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
+import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -57,6 +58,14 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 		// make sure no extra fetch is made
 		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
 
+		itemDetails1.getItemDetails2().getStockInfo().setListPrice("10");
+		itemDetails1.getItemDetails2().getStockInfo().setStandardUnitCost("1");
+
+		try {
+			terminalSession.doAction(SendKeyActions.ENTER, itemDetails1.getItemDetails2());
+		} catch (SessionEndedException e) {
+			// ok
+		}
 	}
 
 }

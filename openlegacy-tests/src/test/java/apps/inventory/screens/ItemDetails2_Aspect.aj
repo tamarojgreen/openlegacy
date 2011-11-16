@@ -19,6 +19,7 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     
 	
 	
+	
     
 
     public AuditDetails ItemDetails2.getAuditDetails(){
@@ -28,6 +29,11 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
 
     public String ItemDetails2.getItemNumber(){
     	return this.itemNumber;
+    }
+    
+
+    public StockInfo ItemDetails2.getStockInfo(){
+    	return this.stockInfo;
     }
     
 
