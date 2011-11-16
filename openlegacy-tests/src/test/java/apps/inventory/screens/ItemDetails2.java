@@ -19,6 +19,8 @@ public class ItemDetails2 {
 
 	private AuditDetails auditDetails;
 
+	private StockInfo stockInfo;
+
 	@ScreenPart(supportTerminalData = true)
 	public static class AuditDetails {
 
@@ -29,4 +31,16 @@ public class ItemDetails2 {
 		private String createdBy;
 
 	}
+
+	@ScreenPart
+	public static class StockInfo {
+
+		@FieldMapping(row = 17, column = 29, editable = true)
+		private String listPrice;
+
+		@FieldMapping(row = 18, column = 29, editable = true)
+		private String standardUnitCost;
+
+	}
+
 }
