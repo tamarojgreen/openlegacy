@@ -9,12 +9,12 @@ import java.util.List;
  * Default implementation of row finder. Scans the list of rows and ask row comparator whether a given row is a match
  * 
  */
-public class DefaultRowFinder implements RowFinder {
+public class DefaultRowFinder<T> implements RowFinder<T> {
 
-	public Integer findRow(RowComparator rowComparator, List<?> tableRows, Object... rowKeys) {
+	public Integer findRow(RowComparator<T> rowComparator, List<T> tableRows, Object... rowKeys) {
 		int rowCount = 0;
 
-		for (Object tableRow : tableRows) {
+		for (T tableRow : tableRows) {
 			if (rowComparator.isRowMatch(tableRow, rowKeys)) {
 				return rowCount;
 			}

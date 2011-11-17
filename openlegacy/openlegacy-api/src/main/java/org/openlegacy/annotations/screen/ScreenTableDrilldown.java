@@ -23,19 +23,17 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
+@SuppressWarnings("rawtypes")
 public @interface ScreenTableDrilldown {
 
-	@SuppressWarnings("rawtypes")
 	Class<? extends TableDrilldownPerformer> drilldownPerfomer() default TableDrilldownPerformer.class;
 
 	Class<? extends RowFinder> rowFinder() default RowFinder.class;
 
 	Class<? extends RowComparator> rowComparator() default RowComparator.class;
 
-	@SuppressWarnings("rawtypes")
 	Class<? extends TableScroller> tableScroller() default TableScroller.class;
 
-	@SuppressWarnings("rawtypes")
 	Class<? extends RowSelector> rowSelector() default RowSelector.class;
 
 	Class<? extends TableScrollStopConditions> stopConditions() default TableScrollStopConditions.class;

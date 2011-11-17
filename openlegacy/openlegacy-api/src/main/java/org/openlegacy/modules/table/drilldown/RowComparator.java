@@ -4,7 +4,7 @@ package org.openlegacy.modules.table.drilldown;
  * A table row comparator interface. Check whether the given row POJO matches the given row keys
  * 
  */
-public interface RowComparator {
+public interface RowComparator<T> {
 
-	boolean isRowMatch(Object tableRow, Object... rowKeys);
+	boolean isRowMatch(T tableRow, Object... rowKeys);
 }

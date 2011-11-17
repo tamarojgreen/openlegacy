@@ -7,8 +7,8 @@ import java.util.List;
  * row matches the given keys values
  * 
  */
-public interface RowFinder {
+public interface RowFinder<T> {
 
-	Integer findRow(RowComparator rowComparator, List<?> tableRows, Object... rowKeys);
+	Integer findRow(RowComparator<T> rowComparator, List<T> tableRows, Object... rowKeys);
 
 }

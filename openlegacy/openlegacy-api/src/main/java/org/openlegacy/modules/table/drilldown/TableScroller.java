@@ -7,7 +7,7 @@ import org.openlegacy.HostSession;
  * on the scrolling direction
  * 
  */
-public interface TableScroller<S extends HostSession> {
+public interface TableScroller<S extends HostSession, T> {
 
-	<T> T scroll(S session, Class<T> entityClass, TableScrollStopConditions tableScrollStopConditions, Object... rowKeys);
+	T scroll(S session, Class<T> entityClass, TableScrollStopConditions<T> tableScrollStopConditions, Object... rowKeys);
 }

@@ -16,12 +16,12 @@ import javax.inject.Inject;
  * values matches the given row POJO field values then a match is declared. False otherwise
  * 
  */
-public class DefaultRowComparator implements RowComparator {
+public class DefaultRowComparator<T> implements RowComparator<T> {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public boolean isRowMatch(Object tableRow, Object... rowKeys) {
+	public boolean isRowMatch(T tableRow, Object... rowKeys) {
 
 		TableDefinition tableDefinition = screenEntitiesRegistry.getTable(tableRow.getClass());
 		List<String> keyFieldNames = tableDefinition.getKeyFieldNames();

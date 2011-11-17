@@ -19,8 +19,10 @@ import javax.inject.Inject;
  * Default terminal session table scroller. Perform scroll down until the given row keys are matched. Uses TableStopCondition to
  * decide if the scrolling is not affective any more (e.g: reach to bottom)
  * 
+ * @param <T>
+ * 
  */
-public class DefaultTableScroller implements TableScroller<TerminalSession> {
+public class DefaultTableScroller<T> implements TableScroller<TerminalSession, T> {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
@@ -30,8 +32,8 @@ public class DefaultTableScroller implements TableScroller<TerminalSession> {
 	private final static Log logger = LogFactory.getLog(DefaultTableScroller.class);
 
 	@SuppressWarnings("unchecked")
-	public <T> T scroll(TerminalSession terminalSession, Class<T> entityClass,
-			TableScrollStopConditions tableScrollStopConditions, Object... rowKeys) {
+	public T scroll(TerminalSession terminalSession, Class<T> entityClass,
+			TableScrollStopConditions<T> tableScrollStopConditions, Object... rowKeys) {
 
 		T beforeScrolllEntity = terminalSession.getEntity(entityClass);
 
@@ -40,7 +42,8 @@ public class DefaultTableScroller implements TableScroller<TerminalSession> {
 			return null;
 		}
 
-		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider, entityClass).getValue();
+		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
+				entityClass).getValue();
 
 		HostAction nextAction = tableDefinition.getNextScreenAction() != null ? tableDefinition.getNextScreenAction()
 				: defaultNextAction;
@@ -50,14 +53,14 @@ public class DefaultTableScroller implements TableScroller<TerminalSession> {
 				MessageFormat.format("Next action not defined either as default nor at screen entity {0}",
 						tableDefinition.getTableClass()));
 
-		Object afterScrolllEntity = terminalSession.doAction(nextAction, null);
+		T afterScrolllEntity = (T)terminalSession.doAction(nextAction, null);
 
 		if (tableScrollStopConditions.shouldStop(beforeScrolllEntity, afterScrolllEntity)) {
 			logger.debug(MessageFormat.format("Table stop condition met for {0}. stopping scroll", entityClass));
 			return null;
 		}
 
-		return (T)afterScrolllEntity;
+		return afterScrolllEntity;
 
 	}
 

@@ -21,16 +21,17 @@ import javax.inject.Inject;
  * 
  * return the defined action to perform
  */
-public class DefaultRowSelector implements RowSelector<TerminalSession> {
+public class DefaultRowSelector<T> implements RowSelector<TerminalSession, T> {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
-	public void selectRow(TerminalSession terminalSession, Object screenEntity, DrilldownAction drilldownAction, int rowNumber) {
+	public <D extends DrilldownAction> void selectRow(TerminalSession terminalSession, T screenEntity, D drilldownAction,
+			int rowNumber) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
-		Entry<String, TableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
-				screenEntity.getClass());
+		Entry<String, TableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+				tablesDefinitionProvider, screenEntity.getClass());
 
 		RowSelectionDefinition rowSelectionDefinition = tableDefinition.getValue().getRowSelectionDefinition();
 
@@ -45,4 +46,5 @@ public class DefaultRowSelector implements RowSelector<TerminalSession> {
 
 		terminalSession.doAction(drilldownAction, (ScreenEntity)screenEntity);
 	}
+
 }

@@ -15,7 +15,7 @@ import javax.inject.Inject;
  * Default terminal session stop conditions implementation. Check whether the current screen rows are not maximized or the
  * scrolling didn't switch any screen
  */
-public class DefaultTableScrollStopConditions implements TableScrollStopConditions {
+public class DefaultTableScrollStopConditions<T> implements TableScrollStopConditions<T> {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
@@ -23,7 +23,7 @@ public class DefaultTableScrollStopConditions implements TableScrollStopConditio
 	/**
 	 * Check if the screen after the scroll contains all the rows in the screen before
 	 */
-	public boolean shouldStop(Object beforeScrollEntity, Object afterScrollEntity) {
+	public boolean shouldStop(T beforeScrollEntity, T afterScrollEntity) {
 		List<?> beforeScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, beforeScrollEntity);
 		List<?> afterScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, afterScrollEntity);
 		if (beforeScrollRows.containsAll(afterScrollRows)) {
@@ -32,9 +32,9 @@ public class DefaultTableScrollStopConditions implements TableScrollStopConditio
 		return false;
 	}
 
-	public boolean shouldStop(Object currentEntity) {
-		Entry<String, TableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
-				currentEntity.getClass());
+	public boolean shouldStop(T currentEntity) {
+		Entry<String, TableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+				tablesDefinitionProvider, currentEntity.getClass());
 
 		ScreenPojoFieldAccessor screenPojoFieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 		List<?> rows = (List<?>)screenPojoFieldAccessor.getFieldValue(tableDefinition.getKey());

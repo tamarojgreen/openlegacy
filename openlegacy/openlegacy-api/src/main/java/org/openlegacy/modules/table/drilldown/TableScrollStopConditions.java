@@ -5,9 +5,9 @@ package org.openlegacy.modules.table.drilldown;
  * entity after the scroll
  * 
  */
-public interface TableScrollStopConditions {
+public interface TableScrollStopConditions<T> {
 
-	boolean shouldStop(Object entity);
+	boolean shouldStop(T entity);
 
-	boolean shouldStop(Object beforeScrollEntity, Object afterScrollEntity);
+	boolean shouldStop(T beforeScrollEntity, T afterScrollEntity);
 }

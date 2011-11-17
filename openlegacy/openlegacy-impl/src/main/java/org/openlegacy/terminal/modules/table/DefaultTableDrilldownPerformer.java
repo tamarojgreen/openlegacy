@@ -34,21 +34,22 @@ public class DefaultTableDrilldownPerformer implements TableDrilldownPerformer<T
 	@Inject
 	private ApplicationContext applicationContext;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> T drilldown(DrilldownDefinition drilldownDefinition, TerminalSession session, Class<?> sourceEntityClass,
 			Class<T> targetEntityClass, DrilldownAction drilldownAction, Object... rowKeys) {
 
 		RowFinder rowFinder = getDefaultBean(drilldownDefinition.getRowFinder());
 
-		RowSelector<TerminalSession> rowSelector = getDefaultBean(drilldownDefinition.getRowSelector());
+		RowSelector rowSelector = getDefaultBean(drilldownDefinition.getRowSelector());
 
-		TableScroller<TerminalSession> tableScroller = getDefaultBean(drilldownDefinition.getTableScroller());
+		TableScroller tableScroller = getDefaultBean(drilldownDefinition.getTableScroller());
 
 		RowComparator rowComparator = getDefaultBean(drilldownDefinition.getRowComparator());
 
 		TableScrollStopConditions tableScrollStopConditions = getDefaultBean(drilldownDefinition.getTableScrollStopCondition());
 
-		String tableFieldName = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider, sourceEntityClass).getKey();
+		String tableFieldName = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
+				sourceEntityClass).getKey();
 
 		ScreenEntity currentEntity = (ScreenEntity)session.getEntity(sourceEntityClass);
 
