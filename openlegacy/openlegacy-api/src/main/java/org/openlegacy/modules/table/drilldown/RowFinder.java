@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface RowFinder {
 
-	Integer findRow(List<?> tableRows, Object... rowKeys);
+	Integer findRow(RowComparator rowComparator, List<?> tableRows, Object... rowKeys);
+
 }

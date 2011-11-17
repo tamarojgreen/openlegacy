@@ -8,6 +8,7 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -20,7 +21,8 @@ public class FieldMappingAnnotationLoader implements FieldAnnotationsLoader {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void load(HostEntitiesRegistry entitiesRegistry, String fieldName, Annotation annotation, Class<?> containingClass) {
+	public void load(BeanFactory beanFactory, HostEntitiesRegistry entitiesRegistry, String fieldName, Annotation annotation,
+			Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		FieldMapping fieldAnnotation = (FieldMapping)annotation;

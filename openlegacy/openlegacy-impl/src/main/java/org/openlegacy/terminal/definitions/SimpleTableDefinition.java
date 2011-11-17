@@ -1,6 +1,12 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.HostAction;
+import org.openlegacy.modules.table.drilldown.RowComparator;
+import org.openlegacy.modules.table.drilldown.RowFinder;
+import org.openlegacy.modules.table.drilldown.RowSelector;
+import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
+import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
+import org.openlegacy.modules.table.drilldown.TableScroller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +23,10 @@ public class SimpleTableDefinition implements TableDefinition {
 	private HostAction previousScreenAction;
 
 	private SimpleRowSelectionDefinition rowSelectionDefinition = new SimpleRowSelectionDefinition();
+
+	private DrilldownDefinition drilldownDefinition = new SimpleDrilldownDefinition();
+
+	private boolean scrollable = true;
 
 	public SimpleTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
@@ -81,6 +91,27 @@ public class SimpleTableDefinition implements TableDefinition {
 		return rowSelectionDefinition;
 	}
 
+	public ColumnDefinition getColumnDefinition(String fieldName) {
+		for (ColumnDefinition columnDefinition : columnDefinitions) {
+			if (columnDefinition.getName().equals(fieldName)) {
+				return columnDefinition;
+			}
+		}
+		return null;
+	}
+
+	public DrilldownDefinition getDrilldownDefinition() {
+		return drilldownDefinition;
+	}
+
+	public boolean isScrollable() {
+		return scrollable;
+	}
+
+	public void setScrollable(boolean scrollable) {
+		this.scrollable = scrollable;
+	}
+
 	public static class SimpleRowSelectionDefinition implements RowSelectionDefinition {
 
 		private String selectionField;
@@ -94,12 +125,68 @@ public class SimpleTableDefinition implements TableDefinition {
 		}
 	}
 
-	public ColumnDefinition getColumnDefinition(String fieldName) {
-		for (ColumnDefinition columnDefinition : columnDefinitions) {
-			if (columnDefinition.getName().equals(fieldName)) {
-				return columnDefinition;
-			}
+	@SuppressWarnings("rawtypes")
+	public static class SimpleDrilldownDefinition implements DrilldownDefinition {
+
+		private Class<? extends RowFinder> rowFinder;
+
+		private Class<? extends RowComparator> rowComparator;
+
+		private Class<? extends TableScrollStopConditions> tableScrollStopConditions;
+
+		private Class<? extends TableScroller> tableScroller;
+
+		private Class<? extends RowSelector> rowSelector;
+
+		private Class<? extends TableDrilldownPerformer> drilldownPerformer;
+
+		public Class<? extends RowFinder> getRowFinder() {
+			return rowFinder;
 		}
-		return null;
+
+		public Class<? extends RowSelector> getRowSelector() {
+			return rowSelector;
+		}
+
+		public Class<? extends RowComparator> getRowComparator() {
+			return rowComparator;
+		}
+
+		public Class<? extends TableScroller> getTableScroller() {
+			return tableScroller;
+		}
+
+		public Class<? extends TableScrollStopConditions> getTableScrollStopCondition() {
+			return tableScrollStopConditions;
+		}
+
+		public Class<? extends TableDrilldownPerformer> getDrilldownPerformer() {
+			return drilldownPerformer;
+		}
+
+		public void setRowFinder(Class<? extends RowFinder> rowFinder) {
+			this.rowFinder = rowFinder;
+		}
+
+		public void setRowComparator(Class<? extends RowComparator> rowComparator) {
+			this.rowComparator = rowComparator;
+		}
+
+		public void setRowSelector(Class<? extends RowSelector> rowSelector) {
+			this.rowSelector = rowSelector;
+		}
+
+		public void setTableScroller(Class<? extends TableScroller> tableScroller) {
+			this.tableScroller = tableScroller;
+		}
+
+		public void setTableScrollStopConditions(Class<? extends TableScrollStopConditions> tableScrollStopConditions) {
+			this.tableScrollStopConditions = tableScrollStopConditions;
+		}
+
+		public void setDrilldownPerformer(Class<? extends TableDrilldownPerformer> drilldownPerformer) {
+			this.drilldownPerformer = drilldownPerformer;
+		}
 	}
+
 }

@@ -9,5 +9,5 @@ import org.openlegacy.HostSession;
  */
 public interface TableScroller<S extends HostSession> {
 
-	<T> T scroll(S session, Class<T> entityClass, Object... rowKeys);
+	<T> T scroll(S session, Class<T> entityClass, TableScrollStopConditions tableScrollStopConditions, Object... rowKeys);
 }

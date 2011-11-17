@@ -3,15 +3,18 @@ package org.openlegacy.terminal.modules.table;
 import org.openlegacy.HostAction;
 import org.openlegacy.modules.table.Table;
 import org.openlegacy.modules.table.drilldown.DrilldownAction;
-import org.openlegacy.modules.table.drilldown.TableDrilldownPerfomer;
+import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
+import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+@SuppressWarnings("rawtypes")
 public class DefaultTableModule extends TerminalSessionModuleAdapter implements Table {
 
 	@Inject
@@ -32,9 +36,12 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 	private HostAction defaultPreviousScreenAction;
 
 	@Inject
-	private TableDrilldownPerfomer<TerminalSession> tableDrilldownPerfomer;
+	private TablesDefinitionProvider tablesDefinitionProvider;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Inject
+	private ApplicationContext applicationContext;
+
+	@SuppressWarnings({ "unchecked" })
 	public <T> List<T> collectAll(Class<?> screenEntityClass, Class<T> rowClass) {
 
 		ScreenEntityDefinition screenEntityDefintion = screenEntitiesRegistry.get(screenEntityClass);
@@ -94,9 +101,16 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 		this.defaultPreviousScreenAction = ReflectionUtil.newInstance(defaultPreviousScreenAction);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T drillDown(Class<?> sourceEntityClass, Class<T> targetEntityClass, DrilldownAction drilldownAction,
 			Object... rowKeys) {
-		return tableDrilldownPerfomer.drilldown(getTerminalSession(), sourceEntityClass, targetEntityClass, drilldownAction,
-				rowKeys);
+		TableDefinition tableDefinition = TableUtil.getSingleTableDefinition(tablesDefinitionProvider, sourceEntityClass).getValue();
+		DrilldownDefinition drilldownDefinition = tableDefinition.getDrilldownDefinition();
+
+		TableDrilldownPerformer actualDrilldownPerformer = SpringUtil.getDefaultBean(applicationContext,
+				drilldownDefinition.getDrilldownPerformer());
+
+		return (T)actualDrilldownPerformer.drilldown(drilldownDefinition, getTerminalSession(), sourceEntityClass,
+				targetEntityClass, drilldownAction, rowKeys);
 	}
 }

@@ -1,7 +1,5 @@
 package org.openlegacy.loaders.support;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
@@ -18,17 +16,11 @@ import java.lang.annotation.Annotation;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ScreenPartEntityAnnotationLoader implements ClassAnnotationsLoader {
 
-	@SuppressWarnings("unused")
-	private final static Log logger = LogFactory.getLog(ScreenPartEntityAnnotationLoader.class);
-
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenPart.class;
 	}
 
 	public void load(HostEntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
-
-		@SuppressWarnings("unused")
-		ScreenPart screenPartEntity = (ScreenPart)annotation;
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 

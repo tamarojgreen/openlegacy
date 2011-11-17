@@ -3,8 +3,8 @@ package org.openlegacy.terminal.modules.table;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostAction;
+import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.modules.table.drilldown.TableScroller;
-import org.openlegacy.modules.table.drilldown.TableStopCondition;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
@@ -25,19 +25,17 @@ public class DefaultTableScroller implements TableScroller<TerminalSession> {
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
-	@Inject
-	private TableStopCondition tableStopCondition;
-
 	private HostAction defaultNextAction;
 
 	private final static Log logger = LogFactory.getLog(DefaultTableScroller.class);
 
 	@SuppressWarnings("unchecked")
-	public <T> T scroll(TerminalSession terminalSession, Class<T> entityClass, Object... rowKeys) {
+	public <T> T scroll(TerminalSession terminalSession, Class<T> entityClass,
+			TableScrollStopConditions tableScrollStopConditions, Object... rowKeys) {
 
 		T beforeScrolllEntity = terminalSession.getEntity(entityClass);
 
-		if (tableStopCondition.shouldStop(beforeScrolllEntity)) {
+		if (tableScrollStopConditions.shouldStop(beforeScrolllEntity)) {
 			logger.debug(MessageFormat.format("Table stop condition met for {0}. stopping scroll", entityClass));
 			return null;
 		}
@@ -54,7 +52,7 @@ public class DefaultTableScroller implements TableScroller<TerminalSession> {
 
 		Object afterScrolllEntity = terminalSession.doAction(nextAction, null);
 
-		if (tableStopCondition.shouldStop(beforeScrolllEntity, afterScrolllEntity)) {
+		if (tableScrollStopConditions.shouldStop(beforeScrolllEntity, afterScrolllEntity)) {
 			logger.debug(MessageFormat.format("Table stop condition met for {0}. stopping scroll", entityClass));
 			return null;
 		}
@@ -65,13 +63,5 @@ public class DefaultTableScroller implements TableScroller<TerminalSession> {
 
 	public void setDefaultNextAction(Class<? extends HostAction> defaultNextAction) {
 		this.defaultNextAction = ReflectionUtil.newInstance(defaultNextAction);
-	}
-
-	public void setTablesDefinitionProvider(TablesDefinitionProvider tablesDefinitionProvider) {
-		this.tablesDefinitionProvider = tablesDefinitionProvider;
-	}
-
-	public void setTableStopCondition(TableStopCondition tableStopCondition) {
-		this.tableStopCondition = tableStopCondition;
 	}
 }

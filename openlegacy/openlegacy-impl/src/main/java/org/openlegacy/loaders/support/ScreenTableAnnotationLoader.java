@@ -4,11 +4,12 @@ import org.openlegacy.HostEntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
-import org.openlegacy.terminal.actions.SendKeyClasses;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
@@ -18,6 +19,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 @Component
+@Order(Ordered.HIGHEST_PRECEDENCE - 1)
 public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
 
 	public boolean match(Annotation annotation) {
@@ -32,12 +34,8 @@ public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
 		tableDefinition.setStartRow(screenTableAnnotation.startRow());
 		tableDefinition.setEndRow(screenTableAnnotation.endRow());
 
-		if (screenTableAnnotation.nextScreenAction() != SendKeyClasses.UNDEFINED.class) {
-			tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));
-		}
-		if (screenTableAnnotation.previousScreenAction() != SendKeyClasses.UNDEFINED.class) {
-			tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));
-		}
+		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));
+		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));
 
 		collectColumnsMetadata(containingClass, tableDefinition);
 		screenEntitiesRegistry.addTable(tableDefinition);

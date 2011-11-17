@@ -5,6 +5,7 @@ import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -23,7 +24,7 @@ public class TableFieldsLoader implements FieldLoader {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void load(HostEntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass) {
+	public void load(BeanFactory beanFactory, HostEntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		Class<?> listType = ReflectionUtil.getListType(field);

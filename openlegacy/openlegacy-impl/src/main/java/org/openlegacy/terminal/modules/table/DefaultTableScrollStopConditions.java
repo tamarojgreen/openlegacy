@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.modules.table;
 
-import org.openlegacy.modules.table.drilldown.TableStopCondition;
+import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
@@ -12,10 +12,10 @@ import java.util.Map.Entry;
 import javax.inject.Inject;
 
 /**
- * Default terminal session stop condition
- * 
+ * Default terminal session stop conditions implementation. Check whether the current screen rows are not maximized or the
+ * scrolling didn't switch any screen
  */
-public class DefaultTableStopCondition implements TableStopCondition {
+public class DefaultTableScrollStopConditions implements TableScrollStopConditions {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;

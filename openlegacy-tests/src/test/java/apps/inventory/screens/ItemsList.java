@@ -8,8 +8,12 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenTable;
-import org.openlegacy.terminal.actions.SendKeyClasses;
+import org.openlegacy.annotations.screen.ScreenTableDrilldown;
+import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
+import org.openlegacy.modules.table.drilldown.TableScroller;
+import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.SendKeyClasses.F3;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -27,7 +31,8 @@ public class ItemsList {
 	@FieldMapping(row = 24, column = 2)
 	private String errorMessage;
 
-	@ScreenTable(startRow = 8, endRow = 19, supportTerminalData = true, nextScreenAction = SendKeyClasses.PAGEDOWN.class)
+	@ScreenTable(startRow = 8, endRow = 19, supportTerminalData = true)
+	@ScreenTableDrilldown
 	public static class ItemsListRow {
 
 		@ScreenColumn(startColumn = 4, endColumn = 5, editable = true, selectionField = true)
@@ -41,6 +46,16 @@ public class ItemsList {
 
 		@ScreenColumn(startColumn = 24, endColumn = 60)
 		private String itemDescription;
+
+	}
+
+	@Component
+	public static class MyTableScroller implements TableScroller<TerminalSession> {
+
+		public <T> T scroll(TerminalSession session, Class<T> entityClass, TableScrollStopConditions tableScrollStopConditions,
+				Object... rowKeys) {
+			return null;
+		}
 
 	}
 }

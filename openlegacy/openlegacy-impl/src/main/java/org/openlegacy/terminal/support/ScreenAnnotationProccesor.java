@@ -67,7 +67,8 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 				for (Annotation annotation : annotations) {
 					for (FieldAnnotationsLoader fieldAnnotationsLoader : fieldAnnotationLoaders) {
 						if (fieldAnnotationsLoader.match(annotation)) {
-							fieldAnnotationsLoader.load(screenEntitiesRegistry, field.getName(), annotation, beanClass);
+							fieldAnnotationsLoader.load(beanFactory, screenEntitiesRegistry, field.getName(), annotation,
+									beanClass);
 						}
 					}
 				}
@@ -77,7 +78,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 					final Collection<FieldLoader> fieldLoaders, Field field) {
 				for (FieldLoader fieldLoader : fieldLoaders) {
 					if (fieldLoader.match(screenEntitiesRegistry, field)) {
-						fieldLoader.load(screenEntitiesRegistry, field, beanClass);
+						fieldLoader.load(beanFactory, screenEntitiesRegistry, field, beanClass);
 					}
 				}
 			}

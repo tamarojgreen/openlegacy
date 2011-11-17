@@ -25,9 +25,9 @@ public @interface ScreenTable {
 
 	int endRow();
 
-	Class<? extends HostAction> nextScreenAction() default SendKeyClasses.UNDEFINED.class;
+	Class<? extends HostAction> nextScreenAction() default SendKeyClasses.PAGEDOWN.class;
 
-	Class<? extends HostAction> previousScreenAction() default SendKeyClasses.UNDEFINED.class;
+	Class<? extends HostAction> previousScreenAction() default SendKeyClasses.PAGEUP.class;
 
 	boolean supportTerminalData() default false;
 

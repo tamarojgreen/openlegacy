@@ -5,18 +5,13 @@ import org.openlegacy.modules.table.drilldown.RowFinder;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 /**
  * Default implementation of row finder. Scans the list of rows and ask row comparator whether a given row is a match
  * 
  */
 public class DefaultRowFinder implements RowFinder {
 
-	@Inject
-	private RowComparator rowComparator;
-
-	public Integer findRow(List<?> tableRows, Object... rowKeys) {
+	public Integer findRow(RowComparator rowComparator, List<?> tableRows, Object... rowKeys) {
 		int rowCount = 0;
 
 		for (Object tableRow : tableRows) {
@@ -26,9 +21,5 @@ public class DefaultRowFinder implements RowFinder {
 			rowCount++;
 		}
 		return null;
-	}
-
-	public void setRowComparator(RowComparator rowComparator) {
-		this.rowComparator = rowComparator;
 	}
 }
