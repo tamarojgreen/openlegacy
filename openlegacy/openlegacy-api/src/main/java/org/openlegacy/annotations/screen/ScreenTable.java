@@ -31,4 +31,5 @@ public @interface ScreenTable {
 
 	boolean supportTerminalData() default false;
 
+	boolean scrollable() default true;
 }

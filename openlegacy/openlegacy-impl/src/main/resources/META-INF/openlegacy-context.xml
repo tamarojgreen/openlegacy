@@ -35,9 +35,7 @@
 					p:loginHostAction="org.openlegacy.terminal.actions.SendKeyClasses.ENTER"
 					p:defaultExitAction="org.openlegacy.terminal.actions.SendKeyClasses.F3"
 					p:maxActionsToLogin="5" />
-				<bean class="org.openlegacy.terminal.modules.table.DefaultTableModule"
-					p:defaultPreviousScreenAction="org.openlegacy.terminal.actions.SendKeyClasses.PAGEUP"
-					p:defaultNextScreenAction="org.openlegacy.terminal.actions.SendKeyClasses.PAGEDOWN" />
+				<bean class="org.openlegacy.terminal.modules.table.DefaultTableModule" />
 				<bean
 					class="org.openlegacy.terminal.modules.navigation.DefaultNavigationModule"
 					p:sessionNavigator-ref="sessionNavigator" />

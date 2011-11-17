@@ -30,8 +30,6 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	private HostAction defaultNextScreenAction;
-
 	@SuppressWarnings("unused")
 	private HostAction defaultPreviousScreenAction;
 
@@ -85,16 +83,12 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 			if (rows.size() < rowsCount) {
 				cont = false;
 			} else {
-				screenEntity = getTerminalSession().doAction(defaultNextScreenAction, null);
+				screenEntity = getTerminalSession().doAction(matchingTableDefinition.getNextScreenAction(), null);
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
 		}
 
 		return allRows;
-	}
-
-	public void setDefaultNextScreenAction(Class<? extends HostAction> defaultNextScreenAction) {
-		this.defaultNextScreenAction = ReflectionUtil.newInstance(defaultNextScreenAction);
 	}
 
 	public void setDefaultPreviousScreenAction(Class<? extends HostAction> defaultPreviousScreenAction) {
@@ -104,7 +98,8 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 	@SuppressWarnings("unchecked")
 	public <T> T drillDown(Class<?> sourceEntityClass, Class<T> targetEntityClass, DrilldownAction drilldownAction,
 			Object... rowKeys) {
-		TableDefinition tableDefinition = TableUtil.getSingleTableDefinition(tablesDefinitionProvider, sourceEntityClass).getValue();
+		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
+				sourceEntityClass).getValue();
 		DrilldownDefinition drilldownDefinition = tableDefinition.getDrilldownDefinition();
 
 		TableDrilldownPerformer actualDrilldownPerformer = SpringUtil.getDefaultBean(applicationContext,

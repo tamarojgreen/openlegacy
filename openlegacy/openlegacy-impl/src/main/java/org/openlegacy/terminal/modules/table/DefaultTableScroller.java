@@ -40,7 +40,7 @@ public class DefaultTableScroller implements TableScroller<TerminalSession> {
 			return null;
 		}
 
-		TableDefinition tableDefinition = TableUtil.getSingleTableDefinition(tablesDefinitionProvider, entityClass).getValue();
+		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider, entityClass).getValue();
 
 		HostAction nextAction = tableDefinition.getNextScreenAction() != null ? tableDefinition.getNextScreenAction()
 				: defaultNextAction;

@@ -14,6 +14,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.exceptions.HostActionNotMappedException;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.SessionNavigator;
@@ -113,8 +114,12 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		if (hostAction instanceof CustomHostAction) {
 			((CustomHostAction)hostAction).perform(this);
 		} else {
-			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(
-					hostActionMapper.getCommand(hostAction.getClass()), null);
+			Object command = hostActionMapper.getCommand(hostAction.getClass());
+			if (command == null) {
+				throw (new HostActionNotMappedException(MessageFormat.format(
+						"Specified action {0} is not mapped to a terminal command", hostAction.getClass())));
+			}
+			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(command, null);
 
 			if (screenEntity != null) {
 				for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {

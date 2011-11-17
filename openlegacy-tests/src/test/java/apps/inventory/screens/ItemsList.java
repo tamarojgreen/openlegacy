@@ -9,11 +9,7 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableDrilldown;
-import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
-import org.openlegacy.modules.table.drilldown.TableScroller;
-import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.SendKeyClasses.F3;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -49,13 +45,4 @@ public class ItemsList {
 
 	}
 
-	@Component
-	public static class MyTableScroller implements TableScroller<TerminalSession> {
-
-		public <T> T scroll(TerminalSession session, Class<T> entityClass, TableScrollStopConditions tableScrollStopConditions,
-				Object... rowKeys) {
-			return null;
-		}
-
-	}
 }

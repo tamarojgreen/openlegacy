@@ -24,8 +24,8 @@ public class DefaultTableScrollStopConditions implements TableScrollStopConditio
 	 * Check if the screen after the scroll contains all the rows in the screen before
 	 */
 	public boolean shouldStop(Object beforeScrollEntity, Object afterScrollEntity) {
-		List<?> beforeScrollRows = TableUtil.getScreenSingleTable(tablesDefinitionProvider, beforeScrollEntity);
-		List<?> afterScrollRows = TableUtil.getScreenSingleTable(tablesDefinitionProvider, afterScrollEntity);
+		List<?> beforeScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, beforeScrollEntity);
+		List<?> afterScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, afterScrollEntity);
 		if (beforeScrollRows.containsAll(afterScrollRows)) {
 			return true;
 		}
@@ -33,7 +33,7 @@ public class DefaultTableScrollStopConditions implements TableScrollStopConditio
 	}
 
 	public boolean shouldStop(Object currentEntity) {
-		Entry<String, TableDefinition> tableDefinition = TableUtil.getSingleTableDefinition(tablesDefinitionProvider,
+		Entry<String, TableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				currentEntity.getClass());
 
 		ScreenPojoFieldAccessor screenPojoFieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);

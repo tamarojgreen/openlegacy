@@ -33,9 +33,10 @@ public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
 		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(containingClass);
 		tableDefinition.setStartRow(screenTableAnnotation.startRow());
 		tableDefinition.setEndRow(screenTableAnnotation.endRow());
+		tableDefinition.setScrollable(screenTableAnnotation.scrollable());
 
 		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));
-		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));
+		tableDefinition.setPreviousScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));
 
 		collectColumnsMetadata(containingClass, tableDefinition);
 		screenEntitiesRegistry.addTable(tableDefinition);

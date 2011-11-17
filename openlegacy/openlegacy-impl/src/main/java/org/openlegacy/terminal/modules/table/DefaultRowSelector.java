@@ -29,7 +29,7 @@ public class DefaultRowSelector implements RowSelector<TerminalSession> {
 	public void selectRow(TerminalSession terminalSession, Object screenEntity, DrilldownAction drilldownAction, int rowNumber) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
-		Entry<String, TableDefinition> tableDefinition = TableUtil.getSingleTableDefinition(tablesDefinitionProvider,
+		Entry<String, TableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				screenEntity.getClass());
 
 		RowSelectionDefinition rowSelectionDefinition = tableDefinition.getValue().getRowSelectionDefinition();

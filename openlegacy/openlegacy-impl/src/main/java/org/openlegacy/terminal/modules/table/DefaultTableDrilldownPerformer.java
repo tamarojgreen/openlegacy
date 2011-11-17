@@ -48,7 +48,7 @@ public class DefaultTableDrilldownPerformer implements TableDrilldownPerformer<T
 
 		TableScrollStopConditions tableScrollStopConditions = getDefaultBean(drilldownDefinition.getTableScrollStopCondition());
 
-		String tableFieldName = TableUtil.getSingleTableDefinition(tablesDefinitionProvider, sourceEntityClass).getKey();
+		String tableFieldName = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider, sourceEntityClass).getKey();
 
 		ScreenEntity currentEntity = (ScreenEntity)session.getEntity(sourceEntityClass);
 
