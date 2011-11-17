@@ -38,7 +38,9 @@ public class SimpleFieldFormatter implements FieldFormatter {
 		result = lowercase ? result.toLowerCase() : result;
 
 		if (logger.isTraceEnabled()) {
-			logger.trace(MessageFormat.format("Formatted content \''{0}\'' to \''{1}\''", s, result));
+			if (!s.equals(result)) {
+				logger.trace(MessageFormat.format("Formatted content \''{0}\'' to \''{1}\''", s, result));
+			}
 		}
 		return result;
 	}

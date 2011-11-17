@@ -2,6 +2,7 @@ package org.openlegacy.annotations.screen;
 
 import org.openlegacy.HostAction;
 import org.openlegacy.terminal.actions.SendKeyClasses;
+import org.openlegacy.terminal.table.ScreenTableCollector;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -32,4 +33,7 @@ public @interface ScreenTable {
 	boolean supportTerminalData() default false;
 
 	boolean scrollable() default true;
+
+	@SuppressWarnings("rawtypes")
+	Class<? extends ScreenTableCollector> tableCollector() default ScreenTableCollector.class;
 }

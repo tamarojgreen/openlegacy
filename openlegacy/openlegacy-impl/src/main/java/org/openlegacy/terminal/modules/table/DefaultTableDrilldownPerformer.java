@@ -5,7 +5,6 @@ import org.openlegacy.modules.table.drilldown.DrilldownException;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
 import org.openlegacy.modules.table.drilldown.RowSelector;
-import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.modules.table.drilldown.TableScroller;
 import org.openlegacy.terminal.ScreenEntity;
@@ -13,6 +12,7 @@ import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+import org.openlegacy.terminal.table.ScreenTableDrilldownPerformer;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
@@ -26,7 +26,7 @@ import javax.inject.Inject;
  * screen, and performs scroll until the row is found
  * 
  */
-public class DefaultTableDrilldownPerformer implements TableDrilldownPerformer<TerminalSession> {
+public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerformer {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;

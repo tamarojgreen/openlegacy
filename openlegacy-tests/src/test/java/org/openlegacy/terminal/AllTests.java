@@ -16,10 +16,10 @@ import org.openlegacy.terminal.support.DefaultTerminalSessionTest;
 import org.openlegacy.terminal.support.binders.ScreenEntityTablesBinderTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ DefaultScreenEntityBinderTest.class, RecognizersSuite.class, ApxSuite.class, XmlTrailWriterTest.class,
+@SuiteClasses({ DefaultScreenEntityBinderTest.class, RecognizersSuite.class, XmlTrailWriterTest.class,
 		DefaultLoginModuleTest.class, DefaultLoginModuleFailedTest.class, DefaultTerminalSessionTest.class,
 		DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, ScreenEntityTablesBinderTest.class,
-		DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class })
+		DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, ApxSuite.class })
 public class AllTests {
 
 }

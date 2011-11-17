@@ -1,6 +1,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.HostAction;
+import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
 import org.openlegacy.modules.table.drilldown.RowSelector;
@@ -10,6 +11,7 @@ import org.openlegacy.modules.table.drilldown.TableScroller;
 
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public interface TableDefinition {
 
 	Class<?> getTableClass();
@@ -34,6 +36,10 @@ public interface TableDefinition {
 
 	DrilldownDefinition getDrilldownDefinition();
 
+	Class<? extends TableCollector> getTableCollector();
+
+	void setTableCollector(Class<? extends TableCollector> tableCollector);
+
 	boolean isScrollable();
 
 	public interface ColumnDefinition {
@@ -54,7 +60,6 @@ public interface TableDefinition {
 		String getSelectionField();
 	}
 
-	@SuppressWarnings("rawtypes")
 	public interface DrilldownDefinition {
 
 		Class<? extends RowFinder> getRowFinder();

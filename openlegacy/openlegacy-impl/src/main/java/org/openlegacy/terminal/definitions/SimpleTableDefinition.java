@@ -1,6 +1,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.HostAction;
+import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
 import org.openlegacy.modules.table.drilldown.RowSelector;
@@ -11,6 +12,7 @@ import org.openlegacy.modules.table.drilldown.TableScroller;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("rawtypes")
 public class SimpleTableDefinition implements TableDefinition {
 
 	private Class<?> rowClass;
@@ -27,6 +29,8 @@ public class SimpleTableDefinition implements TableDefinition {
 	private DrilldownDefinition drilldownDefinition = new SimpleDrilldownDefinition();
 
 	private boolean scrollable = true;
+
+	private Class<? extends TableCollector> tableCollectorClass;
 
 	public SimpleTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
@@ -112,6 +116,14 @@ public class SimpleTableDefinition implements TableDefinition {
 		this.scrollable = scrollable;
 	}
 
+	public Class<? extends TableCollector> getTableCollector() {
+		return tableCollectorClass;
+	}
+
+	public void setTableCollector(Class<? extends TableCollector> tableCollectorClass) {
+		this.tableCollectorClass = tableCollectorClass;
+	}
+
 	public static class SimpleRowSelectionDefinition implements RowSelectionDefinition {
 
 		private String selectionField;
@@ -125,7 +137,6 @@ public class SimpleTableDefinition implements TableDefinition {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	public static class SimpleDrilldownDefinition implements DrilldownDefinition {
 
 		private Class<? extends RowFinder> rowFinder;

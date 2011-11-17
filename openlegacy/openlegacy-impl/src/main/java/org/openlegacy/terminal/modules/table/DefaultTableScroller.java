@@ -4,10 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.HostAction;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
-import org.openlegacy.modules.table.drilldown.TableScroller;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+import org.openlegacy.terminal.table.ScreenTableScroller;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.util.Assert;
 
@@ -22,7 +22,7 @@ import javax.inject.Inject;
  * @param <T>
  * 
  */
-public class DefaultTableScroller<T> implements TableScroller<TerminalSession, T> {
+public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
