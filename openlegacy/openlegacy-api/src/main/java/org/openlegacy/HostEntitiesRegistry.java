@@ -23,4 +23,6 @@ public interface HostEntitiesRegistry<H extends HostEntityDefinition<D>, D exten
 	void add(H entityDefinition);
 
 	H get(Class<?> entityClass);
+
+	void clear();
 }

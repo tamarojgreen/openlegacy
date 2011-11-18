@@ -19,5 +19,4 @@ public interface ScreenEntitiesRegistry extends HostEntitiesRegistry<ScreenEntit
 	void addTable(TableDefinition tableDefinition);
 
 	TableDefinition getTable(Class<?> containingClass);
-
 }

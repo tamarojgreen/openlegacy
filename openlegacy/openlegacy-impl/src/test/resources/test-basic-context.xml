@@ -16,6 +16,19 @@
 		class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
 
 	<bean id="hostActionMapper" class="org.openlegacy.terminal.support.SimpleHostActionMapper">
-		<property name="actionMappings" ref="apxDefaultActionMappings" />
+		<property name="actionMappings" ref="testActionMappings" />
 	</bean>
+
+	<util:map id="testActionMappings">
+		<entry key="org.openlegacy.terminal.actions.SendKeyClasses.ENTER"
+			value="[enter]" />
+		<entry key="org.openlegacy.terminal.actions.SendKeyClasses.F1"
+			value="[pf1]" />
+		<entry key="org.openlegacy.terminal.actions.SendKeyClasses.F3"
+			value="[pf3]" />
+		<entry key="org.openlegacy.terminal.actions.SendKeyClasses.PAGEDOWN"
+			value="[pagedn]" />
+		<entry key="org.openlegacy.terminal.actions.SendKeyClasses.PAGEUP"
+			value="[pageup]" />
+	</util:map>		
 </beans>

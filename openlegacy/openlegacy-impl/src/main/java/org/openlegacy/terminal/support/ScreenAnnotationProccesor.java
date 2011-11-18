@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
@@ -14,6 +16,7 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.text.MessageFormat;
 import java.util.Collection;
 
 /**
@@ -24,10 +27,14 @@ import java.util.Collection;
  */
 public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
+	private final static Log logger = LogFactory.getLog(ScreenAnnotationProccesor.class);
+
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		Collection<ClassAnnotationsLoader> annotationLoaders = beanFactory.getBeansOfType(ClassAnnotationsLoader.class).values();
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
+		screenEntitiesRegistry.clear();
+
 		for (String beanName : beanFactory.getBeanDefinitionNames()) {
 			try {
 				BeanDefinition bean = beanFactory.getBeanDefinition(beanName);
@@ -37,6 +44,10 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 				for (ClassAnnotationsLoader annotationsLoader : annotationLoaders) {
 					for (Annotation annotation : annotations) {
 						if (annotationsLoader.match(annotation)) {
+							if (logger.isDebugEnabled()) {
+								logger.debug(MessageFormat.format("Loading annotation {0} for screen {1} into registry",
+										annotation.annotationType().getSimpleName(), beanClass));
+							}
 							annotationsLoader.load(screenEntitiesRegistry, annotation, beanClass);
 
 						}
@@ -67,6 +78,11 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 				for (Annotation annotation : annotations) {
 					for (FieldAnnotationsLoader fieldAnnotationsLoader : fieldAnnotationLoaders) {
 						if (fieldAnnotationsLoader.match(annotation)) {
+							if (logger.isDebugEnabled()) {
+								logger.debug(MessageFormat.format(
+										"Loading annotation {0} for field {1} in screen {2} into registry",
+										annotation.annotationType().getSimpleName(), field.getName(), beanClass));
+							}
 							fieldAnnotationsLoader.load(beanFactory, screenEntitiesRegistry, field.getName(), annotation,
 									beanClass);
 						}
@@ -78,6 +94,10 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 					final Collection<FieldLoader> fieldLoaders, Field field) {
 				for (FieldLoader fieldLoader : fieldLoaders) {
 					if (fieldLoader.match(screenEntitiesRegistry, field)) {
+						if (logger.isDebugEnabled()) {
+							logger.debug(MessageFormat.format("Loading field {0} setting for screen {1} into registry",
+									field.getName(), beanClass));
+						}
 						fieldLoader.load(beanFactory, screenEntitiesRegistry, field, beanClass);
 					}
 				}

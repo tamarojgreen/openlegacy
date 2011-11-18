@@ -1,0 +1,74 @@
+package org.openlegacy.terminal.mock;
+
+import org.apache.commons.lang.StringUtils;
+import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.exceptions.SendActionException;
+import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.utils.FieldsQuery;
+import org.openlegacy.terminal.utils.FieldsQuery.ModifiedFieldsCriteria;
+
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MockSendValidationUtils {
+
+	public static void validateSendAction(TerminalSnapshot expectedOutgoingSnapshot, TerminalSendAction terminalSendAction)
+			throws SendActionException {
+		List<TerminalField> expectedModifiedFields = FieldsQuery.queryFields(expectedOutgoingSnapshot,
+				ModifiedFieldsCriteria.instance());
+		List<TerminalField> actualModifiedFields = terminalSendAction.getModifiedFields();
+
+		validateFieldsMatch(expectedModifiedFields, actualModifiedFields);
+
+		ScreenPosition actualCursorPosition = terminalSendAction.getCursorPosition();
+		ScreenPosition expectedCursorPosition = expectedOutgoingSnapshot.getCursorPosition();
+		validateCursorMatch(actualCursorPosition, expectedCursorPosition);
+
+	}
+
+	private static void validateCursorMatch(ScreenPosition actualCursorPosition, ScreenPosition expectedCursorPosition) {
+		String message = MessageFormat.format("Expected cursor is not matched. Expected {0}, actual:{1}", expectedCursorPosition,
+				actualCursorPosition);
+
+		if (actualCursorPosition != null && expectedCursorPosition != null) {
+			boolean cursorMatch = actualCursorPosition.equals(expectedCursorPosition);
+			if (!cursorMatch) {
+				throw (new SendActionException(message));
+			}
+		}
+	}
+
+	public static void validateFieldsMatch(List<TerminalField> expectedFieldsList, List<TerminalField> actualFieldsList)
+			throws SendActionException {
+		if (expectedFieldsList.size() != actualFieldsList.size()) {
+			throw (new SendActionException("Fields list dont match"));
+		}
+		Map<ScreenPosition, TerminalField> actualFieldsMap = toMap(actualFieldsList);
+		for (TerminalField exptectedField : expectedFieldsList) {
+			ScreenPosition expectedPosition = exptectedField.getPosition();
+			TerminalField actualField = actualFieldsMap.get(expectedPosition);
+			if (actualField == null) {
+				throw (new SendActionException(MessageFormat.format(
+						"Expected field in position {0} not found in the actual sent fields", expectedPosition)));
+			}
+			if (!StringUtils.equals(exptectedField.getValue(), actualField.getValue())) {
+				throw (new SendActionException(MessageFormat.format(
+						"Expected value ''{0}'' doesnt match sent value ''{1}'' for field in position {2}",
+						exptectedField.getValue(), actualField.getValue(), expectedPosition)));
+			}
+		}
+	}
+
+	public static Map<ScreenPosition, TerminalField> toMap(List<TerminalField> fieldsList) {
+		Map<ScreenPosition, TerminalField> fieldsMap = new HashMap<ScreenPosition, TerminalField>();
+		for (TerminalField terminalField : fieldsList) {
+			fieldsMap.put(terminalField.getPosition(), terminalField);
+		}
+		return fieldsMap;
+
+	}
+}

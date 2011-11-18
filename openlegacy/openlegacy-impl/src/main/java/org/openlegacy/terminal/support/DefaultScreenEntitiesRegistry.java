@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.support.AbstractHostEntitiesRegistry;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
@@ -25,6 +27,8 @@ public class DefaultScreenEntitiesRegistry extends AbstractHostEntitiesRegistry<
 
 	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
 	private final Map<Class<?>, TableDefinition> tableDefinitions = new HashMap<Class<?>, TableDefinition>();
+
+	private final static Log logger = LogFactory.getLog(DefaultScreenEntitiesRegistry.class);
 
 	public ScreenEntityDefinition match(TerminalScreen hostScreen) {
 		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();
@@ -64,4 +68,16 @@ public class DefaultScreenEntitiesRegistry extends AbstractHostEntitiesRegistry<
 		return tableDefinitions.get(containingClass);
 	}
 
+	@Override
+	public void clear() {
+		super.clear();
+
+		screenPartDefinitions.clear();
+		tableDefinitions.clear();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("Cleared screen entities registry");
+		}
+
+	}
 }

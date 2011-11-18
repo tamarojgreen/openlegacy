@@ -22,7 +22,6 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.binders.ScreenEntityBinder;
 import org.openlegacy.terminal.utils.ScreenPainter;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.context.ApplicationContext;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -51,10 +50,9 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	private ScreensRecognizer screensRecognizer;
 
 	@Inject
-	private ApplicationContext applicationContext;
-
-	@Inject
 	private HostActionMapper hostActionMapper;
+
+	private Interceptor interceptor;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
 
@@ -67,7 +65,6 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 			TerminalScreen terminalScreen = getSnapshot();
 
-			Interceptor interceptor = applicationContext.getBean(ScreenEntityMethodInterceptor.class);
 			ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(screenEntityClass, ScreenEntity.class,
 					interceptor);
 
@@ -190,4 +187,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		return terminalConnection.isConnected();
 	}
 
+	public void setInterceptor(Interceptor interceptor) {
+		this.interceptor = interceptor;
+	}
 }

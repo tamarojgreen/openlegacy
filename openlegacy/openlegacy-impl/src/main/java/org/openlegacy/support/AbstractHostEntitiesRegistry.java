@@ -94,4 +94,9 @@ public abstract class AbstractHostEntitiesRegistry<H extends HostEntityDefinitio
 		return get(matchingTypes.get(0));
 	}
 
+	public void clear() {
+		hostEntities.clear();
+		reversedHostEntities.clear();
+		entitiesByTypes.clear();
+	}
 }

@@ -18,6 +18,9 @@
 			<bean class="org.openlegacy.terminal.support.TerminalConnectionDelegator" />
 		</property>
 		<property name="sessionModules" ref="terminalSessionModules" />
+		<property name="interceptor">
+			<bean class="org.openlegacy.terminal.support.ScreenEntityMethodInterceptor" />
+		</property>
 	</bean>
 	<bean class="org.openlegacy.terminal.support.ScreenEntityMethodInterceptor" scope="session"/>
 	
