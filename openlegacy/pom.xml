@@ -19,6 +19,15 @@
 		<deploy.dir>file://C:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps\maven2</deploy.dir>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
 	<distributionManagement>
 		<site>
 			<id>staging</id>
