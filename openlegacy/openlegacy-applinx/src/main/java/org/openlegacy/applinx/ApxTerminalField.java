@@ -42,4 +42,7 @@ public class ApxTerminalField implements TerminalField {
 		modifiedValue = value;
 	}
 
+	public boolean isModified() {
+		return modifiedValue != null;
+	}
 }

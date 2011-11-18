@@ -40,11 +40,15 @@ public class ScreenBinderLogic {
 			TerminalField terminalField = extractTerminalField(terminalScreen, fieldMappingDefinition);
 
 			String fieldName = fieldMappingDefinition.getName();
-			if (fieldAccessor.isEditable(fieldName)) {
+			if (fieldAccessor.isWritable(fieldName)) {
 				String content = fieldFormatter.format(terminalField.getValue());
 				fieldAccessor.setFieldValue(fieldName, content);
 
 				fieldAccessor.setTerminalField(fieldName, terminalField);
+			}
+			ScreenPosition cursorPosition = terminalScreen.getCursorPosition();
+			if (cursorPosition != null && cursorPosition.equals(fieldMappingDefinition.getScreenPosition())) {
+				fieldAccessor.setFocusField(fieldMappingDefinition.getName());
 			}
 
 		}

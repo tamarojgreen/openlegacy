@@ -5,6 +5,7 @@ import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.mock.MockTerminalScreen;
+import org.openlegacy.terminal.support.ScreenPositionBean;
 import org.openlegacy.terminal.support.ScreenSizeBean;
 import org.openlegacy.terminal.utils.ScreenPainter;
 
@@ -31,6 +32,9 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 
 	@XmlElement(name = "size", type = ScreenSizeBean.class)
 	private ScreenSize size;
+
+	@XmlElement(name = "cursor", type = ScreenPositionBean.class)
+	private ScreenPosition cursorPosition;
 
 	public SnapshotType getSnapshotType() {
 		return snapshotType;
@@ -63,5 +67,20 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 	@Override
 	public String toString() {
 		return ScreenPainter.paint(new MockTerminalScreen(this), true);
+	}
+
+	public ScreenPosition getCursorPosition() {
+		return cursorPosition;
+	}
+
+	public void setCursorPosition(ScreenPosition cursorPosition) {
+		if (cursorPosition == null) {
+			return;
+		}
+
+		ScreenPositionBean tempCursorPosition = new ScreenPositionBean();
+		tempCursorPosition.setRow(cursorPosition.getRow());
+		tempCursorPosition.setColumn(cursorPosition.getColumn());
+		this.cursorPosition = tempCursorPosition;
 	}
 }

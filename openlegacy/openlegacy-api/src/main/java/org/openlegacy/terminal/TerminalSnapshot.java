@@ -14,6 +14,8 @@ public interface TerminalSnapshot extends Snapshot {
 		OUTGOING
 	}
 
+	ScreenPosition getCursorPosition();
+
 	ScreenSize getSize();
 
 	List<TerminalRow> getRows();

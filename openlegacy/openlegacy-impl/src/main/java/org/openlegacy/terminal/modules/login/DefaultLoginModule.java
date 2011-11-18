@@ -28,7 +28,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private LoginMetadata loginCache;
+	private LoginMetadata loginMetadata;
 
 	@Inject
 	private ScreensRecognizer screensRecognizer;
@@ -55,10 +55,10 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		lazyMetadataInit();
 
 		try {
-			ScreenEntity loginEntity = (ScreenEntity)loginCache.getLoginScreenDefinition().getEntityClass().newInstance();
+			ScreenEntity loginEntity = (ScreenEntity)loginMetadata.getLoginScreenDefinition().getEntityClass().newInstance();
 			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
-			fieldAccessor.setFieldValue(loginCache.getUserField().getName(), user);
-			fieldAccessor.setFieldValue(loginCache.getPasswordField().getName(), password);
+			fieldAccessor.setFieldValue(loginMetadata.getUserField().getName(), user);
+			fieldAccessor.setFieldValue(loginMetadata.getPasswordField().getName(), password);
 			login(loginEntity);
 		} catch (LoginException e) {
 			throw (e);
@@ -75,14 +75,14 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 		lazyMetadataInit();
 
-		Class<?> registryLoginClass = loginCache.getLoginScreenDefinition().getEntityClass();
+		Class<?> registryLoginClass = loginMetadata.getLoginScreenDefinition().getEntityClass();
 		if (!ProxyUtil.isClassesMatch(loginEntity.getClass(), registryLoginClass)) {
 			throw (new RegistryException("LoginModule entity " + loginEntity.getClass() + " doesn't match registry login screen"
 					+ registryLoginClass));
 		}
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
-		String user = (String)fieldAccessor.getFieldValue(loginCache.getUserField().getName());
+		String user = (String)fieldAccessor.getFieldValue(loginMetadata.getUserField().getName());
 
 		Object currentEntity = getTerminalSession().doAction(loginHostAction, loginEntity);
 
@@ -96,7 +96,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 		// throw exception if after login screen is still login
 		if (ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
-			Object value = fieldAccessor.getFieldValue(loginCache.getErrorField().getName());
+			Object value = fieldAccessor.getFieldValue(loginMetadata.getErrorField().getName());
 			throw (new LoginException(value.toString()));
 		} else {
 			loggedInUser = user;
@@ -105,7 +105,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	}
 
 	private void lazyMetadataInit() {
-		loginCache.initCache();
+		loginMetadata.initCache();
 	}
 
 	public boolean isLoggedIn() {
@@ -114,7 +114,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 	public void logoff() {
 
-		Class<?> loginClass = loginCache.getLoginScreenDefinition().getEntityClass();
+		Class<?> loginClass = loginMetadata.getLoginScreenDefinition().getEntityClass();
 
 		Class<?> currentEntityClass = screensRecognizer.match(getTerminalSession().getSnapshot());
 

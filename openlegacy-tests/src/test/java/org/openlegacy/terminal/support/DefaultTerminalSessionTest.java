@@ -6,10 +6,7 @@ import apps.inventory.screens.SignOn;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
-import org.openlegacy.Snapshot;
-import org.openlegacy.modules.trail.SessionTrail;
-import org.openlegacy.modules.trail.Trail;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.openlegacy.terminal.exceptions.SendActionException;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,14 +34,43 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 	@Test
 	public void testCursor() {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
-		signOn.setUser("someuser");
-		signOn.setFocusField("user");
-		terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
+		Assert.assertEquals("user", signOn.getFocusField());
 
-		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
-		TerminalOutgoingSnapshot snapshot = (TerminalOutgoingSnapshot)trail.getSnapshots().get(0);
-		ScreenPosition cursorPosition = snapshot.getTerminalSendAction().getCursorPosition();
-		Assert.assertEquals(new SimpleScreenPosition(6, 53), cursorPosition);
+		signOn.setUser("someuser");
+		signOn.setPassword("somepwd");
+		signOn.setFocusField("user");
+		try {
+			terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
+		} catch (SessionEndedException e) {
+			// ok
+		}
+	}
+
+	@Test(expected = SendActionException.class)
+	public void testCursorException() {
+		SignOn signOn = terminalSession.getEntity(SignOn.class);
+
+		signOn.setUser("someuser");
+		signOn.setPassword("somepwd");
+		// cursor is expected to be at "user"
+		signOn.setFocusField("password");
+		try {
+			terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
+		} catch (SessionEndedException e) {
+			// ok
+		}
+	}
+
+	@Test(expected = SendActionException.class)
+	public void testNotAllFieldsSent() {
+		SignOn signOn = terminalSession.getEntity(SignOn.class);
+
+		signOn.setUser("someuser");
+		try {
+			terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
+		} catch (SessionEndedException e) {
+			// ok
+		}
 	}
 
 	@Test(expected = SendActionException.class)

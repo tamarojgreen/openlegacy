@@ -62,6 +62,7 @@ public class SnapshotPersistanceDTO {
 	private static TerminalSnapshot transformCommonSnapshot(TerminalPersistedSnapshot persistedSnapshot, TerminalScreen screen) {
 
 		List<TerminalRow> rows = screen.getRows();
+		persistedSnapshot.setCursorPosition(screen.getCursorPosition());
 		for (TerminalRow terminalRow : rows) {
 			TerminalPersistedRow persistedRow = new TerminalPersistedRow();
 			ReflectionUtil.copyProperties(persistedRow, terminalRow);

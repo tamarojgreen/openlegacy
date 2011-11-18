@@ -38,4 +38,8 @@ public class TerminalIncomingSnapshot implements TerminalSnapshot, Serializable 
 	public List<ScreenPosition> getFieldSeperators() {
 		return terminalScreen.getFieldSeperators();
 	}
+
+	public ScreenPosition getCursorPosition() {
+		return terminalScreen.getCursorPosition();
+	}
 }

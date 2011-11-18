@@ -1,6 +1,7 @@
 package org.openlegacy.terminal.support;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.ScreenPosition;
 
 import java.text.MessageFormat;
@@ -11,8 +12,8 @@ import java.text.MessageFormat;
  */
 public class SimpleScreenPosition implements ScreenPosition {
 
-	private int row;
-	private int column;
+	private int row = 1;
+	private int column = 1;
 
 	public SimpleScreenPosition(int row, int column) {
 		this.row = row;
@@ -42,6 +43,11 @@ public class SimpleScreenPosition implements ScreenPosition {
 	@Override
 	public String toString() {
 		return MessageFormat.format("{0},{1}", row, column);
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(getRow()).append(getColumn()).toHashCode();
 	}
 
 	@Override

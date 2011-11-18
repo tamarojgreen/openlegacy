@@ -94,4 +94,8 @@ public class ApxTerminalScreen implements TerminalScreen {
 		return screenPositions;
 
 	}
+
+	public ScreenPosition getCursorPosition() {
+		return ApxPositionUtil.toScreenPosition(screen.getCursorPosition());
+	}
 }

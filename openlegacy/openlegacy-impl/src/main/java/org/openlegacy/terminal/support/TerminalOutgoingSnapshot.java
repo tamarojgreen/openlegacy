@@ -45,4 +45,11 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 	public List<ScreenPosition> getFieldSeperators() {
 		return terminalScreen.getFieldSeperators();
 	}
+
+	public ScreenPosition getCursorPosition() {
+		if (terminalSendAction.getCursorPosition() != null) {
+			return terminalSendAction.getCursorPosition();
+		}
+		return terminalScreen.getCursorPosition();
+	}
 }

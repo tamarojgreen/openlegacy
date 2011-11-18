@@ -8,6 +8,8 @@ import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.ScreenUtils;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.terminal.utils.FieldsQuery;
+import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
 import org.openlegacy.terminal.utils.ScreenPainter;
 
 import java.util.ArrayList;
@@ -15,15 +17,12 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * A mock screen is conducted from a persisted screen, and reconstruct the entire screen data from the persisted fields
+ * A mock screen is conducted from a persisted snapshot, and reconstruct the entire screen data from the persisted fields
  * 
  */
 public class MockTerminalScreen implements TerminalScreen {
 
 	private TerminalSnapshot terminalSnapshot;
-
-	private List<TerminalField> allFields;
-	private List<TerminalField> editableFields;
 
 	private String screenText;
 
@@ -63,18 +62,16 @@ public class MockTerminalScreen implements TerminalScreen {
 
 	public Collection<TerminalField> getEditableFields() {
 		initContent();
-		return editableFields;
+		return FieldsQuery.queryFields(terminalSnapshot, EditableFieldsCriteria.instance());
 	}
 
 	private void initContent() {
 
-		if (allFields == null) {
+		if (screenText == null) {
 
 			ScreenSize size = getSize();
 			StringBuilder buffer = ScreenUtils.initEmptyBuffer(size);
 
-			allFields = new ArrayList<TerminalField>();
-			editableFields = new ArrayList<TerminalField>();
 			attributes = new ArrayList<ScreenPosition>();
 
 			List<TerminalRow> rows = terminalSnapshot.getRows();
@@ -83,10 +80,6 @@ public class MockTerminalScreen implements TerminalScreen {
 				List<TerminalField> rowFields = terminalRow.getFields();
 				for (TerminalField terminalField : rowFields) {
 					ScreenUtils.placeContentOnBuffer(buffer, terminalField, size);
-					allFields.add(terminalField);
-					if (terminalField.isEditable()) {
-						editableFields.add(terminalField);
-					}
 
 					ScreenPosition fieldPosition = terminalField.getPosition();
 					attributes.add(new SimpleScreenPosition(fieldPosition.getRow(), fieldPosition.getColumn() - 1));
@@ -108,5 +101,9 @@ public class MockTerminalScreen implements TerminalScreen {
 	public List<ScreenPosition> getFieldSeperators() {
 		initContent();
 		return attributes;
+	}
+
+	public ScreenPosition getCursorPosition() {
+		return terminalSnapshot.getCursorPosition();
 	}
 }

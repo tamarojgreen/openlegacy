@@ -13,6 +13,7 @@
 		<property name="files">
 			<list>
 				<value>SignOn.xml</value>
+				<value>SignOn-out.xml</value>
 				<value>MainMenu.xml</value>
 				<value>InventoryManagement.xml</value>
 				<value>ItemsList.xml</value>

@@ -16,4 +16,5 @@ public interface TerminalField {
 
 	boolean isEditable();
 
+	boolean isModified();
 }

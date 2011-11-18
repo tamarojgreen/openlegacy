@@ -19,6 +19,7 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	private final static Log logger = LogFactory.getLog(SimpleScreenPojoFieldAccessor.class);
 
 	private static final String TERMINAL_SCREEN = "terminalScreen";
+	private static final String FOCUS_FIELD = "focusField";
 
 	public SimpleScreenPojoFieldAccessor(Object target) {
 		target = ProxyUtil.getTargetObject(target);
@@ -39,7 +40,7 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	 * 
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#isWritableProperty(java.lang.String)
 	 */
-	public boolean isEditable(String fieldName) {
+	public boolean isWritable(String fieldName) {
 		return directFieldAccessor.isWritableProperty(fieldName);
 	}
 
@@ -102,5 +103,9 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	 */
 	public Object getFieldValue(String fieldName) {
 		return directFieldAccessor.getPropertyValue(fieldName);
+	}
+
+	public void setFocusField(String fieldName) {
+		directFieldAccessor.setPropertyValue(FOCUS_FIELD, fieldName);
 	}
 }

@@ -7,4 +7,15 @@
 
 	<import resource="classpath*:/test-mock-context.xml" />
 
+	<bean id="terminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+		<property name="root" value="/apps/inventory/screens_xml" />
+		<property name="files">
+			<list>
+				<value>SignOn.xml</value>
+				<value>SignOn-out.xml</value>
+			</list>
+		</property>
+	</bean>
+
 </beans>

@@ -8,8 +8,10 @@ import org.openlegacy.HostEntityFieldAccessor;
  */
 public interface ScreenPojoFieldAccessor extends HostEntityFieldAccessor {
 
-	public abstract void setTerminalField(String fieldName, TerminalField terminalField);
+	void setFocusField(String fieldName);
 
-	public abstract void setTerminalScreen(TerminalScreen terminalScreen);
+	void setTerminalField(String fieldName, TerminalField terminalField);
+
+	void setTerminalScreen(TerminalScreen terminalScreen);
 
 }
