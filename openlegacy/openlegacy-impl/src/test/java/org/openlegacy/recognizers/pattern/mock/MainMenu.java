@@ -1,4 +1,4 @@
-package tests.recognizers.pattern;
+package org.openlegacy.recognizers.pattern.mock;
 
 import org.openlegacy.annotations.screen.ScreenEntity;
 

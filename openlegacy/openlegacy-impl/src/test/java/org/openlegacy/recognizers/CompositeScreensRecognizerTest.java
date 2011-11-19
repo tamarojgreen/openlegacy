@@ -6,11 +6,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
+import org.openlegacy.recognizers.pattern.mock.MainMenu;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import tests.recognizers.pattern.MainMenu;
 
 import java.io.IOException;
 
