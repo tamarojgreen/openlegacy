@@ -13,6 +13,9 @@ public class ItemDetails1 {
 	@FieldMapping(row = 6, column = 33)
 	private String itemNumber;
 
+	@FieldMapping(row = 7, column = 33, editable = true)
+	private String itemDescription;
+
 	private ItemDetails2 itemDetails2;
 
 }

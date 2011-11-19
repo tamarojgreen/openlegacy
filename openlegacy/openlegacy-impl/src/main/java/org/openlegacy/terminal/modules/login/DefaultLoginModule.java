@@ -2,12 +2,12 @@ package org.openlegacy.terminal.modules.login;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -36,11 +36,11 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	private HostAction loginHostAction = TerminalActions.ENTER();
+	private TerminalAction loginHostAction = TerminalActions.ENTER();
 
 	private String loggedInUser = null;
 
-	private HostAction defaultExitAction = TerminalActions.F3();
+	private TerminalAction defaultExitAction = TerminalActions.F3();
 
 	// the maximum number of actions allowed in order to exit back to login screen
 	private int maxActionsToLogin = 7;
@@ -121,7 +121,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		int exitActionsCount = 0;
 		// while current entity is not login screen and haven't reach a maximum exit actions
 		while (!ProxyUtil.isClassesMatch(currentEntityClass, loginClass) && exitActionsCount < maxActionsToLogin) {
-			HostAction exitAction = defaultExitAction;
+			TerminalAction exitAction = defaultExitAction;
 			exitActionsCount++;
 
 			exitAction = findCurrentEntityExitAction(currentEntityClass, exitAction);
@@ -139,7 +139,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		loggedInUser = null;
 	}
 
-	private HostAction findCurrentEntityExitAction(Class<? extends Object> currentEntityClass, HostAction exitAction) {
+	private TerminalAction findCurrentEntityExitAction(Class<? extends Object> currentEntityClass, TerminalAction exitAction) {
 		if (currentEntityClass != null) {
 			ScreenEntityDefinition currentScreenDefinition = screenEntitiesRegistry.get(currentEntityClass);
 			NavigationDefinition navigationDefinition = currentScreenDefinition.getNavigationDefinition();
@@ -150,11 +150,11 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		return exitAction;
 	}
 
-	public void setLoginHostAction(Class<? extends HostAction> hostAction) {
+	public void setLoginHostAction(Class<? extends TerminalAction> hostAction) {
 		this.loginHostAction = ReflectionUtil.newInstance(hostAction);
 	}
 
-	public void setDefaultExitAction(Class<? extends HostAction> defaultExitAction) {
+	public void setDefaultExitAction(Class<? extends TerminalAction> defaultExitAction) {
 		this.defaultExitAction = ReflectionUtil.newInstance(defaultExitAction);
 	}
 

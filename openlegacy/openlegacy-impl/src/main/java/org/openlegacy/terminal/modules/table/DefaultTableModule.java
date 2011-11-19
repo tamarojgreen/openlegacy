@@ -35,7 +35,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 		return tableCollector.collectAll(getTerminalSession(), screenEntityClass, rowClass);
 	}
 
-	public <T> T drillDown(Class<?> sourceEntityClass, Class<T> targetEntityClass, DrilldownAction drilldownAction,
+	public <T> T drillDown(Class<?> sourceEntityClass, Class<T> targetEntityClass, DrilldownAction<?> drilldownAction,
 			Object... rowKeys) {
 		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				sourceEntityClass).getValue();

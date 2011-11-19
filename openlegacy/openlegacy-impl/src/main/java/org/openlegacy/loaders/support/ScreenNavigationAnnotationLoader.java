@@ -32,7 +32,7 @@ public class ScreenNavigationAnnotationLoader implements ClassAnnotationsLoader 
 		SimpleScreenNavigationDefinition navigationDefinition = new SimpleScreenNavigationDefinition();
 		navigationDefinition.setAccessedFrom(screenNavigation.accessedFrom());
 
-		navigationDefinition.setHostAction(ReflectionUtil.newInstance(screenNavigation.hostAction()));
+		navigationDefinition.setHostAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
 		navigationDefinition.setExitAction(ReflectionUtil.newInstance(screenNavigation.exitAction()));
 
 		AssignedField[] assignedFields = screenNavigation.assignedFields();

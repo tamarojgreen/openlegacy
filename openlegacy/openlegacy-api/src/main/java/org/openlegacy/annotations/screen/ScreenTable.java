@@ -1,6 +1,6 @@
 package org.openlegacy.annotations.screen;
 
-import org.openlegacy.HostAction;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.table.ScreenTableCollector;
 
@@ -26,9 +26,9 @@ public @interface ScreenTable {
 
 	int endRow();
 
-	Class<? extends HostAction> nextScreenAction() default TerminalActions.PAGEDOWN.class;
+	Class<? extends TerminalAction> nextScreenAction() default TerminalActions.PAGEDOWN.class;
 
-	Class<? extends HostAction> previousScreenAction() default TerminalActions.PAGEUP.class;
+	Class<? extends TerminalAction> previousScreenAction() default TerminalActions.PAGEUP.class;
 
 	boolean supportTerminalData() default false;
 

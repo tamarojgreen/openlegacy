@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.definitions;
 
-import org.openlegacy.HostAction;
 import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
@@ -8,6 +7,7 @@ import org.openlegacy.modules.table.drilldown.RowSelector;
 import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.modules.table.drilldown.TableScroller;
+import org.openlegacy.terminal.actions.TerminalAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +21,8 @@ public class SimpleTableDefinition implements TableDefinition {
 	private int endRow;
 	private List<ColumnDefinition> columnDefinitions = new ArrayList<ColumnDefinition>();
 
-	private HostAction nextScreenAction;
-	private HostAction previousScreenAction;
+	private TerminalAction nextScreenAction;
+	private TerminalAction previousScreenAction;
 
 	private SimpleRowSelectionDefinition rowSelectionDefinition = new SimpleRowSelectionDefinition();
 
@@ -60,19 +60,19 @@ public class SimpleTableDefinition implements TableDefinition {
 		return columnDefinitions;
 	}
 
-	public HostAction getNextScreenAction() {
+	public TerminalAction getNextScreenAction() {
 		return nextScreenAction;
 	}
 
-	public void setNextScreenAction(HostAction nextScreenAction) {
+	public void setNextScreenAction(TerminalAction nextScreenAction) {
 		this.nextScreenAction = nextScreenAction;
 	}
 
-	public HostAction getPreviousScreenAction() {
+	public TerminalAction getPreviousScreenAction() {
 		return previousScreenAction;
 	}
 
-	public void setPreviousScreenAction(HostAction previousScreenAction) {
+	public void setPreviousScreenAction(TerminalAction previousScreenAction) {
 		this.previousScreenAction = previousScreenAction;
 	}
 

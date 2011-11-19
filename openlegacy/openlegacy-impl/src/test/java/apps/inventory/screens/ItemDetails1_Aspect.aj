@@ -19,7 +19,16 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     
 	
 	
+	
     
+
+    public String ItemDetails1.getItemDescription(){
+    	return this.itemDescription;
+    }
+    
+    public void ItemDetails1.setItemDescription(String itemDescription){
+    	this.itemDescription = itemDescription;
+    }
 
     public ItemDetails2 ItemDetails1.getItemDetails2(){
     	return this.itemDetails2;

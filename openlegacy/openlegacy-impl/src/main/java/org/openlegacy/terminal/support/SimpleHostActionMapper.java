@@ -1,16 +1,16 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.HostAction;
 import org.openlegacy.terminal.HostActionMapper;
+import org.openlegacy.terminal.actions.TerminalAction;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SimpleHostActionMapper implements HostActionMapper {
 
-	private Map<Class<? extends HostAction>, Object> actionMappings = new HashMap<Class<? extends HostAction>, Object>();
+	private Map<Class<? extends TerminalAction>, Object> actionMappings = new HashMap<Class<? extends TerminalAction>, Object>();
 
-	public Object getCommand(Class<? extends HostAction> hostAction) {
+	public Object getCommand(Class<? extends TerminalAction> hostAction) {
 		Object command = actionMappings.get(hostAction);
 		if (command != null) {
 			return command;
@@ -19,7 +19,7 @@ public class SimpleHostActionMapper implements HostActionMapper {
 		return actionMappings.get(hostAction.getSuperclass());
 	}
 
-	public void setActionMappings(Map<Class<? extends HostAction>, Object> actionMappings) {
+	public void setActionMappings(Map<Class<? extends TerminalAction>, Object> actionMappings) {
 		this.actionMappings = actionMappings;
 	}
 

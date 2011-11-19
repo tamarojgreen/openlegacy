@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.definitions;
 
-import org.openlegacy.HostAction;
+import org.openlegacy.terminal.actions.TerminalAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition {
 
 	private Class<?> accessedFrom;
 	private List<FieldAssignDefinition> assignedFields = new ArrayList<FieldAssignDefinition>();
-	private HostAction hostAction;
-	private HostAction exitAction;
+	private TerminalAction hostAction;
+	private TerminalAction exitAction;
 
 	public Class<?> getAccessedFrom() {
 		return accessedFrom;
@@ -24,19 +24,19 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition {
 		return assignedFields;
 	}
 
-	public HostAction getHostAction() {
+	public TerminalAction getHostAction() {
 		return hostAction;
 	}
 
-	public void setHostAction(HostAction hostAction) {
+	public void setHostAction(TerminalAction hostAction) {
 		this.hostAction = hostAction;
 	}
 
-	public HostAction getExitAction() {
+	public TerminalAction getExitAction() {
 		return exitAction;
 	}
 
-	public void setExitAction(HostAction exitAction) {
+	public void setExitAction(TerminalAction exitAction) {
 		this.exitAction = exitAction;
 	}
 

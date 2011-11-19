@@ -5,6 +5,7 @@ package org.openlegacy;
  * command executing. For example "f1", "enter", etc.
  * 
  */
-public interface HostAction {
+public interface HostAction<S extends HostSession> {
 
+	void perform(S session, Object entity);
 }

@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.definitions;
 
-import org.openlegacy.HostAction;
+import org.openlegacy.terminal.actions.TerminalAction;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ public interface NavigationDefinition {
 
 	List<FieldAssignDefinition> getAssignedFields();
 
-	HostAction getHostAction();
+	TerminalAction getHostAction();
 
-	HostAction getExitAction();
+	TerminalAction getExitAction();
 
 }

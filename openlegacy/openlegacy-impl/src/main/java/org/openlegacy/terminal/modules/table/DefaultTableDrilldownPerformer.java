@@ -36,7 +36,7 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> T drilldown(DrilldownDefinition drilldownDefinition, TerminalSession session, Class<?> sourceEntityClass,
-			Class<T> targetEntityClass, DrilldownAction drilldownAction, Object... rowKeys) {
+			Class<T> targetEntityClass, DrilldownAction<?> drilldownAction, Object... rowKeys) {
 
 		RowFinder rowFinder = getDefaultBean(drilldownDefinition.getRowFinder());
 

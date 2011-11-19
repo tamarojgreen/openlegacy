@@ -13,9 +13,8 @@ public class SimpleTerminalSendAction implements TerminalSendAction {
 	private Object command;
 	private ScreenPosition cursorPosition;
 
-	public SimpleTerminalSendAction(Object command, ScreenPosition cursorPosition) {
+	public SimpleTerminalSendAction(Object command) {
 		this.command = command;
-		this.cursorPosition = cursorPosition;
 	}
 
 	public List<TerminalField> getModifiedFields() {

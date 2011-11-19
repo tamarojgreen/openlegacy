@@ -3,8 +3,6 @@ package org.openlegacy.terminal.support;
 import org.aopalliance.intercept.Interceptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.CustomHostAction;
-import org.openlegacy.HostAction;
 import org.openlegacy.exceptions.HostEntityNotFoundException;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.modules.HostSessionModule;
@@ -14,7 +12,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.exceptions.HostActionNotMappedException;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.SessionNavigator;
@@ -92,11 +90,11 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		return (S)entity;
 	}
 
-	public <R extends ScreenEntity> R doAction(HostAction action) {
+	public <R extends ScreenEntity> R doAction(TerminalAction action) {
 		return doAction(action, null);
 	}
 
-	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(HostAction hostAction, S screenEntity,
+	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction hostAction, S screenEntity,
 			Class<R> expectedEntity) {
 		try {
 			@SuppressWarnings("unchecked")
@@ -108,19 +106,15 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	}
 
-	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(HostAction hostAction, S screenEntity) {
+	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction hostAction, S screenEntity) {
 
 		entity = null;
 
-		if (hostAction instanceof CustomHostAction) {
-			((CustomHostAction)hostAction).perform(this);
+		Object command = hostActionMapper.getCommand(hostAction.getClass());
+		if (command == null) {
+			hostAction.perform(this, screenEntity);
 		} else {
-			Object command = hostActionMapper.getCommand(hostAction.getClass());
-			if (command == null) {
-				throw (new HostActionNotMappedException(MessageFormat.format(
-						"Specified action {0} is not mapped to a terminal command", hostAction.getClass())));
-			}
-			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(command, null);
+			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(command);
 
 			if (screenEntity != null) {
 				for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
@@ -147,7 +141,6 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 					// ignore
 				}
 			}
-
 		}
 
 		return getEntity();

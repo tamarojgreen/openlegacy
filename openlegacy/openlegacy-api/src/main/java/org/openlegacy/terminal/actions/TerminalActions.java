@@ -1,6 +1,9 @@
 package org.openlegacy.terminal.actions;
 
-import org.openlegacy.HostAction;
+import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.exceptions.HostActionNotMappedException;
+
+import java.text.MessageFormat;
 
 /**
  * A utility class for exposing common host keys action
@@ -8,10 +11,12 @@ import org.openlegacy.HostAction;
  */
 public class TerminalActions {
 
-	private static interface TerminalAction extends HostAction {
-	}
-
 	private static class SimpleTerminalAction implements TerminalAction {
+
+		public void perform(TerminalSession hostSession, Object entity) {
+			throw (new HostActionNotMappedException(MessageFormat.format(
+					"Specified action {0} is not mapped to a terminal command", getClass())));
+		}
 	}
 
 	public static class ENTER extends SimpleTerminalAction {

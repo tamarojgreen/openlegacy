@@ -11,6 +11,6 @@ import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
 public interface TableDrilldownPerformer<S extends HostSession> {
 
 	<T> T drilldown(DrilldownDefinition drilldownDefinition, S session, Class<?> sourceEntityClass, Class<T> targetEntityClass,
-			DrilldownAction drilldownAction, Object... rowKeys);
+			DrilldownAction<?> drilldownAction, Object... rowKeys);
 
 }

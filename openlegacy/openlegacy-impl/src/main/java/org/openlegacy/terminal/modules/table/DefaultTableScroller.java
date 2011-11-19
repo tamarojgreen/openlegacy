@@ -2,9 +2,9 @@ package org.openlegacy.terminal.modules.table;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.HostAction;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.table.ScreenTableScroller;
@@ -27,7 +27,7 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
-	private HostAction defaultNextAction;
+	private TerminalAction defaultNextAction;
 
 	private final static Log logger = LogFactory.getLog(DefaultTableScroller.class);
 
@@ -45,7 +45,7 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				entityClass).getValue();
 
-		HostAction nextAction = tableDefinition.getNextScreenAction() != null ? tableDefinition.getNextScreenAction()
+		TerminalAction nextAction = tableDefinition.getNextScreenAction() != null ? tableDefinition.getNextScreenAction()
 				: defaultNextAction;
 
 		Assert.notNull(
@@ -64,7 +64,7 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 
 	}
 
-	public void setDefaultNextAction(Class<? extends HostAction> defaultNextAction) {
+	public void setDefaultNextAction(Class<? extends TerminalAction> defaultNextAction) {
 		this.defaultNextAction = ReflectionUtil.newInstance(defaultNextAction);
 	}
 }

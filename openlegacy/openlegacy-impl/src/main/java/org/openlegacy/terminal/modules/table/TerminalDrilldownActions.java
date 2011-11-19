@@ -1,15 +1,15 @@
 package org.openlegacy.terminal.modules.table;
 
-import org.openlegacy.modules.table.drilldown.DrilldownAction;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
+import org.openlegacy.terminal.table.TerminalDrilldownAction;
 
-public class DrilldownActions {
+public class TerminalDrilldownActions {
 
-	public static DrilldownAction enter(Object actionValue) {
+	public static TerminalDrilldownAction enter(Object actionValue) {
 		return new EnterDrilldownAction(actionValue);
 	}
 
-	public static class EnterDrilldownAction extends ENTER implements DrilldownAction {
+	public static class EnterDrilldownAction extends ENTER implements TerminalDrilldownAction {
 
 		private Object actionValue;
 

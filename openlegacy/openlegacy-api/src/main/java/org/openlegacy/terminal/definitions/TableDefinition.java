@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.definitions;
 
-import org.openlegacy.HostAction;
 import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
@@ -8,6 +7,7 @@ import org.openlegacy.modules.table.drilldown.RowSelector;
 import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.modules.table.drilldown.TableScroller;
+import org.openlegacy.terminal.actions.TerminalAction;
 
 import java.util.List;
 
@@ -24,9 +24,9 @@ public interface TableDefinition {
 
 	ColumnDefinition getColumnDefinition(String fieldName);
 
-	HostAction getNextScreenAction();
+	TerminalAction getNextScreenAction();
 
-	HostAction getPreviousScreenAction();
+	TerminalAction getPreviousScreenAction();
 
 	List<String> getKeyFieldNames();
 

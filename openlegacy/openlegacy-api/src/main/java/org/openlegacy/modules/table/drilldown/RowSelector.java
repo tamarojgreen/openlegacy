@@ -8,5 +8,5 @@ import org.openlegacy.HostSession;
  */
 public interface RowSelector<S extends HostSession, T> {
 
-	<D extends DrilldownAction> void selectRow(S session, T entity, D drilldownAction, int row);
+	<D extends DrilldownAction<?>> void selectRow(S session, T entity, D drilldownAction, int row);
 }
