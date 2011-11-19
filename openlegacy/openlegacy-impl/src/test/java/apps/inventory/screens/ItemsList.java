@@ -9,7 +9,7 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableDrilldown;
-import org.openlegacy.terminal.actions.SendKeyClasses.F3;
+import org.openlegacy.terminal.actions.TerminalActions.F3;
 
 import java.util.List;
 

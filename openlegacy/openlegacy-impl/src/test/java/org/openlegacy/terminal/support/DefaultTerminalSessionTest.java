@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.exceptions.SessionEndedException;
-import org.openlegacy.terminal.actions.SendKeyActions;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.exceptions.SendActionException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -40,7 +40,7 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 		signOn.setPassword("somepwd");
 		signOn.setFocusField("user");
 		try {
-			terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
+			terminalSession.doAction(TerminalActions.ENTER(), signOn, MainMenu.class);
 		} catch (SessionEndedException e) {
 			// ok
 		}
@@ -55,7 +55,7 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 		// cursor is expected to be at "user"
 		signOn.setFocusField("password");
 		try {
-			terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
+			terminalSession.doAction(TerminalActions.ENTER(), signOn, MainMenu.class);
 		} catch (SessionEndedException e) {
 			// ok
 		}
@@ -67,7 +67,7 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 
 		signOn.setUser("someuser");
 		try {
-			terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
+			terminalSession.doAction(TerminalActions.ENTER(), signOn, MainMenu.class);
 		} catch (SessionEndedException e) {
 			// ok
 		}
@@ -77,6 +77,6 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 	public void testCursorIncorrect() {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		signOn.setFocusField("no_such_field");
-		terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
+		terminalSession.doAction(TerminalActions.ENTER(), signOn, MainMenu.class);
 	}
 }

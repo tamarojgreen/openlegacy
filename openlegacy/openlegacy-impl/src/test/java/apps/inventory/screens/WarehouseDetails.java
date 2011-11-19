@@ -5,7 +5,7 @@ import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
-import org.openlegacy.terminal.actions.SendKeyClasses.F3;
+import org.openlegacy.terminal.actions.TerminalActions.F3;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 38, value = "Warehouse Details"),

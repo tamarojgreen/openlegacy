@@ -1,7 +1,7 @@
 package org.openlegacy.annotations.screen;
 
 import org.openlegacy.HostAction;
-import org.openlegacy.terminal.actions.SendKeyClasses;
+import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -16,7 +16,7 @@ public @interface ScreenNavigation {
 
 	Class<?> accessedFrom();
 
-	Class<? extends HostAction> hostAction() default SendKeyClasses.ENTER.class;
+	Class<? extends HostAction> hostAction() default TerminalActions.ENTER.class;
 
 	AssignedField[] assignedFields() default {};
 

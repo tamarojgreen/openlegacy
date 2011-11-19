@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.exceptions.SessionEndedException;
-import org.openlegacy.terminal.actions.SendKeyActions;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,7 +34,7 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 		signOn.setFocusField("programProcedure");
 
 		// tests doAction with expected class type
-		MainMenu mainMenu = terminalSession.doAction(SendKeyActions.ENTER, signOn, MainMenu.class);
+		MainMenu mainMenu = terminalSession.doAction(TerminalActions.ENTER(), signOn, MainMenu.class);
 		Assert.assertNotNull(mainMenu);
 		Assert.assertEquals("101", mainMenu.getCompany());
 
@@ -44,7 +44,7 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		Assert.assertNotNull(itemList);
 
-		ItemDetails1 itemDetails1 = terminalSession.doAction(SendKeyActions.ENTER, null, ItemDetails1.class);
+		ItemDetails1 itemDetails1 = terminalSession.doAction(TerminalActions.ENTER(), null, ItemDetails1.class);
 		Assert.assertNotNull(itemDetails1);
 		Assert.assertEquals("2000", itemDetails1.getItemNumber());
 
@@ -62,7 +62,7 @@ public class DefaultScreenEntityBinderTest extends AbstractTest {
 		itemDetails1.getItemDetails2().getStockInfo().setStandardUnitCost("1");
 
 		try {
-			terminalSession.doAction(SendKeyActions.ENTER, itemDetails1.getItemDetails2());
+			terminalSession.doAction(TerminalActions.ENTER(), itemDetails1.getItemDetails2());
 		} catch (SessionEndedException e) {
 			// ok
 		}

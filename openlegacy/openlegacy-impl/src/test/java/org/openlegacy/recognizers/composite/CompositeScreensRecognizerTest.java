@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
-import org.openlegacy.recognizers.composite.mock.ScreenWithoutIdentifiers;
 import org.openlegacy.recognizers.composite.mock.ScreenWithIdentifiers;
-import org.openlegacy.terminal.actions.SendKeyActions;
+import org.openlegacy.recognizers.composite.mock.ScreenWithoutIdentifiers;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,7 +20,7 @@ public class CompositeScreensRecognizerTest extends AbstractTest {
 	public void testComposite() throws IOException {
 		ScreenWithIdentifiers screenWithIdentifiers = terminalSession.getEntity(ScreenWithIdentifiers.class);
 		Assert.assertNotNull(screenWithIdentifiers);
-		terminalSession.doAction(SendKeyActions.ENTER);
+		terminalSession.doAction(TerminalActions.ENTER());
 		ScreenWithoutIdentifiers screenWithoutIdentifiers = terminalSession.getEntity(ScreenWithoutIdentifiers.class);
 		Assert.assertNotNull(screenWithoutIdentifiers);
 	}

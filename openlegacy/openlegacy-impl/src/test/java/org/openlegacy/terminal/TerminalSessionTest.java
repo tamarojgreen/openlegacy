@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
-import org.openlegacy.terminal.actions.SendKeyActions;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,7 +19,7 @@ public class TerminalSessionTest extends AbstractTest {
 
 		String signOnText = readResource("/screens/SignOn.txt");
 		Assert.assertEquals(signOnText, terminalSession.getSnapshot().toString());
-		terminalSession.doAction(SendKeyActions.ENTER);
+		terminalSession.doAction(TerminalActions.ENTER());
 		String displayProgramMessagesText = readResource("/screens/MainMenu.txt");
 		Assert.assertEquals(displayProgramMessagesText, terminalSession.getSnapshot().toString());
 	}

@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.modules.table;
 
 import org.openlegacy.modules.table.drilldown.DrilldownAction;
-import org.openlegacy.terminal.actions.SendKeyClasses.ENTER;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 
 public class DrilldownActions {
 

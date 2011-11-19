@@ -8,7 +8,7 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.actions.SendKeyActions;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -36,11 +36,11 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	private HostAction loginHostAction = SendKeyActions.ENTER;
+	private HostAction loginHostAction = TerminalActions.ENTER();
 
 	private String loggedInUser = null;
 
-	private HostAction defaultExitAction = SendKeyActions.F3;
+	private HostAction defaultExitAction = TerminalActions.F3();
 
 	// the maximum number of actions allowed in order to exit back to login screen
 	private int maxActionsToLogin = 7;

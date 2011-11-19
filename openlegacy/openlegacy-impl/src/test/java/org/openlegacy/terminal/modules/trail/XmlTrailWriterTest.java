@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
-import org.openlegacy.terminal.actions.SendKeyActions;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -27,7 +27,7 @@ public class XmlTrailWriterTest extends AbstractTest {
 	public void testTrail() {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		signOn.setUser("user");
-		terminalSession.doAction(SendKeyActions.ENTER, signOn);
+		terminalSession.doAction(TerminalActions.ENTER(), signOn);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		trailWriter.write(terminalSession.getModule(Trail.class).getSessionTrail(), baos);
