@@ -1,16 +1,14 @@
-package org.openlegacy.recognizers;
-
-import apps.inventory.screens.SignOn;
+package org.openlegacy.recognizers.composite;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
-import org.openlegacy.recognizers.pattern.mock.MainMenu;
+import org.openlegacy.recognizers.composite.mock.ScreenWithoutIdentifiers;
+import org.openlegacy.recognizers.composite.mock.ScreenWithIdentifiers;
 import org.openlegacy.terminal.actions.SendKeyActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 
 import java.io.IOException;
 
@@ -20,10 +18,10 @@ public class CompositeScreensRecognizerTest extends AbstractTest {
 
 	@Test
 	public void testComposite() throws IOException {
-		SignOn signOn = terminalSession.getEntity(SignOn.class);
-		Assert.assertNotNull(signOn);
+		ScreenWithIdentifiers screenWithIdentifiers = terminalSession.getEntity(ScreenWithIdentifiers.class);
+		Assert.assertNotNull(screenWithIdentifiers);
 		terminalSession.doAction(SendKeyActions.ENTER);
-		MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
-		Assert.assertNotNull(mainMenu);
+		ScreenWithoutIdentifiers screenWithoutIdentifiers = terminalSession.getEntity(ScreenWithoutIdentifiers.class);
+		Assert.assertNotNull(screenWithoutIdentifiers);
 	}
 }

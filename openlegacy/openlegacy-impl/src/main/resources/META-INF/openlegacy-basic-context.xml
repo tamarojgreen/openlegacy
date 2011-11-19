@@ -11,7 +11,7 @@
 	<bean class="org.openlegacy.terminal.support.ScreenAnnotationProccesor"/>
 
 	<context:component-scan base-package="org.openlegacy">
-        <context:exclude-filter expression=".mock.*" type="regex"/>
+        <context:exclude-filter expression=".*mock.*" type="regex"/>
 	</context:component-scan>
 	
 	<!-- Open legacy default beans -->

@@ -1,11 +1,15 @@
 package org.openlegacy.recognizers.pattern.mock;
 
 import org.openlegacy.annotations.screen.ScreenEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 @ScreenEntity
-public class SignOn {
+public class SignOn implements org.openlegacy.terminal.ScreenEntity {
 
-	private String user;
-	private String password;
-	private String error;
+	public String getFocusField() {
+		return null;
+	}
+
+	public void setFocusField(String focusField) {}
 }

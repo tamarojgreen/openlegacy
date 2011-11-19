@@ -42,6 +42,10 @@ public class DefaultSessionNavigator implements SessionNavigator {
 		TerminalScreen snapshot = terminalSession.getSnapshot();
 		Class<?> currentEntityClass = screensRecognizer.match(snapshot);
 
+		if (currentEntityClass == null) {
+			return;
+		}
+
 		if (ProxyUtil.isClassesMatch(currentEntityClass, targetScreenEntity)) {
 			return;
 		}
