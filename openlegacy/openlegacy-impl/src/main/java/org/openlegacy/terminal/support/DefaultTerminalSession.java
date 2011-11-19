@@ -92,11 +92,15 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		return (S)entity;
 	}
 
-	public <S extends ScreenEntity, T extends ScreenEntity> T doAction(HostAction hostAction, S screenEntity,
-			Class<T> expectedEntity) {
+	public <R extends ScreenEntity> R doAction(HostAction action) {
+		return doAction(action, null);
+	}
+
+	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(HostAction hostAction, S screenEntity,
+			Class<R> expectedEntity) {
 		try {
 			@SuppressWarnings("unchecked")
-			T object = (T)doAction(hostAction, screenEntity);
+			R object = (R)doAction(hostAction, screenEntity);
 			return object;
 		} catch (ClassCastException e) {
 			throw (new ScreenEntityNotAccessibleException(e));
@@ -104,7 +108,7 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	}
 
-	public Object doAction(HostAction hostAction, ScreenEntity screenEntity) {
+	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(HostAction hostAction, S screenEntity) {
 
 		entity = null;
 
@@ -190,4 +194,5 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	public void setInterceptor(Interceptor interceptor) {
 		this.interceptor = interceptor;
 	}
+
 }

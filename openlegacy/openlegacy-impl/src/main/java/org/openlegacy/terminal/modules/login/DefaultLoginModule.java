@@ -129,7 +129,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 			if (logger.isDebugEnabled()) {
 				logger.debug(MessageFormat.format("Exiting screen {0} using {1}", currentEntityClass, exitAction));
 			}
-			getTerminalSession().doAction(exitAction, null);
+			getTerminalSession().doAction(exitAction);
 			currentEntityClass = screensRecognizer.match(getTerminalSession().getSnapshot());
 
 		}

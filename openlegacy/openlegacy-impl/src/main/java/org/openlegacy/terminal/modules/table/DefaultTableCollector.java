@@ -63,7 +63,7 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 			if (rows.size() < rowsCount) {
 				cont = false;
 			} else {
-				screenEntity = terminalSession.doAction(matchingTableDefinition.getNextScreenAction(), null);
+				screenEntity = terminalSession.doAction(matchingTableDefinition.getNextScreenAction());
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
 		}

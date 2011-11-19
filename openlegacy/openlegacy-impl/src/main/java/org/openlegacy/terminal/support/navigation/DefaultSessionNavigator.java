@@ -81,7 +81,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 			logger.debug(MessageFormat.format("Steping back of screen {0} using {1}", currentEntityClass,
 					currentScreenNavigationDefinition.getExitAction()));
 		}
-		terminalSession.doAction(currentScreenNavigationDefinition.getExitAction(), null);
+		terminalSession.doAction(currentScreenNavigationDefinition.getExitAction());
 	}
 
 	private static void performDirectNavigation(TerminalSession terminalSession, Class<?> currentEntityClass,

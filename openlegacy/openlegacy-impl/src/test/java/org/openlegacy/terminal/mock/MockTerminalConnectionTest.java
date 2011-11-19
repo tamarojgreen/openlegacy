@@ -22,7 +22,7 @@ public class MockTerminalConnectionTest extends AbstractTest {
 	@Test
 	public void testMockConnection() throws IOException {
 
-		terminalSession.doAction(SendKeyActions.ENTER, null);
+		terminalSession.doAction(SendKeyActions.ENTER);
 	}
 
 }

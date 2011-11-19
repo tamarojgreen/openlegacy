@@ -53,7 +53,7 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 				MessageFormat.format("Next action not defined either as default nor at screen entity {0}",
 						tableDefinition.getTableClass()));
 
-		T afterScrolllEntity = (T)terminalSession.doAction(nextAction, null);
+		T afterScrolllEntity = (T)terminalSession.doAction(nextAction);
 
 		if (tableScrollStopConditions.shouldStop(beforeScrolllEntity, afterScrolllEntity)) {
 			logger.debug(MessageFormat.format("Table stop condition met for {0}. stopping scroll", entityClass));

@@ -9,15 +9,17 @@ import org.openlegacy.StatefullHostSession;
  */
 public interface TerminalSession extends StatefullHostSession<TerminalScreen> {
 
+	<R extends ScreenEntity> R doAction(HostAction action);
+
 	/**
 	 * 
 	 * @param action
 	 * @param screenEntity
 	 * @return The current screen entity
 	 */
-	<S extends ScreenEntity> Object doAction(HostAction action, S screenEntity);
+	<S extends ScreenEntity, R extends ScreenEntity> R doAction(HostAction action, S screenEntity);
 
-	<S extends ScreenEntity, T extends ScreenEntity> T doAction(HostAction action, S screenEntity, Class<T> expectedScreenEntity);
+	<S extends ScreenEntity, R extends ScreenEntity> R doAction(HostAction action, S screenEntity, Class<R> expectedScreenEntity);
 
 	<S extends ScreenEntity> S getEntity();
 }
