@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.applinx.languages;
 
 import com.sabratec.applinx.common.designtime.exceptions.GXDesignTimeException;
 

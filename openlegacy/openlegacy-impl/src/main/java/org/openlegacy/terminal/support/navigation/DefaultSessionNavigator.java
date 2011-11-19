@@ -33,7 +33,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 	private ScreensRecognizer screensRecognizer;
 
 	@Inject
-	private NavigationMetadata navigationCache;
+	private NavigationMetadata navigationMetadata;
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 
@@ -49,7 +49,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntityClass);
 		ScreenEntityDefinition targetEntityDefinition = screenEntitiesRegistry.get(targetScreenEntity);
 
-		List<NavigationDefinition> navigationSteps = navigationCache.get(currentEntityDefinition, targetEntityDefinition);
+		List<NavigationDefinition> navigationSteps = navigationMetadata.get(currentEntityDefinition, targetEntityDefinition);
 
 		while (navigationSteps == null) {
 			navigationSteps = findDirectNavigationPath(currentEntityDefinition, targetEntityDefinition);
@@ -70,7 +70,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 			ScreenNavigationUtil.validateCurrentScreen(targetScreenEntity, currentEntityClass);
 		}
 
-		navigationCache.add(currentEntityDefinition, targetEntityDefinition, navigationSteps);
+		navigationMetadata.add(currentEntityDefinition, targetEntityDefinition, navigationSteps);
 
 		performDirectNavigation(terminalSession, currentEntityClass, navigationSteps);
 	}
