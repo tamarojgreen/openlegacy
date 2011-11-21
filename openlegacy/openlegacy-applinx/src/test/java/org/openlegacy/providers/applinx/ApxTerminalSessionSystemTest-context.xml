@@ -8,4 +8,6 @@
 
 	<import resource="classpath:/test-apx-context.xml"/>
 
+	<bean id="screensRecognizer" class="org.openlegacy.providers.applinx.ApxScreensRecognizer" />
+
 </beans>

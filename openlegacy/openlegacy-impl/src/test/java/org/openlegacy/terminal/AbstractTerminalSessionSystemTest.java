@@ -7,22 +7,15 @@ import apps.inventory.screens.MainMenu;
 import apps.inventory.screens.SignOn;
 
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
-@ContextConfiguration
-@RunWith(SpringJUnit4ClassRunner.class)
-public class DefaultScreenEntityBinderTest extends AbstractTest {
+public class AbstractTerminalSessionSystemTest extends AbstractTest {
 
-	@Test
-	public void testScreenBinder() throws IOException {
+	protected void testSystem() throws IOException {
 
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
