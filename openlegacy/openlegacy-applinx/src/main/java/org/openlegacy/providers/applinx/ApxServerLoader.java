@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.providers.applinx;
 
 import com.sabratec.applinx.baseobject.GXClientBaseObjectFactory;
 import com.sabratec.applinx.baseobject.GXCreateSessionRequest;

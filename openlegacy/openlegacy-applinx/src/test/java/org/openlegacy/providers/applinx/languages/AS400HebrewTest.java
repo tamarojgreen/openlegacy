@@ -1,4 +1,4 @@
-package org.openlegacy.applinx.languages;
+package org.openlegacy.providers.applinx.languages;
 
 import com.sabratec.applinx.common.designtime.exceptions.GXDesignTimeException;
 
@@ -13,10 +13,10 @@ import java.io.IOException;
 
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MainframeArabicTest extends AbstractTest {
+public class AS400HebrewTest extends AbstractTest {
 
 	@Test
-	public void testArabic() throws IOException, GXDesignTimeException {
+	public void testHebrew() throws IOException, GXDesignTimeException {
 
 		System.out.println(ScreenPainter.paint(terminalSession.getSnapshot(), true));
 	}

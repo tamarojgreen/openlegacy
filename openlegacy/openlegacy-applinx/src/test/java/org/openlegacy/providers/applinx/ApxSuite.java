@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.providers.applinx;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

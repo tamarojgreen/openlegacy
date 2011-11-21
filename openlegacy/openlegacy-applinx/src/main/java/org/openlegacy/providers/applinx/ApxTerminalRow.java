@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.providers.applinx;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;

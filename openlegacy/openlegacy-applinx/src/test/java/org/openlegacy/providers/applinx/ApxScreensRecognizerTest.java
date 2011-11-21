@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.providers.applinx;
 
 import apps.inventory.screens.MainMenu;
 import apps.inventory.screens.SignOn;
@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
+import org.openlegacy.providers.applinx.ApxServerLoader;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

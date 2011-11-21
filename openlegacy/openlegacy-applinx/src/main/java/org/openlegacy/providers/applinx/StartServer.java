@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.providers.applinx;
 
 import java.io.IOException;
 

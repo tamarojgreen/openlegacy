@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.providers.applinx;
 
 import com.sabratec.applinx.common.runtime.GXScreenPosition;
 import com.sabratec.applinx.common.runtime.field.GXIField;
@@ -21,6 +21,11 @@ import java.util.List;
 public class ApxTerminalScreen implements TerminalScreen {
 
 	private final GXRuntimeScreen screen;
+	private ArrayList<TerminalRow> rows;
+	private ArrayList<TerminalField> fields;
+	private ArrayList<TerminalField> editableFields;
+	private ArrayList<ScreenPosition> fieldSeperators;
+	private String text;
 
 	public ApxTerminalScreen(GXRuntimeScreen screen) {
 		this.screen = screen;
@@ -32,7 +37,11 @@ public class ApxTerminalScreen implements TerminalScreen {
 	}
 
 	public String getText() {
-		return new String(screen.getBuffers().getTextBuffer());
+		if (text != null) {
+			return text;
+		}
+		text = new String(screen.getBuffers().getTextBuffer());
+		return text;
 	}
 
 	public String getText(ScreenPosition position, int length) {
@@ -49,15 +58,35 @@ public class ApxTerminalScreen implements TerminalScreen {
 		return screen;
 	}
 
+	public Collection<TerminalField> getFields() {
+		if (fields != null) {
+			return fields;
+		}
+
+		@SuppressWarnings("unchecked")
+		Collection<GXIField> apxInputFields = screen.getFields();
+
+		fields = new ArrayList<TerminalField>();
+		for (GXIField apxField : apxInputFields) {
+			fields.add(new ApxTerminalField(apxField));
+		}
+		return fields;
+	}
+
 	public Collection<TerminalField> getEditableFields() {
+
+		if (editableFields != null) {
+			return editableFields;
+		}
+
 		@SuppressWarnings("unchecked")
 		Collection<GXIField> apxInputFields = screen.getFields().getUnprotectedFields().values();
 
-		List<TerminalField> terminalFields = new ArrayList<TerminalField>();
+		editableFields = new ArrayList<TerminalField>();
 		for (GXIField apxField : apxInputFields) {
-			terminalFields.add(new ApxTerminalField(apxField));
+			editableFields.add(new ApxTerminalField(apxField));
 		}
-		return terminalFields;
+		return editableFields;
 	}
 
 	public ScreenSize getSize() {
@@ -65,9 +94,13 @@ public class ApxTerminalScreen implements TerminalScreen {
 	}
 
 	public List<TerminalRow> getRows() {
+		if (rows != null) {
+			return rows;
+		}
+
 		@SuppressWarnings("unchecked")
 		Collection<GXIField> apxFields = screen.getFields();
-		List<TerminalRow> rows = new ArrayList<TerminalRow>();
+		rows = new ArrayList<TerminalRow>();
 
 		ApxTerminalRow currentRow = new ApxTerminalRow(1);
 		for (GXIField apxField : apxFields) {
@@ -86,14 +119,17 @@ public class ApxTerminalScreen implements TerminalScreen {
 	}
 
 	public List<ScreenPosition> getFieldSeperators() {
+		if (fieldSeperators != null) {
+			return fieldSeperators;
+		}
 		@SuppressWarnings("unchecked")
 		List<GXScreenPosition> attributes = screen.getAttributePositions();
 
-		List<ScreenPosition> screenPositions = new ArrayList<ScreenPosition>();
+		fieldSeperators = new ArrayList<ScreenPosition>();
 		for (Object object : attributes) {
-			screenPositions.add(ApxPositionUtil.toScreenPosition((GXScreenPosition)object));
+			fieldSeperators.add(ApxPositionUtil.toScreenPosition((GXScreenPosition)object));
 		}
-		return screenPositions;
+		return fieldSeperators;
 
 	}
 

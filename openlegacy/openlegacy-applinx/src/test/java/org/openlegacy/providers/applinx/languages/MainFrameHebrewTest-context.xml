@@ -8,7 +8,7 @@
 
 	<import resource="classpath:/test-apx-context.xml"/>
 
-	<bean id="apxServerLoader" class="org.openlegacy.applinx.ApxServerLoader"
-		p:license="classpath:/apx/apx82.xml" p:applicationConfiguration="classpath:/apx/MainframeArabic-application.apx" p:serverConfiguration="classpath:/apx/server.apx" />
+	<bean id="apxServerLoader" class="org.openlegacy.providers.applinx.ApxServerLoader"
+		p:license="classpath:/apx/apx82.xml" p:applicationConfiguration="classpath:/apx/MainframeHebrew-application.apx" p:serverConfiguration="classpath:/apx/server.apx" />
 
 </beans>

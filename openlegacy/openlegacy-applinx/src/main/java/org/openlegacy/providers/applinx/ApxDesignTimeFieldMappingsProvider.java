@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.providers.applinx;
 
 import com.sabratec.applinx.common.designtime.exceptions.GXDesignTimeException;
 import com.sabratec.applinx.common.designtime.model.GXIApplicationContext;

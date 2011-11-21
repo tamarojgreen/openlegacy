@@ -9,6 +9,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.ScreenUtils;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.utils.FieldsQuery;
+import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
 import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
 import org.openlegacy.terminal.utils.ScreenPainter;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
@@ -59,6 +60,11 @@ public class MockTerminalScreen implements TerminalScreen {
 	public TerminalField getField(ScreenPosition position) {
 		TerminalRow row = terminalSnapshot.getRows().get(position.getRow() - 1);
 		return row.getField(position.getColumn());
+	}
+
+	public Collection<TerminalField> getFields() {
+		initContent();
+		return FieldsQuery.queryFields(terminalSnapshot, AllFieldsCriteria.instance());
 	}
 
 	public Collection<TerminalField> getEditableFields() {

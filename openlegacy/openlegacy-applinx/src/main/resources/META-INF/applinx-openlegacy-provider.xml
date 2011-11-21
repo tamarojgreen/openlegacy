@@ -11,12 +11,12 @@
 		<property name="serverURL" value="${applinx.server.url}" />
 	</bean>
 
-	<bean id="terminalConnectionFactory" class="org.openlegacy.applinx.ApxTerminalConnctionFactory" />
+	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.applinx.ApxTerminalConnctionFactory" />
 
 	<!-- APX implementation of open legacy services beans -->
-	<bean id="screensRecognizer" class="org.openlegacy.applinx.ApxScreensRecognizer" />
-	<bean id="fieldMappingsProvider" class="org.openlegacy.applinx.ApxRuntimeFieldMappingsProvider" />
-	<bean id="sessionNavigator" class="org.openlegacy.applinx.ApxSessionNavigator" />
+	<bean id="screensRecognizer" class="org.openlegacy.providers.applinx.ApxScreensRecognizer" />
+	<bean id="fieldMappingsProvider" class="org.openlegacy.providers.applinx.ApxRuntimeFieldMappingsProvider" />
+	<bean id="sessionNavigator" class="org.openlegacy.providers.applinx.ApxSessionNavigator" />
 
 
 	<util:map id="apxDefaultActionMappings">

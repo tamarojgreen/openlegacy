@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.providers.applinx;
 
 import com.sabratec.applinx.common.designtime.exceptions.GXDesignTimeException;
 import com.sabratec.applinx.common.designtime.model.GXEntityDescriptor;
@@ -14,6 +14,8 @@ import com.sabratec.applinx.common.designtime.model.entity.screen.GXTextIdentifi
 import com.sabratec.applinx.common.designtime.model.entity.type.GXFieldType;
 import com.sabratec.applinx.common.designtime.model.entity.type.GXSingleScreenType;
 import com.sabratec.util.GXPosition;
+
+import org.openlegacy.providers.applinx.ApxServerLoader;
 
 public class ApxTestUtil {
 

@@ -8,6 +8,7 @@
 
 	<import resource="classpath:/test-apx-context.xml"/>
 
-	<bean id="screensRecognizer" class="org.openlegacy.applinx.ApxScreensRecognizer" />
+	<bean id="apxServerLoader" class="org.openlegacy.providers.applinx.ApxServerLoader"
+		p:license="classpath:/apx/apx82.xml" p:applicationConfiguration="classpath:/apx/MainframeArabic-application.apx" p:serverConfiguration="classpath:/apx/server.apx" />
 
 </beans>

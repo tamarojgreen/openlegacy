@@ -1,4 +1,4 @@
-package org.openlegacy.applinx;
+package org.openlegacy.providers.applinx;
 
 import com.sabratec.applinx.baseobject.GXGeneralException;
 import com.sabratec.applinx.baseobject.GXIClientBaseObject;

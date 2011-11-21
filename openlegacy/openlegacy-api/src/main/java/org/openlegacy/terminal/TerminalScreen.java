@@ -15,6 +15,8 @@ public interface TerminalScreen extends TerminalSnapshot {
 
 	Collection<TerminalField> getEditableFields();
 
+	Collection<TerminalField> getFields();
+
 	Object getDelegate();
 
 }
