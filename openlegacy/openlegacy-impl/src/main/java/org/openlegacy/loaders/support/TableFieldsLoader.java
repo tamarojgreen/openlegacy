@@ -1,6 +1,6 @@
 package org.openlegacy.loaders.support;
 
-import org.openlegacy.HostEntitiesRegistry;
+import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 public class TableFieldsLoader implements FieldLoader {
 
 	@SuppressWarnings("rawtypes")
-	public boolean match(HostEntitiesRegistry entitiesRegistry, Field field) {
+	public boolean match(EntitiesRegistry entitiesRegistry, Field field) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 		Class<?> listType = ReflectionUtil.getListType(field);
 		if (listType == null) {
@@ -24,7 +24,7 @@ public class TableFieldsLoader implements FieldLoader {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void load(BeanFactory beanFactory, HostEntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass) {
+	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		Class<?> listType = ReflectionUtil.getListType(field);

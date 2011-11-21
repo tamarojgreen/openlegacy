@@ -16,7 +16,6 @@
 	<!-- APX implementation of open legacy services beans -->
 	<bean id="screensRecognizer" class="org.openlegacy.applinx.ApxScreensRecognizer" />
 	<bean id="fieldMappingsProvider" class="org.openlegacy.applinx.ApxRuntimeFieldMappingsProvider" />
-	<bean id="hostActionMapper" class="org.openlegacy.applinx.ApxHostActionMapper" />
 	<bean id="sessionNavigator" class="org.openlegacy.applinx.ApxSessionNavigator" />
 
 

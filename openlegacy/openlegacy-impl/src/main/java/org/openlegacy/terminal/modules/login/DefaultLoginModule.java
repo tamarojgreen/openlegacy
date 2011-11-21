@@ -36,7 +36,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	private TerminalAction loginHostAction = TerminalActions.ENTER();
+	private TerminalAction loginAction = TerminalActions.ENTER();
 
 	private String loggedInUser = null;
 
@@ -84,7 +84,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 		String user = (String)fieldAccessor.getFieldValue(loginMetadata.getUserField().getName());
 
-		Object currentEntity = getTerminalSession().doAction(loginHostAction, loginEntity);
+		Object currentEntity = getTerminalSession().doAction(loginAction, loginEntity);
 
 		Class<? extends Object> currentEntityClass = currentEntity.getClass();
 
@@ -150,8 +150,8 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		return exitAction;
 	}
 
-	public void setLoginHostAction(Class<? extends TerminalAction> hostAction) {
-		this.loginHostAction = ReflectionUtil.newInstance(hostAction);
+	public void setLoginAction(Class<? extends TerminalAction> terminalAction) {
+		this.loginAction = ReflectionUtil.newInstance(terminalAction);
 	}
 
 	public void setDefaultExitAction(Class<? extends TerminalAction> defaultExitAction) {

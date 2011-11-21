@@ -102,7 +102,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 			for (FieldAssignDefinition fieldAssignDefinition : assignedFields) {
 				fieldAccessor.setFieldValue(fieldAssignDefinition.getName(), fieldAssignDefinition.getValue());
 			}
-			terminalSession.doAction(navigationDefinition.getHostAction(), currentEntity);
+			terminalSession.doAction(navigationDefinition.getTerminalAction(), currentEntity);
 			currentEntity = terminalSession.getEntity();
 		}
 	}

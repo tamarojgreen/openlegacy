@@ -1,21 +1,21 @@
 package org.openlegacy.terminal.definitions;
 
-import org.openlegacy.SimpleHostEntityDefinition;
+import org.openlegacy.SimpleEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenIdentification;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimpleScreenEntityDefinition extends SimpleHostEntityDefinition<FieldMappingDefinition> implements ScreenEntityDefinition {
+public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<FieldMappingDefinition> implements ScreenEntityDefinition {
 
 	private ScreenIdentification screenIdentification = new SimpleScreenIdentification();
 	private NavigationDefinition navigationDefinition;
 	private Map<String, TableDefinition> tableDefinitions = new HashMap<String, TableDefinition>();
 	private Map<String, ScreenPartEntityDefinition> partDefinitions = new HashMap<String, ScreenPartEntityDefinition>();
 
-	public SimpleScreenEntityDefinition(String hostEntityName, Class<?> hostEntityClass) {
-		super(hostEntityName, hostEntityClass);
+	public SimpleScreenEntityDefinition(String entityName, Class<?> entityClass) {
+		super(entityName, entityClass);
 	}
 
 	public ScreenIdentification getScreenIdentification() {

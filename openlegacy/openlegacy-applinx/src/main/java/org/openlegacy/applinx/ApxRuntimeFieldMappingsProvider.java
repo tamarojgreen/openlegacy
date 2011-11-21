@@ -25,7 +25,8 @@ public class ApxRuntimeFieldMappingsProvider implements FieldMappingsDefinitionP
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen, Class<?> screenEntityClass) {
+	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen,
+			Class<?> screenEntityClass) {
 
 		String screenName = screenEntitiesRegistry.getEntityName(screenEntityClass);
 
@@ -34,7 +35,7 @@ public class ApxRuntimeFieldMappingsProvider implements FieldMappingsDefinitionP
 		GXIScreen apxScreen = (GXIScreen)terminalScreen.getDelegate();
 
 		if (!screenName.equalsIgnoreCase(apxScreen.getName())) {
-			throw (new OpenLegacyException(MessageFormat.format("Current host screen:{0} doesn''t match request screen:{1}",
+			throw (new OpenLegacyException(MessageFormat.format("Current screen:{0} doesn''t match request screen:{1}",
 					apxScreen.getName(), screenName)));
 		}
 		GXIFieldCollection apxApplicationFields = apxScreen.getFields().getAppFields();

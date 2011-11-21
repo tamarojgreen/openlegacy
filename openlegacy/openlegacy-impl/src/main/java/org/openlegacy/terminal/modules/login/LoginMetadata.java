@@ -27,21 +27,21 @@ public class LoginMetadata implements SessionModuleMetadata {
 			return;
 		}
 
-		loginScreenDefinition = screenEntitiesRegistry.getFirstEntityDefinition(Login.LoginScreen.class);
+		loginScreenDefinition = screenEntitiesRegistry.getSingleEntityDefinition(Login.LoginScreen.class);
 
 		userField = loginScreenDefinition.getFirstFieldDefinition(Login.UserField.class);
 		passwordField = loginScreenDefinition.getFirstFieldDefinition(Login.PasswordField.class);
 		errorField = loginScreenDefinition.getFirstFieldDefinition(Login.ErrorField.class);
 
-		Class<?> hostEntityClass = loginScreenDefinition.getEntityClass();
+		Class<?> entityClass = loginScreenDefinition.getEntityClass();
 		if (userField == null) {
-			throw (new RegistryException("User field not defined in " + hostEntityClass));
+			throw (new RegistryException("User field not defined in " + entityClass));
 		}
 		if (passwordField == null) {
-			throw (new RegistryException("Password field not defined in " + hostEntityClass));
+			throw (new RegistryException("Password field not defined in " + entityClass));
 		}
 		if (errorField == null) {
-			throw (new RegistryException("Error field not defined in " + hostEntityClass));
+			throw (new RegistryException("Error field not defined in " + entityClass));
 		}
 	}
 

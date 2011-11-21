@@ -1,11 +1,11 @@
 package org.openlegacy.terminal.definitions;
 
-import org.openlegacy.HostEntityDefinition;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 
 import java.util.Map;
 
-public interface ScreenEntityDefinition extends HostEntityDefinition<FieldMappingDefinition> {
+public interface ScreenEntityDefinition extends EntityDefinition<FieldMappingDefinition> {
 
 	ScreenIdentification getScreenIdentification();
 

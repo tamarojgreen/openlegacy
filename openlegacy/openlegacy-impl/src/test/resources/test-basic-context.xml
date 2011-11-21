@@ -15,7 +15,7 @@
 	<bean id="sessionNavigator"
 		class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
 
-	<bean id="hostActionMapper" class="org.openlegacy.terminal.support.SimpleHostActionMapper">
+	<bean id="actionMapper" class="org.openlegacy.terminal.support.DefaultTerminalActionMapper">
 		<property name="actionMappings" ref="testActionMappings" />
 	</bean>
 

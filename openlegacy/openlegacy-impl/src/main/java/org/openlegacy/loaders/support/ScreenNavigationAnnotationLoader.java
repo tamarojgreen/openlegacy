@@ -2,7 +2,7 @@ package org.openlegacy.loaders.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.HostEntitiesRegistry;
+import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
@@ -24,7 +24,7 @@ public class ScreenNavigationAnnotationLoader implements ClassAnnotationsLoader 
 		return annotation.annotationType() == ScreenNavigation.class;
 	}
 
-	public void load(HostEntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
+	public void load(EntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
 		ScreenNavigation screenNavigation = (ScreenNavigation)annotation;
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
@@ -32,7 +32,7 @@ public class ScreenNavigationAnnotationLoader implements ClassAnnotationsLoader 
 		SimpleScreenNavigationDefinition navigationDefinition = new SimpleScreenNavigationDefinition();
 		navigationDefinition.setAccessedFrom(screenNavigation.accessedFrom());
 
-		navigationDefinition.setHostAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
+		navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
 		navigationDefinition.setExitAction(ReflectionUtil.newInstance(screenNavigation.exitAction()));
 
 		AssignedField[] assignedFields = screenNavigation.assignedFields();

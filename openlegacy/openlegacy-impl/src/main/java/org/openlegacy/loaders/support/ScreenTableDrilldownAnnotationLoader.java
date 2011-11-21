@@ -1,6 +1,6 @@
 package org.openlegacy.loaders.support;
 
-import org.openlegacy.HostEntitiesRegistry;
+import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenTableDrilldown;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.definitions.TableDefinition;
@@ -18,7 +18,7 @@ public class ScreenTableDrilldownAnnotationLoader implements ClassAnnotationsLoa
 		return annotation.annotationType() == ScreenTableDrilldown.class;
 	}
 
-	public void load(HostEntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
+	public void load(EntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 		ScreenTableDrilldown drilldownAnnotation = (ScreenTableDrilldown)annotation;
 

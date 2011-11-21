@@ -1,6 +1,6 @@
 package org.openlegacy;
 
-public interface HostEntityFieldAccessor {
+public interface EntityFieldAccessor {
 
 	boolean isExists(String fieldName);
 

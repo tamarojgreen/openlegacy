@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.exceptions;
 
-import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.exceptions.EntityNotFoundException;
 
-public class ScreenEntityNotFoundException extends HostEntityNotFoundException {
+public class ScreenEntityNotFoundException extends EntityNotFoundException {
 
 	private static final long serialVersionUID = 1L;
 

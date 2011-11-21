@@ -1,7 +1,7 @@
 package org.openlegacy.loaders.support;
 
-import org.openlegacy.HostEntitiesRegistry;
-import org.openlegacy.HostEntityDefinition;
+import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
@@ -21,7 +21,7 @@ public class FieldMappingAnnotationLoader implements FieldAnnotationsLoader {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void load(BeanFactory beanFactory, HostEntitiesRegistry entitiesRegistry, String fieldName, Annotation annotation,
+	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, String fieldName, Annotation annotation,
 			Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
@@ -34,7 +34,7 @@ public class FieldMappingAnnotationLoader implements FieldAnnotationsLoader {
 		fieldMappingDefinition.setLength(fieldAnnotation.length());
 		fieldMappingDefinition.setEditable(fieldAnnotation.editable());
 
-		HostEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
+		EntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
 		// look in screen entities
 		if (screenEntityDefinition != null) {
 			screenEntityDefinition.getFieldsDefinitions().put(fieldName, fieldMappingDefinition);

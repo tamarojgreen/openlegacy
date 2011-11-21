@@ -23,10 +23,10 @@ public class SimpleScreenIdentification implements ScreenIdentification {
 		screenIdentifiers.add(screenIdentifier);
 	}
 
-	public boolean match(TerminalScreen hostScreen) {
+	public boolean match(TerminalScreen terminalScreen) {
 		List<ScreenIdentifier> identifiers = screenIdentifiers;
 		for (ScreenIdentifier screenIdentifier : identifiers) {
-			if (!screenIdentifier.match(hostScreen)) {
+			if (!screenIdentifier.match(terminalScreen)) {
 				return false;
 			}
 		}

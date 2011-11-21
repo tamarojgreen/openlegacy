@@ -1,6 +1,6 @@
 package org.openlegacy.modules.table.drilldown;
 
-import org.openlegacy.HostSession;
+import org.openlegacy.Session;
 import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
 
 /**
@@ -8,7 +8,7 @@ import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
  * given row keys
  * 
  */
-public interface TableDrilldownPerformer<S extends HostSession> {
+public interface TableDrilldownPerformer<S extends Session> {
 
 	<T> T drilldown(DrilldownDefinition drilldownDefinition, S session, Class<?> sourceEntityClass, Class<T> targetEntityClass,
 			DrilldownAction<?> drilldownAction, Object... rowKeys);

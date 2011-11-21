@@ -28,10 +28,10 @@ public class ApxTerminalConnection implements TerminalConnection {
 	}
 
 	public TerminalScreen getSnapshot() {
-		return newHostScreen();
+		return newTerminalScreen();
 	}
 
-	private TerminalScreen newHostScreen() {
+	private TerminalScreen newTerminalScreen() {
 		try {
 			GXRuntimeScreen screen = ((GXClientScreen)baseObject.getScreen()).getRuntimeScreen();
 			return new ApxTerminalScreen(screen);

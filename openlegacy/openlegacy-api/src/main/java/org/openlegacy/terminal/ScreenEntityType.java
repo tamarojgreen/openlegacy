@@ -1,6 +1,6 @@
 package org.openlegacy.terminal;
 
-import org.openlegacy.HostEntityType;
+import org.openlegacy.EntityType;
 
 /**
  * Screen entity type define the business purpose of the entity. Example usage: Login screen, menu screen, etc
@@ -10,7 +10,7 @@ import org.openlegacy.HostEntityType;
  * 
  * It is possible to define more screen entity types by implementing this interface
  */
-public interface ScreenEntityType extends HostEntityType {
+public interface ScreenEntityType extends EntityType {
 
 	public static class General implements ScreenEntityType {
 	}

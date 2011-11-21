@@ -12,7 +12,7 @@ public interface ScreenIdentification {
 
 	List<ScreenIdentifier> getScreenIdentifiers();
 
-	boolean match(TerminalScreen hostScreen);
+	boolean match(TerminalScreen terminalScreen);
 
 	void addIdentifier(ScreenIdentifier screenIdentifier);
 }

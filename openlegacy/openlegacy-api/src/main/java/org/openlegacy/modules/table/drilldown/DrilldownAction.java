@@ -1,9 +1,9 @@
 package org.openlegacy.modules.table.drilldown;
 
-import org.openlegacy.HostAction;
-import org.openlegacy.HostSession;
+import org.openlegacy.SessionAction;
+import org.openlegacy.Session;
 
-public interface DrilldownAction<S extends HostSession> extends HostAction<S> {
+public interface DrilldownAction<S extends Session> extends SessionAction<S> {
 
 	Object getActionValue();
 }

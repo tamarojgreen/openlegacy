@@ -2,7 +2,7 @@ package org.openlegacy;
 
 import java.util.Map;
 
-public interface HostEntityDefinition<D extends FieldDefinition> {
+public interface EntityDefinition<D extends FieldDefinition> {
 
 	String getEntityName();
 
@@ -10,7 +10,7 @@ public interface HostEntityDefinition<D extends FieldDefinition> {
 
 	Class<?> getEntityClass();
 
-	Class<? extends HostEntityType> getType();
+	Class<? extends EntityType> getType();
 
 	/**
 	 * Map of field name -> field mapping definition

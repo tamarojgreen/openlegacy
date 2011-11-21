@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support.binders;
 
 import org.apache.commons.lang.StringUtils;
-import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalScreen;
@@ -34,7 +34,7 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 	@Inject
 	private ScreenBinderLogic screenBinderLogic;
 
-	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) throws HostEntityNotFoundException,
+	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) throws EntityNotFoundException,
 			ScreenEntityNotAccessibleException {
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);

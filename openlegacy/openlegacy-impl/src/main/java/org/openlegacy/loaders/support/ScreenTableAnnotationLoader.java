@@ -1,6 +1,6 @@
 package org.openlegacy.loaders.support;
 
-import org.openlegacy.HostEntitiesRegistry;
+import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
@@ -26,7 +26,7 @@ public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
 		return annotation.annotationType() == ScreenTable.class;
 	}
 
-	public void load(HostEntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
+	public void load(EntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 		ScreenTable screenTableAnnotation = (ScreenTable)annotation;
 

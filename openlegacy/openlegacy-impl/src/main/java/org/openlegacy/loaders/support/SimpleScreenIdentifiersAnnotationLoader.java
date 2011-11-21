@@ -2,7 +2,7 @@ package org.openlegacy.loaders.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.HostEntitiesRegistry;
+import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
@@ -27,7 +27,7 @@ public class SimpleScreenIdentifiersAnnotationLoader implements ClassAnnotations
 		return annotation.annotationType() == ScreenIdentifiers.class;
 	}
 
-	public void load(HostEntitiesRegistry<?, ?> screenEntitiesRegistry, Annotation annotation, Class<?> containingClass) {
+	public void load(EntitiesRegistry<?, ?> screenEntitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		this.screenEntitiesRegistry = (ScreenEntitiesRegistry)screenEntitiesRegistry;
 		processScreenEntity((ScreenIdentifiers)annotation, containingClass);
 	}

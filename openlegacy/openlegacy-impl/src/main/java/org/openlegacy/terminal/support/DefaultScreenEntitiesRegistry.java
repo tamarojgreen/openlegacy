@@ -2,7 +2,7 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.support.AbstractHostEntitiesRegistry;
+import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -23,14 +23,14 @@ import java.util.Map;
  * A simple implementation of a screen entities registry. Holds information collection from @ScreenEntity, @FieldMapping and more
  * 
  */
-public class DefaultScreenEntitiesRegistry extends AbstractHostEntitiesRegistry<ScreenEntityDefinition, FieldMappingDefinition> implements ScreenEntitiesRegistry {
+public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<ScreenEntityDefinition, FieldMappingDefinition> implements ScreenEntitiesRegistry {
 
 	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
 	private final Map<Class<?>, TableDefinition> tableDefinitions = new HashMap<Class<?>, TableDefinition>();
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntitiesRegistry.class);
 
-	public ScreenEntityDefinition match(TerminalScreen hostScreen) {
+	public ScreenEntityDefinition match(TerminalScreen terminalScreen) {
 		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();
 
 		// sort the screen definitions by identifiers count
@@ -45,7 +45,7 @@ public class DefaultScreenEntitiesRegistry extends AbstractHostEntitiesRegistry<
 
 		for (ScreenEntityDefinition screenDefinition : screenDefinitionsList) {
 			ScreenIdentification screenIdentification = screenDefinition.getScreenIdentification();
-			if (screenIdentification != null && screenIdentification.match(hostScreen)) {
+			if (screenIdentification != null && screenIdentification.match(terminalScreen)) {
 				return screenDefinition;
 			}
 		}

@@ -1,7 +1,7 @@
 package org.openlegacy.exceptions;
 
 /**
- * This exception is typically thrown when open legacy is unable to retrieve a host entity
+ * This exception is typically thrown when open legacy is unable to retrieve an entity
  * 
  */
 public class UnableToLoadSnapshotException extends OpenLegacyException {

@@ -1,12 +1,12 @@
 package org.openlegacy;
 
-public class SimpleHostEntityDescriptor implements HostEntityDescriptor {
+public class SimpleEntityDescriptor implements EntityDescriptor {
 
 	private Class<?> entityClass;
 	private String entityName;
 	private String displayName;
 
-	public SimpleHostEntityDescriptor(Class<?> entityClass, String entityName, String displayName) {
+	public SimpleEntityDescriptor(Class<?> entityClass, String entityName, String displayName) {
 		this.entityClass = entityClass;
 		this.entityName = entityName;
 		this.displayName = displayName;

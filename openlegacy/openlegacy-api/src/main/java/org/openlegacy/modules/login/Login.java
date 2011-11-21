@@ -2,15 +2,15 @@ package org.openlegacy.modules.login;
 
 import org.openlegacy.FieldType;
 import org.openlegacy.exceptions.RegistryException;
-import org.openlegacy.modules.HostSessionModule;
+import org.openlegacy.modules.SessionModule;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityType;
 
 /**
- * A Login module is able to perform a host login/log-off based on field and entity declaration
+ * A Login module is able to perform a login/log-off based on field and entity declaration
  * 
  */
-public interface Login extends HostSessionModule {
+public interface Login extends SessionModule {
 
 	void login(String user, String password) throws LoginException, RegistryException;
 

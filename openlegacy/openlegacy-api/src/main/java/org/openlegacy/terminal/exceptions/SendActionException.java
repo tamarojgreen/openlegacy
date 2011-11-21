@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.exceptions;
 
-import org.openlegacy.exceptions.HostEntityNotAccessibleException;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 
-public class SendActionException extends HostEntityNotAccessibleException {
+public class SendActionException extends EntityNotAccessibleException {
 
 	private static final long serialVersionUID = 1L;
 

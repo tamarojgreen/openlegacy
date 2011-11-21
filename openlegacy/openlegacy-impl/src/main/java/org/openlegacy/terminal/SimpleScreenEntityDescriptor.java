@@ -1,8 +1,8 @@
 package org.openlegacy.terminal;
 
-import org.openlegacy.SimpleHostEntityDescriptor;
+import org.openlegacy.SimpleEntityDescriptor;
 
-public class SimpleScreenEntityDescriptor extends SimpleHostEntityDescriptor implements ScreenEntityDescriptor {
+public class SimpleScreenEntityDescriptor extends SimpleEntityDescriptor implements ScreenEntityDescriptor {
 
 	private boolean current;
 

@@ -1,8 +1,8 @@
 package org.openlegacy.terminal;
 
-import org.openlegacy.HostEntityDescriptor;
+import org.openlegacy.EntityDescriptor;
 
-public interface ScreenEntityDescriptor extends HostEntityDescriptor {
+public interface ScreenEntityDescriptor extends EntityDescriptor {
 
 	boolean isCurrent();
 }

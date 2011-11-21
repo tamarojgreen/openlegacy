@@ -1,12 +1,12 @@
 package org.openlegacy.terminal;
 
-import org.openlegacy.HostEntityFieldAccessor;
+import org.openlegacy.EntityFieldAccessor;
 
 /**
  * An interface for accessing POJO's marked with @ScreenEntity, @ScreenPart
  * 
  */
-public interface ScreenPojoFieldAccessor extends HostEntityFieldAccessor {
+public interface ScreenPojoFieldAccessor extends EntityFieldAccessor {
 
 	void setFocusField(String fieldName);
 

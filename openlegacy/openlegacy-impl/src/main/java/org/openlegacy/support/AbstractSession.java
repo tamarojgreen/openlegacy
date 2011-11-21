@@ -1,8 +1,8 @@
 package org.openlegacy.support;
 
-import org.openlegacy.HostSession;
+import org.openlegacy.Session;
 import org.openlegacy.exceptions.OpenLegacyException;
-import org.openlegacy.modules.HostSessionModule;
+import org.openlegacy.modules.SessionModule;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -12,17 +12,17 @@ import java.util.List;
  * 
  * 
  */
-public abstract class AbstractHostSession implements HostSession {
+public abstract class AbstractSession implements Session {
 
-	private HostSessionModules sessionModules;
+	private SessionModules sessionModules;
 
 	@SuppressWarnings("unchecked")
-	public <M extends HostSessionModule> M getModule(Class<M> module) {
+	public <M extends SessionModule> M getModule(Class<M> module) {
 		if (sessionModules == null) {
 			throw (new OpenLegacyException("No modules defined for session"));
 		}
-		List<? extends HostSessionModule> modules = sessionModules.getModules();
-		for (HostSessionModule registeredModule : modules) {
+		List<? extends SessionModule> modules = sessionModules.getModules();
+		for (SessionModule registeredModule : modules) {
 			if (module.isAssignableFrom(registeredModule.getClass())) {
 				return (M)registeredModule;
 			}
@@ -30,11 +30,11 @@ public abstract class AbstractHostSession implements HostSession {
 		throw (new OpenLegacyException(MessageFormat.format("No module {0} defined for session", module)));
 	}
 
-	public void setSessionModules(HostSessionModules sessionModules) {
+	public void setSessionModules(SessionModules sessionModules) {
 		this.sessionModules = sessionModules;
 	}
 
-	public HostSessionModules getSessionModules() {
+	public SessionModules getSessionModules() {
 		return sessionModules;
 	}
 }

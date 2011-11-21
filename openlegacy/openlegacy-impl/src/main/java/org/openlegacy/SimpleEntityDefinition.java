@@ -7,48 +7,48 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class SimpleHostEntityDefinition<F extends FieldDefinition> implements HostEntityDefinition<F> {
+public abstract class SimpleEntityDefinition<F extends FieldDefinition> implements EntityDefinition<F> {
 
-	private String hostEntityName;
-	private Class<?> hostEntityClass;
+	private String entityName;
+	private Class<?> entityClass;
 
-	private Class<? extends HostEntityType> hostEntityType;
+	private Class<? extends EntityType> entityType;
 
 	// LinkedHashMap preserve insert order
 	private final Map<String, F> fieldDefinitions = new LinkedHashMap<String, F>();
 	private String displayName;
 
-	public SimpleHostEntityDefinition(String hostEntityName, Class<?> screenEntityClass) {
-		this.hostEntityName = hostEntityName;
-		this.hostEntityClass = screenEntityClass;
+	public SimpleEntityDefinition(String entityName, Class<?> screenEntityClass) {
+		this.entityName = entityName;
+		this.entityClass = screenEntityClass;
 	}
 
 	public String getEntityName() {
-		return hostEntityName;
+		return entityName;
 	}
 
-	public void setName(String hostEntityName) {
-		this.hostEntityName = hostEntityName;
+	public void setName(String entityName) {
+		this.entityName = entityName;
 	}
 
 	public Class<?> getEntityClass() {
-		return hostEntityClass;
+		return entityClass;
 	}
 
 	public Map<String, F> getFieldsDefinitions() {
 		return fieldDefinitions;
 	}
 
-	public void setHostEntityClass(Class<?> hostEntityClass) {
-		this.hostEntityClass = hostEntityClass;
+	public void setEntityClass(Class<?> entityClass) {
+		this.entityClass = entityClass;
 	}
 
-	public Class<? extends HostEntityType> getType() {
-		return hostEntityType;
+	public Class<? extends EntityType> getType() {
+		return entityType;
 	}
 
-	public void setType(Class<? extends HostEntityType> hostEntityType) {
-		this.hostEntityType = hostEntityType;
+	public void setType(Class<? extends EntityType> entityType) {
+		this.entityType = entityType;
 	}
 
 	@SuppressWarnings("unchecked")

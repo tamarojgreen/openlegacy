@@ -1,7 +1,7 @@
 package org.openlegacy;
 
 /**
- * Represent a host session snapshot. TerminalScreen is an example implementation
+ * Represent a state-full session snapshot
  * 
  */
 public interface Snapshot {

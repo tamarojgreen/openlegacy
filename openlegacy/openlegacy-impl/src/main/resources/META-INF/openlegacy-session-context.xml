@@ -16,7 +16,7 @@
 			<bean class="org.openlegacy.terminal.support.TerminalConnectionDelegator" />
 		</property>
 		<property name="sessionModules">
-			<bean class="org.openlegacy.support.HostSessionModules">
+			<bean class="org.openlegacy.support.SessionModules">
 				<property name="modules">
 					<list>
 						<bean
@@ -27,7 +27,7 @@
 							</property>
 						</bean>
 						<bean class="org.openlegacy.terminal.modules.login.DefaultLoginModule"
-							p:loginHostAction="org.openlegacy.terminal.actions.TerminalActions.ENTER"
+							p:loginAction="org.openlegacy.terminal.actions.TerminalActions.ENTER"
 							p:defaultExitAction="org.openlegacy.terminal.actions.TerminalActions.F3"
 							p:maxActionsToLogin="5" />
 						<bean class="org.openlegacy.terminal.modules.table.DefaultTableModule" />

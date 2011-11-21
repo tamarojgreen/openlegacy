@@ -1,7 +1,7 @@
 package org.openlegacy.designtime;
 
 import org.openlegacy.FieldType;
-import org.openlegacy.HostEntityType;
+import org.openlegacy.EntityType;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -38,7 +38,7 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition 
 		return null;
 	}
 
-	public Class<? extends HostEntityType> getType() {
+	public Class<? extends EntityType> getType() {
 		return null;
 	}
 

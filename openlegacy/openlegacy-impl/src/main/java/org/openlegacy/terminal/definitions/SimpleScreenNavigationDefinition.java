@@ -9,7 +9,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition {
 
 	private Class<?> accessedFrom;
 	private List<FieldAssignDefinition> assignedFields = new ArrayList<FieldAssignDefinition>();
-	private TerminalAction hostAction;
+	private TerminalAction terminalAction;
 	private TerminalAction exitAction;
 
 	public Class<?> getAccessedFrom() {
@@ -24,12 +24,12 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition {
 		return assignedFields;
 	}
 
-	public TerminalAction getHostAction() {
-		return hostAction;
+	public TerminalAction getTerminalAction() {
+		return terminalAction;
 	}
 
-	public void setHostAction(TerminalAction hostAction) {
-		this.hostAction = hostAction;
+	public void setTerminalAction(TerminalAction terminalAction) {
+		this.terminalAction = terminalAction;
 	}
 
 	public TerminalAction getExitAction() {

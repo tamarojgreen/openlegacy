@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.exceptions;
 
-import org.openlegacy.exceptions.HostEntityNotAccessibleException;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 
-public class ScreenEntityNotAccessibleException extends HostEntityNotAccessibleException {
+public class ScreenEntityNotAccessibleException extends EntityNotAccessibleException {
 
 	private static final long serialVersionUID = 1L;
 

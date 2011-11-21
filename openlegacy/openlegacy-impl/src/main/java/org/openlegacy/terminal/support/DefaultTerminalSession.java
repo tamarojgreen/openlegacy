@@ -3,11 +3,11 @@ package org.openlegacy.terminal.support;
 import org.aopalliance.intercept.Interceptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.exceptions.HostEntityNotFoundException;
+import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.SessionEndedException;
-import org.openlegacy.modules.HostSessionModule;
-import org.openlegacy.support.AbstractHostSession;
-import org.openlegacy.terminal.HostActionMapper;
+import org.openlegacy.modules.SessionModule;
+import org.openlegacy.support.AbstractSession;
+import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalScreen;
@@ -32,7 +32,7 @@ import javax.inject.Inject;
  * 
  * 
  */
-public class DefaultTerminalSession extends AbstractHostSession implements TerminalSession {
+public class DefaultTerminalSession extends AbstractSession implements TerminalSession {
 
 	@Inject
 	private List<ScreenEntityBinder> screenEntityBinders;
@@ -48,14 +48,14 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	private ScreensRecognizer screensRecognizer;
 
 	@Inject
-	private HostActionMapper hostActionMapper;
+	private TerminalActionMapper terminalActionMapper;
 
 	private Interceptor interceptor;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
 
 	@SuppressWarnings("unchecked")
-	public <S> S getEntity(Class<S> screenEntityClass) throws HostEntityNotFoundException {
+	public <S> S getEntity(Class<S> screenEntityClass) throws EntityNotFoundException {
 
 		// check if the entity matched the cached entity
 		if (entity == null || !ProxyUtil.isClassesMatch(entity.getClass(), screenEntityClass)) {
@@ -78,9 +78,9 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	@SuppressWarnings("unchecked")
 	public <S extends ScreenEntity> S getEntity() {
 		if (entity == null) {
-			TerminalScreen hostScreen = getSnapshot();
+			TerminalScreen terminalScreen = getSnapshot();
 
-			Class<?> matchedScreenEntity = screensRecognizer.match(hostScreen);
+			Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
 			if (matchedScreenEntity == null) {
 				return null;
 			}
@@ -94,11 +94,11 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 		return doAction(action, null);
 	}
 
-	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction hostAction, S screenEntity,
+	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity,
 			Class<R> expectedEntity) {
 		try {
 			@SuppressWarnings("unchecked")
-			R object = (R)doAction(hostAction, screenEntity);
+			R object = (R)doAction(terminalAction, screenEntity);
 			return object;
 		} catch (ClassCastException e) {
 			throw (new ScreenEntityNotAccessibleException(e));
@@ -106,13 +106,13 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 
 	}
 
-	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction hostAction, S screenEntity) {
+	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity) {
 
 		entity = null;
 
-		Object command = hostActionMapper.getCommand(hostAction.getClass());
+		Object command = terminalActionMapper.getCommand(terminalAction.getClass());
 		if (command == null) {
-			hostAction.perform(this, screenEntity);
+			terminalAction.perform(this, screenEntity);
 		} else {
 			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(command);
 
@@ -147,8 +147,8 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	}
 
 	private void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {
-		Collection<? extends HostSessionModule> modulesList = getSessionModules().getModules();
-		for (HostSessionModule sessionModule : modulesList) {
+		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
+		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof TerminalConnectionListener) {
 				((TerminalConnectionListener)sessionModule).beforeSendAction(terminalConnection, terminalSendAction);
 			}
@@ -156,8 +156,8 @@ public class DefaultTerminalSession extends AbstractHostSession implements Termi
 	}
 
 	private void notifyModulesAfterSend() {
-		Collection<? extends HostSessionModule> modulesList = getSessionModules().getModules();
-		for (HostSessionModule sessionModule : modulesList) {
+		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
+		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof TerminalConnectionListener) {
 				((TerminalConnectionListener)sessionModule).afterSendAction(terminalConnection);
 			}

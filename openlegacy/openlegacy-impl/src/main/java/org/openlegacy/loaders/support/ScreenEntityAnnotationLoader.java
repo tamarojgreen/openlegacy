@@ -2,7 +2,7 @@ package org.openlegacy.loaders.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.HostEntitiesRegistry;
+import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
@@ -24,7 +24,7 @@ public class ScreenEntityAnnotationLoader implements ClassAnnotationsLoader {
 		return annotation.annotationType() == ScreenEntity.class;
 	}
 
-	public void load(HostEntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
+	public void load(EntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
 		ScreenEntity screenEntity = (ScreenEntity)annotation;
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;

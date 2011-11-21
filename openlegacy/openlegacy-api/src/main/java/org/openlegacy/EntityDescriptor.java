@@ -1,6 +1,6 @@
 package org.openlegacy;
 
-public interface HostEntityDescriptor {
+public interface EntityDescriptor {
 
 	Class<?> getEntityClass();
 

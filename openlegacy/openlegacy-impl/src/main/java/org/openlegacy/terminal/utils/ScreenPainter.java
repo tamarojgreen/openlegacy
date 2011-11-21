@@ -85,10 +85,10 @@ public class ScreenPainter {
 
 	}
 
-	private static void generateColumnNumbers(TerminalScreen hostScreen, String newline, StringBuilder out) {
+	private static void generateColumnNumbers(TerminalScreen terminalScreen, String newline, StringBuilder out) {
 		StringBuilder headerLine1 = new StringBuilder("    ");
 		StringBuilder headerLine2 = new StringBuilder("    ");
-		for (int i = 2; i <= hostScreen.getSize().getColumns(); i++) {
+		for (int i = 2; i <= terminalScreen.getSize().getColumns(); i++) {
 			if (i % 2 == 0) {
 				headerLine1.append(i % 10);
 				if ((i / 10) > 0) {
