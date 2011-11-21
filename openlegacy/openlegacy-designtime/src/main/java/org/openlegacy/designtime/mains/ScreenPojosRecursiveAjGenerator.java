@@ -1,7 +1,8 @@
-package org.openlegacy.designtime.generators;
+package org.openlegacy.designtime.mains;
 
 import freemarker.template.TemplateException;
 
+import org.openlegacy.designtime.generators.ScreenPojosAjGenerator;
 import org.openlegacy.utils.FileCommand;
 import org.openlegacy.utils.FileCommandExecuter;
 

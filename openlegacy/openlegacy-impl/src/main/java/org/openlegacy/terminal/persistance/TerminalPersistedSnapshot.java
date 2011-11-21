@@ -8,6 +8,7 @@ import org.openlegacy.terminal.mock.MockTerminalScreen;
 import org.openlegacy.terminal.support.ScreenPositionBean;
 import org.openlegacy.terminal.support.ScreenSizeBean;
 import org.openlegacy.terminal.utils.ScreenPainter;
+import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,4 +84,18 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 		tempCursorPosition.setColumn(cursorPosition.getColumn());
 		this.cursorPosition = tempCursorPosition;
 	}
+
+	@Override
+	public int hashCode() {
+		return TerminalEqualsHashcodeUtil.snapshotHashcode(this);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TerminalSnapshot)) {
+			return false;
+		}
+		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
+	}
+
 }

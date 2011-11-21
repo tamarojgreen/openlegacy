@@ -6,6 +6,7 @@ import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.io.Serializable;
 import java.util.List;
@@ -52,4 +53,18 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 		}
 		return terminalScreen.getCursorPosition();
 	}
+
+	@Override
+	public int hashCode() {
+		return TerminalEqualsHashcodeUtil.snapshotHashcode(this);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TerminalSnapshot)) {
+			return false;
+		}
+		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
+	}
+
 }

@@ -17,10 +17,10 @@ public class TerminalSessionTest extends AbstractTest {
 	@Test
 	public void testScreenContent() throws IOException {
 
-		String signOnText = readResource("/screens/SignOn.txt");
+		String signOnText = readResource("/apps/inventory/screens_text/SignOn.txt");
 		Assert.assertEquals(signOnText, terminalSession.getSnapshot().toString());
 		terminalSession.doAction(TerminalActions.ENTER());
-		String displayProgramMessagesText = readResource("/screens/MainMenu.txt");
+		String displayProgramMessagesText = readResource("/apps/inventory/screens_text/MainMenu.txt");
 		Assert.assertEquals(displayProgramMessagesText, terminalSession.getSnapshot().toString());
 	}
 

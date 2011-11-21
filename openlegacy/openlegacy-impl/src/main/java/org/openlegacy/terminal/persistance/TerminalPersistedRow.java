@@ -2,6 +2,7 @@ package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,4 +45,19 @@ public class TerminalPersistedRow implements TerminalRow {
 	public void setRowNumber(int rowNumber) {
 		this.rowNumber = rowNumber;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TerminalRow)) {
+			return false;
+		}
+		TerminalRow otherRow = (TerminalRow)obj;
+		return TerminalEqualsHashcodeUtil.rowEquals(this, otherRow);
+	}
+
+	@Override
+	public int hashCode() {
+		return TerminalEqualsHashcodeUtil.rowHashCode(this);
+	}
+
 }

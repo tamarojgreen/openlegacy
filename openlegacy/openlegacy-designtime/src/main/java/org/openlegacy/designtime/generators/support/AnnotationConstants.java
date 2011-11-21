@@ -1,4 +1,4 @@
-package org.openlegacy.designtime.generators;
+package org.openlegacy.designtime.generators.support;
 
 import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.ScreenColumn;

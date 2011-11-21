@@ -1,4 +1,4 @@
-package org.openlegacy.utils;
+package org.openlegacy.designtime.utils;
 
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.MemberValuePair;

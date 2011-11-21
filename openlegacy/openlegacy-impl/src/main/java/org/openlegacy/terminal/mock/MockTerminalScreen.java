@@ -11,6 +11,7 @@ import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
 import org.openlegacy.terminal.utils.ScreenPainter;
+import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -106,4 +107,18 @@ public class MockTerminalScreen implements TerminalScreen {
 	public ScreenPosition getCursorPosition() {
 		return terminalSnapshot.getCursorPosition();
 	}
+
+	@Override
+	public int hashCode() {
+		return TerminalEqualsHashcodeUtil.snapshotHashcode(this);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TerminalSnapshot)) {
+			return false;
+		}
+		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
+	}
+
 }

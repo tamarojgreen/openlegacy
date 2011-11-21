@@ -1,11 +1,33 @@
 package openlegacy;
 
-import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.*;
+import org.openlegacy.terminal.definitions.*;
+import org.openlegacy.analyzer.screen.model.*;
 
-rule "basicRule"
+import java.util.List;
+
+global List definitions;
+
+rule "init_definition"
 when
-	TerminalSnapshot()
+	$screen: TerminalScreen()
+	$otherScreen: TerminalScreen(this != $screen, fieldSeperators.size != $screen.fieldSeperators.size)
+	$row: TerminalRow($rowNumber: rowNumber,rowNumber == 1 || rowNumber == 2) from $screen.getRows();
+	$otherRow: TerminalRow(rowNumber == $rowNumber, rowNumber == 1 || rowNumber == 2) from $otherScreen.getRows();
+	$field: TerminalField(position.column > 20,position.column < 60,$fieldValue:value matches "^[A-Za-z0-9 _]*$") from $row.getFields(); 
+	$otherField: TerminalField(value != $fieldValue,position.column > 20,position.column < 60,value matches "^[A-Za-z0-9 _]*$") from $otherRow.getFields();
+	String(length > 0) from $fieldValue.trim()
+	 
 	
 then
-	System.out.println("Found screen");
+	ScreenEntityDefinition screenDefinition = new ScreenEntityDesigntimeDefinition();
+	insert(screenDefinition);
+	definitions.add(screenDefinition);
+	System.out.println("row found:" + $fieldValue + "\n" + $screen.toString().substring(0,1000) + "\n************");
+end
+
+rule "find_screen_name"
+when
+	$screenDefinition : ScreenEntityDefinition()
+then
 end

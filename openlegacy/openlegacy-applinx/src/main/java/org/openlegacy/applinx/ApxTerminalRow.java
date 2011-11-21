@@ -2,6 +2,7 @@ package org.openlegacy.applinx;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,4 +32,19 @@ public class ApxTerminalRow implements TerminalRow {
 	public int getRowNumber() {
 		return rowNumber;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TerminalRow)) {
+			return false;
+		}
+		TerminalRow otherRow = (TerminalRow)obj;
+		return TerminalEqualsHashcodeUtil.rowEquals(this, otherRow);
+	}
+
+	@Override
+	public int hashCode() {
+		return TerminalEqualsHashcodeUtil.rowHashCode(this);
+	}
+
 }

@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.mock;
+package org.openlegacy.terminal;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

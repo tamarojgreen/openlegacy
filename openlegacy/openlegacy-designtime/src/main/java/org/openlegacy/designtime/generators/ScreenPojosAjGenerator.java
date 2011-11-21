@@ -1,5 +1,8 @@
 package org.openlegacy.designtime.generators;
 
+import org.openlegacy.designtime.generators.support.AnnotationConstants;
+import org.openlegacy.designtime.generators.support.DefaultScreenPojoCodeModel;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -129,7 +132,7 @@ public class ScreenPojosAjGenerator {
 			ParseException {
 
 		String className = classPrefix + typeDeclaration.getName();
-		ScreenPojoCodeModel screenEntityCodeModel = new ScreenPojoCodeModelImpl(compilationUnit, typeDeclaration, className);
+		ScreenPojoCodeModel screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit, typeDeclaration, className);
 
 		if (!screenEntityCodeModel.isRelevant()) {
 			return screenEntityCodeModel;

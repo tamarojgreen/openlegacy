@@ -1,6 +1,7 @@
-package org.openlegacy.designtime.generators;
+package org.openlegacy.designtime.generators.support;
 
-import org.openlegacy.utils.JavaParserUtil;
+import org.openlegacy.designtime.generators.ScreenPojoCodeModel;
+import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
 
@@ -23,7 +24,7 @@ import java.util.TreeMap;
  * 
  * 
  */
-public class ScreenPojoCodeModelImpl implements ScreenPojoCodeModel {
+public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	private String className;
 	private String packageName;
@@ -33,7 +34,7 @@ public class ScreenPojoCodeModelImpl implements ScreenPojoCodeModel {
 	private boolean enabled;
 	private boolean supportTerminalData;
 
-	public ScreenPojoCodeModelImpl(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className) {
+	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className) {
 
 		mainType = type;
 		this.packageName = compilationUnit.getPackage().getName().toString();

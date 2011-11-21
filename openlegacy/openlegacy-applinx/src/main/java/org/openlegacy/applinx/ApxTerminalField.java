@@ -5,6 +5,7 @@ import com.sabratec.applinx.common.runtime.field.GXIField;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 public class ApxTerminalField implements TerminalField {
 
@@ -45,4 +46,19 @@ public class ApxTerminalField implements TerminalField {
 	public boolean isModified() {
 		return modifiedValue != null;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TerminalField)) {
+			return false;
+		}
+		TerminalField otherField = (TerminalField)obj;
+		return TerminalEqualsHashcodeUtil.fieldEquals(this, otherField);
+	}
+
+	@Override
+	public int hashCode() {
+		return TerminalEqualsHashcodeUtil.fieldHashCode(this);
+	}
+
 }

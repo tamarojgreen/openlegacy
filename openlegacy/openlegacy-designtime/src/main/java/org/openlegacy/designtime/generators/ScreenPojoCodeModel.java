@@ -1,6 +1,6 @@
 package org.openlegacy.designtime.generators;
 
-import org.openlegacy.designtime.generators.ScreenPojoCodeModelImpl.Field;
+import org.openlegacy.designtime.generators.support.DefaultScreenPojoCodeModel.Field;
 
 import java.util.Collection;
 
