@@ -7,7 +7,6 @@ import org.openlegacy.designtime.analyzer.SnapshotsSorter;
 import org.openlegacy.designtime.utils.DroolsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.mock.MockTerminalScreen;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class DroolsSnapshotsAnalyzer implements TerminalSnapshotsAnalyzer {
 			List<ScreenEntityDefinition> definitions = new ArrayList<ScreenEntityDefinition>();
 			session.setGlobal("definitions", definitions);
 			for (Snapshot snapshot : singlesSnapshots) {
-				session.insert(new MockTerminalScreen((TerminalSnapshot)snapshot));
+				session.insert(snapshot);
 			}
 			session.fireAllRules();
 		} finally {
@@ -42,5 +41,4 @@ public class DroolsSnapshotsAnalyzer implements TerminalSnapshotsAnalyzer {
 		}
 		return null;
 	}
-
 }

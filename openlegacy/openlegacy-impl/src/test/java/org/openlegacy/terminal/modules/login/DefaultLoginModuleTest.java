@@ -12,7 +12,6 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.mock.MockTerminalScreen;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -65,7 +64,7 @@ public class DefaultLoginModuleTest extends AbstractTest {
 		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
 		Snapshot lastSnapshot = trail.getSnapshots().get(trail.getSnapshots().size() - 1); // get the last snapshot
 
-		Class<?> lastSnapshotClass = screensRecognizer.match(new MockTerminalScreen((TerminalSnapshot)lastSnapshot));
+		Class<?> lastSnapshotClass = screensRecognizer.match((TerminalSnapshot)lastSnapshot);
 
 		Assert.assertEquals(lastSnapshotClass, SignOn.class);
 
