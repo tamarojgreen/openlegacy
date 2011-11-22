@@ -4,7 +4,7 @@ import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
@@ -34,7 +34,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 	@Inject
 	private ApplicationContext applicationContext;
 
-	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) {
+	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
@@ -60,13 +60,13 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 				for (ColumnDefinition columnDefinition : columnDefinitions) {
 					ScreenPosition screenPosition = SimpleScreenPosition.newInstance(currentRow,
 							columnDefinition.getStartColumn());
-					String cellText = getCellContent(terminalScreen, screenPosition, columnDefinition);
+					String cellText = getCellContent(terminalSnapshot, screenPosition, columnDefinition);
 					if (columnDefinition.isKey() && cellText.length() == 0) {
 						keyIsEmpty = true;
 					}
 					rowAccessor.setFieldValue(columnDefinition.getName(), cellText);
 
-					TerminalField terminalField = terminalScreen.getField(screenPosition);
+					TerminalField terminalField = terminalSnapshot.getField(screenPosition);
 					rowAccessor.setTerminalField(columnDefinition.getName(), terminalField);
 				}
 				if (!keyIsEmpty) {
@@ -77,9 +77,10 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 		}
 	}
 
-	private String getCellContent(TerminalScreen terminalScreen, ScreenPosition screenPosition, ColumnDefinition columnDefinition) {
+	private String getCellContent(TerminalSnapshot terminalSnapshot, ScreenPosition screenPosition,
+			ColumnDefinition columnDefinition) {
 		int length = columnDefinition.getEndColumn() - columnDefinition.getStartColumn() + 1;
-		String columnText = terminalScreen.getText(screenPosition, length);
+		String columnText = terminalSnapshot.getText(screenPosition, length);
 		columnText = fieldFormatter.format(columnText);
 		return columnText;
 	}
@@ -88,7 +89,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 		this.fieldFormatter = fieldFormatter;
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen terminalScreen, Object entity) {
+	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalScreen, Object entity) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(entity);
 
 		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(entity.getClass());

@@ -12,6 +12,6 @@ public interface ScreenPojoFieldAccessor extends EntityFieldAccessor {
 
 	void setTerminalField(String fieldName, TerminalField terminalField);
 
-	void setTerminalScreen(TerminalScreen terminalScreen);
+	void setTerminalSnapshot(TerminalSnapshot terminalSnapshot);
 
 }

@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.DirectFieldAccessor;
 
@@ -18,7 +18,7 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 
 	private final static Log logger = LogFactory.getLog(SimpleScreenPojoFieldAccessor.class);
 
-	private static final String TERMINAL_SCREEN = "terminalScreen";
+	private static final String TERMINAL_SNAPSHOT = "terminalSnapshot";
 	private static final String FOCUS_FIELD = "focusField";
 
 	public SimpleScreenPojoFieldAccessor(Object target) {
@@ -76,11 +76,11 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setTerminalScreen(org.openlegacy.terminal.TerminalScreen)
+	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setTerminalSnapshot(org.openlegacy.terminal.TerminalSnapshot)
 	 */
-	public void setTerminalScreen(TerminalScreen terminalScreen) {
-		if (directFieldAccessor.isWritableProperty(TERMINAL_SCREEN)) {
-			directFieldAccessor.setPropertyValue(TERMINAL_SCREEN, terminalScreen);
+	public void setTerminalSnapshot(TerminalSnapshot terminalSnapshot) {
+		if (directFieldAccessor.isWritableProperty(TERMINAL_SNAPSHOT)) {
+			directFieldAccessor.setPropertyValue(TERMINAL_SNAPSHOT, terminalSnapshot);
 		}
 		if (logger.isDebugEnabled()) {
 			logger.debug("Terminal screen was set to screen entity");

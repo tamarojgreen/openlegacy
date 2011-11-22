@@ -7,11 +7,11 @@ import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.support.AbstractSession;
-import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalConnectionListener;
-import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
@@ -61,13 +61,13 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (entity == null || !ProxyUtil.isClassesMatch(entity.getClass(), screenEntityClass)) {
 			sessionNavigator.navigate(this, screenEntityClass);
 
-			TerminalScreen terminalScreen = getSnapshot();
+			TerminalSnapshot terminalSnapshot = getSnapshot();
 
 			ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(screenEntityClass, ScreenEntity.class,
 					interceptor);
 
 			for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
-				screenEntityBinder.populateEntity(screenEntity, terminalScreen);
+				screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
 			}
 
 			entity = screenEntity;
@@ -78,9 +78,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@SuppressWarnings("unchecked")
 	public <S extends ScreenEntity> S getEntity() {
 		if (entity == null) {
-			TerminalScreen terminalScreen = getSnapshot();
+			TerminalSnapshot terminalSnapshot = getSnapshot();
 
-			Class<?> matchedScreenEntity = screensRecognizer.match(terminalScreen);
+			Class<?> matchedScreenEntity = screensRecognizer.match(terminalSnapshot);
 			if (matchedScreenEntity == null) {
 				return null;
 			}
@@ -123,7 +123,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			}
 
 			if (logger.isTraceEnabled()) {
-				TerminalScreen snapshot = terminalConnection.getSnapshot();
+				TerminalSnapshot snapshot = terminalConnection.getSnapshot();
 				logger.trace(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
 						sendAction.getCursorPosition()));
 				logger.trace("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
@@ -164,7 +164,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 	}
 
-	public TerminalScreen getSnapshot() {
+	public TerminalSnapshot getSnapshot() {
 		return terminalConnection.getSnapshot();
 	}
 

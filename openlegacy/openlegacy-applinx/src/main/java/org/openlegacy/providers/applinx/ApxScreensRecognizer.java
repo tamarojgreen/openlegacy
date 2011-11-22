@@ -4,7 +4,7 @@ import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 
@@ -19,8 +19,8 @@ public class ApxScreensRecognizer implements ScreensRecognizer {
 
 	private final static Log logger = LogFactory.getLog(ApxScreensRecognizer.class);
 
-	public Class<?> match(TerminalScreen terminalScreen) {
-		GXRuntimeScreen apxScreen = (GXRuntimeScreen)terminalScreen.getDelegate();
+	public Class<?> match(TerminalSnapshot terminalSnapshot) {
+		GXRuntimeScreen apxScreen = (GXRuntimeScreen)terminalSnapshot.getDelegate();
 		if (apxScreen.getName().equals(UNKNOWN)) {
 			return null;
 		}

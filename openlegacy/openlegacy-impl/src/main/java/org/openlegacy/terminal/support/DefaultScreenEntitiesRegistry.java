@@ -3,7 +3,7 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.support.AbstractEntitiesRegistry;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
@@ -30,7 +30,7 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntitiesRegistry.class);
 
-	public ScreenEntityDefinition match(TerminalScreen terminalScreen) {
+	public ScreenEntityDefinition match(TerminalSnapshot terminalSnapshot) {
 		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();
 
 		// sort the screen definitions by identifiers count
@@ -45,7 +45,7 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 
 		for (ScreenEntityDefinition screenDefinition : screenDefinitionsList) {
 			ScreenIdentification screenIdentification = screenDefinition.getScreenIdentification();
-			if (screenIdentification != null && screenIdentification.match(terminalScreen)) {
+			if (screenIdentification != null && screenIdentification.match(terminalSnapshot)) {
 				return screenDefinition;
 			}
 		}

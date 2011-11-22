@@ -1,6 +1,6 @@
 package org.openlegacy.recognizers;
 
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 
 import java.util.List;
@@ -13,9 +13,9 @@ public class CompositeScreenRecognizer implements ScreensRecognizer {
 
 	private List<ScreensRecognizer> screensRecognizers;
 
-	public Class<?> match(TerminalScreen terminalScreen) {
+	public Class<?> match(TerminalSnapshot terminalSnapshot) {
 		for (ScreensRecognizer screensRecognizer : screensRecognizers) {
-			Class<?> matchedScreen = screensRecognizer.match(terminalScreen);
+			Class<?> matchedScreen = screensRecognizer.match(terminalSnapshot);
 			if (matchedScreen != null) {
 				return matchedScreen;
 			}

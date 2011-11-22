@@ -4,10 +4,8 @@ import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
-import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.ScreenUtils;
-import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
 import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
@@ -22,13 +20,13 @@ import java.util.List;
  * A mock screen is conducted from a persisted snapshot, and reconstruct the entire screen data from the persisted fields
  * 
  */
-public class MockTerminalScreen implements TerminalScreen {
+public class MockTerminalScreen implements TerminalSnapshot {
 
 	private TerminalSnapshot terminalSnapshot;
 
 	private String screenText;
 
-	private ArrayList<ScreenPosition> attributes;
+	private ArrayList<ScreenPosition> fieldSeperators;
 
 	public MockTerminalScreen(TerminalSnapshot terminalSnapshot) {
 		this.terminalSnapshot = terminalSnapshot;
@@ -53,13 +51,11 @@ public class MockTerminalScreen implements TerminalScreen {
 
 	public String getText(ScreenPosition position, int length) {
 		initContent();
-		int beginIndex = ScreenUtils.toAbsolutePosition(position, getSize());
-		return screenText.substring(beginIndex, beginIndex + length);
+		return ScreenUtils.getText(screenText, getSize(), position, length);
 	}
 
 	public TerminalField getField(ScreenPosition position) {
-		TerminalRow row = terminalSnapshot.getRows().get(position.getRow() - 1);
-		return row.getField(position.getColumn());
+		return ScreenUtils.getField(terminalSnapshot.getRows(), position);
 	}
 
 	public Collection<TerminalField> getFields() {
@@ -73,26 +69,9 @@ public class MockTerminalScreen implements TerminalScreen {
 	}
 
 	private void initContent() {
-
 		if (screenText == null) {
-
-			ScreenSize size = getSize();
-			StringBuilder buffer = ScreenUtils.initEmptyBuffer(size);
-
-			attributes = new ArrayList<ScreenPosition>();
-
-			List<TerminalRow> rows = terminalSnapshot.getRows();
-
-			for (TerminalRow terminalRow : rows) {
-				List<TerminalField> rowFields = terminalRow.getFields();
-				for (TerminalField terminalField : rowFields) {
-					ScreenUtils.placeContentOnBuffer(buffer, terminalField, size);
-
-					ScreenPosition fieldPosition = terminalField.getPosition();
-					attributes.add(new SimpleScreenPosition(fieldPosition.getRow(), fieldPosition.getColumn() - 1));
-				}
-			}
-			screenText = buffer.toString();
+			fieldSeperators = new ArrayList<ScreenPosition>();
+			screenText = ScreenUtils.initSnapshot(getRows(), getSize(), fieldSeperators);
 		}
 	}
 
@@ -107,7 +86,7 @@ public class MockTerminalScreen implements TerminalScreen {
 
 	public List<ScreenPosition> getFieldSeperators() {
 		initContent();
-		return attributes;
+		return fieldSeperators;
 	}
 
 	public ScreenPosition getCursorPosition() {

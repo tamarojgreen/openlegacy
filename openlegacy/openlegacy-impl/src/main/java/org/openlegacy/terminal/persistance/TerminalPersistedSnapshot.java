@@ -2,15 +2,20 @@ package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.mock.MockTerminalScreen;
 import org.openlegacy.terminal.support.ScreenPositionBean;
 import org.openlegacy.terminal.support.ScreenSizeBean;
+import org.openlegacy.terminal.support.ScreenUtils;
+import org.openlegacy.terminal.utils.FieldsQuery;
+import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
 import org.openlegacy.terminal.utils.ScreenPainter;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,6 +23,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "snapshot")
@@ -36,6 +42,12 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 
 	@XmlElement(name = "cursor", type = ScreenPositionBean.class)
 	private ScreenPosition cursorPosition;
+
+	@XmlTransient
+	private String screenText;
+
+	@XmlTransient
+	private ArrayList<ScreenPosition> fieldPositions;
 
 	public SnapshotType getSnapshotType() {
 		return snapshotType;
@@ -96,6 +108,35 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 			return false;
 		}
 		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
+	}
+
+	public Collection<TerminalField> getFields() {
+		return FieldsQuery.queryFields(getRows(), AllFieldsCriteria.instance());
+	}
+
+	public TerminalField getField(ScreenPosition position) {
+		return ScreenUtils.getField(getRows(), position);
+	}
+
+	public Object getDelegate() {
+		return null;
+	}
+
+	public String getText() {
+		initContent();
+		return screenText;
+	}
+
+	private void initContent() {
+		if (screenText == null) {
+			fieldPositions = new ArrayList<ScreenPosition>();
+			screenText = ScreenUtils.initSnapshot(getRows(), getSize(), fieldPositions);
+		}
+	}
+
+	public String getText(ScreenPosition position, int length) {
+		initContent();
+		return ScreenUtils.getText(screenText, getSize(), position, length);
 	}
 
 }

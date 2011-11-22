@@ -7,7 +7,7 @@ import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 <#if supportTerminalData>
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 </#if>
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
@@ -18,7 +18,7 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 	declare @type: ${className} : @Scope("prototype");
     
 	<#if supportTerminalData>
-    private TerminalScreen ${className}.terminalScreen;
+    private TerminalSnapshot ${className}.terminalSnapshot;
 	</#if>
 
     declare parents: ${className} implements ScreenEntity;
@@ -32,8 +32,8 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 	</#list>	
     
 	<#if supportTerminalData>
-    public TerminalScreen ${className}.getTerminalScreen(){
-		return terminalScreen;
+    public TerminalSnapshot ${className}.getTerminalSnapshot(){
+		return terminalSnapshot;
     }
 	</#if>
 

@@ -4,8 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -39,7 +39,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 
 	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntity) throws ScreenEntityNotAccessibleException {
 
-		TerminalScreen snapshot = terminalSession.getSnapshot();
+		TerminalSnapshot snapshot = terminalSession.getSnapshot();
 		Class<?> currentEntityClass = screensRecognizer.match(snapshot);
 
 		if (currentEntityClass == null) {

@@ -3,8 +3,9 @@ package org.openlegacy.terminal.utils;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,20 +16,20 @@ import java.util.List;
  */
 public class ScreenPainter {
 
-	public static String paint(TerminalScreen terminalScreen, boolean decorated) {
-		return paint(terminalScreen, null, decorated);
+	public static String paint(TerminalSnapshot terminalSnapshot, boolean decorated) {
+		return paint(terminalSnapshot, null, decorated);
 	}
 
-	public static String paint(TerminalScreen terminalScreen, TerminalSendAction terminalSendAction, boolean decorated) {
-		String text = terminalScreen.getText();
+	public static String paint(TerminalSnapshot terminalSnapshot, TerminalSendAction terminalSendAction, boolean decorated) {
+		String text = terminalSnapshot.getText();
 		String newline = System.getProperty("line.separator");
-		int rows = terminalScreen.getSize().getRows();
+		int rows = terminalSnapshot.getSize().getRows();
 		StringBuilder out = new StringBuilder();
 		if (decorated) {
-			generateColumnNumbers(terminalScreen, newline, out);
+			generateColumnNumbers(terminalSnapshot, newline, out);
 		}
 		for (int i = 0; i < rows; i++) {
-			int beginIndex = i * terminalScreen.getSize().getColumns();
+			int beginIndex = i * terminalSnapshot.getSize().getColumns();
 			if (decorated) {
 				out.append(i + 1);
 				if (decorated) {
@@ -39,7 +40,7 @@ public class ScreenPainter {
 				}
 			}
 			if (decorated) {
-				out.append(text.substring(beginIndex, beginIndex + terminalScreen.getSize().getColumns()));
+				out.append(text.substring(beginIndex, beginIndex + terminalSnapshot.getSize().getColumns()));
 				out.append("|");
 			}
 			out.append(newline);
@@ -49,46 +50,47 @@ public class ScreenPainter {
 		}
 		if (decorated) {
 			out.append(newline);
-			generateColumnNumbers(terminalScreen, newline, out);
+			generateColumnNumbers(terminalSnapshot, newline, out);
 		}
 
-		drawFieldsSeperators(terminalScreen, out);
-		drawEditableFields(terminalScreen, out, terminalScreen.getEditableFields(), '[', ']');
+		drawFieldsSeperators(terminalSnapshot, out);
+		drawEditableFields(terminalSnapshot, out, FieldsQuery.queryFields(terminalSnapshot, EditableFieldsCriteria.instance()),
+				'[', ']');
 
 		if (terminalSendAction != null) {
-			drawEditableFields(terminalScreen, out, terminalSendAction.getModifiedFields(), '*', '*');
-			drawCursor(terminalScreen, out, terminalSendAction);
+			drawEditableFields(terminalSnapshot, out, terminalSendAction.getModifiedFields(), '*', '*');
+			drawCursor(terminalSnapshot, out, terminalSendAction);
 		}
 		return out.toString();
 
 	}
 
-	private static void drawCursor(TerminalScreen terminalScreen, StringBuilder out, TerminalSendAction terminalSendAction) {
+	private static void drawCursor(TerminalSnapshot terminalSnapshot, StringBuilder out, TerminalSendAction terminalSendAction) {
 		if (terminalSendAction.getCursorPosition() == null) {
 			return;
 		}
-		int cursorPainterLocation = calculatePositionOnPainter(terminalSendAction.getCursorPosition(), terminalScreen.getSize());
+		int cursorPainterLocation = calculatePositionOnPainter(terminalSendAction.getCursorPosition(), terminalSnapshot.getSize());
 		if (out.charAt(cursorPainterLocation) == ' ') {
 			out.setCharAt(cursorPainterLocation, '#');
 		}
 
 	}
 
-	private static void drawFieldsSeperators(TerminalScreen terminalScreen, StringBuilder out) {
-		List<ScreenPosition> attributes = terminalScreen.getFieldSeperators();
+	private static void drawFieldsSeperators(TerminalSnapshot terminalSnapshot, StringBuilder out) {
+		List<ScreenPosition> attributes = terminalSnapshot.getFieldSeperators();
 		for (ScreenPosition screenPosition : attributes) {
 			if (screenPosition.getColumn() > 0) {
-				int bufferLocation = calculatePositionOnPainter(screenPosition, terminalScreen.getSize());
+				int bufferLocation = calculatePositionOnPainter(screenPosition, terminalSnapshot.getSize());
 				out.setCharAt(bufferLocation, '^');
 			}
 		}
 
 	}
 
-	private static void generateColumnNumbers(TerminalScreen terminalScreen, String newline, StringBuilder out) {
+	private static void generateColumnNumbers(TerminalSnapshot terminalSnapshot, String newline, StringBuilder out) {
 		StringBuilder headerLine1 = new StringBuilder("    ");
 		StringBuilder headerLine2 = new StringBuilder("    ");
-		for (int i = 2; i <= terminalScreen.getSize().getColumns(); i++) {
+		for (int i = 2; i <= terminalSnapshot.getSize().getColumns(); i++) {
 			if (i % 2 == 0) {
 				headerLine1.append(i % 10);
 				if ((i / 10) > 0) {
@@ -108,11 +110,11 @@ public class ScreenPainter {
 		out.append(newline);
 	}
 
-	private static void drawEditableFields(TerminalScreen terminalScreen, StringBuilder out, Collection<TerminalField> fields,
-			char leftMark, char rightMark) {
+	private static void drawEditableFields(TerminalSnapshot terminalSnapshot, StringBuilder out,
+			Collection<TerminalField> fields, char leftMark, char rightMark) {
 		for (TerminalField terminalField : fields) {
 			// +6 - line numbers + |
-			int beforeInputBufferLocation = calculatePositionOnPainter(terminalField.getPosition(), terminalScreen.getSize()) - 1;
+			int beforeInputBufferLocation = calculatePositionOnPainter(terminalField.getPosition(), terminalSnapshot.getSize()) - 1;
 			out.setCharAt(beforeInputBufferLocation, leftMark);
 			int afterInputBufferLocation = beforeInputBufferLocation + terminalField.getLength() + 1;
 			out.setCharAt(afterInputBufferLocation, rightMark);

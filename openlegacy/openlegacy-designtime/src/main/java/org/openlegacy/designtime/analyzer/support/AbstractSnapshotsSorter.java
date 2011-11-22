@@ -15,7 +15,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-public class AbstractSnapshotsSorter<S extends Snapshot> implements SnapshotsSorter<S> {
+public abstract class AbstractSnapshotsSorter<S extends Snapshot> implements SnapshotsSorter<S> {
 
 	@Inject
 	private SnapshotsSimilarityChecker<S> snapshotsSimilarityChecker;

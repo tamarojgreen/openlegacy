@@ -2,24 +2,25 @@ package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
-import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private TerminalScreen terminalScreen;
+	private TerminalSnapshot terminalSnapshot;
 	private TerminalSendAction terminalSendAction;
 
-	public TerminalOutgoingSnapshot(TerminalScreen terminalScreen, TerminalSendAction terminalSendAction) {
-		this.terminalScreen = terminalScreen;
+	public TerminalOutgoingSnapshot(TerminalSnapshot terminalSnapshot, TerminalSendAction terminalSendAction) {
+		this.terminalSnapshot = terminalSnapshot;
 		this.terminalSendAction = terminalSendAction;
 	}
 
@@ -27,8 +28,8 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 		return SnapshotType.OUTGOING;
 	}
 
-	public TerminalScreen getTerminalScreen() {
-		return terminalScreen;
+	public TerminalSnapshot getTerminalSnapshot() {
+		return terminalSnapshot;
 	}
 
 	public TerminalSendAction getTerminalSendAction() {
@@ -36,22 +37,26 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 	}
 
 	public ScreenSize getSize() {
-		return terminalScreen.getSize();
+		return terminalSnapshot.getSize();
 	}
 
 	public List<TerminalRow> getRows() {
-		return terminalScreen.getRows();
+		return terminalSnapshot.getRows();
+	}
+
+	public Collection<TerminalField> getFields() {
+		return terminalSnapshot.getFields();
 	}
 
 	public List<ScreenPosition> getFieldSeperators() {
-		return terminalScreen.getFieldSeperators();
+		return terminalSnapshot.getFieldSeperators();
 	}
 
 	public ScreenPosition getCursorPosition() {
 		if (terminalSendAction.getCursorPosition() != null) {
 			return terminalSendAction.getCursorPosition();
 		}
-		return terminalScreen.getCursorPosition();
+		return terminalSnapshot.getCursorPosition();
 	}
 
 	@Override
@@ -65,6 +70,22 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 			return false;
 		}
 		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
+	}
+
+	public TerminalField getField(ScreenPosition position) {
+		return ScreenUtils.getField(terminalSnapshot.getRows(), position);
+	}
+
+	public Object getDelegate() {
+		return terminalSnapshot.getDelegate();
+	}
+
+	public String getText() {
+		return terminalSnapshot.getText();
+	}
+
+	public String getText(ScreenPosition position, int length) {
+		return terminalSnapshot.getText(position, length);
 	}
 
 }

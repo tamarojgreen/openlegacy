@@ -14,7 +14,7 @@ import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
 import java.util.List;
@@ -27,14 +27,14 @@ public class ApxTerminalConnection implements TerminalConnection {
 		this.baseObject = baseObject;
 	}
 
-	public TerminalScreen getSnapshot() {
-		return newTerminalScreen();
+	public TerminalSnapshot getSnapshot() {
+		return newTerminalSnapshot();
 	}
 
-	private TerminalScreen newTerminalScreen() {
+	private TerminalSnapshot newTerminalSnapshot() {
 		try {
 			GXRuntimeScreen screen = ((GXClientScreen)baseObject.getScreen()).getRuntimeScreen();
-			return new ApxTerminalScreen(screen);
+			return new ApxTerminalSnapshot(screen);
 		} catch (GXGeneralException e) {
 			throw (new OpenLegacyProviderException(e));
 		}

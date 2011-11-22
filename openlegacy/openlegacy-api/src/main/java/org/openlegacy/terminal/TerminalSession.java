@@ -7,7 +7,7 @@ import org.openlegacy.terminal.actions.TerminalAction;
  * The main entry point for the terminal session. In addition to it's parent classes methods for retrieving the current screen and
  * Legacy vendors needs to implement this class
  */
-public interface TerminalSession extends StatefullSession<TerminalScreen> {
+public interface TerminalSession extends StatefullSession<TerminalSnapshot> {
 
 	<R extends ScreenEntity> R doAction(TerminalAction action);
 

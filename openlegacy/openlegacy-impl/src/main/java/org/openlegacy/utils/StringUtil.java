@@ -9,4 +9,11 @@ public class StringUtil {
 		}
 		return s;
 	}
+
+	public static int getLength(String s) {
+		if (s == null) {
+			return 0;
+		}
+		return s.length();
+	}
 }

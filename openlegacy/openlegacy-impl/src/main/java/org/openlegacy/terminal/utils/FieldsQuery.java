@@ -11,7 +11,10 @@ public class FieldsQuery {
 
 	public static List<TerminalField> queryFields(TerminalSnapshot snapshot, FieldsCriteria criteria) {
 		List<TerminalRow> rows = snapshot.getRows();
+		return queryFields(rows, criteria);
+	}
 
+	public static List<TerminalField> queryFields(List<TerminalRow> rows, FieldsCriteria criteria) {
 		List<TerminalField> matchedFields = new ArrayList<TerminalField>();
 
 		for (TerminalRow terminalRow : rows) {
@@ -23,7 +26,6 @@ public class FieldsQuery {
 			}
 		}
 		return matchedFields;
-
 	}
 
 	public static interface FieldsCriteria {

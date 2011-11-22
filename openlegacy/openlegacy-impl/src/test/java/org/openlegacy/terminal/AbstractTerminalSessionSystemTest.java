@@ -19,7 +19,7 @@ public class AbstractTerminalSessionSystemTest extends AbstractTest {
 
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
-		Assert.assertNotNull(signOn.getTerminalScreen());
+		Assert.assertNotNull(signOn.getTerminalSnapshot());
 		Assert.assertNotNull(signOn.getUserField());
 
 		signOn.setUser("user");

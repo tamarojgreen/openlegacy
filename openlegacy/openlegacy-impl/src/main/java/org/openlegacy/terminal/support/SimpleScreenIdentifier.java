@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenIdentifier;
 
 /**
@@ -18,8 +18,8 @@ public class SimpleScreenIdentifier implements ScreenIdentifier {
 		this.text = text;
 	}
 
-	public boolean match(TerminalScreen terminalScreen) {
-		String foundText = terminalScreen.getText(position, text.length());
+	public boolean match(TerminalSnapshot terminalSnapshot) {
+		String foundText = terminalSnapshot.getText(position, text.length());
 		if (foundText.equals(text)) {
 			return true;
 		}

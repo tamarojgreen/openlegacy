@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support.binders;
 
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -25,7 +25,7 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder {
 	@Inject
 	private ScreenBinderLogic screenBinderLogic;
 
-	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) {
+	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
@@ -39,12 +39,12 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder {
 			SimpleScreenPojoFieldAccessor partFieldAccessor = new SimpleScreenPojoFieldAccessor(partObject);
 
 			Collection<FieldMappingDefinition> fieldMappingDefinitions = screenPartEntityDefinition.getFieldsDefinitions().values();
-			screenBinderLogic.populatedFields(partFieldAccessor, terminalScreen, fieldMappingDefinitions);
+			screenBinderLogic.populatedFields(partFieldAccessor, terminalSnapshot, fieldMappingDefinitions);
 		}
 
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen terminalScreen, Object entity) {
+	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		Map<String, ScreenPartEntityDefinition> partsDefinitions = screenEntitiesRegistry.get(entity.getClass()).getPartsDefinitions();
 
@@ -54,7 +54,7 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder {
 		for (String fieldPartName : fieldPartNames) {
 			ScreenPartEntityDefinition screenPartEntityDefinition = partsDefinitions.get(fieldPartName);
 			Object screenPart = fieldAccessor.getFieldValue(fieldPartName);
-			screenBinderLogic.populateSendAction(sendAction, terminalScreen, screenPart,
+			screenBinderLogic.populateSendAction(sendAction, terminalSnapshot, screenPart,
 					screenPartEntityDefinition.getFieldsDefinitions().values());
 		}
 

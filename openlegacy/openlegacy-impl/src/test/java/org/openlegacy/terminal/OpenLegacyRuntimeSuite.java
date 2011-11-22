@@ -15,7 +15,7 @@ import org.openlegacy.terminal.support.binders.ScreenEntityTablesBinderTest;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TerminalEqualsHashcodeTest.class, AbstractTerminalSessionSystemTest.class, RecognizersSuite.class,
+@SuiteClasses({ TerminalEqualsHashcodeTest.class, MockTerminalSessionSystemTest.class, RecognizersSuite.class,
 		XmlTrailWriterTest.class, DefaultLoginModuleTest.class, DefaultLoginModuleFailedTest.class,
 		DefaultTerminalSessionTest.class, DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class,
 		ScreenEntityTablesBinderTest.class, DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class })

@@ -8,7 +8,6 @@ import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
-import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.utils.ScreenPainter;
@@ -18,16 +17,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ApxTerminalScreen implements TerminalScreen {
+public class ApxTerminalSnapshot implements TerminalSnapshot {
 
 	private final GXRuntimeScreen screen;
 	private ArrayList<TerminalRow> rows;
 	private ArrayList<TerminalField> fields;
-	private ArrayList<TerminalField> editableFields;
 	private ArrayList<ScreenPosition> fieldSeperators;
 	private String text;
 
-	public ApxTerminalScreen(GXRuntimeScreen screen) {
+	public ApxTerminalSnapshot(GXRuntimeScreen screen) {
 		this.screen = screen;
 	}
 
@@ -71,22 +69,6 @@ public class ApxTerminalScreen implements TerminalScreen {
 			fields.add(new ApxTerminalField(apxField));
 		}
 		return fields;
-	}
-
-	public Collection<TerminalField> getEditableFields() {
-
-		if (editableFields != null) {
-			return editableFields;
-		}
-
-		@SuppressWarnings("unchecked")
-		Collection<GXIField> apxInputFields = screen.getFields().getUnprotectedFields().values();
-
-		editableFields = new ArrayList<TerminalField>();
-		for (GXIField apxField : apxInputFields) {
-			editableFields.add(new ApxTerminalField(apxField));
-		}
-		return editableFields;
 	}
 
 	public ScreenSize getSize() {

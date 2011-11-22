@@ -2,6 +2,7 @@ package org.openlegacy.terminal;
 
 import org.openlegacy.Snapshot;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -20,8 +21,18 @@ public interface TerminalSnapshot extends Snapshot {
 
 	List<TerminalRow> getRows();
 
+	Collection<TerminalField> getFields();
+
 	SnapshotType getSnapshotType();
 
 	List<ScreenPosition> getFieldSeperators();
+
+	TerminalField getField(ScreenPosition position);
+
+	String getText();
+
+	String getText(ScreenPosition position, int length);
+
+	Object getDelegate();
 
 }

@@ -3,7 +3,6 @@ package org.openlegacy.terminal.persistance;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
-import org.openlegacy.terminal.TerminalScreen;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.ScreenPositionBean;
@@ -32,7 +31,7 @@ public class SnapshotPersistanceDTO {
 		TerminalPersistedSnapshot persistedSnapshot = new TerminalPersistedSnapshot();
 		ReflectionUtil.copyProperties(persistedSnapshot, snapshot);
 
-		TerminalScreen screen = snapshot.getTerminalScreen();
+		TerminalSnapshot screen = snapshot.getTerminalSnapshot();
 
 		transformCommonSnapshot(persistedSnapshot, screen);
 
@@ -43,9 +42,9 @@ public class SnapshotPersistanceDTO {
 		TerminalPersistedSnapshot persistedSnapshot = new TerminalPersistedSnapshot();
 		persistedSnapshot.setSnapshotType(snapshot.getSnapshotType());
 
-		TerminalScreen screen = snapshot.getTerminalScreen();
+		TerminalSnapshot terminalSnapshot = snapshot.getTerminalSnapshot();
 
-		transformCommonSnapshot(persistedSnapshot, screen);
+		transformCommonSnapshot(persistedSnapshot, terminalSnapshot);
 
 		TerminalSendAction sendAction = snapshot.getTerminalSendAction();
 		List<TerminalField> fields = sendAction.getModifiedFields();
@@ -59,7 +58,7 @@ public class SnapshotPersistanceDTO {
 		return persistedSnapshot;
 	}
 
-	private static TerminalSnapshot transformCommonSnapshot(TerminalPersistedSnapshot persistedSnapshot, TerminalScreen screen) {
+	private static TerminalSnapshot transformCommonSnapshot(TerminalPersistedSnapshot persistedSnapshot, TerminalSnapshot screen) {
 
 		List<TerminalRow> rows = screen.getRows();
 		persistedSnapshot.setCursorPosition(screen.getCursorPosition());

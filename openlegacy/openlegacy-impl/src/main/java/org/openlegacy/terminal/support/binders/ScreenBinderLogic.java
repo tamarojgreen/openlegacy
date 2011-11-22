@@ -8,7 +8,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.exceptions.SendActionException;
 import org.openlegacy.terminal.spi.TerminalSendAction;
@@ -32,12 +32,12 @@ public class ScreenBinderLogic {
 
 	private final static Log logger = LogFactory.getLog(ScreenBinderLogic.class);
 
-	public void populatedFields(ScreenPojoFieldAccessor fieldAccessor, TerminalScreen terminalScreen,
+	public void populatedFields(ScreenPojoFieldAccessor fieldAccessor, TerminalSnapshot terminalSnapshot,
 			Collection<FieldMappingDefinition> fieldMappingDefinitions) {
 
 		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingDefinitions) {
 
-			TerminalField terminalField = extractTerminalField(terminalScreen, fieldMappingDefinition);
+			TerminalField terminalField = extractTerminalField(terminalSnapshot, fieldMappingDefinition);
 
 			String fieldName = fieldMappingDefinition.getName();
 			if (fieldAccessor.isWritable(fieldName)) {
@@ -46,7 +46,7 @@ public class ScreenBinderLogic {
 
 				fieldAccessor.setTerminalField(fieldName, terminalField);
 			}
-			ScreenPosition cursorPosition = terminalScreen.getCursorPosition();
+			ScreenPosition cursorPosition = terminalSnapshot.getCursorPosition();
 			if (cursorPosition != null && cursorPosition.equals(fieldMappingDefinition.getScreenPosition())) {
 				fieldAccessor.setFocusField(fieldMappingDefinition.getName());
 			}
@@ -54,7 +54,7 @@ public class ScreenBinderLogic {
 		}
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen terminalScreen, Object screenPojo,
+	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object screenPojo,
 			Collection<FieldMappingDefinition> fieldMappingsDefinitions) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenPojo);
 
@@ -66,7 +66,7 @@ public class ScreenBinderLogic {
 			String fieldName = fieldMappingDefinition.getName();
 			Object value = fieldAccessor.getFieldValue(fieldName);
 
-			TerminalField terminalField = terminalScreen.getField(fieldPosition);
+			TerminalField terminalField = terminalSnapshot.getField(fieldPosition);
 			if (value != null) {
 				boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalField.getValue(), value);
 				if (fieldModified) {
@@ -100,8 +100,8 @@ public class ScreenBinderLogic {
 		}
 	}
 
-	private static TerminalField extractTerminalField(final TerminalScreen terminalScreen, FieldMappingDefinition fieldMapping) {
-		TerminalField terminalField = terminalScreen.getField(fieldMapping.getScreenPosition());
+	private static TerminalField extractTerminalField(final TerminalSnapshot terminalSnapshot, FieldMappingDefinition fieldMapping) {
+		TerminalField terminalField = terminalSnapshot.getField(fieldMapping.getScreenPosition());
 		return terminalField;
 	}
 

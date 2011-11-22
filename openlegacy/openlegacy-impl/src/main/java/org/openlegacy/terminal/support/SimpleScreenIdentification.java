@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.spi.ScreenIdentifier;
 
@@ -23,10 +23,10 @@ public class SimpleScreenIdentification implements ScreenIdentification {
 		screenIdentifiers.add(screenIdentifier);
 	}
 
-	public boolean match(TerminalScreen terminalScreen) {
+	public boolean match(TerminalSnapshot terminalSnapshot) {
 		List<ScreenIdentifier> identifiers = screenIdentifiers;
 		for (ScreenIdentifier screenIdentifier : identifiers) {
-			if (!screenIdentifier.match(terminalScreen)) {
+			if (!screenIdentifier.match(terminalSnapshot)) {
 				return false;
 			}
 		}

@@ -1,5 +1,6 @@
 package org.openlegacy.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
@@ -18,7 +19,8 @@ public class SimpleFieldFormatter implements FieldFormatter {
 	private final static Log logger = LogFactory.getLog(SimpleFieldFormatter.class);
 
 	public String format(String s) {
-		if (s.length() == 0) {
+
+		if (StringUtils.isEmpty(s)) {
 			return s;
 		}
 

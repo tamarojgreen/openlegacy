@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.exceptions.SendActionException;
@@ -34,19 +34,19 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 	@Inject
 	private ScreenBinderLogic screenBinderLogic;
 
-	public void populateEntity(Object screenEntity, TerminalScreen terminalScreen) throws EntityNotFoundException,
+	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
 			ScreenEntityNotAccessibleException {
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
-		fieldAccessor.setTerminalScreen(terminalScreen);
+		fieldAccessor.setTerminalSnapshot(terminalSnapshot);
 
 		Collection<FieldMappingDefinition> fieldMappingDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
-				terminalScreen, screenEntity.getClass());
-		screenBinderLogic.populatedFields(fieldAccessor, terminalScreen, fieldMappingDefinitions);
+				terminalSnapshot, screenEntity.getClass());
+		screenBinderLogic.populatedFields(fieldAccessor, terminalSnapshot, fieldMappingDefinitions);
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalScreen terminalScreen, Object entity) {
+	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		if (entity == null) {
 			return;
@@ -57,13 +57,13 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 		ScreenEntity screenEntity = (ScreenEntity)entity;
 
 		Collection<FieldMappingDefinition> fieldMappingsDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
-				terminalScreen, screenEntity.getClass());
+				terminalSnapshot, screenEntity.getClass());
 
 		if (fieldMappingsDefinitions == null) {
 			return;
 		}
 
-		screenBinderLogic.populateSendAction(sendAction, terminalScreen, screenEntity, fieldMappingsDefinitions);
+		screenBinderLogic.populateSendAction(sendAction, terminalSnapshot, screenEntity, fieldMappingsDefinitions);
 
 		if (!StringUtils.isEmpty(screenEntity.getFocusField()) && sendAction.getCursorPosition() == null) {
 			throw (new SendActionException(MessageFormat.format("Cursor field {0} was not found in screen {1}",

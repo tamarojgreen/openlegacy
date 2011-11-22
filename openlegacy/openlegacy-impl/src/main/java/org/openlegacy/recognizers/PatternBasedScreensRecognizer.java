@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.utils.StringUtil;
@@ -32,12 +32,12 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 
 	private char[] ignoreChars = new char[] { ' ' };
 
-	public Class<?> match(TerminalScreen terminalScreen) {
+	public Class<?> match(TerminalSnapshot terminalSnapshot) {
 		if (positions == null) {
 			return null;
 		}
 		for (ScreenPosition position : positions) {
-			TerminalField field = terminalScreen.getField(position);
+			TerminalField field = terminalSnapshot.getField(position);
 			String patternFromScreen = StringUtil.ignoreChars(field.getValue(), ignoreChars);
 			if (patternFromScreen.length() > 0) {
 				Class<?> screenModel = screenEntitiesRegistry.getEntityClass(patternFromScreen);

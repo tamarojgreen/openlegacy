@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.springframework.context.ApplicationContext;
 
@@ -17,21 +17,21 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 
 	private TerminalConnection terminalConnection;
 
-	private TerminalScreen terminalScreen;
+	private TerminalSnapshot terminalSnapshot;
 
 	private final static Log logger = LogFactory.getLog(TerminalConnectionDelegator.class);
 
-	public TerminalScreen getSnapshot() {
+	public TerminalSnapshot getSnapshot() {
 		lazyConnect();
-		if (terminalScreen == null) {
-			terminalScreen = terminalConnection.getSnapshot();
+		if (terminalSnapshot == null) {
+			terminalSnapshot = terminalConnection.getSnapshot();
 		}
-		return terminalScreen;
+		return terminalSnapshot;
 	}
 
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
 		lazyConnect();
-		terminalScreen = null;
+		terminalSnapshot = null;
 		return terminalConnection.doAction(terminalSendAction);
 	}
 
@@ -58,7 +58,7 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 		TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
 		terminalConnectionFactory.disconnect(terminalConnection);
 		terminalConnection = null;
-		terminalScreen = null;
+		terminalSnapshot = null;
 	}
 
 	public boolean isConnected() {

@@ -7,7 +7,7 @@ import com.sabratec.applinx.baseobject.GXIScreen;
 import org.openlegacy.FieldType;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
@@ -25,14 +25,14 @@ public class ApxRuntimeFieldMappingsProvider implements FieldMappingsDefinitionP
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalScreen terminalScreen,
+	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalSnapshot terminalSnapshot,
 			Class<?> screenEntityClass) {
 
 		String screenName = screenEntitiesRegistry.getEntityName(screenEntityClass);
 
 		List<FieldMappingDefinition> fieldMappingDefinitions = new ArrayList<FieldMappingDefinition>();
 
-		GXIScreen apxScreen = (GXIScreen)terminalScreen.getDelegate();
+		GXIScreen apxScreen = (GXIScreen)terminalSnapshot.getDelegate();
 
 		if (!screenName.equalsIgnoreCase(apxScreen.getName())) {
 			throw (new OpenLegacyException(MessageFormat.format("Current screen:{0} doesn''t match request screen:{1}",

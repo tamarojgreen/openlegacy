@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING">
+    <cursor row="6" column="53" />
+    <row rowNumber="1">
+        <field value="Field A:" length="9" modified="false" editable="false">
+            <position row="1" column="3"/>
+        </field>
+        <field value="AA     " length="10" modified="false" editable="true">
+            <position row="1" column="13"/>
+        </field>
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

@@ -7,7 +7,7 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
  */
 public interface TerminalConnection {
 
-	TerminalScreen getSnapshot();
+	TerminalSnapshot getSnapshot();
 
 	TerminalConnection doAction(TerminalSendAction terminalSendAction);
 

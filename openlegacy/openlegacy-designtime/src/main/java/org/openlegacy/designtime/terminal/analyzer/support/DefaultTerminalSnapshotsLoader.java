@@ -1,6 +1,6 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
-import org.openlegacy.designtime.analyzer.SnapshotsLoader;
+import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.exceptions.UnableToLoadSnapshotException;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
@@ -17,7 +17,7 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 
 @Component
-public class DefaultTerminalSnapshotsLoader implements SnapshotsLoader<TerminalSnapshot> {
+public class DefaultTerminalSnapshotsLoader implements TerminalSnapshotsLoader {
 
 	public List<TerminalSnapshot> loadAll(String root) throws UnableToLoadSnapshotException {
 		File rootFolder = new File(root);

@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.spi;
 
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface ScreenIdentification {
 
 	List<ScreenIdentifier> getScreenIdentifiers();
 
-	boolean match(TerminalScreen terminalScreen);
+	boolean match(TerminalSnapshot terminalSnapshot);
 
 	void addIdentifier(ScreenIdentifier screenIdentifier);
 }
