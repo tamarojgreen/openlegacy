@@ -25,7 +25,7 @@ public class DroolsSnapshotsAnalyzer implements TerminalSnapshotsAnalyzer {
 
 		snapshotsSorter.add(snapshots);
 
-		Collection<TerminalSnapshot> singlesSnapshots = snapshotsSorter.getFirstOfEachGroup();
+		Collection<TerminalSnapshot> singlesSnapshots = snapshotsSorter.getGroupsReprensters();
 
 		KnowledgeBase knowledgeBase = DroolsUtil.createKnowledgeBase("basicRule.drl");
 		StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();

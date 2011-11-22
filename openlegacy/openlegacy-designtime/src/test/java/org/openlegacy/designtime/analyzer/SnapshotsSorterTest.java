@@ -34,12 +34,11 @@ public class SnapshotsSorterTest {
 		snapshotsSorter.add(snapshots);
 
 		Collection<Set<TerminalSnapshot>> groups = snapshotsSorter.getGroups();
-		Assert.assertEquals(1, groups);
-		Set<TerminalSnapshot> group = groups.iterator().next();
-		TerminalSnapshot[] snapshotsArray = group.toArray(new TerminalSnapshot[group.size()]);
-		findMatch(snapshotsArray[0], "AA");
-		findMatch(snapshotsArray[1], "AABB");
-		findMatch(snapshotsArray[2], "AABBCCC");
+		Assert.assertEquals(1, groups.size());
+		Collection<TerminalSnapshot> representingSnapshots = snapshotsSorter.getGroupsReprensters();
+		Assert.assertEquals(1, representingSnapshots.size());
+
+		findMatch(representingSnapshots.iterator().next(), "AABBCC");
 	}
 
 	private static void findMatch(TerminalSnapshot terminalSnapshot, String string) {

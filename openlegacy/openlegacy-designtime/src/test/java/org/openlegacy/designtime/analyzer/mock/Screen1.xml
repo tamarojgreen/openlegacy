@@ -5,7 +5,7 @@
         <field value="Field A:" length="9" modified="false" editable="false">
             <position row="1" column="3"/>
         </field>
-        <field value="AABBCCC     " length="10" modified="false" editable="true">
+        <field value="AA   " length="10" modified="false" editable="true">
             <position row="1" column="13"/>
         </field>
     </row>

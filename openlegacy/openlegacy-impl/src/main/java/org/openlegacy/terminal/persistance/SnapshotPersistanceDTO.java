@@ -6,7 +6,6 @@ import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.ScreenPositionBean;
-import org.openlegacy.terminal.support.TerminalIncomingSnapshot;
 import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.openlegacy.utils.ReflectionUtil;
 
@@ -15,25 +14,18 @@ import java.util.List;
 public class SnapshotPersistanceDTO {
 
 	public static TerminalPersistedSnapshot transformSnapshot(TerminalSnapshot snapshot) {
-		if (snapshot instanceof TerminalIncomingSnapshot) {
-			return transformIncomingSnapshot((TerminalIncomingSnapshot)snapshot);
-		}
 		if (snapshot instanceof TerminalOutgoingSnapshot) {
 			return transformOutgoingSnapshot((TerminalOutgoingSnapshot)snapshot);
 		}
-
-		throw (new IllegalArgumentException("Incorrect Terminal snapshot type:" + snapshot.getClass()
-				+ ". Only TerminalIncomingSnapshot, TerminalOutgoingSnapshot are allowed"));
+		return transformIncomingSnapshot(snapshot);
 
 	}
 
-	public static TerminalPersistedSnapshot transformIncomingSnapshot(TerminalIncomingSnapshot snapshot) {
+	public static TerminalPersistedSnapshot transformIncomingSnapshot(TerminalSnapshot snapshot) {
 		TerminalPersistedSnapshot persistedSnapshot = new TerminalPersistedSnapshot();
 		ReflectionUtil.copyProperties(persistedSnapshot, snapshot);
 
-		TerminalSnapshot screen = snapshot.getTerminalSnapshot();
-
-		transformCommonSnapshot(persistedSnapshot, screen);
+		transformCommonSnapshot(persistedSnapshot, snapshot);
 
 		return persistedSnapshot;
 	}
