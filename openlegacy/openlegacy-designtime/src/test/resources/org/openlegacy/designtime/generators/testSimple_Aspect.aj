@@ -6,7 +6,7 @@ package com.someorg.examples.screens;
 import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalScreen;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
@@ -15,7 +15,7 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     declare @type: SignOn : @Component;
 	declare @type: SignOn : @Scope("prototype");
     
-    private TerminalScreen SignOn.terminalScreen;
+    private TerminalSnapshot SignOn.terminalSnapshot;
 
     declare parents: SignOn implements ScreenEntity;
     private String SignOn.focusField;
@@ -25,8 +25,8 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 	
     private TerminalField SignOn.userField;
     
-    public TerminalScreen SignOn.getTerminalScreen(){
-		return terminalScreen;
+    public TerminalSnapshot SignOn.getTerminalSnapshot(){
+		return terminalSnapshot;
     }
 
     public String SignOn.getPassword(){

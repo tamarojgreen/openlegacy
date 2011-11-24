@@ -1,6 +1,7 @@
 package org.openlegacy.designtime.generators;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.designtime.analyzer.SnapshotsLoader;
@@ -27,6 +28,11 @@ public class DefaultTerminalSnapshotsSorterTest {
 	@Inject
 	private SnapshotsLoader<TerminalSnapshot> snapshotsLoader;
 
+	@Before
+	public void setup() {
+		snapshotsSorter.clear();
+	}
+
 	@Test
 	public void testGroupMatch() throws FileNotFoundException, JAXBException {
 		String mockPath = getClass().getResource("mock").getFile();
@@ -51,7 +57,7 @@ public class DefaultTerminalSnapshotsSorterTest {
 
 		snapshotsSorter.add(snapshots);
 
-		Assert.assertEquals(7, snapshotsSorter.getGroups().size());
+		Assert.assertEquals(10, snapshotsSorter.getGroups().size());
 		Iterator<Set<TerminalSnapshot>> iterator = snapshotsSorter.getGroups().iterator();
 		// Inventory management
 		Assert.assertEquals(1, iterator.next().size());
@@ -65,8 +71,8 @@ public class DefaultTerminalSnapshotsSorterTest {
 		Assert.assertEquals(1, iterator.next().size());
 		// sign on
 		Assert.assertEquals(2, iterator.next().size());
-		// warehouse list
-		Assert.assertEquals(4, iterator.next().size());
+		// warehouse type list
+		Assert.assertEquals(1, iterator.next().size());
 
 	}
 }

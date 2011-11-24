@@ -1,6 +1,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.SimpleEntityDefinition;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenIdentification;
 
@@ -13,6 +14,7 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<FieldMa
 	private NavigationDefinition navigationDefinition;
 	private Map<String, TableDefinition> tableDefinitions = new HashMap<String, TableDefinition>();
 	private Map<String, ScreenPartEntityDefinition> partDefinitions = new HashMap<String, ScreenPartEntityDefinition>();
+	private TerminalSnapshot snapshot;
 
 	public SimpleScreenEntityDefinition(String entityName, Class<?> entityClass) {
 		super(entityName, entityClass);
@@ -40,5 +42,13 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<FieldMa
 
 	public Map<String, ScreenPartEntityDefinition> getPartsDefinitions() {
 		return partDefinitions;
+	}
+
+	public TerminalSnapshot getSnapshot() {
+		return this.snapshot;
+	}
+
+	public void setSnapshot(TerminalSnapshot snapshot) {
+		this.snapshot = snapshot;
 	}
 }

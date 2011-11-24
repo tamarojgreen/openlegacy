@@ -88,4 +88,8 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 		return terminalSnapshot.getText(position, length);
 	}
 
+	public TerminalRow getRowByRowNumber(int rowNumber) {
+		return terminalSnapshot.getRowByRowNumber(rowNumber);
+	}
+
 }

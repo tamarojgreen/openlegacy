@@ -8,5 +8,7 @@ public interface FieldDefinition {
 
 	String getName();
 
+	String getDisplayName();
+
 	Class<? extends FieldType> getType();
 }

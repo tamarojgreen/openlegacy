@@ -16,4 +16,49 @@ public class StringUtil {
 		}
 		return s.length();
 	}
+
+	public static String toJavaFieldName(String text) {
+		return toVariableName(text, false);
+	}
+
+	public static String toClassName(String text) {
+		return toVariableName(text, true);
+	}
+
+	private static String toVariableName(String text, boolean capFirst) {
+		char[] chars = text.toCharArray();
+		StringBuilder sb = new StringBuilder(text.length());
+		for (char d : chars) {
+			char c = d;
+
+			if (capFirst) {
+				c = Character.toUpperCase(c);
+				capFirst = false;
+			} else {
+				c = Character.toLowerCase(c);
+			}
+
+			if (Character.isLetter(c) || Character.isDigit(c)) {
+				sb.append(c);
+			}
+			if (c == ' ') {
+				capFirst = true;
+			}
+
+		}
+		return sb.toString();
+
+	}
+
+	public static String toDisplayName(String text) {
+		char[] chars = text.toCharArray();
+		StringBuilder sb = new StringBuilder(text.length());
+		for (char c : chars) {
+			if (Character.isLetter(c) || Character.isDigit(c) || c == ' ') {
+				sb.append(c);
+			}
+
+		}
+		return sb.toString();
+	}
 }

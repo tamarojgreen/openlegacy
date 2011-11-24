@@ -1,33 +1,64 @@
 package openlegacy;
 
+import java.util.*;
+import org.openlegacy.*;
+import org.openlegacy.utils.*;
 import org.openlegacy.terminal.*;
 import org.openlegacy.terminal.definitions.*;
 import org.openlegacy.analyzer.screen.model.*;
-
 import java.util.List;
 
-global List definitions;
+import org.openlegacy.designtime.ScreenEntityDesigntimeDefinition;
+import org.openlegacy.designtime.analyzer.SnapshotsSorter;
+import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 
-rule "init_definition"
+global SnapshotsAnalyzerContext snapshotsAnalyzerContext;
+global SnapshotsSorter snapshotsSorter;
+
+rule "sort-snapshots"
 when
-	$screen: TerminalScreen()
-	$otherScreen: TerminalScreen(this != $screen, fieldSeperators.size != $screen.fieldSeperators.size)
-	$row: TerminalRow($rowNumber: rowNumber,rowNumber == 1 || rowNumber == 2) from $screen.getRows();
-	$otherRow: TerminalRow(rowNumber == $rowNumber, rowNumber == 1 || rowNumber == 2) from $otherScreen.getRows();
-	$field: TerminalField(position.column > 20,position.column < 60,$fieldValue:value matches "^[A-Za-z0-9 _]*$") from $row.getFields(); 
-	$otherField: TerminalField(value != $fieldValue,position.column > 20,position.column < 60,value matches "^[A-Za-z0-9 _]*$") from $otherRow.getFields();
-	String(length > 0) from $fieldValue.trim()
-	 
-	
 then
-	ScreenEntityDefinition screenDefinition = new ScreenEntityDesigntimeDefinition();
-	insert(screenDefinition);
-	definitions.add(screenDefinition);
-	System.out.println("row found:" + $fieldValue + "\n" + $screen.toString().substring(0,1000) + "\n************");
+	Collection<TerminalSnapshot> snapshots = snapshotsAnalyzerContext.getActiveSnapshots();
+	snapshotsSorter.add(snapshots);
+	snapshots = snapshotsSorter.getGroupsReprensters(); 
+	for (TerminalSnapshot s:snapshots){
+		ScreenEntityDesigntimeDefinition screenEntityDefinition = new ScreenEntityDesigntimeDefinition();
+		screenEntityDefinition.setSnapshot(s);
+		insert(screenEntityDefinition);
+	} 
 end
 
-rule "find_screen_name"
+rule "find-screen-name"
 when
-	$screenDefinition : ScreenEntityDefinition()
+	$titleStartRow : Integer() from 1
+	$titleEndRow   : Integer() from 3
+	$titleRegex    : String()  from "[A-Za-z]+[ ][^ ^.]*"
+
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+	$otherScreenEntityDefinition: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition)
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	$otherSnapshot: TerminalSnapshot() from $otherScreenEntityDefinition.getSnapshot()
+	TerminalField($position: position, position.row >= $titleStartRow, position.row <= $titleEndRow, $fieldValue:value, value matches $titleRegex) from $snapshot.getFields() 
+	TerminalField(position == $position, value != $fieldValue) from $otherSnapshot.getFields()
+	$entityName: String(length > 0) from StringUtil.toClassName($fieldValue)
 then
+	$screenEntityDefinition.setEntityName($entityName);
+	snapshotsAnalyzerContext.getEntitiesDefinitions().put($entityName,$screenEntityDefinition);
+end
+
+rule "find-editable-fields"
+when
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	$editableField: TerminalField($position: position, editable == true) from $snapshot.getFields()
+	TerminalField(position.row == $position.row, position.column < $position.column, editable == false,$leadingLabel: value) from $snapshot.getFields()
+then
+	String fieldName = StringUtil.toJavaFieldName($leadingLabel);
+	SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(fieldName,null);
+	fieldMappingDefinition.setScreenPosition($editableField.getPosition());
+	fieldMappingDefinition.setLength($editableField.getLength());
+	fieldMappingDefinition.setEditable($editableField.isEditable());
+	fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName($leadingLabel));
+
+	$screenEntityDefinition.getFieldsDefinitions().put(fieldName,fieldMappingDefinition);
 end

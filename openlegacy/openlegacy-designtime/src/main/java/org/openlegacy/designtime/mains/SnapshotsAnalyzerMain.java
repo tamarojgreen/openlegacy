@@ -8,16 +8,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
-public class DroolsScreensAnalyzerMain {
+public class SnapshotsAnalyzerMain {
 
 	public static void main(String[] args) {
 		if (args.length == 0) {
-			System.out.println("Usage:\njava ScreensTextDumper screens-resource-folder");
+			System.out.println("Usage:\njava org.openlegacy.designtime.mains.SnapshotsAnalyzerMain screens-resource-folder");
 			return;
 		}
 		String root = args[0];
 
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath*:/test-common-context.xml");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:/openlegacy-designtime-context.xml");
 
 		TerminalSnapshotsLoader snapshotsLoader = applicationContext.getBean(TerminalSnapshotsLoader.class);
 		try {

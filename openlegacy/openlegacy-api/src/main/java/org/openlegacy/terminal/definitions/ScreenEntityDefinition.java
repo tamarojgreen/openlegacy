@@ -1,6 +1,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 
 import java.util.Map;
@@ -24,4 +25,6 @@ public interface ScreenEntityDefinition extends EntityDefinition<FieldMappingDef
 	 * @return
 	 */
 	Map<String, ScreenPartEntityDefinition> getPartsDefinitions();
+
+	TerminalSnapshot getSnapshot();
 }

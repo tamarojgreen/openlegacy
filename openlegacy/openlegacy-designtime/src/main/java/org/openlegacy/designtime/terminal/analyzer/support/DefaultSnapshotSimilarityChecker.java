@@ -18,19 +18,18 @@ import java.util.List;
 public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChecker<TerminalSnapshot> {
 
 	public int similarityPercent(TerminalSnapshot snapshot1, TerminalSnapshot snapshot2) {
-		List<TerminalRow> rows1 = snapshot1.getRows();
-		int count = 0;
 		ScreenSize size = snapshot1.getSize();
 		// start from 100% - the full screen size
 		int screenSize = size.getRows() * size.getColumns();
 
 		double totalScore = screenSize;
-		for (TerminalRow row1 : rows1) {
-			TerminalRow row2 = snapshot2.getRows().get(count);
+		// some
+		for (int i = 1; i <= size.getRows(); i++) {
+			TerminalRow row1 = snapshot1.getRowByRowNumber(i);
+			TerminalRow row2 = snapshot2.getRowByRowNumber(i);
 			int rowSpaceMatch = rowSpaceSimilarity(row1, row2, size.getColumns());
 			// reduce from the total
 			totalScore = totalScore - (size.getColumns() - rowSpaceMatch);
-			count++;
 		}
 		int percentageMatch = (int)(100 * (totalScore / screenSize));
 		return percentageMatch;

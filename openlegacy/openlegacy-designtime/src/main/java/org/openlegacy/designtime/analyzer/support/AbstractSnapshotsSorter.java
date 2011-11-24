@@ -76,4 +76,8 @@ public abstract class AbstractSnapshotsSorter<S extends Snapshot> implements Sna
 	public void setMatchingPercent(int matchingPercent) {
 		this.matchingPercent = matchingPercent;
 	}
+
+	public void clear() {
+		snapshotGroups.clear();
+	}
 }

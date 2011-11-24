@@ -110,7 +110,8 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 	}
 
 	public Collection<TerminalField> getFields() {
-		return FieldsQuery.queryFields(getRows(), AllFieldsCriteria.instance());
+		List<TerminalField> fields = FieldsQuery.queryFields(getRows(), AllFieldsCriteria.instance());
+		return fields;
 	}
 
 	public TerminalField getField(ScreenPosition position) {
@@ -138,4 +139,16 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 		return ScreenUtils.getText(screenText, getSize(), position, length);
 	}
 
+	public TerminalRow getRowByRowNumber(int rowNumber) {
+		initContent();
+		// persisted snapshot rows may not be fully populated
+		for (TerminalRow terminalRow : rows) {
+			if (terminalRow.getRowNumber() == rowNumber) {
+				return terminalRow;
+			}
+		}
+		TerminalPersistedRow row = new TerminalPersistedRow();
+		row.setRowNumber(rowNumber);
+		return row;
+	}
 }

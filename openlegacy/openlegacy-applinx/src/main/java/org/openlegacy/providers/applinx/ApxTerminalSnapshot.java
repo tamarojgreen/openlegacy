@@ -132,4 +132,8 @@ public class ApxTerminalSnapshot implements TerminalSnapshot {
 		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
 	}
 
+	public TerminalRow getRowByRowNumber(int rowNumber) {
+		return getRows().get(rowNumber - 1);
+	}
+
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING">
+    <row rowNumber="1">
+        <field value="Welcome User1" length="15" modified="false" editable="false">
+            <position row="1" column="5"/>
+        </field>
+        <field value="Screen 1" length="9" modified="false" editable="false">
+            <position row="1" column="40"/>
+        </field>
+    </row>
+    <row rowNumber="4">
+        <field value="Field A:" length="9" modified="false" editable="false">
+            <position row="4" column="3"/>
+        </field>
+        <field value="AAAA     " length="10" modified="false" editable="true">
+            <position row="4" column="13"/>
+        </field>
+    </row>
+    <row rowNumber="5">
+        <field value="Field B:" length="9" modified="false" editable="false">
+            <position row="5" column="3"/>
+        </field>
+        <field value="BBBB    " length="10" modified="false" editable="false">
+            <position row="5" column="13"/>
+        </field>
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

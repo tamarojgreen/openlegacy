@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING">
+    <row rowNumber="1">
+        <field value="STUDENT2  " length="10" modified="false" editable="false">
+            <position row="1" column="2"/>
+        </field>
+        <field value="       " length="7" modified="false" editable="false">
+            <position row="1" column="13"/>
+        </field>
+        <field value="SabraFood                               " length="40" modified="false" editable="false">
+            <position row="1" column="21"/>
+        </field>
+        <field value="          " length="10" modified="false" editable="false">
+            <position row="1" column="62"/>
+        </field>
+        <field value=" 2/06/05" length="8" modified="false" editable="false">
+            <position row="1" column="73"/>
+        </field>
+    </row>
+    <row rowNumber="2">
+        <field value="MWAREHED  " length="10" modified="false" editable="false">
+            <position row="2" column="2"/>
+        </field>
+        <field value="            " length="12" modified="false" editable="false">
+            <position row="2" column="13"/>
+        </field>
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="2" column="26"/>
+        </field>
+        <field value="Work with Warehouse Details " length="28" modified="false" editable="false">
+            <position row="2" column="28"/>
+        </field>
+        <field value="               " length="15" modified="false" editable="false">
+            <position row="2" column="57"/>
+        </field>
+        <field value="11:45:32" length="8" modified="false" editable="false">
+            <position row="2" column="73"/>
+        </field>
+    </row>
+    <row rowNumber="3">
+        <field value="                                                                               " length="79" modified="false" editable="false">
+            <position row="3" column="2"/>
+        </field>
+    </row>
+    <row rowNumber="4">
+        <field value="Type one or more action codes. Then Enter.                                    " length="78" modified="false" editable="false">
+            <position row="4" column="2"/>
+        </field>
+    </row>
+    <row rowNumber="5">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="5" column="1"/>
+        </field>
+        <field value="2=Revise" length="8" modified="false" editable="false">
+            <position row="5" column="4"/>
+        </field>
+        <field value="4=Delete" length="8" modified="false" editable="false">
+            <position row="5" column="14"/>
+        </field>
+        <field value="5=Display" length="9" modified="false" editable="false">
+            <position row="5" column="24"/>
+        </field>
+        <field value="6=Items" length="7" modified="false" editable="false">
+            <position row="5" column="35"/>
+        </field>
+        <field value="7=Locations" length="11" modified="false" editable="false">
+            <position row="5" column="44"/>
+        </field>
+        <field value="                         " length="25" modified="false" editable="false">
+            <position row="5" column="56"/>
+        </field>
+    </row>
+    <row rowNumber="6">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="6" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="7">
+        <field value="Action" length="6" modified="false" editable="false">
+            <position row="7" column="2"/>
+        </field>
+        <field value="Whse" length="4" modified="false" editable="false">
+            <position row="7" column="10"/>
+        </field>
+        <field value="Description" length="11" modified="false" editable="false">
+            <position row="7" column="16"/>
+        </field>
+        <field value="                                                     " length="53" modified="false" editable="false">
+            <position row="7" column="28"/>
+        </field>
+    </row>
+    <row rowNumber="8">
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="8" column="2"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="8" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="8" column="6"/>
+        </field>
+        <field value="001" length="3" modified="false" editable="false">
+            <position row="8" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="8" column="14"/>
+        </field>
+        <field value="Big meat warehouse                      " length="40" modified="false" editable="false">
+            <position row="8" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="8" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="9">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="9" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="9" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="9" column="6"/>
+        </field>
+        <field value="002" length="3" modified="false" editable="false">
+            <position row="9" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="9" column="14"/>
+        </field>
+        <field value="Small fruit and vegetables warehouse    " length="40" modified="false" editable="false">
+            <position row="9" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="9" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="10">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="10" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="10" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="10" column="6"/>
+        </field>
+        <field value="003" length="3" modified="false" editable="false">
+            <position row="10" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="10" column="14"/>
+        </field>
+        <field value="Discount warehouse                      " length="40" modified="false" editable="false">
+            <position row="10" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="10" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="11">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="11" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="11" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="11" column="6"/>
+        </field>
+        <field value="004" length="3" modified="false" editable="false">
+            <position row="11" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="11" column="14"/>
+        </field>
+        <field value="Beef only warehouse                     " length="40" modified="false" editable="false">
+            <position row="11" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="11" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="12">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="12" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="12" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="12" column="6"/>
+        </field>
+        <field value="005" length="3" modified="false" editable="false">
+            <position row="12" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="12" column="14"/>
+        </field>
+        <field value="Northern warehouse                      " length="40" modified="false" editable="false">
+            <position row="12" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="12" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="13">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="13" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="13" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="13" column="6"/>
+        </field>
+        <field value="006" length="3" modified="false" editable="false">
+            <position row="13" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="13" column="14"/>
+        </field>
+        <field value="Exotic fruits                           " length="40" modified="false" editable="false">
+            <position row="13" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="13" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="14">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="14" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="14" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="14" column="6"/>
+        </field>
+        <field value="007" length="3" modified="false" editable="false">
+            <position row="14" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="14" column="14"/>
+        </field>
+        <field value="Exclusive products warehouse            " length="40" modified="false" editable="false">
+            <position row="14" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="14" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="15">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="15" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="15" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="15" column="6"/>
+        </field>
+        <field value="009" length="3" modified="false" editable="false">
+            <position row="15" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="15" column="14"/>
+        </field>
+        <field value="Eastern warehouse                       " length="40" modified="false" editable="false">
+            <position row="15" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="15" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="16">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="16" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="16" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="16" column="6"/>
+        </field>
+        <field value="010" length="3" modified="false" editable="false">
+            <position row="16" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="16" column="14"/>
+        </field>
+        <field value="Western warehouse                       " length="40" modified="false" editable="false">
+            <position row="16" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="16" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="17">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="17" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="17" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="17" column="6"/>
+        </field>
+        <field value="011" length="3" modified="false" editable="false">
+            <position row="17" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="17" column="14"/>
+        </field>
+        <field value="Vegetables warehouse                    " length="40" modified="false" editable="false">
+            <position row="17" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="17" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="18">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="18" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="18" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="18" column="6"/>
+        </field>
+        <field value="012" length="3" modified="false" editable="false">
+            <position row="18" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="18" column="14"/>
+        </field>
+        <field value="Center dairy warehouse                  " length="40" modified="false" editable="false">
+            <position row="18" column="16"/>
+        </field>
+        <field value="                        " length="24" modified="false" editable="false">
+            <position row="18" column="57"/>
+        </field>
+    </row>
+    <row rowNumber="19">
+        <field value="  " length="2" modified="false" editable="false">
+            <position row="19" column="1"/>
+        </field>
+        <field value="" length="1" modified="false" editable="true">
+            <position row="19" column="4"/>
+        </field>
+        <field value="   " length="3" modified="false" editable="false">
+            <position row="19" column="6"/>
+        </field>
+        <field value="013" length="3" modified="false" editable="false">
+            <position row="19" column="10"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="19" column="14"/>
+        </field>
+        <field value="Drinks warehouse                        " length="40" modified="false" editable="false">
+            <position row="19" column="16"/>
+        </field>
+        <field value="                     " length="21" modified="false" editable="false">
+            <position row="19" column="57"/>
+        </field>
+        <field value=" " length="1" modified="false" editable="false">
+            <position row="19" column="79"/>
+        </field>
+    </row>
+    <row rowNumber="20">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="20" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="21">
+        <field value="Position to . ." length="15" modified="false" editable="false">
+            <position row="21" column="2"/>
+        </field>
+        <field value="" length="3" modified="false" editable="true">
+            <position row="21" column="18"/>
+        </field>
+        <field value="                                                           " length="59" modified="false" editable="false">
+            <position row="21" column="22"/>
+        </field>
+    </row>
+    <row rowNumber="22">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="22" column="1"/>
+        </field>
+    </row>
+    <row rowNumber="23">
+        <field value="F1=Help  " length="9" modified="false" editable="false">
+            <position row="23" column="2"/>
+        </field>
+        <field value="F3=Exit  " length="9" modified="false" editable="false">
+            <position row="23" column="11"/>
+        </field>
+        <field value="F6=Create  " length="11" modified="false" editable="false">
+            <position row="23" column="20"/>
+        </field>
+        <field value="F12=Cancel" length="10" modified="false" editable="false">
+            <position row="23" column="31"/>
+        </field>
+        <field value="                                       " length="39" modified="false" editable="false">
+            <position row="23" column="42"/>
+        </field>
+    </row>
+    <row rowNumber="24">
+        <field value="                                                                                " length="80" modified="false" editable="false">
+            <position row="24" column="1"/>
+        </field>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="8" column="4"/>
+</snapshot>

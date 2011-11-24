@@ -12,10 +12,12 @@
         <context:exclude-filter expression=".*mock.*" type="regex"/>
 	</context:component-scan>
 	
-	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsSorter" p:matchingPercent="95" scope="prototype"/>
+	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsSorter" p:matchingPercent="95" />
 
 	<bean class="org.openlegacy.support.SimpleFieldFormatter" />
 
+	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsAnalyzer" />
+	
 	<context:annotation-config />
 
 </beans>

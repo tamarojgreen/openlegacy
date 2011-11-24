@@ -8,6 +8,7 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +35,11 @@ public class FieldMappingAnnotationLoader implements FieldAnnotationsLoader {
 		fieldMappingDefinition.setLength(fieldAnnotation.length());
 		fieldMappingDefinition.setEditable(fieldAnnotation.editable());
 
+		if (fieldAnnotation.displayName().length() > 0) {
+			fieldMappingDefinition.setDisplayName(fieldAnnotation.displayName());
+		} else {
+			fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(fieldName));
+		}
 		EntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
 		// look in screen entities
 		if (screenEntityDefinition != null) {

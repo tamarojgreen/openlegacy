@@ -1,7 +1,8 @@
 package org.openlegacy.designtime;
 
-import org.openlegacy.FieldType;
 import org.openlegacy.EntityType;
+import org.openlegacy.FieldType;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -17,6 +18,7 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition 
 	private String entityName;
 	private String displayName;
 	private Map<String, FieldMappingDefinition> fieldDefinitions = new TreeMap<String, FieldMappingDefinition>();
+	private TerminalSnapshot terminalSnapshot;
 
 	public String getEntityName() {
 		return entityName;
@@ -64,6 +66,14 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition 
 
 	public Map<String, ScreenPartEntityDefinition> getPartsDefinitions() {
 		return null;
+	}
+
+	public void setSnapshot(TerminalSnapshot terminalSnapshot) {
+		this.terminalSnapshot = terminalSnapshot;
+	}
+
+	public TerminalSnapshot getSnapshot() {
+		return terminalSnapshot;
 	}
 
 }
