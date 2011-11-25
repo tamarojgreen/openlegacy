@@ -48,6 +48,9 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 	@XmlTransient
 	private ArrayList<ScreenPosition> fieldPositions;
 
+	@XmlTransient
+	private List<TerminalField> fields;
+
 	public SnapshotType getSnapshotType() {
 		return snapshotType;
 	}
@@ -110,7 +113,9 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 	}
 
 	public Collection<TerminalField> getFields() {
-		List<TerminalField> fields = FieldsQuery.queryFields(getRows(), AllFieldsCriteria.instance());
+		if (fields == null) {
+			fields = FieldsQuery.queryFields(getRows(), AllFieldsCriteria.instance());
+		}
 		return fields;
 	}
 

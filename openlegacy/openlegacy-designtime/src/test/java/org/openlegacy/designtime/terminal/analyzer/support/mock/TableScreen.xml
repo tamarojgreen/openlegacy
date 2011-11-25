@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING">
+    <row rowNumber="1">
+        <field value="Table Screen" length="9">
+            <position row="1" column="40"/>
+        </field>
+        <field value="10/01/2009" length="11">
+            <position row="1" column="64"/>
+        </field>
+    </row>
+    <row rowNumber="4">
+        <field value="Column A:" length="9">
+            <position row="4" column="3"/>
+        </field>
+        <field value="Column B:" length="9">
+            <position row="4" column="13"/>
+        </field>
+        <field value="Column C:" length="9">
+            <position row="4" column="23"/>
+        </field>
+    </row>
+    <row rowNumber="5">
+        <field value="Cell 1A" length="9">
+            <position row="5" column="3"/>
+        </field>
+        <field value="Cell 1B" length="9">
+            <position row="5" column="13"/>
+        </field>
+        <field value="Cell 1c" length="9">
+            <position row="5" column="23"/>
+        </field>
+    </row>
+    <row rowNumber="6">
+        <field value="Cell 2A" length="9">
+            <position row="6" column="3"/>
+        </field>
+        <field value="Cell 2B" length="9">
+            <position row="6" column="13"/>
+        </field>
+        <field value="Cell 2c" length="9">
+            <position row="6" column="23"/>
+        </field>
+    </row>
+    <row rowNumber="7">
+        <field value="Cell 3A" length="9">
+            <position row="7" column="3"/>
+        </field>
+        <field value="Cell 3B" length="9">
+            <position row="7" column="13"/>
+        </field>
+        <field value="Cell 3c" length="9">
+            <position row="7" column="23"/>
+        </field>
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

@@ -29,7 +29,7 @@ public class SnapshotsSorterTest {
 	@Test
 	public void testSortByContent() {
 		String mockPath = getClass().getResource("mock").getFile();
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadAll(mockPath);
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(mockPath);
 
 		snapshotsSorter.add(snapshots);
 

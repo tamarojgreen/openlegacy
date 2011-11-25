@@ -19,27 +19,43 @@ import javax.xml.bind.JAXBException;
 @Component
 public class DefaultTerminalSnapshotsLoader implements TerminalSnapshotsLoader {
 
-	public List<TerminalSnapshot> loadAll(String root) throws UnableToLoadSnapshotException {
+	public List<TerminalSnapshot> loadSnapshots(String root, final String... fileNames) throws UnableToLoadSnapshotException {
+		final boolean allFiles = fileNames.length > 0;
+
 		File rootFolder = new File(root);
 		File[] files = rootFolder.listFiles(new FilenameFilter() {
 
 			public boolean accept(File dir, String name) {
-				return name.endsWith(".xml");
+				if (allFiles) {
+					for (String fileName : fileNames) {
+						if (name.equals(fileName)) {
+							return true;
+						}
+					}
+				} else {
+					return name.endsWith(".xml");
+				}
+				return false;
 			}
 		});
 
 		List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
 		for (File file : files) {
-			TerminalSnapshot terminalSnapshot;
-			try {
-				terminalSnapshot = JaxbUtil.unmarshal(TerminalPersistedSnapshot.class, new FileInputStream(file));
-			} catch (FileNotFoundException e) {
-				throw (new UnableToLoadSnapshotException(e));
-			} catch (JAXBException e) {
-				throw (new UnableToLoadSnapshotException(e));
-			}
+			TerminalSnapshot terminalSnapshot = load(file.getAbsolutePath());
 			snapshots.add(terminalSnapshot);
 		}
 		return snapshots;
+	}
+
+	public TerminalSnapshot load(String path) {
+		TerminalSnapshot terminalSnapshot;
+		try {
+			terminalSnapshot = JaxbUtil.unmarshal(TerminalPersistedSnapshot.class, new FileInputStream(path));
+		} catch (FileNotFoundException e) {
+			throw (new UnableToLoadSnapshotException(e));
+		} catch (JAXBException e) {
+			throw (new UnableToLoadSnapshotException(e));
+		}
+		return terminalSnapshot;
 	}
 }

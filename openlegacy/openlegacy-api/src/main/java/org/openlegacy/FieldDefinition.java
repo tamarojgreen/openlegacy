@@ -10,5 +10,7 @@ public interface FieldDefinition {
 
 	String getDisplayName();
 
+	String getSampleValue();
+
 	Class<? extends FieldType> getType();
 }

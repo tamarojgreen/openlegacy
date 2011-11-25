@@ -21,7 +21,7 @@ public class SnapshotsAnalyzerMain {
 
 		TerminalSnapshotsLoader snapshotsLoader = applicationContext.getBean(TerminalSnapshotsLoader.class);
 		try {
-			List<TerminalSnapshot> snapshots = snapshotsLoader.loadAll(root);
+			List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(root);
 			TerminalSnapshotsAnalyzer snapshotsAnalyzer = applicationContext.getBean(TerminalSnapshotsAnalyzer.class);
 			snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		} catch (Exception e) {

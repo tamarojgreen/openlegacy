@@ -32,4 +32,6 @@ public @interface FieldMapping {
 	Class<? extends FieldType> fieldType() default FieldType.General.class;
 
 	String displayName() default "";
+
+	String sampleValue() default "";
 }

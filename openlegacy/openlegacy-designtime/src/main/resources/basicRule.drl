@@ -8,7 +8,9 @@ import org.openlegacy.terminal.definitions.*;
 import org.openlegacy.analyzer.screen.model.*;
 import java.util.List;
 
-import org.openlegacy.designtime.ScreenEntityDesigntimeDefinition;
+import org.openlegacy.designtime.model.TableColumn;
+import org.openlegacy.designtime.model.TableBuilder;
+import org.openlegacy.designtime.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.analyzer.SnapshotsSorter;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 
@@ -34,12 +36,25 @@ when
 	$titleEndRow   : Integer() from 3
 	$titleRegex    : String()  from "[A-Za-z]+[ ][^ ^.]*"
 
+	
+	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+	
+	// and another screen definition 
 	$otherScreenEntityDefinition: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition)
+
+	// and a snapshot from the 1st screen definition
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+
+	// and another snapshot from the other screen definition
 	$otherSnapshot: TerminalSnapshot() from $otherScreenEntityDefinition.getSnapshot()
+	
+	// and there is a field from the 1st snapshot in the title rows which matches a title pattern 
 	TerminalField($position: position, position.row >= $titleStartRow, position.row <= $titleEndRow, $fieldValue:value, value matches $titleRegex) from $snapshot.getFields() 
-	TerminalField(position == $position, value != $fieldValue) from $otherSnapshot.getFields()
+
+	// and this field value doesn't exist on another snapshot in the same position 
+	not TerminalField(position == $position, value == $fieldValue) from $otherSnapshot.getFields()
+	
 	$entityName: String(length > 0) from StringUtil.toClassName($fieldValue)
 then
 	$screenEntityDefinition.setEntityName($entityName);
@@ -48,9 +63,16 @@ end
 
 rule "find-editable-fields"
 when
+	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and an editable field
 	$editableField: TerminalField($position: position, editable == true) from $snapshot.getFields()
+	
+	// with a leading label before the editable field (same row, lower column)
 	TerminalField(position.row == $position.row, position.column < $position.column, editable == false,$leadingLabel: value) from $snapshot.getFields()
 then
 	String fieldName = StringUtil.toJavaFieldName($leadingLabel);
@@ -62,3 +84,41 @@ then
 
 	$screenEntityDefinition.getFieldsDefinitions().put(fieldName,fieldMappingDefinition);
 end
+
+rule "find-columns"
+when
+	$minimumTableRow : Integer() from 3
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and there is a field in a specific column
+	$field: TerminalField($column: position.column) from $snapshot.getFields();
+
+	// and there is not field in this column in a higher row 
+	not TerminalField(this != $field, position.column == $column, position.row < $field.position.row) from $snapshot.getFields();
+	
+	$columnFields: List(size >= $minimumTableRow) from collect(TerminalField(this != $field, position.column == $column) from $snapshot.getFields()) 
+then
+	$columnFields.add($field);
+	TableColumn tableColumn = new TableColumn($screenEntityDefinition,$columnFields);
+	insert(tableColumn);
+end
+
+
+rule "find-table"
+when
+	// there is a column
+	$firstColumn: TableColumn()
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition() from $firstColumn.getScreenEntityDefinition()  
+	// and there is a list of columns which has a bigger column, start at the same row, and has the same number of fields
+	$columns: List(size >= 2) from collect (TableColumn(this != $firstColumn, fields[0].position.column > $firstColumn.fields[0].position.column,fields[0].position.row == $firstColumn.fields[0].position.row, fields.size == $firstColumn.fields.size))
+then
+	$columns.add($firstColumn);
+	TableDefinition tableDefinition = TableBuilder.toTableDefinition($columns);
+	$screenEntityDefinition.getTableDefinitions().put("table1",tableDefinition);
+end
+

@@ -13,6 +13,7 @@ public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<FieldM
 	private ScreenPosition screenPosition = null;
 	private int length;
 	private boolean editable;
+	private String sampleValue;
 
 	public SimpleFieldMappingDefinition(String name, Class<? extends FieldType> fieldType) {
 		super(name, fieldType);
@@ -40,5 +41,13 @@ public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<FieldM
 
 	public void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+
+	public String getSampleValue() {
+		return sampleValue;
+	}
+
+	public void setSampleValue(String sampleValue) {
+		this.sampleValue = sampleValue;
 	}
 }

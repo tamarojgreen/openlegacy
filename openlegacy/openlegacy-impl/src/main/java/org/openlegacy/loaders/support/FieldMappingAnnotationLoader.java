@@ -40,6 +40,9 @@ public class FieldMappingAnnotationLoader implements FieldAnnotationsLoader {
 		} else {
 			fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(fieldName));
 		}
+
+		fieldMappingDefinition.setSampleValue(fieldAnnotation.sampleValue());
+
 		EntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
 		// look in screen entities
 		if (screenEntityDefinition != null) {

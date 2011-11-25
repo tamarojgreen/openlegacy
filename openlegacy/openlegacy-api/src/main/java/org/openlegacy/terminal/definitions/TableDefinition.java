@@ -53,6 +53,10 @@ public interface TableDefinition {
 		int getEndColumn();
 
 		boolean isEditable();
+
+		String getDisplayName();
+
+		String getSampleValue();
 	}
 
 	public interface RowSelectionDefinition {

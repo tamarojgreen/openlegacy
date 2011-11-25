@@ -1,4 +1,4 @@
-package org.openlegacy.designtime;
+package org.openlegacy.designtime.model;
 
 import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
@@ -10,14 +10,18 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition {
+public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String entityName;
 	private String displayName;
 	private Map<String, FieldMappingDefinition> fieldDefinitions = new TreeMap<String, FieldMappingDefinition>();
+	private Map<String, TableDefinition> tableDefinitions = new TreeMap<String, TableDefinition>();
 	private TerminalSnapshot terminalSnapshot;
 
 	public String getEntityName() {
@@ -61,7 +65,7 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition 
 	}
 
 	public Map<String, TableDefinition> getTableDefinitions() {
-		return null;
+		return tableDefinitions;
 	}
 
 	public Map<String, ScreenPartEntityDefinition> getPartsDefinitions() {

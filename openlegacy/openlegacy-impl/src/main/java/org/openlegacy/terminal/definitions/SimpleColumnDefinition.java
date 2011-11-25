@@ -10,6 +10,8 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 
 	private boolean key;
 	private boolean editable;
+	private String sampleValue;
+	private String displayName;
 
 	public SimpleColumnDefinition(String name) {
 		this.name = name;
@@ -50,4 +52,21 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 	}
+
+	public String getSampleValue() {
+		return sampleValue;
+	}
+
+	public void setSampleValue(String sampleValue) {
+		this.sampleValue = sampleValue;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
 }

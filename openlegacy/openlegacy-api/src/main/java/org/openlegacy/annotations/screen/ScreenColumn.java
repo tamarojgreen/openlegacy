@@ -27,4 +27,8 @@ public @interface ScreenColumn {
 	int endColumn();
 
 	boolean editable() default false;
+
+	String displayName() default "";
+
+	String sampleValue() default "";
 }

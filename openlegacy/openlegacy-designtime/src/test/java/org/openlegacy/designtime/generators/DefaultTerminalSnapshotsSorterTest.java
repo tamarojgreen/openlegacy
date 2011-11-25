@@ -36,7 +36,7 @@ public class DefaultTerminalSnapshotsSorterTest {
 	@Test
 	public void testGroupMatch() throws FileNotFoundException, JAXBException {
 		String mockPath = getClass().getResource("mock").getFile();
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadAll(mockPath);
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(mockPath);
 
 		snapshotsSorter.setMatchingPercent(99);
 
@@ -51,7 +51,7 @@ public class DefaultTerminalSnapshotsSorterTest {
 	@Test
 	public void testComplexMatch() throws FileNotFoundException, JAXBException {
 		String mockPath = getClass().getResource("/apps/inventory/screens_xml").getFile();
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadAll(mockPath);
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(mockPath);
 
 		snapshotsSorter.setMatchingPercent(93);
 
