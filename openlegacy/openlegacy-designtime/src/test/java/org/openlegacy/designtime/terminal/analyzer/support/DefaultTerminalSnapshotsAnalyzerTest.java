@@ -71,17 +71,24 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertEquals(5, table1.getStartRow());
 		Assert.assertEquals(7, table1.getEndRow());
 
+		ColumnDefinition columnSelction = table1.getColumnDefinition("selection");
+		Assert.assertNotNull(columnSelction);
+		Assert.assertEquals(2, columnSelction.getStartColumn());
+		Assert.assertEquals(3, columnSelction.getEndColumn());
+		Assert.assertTrue(columnSelction.isEditable());
+		Assert.assertEquals("Selection", columnSelction.getDisplayName());
+
 		ColumnDefinition columnA = table1.getColumnDefinition("columnA");
 		Assert.assertNotNull(columnA);
-		Assert.assertEquals(3, columnA.getStartColumn());
-		Assert.assertEquals(11, columnA.getEndColumn());
+		Assert.assertEquals(5, columnA.getStartColumn());
+		Assert.assertEquals(13, columnA.getEndColumn());
 		Assert.assertEquals("Column A", columnA.getDisplayName());
 		Assert.assertEquals("Cell 1A", columnA.getSampleValue());
 
 		ColumnDefinition columnB = table1.getColumnDefinition("columnB");
 		Assert.assertNotNull(columnB);
-		Assert.assertEquals(13, columnB.getStartColumn());
-		Assert.assertEquals(21, columnB.getEndColumn());
+		Assert.assertEquals(15, columnB.getStartColumn());
+		Assert.assertEquals(23, columnB.getEndColumn());
 		Assert.assertEquals("Column B", columnB.getDisplayName());
 		Assert.assertEquals("Cell 1B", columnB.getSampleValue());
 

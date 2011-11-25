@@ -12,22 +12,38 @@ import java.util.List;
 
 public class TableBuilder {
 
+	private static final String SELECTION_FIELD = "Selection";
+	private static final String COLUMN = "column";
+
 	public static TableDefinition toTableDefinition(List<TableColumn> tableColumns) {
 
 		Collections.sort(tableColumns, new ColumnSorter());
 
 		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(null);
-		for (TableColumn tableColumn : tableColumns) {
-			TerminalField firstField = tableColumn.getFields().get(0);
-			TerminalField secondField = tableColumn.getFields().get(1);
+		for (int i = 0; i < tableColumns.size(); i++) {
+			TableColumn tableColumn = tableColumns.get(i);
 
-			SimpleColumnDefinition columnDefinition = new SimpleColumnDefinition(
-					StringUtil.toJavaFieldName(firstField.getValue()));
+			// header
+			TerminalField headerField = tableColumn.getFields().get(0);
+			// 1st column cell
+			TerminalField firstCellField = tableColumn.getFields().get(1);
 
-			columnDefinition.setStartColumn(secondField.getPosition().getColumn());
-			columnDefinition.setEndColumn(columnDefinition.getStartColumn() + secondField.getLength() - 1);
-			columnDefinition.setDisplayName(StringUtil.toDisplayName(firstField.getValue()));
-			columnDefinition.setSampleValue(secondField.getValue());
+			String columnName = headerField.getValue();
+			if (StringUtil.getLength(columnName) == 0) {
+				// if it is the 1st column and the field is editable in the size of 1-2, it's probably a selection field
+				if (i == 0 && firstCellField.isEditable() && firstCellField.getLength() <= 2) {
+					columnName = SELECTION_FIELD;
+				} else {
+					columnName = COLUMN + i;
+				}
+			}
+			SimpleColumnDefinition columnDefinition = new SimpleColumnDefinition(StringUtil.toJavaFieldName(columnName));
+
+			columnDefinition.setStartColumn(firstCellField.getPosition().getColumn());
+			columnDefinition.setEndColumn(columnDefinition.getStartColumn() + firstCellField.getLength() - 1);
+			columnDefinition.setDisplayName(StringUtil.toDisplayName(columnName));
+			columnDefinition.setSampleValue(firstCellField.getValue());
+			columnDefinition.setEditable(firstCellField.isEditable());
 
 			tableDefinition.getColumnDefinitions().add(columnDefinition);
 		}
