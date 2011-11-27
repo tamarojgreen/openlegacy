@@ -1,5 +1,6 @@
-package org.openlegacy.designtime.model;
+package org.openlegacy.designtime.terminal.model;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -9,6 +10,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
+import org.openlegacy.terminal.support.SimpleScreenIdentification;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -23,6 +25,10 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition,
 	private Map<String, FieldMappingDefinition> fieldDefinitions = new TreeMap<String, FieldMappingDefinition>();
 	private Map<String, TableDefinition> tableDefinitions = new TreeMap<String, TableDefinition>();
 	private TerminalSnapshot terminalSnapshot;
+
+	private String packageName;
+
+	private ScreenIdentification screenIdentification = new SimpleScreenIdentification();
 
 	public String getEntityName() {
 		return entityName;
@@ -41,11 +47,11 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition,
 	}
 
 	public Class<?> getEntityClass() {
-		return null;
+		throw (new NotImplementedException("Design-time entity definition doesn''t support class"));
 	}
 
 	public Class<? extends EntityType> getType() {
-		return null;
+		throw (new NotImplementedException("Design-time entity definition doesn''t support entity type"));
 	}
 
 	public Map<String, FieldMappingDefinition> getFieldsDefinitions() {
@@ -57,7 +63,7 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition,
 	}
 
 	public ScreenIdentification getScreenIdentification() {
-		return null;
+		return screenIdentification;
 	}
 
 	public NavigationDefinition getNavigationDefinition() {
@@ -78,6 +84,14 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition,
 
 	public TerminalSnapshot getSnapshot() {
 		return terminalSnapshot;
+	}
+
+	public String getPackageName() {
+		return packageName;
+	}
+
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
 	}
 
 }

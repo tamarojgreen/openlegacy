@@ -1,6 +1,6 @@
-package org.openlegacy.designtime.generators.support;
+package org.openlegacy.designtime.terminal.generators.support;
 
-import org.openlegacy.designtime.generators.ScreenPojoCodeModel;
+import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;

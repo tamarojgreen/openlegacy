@@ -1,0 +1,63 @@
+package openlegacy;
+
+rule "find-columns"
+ruleflow-group "identify-tables"
+salience 100
+when
+	$minimumTableRows : Integer() from 3
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and there is a field in a specific column
+	$field: TerminalField($column: position.column,$length: length) from $snapshot.getFields();
+
+	// and there is no field in this column in a higher row 
+	not TerminalField(this != $field, position.column == $column, length == $length,position.row < $field.position.row) from $snapshot.getFields();
+	
+	$columnFields: List(size >= $minimumTableRows) from collect(TerminalField(position.column == $column,length == $field.length) from $snapshot.getFields()) 
+then
+	TableColumn tableColumn = new TableColumn($screenEntityDefinition,$columnFields);
+	insert(tableColumn);
+end
+
+rule "find-column-headers"
+ruleflow-group "identify-tables"
+salience 90
+when
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// there is a column
+	$column: TableColumn()
+	
+	$headerField: TerminalField(position.row == $column.getStartRow() - 1, position.column >= $column.getStartColumn() - 2,position.column <= $column.getStartColumn() + 2) from $snapshot.getFields()
+then
+	$column.getHeaderFields().add($headerField);
+end
+
+
+rule "find-table"
+ruleflow-group "identify-tables"
+salience 80
+when
+	// there is a column
+	$firstColumn: TableColumn()
+
+	// which belongs to a screen entity 
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition() from $firstColumn.getScreenEntityDefinition()
+	
+	not TableColumn(startColumn < $firstColumn.startColumn, screenEntityDefinition == $screenEntityDefinition)
+	  
+	// and there is a list of columns which has a bigger column, start at the same row, and has the same number of fields
+	$columns: List(size >= 2) from collect (TableColumn(screenEntityDefinition == $screenEntityDefinition,startColumn >= $firstColumn.startColumn ,startRow == $firstColumn.startRow, fields.size == $firstColumn.fields.size))
+then
+	ScreenDefinitionBuilder.addTableDefinition($screenEntityDefinition,$columns);
+end
+

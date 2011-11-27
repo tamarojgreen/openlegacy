@@ -16,6 +16,8 @@ public interface TableDefinition {
 
 	Class<?> getTableClass();
 
+	String getTableEntityName();
+
 	int getStartRow();
 
 	int getEndRow();
@@ -32,8 +34,6 @@ public interface TableDefinition {
 
 	int getMaxRowsCount();
 
-	RowSelectionDefinition getRowSelectionDefinition();
-
 	DrilldownDefinition getDrilldownDefinition();
 
 	Class<? extends TableCollector> getTableCollector();
@@ -42,11 +42,15 @@ public interface TableDefinition {
 
 	boolean isScrollable();
 
+	String getRowSelectionField();
+
 	public interface ColumnDefinition {
 
 		String getName();
 
 		boolean isKey();
+
+		boolean isSelectionField();
 
 		int getStartColumn();
 
@@ -57,11 +61,6 @@ public interface TableDefinition {
 		String getDisplayName();
 
 		String getSampleValue();
-	}
-
-	public interface RowSelectionDefinition {
-
-		String getSelectionField();
 	}
 
 	public interface DrilldownDefinition {

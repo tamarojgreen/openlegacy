@@ -5,6 +5,7 @@ import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 public class ScreenUtils {
@@ -69,6 +70,10 @@ public class ScreenUtils {
 	public static String getText(String screenText, ScreenSize screenSize, ScreenPosition position, int length) {
 		int beginIndex = ScreenUtils.toAbsolutePosition(position, screenSize);
 		return screenText.substring(beginIndex, beginIndex + length);
+	}
+
+	public static String fieldToString(TerminalField terminalField) {
+		return MessageFormat.format("{0}:{1}", terminalField.getPosition(), terminalField.getValue());
 	}
 
 }

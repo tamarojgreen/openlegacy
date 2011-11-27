@@ -1,7 +1,7 @@
-package org.openlegacy.designtime.generators;
+package org.openlegacy.designtime.terminal.generators;
 
-import org.openlegacy.designtime.generators.support.AnnotationConstants;
-import org.openlegacy.designtime.generators.support.DefaultScreenPojoCodeModel;
+import org.openlegacy.designtime.terminal.generators.support.AnnotationConstants;
+import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

@@ -6,7 +6,6 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.TableDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition.RowSelectionDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
@@ -34,7 +33,7 @@ public class DefaultRowSelector<T> implements RowSelector<TerminalSession, T> {
 		Entry<String, TableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
 				tablesDefinitionProvider, screenEntity.getClass());
 
-		RowSelectionDefinition rowSelectionDefinition = tableDefinition.getValue().getRowSelectionDefinition();
+		String selectionField = tableDefinition.getValue().getRowSelectionField();
 
 		String tableFieldName = tableDefinition.getKey();
 		List<?> rows = (List<?>)fieldAccessor.getFieldValue(tableFieldName);
@@ -43,7 +42,7 @@ public class DefaultRowSelector<T> implements RowSelector<TerminalSession, T> {
 
 		fieldAccessor = new SimpleScreenPojoFieldAccessor(row);
 
-		fieldAccessor.setFieldValue(rowSelectionDefinition.getSelectionField(), drilldownAction.getActionValue());
+		fieldAccessor.setFieldValue(selectionField, drilldownAction.getActionValue());
 
 		terminalSession.doAction((TerminalDrilldownAction)drilldownAction, (ScreenEntity)screenEntity);
 	}

@@ -12,8 +12,10 @@ public class DroolsUtil {
 	public static KnowledgeBase createKnowledgeBase(String... droolFiles) {
 		KnowledgeBuilder builder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 		for (String droolFile : droolFiles) {
-			builder.add(ResourceFactory.newClassPathResource(droolFile), ResourceType.DRL);
+			ResourceType resourceType = ResourceType.determineResourceType(droolFile);
+			builder.add(ResourceFactory.newClassPathResource(droolFile), resourceType);
 		}
+
 		if (builder.hasErrors()) {
 			throw new RuntimeException(builder.getErrors().toString());
 		}

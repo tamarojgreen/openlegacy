@@ -3,6 +3,7 @@ package org.openlegacy.terminal.persistance;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.support.ScreenPositionBean;
+import org.openlegacy.terminal.support.ScreenUtils;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -87,4 +88,8 @@ public class TerminalPersistedField implements TerminalField {
 		return TerminalEqualsHashcodeUtil.fieldHashCode(this);
 	}
 
+	@Override
+	public String toString() {
+		return ScreenUtils.fieldToString(this);
+	}
 }

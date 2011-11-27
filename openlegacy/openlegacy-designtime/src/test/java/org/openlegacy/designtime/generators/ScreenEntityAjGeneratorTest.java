@@ -5,6 +5,7 @@ import freemarker.template.TemplateException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 
 import japa.parser.JavaParser;
 import japa.parser.ParseException;

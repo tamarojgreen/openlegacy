@@ -1,8 +1,12 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
+import freemarker.template.TemplateException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
+import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
+import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -12,6 +16,8 @@ import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -35,11 +41,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	@Test
 	public void testBasicAnalisys() {
 
-		snapshotsSorter.setMatchingPercent(99);
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile(), "Screen1.xml",
-				"Screen2.xml");
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
-		Assert.assertEquals(2, screenEntitiesDefinitions.size());
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = loadAndAssertDefinitions();
 
 		ScreenEntityDefinition screen1 = screenEntitiesDefinitions.get("Screen1");
 		Assert.assertNotNull(screen1);
@@ -53,44 +55,72 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 	}
 
+	private Map<String, ScreenEntityDefinition> loadAndAssertDefinitions() {
+		snapshotsSorter.setMatchingPercent(99);
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile());
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
+		Assert.assertEquals(3, screenEntitiesDefinitions.size());
+		return screenEntitiesDefinitions;
+	}
+
 	@Test
 	public void testBasicTable() {
 
-		snapshotsSorter.setMatchingPercent(99);
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile(),
-				"TableScreen.xml", "Screen1.xml"); // TODO currently identification works when having more then 1 screen
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
-		Assert.assertEquals(2, screenEntitiesDefinitions.size());
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = loadAndAssertDefinitions();
 
 		ScreenEntityDefinition tableScreen = screenEntitiesDefinitions.get("TableScreen");
 		Assert.assertNotNull(tableScreen);
 		Map<String, TableDefinition> tablesDefinitions = tableScreen.getTableDefinitions();
 		Assert.assertEquals(1, tablesDefinitions.size());
-		TableDefinition table1 = tablesDefinitions.get("table1");
+		TableDefinition table1 = tablesDefinitions.get("TableScreenRow");
 
 		Assert.assertEquals(5, table1.getStartRow());
 		Assert.assertEquals(7, table1.getEndRow());
 
-		ColumnDefinition columnSelction = table1.getColumnDefinition("selection");
+		ColumnDefinition columnSelction = table1.getColumnDefinition("action");
 		Assert.assertNotNull(columnSelction);
-		Assert.assertEquals(2, columnSelction.getStartColumn());
-		Assert.assertEquals(3, columnSelction.getEndColumn());
+		Assert.assertEquals(4, columnSelction.getStartColumn());
+		Assert.assertEquals(5, columnSelction.getEndColumn());
 		Assert.assertTrue(columnSelction.isEditable());
-		Assert.assertEquals("Selection", columnSelction.getDisplayName());
+		Assert.assertEquals("Action", columnSelction.getDisplayName());
 
 		ColumnDefinition columnA = table1.getColumnDefinition("columnA");
 		Assert.assertNotNull(columnA);
-		Assert.assertEquals(5, columnA.getStartColumn());
-		Assert.assertEquals(13, columnA.getEndColumn());
+		Assert.assertEquals(11, columnA.getStartColumn());
+		Assert.assertEquals(19, columnA.getEndColumn());
 		Assert.assertEquals("Column A", columnA.getDisplayName());
 		Assert.assertEquals("Cell 1A", columnA.getSampleValue());
 
 		ColumnDefinition columnB = table1.getColumnDefinition("columnB");
 		Assert.assertNotNull(columnB);
-		Assert.assertEquals(15, columnB.getStartColumn());
-		Assert.assertEquals(23, columnB.getEndColumn());
+		Assert.assertEquals(21, columnB.getStartColumn());
+		Assert.assertEquals(29, columnB.getEndColumn());
 		Assert.assertEquals("Column B", columnB.getDisplayName());
 		Assert.assertEquals("Cell 1B", columnB.getSampleValue());
 
+		ColumnDefinition columnC = table1.getColumnDefinition("column4");
+		Assert.assertNotNull(columnC);
+		Assert.assertEquals(31, columnC.getStartColumn());
+		Assert.assertEquals(39, columnC.getEndColumn());
+		Assert.assertEquals("Column4", columnC.getDisplayName());
+		Assert.assertEquals("Cell 1C", columnC.getSampleValue());
+	}
+
+	@Test
+	public void testGenerate() throws TemplateException, IOException {
+
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = loadAndAssertDefinitions();
+
+		ScreenEntityDefinition tableScreen = screenEntitiesDefinitions.get("Screen1");
+		((ScreenEntityDesigntimeDefinition)tableScreen).setPackageName("com.test");
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		new ScreenEntityJavaGenerator().generate(tableScreen, baos);
+		System.out.println(new String(baos.toByteArray()));
+
+		tableScreen = screenEntitiesDefinitions.get("TableScreen");
+		((ScreenEntityDesigntimeDefinition)tableScreen).setPackageName("com.test");
+		baos = new ByteArrayOutputStream();
+		new ScreenEntityJavaGenerator().generate(tableScreen, baos);
+		System.out.println(new String(baos.toByteArray()));
 	}
 }

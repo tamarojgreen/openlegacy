@@ -1,0 +1,48 @@
+package ${packageName};
+
+import org.openlegacy.annotations.screen.FieldMapping;
+import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+
+<#if tableDefinitions?size != 0>
+import java.util.List;
+import org.openlegacy.annotations.screen.ScreenTable;
+</#if>
+
+@ScreenEntity
+@ScreenIdentifiers(identifiers = { 
+							<#list screenIdentification.screenIdentifiers as identifier> 
+							@Identifier(row = 1, column = 36, value = "Sign On") 
+							</#list>	
+						})
+public class ${entityName} {
+    
+	<#assign fieldNames = fieldsDefinitions?keys>
+	<#list fieldNames as fieldName>
+	<#assign field = fieldsDefinitions[fieldName]>
+	@FieldMapping(row = ${field.screenPosition.row}, column = ${field.screenPosition.column}<#if field.sampleValue != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
+    private String ${fieldName};
+	</#list>	
+    
+	<#assign tableNames = tableDefinitions?keys>
+	<#list tableNames as tableName>
+	<#assign table = tableDefinitions[tableName]>
+    private List<${table.tableEntityName}> ${table.tableEntityName?uncap_first}s;
+	</#list>	
+
+
+	<#assign tableNames = tableDefinitions?keys>
+	<#list tableNames as tableName>
+	<#assign table = tableDefinitions[tableName]>
+	@ScreenTable(startRow = ${table.startRow}, endRow = ${table.endRow})
+	public static class ${table.tableEntityName} {
+		<#list table.columnDefinitions as column>
+		@ScreenColumn(startColumn = ${column.startColumn}, endColumn = ${column.endColumn}<#if column.editable>, editable=true</#if><#if column.key>, key=true</#if><#if column.selectionField>, selectionField=true</#if>, sampleValue="${column.sampleValue}")
+		private String ${column.name};
+		
+		</#list>	
+	}    
+	</#list>	
+    
+}

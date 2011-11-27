@@ -4,6 +4,7 @@ import com.sabratec.applinx.common.runtime.field.GXIField;
 
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.support.ScreenUtils;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
@@ -61,4 +62,8 @@ public class ApxTerminalField implements TerminalField {
 		return TerminalEqualsHashcodeUtil.fieldHashCode(this);
 	}
 
+	@Override
+	public String toString() {
+		return ScreenUtils.fieldToString(this);
+	}
 }

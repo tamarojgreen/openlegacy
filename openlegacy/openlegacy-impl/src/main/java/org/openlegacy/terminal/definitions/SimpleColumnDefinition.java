@@ -12,6 +12,7 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 	private boolean editable;
 	private String sampleValue;
 	private String displayName;
+	private boolean selectionField;
 
 	public SimpleColumnDefinition(String name) {
 		this.name = name;
@@ -69,4 +70,11 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 		this.displayName = displayName;
 	}
 
+	public boolean isSelectionField() {
+		return selectionField;
+	}
+
+	public void setSelectionField(boolean selectionField) {
+		this.selectionField = selectionField;
+	}
 }

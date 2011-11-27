@@ -6,6 +6,8 @@ public interface EntityDefinition<D extends FieldDefinition> {
 
 	String getEntityName();
 
+	String getPackageName();
+
 	String getDisplayName();
 
 	Class<?> getEntityClass();

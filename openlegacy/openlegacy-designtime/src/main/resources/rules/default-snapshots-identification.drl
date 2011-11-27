@@ -1,0 +1,47 @@
+package openlegacy;
+
+rule "sort-snapshots"
+ruleflow-group "sort-snapshots"
+when
+then
+	Collection<TerminalSnapshot> snapshots = snapshotsAnalyzerContext.getActiveSnapshots();
+	snapshotsSorter.add(snapshots);
+	snapshots = snapshotsSorter.getGroupsReprensters(); 
+	for (TerminalSnapshot s:snapshots){
+		ScreenEntityDesigntimeDefinition screenEntityDefinition = new ScreenEntityDesigntimeDefinition();
+		screenEntityDefinition.setSnapshot(s);
+		insert(screenEntityDefinition);
+	} 
+end
+
+rule "find-screen-name"
+ruleflow-group "identify-snapshots"
+when
+	$titleStartRow : Integer() from 1
+	$titleEndRow   : Integer() from 3
+	$titleRegex    : String()  from "[A-Za-z]+[ ][^ ^.]*"
+
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+	
+	// and another screen definition 
+	$otherScreenEntityDefinition: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition)
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+
+	// and another snapshot from the other screen definition
+	$otherSnapshot: TerminalSnapshot() from $otherScreenEntityDefinition.getSnapshot()
+	
+	// and there is a field from the 1st snapshot in the title rows which matches a title pattern 
+	TerminalField($position: position, position.row >= $titleStartRow, position.row <= $titleEndRow, $fieldValue:value, value matches $titleRegex) from $snapshot.getFields() 
+
+	// and this field value doesn't exist on another snapshot in the same position 
+	not TerminalField(position == $position, value == $fieldValue) from $otherSnapshot.getFields()
+	
+	$entityName: String(length > 0) from StringUtil.toClassName($fieldValue)
+then
+	$screenEntityDefinition.setEntityName($entityName);
+	snapshotsAnalyzerContext.getEntitiesDefinitions().put($entityName,$screenEntityDefinition);
+end

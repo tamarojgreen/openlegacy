@@ -51,4 +51,8 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<FieldMa
 	public void setSnapshot(TerminalSnapshot snapshot) {
 		this.snapshot = snapshot;
 	}
+
+	public String getPackageName() {
+		return getEntityClass().getPackage().getName();
+	}
 }

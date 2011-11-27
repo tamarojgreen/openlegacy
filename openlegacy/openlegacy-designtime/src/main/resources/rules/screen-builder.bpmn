@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<definitions id="Definition"
+             targetNamespace="http://www.jboss.org/drools"
+             typeLanguage="http://www.java.com/javaTypes"
+             expressionLanguage="http://www.mvel.org/2.0"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             xmlns:g="http://www.jboss.org/drools/flow/gpd"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:tns="http://www.jboss.org/drools">
+
+  <process processType="Private" isExecutable="true" id="screen-builder" name="screen-builder" >
+
+    <!-- nodes -->
+    <startEvent id="_1" name="Start" />
+    <businessRuleTask id="_2" name="sort-snapshots" g:ruleFlowGroup="sort-snapshots" >
+    </businessRuleTask>
+    <businessRuleTask id="_3" name="identify-snapshots" g:ruleFlowGroup="identify-snapshots" >
+    </businessRuleTask>
+    <businessRuleTask id="_4" name="identify-fields" g:ruleFlowGroup="identify-fields" >
+    </businessRuleTask>
+    <endEvent id="_5" name="End" >
+        <terminateEventDefinition/>
+    </endEvent>
+    <businessRuleTask id="_6" name="identify-tables" g:ruleFlowGroup="identify-tables" >
+    </businessRuleTask>
+
+    <!-- connections -->
+    <sequenceFlow id="_1-_2" sourceRef="_1" targetRef="_2" />
+    <sequenceFlow id="_2-_3" sourceRef="_2" targetRef="_3" />
+    <sequenceFlow id="_3-_4" sourceRef="_3" targetRef="_4" />
+    <sequenceFlow id="_6-_5" sourceRef="_6" targetRef="_5" />
+    <sequenceFlow id="_4-_6" sourceRef="_4" targetRef="_6" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="screen-builder" >
+      <bpmndi:BPMNShape bpmnElement="_1" >
+        <dc:Bounds x="110" y="23" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_2" >
+        <dc:Bounds x="85" y="78" width="102" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_3" >
+        <dc:Bounds x="63" y="147" width="139" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_4" >
+        <dc:Bounds x="73" y="211" width="120" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_5" >
+        <dc:Bounds x="112" y="363" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_6" >
+        <dc:Bounds x="85" y="281" width="97" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_1-_2" >
+        <di:waypoint x="134" y="47" />
+        <di:waypoint x="136" y="102" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_2-_3" >
+        <di:waypoint x="136" y="102" />
+        <di:waypoint x="132" y="171" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_3-_4" >
+        <di:waypoint x="132" y="171" />
+        <di:waypoint x="133" y="235" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_6-_5" >
+        <di:waypoint x="133" y="305" />
+        <di:waypoint x="136" y="387" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_4-_6" >
+        <di:waypoint x="133" y="235" />
+        <di:waypoint x="133" y="305" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</definitions>

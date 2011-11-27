@@ -11,7 +11,6 @@ import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
@@ -62,14 +61,10 @@ public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
 				columnDefinition.setDisplayName(screenColumnAnnotation.displayName());
 				columnDefinition.setSampleValue(screenColumnAnnotation.sampleValue());
 
+				columnDefinition.setSelectionField(screenColumnAnnotation.selectionField());
+
 				tableDefinition.getColumnDefinitions().add(columnDefinition);
 
-				if (screenColumnAnnotation.selectionField()) {
-					Assert.isNull(tableDefinition.getRowSelectionDefinition().getSelectionField(),
-							"Table can contain only a single selection field:" + rowClass);
-
-					tableDefinition.getRowSelectionDefinition().setSelectionField(field.getName());
-				}
 			}
 		});
 

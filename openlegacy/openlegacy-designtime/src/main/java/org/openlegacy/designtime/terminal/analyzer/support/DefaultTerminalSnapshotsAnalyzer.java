@@ -18,22 +18,35 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 	@Inject
 	private SnapshotsSorter<TerminalSnapshot> snapshotsSorter;
 
+	private String[] droolsResources;
+
+	private String processName;
+
 	public Map<String, ScreenEntityDefinition> analyzeSnapshots(List<TerminalSnapshot> snapshots) {
 
 		TerminalSnapshotsAnalyzerContext snapshotsAnalyzerContext = new TerminalSnapshotsAnalyzerContext();
 		snapshotsAnalyzerContext.setActiveSnapshots(snapshots);
 
-		KnowledgeBase knowledgeBase = DroolsUtil.createKnowledgeBase("basicRule.drl");
+		KnowledgeBase knowledgeBase = DroolsUtil.createKnowledgeBase(droolsResources);
 		StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();
 		session.setGlobal("snapshotsAnalyzerContext", snapshotsAnalyzerContext);
 		session.setGlobal("snapshotsSorter", snapshotsSorter);
 
 		try {
+			session.startProcess(processName);
 			session.fireAllRules();
 		} finally {
 			session.dispose();
 		}
 
 		return snapshotsAnalyzerContext.getEntitiesDefinitions();
+	}
+
+	public void setDroolsResources(String[] droolsResources) {
+		this.droolsResources = droolsResources;
+	}
+
+	public void setProcessName(String processName) {
+		this.processName = processName;
 	}
 }

@@ -8,6 +8,7 @@ import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.modules.table.drilldown.TableScroller;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,13 @@ public class SimpleTableDefinition implements TableDefinition {
 	private TerminalAction nextScreenAction;
 	private TerminalAction previousScreenAction;
 
-	private SimpleRowSelectionDefinition rowSelectionDefinition = new SimpleRowSelectionDefinition();
-
 	private DrilldownDefinition drilldownDefinition = new SimpleDrilldownDefinition();
 
 	private boolean scrollable = true;
 
 	private Class<? extends TableCollector> tableCollectorClass;
+
+	private String tableEntityName;
 
 	public SimpleTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
@@ -91,10 +92,6 @@ public class SimpleTableDefinition implements TableDefinition {
 		return getEndRow() - getStartRow() + 1;
 	}
 
-	public SimpleRowSelectionDefinition getRowSelectionDefinition() {
-		return rowSelectionDefinition;
-	}
-
 	public ColumnDefinition getColumnDefinition(String fieldName) {
 		for (ColumnDefinition columnDefinition : columnDefinitions) {
 			if (columnDefinition.getName().equals(fieldName)) {
@@ -122,19 +119,6 @@ public class SimpleTableDefinition implements TableDefinition {
 
 	public void setTableCollector(Class<? extends TableCollector> tableCollectorClass) {
 		this.tableCollectorClass = tableCollectorClass;
-	}
-
-	public static class SimpleRowSelectionDefinition implements RowSelectionDefinition {
-
-		private String selectionField;
-
-		public String getSelectionField() {
-			return selectionField;
-		}
-
-		public void setSelectionField(String selectionField) {
-			this.selectionField = selectionField;
-		}
 	}
 
 	public static class SimpleDrilldownDefinition implements DrilldownDefinition {
@@ -198,6 +182,26 @@ public class SimpleTableDefinition implements TableDefinition {
 		public void setDrilldownPerformer(Class<? extends TableDrilldownPerformer> drilldownPerformer) {
 			this.drilldownPerformer = drilldownPerformer;
 		}
+	}
+
+	public String getTableEntityName() {
+		return tableEntityName;
+	}
+
+	public void setTableEntityName(String tableEntityName) {
+		this.tableEntityName = tableEntityName;
+	}
+
+	public String getRowSelectionField() {
+		List<ColumnDefinition> columns = getColumnDefinitions();
+		String selectionField = null;
+		for (ColumnDefinition columnDefinition : columns) {
+			if (columnDefinition.isSelectionField()) {
+				Assert.isNull(selectionField, "Table can contain only a single selection field:" + rowClass);
+				selectionField = columnDefinition.getName();
+			}
+		}
+		return selectionField;
 	}
 
 }

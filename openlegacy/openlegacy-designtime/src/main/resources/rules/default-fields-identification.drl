@@ -1,0 +1,19 @@
+package openlegacy;
+
+rule "find-editable-fields"
+ruleflow-group "identify-fields"
+when
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and an editable field
+	$editableField: TerminalField($position: position, editable == true) from $snapshot.getFields()
+	
+	// with a leading label before the editable field (same row, lower column)
+	TerminalField(position.row == $position.row, position.column < $position.column, editable == false,$leadingLabel: value) from $snapshot.getFields()
+then
+	ScreenDefinitionBuilder.addEditableField($screenEntityDefinition,$editableField,$leadingLabel);
+end
