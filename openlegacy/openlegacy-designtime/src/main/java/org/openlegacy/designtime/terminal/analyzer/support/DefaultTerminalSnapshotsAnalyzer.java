@@ -3,6 +3,7 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 import org.drools.KnowledgeBase;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.openlegacy.designtime.analyzer.SnapshotsSorter;
+import org.openlegacy.designtime.terminal.analyzer.ScreeEntitynDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.utils.DroolsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -18,6 +19,9 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 	@Inject
 	private SnapshotsSorter<TerminalSnapshot> snapshotsSorter;
 
+	@Inject
+	private ScreeEntitynDefinitionsBuilder screeEntitynDefinitionsBuilder;
+
 	private String[] droolsResources;
 
 	private String processName;
@@ -31,6 +35,7 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 		StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();
 		session.setGlobal("snapshotsAnalyzerContext", snapshotsAnalyzerContext);
 		session.setGlobal("snapshotsSorter", snapshotsSorter);
+		session.setGlobal("screeEntitynDefinitionsBuilder", screeEntitynDefinitionsBuilder);
 
 		try {
 			session.startProcess(processName);

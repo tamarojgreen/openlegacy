@@ -16,6 +16,8 @@
 	
 	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsSorter" p:matchingPercent="95" />
 
+	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultScreenEntityDefinitionsBuilder" p:maxIdentifiers="3" />
+	
 	<bean class="org.openlegacy.support.SimpleFieldFormatter" />
 
 	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsAnalyzer" p:processName="screen-builder">
@@ -30,6 +32,7 @@
 			</array>
 		</property>
 	</bean>
+
 
 	<context:annotation-config />
 

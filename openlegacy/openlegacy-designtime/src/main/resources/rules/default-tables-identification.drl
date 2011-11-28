@@ -60,6 +60,6 @@ when
 	// and there is a list of columns which has a bigger column, start at the same row, and has the same number of fields
 	$columns: List(size >= 2) from collect (TableColumn(screenEntityDefinition == $screenEntityDefinition,startColumn >= $firstColumn.startColumn ,startRow == $firstColumn.startRow, fields.size == $firstColumn.fields.size))
 then
-	ScreenDefinitionBuilder.addTableDefinition($screenEntityDefinition,$columns);
+	screeEntitynDefinitionsBuilder.addTableDefinition($screenEntityDefinition,$columns);
 end
 

@@ -17,5 +17,5 @@ when
 	// and this fields doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
 	not TerminalSnapshot(fields contains $field) from $otherSnapshots 
 then
-	ScreenDefinitionBuilder.addIdentifier(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
+	screeEntitynDefinitionsBuilder.addIdentifier(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
 end

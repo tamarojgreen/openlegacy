@@ -1,7 +1,10 @@
-package org.openlegacy.designtime.terminal.model;
+package org.openlegacy.designtime.terminal.analyzer.support;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
+import org.openlegacy.designtime.terminal.analyzer.ScreeEntitynDefinitionsBuilder;
+import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
+import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -19,14 +22,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ScreenDefinitionBuilder {
+public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefinitionsBuilder {
 
 	private static final String SELECTION_FIELD = "Selection";
 	private static final String COLUMN = "Column";
 	private static final String ROW = "Row";
-	private static final int MAX_IDENTIFIERS = 3;
+	private int maxIdentifiers = 3;
 
-	public static void addIdentifier(
+	public void addIdentifier(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
 
@@ -38,7 +41,7 @@ public class ScreenDefinitionBuilder {
 			return;
 		}
 
-		if (identification.getScreenIdentifiers().size() >= MAX_IDENTIFIERS) {
+		if (identification.getScreenIdentifiers().size() >= maxIdentifiers) {
 			return;
 		}
 		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
@@ -47,15 +50,9 @@ public class ScreenDefinitionBuilder {
 		Collections.sort(identification.getScreenIdentifiers(), IdentifierComparator.instance());
 	}
 
-	public static void setScreenEntityName(
+	public void setScreenEntityName(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
-
-		// if the field was removed from the snapshot (convert to entity field/column) ignore it
-		// drools analyze the fields in advance, and ignore fields removal done in RT
-		if (!screenEntityDefinition.getSnapshot().getFields().contains(field)) {
-			return;
-		}
 
 		if (screenEntityDefinition.getEntityName() == null) {
 			String entityName = StringUtil.toClassName(field.getValue());
@@ -65,8 +62,7 @@ public class ScreenDefinitionBuilder {
 
 	}
 
-	public static void addEditableField(ScreenEntityDefinition screenEntityDefinition, TerminalField editableField,
-			String leadingLabel) {
+	public void addEditableField(ScreenEntityDefinition screenEntityDefinition, TerminalField editableField, String leadingLabel) {
 
 		String fieldName = StringUtil.toJavaFieldName(leadingLabel);
 		SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(fieldName, null);
@@ -80,7 +76,7 @@ public class ScreenDefinitionBuilder {
 
 	}
 
-	public static void addTableDefinition(ScreenEntityDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
+	public void addTableDefinition(ScreenEntityDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
 
 		Collections.sort(tableColumns, ColumnComparator.instance());
 
@@ -171,4 +167,7 @@ public class ScreenDefinitionBuilder {
 
 	}
 
+	public void setMaxIdentifiers(int maxIdentifiers) {
+		this.maxIdentifiers = maxIdentifiers;
+	}
 }

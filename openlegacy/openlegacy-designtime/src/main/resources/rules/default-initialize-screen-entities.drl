@@ -38,5 +38,5 @@ when
 	// and this field doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
 	not TerminalSnapshot(fields contains $field) from $otherSnapshots 
 then
-	ScreenDefinitionBuilder.setScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
+	screeEntitynDefinitionsBuilder.setScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
 end
