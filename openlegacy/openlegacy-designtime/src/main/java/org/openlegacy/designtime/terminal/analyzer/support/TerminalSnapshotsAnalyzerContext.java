@@ -22,6 +22,13 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 
 	}
 
+	public void addEntityDefinition(ScreenEntityDefinition screenEntityDefinition) {
+		if (entitiesDefinitions.containsValue(screenEntityDefinition)) {
+			entitiesDefinitions.remove(screenEntityDefinition);
+		}
+		entitiesDefinitions.put(screenEntityDefinition.getEntityName(), screenEntityDefinition);
+	}
+
 	public Map<String, ScreenEntityDefinition> getEntitiesDefinitions() {
 		return entitiesDefinitions;
 	}

@@ -21,7 +21,7 @@ public class ${entityName} {
 	<#assign fieldNames = fieldsDefinitions?keys>
 	<#list fieldNames as fieldName>
 	<#assign field = fieldsDefinitions[fieldName]>
-	@FieldMapping(row = ${field.screenPosition.row}, column = ${field.screenPosition.column}<#if field.sampleValue != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
+	@FieldMapping(row = ${field.screenPosition.row}, column = ${field.screenPosition.column}<#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
     private String ${fieldName};
 	</#list>	
     
@@ -38,7 +38,7 @@ public class ${entityName} {
 	@ScreenTable(startRow = ${table.startRow}, endRow = ${table.endRow})
 	public static class ${table.tableEntityName} {
 		<#list table.columnDefinitions as column>
-		@ScreenColumn(startColumn = ${column.startColumn}, endColumn = ${column.endColumn}<#if column.editable>, editable=true</#if><#if column.key>, key=true</#if><#if column.selectionField>, selectionField=true</#if><#if column.sampleValue != "">, sampleValue="${column.sampleValue}"</#if>)
+		@ScreenColumn(startColumn = ${column.startColumn}, endColumn = ${column.endColumn}<#if column.editable>, editable=true</#if><#if column.key>, key=true</#if><#if column.selectionField>, selectionField=true</#if><#if column.displayName != ""> ,displayName = "${column.displayName}"</#if><#if column.sampleValue != "">, sampleValue="${column.sampleValue}"</#if>)
 		private String ${column.name};
 		
 		</#list>	

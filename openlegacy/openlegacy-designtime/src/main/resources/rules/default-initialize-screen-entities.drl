@@ -1,0 +1,42 @@
+package openlegacy;
+
+rule "sort-snapshots"
+ruleflow-group "initialize-screen-entities"
+salience 100
+when
+then
+	Collection<TerminalSnapshot> snapshots = snapshotsAnalyzerContext.getActiveSnapshots();
+	snapshotsSorter.add(snapshots);
+	snapshots = snapshotsSorter.getGroupsRepresenters(); 
+	for (TerminalSnapshot s:snapshots){
+		ScreenEntityDesigntimeDefinition screenEntityDefinition = new ScreenEntityDesigntimeDefinition();
+		screenEntityDefinition.setSnapshot(s);
+		insert(screenEntityDefinition);
+	} 
+end
+
+rule "find-screen-entity-name"
+ruleflow-group "initialize-screen-entities"
+salience 90
+when
+	$titleStartRow : Integer() from 1
+	$titleEndRow   : Integer() from 3
+	$titleRegex    : String()  from "[A-Za-z]+[ ][^ ^.]*"
+
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+	// which has a snaphot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot
+	 
+	// collect all the other snapshots
+	$otherSnapshots: List() from accumulate ( s: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition), collectList(s.getSnapshot()) )
+
+	// and there is a field from the snapshot in the title rows which matches a title pattern 
+	TerminalField($field : this, position.row >= $titleStartRow, position.row <= $titleEndRow, editable == false,value matches $titleRegex) from $snapshot.getFields()
+	 
+	// and this field doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
+	not TerminalSnapshot(fields contains $field) from $otherSnapshots 
+then
+	ScreenDefinitionBuilder.setScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
+end

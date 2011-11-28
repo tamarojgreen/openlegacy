@@ -16,4 +16,6 @@ when
 	TerminalField(position.row == $position.row, position.column < $position.column, editable == false,$leadingLabel: value) from $snapshot.getFields()
 then
 	ScreenDefinitionBuilder.addEditableField($screenEntityDefinition,$editableField,$leadingLabel);
+	// remove the field from the snapshot
+	$snapshot.getFields().remove($editableField);
 end

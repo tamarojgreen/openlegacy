@@ -21,6 +21,8 @@ when
 	$columnFields: List(size >= $minimumTableRows) from collect(TerminalField(position.column == $column,length == $field.length) from $snapshot.getFields()) 
 then
 	TableColumn tableColumn = new TableColumn($screenEntityDefinition,$columnFields);
+	// remove the column fields from the snapshot
+	$snapshot.getFields().removeAll($columnFields);
 	insert(tableColumn);
 end
 

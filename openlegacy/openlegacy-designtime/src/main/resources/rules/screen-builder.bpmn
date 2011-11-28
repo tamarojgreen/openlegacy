@@ -16,8 +16,6 @@
 
     <!-- nodes -->
     <startEvent id="_1" name="Start" />
-    <businessRuleTask id="_2" name="sort-snapshots" g:ruleFlowGroup="sort-snapshots" >
-    </businessRuleTask>
     <businessRuleTask id="_3" name="identify-snapshots" g:ruleFlowGroup="identify-snapshots" >
     </businessRuleTask>
     <businessRuleTask id="_4" name="identify-fields" g:ruleFlowGroup="identify-fields" >
@@ -27,55 +25,57 @@
     </endEvent>
     <businessRuleTask id="_6" name="identify-tables" g:ruleFlowGroup="identify-tables" >
     </businessRuleTask>
+    <businessRuleTask id="_7" name="initialize-screen-entities" g:ruleFlowGroup="initialize-screen-entities" >
+    </businessRuleTask>
 
     <!-- connections -->
-    <sequenceFlow id="_1-_2" sourceRef="_1" targetRef="_2" />
-    <sequenceFlow id="_2-_3" sourceRef="_2" targetRef="_3" />
-    <sequenceFlow id="_3-_4" sourceRef="_3" targetRef="_4" />
-    <sequenceFlow id="_6-_5" sourceRef="_6" targetRef="_5" />
+    <sequenceFlow id="_6-_3" sourceRef="_6" targetRef="_3" />
+    <sequenceFlow id="_7-_4" sourceRef="_7" targetRef="_4" />
+    <sequenceFlow id="_3-_5" sourceRef="_3" targetRef="_5" />
     <sequenceFlow id="_4-_6" sourceRef="_4" targetRef="_6" />
+    <sequenceFlow id="_1-_7" sourceRef="_1" targetRef="_7" />
 
   </process>
 
   <bpmndi:BPMNDiagram>
     <bpmndi:BPMNPlane bpmnElement="screen-builder" >
       <bpmndi:BPMNShape bpmnElement="_1" >
-        <dc:Bounds x="110" y="23" width="48" height="48" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_2" >
-        <dc:Bounds x="85" y="78" width="102" height="48" />
+        <dc:Bounds x="71" y="9" width="48" height="48" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_3" >
-        <dc:Bounds x="63" y="147" width="139" height="48" />
+        <dc:Bounds x="232" y="250" width="139" height="48" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_4" >
-        <dc:Bounds x="73" y="211" width="120" height="48" />
+        <dc:Bounds x="57" y="152" width="120" height="48" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_5" >
-        <dc:Bounds x="112" y="363" width="48" height="48" />
+        <dc:Bounds x="289" y="322" width="48" height="48" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_6" >
-        <dc:Bounds x="85" y="281" width="97" height="48" />
+        <dc:Bounds x="255" y="156" width="97" height="48" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="_1-_2" >
-        <di:waypoint x="134" y="47" />
-        <di:waypoint x="136" y="102" />
+      <bpmndi:BPMNShape bpmnElement="_7" >
+        <dc:Bounds x="43" y="83" width="136" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_6-_3" >
+        <di:waypoint x="303" y="180" />
+        <di:waypoint x="301" y="274" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_2-_3" >
-        <di:waypoint x="136" y="102" />
-        <di:waypoint x="132" y="171" />
+      <bpmndi:BPMNEdge bpmnElement="_7-_4" >
+        <di:waypoint x="111" y="107" />
+        <di:waypoint x="117" y="176" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_3-_4" >
-        <di:waypoint x="132" y="171" />
-        <di:waypoint x="133" y="235" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_6-_5" >
-        <di:waypoint x="133" y="305" />
-        <di:waypoint x="136" y="387" />
+      <bpmndi:BPMNEdge bpmnElement="_3-_5" >
+        <di:waypoint x="301" y="274" />
+        <di:waypoint x="313" y="346" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_4-_6" >
-        <di:waypoint x="133" y="235" />
-        <di:waypoint x="133" y="305" />
+        <di:waypoint x="117" y="176" />
+        <di:waypoint x="303" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_1-_7" >
+        <di:waypoint x="95" y="33" />
+        <di:waypoint x="111" y="107" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -1,26 +1,8 @@
 package openlegacy;
-
-rule "sort-snapshots"
-ruleflow-group "sort-snapshots"
-when
-then
-	Collection<TerminalSnapshot> snapshots = snapshotsAnalyzerContext.getActiveSnapshots();
-	snapshotsSorter.add(snapshots);
-	snapshots = snapshotsSorter.getGroupsRepresenters(); 
-	for (TerminalSnapshot s:snapshots){
-		ScreenEntityDesigntimeDefinition screenEntityDefinition = new ScreenEntityDesigntimeDefinition();
-		screenEntityDefinition.setSnapshot(s);
-		insert(screenEntityDefinition);
-	} 
-end
-
 rule "find-identifiers"
 ruleflow-group "identify-snapshots"
 when
-	$titleStartRow : Integer() from 1
-	$titleEndRow   : Integer() from 3
 	$titleRegex    : String()  from "[A-Za-z]+[ ][^ ^.]*"
-
 	
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
@@ -30,11 +12,10 @@ when
 	// collect all the other snapshots
 	$otherSnapshots: List() from accumulate ( s: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition), collectList(s.getSnapshot()) )
 
-	// and there is a field from the snapshot in the title rows which matches a title pattern 
-	$field: TerminalField(position.row >= $titleStartRow, position.row <= $titleEndRow, value matches $titleRegex) from $snapshot.getFields() 
+	$field: TerminalField(value matches $titleRegex, editable == false) from $snapshot.getFields() 
 
-	// and this field doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
+	// and this fields doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
 	not TerminalSnapshot(fields contains $field) from $otherSnapshots 
 then
-	ScreenDefinitionBuilder.addIdentifierAndName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
+	ScreenDefinitionBuilder.addIdentifier(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
 end

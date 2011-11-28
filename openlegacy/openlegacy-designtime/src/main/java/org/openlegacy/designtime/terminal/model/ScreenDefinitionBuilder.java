@@ -2,6 +2,7 @@ package org.openlegacy.designtime.terminal.model;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
+import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -23,20 +24,43 @@ public class ScreenDefinitionBuilder {
 	private static final String SELECTION_FIELD = "Selection";
 	private static final String COLUMN = "Column";
 	private static final String ROW = "Row";
+	private static final int MAX_IDENTIFIERS = 3;
 
-	public static void addIdentifierAndName(
+	public static void addIdentifier(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+
 		ScreenIdentification identification = screenEntityDefinition.getScreenIdentification();
+
+		// if the field was removed from the snapshot (convert to entity field/column) ignore it
+		// drools analyze the fields in advance, and ignore fields removal done in RT
+		if (!screenEntityDefinition.getSnapshot().getFields().contains(field)) {
+			return;
+		}
+
+		if (identification.getScreenIdentifiers().size() >= MAX_IDENTIFIERS) {
+			return;
+		}
 		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
 		identification.getScreenIdentifiers().add(identifier);
+
+		Collections.sort(identification.getScreenIdentifiers(), IdentifierComparator.instance());
+	}
+
+	public static void setScreenEntityName(
+			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
+			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+
+		// if the field was removed from the snapshot (convert to entity field/column) ignore it
+		// drools analyze the fields in advance, and ignore fields removal done in RT
+		if (!screenEntityDefinition.getSnapshot().getFields().contains(field)) {
+			return;
+		}
 
 		if (screenEntityDefinition.getEntityName() == null) {
 			String entityName = StringUtil.toClassName(field.getValue());
 			screenEntityDefinition.setEntityName(entityName);
-			if (!snapshotsAnalyzerContext.getEntitiesDefinitions().containsValue(screenEntityDefinition)) {
-				snapshotsAnalyzerContext.getEntitiesDefinitions().put(entityName, screenEntityDefinition);
-			}
+			snapshotsAnalyzerContext.addEntityDefinition(screenEntityDefinition);
 		}
 
 	}
@@ -58,7 +82,7 @@ public class ScreenDefinitionBuilder {
 
 	public static void addTableDefinition(ScreenEntityDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
 
-		Collections.sort(tableColumns, new ColumnSorter());
+		Collections.sort(tableColumns, ColumnComparator.instance());
 
 		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(null);
 		for (int i = 0; i < tableColumns.size(); i++) {
@@ -113,11 +137,38 @@ public class ScreenDefinitionBuilder {
 		return columnIndex == 0 && firstCellField.isEditable() && firstCellField.getLength() <= 2;
 	}
 
-	public static class ColumnSorter implements Comparator<TableColumn> {
+	public static class ColumnComparator implements Comparator<TableColumn> {
+
+		private static ColumnComparator instance = new ColumnComparator();
+
+		public static ColumnComparator instance() {
+			return instance;
+		}
 
 		public int compare(TableColumn o1, TableColumn o2) {
 			return o1.getFields().get(0).getPosition().getColumn() - o2.getFields().get(0).getPosition().getColumn();
 		}
 
 	}
+
+	public static class IdentifierComparator implements Comparator<ScreenIdentifier> {
+
+		private static IdentifierComparator instance = new IdentifierComparator();
+
+		public static IdentifierComparator instance() {
+			return instance;
+		}
+
+		public int compare(ScreenIdentifier o1, ScreenIdentifier o2) {
+			ScreenPosition position1 = ((SimpleScreenIdentifier)o1).getPosition();
+			ScreenPosition position2 = ((SimpleScreenIdentifier)o2).getPosition();
+
+			if (position1.getRow() != position2.getRow()) {
+				return position1.getRow() - position2.getRow();
+			}
+			return position1.getColumn() - position2.getColumn();
+		}
+
+	}
+
 }
