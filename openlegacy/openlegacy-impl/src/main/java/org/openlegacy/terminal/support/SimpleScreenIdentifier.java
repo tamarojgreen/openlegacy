@@ -26,4 +26,16 @@ public class SimpleScreenIdentifier implements ScreenIdentifier {
 		return false;
 	}
 
+	public ScreenPosition getPosition() {
+		return position;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	@Override
+	public String toString() {
+		return ScreenUtils.positionTextToString(position, text);
+	}
 }

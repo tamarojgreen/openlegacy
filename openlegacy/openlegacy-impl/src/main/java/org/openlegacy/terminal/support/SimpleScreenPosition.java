@@ -56,6 +56,8 @@ public class SimpleScreenPosition implements ScreenPosition {
 			return false;
 		}
 		ScreenPosition otherPosition = (ScreenPosition)obj;
-		return new EqualsBuilder().append(getRow(), otherPosition.getRow()).append(getColumn(), otherPosition.getColumn()).isEquals();
+		boolean equals = new EqualsBuilder().append(getRow(), otherPosition.getRow()).append(getColumn(),
+				otherPosition.getColumn()).isEquals();
+		return equals;
 	}
 }

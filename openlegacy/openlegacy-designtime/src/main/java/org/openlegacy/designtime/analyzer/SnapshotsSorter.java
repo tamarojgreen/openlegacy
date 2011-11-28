@@ -11,6 +11,6 @@ public interface SnapshotsSorter<S extends Snapshot> {
 
 	Collection<Set<S>> getGroups();
 
-	public Collection<S> getGroupsReprensters();
+	public Collection<S> getGroupsRepresenters();
 
 }

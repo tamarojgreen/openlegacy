@@ -6,7 +6,7 @@ when
 then
 	Collection<TerminalSnapshot> snapshots = snapshotsAnalyzerContext.getActiveSnapshots();
 	snapshotsSorter.add(snapshots);
-	snapshots = snapshotsSorter.getGroupsReprensters(); 
+	snapshots = snapshotsSorter.getGroupsRepresenters(); 
 	for (TerminalSnapshot s:snapshots){
 		ScreenEntityDesigntimeDefinition screenEntityDefinition = new ScreenEntityDesigntimeDefinition();
 		screenEntityDefinition.setSnapshot(s);
@@ -14,7 +14,7 @@ then
 	} 
 end
 
-rule "find-screen-name"
+rule "find-identifiers"
 ruleflow-group "identify-snapshots"
 when
 	$titleStartRow : Integer() from 1
@@ -24,24 +24,17 @@ when
 	
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
-	
-	// and another screen definition 
-	$otherScreenEntityDefinition: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition)
+	// which has a snaphot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot
+	 
+	// collect all the other snapshots
+	$otherSnapshots: List() from accumulate ( s: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition), collectList(s.getSnapshot()) )
 
-	// and a snapshot from the 1st screen definition
-	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	// and there is a field from the snapshot in the title rows which matches a title pattern 
+	$field: TerminalField(position.row >= $titleStartRow, position.row <= $titleEndRow, value matches $titleRegex) from $snapshot.getFields() 
 
-	// and another snapshot from the other screen definition
-	$otherSnapshot: TerminalSnapshot() from $otherScreenEntityDefinition.getSnapshot()
-	
-	// and there is a field from the 1st snapshot in the title rows which matches a title pattern 
-	TerminalField($position: position, position.row >= $titleStartRow, position.row <= $titleEndRow, $fieldValue:value, value matches $titleRegex) from $snapshot.getFields() 
-
-	// and this field value doesn't exist on another snapshot in the same position 
-	not TerminalField(position == $position, value == $fieldValue) from $otherSnapshot.getFields()
-	
-	$entityName: String(length > 0) from StringUtil.toClassName($fieldValue)
+	// and this field doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
+	not TerminalSnapshot(fields contains $field) from $otherSnapshots 
 then
-	$screenEntityDefinition.setEntityName($entityName);
-	snapshotsAnalyzerContext.getEntitiesDefinitions().put($entityName,$screenEntityDefinition);
+	ScreenDefinitionBuilder.addIdentifierAndName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
 end

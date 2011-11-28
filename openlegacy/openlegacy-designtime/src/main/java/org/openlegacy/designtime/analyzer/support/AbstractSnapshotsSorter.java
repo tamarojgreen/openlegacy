@@ -30,7 +30,7 @@ public abstract class AbstractSnapshotsSorter<S extends Snapshot> implements Sna
 		return Collections.unmodifiableCollection(snapshotGroups);
 	}
 
-	public Collection<S> getGroupsReprensters() {
+	public Collection<S> getGroupsRepresenters() {
 		Collection<Set<S>> groups = getGroups();
 		List<S> result = new ArrayList<S>();
 		for (Set<S> group : groups) {

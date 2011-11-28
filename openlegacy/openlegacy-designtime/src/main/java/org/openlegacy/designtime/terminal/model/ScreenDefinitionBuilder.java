@@ -1,11 +1,16 @@
 package org.openlegacy.designtime.terminal.model;
 
 import org.apache.commons.lang.StringUtils;
+import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
+import org.openlegacy.terminal.spi.ScreenIdentification;
+import org.openlegacy.terminal.spi.ScreenIdentifier;
+import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
@@ -18,6 +23,23 @@ public class ScreenDefinitionBuilder {
 	private static final String SELECTION_FIELD = "Selection";
 	private static final String COLUMN = "Column";
 	private static final String ROW = "Row";
+
+	public static void addIdentifierAndName(
+			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
+			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+		ScreenIdentification identification = screenEntityDefinition.getScreenIdentification();
+		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
+		identification.getScreenIdentifiers().add(identifier);
+
+		if (screenEntityDefinition.getEntityName() == null) {
+			String entityName = StringUtil.toClassName(field.getValue());
+			screenEntityDefinition.setEntityName(entityName);
+			if (!snapshotsAnalyzerContext.getEntitiesDefinitions().containsValue(screenEntityDefinition)) {
+				snapshotsAnalyzerContext.getEntitiesDefinitions().put(entityName, screenEntityDefinition);
+			}
+		}
+
+	}
 
 	public static void addEditableField(ScreenEntityDefinition screenEntityDefinition, TerminalField editableField,
 			String leadingLabel) {

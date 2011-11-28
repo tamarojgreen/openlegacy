@@ -35,7 +35,7 @@ public class SnapshotsSorterTest {
 
 		Collection<Set<TerminalSnapshot>> groups = snapshotsSorter.getGroups();
 		Assert.assertEquals(1, groups.size());
-		Collection<TerminalSnapshot> representingSnapshots = snapshotsSorter.getGroupsReprensters();
+		Collection<TerminalSnapshot> representingSnapshots = snapshotsSorter.getGroupsRepresenters();
 		Assert.assertEquals(1, representingSnapshots.size());
 
 		findMatch(representingSnapshots.iterator().next(), "AABBCC");

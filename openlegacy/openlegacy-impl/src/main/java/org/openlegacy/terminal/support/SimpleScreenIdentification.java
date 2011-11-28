@@ -33,4 +33,8 @@ public class SimpleScreenIdentification implements ScreenIdentification {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return screenIdentifiers.toString();
+	}
 }
