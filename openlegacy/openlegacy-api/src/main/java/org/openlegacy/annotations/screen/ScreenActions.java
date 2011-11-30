@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is a screen action.<br/>
+ * Specifies terminal actions for a screen entity.<br/>
  * <br/>
  * 
  */

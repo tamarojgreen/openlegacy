@@ -4,7 +4,7 @@ import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.EntityType;
-import org.openlegacy.FieldDefinition;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.utils.ProxyUtil;
 

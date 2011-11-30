@@ -1,7 +1,7 @@
 package org.openlegacy.exceptions;
 
 /**
- * The root exception for all open legacy exception types. Extends RuntimeException for simpler exception handing
+ * Indicates a problem in the registry definition. e.g: 2 entities/fields with the same name, etc
  * 
  */
 public class RegistryException extends OpenLegacyException {

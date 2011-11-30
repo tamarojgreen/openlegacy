@@ -54,7 +54,4 @@ public class DefaultNavigationModule extends TerminalSessionModuleAdapter implem
 		this.sessionNavigator = sessionNavigator;
 	}
 
-	public void navigate(Class<?> targetScreenEntityClass) {
-		sessionNavigator.navigate(getTerminalSession(), targetScreenEntityClass);
-	}
 }

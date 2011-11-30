@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.definitions;
 
-import org.openlegacy.FieldDefinition;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.terminal.ScreenPosition;
 
 /**

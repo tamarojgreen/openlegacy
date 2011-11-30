@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.exceptions.SendActionException;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -46,7 +46,7 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 		}
 	}
 
-	@Test(expected = SendActionException.class)
+	@Test(expected = TerminalActionException.class)
 	public void testCursorException() {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 
@@ -61,7 +61,7 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 		}
 	}
 
-	@Test(expected = SendActionException.class)
+	@Test(expected = TerminalActionException.class)
 	public void testNotAllFieldsSent() {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 
@@ -73,7 +73,7 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 		}
 	}
 
-	@Test(expected = SendActionException.class)
+	@Test(expected = TerminalActionException.class)
 	public void testCursorIncorrect() {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		signOn.setFocusField("no_such_field");

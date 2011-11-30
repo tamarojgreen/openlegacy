@@ -1,5 +1,6 @@
 package org.openlegacy;
 
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.exceptions.RegistryException;
 
 import java.util.List;

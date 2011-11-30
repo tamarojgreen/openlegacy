@@ -11,6 +11,12 @@ import org.openlegacy.terminal.actions.TerminalAction;
 
 import java.util.List;
 
+/**
+ * Defines all the information required to manage terminal session tables including drill-down definitions Typically loaded from
+ * 
+ * @ScreenTable, @ScreenTableDrilldown & @ScreenColumn annotations and stored within <code>ScreenEntitiesRegistry</code>
+ * 
+ */
 @SuppressWarnings("rawtypes")
 public interface TableDefinition {
 

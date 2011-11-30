@@ -7,8 +7,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is a screen entity. Screens defined as @ScreenEntity are scanned and put into ScreenEntitiesRegistry <br/>
+ * Specifies that the class is a screen part. Screens defined as @ScreenEntity are scanned and put into ScreenEntitiesRegistry <br/>
  * <br/>
+ * A screen part definition defines a repeatable class with mappings which can belongs to a 1 or more screens
  * 
  * @ScreenEntity </code>
  * 

@@ -6,9 +6,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * A screen entity field assignment. Currently used within @ScreenNavigation
+ * 
+ */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target(ElementType.PARAMETER)
 public @interface AssignedField {
 
 	String field();

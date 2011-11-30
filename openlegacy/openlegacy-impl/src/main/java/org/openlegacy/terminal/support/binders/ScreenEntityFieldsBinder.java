@@ -7,7 +7,7 @@ import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
-import org.openlegacy.terminal.exceptions.SendActionException;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
@@ -66,7 +66,7 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 		screenBinderLogic.populateSendAction(sendAction, terminalSnapshot, screenEntity, fieldMappingsDefinitions);
 
 		if (!StringUtils.isEmpty(screenEntity.getFocusField()) && sendAction.getCursorPosition() == null) {
-			throw (new SendActionException(MessageFormat.format("Cursor field {0} was not found in screen {1}",
+			throw (new TerminalActionException(MessageFormat.format("Cursor field {0} was not found in screen {1}",
 					screenEntity.getFocusField(), ProxyUtil.getOriginalClass(screenEntity.getClass()))));
 		}
 	}

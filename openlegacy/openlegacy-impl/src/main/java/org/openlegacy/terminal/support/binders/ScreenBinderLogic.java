@@ -10,7 +10,7 @@ import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
-import org.openlegacy.terminal.exceptions.SendActionException;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.springframework.stereotype.Component;
@@ -79,7 +79,7 @@ public class ScreenBinderLogic {
 									screenPojo.getClass()));
 						}
 					} else {
-						throw (new SendActionException(MessageFormat.format(
+						throw (new TerminalActionException(MessageFormat.format(
 								"Field {0} in screen {1} was modified with value {2}, but is not defined as editable", fieldName,
 								screenPojo, value)));
 

@@ -1,5 +1,7 @@
 package org.openlegacy;
 
+import org.openlegacy.definitions.FieldDefinition;
+
 import java.util.Map;
 
 public interface EntityDefinition<D extends FieldDefinition> {

@@ -8,6 +8,11 @@ import org.openlegacy.terminal.spi.ScreenIdentification;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Defines a screen entity definitions stored in the <code>ScreenEntitiesRegistry</code> Typically collected from @ScreenEntity,
+ * @ScreenIdentifiers, @ScreenNavigation, @ScreenActions, @FieldMapping annotations
+ * 
+ */
 public interface ScreenEntityDefinition extends EntityDefinition<FieldMappingDefinition> {
 
 	ScreenIdentification getScreenIdentification();

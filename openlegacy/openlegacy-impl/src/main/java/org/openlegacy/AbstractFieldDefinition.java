@@ -1,5 +1,7 @@
 package org.openlegacy;
 
+import org.openlegacy.definitions.FieldDefinition;
+
 public abstract class AbstractFieldDefinition<D extends FieldDefinition> implements FieldDefinition {
 
 	private final String name;

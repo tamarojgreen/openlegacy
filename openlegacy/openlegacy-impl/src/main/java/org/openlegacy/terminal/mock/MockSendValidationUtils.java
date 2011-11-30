@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.exceptions.SendActionException;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.ModifiedFieldsCriteria;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class MockSendValidationUtils {
 
 	public static void validateSendAction(TerminalSnapshot expectedOutgoingSnapshot, TerminalSendAction terminalSendAction)
-			throws SendActionException {
+			throws TerminalActionException {
 		List<TerminalField> expectedModifiedFields = FieldsQuery.queryFields(expectedOutgoingSnapshot,
 				ModifiedFieldsCriteria.instance());
 		List<TerminalField> actualModifiedFields = terminalSendAction.getModifiedFields();
@@ -37,26 +37,26 @@ public class MockSendValidationUtils {
 		if (actualCursorPosition != null && expectedCursorPosition != null) {
 			boolean cursorMatch = actualCursorPosition.equals(expectedCursorPosition);
 			if (!cursorMatch) {
-				throw (new SendActionException(message));
+				throw (new TerminalActionException(message));
 			}
 		}
 	}
 
 	public static void validateFieldsMatch(List<TerminalField> expectedFieldsList, List<TerminalField> actualFieldsList)
-			throws SendActionException {
+			throws TerminalActionException {
 		if (expectedFieldsList.size() != actualFieldsList.size()) {
-			throw (new SendActionException("Fields list dont match"));
+			throw (new TerminalActionException("Fields list dont match"));
 		}
 		Map<ScreenPosition, TerminalField> actualFieldsMap = toMap(actualFieldsList);
 		for (TerminalField exptectedField : expectedFieldsList) {
 			ScreenPosition expectedPosition = exptectedField.getPosition();
 			TerminalField actualField = actualFieldsMap.get(expectedPosition);
 			if (actualField == null) {
-				throw (new SendActionException(MessageFormat.format(
+				throw (new TerminalActionException(MessageFormat.format(
 						"Expected field in position {0} not found in the actual sent fields", expectedPosition)));
 			}
 			if (!StringUtils.equals(exptectedField.getValue(), actualField.getValue())) {
-				throw (new SendActionException(MessageFormat.format(
+				throw (new TerminalActionException(MessageFormat.format(
 						"Expected value ''{0}'' doesnt match sent value ''{1}'' for field in position {2}",
 						exptectedField.getValue(), actualField.getValue(), expectedPosition)));
 			}
