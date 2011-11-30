@@ -1,6 +1,13 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
+import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openlegacy.Session;
+import org.openlegacy.SessionAction;
+import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.analyzer.ScreeEntitynDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
@@ -8,6 +15,7 @@ import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
@@ -21,6 +29,8 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefinitionsBuilder {
 
@@ -28,6 +38,8 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 	private static final String COLUMN = "Column";
 	private static final String ROW = "Row";
 	private int maxIdentifiers = 3;
+
+	private final static Log logger = LogFactory.getLog(DefaultScreenEntityDefinitionsBuilder.class);
 
 	public void addIdentifier(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
@@ -48,6 +60,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 		identification.getScreenIdentifiers().add(identifier);
 
 		Collections.sort(identification.getScreenIdentifiers(), IdentifierComparator.instance());
+
+		logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen {2}", field.getValue(),
+				field.getPosition(), screenEntityDefinition.getEntityName()));
 	}
 
 	public void setScreenEntityName(
@@ -58,6 +73,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 			String entityName = StringUtil.toClassName(field.getValue());
 			screenEntityDefinition.setEntityName(entityName);
 			snapshotsAnalyzerContext.addEntityDefinition(screenEntityDefinition);
+			logger.info(MessageFormat.format("New screen entity add: {0}", entityName));
 		}
 
 	}
@@ -74,6 +90,8 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 
 		screenEntityDefinition.getFieldsDefinitions().put(fieldName, fieldMappingDefinition);
 
+		logger.info(MessageFormat.format("Added editable field {0} to screen entity {1}", fieldName,
+				screenEntityDefinition.getEntityName()));
 	}
 
 	public void addTableDefinition(ScreenEntityDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
@@ -127,6 +145,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 				tableSuffix));
 		screenEntityDefinition.getTableDefinitions().put(tableDefinition.getTableEntityName(), tableDefinition);
 
+		logger.info(MessageFormat.format("Added table {0} to screen entity {1}", tableDefinition.getTableEntityName(),
+				screenEntityDefinition.getEntityName()));
+
 	}
 
 	private static boolean isSelectionField(int columnIndex, TerminalField firstCellField) {
@@ -145,6 +166,41 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 			return o1.getFields().get(0).getPosition().getColumn() - o2.getFields().get(0).getPosition().getColumn();
 		}
 
+	}
+
+	public void setMaxIdentifiers(int maxIdentifiers) {
+		this.maxIdentifiers = maxIdentifiers;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void addAction(ScreenEntityDesigntimeDefinition screenEntityDefinition, String text, String regex) {
+
+		Pattern pattern = Pattern.compile(regex);
+		Matcher match = pattern.matcher(text);
+
+		match.find();
+		if (match.groupCount() < 2) {
+			logger.warn(MessageFormat.format("text is not in the format of: action -> displayName", text,
+					screenEntityDefinition.getEntityName()));
+			return;
+		}
+
+		Class<? extends SessionAction<Session>> actionClass = null;
+		try {
+			actionClass = (Class<? extends SessionAction<Session>>)Class.forName(MessageFormat.format("{0}{1}{2}",
+					TerminalActions.class.getName(), ClassUtils.INNER_CLASS_SEPARATOR, match.group(1)));
+		} catch (ClassNotFoundException e) {
+			logger.warn(MessageFormat.format("Could not found class for Action {0} in screen {1}", text,
+					screenEntityDefinition.getEntityName()));
+			return;
+		}
+
+		ActionDefinition actionDefinition = new SimpleActionDefinition(actionClass, match.group(2));
+
+		screenEntityDefinition.getActions().add(actionDefinition);
+
+		logger.info(MessageFormat.format("Added action {0}:{1} to screen entity {2}", actionDefinition.getAction().getName(),
+				actionDefinition.getDisplayName(), screenEntityDefinition.getEntityName()));
 	}
 
 	public static class IdentifierComparator implements Comparator<ScreenIdentifier> {
@@ -167,7 +223,4 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 
 	}
 
-	public void setMaxIdentifiers(int maxIdentifiers) {
-		this.maxIdentifiers = maxIdentifiers;
-	}
 }

@@ -111,16 +111,15 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = loadAndAssertDefinitions();
 
-		ScreenEntityDefinition screen1 = screenEntitiesDefinitions.get("Screen1");
-		((ScreenEntityDesigntimeDefinition)screen1).setPackageName("com.test");
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		new ScreenEntityJavaGenerator().generate(screen1, baos);
-		System.out.println(new String(baos.toByteArray()));
+		assertScreenContent(screenEntitiesDefinitions.get("Screen1"));
+		assertScreenContent(screenEntitiesDefinitions.get("Screen2"));
+		assertScreenContent(screenEntitiesDefinitions.get("TableScreen"));
+	}
 
-		ScreenEntityDefinition tableScreen = screenEntitiesDefinitions.get("TableScreen");
-		((ScreenEntityDesigntimeDefinition)tableScreen).setPackageName("com.test");
-		baos = new ByteArrayOutputStream();
-		new ScreenEntityJavaGenerator().generate(tableScreen, baos);
+	private static void assertScreenContent(ScreenEntityDefinition screen) throws TemplateException, IOException {
+		((ScreenEntityDesigntimeDefinition)screen).setPackageName("com.test");
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		new ScreenEntityJavaGenerator().generate(screen, baos);
 		System.out.println(new String(baos.toByteArray()));
 	}
 }

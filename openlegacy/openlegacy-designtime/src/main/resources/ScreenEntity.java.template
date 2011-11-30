@@ -4,7 +4,11 @@ import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
-
+<#if actions?size != 0>
+import org.openlegacy.annotations.screen.ScreenActions;
+import org.openlegacy.annotations.screen.Action;
+import org.openlegacy.terminal.actions.TerminalActions;
+</#if>
 <#if tableDefinitions?size != 0>
 import java.util.List;
 import org.openlegacy.annotations.screen.ScreenTable;
@@ -16,6 +20,13 @@ import org.openlegacy.annotations.screen.ScreenTable;
 				@Identifier(row = ${identifier.position.row}, column = ${identifier.position.column}, value = "${identifier.text}") 
 				</#list>	
 				})
+<#if actions?size != 0>
+@ScreenActions(actions = { 
+				<#list actions as action> 
+				@Action(action = TerminalActions.${action.action.simpleName}.class, displayName = "${action.displayName}") 
+				</#list>	
+				})
+</#if>
 public class ${entityName} {
     
 	<#assign fieldNames = fieldsDefinitions?keys>

@@ -1,0 +1,20 @@
+package openlegacy;
+
+rule "find-actions"
+ruleflow-group "identify-actions"
+when
+	$actionsStartRow : Integer() from 22
+	$actionsEndRow : Integer() from 24
+	$actionsRegex    : String()  from "(\\w+)[=-](\\w+(?:\\s\\w+){0,2})\\s{0,1}"
+
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// which has a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	$field: TerminalField(position.row >= $actionsStartRow,position.row <= $actionsEndRow,value matches $actionsRegex) from $snapshot.getFields()
+	
+then
+	screeEntitynDefinitionsBuilder.addAction($screenEntityDefinition,$field.getValue(),$actionsRegex);
+end

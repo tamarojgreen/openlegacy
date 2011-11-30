@@ -17,7 +17,10 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Open legacy integration point with spring component-scan. The classes are scanned for @ScreenEntity annotation and all the
@@ -30,7 +33,8 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 	private final static Log logger = LogFactory.getLog(ScreenAnnotationProccesor.class);
 
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		Collection<ClassAnnotationsLoader> annotationLoaders = beanFactory.getBeansOfType(ClassAnnotationsLoader.class).values();
+		Collection<ClassAnnotationsLoader> annotationLoadersCollection = beanFactory.getBeansOfType(ClassAnnotationsLoader.class).values();
+		List<ClassAnnotationsLoader> annotationLoaders = sortAnnoationLoaders(annotationLoadersCollection);
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
 		screenEntitiesRegistry.clear();
@@ -58,6 +62,13 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 				throw (new BeanCreationException(e.getMessage(), e));
 			}
 		}
+	}
+
+	private static List<ClassAnnotationsLoader> sortAnnoationLoaders(
+			Collection<ClassAnnotationsLoader> annotationLoadersCollection) {
+		List<ClassAnnotationsLoader> annotationLoaders = new ArrayList<ClassAnnotationsLoader>(annotationLoadersCollection);
+		Collections.sort(annotationLoaders);
+		return annotationLoaders;
 	}
 
 	private static void handleChilds(final ConfigurableListableBeanFactory beanFactory,

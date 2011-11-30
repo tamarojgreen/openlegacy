@@ -2,7 +2,6 @@ package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenTableDrilldown;
-import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -12,7 +11,7 @@ import org.springframework.util.Assert;
 import java.lang.annotation.Annotation;
 
 @Component
-public class ScreenTableDrilldownAnnotationLoader implements ClassAnnotationsLoader {
+public class ScreenTableDrilldownAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenTableDrilldown.class;

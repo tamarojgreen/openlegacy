@@ -3,7 +3,6 @@ package org.openlegacy.loaders.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
-import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -19,7 +18,7 @@ import java.lang.reflect.Field;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE - 1)
-public class ScreenTableAnnotationLoader implements ClassAnnotationsLoader {
+public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenTable.class;

@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.ScreenNavigation;
-import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.Annotation;
 
 @Component
-public class ScreenNavigationAnnotationLoader implements ClassAnnotationsLoader {
+public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	private final static Log logger = LogFactory.getLog(ScreenNavigationAnnotationLoader.class);
 

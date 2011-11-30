@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
-import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -18,7 +17,7 @@ import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
 
 @Component
-public class SimpleScreenIdentifiersAnnotationLoader implements ClassAnnotationsLoader {
+public class SimpleScreenIdentifiersAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	private final static Log logger = LogFactory.getLog(SimpleScreenIdentifiersAnnotationLoader.class);
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

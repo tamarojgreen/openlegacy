@@ -3,6 +3,7 @@ package org.openlegacy.designtime.terminal.model;
 import org.apache.commons.lang.NotImplementedException;
 import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.FieldMappingDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
@@ -13,6 +14,8 @@ import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenIdentification;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -29,6 +32,8 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition,
 	private String packageName;
 
 	private ScreenIdentification screenIdentification = new SimpleScreenIdentification();
+
+	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 
 	public String getEntityName() {
 		return entityName;
@@ -92,6 +97,10 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition,
 
 	public void setPackageName(String packageName) {
 		this.packageName = packageName;
+	}
+
+	public List<ActionDefinition> getActions() {
+		return actions;
 	}
 
 }

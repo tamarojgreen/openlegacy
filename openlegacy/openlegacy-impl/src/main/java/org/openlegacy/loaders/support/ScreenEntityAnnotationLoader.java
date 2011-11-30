@@ -4,7 +4,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenEntity;
-import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.core.Ordered;
@@ -16,7 +15,7 @@ import java.text.MessageFormat;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class ScreenEntityAnnotationLoader implements ClassAnnotationsLoader {
+public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityAnnotationLoader.class);
 

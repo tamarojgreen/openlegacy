@@ -34,6 +34,13 @@ public class TerminalActions {
 		return new F1();
 	}
 
+	public static class F2 extends TerminalMappedAction {
+	}
+
+	public static F2 F2() {
+		return new F2();
+	}
+
 	public static class F3 extends TerminalMappedAction {
 	}
 

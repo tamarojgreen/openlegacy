@@ -4,7 +4,7 @@ import org.openlegacy.EntitiesRegistry;
 
 import java.lang.annotation.Annotation;
 
-public interface ClassAnnotationsLoader {
+public interface ClassAnnotationsLoader extends Comparable<ClassAnnotationsLoader> {
 
 	boolean match(Annotation annotation);
 

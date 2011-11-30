@@ -21,4 +21,6 @@ public interface ScreeEntitynDefinitionsBuilder {
 	void addEditableField(ScreenEntityDefinition screenEntityDefinition, TerminalField editableField, String leadingLabel);
 
 	void addTableDefinition(ScreenEntityDefinition screenEntityDefinition, List<TableColumn> tableColumns);
+
+	void addAction(ScreenEntityDesigntimeDefinition screenEntityDefinition, String text, String regex);
 }

@@ -5,12 +5,21 @@ ruleflow-group "initialize-screen-entities"
 salience 100
 when
 then
+	// get all the snapshots provided
 	Collection<TerminalSnapshot> snapshots = snapshotsAnalyzerContext.getActiveSnapshots();
 	snapshotsSorter.add(snapshots);
-	snapshots = snapshotsSorter.getGroupsRepresenters(); 
+	
+	// pick 1 representer from each matched group
+	snapshots = snapshotsSorter.getGroupsRepresenters();
+	 
 	for (TerminalSnapshot s:snapshots){
+		// for snapshot, initialize an empty screen definitions container 
 		ScreenEntityDesigntimeDefinition screenEntityDefinition = new ScreenEntityDesigntimeDefinition();
+		
+		// link the definition to the snapshot
 		screenEntityDefinition.setSnapshot(s);
+
+		/// insert the definitions container to the session
 		insert(screenEntityDefinition);
 	} 
 end
@@ -21,7 +30,8 @@ salience 90
 when
 	$titleStartRow : Integer() from 1
 	$titleEndRow   : Integer() from 3
-	$titleRegex    : String()  from "[A-Za-z]+[ ][^ ^.]*"
+	// grab a sentence
+	$titleRegex    : String()  from "(\\w+(?:\\s\\w+){0,5})\\s{0,1}"
 
 	
 	// there is a screen definition
