@@ -134,6 +134,10 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 			columnDefinition.setSelectionField(isSelectionField(i, firstCellField));
 
 			tableDefinition.getColumnDefinitions().add(columnDefinition);
+
+			// remove the fields from the snapshot to avoid re-recognize by other rules
+			screenEntityDefinition.getSnapshot().getFields().removeAll(tableColumn.getFields());
+
 		}
 		TerminalField topLeftTableCell = tableColumns.get(0).getFields().get(0);
 		tableDefinition.setStartRow(topLeftTableCell.getPosition().getRow());
@@ -222,6 +226,21 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 			}
 			return position1.getColumn() - position2.getColumn();
 		}
+
+	}
+
+	public TableColumn addTableColumn(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields) {
+		TerminalSnapshot snapshot = screenEntityDefinition.getSnapshot();
+		// if the fields were removed from the snapshot, don't create a column
+		if (!snapshot.getFields().contains(fields.get(0))) {
+			return null;
+		}
+		TableColumn tableColumn = new TableColumn(screenEntityDefinition, fields);
+
+		logger.info(MessageFormat.format("Recognized column \n{0} in screen entity {1}", tableColumn,
+				screenEntityDefinition.getEntityName()));
+
+		return tableColumn;
 
 	}
 

@@ -5,25 +5,27 @@ ruleflow-group "identify-tables"
 salience 100
 when
 	$minimumTableRows : Integer() from 3
-	
+	// don't identify column which are in the format of: "Field A....:" which are typically leading labels
+	$notColumnRegex	  : String() from "([\\w ]+[\\.:])+"
+		
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
 
 	// and a snapshot from the 1st screen definition
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
 	
-	// and there is a field in a specific column
-	$field: TerminalField($column: position.column,$length: length) from $snapshot.getFields();
+	// and there is a field in a specific column (which is not a leading label) 
+	$field: TerminalField(value not matches $notColumnRegex) from $snapshot.getFields();
 
 	// and there is no field in this column in a higher row 
-	not TerminalField(this != $field, position.column == $column, length == $length,position.row < $field.position.row) from $snapshot.getFields();
+	not TerminalField(this != $field, position.column == $field.position.column, length == $field.length,position.row < $field.position.row) from $snapshot.getFields();
 	
-	$columnFields: List(size >= $minimumTableRows) from collect(TerminalField(position.column == $column,length == $field.length) from $snapshot.getFields()) 
+	$columnFields: List(size >= $minimumTableRows) from collect(TerminalField(position.column == $field.position.column,length == $field.length,editable == $field.editable) from $snapshot.getFields()) 
 then
-	TableColumn tableColumn = new TableColumn($screenEntityDefinition,$columnFields);
-	// remove the column fields from the snapshot
-	$snapshot.getFields().removeAll($columnFields);
-	insert(tableColumn);
+	TableColumn tableColumn = screeEntitynDefinitionsBuilder.addTableColumn($screenEntityDefinition,$columnFields);
+	if (tableColumn != null){
+		insert(tableColumn);
+	}
 end
 
 rule "find-column-headers"
