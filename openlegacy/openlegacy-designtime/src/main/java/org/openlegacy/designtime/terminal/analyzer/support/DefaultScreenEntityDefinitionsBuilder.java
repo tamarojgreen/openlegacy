@@ -9,7 +9,7 @@ import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
-import org.openlegacy.designtime.terminal.analyzer.ScreeEntitynDefinitionsBuilder;
+import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.terminal.ScreenPosition;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefinitionsBuilder {
+public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefinitionsBuilder {
 
 	private static final String SELECTION_FIELD = "Selection";
 	private static final String COLUMN = "Column";

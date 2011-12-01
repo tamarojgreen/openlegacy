@@ -8,13 +8,12 @@ import org.openlegacy.terminal.definitions.*;
 import org.openlegacy.analyzer.screen.model.*;
 import java.util.List;
 
-import org.openlegacy.designtime.terminal.model.TableColumn;
-import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
+import org.openlegacy.designtime.terminal.model.*;
 import org.openlegacy.designtime.analyzer.SnapshotsSorter;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 
-import org.openlegacy.designtime.terminal.analyzer.ScreeEntitynDefinitionsBuilder;
+import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 
 global SnapshotsAnalyzerContext snapshotsAnalyzerContext;
 global SnapshotsSorter snapshotsSorter;
-global ScreeEntitynDefinitionsBuilder screeEntitynDefinitionsBuilder;
+global ScreenEntityDefinitionsBuilder screenEntityDefinitionsBuilder;

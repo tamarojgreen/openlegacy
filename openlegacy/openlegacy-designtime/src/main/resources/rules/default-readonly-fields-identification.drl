@@ -17,5 +17,5 @@ when
 	// with a leading label before the field which is in the format of "Field A...:"
 	TerminalField(position.row == $field.position.row, position.column < $field.position.column, editable == false,value matches $labelRegex, $leadingLabel: value) from $snapshot.getFields()
 then
-	screeEntitynDefinitionsBuilder.addField($screenEntityDefinition,$field,$leadingLabel);
+	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$field,$leadingLabel);
 end

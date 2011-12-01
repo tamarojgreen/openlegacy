@@ -15,5 +15,5 @@ when
 	// with a leading label before the editable field (same row, lower column)
 	TerminalField(position.row == $editableField.position.row, position.column < $editableField.position.column, editable == false,$leadingLabel: value) from $snapshot.getFields()
 then
-	screeEntitynDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$leadingLabel);
+	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$leadingLabel);
 end

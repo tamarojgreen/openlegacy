@@ -75,4 +75,10 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
+
+	protected void setEntityName(String entityName) {
+		this.entityName = entityName;
+
+	}
+
 }

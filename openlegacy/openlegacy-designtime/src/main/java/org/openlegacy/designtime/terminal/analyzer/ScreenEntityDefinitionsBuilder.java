@@ -9,7 +9,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.util.List;
 
-public interface ScreeEntitynDefinitionsBuilder {
+public interface ScreenEntityDefinitionsBuilder {
 
 	void addIdentifier(SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field);

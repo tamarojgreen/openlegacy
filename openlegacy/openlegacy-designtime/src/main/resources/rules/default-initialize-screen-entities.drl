@@ -14,7 +14,7 @@ then
 	 
 	for (TerminalSnapshot s:snapshots){
 		// for snapshot, initialize an empty screen definitions container 
-		ScreenEntityDesigntimeDefinition screenEntityDefinition = new ScreenEntityDesigntimeDefinition();
+		ScreenEntityDesigntimeDefinition screenEntityDefinition = new SimpleScreenEntityDesigntimeDefinition();
 		
 		// link the definition to the snapshot
 		screenEntityDefinition.setSnapshot(s);
@@ -48,5 +48,5 @@ when
 	// and this field doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
 	not TerminalSnapshot(fields contains $field) from $otherSnapshots 
 then
-	screeEntitynDefinitionsBuilder.setScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
+	screenEntityDefinitionsBuilder.setScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
 end
