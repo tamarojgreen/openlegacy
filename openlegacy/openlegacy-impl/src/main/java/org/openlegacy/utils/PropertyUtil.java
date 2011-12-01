@@ -1,11 +1,16 @@
 package org.openlegacy.utils;
 
+import org.springframework.beans.DirectFieldAccessor;
 import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PropertyUtil {
 
 	public static final String GET = "get";
 	public static final String SET = "set";
+	private static Map<Class<?>, DirectFieldAccessor> fieldAccessorsCache = new HashMap<Class<?>, DirectFieldAccessor>();
 
 	/**
 	 * Return a bean property name from a getter method, if the method is in the format of getXXX
@@ -36,4 +41,39 @@ public class PropertyUtil {
 		}
 		return null;
 	}
+
+	public static Object getPropertyDefaultValue(Class<?> clazz, String propertyName) {
+		DirectFieldAccessor fieldAccessor = getFieldAccessor(clazz);
+		if (!fieldAccessor.isReadableProperty(propertyName)) {
+			return null;
+		}
+		return fieldAccessor.getPropertyValue(propertyName);
+	}
+
+	public static Object getPropertyValue(Object object, String propertyName) {
+		DirectFieldAccessor fieldAccessor = getFieldAccessor(object.getClass());
+		if (!fieldAccessor.isReadableProperty(propertyName)) {
+			return null;
+		}
+		return fieldAccessor.getPropertyValue(propertyName);
+	}
+
+	public static DirectFieldAccessor getFieldAccessor(Class<?> clazz) {
+		Object emptyObject = fieldAccessorsCache.get(clazz);
+		if (emptyObject == null) {
+			try {
+				emptyObject = clazz.newInstance();
+			} catch (InstantiationException e) {
+				throw (new RuntimeException(e));
+			} catch (IllegalAccessException e) {
+				throw (new RuntimeException(e));
+			}
+
+			fieldAccessorsCache.put(clazz, new DirectFieldAccessor(emptyObject));
+		}
+
+		DirectFieldAccessor fieldAccessor = fieldAccessorsCache.get(clazz);
+		return fieldAccessor;
+	}
+
 }

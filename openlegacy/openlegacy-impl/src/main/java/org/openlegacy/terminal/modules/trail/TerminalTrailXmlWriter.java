@@ -4,7 +4,7 @@ import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.utils.JaxbUtil;
+import org.openlegacy.utils.XmlSerializationUtil;
 
 import java.io.OutputStream;
 import java.util.List;
@@ -20,7 +20,7 @@ public class TerminalTrailXmlWriter implements TrailWriter {
 		}
 
 		try {
-			JaxbUtil.marshal(TerminalPersistedTrail.class, persistedTrail, out);
+			XmlSerializationUtil.serialize(TerminalPersistedTrail.class, persistedTrail, out);
 		} catch (Exception e) {
 			throw (new IllegalArgumentException("Faild writing XML trail", e));
 		}

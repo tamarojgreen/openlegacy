@@ -25,10 +25,10 @@ public class TerminalPersistedField implements TerminalField {
 	private int length;
 
 	@XmlAttribute
-	private boolean modified;
+	private Boolean modified = false;
 
 	@XmlAttribute
-	private boolean editable;
+	private Boolean editable = false;
 
 	public ScreenPosition getScreenPosition() {
 		return screenPosition;

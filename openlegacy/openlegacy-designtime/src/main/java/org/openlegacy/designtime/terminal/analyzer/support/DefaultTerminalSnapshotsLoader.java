@@ -4,7 +4,7 @@ import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.exceptions.UnableToLoadSnapshotException;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
-import org.openlegacy.utils.JaxbUtil;
+import org.openlegacy.utils.XmlSerializationUtil;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -50,7 +50,7 @@ public class DefaultTerminalSnapshotsLoader implements TerminalSnapshotsLoader {
 	public TerminalSnapshot load(String path) {
 		TerminalSnapshot terminalSnapshot;
 		try {
-			terminalSnapshot = JaxbUtil.unmarshal(TerminalPersistedSnapshot.class, new FileInputStream(path));
+			terminalSnapshot = XmlSerializationUtil.deserialize(TerminalPersistedSnapshot.class, new FileInputStream(path));
 		} catch (FileNotFoundException e) {
 			throw (new UnableToLoadSnapshotException(e));
 		} catch (JAXBException e) {

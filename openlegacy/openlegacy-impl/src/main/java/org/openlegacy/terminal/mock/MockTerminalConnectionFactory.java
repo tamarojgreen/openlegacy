@@ -4,7 +4,7 @@ import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
-import org.openlegacy.utils.JaxbUtil;
+import org.openlegacy.utils.XmlSerializationUtil;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class MockTerminalConnectionFactory implements TerminalConnectionFactory 
 		snapshots = new ArrayList<TerminalSnapshot>();
 		for (String resourceName : files) {
 			try {
-				TerminalPersistedSnapshot persistedSnapshot = JaxbUtil.unmarshal(TerminalPersistedSnapshot.class,
+				TerminalPersistedSnapshot persistedSnapshot = XmlSerializationUtil.deserialize(TerminalPersistedSnapshot.class,
 						getClass().getResourceAsStream(MessageFormat.format("{0}/{1}", root, resourceName)));
 				snapshots.add(persistedSnapshot);
 			} catch (Exception e) {
