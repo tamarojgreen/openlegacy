@@ -1,155 +1,155 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <snapshot type="INCOMING">
     <row rowNumber="1">
-        <field value=" " length="1" modified="false" editable="false">
+        <field value=" " length="1">
             <position row="1" column="3"/>
         </field>
-        <field value="      " length="6" modified="false" editable="false">
+        <field value="      " length="6">
             <position row="1" column="5"/>
         </field>
-        <field value=" " length="1" modified="false" editable="false">
+        <field value=" " length="1">
             <position row="1" column="12"/>
         </field>
-        <field value=" " length="1" modified="false" editable="false">
+        <field value=" " length="1">
             <position row="1" column="14"/>
         </field>
-        <field value="            " length="12" modified="false" editable="false">
+        <field value="            " length="12">
             <position row="1" column="16"/>
         </field>
-        <field value="Display Program Messages            " length="36" modified="false" editable="false">
+        <field value="Display Program Messages            " length="36">
             <position row="1" column="28"/>
         </field>
-        <field value="                " length="16" modified="false" editable="false">
+        <field value="                " length="16">
             <position row="1" column="65"/>
         </field>
     </row>
     <row rowNumber="2">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="2" column="1"/>
         </field>
     </row>
     <row rowNumber="3">
-        <field value="Job 023007/STUDENT2/QPADEV00RT started on 02/06/05 at 11:44:08 in subsystem " length="76" modified="false" editable="false">
+        <field value="Job 023007/STUDENT2/QPADEV00RT started on 02/06/05 at 11:44:08 in subsystem " length="76">
             <position row="3" column="2"/>
         </field>
-        <field value="  " length="2" modified="false" editable="false">
+        <field value="  " length="2">
             <position row="3" column="79"/>
         </field>
     </row>
     <row rowNumber="4">
-        <field value="Initial program ended and *SIGNOFF specified for initial menu.              " length="76" modified="false" editable="false">
+        <field value="Initial program ended and *SIGNOFF specified for initial menu.              " length="76">
             <position row="4" column="2"/>
         </field>
-        <field value="  " length="2" modified="false" editable="false">
+        <field value="  " length="2">
             <position row="4" column="79"/>
         </field>
     </row>
     <row rowNumber="5">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="5" column="1"/>
         </field>
     </row>
     <row rowNumber="6">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="6" column="1"/>
         </field>
     </row>
     <row rowNumber="7">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="7" column="1"/>
         </field>
     </row>
     <row rowNumber="8">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="8" column="1"/>
         </field>
     </row>
     <row rowNumber="9">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="9" column="1"/>
         </field>
     </row>
     <row rowNumber="10">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="10" column="1"/>
         </field>
     </row>
     <row rowNumber="11">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="11" column="1"/>
         </field>
     </row>
     <row rowNumber="12">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="12" column="1"/>
         </field>
     </row>
     <row rowNumber="13">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="13" column="1"/>
         </field>
     </row>
     <row rowNumber="14">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="14" column="1"/>
         </field>
     </row>
     <row rowNumber="15">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="15" column="1"/>
         </field>
     </row>
     <row rowNumber="16">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="16" column="1"/>
         </field>
     </row>
     <row rowNumber="17">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="17" column="1"/>
         </field>
     </row>
     <row rowNumber="18">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="18" column="1"/>
         </field>
     </row>
     <row rowNumber="19">
-        <field value="Press Enter to continue.                   " length="43" modified="false" editable="false">
+        <field value="Press Enter to continue.                   " length="43">
             <position row="19" column="2"/>
         </field>
-        <field value="                                   " length="35" modified="false" editable="false">
+        <field value="                                   " length="35">
             <position row="19" column="46"/>
         </field>
     </row>
     <row rowNumber="20">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="20" column="1"/>
         </field>
     </row>
     <row rowNumber="21">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="21" column="1"/>
         </field>
     </row>
     <row rowNumber="22">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="22" column="1"/>
         </field>
     </row>
     <row rowNumber="23">
-        <field value="F3=Exit   " length="10" modified="false" editable="false">
+        <field value="F3=Exit   " length="10">
             <position row="23" column="2"/>
         </field>
-        <field value="F12=Cancel          " length="20" modified="false" editable="false">
+        <field value="F12=Cancel          " length="20">
             <position row="23" column="12"/>
         </field>
-        <field value="                                                " length="48" modified="false" editable="false">
+        <field value="                                                " length="48">
             <position row="23" column="33"/>
         </field>
     </row>
     <row rowNumber="24">
-        <field value="                                                                                " length="80" modified="false" editable="false">
+        <field value="                                                                                " length="80">
             <position row="24" column="1"/>
         </field>
     </row>

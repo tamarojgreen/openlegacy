@@ -2,10 +2,10 @@
 <snapshot type="INCOMING">
     <cursor row="6" column="53" />
     <row rowNumber="1">
-        <field value="Field A:" length="9" modified="false" editable="false">
+        <field value="Field A:" length="9">
             <position row="1" column="3"/>
         </field>
-        <field value="AABB     " length="10" modified="false" editable="true">
+        <field value="AABB     " length="10" editable="true">
             <position row="1" column="13"/>
         </field>
     </row>
