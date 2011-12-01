@@ -32,7 +32,7 @@ public class ${entityName} {
 	<#assign fieldNames = fieldsDefinitions?keys>
 	<#list fieldNames as fieldName>
 	<#assign field = fieldsDefinitions[fieldName]>
-	@ScreenField(row = ${field.screenPosition.row}, column = ${field.screenPosition.column}<#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
+	@ScreenField(row = ${field.screenPosition.row}, column = ${field.screenPosition.column}<#if field.editable> ,editable= true</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
     private String ${fieldName};
 	</#list>	
     

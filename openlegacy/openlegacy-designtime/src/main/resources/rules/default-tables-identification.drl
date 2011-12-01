@@ -41,8 +41,9 @@ when
 	// there is a column
 	$column: TableColumn()
 	
-	$headerField: TerminalField(position.row == $column.getStartRow() - 1, position.column >= $column.getStartColumn() - 2,position.column <= $column.getStartColumn() + 2) from $snapshot.getFields()
+	$headerField: TerminalField(position.row == $column.getStartRow() - 1,position.column >= $column.getStartColumn() - 2,position.column <= $column.getStartColumn() + 2) from $snapshot.getFields()
 then
+	System.out.println("Found header:" + $headerField.getValue());
 	$column.getHeaderFields().add($headerField);
 end
 

@@ -26,8 +26,9 @@
 				<value>rules/screen-builder.bpmn</value>
 				<value>rules/package.drl</value>
 				<value>rules/default-initialize-screen-entities.drl</value>
-				<value>rules/default-fields-identification.drl</value>
+				<value>rules/default-editable-fields-identification.drl</value>
 				<value>rules/default-tables-identification.drl</value>
+				<value>rules/default-readonly-fields-identification.drl</value>
 				<value>rules/default-actions-identification.drl</value>
 				<value>rules/default-snapshots-identification.drl</value>
 			</array>

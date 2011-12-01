@@ -1,0 +1,21 @@
+package openlegacy;
+
+rule "find-readonly-fields"
+ruleflow-group "identify-readonly-fields"
+when
+	$labelRegex: String() from "([\\w ]+[\\.:])+"
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and an field within the snapshot
+	$field: TerminalField(editable == false, length > 0) from $snapshot.getFields()
+	
+	// with a leading label before the field which is in the format of "Field A...:"
+	TerminalField(position.row == $field.position.row, position.column < $field.position.column, editable == false,value matches $labelRegex, $leadingLabel: value) from $snapshot.getFields()
+then
+	screeEntitynDefinitionsBuilder.addField($screenEntityDefinition,$field,$leadingLabel);
+end

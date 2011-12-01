@@ -8,8 +8,8 @@ import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
@@ -46,7 +46,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		ScreenEntityDefinition screen1 = screenEntitiesDefinitions.get("Screen1");
 		Assert.assertNotNull(screen1);
 		Map<String, ScreenFieldDefinition> fieldsDefinitions = screen1.getFieldsDefinitions();
-		Assert.assertEquals(1, fieldsDefinitions.size());
+		Assert.assertEquals(2, fieldsDefinitions.size());
 		ScreenFieldDefinition fieldA = fieldsDefinitions.get("fieldA");
 		Assert.assertNotNull(fieldA);
 		Assert.assertTrue(fieldA.isEditable());
@@ -57,6 +57,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 	private Map<String, ScreenEntityDefinition> loadAndAssertDefinitions() {
 		snapshotsSorter.setMatchingPercent(99);
+		snapshotsSorter.clear();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile());
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		Assert.assertEquals(3, screenEntitiesDefinitions.size());

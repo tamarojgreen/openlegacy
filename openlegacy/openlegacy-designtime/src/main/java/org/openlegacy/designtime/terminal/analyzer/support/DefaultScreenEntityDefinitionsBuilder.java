@@ -80,19 +80,23 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 
 	}
 
-	public void addEditableField(ScreenEntityDefinition screenEntityDefinition, TerminalField editableField, String leadingLabel) {
+	public void addField(ScreenEntityDefinition screenEntityDefinition, TerminalField field, String leadingLabel) {
 
 		String fieldName = StringUtil.toJavaFieldName(leadingLabel);
 		SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(fieldName, null);
-		fieldMappingDefinition.setScreenPosition(editableField.getPosition());
-		fieldMappingDefinition.setLength(editableField.getLength());
-		fieldMappingDefinition.setEditable(editableField.isEditable());
+		fieldMappingDefinition.setScreenPosition(field.getPosition());
+		fieldMappingDefinition.setLength(field.getLength());
+		fieldMappingDefinition.setEditable(field.isEditable());
 		fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(leadingLabel));
 		fieldMappingDefinition.setSampleValue("");
 
 		screenEntityDefinition.getFieldsDefinitions().put(fieldName, fieldMappingDefinition);
 
-		logger.info(MessageFormat.format("Added editable field {0} to screen entity {1}", fieldName,
+		// remove the field from the snapshot
+		screenEntityDefinition.getSnapshot().getFields().remove(field);
+
+		String fieldTypeText = field.isEditable() ? "Editable" : "Readonly";
+		logger.info(MessageFormat.format("Added {0} field {1} to screen entity {2}", fieldTypeText, fieldName,
 				screenEntityDefinition.getEntityName()));
 	}
 
