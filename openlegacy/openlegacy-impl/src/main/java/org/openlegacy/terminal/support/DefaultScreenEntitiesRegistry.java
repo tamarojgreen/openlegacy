@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
@@ -23,7 +23,7 @@ import java.util.Map;
  * A simple implementation of a screen entities registry. Holds information collection from @ScreenEntity, @FieldMapping and more
  * 
  */
-public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<ScreenEntityDefinition, FieldMappingDefinition> implements ScreenEntitiesRegistry {
+public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<ScreenEntityDefinition, ScreenFieldDefinition> implements ScreenEntitiesRegistry {
 
 	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
 	private final Map<Class<?>, TableDefinition> tableDefinitions = new HashMap<Class<?>, TableDefinition>();

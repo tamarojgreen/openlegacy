@@ -1,6 +1,6 @@
 package apps.inventory.screens;
 
-import org.openlegacy.annotations.screen.FieldMapping;
+import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
@@ -10,10 +10,10 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 		@Identifier(row = 7, column = 2, value = "Item Description") })
 public class ItemDetails1 {
 
-	@FieldMapping(row = 6, column = 33)
+	@ScreenField(row = 6, column = 33)
 	private String itemNumber;
 
-	@FieldMapping(row = 7, column = 33, editable = true)
+	@ScreenField(row = 7, column = 33, editable = true)
 	private String itemDescription;
 
 	private ItemDetails2 itemDetails2;

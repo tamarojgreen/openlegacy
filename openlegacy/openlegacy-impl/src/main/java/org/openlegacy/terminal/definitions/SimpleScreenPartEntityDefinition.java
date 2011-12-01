@@ -7,7 +7,7 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 
 	private Class<?> partClass;
 
-	private final Map<String, FieldMappingDefinition> fieldDefinitions = new LinkedHashMap<String, FieldMappingDefinition>();
+	private final Map<String, ScreenFieldDefinition> fieldDefinitions = new LinkedHashMap<String, ScreenFieldDefinition>();
 
 	public SimpleScreenPartEntityDefinition(Class<?> partClass) {
 		this.partClass = partClass;
@@ -17,7 +17,7 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 		return partClass;
 	}
 
-	public Map<String, FieldMappingDefinition> getFieldsDefinitions() {
+	public Map<String, ScreenFieldDefinition> getFieldsDefinitions() {
 		return fieldDefinitions;
 	}
 

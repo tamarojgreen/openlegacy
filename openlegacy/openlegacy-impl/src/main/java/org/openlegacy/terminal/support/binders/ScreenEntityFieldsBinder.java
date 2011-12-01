@@ -5,10 +5,10 @@ import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
-import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
+import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
@@ -29,7 +29,7 @@ import javax.inject.Inject;
 public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 
 	@Inject
-	private FieldMappingsDefinitionProvider fieldMappingsProvider;
+	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
 
 	@Inject
 	private ScreenBinderLogic screenBinderLogic;
@@ -41,7 +41,7 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 
 		fieldAccessor.setTerminalSnapshot(terminalSnapshot);
 
-		Collection<FieldMappingDefinition> fieldMappingDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
+		Collection<ScreenFieldDefinition> fieldMappingDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
 				terminalSnapshot, screenEntity.getClass());
 		screenBinderLogic.populatedFields(fieldAccessor, terminalSnapshot, fieldMappingDefinitions);
 	}
@@ -56,7 +56,7 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
 
 		ScreenEntity screenEntity = (ScreenEntity)entity;
 
-		Collection<FieldMappingDefinition> fieldMappingsDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
+		Collection<ScreenFieldDefinition> fieldMappingsDefinitions = fieldMappingsProvider.getFieldsMappingDefinitions(
 				terminalSnapshot, screenEntity.getClass());
 
 		if (fieldMappingsDefinitions == null) {

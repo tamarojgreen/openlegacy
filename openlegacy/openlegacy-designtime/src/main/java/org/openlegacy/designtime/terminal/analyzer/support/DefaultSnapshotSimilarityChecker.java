@@ -25,8 +25,8 @@ public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChec
 		double totalScore = screenSize;
 		// some
 		for (int i = 1; i <= size.getRows(); i++) {
-			TerminalRow row1 = snapshot1.getRowByRowNumber(i);
-			TerminalRow row2 = snapshot2.getRowByRowNumber(i);
+			TerminalRow row1 = snapshot1.getRow(i);
+			TerminalRow row2 = snapshot2.getRow(i);
 			int rowSpaceMatch = rowSpaceSimilarity(row1, row2, size.getColumns());
 			// reduce from the total
 			totalScore = totalScore - (size.getColumns() - rowSpaceMatch);

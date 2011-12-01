@@ -6,7 +6,6 @@ import org.openlegacy.terminal.SimpleScreenEntityDescriptor;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 
 import java.util.ArrayList;
@@ -19,9 +18,6 @@ public class DefaultNavigationModule extends TerminalSessionModuleAdapter implem
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
-
-	@Inject
-	private SessionNavigator sessionNavigator;
 
 	public List<ScreenEntityDescriptor> getPathFromRoot() {
 
@@ -48,10 +44,6 @@ public class DefaultNavigationModule extends TerminalSessionModuleAdapter implem
 		Collections.reverse(pathEntries);
 
 		return pathEntries;
-	}
-
-	public void setSessionNavigator(SessionNavigator sessionNavigator) {
-		this.sessionNavigator = sessionNavigator;
 	}
 
 }

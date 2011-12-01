@@ -5,7 +5,7 @@ import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
@@ -25,7 +25,7 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition,
 
 	private String entityName;
 	private String displayName;
-	private Map<String, FieldMappingDefinition> fieldDefinitions = new TreeMap<String, FieldMappingDefinition>();
+	private Map<String, ScreenFieldDefinition> fieldDefinitions = new TreeMap<String, ScreenFieldDefinition>();
 	private Map<String, TableDefinition> tableDefinitions = new TreeMap<String, TableDefinition>();
 	private TerminalSnapshot terminalSnapshot;
 
@@ -59,11 +59,11 @@ public class ScreenEntityDesigntimeDefinition implements ScreenEntityDefinition,
 		throw (new NotImplementedException("Design-time entity definition doesn''t support entity type"));
 	}
 
-	public Map<String, FieldMappingDefinition> getFieldsDefinitions() {
+	public Map<String, ScreenFieldDefinition> getFieldsDefinitions() {
 		return fieldDefinitions;
 	}
 
-	public FieldMappingDefinition getFirstFieldDefinition(Class<? extends FieldType> fieldType) {
+	public ScreenFieldDefinition getFirstFieldDefinition(Class<? extends FieldType> fieldType) {
 		return null;
 	}
 

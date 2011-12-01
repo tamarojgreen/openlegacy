@@ -9,7 +9,7 @@ import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
@@ -33,9 +33,9 @@ public class ScreenBinderLogic {
 	private final static Log logger = LogFactory.getLog(ScreenBinderLogic.class);
 
 	public void populatedFields(ScreenPojoFieldAccessor fieldAccessor, TerminalSnapshot terminalSnapshot,
-			Collection<FieldMappingDefinition> fieldMappingDefinitions) {
+			Collection<ScreenFieldDefinition> fieldMappingDefinitions) {
 
-		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingDefinitions) {
+		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingDefinitions) {
 
 			TerminalField terminalField = extractTerminalField(terminalSnapshot, fieldMappingDefinition);
 
@@ -55,12 +55,12 @@ public class ScreenBinderLogic {
 	}
 
 	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object screenPojo,
-			Collection<FieldMappingDefinition> fieldMappingsDefinitions) {
+			Collection<ScreenFieldDefinition> fieldMappingsDefinitions) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenPojo);
 
 		List<TerminalField> modifiedfields = sendAction.getModifiedFields();
 
-		for (FieldMappingDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
+		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 
 			ScreenPosition fieldPosition = fieldMappingDefinition.getScreenPosition();
 			String fieldName = fieldMappingDefinition.getName();
@@ -100,7 +100,7 @@ public class ScreenBinderLogic {
 		}
 	}
 
-	private static TerminalField extractTerminalField(final TerminalSnapshot terminalSnapshot, FieldMappingDefinition fieldMapping) {
+	private static TerminalField extractTerminalField(final TerminalSnapshot terminalSnapshot, ScreenFieldDefinition fieldMapping) {
 		TerminalField terminalField = terminalSnapshot.getField(fieldMapping.getScreenPosition());
 		return terminalField;
 	}

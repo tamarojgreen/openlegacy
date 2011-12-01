@@ -2,7 +2,7 @@ package org.openlegacy.terminal.support.binders;
 
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.TerminalSendAction;
@@ -38,7 +38,7 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder {
 
 			SimpleScreenPojoFieldAccessor partFieldAccessor = new SimpleScreenPojoFieldAccessor(partObject);
 
-			Collection<FieldMappingDefinition> fieldMappingDefinitions = screenPartEntityDefinition.getFieldsDefinitions().values();
+			Collection<ScreenFieldDefinition> fieldMappingDefinitions = screenPartEntityDefinition.getFieldsDefinitions().values();
 			screenBinderLogic.populatedFields(partFieldAccessor, terminalSnapshot, fieldMappingDefinitions);
 		}
 

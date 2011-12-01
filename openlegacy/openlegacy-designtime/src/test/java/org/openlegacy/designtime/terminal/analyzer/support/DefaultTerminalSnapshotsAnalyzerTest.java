@@ -8,7 +8,7 @@ import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
@@ -45,9 +45,9 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 		ScreenEntityDefinition screen1 = screenEntitiesDefinitions.get("Screen1");
 		Assert.assertNotNull(screen1);
-		Map<String, FieldMappingDefinition> fieldsDefinitions = screen1.getFieldsDefinitions();
+		Map<String, ScreenFieldDefinition> fieldsDefinitions = screen1.getFieldsDefinitions();
 		Assert.assertEquals(1, fieldsDefinitions.size());
-		FieldMappingDefinition fieldA = fieldsDefinitions.get("fieldA");
+		ScreenFieldDefinition fieldA = fieldsDefinitions.get("fieldA");
 		Assert.assertNotNull(fieldA);
 		Assert.assertTrue(fieldA.isEditable());
 		Assert.assertEquals("Field A", fieldA.getDisplayName());

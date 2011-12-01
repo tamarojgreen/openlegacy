@@ -13,6 +13,7 @@ import org.openlegacy.designtime.terminal.analyzer.ScreeEntitynDefinitionsBuilde
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.ScreenPositionContainer;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -53,13 +54,14 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 			return;
 		}
 
-		if (identification.getScreenIdentifiers().size() >= maxIdentifiers) {
+		List<ScreenIdentifier> screenIdentifiers = identification.getScreenIdentifiers();
+		if (screenIdentifiers.size() >= maxIdentifiers) {
 			return;
 		}
 		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
-		identification.getScreenIdentifiers().add(identifier);
+		screenIdentifiers.add(identifier);
 
-		Collections.sort(identification.getScreenIdentifiers(), IdentifierComparator.instance());
+		Collections.sort(screenIdentifiers, ScreenPositionContainerComparator.instance());
 
 		logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen {2}", field.getValue(),
 				field.getPosition(), screenEntityDefinition.getEntityName()));
@@ -203,17 +205,17 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreeEntitynDefini
 				actionDefinition.getDisplayName(), screenEntityDefinition.getEntityName()));
 	}
 
-	public static class IdentifierComparator implements Comparator<ScreenIdentifier> {
+	public static class ScreenPositionContainerComparator implements Comparator<ScreenPositionContainer> {
 
-		private static IdentifierComparator instance = new IdentifierComparator();
+		private static ScreenPositionContainerComparator instance = new ScreenPositionContainerComparator();
 
-		public static IdentifierComparator instance() {
+		public static ScreenPositionContainerComparator instance() {
 			return instance;
 		}
 
-		public int compare(ScreenIdentifier o1, ScreenIdentifier o2) {
-			ScreenPosition position1 = ((SimpleScreenIdentifier)o1).getPosition();
-			ScreenPosition position2 = ((SimpleScreenIdentifier)o2).getPosition();
+		public int compare(ScreenPositionContainer o1, ScreenPositionContainer o2) {
+			ScreenPosition position1 = o1.getPosition();
+			ScreenPosition position2 = o2.getPosition();
 
 			if (position1.getRow() != position2.getRow()) {
 				return position1.getRow() - position2.getRow();

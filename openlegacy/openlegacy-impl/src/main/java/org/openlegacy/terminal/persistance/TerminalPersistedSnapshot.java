@@ -144,7 +144,7 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 		return ScreenUtils.getText(screenText, getSize(), position, length);
 	}
 
-	public TerminalRow getRowByRowNumber(int rowNumber) {
+	public TerminalRow getRow(int rowNumber) {
 		initContent();
 		// persisted snapshot rows may not be fully populated
 		for (TerminalRow terminalRow : rows) {

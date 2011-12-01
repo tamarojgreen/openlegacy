@@ -13,9 +13,9 @@ import org.openlegacy.FieldType;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
-import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
+import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefinitionProvider {
+public class ApxDesignTimeFieldMappingsProvider implements ScreenFieldsDefinitionProvider {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
@@ -32,13 +32,13 @@ public class ApxDesignTimeFieldMappingsProvider implements FieldMappingsDefiniti
 	@Inject
 	private ApxServerLoader apxServerLoader;
 
-	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalSnapshot terminalSnapshot,
+	public Collection<ScreenFieldDefinition> getFieldsMappingDefinitions(TerminalSnapshot terminalSnapshot,
 			Class<?> screenEntityClass) {
 
 		String screenName = screenEntitiesRegistry.getEntityName(screenEntityClass);
 		GXIApplicationContext apxApplication = apxServerLoader.getApplication();
 
-		List<FieldMappingDefinition> fieldMappingDefinitions = new ArrayList<FieldMappingDefinition>();
+		List<ScreenFieldDefinition> fieldMappingDefinitions = new ArrayList<ScreenFieldDefinition>();
 
 		try {
 			GXIEntityDescriptor screenDescriptor = apxApplication.getEntityDescriptorByName(screenName,

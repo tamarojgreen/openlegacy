@@ -13,7 +13,7 @@ import java.util.Map;
  * @ScreenIdentifiers, @ScreenNavigation, @ScreenActions, @FieldMapping annotations
  * 
  */
-public interface ScreenEntityDefinition extends EntityDefinition<FieldMappingDefinition> {
+public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefinition> {
 
 	ScreenIdentification getScreenIdentification();
 

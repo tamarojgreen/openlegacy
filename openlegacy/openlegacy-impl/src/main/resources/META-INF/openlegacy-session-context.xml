@@ -32,8 +32,7 @@
 							p:maxActionsToLogin="5" />
 						<bean class="org.openlegacy.terminal.modules.table.DefaultTableModule" />
 						<bean
-							class="org.openlegacy.terminal.modules.navigation.DefaultNavigationModule"
-							p:sessionNavigator-ref="sessionNavigator" />
+							class="org.openlegacy.terminal.modules.navigation.DefaultNavigationModule" />
 					</list>
 				</property>
 			</bean>

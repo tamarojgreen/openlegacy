@@ -1,7 +1,7 @@
 package apps.inventory.screens;
 
 import org.openlegacy.annotations.screen.AssignedField;
-import org.openlegacy.annotations.screen.FieldMapping;
+import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
@@ -19,12 +19,12 @@ import java.util.List;
 @ScreenNavigation(accessedFrom = InventoryManagement.class, assignedFields = { @AssignedField(field = "selection", value = "1") }, exitAction = F3.class)
 public class ItemsList {
 
-	@FieldMapping(row = 21, column = 19)
+	@ScreenField(row = 21, column = 19)
 	private String positionTo;
 
 	private List<ItemsListRow> itemListRows;
 
-	@FieldMapping(row = 24, column = 2)
+	@ScreenField(row = 24, column = 2)
 	private String errorMessage;
 
 	@ScreenTable(startRow = 8, endRow = 19, supportTerminalData = true)

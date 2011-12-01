@@ -21,11 +21,11 @@ public interface TerminalSnapshot extends Snapshot {
 
 	/**
 	 * Return the terminal snapshot rows. NOTE: Rows are 0 base, and it is not enforced that all terminal snapshots are filled,
-	 * especially in testing mode. Use getSize().getRows and getRowByRowNumer to iterate on all rows
+	 * especially in testing mode. Use getSize().getRows and getRow to iterate on all rows
 	 */
 	List<TerminalRow> getRows();
 
-	TerminalRow getRowByRowNumber(int rowNumber);
+	TerminalRow getRow(int rowNumber);
 
 	Collection<TerminalField> getFields();
 

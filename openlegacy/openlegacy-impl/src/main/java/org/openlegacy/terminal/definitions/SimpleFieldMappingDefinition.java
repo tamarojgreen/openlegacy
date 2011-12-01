@@ -8,7 +8,7 @@ import org.openlegacy.terminal.ScreenPosition;
  * Defines a mapping between a screenEntity java field name and it's screen position and length
  * 
  */
-public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<FieldMappingDefinition> implements FieldMappingDefinition {
+public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<ScreenFieldDefinition> implements ScreenFieldDefinition {
 
 	private ScreenPosition screenPosition = null;
 	private int length;

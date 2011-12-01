@@ -1,6 +1,6 @@
 package ${packageName};
 
-import org.openlegacy.annotations.screen.FieldMapping;
+import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
@@ -32,7 +32,7 @@ public class ${entityName} {
 	<#assign fieldNames = fieldsDefinitions?keys>
 	<#list fieldNames as fieldName>
 	<#assign field = fieldsDefinitions[fieldName]>
-	@FieldMapping(row = ${field.screenPosition.row}, column = ${field.screenPosition.column}<#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
+	@ScreenField(row = ${field.screenPosition.row}, column = ${field.screenPosition.column}<#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
     private String ${fieldName};
 	</#list>	
     

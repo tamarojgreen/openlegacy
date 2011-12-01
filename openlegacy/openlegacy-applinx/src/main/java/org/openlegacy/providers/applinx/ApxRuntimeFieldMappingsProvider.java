@@ -8,9 +8,9 @@ import org.openlegacy.FieldType;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
-import org.openlegacy.terminal.providers.FieldMappingsDefinitionProvider;
+import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 
 import java.text.MessageFormat;
@@ -20,17 +20,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ApxRuntimeFieldMappingsProvider implements FieldMappingsDefinitionProvider {
+public class ApxRuntimeFieldMappingsProvider implements ScreenFieldsDefinitionProvider {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public Collection<FieldMappingDefinition> getFieldsMappingDefinitions(TerminalSnapshot terminalSnapshot,
+	public Collection<ScreenFieldDefinition> getFieldsMappingDefinitions(TerminalSnapshot terminalSnapshot,
 			Class<?> screenEntityClass) {
 
 		String screenName = screenEntitiesRegistry.getEntityName(screenEntityClass);
 
-		List<FieldMappingDefinition> fieldMappingDefinitions = new ArrayList<FieldMappingDefinition>();
+		List<ScreenFieldDefinition> fieldMappingDefinitions = new ArrayList<ScreenFieldDefinition>();
 
 		GXIScreen apxScreen = (GXIScreen)terminalSnapshot.getDelegate();
 

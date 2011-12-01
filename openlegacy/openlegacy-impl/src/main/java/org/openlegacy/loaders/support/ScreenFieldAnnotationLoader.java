@@ -2,7 +2,7 @@ package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.annotations.screen.FieldMapping;
+import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.Annotation;
 
 @Component
-public class FieldMappingAnnotationLoader implements FieldAnnotationsLoader {
+public class ScreenFieldAnnotationLoader implements FieldAnnotationsLoader {
 
 	public boolean match(Annotation annotation) {
-		return annotation.annotationType() == FieldMapping.class;
+		return annotation.annotationType() == ScreenField.class;
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -26,7 +26,7 @@ public class FieldMappingAnnotationLoader implements FieldAnnotationsLoader {
 			Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
-		FieldMapping fieldAnnotation = (FieldMapping)annotation;
+		ScreenField fieldAnnotation = (ScreenField)annotation;
 
 		SimpleScreenPosition screenPosition = SimpleScreenPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
 		SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(fieldName,

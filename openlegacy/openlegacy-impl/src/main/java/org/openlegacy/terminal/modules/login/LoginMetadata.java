@@ -3,7 +3,7 @@ package org.openlegacy.terminal.modules.login;
 import org.openlegacy.SessionModuleMetadata;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
-import org.openlegacy.terminal.definitions.FieldMappingDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
@@ -16,9 +16,9 @@ public class LoginMetadata implements SessionModuleMetadata {
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	private FieldMappingDefinition userField;
-	private FieldMappingDefinition passwordField;
-	private FieldMappingDefinition errorField;
+	private ScreenFieldDefinition userField;
+	private ScreenFieldDefinition passwordField;
+	private ScreenFieldDefinition errorField;
 	private ScreenEntityDefinition loginScreenDefinition;;
 
 	public void initCache() {
@@ -45,15 +45,15 @@ public class LoginMetadata implements SessionModuleMetadata {
 		}
 	}
 
-	public FieldMappingDefinition getUserField() {
+	public ScreenFieldDefinition getUserField() {
 		return userField;
 	}
 
-	public FieldMappingDefinition getPasswordField() {
+	public ScreenFieldDefinition getPasswordField() {
 		return passwordField;
 	}
 
-	public FieldMappingDefinition getErrorField() {
+	public ScreenFieldDefinition getErrorField() {
 		return errorField;
 	}
 

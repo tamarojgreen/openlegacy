@@ -1,6 +1,6 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
-import org.openlegacy.annotations.screen.FieldMapping;
+import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenPart;
@@ -14,7 +14,7 @@ public class AnnotationConstants {
 	public static final String SCREEN_COLUMN_ANNOTATION = ScreenColumn.class.getSimpleName();
 	public static final String TRUE = "true";
 	public static final String FIELD_SUFFIX = "Field";
-	public static final String FIELD_MAPPING_ANNOTATION = FieldMapping.class.getSimpleName();
+	public static final String FIELD_MAPPING_ANNOTATION = ScreenField.class.getSimpleName();
 
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String EDITABLE = "editable";
