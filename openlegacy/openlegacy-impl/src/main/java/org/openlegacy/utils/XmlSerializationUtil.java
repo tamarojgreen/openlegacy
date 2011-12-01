@@ -51,16 +51,17 @@ public class XmlSerializationUtil {
 		DirectFieldAccessor fieldAccessor = new DirectFieldAccessor(source);
 		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(source);
 		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-			Class<?> propertyType = fieldAccessor.getPropertyType(propertyDescriptor.getName());
+			String propertyName = propertyDescriptor.getName();
+			Class<?> propertyType = fieldAccessor.getPropertyType(propertyName);
 			if (propertyType == null || propertyType == Class.class || Collection.class.isAssignableFrom(propertyType)
 					|| Map.class.isAssignableFrom(propertyType)) {
 				continue;
 			}
-			Object defaultValue = PropertyUtil.getPropertyDefaultValue(source.getClass(), propertyDescriptor.getName());
-			Object value = fieldAccessor.getPropertyValue(propertyDescriptor.getName());
-			if (propertyDescriptor.getWriteMethod() != null && ObjectUtils.equals(value, defaultValue)
+			Object defaultValue = PropertyUtil.getPropertyDefaultValue(source.getClass(), propertyName);
+			Object value = fieldAccessor.getPropertyValue(propertyName);
+			if (fieldAccessor.isWritableProperty(propertyName) && ObjectUtils.equals(value, defaultValue)
 					&& !propertyType.isPrimitive()) {
-				fieldAccessor.setPropertyValue(propertyDescriptor.getName(), null);
+				fieldAccessor.setPropertyValue(propertyName, null);
 			}
 
 		}

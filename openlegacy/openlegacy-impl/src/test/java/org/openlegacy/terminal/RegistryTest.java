@@ -1,0 +1,71 @@
+package org.openlegacy.terminal;
+
+import apps.inventory.screens.ItemDetails2;
+import apps.inventory.screens.ItemsList;
+import apps.inventory.screens.SignOn;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.spi.ScreenIdentification;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.inject.Inject;
+
+@ContextConfiguration(locations = "/test-mock-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+public class RegistryTest {
+
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	@Test
+	public void testIdentifiers() {
+		ScreenEntityDefinition screenDefintion = assertScreenExists(SignOn.class);
+		ScreenIdentification screenIdentification = screenDefintion.getScreenIdentification();
+		Assert.assertNotNull(screenIdentification);
+		// 1 from class, 1 from super class
+		Assert.assertEquals(2, screenIdentification.getScreenIdentifiers().size());
+	}
+
+	@Test
+	public void testFields() {
+		ScreenEntityDefinition screenDefintion = assertScreenExists(SignOn.class);
+		// 3 from class, 1 from super class
+		Assert.assertEquals(4, screenDefintion.getFieldsDefinitions().size());
+	}
+
+	@Test
+	public void testScreenPart() {
+		ScreenEntityDefinition screenDefintion = assertScreenExists(ItemDetails2.class);
+		Assert.assertEquals(2, screenDefintion.getPartsDefinitions().size());
+	}
+
+	@Test
+	public void testScreenTable() {
+		ScreenEntityDefinition screenDefintion = assertScreenExists(ItemsList.class);
+		Assert.assertEquals(1, screenDefintion.getTableDefinitions().size());
+	}
+
+	@Test
+	public void testActions() {
+		ScreenEntityDefinition screenDefintion = assertScreenExists(SignOn.class);
+		// 1 from class, 1 from super class
+		Assert.assertEquals(2, screenDefintion.getActions().size());
+	}
+
+	@Test
+	public void testFieldFromSuperClass() {
+		ScreenEntityDefinition screenDefintion = assertScreenExists(SignOn.class);
+		Assert.assertNotNull(screenDefintion.getFieldsDefinitions().get("error"));
+	}
+
+	private ScreenEntityDefinition assertScreenExists(Class<?> clazz) {
+		ScreenEntityDefinition screenDefintion = screenEntitiesRegistry.get(clazz);
+		Assert.assertNotNull(screenDefintion);
+		return screenDefintion;
+	}
+}

@@ -43,7 +43,7 @@ public class PropertyUtil {
 	}
 
 	public static Object getPropertyDefaultValue(Class<?> clazz, String propertyName) {
-		DirectFieldAccessor fieldAccessor = getFieldAccessor(clazz);
+		DirectFieldAccessor fieldAccessor = getEmptyInstanceFieldAccessor(clazz);
 		if (!fieldAccessor.isReadableProperty(propertyName)) {
 			return null;
 		}
@@ -51,14 +51,14 @@ public class PropertyUtil {
 	}
 
 	public static Object getPropertyValue(Object object, String propertyName) {
-		DirectFieldAccessor fieldAccessor = getFieldAccessor(object.getClass());
+		DirectFieldAccessor fieldAccessor = getEmptyInstanceFieldAccessor(object.getClass());
 		if (!fieldAccessor.isReadableProperty(propertyName)) {
 			return null;
 		}
 		return fieldAccessor.getPropertyValue(propertyName);
 	}
 
-	public static DirectFieldAccessor getFieldAccessor(Class<?> clazz) {
+	private static DirectFieldAccessor getEmptyInstanceFieldAccessor(Class<?> clazz) {
 		Object emptyObject = fieldAccessorsCache.get(clazz);
 		if (emptyObject == null) {
 			try {

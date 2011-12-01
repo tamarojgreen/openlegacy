@@ -11,8 +11,8 @@ import org.openlegacy.terminal.actions.TerminalActions;
 
 @ScreenEntity(supportTerminalData = true, screenType = Login.LoginScreen.class)
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 36, value = "Sign On") })
-@ScreenActions(actions = { @Action(action = TerminalActions.ENTER.class, displayName = "Enter") })
-public class SignOn {
+@ScreenActions(actions = { @Action(action = TerminalActions.ESC.class, displayName = "Escape") })
+public class SignOn extends AbstractScreen {
 
 	@ScreenField(row = 6, column = 53, fieldType = Login.UserField.class, editable = true)
 	private String user;
@@ -22,8 +22,5 @@ public class SignOn {
 
 	@ScreenField(row = 8, column = 53, editable = true)
 	private String programProcedure;
-
-	@ScreenField(row = 24, column = 2, fieldType = Login.ErrorField.class)
-	private String error;
 
 }

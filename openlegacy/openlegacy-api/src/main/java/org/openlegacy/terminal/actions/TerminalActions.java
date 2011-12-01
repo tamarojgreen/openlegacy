@@ -27,6 +27,13 @@ public class TerminalActions {
 		return new ENTER();
 	}
 
+	public static class ESC extends TerminalMappedAction {
+	}
+
+	public static ESC ESC() {
+		return new ESC();
+	}
+
 	public static class F1 extends TerminalMappedAction {
 	}
 

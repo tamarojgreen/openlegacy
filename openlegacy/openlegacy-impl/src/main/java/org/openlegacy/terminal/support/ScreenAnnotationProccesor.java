@@ -44,22 +44,31 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 				BeanDefinition bean = beanFactory.getBeanDefinition(beanName);
 				Class<?> beanClass = Class.forName(bean.getBeanClassName());
 
-				Annotation[] annotations = beanClass.getAnnotations();
-				for (ClassAnnotationsLoader annotationsLoader : annotationLoaders) {
-					for (Annotation annotation : annotations) {
-						if (annotationsLoader.match(annotation)) {
-							if (logger.isDebugEnabled()) {
-								logger.debug(MessageFormat.format("Loading annotation {0} for screen {1} into registry",
-										annotation.annotationType().getSimpleName(), beanClass));
-							}
-							annotationsLoader.load(screenEntitiesRegistry, annotation, beanClass);
-
-						}
-					}
+				Class<?> currentBeanClass = beanClass;
+				while (currentBeanClass != Object.class) {
+					Annotation[] annotations = currentBeanClass.getAnnotations();
+					processAnnotations(annotationLoaders, screenEntitiesRegistry, beanClass, annotations);
+					currentBeanClass = currentBeanClass.getSuperclass();
 				}
 				handleChilds(beanFactory, screenEntitiesRegistry, beanClass);
 			} catch (ClassNotFoundException e) {
 				throw (new BeanCreationException(e.getMessage(), e));
+			}
+		}
+	}
+
+	private static void processAnnotations(List<ClassAnnotationsLoader> annotationLoaders,
+			ScreenEntitiesRegistry screenEntitiesRegistry, Class<?> rootBeanClass, Annotation[] annotations) {
+		for (ClassAnnotationsLoader annotationsLoader : annotationLoaders) {
+			for (Annotation annotation : annotations) {
+				if (annotationsLoader.match(annotation)) {
+					if (logger.isDebugEnabled()) {
+						logger.debug(MessageFormat.format("Loading annotation {0} for screen {1} into registry",
+								annotation.annotationType().getSimpleName(), rootBeanClass));
+					}
+					annotationsLoader.load(screenEntitiesRegistry, annotation, rootBeanClass);
+
+				}
 			}
 		}
 	}
