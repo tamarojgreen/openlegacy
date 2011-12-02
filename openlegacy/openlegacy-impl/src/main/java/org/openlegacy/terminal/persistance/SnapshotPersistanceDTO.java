@@ -5,10 +5,8 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.terminal.support.ScreenPositionBean;
 import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.openlegacy.utils.ReflectionUtil;
-import org.openlegacy.utils.StringUtil;
 
 import java.util.List;
 
@@ -62,17 +60,12 @@ public class SnapshotPersistanceDTO {
 
 			List<TerminalField> fields = terminalRow.getFields();
 			for (TerminalField terminalField : fields) {
-				// don't serialize empty fields
-				if (StringUtil.isEmpty(terminalField.getValue()) && !terminalField.isEditable()) {
-					continue;
-				}
 				TerminalPersistedField persistedField = new TerminalPersistedField();
 				ReflectionUtil.copyProperties(persistedField, terminalField);
 				// avoid persistence of length attribute if it's the same size as the value length
 				if (persistedField.getValue().length() == persistedField.getLength()) {
 					persistedField.resetLength();
 				}
-				persistedField.setScreenPosition(ScreenPositionBean.newInstance(terminalField.getPosition()));
 				persistedRow.getFields().add(persistedField);
 			}
 			if (persistedRow.getFields().size() > 0) {

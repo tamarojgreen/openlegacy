@@ -66,7 +66,7 @@ public class DefaultTerminalSnapshotsSorterTest {
 		// item details 1
 		Assert.assertEquals(2, iterator.next().size());
 		// items list
-		Assert.assertEquals(4, iterator.next().size());
+		Assert.assertEquals(3, iterator.next().size());
 		// main menu
 		Assert.assertEquals(1, iterator.next().size());
 		// sign on

@@ -47,6 +47,8 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 	private final static Log logger = LogFactory.getLog(DefaultLoginModule.class);
 
+	private static final String LOGIN_FAILED = "Login failed";
+
 	public void login(String user, String password) throws LoginException {
 		if (loggedInUser != null) {
 			return;
@@ -97,7 +99,8 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		// throw exception if after login screen is still login
 		if (ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
 			Object value = fieldAccessor.getFieldValue(loginMetadata.getErrorField().getName());
-			throw (new LoginException(value.toString()));
+			String message = value != null ? value.toString() : LOGIN_FAILED;
+			throw (new LoginException(LOGIN_FAILED));
 		} else {
 			loggedInUser = user;
 		}

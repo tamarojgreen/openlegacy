@@ -38,7 +38,10 @@ public class ScreenBinderLogic {
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingDefinitions) {
 
 			TerminalField terminalField = extractTerminalField(terminalSnapshot, fieldMappingDefinition);
-
+			if (terminalField == null) {
+				logger.warn(MessageFormat.format("Field mapping {0} not found on snapshot", fieldMappingDefinition));
+				continue;
+			}
 			String fieldName = fieldMappingDefinition.getName();
 			if (fieldAccessor.isWritable(fieldName)) {
 				String content = fieldFormatter.format(terminalField.getValue());

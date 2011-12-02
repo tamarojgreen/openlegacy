@@ -77,6 +77,10 @@ public class ScreenUtils {
 		return positionTextToString(terminalField.getPosition(), terminalField.getValue());
 	}
 
+	public static String rowToString(TerminalRow terminalRow) {
+		return MessageFormat.format("Row number:{0}, Fields:{1}", terminalRow.getRowNumber(), terminalRow.getFields());
+	}
+
 	public static String positionTextToString(ScreenPosition position, String text) {
 		return MessageFormat.format("{0}:{1}", position, text);
 	}

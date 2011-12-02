@@ -2,21 +2,27 @@ package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.support.ScreenPositionBean;
 import org.openlegacy.terminal.support.ScreenUtils;
+import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TerminalPersistedField implements TerminalField {
 
-	@XmlElement(name = "position", type = ScreenPositionBean.class)
+	@XmlAttribute
+	private int column;
+
+	@XmlTransient
+	private int row;
+
+	@XmlTransient
 	private ScreenPosition screenPosition;
 
 	@XmlAttribute
@@ -31,16 +37,24 @@ public class TerminalPersistedField implements TerminalField {
 	@XmlAttribute
 	private Boolean editable = false;
 
-	public ScreenPosition getScreenPosition() {
-		return screenPosition;
-	}
-
-	public void setScreenPosition(ScreenPosition screenPosition) {
-		this.screenPosition = screenPosition;
-	}
-
 	public ScreenPosition getPosition() {
+		if (screenPosition == null) {
+			screenPosition = SimpleScreenPosition.newInstance(row, column);
+		}
 		return screenPosition;
+	}
+
+	public void setPosition(ScreenPosition position) {
+		row = position.getRow();
+		column = position.getColumn();
+		// reset position
+		screenPosition = null;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+		// reset position
+		screenPosition = null;
 	}
 
 	public String getValue() {

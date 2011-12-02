@@ -4,7 +4,6 @@ import org.aopalliance.intercept.Interceptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.EntityNotFoundException;
-import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ScreenEntity;
@@ -123,7 +122,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			}
 
 			if (logger.isTraceEnabled()) {
-				TerminalSnapshot snapshot = terminalConnection.getSnapshot();
+				TerminalSnapshot snapshot = getSnapshot();
 				logger.trace(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
 						sendAction.getCursorPosition()));
 				logger.trace("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
@@ -135,11 +134,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			notifyModulesAfterSend();
 
 			if (logger.isTraceEnabled()) {
-				try {
-					logger.trace("\n\nScreen after ([ abc ] indicates a input field):\n\n" + terminalConnection.getSnapshot());
-				} catch (SessionEndedException e) {
-					// ignore
-				}
+				logger.trace("\n\nScreen after ([ abc ] indicates a input field):\n\n" + getSnapshot());
 			}
 		}
 

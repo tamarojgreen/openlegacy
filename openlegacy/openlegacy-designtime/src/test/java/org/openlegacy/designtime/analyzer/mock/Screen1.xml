@@ -2,12 +2,8 @@
 <snapshot type="INCOMING">
     <cursor row="6" column="53" />
     <row rowNumber="1">
-        <field value="Field A:" length="9">
-            <position row="1" column="3"/>
-        </field>
-        <field value="AA   " length="10" editable="true">
-            <position row="1" column="13"/>
-        </field>
+        <field value="Field A:" length="9" column="3" />
+        <field value="AA   " length="10" editable="true" column="13" />
     </row>
     <size rows="24" columns="80"/>
 </snapshot>

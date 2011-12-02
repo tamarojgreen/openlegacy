@@ -33,10 +33,11 @@ public class XmlTrailWriterTest extends AbstractTest {
 		trailWriter.write(terminalSession.getModule(Trail.class).getSessionTrail(), baos);
 		String result = new String(baos.toByteArray());
 
-		String userSent = "<field value=\"user\" length=\"10\" modified=\"true\" editable=\"true\">";
-		Assert.assertTrue(result.contains(userSent));
+		String userSent = "<field column=\"53\" value=\"user\" length=\"10\" modified=\"true\" editable=\"true\"/>";
 
 		System.out.println(result);
+
+		Assert.assertTrue(result.contains(userSent));
 
 	}
 }

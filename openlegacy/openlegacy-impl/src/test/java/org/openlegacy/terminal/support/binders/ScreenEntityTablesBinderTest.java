@@ -37,12 +37,12 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 		List<ItemsListRow> rows = terminalSession.getModule(Table.class).collectAll(ItemsList.class, ItemsListRow.class);
 
 		Assert.assertNotNull(rows);
-		Assert.assertEquals(26, rows.size());
+		Assert.assertEquals(14, rows.size());
 		Assert.assertEquals("APPLE", rows.get(0).getAlphaSearch());
 		Assert.assertEquals("Red apple - FRT", rows.get(0).getItemDescription());
 		Assert.assertEquals("1007", rows.get(0).getItemNumber());
 
-		Assert.assertEquals("ONION", rows.get(12).getAlphaSearch());
+		Assert.assertEquals("TOMATO", rows.get(12).getAlphaSearch());
 
 		Assert.assertEquals("WATERMELON", rows.get(rows.size() - 1).getAlphaSearch());
 

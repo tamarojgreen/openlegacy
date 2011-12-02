@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.definitions;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.AbstractFieldDefinition;
 import org.openlegacy.FieldType;
 import org.openlegacy.terminal.ScreenPosition;
@@ -49,5 +50,10 @@ public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<Screen
 
 	public void setSampleValue(String sampleValue) {
 		this.sampleValue = sampleValue;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

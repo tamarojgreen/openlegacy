@@ -2,6 +2,7 @@ package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.support.ScreenUtils;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
@@ -24,10 +25,12 @@ public class TerminalPersistedRow implements TerminalRow {
 	private List<TerminalField> fields = new ArrayList<TerminalField>();
 
 	public List<TerminalField> getFields() {
+		initFieldsRow();
 		return fields;
 	}
 
 	public TerminalField getField(int column) {
+		initFieldsRow();
 		for (TerminalField field : fields) {
 			int startColumn = field.getPosition().getColumn();
 			int endColumn = startColumn + field.getLength() - 1;
@@ -46,8 +49,25 @@ public class TerminalPersistedRow implements TerminalRow {
 		this.rowNumber = rowNumber;
 	}
 
+	/**
+	 * To avoid replication between field row and it's parent row, TerminalPersistentField is not serializing row to XML. This
+	 * function purpose is to fix the row of the field according to it's TerminalRow container
+	 */
+	private void initFieldsRow() {
+		// row was initialize
+		if (fields.size() > 0 && fields.get(0).getPosition().getRow() > 0) {
+			return;
+		}
+		// position row wasn't initialized, set with rowNumber
+		for (TerminalField field : fields) {
+			((TerminalPersistedField)field).setRow(rowNumber);
+		}
+
+	}
+
 	@Override
 	public boolean equals(Object obj) {
+		initFieldsRow();
 		if (!(obj instanceof TerminalRow)) {
 			return false;
 		}
@@ -57,7 +77,13 @@ public class TerminalPersistedRow implements TerminalRow {
 
 	@Override
 	public int hashCode() {
+		initFieldsRow();
 		return TerminalEqualsHashcodeUtil.rowHashCode(this);
 	}
 
+	@Override
+	public String toString() {
+		initFieldsRow();
+		return ScreenUtils.rowToString(this);
+	}
 }

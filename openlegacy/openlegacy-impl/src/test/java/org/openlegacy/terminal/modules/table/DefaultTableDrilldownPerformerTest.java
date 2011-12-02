@@ -19,7 +19,7 @@ public class DefaultTableDrilldownPerformerTest extends AbstractTest {
 	public void testDrilldown() {
 
 		ItemDetails1 itemDetails1 = terminalSession.getModule(Table.class).drillDown(ItemsList.class, ItemDetails1.class,
-				TerminalDrilldownActions.enter("2"), 1054);
+				TerminalDrilldownActions.enter("2"), 1055);
 
 		Assert.assertNotNull(itemDetails1);
 	}
