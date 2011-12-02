@@ -100,7 +100,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		if (ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
 			Object value = fieldAccessor.getFieldValue(loginMetadata.getErrorField().getName());
 			String message = value != null ? value.toString() : LOGIN_FAILED;
-			throw (new LoginException(LOGIN_FAILED));
+			throw (new LoginException(message));
 		} else {
 			loggedInUser = user;
 		}
