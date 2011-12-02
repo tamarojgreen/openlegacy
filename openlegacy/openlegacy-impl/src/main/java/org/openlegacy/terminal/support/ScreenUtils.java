@@ -4,6 +4,7 @@ import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.TerminalSnapshot;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -36,8 +37,8 @@ public class ScreenUtils {
 		}
 	}
 
-	public static TerminalField getField(List<TerminalRow> rows, ScreenPosition position) {
-		TerminalRow row = rows.get(position.getRow() - 1);
+	public static TerminalField getField(TerminalSnapshot snapshot, ScreenPosition position) {
+		TerminalRow row = snapshot.getRow(position.getRow());
 		return row.getField(position.getColumn());
 	}
 

@@ -120,7 +120,7 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 	}
 
 	public TerminalField getField(ScreenPosition position) {
-		return ScreenUtils.getField(getRows(), position);
+		return ScreenUtils.getField(this, position);
 	}
 
 	public Object getDelegate() {

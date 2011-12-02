@@ -21,8 +21,9 @@ public class TerminalPersistedField implements TerminalField {
 
 	@XmlAttribute
 	private String value;
+
 	@XmlAttribute
-	private int length;
+	private Integer length;
 
 	@XmlAttribute
 	private Boolean modified = false;
@@ -51,11 +52,18 @@ public class TerminalPersistedField implements TerminalField {
 	}
 
 	public int getLength() {
+		if (length == null) {
+			return getValue().length();
+		}
 		return length;
 	}
 
 	public void setLength(int length) {
 		this.length = length;
+	}
+
+	public void resetLength() {
+		length = null;
 	}
 
 	public boolean isEditable() {

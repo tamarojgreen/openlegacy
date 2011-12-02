@@ -8,6 +8,7 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.ScreenPositionBean;
 import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.StringUtil;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SnapshotPersistanceDTO {
 		List<TerminalField> fields = sendAction.getModifiedFields();
 		for (TerminalField terminalField : fields) {
 			ScreenPosition fieldPosition = terminalField.getPosition();
-			TerminalPersistedRow row = (TerminalPersistedRow)persistedSnapshot.getRows().get(fieldPosition.getRow() - 1);
+			TerminalPersistedRow row = (TerminalPersistedRow)persistedSnapshot.getRow(fieldPosition.getRow());
 			TerminalPersistedField field = (TerminalPersistedField)row.getField(fieldPosition.getColumn());
 			field.setValue(terminalField.getValue());
 			field.setModified(true);
@@ -50,22 +51,33 @@ public class SnapshotPersistanceDTO {
 		return persistedSnapshot;
 	}
 
-	private static TerminalSnapshot transformCommonSnapshot(TerminalPersistedSnapshot persistedSnapshot, TerminalSnapshot screen) {
+	private static TerminalSnapshot transformCommonSnapshot(TerminalPersistedSnapshot persistedSnapshot, TerminalSnapshot snapshot) {
 
-		List<TerminalRow> rows = screen.getRows();
-		persistedSnapshot.setCursorPosition(screen.getCursorPosition());
+		ReflectionUtil.copyProperties(persistedSnapshot, snapshot);
+
+		List<TerminalRow> rows = snapshot.getRows();
 		for (TerminalRow terminalRow : rows) {
 			TerminalPersistedRow persistedRow = new TerminalPersistedRow();
 			ReflectionUtil.copyProperties(persistedRow, terminalRow);
 
 			List<TerminalField> fields = terminalRow.getFields();
 			for (TerminalField terminalField : fields) {
+				// don't serialize empty fields
+				if (StringUtil.isEmpty(terminalField.getValue()) && !terminalField.isEditable()) {
+					continue;
+				}
 				TerminalPersistedField persistedField = new TerminalPersistedField();
 				ReflectionUtil.copyProperties(persistedField, terminalField);
+				// avoid persistence of length attribute if it's the same size as the value length
+				if (persistedField.getValue().length() == persistedField.getLength()) {
+					persistedField.resetLength();
+				}
 				persistedField.setScreenPosition(ScreenPositionBean.newInstance(terminalField.getPosition()));
 				persistedRow.getFields().add(persistedField);
 			}
-			persistedSnapshot.getRows().add(persistedRow);
+			if (persistedRow.getFields().size() > 0) {
+				persistedSnapshot.getRows().add(persistedRow);
+			}
 		}
 		return persistedSnapshot;
 	}

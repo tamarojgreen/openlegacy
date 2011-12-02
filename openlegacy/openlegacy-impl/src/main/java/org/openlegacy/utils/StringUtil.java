@@ -1,5 +1,7 @@
 package org.openlegacy.utils;
 
+import org.apache.commons.lang.StringUtils;
+
 public class StringUtil {
 
 	public static String ignoreChars(String s, char[] ignoreChars) {
@@ -60,5 +62,9 @@ public class StringUtil {
 
 		}
 		return sb.toString();
+	}
+
+	public static boolean isEmpty(String text) {
+		return StringUtils.isBlank(text);
 	}
 }
