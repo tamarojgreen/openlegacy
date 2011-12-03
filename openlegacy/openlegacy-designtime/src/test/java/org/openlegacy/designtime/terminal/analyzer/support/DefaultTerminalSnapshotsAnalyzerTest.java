@@ -56,7 +56,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		ScreenEntityDefinition screen2 = screenEntitiesDefinitions.get("Screen2");
 		Assert.assertNotNull(screen2);
 		fieldsDefinitions = screen2.getFieldsDefinitions();
-		Assert.assertEquals(6, fieldsDefinitions.size());
+		Assert.assertEquals(9, fieldsDefinitions.size());
 		fieldA = fieldsDefinitions.get("fieldA");
 		Assert.assertNotNull(fieldA);
 

@@ -23,9 +23,17 @@
     	<!-- 2 non editable fields in one row -->
         <field value="Field E1:" column="3" />
         <field value="EE    " column="13" />
-        <!-- 2 fields in one row -->
         <field value="Field E2:" column="35" />
         <field value="EEEE  " column="44"/>
+    </row>
+    <row rowNumber="8">
+    	<!-- 3 non editable fields in one row -->
+        <field value="Field F1:" column="3" />
+        <field value="FF    " column="13" />
+        <field value="Field F2:" column="37" />
+        <field value="  " length="10" column="47"/>
+        <field value="Field F3:" column="50" />
+        <field value="   " length="8" column="60"/>
     </row>
     <row rowNumber="24">
         <field value="F1=Help" column="3" />
