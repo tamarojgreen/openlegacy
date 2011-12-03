@@ -11,8 +11,8 @@ import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.terminal.model.TableColumn;
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -73,6 +73,12 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	}
 
 	public void addField(ScreenEntityDefinition screenEntityDefinition, TerminalField field, String leadingLabel) {
+
+		// if the field was removed from the snapshot (convert to entity field/column) ignore it
+		// drools analyze the fields in advance, and ignore fields removal done during execution
+		if (!screenEntityDefinition.getSnapshot().getFields().contains(field)) {
+			return;
+		}
 
 		String fieldName = StringUtil.toJavaFieldName(leadingLabel);
 		SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(fieldName, null);

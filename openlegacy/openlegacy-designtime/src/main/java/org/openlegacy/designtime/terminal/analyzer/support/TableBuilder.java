@@ -51,6 +51,9 @@ public class TableBuilder {
 
 			// remove the fields from the snapshot to avoid re-recognize by other rules
 			screenEntityDefinition.getSnapshot().getFields().removeAll(tableColumn.getFields());
+			if (headerField != null) {
+				screenEntityDefinition.getSnapshot().getFields().remove(headerField);
+			}
 
 		}
 		TerminalField topLeftTableCell = tableColumns.get(0).getFields().get(0);

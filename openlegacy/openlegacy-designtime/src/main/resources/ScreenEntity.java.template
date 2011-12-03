@@ -17,13 +17,13 @@ import org.openlegacy.annotations.screen.ScreenTable;
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { 
 				<#list screenIdentification.screenIdentifiers as identifier> 
-				@Identifier(row = ${identifier.position.row}, column = ${identifier.position.column}, value = "${identifier.text}") 
+				@Identifier(row = ${identifier.position.row}, column = ${identifier.position.column}, value = "${identifier.text}")<#if identifier_has_next>,</#if> 
 				</#list>	
 				})
 <#if actions?size != 0>
 @ScreenActions(actions = { 
 				<#list actions as action> 
-				@Action(action = TerminalActions.${action.action.simpleName}.class, displayName = "${action.displayName}") 
+				@Action(action = TerminalActions.${action.action.simpleName}.class, displayName = "${action.displayName}")<#if action_has_next>,</#if> 
 				</#list>	
 				})
 </#if>
@@ -34,6 +34,7 @@ public class ${entityName} {
 	<#assign field = fieldsDefinitions[fieldName]>
 	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.editable> ,editable= true</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
     private String ${fieldName};
+
 	</#list>	
     
 	<#assign tableNames = tableDefinitions?keys>
