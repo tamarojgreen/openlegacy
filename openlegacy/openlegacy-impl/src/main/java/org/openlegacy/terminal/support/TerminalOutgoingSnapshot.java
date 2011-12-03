@@ -73,7 +73,7 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 	}
 
 	public TerminalField getField(ScreenPosition position) {
-		return ScreenUtils.getField(terminalSnapshot, position);
+		return SnapshotUtils.getField(terminalSnapshot, position);
 	}
 
 	public Object getDelegate() {

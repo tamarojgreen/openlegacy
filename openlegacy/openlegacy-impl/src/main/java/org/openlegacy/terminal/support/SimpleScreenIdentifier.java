@@ -37,6 +37,6 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, ScreenPositionC
 
 	@Override
 	public String toString() {
-		return ScreenUtils.positionTextToString(position, text);
+		return SnapshotUtils.positionTextToString(position, text);
 	}
 }

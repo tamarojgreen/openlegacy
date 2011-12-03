@@ -9,6 +9,8 @@ public interface TerminalRow {
 
 	List<TerminalField> getFields();
 
+	List<RowPart> getRowParts();
+
 	TerminalField getField(int column);
 
 	int getRowNumber();

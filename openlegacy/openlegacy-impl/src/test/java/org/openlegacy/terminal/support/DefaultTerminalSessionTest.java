@@ -7,10 +7,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.exceptions.SessionEndedException;
+import org.openlegacy.terminal.RowPart;
+import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -52,7 +57,7 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 
 		signOn.setUser("someuser");
 		signOn.setPassword("somepwd");
-		// cursor is expected to be at "user"
+		// cursor is expected to be at "user" at Sign-out.xml
 		signOn.setFocusField("password");
 		try {
 			terminalSession.doAction(TerminalActions.ENTER(), signOn, MainMenu.class);
@@ -78,5 +83,16 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		signOn.setFocusField("no_such_field");
 		terminalSession.doAction(TerminalActions.ENTER(), signOn, MainMenu.class);
+	}
+
+	@Test
+	public void testRowPart() {
+		TerminalSnapshot snapshot = terminalSession.getSnapshot();
+		TerminalRow row = snapshot.getRow(6);
+		List<RowPart> rowParts = row.getRowParts();
+		Assert.assertEquals(3, rowParts.size());
+		Assert.assertEquals("                User  . . . . . . . . . . . . . .  ", rowParts.get(0).getValue());
+		Assert.assertTrue(rowParts.get(1).isEditable());
+		Assert.assertEquals(10, rowParts.get(1).getLength());
 	}
 }

@@ -1,7 +1,9 @@
 package org.openlegacy.providers.applinx;
 
+import org.openlegacy.terminal.RowPart;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
@@ -45,6 +47,10 @@ public class ApxTerminalRow implements TerminalRow {
 	@Override
 	public int hashCode() {
 		return TerminalEqualsHashcodeUtil.rowHashCode(this);
+	}
+
+	public List<RowPart> getRowParts() {
+		return SnapshotUtils.getRowParts(this);
 	}
 
 }

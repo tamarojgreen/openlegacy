@@ -7,7 +7,7 @@ import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.ScreenPositionBean;
 import org.openlegacy.terminal.support.ScreenSizeBean;
-import org.openlegacy.terminal.support.ScreenUtils;
+import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
 import org.openlegacy.terminal.utils.ScreenPainter;
@@ -120,7 +120,7 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 	}
 
 	public TerminalField getField(ScreenPosition position) {
-		return ScreenUtils.getField(this, position);
+		return SnapshotUtils.getField(this, position);
 	}
 
 	public Object getDelegate() {
@@ -135,13 +135,13 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 	private void initContent() {
 		if (screenText == null) {
 			fieldPositions = new ArrayList<ScreenPosition>();
-			screenText = ScreenUtils.initSnapshot(getRows(), getSize(), fieldPositions);
+			screenText = SnapshotUtils.initSnapshot(getRows(), getSize(), fieldPositions);
 		}
 	}
 
 	public String getText(ScreenPosition position, int length) {
 		initContent();
-		return ScreenUtils.getText(screenText, getSize(), position, length);
+		return SnapshotUtils.getText(screenText, getSize(), position, length);
 	}
 
 	public TerminalRow getRow(int rowNumber) {

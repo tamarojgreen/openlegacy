@@ -1,8 +1,9 @@
 package org.openlegacy.terminal.persistance;
 
+import org.openlegacy.terminal.RowPart;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
-import org.openlegacy.terminal.support.ScreenUtils;
+import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType
@@ -23,6 +25,9 @@ public class TerminalPersistedRow implements TerminalRow {
 
 	@XmlElement(name = "field", type = TerminalPersistedField.class)
 	private List<TerminalField> fields = new ArrayList<TerminalField>();
+
+	@XmlTransient
+	private List<RowPart> rowParts;
 
 	public List<TerminalField> getFields() {
 		initFieldsRow();
@@ -84,6 +89,15 @@ public class TerminalPersistedRow implements TerminalRow {
 	@Override
 	public String toString() {
 		initFieldsRow();
-		return ScreenUtils.rowToString(this);
+		return SnapshotUtils.rowToString(this);
+	}
+
+	public List<RowPart> getRowParts() {
+		if (rowParts != null) {
+			return rowParts;
+		}
+
+		rowParts = SnapshotUtils.getRowParts(this);
+		return rowParts;
 	}
 }

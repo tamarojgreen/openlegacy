@@ -1,15 +1,19 @@
 package org.openlegacy.terminal.support;
 
+import org.openlegacy.terminal.RowPart;
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
+import org.openlegacy.terminal.SimpleRowPart;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class ScreenUtils {
+public class SnapshotUtils {
 
 	public static int toAbsolutePosition(ScreenPosition screenPosition, ScreenSize screenSize) {
 		int rowStart = (screenPosition.getRow() - 1) * screenSize.getColumns();
@@ -18,6 +22,10 @@ public class ScreenUtils {
 
 	public static StringBuilder initEmptyBuffer(ScreenSize size) {
 		int capacity = size.getRows() * size.getColumns();
+		return initEmptyBuffer(capacity);
+	}
+
+	public static StringBuilder initEmptyBuffer(int capacity) {
 		StringBuilder buffer = new StringBuilder(capacity);
 		for (int i = 0; i < capacity; i++) {
 			buffer.append(' ');
@@ -26,12 +34,16 @@ public class ScreenUtils {
 	}
 
 	public static void placeContentOnBuffer(StringBuilder buffer, TerminalField terminalField, ScreenSize screenSize) {
-		int beginIndex = ScreenUtils.toAbsolutePosition(terminalField.getPosition(), screenSize);
+		int beginIndex = SnapshotUtils.toAbsolutePosition(terminalField.getPosition(), screenSize);
 
 		String value = terminalField.getValue();
 		if (value.length() == 0) {
 			return;
 		}
+		placeContentOnBuffer(buffer, beginIndex, value);
+	}
+
+	public static void placeContentOnBuffer(StringBuilder buffer, int beginIndex, String value) {
 		for (int i = 0; i < value.length(); i++) {
 			buffer.setCharAt(beginIndex + i, value.charAt(i));
 		}
@@ -52,12 +64,12 @@ public class ScreenUtils {
 	 */
 	public static String initSnapshot(List<TerminalRow> rows, ScreenSize screenSize, List<ScreenPosition> fieldsSeperators) {
 
-		StringBuilder buffer = ScreenUtils.initEmptyBuffer(screenSize);
+		StringBuilder buffer = SnapshotUtils.initEmptyBuffer(screenSize);
 
 		for (TerminalRow terminalRow : rows) {
 			List<TerminalField> rowFields = terminalRow.getFields();
 			for (TerminalField terminalField : rowFields) {
-				ScreenUtils.placeContentOnBuffer(buffer, terminalField, screenSize);
+				SnapshotUtils.placeContentOnBuffer(buffer, terminalField, screenSize);
 
 				ScreenPosition fieldPosition = terminalField.getPosition();
 				fieldsSeperators.add(new SimpleScreenPosition(fieldPosition.getRow(), fieldPosition.getColumn() - 1));
@@ -69,8 +81,30 @@ public class ScreenUtils {
 	}
 
 	public static String getText(String screenText, ScreenSize screenSize, ScreenPosition position, int length) {
-		int beginIndex = ScreenUtils.toAbsolutePosition(position, screenSize);
+		int beginIndex = SnapshotUtils.toAbsolutePosition(position, screenSize);
 		return screenText.substring(beginIndex, beginIndex + length);
+	}
+
+	public static List<RowPart> getRowParts(TerminalRow row) {
+
+		Collection<TerminalField> fields = row.getFields();
+		List<RowPart> rowParts = new ArrayList<RowPart>();
+		SimpleRowPart rowPart = null;
+		for (TerminalField terminalField : fields) {
+			if (rowPart == null) {
+				rowPart = new SimpleRowPart(terminalField);
+			} else {
+				if (terminalField.isEditable() != rowPart.isEditable()) {
+					rowParts.add(rowPart);
+					rowPart = new SimpleRowPart(terminalField);
+				} else {
+					rowPart.appendField(terminalField);
+				}
+			}
+
+		}
+		rowParts.add(rowPart);
+		return rowParts;
 	}
 
 	public static String fieldToString(TerminalField terminalField) {
