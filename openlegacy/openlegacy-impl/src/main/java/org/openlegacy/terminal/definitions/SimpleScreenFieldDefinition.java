@@ -3,30 +3,30 @@ package org.openlegacy.terminal.definitions;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.AbstractFieldDefinition;
 import org.openlegacy.FieldType;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
 
 /**
  * Defines a mapping between a screenEntity java field name and it's screen position and length
  * 
  */
-public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<ScreenFieldDefinition> implements ScreenFieldDefinition {
+public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenFieldDefinition> implements ScreenFieldDefinition {
 
-	private ScreenPosition screenPosition = null;
+	private TerminalPosition position = null;
 	private int length;
 	private boolean editable;
 	private String sampleValue;
 
-	public SimpleFieldMappingDefinition(String name, Class<? extends FieldType> fieldType) {
+	public SimpleScreenFieldDefinition(String name, Class<? extends FieldType> fieldType) {
 		super(name, fieldType);
 	}
 
-	public ScreenPosition getPosition() {
-		return screenPosition;
+	public TerminalPosition getPosition() {
+		return position;
 	}
 
-	public void setPosition(ScreenPosition screenPosition) {
-		this.screenPosition = screenPosition;
+	public void setPosition(TerminalPosition position) {
+		this.position = position;
 	}
 
 	public void setLength(int length) {

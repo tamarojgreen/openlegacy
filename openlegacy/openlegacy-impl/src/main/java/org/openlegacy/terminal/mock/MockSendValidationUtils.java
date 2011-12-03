@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.mock;
 
 import org.apache.commons.lang.StringUtils;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
@@ -24,13 +24,13 @@ public class MockSendValidationUtils {
 
 		validateFieldsMatch(expectedModifiedFields, actualModifiedFields);
 
-		ScreenPosition actualCursorPosition = terminalSendAction.getCursorPosition();
-		ScreenPosition expectedCursorPosition = expectedOutgoingSnapshot.getCursorPosition();
+		TerminalPosition actualCursorPosition = terminalSendAction.getCursorPosition();
+		TerminalPosition expectedCursorPosition = expectedOutgoingSnapshot.getCursorPosition();
 		validateCursorMatch(actualCursorPosition, expectedCursorPosition);
 
 	}
 
-	private static void validateCursorMatch(ScreenPosition actualCursorPosition, ScreenPosition expectedCursorPosition) {
+	private static void validateCursorMatch(TerminalPosition actualCursorPosition, TerminalPosition expectedCursorPosition) {
 		String message = MessageFormat.format("Expected cursor is not matched. Expected {0}, actual:{1}", expectedCursorPosition,
 				actualCursorPosition);
 
@@ -47,9 +47,9 @@ public class MockSendValidationUtils {
 		if (expectedFieldsList.size() != actualFieldsList.size()) {
 			throw (new TerminalActionException("Fields list dont match"));
 		}
-		Map<ScreenPosition, TerminalField> actualFieldsMap = toMap(actualFieldsList);
+		Map<TerminalPosition, TerminalField> actualFieldsMap = toMap(actualFieldsList);
 		for (TerminalField exptectedField : expectedFieldsList) {
-			ScreenPosition expectedPosition = exptectedField.getPosition();
+			TerminalPosition expectedPosition = exptectedField.getPosition();
 			TerminalField actualField = actualFieldsMap.get(expectedPosition);
 			if (actualField == null) {
 				throw (new TerminalActionException(MessageFormat.format(
@@ -63,8 +63,8 @@ public class MockSendValidationUtils {
 		}
 	}
 
-	public static Map<ScreenPosition, TerminalField> toMap(List<TerminalField> fieldsList) {
-		Map<ScreenPosition, TerminalField> fieldsMap = new HashMap<ScreenPosition, TerminalField>();
+	public static Map<TerminalPosition, TerminalField> toMap(List<TerminalField> fieldsList) {
+		Map<TerminalPosition, TerminalField> fieldsMap = new HashMap<TerminalPosition, TerminalField>();
 		for (TerminalField terminalField : fieldsList) {
 			fieldsMap.put(terminalField.getPosition(), terminalField);
 		}

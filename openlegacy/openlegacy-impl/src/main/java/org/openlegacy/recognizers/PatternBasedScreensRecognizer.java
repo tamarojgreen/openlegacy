@@ -2,7 +2,7 @@ package org.openlegacy.recognizers;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -26,7 +26,7 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	private List<ScreenPosition> positions;
+	private List<TerminalPosition> positions;
 
 	private final static Log logger = LogFactory.getLog(PatternBasedScreensRecognizer.class);
 
@@ -36,7 +36,7 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 		if (positions == null) {
 			return null;
 		}
-		for (ScreenPosition position : positions) {
+		for (TerminalPosition position : positions) {
 			TerminalField field = terminalSnapshot.getField(position);
 			String patternFromScreen = StringUtil.ignoreChars(field.getValue(), ignoreChars);
 			if (patternFromScreen.length() > 0) {
@@ -52,7 +52,7 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 		return null;
 	}
 
-	public void setPositions(List<ScreenPosition> positions) {
+	public void setPositions(List<TerminalPosition> positions) {
 		this.positions = positions;
 	}
 

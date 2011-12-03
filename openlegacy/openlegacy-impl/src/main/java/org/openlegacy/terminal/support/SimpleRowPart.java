@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.RowPart;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 
 import java.text.MessageFormat;
@@ -17,7 +17,7 @@ public class SimpleRowPart implements RowPart {
 		fields.add(firstField);
 	}
 
-	public ScreenPosition getPosition() {
+	public TerminalPosition getPosition() {
 		return getFirstField().getPosition();
 	}
 

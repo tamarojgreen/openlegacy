@@ -4,7 +4,7 @@ import com.sabratec.applinx.common.runtime.GXScreenPosition;
 import com.sabratec.applinx.common.runtime.field.GXIField;
 import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
@@ -20,7 +20,7 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 	private final GXRuntimeScreen screen;
 	private ArrayList<TerminalRow> rows;
 	private ArrayList<TerminalField> fields;
-	private ArrayList<ScreenPosition> fieldSeperators;
+	private ArrayList<TerminalPosition> fieldSeperators;
 	private String text;
 
 	public ApxTerminalSnapshot(GXRuntimeScreen screen) {
@@ -35,12 +35,12 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 		return text;
 	}
 
-	public String getText(ScreenPosition position, int length) {
+	public String getText(TerminalPosition position, int length) {
 		int beginIndex = ((position.getRow() - 1) * getSize().getColumns()) + (position.getColumn() - 1);
 		return getText().substring(beginIndex, beginIndex + length);
 	}
 
-	public TerminalField getField(ScreenPosition position) {
+	public TerminalField getField(TerminalPosition position) {
 		GXIField field = screen.getFields().get(new GXScreenPosition(position.getRow(), position.getColumn(), screen.getSize()));
 		return new ApxTerminalField(field);
 	}
@@ -93,14 +93,14 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 		return SnapshotType.INCOMING;
 	}
 
-	public List<ScreenPosition> getFieldSeperators() {
+	public List<TerminalPosition> getFieldSeperators() {
 		if (fieldSeperators != null) {
 			return fieldSeperators;
 		}
 		@SuppressWarnings("unchecked")
 		List<GXScreenPosition> attributes = screen.getAttributePositions();
 
-		fieldSeperators = new ArrayList<ScreenPosition>();
+		fieldSeperators = new ArrayList<TerminalPosition>();
 		for (Object object : attributes) {
 			fieldSeperators.add(ApxPositionUtil.toScreenPosition((GXScreenPosition)object));
 		}
@@ -108,7 +108,7 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 	}
 
-	public ScreenPosition getCursorPosition() {
+	public TerminalPosition getCursorPosition() {
 		return ApxPositionUtil.toScreenPosition(screen.getCursorPosition());
 	}
 

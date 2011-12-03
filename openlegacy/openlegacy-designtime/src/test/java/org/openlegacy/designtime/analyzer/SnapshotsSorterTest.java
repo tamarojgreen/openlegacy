@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsSorter;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -44,7 +44,7 @@ public class SnapshotsSorterTest {
 	}
 
 	private static void findMatch(TerminalSnapshot terminalSnapshot, String string) {
-		terminalSnapshot.getField(SimpleScreenPosition.newInstance(1, 13)).getValue().equals(string);
+		terminalSnapshot.getField(SimpleTerminalPosition.newInstance(1, 13)).getValue().equals(string);
 
 	}
 }

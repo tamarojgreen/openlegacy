@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.utils;
 
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -77,10 +77,10 @@ public class ScreenPainter {
 	}
 
 	private static void drawFieldsSeperators(TerminalSnapshot terminalSnapshot, StringBuilder out) {
-		List<ScreenPosition> attributes = terminalSnapshot.getFieldSeperators();
-		for (ScreenPosition screenPosition : attributes) {
-			if (screenPosition.getColumn() > 0) {
-				int bufferLocation = calculatePositionOnPainter(screenPosition, terminalSnapshot.getSize());
+		List<TerminalPosition> attributes = terminalSnapshot.getFieldSeperators();
+		for (TerminalPosition position : attributes) {
+			if (position.getColumn() > 0) {
+				int bufferLocation = calculatePositionOnPainter(position, terminalSnapshot.getSize());
 				out.setCharAt(bufferLocation, '^');
 			}
 		}
@@ -127,10 +127,10 @@ public class ScreenPainter {
 		}
 	}
 
-	private static int calculatePositionOnPainter(ScreenPosition screenPosition, ScreenSize screenSize) {
+	private static int calculatePositionOnPainter(TerminalPosition position, ScreenSize screenSize) {
 		int fieldStartBufferLocation = (screenSize.getColumns() + 6) // 6- line numbers + | + NL
 				// -1 - 0 base, +3 - header
-				* (screenPosition.getRow() - 1 + 3) + screenPosition.getColumn() - 1;
+				* (position.getRow() - 1 + 3) + position.getColumn() - 1;
 		return fieldStartBufferLocation;
 	}
 

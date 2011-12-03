@@ -5,9 +5,9 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
-import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
@@ -28,10 +28,10 @@ public class ScreenFieldAnnotationLoader implements FieldAnnotationsLoader {
 
 		ScreenField fieldAnnotation = (ScreenField)annotation;
 
-		SimpleScreenPosition screenPosition = SimpleScreenPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
-		SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(fieldName,
+		SimpleTerminalPosition position = SimpleTerminalPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
+		SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(fieldName,
 				fieldAnnotation.fieldType());
-		fieldMappingDefinition.setPosition(screenPosition);
+		fieldMappingDefinition.setPosition(position);
 		fieldMappingDefinition.setLength(fieldAnnotation.length());
 		fieldMappingDefinition.setEditable(fieldAnnotation.editable());
 

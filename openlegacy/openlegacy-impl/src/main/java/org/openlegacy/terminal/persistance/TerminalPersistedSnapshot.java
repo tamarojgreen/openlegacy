@@ -1,13 +1,13 @@
 package org.openlegacy.terminal.persistance;
 
-import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.support.AbstractSnapshot;
-import org.openlegacy.terminal.support.ScreenPositionBean;
 import org.openlegacy.terminal.support.ScreenSizeBean;
 import org.openlegacy.terminal.support.SnapshotUtils;
+import org.openlegacy.terminal.support.TerminalPositionBean;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
 
@@ -37,14 +37,14 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 	@XmlElement(name = "size", type = ScreenSizeBean.class)
 	private ScreenSize size;
 
-	@XmlElement(name = "cursor", type = ScreenPositionBean.class)
-	private ScreenPosition cursorPosition;
+	@XmlElement(name = "cursor", type = TerminalPositionBean.class)
+	private TerminalPosition cursorPosition;
 
 	@XmlTransient
 	private String screenText;
 
 	@XmlTransient
-	private ArrayList<ScreenPosition> fieldPositions;
+	private ArrayList<TerminalPosition> fieldPositions;
 
 	@XmlTransient
 	private List<TerminalField> fields;
@@ -72,22 +72,22 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 		this.size = tempSize;
 	}
 
-	public List<ScreenPosition> getFieldSeperators() {
+	public List<TerminalPosition> getFieldSeperators() {
 		initContent();
 		return fieldPositions;
 	}
 
-	public ScreenPosition getCursorPosition() {
+	public TerminalPosition getCursorPosition() {
 		return cursorPosition;
 	}
 
-	public void setCursorPosition(ScreenPosition cursorPosition) {
+	public void setCursorPosition(TerminalPosition cursorPosition) {
 		if (cursorPosition == null) {
 			return;
 		}
 
-		// use an XML serialization ScreenPosition
-		ScreenPositionBean newCursorPosition = new ScreenPositionBean();
+		// use an XML serialization position
+		TerminalPositionBean newCursorPosition = new TerminalPositionBean();
 		newCursorPosition.setRow(cursorPosition.getRow());
 		newCursorPosition.setColumn(cursorPosition.getColumn());
 		this.cursorPosition = newCursorPosition;
@@ -100,7 +100,7 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 		return fields;
 	}
 
-	public TerminalField getField(ScreenPosition position) {
+	public TerminalField getField(TerminalPosition position) {
 		return SnapshotUtils.getField(this, position);
 	}
 
@@ -115,12 +115,12 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 
 	private void initContent() {
 		if (screenText == null) {
-			fieldPositions = new ArrayList<ScreenPosition>();
+			fieldPositions = new ArrayList<TerminalPosition>();
 			screenText = SnapshotUtils.initSnapshot(getRows(), getSize(), fieldPositions);
 		}
 	}
 
-	public String getText(ScreenPosition position, int length) {
+	public String getText(TerminalPosition position, int length) {
 		initContent();
 		return SnapshotUtils.getText(screenText, getSize(), position, length);
 	}

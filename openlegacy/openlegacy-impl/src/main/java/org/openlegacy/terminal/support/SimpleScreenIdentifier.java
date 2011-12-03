@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.ScreenPositionContainer;
+import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenIdentifier;
 
@@ -9,12 +9,12 @@ import org.openlegacy.terminal.spi.ScreenIdentifier;
  * A simple implementation for a screen identifier
  * 
  */
-public class SimpleScreenIdentifier implements ScreenIdentifier, ScreenPositionContainer {
+public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositionContainer {
 
-	private ScreenPosition position;
+	private TerminalPosition position;
 	private String text;
 
-	public SimpleScreenIdentifier(ScreenPosition position, String text) {
+	public SimpleScreenIdentifier(TerminalPosition position, String text) {
 		this.position = position;
 		this.text = text;
 	}
@@ -27,7 +27,7 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, ScreenPositionC
 		return false;
 	}
 
-	public ScreenPosition getPosition() {
+	public TerminalPosition getPosition() {
 		return position;
 	}
 

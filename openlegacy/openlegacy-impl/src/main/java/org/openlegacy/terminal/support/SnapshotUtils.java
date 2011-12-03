@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.RowPart;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
@@ -14,9 +14,9 @@ import java.util.List;
 
 public class SnapshotUtils {
 
-	public static int toAbsolutePosition(ScreenPosition screenPosition, ScreenSize screenSize) {
-		int rowStart = (screenPosition.getRow() - 1) * screenSize.getColumns();
-		return rowStart + screenPosition.getColumn() - 1;
+	public static int toAbsolutePosition(TerminalPosition position, ScreenSize screenSize) {
+		int rowStart = (position.getRow() - 1) * screenSize.getColumns();
+		return rowStart + position.getColumn() - 1;
 	}
 
 	public static StringBuilder initEmptyBuffer(ScreenSize size) {
@@ -48,7 +48,7 @@ public class SnapshotUtils {
 		}
 	}
 
-	public static TerminalField getField(TerminalSnapshot snapshot, ScreenPosition position) {
+	public static TerminalField getField(TerminalSnapshot snapshot, TerminalPosition position) {
 		TerminalRow row = snapshot.getRow(position.getRow());
 		return row.getField(position.getColumn());
 	}
@@ -61,7 +61,7 @@ public class SnapshotUtils {
 	 * @param fieldsSeperators
 	 * @return
 	 */
-	public static String initSnapshot(List<TerminalRow> rows, ScreenSize screenSize, List<ScreenPosition> fieldsSeperators) {
+	public static String initSnapshot(List<TerminalRow> rows, ScreenSize screenSize, List<TerminalPosition> fieldsSeperators) {
 
 		StringBuilder buffer = SnapshotUtils.initEmptyBuffer(screenSize);
 
@@ -70,8 +70,8 @@ public class SnapshotUtils {
 			for (TerminalField terminalField : rowFields) {
 				SnapshotUtils.placeContentOnBuffer(buffer, terminalField, screenSize);
 
-				ScreenPosition fieldPosition = terminalField.getPosition();
-				fieldsSeperators.add(new SimpleScreenPosition(fieldPosition.getRow(), fieldPosition.getColumn() - 1));
+				TerminalPosition fieldPosition = terminalField.getPosition();
+				fieldsSeperators.add(new SimpleTerminalPosition(fieldPosition.getRow(), fieldPosition.getColumn() - 1));
 			}
 		}
 		String screenText = buffer.toString();
@@ -79,7 +79,7 @@ public class SnapshotUtils {
 		return screenText;
 	}
 
-	public static String getText(String screenText, ScreenSize screenSize, ScreenPosition position, int length) {
+	public static String getText(String screenText, ScreenSize screenSize, TerminalPosition position, int length) {
 		int beginIndex = SnapshotUtils.toAbsolutePosition(position, screenSize);
 		return screenText.substring(beginIndex, beginIndex + length);
 	}
@@ -114,11 +114,11 @@ public class SnapshotUtils {
 		return MessageFormat.format("Row number:{0}, Fields:{1}", terminalRow.getRowNumber(), terminalRow.getFields());
 	}
 
-	public static String positionTextToString(ScreenPosition position, String text) {
+	public static String positionTextToString(TerminalPosition position, String text) {
 		return MessageFormat.format("{0}:{1}", position, text);
 	}
 
-	public static int comparePositions(ScreenPosition position1, ScreenPosition position2) {
+	public static int comparePositions(TerminalPosition position1, TerminalPosition position2) {
 		if (position1 == null || position2 == null) {
 			return 0;
 		}

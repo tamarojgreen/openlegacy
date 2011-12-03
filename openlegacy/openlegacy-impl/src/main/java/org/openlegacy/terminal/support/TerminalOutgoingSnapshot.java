@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
@@ -48,11 +48,11 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 		return terminalSnapshot.getFields();
 	}
 
-	public List<ScreenPosition> getFieldSeperators() {
+	public List<TerminalPosition> getFieldSeperators() {
 		return terminalSnapshot.getFieldSeperators();
 	}
 
-	public ScreenPosition getCursorPosition() {
+	public TerminalPosition getCursorPosition() {
 		if (terminalSendAction.getCursorPosition() != null) {
 			return terminalSendAction.getCursorPosition();
 		}
@@ -72,7 +72,7 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
 	}
 
-	public TerminalField getField(ScreenPosition position) {
+	public TerminalField getField(TerminalPosition position) {
 		return SnapshotUtils.getField(terminalSnapshot, position);
 	}
 
@@ -84,7 +84,7 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 		return terminalSnapshot.getText();
 	}
 
-	public String getText(ScreenPosition position, int length) {
+	public String getText(TerminalPosition position, int length) {
 		return terminalSnapshot.getText(position, length);
 	}
 

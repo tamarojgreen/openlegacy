@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
@@ -11,7 +11,7 @@ public class SimpleTerminalSendAction implements TerminalSendAction {
 
 	private List<TerminalField> modifiedFields = new ArrayList<TerminalField>();
 	private Object command;
-	private ScreenPosition cursorPosition;
+	private TerminalPosition cursorPosition;
 
 	public SimpleTerminalSendAction(Object command) {
 		this.command = command;
@@ -25,11 +25,11 @@ public class SimpleTerminalSendAction implements TerminalSendAction {
 		return command;
 	}
 
-	public ScreenPosition getCursorPosition() {
+	public TerminalPosition getCursorPosition() {
 		return cursorPosition;
 	}
 
-	public void setCursorPosition(ScreenPosition cursorPosition) {
+	public void setCursorPosition(TerminalPosition cursorPosition) {
 		this.cursorPosition = cursorPosition;
 	}
 }

@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.spi;
 
 import org.openlegacy.SendAction;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface TerminalSendAction extends SendAction {
 
 	Object getCommand();
 
-	ScreenPosition getCursorPosition();
+	TerminalPosition getCursorPosition();
 
-	void setCursorPosition(ScreenPosition fieldPosition);
+	void setCursorPosition(TerminalPosition fieldPosition);
 }

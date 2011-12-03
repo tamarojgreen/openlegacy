@@ -6,10 +6,10 @@ import com.sabratec.applinx.baseobject.GXIScreen;
 
 import org.openlegacy.FieldType;
 import org.openlegacy.exceptions.OpenLegacyException;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 
@@ -42,8 +42,8 @@ public class ApxRuntimeFieldMappingsProvider implements ScreenFieldsDefinitionPr
 		for (int i = 0; i < apxApplicationFields.getFieldCount(); i++) {
 			GXIField apxField = apxApplicationFields.getFieldAt(i);
 
-			ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(apxField.getPosition());
-			SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(apxField.getName(),
+			TerminalPosition screenPosition = ApxPositionUtil.toScreenPosition(apxField.getPosition());
+			SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(apxField.getName(),
 					FieldType.General.class);
 			fieldMappingDefinition.setLength(apxField.getLength());
 			fieldMappingDefinition.setPosition(screenPosition);

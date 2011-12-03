@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.persistance;
 
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
-import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -21,7 +21,7 @@ public class TerminalPersistedField extends AbstractTerminalField {
 	private int row;
 
 	@XmlTransient
-	private ScreenPosition screenPosition;
+	private TerminalPosition position;
 
 	@XmlAttribute
 	private String value;
@@ -35,24 +35,24 @@ public class TerminalPersistedField extends AbstractTerminalField {
 	@XmlAttribute
 	private Boolean editable = false;
 
-	public ScreenPosition getPosition() {
-		if (screenPosition == null) {
-			screenPosition = SimpleScreenPosition.newInstance(row, column);
+	public TerminalPosition getPosition() {
+		if (position == null) {
+			position = SimpleTerminalPosition.newInstance(row, column);
 		}
-		return screenPosition;
+		return position;
 	}
 
-	public void setPosition(ScreenPosition position) {
+	public void setPosition(TerminalPosition position) {
 		row = position.getRow();
 		column = position.getColumn();
 		// reset position
-		screenPosition = null;
+		this.position = null;
 	}
 
 	public void setRow(int row) {
 		this.row = row;
 		// reset position
-		screenPosition = null;
+		position = null;
 	}
 
 	public String getValue() {

@@ -2,20 +2,20 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 
 import java.text.MessageFormat;
 
 /**
- * A simple definition for screen position model with row & column properties
+ * A simple definition for position model with row & column properties
  * 
  */
-public class SimpleScreenPosition implements ScreenPosition {
+public class SimpleTerminalPosition implements TerminalPosition {
 
 	private int row = 1;
 	private int column = 1;
 
-	public SimpleScreenPosition(int row, int column) {
+	public SimpleTerminalPosition(int row, int column) {
 		this.row = row;
 		this.column = column;
 	}
@@ -28,8 +28,8 @@ public class SimpleScreenPosition implements ScreenPosition {
 		return column;
 	}
 
-	public static SimpleScreenPosition newInstance(int row, int column) {
-		return new SimpleScreenPosition(row, column);
+	public static SimpleTerminalPosition newInstance(int row, int column) {
+		return new SimpleTerminalPosition(row, column);
 	}
 
 	protected void setRow(int row) {
@@ -52,16 +52,16 @@ public class SimpleScreenPosition implements ScreenPosition {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof ScreenPosition)) {
+		if (!(obj instanceof TerminalPosition)) {
 			return false;
 		}
-		ScreenPosition otherPosition = (ScreenPosition)obj;
+		TerminalPosition otherPosition = (TerminalPosition)obj;
 		boolean equals = new EqualsBuilder().append(getRow(), otherPosition.getRow()).append(getColumn(),
 				otherPosition.getColumn()).isEquals();
 		return equals;
 	}
 
-	public int compareTo(ScreenPosition o) {
+	public int compareTo(TerminalPosition o) {
 		return SnapshotUtils.comparePositions(this, o);
 	}
 }

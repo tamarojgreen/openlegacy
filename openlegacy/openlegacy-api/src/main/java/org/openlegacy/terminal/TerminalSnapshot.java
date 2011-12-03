@@ -15,7 +15,7 @@ public interface TerminalSnapshot extends Snapshot {
 		OUTGOING
 	}
 
-	ScreenPosition getCursorPosition();
+	TerminalPosition getCursorPosition();
 
 	ScreenSize getSize();
 
@@ -31,13 +31,13 @@ public interface TerminalSnapshot extends Snapshot {
 
 	SnapshotType getSnapshotType();
 
-	List<ScreenPosition> getFieldSeperators();
+	List<TerminalPosition> getFieldSeperators();
 
-	TerminalField getField(ScreenPosition position);
+	TerminalField getField(TerminalPosition position);
 
 	String getText();
 
-	String getText(ScreenPosition position, int length);
+	String getText(TerminalPosition position, int length);
 
 	Object getDelegate();
 

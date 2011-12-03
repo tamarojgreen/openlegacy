@@ -5,12 +5,12 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
-import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -38,7 +38,7 @@ public class SimpleScreenIdentifiersAnnotationLoader extends AbstractClassAnnota
 		if (identifiers.length > 0) {
 			ScreenIdentification screenIdentification = screenEntityDefinition.getScreenIdentification();
 			for (Identifier identifier : identifiers) {
-				ScreenPosition position = SimpleScreenPosition.newInstance(identifier.row(), identifier.column());
+				TerminalPosition position = SimpleTerminalPosition.newInstance(identifier.row(), identifier.column());
 				String text = identifier.value();
 				SimpleScreenIdentifier simpleIdentifier = new SimpleScreenIdentifier(position, text);
 				screenIdentification.addIdentifier(simpleIdentifier);

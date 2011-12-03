@@ -6,7 +6,7 @@ import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.FieldComparator;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
@@ -49,7 +49,7 @@ public class ScreenBinderLogic {
 
 				fieldAccessor.setTerminalField(fieldName, terminalField);
 			}
-			ScreenPosition cursorPosition = terminalSnapshot.getCursorPosition();
+			TerminalPosition cursorPosition = terminalSnapshot.getCursorPosition();
 			if (cursorPosition != null && cursorPosition.equals(fieldMappingDefinition.getPosition())) {
 				fieldAccessor.setFocusField(fieldMappingDefinition.getName());
 			}
@@ -65,7 +65,7 @@ public class ScreenBinderLogic {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 
-			ScreenPosition fieldPosition = fieldMappingDefinition.getPosition();
+			TerminalPosition fieldPosition = fieldMappingDefinition.getPosition();
 			String fieldName = fieldMappingDefinition.getName();
 			Object value = fieldAccessor.getFieldValue(fieldName);
 

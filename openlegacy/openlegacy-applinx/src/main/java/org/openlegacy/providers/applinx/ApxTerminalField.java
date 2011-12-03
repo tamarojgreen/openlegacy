@@ -2,14 +2,14 @@ package org.openlegacy.providers.applinx;
 
 import com.sabratec.applinx.common.runtime.field.GXIField;
 
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
-import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 
 public class ApxTerminalField extends AbstractTerminalField {
 
 	private final GXIField apxField;
-	private ScreenPosition position;
+	private TerminalPosition position;
 	private String modifiedValue;
 
 	public ApxTerminalField(GXIField field) {
@@ -27,9 +27,9 @@ public class ApxTerminalField extends AbstractTerminalField {
 		return !apxField.isProtected();
 	}
 
-	public ScreenPosition getPosition() {
+	public TerminalPosition getPosition() {
 		if (position == null) {
-			position = SimpleScreenPosition.newInstance(apxField.getPosition().getRow(), apxField.getPosition().getColumn());
+			position = SimpleTerminalPosition.newInstance(apxField.getPosition().getRow(), apxField.getPosition().getColumn());
 		}
 		return position;
 	}

@@ -6,7 +6,7 @@ package org.openlegacy.terminal;
  */
 public interface TerminalField {
 
-	ScreenPosition getPosition();
+	TerminalPosition getPosition();
 
 	String getValue();
 

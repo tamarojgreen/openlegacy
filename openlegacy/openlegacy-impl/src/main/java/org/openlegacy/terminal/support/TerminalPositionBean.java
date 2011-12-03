@@ -2,7 +2,7 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 
 import java.text.MessageFormat;
 
@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ScreenPositionBean implements ScreenPosition {
+public class TerminalPositionBean implements TerminalPosition {
 
 	@XmlAttribute
 	private int row = 1;
@@ -41,11 +41,11 @@ public class ScreenPositionBean implements ScreenPosition {
 		this.column = column;
 	}
 
-	public static ScreenPositionBean newInstance(ScreenPosition position) {
-		ScreenPositionBean screenPosition = new ScreenPositionBean();
-		screenPosition.setRow(position.getRow());
-		screenPosition.setColumn(position.getColumn());
-		return screenPosition;
+	public static TerminalPositionBean newInstance(TerminalPosition position) {
+		TerminalPositionBean newPosition = new TerminalPositionBean();
+		newPosition.setRow(position.getRow());
+		newPosition.setColumn(position.getColumn());
+		return newPosition;
 
 	}
 
@@ -61,14 +61,14 @@ public class ScreenPositionBean implements ScreenPosition {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof ScreenPosition)) {
+		if (!(obj instanceof TerminalPosition)) {
 			return false;
 		}
-		ScreenPosition otherPosition = (ScreenPosition)obj;
+		TerminalPosition otherPosition = (TerminalPosition)obj;
 		return new EqualsBuilder().append(getRow(), otherPosition.getRow()).append(getColumn(), otherPosition.getColumn()).isEquals();
 	}
 
-	public int compareTo(ScreenPosition o) {
+	public int compareTo(TerminalPosition o) {
 		return SnapshotUtils.comparePositions(this, o);
 	}
 }

@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.persistance;
 
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -40,7 +40,7 @@ public class SnapshotPersistanceDTO {
 		TerminalSendAction sendAction = snapshot.getTerminalSendAction();
 		List<TerminalField> fields = sendAction.getModifiedFields();
 		for (TerminalField terminalField : fields) {
-			ScreenPosition fieldPosition = terminalField.getPosition();
+			TerminalPosition fieldPosition = terminalField.getPosition();
 			TerminalPersistedRow row = (TerminalPersistedRow)persistedSnapshot.getRow(fieldPosition.getRow());
 			TerminalPersistedField field = (TerminalPersistedField)row.getField(fieldPosition.getColumn());
 			field.setValue(terminalField.getValue());

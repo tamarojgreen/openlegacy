@@ -27,7 +27,7 @@
 				<bean class="org.openlegacy.recognizers.PatternBasedScreensRecognizer">
 					<property name="positions">
 						<list>
-							<bean class="org.openlegacy.terminal.support.ScreenPositionBean"
+							<bean class="org.openlegacy.terminal.support.TerminalPositionBean"
 								p:row="1" p:column="36" />
 						</list>
 					</property>

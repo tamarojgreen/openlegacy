@@ -12,7 +12,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
-import org.openlegacy.terminal.support.SimpleScreenPosition;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -51,7 +51,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertNotNull(fieldA);
 		Assert.assertTrue(fieldA.isEditable());
 		Assert.assertEquals("Field A", fieldA.getDisplayName());
-		Assert.assertEquals(SimpleScreenPosition.newInstance(4, 13), fieldA.getPosition());
+		Assert.assertEquals(SimpleTerminalPosition.newInstance(4, 13), fieldA.getPosition());
 
 		ScreenEntityDefinition screen2 = screenEntitiesDefinitions.get("Screen2");
 		Assert.assertNotNull(screen2);

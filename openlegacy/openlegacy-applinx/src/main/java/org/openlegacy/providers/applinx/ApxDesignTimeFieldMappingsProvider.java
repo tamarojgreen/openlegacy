@@ -11,10 +11,10 @@ import com.sabratec.applinx.common.designtime.model.entity.type.GXSingleScreenTy
 
 import org.openlegacy.FieldType;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 
@@ -48,8 +48,8 @@ public class ApxDesignTimeFieldMappingsProvider implements ScreenFieldsDefinitio
 			for (GXAbstractFieldMapping apxFieldMapping : apxFieldMappings) {
 				if (apxFieldMapping.getArea() instanceof GXScreenAreaPosition) {
 					GXScreenAreaPosition positionArea = (GXScreenAreaPosition)apxFieldMapping.getArea();
-					ScreenPosition screenPosition = ApxPositionUtil.toScreenPosition(positionArea.getStartPosition());
-					SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(
+					TerminalPosition screenPosition = ApxPositionUtil.toScreenPosition(positionArea.getStartPosition());
+					SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(
 							apxFieldMapping.getField().getName(), FieldType.General.class);
 
 					fieldMappingDefinition.setPosition(screenPosition);

@@ -11,7 +11,7 @@ import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 import com.sabratec.util.GXPosition;
 
 import org.openlegacy.exceptions.OpenLegacyProviderException;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -55,7 +55,7 @@ public class ApxTerminalConnection implements TerminalConnection {
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
 
 		List<TerminalField> fields = terminalSendAction.getModifiedFields();
-		ScreenPosition cursorPosition = terminalSendAction.getCursorPosition();
+		TerminalPosition cursorPosition = terminalSendAction.getCursorPosition();
 
 		GXSendKeysRequest sendKeyRequest = buildRequest(fields, terminalSendAction.getCommand());
 		GXIClientBaseObject baseObject = (GXIClientBaseObject)getDelegate();

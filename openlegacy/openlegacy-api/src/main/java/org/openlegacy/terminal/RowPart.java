@@ -2,7 +2,7 @@ package org.openlegacy.terminal;
 
 public interface RowPart {
 
-	ScreenPosition getPosition();
+	TerminalPosition getPosition();
 
 	String getValue();
 

@@ -11,12 +11,12 @@ import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.terminal.model.TableColumn;
-import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.definitions.SimpleFieldMappingDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.spi.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
@@ -53,7 +53,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
 		screenIdentifiers.add(identifier);
 
-		Collections.sort(screenIdentifiers, ScreenPositionContainerComparator.instance());
+		Collections.sort(screenIdentifiers, TerminalPositionContainerComparator.instance());
 
 		logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen {2}", field.getValue(),
 				field.getPosition(), screenEntityDefinition.getEntityName()));
@@ -75,7 +75,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	public void addField(ScreenEntityDefinition screenEntityDefinition, TerminalField field, String leadingLabel) {
 
 		String fieldName = StringUtil.toJavaFieldName(leadingLabel);
-		SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(fieldName, null);
+		SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(fieldName, null);
 		fieldMappingDefinition.setPosition(field.getPosition());
 		fieldMappingDefinition.setLength(field.getLength());
 		fieldMappingDefinition.setEditable(field.isEditable());
@@ -101,7 +101,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	}
 
 	@SuppressWarnings("unchecked")
-	public void addAction(ScreenEntityDesigntimeDefinition screenEntityDefinition, String text, ScreenPosition position,
+	public void addAction(ScreenEntityDesigntimeDefinition screenEntityDefinition, String text, TerminalPosition position,
 			String regex) {
 
 		Pattern pattern = Pattern.compile(regex);
@@ -129,7 +129,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 		actions.add(actionDefinition);
 
-		Collections.sort(actions, ScreenPositionContainerComparator.instance());
+		Collections.sort(actions, TerminalPositionContainerComparator.instance());
 		logger.info(MessageFormat.format("Added action {0}:{1} to screen entity {2}", actionDefinition.getAction().getName(),
 				actionDefinition.getDisplayName(), screenEntityDefinition.getEntityName()));
 	}
