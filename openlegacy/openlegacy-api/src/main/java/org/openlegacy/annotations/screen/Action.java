@@ -21,4 +21,14 @@ public @interface Action {
 	Class<? extends TerminalAction> action();
 
 	String displayName();
+
+	/**
+	 * Not mandatory
+	 */
+	int row() default 0;
+
+	/**
+	 * Not mandatory
+	 */
+	int column() default 0;
 }

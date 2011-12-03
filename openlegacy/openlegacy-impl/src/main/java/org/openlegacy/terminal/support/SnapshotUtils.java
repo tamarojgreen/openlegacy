@@ -118,4 +118,14 @@ public class SnapshotUtils {
 		return MessageFormat.format("{0}:{1}", position, text);
 	}
 
+	public static int comparePositions(ScreenPosition position1, ScreenPosition position2) {
+		if (position1 == null || position2 == null) {
+			return 0;
+		}
+
+		if (position1.getRow() != position2.getRow()) {
+			return position1.getRow() - position2.getRow();
+		}
+		return position1.getColumn() - position2.getColumn();
+	}
 }

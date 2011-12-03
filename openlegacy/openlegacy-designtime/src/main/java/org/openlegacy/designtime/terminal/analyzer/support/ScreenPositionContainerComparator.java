@@ -2,6 +2,7 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 
 import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenPositionContainer;
+import org.openlegacy.terminal.support.SnapshotUtils;
 
 import java.util.Comparator;
 
@@ -17,10 +18,7 @@ public class ScreenPositionContainerComparator implements Comparator<ScreenPosit
 		ScreenPosition position1 = o1.getPosition();
 		ScreenPosition position2 = o2.getPosition();
 
-		if (position1.getRow() != position2.getRow()) {
-			return position1.getRow() - position2.getRow();
-		}
-		return position1.getColumn() - position2.getColumn();
+		return SnapshotUtils.comparePositions(position1, position2);
 	}
 
 }

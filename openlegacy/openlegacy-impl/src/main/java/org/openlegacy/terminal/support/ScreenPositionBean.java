@@ -67,4 +67,8 @@ public class ScreenPositionBean implements ScreenPosition {
 		ScreenPosition otherPosition = (ScreenPosition)obj;
 		return new EqualsBuilder().append(getRow(), otherPosition.getRow()).append(getColumn(), otherPosition.getColumn()).isEquals();
 	}
+
+	public int compareTo(ScreenPosition o) {
+		return SnapshotUtils.comparePositions(this, o);
+	}
 }

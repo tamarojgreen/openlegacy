@@ -5,8 +5,8 @@ import org.openlegacy.exceptions.RegistryException;
 
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public abstract class SimpleEntityDefinition<F extends FieldDefinition> implements EntityDefinition<F> {
 
@@ -16,7 +16,7 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 	private Class<? extends EntityType> entityType;
 
 	// LinkedHashMap preserve insert order
-	private final Map<String, F> fieldDefinitions = new LinkedHashMap<String, F>();
+	private final Map<String, F> fieldDefinitions = new TreeMap<String, F>();
 	private String displayName;
 
 	public SimpleEntityDefinition(String entityName, Class<?> screenEntityClass) {

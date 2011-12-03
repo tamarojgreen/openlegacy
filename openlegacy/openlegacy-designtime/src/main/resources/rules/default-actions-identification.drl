@@ -16,5 +16,5 @@ when
 	$field: TerminalField(position.row >= $actionsStartRow,position.row <= $actionsEndRow,value matches $actionsRegex) from $snapshot.getFields()
 	
 then
-	screenEntityDefinitionsBuilder.addAction($screenEntityDefinition,$field.getValue(),$actionsRegex);
+	screenEntityDefinitionsBuilder.addAction($screenEntityDefinition,$field.getValue(),$field.getPosition(), $actionsRegex);
 end

@@ -8,7 +8,9 @@ import org.openlegacy.SessionAction;
 import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
+import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -36,7 +38,11 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 			for (Action action : actions) {
 				@SuppressWarnings("unchecked")
 				Class<? extends SessionAction<Session>> theAction = (Class<? extends SessionAction<Session>>)action.action();
-				SimpleActionDefinition actionDefinition = new SimpleActionDefinition(theAction, action.displayName());
+				ScreenPosition position = null;
+				if (action.row() > 0 && action.column() > 0) {
+					position = new SimpleScreenPosition(action.row(), action.column());
+				}
+				SimpleActionDefinition actionDefinition = new SimpleActionDefinition(theAction, position, action.displayName());
 
 				screenEntityDefinition.getActions().add(actionDefinition);
 				if (logger.isDebugEnabled()) {

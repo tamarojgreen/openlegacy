@@ -4,6 +4,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.AbstractFieldDefinition;
 import org.openlegacy.FieldType;
 import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.support.SnapshotUtils;
 
 /**
  * Defines a mapping between a screenEntity java field name and it's screen position and length
@@ -55,5 +56,9 @@ public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<Screen
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public int compareTo(ScreenFieldDefinition o) {
+		return SnapshotUtils.comparePositions(this.getPosition(), o.getPosition());
 	}
 }

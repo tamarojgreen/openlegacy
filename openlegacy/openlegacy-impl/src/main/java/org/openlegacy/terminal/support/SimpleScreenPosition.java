@@ -60,4 +60,8 @@ public class SimpleScreenPosition implements ScreenPosition {
 				otherPosition.getColumn()).isEquals();
 		return equals;
 	}
+
+	public int compareTo(ScreenPosition o) {
+		return SnapshotUtils.comparePositions(this, o);
+	}
 }

@@ -11,6 +11,7 @@ import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.terminal.model.TableColumn;
+import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -100,7 +101,8 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	}
 
 	@SuppressWarnings("unchecked")
-	public void addAction(ScreenEntityDesigntimeDefinition screenEntityDefinition, String text, String regex) {
+	public void addAction(ScreenEntityDesigntimeDefinition screenEntityDefinition, String text, ScreenPosition position,
+			String regex) {
 
 		Pattern pattern = Pattern.compile(regex);
 		Matcher match = pattern.matcher(text);
@@ -122,10 +124,12 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			return;
 		}
 
-		ActionDefinition actionDefinition = new SimpleActionDefinition(actionClass, match.group(2));
+		ActionDefinition actionDefinition = new SimpleActionDefinition(actionClass, position, match.group(2));
+		List<ActionDefinition> actions = screenEntityDefinition.getActions();
 
-		screenEntityDefinition.getActions().add(actionDefinition);
+		actions.add(actionDefinition);
 
+		Collections.sort(actions, ScreenPositionContainerComparator.instance());
 		logger.info(MessageFormat.format("Added action {0}:{1} to screen entity {2}", actionDefinition.getAction().getName(),
 				actionDefinition.getDisplayName(), screenEntityDefinition.getEntityName()));
 	}
