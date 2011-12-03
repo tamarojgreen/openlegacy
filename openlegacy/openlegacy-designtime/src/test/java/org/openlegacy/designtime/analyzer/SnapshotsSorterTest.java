@@ -3,6 +3,7 @@ package org.openlegacy.designtime.analyzer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
+import org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsSorter;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,13 +22,14 @@ import junit.framework.Assert;
 public class SnapshotsSorterTest {
 
 	@Inject
-	private SnapshotsSorter<TerminalSnapshot> snapshotsSorter;
+	private DefaultTerminalSnapshotsSorter snapshotsSorter;
 
 	@Inject
 	private TerminalSnapshotsLoader snapshotsLoader;
 
 	@Test
 	public void testSortByContent() {
+		snapshotsSorter.clear();
 		String mockPath = getClass().getResource("mock").getFile();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(mockPath);
 

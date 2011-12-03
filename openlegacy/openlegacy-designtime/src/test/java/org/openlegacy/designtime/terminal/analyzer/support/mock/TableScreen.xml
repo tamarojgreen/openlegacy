@@ -5,9 +5,11 @@
         <field value="10/01/2009" length="11" column="64" />
     </row>
     <row rowNumber="4">
+    	<!-- table headers -->
         <field value="Action" length="5" column="2" />
         <field value="Column A:" length="10" column="11" />
         <field value="Column B:" length="10" column="21" />
+    	<!-- no table header -->
         <field value="" length="10" column="31" />
     </row>
     <row rowNumber="5">

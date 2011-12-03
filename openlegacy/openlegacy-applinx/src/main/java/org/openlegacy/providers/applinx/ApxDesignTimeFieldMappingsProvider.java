@@ -52,7 +52,7 @@ public class ApxDesignTimeFieldMappingsProvider implements ScreenFieldsDefinitio
 					SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(
 							apxFieldMapping.getField().getName(), FieldType.General.class);
 
-					fieldMappingDefinition.setScreenPosition(screenPosition);
+					fieldMappingDefinition.setPosition(screenPosition);
 					fieldMappingDefinition.setLength(positionArea.getLength());
 					fieldMappingDefinition.setEditable(apxFieldMapping.getProtection() != GXProtection.PROTECTED);
 					fieldMappingDefinitions.add(fieldMappingDefinition);

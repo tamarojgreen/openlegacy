@@ -13,8 +13,19 @@
         <field value="BBBB    " column="13" />
     </row>
     <row rowNumber="6">
+        <!-- 2 fields in one row, 1 editable  and one not-->
         <field value="Field C:" column="3" />
         <field value="CCCC    " column="13" />
+        <field value="Field D:" column="33" />
+        <field value="DDDD    " column="43" editable="true"/>
+    </row>
+    <row rowNumber="7">
+    	<!-- 2 non editable fields in one row -->
+        <field value="Field E1:" column="3" />
+        <field value="EE    " column="13" />
+        <!-- 2 fields in one row -->
+        <field value="Field E2:" column="35" />
+        <field value="EEEE  " column="44"/>
     </row>
     <row rowNumber="24">
         <field value="F1=Help" column="3" />

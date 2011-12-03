@@ -31,7 +31,7 @@ public class ScreenFieldAnnotationLoader implements FieldAnnotationsLoader {
 		SimpleScreenPosition screenPosition = SimpleScreenPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
 		SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(fieldName,
 				fieldAnnotation.fieldType());
-		fieldMappingDefinition.setScreenPosition(screenPosition);
+		fieldMappingDefinition.setPosition(screenPosition);
 		fieldMappingDefinition.setLength(fieldAnnotation.length());
 		fieldMappingDefinition.setEditable(fieldAnnotation.editable());
 

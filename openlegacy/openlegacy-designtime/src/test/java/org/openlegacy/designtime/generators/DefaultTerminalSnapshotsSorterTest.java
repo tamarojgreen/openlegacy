@@ -18,7 +18,7 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 
-@ContextConfiguration
+@ContextConfiguration(locations = "/openlegacy-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalSnapshotsSorterTest {
 

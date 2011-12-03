@@ -50,7 +50,7 @@ public class ScreenBinderLogic {
 				fieldAccessor.setTerminalField(fieldName, terminalField);
 			}
 			ScreenPosition cursorPosition = terminalSnapshot.getCursorPosition();
-			if (cursorPosition != null && cursorPosition.equals(fieldMappingDefinition.getScreenPosition())) {
+			if (cursorPosition != null && cursorPosition.equals(fieldMappingDefinition.getPosition())) {
 				fieldAccessor.setFocusField(fieldMappingDefinition.getName());
 			}
 
@@ -65,7 +65,7 @@ public class ScreenBinderLogic {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 
-			ScreenPosition fieldPosition = fieldMappingDefinition.getScreenPosition();
+			ScreenPosition fieldPosition = fieldMappingDefinition.getPosition();
 			String fieldName = fieldMappingDefinition.getName();
 			Object value = fieldAccessor.getFieldValue(fieldName);
 
@@ -104,7 +104,7 @@ public class ScreenBinderLogic {
 	}
 
 	private static TerminalField extractTerminalField(final TerminalSnapshot terminalSnapshot, ScreenFieldDefinition fieldMapping) {
-		TerminalField terminalField = terminalSnapshot.getField(fieldMapping.getScreenPosition());
+		TerminalField terminalField = terminalSnapshot.getField(fieldMapping.getPosition());
 		return terminalField;
 	}
 

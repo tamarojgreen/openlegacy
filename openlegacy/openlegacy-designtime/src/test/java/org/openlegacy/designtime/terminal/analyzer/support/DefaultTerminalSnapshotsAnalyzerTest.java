@@ -51,8 +51,19 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertNotNull(fieldA);
 		Assert.assertTrue(fieldA.isEditable());
 		Assert.assertEquals("Field A", fieldA.getDisplayName());
-		Assert.assertEquals(SimpleScreenPosition.newInstance(4, 13), fieldA.getScreenPosition());
+		Assert.assertEquals(SimpleScreenPosition.newInstance(4, 13), fieldA.getPosition());
 
+		ScreenEntityDefinition screen2 = screenEntitiesDefinitions.get("Screen2");
+		Assert.assertNotNull(screen2);
+		fieldsDefinitions = screen2.getFieldsDefinitions();
+		Assert.assertEquals(6, fieldsDefinitions.size());
+		fieldA = fieldsDefinitions.get("fieldA");
+		Assert.assertNotNull(fieldA);
+
+		ScreenFieldDefinition fieldB = fieldsDefinitions.get("fieldB");
+		Assert.assertNotNull(fieldB);
+		Assert.assertTrue(!fieldB.isEditable());
+		Assert.assertEquals("Field B", fieldB.getDisplayName());
 	}
 
 	private Map<String, ScreenEntityDefinition> loadAndAssertDefinitions() {

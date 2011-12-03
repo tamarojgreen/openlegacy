@@ -17,7 +17,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-@ContextConfiguration
+@ContextConfiguration(locations = "/test-mock-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultNavigationModuleTest extends AbstractTest {
 

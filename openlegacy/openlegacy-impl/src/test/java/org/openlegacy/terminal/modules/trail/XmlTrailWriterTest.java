@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream;
 
 import javax.inject.Inject;
 
-@ContextConfiguration
+@ContextConfiguration(locations = "/test-mock-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class XmlTrailWriterTest extends AbstractTest {
 

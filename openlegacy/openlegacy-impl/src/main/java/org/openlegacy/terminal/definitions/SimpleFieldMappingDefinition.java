@@ -20,11 +20,11 @@ public class SimpleFieldMappingDefinition extends AbstractFieldDefinition<Screen
 		super(name, fieldType);
 	}
 
-	public ScreenPosition getScreenPosition() {
+	public ScreenPosition getPosition() {
 		return screenPosition;
 	}
 
-	public void setScreenPosition(ScreenPosition screenPosition) {
+	public void setPosition(ScreenPosition screenPosition) {
 		this.screenPosition = screenPosition;
 	}
 

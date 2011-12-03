@@ -46,7 +46,7 @@ public class ApxRuntimeFieldMappingsProvider implements ScreenFieldsDefinitionPr
 			SimpleFieldMappingDefinition fieldMappingDefinition = new SimpleFieldMappingDefinition(apxField.getName(),
 					FieldType.General.class);
 			fieldMappingDefinition.setLength(apxField.getLength());
-			fieldMappingDefinition.setScreenPosition(screenPosition);
+			fieldMappingDefinition.setPosition(screenPosition);
 			fieldMappingDefinition.setEditable(!apxField.isProtected());
 			fieldMappingDefinitions.add(fieldMappingDefinition);
 		}

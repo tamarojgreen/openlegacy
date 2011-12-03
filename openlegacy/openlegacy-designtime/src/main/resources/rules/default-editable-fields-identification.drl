@@ -13,7 +13,10 @@ when
 	$editableField: TerminalField(editable == true) from $snapshot.getFields()
 	
 	// with a leading label before the editable field (same row, lower column)
-	TerminalField(position.row == $editableField.position.row, position.column < $editableField.position.column, editable == false,$leadingLabel: value) from $snapshot.getFields()
+	$labelField: TerminalField(position.row == $editableField.position.row, position.column < $editableField.position.column, editable == false) from $snapshot.getFields()
+
+	// and no other field on the left on the label field 
+	not TerminalField(this != $editableField,position.row == $labelField.position.row, position.column > $labelField.position.column) from $snapshot.getFields()
 then
-	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$leadingLabel);
+	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$labelField.getValue());
 end
