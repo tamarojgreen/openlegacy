@@ -1,0 +1,54 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.annotations.screen.ScreenActions;
+import org.openlegacy.annotations.screen.Action;
+import org.openlegacy.terminal.actions.TerminalActions;
+
+@ScreenEntity
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 6, column = 3, value = "Field C:"), 
+				@Identifier(row = 7, column = 3, value = "Field E1:"), 
+				@Identifier(row = 8, column = 3, value = "Field F1:") 
+				})
+@ScreenActions(actions = { 
+				@Action(action = TerminalActions.F1.class, displayName = "Help"), 
+				@Action(action = TerminalActions.F2.class, displayName = "Save data") 
+				})
+public class Screen2 {
+    
+	@ScreenField(row = 4, column = 13 ,editable= true ,displayName = "Field A")
+    private String fieldA;
+
+	@ScreenField(row = 5, column = 13 ,displayName = "Field B")
+    private String fieldB;
+
+	@ScreenField(row = 6, column = 13 ,displayName = "Field C")
+    private String fieldC;
+
+	@ScreenField(row = 6, column = 43 ,editable= true ,displayName = "Field D")
+    private String fieldD;
+
+	@ScreenField(row = 7, column = 13 ,displayName = "Field E1")
+    private String fieldE1;
+
+	@ScreenField(row = 7, column = 44 ,displayName = "Field E2")
+    private String fieldE2;
+
+	@ScreenField(row = 8, column = 13 ,displayName = "Field F1")
+    private String fieldF1;
+
+	@ScreenField(row = 8, column = 47 ,displayName = "Field F2")
+    private String fieldF2;
+
+	@ScreenField(row = 8, column = 60 ,displayName = "Field F3")
+    private String fieldF3;
+
+    
+
+
+    
+}

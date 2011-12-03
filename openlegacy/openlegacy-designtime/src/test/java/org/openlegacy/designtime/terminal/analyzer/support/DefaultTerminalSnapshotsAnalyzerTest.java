@@ -2,6 +2,7 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 
 import freemarker.template.TemplateException;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
@@ -123,15 +124,23 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = loadAndAssertDefinitions();
 
-		assertScreenContent(screenEntitiesDefinitions.get("Screen1"));
-		assertScreenContent(screenEntitiesDefinitions.get("Screen2"));
-		assertScreenContent(screenEntitiesDefinitions.get("TableScreen"));
+		assertScreenContent(screenEntitiesDefinitions.get("Screen1"), "Screen1.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("Screen2"), "Screen2.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("TableScreen"), "TableScreen.java.expected");
 	}
 
-	private static void assertScreenContent(ScreenEntityDefinition screen) throws TemplateException, IOException {
+	private void assertScreenContent(ScreenEntityDefinition screen, String expectedResource) throws TemplateException,
+			IOException {
 		((ScreenEntityDesigntimeDefinition)screen).setPackageName("com.test");
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		new ScreenEntityJavaGenerator().generate(screen, baos);
-		System.out.println(new String(baos.toByteArray()));
+
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedResource));
+		Assert.assertEquals(initTestString(expectedBytes), initTestString(baos.toByteArray()));
 	}
+
+	private static String initTestString(byte[] expectedBytes) {
+		return new String(expectedBytes).replaceAll("\r\n", "").replaceAll("\n", "").replaceAll("\t", "");
+	}
+
 }

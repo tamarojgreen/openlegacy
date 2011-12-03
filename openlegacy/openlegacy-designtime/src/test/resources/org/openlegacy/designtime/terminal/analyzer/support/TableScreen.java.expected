@@ -1,0 +1,36 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import java.util.List;
+import org.openlegacy.annotations.screen.ScreenTable;
+
+@ScreenEntity
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 1, column = 40, value = "Table Screen") 
+				})
+public class TableScreen {
+    
+    
+    private List<TableScreenRow> tableScreenRows;
+
+
+	@ScreenTable(startRow = 5, endRow = 7)
+	public static class TableScreenRow {
+		@ScreenColumn(startColumn = 4, endColumn = 5, editable=true, selectionField=true ,displayName = "Action")
+		private String action;
+		
+		@ScreenColumn(startColumn = 11, endColumn = 19 ,displayName = "Column A", sampleValue="Cell 1A")
+		private String columnA;
+		
+		@ScreenColumn(startColumn = 21, endColumn = 29 ,displayName = "Column B", sampleValue="Cell 1B")
+		private String columnB;
+		
+		@ScreenColumn(startColumn = 31, endColumn = 39 ,displayName = "Column4", sampleValue="Cell 1C")
+		private String column4;
+		
+	}    
+    
+}
