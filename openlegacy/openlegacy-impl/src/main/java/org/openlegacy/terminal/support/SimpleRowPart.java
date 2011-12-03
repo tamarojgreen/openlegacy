@@ -1,6 +1,8 @@
-package org.openlegacy.terminal;
+package org.openlegacy.terminal.support;
 
-import org.openlegacy.terminal.support.SnapshotUtils;
+import org.openlegacy.terminal.RowPart;
+import org.openlegacy.terminal.ScreenPosition;
+import org.openlegacy.terminal.TerminalField;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

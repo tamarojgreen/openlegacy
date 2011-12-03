@@ -1,10 +1,7 @@
 package org.openlegacy.terminal.persistance;
 
-import org.openlegacy.terminal.RowPart;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalRow;
-import org.openlegacy.terminal.support.SnapshotUtils;
-import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
+import org.openlegacy.terminal.support.AbstractTerminalRow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +10,17 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalPersistedRow implements TerminalRow {
+public class TerminalPersistedRow extends AbstractTerminalRow {
 
 	@XmlAttribute
 	private int rowNumber;
 
 	@XmlElement(name = "field", type = TerminalPersistedField.class)
 	private List<TerminalField> fields = new ArrayList<TerminalField>();
-
-	@XmlTransient
-	private List<RowPart> rowParts;
 
 	public List<TerminalField> getFields() {
 		initFieldsRow();
@@ -56,7 +49,8 @@ public class TerminalPersistedRow implements TerminalRow {
 
 	/**
 	 * To avoid replication between field row and it's parent row, TerminalPersistentField is not serializing row to XML. This
-	 * function purpose is to fix the row of the field according to it's TerminalRow container
+	 * function purpose is to fix the row of the field according to it's TerminalRow container set through
+	 * <code>setRowNumber</code> method
 	 */
 	private void initFieldsRow() {
 		// row was initialize
@@ -73,31 +67,19 @@ public class TerminalPersistedRow implements TerminalRow {
 	@Override
 	public boolean equals(Object obj) {
 		initFieldsRow();
-		if (!(obj instanceof TerminalRow)) {
-			return false;
-		}
-		TerminalRow otherRow = (TerminalRow)obj;
-		return TerminalEqualsHashcodeUtil.rowEquals(this, otherRow);
+		return super.equals(obj);
 	}
 
 	@Override
 	public int hashCode() {
 		initFieldsRow();
-		return TerminalEqualsHashcodeUtil.rowHashCode(this);
+		return super.hashCode();
 	}
 
 	@Override
 	public String toString() {
 		initFieldsRow();
-		return SnapshotUtils.rowToString(this);
+		return super.toString();
 	}
 
-	public List<RowPart> getRowParts() {
-		if (rowParts != null) {
-			return rowParts;
-		}
-
-		rowParts = SnapshotUtils.getRowParts(this);
-		return rowParts;
-	}
 }

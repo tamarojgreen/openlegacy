@@ -4,14 +4,12 @@ import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
-import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.ScreenPositionBean;
 import org.openlegacy.terminal.support.ScreenSizeBean;
 import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
-import org.openlegacy.terminal.utils.ScreenPainter;
-import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "snapshot")
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalPersistedSnapshot implements TerminalSnapshot {
+public class TerminalPersistedSnapshot extends AbstractSnapshot {
 
 	@XmlAttribute(name = "type")
 	private SnapshotType snapshotType;
@@ -79,11 +77,6 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 		return fieldPositions;
 	}
 
-	@Override
-	public String toString() {
-		return ScreenPainter.paint(this, true);
-	}
-
 	public ScreenPosition getCursorPosition() {
 		return cursorPosition;
 	}
@@ -93,23 +86,11 @@ public class TerminalPersistedSnapshot implements TerminalSnapshot {
 			return;
 		}
 
-		ScreenPositionBean tempCursorPosition = new ScreenPositionBean();
-		tempCursorPosition.setRow(cursorPosition.getRow());
-		tempCursorPosition.setColumn(cursorPosition.getColumn());
-		this.cursorPosition = tempCursorPosition;
-	}
-
-	@Override
-	public int hashCode() {
-		return TerminalEqualsHashcodeUtil.snapshotHashcode(this);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof TerminalSnapshot)) {
-			return false;
-		}
-		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
+		// use an XML serialization ScreenPosition
+		ScreenPositionBean newCursorPosition = new ScreenPositionBean();
+		newCursorPosition.setRow(cursorPosition.getRow());
+		newCursorPosition.setColumn(cursorPosition.getColumn());
+		this.cursorPosition = newCursorPosition;
 	}
 
 	public Collection<TerminalField> getFields() {

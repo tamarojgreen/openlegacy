@@ -8,16 +8,14 @@ import org.openlegacy.terminal.ScreenPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
-import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
-import org.openlegacy.terminal.utils.ScreenPainter;
-import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ApxTerminalSnapshot implements TerminalSnapshot {
+public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 	private final GXRuntimeScreen screen;
 	private ArrayList<TerminalRow> rows;
@@ -27,11 +25,6 @@ public class ApxTerminalSnapshot implements TerminalSnapshot {
 
 	public ApxTerminalSnapshot(GXRuntimeScreen screen) {
 		this.screen = screen;
-	}
-
-	@Override
-	public String toString() {
-		return ScreenPainter.paint(this, true);
 	}
 
 	public String getText() {
@@ -117,19 +110,6 @@ public class ApxTerminalSnapshot implements TerminalSnapshot {
 
 	public ScreenPosition getCursorPosition() {
 		return ApxPositionUtil.toScreenPosition(screen.getCursorPosition());
-	}
-
-	@Override
-	public int hashCode() {
-		return TerminalEqualsHashcodeUtil.snapshotHashcode(this);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof TerminalSnapshot)) {
-			return false;
-		}
-		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
 	}
 
 	public TerminalRow getRow(int rowNumber) {

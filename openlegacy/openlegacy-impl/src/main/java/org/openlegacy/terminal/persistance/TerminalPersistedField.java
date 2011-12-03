@@ -1,10 +1,8 @@
 package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.terminal.ScreenPosition;
-import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.support.SnapshotUtils;
+import org.openlegacy.terminal.support.AbstractTerminalField;
 import org.openlegacy.terminal.support.SimpleScreenPosition;
-import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalPersistedField implements TerminalField {
+public class TerminalPersistedField extends AbstractTerminalField {
 
 	@XmlAttribute
 	private int column;
@@ -96,22 +94,4 @@ public class TerminalPersistedField implements TerminalField {
 		this.modified = modified;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof TerminalField)) {
-			return false;
-		}
-		TerminalField otherField = (TerminalField)obj;
-		return TerminalEqualsHashcodeUtil.fieldEquals(this, otherField);
-	}
-
-	@Override
-	public int hashCode() {
-		return TerminalEqualsHashcodeUtil.fieldHashCode(this);
-	}
-
-	@Override
-	public String toString() {
-		return SnapshotUtils.fieldToString(this);
-	}
 }
