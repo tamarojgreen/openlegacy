@@ -35,6 +35,8 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 		screenEntityDefinition.setName(screenName);
 		screenEntityDefinition.setDisplayName(displayName);
 		screenEntityDefinition.setType(screenEntity.screenType());
+		screenEntityDefinition.setWindow(screenEntity.window());
+
 		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
 				containingClass.getName()));
 

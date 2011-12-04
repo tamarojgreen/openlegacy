@@ -27,5 +27,7 @@ public @interface ScreenEntity {
 
 	boolean supportTerminalData() default false;
 
+	boolean window() default false;
+
 	Class<? extends EntityType> screenType() default ScreenEntityType.General.class;
 }

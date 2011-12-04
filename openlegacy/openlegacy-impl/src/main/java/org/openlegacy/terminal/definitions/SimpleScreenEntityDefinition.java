@@ -19,6 +19,7 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 	private Map<String, ScreenPartEntityDefinition> partDefinitions = new HashMap<String, ScreenPartEntityDefinition>();
 	private TerminalSnapshot snapshot;
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
+	private boolean window;
 
 	public SimpleScreenEntityDefinition(String entityName, Class<?> entityClass) {
 		super(entityName, entityClass);
@@ -64,4 +65,11 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 		return actions;
 	}
 
+	public boolean isWindow() {
+		return window;
+	}
+
+	public void setWindow(boolean window) {
+		this.window = window;
+	}
 }

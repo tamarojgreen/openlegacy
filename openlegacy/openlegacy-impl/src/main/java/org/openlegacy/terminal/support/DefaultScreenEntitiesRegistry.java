@@ -4,8 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,29 +26,45 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 
 	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
 	private final Map<Class<?>, TableDefinition> tableDefinitions = new HashMap<Class<?>, TableDefinition>();
+	private ArrayList<ScreenEntityDefinition> sortedScreenDefinitions;
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntitiesRegistry.class);
 
 	public ScreenEntityDefinition match(TerminalSnapshot terminalSnapshot) {
 		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();
 
-		// sort the screen definitions by identifiers count
-		List<ScreenEntityDefinition> screenDefinitionsList = new ArrayList<ScreenEntityDefinition>(screenDefinitionsValues);
-		Collections.sort(screenDefinitionsList, new Comparator<ScreenEntityDefinition>() {
+		if (sortedScreenDefinitions == null) {
+			initSortedScreenEntities(screenDefinitionsValues);
+		}
 
-			public int compare(ScreenEntityDefinition o1, ScreenEntityDefinition o2) {
-				return o2.getScreenIdentification().getScreenIdentifiers().size()
-						- o1.getScreenIdentification().getScreenIdentifiers().size();
-			}
-		});
-
-		for (ScreenEntityDefinition screenDefinition : screenDefinitionsList) {
+		for (ScreenEntityDefinition screenDefinition : sortedScreenDefinitions) {
 			ScreenIdentification screenIdentification = screenDefinition.getScreenIdentification();
 			if (screenIdentification != null && screenIdentification.match(terminalSnapshot)) {
 				return screenDefinition;
 			}
 		}
 		return null;
+	}
+
+	private void initSortedScreenEntities(Collection<ScreenEntityDefinition> screenDefinitionsValues) {
+		// sort the screen definitions by window, identifiers count
+		sortedScreenDefinitions = new ArrayList<ScreenEntityDefinition>(screenDefinitionsValues);
+		Collections.sort(sortedScreenDefinitions, new Comparator<ScreenEntityDefinition>() {
+
+			public int compare(ScreenEntityDefinition o1, ScreenEntityDefinition o2) {
+				if (o1.isWindow() == o2.isWindow()) {
+					return o2.getScreenIdentification().getScreenIdentifiers().size()
+							- o1.getScreenIdentification().getScreenIdentifiers().size();
+				}
+				if (o1.isWindow()) {
+					return -1;
+				}
+				if (o2.isWindow()) {
+					return 1;
+				}
+				return 0;
+			}
+		});
 	}
 
 	public void addPart(ScreenPartEntityDefinition screenPartEntityDefinition) {

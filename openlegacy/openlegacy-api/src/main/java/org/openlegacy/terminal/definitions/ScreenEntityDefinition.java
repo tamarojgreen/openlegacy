@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * Defines a screen entity definitions stored in the <code>ScreenEntitiesRegistry</code> Typically collected from @ScreenEntity,
+ * 
  * @ScreenIdentifiers, @ScreenNavigation, @ScreenActions, @FieldMapping annotations
  * 
  */
@@ -36,4 +37,6 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	List<ActionDefinition> getActions();
 
 	TerminalSnapshot getSnapshot();
+
+	boolean isWindow();
 }

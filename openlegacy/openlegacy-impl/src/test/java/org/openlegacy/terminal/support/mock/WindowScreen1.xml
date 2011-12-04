@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING">
+    <row rowNumber="1">
+        <field value="Screen title" column="30" />
+    </row>
+    <row rowNumber="5">
+    	<field value="+--------------------+" length="22" column="30"/>
+    </row>
+    <row rowNumber="6">
+        <field value="|" column="30" />
+        <field value="Win title" column="40" />
+        <field value="|" column="51" />
+    </row>
+    <row rowNumber="7">
+        <field value="|" column="30" />
+        <field value="|" column="51" />
+    </row>
+    <row rowNumber="8">
+        <field value="|" column="30" />
+        <field value="Field A:" column="35" />
+        <field value="AAAA" editable="true" column="44" />
+        <field value="|" column="51" />
+    </row>
+    <row rowNumber="9">
+        <field value="|" column="30" />
+        <field value="|" column="51" />
+    </row>
+    <row rowNumber="10">
+    	<field value="+--------------------+" length="22" column="30"/>
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>
