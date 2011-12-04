@@ -9,7 +9,7 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.actions.TerminalActions;
 
-@ScreenEntity(supportTerminalData = true, screenType = Login.LoginScreen.class)
+@ScreenEntity(supportTerminalData = true, screenType = Login.LoginEntity.class)
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 36, value = "Sign On") })
 @ScreenActions(actions = { @Action(action = TerminalActions.ESC.class, displayName = "Escape") })
 public class SignOn extends AbstractScreen {

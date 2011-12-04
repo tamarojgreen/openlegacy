@@ -9,6 +9,7 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.RowPart;
 import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
@@ -25,6 +26,8 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 
 	@Test
 	public void testConnection() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		Assert.assertFalse(terminalSession.isConnected());
 
 		terminalSession.getSnapshot();
@@ -38,6 +41,8 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 
 	@Test
 	public void testCursor() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertEquals("user", signOn.getFocusField());
 
@@ -53,6 +58,8 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 
 	@Test(expected = TerminalActionException.class)
 	public void testCursorException() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 
 		signOn.setUser("someuser");
@@ -68,6 +75,8 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 
 	@Test(expected = TerminalActionException.class)
 	public void testNotAllFieldsSent() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 
 		signOn.setUser("someuser");
@@ -80,6 +89,8 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 
 	@Test(expected = TerminalActionException.class)
 	public void testCursorIncorrect() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		signOn.setFocusField("no_such_field");
 		terminalSession.doAction(TerminalActions.ENTER(), signOn, MainMenu.class);
@@ -87,6 +98,8 @@ public class DefaultTerminalSessionTest extends AbstractTest {
 
 	@Test
 	public void testRowPart() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		TerminalSnapshot snapshot = terminalSession.getSnapshot();
 		TerminalRow row = snapshot.getRow(6);
 		List<RowPart> rowParts = row.getRowParts();

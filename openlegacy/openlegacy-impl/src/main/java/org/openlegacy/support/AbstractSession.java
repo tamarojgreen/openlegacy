@@ -3,6 +3,7 @@ package org.openlegacy.support;
 import org.openlegacy.Session;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.modules.SessionModule;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * 
  * 
  */
-public abstract class AbstractSession implements Session {
+public abstract class AbstractSession implements Session, InitializingBean {
 
 	private SessionModules sessionModules;
 
@@ -36,5 +37,18 @@ public abstract class AbstractSession implements Session {
 
 	public SessionModules getSessionModules() {
 		return sessionModules;
+	}
+
+	/**
+	 * Pass the session to all the modules
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void afterPropertiesSet() throws Exception {
+		List<? extends SessionModule> modules = sessionModules.getModules();
+		for (SessionModule sessionModule : modules) {
+			if (sessionModule instanceof SessionModuleAdapter) {
+				((SessionModuleAdapter)sessionModule).setSession(this);
+			}
+		}
 	}
 }

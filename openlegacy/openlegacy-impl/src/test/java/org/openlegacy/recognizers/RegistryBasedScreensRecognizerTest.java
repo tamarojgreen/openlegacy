@@ -14,17 +14,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 @ContextConfiguration(locations = "/test-mock-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RegistryBasedScreensRecognizerTest extends AbstractTest {
 
-	@Inject
-	private TerminalSession terminalSession;
-
 	@Test
 	public void testScreenRecognizer() throws IOException {
+		TerminalSession terminalSession = newTerminalSession();
+
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
 

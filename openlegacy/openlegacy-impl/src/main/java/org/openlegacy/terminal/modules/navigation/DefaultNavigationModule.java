@@ -21,7 +21,7 @@ public class DefaultNavigationModule extends TerminalSessionModuleAdapter implem
 
 	public List<ScreenEntityDescriptor> getPathFromRoot() {
 
-		Object currentEntity = getTerminalSession().getEntity();
+		Object currentEntity = getSession().getEntity();
 
 		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
 

@@ -21,7 +21,6 @@ public class ScreenEntityMethodInterceptor implements MethodInterceptor {
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	@Inject
 	private TerminalSession terminalSession;
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityMethodInterceptor.class);
@@ -68,4 +67,7 @@ public class ScreenEntityMethodInterceptor implements MethodInterceptor {
 		return invocation.proceed();
 	}
 
+	public void setTerminalSession(TerminalSession terminalSession) {
+		this.terminalSession = terminalSession;
+	}
 }

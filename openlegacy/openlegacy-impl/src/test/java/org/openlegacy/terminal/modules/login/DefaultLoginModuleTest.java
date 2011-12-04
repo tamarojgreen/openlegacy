@@ -11,6 +11,7 @@ import org.openlegacy.Snapshot;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
+import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,11 +30,15 @@ public class DefaultLoginModuleTest extends AbstractTest {
 
 	@After
 	public void logoff() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		terminalSession.getModule(Login.class).logoff();
 	}
 
 	@Test
 	public void testLoginObject() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		signOn.setUser("someuser");
 		signOn.setPassword("somepwd");
@@ -43,11 +48,15 @@ public class DefaultLoginModuleTest extends AbstractTest {
 
 	@Test
 	public void testLoginSimple() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		terminalSession.getModule(Login.class).login("someuser", "somepwd");
 	}
 
 	@Test
 	public void testLogoff() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		terminalSession.getModule(Login.class).login("someuser", "somepwd");
 
 		Assert.assertTrue(terminalSession.isConnected());

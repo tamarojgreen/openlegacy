@@ -17,6 +17,8 @@ public class AbstractTerminalSessionSystemTest extends AbstractTest {
 
 	protected void testSystem() throws IOException {
 
+		TerminalSession terminalSession = newTerminalSession();
+
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
 		Assert.assertNotNull(signOn.getTerminalSnapshot());

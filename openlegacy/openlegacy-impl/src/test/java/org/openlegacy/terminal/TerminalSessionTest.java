@@ -17,6 +17,8 @@ public class TerminalSessionTest extends AbstractTest {
 	@Test
 	public void testScreenContent() throws IOException {
 
+		TerminalSession terminalSession = newTerminalSession();
+
 		String signOnText = readResource("/apps/inventory/screens_text/SignOn.txt");
 		Assert.assertEquals(signOnText, terminalSession.getSnapshot().toString());
 		terminalSession.doAction(TerminalActions.ENTER());

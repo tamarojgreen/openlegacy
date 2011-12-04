@@ -32,7 +32,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 
 		TableCollector<TerminalSession, T> tableCollector = SpringUtil.getDefaultBean(applicationContext,
 				tableDefinition.getTableCollector());
-		return tableCollector.collectAll(getTerminalSession(), screenEntityClass, rowClass);
+		return tableCollector.collectAll(getSession(), screenEntityClass, rowClass);
 	}
 
 	public <T> T drillDown(Class<?> sourceEntityClass, Class<T> targetEntityClass, DrilldownAction<?> drilldownAction,
@@ -44,7 +44,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 		TableDrilldownPerformer<TerminalSession> actualDrilldownPerformer = SpringUtil.getDefaultBean(applicationContext,
 				drilldownDefinition.getDrilldownPerformer());
 
-		return actualDrilldownPerformer.drilldown(drilldownDefinition, getTerminalSession(), sourceEntityClass,
+		return actualDrilldownPerformer.drilldown(drilldownDefinition, getSession(), sourceEntityClass,
 				targetEntityClass, drilldownAction, rowKeys);
 	}
 }

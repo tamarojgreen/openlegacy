@@ -10,6 +10,7 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.terminal.ScreenEntityDescriptor;
+import org.openlegacy.terminal.TerminalSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,6 +24,8 @@ public class DefaultNavigationModuleTest extends AbstractTest {
 
 	@Test
 	public void testPathEntries() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		terminalSession.getModule(Login.class).login("user", "pwd");
 		terminalSession.getEntity(ItemsList.class);
 

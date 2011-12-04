@@ -3,8 +3,8 @@ package org.openlegacy.terminal.modules.login;
 import org.openlegacy.SessionModuleMetadata;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
-import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,7 @@ public class LoginMetadata implements SessionModuleMetadata {
 			return;
 		}
 
-		loginScreenDefinition = screenEntitiesRegistry.getSingleEntityDefinition(Login.LoginScreen.class);
+		loginScreenDefinition = screenEntitiesRegistry.getSingleEntityDefinition(Login.LoginEntity.class);
 
 		userField = loginScreenDefinition.getFirstFieldDefinition(Login.UserField.class);
 		passwordField = loginScreenDefinition.getFirstFieldDefinition(Login.PasswordField.class);

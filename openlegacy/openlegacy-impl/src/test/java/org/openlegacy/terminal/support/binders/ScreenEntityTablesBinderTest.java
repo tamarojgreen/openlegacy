@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.table.Table;
+import org.openlegacy.terminal.TerminalSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,6 +20,8 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 
 	@Test
 	public void testTableCreation() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		ItemsList itemsList = terminalSession.getEntity(ItemsList.class);
 		List<ItemsListRow> rows = itemsList.getItemListRows();
 		Assert.assertNotNull(rows);
@@ -34,6 +37,8 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 
 	@Test
 	public void testMultiplePagesTable() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		List<ItemsListRow> rows = terminalSession.getModule(Table.class).collectAll(ItemsList.class, ItemsListRow.class);
 
 		Assert.assertNotNull(rows);

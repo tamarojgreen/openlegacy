@@ -1,11 +1,8 @@
 package org.openlegacy;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.utils.RequestMockUtil;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -15,21 +12,11 @@ import javax.inject.Inject;
 public class AbstractTest {
 
 	@Inject
-	protected TerminalSession terminalSession;
+	private ApplicationContext applicationContext;
 
-	@BeforeClass
-	public static void beforeAllTests() {
-		RequestMockUtil.initRequest();
-	}
-
-	@Before
-	public void beforeTest() {
-		RequestMockUtil.initRequest();
-	}
-
-	@After
-	public void afterAllTests() {
-		terminalSession.disconnect();
+	protected TerminalSession newTerminalSession() {
+		TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
+		return terminalSession;
 	}
 
 	protected String readResource(String resourceName) throws IOException {

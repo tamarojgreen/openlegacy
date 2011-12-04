@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.support;
 
-import org.aopalliance.intercept.Interceptor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.EntityNotFoundException;
@@ -49,7 +48,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Inject
 	private TerminalActionMapper terminalActionMapper;
 
-	private Interceptor interceptor;
+	private ScreenEntityMethodInterceptor interceptor;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
 
@@ -179,8 +178,13 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return terminalConnection.isConnected();
 	}
 
-	public void setInterceptor(Interceptor interceptor) {
+	public void setInterceptor(ScreenEntityMethodInterceptor interceptor) {
 		this.interceptor = interceptor;
 	}
 
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		super.afterPropertiesSet();
+		interceptor.setTerminalSession(this);
+	}
 }

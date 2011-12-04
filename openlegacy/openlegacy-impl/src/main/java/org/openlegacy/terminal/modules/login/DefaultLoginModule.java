@@ -86,7 +86,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 		String user = (String)fieldAccessor.getFieldValue(loginMetadata.getUserField().getName());
 
-		Object currentEntity = getTerminalSession().doAction(loginAction, loginEntity);
+		Object currentEntity = getSession().doAction(loginAction, loginEntity);
 
 		Class<? extends Object> currentEntityClass = currentEntity.getClass();
 
@@ -119,7 +119,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 		Class<?> loginClass = loginMetadata.getLoginScreenDefinition().getEntityClass();
 
-		Class<?> currentEntityClass = screensRecognizer.match(getTerminalSession().getSnapshot());
+		Class<?> currentEntityClass = screensRecognizer.match(getSession().getSnapshot());
 
 		int exitActionsCount = 0;
 		// while current entity is not login screen and haven't reach a maximum exit actions
@@ -132,12 +132,12 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 			if (logger.isDebugEnabled()) {
 				logger.debug(MessageFormat.format("Exiting screen {0} using {1}", currentEntityClass, exitAction));
 			}
-			getTerminalSession().doAction(exitAction);
-			currentEntityClass = screensRecognizer.match(getTerminalSession().getSnapshot());
+			getSession().doAction(exitAction);
+			currentEntityClass = screensRecognizer.match(getSession().getSnapshot());
 
 		}
 
-		getTerminalSession().disconnect();
+		getSession().disconnect();
 
 		loggedInUser = null;
 	}

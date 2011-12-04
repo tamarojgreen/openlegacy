@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.navigation.NavigationMetadata;
@@ -30,6 +31,8 @@ public class DefaultSessionNavigatorTest extends AbstractTest {
 
 	@Test
 	public void testSimpleNavigation() {
+		TerminalSession terminalSession = newTerminalSession();
+
 		terminalSession.getModule(Login.class).login("user", "pwd");
 
 		Assert.assertTrue(terminalSession.isConnected());

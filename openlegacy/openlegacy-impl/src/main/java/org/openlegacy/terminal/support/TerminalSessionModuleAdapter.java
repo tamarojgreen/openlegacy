@@ -7,16 +7,11 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionModule;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
-import javax.inject.Inject;
-
 /**
  * Define a terminal session override-able methods which happens before & after a terminal session action
  * 
  */
-public class TerminalSessionModuleAdapter extends SessionModuleAdapter implements TerminalSessionModule, TerminalConnectionListener {
-
-	@Inject
-	private TerminalSession terminalSession;
+public class TerminalSessionModuleAdapter extends SessionModuleAdapter<TerminalSession> implements TerminalSessionModule, TerminalConnectionListener {
 
 	public void beforeSendAction(TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {
 		// allow override
@@ -25,9 +20,5 @@ public class TerminalSessionModuleAdapter extends SessionModuleAdapter implement
 	public void afterSendAction(TerminalConnection terminalConnection) {
 		// allow override
 
-	}
-
-	public TerminalSession getTerminalSession() {
-		return terminalSession;
 	}
 }

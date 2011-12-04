@@ -7,7 +7,7 @@ import org.openlegacy.modules.login.Login;
 import org.springframework.stereotype.Component;
 
 @Component
-@ScreenEntity(supportTerminalData = true, screenType = Login.LoginScreen.class)
+@ScreenEntity(supportTerminalData = true, screenType = Login.LoginEntity.class)
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 36, value = "Sign On") })
 public class ScreenWithIdentifiers implements org.openlegacy.terminal.ScreenEntity {
 
