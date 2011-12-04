@@ -7,9 +7,9 @@ import apps.inventory.screens.MainMenu;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
+import org.openlegacy.EntityDescriptor;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.navigation.Navigation;
-import org.openlegacy.terminal.ScreenEntityDescriptor;
 import org.openlegacy.terminal.TerminalSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,7 +29,7 @@ public class DefaultNavigationModuleTest extends AbstractTest {
 		terminalSession.getModule(Login.class).login("user", "pwd");
 		terminalSession.getEntity(ItemsList.class);
 
-		List<ScreenEntityDescriptor> path = terminalSession.getModule(Navigation.class).getPathFromRoot();
+		List<EntityDescriptor> path = terminalSession.getModule(Navigation.class).getPathFromRoot();
 
 		Assert.assertEquals(path.get(0).getEntityClass(), MainMenu.class);
 		Assert.assertFalse(path.get(0).isCurrent());

@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.modules.navigation;
 
+import org.openlegacy.EntityDescriptor;
+import org.openlegacy.SimpleEntityDescriptor;
 import org.openlegacy.modules.navigation.Navigation;
-import org.openlegacy.terminal.ScreenEntityDescriptor;
-import org.openlegacy.terminal.SimpleScreenEntityDescriptor;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -19,18 +19,19 @@ public class DefaultNavigationModule extends TerminalSessionModuleAdapter implem
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public List<ScreenEntityDescriptor> getPathFromRoot() {
+	public List<EntityDescriptor> getPathFromRoot() {
 
 		Object currentEntity = getSession().getEntity();
 
 		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
 
-		List<ScreenEntityDescriptor> pathEntries = new ArrayList<ScreenEntityDescriptor>();
+		List<EntityDescriptor> pathEntries = new ArrayList<EntityDescriptor>();
 
 		boolean first = true;
 		while (currentEntityDefinition != null) {
-			ScreenEntityDescriptor pathEntry = new SimpleScreenEntityDescriptor(currentEntityDefinition.getEntityClass(),
-					currentEntityDefinition.getEntityName(), currentEntityDefinition.getDisplayName(), first);
+			SimpleEntityDescriptor pathEntry = new SimpleEntityDescriptor(currentEntityDefinition.getEntityClass(),
+					currentEntityDefinition.getEntityName(), currentEntityDefinition.getDisplayName());
+			pathEntry.setCurrent(first);
 			first = false;
 
 			pathEntries.add(pathEntry);

@@ -7,4 +7,6 @@ public interface EntityDescriptor {
 	String getEntityName();
 
 	String getDisplayName();
+
+	boolean isCurrent();
 }

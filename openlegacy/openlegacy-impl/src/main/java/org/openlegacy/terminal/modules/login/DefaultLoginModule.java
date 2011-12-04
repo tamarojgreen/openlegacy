@@ -70,7 +70,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 
 	}
 
-	public void login(ScreenEntity loginEntity) throws LoginException, RegistryException {
+	public void login(Object loginEntity) throws LoginException, RegistryException {
 		if (loggedInUser != null) {
 			throw (new LoginException("User is already logged in"));
 		}
@@ -86,7 +86,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 		String user = (String)fieldAccessor.getFieldValue(loginMetadata.getUserField().getName());
 
-		Object currentEntity = getSession().doAction(loginAction, loginEntity);
+		Object currentEntity = getSession().doAction(loginAction, (ScreenEntity)loginEntity);
 
 		Class<? extends Object> currentEntityClass = currentEntity.getClass();
 

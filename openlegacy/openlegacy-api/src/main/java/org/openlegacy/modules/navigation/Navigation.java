@@ -1,7 +1,7 @@
 package org.openlegacy.modules.navigation;
 
+import org.openlegacy.EntityDescriptor;
 import org.openlegacy.modules.SessionModule;
-import org.openlegacy.terminal.ScreenEntityDescriptor;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface Navigation extends SessionModule {
 
-	List<ScreenEntityDescriptor> getPathFromRoot();
+	List<EntityDescriptor> getPathFromRoot();
 }
