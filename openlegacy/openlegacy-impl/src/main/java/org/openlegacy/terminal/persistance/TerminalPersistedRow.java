@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType
@@ -21,6 +22,12 @@ public class TerminalPersistedRow extends AbstractTerminalRow {
 
 	@XmlElement(name = "field", type = TerminalPersistedField.class)
 	private List<TerminalField> fields = new ArrayList<TerminalField>();
+
+	@XmlTransient
+	private String value;
+
+	@XmlTransient
+	private int length;
 
 	public List<TerminalField> getFields() {
 		initFieldsRow();
@@ -64,6 +71,15 @@ public class TerminalPersistedRow extends AbstractTerminalRow {
 
 	}
 
+	/**
+	 * accept the length externally. Cannot calculate by last field in the row since XML may be partial
+	 * 
+	 * @param length
+	 */
+	public void setLength(int length) {
+		this.length = length;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		initFieldsRow();
@@ -80,6 +96,14 @@ public class TerminalPersistedRow extends AbstractTerminalRow {
 	public String toString() {
 		initFieldsRow();
 		return super.toString();
+	}
+
+	public String getText() {
+		if (value != null) {
+			return value;
+		}
+		value = getText(length);
+		return value;
 	}
 
 }

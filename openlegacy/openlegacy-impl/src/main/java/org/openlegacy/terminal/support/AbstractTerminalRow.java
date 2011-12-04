@@ -1,12 +1,24 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.RowPart;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.List;
 
 public abstract class AbstractTerminalRow implements TerminalRow {
+
+	protected String getText(int rowLength) {
+		StringBuilder rowContent = SnapshotUtils.initEmptyBuffer(rowLength);
+		List<TerminalField> fields = getFields();
+		for (TerminalField terminalField : fields) {
+			int startPosition = terminalField.getPosition().getColumn();
+			SnapshotUtils.placeContentOnBuffer(rowContent, startPosition, terminalField.getValue());
+		}
+		String value = rowContent.toString();
+		return value;
+	}
 
 	@Override
 	public boolean equals(Object obj) {

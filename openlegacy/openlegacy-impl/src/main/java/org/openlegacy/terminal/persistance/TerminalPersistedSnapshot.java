@@ -58,6 +58,10 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 	}
 
 	public List<TerminalRow> getRows() {
+		// initialize row length (not persisted as part of row)
+		for (TerminalRow terminalRow : rows) {
+			((TerminalPersistedRow)terminalRow).setLength(getSize().getColumns());
+		}
 		return rows;
 	}
 

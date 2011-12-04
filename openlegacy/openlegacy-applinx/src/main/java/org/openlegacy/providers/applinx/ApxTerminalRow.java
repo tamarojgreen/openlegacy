@@ -32,4 +32,12 @@ public class ApxTerminalRow extends AbstractTerminalRow {
 		return rowNumber;
 	}
 
+	/**
+	 * Row text is calculated by the row length. Assuming row is fully populated with fields
+	 */
+	public String getText() {
+		TerminalField lastField = fields.get(fields.size() - 1);
+		String value = getText(lastField.getPosition().getColumn() + lastField.getLength() + 1);
+		return value;
+	}
 }

@@ -1,0 +1,39 @@
+package openlegacy;
+
+rule "find-window"
+ruleflow-group "identify-window"
+when
+	// capture window in the following pattern
+	// "+----+"
+	// "|    |"
+	// "|    |"
+	// "+----+"
+
+	// "+" sign followed by "-" X times, and ends with "+" sign
+	$topHorizonalBordersPattern: String() from "\\+-+\\+" 
+	$buttonHorizonalBordersPattern: String() from $topHorizonalBordersPattern
+	$verticalBorder: String() from "|"
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// which has a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// with a top border field which matches the window horizontal border 
+	$topBorderField:    TerminalField(value matches $topHorizonalBordersPattern) from $snapshot.getFields()
+	
+	// with a buttom border field which matches the window horizontal border, and in the same column & length as the top border, and at lease 2 rows after it   
+	$buttomBorderField: TerminalField(position.row >= $topBorderField.position.row+2, position.column == $topBorderField.position.column, 
+										length == $topBorderField.length,value matches $buttonHorizonalBordersPattern) from $snapshot.getFields()
+	
+	// calculate the vertical border position by the start position of the top border field									
+	$verticalBorderPosition: Integer() from $topBorderField.position.column
+	
+	// and there is not row which does NOT have the vertical border char in the vertical border position									
+	not TerminalRow(rowNumber > $topBorderField.position.row,rowNumber < $buttomBorderField.position.row, 
+					eval(text.charAt($verticalBorderPosition) != $verticalBorder.charAt(0)) )  from $snapshot.getRows() 
+	
+then
+	System.out.println($snapshot);
+end

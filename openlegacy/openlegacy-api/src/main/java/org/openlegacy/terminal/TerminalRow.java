@@ -15,4 +15,6 @@ public interface TerminalRow {
 
 	int getRowNumber();
 
+	String getText();
+
 }

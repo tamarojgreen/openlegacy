@@ -72,7 +72,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		snapshotsSorter.clear();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile());
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
-		Assert.assertEquals(3, screenEntitiesDefinitions.size());
+		Assert.assertEquals(4, screenEntitiesDefinitions.size());
 		return screenEntitiesDefinitions;
 	}
 
