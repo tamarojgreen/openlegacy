@@ -2,6 +2,7 @@ package org.openlegacy.providers.applinx;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.support.AbstractTerminalRow;
+import org.openlegacy.terminal.support.SnapshotUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +21,7 @@ public class ApxTerminalRow extends AbstractTerminalRow {
 	}
 
 	public TerminalField getField(int column) {
-		for (TerminalField field : fields) {
-			if (field.getPosition().getColumn() == column) {
-				return field;
-			}
-		}
-		return null;
+		return SnapshotUtils.getField(this, column);
 	}
 
 	public int getRowNumber() {

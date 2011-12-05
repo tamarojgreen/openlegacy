@@ -1,9 +1,9 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.RowPart;
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 
@@ -71,7 +71,17 @@ public class SnapshotUtils {
 				SnapshotUtils.placeContentOnBuffer(buffer, terminalField, screenSize);
 
 				TerminalPosition fieldPosition = terminalField.getPosition();
-				fieldsSeperators.add(new SimpleTerminalPosition(fieldPosition.getRow(), fieldPosition.getColumn() - 1));
+				TerminalPosition beforeStartPosition = new SimpleTerminalPosition(fieldPosition.getRow(),
+						fieldPosition.getColumn() - 1);
+				fieldsSeperators.add(beforeStartPosition);
+
+				TerminalPosition afterEndPosition = new SimpleTerminalPosition(fieldPosition.getRow(), fieldPosition.getColumn()
+						+ terminalField.getLength());
+				// check if the position right after the field is empty, and not exceed right bound, is so add a field separator
+				if (terminalRow.getField(afterEndPosition.getColumn()) == null
+						&& afterEndPosition.getColumn() < screenSize.getColumns()) {
+					fieldsSeperators.add(afterEndPosition);
+				}
 			}
 		}
 		String screenText = buffer.toString();
@@ -128,4 +138,16 @@ public class SnapshotUtils {
 		}
 		return position1.getColumn() - position2.getColumn();
 	}
+
+	public static TerminalField getField(TerminalRow row, int column) {
+		for (TerminalField field : row.getFields()) {
+			int startColumn = field.getPosition().getColumn();
+			int endColumn = startColumn + field.getLength() - 1;
+			if (startColumn <= column && endColumn >= column) {
+				return field;
+			}
+		}
+		return null;
+	}
+
 }

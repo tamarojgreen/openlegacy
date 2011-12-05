@@ -2,6 +2,7 @@ package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.support.AbstractTerminalRow;
+import org.openlegacy.terminal.support.SnapshotUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +37,7 @@ public class TerminalPersistedRow extends AbstractTerminalRow {
 
 	public TerminalField getField(int column) {
 		initFieldsRow();
-		for (TerminalField field : fields) {
-			int startColumn = field.getPosition().getColumn();
-			int endColumn = startColumn + field.getLength() - 1;
-			if (startColumn <= column && endColumn >= column) {
-				return field;
-			}
-		}
-		return null;
+		return SnapshotUtils.getField(this, column);
 	}
 
 	public int getRowNumber() {
