@@ -2,6 +2,7 @@ package openlegacy;
 
 rule "find-window"
 ruleflow-group "identify-window"
+no-loop 
 when
 	// capture window in the following pattern
 	// "+----+"
@@ -35,5 +36,7 @@ when
 					eval(text.charAt($verticalBorderPosition) != $verticalBorder.charAt(0)) )  from $snapshot.getRows() 
 	
 then
-	System.out.println($snapshot);
+	screenEntityDefinitionsBuilder.setSnapshotBorders($screenEntityDefinition,$topBorderField,$buttomBorderField);
+	// cause "find-screen-name" rule to be re-populated with updated border values
+	update($screenEntityDefinition);
 end

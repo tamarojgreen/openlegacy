@@ -1,0 +1,26 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+
+@ScreenEntity(window=true)
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 6, column = 36, value = "Window Screen"), 
+				@Identifier(row = 7, column = 35, value = "Field A:"), 
+				@Identifier(row = 8, column = 35, value = "Field B:") 
+				})
+public class WindowScreen {
+    
+	@ScreenField(row = 7, column = 51 ,displayName = "Field A")
+    private String fieldA;
+
+	@ScreenField(row = 8, column = 44 ,displayName = "Field B")
+    private String fieldB;
+
+    
+
+
+    
+}

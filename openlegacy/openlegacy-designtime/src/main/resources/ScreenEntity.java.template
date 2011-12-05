@@ -14,7 +14,7 @@ import java.util.List;
 import org.openlegacy.annotations.screen.ScreenTable;
 </#if>
 
-@ScreenEntity
+@ScreenEntity<#if window>(window=true)</#if>
 @ScreenIdentifiers(identifiers = { 
 				<#list screenIdentification.screenIdentifiers as identifier> 
 				@Identifier(row = ${identifier.position.row}, column = ${identifier.position.column}, value = "${identifier.text}")<#if identifier_has_next>,</#if> 

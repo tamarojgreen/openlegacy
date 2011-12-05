@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
+import org.openlegacy.test.utils.AssertUtils;
 
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
@@ -77,11 +78,8 @@ public class ScreenEntityAjGeneratorTest {
 		new ScreenPojosAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectAspect));
-		Assert.assertEquals(initTestString(expectedBytes), initTestString(baos.toByteArray()));
-	}
 
-	private static String initTestString(byte[] expectedBytes) {
-		return new String(expectedBytes).replaceAll("\r\n", "").replaceAll("\n", "").replaceAll("\t", "");
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
 	protected String getTestMethodName() {

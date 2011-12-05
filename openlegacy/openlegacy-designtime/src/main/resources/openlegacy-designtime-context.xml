@@ -27,6 +27,7 @@
 				<value>rules/package.drl</value>
 				<value>rules/default-initialize-screen-entities.drl</value>
 				<value>rules/default-identify-window.drl</value>
+				<value>rules/default-find-screen-name.drl</value>
 				<value>rules/default-identify-editable-fields.drl</value>
 				<value>rules/default-identify-tables.drl</value>
 				<value>rules/default-identify-readonly-fields.drl</value>

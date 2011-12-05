@@ -1,7 +1,12 @@
 package org.openlegacy.designtime.terminal.model;
 
+import org.openlegacy.terminal.ScreenSize;
+import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.SimpleTerminalRectangle;
 
 import java.io.Serializable;
 
@@ -16,6 +21,8 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 	private TerminalSnapshot terminalSnapshot;
 
 	private String packageName;
+
+	private TerminalRectangle snapshotBorders = null;
 
 	@Override
 	public void setEntityName(String entityName) {
@@ -41,4 +48,18 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		this.packageName = packageName;
 	}
 
+	public TerminalRectangle getSnapshotBorders() {
+		if (snapshotBorders == null) {
+			TerminalPosition topLeft = new SimpleTerminalPosition(1, 1);
+			ScreenSize size = getSnapshot().getSize();
+			TerminalPosition buttomRight = new SimpleTerminalPosition(size.getRows(), size.getColumns());
+			snapshotBorders = new SimpleTerminalRectangle(topLeft, buttomRight);
+		}
+		return snapshotBorders;
+	}
+
+	public void setSnapshotBorders(TerminalRectangle snapshotBorders) {
+		this.snapshotBorders = snapshotBorders;
+		setWindow(true);
+	}
 }

@@ -3,9 +3,9 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
@@ -23,11 +23,21 @@ public class TableBuilder {
 
 	private final static Log logger = LogFactory.getLog(TableBuilder.class);
 
-	public static void addTableDefinition(ScreenEntityDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
+	public static void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
 
 		Collections.sort(tableColumns, ColumnComparator.instance());
 
 		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(null);
+
+		TerminalField topLeftTableCell = tableColumns.get(0).getFields().get(0);
+
+		// ignore the table if it's outside a defined window border
+		if (!screenEntityDefinition.getSnapshotBorders().contains(topLeftTableCell.getPosition(), false)) {
+			logger.info(MessageFormat.format("Table which starts at {0} found outside window. Ignoring it. Screen: {1}",
+					topLeftTableCell.getPosition(), screenEntityDefinition.getEntityName()));
+			return;
+		}
+
 		for (int i = 0; i < tableColumns.size(); i++) {
 			TableColumn tableColumn = tableColumns.get(i);
 
@@ -56,7 +66,7 @@ public class TableBuilder {
 			}
 
 		}
-		TerminalField topLeftTableCell = tableColumns.get(0).getFields().get(0);
+
 		tableDefinition.setStartRow(topLeftTableCell.getPosition().getRow());
 		List<TerminalField> lastColumnFields = tableColumns.get(tableColumns.size() - 1).getFields();
 		tableDefinition.setEndRow(lastColumnFields.get(lastColumnFields.size() - 1).getPosition().getRow());

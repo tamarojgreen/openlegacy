@@ -13,13 +13,15 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.spi.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.SimpleTerminalRectangle;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
@@ -43,6 +45,11 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		// if the field was removed from the snapshot (convert to entity field/column) ignore it
 		// drools analyze the fields in advance, and ignore fields removal done during execution
 		if (!screenEntityDefinition.getSnapshot().getFields().contains(field)) {
+			return;
+		}
+
+		// ignore the identifier if it's outside a defined window border. On border is OK
+		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), true)) {
 			return;
 		}
 
@@ -72,11 +79,18 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	}
 
-	public void addField(ScreenEntityDefinition screenEntityDefinition, TerminalField field, String leadingLabel) {
+	public void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, String leadingLabel) {
 
 		// if the field was removed from the snapshot (convert to entity field/column) ignore it
 		// drools analyze the fields in advance, and ignore fields removal done during execution
 		if (!screenEntityDefinition.getSnapshot().getFields().contains(field)) {
+			return;
+		}
+
+		// ignore the field if it's outside a defined window border
+		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), false)) {
+			logger.info(MessageFormat.format("Field {0} outside window. Ignoring it. Screen: {1}", leadingLabel,
+					screenEntityDefinition.getEntityName()));
 			return;
 		}
 
@@ -98,7 +112,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 				screenEntityDefinition.getEntityName()));
 	}
 
-	public void addTableDefinition(ScreenEntityDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
+	public void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
 		TableBuilder.addTableDefinition(screenEntityDefinition, tableColumns);
 	}
 
@@ -155,4 +169,11 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	}
 
+	public void setSnapshotBorders(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField topBorderField,
+			TerminalField buttomBorderField) {
+		TerminalPosition buttomLeftPosition = new SimpleTerminalPosition(buttomBorderField.getPosition().getRow(),
+				buttomBorderField.getPosition().getColumn() + buttomBorderField.getLength());
+		TerminalRectangle borders = new SimpleTerminalRectangle(topBorderField.getPosition(), buttomLeftPosition);
+		screenEntityDefinition.setSnapshotBorders(borders);
+	}
 }

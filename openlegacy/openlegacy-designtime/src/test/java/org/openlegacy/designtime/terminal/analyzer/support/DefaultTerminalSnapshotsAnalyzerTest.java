@@ -14,6 +14,7 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -127,6 +128,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		assertScreenContent(screenEntitiesDefinitions.get("Screen1"), "Screen1.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("Screen2"), "Screen2.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("TableScreen"), "TableScreen.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("WindowScreen"), "WindowScreen.java.expected");
 	}
 
 	private void assertScreenContent(ScreenEntityDefinition screen, String expectedResource) throws TemplateException,
@@ -136,11 +138,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		new ScreenEntityJavaGenerator().generate(screen, baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedResource));
-		Assert.assertEquals(initTestString(expectedBytes), initTestString(baos.toByteArray()));
-	}
-
-	private static String initTestString(byte[] expectedBytes) {
-		return new String(expectedBytes).replaceAll("\r\n", "").replaceAll("\n", "").replaceAll("\t", "");
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
 }

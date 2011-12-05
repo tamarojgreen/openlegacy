@@ -1,0 +1,28 @@
+package openlegacy;
+
+rule "find-screen-namee"
+ruleflow-group "find-screen-name"
+when
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+	
+	$titleStartRow : Integer() from $screenEntityDefinition.getSnapshotBorders().getTopLeftPosition().getRow()
+	$titleEndRow   : Integer() from ($titleStartRow + 2)
+	// grab a sentence
+	$titleRegex    : String()  from "(\\w+(?:\\s\\w+){0,5})\\s{0,1}"
+
+	
+	// which has a snaphot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot
+	 
+	// collect all the other snapshots
+	$otherSnapshots: List() from accumulate ( s: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition), collectList(s.getSnapshot()) )
+
+	// and there is a field from the snapshot in the title rows which matches a title pattern 
+	TerminalField($field : this, position.row >= $titleStartRow, position.row <= $titleEndRow, editable == false,value matches $titleRegex) from $snapshot.getFields()
+	 
+	// and this field doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
+	not TerminalSnapshot(fields contains $field) from $otherSnapshots 
+then
+	screenEntityDefinitionsBuilder.setScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
+end
