@@ -1,8 +1,9 @@
 package openlegacy;
-rule "find-identifiers"
+rule "identify-snapshots"
 ruleflow-group "identify-snapshots"
 when
-	$titleRegex    : String()  from "[A-Za-z]+[ ][^ ^.]*"
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-snapshots")
+	$identifierRegex    : String()  from (String)$ruleParameterSet.getRuleParameters().get("identifierRegex");
 	
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
@@ -12,7 +13,7 @@ when
 	// collect all the other snapshots
 	$otherSnapshots: List() from accumulate ( s: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition), collectList(s.getSnapshot()) )
 
-	$field: TerminalField(value matches $titleRegex, editable == false) from $snapshot.getFields() 
+	$field: TerminalField(value matches $identifierRegex, editable == false) from $snapshot.getFields() 
 
 	// and this fields doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
 	not TerminalSnapshot(fields contains $field) from $otherSnapshots 

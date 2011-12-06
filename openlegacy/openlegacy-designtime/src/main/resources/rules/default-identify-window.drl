@@ -1,6 +1,6 @@
 package openlegacy;
 
-rule "find-window"
+rule "identify-window"
 ruleflow-group "identify-window"
 no-loop 
 when
@@ -10,10 +10,10 @@ when
 	// "|    |"
 	// "+----+"
 
-	// "+" sign followed by "-" X times, and ends with "+" sign
-	$topHorizonalBordersPattern: String() from "\\+-+\\+" 
-	$buttonHorizonalBordersPattern: String() from $topHorizonalBordersPattern
-	$verticalBorder: String() from "|"
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-window")
+	$topHorizonalBordersPattern : String()  from (String)$ruleParameterSet.getRuleParameters().get("topHorizonalBordersPattern");
+	$buttomHorizonalBordersPattern: String() from (String)$ruleParameterSet.getRuleParameters().get("buttomHorizonalBordersPattern");
+	$verticalBorder: String() from (String)$ruleParameterSet.getRuleParameters().get("verticalBorder");
 	
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
@@ -26,7 +26,7 @@ when
 	
 	// with a buttom border field which matches the window horizontal border, and in the same column & length as the top border, and at lease 2 rows after it   
 	$buttomBorderField: TerminalField(position.row >= $topBorderField.position.row+2, position.column == $topBorderField.position.column, 
-										length == $topBorderField.length,value matches $buttonHorizonalBordersPattern) from $snapshot.getFields()
+										length == $topBorderField.length,value matches $buttomHorizonalBordersPattern) from $snapshot.getFields()
 	
 	// calculate the vertical border position by the start position of the top border field									
 	$verticalBorderPosition: Integer() from $topBorderField.position.column

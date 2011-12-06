@@ -1,16 +1,20 @@
 package openlegacy;
 
-rule "find-screen-namee"
+rule "find-screen-name"
 ruleflow-group "find-screen-name"
 when
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
 	
-	$titleStartRow : Integer() from $screenEntityDefinition.getSnapshotBorders().getTopLeftPosition().getRow()
-	$titleEndRow   : Integer() from ($titleStartRow + 2)
-	// grab a sentence
-	$titleRegex    : String()  from "(\\w+(?:\\s\\w+){0,5})\\s{0,1}"
+	$ruleParameterSet: RuleParametersSet(ruleId == "find-screen-name")
+	$titleRegex    : String()  from (String)$ruleParameterSet.getRuleParameters().get("titleRegex");
+	$titleStartRowParam  : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleStartRow");
+	$titleEndRowParam    : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleEndRow");
 
+	// considering possible window borders
+	$borderStartRow: Integer() from $screenEntityDefinition.getSnapshotBorders().getTopLeftPosition().getRow();
+	$titleStartRow : Integer() from $titleStartRowParam + ($borderStartRow - 1) 
+	$titleEndRow   : Integer() from $titleEndRowParam + ($borderStartRow - 1)
 	
 	// which has a snaphot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot

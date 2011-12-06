@@ -20,20 +20,104 @@
 	
 	<bean class="org.openlegacy.support.SimpleFieldFormatter" />
 
+	<bean id="ruleDefinition" class="org.openlegacy.designtime.rules.support.RuleDefinitionBean" abstract="true"/>
+	<bean id="ruleParametersSet" class="org.openlegacy.designtime.rules.support.RuleParametersSetBean" abstract="true"/>
+	 
 	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsAnalyzer" p:processName="screen-builder">
-		<property name="droolsResources">
-			<array>
-				<value>rules/screen-builder.bpmn</value>
-				<value>rules/package.drl</value>
-				<value>rules/default-initialize-screen-entities.drl</value>
-				<value>rules/default-identify-window.drl</value>
-				<value>rules/default-find-screen-name.drl</value>
-				<value>rules/default-identify-editable-fields.drl</value>
-				<value>rules/default-identify-tables.drl</value>
-				<value>rules/default-identify-readonly-fields.drl</value>
-				<value>rules/default-identify-actions.drl</value>
-				<value>rules/default-identify-snapshots.drl</value>
-			</array>
+		<property name="ruleDefinitions">
+			<list>
+				<bean parent="ruleDefinition" p:droolsFile="rules/screen-builder.bpmn" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/package.drl" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-initialize-screen-entities.drl" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-window.drl" p:ruleId="identify-window">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<!-- // "+" sign followed by "-" X times, and ends with "+" sign -->
+										<entry key="topHorizonalBordersPattern" value="\+-+\+" />
+										<entry key="buttomHorizonalBordersPattern" value="\+-+\+" />
+										<entry key="verticalBorder" value="|" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-find-screen-name.drl" p:ruleId="find-screen-name">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="titleRegex" value="(\w+(?:\s\w+){0,5})\s{0,1}" />
+										<entry key="titleStartRow" value="1" />
+										<entry key="titleEndRow" value="3" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-editable-fields.drl" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-tables.drl" p:ruleId="identify-tables">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<!-- don't identify column which are in the format of: "Field A....:" which are typically leading labels -->
+										<entry key="notAcolumnRegex" value="([\w ]+[\.:])+" />
+										<entry key="minimumTableRows" value="3" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-readonly-fields.drl" p:ruleId="identify-readonly-fields">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="labelRegex" value="([\w ]+[\.:])+" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-actions.drl" p:ruleId="identify-actions">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="actionsRegex" value="(\w+)[=-](\w+(?:\s\w+){0,2})\s{0,1}" />
+										<entry key="rowsFromEnd" value="3" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-snapshots.drl" p:ruleId="identify-snapshots">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="identifierRegex" value="[A-Za-z]+[ ][^ ^.]*" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
 		</property>
 	</bean>
 

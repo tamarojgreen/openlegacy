@@ -1,17 +1,20 @@
 package openlegacy;
 
-rule "find-actions"
+rule "identify-actions"
 ruleflow-group "identify-actions"
 when
-	$actionsStartRow : Integer() from 22
-	$actionsEndRow : Integer() from 24
-	$actionsRegex    : String()  from "(\\w+)[=-](\\w+(?:\\s\\w+){0,2})\\s{0,1}"
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-actions")
+	$actionsRegex    : String()  from (String)$ruleParameterSet.getRuleParameters().get("actionsRegex");
+	$rowsFromEnd  : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("rowsFromEnd");
 
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
 
 	// which has a snapshot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+
+	$actionsStartRow  : Integer()  from $snapshot.getSize().getRows() - $rowsFromEnd + 1  
+	$actionsEndRow    : Integer()  from $snapshot.getSize().getRows();
 	
 	$field: TerminalField(position.row >= $actionsStartRow,position.row <= $actionsEndRow,value matches $actionsRegex) from $snapshot.getFields()
 	

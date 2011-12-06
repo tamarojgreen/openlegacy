@@ -1,9 +1,10 @@
 package openlegacy;
 
-rule "find-readonly-fields"
+rule "identify-readonly-fields"
 ruleflow-group "identify-readonly-fields"
 when
-	$labelRegex: String() from "([\\w ]+[\\.:])+"
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-readonly-fields")
+	$labelRegex      : String()  from (String)$ruleParameterSet.getRuleParameters().get("labelRegex");
 	
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()

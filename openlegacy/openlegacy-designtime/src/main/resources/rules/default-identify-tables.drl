@@ -4,9 +4,9 @@ rule "find-columns"
 ruleflow-group "identify-tables"
 salience 100
 when
-	$minimumTableRows : Integer() from 3
-	// don't identify column which are in the format of: "Field A....:" which are typically leading labels
-	$notColumnRegex	  : String() from "([\\w ]+[\\.:])+"
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-tables")
+	$notAcolumnRegex  : String()  from (String)$ruleParameterSet.getRuleParameters().get("notAcolumnRegex");
+	$minimumTableRows : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("minimumTableRows");
 		
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
@@ -15,7 +15,7 @@ when
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
 	
 	// and there is a field in a specific column (which is not a leading label) 
-	$field: TerminalField(value not matches $notColumnRegex) from $snapshot.getFields();
+	$field: TerminalField(value not matches $notAcolumnRegex) from $snapshot.getFields();
 
 	// and there is no field in this column in a higher row 
 	not TerminalField(this != $field, position.column == $field.position.column, length == $field.length,position.row < $field.position.row) from $snapshot.getFields();
