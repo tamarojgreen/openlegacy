@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <snapshot type="INCOMING">
-    <row rowNumber="1">
-        <field value="Window Screen 1" column="40" />
-    </row>
     <row rowNumber="5">
     	<field value="+--------------------+" length="22" column="30"/>
     </row>
     <row rowNumber="6">
         <field value="|" column="30" />
+        <field value="Window Screen" column="36" />
         <field value="|" column="51" />
     </row>
     <row rowNumber="7">
         <field value="|" column="30" />
         <field value="Field A:" column="35" />
-        <field value="AAAA" editable="true" column="44" />
+        <field value="in1" editable="true" column="44" />
         <field value="|" column="51" />
     </row>
     <row rowNumber="8">
         <field value="|" column="30" />
         <field value="Field B:" column="35" />
-        <field value="BBBB" column="44" />
+        <field value="in2" column="44" />
         <field value="|" column="51" />
     </row>
     <row rowNumber="9">
@@ -28,6 +26,11 @@
     </row>
     <row rowNumber="10">
     	<field value="+--------------------+" length="22" column="30"/>
+    </row>
+    <!--  outside window -->
+    <row rowNumber="12">
+        <field value="Field C:" column="35" />
+        <field value="outside" column="44" />
     </row>
     <size rows="24" columns="80"/>
 </snapshot>
