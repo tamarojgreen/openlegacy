@@ -4,9 +4,9 @@ import com.sabratec.applinx.common.runtime.GXScreenPosition;
 import com.sabratec.applinx.common.runtime.field.GXIField;
 import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
@@ -16,6 +16,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class ApxTerminalSnapshot extends AbstractSnapshot {
+
+	private static final long serialVersionUID = 1L;
 
 	private final GXRuntimeScreen screen;
 	private ArrayList<TerminalRow> rows;
@@ -114,6 +116,10 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 	public TerminalRow getRow(int rowNumber) {
 		return getRows().get(rowNumber - 1);
+	}
+
+	public Integer getSequence() {
+		return screen.getSequentialNumber();
 	}
 
 }

@@ -1,18 +1,16 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable {
+public class TerminalOutgoingSnapshot extends AbstractSnapshot {
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,19 +57,6 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 		return terminalSnapshot.getCursorPosition();
 	}
 
-	@Override
-	public int hashCode() {
-		return TerminalEqualsHashcodeUtil.snapshotHashcode(this);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (!(obj instanceof TerminalSnapshot)) {
-			return false;
-		}
-		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
-	}
-
 	public TerminalField getField(TerminalPosition position) {
 		return SnapshotUtils.getField(terminalSnapshot, position);
 	}
@@ -90,6 +75,10 @@ public class TerminalOutgoingSnapshot implements TerminalSnapshot, Serializable 
 
 	public TerminalRow getRow(int rowNumber) {
 		return terminalSnapshot.getRow(rowNumber);
+	}
+
+	public Integer getSequence() {
+		return terminalSnapshot.getSequence();
 	}
 
 }

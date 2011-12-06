@@ -28,6 +28,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TerminalPersistedSnapshot extends AbstractSnapshot {
 
+	private static final long serialVersionUID = 1L;
+
 	@XmlAttribute(name = "type")
 	private SnapshotType snapshotType;
 
@@ -48,6 +50,9 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 
 	@XmlTransient
 	private List<TerminalField> fields;
+
+	@XmlAttribute
+	private Integer sequence;
 
 	public SnapshotType getSnapshotType() {
 		return snapshotType;
@@ -140,5 +145,9 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 		TerminalPersistedRow row = new TerminalPersistedRow();
 		row.setRowNumber(rowNumber);
 		return row;
+	}
+
+	public Integer getSequence() {
+		return sequence;
 	}
 }

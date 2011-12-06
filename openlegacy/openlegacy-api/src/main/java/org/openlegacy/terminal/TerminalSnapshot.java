@@ -41,4 +41,5 @@ public interface TerminalSnapshot extends Snapshot {
 
 	Object getDelegate();
 
+	Integer getSequence();
 }

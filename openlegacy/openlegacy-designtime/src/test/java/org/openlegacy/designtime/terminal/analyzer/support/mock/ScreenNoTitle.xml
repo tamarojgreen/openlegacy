@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<snapshot type="INCOMING" sequence="1">
-    <row rowNumber="1">
-        <field value="Welcome User1" column="5" />
-        <field value="Screen 1" column="40" />
-    </row>
+<snapshot type="INCOMING" sequence="5">
     <row rowNumber="4">
         <field value="Field A:" column="3" />
         <field value="AAAA     " editable="true" column="13" />

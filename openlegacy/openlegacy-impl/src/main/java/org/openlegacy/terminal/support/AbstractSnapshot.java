@@ -4,7 +4,11 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.utils.ScreenPainter;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
-public abstract class AbstractSnapshot implements TerminalSnapshot {
+import java.io.Serializable;
+
+public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public String toString() {
@@ -23,4 +27,5 @@ public abstract class AbstractSnapshot implements TerminalSnapshot {
 		}
 		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
 	}
+
 }

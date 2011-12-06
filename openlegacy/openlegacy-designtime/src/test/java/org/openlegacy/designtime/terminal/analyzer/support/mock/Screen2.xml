@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<snapshot type="INCOMING">
+<snapshot type="INCOMING" sequence="2">
     <row rowNumber="1">
         <field value="Welcome User1" column="5" />
         <field value="Screen 2" column="40" />
