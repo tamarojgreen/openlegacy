@@ -8,9 +8,7 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 
-import java.io.Serializable;
-
-public class TerminalSessionTrailModuleImpl extends TerminalSessionModuleAdapter implements Trail, Serializable {
+public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter implements Trail {
 
 	private static final long serialVersionUID = 1L;
 

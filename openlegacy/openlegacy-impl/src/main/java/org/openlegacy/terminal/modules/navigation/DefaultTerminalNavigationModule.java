@@ -14,7 +14,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class DefaultNavigationModule extends TerminalSessionModuleAdapter implements Navigation {
+public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapter implements Navigation {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

@@ -17,7 +17,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 @SuppressWarnings("unchecked")
-public class DefaultTableModule extends TerminalSessionModuleAdapter implements Table {
+public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter implements Table {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
@@ -44,7 +46,7 @@ public class DefaultTableModule extends TerminalSessionModuleAdapter implements 
 		TableDrilldownPerformer<TerminalSession> actualDrilldownPerformer = SpringUtil.getDefaultBean(applicationContext,
 				drilldownDefinition.getDrilldownPerformer());
 
-		return actualDrilldownPerformer.drilldown(drilldownDefinition, getSession(), sourceEntityClass,
-				targetEntityClass, drilldownAction, rowKeys);
+		return actualDrilldownPerformer.drilldown(drilldownDefinition, getSession(), sourceEntityClass, targetEntityClass,
+				drilldownAction, rowKeys);
 	}
 }

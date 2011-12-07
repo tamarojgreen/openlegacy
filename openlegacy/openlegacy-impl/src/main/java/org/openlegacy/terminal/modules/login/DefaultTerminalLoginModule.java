@@ -3,6 +3,7 @@ package org.openlegacy.terminal.modules.login;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.terminal.ScreenEntity;
@@ -18,12 +19,11 @@ import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 
-import java.io.Serializable;
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class DefaultLoginModule extends TerminalSessionModuleAdapter implements Login, Serializable {
+public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter implements Login {
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +45,7 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 	// the maximum number of actions allowed in order to exit back to login screen
 	private int maxActionsToLogin = 7;
 
-	private final static Log logger = LogFactory.getLog(DefaultLoginModule.class);
+	private final static Log logger = LogFactory.getLog(DefaultTerminalLoginModule.class);
 
 	private static final String LOGIN_FAILED = "Login failed";
 
@@ -132,7 +132,11 @@ public class DefaultLoginModule extends TerminalSessionModuleAdapter implements 
 			if (logger.isDebugEnabled()) {
 				logger.debug(MessageFormat.format("Exiting screen {0} using {1}", currentEntityClass, exitAction));
 			}
-			getSession().doAction(exitAction);
+			try {
+				getSession().doAction(exitAction);
+			} catch (SessionEndedException e) {
+				break;
+			}
 			currentEntityClass = screensRecognizer.match(getSession().getSnapshot());
 
 		}

@@ -7,11 +7,15 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionModule;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
+import java.io.Serializable;
+
 /**
  * Define a terminal session override-able methods which happens before & after a terminal session action
  * 
  */
-public class TerminalSessionModuleAdapter extends SessionModuleAdapter<TerminalSession> implements TerminalSessionModule, TerminalConnectionListener {
+public abstract class TerminalSessionModuleAdapter extends SessionModuleAdapter<TerminalSession> implements TerminalSessionModule, TerminalConnectionListener, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public void beforeSendAction(TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {
 		// allow override
