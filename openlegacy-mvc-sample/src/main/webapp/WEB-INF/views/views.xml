@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+  <definition name="SignOn" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/SignOn.jspx" />
+  </definition>
+
+  <definition name="ItemsList" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/ItemsList.jspx" />
+  </definition>
+
+  <definition name="ItemDetails" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/ItemDetails.jspx" />
+  </definition>
+
+</tiles-definitions>

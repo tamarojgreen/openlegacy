@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+    <context:property-placeholder location="classpath*:/*.properties"/>
+	
+	<import resource="classpath*:/META-INF/openlegacy-webenabling-context.xml"/>
+
+	<context:component-scan base-package="apps.inventory.screens" />
+		
+	<bean id="terminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+		<property name="root" value="/session" />
+		<property name="files">
+			<list>
+				<value>SignOn.xml</value>
+				<value>SignOn-out.xml</value>
+				<value>MainMenu.xml</value>
+				<value>InventoryManagement.xml</value>
+				<value>ItemsList.xml</value>
+				<value>ItemsList_1.xml</value>
+				<value>ItemDetails1.xml</value>
+				<value>ItemDetails2.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="actionMapper" class="org.openlegacy.terminal.support.DefaultTerminalActionMapper">
+		<property name="actionMappings" ref="actionMappings" />
+	</bean>
+
+	<util:map id="actionMappings">
+		<entry key="org.openlegacy.terminal.actions.TerminalActions.ENTER"
+			value="[enter]" />
+		<entry key="org.openlegacy.terminal.actions.TerminalActions.F1"
+			value="[pf1]" />
+		<entry key="org.openlegacy.terminal.actions.TerminalActions.F3"
+			value="[pf3]" />
+		<entry key="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN"
+			value="[pagedn]" />
+		<entry key="org.openlegacy.terminal.actions.TerminalActions.PAGEUP"
+			value="[pageup]" />
+	</util:map>		
+		
+</beans>

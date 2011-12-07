@@ -21,7 +21,7 @@ public class LogoffController {
     @RequestMapping(value="/logoff", method = RequestMethod.GET)
     public String logoff() {
     	terminalSession.getModule(Login.class).logoff();
-        return "redirect:/signon";
+        return "redirect:/SignOn";
     }
 	
 }

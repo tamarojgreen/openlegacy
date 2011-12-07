@@ -5,12 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
-import org.openlegacy.samples.model.SignOn;
 import org.openlegacy.terminal.TerminalSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import apps.inventory.screens.SignOn;
 
 /**
  * Handles requests for the application home page.
@@ -22,23 +23,23 @@ public class SignOnController {
 	@Inject
 	private TerminalSession terminalSession;
 	
-    @RequestMapping(value="/signon", method = RequestMethod.GET)
+    @RequestMapping(value="/SignOn", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
-        uiModel.addAttribute("signon", new SignOn());
-        // JSP view
-        return "/signon";
+        uiModel.addAttribute("signOn", new SignOn());
+        // jspx view
+        return "SignOn";
     }
     
-    @RequestMapping(value="/signon",method = RequestMethod.POST)
+    @RequestMapping(value="/SignOn",method = RequestMethod.POST)
     public String create(SignOn signOn, Model uiModel, HttpServletRequest httpServletRequest) {
         try {
             terminalSession.getModule(Login.class).login(signOn);
 		} catch (LoginException e) {
-            uiModel.addAttribute("signon", signOn);
+            uiModel.addAttribute("signOn", signOn);
             // JSP view
-            return "/signon";
+            return "Signon";
 		}
-        return "redirect:/items";
+        return "redirect:ItemsList";
     }    
 	
 }

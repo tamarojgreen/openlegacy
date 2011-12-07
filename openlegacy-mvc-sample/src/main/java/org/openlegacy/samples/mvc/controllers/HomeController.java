@@ -1,7 +1,5 @@
 package org.openlegacy.samples.mvc.controllers;
 
-import java.util.Locale;
-
 import javax.inject.Inject;
 
 import org.openlegacy.modules.login.Login;
@@ -22,12 +20,12 @@ public class HomeController {
 	private TerminalSession terminalSession;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
+	public String home(Model model) {
 	
 		if (!terminalSession.getModule(Login.class).isLoggedIn()){
-			return "redirect:/signon";
+			return "redirect:/SignOn";
 		}
-		return "redirect:/items";
+		return "redirect:/ItemsList";
 	}
 
 	
