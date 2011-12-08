@@ -13,10 +13,10 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 				})
 public class WindowScreen {
     
-	@ScreenField(row = 7, column = 51 ,displayName = "Field A")
+	@ScreenField(row = 7, column = 44 ,editable= true ,displayName = "Field A")
     private String fieldA;
 
-	@ScreenField(row = 8, column = 44 ,displayName = "Field B")
+	@ScreenField(row = 8, column = 44 ,length= 3 ,displayName = "Field B")
     private String fieldB;
 
     

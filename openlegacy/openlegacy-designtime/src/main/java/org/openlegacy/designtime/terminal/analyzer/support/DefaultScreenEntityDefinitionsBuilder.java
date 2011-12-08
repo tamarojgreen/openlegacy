@@ -42,13 +42,11 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 		ScreenIdentification identification = screenEntityDefinition.getScreenIdentification();
 
-		// if the field was removed from the snapshot (convert to entity field/column) ignore it
-		// drools analyze the fields in advance, and ignore fields removal done during execution
-		if (!screenEntityDefinition.getSnapshot().getFields().contains(field)) {
+		if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
 			return;
 		}
 
-		// ignore the identifier if it's outside a defined window border. On border is OK
+		// ignore the identifier if it's outside a defined window border. On border is OK (true param)
 		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), true)) {
 			return;
 		}
@@ -70,36 +68,43 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
 
-		if (screenEntityDefinition.getEntityName() == null) {
-			String entityName = StringUtil.toClassName(field.getValue());
-			screenEntityDefinition.setEntityName(entityName);
+		if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
+			return;
+		}
+
+		String newEntityName = StringUtil.toClassName(field.getValue());
+		String existingEntityName = screenEntityDefinition.getEntityName();
+		if (existingEntityName == null) {
+			screenEntityDefinition.setEntityName(newEntityName);
 			snapshotsAnalyzerContext.addEntityDefinition(screenEntityDefinition);
-			logger.info(MessageFormat.format("New screen entity add: {0}", entityName));
+			logger.info(MessageFormat.format("New screen entity add: {0}", newEntityName));
+		} else {
+			logger.info(MessageFormat.format("Ignoring potential screen entity name {0}. Name already present:{1}",
+					newEntityName, existingEntityName));
+
 		}
 
 	}
 
-	public void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, String leadingLabel) {
+	public void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, TerminalField labelField) {
 
-		// if the field was removed from the snapshot (convert to entity field/column) ignore it
-		// drools analyze the fields in advance, and ignore fields removal done during execution
-		if (!screenEntityDefinition.getSnapshot().getFields().contains(field)) {
+		if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
 			return;
 		}
 
 		// ignore the field if it's outside a defined window border
 		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), false)) {
-			logger.info(MessageFormat.format("Field {0} outside window. Ignoring it. Screen: {1}", leadingLabel,
-					screenEntityDefinition.getEntityName()));
+			logger.info(MessageFormat.format("Field {0} at position {1} is outside window", labelField.getValue(),
+					field.getPosition()));
 			return;
 		}
 
-		String fieldName = StringUtil.toJavaFieldName(leadingLabel);
+		String fieldName = StringUtil.toJavaFieldName(labelField.getValue());
 		SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(fieldName, null);
 		fieldMappingDefinition.setPosition(field.getPosition());
 		fieldMappingDefinition.setLength(field.getLength());
 		fieldMappingDefinition.setEditable(field.isEditable());
-		fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(leadingLabel));
+		fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(labelField.getValue()));
 		fieldMappingDefinition.setSampleValue("");
 
 		screenEntityDefinition.getFieldsDefinitions().put(fieldName, fieldMappingDefinition);
@@ -108,8 +113,16 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		screenEntityDefinition.getSnapshot().getFields().remove(field);
 
 		String fieldTypeText = field.isEditable() ? "Editable" : "Readonly";
-		logger.info(MessageFormat.format("Added {0} field {1} to screen entity {2}", fieldTypeText, fieldName,
-				screenEntityDefinition.getEntityName()));
+		logger.info(MessageFormat.format("Added {0} field {1} at position {2} to screen entity", fieldTypeText, fieldName,
+				field.getPosition()));
+	}
+
+	/**
+	 * if the field was removed from the snapshot (convert to entity field/column) ignore it drools analyze the fields in advance,
+	 * and ignore fields removal done during execution
+	 */
+	private static boolean isFieldRemovedFromSnapshot(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+		return !screenEntityDefinition.getSnapshot().getFields().contains(field);
 	}
 
 	public void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
@@ -160,10 +173,10 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		if (!snapshot.getFields().contains(fields.get(0))) {
 			return null;
 		}
+
 		TableColumn tableColumn = new TableColumn(screenEntityDefinition, fields);
 
-		logger.info(MessageFormat.format("Recognized column \n{0} in screen entity {1}", tableColumn,
-				screenEntityDefinition.getEntityName()));
+		logger.info(MessageFormat.format("Recognized column \n{0} to screen entity", tableColumn));
 
 		return tableColumn;
 

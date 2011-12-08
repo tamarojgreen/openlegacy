@@ -18,7 +18,7 @@ public interface ScreenEntityDefinitionsBuilder {
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field);
 
-	void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField editableField, String leadingLabel);
+	void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField editableField, TerminalField labelField);
 
 	TableColumn addTableColumn(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields);
 

@@ -17,7 +17,6 @@ import java.util.List;
 
 public class TableBuilder {
 
-	private static final String ROW = "Row";
 	private static final String SELECTION_FIELD = "Selection";
 	private static final String COLUMN = "Column";
 
@@ -71,12 +70,8 @@ public class TableBuilder {
 		List<TerminalField> lastColumnFields = tableColumns.get(tableColumns.size() - 1).getFields();
 		tableDefinition.setEndRow(lastColumnFields.get(lastColumnFields.size() - 1).getPosition().getRow());
 
-		// TODO handle multiple table in screen table name
-		int tableCount = screenEntityDefinition.getTableDefinitions().size();
-		String tableSuffix = tableCount == 0 ? "" : String.valueOf(tableCount - 1);
-		tableDefinition.setTableEntityName(MessageFormat.format("{0}{1}{2}", screenEntityDefinition.getEntityName(), ROW,
-				tableSuffix));
-		screenEntityDefinition.getTableDefinitions().put(tableDefinition.getTableEntityName(), tableDefinition);
+		// add table to the screen entity without a name, which will be given by the screen entity name at a later phase
+		screenEntityDefinition.addTemporaryTable(tableDefinition);
 
 		logger.info(MessageFormat.format("Added table {0} to screen entity {1}", tableDefinition.getTableEntityName(),
 				screenEntityDefinition.getEntityName()));

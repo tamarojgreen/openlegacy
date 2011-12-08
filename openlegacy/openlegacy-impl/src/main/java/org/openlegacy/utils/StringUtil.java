@@ -61,7 +61,7 @@ public class StringUtil {
 			}
 
 		}
-		return sb.toString();
+		return sb.toString().trim();
 	}
 
 	public static boolean isEmpty(String text) {

@@ -6,7 +6,8 @@ salience 100
 when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-tables")
 	$notAcolumnRegex  : String()  from (String)$ruleParameterSet.getRuleParameters().get("notAcolumnRegex");
-	$minimumTableRows : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("minimumTableRows");
+	$minimumTableRows 		: Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("minimumTableRows");
+	$atLeastOneFieldShouldBe : String()  from (String)$ruleParameterSet.getRuleParameters().get("atLeastOneFieldShouldBe");
 		
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
@@ -21,6 +22,9 @@ when
 	not TerminalField(this != $field, position.column == $field.position.column, length == $field.length,position.row < $field.position.row) from $snapshot.getFields();
 	
 	$columnFields: List(size >= $minimumTableRows) from collect(TerminalField(position.column == $field.position.column,length == $field.length,editable == $field.editable) from $snapshot.getFields()) 
+
+	// and at list one of the columns is not empty
+	exists TerminalField(editable == true || value matches $atLeastOneFieldShouldBe) from $columnFields
 then
 	TableColumn tableColumn = screenEntityDefinitionsBuilder.addTableColumn($screenEntityDefinition,$columnFields);
 	if (tableColumn != null){

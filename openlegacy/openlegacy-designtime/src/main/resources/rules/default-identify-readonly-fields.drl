@@ -4,6 +4,7 @@ rule "identify-readonly-fields"
 ruleflow-group "identify-readonly-fields"
 when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-readonly-fields")
+	$fieldRegex      : String()  from (String)$ruleParameterSet.getRuleParameters().get("fieldRegex");
 	$labelRegex      : String()  from (String)$ruleParameterSet.getRuleParameters().get("labelRegex");
 	
 	// there is a screen definition
@@ -12,11 +13,14 @@ when
 	// and a snapshot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
 	
-	// and an field within the snapshot
-	$field: TerminalField(editable == false, length > 0) from $snapshot.getFields()
+	// and a readonly field within the snapshot which is not empty or bigger then 1, which is not at the end of the line (probably a row spacer)
+	$field: TerminalField(editable == false, value matches $fieldRegex || length > 1, position.column + length < $snapshot.size.columns) from $snapshot.getFields()
 	
-	// with a leading label before the field which is in the format of "Field A...:"
-	TerminalField(position.row == $field.position.row, position.column < $field.position.column, editable == false,value matches $labelRegex, $leadingLabel: value) from $snapshot.getFields()
+	// with a leading label before the field which is in the format of a label regex
+	$labelField: TerminalField(position.row == $field.position.row, position.column < $field.position.column, editable == false,value matches $labelRegex) from $snapshot.getFields()
+
+	// and there is no label field which is closer to the field in the format of a label field 
+	not TerminalField(editable == false, value matches $labelRegex, $field.position.column - position.column < $field.position.column - $labelField.position.column)
 then
-	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$field,$leadingLabel);
+	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$field,$labelField);
 end

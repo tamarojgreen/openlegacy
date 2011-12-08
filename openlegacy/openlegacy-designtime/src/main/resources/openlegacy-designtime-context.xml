@@ -60,7 +60,19 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-editable-fields.drl" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-editable-fields.drl" p:ruleId="identify-editable-fields">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="labelRegex" value="([\w]+[\./: ]*)+" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-tables.drl" p:ruleId="identify-tables">
 					<property name="ruleParameterSets">
 						<list>
@@ -70,6 +82,8 @@
 										<!-- don't identify column which are in the format of: "Field A....:" which are typically leading labels -->
 										<entry key="notAcolumnRegex" value="([\w ]+[\.:])+" />
 										<entry key="minimumTableRows" value="3" />
+										<!-- When identifying columns, at least one of the fields should contains alphanumeric chars -->
+										<entry key="atLeastOneFieldShouldBe" value="\w*[\w ]+" />
 									</map>
 								</property>
 							</bean>
@@ -82,7 +96,9 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
+										<entry key="fieldRegex" value="\w+[\w ]*" />
 										<entry key="labelRegex" value="([\w ]+[\.:])+" />
+										
 									</map>
 								</property>
 							</bean>

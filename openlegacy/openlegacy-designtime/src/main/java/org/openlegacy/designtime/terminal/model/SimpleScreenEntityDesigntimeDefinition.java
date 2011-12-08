@@ -5,12 +5,18 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.SimpleTableDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalRectangle;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDefinition implements ScreenEntityDesigntimeDefinition, Serializable {
+
+	private static final String ROW = "Row";
 
 	public SimpleScreenEntityDesigntimeDefinition() {
 		super(null, null);
@@ -24,9 +30,27 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 
 	private TerminalRectangle snapshotBorders = null;
 
+	private List<SimpleTableDefinition> temporaryTableDefinitions = new ArrayList<SimpleTableDefinition>();
+
 	@Override
 	public void setEntityName(String entityName) {
 		super.setEntityName(entityName);
+		populateTableNames(entityName);
+	}
+
+	/**
+	 * Get names to table. Table rely on the screen entity name, and one screen entity name is set, also set names for tables
+	 */
+	private void populateTableNames(String entityName) {
+		int count = 0;
+		for (SimpleTableDefinition tableDefinition : temporaryTableDefinitions) {
+
+			String tableSuffix = count == 0 ? "" : String.valueOf(count - 1);
+			String tableEntityName = MessageFormat.format("{0}{1}{2}", entityName, ROW, tableSuffix);
+			tableDefinition.setTableEntityName(tableEntityName);
+			getTableDefinitions().put(tableEntityName, tableDefinition);
+		}
+		temporaryTableDefinitions.clear();
 	}
 
 	@Override
@@ -61,5 +85,9 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 	public void setSnapshotBorders(TerminalRectangle snapshotBorders) {
 		this.snapshotBorders = snapshotBorders;
 		setWindow(true);
+	}
+
+	public void addTemporaryTable(SimpleTableDefinition tableDefinition) {
+		temporaryTableDefinitions.add(tableDefinition);
 	}
 }

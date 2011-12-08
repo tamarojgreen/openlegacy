@@ -14,7 +14,7 @@ public class Screen1 {
 	@ScreenField(row = 4, column = 13 ,editable= true ,displayName = "Field A")
     private String fieldA;
 
-	@ScreenField(row = 5, column = 13 ,displayName = "Field B")
+	@ScreenField(row = 5, column = 13 ,length= 8 ,displayName = "Field B")
     private String fieldB;
 
     

@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -129,6 +130,22 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		assertScreenContent(screenEntitiesDefinitions.get("Screen2"), "Screen2.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("TableScreen"), "TableScreen.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("WindowScreen"), "WindowScreen.java.expected");
+	}
+
+	@Test
+	public void testInventoryAppGenerate() throws TemplateException, IOException {
+		snapshotsSorter.setMatchingPercent(95);
+		snapshotsSorter.clear();
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
+				getClass().getResource("/apps/inventory/screens_xml").getFile(), "SignOn.xml");
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
+		Collection<ScreenEntityDefinition> screenEntitiesDefinitionsValues = screenEntitiesDefinitions.values();
+		for (ScreenEntityDefinition screenEntityDefinition : screenEntitiesDefinitionsValues) {
+			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName("com.test");
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			new ScreenEntityJavaGenerator().generate(screenEntityDefinition, baos);
+			System.out.println(new String(baos.toByteArray()));
+		}
 	}
 
 	private void assertScreenContent(ScreenEntityDefinition screen, String expectedResource) throws TemplateException,
