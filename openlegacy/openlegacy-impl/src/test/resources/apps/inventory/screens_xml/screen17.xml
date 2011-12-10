@@ -145,21 +145,6 @@
         <field column="3" value="                                                             "/>
         <field column="65" value="                "/>
     </row>
-    <row rowNumber="18">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="19">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="20">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="21">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="22">
-        <field column="1" value="                                                                                "/>
-    </row>
     <row rowNumber="23">
         <field column="2" value="F1=Help  F4=Prompt  F12=Cancel  F14=Delete"/>
         <field column="45" value="                                    "/>

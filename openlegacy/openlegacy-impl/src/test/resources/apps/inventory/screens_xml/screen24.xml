@@ -8,9 +8,6 @@
         <field column="16" value="            Display Program Messages            "/>
         <field column="65" value="                "/>
     </row>
-    <row rowNumber="2">
-        <field column="1" value="                                                                                "/>
-    </row>
     <row rowNumber="3">
         <field column="2" value="Job 023007/STUDENT2/QPADEV00RT started on 02/06/05 at 11:44:08 in subsystem "/>
         <field column="79" value="  "/>
@@ -19,67 +16,13 @@
         <field column="2" value="Initial program ended and *SIGNOFF specified for initial menu.              "/>
         <field column="79" value="  "/>
     </row>
-    <row rowNumber="5">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="6">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="7">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="8">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="9">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="10">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="11">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="12">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="13">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="14">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="15">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="16">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="17">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="18">
-        <field column="1" value="                                                                                "/>
-    </row>
     <row rowNumber="19">
         <field column="2" value="Press Enter to continue.                   "/>
         <field column="46" value="                                   "/>
     </row>
-    <row rowNumber="20">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="21">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="22">
-        <field column="1" value="                                                                                "/>
-    </row>
     <row rowNumber="23">
         <field column="2" value="F3=Exit   F12=Cancel          "/>
         <field column="33" value="                                                "/>
-    </row>
-    <row rowNumber="24">
-        <field column="1" value="                                                                                "/>
     </row>
     <size rows="24" columns="80"/>
     <cursor row="1" column="1"/>

@@ -64,6 +64,9 @@ public class StringUtil {
 		return sb.toString().trim();
 	}
 
+	/**
+	 * Might be use in the future for additional field formatting ("_", etc)
+	 */
 	public static boolean isEmpty(String text) {
 		return StringUtils.isBlank(text);
 	}

@@ -14,15 +14,9 @@
         <field column="57" value="               "/>
         <field column="73" value="11:45:26"/>
     </row>
-    <row rowNumber="3">
-        <field column="2" value="                                                                               "/>
-    </row>
     <row rowNumber="4">
         <field column="2" value="Type choices, press Enter."/>
         <field column="29" value="                                                    "/>
-    </row>
-    <row rowNumber="5">
-        <field column="1" value="                                                                                "/>
     </row>
     <row rowNumber="6">
         <field column="2" value="Warehouse Number . . . . . . ."/>
@@ -50,9 +44,6 @@
         <field column="34" value="" length="1" editable="true"/>
         <field column="36" value="                                             "/>
     </row>
-    <row rowNumber="11">
-        <field column="1" value="                                                                                "/>
-    </row>
     <row rowNumber="12">
         <field column="2" value="Amended date . . . . . . . . :"/>
         <field column="34" value="23/01/2005"/>
@@ -72,27 +63,6 @@
         <field column="2" value="Created by . . . . . . . . . :"/>
         <field column="34" value="NETTA     "/>
         <field column="45" value="                                    "/>
-    </row>
-    <row rowNumber="16">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="17">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="18">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="19">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="20">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="21">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="22">
-        <field column="1" value="                                                                                "/>
     </row>
     <row rowNumber="23">
         <field column="2" value="F1=Help  F4=Prompt  F12=Cancel  F14=Delete"/>

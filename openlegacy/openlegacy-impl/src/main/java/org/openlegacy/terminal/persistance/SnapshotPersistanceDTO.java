@@ -7,6 +7,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.StringUtil;
 
 import java.util.Iterator;
 import java.util.List;
@@ -63,9 +64,16 @@ public class SnapshotPersistanceDTO {
 
 			collectRowFields(fieldSeperators, terminalRow, persistedRow);
 
-			if (persistedRow.getFields().size() > 0) {
-				persistedSnapshot.getRows().add(persistedRow);
+			// don't copy empty rows
+			if (persistedRow.getFields().size() == 0) {
+				continue;
 			}
+			// don't copy row with single empty field
+			if (persistedRow.getFields().size() == 1 && StringUtil.isEmpty(persistedRow.getFields().get(0).getValue())) {
+				continue;
+			}
+
+			persistedSnapshot.getRows().add(persistedRow);
 		}
 		return persistedSnapshot;
 	}

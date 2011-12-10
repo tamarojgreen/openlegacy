@@ -22,6 +22,7 @@ import java.io.IOException;
 public abstract class AbstractSnapshotsDumper {
 
 	private final static Log logger = LogFactory.getLog(AbstractSnapshotsDumper.class);
+	protected static final String OUTGOING_FILE_INDICATOR = "-out";
 
 	public void dumpSession(File baseDir, boolean cleanupFolder, String sprintContext) throws Exception {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(sprintContext);
@@ -36,7 +37,9 @@ public abstract class AbstractSnapshotsDumper {
 			FileCommandExecuter.execute(baseDir, new FileCommand() {
 
 				public void doCommand(File file) {
-					file.delete();
+					if (!file.getName().contains(OUTGOING_FILE_INDICATOR)) {
+						file.delete();
+					}
 				}
 
 				public boolean accept(File file) {

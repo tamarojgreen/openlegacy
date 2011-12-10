@@ -14,9 +14,6 @@
         <field column="57" value="               "/>
         <field column="73" value="11:44:53"/>
     </row>
-    <row rowNumber="3">
-        <field column="2" value="                                                                               "/>
-    </row>
     <row rowNumber="4">
         <field column="2" value="Type one or more action codes. Then Enter.                                    "/>
     </row>
@@ -28,9 +25,6 @@
         <field column="35" value="6=Items"/>
         <field column="44" value="7=Locations"/>
         <field column="56" value="                         "/>
-    </row>
-    <row rowNumber="6">
-        <field column="1" value="                                                                                "/>
     </row>
     <row rowNumber="7">
         <field column="2" value="Action"/>
@@ -147,23 +141,14 @@
         <field column="57" value="                     "/>
         <field column="79" value=" "/>
     </row>
-    <row rowNumber="20">
-        <field column="1" value="                                                                                "/>
-    </row>
     <row rowNumber="21">
         <field column="2" value="Position to . ."/>
         <field column="18" value="" length="3" editable="true"/>
         <field column="22" value="                                                           "/>
     </row>
-    <row rowNumber="22">
-        <field column="1" value="                                                                                "/>
-    </row>
     <row rowNumber="23">
         <field column="2" value="F1=Help  F3=Exit  F6=Create  F12=Cancel"/>
         <field column="42" value="                                       "/>
-    </row>
-    <row rowNumber="24">
-        <field column="1" value="                                                                                "/>
     </row>
     <size rows="24" columns="80"/>
     <cursor row="8" column="4"/>
