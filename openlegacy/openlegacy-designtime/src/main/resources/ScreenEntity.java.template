@@ -29,11 +29,9 @@ import org.openlegacy.annotations.screen.ScreenTable;
 </#if>
 public class ${entityName} {
     
-	<#assign fieldNames = fieldsDefinitions?keys>
-	<#list fieldNames as fieldName>
-	<#assign field = fieldsDefinitions[fieldName]>
+	<#list sortedFields as field> 
 	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.editable == false> ,length= ${field.length}</#if><#if field.editable> ,editable= true</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
-    private String ${fieldName};
+    private String ${field.name};
 
 	</#list>	
     
@@ -56,5 +54,5 @@ public class ${entityName} {
 		</#list>	
 	}    
 	</#list>	
-    
+ 
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <snapshot type="INCOMING" sequence="2">
     <row rowNumber="1">
-        <field value="Welcome User1" column="5" />
         <field value="Screen 2" column="40" />
     </row>
     <row rowNumber="4">
@@ -31,9 +30,9 @@
         <field value="Field F1:" column="3" />
         <field value="FF    " column="13" />
         <field value="Field F2:" column="37" />
-        <field value="  " length="10" column="47"/>
+        <field value="F2" length="10" column="47"/>
         <field value="Field F3:" column="50" />
-        <field value="   " length="8" column="60"/>
+        <field value="F3" length="8" column="60"/>
     </row>
     <row rowNumber="24">
         <field value="F1=Help" column="3" />

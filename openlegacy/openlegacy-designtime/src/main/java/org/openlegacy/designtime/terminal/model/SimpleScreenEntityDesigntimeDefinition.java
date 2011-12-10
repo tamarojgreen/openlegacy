@@ -1,9 +1,11 @@
 package org.openlegacy.designtime.terminal.model;
 
+import org.openlegacy.designtime.terminal.analyzer.support.TerminalPositionContainerComparator;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
@@ -12,6 +14,8 @@ import org.openlegacy.terminal.support.SimpleTerminalRectangle;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDefinition implements ScreenEntityDesigntimeDefinition, Serializable {
@@ -89,5 +93,13 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 
 	public void addTemporaryTable(SimpleTableDefinition tableDefinition) {
 		temporaryTableDefinitions.add(tableDefinition);
+	}
+
+	public List<ScreenFieldDefinition> getSortedFields() {
+		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
+
+		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
+		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
+		return sortedFields;
 	}
 }

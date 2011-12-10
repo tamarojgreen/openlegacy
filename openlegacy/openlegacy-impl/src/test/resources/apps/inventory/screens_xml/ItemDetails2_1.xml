@@ -10,8 +10,7 @@
     <row rowNumber="2">
         <field column="2" value="MITMMAST  "/>
         <field column="13" value="            "/>
-        <field column="26" value="    "/>
-        <field column="30" value="Work with Item Master     "/>
+        <field column="26" value="    Work with Item Master     "/>
         <field column="57" value="               "/>
         <field column="73" value="11:44:39"/>
     </row>
@@ -89,14 +88,12 @@
         <field column="73" value="        "/>
     </row>
     <row rowNumber="17">
-        <field column="2" value="List Price  "/>
-        <field column="14" value=". . . . . . ."/>
+        <field column="2" value="List Price  . . . . . . ."/>
         <field column="29" value="" length="13" editable="true"/>
         <field column="43" value="                                      "/>
     </row>
     <row rowNumber="18">
-        <field column="2" value="Standard unit cost  "/>
-        <field column="22" value=". . ."/>
+        <field column="2" value="Standard unit cost  . . ."/>
         <field column="29" value="" length="13" editable="true"/>
         <field column="43" value="             "/>
         <field column="57" value="Audit Details"/>
@@ -127,11 +124,7 @@
         <field column="80" value=" "/>
     </row>
     <row rowNumber="23">
-        <field column="2" value="F1=Help  "/>
-        <field column="11" value="F3=Cancel  "/>
-        <field column="22" value="F4=Prompt  "/>
-        <field column="33" value="F12=Return  "/>
-        <field column="45" value="F14=Delete"/>
+        <field column="2" value="F1=Help  F3=Cancel  F4=Prompt  F12=Return  F14=Delete"/>
         <field column="56" value="                         "/>
     </row>
     <row rowNumber="24">

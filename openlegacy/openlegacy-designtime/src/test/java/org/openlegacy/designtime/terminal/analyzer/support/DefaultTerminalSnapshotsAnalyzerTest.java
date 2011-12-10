@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -139,13 +138,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
 				getClass().getResource("/apps/inventory/screens_xml").getFile(), "SignOn.xml");
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
-		Collection<ScreenEntityDefinition> screenEntitiesDefinitionsValues = screenEntitiesDefinitions.values();
-		for (ScreenEntityDefinition screenEntityDefinition : screenEntitiesDefinitionsValues) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName("com.test");
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			new ScreenEntityJavaGenerator().generate(screenEntityDefinition, baos);
-			System.out.println(new String(baos.toByteArray()));
-		}
+		assertScreenContent(screenEntitiesDefinitions.get("SignOn"), "SignOn.java.expected");
 	}
 
 	private void assertScreenContent(ScreenEntityDefinition screen, String expectedResource) throws TemplateException,

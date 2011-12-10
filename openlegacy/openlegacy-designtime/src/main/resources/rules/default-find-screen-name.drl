@@ -10,6 +10,8 @@ when
 	$titleRegex    : String()  from (String)$ruleParameterSet.getRuleParameters().get("titleRegex");
 	$titleStartRowParam  : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleStartRow");
 	$titleEndRowParam    : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleEndRow");
+	$titleStartColumn  : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleStartColumn");
+	$titleEndColumn    : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleEndColumn");
 
 	// considering possible window borders
 	$borderStartRow: Integer() from $screenEntityDefinition.getSnapshotBorders().getTopLeftPosition().getRow();
@@ -18,15 +20,15 @@ when
 	
 	// which has a snaphot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot
-	 
-	// collect all the other snapshots
-	$otherSnapshots: List() from accumulate ( s: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition), collectList(s.getSnapshot()) )
 
 	// and there is a field from the snapshot in the title rows which matches a title pattern 
-	TerminalField($field : this, position.row >= $titleStartRow, position.row <= $titleEndRow, editable == false,value matches $titleRegex) from $snapshot.getFields()
-	 
-	// and this field doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
-	not TerminalSnapshot(fields contains $field) from $otherSnapshots 
+	$field: TerminalField(position.row >= $titleStartRow, position.row <= $titleEndRow, 
+							// consider title column range only when there is no window boder ($borderStartRow == 1)
+							position.column >= $titleStartColumn || $borderStartRow > 1, position.column <= $titleEndColumn || $borderStartRow > 1,
+							editable == false,value matches $titleRegex) from $snapshot.getFields()
+
+	// and there is no longer field in the title area which is also a potential title 
+	not TerminalField(length > $field.length,position.row >= $titleStartRow, position.row <= $titleEndRow, editable == false,value matches $titleRegex) from $snapshot.getFields()
 then
 	screenEntityDefinitionsBuilder.setScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
 end

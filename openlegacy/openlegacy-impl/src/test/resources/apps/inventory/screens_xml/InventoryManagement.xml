@@ -3,8 +3,7 @@
     <row rowNumber="1">
         <field column="2" value="STUDENT2  "/>
         <field column="13" value="  "/>
-        <field column="16" value="               "/>
-        <field column="31" value="Inventory Management               "/>
+        <field column="16" value="               Inventory Management               "/>
         <field column="67" value="              "/>
     </row>
     <row rowNumber="2">
@@ -119,8 +118,7 @@
     </row>
     <row rowNumber="23">
         <field column="2" value="F1=Help"/>
-        <field column="11" value="F3=Home  "/>
-        <field column="20" value="F12=Prev"/>
+        <field column="11" value="F3=Home  F12=Prev"/>
         <field column="30" value="F21=Command"/>
         <field column="42" value="                                       "/>
     </row>

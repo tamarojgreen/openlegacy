@@ -57,7 +57,7 @@ public class DefaultTerminalSnapshotsSorterTest {
 
 		snapshotsSorter.add(snapshots);
 
-		Assert.assertEquals(10, snapshotsSorter.getGroups().size());
+		Assert.assertEquals(11, snapshotsSorter.getGroups().size());
 		Iterator<Set<TerminalSnapshot>> iterator = snapshotsSorter.getGroups().iterator();
 		// Inventory management
 		Assert.assertEquals(1, iterator.next().size());

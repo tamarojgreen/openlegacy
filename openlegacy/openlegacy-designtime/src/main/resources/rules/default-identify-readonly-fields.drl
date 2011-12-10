@@ -13,8 +13,8 @@ when
 	// and a snapshot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
 	
-	// and a readonly field within the snapshot which is not empty or bigger then 1, which is not at the end of the line (probably a row spacer)
-	$field: TerminalField(editable == false, value matches $fieldRegex || length > 1, position.column + length < $snapshot.size.columns) from $snapshot.getFields()
+	// and a readonly field within the snapshot which matches a field regex
+	$field: TerminalField(editable == false, value matches $fieldRegex) from $snapshot.getFields()
 	
 	// with a leading label before the field which is in the format of a label regex
 	$labelField: TerminalField(position.row == $field.position.row, position.column < $field.position.column, editable == false,value matches $labelRegex) from $snapshot.getFields()

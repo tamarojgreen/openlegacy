@@ -51,9 +51,11 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="titleRegex" value="(\w+(?:\s\w+){0,5})\s{0,1}" />
+										<entry key="titleRegex" value="\s*\w+[\w ]*" />
 										<entry key="titleStartRow" value="1" />
 										<entry key="titleEndRow" value="3" />
+										<entry key="titleStartColumn" value="20" />
+										<entry key="titleEndColumn" value="60" />
 									</map>
 								</property>
 							</bean>
@@ -66,7 +68,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="([\w]+[\./: ]*)+" />
+										<entry key="labelRegex" value="(\w+[\./: ]*)+" />
 									</map>
 								</property>
 							</bean>
@@ -83,7 +85,7 @@
 										<entry key="notAcolumnRegex" value="([\w ]+[\.:])+" />
 										<entry key="minimumTableRows" value="3" />
 										<!-- When identifying columns, at least one of the fields should contains alphanumeric chars -->
-										<entry key="atLeastOneFieldShouldBe" value="\w*[\w ]+" />
+										<entry key="atLeastOneFieldShouldBe" value="\w+[\w ]+" />
 									</map>
 								</property>
 							</bean>
@@ -97,7 +99,7 @@
 								<property name="ruleParameters">
 									<map>
 										<entry key="fieldRegex" value="\w+[\w ]*" />
-										<entry key="labelRegex" value="([\w ]+[\.:])+" />
+										<entry key="labelRegex" value="\w+.*[\.:].*" />
 										
 									</map>
 								</property>
@@ -126,7 +128,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="identifierRegex" value="[A-Za-z]+[ ][^ ^.]*" />
+										<entry key="identifierRegex" value="\s*[a-zA-Z]+[.: ]*.*" />
 									</map>
 								</property>
 							</bean>

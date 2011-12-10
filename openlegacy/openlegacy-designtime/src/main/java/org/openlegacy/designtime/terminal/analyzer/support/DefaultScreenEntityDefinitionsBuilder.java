@@ -36,32 +36,37 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityDefinitionsBuilder.class);
 
-	public void addIdentifier(
+	public void addIdentifiers(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
-			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields) {
 
 		ScreenIdentification identification = screenEntityDefinition.getScreenIdentification();
 
-		if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
-			return;
-		}
-
-		// ignore the identifier if it's outside a defined window border. On border is OK (true param)
-		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), true)) {
-			return;
-		}
+		Collections.sort(fields, TerminalPositionContainerComparator.instance());
 
 		List<ScreenIdentifier> screenIdentifiers = identification.getScreenIdentifiers();
-		if (screenIdentifiers.size() >= maxIdentifiers) {
-			return;
-		}
-		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
-		screenIdentifiers.add(identifier);
 
+		for (TerminalField field : fields) {
+			if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
+				continue;
+			}
+
+			// ignore the identifier if it's outside a defined window border. On border is OK (true param)
+			if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), true)) {
+				continue;
+			}
+
+			if (screenIdentifiers.size() >= maxIdentifiers) {
+				break;
+			}
+			ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
+			screenIdentifiers.add(identifier);
+
+			logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen {2}", field.getValue(),
+					field.getPosition(), screenEntityDefinition.getEntityName()));
+		}
 		Collections.sort(screenIdentifiers, TerminalPositionContainerComparator.instance());
 
-		logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen {2}", field.getValue(),
-				field.getPosition(), screenEntityDefinition.getEntityName()));
 	}
 
 	public void setScreenEntityName(
@@ -93,19 +98,19 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		}
 
 		// ignore the field if it's outside a defined window border
+		String label = labelField.getValue();
 		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), false)) {
-			logger.info(MessageFormat.format("Field {0} at position {1} is outside window", labelField.getValue(),
-					field.getPosition()));
+			logger.info(MessageFormat.format("Field {0} at position {1} is outside window", label, field.getPosition()));
 			return;
 		}
 
-		String fieldName = StringUtil.toJavaFieldName(labelField.getValue());
+		String fieldName = StringUtil.toJavaFieldName(label);
 		SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(fieldName, null);
 		fieldMappingDefinition.setPosition(field.getPosition());
 		fieldMappingDefinition.setLength(field.getLength());
 		fieldMappingDefinition.setEditable(field.isEditable());
-		fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(labelField.getValue()));
-		fieldMappingDefinition.setSampleValue("");
+		fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(label));
+		fieldMappingDefinition.setSampleValue(StringUtil.toSampleValue(field.getValue()));
 
 		screenEntityDefinition.getFieldsDefinitions().put(fieldName, fieldMappingDefinition);
 

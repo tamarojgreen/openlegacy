@@ -9,14 +9,8 @@ when
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
 	// which has a snaphot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot
-	 
-	// collect all the other snapshots
-	$otherSnapshots: List() from accumulate ( s: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition), collectList(s.getSnapshot()) )
 
-	$field: TerminalField(value matches $identifierRegex, editable == false) from $snapshot.getFields() 
-
-	// and this fields doesn't exist on one of the other snapshots (equals by length, text, position and editable) 
-	not TerminalSnapshot(fields contains $field) from $otherSnapshots 
+	$identifiers: List() from collect (TerminalField(value matches $identifierRegex, editable == false) from $snapshot.getFields())
 then
-	screenEntityDefinitionsBuilder.addIdentifier(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
+	screenEntityDefinitionsBuilder.addIdentifiers(snapshotsAnalyzerContext,$screenEntityDefinition,$identifiers);
 end

@@ -3,6 +3,7 @@ package org.openlegacy.terminal.persistance;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.SnapshotUtils;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -92,6 +93,10 @@ public class TerminalPersistedField extends AbstractTerminalField {
 
 	public void setModified(boolean modified) {
 		this.modified = modified;
+	}
+
+	public TerminalPosition getEndPosition() {
+		return SnapshotUtils.getEndPosition(this);
 	}
 
 }

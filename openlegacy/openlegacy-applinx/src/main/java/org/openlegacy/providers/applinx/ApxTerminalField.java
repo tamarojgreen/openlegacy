@@ -5,6 +5,7 @@ import com.sabratec.applinx.common.runtime.field.GXIField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.SnapshotUtils;
 
 public class ApxTerminalField extends AbstractTerminalField {
 
@@ -44,5 +45,9 @@ public class ApxTerminalField extends AbstractTerminalField {
 
 	public boolean isModified() {
 		return modifiedValue != null;
+	}
+
+	public TerminalPosition getEndPosition() {
+		return SnapshotUtils.getEndPosition(this);
 	}
 }

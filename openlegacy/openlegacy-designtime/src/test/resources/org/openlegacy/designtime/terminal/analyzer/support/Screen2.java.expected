@@ -10,9 +10,9 @@ import org.openlegacy.terminal.actions.TerminalActions;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 6, column = 3, value = "Field C:"), 
-				@Identifier(row = 7, column = 3, value = "Field E1:"), 
-				@Identifier(row = 8, column = 3, value = "Field F1:") 
+				@Identifier(row = 1, column = 40, value = "Screen 2"), 
+				@Identifier(row = 4, column = 3, value = "Field A:"), 
+				@Identifier(row = 5, column = 3, value = "Field B:") 
 				})
 @ScreenActions(actions = { 
 				@Action(action = TerminalActions.F1.class, displayName = "Help"), 
@@ -20,35 +20,35 @@ import org.openlegacy.terminal.actions.TerminalActions;
 				})
 public class Screen2 {
     
-	@ScreenField(row = 4, column = 13 ,editable= true ,displayName = "Field A")
+	@ScreenField(row = 4, column = 13 ,editable= true ,displayName = "Field A", sampleValue = "AAAA")
     private String fieldA;
 
-	@ScreenField(row = 5, column = 13 ,length= 8 ,displayName = "Field B")
+	@ScreenField(row = 5, column = 13 ,length= 8 ,displayName = "Field B", sampleValue = "BBBB")
     private String fieldB;
 
-	@ScreenField(row = 6, column = 13 ,length= 8 ,displayName = "Field C")
+	@ScreenField(row = 6, column = 13 ,length= 8 ,displayName = "Field C", sampleValue = "CCCC")
     private String fieldC;
 
-	@ScreenField(row = 6, column = 43 ,editable= true ,displayName = "Field D")
+	@ScreenField(row = 6, column = 43 ,editable= true ,displayName = "Field D", sampleValue = "DDDD")
     private String fieldD;
 
-	@ScreenField(row = 7, column = 13 ,length= 6 ,displayName = "Field E1")
+	@ScreenField(row = 7, column = 13 ,length= 6 ,displayName = "Field E1", sampleValue = "EE")
     private String fieldE1;
 
-	@ScreenField(row = 7, column = 44 ,length= 6 ,displayName = "Field E2")
+	@ScreenField(row = 7, column = 44 ,length= 6 ,displayName = "Field E2", sampleValue = "EEEE")
     private String fieldE2;
 
-	@ScreenField(row = 8, column = 13 ,length= 6 ,displayName = "Field F1")
+	@ScreenField(row = 8, column = 13 ,length= 6 ,displayName = "Field F1", sampleValue = "FF")
     private String fieldF1;
 
-	@ScreenField(row = 8, column = 47 ,length= 10 ,displayName = "Field F2")
+	@ScreenField(row = 8, column = 47 ,length= 10 ,displayName = "Field F2", sampleValue = "F2")
     private String fieldF2;
 
-	@ScreenField(row = 8, column = 60 ,length= 8 ,displayName = "Field F3")
+	@ScreenField(row = 8, column = 60 ,length= 8 ,displayName = "Field F3", sampleValue = "F3")
     private String fieldF3;
 
     
 
 
-    
+ 
 }

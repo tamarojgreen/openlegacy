@@ -150,4 +150,9 @@ public class SnapshotUtils {
 		return null;
 	}
 
+	public static TerminalPosition getEndPosition(TerminalField field) {
+		TerminalPosition position = field.getPosition();
+		return SimpleTerminalPosition.newInstance(position.getRow(), position.getColumn() + field.getLength() - 1);
+	}
+
 }

@@ -9,4 +9,6 @@ public interface TerminalPosition extends Comparable<TerminalPosition> {
 	int getRow();
 
 	public int getColumn();
+
+	public TerminalPosition next();
 }

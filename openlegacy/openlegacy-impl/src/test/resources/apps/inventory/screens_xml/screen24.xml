@@ -5,8 +5,7 @@
         <field column="5" value="      "/>
         <field column="12" value=" "/>
         <field column="14" value=" "/>
-        <field column="16" value="            "/>
-        <field column="28" value="Display Program Messages            "/>
+        <field column="16" value="            Display Program Messages            "/>
         <field column="65" value="                "/>
     </row>
     <row rowNumber="2">
@@ -76,8 +75,7 @@
         <field column="1" value="                                                                                "/>
     </row>
     <row rowNumber="23">
-        <field column="2" value="F3=Exit   "/>
-        <field column="12" value="F12=Cancel          "/>
+        <field column="2" value="F3=Exit   F12=Cancel          "/>
         <field column="33" value="                                                "/>
     </row>
     <row rowNumber="24">

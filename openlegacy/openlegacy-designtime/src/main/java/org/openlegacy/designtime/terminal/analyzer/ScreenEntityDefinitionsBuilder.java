@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface ScreenEntityDefinitionsBuilder {
 
-	void addIdentifier(SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
-			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field);
+	void addIdentifiers(SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
+			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields);
 
 	void setScreenEntityName(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,

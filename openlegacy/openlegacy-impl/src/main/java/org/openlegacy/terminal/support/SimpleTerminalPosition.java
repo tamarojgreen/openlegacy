@@ -64,4 +64,8 @@ public class SimpleTerminalPosition implements TerminalPosition {
 	public int compareTo(TerminalPosition o) {
 		return SnapshotUtils.comparePositions(this, o);
 	}
+
+	public TerminalPosition next() {
+		return SimpleTerminalPosition.newInstance(row, column + 1);
+	}
 }

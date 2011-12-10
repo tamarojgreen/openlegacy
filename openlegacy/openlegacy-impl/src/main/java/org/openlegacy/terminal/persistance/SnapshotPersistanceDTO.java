@@ -1,13 +1,14 @@
 package org.openlegacy.terminal.persistance;
 
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
 import org.openlegacy.utils.ReflectionUtil;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class SnapshotPersistanceDTO {
@@ -54,24 +55,52 @@ public class SnapshotPersistanceDTO {
 		ReflectionUtil.copyProperties(persistedSnapshot, snapshot);
 
 		List<TerminalRow> rows = snapshot.getRows();
+		List<TerminalPosition> fieldSeperators = snapshot.getFieldSeperators();
+
 		for (TerminalRow terminalRow : rows) {
 			TerminalPersistedRow persistedRow = new TerminalPersistedRow();
 			ReflectionUtil.copyProperties(persistedRow, terminalRow);
 
-			List<TerminalField> fields = terminalRow.getFields();
-			for (TerminalField terminalField : fields) {
-				TerminalPersistedField persistedField = new TerminalPersistedField();
-				ReflectionUtil.copyProperties(persistedField, terminalField);
-				// avoid persistence of length attribute if it's the same size as the value length
-				if (persistedField.getValue().length() == persistedField.getLength()) {
-					persistedField.resetLength();
-				}
-				persistedRow.getFields().add(persistedField);
-			}
+			collectRowFields(fieldSeperators, terminalRow, persistedRow);
+
 			if (persistedRow.getFields().size() > 0) {
 				persistedSnapshot.getRows().add(persistedRow);
 			}
 		}
 		return persistedSnapshot;
 	}
+
+	private static void collectRowFields(List<TerminalPosition> fieldSeperators, TerminalRow terminalRow,
+			TerminalPersistedRow persistedRow) {
+		List<TerminalField> fields = terminalRow.getFields();
+		for (Iterator<TerminalField> iterator = fields.iterator(); iterator.hasNext();) {
+			TerminalField field = iterator.next();
+
+			TerminalPersistedField persistedField = new TerminalPersistedField();
+			ReflectionUtil.copyProperties(persistedField, field);
+			// avoid persistence of length attribute if it's the same size as the value length
+			if (persistedField.getValue().length() == persistedField.getLength()) {
+				persistedField.resetLength();
+			}
+			// gather all read-only fields which has not separator between them
+			// when persisting a snapshot, the persisted snapshot should not split read-only field unless defined that way by
+			// the host
+			while (!fieldSeperators.contains(field.getEndPosition().next())) {
+				if (!iterator.hasNext()) {
+					break;
+				}
+				if (field.isEditable()) {
+					break;
+				}
+				if (field.getPosition().getRow() != persistedField.getPosition().getRow()) {
+					break;
+				}
+
+				field = iterator.next();
+				persistedField.setValue(persistedField.getValue() + field.getValue());
+			}
+			persistedRow.getFields().add(persistedField);
+		}
+	}
+
 }

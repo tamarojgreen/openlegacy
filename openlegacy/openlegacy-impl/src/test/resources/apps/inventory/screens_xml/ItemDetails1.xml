@@ -10,8 +10,7 @@
     <row rowNumber="2">
         <field column="2" value="MITMMAST  "/>
         <field column="13" value="            "/>
-        <field column="26" value="    "/>
-        <field column="30" value="Work with Item Master     "/>
+        <field column="26" value="    Work with Item Master     "/>
         <field column="57" value="               "/>
         <field column="73" value="11:44:28"/>
     </row>
@@ -31,14 +30,12 @@
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="7">
-        <field column="2" value="Item Description  "/>
-        <field column="20" value=". . . . . ."/>
+        <field column="2" value="Item Description  . . . . . ."/>
         <field column="33" value="Tomato - VEG" length="40" editable="true"/>
         <field column="74" value="       "/>
     </row>
     <row rowNumber="8">
-        <field column="2" value="Alpha Search  "/>
-        <field column="16" value=". . . . . . . ."/>
+        <field column="2" value="Alpha Search  . . . . . . . ."/>
         <field column="33" value="TOMATO" length="10" editable="true"/>
         <field column="44" value="                                     "/>
     </row>
@@ -53,14 +50,12 @@
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="11">
-        <field column="2" value="Substitute item number  "/>
-        <field column="26" value=". . ."/>
+        <field column="2" value="Substitute item number  . . ."/>
         <field column="33" value="" length="15" editable="true"/>
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="12">
-        <field column="2" value="Manufacturers Item No.  "/>
-        <field column="26" value=". . ."/>
+        <field column="2" value="Manufacturers Item No.  . . ."/>
         <field column="33" value="" length="15" editable="true"/>
         <field column="49" value="                                "/>
     </row>
@@ -70,8 +65,7 @@
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="14">
-        <field column="2" value="Item Class  "/>
-        <field column="14" value=". . . . . . . . ."/>
+        <field column="2" value="Item Class  . . . . . . . . ."/>
         <field column="33" value="VEG" editable="true"/>
         <field column="37" value="Vegetables                              "/>
         <field column="78" value="   "/>
@@ -88,8 +82,7 @@
         <field column="39" value="                                          "/>
     </row>
     <row rowNumber="17">
-        <field column="2" value="Packing Multiplier  "/>
-        <field column="22" value=". . . . ."/>
+        <field column="2" value="Packing Multiplier  . . . . ."/>
         <field column="33" value="" length="6" editable="true"/>
         <field column="40" value="                                         "/>
     </row>
@@ -99,8 +92,7 @@
         <field column="39" value="                                          "/>
     </row>
     <row rowNumber="19">
-        <field column="2" value="Outer Quantity  "/>
-        <field column="18" value=". . . . . . ."/>
+        <field column="2" value="Outer Quantity  . . . . . . ."/>
         <field column="33" value="" length="10" editable="true"/>
         <field column="44" value="                                     "/>
     </row>
@@ -110,8 +102,7 @@
         <field column="35" value="                                              "/>
     </row>
     <row rowNumber="21">
-        <field column="2" value="VAT Code  "/>
-        <field column="12" value=". . . . . . . . . ."/>
+        <field column="2" value="VAT Code  . . . . . . . . . ."/>
         <field column="33" value="" length="2" editable="true"/>
         <field column="36" value="                                        "/>
         <field column="77" value="    "/>
@@ -120,10 +111,7 @@
         <field column="1" value="                                                                                "/>
     </row>
     <row rowNumber="23">
-        <field column="2" value="F1=Help  "/>
-        <field column="11" value="F4=Prompt  "/>
-        <field column="22" value="F12=Cancel  "/>
-        <field column="34" value="F14=Delete"/>
+        <field column="2" value="F1=Help  F4=Prompt  F12=Cancel  F14=Delete"/>
         <field column="45" value="                                    "/>
     </row>
     <row rowNumber="24">

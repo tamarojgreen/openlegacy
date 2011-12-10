@@ -1,0 +1,44 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+
+@ScreenEntity
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 1, column = 23, value = "             Sign On             "), 
+				@Identifier(row = 2, column = 48, value = "System  . . . . . :"), 
+				@Identifier(row = 3, column = 48, value = "Subsystem . . . . :") 
+				})
+public class SignOn {
+    
+	@ScreenField(row = 2, column = 70 ,length= 8 ,displayName = "System", sampleValue = "S44R5550")
+    private String system;
+
+	@ScreenField(row = 3, column = 70 ,length= 10 ,displayName = "Subsystem", sampleValue = "QBASE")
+    private String subsystem;
+
+	@ScreenField(row = 4, column = 70 ,length= 10 ,displayName = "Display", sampleValue = "QPADEV00RT")
+    private String display;
+
+	@ScreenField(row = 6, column = 53 ,editable= true ,displayName = "User")
+    private String user;
+
+	@ScreenField(row = 7, column = 53 ,editable= true ,displayName = "Password")
+    private String password;
+
+	@ScreenField(row = 8, column = 53 ,editable= true ,displayName = "Programprocedure")
+    private String programprocedure;
+
+	@ScreenField(row = 9, column = 53 ,editable= true ,displayName = "Menu")
+    private String menu;
+
+	@ScreenField(row = 10, column = 53 ,editable= true ,displayName = "Current library")
+    private String currentLibrary;
+
+    
+
+
+ 
+}

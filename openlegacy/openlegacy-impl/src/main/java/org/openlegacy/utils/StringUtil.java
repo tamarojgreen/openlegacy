@@ -67,4 +67,8 @@ public class StringUtil {
 	public static boolean isEmpty(String text) {
 		return StringUtils.isBlank(text);
 	}
+
+	public static String toSampleValue(String value) {
+		return StringUtils.trim(value);
+	}
 }

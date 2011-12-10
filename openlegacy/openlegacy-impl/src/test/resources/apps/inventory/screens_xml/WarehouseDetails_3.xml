@@ -10,8 +10,7 @@
     <row rowNumber="2">
         <field column="2" value="MWAREHED  "/>
         <field column="13" value="            "/>
-        <field column="26" value="  "/>
-        <field column="28" value="Work with Warehouse Details "/>
+        <field column="26" value="  Work with Warehouse Details "/>
         <field column="57" value="               "/>
         <field column="73" value="11:45:09"/>
     </row>
@@ -160,10 +159,7 @@
         <field column="1" value="                                                                                "/>
     </row>
     <row rowNumber="23">
-        <field column="2" value="F1=Help  "/>
-        <field column="11" value="F3=Exit  "/>
-        <field column="20" value="F6=Create  "/>
-        <field column="31" value="F12=Cancel"/>
+        <field column="2" value="F1=Help  F3=Exit  F6=Create  F12=Cancel"/>
         <field column="42" value="                                       "/>
     </row>
     <row rowNumber="24">
