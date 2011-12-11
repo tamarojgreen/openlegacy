@@ -102,4 +102,5 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 		return sortedFields;
 	}
+
 }

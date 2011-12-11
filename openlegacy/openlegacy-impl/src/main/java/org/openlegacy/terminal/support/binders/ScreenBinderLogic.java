@@ -6,8 +6,9 @@ import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.FieldComparator;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
@@ -37,20 +38,25 @@ public class ScreenBinderLogic {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingDefinitions) {
 
-			TerminalField terminalField = extractTerminalField(terminalSnapshot, fieldMappingDefinition);
+			TerminalPosition position = fieldMappingDefinition.getPosition();
+			TerminalField terminalField = terminalSnapshot.getField(position);
 			if (terminalField == null) {
-				logger.warn(MessageFormat.format("Field mapping {0} not found on snapshot", fieldMappingDefinition));
 				continue;
+			}
+			TerminalRow row = terminalSnapshot.getRow(position.getRow());
+			String text = terminalField.getValue();
+			if (fieldMappingDefinition.getLength() > 0) {
+				text = row.getText(position.getColumn(), fieldMappingDefinition.getLength());
 			}
 			String fieldName = fieldMappingDefinition.getName();
 			if (fieldAccessor.isWritable(fieldName)) {
-				String content = fieldFormatter.format(terminalField.getValue());
+				String content = fieldFormatter.format(text);
 				fieldAccessor.setFieldValue(fieldName, content);
 
 				fieldAccessor.setTerminalField(fieldName, terminalField);
 			}
 			TerminalPosition cursorPosition = terminalSnapshot.getCursorPosition();
-			if (cursorPosition != null && cursorPosition.equals(fieldMappingDefinition.getPosition())) {
+			if (cursorPosition != null && cursorPosition.equals(position)) {
 				fieldAccessor.setFocusField(fieldMappingDefinition.getName());
 			}
 
@@ -70,7 +76,7 @@ public class ScreenBinderLogic {
 			Object value = fieldAccessor.getFieldValue(fieldName);
 
 			TerminalField terminalField = terminalSnapshot.getField(fieldPosition);
-			if (value != null) {
+			if (terminalField.isEditable() && value != null) {
 				boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalField.getValue(), value);
 				if (fieldModified) {
 					if (fieldMappingDefinition.isEditable()) {
@@ -101,11 +107,6 @@ public class ScreenBinderLogic {
 			}
 
 		}
-	}
-
-	private static TerminalField extractTerminalField(final TerminalSnapshot terminalSnapshot, ScreenFieldDefinition fieldMapping) {
-		TerminalField terminalField = terminalSnapshot.getField(fieldMapping.getPosition());
-		return terminalField;
 	}
 
 }

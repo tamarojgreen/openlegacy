@@ -8,8 +8,8 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 1, column = 23, value = "             Sign On             "), 
-				@Identifier(row = 2, column = 48, value = "System  . . . . . :"), 
-				@Identifier(row = 3, column = 48, value = "Subsystem . . . . :") 
+				@Identifier(row = 4, column = 48, value = "Display . . . . . :"), 
+				@Identifier(row = 6, column = 17, value = "User  . . . . . . . . . . . . . .") 
 				})
 public class SignOn {
     

@@ -32,7 +32,13 @@ public class ScreenFieldAnnotationLoader implements FieldAnnotationsLoader {
 		SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(fieldName,
 				fieldAnnotation.fieldType());
 		fieldMappingDefinition.setPosition(position);
-		fieldMappingDefinition.setLength(fieldAnnotation.length());
+
+		if (fieldAnnotation.endColumn() == 0) {
+			fieldMappingDefinition.setLength(0);
+		} else {
+			fieldMappingDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
+		}
+
 		fieldMappingDefinition.setEditable(fieldAnnotation.editable());
 
 		if (fieldAnnotation.displayName().length() > 0) {

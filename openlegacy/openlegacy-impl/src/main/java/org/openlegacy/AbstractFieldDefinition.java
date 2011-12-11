@@ -4,7 +4,7 @@ import org.openlegacy.definitions.FieldDefinition;
 
 public abstract class AbstractFieldDefinition<D extends FieldDefinition> implements FieldDefinition {
 
-	private final String name;
+	private String name;
 	private Class<? extends FieldType> fieldType;
 	private String displayName;
 
@@ -15,6 +15,10 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Class<? extends FieldType> getType() {

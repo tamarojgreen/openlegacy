@@ -3,6 +3,8 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
@@ -39,6 +41,8 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 	@Inject
 	private DefaultTerminalSnapshotsSorter snapshotsSorter;
+
+	private final static Log logger = LogFactory.getLog(DefaultTerminalSnapshotsAnalyzerTest.class);
 
 	@Test
 	public void testBasicAnalisys() {
@@ -136,9 +140,10 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		snapshotsSorter.setMatchingPercent(95);
 		snapshotsSorter.clear();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
-				getClass().getResource("/apps/inventory/screens_xml").getFile(), "SignOn.xml");
+				getClass().getResource("/apps/inventory/screens_xml").getFile(), "SignOn.xml", "ItemDetails1.xml");
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		assertScreenContent(screenEntitiesDefinitions.get("SignOn"), "SignOn.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster"), "WorkWithItemMaster.java.expected");
 	}
 
 	private void assertScreenContent(ScreenEntityDefinition screen, String expectedResource) throws TemplateException,
@@ -147,8 +152,12 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		new ScreenEntityJavaGenerator().generate(screen, baos);
 
+		if (expectedResource == null) {
+			logger.info("\n" + new String(baos.toByteArray()));
+			return;
+		}
+
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedResource));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
-
 }

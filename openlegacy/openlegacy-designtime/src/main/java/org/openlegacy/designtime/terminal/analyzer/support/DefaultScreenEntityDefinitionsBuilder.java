@@ -16,6 +16,7 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.spi.ScreenIdentifier;
@@ -27,6 +28,7 @@ import org.openlegacy.utils.StringUtil;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,48 +49,89 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		List<ScreenIdentifier> screenIdentifiers = identification.getScreenIdentifiers();
 
 		for (TerminalField field : fields) {
+
+			addIdentifier(screenEntityDefinition, field);
+
+			// -1 -> one identifier is based on the screen entity field name - added at the end of the identification process
+			if (screenIdentifiers.size() >= maxIdentifiers) {
+				break;
+			}
+
+		}
+
+	}
+
+	private static ScreenIdentifier createIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+		if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
+			return null;
+		}
+
+		// ignore the identifier if it's outside a defined window border. On border is OK (true param)
+		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), true)) {
+			return null;
+		}
+
+		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
+		return identifier;
+	}
+
+	public void selectPotentialScreenEntityName(
+			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
+			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> possibleFields) {
+
+		String posibleEntityName = null;
+		String bestMatchEntityName = null;
+		TerminalField bestMatchEntityField = null;
+
+		for (TerminalField field : possibleFields) {
 			if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
 				continue;
 			}
 
-			// ignore the identifier if it's outside a defined window border. On border is OK (true param)
-			if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), true)) {
-				continue;
-			}
+			posibleEntityName = StringUtil.toClassName(field.getValue());
 
-			if (screenIdentifiers.size() >= maxIdentifiers) {
-				break;
+			if (bestMatchEntityName == null || isMoreMatchedName(posibleEntityName, bestMatchEntityName)) {
+				bestMatchEntityName = posibleEntityName;
+				bestMatchEntityField = field;
 			}
-			ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
-			screenIdentifiers.add(identifier);
-
-			logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen {2}", field.getValue(),
-					field.getPosition(), screenEntityDefinition.getEntityName()));
 		}
-		Collections.sort(screenIdentifiers, TerminalPositionContainerComparator.instance());
+
+		String existingEntityName = screenEntityDefinition.getEntityName();
+
+		if (existingEntityName == null) {
+			screenEntityDefinition.setEntityName(bestMatchEntityName);
+
+			snapshotsAnalyzerContext.addEntityDefinition(screenEntityDefinition);
+			logger.info(MessageFormat.format("New screen entity add: {0}", posibleEntityName));
+
+			// add the field which the entity name is based on as one of the identifiers
+			addIdentifier(screenEntityDefinition, bestMatchEntityField);
+		} else {
+			logger.info(MessageFormat.format("Ignoring potential screen entity name {0}. Name already present:{1}",
+					posibleEntityName, existingEntityName));
+		}
 
 	}
 
-	public void setScreenEntityName(
-			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
-			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
-
-		if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
+	private static void addIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+		ScreenIdentifier identitifer = createIdentifier(screenEntityDefinition, field);
+		if (identitifer == null) {
 			return;
 		}
-
-		String newEntityName = StringUtil.toClassName(field.getValue());
-		String existingEntityName = screenEntityDefinition.getEntityName();
-		if (existingEntityName == null) {
-			screenEntityDefinition.setEntityName(newEntityName);
-			snapshotsAnalyzerContext.addEntityDefinition(screenEntityDefinition);
-			logger.info(MessageFormat.format("New screen entity add: {0}", newEntityName));
-		} else {
-			logger.info(MessageFormat.format("Ignoring potential screen entity name {0}. Name already present:{1}",
-					newEntityName, existingEntityName));
-
+		List<ScreenIdentifier> screenIdentifiers = screenEntityDefinition.getScreenIdentification().getScreenIdentifiers();
+		if (screenIdentifiers.contains(identitifer)) {
+			return;
 		}
+		screenIdentifiers.add(identitifer);
+		Collections.sort(screenIdentifiers, TerminalPositionContainerComparator.instance());
 
+		logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen {2}", field.getValue(),
+				field.getPosition(), screenEntityDefinition.getEntityName()));
+
+	}
+
+	protected boolean isMoreMatchedName(String posibleEntityName, String bestMatchEntityName) {
+		return posibleEntityName.length() > bestMatchEntityName.length();
 	}
 
 	public void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, TerminalField labelField) {
@@ -112,7 +155,11 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(label));
 		fieldMappingDefinition.setSampleValue(StringUtil.toSampleValue(field.getValue()));
 
-		screenEntityDefinition.getFieldsDefinitions().put(fieldName, fieldMappingDefinition);
+		Map<String, ScreenFieldDefinition> fieldsDefinitions = screenEntityDefinition.getFieldsDefinitions();
+
+		fieldName = findFreeFieldName(fieldName, fieldsDefinitions);
+		fieldMappingDefinition.setName(fieldName);
+		fieldsDefinitions.put(fieldName, fieldMappingDefinition);
 
 		// remove the field from the snapshot
 		screenEntityDefinition.getSnapshot().getFields().remove(field);
@@ -120,6 +167,23 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		String fieldTypeText = field.isEditable() ? "Editable" : "Readonly";
 		logger.info(MessageFormat.format("Added {0} field {1} at position {2} to screen entity", fieldTypeText, fieldName,
 				field.getPosition()));
+	}
+
+	/**
+	 * Look from free field name. Relevant when in the following use case: Field A: [XXX] Some description <br/>
+	 * - [XXX] - will be fieldA <br/>
+	 * - Some description - will be fieldA1 <br/>
+	 * 
+	 * @param fieldName
+	 * @param fieldsDefinitions
+	 * @return
+	 */
+	private static String findFreeFieldName(String fieldName, Map<String, ScreenFieldDefinition> fieldsDefinitions) {
+		int fieldNameCount = 1;
+		while (fieldsDefinitions.get(fieldName) != null) {
+			fieldName = fieldName + fieldNameCount++;
+		}
+		return fieldName;
 	}
 
 	/**

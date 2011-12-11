@@ -17,4 +17,6 @@ public interface TerminalRow {
 
 	String getText();
 
+	String getText(int column, int length);
+
 }

@@ -25,9 +25,9 @@ public @interface ScreenField {
 
 	int column();
 
-	boolean editable() default false;
+	int endColumn() default 0;
 
-	int length() default 0;
+	boolean editable() default false;
 
 	Class<? extends FieldType> fieldType() default FieldType.General.class;
 

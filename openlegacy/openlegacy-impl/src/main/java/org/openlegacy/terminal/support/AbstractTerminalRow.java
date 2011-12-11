@@ -42,4 +42,8 @@ public abstract class AbstractTerminalRow implements TerminalRow {
 	public List<RowPart> getRowParts() {
 		return SnapshotUtils.getRowParts(this);
 	}
+
+	public String getText(int column, int length) {
+		return getText().substring(column, column + length);
+	}
 }

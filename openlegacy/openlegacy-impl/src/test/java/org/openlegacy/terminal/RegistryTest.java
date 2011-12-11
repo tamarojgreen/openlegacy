@@ -34,8 +34,8 @@ public class RegistryTest {
 	@Test
 	public void testFields() {
 		ScreenEntityDefinition screenDefintion = assertScreenExists(SignOn.class);
-		// 3 from class, 1 from super class
-		Assert.assertEquals(4, screenDefintion.getFieldsDefinitions().size());
+		// 4 from class, 1 from super class
+		Assert.assertEquals(5, screenDefintion.getFieldsDefinitions().size());
 	}
 
 	@Test

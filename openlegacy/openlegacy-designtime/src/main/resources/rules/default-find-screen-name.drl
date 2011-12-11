@@ -22,13 +22,13 @@ when
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot
 
 	// and there is a field from the snapshot in the title rows which matches a title pattern 
-	$field: TerminalField(position.row >= $titleStartRow, position.row <= $titleEndRow, 
-							// consider title column range only when there is no window boder ($borderStartRow == 1)
-							position.column >= $titleStartColumn || $borderStartRow > 1, position.column <= $titleEndColumn || $borderStartRow > 1,
-							editable == false,value matches $titleRegex) from $snapshot.getFields()
+	$potentialFieldsForEntityName: List() from collect(
+											TerminalField(position.row >= $titleStartRow, position.row <= $titleEndRow, 
+											// consider title column range only when there is no window boder ($borderStartRow == 1)
+											position.column >= $titleStartColumn || $borderStartRow > 1, position.column <= $titleEndColumn || $borderStartRow > 1,
+											editable == false,value matches $titleRegex) from $snapshot.getFields()
+										)
 
-	// and there is no longer field in the title area which is also a potential title 
-	not TerminalField(length > $field.length,position.row >= $titleStartRow, position.row <= $titleEndRow, editable == false,value matches $titleRegex) from $snapshot.getFields()
 then
-	screenEntityDefinitionsBuilder.setScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$field);
+	screenEntityDefinitionsBuilder.selectPotentialScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$potentialFieldsForEntityName);
 end

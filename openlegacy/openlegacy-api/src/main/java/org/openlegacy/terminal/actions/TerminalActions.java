@@ -55,6 +55,69 @@ public class TerminalActions {
 		return new F3();
 	}
 
+	public static class F4 extends TerminalMappedAction {
+	}
+
+	public static F4 F4() {
+		return new F4();
+	}
+
+	public static class F5 extends TerminalMappedAction {
+	}
+
+	public static F5 F5() {
+		return new F5();
+	}
+
+	public static class F6 extends TerminalMappedAction {
+	}
+
+	public static F6 F6() {
+		return new F6();
+	}
+
+	public static class F7 extends TerminalMappedAction {
+	}
+
+	public static F7 F7() {
+		return new F7();
+	}
+
+	public static class F8 extends TerminalMappedAction {
+	}
+
+	public static F8 F8() {
+		return new F8();
+	}
+
+	public static class F9 extends TerminalMappedAction {
+	}
+
+	public static F9 F9() {
+		return new F9();
+	}
+
+	public static class F10 extends TerminalMappedAction {
+	}
+
+	public static F10 F10() {
+		return new F10();
+	}
+
+	public static class F11 extends TerminalMappedAction {
+	}
+
+	public static F11 F11() {
+		return new F11();
+	}
+
+	public static class F12 extends TerminalMappedAction {
+	}
+
+	public static F12 F12() {
+		return new F12();
+	}
+
 	public static class PAGEDOWN extends TerminalMappedAction {
 	}
 

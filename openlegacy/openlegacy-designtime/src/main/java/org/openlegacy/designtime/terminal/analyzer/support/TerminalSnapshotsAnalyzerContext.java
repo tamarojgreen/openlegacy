@@ -28,17 +28,34 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 		if (entitiesDefinitions.containsValue(screenEntityDefinition)) {
 			entitiesDefinitions.remove(screenEntityDefinition);
 		}
-		if (screenEntityDefinition.getEntityName() == null) {
+		String entityName = screenEntityDefinition.getEntityName();
+		entityName = suggestEntityName(screenEntityDefinition);
+		screenEntityDefinition.setEntityName(entityName);
+		entitiesDefinitions.put(entityName, screenEntityDefinition);
+	}
+
+	private String suggestEntityName(ScreenEntityDesigntimeDefinition screenEntityDefinition) {
+		String entityName = screenEntityDefinition.getEntityName();
+
+		if (entityName == null) {
 			Integer sequence = screenEntityDefinition.getSnapshot().getSequence();
-			String entityName = null;
 			if (sequence != null) {
 				entityName = SCREEN + sequence;
 			} else {
 				entityName = SCREEN + entitiesDefinitions.size();
 			}
-			screenEntityDefinition.setEntityName(entityName);
 		}
-		entitiesDefinitions.put(screenEntityDefinition.getEntityName(), screenEntityDefinition);
+
+		entityName = findFreeEntityName(entityName);
+		return entityName;
+	}
+
+	private String findFreeEntityName(String entityName) {
+		int nameCount = 1;
+		while (entitiesDefinitions.get(entityName) != null) {
+			entityName = entityName + nameCount++;
+		}
+		return entityName;
 	}
 
 	public Map<String, ScreenEntityDefinition> getEntitiesDefinitions() {

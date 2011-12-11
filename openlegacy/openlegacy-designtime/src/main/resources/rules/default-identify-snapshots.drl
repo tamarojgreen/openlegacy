@@ -4,13 +4,16 @@ ruleflow-group "identify-snapshots"
 when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-snapshots")
 	$identifierRegex    : String()  from (String)$ruleParameterSet.getRuleParameters().get("identifierRegex");
+	$startRow    : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("startRow");
+	$endRow    : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("endRow");
 	
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
 	// which has a snaphot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot
 
-	$identifiers: List() from collect (TerminalField(value matches $identifierRegex, editable == false) from $snapshot.getFields())
+	$identifiers: List() from collect (TerminalField(value matches $identifierRegex, editable == false, 
+													 position.row >= $startRow,position.row <= $endRow) from $snapshot.getFields())
 then
 	screenEntityDefinitionsBuilder.addIdentifiers(snapshotsAnalyzerContext,$screenEntityDefinition,$identifiers);
 end

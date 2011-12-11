@@ -23,6 +23,7 @@ public class AbstractTerminalSessionSystemTest extends AbstractTest {
 		Assert.assertNotNull(signOn);
 		Assert.assertNotNull(signOn.getTerminalSnapshot());
 		Assert.assertNotNull(signOn.getUserField());
+		Assert.assertEquals("COPYRIGHT IBM CORP", signOn.getMessage());
 
 		signOn.setUser("user");
 		signOn.setPassword("pwd");

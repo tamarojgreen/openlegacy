@@ -23,4 +23,7 @@ public class SignOn extends AbstractScreen {
 	@ScreenField(row = 8, column = 53, editable = true)
 	private String programProcedure;
 
+	@ScreenField(row = 24, column = 45, endColumn = 62)
+	private String message;
+
 }

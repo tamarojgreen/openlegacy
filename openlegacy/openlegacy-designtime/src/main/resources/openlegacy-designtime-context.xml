@@ -129,6 +129,8 @@
 								<property name="ruleParameters">
 									<map>
 										<entry key="identifierRegex" value="\s*[a-zA-Z]+[.: ]*.*" />
+										<entry key="startRow" value="4" />
+										<entry key="endRow" value="20" />
 									</map>
 								</property>
 							</bean>

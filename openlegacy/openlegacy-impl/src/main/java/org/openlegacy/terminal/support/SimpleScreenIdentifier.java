@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -38,5 +40,15 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 	@Override
 	public String toString() {
 		return SnapshotUtils.positionTextToString(position, text);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
 	}
 }

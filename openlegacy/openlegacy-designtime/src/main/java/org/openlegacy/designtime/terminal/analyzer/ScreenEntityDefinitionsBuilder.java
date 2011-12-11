@@ -14,9 +14,12 @@ public interface ScreenEntityDefinitionsBuilder {
 	void addIdentifiers(SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields);
 
-	void setScreenEntityName(
+	/**
+	 * Select the best match field for screen name from the list of fields which matches the title pattern
+	 */
+	void selectPotentialScreenEntityName(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
-			ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field);
+			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields);
 
 	void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField editableField, TerminalField labelField);
 
