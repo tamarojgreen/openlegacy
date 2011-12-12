@@ -20,4 +20,5 @@ public interface TerminalField extends TerminalPositionContainer {
 
 	boolean isModified();
 
+	boolean isEmpty();
 }

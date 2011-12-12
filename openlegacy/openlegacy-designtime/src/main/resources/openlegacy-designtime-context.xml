@@ -20,6 +20,7 @@
 	
 	<bean class="org.openlegacy.support.SimpleFieldFormatter" />
 
+	<bean id="terminalActionAnalyzer" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalActionAnalyzer" />
 	<bean id="ruleDefinition" class="org.openlegacy.designtime.rules.support.RuleDefinitionBean" abstract="true"/>
 	<bean id="ruleParametersSet" class="org.openlegacy.designtime.rules.support.RuleParametersSetBean" abstract="true"/>
 	 
@@ -85,7 +86,7 @@
 										<entry key="notAcolumnRegex" value="([\w ]+[\.:])+" />
 										<entry key="minimumTableRows" value="3" />
 										<!-- When identifying columns, at least one of the fields should contains alphanumeric chars -->
-										<entry key="atLeastOneFieldShouldBe" value="\w+[\w ]+" />
+										<entry key="atLeastOneFieldShouldBe" value="\w+.*" />
 									</map>
 								</property>
 							</bean>
@@ -114,7 +115,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="actionsRegex" value="(\w+)[=-](\w+(?:\s\w+){0,2})\s{0,1}" />
+										<entry key="actionsRegex" value="(\w+)[=-](\w+[\w ]*)" />
 										<entry key="rowsFromEnd" value="3" />
 									</map>
 								</property>

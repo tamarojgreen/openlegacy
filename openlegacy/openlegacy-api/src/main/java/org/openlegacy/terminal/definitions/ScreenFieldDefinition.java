@@ -12,6 +12,8 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 
 	TerminalPosition getPosition();
 
+	TerminalPosition getEndPosition();
+
 	int getLength();
 
 	boolean isEditable();

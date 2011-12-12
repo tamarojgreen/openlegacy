@@ -1,23 +1,19 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
-import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.Session;
-import org.openlegacy.SessionAction;
-import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
+import org.openlegacy.designtime.terminal.analyzer.TerminalActionAnalyzer;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.spi.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
@@ -32,11 +28,16 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+
 public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefinitionsBuilder {
 
 	private int maxIdentifiers = 3;
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntityDefinitionsBuilder.class);
+
+	@Inject
+	private TerminalActionAnalyzer terminalActionAnalyzer;
 
 	public void addIdentifiers(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
@@ -202,7 +203,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		this.maxIdentifiers = maxIdentifiers;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void addAction(ScreenEntityDesigntimeDefinition screenEntityDefinition, String text, TerminalPosition position,
 			String regex) {
 
@@ -216,22 +217,15 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			return;
 		}
 
-		Class<? extends SessionAction<Session>> actionClass = null;
-		try {
-			actionClass = (Class<? extends SessionAction<Session>>)Class.forName(MessageFormat.format("{0}{1}{2}",
-					TerminalActions.class.getName(), ClassUtils.INNER_CLASS_SEPARATOR, match.group(1)));
-		} catch (ClassNotFoundException e) {
-			logger.warn(MessageFormat.format("Could not found class for Action {0} in screen {1}", text,
-					screenEntityDefinition.getEntityName()));
-			return;
-		}
+		TerminalActionDefinition actionDefinition = terminalActionAnalyzer.toTerminalActionDefinition(match.group(1),
+				match.group(2), position);
 
-		ActionDefinition actionDefinition = new SimpleActionDefinition(actionClass, position, match.group(2));
-		List<ActionDefinition> actions = screenEntityDefinition.getActions();
+		List actions = screenEntityDefinition.getActions();
 
 		actions.add(actionDefinition);
 
 		Collections.sort(actions, TerminalPositionContainerComparator.instance());
+
 		logger.info(MessageFormat.format("Added action {0}:{1} to screen entity {2}", actionDefinition.getAction().getName(),
 				actionDefinition.getDisplayName(), screenEntityDefinition.getEntityName()));
 	}
@@ -258,4 +252,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		TerminalRectangle borders = new SimpleTerminalRectangle(topBorderField.getPosition(), buttomLeftPosition);
 		screenEntityDefinition.setSnapshotBorders(borders);
 	}
+
+	public void addColumnHeaders(TableColumn tableColumn, List<TerminalField> fields) {
+		tableColumn.getHeaderFields().addAll(fields);
+	}
+
 }

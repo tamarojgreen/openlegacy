@@ -10,6 +10,8 @@ import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKey;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -42,7 +44,13 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				if (action.row() > 0 && action.column() > 0) {
 					position = new SimpleTerminalPosition(action.row(), action.column());
 				}
-				SimpleActionDefinition actionDefinition = new SimpleActionDefinition(theAction, position, action.displayName());
+				SimpleActionDefinition actionDefinition = null;
+				if (action.additionalKey() != AdditionalKey.NONE || position != null) {
+					actionDefinition = new SimpleTerminalActionDefinition(theAction, action.additionalKey(),
+							action.displayName(), position);
+				} else {
+					actionDefinition = new SimpleActionDefinition(theAction, action.displayName());
+				}
 
 				screenEntityDefinition.getActions().add(actionDefinition);
 				if (logger.isDebugEnabled()) {

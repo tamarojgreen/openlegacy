@@ -9,6 +9,9 @@ public interface TerminalRow {
 
 	List<TerminalField> getFields();
 
+	/**
+	 * Merge all following read-only fields to one sequenced field
+	 */
 	List<RowPart> getRowParts();
 
 	TerminalField getField(int column);

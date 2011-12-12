@@ -61,4 +61,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	public int compareTo(ScreenFieldDefinition o) {
 		return SnapshotUtils.comparePositions(this.getPosition(), o.getPosition());
 	}
+
+	public TerminalPosition getEndPosition() {
+		return SnapshotUtils.getEndPosition(getPosition(), getLength());
+	}
 }

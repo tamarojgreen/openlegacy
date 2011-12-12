@@ -1,6 +1,7 @@
 package org.openlegacy.annotations.screen;
 
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKey;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -31,4 +32,6 @@ public @interface Action {
 	 * Not mandatory
 	 */
 	int column() default 0;
+
+	AdditionalKey additionalKey() default AdditionalKey.NONE;
 }

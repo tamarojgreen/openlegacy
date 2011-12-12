@@ -25,6 +25,8 @@ public interface ScreenEntityDefinitionsBuilder {
 
 	TableColumn addTableColumn(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields);
 
+	void addColumnHeaders(TableColumn tableColumn, List<TerminalField> fields);
+
 	void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumn> tableColumns);
 
 	void addAction(ScreenEntityDesigntimeDefinition screenEntityDefinition, String text, TerminalPosition position, String regex);

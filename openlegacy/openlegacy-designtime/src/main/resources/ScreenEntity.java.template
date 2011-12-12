@@ -8,6 +8,7 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKey;
 </#if>
 <#if tableDefinitions?size != 0>
 import java.util.List;
@@ -23,14 +24,14 @@ import org.openlegacy.annotations.screen.ScreenTable;
 <#if actions?size != 0>
 @ScreenActions(actions = { 
 				<#list actions as action> 
-				@Action(action = TerminalActions.${action.action.simpleName}.class, displayName = "${action.displayName}")<#if action_has_next>,</#if> 
+				@Action(action = TerminalActions.${action.action.simpleName}.class<#if action.additionalKey??> ,additionalKey= AdditionalKey.${action.additionalKey}</#if>, displayName = "${action.displayName}")<#if action_has_next>,</#if> 
 				</#list>	
 				})
 </#if>
 public class ${entityName} {
     
 	<#list sortedFields as field> 
-	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.editable == false> ,length= ${field.length}</#if><#if field.editable> ,editable= true</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
+	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.editable == false> ,endColumn= ${field.endPosition.column}</#if><#if field.editable> ,editable= true</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
     private String ${field.name};
 
 	</#list>	

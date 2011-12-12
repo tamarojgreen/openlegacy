@@ -28,7 +28,8 @@ public class TableBuilder {
 
 		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(null);
 
-		TerminalField topLeftTableCell = tableColumns.get(0).getFields().get(0);
+		List<TerminalField> firstColumnFields = tableColumns.get(0).getFields();
+		TerminalField topLeftTableCell = firstColumnFields.get(0);
 
 		// ignore the table if it's outside a defined window border
 		if (!screenEntityDefinition.getSnapshotBorders().contains(topLeftTableCell.getPosition(), false)) {
@@ -67,8 +68,7 @@ public class TableBuilder {
 		}
 
 		tableDefinition.setStartRow(topLeftTableCell.getPosition().getRow());
-		List<TerminalField> lastColumnFields = tableColumns.get(tableColumns.size() - 1).getFields();
-		tableDefinition.setEndRow(lastColumnFields.get(lastColumnFields.size() - 1).getPosition().getRow());
+		tableDefinition.setEndRow(firstColumnFields.get(firstColumnFields.size() - 1).getPosition().getRow());
 
 		// add table to the screen entity without a name, which will be given by the screen entity name at a later phase
 		screenEntityDefinition.addTemporaryTable(tableDefinition);

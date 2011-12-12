@@ -2,6 +2,7 @@ package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
+import org.openlegacy.utils.StringUtil;
 
 public abstract class AbstractTerminalField implements TerminalField {
 
@@ -22,5 +23,9 @@ public abstract class AbstractTerminalField implements TerminalField {
 	@Override
 	public String toString() {
 		return SnapshotUtils.fieldToString(this);
+	}
+
+	public boolean isEmpty() {
+		return StringUtil.isEmpty(getValue());
 	}
 }

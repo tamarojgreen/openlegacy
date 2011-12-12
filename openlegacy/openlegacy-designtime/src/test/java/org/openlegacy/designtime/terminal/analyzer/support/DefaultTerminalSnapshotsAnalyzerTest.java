@@ -140,10 +140,14 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		snapshotsSorter.setMatchingPercent(95);
 		snapshotsSorter.clear();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
-				getClass().getResource("/apps/inventory/screens_xml").getFile(), "SignOn.xml", "ItemDetails1.xml");
+				getClass().getResource("/apps/inventory/screens_xml").getFile(), "SignOn.xml", "ItemsList.xml",
+				"ItemDetails1.xml");
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		assertScreenContent(screenEntitiesDefinitions.get("SignOn"), "SignOn.java.expected");
+		// table
 		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster"), "WorkWithItemMaster.java.expected");
+		// form
+		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster1"), "WorkWithItemMaster1.java.expected");
 	}
 
 	private void assertScreenContent(ScreenEntityDefinition screen, String expectedResource) throws TemplateException,

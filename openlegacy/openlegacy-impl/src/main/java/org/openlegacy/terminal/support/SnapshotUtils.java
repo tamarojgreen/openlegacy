@@ -151,8 +151,11 @@ public class SnapshotUtils {
 	}
 
 	public static TerminalPosition getEndPosition(TerminalField field) {
-		TerminalPosition position = field.getPosition();
-		return SimpleTerminalPosition.newInstance(position.getRow(), position.getColumn() + field.getLength() - 1);
+		return getEndPosition(field.getPosition(), field.getLength());
+	}
+
+	public static TerminalPosition getEndPosition(TerminalPosition position, int length) {
+		return SimpleTerminalPosition.newInstance(position.getRow(), position.getColumn() + length - 1);
 	}
 
 }

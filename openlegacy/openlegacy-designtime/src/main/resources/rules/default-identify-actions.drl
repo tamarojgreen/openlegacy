@@ -15,9 +15,14 @@ when
 
 	$actionsStartRow  : Integer()  from $snapshot.getSize().getRows() - $rowsFromEnd + 1  
 	$actionsEndRow    : Integer()  from $snapshot.getSize().getRows();
+
+	$field: TerminalField(position.row >= $actionsStartRow,position.row <= $actionsEndRow) from $snapshot.getFields()
 	
-	$field: TerminalField(position.row >= $actionsStartRow,position.row <= $actionsEndRow,value matches $actionsRegex) from $snapshot.getFields()
+	$captionAction: String(this matches $actionsRegex) from $field.getValue().split("  ")
+	 	
 	
 then
-	screenEntityDefinitionsBuilder.addAction($screenEntityDefinition,$field.getValue(),$field.getPosition(), $actionsRegex);
+	int offset = $field.getValue().indexOf($captionAction); 
+	TerminalPosition actionPosition = SimpleTerminalPosition.newInstance($field.getPosition().getRow(),$field.getPosition().getColumn()+offset);
+	screenEntityDefinitionsBuilder.addAction($screenEntityDefinition,$captionAction,actionPosition, $actionsRegex);
 end

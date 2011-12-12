@@ -13,13 +13,13 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 				})
 public class SignOn {
     
-	@ScreenField(row = 2, column = 70 ,length= 8 ,displayName = "System", sampleValue = "S44R5550")
+	@ScreenField(row = 2, column = 70 ,endColumn= 77 ,displayName = "System", sampleValue = "S44R5550")
     private String system;
 
-	@ScreenField(row = 3, column = 70 ,length= 10 ,displayName = "Subsystem", sampleValue = "QBASE")
+	@ScreenField(row = 3, column = 70 ,endColumn= 79 ,displayName = "Subsystem", sampleValue = "QBASE")
     private String subsystem;
 
-	@ScreenField(row = 4, column = 70 ,length= 10 ,displayName = "Display", sampleValue = "QPADEV00RT")
+	@ScreenField(row = 4, column = 70 ,endColumn= 79 ,displayName = "Display", sampleValue = "QPADEV00RT")
     private String display;
 
 	@ScreenField(row = 6, column = 53 ,editable= true ,displayName = "User")

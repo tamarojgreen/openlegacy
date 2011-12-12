@@ -45,9 +45,10 @@ when
 	// there is a column
 	$column: TableColumn()
 	
-	$headerField: TerminalField(position.row == $column.getStartRow() - 1,position.column >= $column.getStartColumn() - 2,position.column <= $column.getStartColumn() + 2) from $snapshot.getFields()
+	$headerFields: List() from collect( TerminalField( this.isEmpty() == false, position.row == $column.getStartRow() - 1,
+								position.column >= $column.getStartColumn() - 2,position.column <= $column.getStartColumn() + 2) from $snapshot.getFields() )
 then
-	$column.getHeaderFields().add($headerField);
+	screenEntityDefinitionsBuilder.addColumnHeaders($column,$headerFields);
 end
 
 
@@ -64,7 +65,9 @@ when
 	not TableColumn(startColumn < $firstColumn.startColumn, screenEntityDefinition == $screenEntityDefinition)
 	  
 	// and there is a list of columns which has a bigger column, start at the same row, and has the same number of fields
-	$columns: List(size >= 2) from collect (TableColumn(screenEntityDefinition == $screenEntityDefinition,startColumn >= $firstColumn.startColumn ,startRow == $firstColumn.startRow, fields.size == $firstColumn.fields.size))
+	$columns: List(size >= 2) from collect (TableColumn(screenEntityDefinition == $screenEntityDefinition,startColumn >= $firstColumn.startColumn ,startRow == $firstColumn.startRow,
+														// in AS/400 the last field is shorter then the rest of the column. Also adding columns which there size is smaller in 1   
+														eval(fields.size() +1 >= $firstColumn.getFields().size() ) ))
 then
 	screenEntityDefinitionsBuilder.addTableDefinition($screenEntityDefinition,$columns);
 end
