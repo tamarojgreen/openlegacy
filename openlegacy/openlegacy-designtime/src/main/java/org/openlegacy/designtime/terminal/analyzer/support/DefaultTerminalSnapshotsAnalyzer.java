@@ -39,6 +39,9 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 
 		List<RuleParametersSet> ruleParametersFacts = new ArrayList<RuleParametersSet>();
 		for (RuleDefinition ruleDefinition : ruleDefinitions) {
+			if (!ruleDefinition.isEnable()) {
+				continue;
+			}
 			droolsResources.add(ruleDefinition.getDroolsFile());
 
 			List<RuleParametersSet> ruleParametersSets = ruleDefinition.getRuleParameterSets();

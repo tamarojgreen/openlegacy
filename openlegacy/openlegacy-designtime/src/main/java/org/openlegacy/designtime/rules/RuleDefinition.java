@@ -9,4 +9,7 @@ public interface RuleDefinition {
 	String getRuleId();
 
 	List<RuleParametersSet> getRuleParameterSets();
+
+	boolean isEnable();
+
 }

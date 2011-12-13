@@ -11,6 +11,7 @@ public class RuleDefinitionBean implements RuleDefinition {
 	private String droolsFile;
 	private List<RuleParametersSet> ruleParameterSets = new ArrayList<RuleParametersSet>();
 	private String ruleId;
+	private boolean enabled = true;
 
 	public String getDroolsFile() {
 		return droolsFile;
@@ -34,5 +35,13 @@ public class RuleDefinitionBean implements RuleDefinition {
 
 	public void setRuleId(String ruleId) {
 		this.ruleId = ruleId;
+	}
+
+	public boolean isEnable() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 }
