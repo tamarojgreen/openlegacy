@@ -6,6 +6,7 @@ when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-readonly-fields")
 	$fieldRegex      : String()  from (String)$ruleParameterSet.getRuleParameters().get("fieldRegex");
 	$labelRegex      : String()  from (String)$ruleParameterSet.getRuleParameters().get("labelRegex");
+	$maxDistance     : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("maxDistance");
 	
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
@@ -16,8 +17,10 @@ when
 	// and a readonly field within the snapshot which matches a field regex
 	$field: TerminalField(editable == false, value matches $fieldRegex) from $snapshot.getFields()
 	
-	// with a leading label before the field which is in the format of a label regex
-	$labelField: TerminalField(position.row == $field.position.row, position.column < $field.position.column, editable == false,value matches $labelRegex) from $snapshot.getFields()
+	// with a leading label before the field which is in the format of a label regex and not far then $maxDistance 
+	$labelField: TerminalField(position.row == $field.position.row, position.column < $field.position.column, 
+								endPosition.column >= $field.position.column - $maxDistance,  
+								editable == false,value matches $labelRegex) from $snapshot.getFields()
 
 	// and there is no label field which is closer to the field in the format of a label field 
 	not TerminalField(editable == false, value matches $labelRegex, $field.position.column - position.column < $field.position.column - $labelField.position.column)

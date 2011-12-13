@@ -8,6 +8,7 @@ public class SimpleActionDefinition implements ActionDefinition {
 
 	private String displayName;
 	private Class<? extends SessionAction<Session>> action;
+	private String alias;
 
 	public SimpleActionDefinition(Class<? extends SessionAction<Session>> action, String displayName) {
 		this.action = action;
@@ -20,6 +21,14 @@ public class SimpleActionDefinition implements ActionDefinition {
 
 	public String getDisplayName() {
 		return displayName;
+	}
+
+	public String getAlias() {
+		return alias;
+	}
+
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 }

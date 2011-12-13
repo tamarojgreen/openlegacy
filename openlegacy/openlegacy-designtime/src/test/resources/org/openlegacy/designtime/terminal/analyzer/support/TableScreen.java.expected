@@ -7,7 +7,7 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import java.util.List;
 import org.openlegacy.annotations.screen.ScreenTable;
 
-@ScreenEntity
+@ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 1, column = 40, value = "Table Screen") 
 				})

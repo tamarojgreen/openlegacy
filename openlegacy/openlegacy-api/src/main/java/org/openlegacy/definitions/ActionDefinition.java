@@ -13,4 +13,9 @@ public interface ActionDefinition {
 
 	String getDisplayName();
 
+	/**
+	 * Allow to refer an action by a logical name, and not "technical" action name ("F3", etc)
+	 */
+	String getAlias();
+
 }

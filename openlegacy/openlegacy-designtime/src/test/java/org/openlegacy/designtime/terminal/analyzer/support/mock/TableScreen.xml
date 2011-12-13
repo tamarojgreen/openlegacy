@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <snapshot type="INCOMING" sequence="3">
     <row rowNumber="1">
-        <field value="Table Screen" length="9" column="40" />
-        <field value="10/01/2009" length="11" column="64" />
+        <field value="Table Screen" column="40" />
+        <field value="10/01/2009" column="64" />
     </row>
     <row rowNumber="4">
     	<!-- table headers -->

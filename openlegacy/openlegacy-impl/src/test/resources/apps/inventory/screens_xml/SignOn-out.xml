@@ -2,14 +2,12 @@
 <snapshot type="OUTGOING">
     <row rowNumber="1">
         <field column="2" value="                    "/>
-        <field column="23" value="             "/>
-        <field column="36" value="Sign On             "/>
+        <field column="23" value="             Sign On             "/>
         <field column="57" value="                        "/>
     </row>
     <row rowNumber="2">
         <field column="1" value="                                              "/>
-        <field column="48" value="System  "/>
-        <field column="56" value=". . . . . :"/>
+        <field column="48" value="System  . . . . . :"/>
         <field column="68" value=" "/>
         <field column="70" value="S44R5550"/>
         <field column="79" value="  "/>
@@ -26,21 +24,16 @@
         <field column="68" value=" "/>
         <field column="70" value="QPADEV00RT"/>
     </row>
-    <row rowNumber="5">
-        <field column="1" value="                                                                                "/>
-    </row>
     <row rowNumber="6">
         <field column="1" value="               "/>
-        <field column="17" value="User  "/>
-        <field column="23" value=". . . . . . . . . . . . . ."/>
+        <field column="17" value="User  . . . . . . . . . . . . . ."/>
         <field column="51" value=" "/>
         <field column="53" value="someuser" modified="true" length="10" editable="true"/>
         <field column="64" value="                 "/>
     </row>
     <row rowNumber="7">
         <field column="1" value="               "/>
-        <field column="17" value="Password  "/>
-        <field column="27" value=". . . . . . . . . . . ."/>
+        <field column="17" value="Password  . . . . . . . . . . . ."/>
         <field column="51" value=" "/>
         <field column="53" value="somepwd" modified="true" length="10" editable="true"/>
         <field column="64" value="                 "/>
@@ -54,8 +47,7 @@
     </row>
     <row rowNumber="9">
         <field column="1" value="               "/>
-        <field column="17" value="Menu  "/>
-        <field column="23" value=". . . . . . . . . . . . . ."/>
+        <field column="17" value="Menu  . . . . . . . . . . . . . ."/>
         <field column="51" value=" "/>
         <field column="53" value="" length="10" editable="true"/>
         <field column="64" value="                 "/>
@@ -66,45 +58,6 @@
         <field column="51" value=" "/>
         <field column="53" value="" length="10" editable="true"/>
         <field column="64" value="                 "/>
-    </row>
-    <row rowNumber="11">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="12">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="13">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="14">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="15">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="16">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="17">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="18">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="19">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="20">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="21">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="22">
-        <field column="1" value="                                                                                "/>
-    </row>
-    <row rowNumber="23">
-        <field column="1" value="                                                                                "/>
     </row>
     <row rowNumber="24">
         <field column="1" value="                                      "/>

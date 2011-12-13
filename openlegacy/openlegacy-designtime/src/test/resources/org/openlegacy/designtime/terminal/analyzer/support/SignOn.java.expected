@@ -5,7 +5,7 @@ import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 
-@ScreenEntity
+@ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 1, column = 23, value = "             Sign On             "), 
 				@Identifier(row = 4, column = 48, value = "Display . . . . . :"), 

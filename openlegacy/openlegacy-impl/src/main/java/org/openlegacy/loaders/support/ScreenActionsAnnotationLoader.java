@@ -1,5 +1,6 @@
 package org.openlegacy.loaders.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
@@ -40,6 +41,7 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 			for (Action action : actions) {
 				@SuppressWarnings("unchecked")
 				Class<? extends SessionAction<Session>> theAction = (Class<? extends SessionAction<Session>>)action.action();
+
 				TerminalPosition position = null;
 				if (action.row() > 0 && action.column() > 0) {
 					position = new SimpleTerminalPosition(action.row(), action.column());
@@ -50,6 +52,9 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 							action.displayName(), position);
 				} else {
 					actionDefinition = new SimpleActionDefinition(theAction, action.displayName());
+				}
+				if (!StringUtils.isEmpty(action.alias())) {
+					actionDefinition.setAlias(action.alias());
 				}
 
 				screenEntityDefinition.getActions().add(actionDefinition);

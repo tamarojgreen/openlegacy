@@ -9,17 +9,17 @@ import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKey;
 
-@ScreenEntity
+@ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 2, column = 26, value = "    Work with Item Master     "), 
 				@Identifier(row = 4, column = 2, value = "Type choices, press Enter."), 
 				@Identifier(row = 6, column = 2, value = "Item Number . . . . . . . . .") 
 				})
 @ScreenActions(actions = { 
-				@Action(action = TerminalActions.F1.class, displayName = "Help"), 
-				@Action(action = TerminalActions.F4.class, displayName = "Prompt"), 
-				@Action(action = TerminalActions.F12.class, displayName = "Cancel"), 
-				@Action(action = TerminalActions.F2.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Delete") 
+				@Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"), 
+				@Action(action = TerminalActions.F4.class, displayName = "Prompt", alias = "prompt"), 
+				@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"), 
+				@Action(action = TerminalActions.F2.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") 
 				})
 public class WorkWithItemMaster1 {
     
@@ -31,6 +31,12 @@ public class WorkWithItemMaster1 {
 
 	@ScreenField(row = 8, column = 33 ,editable= true ,displayName = "Alpha Search", sampleValue = "TOMATO")
     private String alphaSearch;
+
+	@ScreenField(row = 9, column = 33 ,editable= true ,displayName = "Superceding item To")
+    private String supercedingItemto;
+
+	@ScreenField(row = 10, column = 33 ,editable= true ,displayName = "Superceding Item From")
+    private String supercedingItemfrom;
 
 	@ScreenField(row = 11, column = 33 ,editable= true ,displayName = "Substitute item number")
     private String substituteItemNumber;

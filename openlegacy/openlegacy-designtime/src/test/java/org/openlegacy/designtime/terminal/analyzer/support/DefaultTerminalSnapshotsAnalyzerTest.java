@@ -77,7 +77,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		snapshotsSorter.clear();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile());
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
-		Assert.assertEquals(4, screenEntitiesDefinitions.size());
+		Assert.assertEquals(5, screenEntitiesDefinitions.size());
 		return screenEntitiesDefinitions;
 	}
 
@@ -133,6 +133,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		assertScreenContent(screenEntitiesDefinitions.get("Screen2"), "Screen2.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("TableScreen"), "TableScreen.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("WindowScreen"), "WindowScreen.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("MenuScreen"), "MenuScreen.java.expected");
 	}
 
 	@Test
@@ -140,14 +141,19 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		snapshotsSorter.setMatchingPercent(95);
 		snapshotsSorter.clear();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
-				getClass().getResource("/apps/inventory/screens_xml").getFile(), "SignOn.xml", "ItemsList.xml",
-				"ItemDetails1.xml");
+				getClass().getResource("/apps/inventory/screens_xml").getFile(), "SignOn.xml", "MainMenu.xml", "ItemsList.xml",
+				"ItemDetails1.xml", "ItemDetails2.xml");
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		assertScreenContent(screenEntitiesDefinitions.get("SignOn"), "SignOn.java.expected");
+
+		assertScreenContent(screenEntitiesDefinitions.get("ApplinxDemoEnvironment"), null);
+
 		// table
 		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster"), "WorkWithItemMaster.java.expected");
-		// form
+		// form1
 		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster1"), "WorkWithItemMaster1.java.expected");
+		// form2
+		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster2"), "WorkWithItemMaster2.java.expected");
 	}
 
 	private void assertScreenContent(ScreenEntityDefinition screen, String expectedResource) throws TemplateException,

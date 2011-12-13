@@ -1,5 +1,6 @@
 package org.openlegacy.designtime.terminal.model;
 
+import org.openlegacy.EntityType;
 import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -10,17 +11,19 @@ import java.util.List;
 
 public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition {
 
-	public abstract void setEntityName(String entityName);
+	void setEntityName(String entityName);
 
-	public abstract void setDisplayName(String displayName);
+	void setType(Class<? extends EntityType> entityType);
+
+	void setDisplayName(String displayName);
 
 	TerminalSnapshot getSnapshot();
 
-	public abstract void setSnapshot(TerminalSnapshot terminalSnapshot);
+	void setSnapshot(TerminalSnapshot terminalSnapshot);
 
 	String getPackageName();
 
-	public abstract void setPackageName(String packageName);
+	void setPackageName(String packageName);
 
 	TerminalRectangle getSnapshotBorders();
 
@@ -32,4 +35,8 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 	void addTemporaryTable(SimpleTableDefinition tableDefinition);
 
 	List<ScreenFieldDefinition> getSortedFields();
+
+	String getTypeName();
+
+	List<String> getImports();
 }

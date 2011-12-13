@@ -9,15 +9,15 @@ import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKey;
 
-@ScreenEntity
+@ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 1, column = 40, value = "Screen 2"), 
 				@Identifier(row = 4, column = 3, value = "Field A:"), 
 				@Identifier(row = 5, column = 3, value = "Field B:") 
 				})
 @ScreenActions(actions = { 
-				@Action(action = TerminalActions.F1.class, displayName = "Help"), 
-				@Action(action = TerminalActions.F2.class, displayName = "Save data") 
+				@Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"), 
+				@Action(action = TerminalActions.F2.class, displayName = "Save data", alias = "saveData") 
 				})
 public class Screen2 {
     

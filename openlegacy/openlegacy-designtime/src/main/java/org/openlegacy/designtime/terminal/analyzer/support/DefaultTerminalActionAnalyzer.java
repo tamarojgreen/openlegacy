@@ -12,6 +12,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKey;
+import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 
@@ -44,8 +45,9 @@ public class DefaultTerminalActionAnalyzer implements TerminalActionAnalyzer {
 			logger.warn(MessageFormat.format("Could not found class for Action {0}", action));
 		}
 
-		TerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionClass, additionalKey, caption,
+		SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionClass, additionalKey, caption,
 				position);
+		actionDefinition.setAlias(StringUtil.toJavaFieldName(caption));
 		return actionDefinition;
 	}
 }

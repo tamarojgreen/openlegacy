@@ -1,0 +1,23 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.modules.menu.Menu.MenuEntity;  
+import org.openlegacy.modules.menu.Menu.MenuSelectionField;  
+
+@ScreenEntity(screenType=MenuEntity.class)
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 1, column = 40, value = "Menu Screen") 
+				})
+public class MenuScreen {
+    
+	@ScreenField(row = 8, column = 18 ,editable= true ,fieldType=MenuSelectionField.class ,displayName = "Menu Selection")
+    private String menuSelection;
+
+    
+
+
+ 
+}

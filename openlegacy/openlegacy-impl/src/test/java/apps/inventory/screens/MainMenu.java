@@ -1,11 +1,12 @@
 package apps.inventory.screens;
 
-import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.modules.menu.Menu.MenuEntity;
 
-@ScreenEntity
+@ScreenEntity(screenType = MenuEntity.class)
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 37, value = "Demo Environment") })
 public class MainMenu {
 

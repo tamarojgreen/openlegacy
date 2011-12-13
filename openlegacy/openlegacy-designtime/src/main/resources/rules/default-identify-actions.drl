@@ -6,6 +6,7 @@ when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-actions")
 	$actionsRegex    : String()  from (String)$ruleParameterSet.getRuleParameters().get("actionsRegex");
 	$rowsFromEnd  : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("rowsFromEnd");
+	$actionsSplitter  : String()  from (String)$ruleParameterSet.getRuleParameters().get("actionsSplitter");
 
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
@@ -18,7 +19,7 @@ when
 
 	$field: TerminalField(position.row >= $actionsStartRow,position.row <= $actionsEndRow) from $snapshot.getFields()
 	
-	$captionAction: String(this matches $actionsRegex) from $field.getValue().split("  ")
+	$captionAction: String(this matches $actionsRegex) from $field.getValue().split($actionsSplitter)
 	 	
 	
 then

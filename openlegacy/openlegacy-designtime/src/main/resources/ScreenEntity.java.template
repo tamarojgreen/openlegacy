@@ -14,8 +14,11 @@ import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKe
 import java.util.List;
 import org.openlegacy.annotations.screen.ScreenTable;
 </#if>
+<#list imports as import> 
+import ${import};  
+</#list>	
 
-@ScreenEntity<#if window>(window=true)</#if>
+@ScreenEntity(<#if typeName??>screenType=${typeName}.class</#if><#if window>window=true</#if>)
 @ScreenIdentifiers(identifiers = { 
 				<#list screenIdentification.screenIdentifiers as identifier> 
 				@Identifier(row = ${identifier.position.row}, column = ${identifier.position.column}, value = "${identifier.text}")<#if identifier_has_next>,</#if> 
@@ -24,14 +27,14 @@ import org.openlegacy.annotations.screen.ScreenTable;
 <#if actions?size != 0>
 @ScreenActions(actions = { 
 				<#list actions as action> 
-				@Action(action = TerminalActions.${action.action.simpleName}.class<#if action.additionalKey??> ,additionalKey= AdditionalKey.${action.additionalKey}</#if>, displayName = "${action.displayName}")<#if action_has_next>,</#if> 
+				@Action(action = TerminalActions.${action.action.simpleName}.class<#if action.additionalKey??> ,additionalKey= AdditionalKey.${action.additionalKey}</#if>, displayName = "${action.displayName}", alias = "${action.alias}")<#if action_has_next>,</#if> 
 				</#list>	
 				})
 </#if>
 public class ${entityName} {
     
 	<#list sortedFields as field> 
-	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.editable == false> ,endColumn= ${field.endPosition.column}</#if><#if field.editable> ,editable= true</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
+	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.editable == false> ,endColumn= ${field.endPosition.column}</#if><#if field.editable> ,editable= true</#if><#if field.typeName??> ,fieldType=${field.typeName}.class</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
     private String ${field.name};
 
 	</#list>	

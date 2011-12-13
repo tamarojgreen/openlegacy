@@ -36,6 +36,8 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 
 	private List<SimpleTableDefinition> temporaryTableDefinitions = new ArrayList<SimpleTableDefinition>();
 
+	private List<String> imports = new ArrayList<String>();
+
 	@Override
 	public void setEntityName(String entityName) {
 		super.setEntityName(entityName);
@@ -101,6 +103,22 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 		return sortedFields;
+	}
+
+	@Override
+	public String toString() {
+		return getSnapshot().toString();
+	}
+
+	public String getTypeName() {
+		if (getType() == null) {
+			return null;
+		}
+		return getType().getSimpleName();
+	}
+
+	public List<String> getImports() {
+		return imports;
 	}
 
 }

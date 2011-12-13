@@ -34,4 +34,6 @@ public @interface Action {
 	int column() default 0;
 
 	AdditionalKey additionalKey() default AdditionalKey.NONE;
+
+	String alias() default "";
 }

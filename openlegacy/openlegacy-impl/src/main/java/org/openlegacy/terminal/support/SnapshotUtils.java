@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.terminal.RowPart;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
@@ -36,7 +37,7 @@ public class SnapshotUtils {
 		int beginIndex = SnapshotUtils.toAbsolutePosition(terminalField.getPosition(), screenSize);
 
 		String value = terminalField.getValue();
-		if (value.length() == 0) {
+		if (StringUtils.isEmpty(value)) {
 			return;
 		}
 		placeContentOnBuffer(buffer, beginIndex, value);

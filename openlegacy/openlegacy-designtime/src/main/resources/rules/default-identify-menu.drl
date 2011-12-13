@@ -1,0 +1,54 @@
+package openlegacy;
+
+import org.openlegacy.modules.menu.MenuItem;
+import org.openlegacy.modules.support.menu.SimpleMenuItem;
+
+rule "identify-menu"
+ruleflow-group "identify-menu"
+no-loop
+salience 100 
+when
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-menu")
+	$menuOptionRegex  : String()  from (String)$ruleParameterSet.getRuleParameters().get("menuOptionRegex");
+	$maxDistance : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("maxDistance");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and there is a field in a specific column (which is not a leading label) 
+	$codeField: TerminalField(value matches $menuOptionRegex) from $snapshot.getFields();
+
+	$captionField: TerminalField(this != $codeField, endPosition.column >= $codeField.position.column - $maxDistance,  
+								position.row == $codeField.position.row) from $snapshot.getFields();
+	
+then
+	MenuItemFact menuItemFact = new MenuItemFact($codeField,$captionField,$screenEntityDefinition);
+	insert(menuItemFact);
+end
+
+rule "analyze-menu-items"
+ruleflow-group "identify-menu"
+no-loop 
+salience 90 
+when
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-menu")
+	$minimumMenuItems : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("minimumMenuItems");
+	$maxSelectionFieldLength : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("maxSelectionFieldLength");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	$menuItems: List(size >= $minimumMenuItems) from collect ( MenuItemFact(screenEntityDefinition == $screenEntityDefinition) )
+	
+	$menuSelectionFields: List(size >= 1) from collect ( TerminalField(editable == true, length <= $maxSelectionFieldLength) from $snapshot.getFields() )
+	$menuSelectionField : TerminalField() from $menuSelectionFields.get(0)
+then
+	screenEntityDefinitionsBuilder.addMenuScreenEntity($screenEntityDefinition, $menuItems,$menuSelectionField);
+end
+

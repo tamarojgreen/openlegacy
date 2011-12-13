@@ -13,7 +13,7 @@ public interface SnapshotsAnalyzerContext<S extends Snapshot, D extends EntityDe
 
 	void setActiveSnapshots(Collection<S> snapshots);
 
-	void addEntityDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition);
+	void addEntityDefinition(String desiredEntityName, ScreenEntityDesigntimeDefinition screenEntityDefinition);
 
 	Map<String, D> getEntitiesDefinitions();
 }

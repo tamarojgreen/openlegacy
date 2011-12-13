@@ -3,10 +3,13 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
+import org.openlegacy.designtime.terminal.analyzer.BestEntityNameFieldComparator;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.analyzer.TerminalActionAnalyzer;
+import org.openlegacy.designtime.terminal.model.MenuItemFact;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.terminal.model.TableColumn;
+import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRectangle;
@@ -19,9 +22,11 @@ import org.openlegacy.terminal.spi.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalRectangle;
+import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +43,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	@Inject
 	private TerminalActionAnalyzer terminalActionAnalyzer;
+
+	@Inject
+	private BestEntityNameFieldComparator bestEntityNameFieldComparator;
 
 	public void addIdentifiers(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
@@ -80,36 +88,24 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> possibleFields) {
 
-		String posibleEntityName = null;
 		String bestMatchEntityName = null;
-		TerminalField bestMatchEntityField = null;
 
-		for (TerminalField field : possibleFields) {
-			if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
-				continue;
-			}
+		Collections.sort(possibleFields, bestEntityNameFieldComparator);
 
-			posibleEntityName = StringUtil.toClassName(field.getValue());
-
-			if (bestMatchEntityName == null || isMoreMatchedName(posibleEntityName, bestMatchEntityName)) {
-				bestMatchEntityName = posibleEntityName;
-				bestMatchEntityField = field;
-			}
-		}
+		TerminalField bestMatchEntityField = possibleFields.get(0);
+		bestMatchEntityName = StringUtil.toClassName(bestMatchEntityField.getValue());
 
 		String existingEntityName = screenEntityDefinition.getEntityName();
 
 		if (existingEntityName == null) {
-			screenEntityDefinition.setEntityName(bestMatchEntityName);
-
-			snapshotsAnalyzerContext.addEntityDefinition(screenEntityDefinition);
-			logger.info(MessageFormat.format("New screen entity add: {0}", posibleEntityName));
+			snapshotsAnalyzerContext.addEntityDefinition(bestMatchEntityName, screenEntityDefinition);
+			logger.info(MessageFormat.format("New potential screen entity add: {0}", bestMatchEntityName));
 
 			// add the field which the entity name is based on as one of the identifiers
 			addIdentifier(screenEntityDefinition, bestMatchEntityField);
 		} else {
-			logger.info(MessageFormat.format("Ignoring potential screen entity name {0}. Name already present:{1}",
-					posibleEntityName, existingEntityName));
+			logger.error(MessageFormat.format("Ignoring potential screen entity name {0}. Name already present:{1}",
+					bestMatchEntityName, existingEntityName));
 		}
 
 	}
@@ -131,21 +127,31 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	}
 
-	protected boolean isMoreMatchedName(String posibleEntityName, String bestMatchEntityName) {
-		return posibleEntityName.length() > bestMatchEntityName.length();
+	public void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, TerminalField labelField) {
+		addField(screenEntityDefinition, field, labelField.getValue());
 	}
 
-	public void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, TerminalField labelField) {
+	private static ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
+			String label) {
 
 		if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
-			return;
+			return null;
 		}
 
-		// ignore the field if it's outside a defined window border
-		String label = labelField.getValue();
 		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), false)) {
 			logger.info(MessageFormat.format("Field {0} at position {1} is outside window", label, field.getPosition()));
-			return;
+			return null;
+		}
+
+		Map<String, ScreenFieldDefinition> fieldsDefinitions = screenEntityDefinition.getFieldsDefinitions();
+		Collection<ScreenFieldDefinition> fields = fieldsDefinitions.values();
+		for (ScreenFieldDefinition screenFieldDefinition : fields) {
+			if (screenFieldDefinition.getPosition().equals(field.getPosition())) {
+				logger.info(MessageFormat.format(
+						"An existing field {0} at position already exists. Field with label {1} will not be added",
+						screenFieldDefinition.getName(), label));
+				return screenFieldDefinition;
+			}
 		}
 
 		String fieldName = StringUtil.toJavaFieldName(label);
@@ -155,8 +161,6 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		fieldMappingDefinition.setEditable(field.isEditable());
 		fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(label));
 		fieldMappingDefinition.setSampleValue(StringUtil.toSampleValue(field.getValue()));
-
-		Map<String, ScreenFieldDefinition> fieldsDefinitions = screenEntityDefinition.getFieldsDefinitions();
 
 		fieldName = findFreeFieldName(fieldName, fieldsDefinitions);
 		fieldMappingDefinition.setName(fieldName);
@@ -168,6 +172,8 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		String fieldTypeText = field.isEditable() ? "Editable" : "Readonly";
 		logger.info(MessageFormat.format("Added {0} field {1} at position {2} to screen entity", fieldTypeText, fieldName,
 				field.getPosition()));
+
+		return fieldMappingDefinition;
 	}
 
 	/**
@@ -257,4 +263,25 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		tableColumn.getHeaderFields().addAll(fields);
 	}
 
+	public void addMenuScreenEntity(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<MenuItemFact> menuItems,
+			TerminalField menuSelectionField) {
+		screenEntityDefinition.getImports().add(ClassUtils.getImportDeclaration(Menu.MenuEntity.class));
+		screenEntityDefinition.setType(Menu.MenuEntity.class);
+		TerminalSnapshot snapshot = screenEntityDefinition.getSnapshot();
+
+		ScreenFieldDefinition fieldDefinition = addField(screenEntityDefinition, menuSelectionField, Menu.SELECTION_LABEL);
+		if (fieldDefinition == null) {
+			logger.warn("Menu selection field not added to screen entity");
+			return;
+		}
+
+		screenEntityDefinition.getImports().add(ClassUtils.getImportDeclaration(Menu.MenuSelectionField.class));
+		((SimpleScreenFieldDefinition)fieldDefinition).setType(Menu.MenuSelectionField.class);
+
+		for (MenuItemFact menuItem : menuItems) {
+			snapshot.getFields().remove(menuItem.getCodeField());
+			snapshot.getFields().remove(menuItem.getCaptionField());
+		}
+
+	}
 }
