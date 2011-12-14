@@ -90,7 +90,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertNotNull(tableScreen);
 		Map<String, TableDefinition> tablesDefinitions = tableScreen.getTableDefinitions();
 		Assert.assertEquals(1, tablesDefinitions.size());
-		TableDefinition table1 = tablesDefinitions.get("TableScreenRow");
+		TableDefinition table1 = tablesDefinitions.get("TableScreenRecord");
 
 		Assert.assertEquals(5, table1.getStartRow());
 		Assert.assertEquals(7, table1.getEndRow());

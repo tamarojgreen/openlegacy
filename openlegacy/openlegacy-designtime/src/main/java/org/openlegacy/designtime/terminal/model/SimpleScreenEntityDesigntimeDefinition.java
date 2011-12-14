@@ -20,7 +20,7 @@ import java.util.List;
 
 public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDefinition implements ScreenEntityDesigntimeDefinition, Serializable {
 
-	private static final String ROW = "Row";
+	private static final String RECORD = "Record";
 
 	public SimpleScreenEntityDesigntimeDefinition() {
 		super(null, null);
@@ -52,7 +52,7 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		for (SimpleTableDefinition tableDefinition : temporaryTableDefinitions) {
 
 			String tableSuffix = count == 0 ? "" : String.valueOf(count - 1);
-			String tableEntityName = MessageFormat.format("{0}{1}{2}", entityName, ROW, tableSuffix);
+			String tableEntityName = MessageFormat.format("{0}{1}{2}", entityName, RECORD, tableSuffix);
 			tableDefinition.setTableEntityName(tableEntityName);
 			getTableDefinitions().put(tableEntityName, tableDefinition);
 		}

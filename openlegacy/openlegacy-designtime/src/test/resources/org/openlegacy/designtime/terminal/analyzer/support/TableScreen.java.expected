@@ -14,11 +14,11 @@ import org.openlegacy.annotations.screen.ScreenTable;
 public class TableScreen {
     
     
-    private List<TableScreenRow> tableScreenRows;
+    private List<TableScreenRecord> tableScreenRecords;
 
 
 	@ScreenTable(startRow = 5, endRow = 7)
-	public static class TableScreenRow {
+	public static class TableScreenRecord {
 		@ScreenColumn(startColumn = 4, endColumn = 5, editable=true, selectionField=true ,displayName = "Action")
 		private String action;
 		
