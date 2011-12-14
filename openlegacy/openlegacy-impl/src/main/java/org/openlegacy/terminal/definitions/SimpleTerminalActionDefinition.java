@@ -4,28 +4,25 @@ import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 public class SimpleTerminalActionDefinition extends SimpleActionDefinition implements TerminalActionDefinition {
 
-	private AdditionalKey additionalKey = AdditionalKey.NONE;
 	private TerminalPosition position;
+	private AdditionalKey additionalKey;
 
-	public SimpleTerminalActionDefinition(Class<? extends SessionAction<Session>> action, AdditionalKey additionalKey,
+	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
 			String displayName, TerminalPosition position) {
 		super(action, displayName);
-		this.additionalKey = additionalKey;
 		this.position = position;
-	}
-
-	public AdditionalKey getAdditionalKey() {
-		return additionalKey;
-	}
-
-	public void setAdditionKey(AdditionalKey additionKey) {
-		this.additionalKey = additionKey;
+		this.additionalKey = additionalKey;
 	}
 
 	public TerminalPosition getPosition() {
 		return position;
+	}
+
+	public AdditionalKey getAdditionalKey() {
+		return additionalKey;
 	}
 }

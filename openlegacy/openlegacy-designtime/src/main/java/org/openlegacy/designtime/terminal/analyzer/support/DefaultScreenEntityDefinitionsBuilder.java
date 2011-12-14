@@ -232,8 +232,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 		Collections.sort(actions, TerminalPositionContainerComparator.instance());
 
-		logger.info(MessageFormat.format("Added action {0}:{1} to screen entity {2}", actionDefinition.getAction().getName(),
-				actionDefinition.getDisplayName(), screenEntityDefinition.getEntityName()));
+		logger.info(MessageFormat.format("Added action {0}:{1} to screen entity {2}",
+				actionDefinition.getAction().getClass().getName(), actionDefinition.getDisplayName(),
+				screenEntityDefinition.getEntityName()));
 	}
 
 	public TableColumn addTableColumn(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields) {

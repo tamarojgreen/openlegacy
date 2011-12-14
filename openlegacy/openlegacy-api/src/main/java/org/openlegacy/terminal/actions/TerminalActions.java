@@ -1,6 +1,9 @@
 package org.openlegacy.terminal.actions;
 
+import org.openlegacy.Session;
+import org.openlegacy.SessionAction;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.exceptions.TerminalActionNotMappedException;
 
 import java.text.MessageFormat;
@@ -18,6 +21,28 @@ public class TerminalActions {
 			throw (new TerminalActionNotMappedException(MessageFormat.format(
 					"Specified action {0} is not mapped to a terminal command", getClass())));
 		}
+
+		@Override
+		public int hashCode() {
+			return getClass().hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return obj.getClass().equals(getClass());
+		}
+	}
+
+	public static SessionAction<? extends Session> combined(AdditionalKey additionalKey, TerminalAction terminalAction) {
+		return combined(additionalKey, terminalAction.getClass());
+	}
+
+	public static SessionAction<? extends Session> combined(AdditionalKey additionalKey,
+			Class<? extends TerminalAction> terminalActionClass) {
+		CombinedTerminalAction combinedAction = new CombinedTerminalAction();
+		combinedAction.setAdditionalKey(additionalKey);
+		combinedAction.setTerminalAction(terminalActionClass);
+		return combinedAction;
 	}
 
 	public static class ENTER extends TerminalMappedAction {

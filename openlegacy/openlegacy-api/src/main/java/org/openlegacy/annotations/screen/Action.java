@@ -1,7 +1,7 @@
 package org.openlegacy.annotations.screen;
 
 import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

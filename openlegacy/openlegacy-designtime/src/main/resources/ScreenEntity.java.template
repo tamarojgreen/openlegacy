@@ -27,7 +27,7 @@ import ${referredClass};
 <#if actions?size != 0>
 @ScreenActions(actions = { 
 				<#list actions as action> 
-				@Action(action = TerminalActions.${action.action.simpleName}.class<#if action.additionalKey??> ,additionalKey= AdditionalKey.${action.additionalKey}</#if>, displayName = "${action.displayName}", alias = "${action.alias}")<#if action_has_next>,</#if> 
+				@Action(action = TerminalActions.${action.action.class.simpleName}.class<#if action.additionalKey??> ,additionalKey= AdditionalKey.${action.additionalKey}</#if>, displayName = "${action.displayName}", alias = "${action.alias}")<#if action_has_next>,</#if> 
 				</#list>	
 				})
 </#if>

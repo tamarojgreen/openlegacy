@@ -10,4 +10,11 @@ import org.openlegacy.terminal.TerminalSession;
  * 
  */
 public interface TerminalAction extends SessionAction<TerminalSession> {
+
+	public enum AdditionalKey {
+		NONE,
+		SHIFT,
+		CTRL,
+		ALT
+	}
 }

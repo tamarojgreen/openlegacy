@@ -18,16 +18,38 @@
 		<property name="actionMappings" ref="testActionMappings" />
 	</bean>
 
+	<bean id="combinedAction" class="org.openlegacy.terminal.actions.CombinedTerminalAction" abstract="true" />
+	
 	<util:map id="testActionMappings">
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.ENTER"
-			value="[enter]" />
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.F1"
-			value="[pf1]" />
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.F3"
-			value="[pf3]" />
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN"
-			value="[pagedn]" />
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.PAGEUP"
-			value="[pageup]" />
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ENTER" /></key>
+			<value>[enter]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F1" /></key>
+			<value>[pf1]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F2" /></key>
+			<value>[pf2]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F3" /></key>
+			<value>[pf3]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN" /></key>
+			<value>[pagedn]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEUP" /></key>
+			<value>[pageup]</value>
+		</entry>
+		<entry>
+			<key>
+				<bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ENTER" />
+			</key>
+			<value>[pf13]</value>
+		</entry>
 	</util:map>		
 </beans>

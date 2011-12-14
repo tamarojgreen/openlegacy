@@ -7,15 +7,15 @@ import org.openlegacy.definitions.ActionDefinition;
 public class SimpleActionDefinition implements ActionDefinition {
 
 	private String displayName;
-	private Class<? extends SessionAction<Session>> action;
+	private SessionAction<? extends Session> action;
 	private String alias;
 
-	public SimpleActionDefinition(Class<? extends SessionAction<Session>> action, String displayName) {
+	public SimpleActionDefinition(SessionAction<? extends Session> action, String displayName) {
 		this.action = action;
 		this.displayName = displayName;
 	}
 
-	public Class<? extends SessionAction<Session>> getAction() {
+	public SessionAction<? extends Session> getAction() {
 		return action;
 	}
 

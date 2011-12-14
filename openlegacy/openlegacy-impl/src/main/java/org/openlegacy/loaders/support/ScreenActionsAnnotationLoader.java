@@ -4,16 +4,17 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
-import org.openlegacy.Session;
-import org.openlegacy.SessionAction;
 import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
-import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKey;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -39,8 +40,7 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 		Action[] actions = screenActions.actions();
 		if (actions.length > 0) {
 			for (Action action : actions) {
-				@SuppressWarnings("unchecked")
-				Class<? extends SessionAction<Session>> theAction = (Class<? extends SessionAction<Session>>)action.action();
+				Class<? extends TerminalAction> theAction = action.action();
 
 				TerminalPosition position = null;
 				if (action.row() > 0 && action.column() > 0) {
@@ -48,10 +48,10 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				}
 				SimpleActionDefinition actionDefinition = null;
 				if (action.additionalKey() != AdditionalKey.NONE || position != null) {
-					actionDefinition = new SimpleTerminalActionDefinition(theAction, action.additionalKey(),
-							action.displayName(), position);
+					actionDefinition = new SimpleTerminalActionDefinition(TerminalActions.combined(action.additionalKey(),
+							theAction), action.additionalKey(), action.displayName(), position);
 				} else {
-					actionDefinition = new SimpleActionDefinition(theAction, action.displayName());
+					actionDefinition = new SimpleActionDefinition(ReflectionUtil.newInstance(theAction), action.displayName());
 				}
 				if (!StringUtils.isEmpty(action.alias())) {
 					actionDefinition.setAlias(action.alias());

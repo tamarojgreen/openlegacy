@@ -4,5 +4,5 @@ import org.openlegacy.terminal.actions.TerminalAction;
 
 public interface TerminalActionMapper {
 
-	Object getCommand(Class<? extends TerminalAction> terminalAction);
+	Object getCommand(TerminalAction terminalAction);
 }

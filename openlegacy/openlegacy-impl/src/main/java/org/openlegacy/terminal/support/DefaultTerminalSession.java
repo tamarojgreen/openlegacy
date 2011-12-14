@@ -108,7 +108,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 		entity = null;
 
-		Object command = terminalActionMapper.getCommand(terminalAction.getClass());
+		Object command = terminalActionMapper.getCommand(terminalAction);
 		if (command == null) {
 			terminalAction.perform(this, screenEntity);
 		} else {

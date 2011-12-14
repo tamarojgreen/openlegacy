@@ -9,7 +9,7 @@ import org.openlegacy.SessionAction;
  */
 public interface ActionDefinition {
 
-	Class<? extends SessionAction<Session>> getAction();
+	SessionAction<? extends Session> getAction();
 
 	String getDisplayName();
 
