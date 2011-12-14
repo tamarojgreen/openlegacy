@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.EntityDescriptor;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.terminal.TerminalSession;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,7 +24,7 @@ import junit.framework.Assert;
 public class DefaultNavigationModuleTest extends AbstractTest {
 
 	@Test
-	public void testPathEntries() {
+	public void testPathEntries() throws LoginException {
 		TerminalSession terminalSession = newTerminalSession();
 
 		terminalSession.getModule(Login.class).login("user", "pwd");

@@ -33,6 +33,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	private boolean enabled;
 	private boolean supportTerminalData;
+	private boolean superClass = false;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className) {
 
@@ -58,8 +59,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 					field.setPrimitiveType(TypesUtil.isPrimitive(fieldDeclaration.getType().toString()));
 					if (fieldAnnotations != null && fieldAnnotations.size() > 0) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
-							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, AnnotationConstants.FIELD_MAPPING_ANNOTATION,
-									AnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									AnnotationConstants.FIELD_MAPPING_ANNOTATION, AnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
 								handleFieldMappingAnnotation(fieldDeclaration, annotationExpr, field);
 							}
 						}
@@ -125,10 +126,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
 			if (annotationName.equals(AnnotationConstants.SCREEN_ENTITY_ANNOTATION)
+					|| annotationName.equals(AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)
 					|| annotationName.equals(AnnotationConstants.SCREEN_PART_ANNOTATION)
 					|| annotationName.equals(AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
 				enabled = true;
 				checkSupportTerminalData(annotationExpr);
+				if (annotationName.equals(AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
+					superClass = true;
+				}
 			}
 		}
 	}
@@ -158,6 +163,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	 */
 	public boolean isRelevant() {
 		return enabled;
+	}
+
+	public boolean isSuperClass() {
+		return superClass;
 	}
 
 	public boolean isSupportTerminalData() {

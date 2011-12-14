@@ -1,14 +1,16 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
-import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenEntitySuperClass;
+import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
 
 public class AnnotationConstants {
 
 	public static final String SCREEN_ENTITY_ANNOTATION = ScreenEntity.class.getSimpleName();
+	public static final String SCREEN_ENTITY_SUPER_CLASS_ANNOTATION = ScreenEntitySuperClass.class.getSimpleName();
 	public static final String SCREEN_PART_ANNOTATION = ScreenPart.class.getSimpleName();
 	public static final String SCREEN_TABLE_ANNOTATION = ScreenTable.class.getSimpleName();
 	public static final String SCREEN_COLUMN_ANNOTATION = ScreenColumn.class.getSimpleName();

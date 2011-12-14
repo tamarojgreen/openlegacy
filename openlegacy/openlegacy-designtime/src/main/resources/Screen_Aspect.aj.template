@@ -14,15 +14,19 @@ import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
     
+<#if !superClass>
     declare @type: ${className} : @Component;
 	declare @type: ${className} : @Scope("prototype");
+</#if>
     
-	<#if supportTerminalData>
+	<#if supportTerminalData && !superClass>
     private TerminalSnapshot ${className}.terminalSnapshot;
 	</#if>
 
+<#if !superClass>
     declare parents: ${className} implements ScreenEntity;
     private String ${className}.focusField;
+</#if>
     
 	<#list fields as field>
 	
@@ -31,7 +35,7 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 	</#if>
 	</#list>	
     
-	<#if supportTerminalData>
+	<#if supportTerminalData  && !superClass>
     public TerminalSnapshot ${className}.getTerminalSnapshot(){
 		return terminalSnapshot;
     }
@@ -57,11 +61,13 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 		</#if>
 	</#list>	
 
+<#if !superClass>
     public String ${className}.getFocusField(){
     	return focusField;
     }
     public void ${className}.setFocusField(String focusField){
     	this.focusField = focusField;
     }
+</#if>
     
 }

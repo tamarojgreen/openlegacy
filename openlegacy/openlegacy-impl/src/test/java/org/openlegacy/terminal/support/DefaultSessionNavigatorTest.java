@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -30,7 +31,7 @@ public class DefaultSessionNavigatorTest extends AbstractTest {
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Test
-	public void testSimpleNavigation() {
+	public void testSimpleNavigation() throws LoginException {
 		TerminalSession terminalSession = newTerminalSession();
 
 		terminalSession.getModule(Login.class).login("user", "pwd");

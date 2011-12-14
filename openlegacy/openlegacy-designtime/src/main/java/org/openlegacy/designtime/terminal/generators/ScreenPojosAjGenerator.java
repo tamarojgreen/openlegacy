@@ -1,11 +1,12 @@
 package org.openlegacy.designtime.terminal.generators;
 
-import org.openlegacy.designtime.terminal.generators.support.AnnotationConstants;
-import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
+import org.openlegacy.designtime.terminal.generators.support.AnnotationConstants;
+import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel;
+
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
@@ -53,7 +54,8 @@ public class ScreenPojosAjGenerator {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			for (AnnotationExpr annotationExpr : annotations) {
 				ScreenPojoCodeModel screenEntityCodeModel = null;
-				if (hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_ANNOTATION)) {
+				if (hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_ANNOTATION)
+						|| hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					screenEntityCodeModel = generateScreenEntity(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							baos);
 					checkInnerClasses(javaFile, compilationUnit, typeDeclaration);

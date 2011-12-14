@@ -16,7 +16,7 @@ public class DefaultLoginModuleFailedTest extends AbstractTest {
 
 	@Test
 	@ExpectedException(LoginException.class)
-	public void testLoginFailed() {
+	public void testLoginFailed() throws LoginException {
 		TerminalSession terminalSession = newTerminalSession();
 
 		terminalSession.getModule(Login.class).login("user", "pwd");
