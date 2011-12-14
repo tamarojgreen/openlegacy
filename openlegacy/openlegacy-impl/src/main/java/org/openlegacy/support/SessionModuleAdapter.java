@@ -7,7 +7,7 @@ import org.openlegacy.modules.SessionModule;
  * Place holder for session module future override-able methods
  * 
  */
-public class SessionModuleAdapter<S extends Session> implements SessionModule {
+public abstract class SessionModuleAdapter<S extends Session> implements SessionModule {
 
 	private S session;
 

@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.Snapshot;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalSession;
@@ -36,7 +37,7 @@ public class DefaultLoginModuleTest extends AbstractTest {
 	}
 
 	@Test
-	public void testLoginObject() {
+	public void testLoginObject() throws LoginException {
 		TerminalSession terminalSession = newTerminalSession();
 
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
@@ -47,14 +48,14 @@ public class DefaultLoginModuleTest extends AbstractTest {
 	}
 
 	@Test
-	public void testLoginSimple() {
+	public void testLoginSimple() throws LoginException {
 		TerminalSession terminalSession = newTerminalSession();
 
 		terminalSession.getModule(Login.class).login("someuser", "somepwd");
 	}
 
 	@Test
-	public void testLogoff() {
+	public void testLogoff() throws LoginException {
 		TerminalSession terminalSession = newTerminalSession();
 
 		terminalSession.getModule(Login.class).login("someuser", "somepwd");

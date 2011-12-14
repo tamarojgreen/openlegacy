@@ -117,6 +117,12 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	public void logoff() {
 
+		logoffOnly();
+
+		getSession().disconnect();
+	}
+
+	private void logoffOnly() {
 		Class<?> loginClass = loginMetadata.getLoginScreenDefinition().getEntityClass();
 
 		Class<?> currentEntityClass = screensRecognizer.match(getSession().getSnapshot());
@@ -140,8 +146,6 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 			currentEntityClass = screensRecognizer.match(getSession().getSnapshot());
 
 		}
-
-		getSession().disconnect();
 
 		loggedInUser = null;
 	}
@@ -171,5 +175,10 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	public String getLoggedInUser() {
 		return loggedInUser;
+	}
+
+	@Override
+	public void destroy() {
+		logoffOnly();
 	}
 }

@@ -3,6 +3,7 @@ package org.openlegacy.support;
 import org.openlegacy.Session;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.text.MessageFormat;
@@ -13,7 +14,7 @@ import java.util.List;
  * 
  * 
  */
-public abstract class AbstractSession implements Session, InitializingBean {
+public abstract class AbstractSession implements Session, InitializingBean, DisposableBean {
 
 	private SessionModules sessionModules;
 
@@ -50,5 +51,13 @@ public abstract class AbstractSession implements Session, InitializingBean {
 				((SessionModuleAdapter)sessionModule).setSession(this);
 			}
 		}
+	}
+
+	public void destroy() throws Exception {
+		List<? extends SessionModule> sessionModulesList = sessionModules.getModules();
+		for (SessionModule sessionModule : sessionModulesList) {
+			sessionModule.destroy();
+		}
+		disconnect();
 	}
 }

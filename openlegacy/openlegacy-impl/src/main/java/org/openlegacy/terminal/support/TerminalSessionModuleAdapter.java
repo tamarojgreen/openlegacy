@@ -23,6 +23,9 @@ public abstract class TerminalSessionModuleAdapter extends SessionModuleAdapter<
 
 	public void afterSendAction(TerminalConnection terminalConnection) {
 		// allow override
+	}
 
+	public void destroy() {
+		// allow override
 	}
 }

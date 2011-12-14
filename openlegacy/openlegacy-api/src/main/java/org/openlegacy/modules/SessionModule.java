@@ -7,4 +7,5 @@ package org.openlegacy.modules;
  */
 public interface SessionModule {
 
+	void destroy();
 }
