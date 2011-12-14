@@ -117,7 +117,7 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		return getType().getSimpleName();
 	}
 
-	public List<String> getImports() {
+	public List<String> getReferredClasses() {
 		return imports;
 	}
 

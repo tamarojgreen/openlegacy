@@ -38,5 +38,5 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 
 	String getTypeName();
 
-	List<String> getImports();
+	List<String> getReferredClasses();
 }

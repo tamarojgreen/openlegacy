@@ -14,8 +14,8 @@ import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKe
 import java.util.List;
 import org.openlegacy.annotations.screen.ScreenTable;
 </#if>
-<#list imports as import> 
-import ${import};  
+<#list referredClasses as referredClass> 
+import ${referredClass};  
 </#list>	
 
 @ScreenEntity(<#if typeName??>screenType=${typeName}.class</#if><#if window>window=true</#if>)

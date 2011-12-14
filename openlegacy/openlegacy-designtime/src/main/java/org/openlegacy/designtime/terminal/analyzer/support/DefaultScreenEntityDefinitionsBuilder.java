@@ -265,7 +265,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	public void addMenuScreenEntity(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<MenuItemFact> menuItems,
 			TerminalField menuSelectionField) {
-		screenEntityDefinition.getImports().add(ClassUtils.getImportDeclaration(Menu.MenuEntity.class));
+		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(Menu.MenuEntity.class));
 		screenEntityDefinition.setType(Menu.MenuEntity.class);
 		TerminalSnapshot snapshot = screenEntityDefinition.getSnapshot();
 
@@ -275,7 +275,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			return;
 		}
 
-		screenEntityDefinition.getImports().add(ClassUtils.getImportDeclaration(Menu.MenuSelectionField.class));
+		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(Menu.MenuSelectionField.class));
 		((SimpleScreenFieldDefinition)fieldDefinition).setType(Menu.MenuSelectionField.class);
 
 		for (MenuItemFact menuItem : menuItems) {
