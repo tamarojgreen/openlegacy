@@ -3,7 +3,7 @@ package org.openlegacy.terminal.tools;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.exceptions.OpenLegacyException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -68,7 +68,7 @@ public abstract class AbstractSnapshotsDumper {
 				terminalSession.doAction(TerminalActions.ENTER(), null);
 			}
 
-		} catch (OpenLegacyException e) {
+		} catch (OpenLegacyRuntimeException e) {
 			logger.info("Session completed:" + e.getMessage());
 			System.exit(0);
 		}

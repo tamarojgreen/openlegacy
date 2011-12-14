@@ -1,7 +1,7 @@
 package org.openlegacy.support;
 
 import org.openlegacy.Session;
-import org.openlegacy.exceptions.OpenLegacyException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -20,7 +20,7 @@ public abstract class AbstractSession implements Session, InitializingBean {
 	@SuppressWarnings("unchecked")
 	public <M extends SessionModule> M getModule(Class<M> module) {
 		if (sessionModules == null) {
-			throw (new OpenLegacyException("No modules defined for session"));
+			throw (new OpenLegacyRuntimeException("No modules defined for session"));
 		}
 		List<? extends SessionModule> modules = sessionModules.getModules();
 		for (SessionModule registeredModule : modules) {
@@ -28,7 +28,7 @@ public abstract class AbstractSession implements Session, InitializingBean {
 				return (M)registeredModule;
 			}
 		}
-		throw (new OpenLegacyException(MessageFormat.format("No module {0} defined for session", module)));
+		throw (new OpenLegacyRuntimeException(MessageFormat.format("No module {0} defined for session", module)));
 	}
 
 	public void setSessionModules(SessionModules sessionModules) {

@@ -4,7 +4,7 @@ package org.openlegacy.exceptions;
  * This exception is typically thrown when open legacy is unable to retrieve a entity
  * 
  */
-public class EntityNotAccessibleException extends OpenLegacyException {
+public class EntityNotAccessibleException extends OpenLegacyRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

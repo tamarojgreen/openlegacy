@@ -4,7 +4,7 @@ package org.openlegacy.exceptions;
  * Indicates a problem in the registry definition. e.g: 2 entities/fields with the same name, etc
  * 
  */
-public class RegistryException extends OpenLegacyException {
+public class RegistryException extends OpenLegacyRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

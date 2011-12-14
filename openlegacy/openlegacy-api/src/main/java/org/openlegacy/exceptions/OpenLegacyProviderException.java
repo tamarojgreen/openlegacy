@@ -4,7 +4,7 @@ package org.openlegacy.exceptions;
  * Wrapper exception for providers exception
  * 
  */
-public class OpenLegacyProviderException extends OpenLegacyException {
+public class OpenLegacyProviderException extends OpenLegacyRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
