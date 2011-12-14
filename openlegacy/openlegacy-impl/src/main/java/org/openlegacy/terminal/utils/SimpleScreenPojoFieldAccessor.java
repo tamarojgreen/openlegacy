@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.utils;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -69,7 +70,15 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	public void setFieldValue(String fieldName, Object value) {
 		directFieldAccessor.setPropertyValue(fieldName, value);
 		if (logger.isDebugEnabled()) {
-			logger.debug(MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value));
+			if (value instanceof String) {
+				String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
+				if (!StringUtils.isEmpty(((String)value))) {
+					logger.debug(message);
+				} else {
+					// print empty value assignment only in trace mode
+					logger.trace(message);
+				}
+			}
 		}
 	}
 

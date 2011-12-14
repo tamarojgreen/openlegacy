@@ -120,11 +120,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				}
 			}
 
-			if (logger.isTraceEnabled()) {
+			if (logger.isDebugEnabled()) {
 				TerminalSnapshot snapshot = getSnapshot();
-				logger.trace(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
+				logger.debug(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
 						sendAction.getCursorPosition()));
-				logger.trace("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
+				logger.debug("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
 						+ ScreenPainter.paint(snapshot, sendAction, true));
 			}
 
@@ -132,8 +132,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			terminalConnection.doAction(sendAction);
 			notifyModulesAfterSend();
 
-			if (logger.isTraceEnabled()) {
-				logger.trace("\n\nScreen after ([ abc ] indicates a input field):\n\n" + getSnapshot());
+			if (logger.isDebugEnabled()) {
+				logger.debug("\n\nScreen after ([ abc ] indicates a input field):\n\n" + getSnapshot());
 			}
 		}
 
