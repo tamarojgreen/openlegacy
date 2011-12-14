@@ -1,0 +1,37 @@
+package openlegacy;
+
+import org.openlegacy.designtime.terminal.model.LoginScreenFact;
+
+rule "identify-login"
+ruleflow-group "identify-login"
+no-loop
+salience 100 
+when
+	$ruleParameterSet			  : RuleParametersSet(ruleId == "identify-login")
+	$userFieldRegex  			  : String()  from (String)$ruleParameterSet.getRuleParameters().get("userFieldRegex");
+	$passwordFieldRegex  		  : String()  from (String)$ruleParameterSet.getRuleParameters().get("passwordFieldRegex");
+	$errorMessageLinesFromButtom  : String()  from (String)$ruleParameterSet.getRuleParameters().get("errorMessageLinesFromButtom");
+	$errorMessageColumn 		  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("errorMessageColumn");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	$userField: TerminalField(editable == true) from $snapshot.getFields()
+	$userLabelField: TerminalField(position.row == $userField.position.row, position.column < $userField.position.column, 
+															editable == false,value matches $userFieldRegex) from $snapshot.getFields();
+
+	$passwordField: TerminalField(editable == true, position.row >= $userField.position.row) from $snapshot.getFields()
+	$passwordLabelField: TerminalField(position.row == $passwordField.position.row, position.column < $passwordField.position.column, 
+															editable == false,value matches $passwordFieldRegex) from $snapshot.getFields();
+
+	$errorLine: Integer() from $snapshot.getSize().getRows() - $errorMessageLinesFromButtom  
+	$errorMessageField: TerminalField(editable == false) from $snapshot.getField(new SimpleTerminalPosition($errorLine,$errorMessageColumn))
+	
+then
+	screenEntityDefinitionsBuilder.addLoginScreenEntity($screenEntityDefinition, 
+			new LoginScreenFact($userField,$userLabelField,$passwordField,$passwordLabelField,$errorMessageField));
+	
+end

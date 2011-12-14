@@ -11,6 +11,8 @@ import org.openlegacy.modules.SessionModule;
  */
 public interface Login extends SessionModule {
 
+	public static final String ERROR_MESSAGE_LABEL = "Error Message";
+
 	void login(String user, String password) throws LoginException, RegistryException;
 
 	/**

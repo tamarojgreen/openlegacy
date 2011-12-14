@@ -2,13 +2,16 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.FieldType;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.analyzer.BestEntityNameFieldComparator;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.analyzer.TerminalActionAnalyzer;
+import org.openlegacy.designtime.terminal.model.LoginScreenFact;
 import org.openlegacy.designtime.terminal.model.MenuItemFact;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.terminal.model.TableColumn;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
@@ -138,7 +141,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			return null;
 		}
 
-		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), false)) {
+		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), true)) {
 			logger.info(MessageFormat.format("Field {0} at position {1} is outside window", label, field.getPosition()));
 			return null;
 		}
@@ -276,13 +279,35 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			return;
 		}
 
-		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(Menu.MenuSelectionField.class));
-		((SimpleScreenFieldDefinition)fieldDefinition).setType(Menu.MenuSelectionField.class);
+		defineFieldType(screenEntityDefinition, fieldDefinition, Menu.MenuSelectionField.class);
 
 		for (MenuItemFact menuItem : menuItems) {
 			snapshot.getFields().remove(menuItem.getCodeField());
 			snapshot.getFields().remove(menuItem.getCaptionField());
 		}
 
+	}
+
+	private static void defineFieldType(ScreenEntityDesigntimeDefinition screenEntityDefinition,
+			ScreenFieldDefinition fieldDefinition, Class<? extends FieldType> clazz) {
+		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(clazz));
+		((SimpleScreenFieldDefinition)fieldDefinition).setType(clazz);
+	}
+
+	public void addLoginScreenEntity(ScreenEntityDesigntimeDefinition screenEntityDefinition, LoginScreenFact loginScreenFact) {
+
+		screenEntityDefinition.setType(Login.LoginEntity.class);
+
+		ScreenFieldDefinition userFieldDefinition = addField(screenEntityDefinition, loginScreenFact.getUserField(),
+				loginScreenFact.getUserLabelField().getValue());
+		defineFieldType(screenEntityDefinition, userFieldDefinition, Login.UserField.class);
+
+		ScreenFieldDefinition passwordFieldDefinition = addField(screenEntityDefinition, loginScreenFact.getPasswordField(),
+				loginScreenFact.getPasswordLabelField().getValue());
+		defineFieldType(screenEntityDefinition, passwordFieldDefinition, Login.PasswordField.class);
+
+		ScreenFieldDefinition errorFieldDefinition = addField(screenEntityDefinition, loginScreenFact.getErrorField(),
+				Login.ERROR_MESSAGE_LABEL);
+		defineFieldType(screenEntityDefinition, errorFieldDefinition, Login.ErrorField.class);
 	}
 }

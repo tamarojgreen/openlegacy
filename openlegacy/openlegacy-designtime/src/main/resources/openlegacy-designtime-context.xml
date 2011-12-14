@@ -94,6 +94,22 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-login.drl" p:ruleId="identify-login">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="userFieldRegex" value="\s*User.*" />
+										<entry key="passwordFieldRegex" value="\s*Password.*" />
+										<entry key="errorMessageLinesFromButtom" value="0" />
+										<entry key="errorMessageColumn" value="2" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-tables.drl" p:ruleId="identify-tables">
 					<property name="ruleParameterSets">
 						<list>
