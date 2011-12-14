@@ -22,9 +22,13 @@ public class ApxSessionNavigator implements SessionNavigator {
 
 		String screenName = screenEntitiesRegistry.getEntityName(targetScreenEntity);
 		GXIClientBaseObject apxSession = (GXIClientBaseObject)terminalSession.getDelegate();
-		GXNavigateRequest navigateRequest = new GXNavigateRequest();
-		navigateRequest.setDestinationScreenName(screenName);
+
 		try {
+			if (screenName.equals(apxSession.getScreen().getName())) {
+				return;
+			}
+			GXNavigateRequest navigateRequest = new GXNavigateRequest();
+			navigateRequest.setDestinationScreenName(screenName);
 			apxSession.navigateTo(navigateRequest);
 		} catch (GXNavigateException e) {
 			throw (new ScreenEntityNotAccessibleException(e));

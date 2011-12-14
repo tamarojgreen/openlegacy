@@ -1,6 +1,6 @@
 package org.openlegacy.providers.applinx;
 
-import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
+import com.sabratec.applinx.baseobject.GXIScreen;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +20,7 @@ public class ApxScreensRecognizer implements ScreensRecognizer {
 	private final static Log logger = LogFactory.getLog(ApxScreensRecognizer.class);
 
 	public Class<?> match(TerminalSnapshot terminalSnapshot) {
-		GXRuntimeScreen apxScreen = (GXRuntimeScreen)terminalSnapshot.getDelegate();
+		GXIScreen apxScreen = (GXIScreen)terminalSnapshot.getDelegate();
 		if (apxScreen.getName().equals(UNKNOWN)) {
 			return null;
 		}

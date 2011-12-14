@@ -59,18 +59,22 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (entity == null || !ProxyUtil.isClassesMatch(entity.getClass(), screenEntityClass)) {
 			sessionNavigator.navigate(this, screenEntityClass);
 
-			TerminalSnapshot terminalSnapshot = getSnapshot();
-
-			ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(screenEntityClass, ScreenEntity.class,
-					interceptor);
-
-			for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
-				screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
-			}
-
-			entity = screenEntity;
+			getEntityInner(screenEntityClass);
 		}
 		return (S)entity;
+	}
+
+	private <S> void getEntityInner(Class<S> screenEntityClass) {
+		TerminalSnapshot terminalSnapshot = getSnapshot();
+
+		ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(screenEntityClass, ScreenEntity.class,
+				interceptor);
+
+		for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
+			screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
+		}
+
+		entity = screenEntity;
 	}
 
 	@SuppressWarnings("unchecked")

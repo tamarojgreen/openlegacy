@@ -1,5 +1,6 @@
 package org.openlegacy.providers.applinx;
 
+import com.sabratec.applinx.baseobject.internal.GXClientScreen;
 import com.sabratec.applinx.common.runtime.GXScreenPosition;
 import com.sabratec.applinx.common.runtime.field.GXIField;
 import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
@@ -48,7 +49,7 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 	}
 
 	public Object getDelegate() {
-		return screen;
+		return new GXClientScreen(screen);
 	}
 
 	public Collection<TerminalField> getFields() {

@@ -53,7 +53,7 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	}
 
 	public String getEntityName(Class<?> entity) {
-		return reversedEntities.get(entity);
+		return reversedEntities.get(ProxyUtil.getOriginalClass(entity));
 	}
 
 	public void add(E entityDefinition) {
