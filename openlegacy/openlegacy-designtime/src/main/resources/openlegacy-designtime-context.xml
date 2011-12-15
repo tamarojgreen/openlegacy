@@ -100,8 +100,8 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="userFieldRegex" value="\s*User.*" />
-										<entry key="passwordFieldRegex" value="\s*Password.*" />
+										<entry key="userFieldRegex" value="\s*(?i)user.*" />
+										<entry key="passwordFieldRegex" value="\s*(?i)password.*" />
 										<entry key="errorMessageLinesFromButtom" value="0" />
 										<entry key="errorMessageColumn" value="2" />
 									</map>
