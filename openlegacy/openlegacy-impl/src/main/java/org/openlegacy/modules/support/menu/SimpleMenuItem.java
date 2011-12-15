@@ -7,17 +7,17 @@ import java.util.List;
 
 public class SimpleMenuItem implements MenuItem {
 
-	private Object action;
+	private Class<?> targetEntity;
 	private String caption;
 	private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
-	public SimpleMenuItem(Object action, String caption) {
-		this.action = action;
+	public SimpleMenuItem(Class<?> targetEntity, String caption) {
+		this.targetEntity = targetEntity;
 		this.caption = caption;
 	}
 
-	public Object getAction() {
-		return action;
+	public Class<?> getTargetEntity() {
+		return targetEntity;
 	}
 
 	public String getCaption() {

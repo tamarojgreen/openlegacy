@@ -6,6 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.openlegacy.recognizers.RecognizersSuite;
 import org.openlegacy.terminal.modules.login.DefaultLoginModuleFailedTest;
 import org.openlegacy.terminal.modules.login.DefaultLoginModuleTest;
+import org.openlegacy.terminal.modules.menu.DefaultTerminalMenuModuleTest;
 import org.openlegacy.terminal.modules.navigation.DefaultNavigationModuleTest;
 import org.openlegacy.terminal.modules.table.DefaultTableDrilldownPerformerTest;
 import org.openlegacy.terminal.modules.trail.XmlTrailWriterTest;
@@ -19,7 +20,8 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 @SuiteClasses({ RegistryTest.class, TerminalEqualsHashcodeTest.class, MockTerminalSessionSystemTest.class,
 		RecognizersSuite.class, XmlTrailWriterTest.class, DefaultLoginModuleTest.class, DefaultLoginModuleFailedTest.class,
 		DefaultTerminalSessionTest.class, WindowTest.class, DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class,
-		ScreenEntityTablesBinderTest.class, DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class })
+		ScreenEntityTablesBinderTest.class, DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class,
+		DefaultTerminalMenuModuleTest.class })
 public class OpenLegacyRuntimeSuite {
 
 }

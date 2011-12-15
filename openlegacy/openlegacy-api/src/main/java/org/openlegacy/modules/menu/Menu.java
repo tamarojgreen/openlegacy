@@ -10,6 +10,8 @@ public interface Menu extends SessionModule {
 
 	MenuItem getMenuTree();
 
+	MenuItem getMenuTree(Class<?> menuEntityClass);
+
 	public static class MenuEntity implements EntityType {
 	}
 

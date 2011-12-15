@@ -28,6 +28,8 @@
 
 	<import resource="classpath:/META-INF/openlegacy-tables-context.xml" /> 
 
+	<bean id="defaultMenuBuilder" class="org.openlegacy.terminal.modules.menu.DefaultMenuBuilder" />
+
 	<bean id="abstractTerminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" abstract="true">
 		<property name="terminalConnection">
 			<bean class="org.openlegacy.terminal.support.TerminalConnectionDelegator" />
@@ -50,6 +52,8 @@
 						<bean class="org.openlegacy.terminal.modules.table.DefaultTerminalTableModule" />
 						<bean
 							class="org.openlegacy.terminal.modules.navigation.DefaultTerminalNavigationModule" />
+						<bean
+							class="org.openlegacy.terminal.modules.menu.DefaultTerminalMenuModule" />
 					</list>
 				</property>
 			</bean>

@@ -10,6 +10,7 @@ import org.openlegacy.utils.ProxyUtil;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,16 +60,16 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	public void add(E entityDefinition) {
 		add(entityDefinition.getEntityName(), entityDefinition.getEntityClass());
 		addToTypes(entityDefinition.getType(), entityDefinition.getEntityClass());
-		getEntitiesDefinitions().put(entityDefinition.getEntityClass(), entityDefinition);
+		entitiesDefinitions.put(entityDefinition.getEntityClass(), entityDefinition);
 	}
 
 	public E get(Class<?> entityClass) {
 		entityClass = ProxyUtil.getOriginalClass(entityClass);
-		return getEntitiesDefinitions().get(entityClass);
+		return entitiesDefinitions.get(entityClass);
 	}
 
-	public Map<Class<?>, E> getEntitiesDefinitions() {
-		return entitiesDefinitions;
+	public Collection<E> getEntitiesDefinitions() {
+		return entitiesDefinitions.values();
 	}
 
 	public List<Class<?>> getByType(Class<? extends EntityType> entityType) {

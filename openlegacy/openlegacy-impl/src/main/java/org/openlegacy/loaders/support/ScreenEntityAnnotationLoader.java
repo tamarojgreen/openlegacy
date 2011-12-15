@@ -6,6 +6,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,8 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : containingClass.getSimpleName();
-		String displayName = screenEntity.displayName().length() > 0 ? screenEntity.displayName() : screenName;
+		String displayName = screenEntity.displayName().length() > 0 ? screenEntity.displayName()
+				: StringUtil.toDisplayName(screenName);
 
 		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenName, containingClass);
 		screenEntityDefinition.setName(screenName);

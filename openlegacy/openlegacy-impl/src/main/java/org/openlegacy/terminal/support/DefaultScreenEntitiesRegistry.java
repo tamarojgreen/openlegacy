@@ -31,7 +31,7 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntitiesRegistry.class);
 
 	public ScreenEntityDefinition match(TerminalSnapshot terminalSnapshot) {
-		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions().values();
+		Collection<ScreenEntityDefinition> screenDefinitionsValues = getEntitiesDefinitions();
 
 		if (sortedScreenDefinitions == null) {
 			initSortedScreenEntities(screenDefinitionsValues);

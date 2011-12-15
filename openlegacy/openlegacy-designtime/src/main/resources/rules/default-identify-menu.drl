@@ -47,6 +47,7 @@ when
 	$menuItems: List(size >= $minimumMenuItems) from collect ( MenuItemFact(screenEntityDefinition == $screenEntityDefinition) )
 	
 	$menuSelectionFields: List(size >= 1) from collect ( TerminalField(editable == true, length <= $maxSelectionFieldLength) from $snapshot.getFields() )
+	// pick the 1st matching field for menu selection
 	$menuSelectionField : TerminalField() from $menuSelectionFields.get(0)
 then
 	screenEntityDefinitionsBuilder.addMenuScreenEntity($screenEntityDefinition, $menuItems,$menuSelectionField);

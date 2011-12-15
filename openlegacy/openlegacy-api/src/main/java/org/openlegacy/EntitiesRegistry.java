@@ -3,6 +3,7 @@ package org.openlegacy;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.exceptions.RegistryException;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,6 +11,8 @@ import java.util.List;
  * 
  */
 public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends FieldDefinition> {
+
+	public Collection<H> getEntitiesDefinitions();
 
 	Class<?> getEntityClass(String entityName);
 
