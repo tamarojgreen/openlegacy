@@ -35,9 +35,7 @@
     </businessRuleTask>
     <businessRuleTask id="_11" name="find-screen-name" g:ruleFlowGroup="find-screen-name" >
     </businessRuleTask>
-    <businessRuleTask id="_12" name="identify-menu" g:ruleFlowGroup="identify-menu" >
-    </businessRuleTask>
-    <businessRuleTask id="_13" name="identify-login" g:ruleFlowGroup="identify-login" >
+    <businessRuleTask id="_13" name="identify-screen-types" g:ruleFlowGroup="identify-screen-types" >
     </businessRuleTask>
 
     <!-- connections -->
@@ -50,8 +48,7 @@
     <sequenceFlow id="_6-_9" sourceRef="_6" targetRef="_9" />
     <sequenceFlow id="_7-_10" sourceRef="_7" targetRef="_10" />
     <sequenceFlow id="_8-_11" sourceRef="_8" targetRef="_11" />
-    <sequenceFlow id="_10-_12" sourceRef="_10" targetRef="_12" />
-    <sequenceFlow id="_12-_13" sourceRef="_12" targetRef="_13" />
+    <sequenceFlow id="_10-_13" sourceRef="_10" targetRef="_13" />
 
   </process>
 
@@ -82,23 +79,20 @@
         <dc:Bounds x="721" y="176" width="132" height="48" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_10" >
-        <dc:Bounds x="14" y="177" width="117" height="48" />
+        <dc:Bounds x="29" y="183" width="117" height="48" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_11" >
         <dc:Bounds x="868" y="254" width="149" height="48" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="_12" >
-        <dc:Bounds x="157" y="178" width="91" height="48" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="_13" >
-        <dc:Bounds x="279" y="174" width="128" height="48" />
+        <dc:Bounds x="218" y="181" width="128" height="48" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="_11-_3" >
         <di:waypoint x="942" y="278" />
         <di:waypoint x="946" y="348" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_13-_4" >
-        <di:waypoint x="343" y="198" />
+        <di:waypoint x="282" y="205" />
         <di:waypoint x="487" y="201" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_3-_5" >
@@ -123,19 +117,15 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_7-_10" >
         <di:waypoint x="83" y="128" />
-        <di:waypoint x="72" y="201" />
+        <di:waypoint x="87" y="207" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="_8-_11" >
         <di:waypoint x="955" y="202" />
         <di:waypoint x="942" y="278" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_10-_12" >
-        <di:waypoint x="72" y="201" />
-        <di:waypoint x="202" y="202" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="_12-_13" >
-        <di:waypoint x="202" y="202" />
-        <di:waypoint x="343" y="198" />
+      <bpmndi:BPMNEdge bpmnElement="_10-_13" >
+        <di:waypoint x="87" y="207" />
+        <di:waypoint x="282" y="205" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

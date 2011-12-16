@@ -5,7 +5,7 @@ import org.openlegacy.modules.support.menu.SimpleMenuItem;
 import org.openlegacy.designtime.terminal.analyzer.modules.menu.*;
 
 rule "identify-menu"
-ruleflow-group "identify-menu"
+ruleflow-group "identify-screen-types"
 no-loop
 salience 100 
 when
@@ -31,7 +31,7 @@ then
 end
 
 rule "analyze-menu-items"
-ruleflow-group "identify-menu"
+ruleflow-group "identify-screen-types"
 no-loop 
 salience 90 
 when

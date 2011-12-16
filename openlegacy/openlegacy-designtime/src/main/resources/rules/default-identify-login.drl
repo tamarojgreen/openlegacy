@@ -4,7 +4,7 @@ import org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFact
 
 
 rule "identify-login"
-ruleflow-group "identify-login"
+ruleflow-group "identify-screen-types"
 no-loop
 salience 100 
 when
