@@ -2,6 +2,7 @@ package openlegacy;
 
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.support.menu.SimpleMenuItem;
+import org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuItemFact;
 
 rule "identify-menu"
 ruleflow-group "identify-menu"

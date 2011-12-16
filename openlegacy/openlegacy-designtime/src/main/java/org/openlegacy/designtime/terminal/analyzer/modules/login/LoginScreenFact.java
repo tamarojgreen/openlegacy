@@ -1,4 +1,4 @@
-package org.openlegacy.designtime.terminal.model;
+package org.openlegacy.designtime.terminal.analyzer.modules.login;
 
 import org.openlegacy.terminal.TerminalField;
 

@@ -1,6 +1,7 @@
-package org.openlegacy.designtime.terminal.model;
+package org.openlegacy.designtime.terminal.analyzer.modules.table;
 
 import org.apache.commons.lang.SystemUtils;
+import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalField;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TableColumn implements Serializable {
+public class TableColumnFact implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -21,7 +22,7 @@ public class TableColumn implements Serializable {
 
 	private boolean selectionField;
 
-	public TableColumn(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields) {
+	public TableColumnFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields) {
 		this.screenEntityDefinition = screenEntityDefinition;
 		Collections.sort(fields, new FieldRowsComparator());
 		this.fields = fields;

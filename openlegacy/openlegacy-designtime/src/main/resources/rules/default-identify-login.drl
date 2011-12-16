@@ -1,6 +1,7 @@
 package openlegacy;
 
-import org.openlegacy.designtime.terminal.model.LoginScreenFact;
+import org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFact;
+
 
 rule "identify-login"
 ruleflow-group "identify-login"

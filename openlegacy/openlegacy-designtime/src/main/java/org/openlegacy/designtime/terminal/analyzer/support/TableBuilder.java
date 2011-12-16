@@ -3,8 +3,8 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.designtime.terminal.analyzer.modules.table.TableColumnFact;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
-import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
@@ -22,13 +22,14 @@ public class TableBuilder {
 
 	private final static Log logger = LogFactory.getLog(TableBuilder.class);
 
-	public static void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
+	public static void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition,
+			List<TableColumnFact> TableColumnFacts) {
 
-		Collections.sort(tableColumns, ColumnComparator.instance());
+		Collections.sort(TableColumnFacts, ColumnComparator.instance());
 
 		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(null);
 
-		List<TerminalField> firstColumnFields = tableColumns.get(0).getFields();
+		List<TerminalField> firstColumnFields = TableColumnFacts.get(0).getFields();
 		TerminalField topLeftTableCell = firstColumnFields.get(0);
 
 		// ignore the table if it's outside a defined window border
@@ -38,13 +39,13 @@ public class TableBuilder {
 			return;
 		}
 
-		for (int i = 0; i < tableColumns.size(); i++) {
-			TableColumn tableColumn = tableColumns.get(i);
+		for (int i = 0; i < TableColumnFacts.size(); i++) {
+			TableColumnFact TableColumnFact = TableColumnFacts.get(i);
 
-			TerminalField headerField = getHeader(tableColumn);
+			TerminalField headerField = getHeader(TableColumnFact);
 
 			// 1st column cell
-			TerminalField firstCellField = tableColumn.getFields().get(0);
+			TerminalField firstCellField = TableColumnFact.getFields().get(0);
 
 			String columnName = headerField != null ? headerField.getValue() : null;
 			if (StringUtil.getLength(columnName) == 0) {
@@ -60,7 +61,7 @@ public class TableBuilder {
 			tableDefinition.getColumnDefinitions().add(columnDefinition);
 
 			// remove the fields from the snapshot to avoid re-recognize by other rules
-			screenEntityDefinition.getSnapshot().getFields().removeAll(tableColumn.getFields());
+			screenEntityDefinition.getSnapshot().getFields().removeAll(TableColumnFact.getFields());
 			if (headerField != null) {
 				screenEntityDefinition.getSnapshot().getFields().remove(headerField);
 			}
@@ -78,8 +79,8 @@ public class TableBuilder {
 
 	}
 
-	private static TerminalField getHeader(TableColumn tableColumn) {
-		List<TerminalField> headerFields = tableColumn.getHeaderFields();
+	private static TerminalField getHeader(TableColumnFact TableColumnFact) {
+		List<TerminalField> headerFields = TableColumnFact.getHeaderFields();
 		// TODO handle multiple header line
 		TerminalField headerField = null;
 		if (headerFields.size() > 0) {

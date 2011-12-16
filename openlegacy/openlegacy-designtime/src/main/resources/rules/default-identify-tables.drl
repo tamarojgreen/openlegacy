@@ -1,5 +1,7 @@
 package openlegacy;
 
+import org.openlegacy.designtime.terminal.analyzer.modules.table.*;
+ 
 rule "find-columns"
 ruleflow-group "identify-tables"
 salience 100
@@ -26,7 +28,7 @@ when
 	// and at list one of the columns is not empty
 	exists TerminalField(editable == true || value matches $atLeastOneFieldShouldBe) from $columnFields
 then
-	TableColumn tableColumn = screenEntityDefinitionsBuilder.addTableColumn($screenEntityDefinition,$columnFields);
+	TableColumnFact tableColumn = screenEntityDefinitionsBuilder.addTableColumn($screenEntityDefinition,$columnFields);
 	if (tableColumn != null){
 		insert(tableColumn);
 	}
@@ -43,7 +45,7 @@ when
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
 	
 	// there is a column
-	$column: TableColumn(screenEntityDefinition == $screenEntityDefinition)
+	$column: TableColumnFact(screenEntityDefinition == $screenEntityDefinition)
 	
 	$headerFields: List() from collect( TerminalField( this.isEmpty() == false, position.row == $column.getStartRow() - 1,
 								position.column >= $column.getStartColumn() - 2,position.column <= $column.getStartColumn() + 2) from $snapshot.getFields() )
@@ -57,15 +59,15 @@ ruleflow-group "identify-tables"
 salience 80
 when
 	// there is a column
-	$firstColumn: TableColumn()
+	$firstColumn: TableColumnFact()
 
 	// which belongs to a screen entity 
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition() from $firstColumn.getScreenEntityDefinition()
 	
-	not TableColumn(startColumn < $firstColumn.startColumn, screenEntityDefinition == $screenEntityDefinition)
+	not TableColumnFact(startColumn < $firstColumn.startColumn, screenEntityDefinition == $screenEntityDefinition)
 	  
 	// and there is a list of columns which has a bigger column, start at the same row, and has the same number of fields
-	$columns: List(size >= 2) from collect (TableColumn(screenEntityDefinition == $screenEntityDefinition,startColumn >= $firstColumn.startColumn ,startRow == $firstColumn.startRow,
+	$columns: List(size >= 2) from collect (TableColumnFact(screenEntityDefinition == $screenEntityDefinition,startColumn >= $firstColumn.startColumn ,startRow == $firstColumn.startRow,
 														// in AS/400 the last field is shorter then the rest of the column. Also adding columns which there size is smaller in 1   
 														eval(fields.size() +1 >= $firstColumn.getFields().size() ) ))
 then

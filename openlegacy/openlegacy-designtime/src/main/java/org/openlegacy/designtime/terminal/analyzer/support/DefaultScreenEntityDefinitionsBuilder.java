@@ -7,10 +7,10 @@ import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.analyzer.BestEntityNameFieldComparator;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.analyzer.TerminalActionAnalyzer;
-import org.openlegacy.designtime.terminal.model.LoginScreenFact;
-import org.openlegacy.designtime.terminal.model.MenuItemFact;
+import org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFact;
+import org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuItemFact;
+import org.openlegacy.designtime.terminal.analyzer.modules.table.TableColumnFact;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
-import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.terminal.TerminalField;
@@ -204,8 +204,8 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		return !screenEntityDefinition.getSnapshot().getFields().contains(field);
 	}
 
-	public void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumn> tableColumns) {
-		TableBuilder.addTableDefinition(screenEntityDefinition, tableColumns);
+	public void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumnFact> TableColumnFacts) {
+		TableBuilder.addTableDefinition(screenEntityDefinition, TableColumnFacts);
 	}
 
 	public void setMaxIdentifiers(int maxIdentifiers) {
@@ -240,18 +240,18 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 				screenEntityDefinition.getEntityName()));
 	}
 
-	public TableColumn addTableColumn(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields) {
+	public TableColumnFact addTableColumn(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields) {
 		TerminalSnapshot snapshot = screenEntityDefinition.getSnapshot();
 		// if the fields were removed from the snapshot, don't create a column
 		if (!snapshot.getFields().contains(fields.get(0))) {
 			return null;
 		}
 
-		TableColumn tableColumn = new TableColumn(screenEntityDefinition, fields);
+		TableColumnFact TableColumnFact = new TableColumnFact(screenEntityDefinition, fields);
 
-		logger.info(MessageFormat.format("Recognized column \n{0} to screen entity", tableColumn));
+		logger.info(MessageFormat.format("Recognized column \n{0} to screen entity", TableColumnFact));
 
-		return tableColumn;
+		return TableColumnFact;
 
 	}
 
@@ -263,8 +263,8 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		screenEntityDefinition.setSnapshotBorders(borders);
 	}
 
-	public void addColumnHeaders(TableColumn tableColumn, List<TerminalField> fields) {
-		tableColumn.getHeaderFields().addAll(fields);
+	public void addColumnHeaders(TableColumnFact TableColumnFact, List<TerminalField> fields) {
+		TableColumnFact.getHeaderFields().addAll(fields);
 	}
 
 	public void addMenuScreenEntity(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<MenuItemFact> menuItems,

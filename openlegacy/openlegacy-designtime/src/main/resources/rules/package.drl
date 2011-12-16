@@ -7,6 +7,7 @@ import org.openlegacy.terminal.*;
 import org.openlegacy.terminal.support.*;
 import org.openlegacy.terminal.definitions.*;
 import org.openlegacy.analyzer.screen.model.*;
+import org.openlegacy.designtime.terminal.model.support.*; 
 import java.util.List;
 
 import org.openlegacy.designtime.terminal.model.*;

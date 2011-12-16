@@ -1,10 +1,10 @@
 package org.openlegacy.designtime.terminal.analyzer;
 
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
-import org.openlegacy.designtime.terminal.model.LoginScreenFact;
-import org.openlegacy.designtime.terminal.model.MenuItemFact;
+import org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFact;
+import org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuItemFact;
+import org.openlegacy.designtime.terminal.analyzer.modules.table.TableColumnFact;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
-import org.openlegacy.designtime.terminal.model.TableColumn;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -25,11 +25,11 @@ public interface ScreenEntityDefinitionsBuilder {
 
 	void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField editableField, TerminalField labelField);
 
-	TableColumn addTableColumn(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields);
+	TableColumnFact addTableColumn(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields);
 
-	void addColumnHeaders(TableColumn tableColumn, List<TerminalField> fields);
+	void addColumnHeaders(TableColumnFact TableColumnFact, List<TerminalField> fields);
 
-	void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumn> tableColumns);
+	void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumnFact> TableColumnFacts);
 
 	void addAction(ScreenEntityDesigntimeDefinition screenEntityDefinition, String text, TerminalPosition position, String regex);
 

@@ -1,4 +1,4 @@
-package org.openlegacy.designtime.terminal.model;
+package org.openlegacy.designtime.terminal.analyzer.modules.menu;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;

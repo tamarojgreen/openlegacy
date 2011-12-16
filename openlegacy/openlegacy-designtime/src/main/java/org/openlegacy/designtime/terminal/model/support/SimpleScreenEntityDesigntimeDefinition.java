@@ -1,6 +1,7 @@
-package org.openlegacy.designtime.terminal.model;
+package org.openlegacy.designtime.terminal.model.support;
 
 import org.openlegacy.designtime.terminal.analyzer.support.TerminalPositionContainerComparator;
+import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRectangle;
