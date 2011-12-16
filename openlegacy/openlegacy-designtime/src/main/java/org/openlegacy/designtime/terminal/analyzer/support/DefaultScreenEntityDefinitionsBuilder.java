@@ -68,7 +68,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	}
 
 	private static ScreenIdentifier createIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
-		if (ScreenEntityBuilderUtils.isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
+		if (ScreenEntityDefinitionsBuilderUtils.isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
 			return null;
 		}
 
@@ -125,7 +125,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	}
 
 	public void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, TerminalField labelField) {
-		ScreenEntityBuilderUtils.addField(screenEntityDefinition, field, labelField.getValue());
+		ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition, field, labelField.getValue());
 	}
 
 	public void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumnFact> TableColumnFacts) {

@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactAnalyzer;
-import org.openlegacy.designtime.terminal.analyzer.support.ScreenEntityBuilderUtils;
+import org.openlegacy.designtime.terminal.analyzer.support.ScreenEntityDefinitionsBuilderUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -23,14 +23,14 @@ public class MenuScreenFactAnalyzer implements ScreenFactAnalyzer {
 		screenEntityDefinition.setType(Menu.MenuEntity.class);
 		TerminalSnapshot snapshot = screenEntityDefinition.getSnapshot();
 
-		ScreenFieldDefinition fieldDefinition = ScreenEntityBuilderUtils.addField(screenEntityDefinition,
+		ScreenFieldDefinition fieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
 				menuScreenFact.getSelectionField(), Menu.SELECTION_LABEL);
 		if (fieldDefinition == null) {
 			logger.warn("Menu selection field not added to screen entity");
 			return;
 		}
 
-		ScreenEntityBuilderUtils.defineFieldType(screenEntityDefinition, fieldDefinition, Menu.MenuSelectionField.class);
+		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, fieldDefinition, Menu.MenuSelectionField.class);
 
 		for (MenuItemFact menuItem : menuScreenFact.getMenuItems()) {
 			snapshot.getFields().remove(menuItem.getCodeField());

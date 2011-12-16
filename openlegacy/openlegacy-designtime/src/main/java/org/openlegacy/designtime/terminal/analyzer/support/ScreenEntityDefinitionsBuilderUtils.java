@@ -14,9 +14,9 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Map;
 
-public class ScreenEntityBuilderUtils {
+public class ScreenEntityDefinitionsBuilderUtils {
 
-	private final static Log logger = LogFactory.getLog(ScreenEntityBuilderUtils.class);
+	private final static Log logger = LogFactory.getLog(ScreenEntityDefinitionsBuilderUtils.class);
 
 	public static void defineFieldType(ScreenEntityDesigntimeDefinition screenEntityDefinition,
 			ScreenFieldDefinition fieldDefinition, Class<? extends FieldType> clazz) {
