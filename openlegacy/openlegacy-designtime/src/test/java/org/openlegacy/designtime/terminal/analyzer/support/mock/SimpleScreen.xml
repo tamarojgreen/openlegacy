@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="7">
+    <row rowNumber="1">
+        <field value="Simple Screen" column="40" />
+    </row>
+    <row rowNumber="4">
+        <field value="Field A:" column="3" />
+        <field value="AAAA     " editable="true" column="13" />
+    </row>
+    <row rowNumber="5">
+        <field value="Field B:" column="3" />
+        <field value="BBBB    " column="13" />
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

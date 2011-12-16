@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<snapshot type="INCOMING" sequence="1">
+<snapshot type="INCOMING" sequence="8" command="[pf3]">
     <row rowNumber="1">
-        <field value="Screen 1" column="40" />
+        <field value="Simple Screen" column="40" />
     </row>
     <row rowNumber="4">
         <field value="Field A:" column="3" />

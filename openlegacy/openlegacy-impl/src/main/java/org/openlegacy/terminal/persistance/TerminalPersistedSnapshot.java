@@ -48,6 +48,9 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 	@XmlTransient
 	private ArrayList<TerminalPosition> fieldPositions;
 
+	@XmlAttribute
+	private String command;
+
 	@XmlTransient
 	private List<TerminalField> fields;
 
@@ -153,5 +156,13 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
+	}
+
+	public String getCommand() {
+		return command;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
 	}
 }

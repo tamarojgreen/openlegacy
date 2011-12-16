@@ -9,9 +9,9 @@ import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 
 @ScreenEntity(screenType=MenuEntity.class)
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 40, value = "Menu Screen") 
+				@Identifier(row = 1, column = 40, value = "Main Menu Screen") 
 				})
-public class MenuScreen {
+public class MainMenuScreen {
     
 	@ScreenField(row = 8, column = 18 ,editable= true ,fieldType=MenuSelectionField.class ,displayName = "Menu Selection")
     private String menuSelection;

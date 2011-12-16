@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <snapshot type="INCOMING" sequence="2">
     <row rowNumber="1">
-        <field value="Screen 2" column="40" />
+        <field value="Form Screen" column="40" />
     </row>
     <row rowNumber="4">
         <field value="Field A:" column="3" />

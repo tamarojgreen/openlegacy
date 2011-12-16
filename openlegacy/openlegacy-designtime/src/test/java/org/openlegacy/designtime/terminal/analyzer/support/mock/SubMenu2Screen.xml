@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="3">
+    <row rowNumber="1">
+        <field value="Sub Menu 2" column="40" />
+    </row>
+    <row rowNumber="5">
+        <field value=" 1." column="10" />
+        <field value="Menu Option 21" column="14" />
+    </row>
+    <row rowNumber="6">
+        <field value=" 2." column="10" />
+        <field value="Menu Option 22" column="14" />
+    </row>
+    <row rowNumber="7">
+        <field value=" 3." column="10" />
+        <field value="Menu Option 23" column="14" />
+    </row>
+    <row rowNumber="8">
+        <field value="" editable="true" length="2" column="18"/>
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

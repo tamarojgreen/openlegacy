@@ -47,9 +47,11 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	@Test
 	public void testBasicAnalisys() {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = loadAndAssertDefinitions();
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("SimpleScreen.xml", "FormScreen.xml");
 
-		ScreenEntityDefinition screen1 = screenEntitiesDefinitions.get("Screen1");
+		Assert.assertEquals(2, screenEntitiesDefinitions.size());
+
+		ScreenEntityDefinition screen1 = screenEntitiesDefinitions.get("SimpleScreen");
 		Assert.assertNotNull(screen1);
 		Map<String, ScreenFieldDefinition> fieldsDefinitions = screen1.getFieldsDefinitions();
 		Assert.assertEquals(2, fieldsDefinitions.size());
@@ -59,7 +61,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertEquals("Field A", fieldA.getDisplayName());
 		Assert.assertEquals(SimpleTerminalPosition.newInstance(4, 13), fieldA.getPosition());
 
-		ScreenEntityDefinition screen2 = screenEntitiesDefinitions.get("Screen2");
+		ScreenEntityDefinition screen2 = screenEntitiesDefinitions.get("FormScreen");
 		Assert.assertNotNull(screen2);
 		fieldsDefinitions = screen2.getFieldsDefinitions();
 		Assert.assertEquals(9, fieldsDefinitions.size());
@@ -72,19 +74,20 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertEquals("Field B", fieldB.getDisplayName());
 	}
 
-	private Map<String, ScreenEntityDefinition> loadAndAssertDefinitions() {
+	private Map<String, ScreenEntityDefinition> analyze(String... fileNames) {
 		snapshotsSorter.setMatchingPercent(99);
 		snapshotsSorter.clear();
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile());
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile(), fileNames);
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
-		Assert.assertEquals(5, screenEntitiesDefinitions.size());
 		return screenEntitiesDefinitions;
 	}
 
 	@Test
 	public void testBasicTable() {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = loadAndAssertDefinitions();
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("TableScreen.xml");
+
+		Assert.assertEquals(1, screenEntitiesDefinitions.size());
 
 		ScreenEntityDefinition tableScreen = screenEntitiesDefinitions.get("TableScreen");
 		Assert.assertNotNull(tableScreen);
@@ -127,13 +130,15 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	@Test
 	public void testGenerate() throws TemplateException, IOException {
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = loadAndAssertDefinitions();
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("LoginScreen.xml", "MainMenuScreen.xml",
+				"SimpleScreen.xml", "FormScreen.xml", "TableScreen.xml", "WindowScreen.xml");
 
-		assertScreenContent(screenEntitiesDefinitions.get("Screen1"), "Screen1.java.expected");
-		assertScreenContent(screenEntitiesDefinitions.get("Screen2"), "Screen2.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("LoginScreen"), "LoginScreen.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("SimpleScreen"), "SimpleScreen.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("FormScreen"), "FormScreen.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("TableScreen"), "TableScreen.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("WindowScreen"), "WindowScreen.java.expected");
-		assertScreenContent(screenEntitiesDefinitions.get("MenuScreen"), "MenuScreen.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("MainMenuScreen"), "MainMenuScreen.java.expected");
 	}
 
 	@Test
@@ -146,14 +151,15 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		assertScreenContent(screenEntitiesDefinitions.get("SignOn"), "SignOn.java.expected");
 
-		assertScreenContent(screenEntitiesDefinitions.get("ApplinxDemoEnvironment"), "ApplinxDemoEnvironment.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("ApplinxDemoEnvironment"),
+				"inventory/ApplinxDemoEnvironment.java.expected");
 
 		// table
-		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster"), "WorkWithItemMaster.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster"), "inventory/WorkWithItemMaster.java.expected");
 		// form1
-		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster1"), "WorkWithItemMaster1.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster1"), "inventory/WorkWithItemMaster1.java.expected");
 		// form2
-		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster2"), "WorkWithItemMaster2.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster2"), "inventory/WorkWithItemMaster2.java.expected");
 	}
 
 	private void assertScreenContent(ScreenEntityDefinition screen, String expectedResource) throws TemplateException,

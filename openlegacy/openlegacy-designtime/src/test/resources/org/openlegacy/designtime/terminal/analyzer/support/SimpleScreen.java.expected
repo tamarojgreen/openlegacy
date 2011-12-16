@@ -7,11 +7,11 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 40, value = "Screen 1"), 
+				@Identifier(row = 1, column = 40, value = "Simple Screen"), 
 				@Identifier(row = 4, column = 3, value = "Field A:"), 
 				@Identifier(row = 5, column = 3, value = "Field B:") 
 				})
-public class Screen1 {
+public class SimpleScreen {
     
 	@ScreenField(row = 4, column = 13 ,editable= true ,displayName = "Field A", sampleValue = "AAAA")
     private String fieldA;

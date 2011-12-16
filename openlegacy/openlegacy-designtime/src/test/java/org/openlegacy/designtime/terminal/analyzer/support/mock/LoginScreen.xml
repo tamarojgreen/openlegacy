@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="1">
+    <row rowNumber="1">
+        <field value="Login Screen" column="40" />
+    </row>
+    <row rowNumber="4">
+        <field value="User:" column="3" />
+        <field value="" editable="true" column="13" />
+    </row>
+    <row rowNumber="5">
+        <field value="Password:" column="3" />
+        <field value="" editable="true" column="13" />
+    </row>
+    <row rowNumber="24">
+        <field value="" column="2" length="70"/>
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

@@ -40,6 +40,9 @@ public class SnapshotPersistanceDTO {
 		transformCommonSnapshot(persistedSnapshot, terminalSnapshot);
 
 		TerminalSendAction sendAction = snapshot.getTerminalSendAction();
+
+		persistedSnapshot.setCommand(sendAction.getCommand().toString());
+
 		List<TerminalField> fields = sendAction.getModifiedFields();
 		for (TerminalField terminalField : fields) {
 			TerminalPosition fieldPosition = terminalField.getPosition();

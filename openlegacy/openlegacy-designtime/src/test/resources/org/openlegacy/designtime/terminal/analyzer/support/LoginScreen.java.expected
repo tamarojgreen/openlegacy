@@ -1,0 +1,32 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.modules.login.Login.UserField;  
+import org.openlegacy.modules.login.Login.PasswordField;  
+import org.openlegacy.modules.login.Login.ErrorField;  
+
+@ScreenEntity(screenType=LoginEntity.class)
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 1, column = 40, value = "Login Screen"), 
+				@Identifier(row = 4, column = 3, value = "User:"), 
+				@Identifier(row = 5, column = 3, value = "Password:") 
+				})
+public class LoginScreen {
+    
+	@ScreenField(row = 4, column = 13 ,editable= true ,fieldType=UserField.class ,displayName = "User")
+    private String user;
+
+	@ScreenField(row = 5, column = 13 ,editable= true ,fieldType=PasswordField.class ,displayName = "Password")
+    private String password;
+
+	@ScreenField(row = 24, column = 2 ,endColumn= 71 ,fieldType=ErrorField.class ,displayName = "Error Message")
+    private String errorMessage;
+
+    
+
+
+ 
+}
