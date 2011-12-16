@@ -18,7 +18,7 @@ import org.openlegacy.annotations.screen.ScreenTable;
 import ${referredClass};  
 </#list>	
 
-@ScreenEntity(<#if typeName??>screenType=${typeName}.class</#if><#if window>window=true</#if>)
+@ScreenEntity(<#if type??>screenType=${type.simpleName}.class</#if><#if window>window=true</#if>)
 @ScreenIdentifiers(identifiers = { 
 				<#list screenIdentification.screenIdentifiers as identifier> 
 				@Identifier(row = ${identifier.position.row}, column = ${identifier.position.column}, value = "${identifier.text}")<#if identifier_has_next>,</#if> 
@@ -34,7 +34,7 @@ import ${referredClass};
 public class ${entityName} {
     
 	<#list sortedFields as field> 
-	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.editable == false> ,endColumn= ${field.endPosition.column}</#if><#if field.editable> ,editable= true</#if><#if field.typeName??> ,fieldType=${field.typeName}.class</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
+	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.editable == false> ,endColumn= ${field.endPosition.column}</#if><#if field.editable> ,editable= true</#if><#if field.type??> ,fieldType=${field.type.simpleName}.class</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
     private String ${field.name};
 
 	</#list>	

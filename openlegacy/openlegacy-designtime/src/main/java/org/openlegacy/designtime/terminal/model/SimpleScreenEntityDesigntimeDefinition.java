@@ -110,13 +110,6 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		return getSnapshot().toString();
 	}
 
-	public String getTypeName() {
-		if (getType() == null) {
-			return null;
-		}
-		return getType().getSimpleName();
-	}
-
 	public List<String> getReferredClasses() {
 		return imports;
 	}

@@ -36,7 +36,5 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 
 	List<ScreenFieldDefinition> getSortedFields();
 
-	String getTypeName();
-
 	List<String> getReferredClasses();
 }
