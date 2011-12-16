@@ -32,7 +32,7 @@ when
 	$errorMessageField: TerminalField(editable == false) from $snapshot.getField(new SimpleTerminalPosition($errorLine,$errorMessageColumn))
 	
 then
-	screenEntityDefinitionsBuilder.addLoginScreenEntity($screenEntityDefinition, 
+	screenEntityDefinitionsBuilder.analyzeFact($screenEntityDefinition, 
 			new LoginScreenFact($userField,$userLabelField,$passwordField,$passwordLabelField,$errorMessageField));
 	
 end

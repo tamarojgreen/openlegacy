@@ -1,8 +1,6 @@
 package org.openlegacy.designtime.terminal.analyzer;
 
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
-import org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFact;
-import org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuItemFact;
 import org.openlegacy.designtime.terminal.analyzer.modules.table.TableColumnFact;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalField;
@@ -36,8 +34,5 @@ public interface ScreenEntityDefinitionsBuilder {
 	void setSnapshotBorders(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField topBorderField,
 			TerminalField buttomBorderField);
 
-	void addMenuScreenEntity(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<MenuItemFact> menuItems,
-			TerminalField menuSelectionField);
-
-	void addLoginScreenEntity(ScreenEntityDesigntimeDefinition screenEntityDefinition, LoginScreenFact loginScreenFact);
+	void analyzeFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact);
 }

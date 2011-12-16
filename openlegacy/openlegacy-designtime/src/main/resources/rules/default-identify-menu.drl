@@ -2,7 +2,7 @@ package openlegacy;
 
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.support.menu.SimpleMenuItem;
-import org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuItemFact;
+import org.openlegacy.designtime.terminal.analyzer.modules.menu.*;
 
 rule "identify-menu"
 ruleflow-group "identify-menu"
@@ -51,6 +51,6 @@ when
 	// pick the 1st matching field for menu selection
 	$menuSelectionField : TerminalField() from $menuSelectionFields.get(0)
 then
-	screenEntityDefinitionsBuilder.addMenuScreenEntity($screenEntityDefinition, $menuItems,$menuSelectionField);
+	screenEntityDefinitionsBuilder.analyzeFact($screenEntityDefinition, new MenuScreenFact($menuSelectionField,$menuItems));
 end
 

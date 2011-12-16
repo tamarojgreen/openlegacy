@@ -1,8 +1,9 @@
 package org.openlegacy.designtime.terminal.analyzer.modules.login;
 
+import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.terminal.TerminalField;
 
-public class LoginScreenFact {
+public class LoginScreenFact implements ScreenFact {
 
 	private TerminalField userField;
 	private TerminalField userLabelField;

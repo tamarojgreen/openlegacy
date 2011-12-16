@@ -16,7 +16,18 @@
 	
 	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsSorter" p:matchingPercent="95" />
 
-	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultScreenEntityDefinitionsBuilder" p:maxIdentifiers="3" />
+	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultScreenEntityDefinitionsBuilder" p:maxIdentifiers="3">
+		<property name="screenFactAnalyzers">
+			<map>
+				<entry key="org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFact">
+					<bean class="org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFactAnalyzer" />
+				</entry>				
+				<entry key="org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuScreenFact">
+					<bean class="org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuScreenFactAnalyzer" />
+				</entry>				
+			</map>
+		</property>
+	</bean>
 	
 	<bean class="org.openlegacy.support.SimpleFieldFormatter" />
 
