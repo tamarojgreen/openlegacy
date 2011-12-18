@@ -1,5 +1,7 @@
 package openlegacy;
 
+import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ScreenWindowFact;
+
 rule "identify-window"
 ruleflow-group "identify-window"
 no-loop 
@@ -36,7 +38,7 @@ when
 					eval(text.charAt($verticalBorderPosition) != $verticalBorder.charAt(0)) )  from $snapshot.getRows() 
 	
 then
-	screenEntityDefinitionsBuilder.setSnapshotBorders($screenEntityDefinition,$topBorderField,$buttomBorderField);
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenWindowFact($topBorderField,$buttomBorderField));
 	// cause "find-screen-name" rule to be re-populated with updated border values
 	update($screenEntityDefinition);
 end

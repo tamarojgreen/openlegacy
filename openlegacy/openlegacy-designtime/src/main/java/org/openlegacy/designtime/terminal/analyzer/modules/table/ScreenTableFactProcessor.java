@@ -1,9 +1,11 @@
-package org.openlegacy.designtime.terminal.analyzer.support;
+package org.openlegacy.designtime.terminal.analyzer.modules.table;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.designtime.terminal.analyzer.modules.table.TableColumnFact;
+import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
+import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
+import org.openlegacy.designtime.terminal.analyzer.support.ColumnComparator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
@@ -15,12 +17,23 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
-public class TableBuilder {
+public class ScreenTableFactProcessor implements ScreenFactProcessor {
 
 	private static final String SELECTION_FIELD = "Selection";
 	private static final String COLUMN = "Column";
 
-	private final static Log logger = LogFactory.getLog(TableBuilder.class);
+	private final static Log logger = LogFactory.getLog(ScreenTableFactProcessor.class);
+
+	public boolean accept(ScreenFact screenFact) {
+		return screenFact instanceof ScreenTableFact;
+	}
+
+	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
+		ScreenTableFact screenTableFact = (ScreenTableFact)screenFact;
+
+		addTableDefinition(screenEntityDefinition, screenTableFact.getTableColumns());
+
+	}
 
 	public static void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition,
 			List<TableColumnFact> TableColumnFacts) {

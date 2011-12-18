@@ -1,5 +1,7 @@
 package openlegacy;
 
+import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ScreenActionFact;
+
 rule "identify-actions"
 ruleflow-group "identify-actions"
 when
@@ -25,5 +27,5 @@ when
 then
 	int offset = $field.getValue().indexOf($captionAction); 
 	TerminalPosition actionPosition = SimpleTerminalPosition.newInstance($field.getPosition().getRow(),$field.getPosition().getColumn()+offset);
-	screenEntityDefinitionsBuilder.addAction($screenEntityDefinition,$captionAction,actionPosition, $actionsRegex);
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenActionFact($captionAction,actionPosition, $actionsRegex));
 end

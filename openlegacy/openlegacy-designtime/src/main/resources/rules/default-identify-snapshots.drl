@@ -1,4 +1,7 @@
 package openlegacy;
+
+import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ScreenIdentifiersFact;
+
 rule "identify-snapshots"
 ruleflow-group "identify-snapshots"
 when
@@ -15,5 +18,5 @@ when
 	$identifiers: List() from collect (TerminalField(value matches $identifierRegex, editable == false, 
 													 position.row >= $startRow,position.row <= $endRow) from $snapshot.getFields())
 then
-	screenEntityDefinitionsBuilder.addIdentifiers(snapshotsAnalyzerContext,$screenEntityDefinition,$identifiers);
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenIdentifiersFact($identifiers));
 end

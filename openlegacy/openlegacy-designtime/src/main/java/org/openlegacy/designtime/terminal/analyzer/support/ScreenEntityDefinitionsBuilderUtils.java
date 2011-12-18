@@ -7,11 +7,15 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
+import org.openlegacy.terminal.spi.ScreenIdentifier;
+import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class ScreenEntityDefinitionsBuilderUtils {
@@ -22,6 +26,37 @@ public class ScreenEntityDefinitionsBuilderUtils {
 			ScreenFieldDefinition fieldDefinition, Class<? extends FieldType> clazz) {
 		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(clazz));
 		((SimpleScreenFieldDefinition)fieldDefinition).setType(clazz);
+	}
+
+	public static void addIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+		ScreenIdentifier identitifer = createIdentifier(screenEntityDefinition, field);
+		if (identitifer == null) {
+			return;
+		}
+		List<ScreenIdentifier> screenIdentifiers = screenEntityDefinition.getScreenIdentification().getScreenIdentifiers();
+		if (screenIdentifiers.contains(identitifer)) {
+			return;
+		}
+		screenIdentifiers.add(identitifer);
+		Collections.sort(screenIdentifiers, TerminalPositionContainerComparator.instance());
+
+		logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen {2}", field.getValue(),
+				field.getPosition(), screenEntityDefinition.getEntityName()));
+
+	}
+
+	private static ScreenIdentifier createIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+		if (ScreenEntityDefinitionsBuilderUtils.isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
+			return null;
+		}
+
+		// ignore the identifier if it's outside a defined window border. On border is OK (true param)
+		if (!screenEntityDefinition.getSnapshotBorders().contains(field.getPosition(), true)) {
+			return null;
+		}
+
+		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
+		return identifier;
 	}
 
 	/**

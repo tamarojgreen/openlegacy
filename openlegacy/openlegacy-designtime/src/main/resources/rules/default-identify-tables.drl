@@ -1,7 +1,7 @@
 package openlegacy;
 
 import org.openlegacy.designtime.terminal.analyzer.modules.table.*;
- 
+
 rule "find-columns"
 ruleflow-group "identify-tables"
 salience 100
@@ -28,9 +28,10 @@ when
 	// and at list one of the columns is not empty
 	exists TerminalField(editable == true || value matches $atLeastOneFieldShouldBe) from $columnFields
 then
-	TableColumnFact tableColumn = screenEntityDefinitionsBuilder.addTableColumn($screenEntityDefinition,$columnFields);
-	if (tableColumn != null){
-		insert(tableColumn);
+	// if the fields were removed from the snapshot, don't create a column
+	if ($snapshot.getFields().contains($columnFields.get(0))) {
+		TableColumnFact TableColumnFact = new TableColumnFact($screenEntityDefinition, $columnFields);
+		insert(TableColumnFact);
 	}
 end
 
@@ -50,7 +51,7 @@ when
 	$headerFields: List() from collect( TerminalField( this.isEmpty() == false, position.row == $column.getStartRow() - 1,
 								position.column >= $column.getStartColumn() - 2,position.column <= $column.getStartColumn() + 2) from $snapshot.getFields() )
 then
-	screenEntityDefinitionsBuilder.addColumnHeaders($column,$headerFields);
+	$column.getHeaderFields().addAll($headerFields);
 end
 
 
@@ -71,6 +72,6 @@ when
 														// in AS/400 the last field is shorter then the rest of the column. Also adding columns which there size is smaller in 1   
 														eval(fields.size() +1 >= $firstColumn.getFields().size() ) ))
 then
-	screenEntityDefinitionsBuilder.addTableDefinition($screenEntityDefinition,$columns);
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenTableFact($columns));
 end
 
