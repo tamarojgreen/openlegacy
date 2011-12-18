@@ -28,8 +28,8 @@ when
 	$snapshot: TerminalSnapshot(snapshotType == SnapshotType.INCOMING) from $screenEntityDefinition.getSnapshot()
 	
 	// find the previous snapshot for a given snapshot
-	$previousSequence: Integer() from $snapshot.getSequence() - 1
-	$accessedFromSnapshot: TerminalSnapshot(snapshotType == SnapshotType.OUTGOING, sequence == $previousSequence)
+	$previousSequence: Integer() from ($snapshot.getSequence() != null ? $snapshot.getSequence() - 1 : -1)
+	$accessedFromSnapshot: TerminalSnapshot(snapshotType == SnapshotType.OUTGOING, sequence > 0,sequence == $previousSequence)
 
 	// and find the previous snapshot screen definitions
 	$accessedFromScreenDefinition: ScreenEntityDesigntimeDefinition( eval(snapshotsSimilarityChecker.similarityPercent(snapshot,$accessedFromSnapshot) == 100) )
