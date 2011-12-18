@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <snapshot type="OUTGOING" sequence="4" command="[enter]">
     <row rowNumber="1">
-        <field value="Main Menu" column="40" />
+        <field value="Main Menu Screen" column="40" />
     </row>
     <row rowNumber="5">
         <field value=" 1." column="10" />

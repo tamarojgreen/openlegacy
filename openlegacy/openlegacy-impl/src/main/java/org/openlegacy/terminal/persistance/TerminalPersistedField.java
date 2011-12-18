@@ -30,11 +30,19 @@ public class TerminalPersistedField extends AbstractTerminalField {
 	@XmlAttribute
 	private Integer length;
 
+	/**
+	 * NOTE! - All Boolean fields should have default value set. XML serializer checks if the default value change, and reset it
+	 * to reduce XML size
+	 */
+
 	@XmlAttribute
 	private Boolean modified = false;
 
 	@XmlAttribute
 	private Boolean editable = false;
+
+	@XmlAttribute
+	private Boolean hidden = false;
 
 	public TerminalPosition getPosition() {
 		if (position == null) {
@@ -97,6 +105,10 @@ public class TerminalPersistedField extends AbstractTerminalField {
 
 	public TerminalPosition getEndPosition() {
 		return SnapshotUtils.getEndPosition(this);
+	}
+
+	public boolean isHidden() {
+		return hidden;
 	}
 
 }

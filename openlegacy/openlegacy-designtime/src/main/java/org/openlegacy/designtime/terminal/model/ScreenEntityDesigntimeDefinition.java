@@ -3,6 +3,7 @@ package org.openlegacy.designtime.terminal.model;
 import org.openlegacy.EntityType;
 import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
@@ -37,4 +38,6 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 	List<ScreenFieldDefinition> getSortedFields();
 
 	List<String> getReferredClasses();
+
+	void setNavigationDefinition(NavigationDefinition navigationDefinition);
 }

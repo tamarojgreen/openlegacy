@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.utils;
 
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
@@ -11,16 +11,12 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * A textual utility which format terminal screen in to a preventable text which is very comfort for debugging purposes
+ * A textual utility which format terminal snapshot in to a preventable text which is very comfort for debugging purposes
  * 
  */
-public class ScreenPainter {
+public class SnapshotPainter {
 
 	public static String paint(TerminalSnapshot terminalSnapshot, boolean decorated) {
-		return paint(terminalSnapshot, null, decorated);
-	}
-
-	public static String paint(TerminalSnapshot terminalSnapshot, TerminalSendAction terminalSendAction, boolean decorated) {
 		String text = terminalSnapshot.getText();
 		String newline = System.getProperty("line.separator");
 		int rows = terminalSnapshot.getSize().getRows();
@@ -54,17 +50,13 @@ public class ScreenPainter {
 		}
 
 		drawFieldsSeperators(terminalSnapshot, out);
-		drawEditableFields(terminalSnapshot, out, FieldsQuery.queryFields(terminalSnapshot, EditableFieldsCriteria.instance()),
-				'[', ']');
+		drawEditableFields(terminalSnapshot, out, FieldsQuery.queryFields(terminalSnapshot, EditableFieldsCriteria.instance()));
 
-		if (terminalSendAction != null) {
-			drawEditableFields(terminalSnapshot, out, terminalSendAction.getModifiedFields(), '*', '*');
-			drawCursor(terminalSnapshot, out, terminalSendAction);
-		}
 		return out.toString();
 
 	}
 
+	@SuppressWarnings("unused")
 	private static void drawCursor(TerminalSnapshot terminalSnapshot, StringBuilder out, TerminalSendAction terminalSendAction) {
 		if (terminalSendAction.getCursorPosition() == null) {
 			return;
@@ -110,11 +102,19 @@ public class ScreenPainter {
 		out.append(newline);
 	}
 
-	private static void drawEditableFields(TerminalSnapshot terminalSnapshot, StringBuilder out,
-			Collection<TerminalField> fields, char leftMark, char rightMark) {
+	private static void drawEditableFields(TerminalSnapshot terminalSnapshot, StringBuilder out, Collection<TerminalField> fields) {
+		char leftMark;
+		char rightMark;
 		for (TerminalField terminalField : fields) {
 			// +6 - line numbers + |
 			int beforeInputBufferLocation = calculatePositionOnPainter(terminalField.getPosition(), terminalSnapshot.getSize()) - 1;
+			if (terminalField.isModified()) {
+				leftMark = '*';
+				rightMark = '*';
+			} else {
+				leftMark = '[';
+				rightMark = ']';
+			}
 			out.setCharAt(beforeInputBufferLocation, leftMark);
 			int afterInputBufferLocation = beforeInputBufferLocation + terminalField.getLength() + 1;
 			out.setCharAt(afterInputBufferLocation, rightMark);

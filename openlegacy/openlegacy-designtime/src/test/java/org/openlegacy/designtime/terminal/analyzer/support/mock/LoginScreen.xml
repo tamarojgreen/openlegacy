@@ -5,11 +5,11 @@
     </row>
     <row rowNumber="4">
         <field value="User:" column="3" />
-        <field value="" editable="true" column="13" />
+        <field value="" length="10" editable="true" column="13" />
     </row>
     <row rowNumber="5">
         <field value="Password:" column="3" />
-        <field value="" editable="true" column="13" />
+        <field value="" length="10" editable="true" column="13" />
     </row>
     <row rowNumber="24">
         <field value="" column="2" length="70"/>

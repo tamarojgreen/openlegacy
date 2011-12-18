@@ -16,7 +16,6 @@ import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.binders.ScreenEntityBinder;
-import org.openlegacy.terminal.utils.ScreenPainter;
 import org.openlegacy.utils.ProxyUtil;
 
 import java.text.MessageFormat;
@@ -67,8 +66,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private <S> void getEntityInner(Class<S> screenEntityClass) {
 		TerminalSnapshot terminalSnapshot = getSnapshot();
 
-		ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(screenEntityClass, ScreenEntity.class,
-				interceptor);
+		ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(screenEntityClass, ScreenEntity.class, interceptor);
 
 		for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
 			screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
@@ -125,11 +123,10 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			}
 
 			if (logger.isDebugEnabled()) {
-				TerminalSnapshot snapshot = getSnapshot();
 				logger.debug(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
 						sendAction.getCursorPosition()));
 				logger.debug("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
-						+ ScreenPainter.paint(snapshot, sendAction, true));
+						+ getSnapshot());
 			}
 
 			notifyModulesBeforeSend(sendAction);

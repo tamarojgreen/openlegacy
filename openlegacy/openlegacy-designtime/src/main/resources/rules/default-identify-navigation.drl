@@ -1,0 +1,40 @@
+package openlegacy;
+
+import org.openlegacy.designtime.terminal.analyzer.modules.navigation.NavigationFact;
+
+rule "insert-accessed-from-snsapshots"
+ruleflow-group "identify-navigation"
+salience 100
+when
+	$snapshots: List() from accumulate ( $screenEntityDefinition: ScreenEntityDesigntimeDefinition() , collectList($screenEntityDefinition.getSnapshot()) )
+then
+	Collection<TerminalSnapshot> accessedFromsnapshots = snapshotsAnalyzerContext.getAccessedFromSnapshots($snapshots);
+	int count=0;
+	for (TerminalSnapshot s:accessedFromsnapshots){
+		insert(s);
+	} 
+	
+end
+
+
+rule "identify-navigation"
+ruleflow-group "identify-navigation"
+salience 90
+when
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+	
+	// which has a snaphot
+	$snapshot: TerminalSnapshot(snapshotType == SnapshotType.INCOMING) from $screenEntityDefinition.getSnapshot()
+	
+	// find the previous snapshot for a given snapshot
+	$previousSequence: Integer() from $snapshot.getSequence() - 1
+	$accessedFromSnapshot: TerminalSnapshot(snapshotType == SnapshotType.OUTGOING, sequence == $previousSequence)
+
+	// and find the previous snapshot screen definitions
+	$accessedFromScreenDefinition: ScreenEntityDesigntimeDefinition( eval(snapshotsSimilarityChecker.similarityPercent(snapshot,$accessedFromSnapshot) == 100) )
+
+
+then
+	screenEntityDefinitionsBuilder.analyzeFact($screenEntityDefinition, new NavigationFact($accessedFromScreenDefinition,$accessedFromSnapshot));
+end

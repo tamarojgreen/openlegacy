@@ -28,4 +28,8 @@ public abstract class AbstractTerminalField implements TerminalField {
 	public boolean isEmpty() {
 		return StringUtil.isEmpty(getValue());
 	}
+
+	public boolean isPassword() {
+		return isEditable() && isHidden();
+	}
 }

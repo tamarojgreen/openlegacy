@@ -2,6 +2,7 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 
 import org.drools.KnowledgeBase;
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.openlegacy.designtime.analyzer.SnapshotsSimilarityChecker;
 import org.openlegacy.designtime.analyzer.SnapshotsSorter;
 import org.openlegacy.designtime.rules.RuleDefinition;
 import org.openlegacy.designtime.rules.RuleParametersSet;
@@ -25,6 +26,9 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 
 	@Inject
 	private ScreenEntityDefinitionsBuilder screenEntityDefinitionsBuilder;
+
+	@Inject
+	private SnapshotsSimilarityChecker<TerminalSnapshot> snapshotsSimilarityChecker;
 
 	private RuleDefinition[] ruleDefinitions;
 
@@ -54,6 +58,8 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 		KnowledgeBase knowledgeBase = DroolsUtil.createKnowledgeBase(droolsResources.toArray(new String[droolsResources.size()]));
 		StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();
 
+		// KnowledgeRuntimeLoggerFactory.newConsoleLogger(session);
+
 		for (RuleParametersSet ruleParametersSet : ruleParametersFacts) {
 			session.insert(ruleParametersSet);
 
@@ -62,6 +68,7 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 		session.setGlobal("snapshotsAnalyzerContext", snapshotsAnalyzerContext);
 		session.setGlobal("snapshotsSorter", snapshotsSorter);
 		session.setGlobal("screenEntityDefinitionsBuilder", screenEntityDefinitionsBuilder);
+		session.setGlobal("snapshotsSimilarityChecker", snapshotsSimilarityChecker);
 
 		try {
 			session.startProcess(processName);

@@ -4,6 +4,7 @@ import org.openlegacy.FieldFormatter;
 import org.openlegacy.designtime.analyzer.support.AbstractSnapshotsSorter;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.utils.StringUtil;
 
 import java.util.Collection;
@@ -27,6 +28,11 @@ public class DefaultTerminalSnapshotsSorter extends AbstractSnapshotsSorter<Term
 		TerminalSnapshot mostPoulatedSnapshot = null;
 
 		for (TerminalSnapshot terminalSnapshot : snapshots) {
+
+			// pick only incoming snapshot as representer
+			if (terminalSnapshot.getSnapshotType() == SnapshotType.OUTGOING) {
+				continue;
+			}
 
 			int score = 0;
 			Collection<TerminalField> fields = terminalSnapshot.getFields();

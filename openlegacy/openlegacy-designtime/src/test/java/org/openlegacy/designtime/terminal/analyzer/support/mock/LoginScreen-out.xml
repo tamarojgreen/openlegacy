@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <snapshot type="OUTGOING" sequence="2" command="[enter]">
     <row rowNumber="1">
-        <field value="Screen 1" column="40" />
+        <field value="Login Screen" column="40" />
     </row>
     <row rowNumber="4">
         <field value="User:" column="3" />
-        <field value="someuser" editable="true" modified="true" column="13" />
+        <field value="someuser" length="10" editable="true" modified="true" column="13" />
     </row>
     <row rowNumber="5">
         <field value="Password:" column="3" />
-        <field value="somepwd" editable="true" modified="true" column="13" />
+        <field value="somepwd" length="10" editable="true" modified="true" column="13" />
     </row>
     <row rowNumber="24">
         <field value="" column="2" length="70"/>

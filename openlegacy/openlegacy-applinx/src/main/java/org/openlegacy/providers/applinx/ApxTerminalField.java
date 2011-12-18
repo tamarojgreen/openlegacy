@@ -1,5 +1,6 @@
 package org.openlegacy.providers.applinx;
 
+import com.sabratec.applinx.common.runtime.field.GXBlockModeCommonFieldData;
 import com.sabratec.applinx.common.runtime.field.GXIField;
 
 import org.openlegacy.terminal.TerminalPosition;
@@ -49,5 +50,10 @@ public class ApxTerminalField extends AbstractTerminalField {
 
 	public TerminalPosition getEndPosition() {
 		return SnapshotUtils.getEndPosition(this);
+	}
+
+	public boolean isHidden() {
+		GXBlockModeCommonFieldData commonData = (GXBlockModeCommonFieldData)apxField.getCommonData();
+		return commonData.isHidden();
 	}
 }

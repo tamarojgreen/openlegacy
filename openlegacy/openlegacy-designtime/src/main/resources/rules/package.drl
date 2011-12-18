@@ -13,9 +13,11 @@ import java.util.List;
 import org.openlegacy.designtime.terminal.model.*;
 import org.openlegacy.designtime.analyzer.SnapshotsSorter;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
+import org.openlegacy.designtime.analyzer.SnapshotsSimilarityChecker;
 import org.openlegacy.designtime.rules.*;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 
 global SnapshotsAnalyzerContext snapshotsAnalyzerContext;
 global SnapshotsSorter snapshotsSorter;
 global ScreenEntityDefinitionsBuilder screenEntityDefinitionsBuilder;
+global SnapshotsSimilarityChecker snapshotsSimilarityChecker;

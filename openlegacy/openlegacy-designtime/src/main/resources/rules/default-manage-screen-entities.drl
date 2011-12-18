@@ -22,3 +22,11 @@ then
 		insert(screenEntityDefinition);
 	} 
 end
+
+
+rule "finalize-screen-entities"
+ruleflow-group "finalize-screen-entities"
+when
+then
+	snapshotsAnalyzerContext.finalizeEntitiesDefinitions();
+end

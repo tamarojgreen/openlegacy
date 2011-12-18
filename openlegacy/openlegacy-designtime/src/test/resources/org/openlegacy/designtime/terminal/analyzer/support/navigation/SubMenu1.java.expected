@@ -6,9 +6,14 @@ import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 
 @ScreenEntity(screenType=MenuEntity.class)
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 40, value = "Main Menu Screen") 
+				@Identifier(row = 1, column = 40, value = "Sub Menu 1") 
 				})
-public class MainMenuScreen {
+@ScreenNavigation(accessedFrom = MainMenuScreen.class 
+					, assignedFields = { 
+					@AssignedField(field = "menuSelection", value = "1")
+					 }						
+					)
+public class SubMenu1 {
     
 	@ScreenField(row = 8, column = 18 ,editable= true ,fieldType=MenuSelectionField.class ,displayName = "Menu Selection")
     private String menuSelection;

@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.utils.ScreenPainter;
+import org.openlegacy.terminal.utils.SnapshotPainter;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 
 	@Override
 	public String toString() {
-		return ScreenPainter.paint(this, true);
+		return SnapshotPainter.paint(this, true);
 	}
 
 	@Override

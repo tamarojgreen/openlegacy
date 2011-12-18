@@ -21,4 +21,8 @@ public interface TerminalField extends TerminalPositionContainer {
 	boolean isModified();
 
 	boolean isEmpty();
+
+	boolean isHidden();
+
+	boolean isPassword();
 }

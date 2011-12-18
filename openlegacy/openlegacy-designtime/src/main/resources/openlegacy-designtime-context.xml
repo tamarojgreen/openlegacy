@@ -25,6 +25,9 @@
 				<entry key="org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuScreenFact">
 					<bean class="org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuScreenFactAnalyzer" />
 				</entry>				
+				<entry key="org.openlegacy.designtime.terminal.analyzer.modules.navigation.NavigationFact">
+					<bean class="org.openlegacy.designtime.terminal.analyzer.modules.navigation.NavigationFactAnalyzer" />
+				</entry>				
 			</map>
 		</property>
 	</bean>
@@ -42,7 +45,7 @@
 			<list>
 				<bean parent="ruleDefinition" p:droolsFile="rules/screen-builder.bpmn" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/package.drl" />
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-initialize-screen-entities.drl" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-manage-screen-entities.drl" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-window.drl" p:ruleId="identify-window">
 					<property name="ruleParameterSets">
 						<list>
@@ -184,6 +187,7 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-navigation.drl" p:ruleId="identify-navigation" />
 			</list>
 		</property>
 	</bean>

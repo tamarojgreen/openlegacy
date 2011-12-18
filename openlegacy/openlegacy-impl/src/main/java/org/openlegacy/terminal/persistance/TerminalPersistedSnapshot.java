@@ -55,7 +55,7 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 	private List<TerminalField> fields;
 
 	@XmlAttribute
-	private Integer sequence;
+	private Integer sequence = -1;
 
 	public SnapshotType getSnapshotType() {
 		return snapshotType;

@@ -142,6 +142,18 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	}
 
 	@Test
+	public void testGenerateNavigation() throws TemplateException, IOException {
+
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("LoginScreen.xml", "LoginScreen-out.xml",
+				"MainMenuScreen.xml", "MainMenuScreen-out.xml", "SubMenu1Screen.xml", "SubMenu1Screen-out.xml",
+				"SimpleScreen.xml");
+
+		assertScreenContent(screenEntitiesDefinitions.get("MainMenuScreen"), "navigation/MainMenuScreen.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("SubMenu1"), "navigation/SubMenu1.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("SimpleScreen"), "navigation/SimpleScreen.java.expected");
+	}
+
+	@Test
 	public void testInventoryAppGenerate() throws TemplateException, IOException {
 		snapshotsSorter.setMatchingPercent(95);
 		snapshotsSorter.clear();

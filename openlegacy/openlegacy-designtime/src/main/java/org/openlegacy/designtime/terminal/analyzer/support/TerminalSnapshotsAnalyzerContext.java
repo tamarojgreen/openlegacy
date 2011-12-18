@@ -1,8 +1,11 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.util.ArrayList;
@@ -20,6 +23,9 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 	private static final String SCREEN = "Screen";
 	private Collection<TerminalSnapshot> activeSnapshots;
 	private Map<String, List<ScreenEntityDesigntimeDefinition>> entitiesDefinitions = new HashMap<String, List<ScreenEntityDesigntimeDefinition>>();
+	private HashMap<String, ScreenEntityDefinition> entitiesDefinitionsResult;
+
+	private final static Log logger = LogFactory.getLog(TerminalSnapshotsAnalyzerContext.class);
 
 	public Collection<TerminalSnapshot> getActiveSnapshots() {
 		return activeSnapshots;
@@ -66,14 +72,18 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 		return tempEntityName;
 	}
 
+	public Map<String, ScreenEntityDefinition> getEntitiesDefinitions() {
+		return entitiesDefinitionsResult;
+	}
+
 	/**
 	 * Once all screen entities definitions are requested, flatten all the entities, and provide each entity definition a unique
 	 * name.
 	 * 
 	 */
-	public Map<String, ScreenEntityDefinition> getEntitiesDefinitions() {
+	public void finalizeEntitiesDefinitions() {
 		Set<Entry<String, List<ScreenEntityDesigntimeDefinition>>> entitiesByNameDefiniton = entitiesDefinitions.entrySet();
-		Map<String, ScreenEntityDefinition> entitiesDefinitionsResult = new HashMap<String, ScreenEntityDefinition>();
+		entitiesDefinitionsResult = new HashMap<String, ScreenEntityDefinition>();
 
 		for (Entry<String, List<ScreenEntityDesigntimeDefinition>> entry : entitiesByNameDefiniton) {
 			List<ScreenEntityDesigntimeDefinition> definitions = entry.getValue();
@@ -87,7 +97,33 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 				entitiesDefinitionsResult.put(actualEntityName, screenEntityDefinition);
 			}
 		}
-		return entitiesDefinitionsResult;
+	}
+
+	/**
+	 * Pick the snapshots which was accessed from each incoming snapshot. The active snapshots holds all the provided snapshot to
+	 * the snapshots analyzer
+	 */
+	public Collection<TerminalSnapshot> getAccessedFromSnapshots(Collection<TerminalSnapshot> incomingSnapshots) {
+
+		List<TerminalSnapshot> outgoingSnapshots = new ArrayList<TerminalSnapshot>();
+
+		for (TerminalSnapshot incomingSnapshot : incomingSnapshots) {
+			if (incomingSnapshot.getSequence() == null) {
+				logger.debug("Ignoring outgoing snapshot since it has no sequence");
+				continue;
+			}
+			for (TerminalSnapshot activeSnapshot : activeSnapshots) {
+				if (activeSnapshot.getSequence() == null) {
+					logger.debug("Ignoring active snapshot since it has no sequence");
+					continue;
+				}
+				if (incomingSnapshot.getSequence() == activeSnapshot.getSequence() - 1
+						&& activeSnapshot.getSnapshotType() == SnapshotType.OUTGOING) {
+					outgoingSnapshots.add(activeSnapshot);
+				}
+			}
+		}
+		return outgoingSnapshots;
 	}
 
 	private static class TerminalSnapshotSequenceComparator implements Comparator<ScreenEntityDefinition> {

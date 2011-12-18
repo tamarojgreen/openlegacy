@@ -1,12 +1,7 @@
 package ${packageName};
 
-import org.openlegacy.annotations.screen.ScreenField;
-import org.openlegacy.annotations.screen.Identifier;
-import org.openlegacy.annotations.screen.ScreenEntity;
-import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.annotations.screen.*;
 <#if actions?size != 0>
-import org.openlegacy.annotations.screen.ScreenActions;
-import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKey;
 </#if>
@@ -30,6 +25,15 @@ import ${referredClass};
 				@Action(action = TerminalActions.${action.action.class.simpleName}.class<#if action.additionalKey??> ,additionalKey= AdditionalKey.${action.additionalKey}</#if>, displayName = "${action.displayName}", alias = "${action.alias}")<#if action_has_next>,</#if> 
 				</#list>	
 				})
+</#if>
+<#if navigationDefinition??>
+@ScreenNavigation(accessedFrom = ${navigationDefinition.accessedFromEntityName}.class 
+					<#if navigationDefinition.assignedFields?size != 0>
+					, assignedFields = { 
+					<#list navigationDefinition.assignedFields as field>
+					@AssignedField(field = "${field.name}", value = "${field.value}")<#if field_has_next>,</#if>
+					</#list> }						
+					</#if>)
 </#if>
 public class ${entityName} {
     

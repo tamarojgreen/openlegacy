@@ -18,6 +18,10 @@ import java.util.List;
 public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChecker<TerminalSnapshot> {
 
 	public int similarityPercent(TerminalSnapshot snapshot1, TerminalSnapshot snapshot2) {
+		if (snapshot1 == null || snapshot2 == null) {
+			return 0;
+		}
+
 		ScreenSize size = snapshot1.getSize();
 		// start from 100% - the full screen size
 		int screenSize = size.getRows() * size.getColumns();
