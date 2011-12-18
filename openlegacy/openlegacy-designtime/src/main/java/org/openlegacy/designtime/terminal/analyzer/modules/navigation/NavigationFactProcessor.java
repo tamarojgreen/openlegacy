@@ -3,7 +3,7 @@ package org.openlegacy.designtime.terminal.analyzer.modules.navigation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
-import org.openlegacy.designtime.terminal.analyzer.ScreenFactAnalyzer;
+import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.terminal.TerminalField;
@@ -23,11 +23,11 @@ import java.util.List;
  * Analyze a navigation fact compound of the previous snapshot, and it's definitions
  * 
  */
-public class NavigationFactAnalyzer implements ScreenFactAnalyzer {
+public class NavigationFactProcessor implements ScreenFactProcessor {
 
-	private final static Log logger = LogFactory.getLog(NavigationFactAnalyzer.class);
+	private final static Log logger = LogFactory.getLog(NavigationFactProcessor.class);
 
-	public void analyze(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
+	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
 		NavigationFact navigationFact = (NavigationFact)screenFact;
 
@@ -96,6 +96,10 @@ public class NavigationFactAnalyzer implements ScreenFactAnalyzer {
 			}
 		}
 		return null;
+	}
+
+	public boolean accept(ScreenFact screenFact) {
+		return (screenFact instanceof NavigationFact);
 	}
 
 }

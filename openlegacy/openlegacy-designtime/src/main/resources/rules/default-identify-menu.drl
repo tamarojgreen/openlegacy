@@ -51,6 +51,6 @@ when
 	// pick the 1st matching field for menu selection
 	$menuSelectionField : TerminalField() from $menuSelectionFields.get(0)
 then
-	screenEntityDefinitionsBuilder.analyzeFact($screenEntityDefinition, new MenuScreenFact($menuSelectionField,$menuItems));
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new MenuScreenFact($menuSelectionField,$menuItems));
 end
 

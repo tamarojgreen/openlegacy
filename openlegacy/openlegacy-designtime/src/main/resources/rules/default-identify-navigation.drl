@@ -36,5 +36,5 @@ when
 
 
 then
-	screenEntityDefinitionsBuilder.analyzeFact($screenEntityDefinition, new NavigationFact($accessedFromScreenDefinition,$accessedFromSnapshot));
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new NavigationFact($accessedFromScreenDefinition,$accessedFromSnapshot));
 end

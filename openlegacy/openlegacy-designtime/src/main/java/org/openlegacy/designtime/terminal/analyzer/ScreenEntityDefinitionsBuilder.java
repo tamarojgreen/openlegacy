@@ -34,5 +34,5 @@ public interface ScreenEntityDefinitionsBuilder {
 	void setSnapshotBorders(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField topBorderField,
 			TerminalField buttomBorderField);
 
-	void analyzeFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact);
+	void processFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact);
 }

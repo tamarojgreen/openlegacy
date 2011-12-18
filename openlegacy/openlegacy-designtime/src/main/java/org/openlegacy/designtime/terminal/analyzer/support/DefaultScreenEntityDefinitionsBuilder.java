@@ -6,7 +6,7 @@ import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.analyzer.BestEntityNameFieldComparator;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
-import org.openlegacy.designtime.terminal.analyzer.ScreenFactAnalyzer;
+import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.analyzer.TerminalActionAnalyzer;
 import org.openlegacy.designtime.terminal.analyzer.modules.table.TableColumnFact;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
@@ -21,12 +21,10 @@ import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalRectangle;
 import org.openlegacy.utils.StringUtil;
-import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +39,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	@Inject
 	private TerminalActionAnalyzer terminalActionAnalyzer;
 
-	private Map<Class<? extends ScreenFact>, ScreenFactAnalyzer> screenFactAnalyzers;
+	private List<ScreenFactProcessor> screenFactProcessors;
 
 	@Inject
 	private BestEntityNameFieldComparator bestEntityNameFieldComparator;
@@ -191,13 +189,15 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		TableColumnFact.getHeaderFields().addAll(fields);
 	}
 
-	public void analyzeFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
-		ScreenFactAnalyzer factAnalyzer = screenFactAnalyzers.get(screenFact.getClass());
-		Assert.notNull(factAnalyzer, "Could not find mapped fact analyzer for fact type" + screenFact.getClass().getName());
-		factAnalyzer.analyze(screenEntityDefinition, screenFact);
+	public void processFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
+		for (ScreenFactProcessor screenFactProcessor : screenFactProcessors) {
+			if (screenFactProcessor.accept(screenFact)) {
+				screenFactProcessor.process(screenEntityDefinition, screenFact);
+			}
+		}
 	}
 
-	public void setScreenFactAnalyzers(Map<Class<? extends ScreenFact>, ScreenFactAnalyzer> screenFactAnalyzers) {
-		this.screenFactAnalyzers = screenFactAnalyzers;
+	public void setScreenFactProcessors(List<ScreenFactProcessor> screenFactProcessors) {
+		this.screenFactProcessors = screenFactProcessors;
 	}
 }
