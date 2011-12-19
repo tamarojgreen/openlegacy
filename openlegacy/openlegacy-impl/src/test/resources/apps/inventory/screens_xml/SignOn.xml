@@ -28,7 +28,7 @@
         <field column="1" value="               "/>
         <field column="17" value="User  . . . . . . . . . . . . . ."/>
         <field column="51" value=" "/>
-        <field column="53" value="" length="10" editable="true"/>
+        <field column="53" length="10" editable="true"/>
         <field column="64" value="                 "/>
     </row>
     <row rowNumber="7">

@@ -81,4 +81,8 @@ public class TerminalOutgoingSnapshot extends AbstractSnapshot {
 		return terminalSnapshot.getSequence();
 	}
 
+	public String getCommand() {
+		return terminalSendAction.getCommand().toString();
+	}
+
 }

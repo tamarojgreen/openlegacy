@@ -25,7 +25,7 @@ public class TerminalPersistedField extends AbstractTerminalField {
 	private TerminalPosition position;
 
 	@XmlAttribute
-	private String value;
+	private String value = "";
 
 	@XmlAttribute
 	private Integer length;
