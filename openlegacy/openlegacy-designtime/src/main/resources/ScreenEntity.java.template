@@ -28,6 +28,9 @@ import ${referredClass};
 </#if>
 <#if navigationDefinition??>
 @ScreenNavigation(accessedFrom = ${navigationDefinition.accessedFromEntityName}.class 
+					<#if navigationDefinition.terminalAction??>
+					, terminalAction=${navigationDefinition.terminalAction.terminalAction.simpleName}.class , additionalKey=${navigationDefinition.terminalAction.additionalKey}
+					</#if>
 					<#if navigationDefinition.assignedFields?size != 0>
 					, assignedFields = { 
 					<#list navigationDefinition.assignedFields as field>

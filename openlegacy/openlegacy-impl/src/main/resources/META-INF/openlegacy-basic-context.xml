@@ -28,7 +28,7 @@
 
 	<import resource="classpath:/META-INF/openlegacy-tables-context.xml" /> 
 
-	<bean id="defaultMenuBuilder" class="org.openlegacy.terminal.modules.menu.DefaultMenuBuilder" />
+	<bean id="menuBuilder" class="org.openlegacy.terminal.modules.menu.DefaultMenuBuilder" />
 
 	<bean id="abstractTerminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" abstract="true">
 		<property name="terminalConnection">

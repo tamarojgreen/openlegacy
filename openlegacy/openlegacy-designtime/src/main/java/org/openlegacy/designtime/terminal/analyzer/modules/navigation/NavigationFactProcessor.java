@@ -6,8 +6,13 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.actions.CombinedTerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
@@ -19,11 +24,16 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Analyze a navigation fact compound of the previous snapshot, and it's definitions
  * 
  */
 public class NavigationFactProcessor implements ScreenFactProcessor {
+
+	@Inject
+	private TerminalActionMapper terminalActionMapper;
 
 	private final static Log logger = LogFactory.getLog(NavigationFactProcessor.class);
 
@@ -42,6 +52,15 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 		screenEntityDefinition.setNavigationDefinition(navigationDefinition);
 
 		navigationDefinition.setAccessedFromEntityName(accessedFromScreenEntityDefinition.getEntityName());
+
+		TerminalAction action = terminalActionMapper.getAction(navigationFact.getAccessedFromSnapshot().getCommand());
+		if (action instanceof CombinedTerminalAction) {
+			CombinedTerminalAction combinedAction = (CombinedTerminalAction)action;
+			// add action definition only if it's not ENTER
+			if (combinedAction.getTerminalAction() != ENTER.class || combinedAction.getAdditionalKey() != AdditionalKey.NONE) {
+				navigationDefinition.setTerminalAction(action);
+			}
+		}
 
 		// build assigned fields for menu screens only
 		if (accessedFromScreenEntityDefinition.getType() == MenuEntity.class) {

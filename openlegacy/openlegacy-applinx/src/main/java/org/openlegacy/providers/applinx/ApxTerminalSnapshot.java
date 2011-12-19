@@ -123,4 +123,8 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 		return screen.getSequentialNumber();
 	}
 
+	public String getCommand() {
+		return null;
+	}
+
 }
