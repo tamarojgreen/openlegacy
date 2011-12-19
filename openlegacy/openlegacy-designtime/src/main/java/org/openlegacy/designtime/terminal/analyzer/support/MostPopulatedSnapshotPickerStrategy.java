@@ -1,7 +1,7 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
 import org.openlegacy.FieldFormatter;
-import org.openlegacy.designtime.analyzer.support.AbstractSnapshotsSorter;
+import org.openlegacy.designtime.terminal.analyzer.SnapshotPickerStrategy;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
@@ -10,18 +10,15 @@ import org.openlegacy.utils.StringUtil;
 import java.util.Collection;
 import java.util.Set;
 
-import javax.inject.Inject;
+public class MostPopulatedSnapshotPickerStrategy implements SnapshotPickerStrategy<TerminalSnapshot> {
 
-public class DefaultTerminalSnapshotsSorter extends AbstractSnapshotsSorter<TerminalSnapshot> {
-
-	@Inject
 	private FieldFormatter fieldFormatter;
 
-	@Override
-	/**
-	 * Pick the snapshot which has the longest field values
-	 */
-	protected TerminalSnapshot pickRepresenter(Set<TerminalSnapshot> group) {
+	public MostPopulatedSnapshotPickerStrategy(FieldFormatter fieldFormatter) {
+		this.fieldFormatter = fieldFormatter;
+	}
+
+	public TerminalSnapshot pickRepresenter(Set<TerminalSnapshot> group) {
 		TerminalSnapshot[] snapshots = group.toArray(new TerminalSnapshot[group.size()]);
 
 		int maxScore = 0;
@@ -47,4 +44,5 @@ public class DefaultTerminalSnapshotsSorter extends AbstractSnapshotsSorter<Term
 		}
 		return mostPoulatedSnapshot;
 	}
+
 }

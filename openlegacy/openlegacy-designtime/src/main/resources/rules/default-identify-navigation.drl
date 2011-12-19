@@ -9,8 +9,8 @@ when
 	$snapshots: List() from accumulate ( $screenEntityDefinition: ScreenEntityDesigntimeDefinition() , collectList($screenEntityDefinition.getSnapshot()) )
 then
 	Collection<TerminalSnapshot> accessedFromsnapshots = snapshotsAnalyzerContext.getAccessedFromSnapshots($snapshots);
-	int count=0;
-	for (TerminalSnapshot s:accessedFromsnapshots){
+	
+	for (TerminalSnapshot s : accessedFromsnapshots){
 		insert(s);
 	} 
 	

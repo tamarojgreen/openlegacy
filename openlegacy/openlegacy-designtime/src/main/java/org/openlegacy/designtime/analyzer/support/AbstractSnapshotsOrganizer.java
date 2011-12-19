@@ -3,8 +3,9 @@ package org.openlegacy.designtime.analyzer.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.Snapshot;
+import org.openlegacy.designtime.analyzer.SnapshotsOrganizer;
 import org.openlegacy.designtime.analyzer.SnapshotsSimilarityChecker;
-import org.openlegacy.designtime.analyzer.SnapshotsSorter;
+import org.openlegacy.designtime.terminal.analyzer.SnapshotPickerStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-public abstract class AbstractSnapshotsSorter<S extends Snapshot> implements SnapshotsSorter<S> {
+public abstract class AbstractSnapshotsOrganizer<S extends Snapshot> implements SnapshotsOrganizer<S> {
 
 	@Inject
 	private SnapshotsSimilarityChecker<S> snapshotsSimilarityChecker;
@@ -24,23 +25,21 @@ public abstract class AbstractSnapshotsSorter<S extends Snapshot> implements Sna
 
 	private int matchingPercent = 99;
 
-	private final static Log logger = LogFactory.getLog(AbstractSnapshotsSorter.class);
+	private final static Log logger = LogFactory.getLog(AbstractSnapshotsOrganizer.class);
 
 	public Collection<Set<S>> getGroups() {
 		return Collections.unmodifiableCollection(snapshotGroups);
 	}
 
-	public Collection<S> getGroupsRepresenters() {
+	public Collection<S> getGroupsRepresenters(SnapshotPickerStrategy<S> snapshotPickerStrategy) {
 		Collection<Set<S>> groups = getGroups();
 		List<S> result = new ArrayList<S>();
 		for (Set<S> group : groups) {
-			S snapshot = pickRepresenter(group);
+			S snapshot = snapshotPickerStrategy.pickRepresenter(group);
 			result.add(snapshot);
 		}
 		return result;
 	}
-
-	protected abstract S pickRepresenter(Set<S> group);
 
 	public void add(Collection<S> snapshots) {
 		for (S snapshot : snapshots) {

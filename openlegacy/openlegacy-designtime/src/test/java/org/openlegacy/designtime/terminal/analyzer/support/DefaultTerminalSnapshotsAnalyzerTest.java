@@ -40,7 +40,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	private DefaultTerminalSnapshotsAnalyzer snapshotsAnalyzer;
 
 	@Inject
-	private DefaultTerminalSnapshotsSorter snapshotsSorter;
+	private DefaultTerminalSnapshotsOrganizer snapshotsSorter;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSnapshotsAnalyzerTest.class);
 

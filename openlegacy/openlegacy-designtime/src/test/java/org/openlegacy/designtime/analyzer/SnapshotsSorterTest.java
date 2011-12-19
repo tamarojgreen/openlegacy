@@ -2,8 +2,10 @@ package org.openlegacy.designtime.analyzer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.FieldFormatter;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
-import org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsSorter;
+import org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsOrganizer;
+import org.openlegacy.designtime.terminal.analyzer.support.MostPopulatedSnapshotPickerStrategy;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,22 +24,26 @@ import junit.framework.Assert;
 public class SnapshotsSorterTest {
 
 	@Inject
-	private DefaultTerminalSnapshotsSorter snapshotsSorter;
+	private DefaultTerminalSnapshotsOrganizer snapshotsOrganizer;
 
 	@Inject
 	private TerminalSnapshotsLoader snapshotsLoader;
 
+	@Inject
+	private FieldFormatter fieldFormatter;
+
 	@Test
 	public void testSortByContent() {
-		snapshotsSorter.clear();
+		snapshotsOrganizer.clear();
 		String mockPath = getClass().getResource("mock").getFile();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(mockPath);
 
-		snapshotsSorter.add(snapshots);
+		snapshotsOrganizer.add(snapshots);
 
-		Collection<Set<TerminalSnapshot>> groups = snapshotsSorter.getGroups();
+		Collection<Set<TerminalSnapshot>> groups = snapshotsOrganizer.getGroups();
 		Assert.assertEquals(1, groups.size());
-		Collection<TerminalSnapshot> representingSnapshots = snapshotsSorter.getGroupsRepresenters();
+		Collection<TerminalSnapshot> representingSnapshots = snapshotsOrganizer.getGroupsRepresenters(new MostPopulatedSnapshotPickerStrategy(
+				fieldFormatter));
 		Assert.assertEquals(1, representingSnapshots.size());
 
 		findMatch(representingSnapshots.iterator().next(), "AABBCC");

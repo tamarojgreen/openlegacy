@@ -6,10 +6,10 @@ when
 then
 	// get all the snapshots provided
 	Collection<TerminalSnapshot> snapshots = snapshotsAnalyzerContext.getActiveSnapshots();
-	snapshotsSorter.add(snapshots);
+	snapshotsOrganizer.add(snapshots);
 	
 	// pick 1 representer from each matched group
-	snapshots = snapshotsSorter.getGroupsRepresenters();
+	snapshots = snapshotsOrganizer.getGroupsRepresenters(new LowestSequenceSnapshotPickerStrategy());
 	 
 	for (TerminalSnapshot s:snapshots){
 		// for snapshot, initialize an empty screen definitions container 
