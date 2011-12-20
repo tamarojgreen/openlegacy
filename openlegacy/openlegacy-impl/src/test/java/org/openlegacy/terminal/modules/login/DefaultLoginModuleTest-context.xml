@@ -9,7 +9,7 @@
 
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
-		<property name="root" value="/apps/inventory/screens_xml" />
+		<property name="root" value="/apps/inventory/screens" />
 		<property name="files">
 			<list>
 				<value>SignOn.xml</value>

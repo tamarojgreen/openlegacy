@@ -1,7 +1,8 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.utils.SnapshotPainter;
+import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.io.Serializable;
@@ -12,7 +13,9 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 
 	@Override
 	public String toString() {
-		return SnapshotPainter.paint(this, true);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		TerminalSnapshotTextRenderer.instance().render(this, true, baos);
+		return new String(baos.toByteArray());
 	}
 
 	@Override

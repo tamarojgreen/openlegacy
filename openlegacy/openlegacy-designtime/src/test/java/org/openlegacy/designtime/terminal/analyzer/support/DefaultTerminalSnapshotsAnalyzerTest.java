@@ -158,7 +158,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		snapshotsSorter.setMatchingPercent(95);
 		snapshotsSorter.clear();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
-				getClass().getResource("/apps/inventory/screens_xml").getFile(), "SignOn.xml", "MainMenu.xml", "ItemsList.xml",
+				getClass().getResource("/apps/inventory/screens").getFile(), "SignOn.xml", "MainMenu.xml", "ItemsList.xml",
 				"ItemDetails1.xml", "ItemDetails2.xml");
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		assertScreenContent(screenEntitiesDefinitions.get("SignOn"), "SignOn.java.expected");

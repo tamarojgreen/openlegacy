@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.utils.SnapshotPainter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,7 +19,7 @@ public class MainframeArabicTest extends AbstractTest {
 	public void testArabic() throws IOException, GXDesignTimeException {
 
 		TerminalSession terminalSession = newTerminalSession();
-		System.out.println(SnapshotPainter.paint(terminalSession.getSnapshot(), true));
+		System.out.println(terminalSession.getSnapshot().toString());
 	}
 
 }

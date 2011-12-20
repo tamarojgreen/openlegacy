@@ -1,12 +1,16 @@
-package org.openlegacy.terminal.utils;
+package org.openlegacy.terminal.render;
 
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,9 +18,15 @@ import java.util.List;
  * A textual utility which format terminal snapshot in to a preventable text which is very comfort for debugging purposes
  * 
  */
-public class SnapshotPainter {
+public class TerminalSnapshotTextRenderer implements TerminalSnapshotRenderer {
 
-	public static String paint(TerminalSnapshot terminalSnapshot, boolean decorated) {
+	private static TerminalSnapshotTextRenderer instance = new TerminalSnapshotTextRenderer();
+
+	public static TerminalSnapshotTextRenderer instance() {
+		return instance;
+	}
+
+	public void render(TerminalSnapshot terminalSnapshot, boolean decorated, OutputStream outputStream) {
 		String text = terminalSnapshot.getText();
 		String newline = System.getProperty("line.separator");
 		int rows = terminalSnapshot.getSize().getRows();
@@ -52,7 +62,11 @@ public class SnapshotPainter {
 		drawFieldsSeperators(terminalSnapshot, out);
 		drawEditableFields(terminalSnapshot, out, FieldsQuery.queryFields(terminalSnapshot, EditableFieldsCriteria.instance()));
 
-		return out.toString();
+		try {
+			outputStream.write(out.toString().getBytes());
+		} catch (IOException e) {
+			throw (new OpenLegacyRuntimeException(e));
+		}
 
 	}
 

@@ -19,13 +19,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public abstract class AbstractSnapshotsDumper {
+public abstract class AbstractTerminalSessionSnapshotsDumper {
 
-	private final static Log logger = LogFactory.getLog(AbstractSnapshotsDumper.class);
+	private final static Log logger = LogFactory.getLog(AbstractTerminalSessionSnapshotsDumper.class);
 	protected static final String OUTGOING_FILE_INDICATOR = "-out";
 
-	public void dumpSession(File baseDir, boolean cleanupFolder, String sprintContext) throws Exception {
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(sprintContext);
+	public void dumpSession(File baseDir, boolean cleanupFolder, String springContext) throws Exception {
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(springContext);
 
 		ScreensRecognizer screensRecognizer = applicationContext.getBean(ScreensRecognizer.class);
 		ScreenEntitiesRegistry screenEntitiesRegistry = applicationContext.getBean(ScreenEntitiesRegistry.class);
@@ -37,7 +37,7 @@ public abstract class AbstractSnapshotsDumper {
 			FileCommandExecuter.execute(baseDir, new FileCommand() {
 
 				public void doCommand(File file) {
-					if (!file.getName().contains(OUTGOING_FILE_INDICATOR)) {
+					if (!file.getName().contains(OUTGOING_FILE_INDICATOR) || !file.getName().contains(getDumpFileExtension())) {
 						file.delete();
 					}
 				}
