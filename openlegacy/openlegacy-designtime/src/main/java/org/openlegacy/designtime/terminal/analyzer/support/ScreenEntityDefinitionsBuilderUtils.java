@@ -41,8 +41,8 @@ public class ScreenEntityDefinitionsBuilderUtils {
 		screenIdentifiers.add(identitifer);
 		Collections.sort(screenIdentifiers, TerminalPositionContainerComparator.instance());
 
-		logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen {2}", field.getValue(),
-				field.getPosition(), screenEntityDefinition.getEntityName()));
+		logger.info(MessageFormat.format("Added identifier \"{0}\" at position {1} to screen", field.getValue(),
+				field.getPosition()));
 
 	}
 
