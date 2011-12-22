@@ -5,7 +5,7 @@ import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
+import org.openlegacy.terminal.support.SimpleTerminalOutgoingSnapshot;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 
 public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter implements Trail {
@@ -20,7 +20,7 @@ public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter imp
 
 	@Override
 	public void beforeSendAction(TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {
-		sessionTrail.appendSnapshot(new TerminalOutgoingSnapshot(terminalConnection.getSnapshot(), terminalSendAction));
+		sessionTrail.appendSnapshot(new SimpleTerminalOutgoingSnapshot(terminalConnection.getSnapshot(), terminalSendAction));
 	}
 
 	@Override

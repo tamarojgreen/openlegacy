@@ -2,14 +2,18 @@ package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalOutgoingSnapshot;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.ScreenSizeBean;
+import org.openlegacy.terminal.support.SimpleTerminalSendAction;
 import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.support.TerminalPositionBean;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
+import org.openlegacy.terminal.utils.FieldsQuery.ModifiedFieldsCriteria;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "snapshot")
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalPersistedSnapshot extends AbstractSnapshot {
+public class TerminalPersistedSnapshot extends AbstractSnapshot implements TerminalOutgoingSnapshot {
 
 	private static final long serialVersionUID = 1L;
 
@@ -164,5 +168,18 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot {
 
 	public void setCommand(String command) {
 		this.command = command;
+	}
+
+	public TerminalSendAction getTerminalSendAction() {
+		if (getSnapshotType() != SnapshotType.OUTGOING) {
+			return null;
+		}
+
+		List<TerminalField> modifiedFields = FieldsQuery.queryFields(this, ModifiedFieldsCriteria.instance());
+
+		SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(getCommand());
+		sendAction.setCursorPosition(getCursorPosition());
+		sendAction.getModifiedFields().addAll(modifiedFields);
+		return sendAction;
 	}
 }

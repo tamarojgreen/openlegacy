@@ -10,6 +10,8 @@ import org.openlegacy.terminal.support.SnapshotUtils;
 
 public class ApxTerminalField extends AbstractTerminalField {
 
+	private static final long serialVersionUID = 1L;
+
 	private final GXIField apxField;
 	private TerminalPosition position;
 	private String modifiedValue;

@@ -2,6 +2,7 @@ package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalOutgoingSnapshot;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -10,14 +11,14 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
 import java.util.Collection;
 import java.util.List;
 
-public class TerminalOutgoingSnapshot extends AbstractSnapshot {
+public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements TerminalOutgoingSnapshot {
 
 	private static final long serialVersionUID = 1L;
 
 	private TerminalSnapshot terminalSnapshot;
 	private TerminalSendAction terminalSendAction;
 
-	public TerminalOutgoingSnapshot(TerminalSnapshot terminalSnapshot, TerminalSendAction terminalSendAction) {
+	public SimpleTerminalOutgoingSnapshot(TerminalSnapshot terminalSnapshot, TerminalSendAction terminalSendAction) {
 		this.terminalSnapshot = terminalSnapshot;
 		this.terminalSendAction = terminalSendAction;
 	}

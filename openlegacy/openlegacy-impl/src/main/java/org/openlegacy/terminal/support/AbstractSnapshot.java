@@ -20,6 +20,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 
 	@Override
 	public int hashCode() {
+		// return HashCodeBuilder.reflectionHashCode(this);
 		return TerminalEqualsHashcodeUtil.snapshotHashcode(this);
 	}
 

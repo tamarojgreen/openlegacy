@@ -12,6 +12,8 @@ import java.text.MessageFormat;
  */
 public class SimpleTerminalPosition implements TerminalPosition {
 
+	private static final long serialVersionUID = 1L;
+
 	private int row = 1;
 	private int column = 1;
 

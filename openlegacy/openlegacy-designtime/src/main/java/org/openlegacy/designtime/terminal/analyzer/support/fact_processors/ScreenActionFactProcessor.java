@@ -5,9 +5,9 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.analyzer.TerminalActionAnalyzer;
-import org.openlegacy.designtime.terminal.analyzer.support.TerminalPositionContainerComparator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
 import java.text.MessageFormat;
 import java.util.Collections;

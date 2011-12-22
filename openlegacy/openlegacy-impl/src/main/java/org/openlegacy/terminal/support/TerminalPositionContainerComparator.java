@@ -1,8 +1,7 @@
-package org.openlegacy.designtime.terminal.analyzer.support;
+package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
-import org.openlegacy.terminal.support.SnapshotUtils;
 
 import java.util.Comparator;
 

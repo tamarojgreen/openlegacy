@@ -9,17 +9,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 @ContextConfiguration(locations = "/test-mock-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MockTerminalConnectionTest extends AbstractTest {
 
-	@Inject
-	TerminalSession terminalSession;
-
 	@Test
 	public void testMockConnection() throws IOException {
+
+		TerminalSession terminalSession = newTerminalSession();
 
 		terminalSession.doAction(TerminalActions.ENTER());
 	}

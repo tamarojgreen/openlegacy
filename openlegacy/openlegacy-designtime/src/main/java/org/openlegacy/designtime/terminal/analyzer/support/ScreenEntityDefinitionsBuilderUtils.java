@@ -9,6 +9,7 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
+import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.StringUtil;
 

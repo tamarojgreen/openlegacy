@@ -5,7 +5,7 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.terminal.support.TerminalOutgoingSnapshot;
+import org.openlegacy.terminal.support.SimpleTerminalOutgoingSnapshot;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 
@@ -15,8 +15,8 @@ import java.util.List;
 public class SnapshotPersistanceDTO {
 
 	public static TerminalPersistedSnapshot transformSnapshot(TerminalSnapshot snapshot) {
-		if (snapshot instanceof TerminalOutgoingSnapshot) {
-			return transformOutgoingSnapshot((TerminalOutgoingSnapshot)snapshot);
+		if (snapshot instanceof SimpleTerminalOutgoingSnapshot) {
+			return transformOutgoingSnapshot((SimpleTerminalOutgoingSnapshot)snapshot);
 		}
 		return transformIncomingSnapshot(snapshot);
 
@@ -31,7 +31,7 @@ public class SnapshotPersistanceDTO {
 		return persistedSnapshot;
 	}
 
-	private static TerminalPersistedSnapshot transformOutgoingSnapshot(TerminalOutgoingSnapshot snapshot) {
+	private static TerminalPersistedSnapshot transformOutgoingSnapshot(SimpleTerminalOutgoingSnapshot snapshot) {
 		TerminalPersistedSnapshot persistedSnapshot = new TerminalPersistedSnapshot();
 		persistedSnapshot.setSnapshotType(snapshot.getSnapshotType());
 

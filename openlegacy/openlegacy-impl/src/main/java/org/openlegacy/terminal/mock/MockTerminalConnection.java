@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.mock;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -8,7 +9,7 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
 
 import java.util.List;
 
-public class MockTerminalConnection implements TerminalConnection {
+public class MockTerminalConnection extends AbstractMockTerminalConnection {
 
 	private List<TerminalSnapshot> snapshots;
 	private int currentIndex = 0;
@@ -21,7 +22,8 @@ public class MockTerminalConnection implements TerminalConnection {
 		if (currentIndex >= snapshots.size()) {
 			throw (new SessionEndedException("Mock session has been finished"));
 		}
-		return snapshots.get(currentIndex);
+		TerminalSnapshot snapshot = snapshots.get(currentIndex);
+		return (TerminalSnapshot)SerializationUtils.clone(snapshot);
 	}
 
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
@@ -42,5 +44,4 @@ public class MockTerminalConnection implements TerminalConnection {
 	public Object getDelegate() {
 		throw (new UnsupportedOperationException("Mock terminal session has not delegate"));
 	}
-
 }

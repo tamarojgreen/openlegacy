@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="OUTGOING" command="[pf3]">
+    <row rowNumber="1">
+        <field value="1. Screen1" column="3" />
+    </row>
+    <row rowNumber="2">
+        <field value="2. Screen2" column="3" />
+    </row>
+    <row rowNumber="3">
+        <field value="" editable="true" length="2" column="3" />
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

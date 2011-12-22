@@ -7,6 +7,7 @@ import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class TerminalEqualsHashcodeUtil {
 
@@ -15,15 +16,19 @@ public class TerminalEqualsHashcodeUtil {
 	}
 
 	public static int snapshotHashcode(TerminalSnapshot terminalSnapshot) {
-		return terminalSnapshot.getRows().toArray().hashCode();
+		return Arrays.hashCode(terminalSnapshot.getRows().toArray());
 	}
 
 	public static boolean rowEquals(TerminalRow row1, TerminalRow row2) {
-		return Arrays.equals(row1.getFields().toArray(), row2.getFields().toArray());
+		return fieldsEquals(row1.getFields(), row2.getFields());
+	}
+
+	public static boolean fieldsEquals(List<TerminalField> fields1, List<TerminalField> fields2) {
+		return Arrays.equals(fields1.toArray(), fields2.toArray());
 	}
 
 	public static int rowHashCode(TerminalRow row) {
-		return row.getFields().toArray().hashCode();
+		return Arrays.hashCode(row.getFields().toArray());
 	}
 
 	public static boolean fieldEquals(TerminalField field1, TerminalField field2) {
@@ -32,6 +37,6 @@ public class TerminalEqualsHashcodeUtil {
 	}
 
 	public static int fieldHashCode(TerminalField field) {
-		return new HashCodeBuilder().append(field.getPosition()).append(field.isEditable()).append(field.getValue()).hashCode();
+		return new HashCodeBuilder().append(field.getPosition()).append(field.isEditable()).append(field.getValue()).toHashCode();
 	}
 }

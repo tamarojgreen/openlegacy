@@ -20,6 +20,7 @@ import org.openlegacy.utils.ProxyUtil;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -128,6 +129,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				logger.debug("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
 						+ getSnapshot());
 			}
+			// sort the modified fields by position
+			Collections.sort(sendAction.getModifiedFields(), TerminalPositionContainerComparator.instance());
 
 			notifyModulesBeforeSend(sendAction);
 			terminalConnection.doAction(sendAction);

@@ -1,11 +1,12 @@
 package org.openlegacy.terminal;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * A terminal screen interface. Defines common terminal screen properties Legacy vendors needs to implement this class
  */
-public interface TerminalRow {
+public interface TerminalRow extends Serializable {
 
 	List<TerminalField> getFields();
 

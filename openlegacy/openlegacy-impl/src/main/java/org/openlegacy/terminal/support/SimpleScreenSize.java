@@ -8,6 +8,8 @@ import org.openlegacy.terminal.ScreenSize;
  */
 public class SimpleScreenSize implements ScreenSize {
 
+	private static final long serialVersionUID = 1L;
+
 	private int rows;
 	private int columns;
 

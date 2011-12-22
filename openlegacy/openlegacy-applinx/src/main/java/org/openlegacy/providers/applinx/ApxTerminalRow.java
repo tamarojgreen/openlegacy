@@ -9,6 +9,8 @@ import java.util.List;
 
 public class ApxTerminalRow extends AbstractTerminalRow {
 
+	private static final long serialVersionUID = 1L;
+
 	private int rowNumber;
 	private List<TerminalField> fields = new ArrayList<TerminalField>();
 

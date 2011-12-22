@@ -2,13 +2,14 @@ package org.openlegacy.terminal;
 
 import org.openlegacy.Snapshot;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
 /**
  * A terminal screen interface. Defines common terminal screen properties Legacy vendors needs to implement this class
  */
-public interface TerminalSnapshot extends Snapshot {
+public interface TerminalSnapshot extends Snapshot, Serializable {
 
 	public enum SnapshotType {
 		INCOMING,

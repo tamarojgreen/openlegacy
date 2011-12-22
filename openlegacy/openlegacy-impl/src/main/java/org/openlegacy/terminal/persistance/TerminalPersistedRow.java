@@ -18,6 +18,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TerminalPersistedRow extends AbstractTerminalRow {
 
+	private static final long serialVersionUID = 1L;
+
 	@XmlAttribute
 	private int rowNumber;
 

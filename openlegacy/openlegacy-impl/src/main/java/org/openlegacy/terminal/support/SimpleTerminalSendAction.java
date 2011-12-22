@@ -1,7 +1,10 @@
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.terminal.TerminalPosition;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
 import java.util.ArrayList;
@@ -31,5 +34,20 @@ public class SimpleTerminalSendAction implements TerminalSendAction {
 
 	public void setCursorPosition(TerminalPosition cursorPosition) {
 		this.cursorPosition = cursorPosition;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

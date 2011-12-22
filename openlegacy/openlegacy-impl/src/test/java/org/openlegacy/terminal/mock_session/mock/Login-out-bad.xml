@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="OUTGOING" command="[enter]">
+    <row rowNumber="1">
+        <field value="User:" length="9" column="3" />
+        <field value="someuser" length="10" editable="true" modified="true" column="13" />
+    </row>
+    <row rowNumber="2">
+        <field value="Password:" length="9" column="3" />
+        <field value="badpwd" length="10" editable="true" modified="true" column="13" />
+    </row>
+    <row rowNumber="4">
+        <field value="Login failed" column="3" />
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

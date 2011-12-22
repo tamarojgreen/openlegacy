@@ -15,6 +15,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TerminalPersistedField extends AbstractTerminalField {
 
+	private static final long serialVersionUID = 1L;
+
 	@XmlAttribute
 	private int column;
 

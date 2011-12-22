@@ -1,10 +1,12 @@
 package org.openlegacy.terminal;
 
+import java.io.Serializable;
+
 /**
  * Defines a field on a terminal screen
  * 
  */
-public interface TerminalField extends TerminalPositionContainer {
+public interface TerminalField extends TerminalPositionContainer, Serializable {
 
 	TerminalPosition getPosition();
 

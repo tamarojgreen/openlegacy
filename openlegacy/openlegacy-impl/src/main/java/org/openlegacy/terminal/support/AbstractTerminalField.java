@@ -6,6 +6,8 @@ import org.openlegacy.utils.StringUtil;
 
 public abstract class AbstractTerminalField implements TerminalField {
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof TerminalField)) {

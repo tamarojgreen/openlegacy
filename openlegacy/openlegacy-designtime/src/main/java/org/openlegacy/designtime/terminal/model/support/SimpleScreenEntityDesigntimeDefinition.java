@@ -1,6 +1,5 @@
 package org.openlegacy.designtime.terminal.model.support;
 
-import org.openlegacy.designtime.terminal.analyzer.support.TerminalPositionContainerComparator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
@@ -11,6 +10,7 @@ import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalRectangle;
+import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
