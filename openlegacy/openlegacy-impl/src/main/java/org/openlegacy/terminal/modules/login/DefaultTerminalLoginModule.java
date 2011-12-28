@@ -117,6 +117,8 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	public void logoff() {
 
+		lazyMetadataInit();
+
 		logoffOnly();
 
 		getSession().disconnect();
@@ -125,6 +127,13 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 	private void logoffOnly() {
 		Class<?> loginClass = loginMetadata.getLoginScreenDefinition().getEntityClass();
 
+		if (getSession().isConnected()) {
+			backToLogin(loginClass);
+		}
+		loggedInUser = null;
+	}
+
+	private void backToLogin(Class<?> loginClass) {
 		Class<?> currentEntityClass = screensRecognizer.match(getSession().getSnapshot());
 
 		int exitActionsCount = 0;
@@ -144,10 +153,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 				break;
 			}
 			currentEntityClass = screensRecognizer.match(getSession().getSnapshot());
-
 		}
-
-		loggedInUser = null;
 	}
 
 	private TerminalAction findCurrentEntityExitAction(Class<? extends Object> currentEntityClass, TerminalAction exitAction) {

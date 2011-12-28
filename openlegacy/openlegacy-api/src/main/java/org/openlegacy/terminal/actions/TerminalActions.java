@@ -6,6 +6,7 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.exceptions.TerminalActionNotMappedException;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
@@ -14,7 +15,9 @@ import java.text.MessageFormat;
  */
 public class TerminalActions {
 
-	private static class TerminalMappedAction implements TerminalAction {
+	private static class TerminalMappedAction implements TerminalAction, Serializable {
+
+		private static final long serialVersionUID = 1L;
 
 		public void perform(TerminalSession terminalSession, Object entity) {
 			// if we got here it means the actions is not mapped...
@@ -46,6 +49,8 @@ public class TerminalActions {
 	}
 
 	public static class ENTER extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static ENTER ENTER() {
@@ -53,6 +58,8 @@ public class TerminalActions {
 	}
 
 	public static class ESC extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static ESC ESC() {
@@ -60,6 +67,8 @@ public class TerminalActions {
 	}
 
 	public static class F1 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F1 F1() {
@@ -67,6 +76,8 @@ public class TerminalActions {
 	}
 
 	public static class F2 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F2 F2() {
@@ -74,6 +85,8 @@ public class TerminalActions {
 	}
 
 	public static class F3 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F3 F3() {
@@ -81,6 +94,8 @@ public class TerminalActions {
 	}
 
 	public static class F4 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F4 F4() {
@@ -88,6 +103,8 @@ public class TerminalActions {
 	}
 
 	public static class F5 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F5 F5() {
@@ -95,6 +112,8 @@ public class TerminalActions {
 	}
 
 	public static class F6 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F6 F6() {
@@ -102,6 +121,8 @@ public class TerminalActions {
 	}
 
 	public static class F7 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F7 F7() {
@@ -109,6 +130,8 @@ public class TerminalActions {
 	}
 
 	public static class F8 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F8 F8() {
@@ -116,6 +139,8 @@ public class TerminalActions {
 	}
 
 	public static class F9 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F9 F9() {
@@ -123,6 +148,8 @@ public class TerminalActions {
 	}
 
 	public static class F10 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F10 F10() {
@@ -130,6 +157,8 @@ public class TerminalActions {
 	}
 
 	public static class F11 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F11 F11() {
@@ -137,6 +166,8 @@ public class TerminalActions {
 	}
 
 	public static class F12 extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static F12 F12() {
@@ -144,6 +175,8 @@ public class TerminalActions {
 	}
 
 	public static class PAGEDOWN extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static PAGEDOWN PAGEDOWN() {
@@ -151,6 +184,8 @@ public class TerminalActions {
 	}
 
 	public static class PAGEUP extends TerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
 	}
 
 	public static PAGEUP PAGEUP() {

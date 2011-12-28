@@ -26,7 +26,9 @@ public class TerminalSnapshotTextRenderer implements TerminalSnapshotRenderer {
 		return instance;
 	}
 
-	public void render(TerminalSnapshot terminalSnapshot, boolean decorated, OutputStream outputStream) {
+	public void render(TerminalSnapshot terminalSnapshot, OutputStream outputStream) {
+		boolean decorated = true;
+
 		String text = terminalSnapshot.getText();
 		String newline = System.getProperty("line.separator");
 		int rows = terminalSnapshot.getSize().getRows();

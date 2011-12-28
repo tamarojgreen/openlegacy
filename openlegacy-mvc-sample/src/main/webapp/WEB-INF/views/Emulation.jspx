@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+
+  <spring:url value="/resources/openlegacy.js" var="openlegacy_js" />
+  <script src="${openlegacy_js}"  type="text/javascript"><!-- required for FF3 and Opera --></script>
+  
+WORK IN PROGRESS
+	<input type="button" onclick="send();" /> <span id="mainMessageText"></span>
+	<canvas id="terminalViewer" width="1000" height="600"></canvas>
+
+</div>

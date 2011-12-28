@@ -11,6 +11,7 @@
 		<module>openlegacy-impl</module>
 		<module>openlegacy-applinx</module>
 		<module>openlegacy-designtime</module>
+		<module>openlegacy-web</module>
 	</modules>
 
 	<properties>

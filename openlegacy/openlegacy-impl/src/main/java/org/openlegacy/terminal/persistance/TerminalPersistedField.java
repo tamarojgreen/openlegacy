@@ -113,4 +113,11 @@ public class TerminalPersistedField extends AbstractTerminalField {
 		return hidden;
 	}
 
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
 }

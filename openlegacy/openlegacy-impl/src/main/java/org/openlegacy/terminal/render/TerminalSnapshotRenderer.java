@@ -6,5 +6,5 @@ import java.io.OutputStream;
 
 public interface TerminalSnapshotRenderer {
 
-	void render(TerminalSnapshot terminalSnapshot, boolean decorated, OutputStream outputStream);
+	void render(TerminalSnapshot terminalSnapshot, OutputStream outputStream);
 }

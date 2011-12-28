@@ -17,4 +17,12 @@
     <put-attribute name="body" value="/WEB-INF/views/ItemDetails.jspx" />
   </definition>
 
+  <definition name="Emulation" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/Emulation.jspx" />
+  </definition>
+
+  <definition name="uncaughtException" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
+  </definition>
+
 </tiles-definitions>

@@ -23,7 +23,7 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 		return instance;
 	}
 
-	public void render(TerminalSnapshot terminalSnapshot, boolean decorated, OutputStream output) {
+	public void render(TerminalSnapshot terminalSnapshot, OutputStream output) {
 
 		BufferedImage buffer = new BufferedImage(800, 500, BufferedImage.TYPE_INT_RGB);
 

@@ -9,4 +9,8 @@ public class MockTerminalConnectionFactory extends AbstractMockTerminalConnectio
 		return new MockTerminalConnection(fetchSnapshots());
 	}
 
+	public void disconnect(TerminalConnection terminalConnection) {
+		((MockTerminalConnection)terminalConnection).reset();
+	}
+
 }

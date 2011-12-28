@@ -23,6 +23,10 @@ public class MockStateMachineTerminalConnectionFactory extends AbstractMockTermi
 		return new MockStateMachineTerminalConnection(firstSnapshot, snapshotsGraph);
 	}
 
+	public void disconnect(TerminalConnection terminalConnection) {
+		((MockStateMachineTerminalConnection)terminalConnection).setCurrentSnapshot(firstSnapshot);
+	}
+
 	private void initStateMachine() {
 		List<TerminalSnapshot> snapshots = fetchSnapshots();
 

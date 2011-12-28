@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.mock;
 
-import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
@@ -15,10 +14,6 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 	private List<String> files = null;
 	private String root;
 	private List<TerminalSnapshot> snapshots = null;
-
-	public void disconnect(TerminalConnection terminalConnection) {
-		// do nothing
-	}
 
 	/**
 	 * Loads all snapshots from the listed files NOTE: Currently All files are re-load from disk on every get connection, since

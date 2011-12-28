@@ -14,7 +14,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 	@Override
 	public String toString() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		TerminalSnapshotTextRenderer.instance().render(this, true, baos);
+		TerminalSnapshotTextRenderer.instance().render(this, baos);
 		return new String(baos.toByteArray());
 	}
 

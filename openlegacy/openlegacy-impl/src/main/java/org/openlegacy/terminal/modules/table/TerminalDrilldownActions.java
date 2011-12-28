@@ -11,6 +11,8 @@ public class TerminalDrilldownActions {
 
 	public static class EnterDrilldownAction extends ENTER implements TerminalDrilldownAction {
 
+		private static final long serialVersionUID = 1L;
+
 		private Object actionValue;
 
 		public EnterDrilldownAction(Object actionValue) {

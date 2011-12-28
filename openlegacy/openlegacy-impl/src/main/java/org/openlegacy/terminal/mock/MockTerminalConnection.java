@@ -34,7 +34,9 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 
 		TerminalSnapshot currentSnapshot = snapshots.get(currentIndex);
 		if (currentSnapshot.getSnapshotType() == SnapshotType.OUTGOING) {
-			MockSendValidationUtils.validateSendAction(currentSnapshot, terminalSendAction);
+			if (terminalSendAction.getModifiedFields().size() > 0) {
+				MockSendValidationUtils.validateSendAction(currentSnapshot, terminalSendAction);
+			}
 			currentIndex++;
 		}
 
@@ -43,5 +45,9 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 
 	public Object getDelegate() {
 		throw (new UnsupportedOperationException("Mock terminal session has not delegate"));
+	}
+
+	public void reset() {
+		currentIndex = 0;
 	}
 }
