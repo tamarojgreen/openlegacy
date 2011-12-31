@@ -21,6 +21,10 @@
     <put-attribute name="body" value="/WEB-INF/views/Emulation.jspx" />
   </definition>
 
+  <definition name="HtmlEmulation" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/HtmlEmulation.jspx" />
+  </definition>
+  
   <definition name="uncaughtException" extends="default">
     <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
   </definition>

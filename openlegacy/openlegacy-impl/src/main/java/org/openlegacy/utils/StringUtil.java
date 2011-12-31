@@ -74,4 +74,36 @@ public class StringUtil {
 	public static String toSampleValue(String value) {
 		return StringUtils.trim(value);
 	}
+
+	public static int startOfNonBlank(String text) {
+		return startOfNonChar(text, ' ');
+	}
+
+	private static int startOfNonChar(String text, char ch) {
+		char[] chars = text.toCharArray();
+		for (int i = 0; i < chars.length; i++) {
+			if (chars[i] != ch) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public static final String leftTrim(String string) {
+		return leftTrim(string, ' ');
+	}
+
+	public static final String leftTrim(String string, char ch) {
+		int len = string.length(), i;
+		for (i = 0; i < len; i++) {
+			if (string.charAt(i) != ch) {
+				break;
+			}
+		}
+		if (i == len) {
+			return StringUtils.EMPTY;
+		}
+		return string.substring(i);
+	}
+
 }

@@ -7,6 +7,7 @@ import org.openlegacy.modules.SessionModule;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalActionMapper;
+import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -190,5 +191,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	public void afterPropertiesSet() throws Exception {
 		super.afterPropertiesSet();
 		interceptor.setTerminalSession(this);
+	}
+
+	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
+		return terminalConnection.doAction(terminalSendAction);
 	}
 }

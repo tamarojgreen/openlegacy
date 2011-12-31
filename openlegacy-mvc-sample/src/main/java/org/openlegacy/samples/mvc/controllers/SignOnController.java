@@ -37,7 +37,7 @@ public class SignOnController {
 		} catch (LoginException e) {
             uiModel.addAttribute("signOn", signOn);
             // JSP view
-            return "Signon";
+            return "SignOn";
 		}
         return "redirect:ItemsList";
     }    

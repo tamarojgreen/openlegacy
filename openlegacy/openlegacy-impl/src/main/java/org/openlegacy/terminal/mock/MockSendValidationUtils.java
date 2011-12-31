@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.mock;
 
 import org.apache.commons.lang.StringUtils;
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.spi.TerminalSendAction;
@@ -45,7 +45,8 @@ public class MockSendValidationUtils {
 	public static void validateFieldsMatch(List<TerminalField> expectedFieldsList, List<TerminalField> actualFieldsList)
 			throws TerminalActionException {
 		if (expectedFieldsList.size() != actualFieldsList.size()) {
-			throw (new TerminalActionException("Fields list dont match"));
+			throw (new TerminalActionException(MessageFormat.format("Fields list dont match the expected sent fields: {0}",
+					expectedFieldsList)));
 		}
 		Map<TerminalPosition, TerminalField> actualFieldsMap = toMap(actualFieldsList);
 		for (TerminalField exptectedField : expectedFieldsList) {
