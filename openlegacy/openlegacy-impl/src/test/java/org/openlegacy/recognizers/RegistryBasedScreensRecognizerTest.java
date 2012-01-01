@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
-@ContextConfiguration(locations = "/test-mock-context.xml")
+@ContextConfiguration("/test-mock-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RegistryBasedScreensRecognizerTest extends AbstractTest {
 

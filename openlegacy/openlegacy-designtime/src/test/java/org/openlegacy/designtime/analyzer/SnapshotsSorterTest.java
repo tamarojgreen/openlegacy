@@ -19,7 +19,7 @@ import javax.inject.Inject;
 
 import junit.framework.Assert;
 
-@ContextConfiguration(value = "/test-designtime-context.xml")
+@ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SnapshotsSorterTest {
 

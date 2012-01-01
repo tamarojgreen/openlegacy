@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-@ContextConfiguration
+@ContextConfiguration("/test-apx-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ApxScreensRecognizerTest extends AbstractTest {
 

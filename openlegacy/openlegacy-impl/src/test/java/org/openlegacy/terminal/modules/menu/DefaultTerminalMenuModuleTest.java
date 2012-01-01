@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-@ContextConfiguration(locations = "/test-mock-context.xml")
+@ContextConfiguration("/test-mock-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalMenuModuleTest extends AbstractTest {
 
