@@ -18,6 +18,8 @@
 	<bean id="fieldMappingsProvider" class="org.openlegacy.providers.applinx.ApxRuntimeFieldMappingsProvider" />
 	<bean id="sessionNavigator" class="org.openlegacy.providers.applinx.ApxSessionNavigator" />
 
+	<bean id="htmlRenderer" class="org.openlegacy.providers.applinx.web.ApxTerminalSnapshotHtmlRenderer" />
+	<bean id="terminalSendActionBuilder" class="org.openlegacy.providers.applinx.web.ApxHttpPostTerminalSendActionBuilder" />
 
 	<util:map id="apxDefaultActionMappings">
 		<entry key="org.openlegacy.terminal.actions.TerminalActions.ENTER"

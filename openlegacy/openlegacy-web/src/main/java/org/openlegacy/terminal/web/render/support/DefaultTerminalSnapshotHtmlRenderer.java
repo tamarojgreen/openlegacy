@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.web.render.support;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang.CharEncoding;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -11,7 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.Collection;
 
@@ -40,7 +42,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	private String formActionURL = "HtmlEmulation";
 	private String formMethod = HtmlConstants.POST;
 
-	public void render(TerminalSnapshot terminalSnapshot, OutputStream outputStream) {
+	public String render(TerminalSnapshot terminalSnapshot) {
 
 		DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
 
@@ -66,7 +68,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 			calculateWidthHeight(terminalSnapshot, wrapperTag);
 
-			generate(outputStream, doc);
+			return generate(doc);
 
 		} catch (ParserConfigurationException e) {
 			throw (new OpenLegacyRuntimeException(e));
@@ -76,15 +78,21 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	}
 
-	private static void generate(OutputStream outputStream, Document doc) throws TransformerConfigurationException,
-			TransformerFactoryConfigurationError, TransformerException {
+	private static String generate(Document doc) throws TransformerConfigurationException, TransformerFactoryConfigurationError,
+			TransformerException {
 		Transformer trans = TransformerFactory.newInstance().newTransformer();
 		trans.setOutputProperty(OutputKeys.METHOD, "html");
 		trans.setOutputProperty(OutputKeys.INDENT, "yes");
 
 		DOMSource src = new DOMSource(doc.getDocumentElement());
 
-		trans.transform(src, new StreamResult(outputStream));
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		trans.transform(src, new StreamResult(baos));
+		try {
+			return new String(baos.toByteArray(), CharEncoding.UTF_8);
+		} catch (UnsupportedEncodingException e) {
+			throw (new OpenLegacyRuntimeException(e));
+		}
 	}
 
 	private void calculateWidthHeight(TerminalSnapshot terminalSnapshot, Element wrapperTag) {

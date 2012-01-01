@@ -25,6 +25,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.softwareag</groupId>
+			<artifactId>applinx-framework</artifactId>
+			<version>8.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.softwareag</groupId>
 			<artifactId>saglic</artifactId>
 			<version>1.4</version>
 		</dependency>
