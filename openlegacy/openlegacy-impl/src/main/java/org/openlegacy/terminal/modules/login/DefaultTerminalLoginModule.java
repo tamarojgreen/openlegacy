@@ -128,7 +128,11 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		Class<?> loginClass = loginMetadata.getLoginScreenDefinition().getEntityClass();
 
 		if (getSession().isConnected()) {
-			backToLogin(loginClass);
+			try {
+				backToLogin(loginClass);
+			} catch (SessionEndedException e) {
+				// ok
+			}
 		}
 		loggedInUser = null;
 	}

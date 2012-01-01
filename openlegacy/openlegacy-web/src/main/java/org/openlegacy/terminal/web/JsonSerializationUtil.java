@@ -8,8 +8,8 @@ public class JsonSerializationUtil {
 
 	public static String toJson(TerminalSnapshot terminalSnapshot) {
 		JSONSerializer jsonSerializer = new JSONSerializer();
-		return jsonSerializer.exclude("*.class").include("fields").include("cursorPosition.*").include("fields.position.*").include(
-				"fields.endPosition.*").include("fields.editable").include("fields.hidden").include("fields.value").include(
-				"fields.endPosition.*").exclude("*").serialize(terminalSnapshot);
+		return jsonSerializer.exclude("*.class").include("size.*").include("fields").include("cursorPosition.*").include(
+				"fields.position.*").include("fields.endPosition.*").include("fields.editable").include("fields.hidden").include(
+				"fields.value").include("fields.endPosition.*").exclude("*").serialize(terminalSnapshot);
 	}
 }

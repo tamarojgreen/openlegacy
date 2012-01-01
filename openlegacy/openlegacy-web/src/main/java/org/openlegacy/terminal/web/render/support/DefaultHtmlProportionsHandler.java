@@ -2,7 +2,7 @@ package org.openlegacy.terminal.web.render.support;
 
 import org.openlegacy.terminal.web.render.HtmlProportionsHandler;
 
-public class DefaultPositionToSizeConverter implements HtmlProportionsHandler {
+public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 
 	private int columnProportion;
 	private int rowProportion;

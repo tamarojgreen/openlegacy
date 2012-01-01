@@ -4,6 +4,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.web.HtmlConstants;
 
 import java.text.MessageFormat;
 

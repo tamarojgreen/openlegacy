@@ -25,6 +25,9 @@
   <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script language="JavaScript" type="text/javascript">dojo.require("dojo.parser");</script>
 
+  <spring:url value="/styles/standard.css" var="css_url" />
+  <link rel="stylesheet" type="text/css" href="${css_url}"></link>
+
 </head>
 
 <body>
@@ -34,8 +37,8 @@
 					ignore="true" /></td>
 		</tr>
 		<tr>
-			<td><tiles:insertAttribute name="menu" ignore="true" /></td>
-			<td><tiles:insertAttribute name="body" /></td>
+			<td style="width: 20px"><tiles:insertAttribute name="menu" ignore="true" /></td>
+			<td style="width: 100%"><tiles:insertAttribute name="body" /></td>
 		</tr>
 	</table>
 	<tiles:insertAttribute name="footer" ignore="true" />

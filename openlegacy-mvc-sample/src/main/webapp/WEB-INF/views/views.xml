@@ -29,4 +29,8 @@
     <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
   </definition>
 
+  <definition name="sessionEndedException" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/sessionEndedException.jspx" />
+  </definition>
+
 </tiles-definitions>
