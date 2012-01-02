@@ -1,19 +1,16 @@
 package org.openlegacy.terminal.web.render;
 
 import org.openlegacy.terminal.TerminalField;
-import org.w3c.dom.Document;
 
-public interface ElementsProvider<T, R> {
+public interface ElementsProvider<T> {
 
-	T createInput(R rootNode, TerminalField terminalField);
+	T createInput(T rootTag, TerminalField terminalField);
 
-	T createHidden(R rootNode, String name);
+	T createHidden(T rootTag, String name);
 
-	T createLabel(R rootNode, TerminalField terminalField);
+	T createLabel(T rootTag, TerminalField terminalField);
 
-	T createWrapperTag(Document doc);
+	T createStyleTag(T rootTag, String styleSettings);
 
-	T createStyleTag(R rootNode, String styleSettings);
-
-	T createFormTag(R rootNode, String formActionURL, String formMethod, String formName);
+	T createFormTag(T rootTag, String formActionURL, String formMethod, String formName);
 }

@@ -11,7 +11,6 @@ import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.openlegacy.web.HtmlConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
@@ -34,7 +33,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	private static final String SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {font-family:Courier New;font-size:FONTpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input {position:absolute;font-family:Courier New;font-size:FONTpx}";
 
 	@Inject
-	private ElementsProvider<Element, Node> elementsProvider;
+	private ElementsProvider<Element> elementsProvider;
 
 	@Inject
 	private HtmlProportionsHandler htmlProportionsHandler;
@@ -53,7 +52,8 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			String styleSettings = SNAPSHOT_STYLE_SETTINGS.replaceAll("FONT",
 					String.valueOf(htmlProportionsHandler.getFontSize()));
 
-			Element wrapperTag = elementsProvider.createWrapperTag(doc);
+			Element wrapperTag = (Element)doc.appendChild(doc.createElement(HtmlConstants.DIV));
+
 			wrapperTag.setAttribute(HtmlConstants.ID, TerminalHtmlConstants.WRAPPER_TAG_ID);
 
 			Element formTag = elementsProvider.createFormTag(wrapperTag, formActionURL, formMethod,

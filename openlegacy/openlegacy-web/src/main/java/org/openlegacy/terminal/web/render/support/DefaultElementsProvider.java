@@ -7,19 +7,18 @@ import org.openlegacy.utils.StringUtil;
 import org.openlegacy.web.HtmlConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class DefaultElementsProvider implements ElementsProvider<Element, Node> {
+public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	@Inject
 	private HtmlProportionsHandler htmlProportionsHandler;
 
-	public Element createLabel(Node rootNode, TerminalField field) {
+	public Element createLabel(Element rootNode, TerminalField field) {
 		String value = field.getValue().trim();
 
 		if (value.length() == 0) {
@@ -34,11 +33,11 @@ public class DefaultElementsProvider implements ElementsProvider<Element, Node> 
 		return label;
 	}
 
-	private static Element createElement(Node rootNode, String tagName) {
+	private static Element createElement(Element rootNode, String tagName) {
 		return rootNode.getOwnerDocument().createElement(tagName);
 	}
 
-	public Element createInput(Node rootNode, TerminalField field) {
+	public Element createInput(Element rootNode, TerminalField field) {
 		Element input = createElement(rootNode, HtmlConstants.INPUT);
 		if (field != null) {
 			populateCommonAttributes(input, field);
@@ -63,12 +62,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element, Node> 
 
 	}
 
-	public Element createWrapperTag(Document doc) {
-		Element wrapperTag = (Element)doc.appendChild(doc.createElement(HtmlConstants.DIV));
-		return wrapperTag;
-	}
-
-	public Element createStyleTag(Node rootNode, String styleSettings) {
+	public Element createStyleTag(Element rootNode, String styleSettings) {
 		Document doc = rootNode.getOwnerDocument();
 		Element styleTag = createElement(rootNode, HtmlConstants.STYLE);
 		styleTag.appendChild(doc.createTextNode(styleSettings));
@@ -76,14 +70,14 @@ public class DefaultElementsProvider implements ElementsProvider<Element, Node> 
 		return styleTag;
 	}
 
-	public Element createHidden(Node rootNode, String name) {
+	public Element createHidden(Element rootNode, String name) {
 		Element element = createInput(rootNode, null);
 		element.setAttribute(HtmlConstants.TYPE, HtmlConstants.HIDDEN);
 		element.setAttribute(HtmlConstants.NAME, name);
 		return element;
 	}
 
-	public Element createFormTag(Node rootNode, String formActionURL, String formMethod, String formName) {
+	public Element createFormTag(Element rootNode, String formActionURL, String formMethod, String formName) {
 		Element formTag = createElement(rootNode, HtmlConstants.FORM);
 		formTag.setAttribute(HtmlConstants.NAME, formName);
 		formTag.setAttribute(HtmlConstants.ACTION, formActionURL);

@@ -2,12 +2,12 @@ package org.openlegacy.providers.applinx.web;
 
 import com.sabratec.applinx.baseobject.GXGeneralException;
 import com.sabratec.applinx.baseobject.GXIField;
-import com.sabratec.applinx.framework.web.GXHiddenConstants;
 import com.sabratec.applinx.framework.web.GXIScreenBasedForm;
 import com.sabratec.applinx.presentation.internal.tags.GXTagNamesUtil;
 import com.sabratec.util.GXPosition;
 
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.web.render.support.TerminalHtmlConstants;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,7 +22,7 @@ public class ApxHttpScreenBasedWebForm implements GXIScreenBasedForm {
 	}
 
 	public String getAppFieldContent(String arg0) throws GXGeneralException {
-		// not relevant
+		// not used
 		return null;
 	}
 
@@ -31,10 +31,11 @@ public class ApxHttpScreenBasedWebForm implements GXIScreenBasedForm {
 	}
 
 	public String getCursorPosition() {
-		return request.getParameter(GXHiddenConstants.CURSOR_POSITION_HIDDEN);
+		return request.getParameter(TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
 	}
 
 	public String getFormName() {
+		// not used
 		return null;
 	}
 
@@ -44,11 +45,11 @@ public class ApxHttpScreenBasedWebForm implements GXIScreenBasedForm {
 	}
 
 	public String getHostKeys() {
-		return request.getParameter(GXHiddenConstants.HOSTKEYS_HIDDEN);
+		return request.getParameter(TerminalHtmlConstants.TERMINAL_COMMAND_HIDDEN);
 	}
 
 	public String getMultipleFieldContent(String arg0, int arg1) throws GXGeneralException {
-		// not relevant
+		// not used
 		return null;
 	}
 
@@ -74,15 +75,15 @@ public class ApxHttpScreenBasedWebForm implements GXIScreenBasedForm {
 	}
 
 	public void setAppField(GXIField arg0) {
-		// not relevant
+		// not used
 	}
 
 	public void setHostField(GXIField arg0) throws GXGeneralException {
-		// not relevant
+		// not used
 	}
 
 	public void setMultipleField(GXIField arg0) throws GXGeneralException {
-		// not relevant
+		// not used
 	}
 
 }

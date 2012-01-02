@@ -1,7 +1,6 @@
 package org.openlegacy.providers.applinx;
 
 import com.sabratec.applinx.common.designtime.exceptions.GXDesignTimeException;
-import com.sabratec.applinx.common.designtime.message.GXImportRequest;
 import com.sabratec.applinx.common.designtime.model.GXEntityDescriptor;
 import com.sabratec.applinx.common.designtime.model.GXIApplicationContext;
 import com.sabratec.applinx.common.designtime.model.entity.area.GXScreenAreaAnywhere;
@@ -16,19 +15,7 @@ import com.sabratec.applinx.common.designtime.model.entity.type.GXFieldType;
 import com.sabratec.applinx.common.designtime.model.entity.type.GXSingleScreenType;
 import com.sabratec.util.GXPosition;
 
-import org.aspectj.util.FileUtil;
-
-import java.net.URL;
-
 public class ApxTestUtil {
-
-	public static void importRepository(ApxServerLoader apxServerLoader, URL importFile) throws Exception {
-		GXIApplicationContext apxApplicationContext = getApxContext(apxServerLoader);
-		GXImportRequest importRequest = new GXImportRequest();
-		importRequest.setApplicationName(apxApplicationContext.getName());
-		importRequest.setFileContent(FileUtil.readAsByteArray(importFile.openStream()));
-		apxApplicationContext.importEntities(importRequest, null);
-	}
 
 	public static GXIEntity createScreen(ApxServerLoader apxServerLoader, String screenName, String identifierText)
 			throws GXDesignTimeException {

@@ -17,7 +17,7 @@ public class ApxTerminalSessionSystemTest extends AbstractTerminalSessionSystemT
 
 	@Test
 	public void testApxSystem() throws Exception {
-		ApxTestUtil.importRepository(apxServerLoader, getClass().getResource("/inventory.gxz"));
+		ApxUtils.importRepository(apxServerLoader, getClass().getResource("/inventory.gxz"));
 		testSystem();
 	}
 

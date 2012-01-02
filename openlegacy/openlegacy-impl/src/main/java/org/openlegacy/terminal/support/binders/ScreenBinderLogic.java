@@ -71,8 +71,15 @@ public class ScreenBinderLogic {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 
+			if (!fieldMappingDefinition.isEditable()) {
+				continue;
+			}
 			TerminalPosition fieldPosition = fieldMappingDefinition.getPosition();
 			String fieldName = fieldMappingDefinition.getName();
+
+			if (!fieldAccessor.isExists(fieldName)) {
+				continue;
+			}
 			Object value = fieldAccessor.getFieldValue(fieldName);
 
 			TerminalField terminalField = terminalSnapshot.getField(fieldPosition);

@@ -12,10 +12,18 @@ import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 public class ApxTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtmlRenderer {
 
 	public String render(TerminalSnapshot terminalSnapshot) {
+		StringBuffer sb = new StringBuffer();
+		renderHtmlEmulation(terminalSnapshot, sb);
+
+		return sb.toString();
+	}
+
+	private static void renderHtmlEmulation(TerminalSnapshot terminalSnapshot, StringBuffer sb) {
 		GXIScreen screen = (GXIScreen)terminalSnapshot.getDelegate();
 		GXRenderConfig renderConfig = new GXRenderConfig();
 		GXIRenderer renderer = GXRendererFactory.instance().getRenderer(GXRendererFactory.HTML_RENDERER, screen, null,
 				renderConfig, GXTagRenderer.RENDER_ALL_FIELDS);
-		return renderer.render();
+		sb.append(renderer.render());
 	}
+
 }

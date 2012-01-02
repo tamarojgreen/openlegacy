@@ -11,6 +11,7 @@ import com.sabratec.util.GXSystem;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -42,6 +43,8 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 
 	private Resource serverConfiguration;
 
+	private Resource applicationRepository;
+
 	public void startServer() throws Exception {
 
 		if (server != null) {
@@ -65,6 +68,19 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 		}
 
 		initFile(initWorkingDir(), "/config/log/gxlog_config.apx", "/config/log/gxlog_config.xml");
+
+		importRepository();
+
+	}
+
+	private void importRepository() {
+		if (applicationRepository != null) {
+			try {
+				ApxUtils.importRepository(this, applicationRepository.getURL());
+			} catch (Exception e) {
+				throw (new OpenLegacyRuntimeException(e));
+			}
+		}
 	}
 
 	private static void loadLogger() throws IOException {
@@ -106,6 +122,10 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 		initFile(workingDir, "/config/gxperm.cfg", null);
 		initFile(workingDir, "/config/gxserver.cfg", null);
 
+		initApplication(workingDir);
+	}
+
+	private void initApplication(File workingDir) throws IOException, FileNotFoundException {
 		initResource(workingDir,
 				MessageFormat.format("/host-applications/{0}/gxconfig.xml", properties.getProperty("applinx.application.name")),
 				applicationConfiguration);
@@ -115,6 +135,7 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 				"config/ApplinX.h2.db",
 				MessageFormat.format("/host-applications/{0}/db/repository/ApplinX.h2.db",
 						properties.getProperty("applinx.application.name")));
+
 	}
 
 	private void initLicense(File workingDir) throws IOException {
@@ -173,6 +194,10 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 
 	public void setServerConfiguration(Resource serverConfiguration) {
 		this.serverConfiguration = serverConfiguration;
+	}
+
+	public void setApplicationRepository(Resource applicationRepository) {
+		this.applicationRepository = applicationRepository;
 	}
 
 	public void destroy() throws Exception {

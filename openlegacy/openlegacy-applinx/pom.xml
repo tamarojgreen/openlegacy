@@ -19,6 +19,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-web</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.softwareag</groupId>
 			<artifactId>applinx-server</artifactId>
 			<version>8.2.0</version>

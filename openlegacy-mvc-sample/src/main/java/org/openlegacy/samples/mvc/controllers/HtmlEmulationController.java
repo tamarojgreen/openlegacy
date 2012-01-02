@@ -1,7 +1,5 @@
 package org.openlegacy.samples.mvc.controllers;
 
-import java.io.ByteArrayOutputStream;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,9 +32,8 @@ public class HtmlEmulationController {
 	
 	@RequestMapping(value = "/HtmlEmulation", method = RequestMethod.GET)
 	public String show(Model uiModel) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		snapshotHtmlRenderer.render(terminalSession.getSnapshot(), baos);
-		uiModel.addAttribute("terminalHtml", new String(baos.toByteArray()) );
+		String result = snapshotHtmlRenderer.render(terminalSession.getSnapshot());
+		uiModel.addAttribute("terminalHtml", result );
 		return "HtmlEmulation";
 	}
 
