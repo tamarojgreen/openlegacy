@@ -6,11 +6,4 @@ function TerminalSession() {
 	};
 }
 
-
-var TerminalContext = new function() {
-	//this.keyboardMappings = new TerminalKeyboardMappings();
-};
-
 var terminalSession = new TerminalSession();
-//TerminalContext.addKeyboardMappings(new TerminalKeyboardMapping(
-//		AdditionalKeys.NONE, KeyCodes.ENTER, functionElement));

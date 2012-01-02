@@ -9,8 +9,6 @@
   <spring:url value="/resources/openlegacy.html_emulation.js" var="openlegacy_html_emulation_js" />
   <script src="${openlegacy_html_emulation_js}"  type="text/javascript"><!-- required for FF3 and Opera --></script>
   
-  <input type="button" onclick="terminalSession.doAction('[enter]');" />
-	
-	${terminalHtml}
+  ${terminalHtml}
 
 </div>

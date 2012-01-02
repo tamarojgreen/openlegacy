@@ -28,4 +28,8 @@ public class TerminalPersistedTrail implements SessionTrail<TerminalSnapshot> {
 		snapshots.add(SnapshotPersistanceDTO.transformSnapshot(snapshot));
 	}
 
+	public void clear() {
+		// do nothing
+	}
+
 }

@@ -8,7 +8,12 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
  */
 public interface TerminalConnectionListener {
 
+	void beforeConnect(TerminalConnection terminalConnection);
+
+	void afterConnect(TerminalConnection terminalConnection);
+
 	void beforeSendAction(TerminalConnection terminalConnection, TerminalSendAction terminalSendAction);
 
 	void afterSendAction(TerminalConnection terminalConnection);
+
 }

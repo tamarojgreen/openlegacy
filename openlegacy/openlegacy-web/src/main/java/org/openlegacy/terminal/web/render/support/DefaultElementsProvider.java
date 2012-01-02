@@ -80,6 +80,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	public Element createFormTag(Element rootNode, String formActionURL, String formMethod, String formName) {
 		Element formTag = createElement(rootNode, HtmlConstants.FORM);
 		formTag.setAttribute(HtmlConstants.NAME, formName);
+		formTag.setAttribute(HtmlConstants.ID, formName);
 		formTag.setAttribute(HtmlConstants.ACTION, formActionURL);
 		formTag.setAttribute(HtmlConstants.METHOD, formMethod);
 		rootNode.appendChild(formTag);

@@ -54,10 +54,6 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 	}
 
 	public void destroy() throws Exception {
-		List<? extends SessionModule> sessionModulesList = sessionModules.getModules();
-		for (SessionModule sessionModule : sessionModulesList) {
-			sessionModule.destroy();
-		}
 		disconnect();
 	}
 }

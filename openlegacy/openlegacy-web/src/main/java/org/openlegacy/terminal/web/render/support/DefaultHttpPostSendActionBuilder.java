@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 public class DefaultHttpPostSendActionBuilder implements TerminalSendActionBuilder<HttpServletRequest> {
 
 	public TerminalSendAction buildSendAction(TerminalSnapshot terminalSnapshot, HttpServletRequest httpRequest) {
-		String terminalAction = httpRequest.getParameter(HtmlNamingUtil.TERMINAL_ACTION);
+		String terminalAction = httpRequest.getParameter(TerminalHtmlConstants.TERMINAL_COMMAND_HIDDEN);
 		TerminalSendAction sendAction = new SimpleTerminalSendAction(terminalAction);
 
-		String terminalCursor = httpRequest.getParameter(HtmlNamingUtil.TERMINAL_CURSOR);
+		String terminalCursor = httpRequest.getParameter(TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
 		sendAction.setCursorPosition(HtmlNamingUtil.toPosition(terminalCursor));
 
 		List<TerminalField> editableFields = FieldsQuery.queryFields(terminalSnapshot,

@@ -7,7 +7,6 @@ import org.openlegacy.modules.SessionModule;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalActionMapper;
-import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -124,25 +123,28 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				}
 			}
 
-			if (logger.isDebugEnabled()) {
-				logger.debug(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
-						sendAction.getCursorPosition()));
-				logger.debug("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
-						+ getSnapshot());
-			}
-			// sort the modified fields by position
-			Collections.sort(sendAction.getModifiedFields(), TerminalPositionContainerComparator.instance());
-
-			notifyModulesBeforeSend(sendAction);
-			terminalConnection.doAction(sendAction);
-			notifyModulesAfterSend();
-
-			if (logger.isDebugEnabled()) {
-				logger.debug("\n\nScreen after ([ abc ] indicates a input field):\n\n" + getSnapshot());
-			}
+			doAction(sendAction);
 		}
 
 		return getEntity();
+	}
+
+	private void notifyModulesBeforeConnect() {
+		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
+		for (SessionModule sessionModule : modulesList) {
+			if (sessionModule instanceof TerminalConnectionListener) {
+				((TerminalConnectionListener)sessionModule).beforeConnect(terminalConnection);
+			}
+		}
+	}
+
+	private void notifyModulesAfterConnect() {
+		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
+		for (SessionModule sessionModule : modulesList) {
+			if (sessionModule instanceof TerminalConnectionListener) {
+				((TerminalConnectionListener)sessionModule).afterConnect(terminalConnection);
+			}
+		}
 	}
 
 	private void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {
@@ -164,7 +166,17 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	public TerminalSnapshot getSnapshot() {
-		return terminalConnection.getSnapshot();
+		boolean newSession = false;
+		if (!terminalConnection.isConnected()) {
+			notifyModulesBeforeConnect();
+			newSession = true;
+		}
+		TerminalSnapshot snapshot = terminalConnection.getSnapshot();
+
+		if (newSession) {
+			notifyModulesAfterConnect();
+		}
+		return snapshot;
 	}
 
 	public Object getDelegate() {
@@ -176,6 +188,10 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	public void disconnect() {
+		List<? extends SessionModule> sessionModulesList = getSessionModules().getModules();
+		for (SessionModule sessionModule : sessionModulesList) {
+			sessionModule.destroy();
+		}
 		terminalConnection.disconnect();
 	}
 
@@ -193,7 +209,22 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		interceptor.setTerminalSession(this);
 	}
 
-	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
-		return terminalConnection.doAction(terminalSendAction);
+	public void doAction(TerminalSendAction sendAction) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
+					sendAction.getCursorPosition()));
+			logger.debug("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
+					+ getSnapshot());
+		}
+		// sort the modified fields by position
+		Collections.sort(sendAction.getModifiedFields(), TerminalPositionContainerComparator.instance());
+
+		notifyModulesBeforeSend(sendAction);
+		terminalConnection.doAction(sendAction);
+		notifyModulesAfterSend();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("\n\nScreen after ([ abc ] indicates a input field):\n\n" + getSnapshot());
+		}
 	}
 }

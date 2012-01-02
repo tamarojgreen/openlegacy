@@ -10,8 +10,6 @@ import java.text.MessageFormat;
 
 public class HtmlNamingUtil {
 
-	public static final String TERMINAL_ACTION = "terminalAction";
-	public static final String TERMINAL_CURSOR = "terminalCursor";
 	private static final String FIELD_NAME_FORMAT = "p_{0}_{1}";
 
 	public static String getFieldName(TerminalField field) {

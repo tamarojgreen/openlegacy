@@ -19,6 +19,11 @@ public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter imp
 	}
 
 	@Override
+	public void afterConnect(TerminalConnection terminalConnection) {
+		sessionTrail.appendSnapshot(terminalConnection.getSnapshot());
+	}
+
+	@Override
 	public void beforeSendAction(TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {
 		sessionTrail.appendSnapshot(new SimpleTerminalOutgoingSnapshot(terminalConnection.getSnapshot(), terminalSendAction));
 	}
@@ -30,5 +35,10 @@ public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter imp
 
 	public void setSessionTrail(SessionTrail<TerminalSnapshot> sessionTrail) {
 		this.sessionTrail = sessionTrail;
+	}
+
+	@Override
+	public void destroy() {
+		sessionTrail.clear();
 	}
 }

@@ -15,4 +15,6 @@ public interface SessionTrail<S extends Snapshot> {
 	List<S> getSnapshots();
 
 	void appendSnapshot(S snapshot);
+
+	void clear();
 }

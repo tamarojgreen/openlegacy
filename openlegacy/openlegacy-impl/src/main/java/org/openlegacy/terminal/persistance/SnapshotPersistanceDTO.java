@@ -33,11 +33,11 @@ public class SnapshotPersistanceDTO {
 
 	private static TerminalPersistedSnapshot transformOutgoingSnapshot(SimpleTerminalOutgoingSnapshot snapshot) {
 		TerminalPersistedSnapshot persistedSnapshot = new TerminalPersistedSnapshot();
-		persistedSnapshot.setSnapshotType(snapshot.getSnapshotType());
-
 		TerminalSnapshot terminalSnapshot = snapshot.getTerminalSnapshot();
 
 		transformCommonSnapshot(persistedSnapshot, terminalSnapshot);
+
+		persistedSnapshot.setSnapshotType(snapshot.getSnapshotType());
 
 		TerminalSendAction sendAction = snapshot.getTerminalSendAction();
 

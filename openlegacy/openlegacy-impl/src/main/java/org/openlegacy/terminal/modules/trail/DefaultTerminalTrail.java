@@ -34,4 +34,8 @@ public class DefaultTerminalTrail implements SessionTrail<TerminalSnapshot>, Ser
 	public void setHistoryCount(int historyCount) {
 		this.historyCount = historyCount;
 	}
+
+	public void clear() {
+		snapshots.clear();
+	}
 }

@@ -17,6 +17,14 @@ public abstract class TerminalSessionModuleAdapter extends SessionModuleAdapter<
 
 	private static final long serialVersionUID = 1L;
 
+	public void beforeConnect(TerminalConnection terminalConnection) {
+		// allow override
+	}
+
+	public void afterConnect(TerminalConnection terminalConnection) {
+		// allow override
+	}
+
 	public void beforeSendAction(TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {
 		// allow override
 	}

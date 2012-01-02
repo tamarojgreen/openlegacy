@@ -23,7 +23,7 @@ public interface TerminalSession extends StatefullSession<TerminalSnapshot> {
 	<S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction action, S screenEntity,
 			Class<R> expectedScreenEntity);
 
-	TerminalConnection doAction(TerminalSendAction terminalSendAction);
+	void doAction(TerminalSendAction terminalSendAction);
 
 	<S extends ScreenEntity> S getEntity();
 
