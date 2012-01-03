@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.modules.trail;
 
-import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.module.TerminalSessionTrail;
 import org.openlegacy.terminal.persistance.SnapshotPersistanceDTO;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 
@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "terminal-trail")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalPersistedTrail implements SessionTrail<TerminalSnapshot> {
+public class TerminalPersistedTrail implements TerminalSessionTrail {
 
 	@XmlElement(name = "snapshot", type = TerminalPersistedSnapshot.class)
 	private List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
@@ -29,7 +29,7 @@ public class TerminalPersistedTrail implements SessionTrail<TerminalSnapshot> {
 	}
 
 	public void clear() {
-		// do nothing
+		snapshots.clear();
 	}
 
 }

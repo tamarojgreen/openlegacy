@@ -1,13 +1,13 @@
 package org.openlegacy.terminal.modules.trail;
 
-import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.module.TerminalSessionTrail;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DefaultTerminalTrail implements SessionTrail<TerminalSnapshot>, Serializable {
+public class DefaultTerminalTrail implements TerminalSessionTrail, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

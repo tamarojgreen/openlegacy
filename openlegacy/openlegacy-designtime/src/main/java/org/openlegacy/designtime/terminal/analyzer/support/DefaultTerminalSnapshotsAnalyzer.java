@@ -13,12 +13,18 @@ import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.utils.DroolsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.module.TerminalSessionTrail;
+import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
+import org.openlegacy.utils.XmlSerializationUtil;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.xml.bind.JAXBException;
 
 public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyzer {
 
@@ -37,6 +43,16 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 	private RuleDefinition[] ruleDefinitions;
 
 	private String processName;
+
+	public Map<String, ScreenEntityDefinition> analyzeTrail(String trailFile) throws FileNotFoundException, JAXBException {
+		TerminalSessionTrail trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class,
+				new FileInputStream(trailFile));
+		return analyzeTrail(trail);
+	}
+
+	public Map<String, ScreenEntityDefinition> analyzeTrail(TerminalSessionTrail trail) {
+		return analyzeSnapshots(trail.getSnapshots());
+	}
 
 	public Map<String, ScreenEntityDefinition> analyzeSnapshots(List<TerminalSnapshot> snapshots) {
 
