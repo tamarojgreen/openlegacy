@@ -66,12 +66,13 @@ public class DefaultLoginModuleTest extends AbstractTest {
 		ItemsList itemsList = terminalSession.getEntity(ItemsList.class);
 		Assert.assertNotNull(itemsList);
 
+		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
+		
 		terminalSession.getModule(Login.class).logoff();
 
 		Assert.assertFalse(terminalSession.getModule(Login.class).isLoggedIn());
 		Assert.assertFalse(terminalSession.isConnected());
 
-		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
 		Snapshot lastSnapshot = trail.getSnapshots().get(trail.getSnapshots().size() - 1); // get the last snapshot
 
 		Class<?> lastSnapshotClass = screensRecognizer.match((TerminalSnapshot)lastSnapshot);

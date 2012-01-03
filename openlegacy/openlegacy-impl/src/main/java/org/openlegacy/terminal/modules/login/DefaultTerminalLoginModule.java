@@ -117,14 +117,13 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	public void logoff() {
 
-		lazyMetadataInit();
-
 		logoffOnly();
 
 		getSession().disconnect();
 	}
 
 	private void logoffOnly() {
+		lazyMetadataInit();
 		Class<?> loginClass = loginMetadata.getLoginScreenDefinition().getEntityClass();
 
 		if (getSession().isConnected()) {
