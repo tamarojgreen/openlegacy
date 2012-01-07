@@ -12,6 +12,7 @@ import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
+import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
@@ -49,6 +50,11 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 	 */
 	public <T> T drillDown(Class<?> sourceEntityClass, Class<T> targetEntityClass, DrilldownAction<?> drilldownAction,
 			Object... rowKeys) {
+
+		if (ProxyUtil.isClassesMatch(getSession().getEntity().getClass(), targetEntityClass)) {
+			return (T)getSession().getEntity();
+		}
+
 		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				sourceEntityClass).getValue();
 		DrilldownDefinition drilldownDefinition = tableDefinition.getDrilldownDefinition();
@@ -64,11 +70,11 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 	 * Method which should be used when using open legacy navigation definitions: <code>@ScreenNavigation</code>
 	 */
 	public <T> T drillDown(Class<T> targetClass, DrilldownAction<?> drilldownAction, Object... rowKeys) throws RegistryException {
-		NavigationDefinition navigationDefintion = screenEntitiesRegistry.get(targetClass).getNavigationDefinition();
-		if (navigationDefintion == null) {
+		NavigationDefinition navigationDefinition = screenEntitiesRegistry.get(targetClass).getNavigationDefinition();
+		if (navigationDefinition == null) {
 			throw (new RegistryException(targetClass.getName() + " has no navigation definition"));
 		}
-		Class<?> accessedFrom = navigationDefintion.getAccessedFrom();
+		Class<?> accessedFrom = navigationDefinition.getAccessedFrom();
 
 		return drillDown(accessedFrom, targetClass, drilldownAction, rowKeys);
 	}

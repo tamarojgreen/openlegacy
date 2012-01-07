@@ -141,7 +141,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 		int exitActionsCount = 0;
 		// while current entity is not login screen and haven't reach a maximum exit actions
-		while (!ProxyUtil.isClassesMatch(currentEntityClass, loginClass) && exitActionsCount < maxActionsToLogin) {
+		while (!ProxyUtil.isClassesMatch(currentEntityClass, loginClass, true) && exitActionsCount < maxActionsToLogin) {
 			TerminalAction exitAction = defaultExitAction;
 			exitActionsCount++;
 

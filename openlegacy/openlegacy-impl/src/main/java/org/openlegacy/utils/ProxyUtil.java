@@ -37,8 +37,19 @@ public class ProxyUtil {
 	}
 
 	public static boolean isClassesMatch(Class<?> classA, Class<?> classB) {
-		Assert.notNull(classA);
-		Assert.notNull(classB);
+		return isClassesMatch(classA, classB, false);
+	}
+
+	public static boolean isClassesMatch(Class<?> classA, Class<?> classB, boolean allowNulls) {
+		if (allowNulls) {
+			if (classA == null || classB == null) {
+				return false;
+			}
+		} else {
+			Assert.notNull(classA);
+			Assert.notNull(classB);
+		}
+
 		classA = getOriginalClass(classA);
 		classB = getOriginalClass(classB);
 

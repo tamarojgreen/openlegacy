@@ -44,7 +44,7 @@ public class ScreenEntityMethodInterceptor implements MethodInterceptor {
 		}
 
 		Object childScreenEntity = terminalSession.getEntity(childScreenEntityClass);
-		logger.info(MessageFormat.format("Collected child screen for class {1}", childScreenEntityClass));
+		logger.info(MessageFormat.format("Collected child screen for class {0}", childScreenEntityClass));
 
 		fieldAccessor.setFieldValue(fieldName, childScreenEntity);
 		return childScreenEntity;

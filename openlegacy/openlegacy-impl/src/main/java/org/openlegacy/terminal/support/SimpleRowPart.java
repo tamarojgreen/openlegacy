@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.RowPart;
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
