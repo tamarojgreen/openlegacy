@@ -34,8 +34,9 @@ when
 	$verticalBorderPosition: Integer() from $topBorderField.position.column
 	
 	// and there is not row which does NOT have the vertical border char in the vertical border position									
-	not TerminalRow(rowNumber > $topBorderField.position.row,rowNumber < $buttomBorderField.position.row, 
-					eval(text.charAt($verticalBorderPosition) != $verticalBorder.charAt(0)) )  from $snapshot.getRows() 
+	not TerminalRow(rowNumber > $topBorderField.position.row,rowNumber < $buttomBorderField.position.row,
+					// -1 -> text is 0 based, while $verticalBorderPosition is 1 based  
+					eval(text.charAt($verticalBorderPosition-1) != $verticalBorder.charAt(0)) )  from $snapshot.getRows() 
 	
 then
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenWindowFact($topBorderField,$buttomBorderField));

@@ -43,6 +43,9 @@ public class SnapshotUtils {
 		placeContentOnBuffer(buffer, beginIndex, value);
 	}
 
+	/**
+	 * beginIndex is 0 based!
+	 */
 	public static void placeContentOnBuffer(StringBuilder buffer, int beginIndex, String value) {
 		for (int i = 0; i < value.length(); i++) {
 			buffer.setCharAt(beginIndex + i, value.charAt(i));

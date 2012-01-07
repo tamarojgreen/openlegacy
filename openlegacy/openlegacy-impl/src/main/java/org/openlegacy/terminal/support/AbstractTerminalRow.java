@@ -14,7 +14,7 @@ public abstract class AbstractTerminalRow implements TerminalRow {
 		List<TerminalField> fields = getFields();
 		for (TerminalField terminalField : fields) {
 			int startPosition = terminalField.getPosition().getColumn();
-			SnapshotUtils.placeContentOnBuffer(rowContent, startPosition, terminalField.getValue());
+			SnapshotUtils.placeContentOnBuffer(rowContent, startPosition - 1, terminalField.getValue());
 		}
 		String value = rowContent.toString();
 		return value;
@@ -44,6 +44,6 @@ public abstract class AbstractTerminalRow implements TerminalRow {
 	}
 
 	public String getText(int column, int length) {
-		return getText().substring(column, column + length);
+		return getText().substring(column - 1, column + length - 1);
 	}
 }
