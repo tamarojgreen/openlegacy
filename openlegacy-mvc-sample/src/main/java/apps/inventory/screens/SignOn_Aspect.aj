@@ -21,8 +21,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     private String SignOn.focusField;
     
 	
-    private TerminalField SignOn.errorField;
-	
     private TerminalField SignOn.passwordField;
 	
     private TerminalField SignOn.programProcedureField;
@@ -33,14 +31,6 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 		return terminalSnapshot;
     }
 
-    public String SignOn.getError(){
-    	return this.error;
-    }
-    
-
-    public TerminalField SignOn.getErrorField(){
-    	return errorField;
-    }
     public String SignOn.getPassword(){
     	return this.password;
     }

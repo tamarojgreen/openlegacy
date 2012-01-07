@@ -5,10 +5,37 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	Number:${itemDetails1.itemNumber}
-	<br />
-	Description:${itemDetails1.itemDescription}
-	Created:${itemDetails1.itemDetails2.auditDetails.createdDate}
-	<br />
 
+	<script>
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.layout.ContentPane");
+	</script>
+
+	<div id="tabContainer" style="width: 510px; height: 300px;"
+		tabStrip="true" data-dojo-type="dijit.layout.TabContainer">
+		<div id="tab1" title="Main Item Detail" selected="true" data-dojo-type="dijit.layout.ContentPane">
+			Number:${itemDetails1.itemNumber} <br /> <br />
+			<br/>
+			Description:${itemDetails1.itemDescription}
+			<br/>
+			Alpha search: ${itemDetails1.alphaSearch}
+			<br/>
+			Superseding Item to: ${itemDetails1.supercedingItemto}
+			<br/>
+			Superseding Item from: ${itemDetails1.supercedingItemfrom}
+			<br/>
+		</div>
+		<div id="tab2" title="Additional info" data-dojo-type="dijit.layout.ContentPane">
+			Stock analysis code: ${itemDetails1.itemDetails2.stockAnalysisCode}
+			<br/>
+			Stock value group: ${itemDetails1.itemDetails2.stockValueGroup}
+			<br/>
+		</div>
+		<div id="tab3" title="Audit info" data-dojo-type="dijit.layout.ContentPane">
+			Created: ${itemDetails1.itemDetails2.auditDetails.createdDate} <br />
+			<br/>
+			Created by: ${itemDetails1.itemDetails2.auditDetails.createdBy} <br />
+			<br/>
+		</div>
+	</div>
 </div>

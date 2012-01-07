@@ -5,7 +5,7 @@
 
 <tiles-definitions>
 
-  <definition name="SignOn" extends="default">
+  <definition name="SignOn" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/SignOn.jspx" />
   </definition>
 
@@ -25,11 +25,11 @@
     <put-attribute name="body" value="/WEB-INF/views/HtmlEmulation.jspx" />
   </definition>
   
-  <definition name="uncaughtException" extends="default">
+  <definition name="uncaughtException" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
   </definition>
 
-  <definition name="sessionEndedException" extends="default">
+  <definition name="sessionEndedException" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/sessionEndedException.jspx" />
   </definition>
 

@@ -20,6 +20,13 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
     
 
     public AuditDetails ItemDetails2.getAuditDetails(){
@@ -27,15 +34,71 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     }
     
 
-    public String ItemDetails2.getItemNumber(){
-    	return this.itemNumber;
+    public String ItemDetails2.getItemNumberdesc(){
+    	return this.itemNumberdesc;
     }
     
+
+    public String ItemDetails2.getItemTypeBusinessArea(){
+    	return this.itemTypeBusinessArea;
+    }
+    
+    public void ItemDetails2.setItemTypeBusinessArea(String itemTypeBusinessArea){
+    	this.itemTypeBusinessArea = itemTypeBusinessArea;
+    }
+
+    public String ItemDetails2.getNlCostOfSalesAccount(){
+    	return this.nlCostOfSalesAccount;
+    }
+    
+    public void ItemDetails2.setNlCostOfSalesAccount(String nlCostOfSalesAccount){
+    	this.nlCostOfSalesAccount = nlCostOfSalesAccount;
+    }
+
+    public String ItemDetails2.getNlSalesAccount(){
+    	return this.nlSalesAccount;
+    }
+    
+    public void ItemDetails2.setNlSalesAccount(String nlSalesAccount){
+    	this.nlSalesAccount = nlSalesAccount;
+    }
+
+    public String ItemDetails2.getNlStockAccount(){
+    	return this.nlStockAccount;
+    }
+    
+    public void ItemDetails2.setNlStockAccount(String nlStockAccount){
+    	this.nlStockAccount = nlStockAccount;
+    }
+
+    public String ItemDetails2.getStockAnalysisCode(){
+    	return this.stockAnalysisCode;
+    }
+    
+    public void ItemDetails2.setStockAnalysisCode(String stockAnalysisCode){
+    	this.stockAnalysisCode = stockAnalysisCode;
+    }
 
     public StockInfo ItemDetails2.getStockInfo(){
     	return this.stockInfo;
     }
     
+
+    public String ItemDetails2.getStockInventoryGroup(){
+    	return this.stockInventoryGroup;
+    }
+    
+    public void ItemDetails2.setStockInventoryGroup(String stockInventoryGroup){
+    	this.stockInventoryGroup = stockInventoryGroup;
+    }
+
+    public String ItemDetails2.getStockValueGroup(){
+    	return this.stockValueGroup;
+    }
+    
+    public void ItemDetails2.setStockValueGroup(String stockValueGroup){
+    	this.stockValueGroup = stockValueGroup;
+    }
 
 
     public String ItemDetails2.getFocusField(){
