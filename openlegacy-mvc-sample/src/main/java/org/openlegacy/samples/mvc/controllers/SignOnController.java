@@ -4,7 +4,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.openlegacy.modules.login.Login;
-import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.terminal.TerminalSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,8 +32,14 @@ public class SignOnController {
     @RequestMapping(value="/SignOn",method = RequestMethod.POST)
     public String create(SignOn signOn, Model uiModel, HttpServletRequest httpServletRequest) {
         try {
-            terminalSession.getModule(Login.class).login(signOn);
-		} catch (LoginException e) {
+            Login loginModule = terminalSession.getModule(Login.class);
+            if (loginModule.isLoggedIn()){
+            	loginModule.logoff();
+            }
+			loginModule.login(signOn);
+		} catch (Exception e) {
+			terminalSession.disconnect();
+            uiModel.addAttribute("errorMessage", e.getMessage());
             uiModel.addAttribute("signOn", signOn);
             // JSP view
             return "SignOn";

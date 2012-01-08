@@ -5,11 +5,16 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	<spring:url var="banner" value="/resources/images/banner-graphic.png" />
+	<spring:url var="banner" value="/resources/images/logo.png" />
 	<spring:url var="home" value="/" />
 	<spring:message code="button_home" var="home_label" htmlEscape="false" />
-	<div align="center">
+	<div>
 		<a href="${home}" name="${fn:escapeXml(home_label)}"
 			title="${fn:escapeXml(home_label)}"> <img src="${banner}" /> </a>
 	</div>
+	<div style="clear: left;display: inline;float: left;" >
+		<spring:url value="/logoff" var="logoff" />
+		<a href="${logoff}" title="Logff">Log-off</a>
+	</div>
+
 </div>
