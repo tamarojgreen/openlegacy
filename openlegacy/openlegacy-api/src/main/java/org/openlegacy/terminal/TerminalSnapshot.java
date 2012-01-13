@@ -3,7 +3,6 @@ package org.openlegacy.terminal;
 import org.openlegacy.Snapshot;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +27,7 @@ public interface TerminalSnapshot extends Snapshot, Serializable {
 
 	TerminalRow getRow(int rowNumber);
 
-	Collection<TerminalField> getFields();
+	List<TerminalField> getFields();
 
 	SnapshotType getSnapshotType();
 

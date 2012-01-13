@@ -106,4 +106,21 @@ public class StringUtil {
 		return string.substring(i);
 	}
 
+	public static final String rightTrim(String s) {
+		return rightTrim(s, ' ');
+	}
+
+	public static final String rightTrim(String string, char ch) {
+		int len = string.length(), i;
+		for (i = len - 1; i >= 0; i--) {
+			if (string.charAt(i) != ch) {
+				break;
+			}
+		}
+		if (i < 0) {
+			return StringUtils.EMPTY;
+		}
+		return string.substring(0, i + 1);
+	}
+
 }

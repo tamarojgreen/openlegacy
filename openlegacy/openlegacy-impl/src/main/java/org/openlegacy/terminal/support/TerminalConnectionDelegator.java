@@ -64,4 +64,9 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 	public boolean isConnected() {
 		return terminalConnection != null;
 	}
+
+	public TerminalSnapshot fetchSnapshot() {
+		terminalSnapshot = null;
+		return getSnapshot();
+	}
 }

@@ -1,12 +1,14 @@
 package org.openlegacy.terminal.persistance;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalOutgoingSnapshot;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.ScreenSizeBean;
 import org.openlegacy.terminal.support.SimpleTerminalSendAction;
 import org.openlegacy.terminal.support.SnapshotUtils;
@@ -14,9 +16,9 @@ import org.openlegacy.terminal.support.TerminalPositionBean;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
 import org.openlegacy.terminal.utils.FieldsQuery.ModifiedFieldsCriteria;
+import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "snapshot")
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalPersistedSnapshot extends AbstractSnapshot implements TerminalOutgoingSnapshot {
+public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 
 	private static final long serialVersionUID = 1L;
 
@@ -109,7 +111,7 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot implements Termi
 		this.cursorPosition = newCursorPosition;
 	}
 
-	public Collection<TerminalField> getFields() {
+	public List<TerminalField> getFields() {
 		if (fields == null) {
 			fields = FieldsQuery.queryFields(getRows(), AllFieldsCriteria.instance());
 		}
@@ -182,4 +184,25 @@ public class TerminalPersistedSnapshot extends AbstractSnapshot implements Termi
 		sendAction.getModifiedFields().addAll(modifiedFields);
 		return sendAction;
 	}
+
+	@Override
+	public String toString() {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		TerminalSnapshotTextRenderer.instance().render(this, baos);
+		return new String(baos.toByteArray());
+	}
+
+	@Override
+	public int hashCode() {
+		return TerminalEqualsHashcodeUtil.snapshotHashcode(this);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TerminalSnapshot)) {
+			return false;
+		}
+		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
+	}
+
 }

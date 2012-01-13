@@ -1,8 +1,10 @@
 package org.openlegacy.terminal.persistance;
 
+import org.openlegacy.terminal.RowPart;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.support.AbstractTerminalRow;
+import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.support.SnapshotUtils;
+import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalPersistedRow extends AbstractTerminalRow {
+public class TerminalPersistedRow implements TerminalRow {
 
 	private static final long serialVersionUID = 1L;
 
@@ -76,30 +78,46 @@ public class TerminalPersistedRow extends AbstractTerminalRow {
 		this.length = length;
 	}
 
+	public int getLength() {
+		return length;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		initFieldsRow();
-		return super.equals(obj);
+		if (!(obj instanceof TerminalRow)) {
+			return false;
+		}
+		TerminalRow otherRow = (TerminalRow)obj;
+		return TerminalEqualsHashcodeUtil.rowEquals(this, otherRow);
 	}
 
 	@Override
 	public int hashCode() {
 		initFieldsRow();
-		return super.hashCode();
+		return TerminalEqualsHashcodeUtil.rowHashCode(this);
 	}
 
 	@Override
 	public String toString() {
 		initFieldsRow();
-		return super.toString();
+		return SnapshotUtils.rowToString(this);
 	}
 
 	public String getText() {
 		if (value != null) {
 			return value;
 		}
-		value = getText(length);
+		value = SnapshotUtils.getRowText(this);
 		return value;
+	}
+
+	public List<RowPart> getRowParts() {
+		return SnapshotUtils.getRowParts(this);
+	}
+
+	public String getText(int column, int length) {
+		return SnapshotUtils.getRowText(this, column, length);
 	}
 
 }

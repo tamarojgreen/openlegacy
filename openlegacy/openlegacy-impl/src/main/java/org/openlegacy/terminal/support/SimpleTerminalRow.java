@@ -5,18 +5,37 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractTerminalRow implements TerminalRow {
+public class SimpleTerminalRow implements TerminalRow {
 
-	protected String getText(int rowLength) {
-		StringBuilder rowContent = SnapshotUtils.initEmptyBuffer(rowLength);
-		List<TerminalField> fields = getFields();
-		for (TerminalField terminalField : fields) {
-			int startPosition = terminalField.getPosition().getColumn();
-			SnapshotUtils.placeContentOnBuffer(rowContent, startPosition - 1, terminalField.getValue());
-		}
-		String value = rowContent.toString();
+	private static final long serialVersionUID = 1L;
+
+	private int rowNumber;
+	private List<TerminalField> fields = new ArrayList<TerminalField>();
+
+	public SimpleTerminalRow(int rowNumber) {
+		this.rowNumber = rowNumber;
+	}
+
+	public List<TerminalField> getFields() {
+		return fields;
+	}
+
+	public TerminalField getField(int column) {
+		return SnapshotUtils.getField(this, column);
+	}
+
+	public int getRowNumber() {
+		return rowNumber;
+	}
+
+	/**
+	 * Row text is calculated by the row length. Assuming row is fully populated with fields
+	 */
+	public String getText() {
+		String value = SnapshotUtils.getRowText(this);
 		return value;
 	}
 
@@ -44,6 +63,6 @@ public abstract class AbstractTerminalRow implements TerminalRow {
 	}
 
 	public String getText(int column, int length) {
-		return getText().substring(column - 1, column + length - 1);
+		return SnapshotUtils.getRowText(this, column, length);
 	}
 }

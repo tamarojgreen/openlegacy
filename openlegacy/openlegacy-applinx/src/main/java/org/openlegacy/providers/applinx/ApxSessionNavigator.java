@@ -30,6 +30,7 @@ public class ApxSessionNavigator implements SessionNavigator {
 			GXNavigateRequest navigateRequest = new GXNavigateRequest();
 			navigateRequest.setDestinationScreenName(screenName);
 			apxSession.navigateTo(navigateRequest);
+			terminalSession.fetchSnapshot();
 		} catch (GXNavigateException e) {
 			throw (new ScreenEntityNotAccessibleException(e));
 		} catch (GXGeneralException e) {

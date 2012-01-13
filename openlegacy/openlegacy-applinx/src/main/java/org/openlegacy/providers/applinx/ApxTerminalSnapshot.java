@@ -8,7 +8,6 @@ import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
-import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 
@@ -21,10 +20,12 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 	private static final long serialVersionUID = 1L;
 
 	private final GXRuntimeScreen screen;
-	private ArrayList<TerminalRow> rows;
-	private ArrayList<TerminalField> fields;
-	private ArrayList<TerminalPosition> fieldSeperators;
+	private List<TerminalPosition> fieldSeperators;
 	private String text;
+
+	private ScreenSize screenSize;
+
+	private TerminalPosition cursor;
 
 	public ApxTerminalSnapshot(GXRuntimeScreen screen) {
 		this.screen = screen;
@@ -38,62 +39,15 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 		return text;
 	}
 
-	public String getText(TerminalPosition position, int length) {
-		int beginIndex = ((position.getRow() - 1) * getSize().getColumns()) + (position.getColumn() - 1);
-		return getText().substring(beginIndex, beginIndex + length);
-	}
-
-	public TerminalField getField(TerminalPosition position) {
-		GXIField field = screen.getFields().get(new GXScreenPosition(position.getRow(), position.getColumn(), screen.getSize()));
-		return new ApxTerminalField(field);
-	}
-
 	public Object getDelegate() {
 		return new GXClientScreen(screen);
 	}
 
-	public Collection<TerminalField> getFields() {
-		if (fields != null) {
-			return fields;
-		}
-
-		@SuppressWarnings("unchecked")
-		Collection<GXIField> apxInputFields = screen.getFields();
-
-		fields = new ArrayList<TerminalField>();
-		for (GXIField apxField : apxInputFields) {
-			fields.add(new ApxTerminalField(apxField));
-		}
-		return fields;
-	}
-
 	public ScreenSize getSize() {
-		return new SimpleScreenSize(screen.getSize().getHeight(), screen.getSize().getWidth());
-	}
-
-	public List<TerminalRow> getRows() {
-		if (rows != null) {
-			return rows;
+		if (screenSize == null) {
+			screenSize = new SimpleScreenSize(screen.getSize().getHeight(), screen.getSize().getWidth());
 		}
-
-		@SuppressWarnings("unchecked")
-		Collection<GXIField> apxFields = screen.getFields();
-		rows = new ArrayList<TerminalRow>();
-
-		ApxTerminalRow currentRow = new ApxTerminalRow(1);
-		for (GXIField apxField : apxFields) {
-			if (apxField.getPosition().getRow() > currentRow.getRowNumber()) {
-				rows.add(currentRow);
-				currentRow = new ApxTerminalRow(apxField.getPosition().getRow());
-			}
-			currentRow.getFields().add(new ApxTerminalField(apxField));
-		}
-		rows.add(currentRow);
-		return rows;
-	}
-
-	public SnapshotType getSnapshotType() {
-		return SnapshotType.INCOMING;
+		return screenSize;
 	}
 
 	public List<TerminalPosition> getFieldSeperators() {
@@ -112,11 +66,10 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 	}
 
 	public TerminalPosition getCursorPosition() {
-		return ApxPositionUtil.toScreenPosition(screen.getCursorPosition());
-	}
-
-	public TerminalRow getRow(int rowNumber) {
-		return getRows().get(rowNumber - 1);
+		if (cursor == null) {
+			cursor = ApxPositionUtil.toScreenPosition(screen.getCursorPosition());
+		}
+		return cursor;
 	}
 
 	public Integer getSequence() {
@@ -125,6 +78,20 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 	public String getCommand() {
 		return null;
+	}
+
+	@Override
+	protected List<TerminalField> buildAllFields() {
+		List<TerminalField> fields = new ArrayList<TerminalField>();
+
+		@SuppressWarnings("unchecked")
+		Collection<GXIField> apxInputFields = screen.getFields();
+
+		fields = new ArrayList<TerminalField>();
+		for (GXIField apxField : apxInputFields) {
+			fields.add(new ApxTerminalField(apxField));
+		}
+		return fields;
 	}
 
 }

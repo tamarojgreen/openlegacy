@@ -43,4 +43,8 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 	public void setCurrentSnapshot(TerminalSnapshot currentSnapshot) {
 		this.currentSnapshot = currentSnapshot;
 	}
+
+	public TerminalSnapshot fetchSnapshot() {
+		return getSnapshot();
+	}
 }

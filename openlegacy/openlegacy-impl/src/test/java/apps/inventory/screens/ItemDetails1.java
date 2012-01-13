@@ -19,9 +19,6 @@ public class ItemDetails1 {
 	@ScreenField(row = 7, column = 33, editable = true)
 	private String itemDescription;
 
-	@ScreenField(row = 14, column = 37, endColumn = 76, displayName = "Item Class", sampleValue = "Vegetables")
-	private String itemClass1;
-
 	private ItemDetails2 itemDetails2;
 
 }

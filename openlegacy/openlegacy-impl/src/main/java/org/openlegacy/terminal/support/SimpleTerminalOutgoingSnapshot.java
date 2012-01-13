@@ -8,7 +8,6 @@ import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
-import java.util.Collection;
 import java.util.List;
 
 public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements TerminalOutgoingSnapshot {
@@ -23,6 +22,7 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		this.terminalSendAction = terminalSendAction;
 	}
 
+	@Override
 	public SnapshotType getSnapshotType() {
 		return SnapshotType.OUTGOING;
 	}
@@ -39,11 +39,13 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return terminalSnapshot.getSize();
 	}
 
+	@Override
 	public List<TerminalRow> getRows() {
 		return terminalSnapshot.getRows();
 	}
 
-	public Collection<TerminalField> getFields() {
+	@Override
+	public List<TerminalField> getFields() {
 		return terminalSnapshot.getFields();
 	}
 
@@ -58,6 +60,7 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return terminalSnapshot.getCursorPosition();
 	}
 
+	@Override
 	public TerminalField getField(TerminalPosition position) {
 		return SnapshotUtils.getField(terminalSnapshot, position);
 	}
@@ -70,10 +73,12 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return terminalSnapshot.getText();
 	}
 
+	@Override
 	public String getText(TerminalPosition position, int length) {
 		return terminalSnapshot.getText(position, length);
 	}
 
+	@Override
 	public TerminalRow getRow(int rowNumber) {
 		return terminalSnapshot.getRow(rowNumber);
 	}
@@ -84,6 +89,11 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 
 	public String getCommand() {
 		return terminalSendAction.getCommand().toString();
+	}
+
+	@Override
+	protected List<TerminalField> buildAllFields() {
+		return terminalSnapshot.getFields();
 	}
 
 }

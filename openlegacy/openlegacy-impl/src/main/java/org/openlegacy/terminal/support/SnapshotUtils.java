@@ -15,9 +15,31 @@ import java.util.List;
 
 public class SnapshotUtils {
 
+	/**
+	 * 0 based
+	 */
 	public static int toAbsolutePosition(TerminalPosition position, ScreenSize screenSize) {
-		int rowStart = (position.getRow() - 1) * screenSize.getColumns();
-		return rowStart + position.getColumn() - 1;
+		return toAbsolutePosition(position.getRow(), position.getColumn(), screenSize);
+	}
+
+	/**
+	 * 0 based
+	 */
+	public static int toAbsolutePosition(int row, int column, ScreenSize screenSize) {
+		int rowStart = (row - 1) * screenSize.getColumns();
+		return rowStart + column - 1;
+	}
+
+	public static int toRow(int absolutePosition, int columns) {
+		return absolutePosition / columns + 1;
+	}
+
+	public static int toColumn(int absolutePosition, int columns) {
+		return absolutePosition % columns + 1;
+	}
+
+	public static TerminalPosition newTerminalPosition(int absolutePosition, int columns) {
+		return new SimpleTerminalPosition(toRow(absolutePosition, columns), toColumn(absolutePosition, columns));
 	}
 
 	public static StringBuilder initEmptyBuffer(ScreenSize size) {
@@ -162,4 +184,25 @@ public class SnapshotUtils {
 		return SimpleTerminalPosition.newInstance(position.getRow(), position.getColumn() + length - 1);
 	}
 
+	public static String getText(TerminalSnapshot snapshot, TerminalPosition position, int length) {
+		int beginIndex = ((position.getRow() - 1) * snapshot.getSize().getColumns()) + (position.getColumn() - 1);
+		return snapshot.getText().substring(beginIndex, beginIndex + length);
+	}
+
+	public static String getRowText(TerminalRow row) {
+		TerminalField lastField = row.getFields().get(row.getFields().size() - 1);
+		int lastColumn = lastField.getPosition().getColumn() + lastField.getLength() + 1;
+		StringBuilder rowContent = SnapshotUtils.initEmptyBuffer(lastColumn);
+		List<TerminalField> fields = row.getFields();
+		for (TerminalField terminalField : fields) {
+			int startPosition = terminalField.getPosition().getColumn();
+			SnapshotUtils.placeContentOnBuffer(rowContent, startPosition - 1, terminalField.getValue());
+		}
+		String value = rowContent.toString();
+		return value;
+	}
+
+	public static String getRowText(TerminalRow row, int column, int length) {
+		return row.getText().substring(column - 1, column + length - 1);
+	}
 }

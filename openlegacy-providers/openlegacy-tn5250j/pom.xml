@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>openlegacy-providers</artifactId>
+		<groupId>org.openlegacy.providers</groupId>
+		<version>0.2-SNAPSHOT</version>
+	</parent>
+	<groupId>org.openlegacy.providers</groupId>
+	<artifactId>openlegacy-tn5250j</artifactId>
+	<version>0.2-SNAPSHOT</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>tn5250j</groupId>
+			<artifactId>tn5250j</artifactId>
+			<version>0.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>osohio</groupId>
+			<artifactId>osohio</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	</dependencies>
+</project>

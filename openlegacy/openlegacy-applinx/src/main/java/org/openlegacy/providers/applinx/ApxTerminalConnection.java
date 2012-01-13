@@ -11,9 +11,9 @@ import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 import com.sabratec.util.GXPosition;
 
 import org.openlegacy.exceptions.OpenLegacyProviderException;
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
@@ -85,6 +85,15 @@ public class ApxTerminalConnection implements TerminalConnection {
 			sendKeyRequest.addInputField(inputField);
 		}
 		return sendKeyRequest;
+	}
+
+	public TerminalSnapshot fetchSnapshot() {
+		try {
+			baseObject.refreshScreen();
+		} catch (GXGeneralException e) {
+			throw (new OpenLegacyProviderException(e));
+		}
+		return getSnapshot();
 	}
 
 }

@@ -39,8 +39,11 @@ public class AbstractTerminalSessionSystemTest extends AbstractTest {
 
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		Assert.assertNotNull(itemList);
+		while (terminalSession.getEntity() instanceof ItemsList) {
+			terminalSession.doAction(TerminalActions.ENTER());
+		}
 
-		ItemDetails1 itemDetails1 = terminalSession.doAction(TerminalActions.ENTER(), null, ItemDetails1.class);
+		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class);
 		Assert.assertNotNull(itemDetails1);
 		Assert.assertEquals("2000", itemDetails1.getItemNumber());
 

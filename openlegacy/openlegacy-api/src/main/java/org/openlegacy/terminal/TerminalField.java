@@ -27,4 +27,8 @@ public interface TerminalField extends TerminalPositionContainer, Serializable {
 	boolean isHidden();
 
 	boolean isPassword();
+
+	Color getColor();
+
+	Color getBackColor();
 }

@@ -1,9 +1,12 @@
 package org.openlegacy.terminal.persistance;
 
+import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
-import org.openlegacy.terminal.support.AbstractTerminalField;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
+import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
+import org.openlegacy.utils.StringUtil;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalPersistedField extends AbstractTerminalField {
+public class TerminalPersistedField implements TerminalField {
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,6 +48,12 @@ public class TerminalPersistedField extends AbstractTerminalField {
 
 	@XmlAttribute
 	private Boolean hidden = false;
+
+	@XmlAttribute
+	private Color color = Color.GREEN;
+
+	@XmlAttribute
+	private Color backColor = Color.BLACK;
 
 	public TerminalPosition getPosition() {
 		if (position == null) {
@@ -120,4 +129,40 @@ public class TerminalPersistedField extends AbstractTerminalField {
 	public int getColumn() {
 		return column;
 	}
+
+	public boolean isEmpty() {
+		return StringUtil.isEmpty(getValue());
+	}
+
+	public boolean isPassword() {
+		return isEditable() && isHidden();
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public Color getBackColor() {
+		return backColor;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TerminalField)) {
+			return false;
+		}
+		TerminalField otherField = (TerminalField)obj;
+		return TerminalEqualsHashcodeUtil.fieldEquals(this, otherField);
+	}
+
+	@Override
+	public int hashCode() {
+		return TerminalEqualsHashcodeUtil.fieldHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return SnapshotUtils.fieldToString(this);
+	}
+
 }

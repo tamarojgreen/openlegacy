@@ -50,4 +50,8 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 	public void reset() {
 		currentIndex = 0;
 	}
+
+	public TerminalSnapshot fetchSnapshot() {
+		return getSnapshot();
+	}
 }

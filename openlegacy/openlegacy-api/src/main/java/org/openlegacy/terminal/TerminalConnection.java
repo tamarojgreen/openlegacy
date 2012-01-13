@@ -9,6 +9,8 @@ public interface TerminalConnection {
 
 	TerminalSnapshot getSnapshot();
 
+	TerminalSnapshot fetchSnapshot();
+
 	TerminalConnection doAction(TerminalSendAction terminalSendAction);
 
 	Object getDelegate();

@@ -3,9 +3,9 @@
   <version>8.2.0.0000.0221</version>
   <ServerConfiguration>
     <revision>248</revision>
-    <useNonSecuredPort>true</useNonSecuredPort>
+    <useNonSecuredPort>false</useNonSecuredPort>
     <nonSecuredPort>2323</nonSecuredPort>
-    <useSecuredPort>true</useSecuredPort>
+    <useSecuredPort>false</useSecuredPort>
     <securedPort>23443</securedPort>
     <serverHttpPort>2380</serverHttpPort>
     <serverShutdownPort>2305</serverShutdownPort>

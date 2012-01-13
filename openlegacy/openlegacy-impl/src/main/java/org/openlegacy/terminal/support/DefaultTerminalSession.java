@@ -227,4 +227,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			logger.debug("\n\nScreen after ([ abc ] indicates a input field):\n\n" + getSnapshot());
 		}
 	}
+
+	public TerminalSnapshot fetchSnapshot() {
+		return terminalConnection.fetchSnapshot();
+	}
 }
