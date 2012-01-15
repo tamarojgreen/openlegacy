@@ -24,7 +24,7 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 	public TerminalSnapshot getSnapshot() {
 		lazyConnect();
 		if (terminalSnapshot == null) {
-			terminalSnapshot = terminalConnection.getSnapshot();
+			terminalSnapshot = terminalConnection.fetchSnapshot();
 		}
 		return terminalSnapshot;
 	}

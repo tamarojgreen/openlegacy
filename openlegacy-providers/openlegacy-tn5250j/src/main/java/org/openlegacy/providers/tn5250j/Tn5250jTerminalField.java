@@ -35,11 +35,10 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 	}
 
 	public String getValue() {
+		if (getModifiedValue() != null) {
+			return getModifiedValue();
+		}
 		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
 	}
 
 	public int getLength() {
@@ -47,10 +46,6 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 	}
 
 	public boolean isEditable() {
-		return false;
-	}
-
-	public boolean isModified() {
 		return false;
 	}
 

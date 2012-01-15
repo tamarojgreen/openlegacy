@@ -8,6 +8,7 @@
   <description>Open Legacy providers maven container</description>
   <modules>
   	<module>openlegacy-tn5250j</module>
+  	<module>openlegacy-h3270</module>
   </modules>
   
 	<dependencies>

@@ -20,44 +20,31 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 	private static final long serialVersionUID = 1L;
 
 	private final GXRuntimeScreen screen;
-	private List<TerminalPosition> fieldSeperators;
-	private String text;
-
-	private ScreenSize screenSize;
-
-	private TerminalPosition cursor;
 
 	public ApxTerminalSnapshot(GXRuntimeScreen screen) {
 		this.screen = screen;
 	}
 
-	public String getText() {
-		if (text != null) {
-			return text;
-		}
-		text = new String(screen.getBuffers().getTextBuffer());
-		return text;
+	@Override
+	protected String initText() {
+		return new String(screen.getBuffers().getTextBuffer());
 	}
 
 	public Object getDelegate() {
 		return new GXClientScreen(screen);
 	}
 
-	public ScreenSize getSize() {
-		if (screenSize == null) {
-			screenSize = new SimpleScreenSize(screen.getSize().getHeight(), screen.getSize().getWidth());
-		}
-		return screenSize;
+	@Override
+	protected ScreenSize initScreenSize() {
+		return new SimpleScreenSize(screen.getSize().getHeight(), screen.getSize().getWidth());
 	}
 
-	public List<TerminalPosition> getFieldSeperators() {
-		if (fieldSeperators != null) {
-			return fieldSeperators;
-		}
+	@Override
+	protected List<TerminalPosition> initFieldSeperators() {
 		@SuppressWarnings("unchecked")
 		List<GXScreenPosition> attributes = screen.getAttributePositions();
 
-		fieldSeperators = new ArrayList<TerminalPosition>();
+		List<TerminalPosition> fieldSeperators = new ArrayList<TerminalPosition>();
 		for (Object object : attributes) {
 			fieldSeperators.add(ApxPositionUtil.toScreenPosition((GXScreenPosition)object));
 		}
@@ -65,11 +52,9 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 	}
 
-	public TerminalPosition getCursorPosition() {
-		if (cursor == null) {
-			cursor = ApxPositionUtil.toScreenPosition(screen.getCursorPosition());
-		}
-		return cursor;
+	@Override
+	protected TerminalPosition initCursorPosition() {
+		return ApxPositionUtil.toScreenPosition(screen.getCursorPosition());
 	}
 
 	public Integer getSequence() {
@@ -81,7 +66,7 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 	}
 
 	@Override
-	protected List<TerminalField> buildAllFields() {
+	protected List<TerminalField> initFields() {
 		List<TerminalField> fields = new ArrayList<TerminalField>();
 
 		@SuppressWarnings("unchecked")

@@ -20,11 +20,13 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 
 	private List<TerminalRow> rows;
 	private List<TerminalField> fields;
-	protected String text;
+	private String text;
 
-	protected ScreenSize screenSize;
+	private List<TerminalPosition> fieldSeperators;
 
-	protected TerminalPosition cursor;
+	private ScreenSize screenSize;
+
+	private TerminalPosition cursor;
 
 	@Override
 	public String toString() {
@@ -35,7 +37,6 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 
 	@Override
 	public int hashCode() {
-		// return HashCodeBuilder.reflectionHashCode(this);
 		return TerminalEqualsHashcodeUtil.snapshotHashcode(this);
 	}
 
@@ -47,6 +48,24 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
 	}
 
+	public List<TerminalPosition> getFieldSeperators() {
+		if (fieldSeperators == null) {
+			fieldSeperators = initFieldSeperators();
+		}
+		return fieldSeperators;
+	}
+
+	protected abstract List<TerminalPosition> initFieldSeperators();
+
+	public ScreenSize getSize() {
+		if (screenSize == null) {
+			screenSize = initScreenSize();
+		}
+		return screenSize;
+	}
+
+	protected abstract ScreenSize initScreenSize();
+
 	public TerminalRow getRow(int rowNumber) {
 		List<TerminalRow> rows = getRows();
 		for (TerminalRow terminalRow : rows) {
@@ -56,6 +75,15 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 		}
 		return null;
 	}
+
+	public TerminalPosition getCursorPosition() {
+		if (cursor == null) {
+			cursor = initCursorPosition();
+		}
+		return cursor;
+	}
+
+	protected abstract TerminalPosition initCursorPosition();
 
 	public List<TerminalRow> getRows() {
 		if (rows != null) {
@@ -79,16 +107,25 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 		return SnapshotUtils.getText(this, position, length);
 	}
 
+	public String getText() {
+		if (text != null) {
+			return text;
+		}
+		text = initText();
+		return text;
+	}
+
+	protected abstract String initText();
+
 	public List<TerminalField> getFields() {
-		if (fields != null) {
-			return fields;
+		if (fields == null) {
+			fields = initFields();
 		}
 
-		fields = buildAllFields();
 		return fields;
 	}
 
-	protected abstract List<TerminalField> buildAllFields();
+	protected abstract List<TerminalField> initFields();
 
 	public TerminalField getField(TerminalPosition position) {
 		TerminalField field = SnapshotUtils.getField(this, position);

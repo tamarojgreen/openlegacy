@@ -2,6 +2,7 @@ package org.openlegacy.providers.tn5250j;
 
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.tn5250j.Session5250;
@@ -31,6 +32,12 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 			TerminalField field = snapshot.getField(terminalField.getPosition());
 			field.setValue(terminalField.getValue());
 		}
+		Screen5250 screen = session.getScreen();
+		TerminalPosition cursorPosition = terminalSendAction.getCursorPosition();
+		if (cursorPosition != null) {
+			screen.setCursor(cursorPosition.getColumn(), cursorPosition.getRow());
+		}
+
 		waitForKeyboardUnlock((String)terminalSendAction.getCommand());
 		return this;
 	}

@@ -15,7 +15,6 @@ public class ApxTerminalField extends AbstractTerminalField {
 
 	private final GXIField apxField;
 	private TerminalPosition position;
-	private String modifiedValue;
 
 	private TerminalPosition endPosition;
 
@@ -24,8 +23,8 @@ public class ApxTerminalField extends AbstractTerminalField {
 	}
 
 	public String getValue() {
-		if (modifiedValue != null) {
-			return modifiedValue;
+		if (getModifiedValue() != null) {
+			return getModifiedValue();
 		}
 		return apxField.getContent();
 	}
@@ -43,14 +42,6 @@ public class ApxTerminalField extends AbstractTerminalField {
 
 	public int getLength() {
 		return apxField.getLength();
-	}
-
-	public void setValue(String value) {
-		modifiedValue = value;
-	}
-
-	public boolean isModified() {
-		return modifiedValue != null;
 	}
 
 	public TerminalPosition getEndPosition() {

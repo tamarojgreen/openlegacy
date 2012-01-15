@@ -7,6 +7,7 @@ import org.openlegacy.utils.StringUtil;
 public abstract class AbstractTerminalField implements TerminalField {
 
 	private static final long serialVersionUID = 1L;
+	private String modifiedValue;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -33,5 +34,17 @@ public abstract class AbstractTerminalField implements TerminalField {
 
 	public boolean isPassword() {
 		return isEditable() && isHidden();
+	}
+
+	public void setValue(String value) {
+		modifiedValue = value;
+	}
+
+	public boolean isModified() {
+		return modifiedValue != null;
+	}
+
+	public String getModifiedValue() {
+		return modifiedValue;
 	}
 }

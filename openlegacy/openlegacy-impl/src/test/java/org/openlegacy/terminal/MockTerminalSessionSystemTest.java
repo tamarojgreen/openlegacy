@@ -9,11 +9,11 @@ import java.io.IOException;
 
 @ContextConfiguration("/test-mock-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MockTerminalSessionSystemTest extends AbstractTerminalSessionSystemTest {
+public class MockTerminalSessionSystemTest extends AbstractAS400TerminalSessionSystemTest {
 
 	@Test
 	public void testMockSystem() throws IOException {
-		testSystem();
+		testAS400InventorySystem();
 	}
 
 }

@@ -28,19 +28,18 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		this.screen = screen;
 	}
 
-	public TerminalPosition getCursorPosition() {
+	@Override
+	protected TerminalPosition initCursorPosition() {
 		return new SimpleTerminalPosition(screen.getCurrentRow(), screen.getCurrentCol());
 	}
 
-	public ScreenSize getSize() {
-		if (screenSize == null) {
-			screenSize = new SimpleScreenSize(screen.getRows(), screen.getColumns());
-		}
-		return screenSize;
+	@Override
+	protected ScreenSize initScreenSize() {
+		return new SimpleScreenSize(screen.getRows(), screen.getColumns());
 	}
 
 	@Override
-	protected List<TerminalField> buildAllFields() {
+	protected List<TerminalField> initFields() {
 
 		List<TerminalField> fields = new ArrayList<TerminalField>();
 
@@ -104,7 +103,6 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 
 	private static Tn5250jTerminalField createEditableField(ScreenField screenField, String value, boolean hidden) {
 		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField);
-		field.setValue(value);
 		field.setHidden(hidden);
 		return field;
 	}
@@ -114,7 +112,8 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		return field;
 	}
 
-	public List<TerminalPosition> getFieldSeperators() {
+	@Override
+	public List<TerminalPosition> initFieldSeperators() {
 		init();
 
 		if (fieldSeperators != null) {
@@ -131,12 +130,10 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		return fieldSeperators;
 	}
 
-	public String getText() {
+	@Override
+	public String initText() {
 		init();
-		if (text == null) {
-			text = new String(screenData.text);
-		}
-		return text;
+		return new String(screenData.text);
 	}
 
 	private void init() {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<import resource="classpath:/test-basic-context.xml" />
+
+	<context:component-scan base-package="apps.inventory.screens" />
+
+	<util:map id="testActionMappings">
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ENTER" /></key>
+			<value>enter</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F1" /></key>
+			<value>pf1</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F2" /></key>
+			<value>pf2</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F3" /></key>
+			<value>pf3</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN" /></key>
+			<value>pagedn</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEUP" /></key>
+			<value>pageup</value>
+		</entry>
+		<entry>
+			<key>
+				<bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ENTER" />
+			</key>
+			<value>pf13</value>
+		</entry>
+	</util:map>		
+	
+</beans>

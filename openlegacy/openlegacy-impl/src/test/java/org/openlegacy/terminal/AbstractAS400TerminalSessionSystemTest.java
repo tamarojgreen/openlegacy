@@ -13,9 +13,9 @@ import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.io.IOException;
 
-public class AbstractTerminalSessionSystemTest extends AbstractTest {
+public class AbstractAS400TerminalSessionSystemTest extends AbstractTest {
 
-	protected void testSystem() throws IOException {
+	protected void testAS400InventorySystem() throws IOException {
 
 		TerminalSession terminalSession = newTerminalSession();
 

@@ -9,6 +9,7 @@
 	<groupId>org.openlegacy.providers</groupId>
 	<artifactId>openlegacy-tn5250j</artifactId>
 	<version>0.2-SNAPSHOT</version>
+	<name>Open legacy tn5250 terminal session provider based on http://tn5250j.sourceforge.net/</name>
 
 	<dependencies>
 		<dependency>

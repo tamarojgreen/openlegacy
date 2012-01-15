@@ -35,7 +35,8 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return terminalSendAction;
 	}
 
-	public ScreenSize getSize() {
+	@Override
+	protected ScreenSize initScreenSize() {
 		return terminalSnapshot.getSize();
 	}
 
@@ -49,11 +50,13 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return terminalSnapshot.getFields();
 	}
 
-	public List<TerminalPosition> getFieldSeperators() {
+	@Override
+	protected List<TerminalPosition> initFieldSeperators() {
 		return terminalSnapshot.getFieldSeperators();
 	}
 
-	public TerminalPosition getCursorPosition() {
+	@Override
+	protected TerminalPosition initCursorPosition() {
 		if (terminalSendAction.getCursorPosition() != null) {
 			return terminalSendAction.getCursorPosition();
 		}
@@ -69,7 +72,8 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return terminalSnapshot.getDelegate();
 	}
 
-	public String getText() {
+	@Override
+	protected String initText() {
 		return terminalSnapshot.getText();
 	}
 
@@ -92,7 +96,7 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 	}
 
 	@Override
-	protected List<TerminalField> buildAllFields() {
+	protected List<TerminalField> initFields() {
 		return terminalSnapshot.getFields();
 	}
 

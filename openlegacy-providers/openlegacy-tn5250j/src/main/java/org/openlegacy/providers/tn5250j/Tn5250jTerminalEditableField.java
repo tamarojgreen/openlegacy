@@ -17,12 +17,10 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 
 	@Override
 	public String getValue() {
+		if (getModifiedValue() != null) {
+			return getModifiedValue();
+		}
 		return screenField.getString();
-	}
-
-	@Override
-	public void setValue(String value) {
-		screenField.setString(value);
 	}
 
 	@Override
