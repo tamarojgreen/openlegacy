@@ -1,9 +1,15 @@
 package org.openlegacy.utils;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 
 public class FileUtils {
 
@@ -33,5 +39,18 @@ public class FileUtils {
 
 		file.getParentFile().mkdirs();
 		return file;
+	}
+
+	public static void copyAndReplace(InputStream inputStream, OutputStream outputStream, Map<String, String> keysValues)
+			throws IOException {
+		String content = IOUtils.toString(inputStream);
+
+		if (keysValues != null) {
+			Set<String> keys = keysValues.keySet();
+			for (String key : keys) {
+				content = content.replaceAll(key, keysValues.get(key));
+			}
+		}
+		outputStream.write(content.getBytes());
 	}
 }
