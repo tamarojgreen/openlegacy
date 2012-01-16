@@ -101,7 +101,7 @@
     </row>
     <row rowNumber="21">
         <field column="2" value="===&gt;"/>
-        <field column="8" value="" length="2" editable="true"/>
+        <field column="8" value="" length="2" editable="true" type="java.lang.Integer" />
         <field column="11" value="                                         "/>
         <field column="53" value="Company . . . . . ."/>
         <field column="74" value="101" editable="true"/>

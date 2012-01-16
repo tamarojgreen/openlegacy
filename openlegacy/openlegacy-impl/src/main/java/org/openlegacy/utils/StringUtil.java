@@ -123,4 +123,17 @@ public class StringUtil {
 		return string.substring(0, i + 1);
 	}
 
+	public static Class<?> getTypeByValue(String value) {
+		if (value == null) {
+			return String.class;
+		}
+		value = value.trim();
+		if (value.matches("\\d+")) {
+			return Integer.class;
+		}
+		if (value.matches("\\d+\\.\\d+")) {
+			return Double.class;
+		}
+		return String.class;
+	}
 }

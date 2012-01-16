@@ -32,7 +32,7 @@ public class AbstractAS400TerminalSessionSystemTest extends AbstractTest {
 		// tests doAction with expected class type
 		MainMenu mainMenu = terminalSession.doAction(TerminalActions.ENTER(), signOn, MainMenu.class);
 		Assert.assertNotNull(mainMenu);
-		Assert.assertEquals("101", mainMenu.getCompany());
+		Assert.assertTrue(101 == mainMenu.getCompany());
 
 		InventoryManagement inventoryManagement = terminalSession.getEntity(InventoryManagement.class);
 		Assert.assertNotNull(inventoryManagement);

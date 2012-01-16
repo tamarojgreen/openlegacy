@@ -11,7 +11,7 @@ import org.openlegacy.modules.menu.Menu.MenuEntity;
 public class MainMenu {
 
 	@ScreenField(row = 21, column = 74, editable = true)
-	private String company;
+	private Integer company;
 	@ScreenField(row = 21, column = 8, editable = true)
-	private String selection;
+	private Integer selection;
 }

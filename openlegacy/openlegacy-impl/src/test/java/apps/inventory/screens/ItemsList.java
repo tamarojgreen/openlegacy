@@ -40,7 +40,7 @@ public class ItemsList {
 		private String action;
 
 		@ScreenColumn(startColumn = 65, endColumn = 68, key = true)
-		private String itemNumber;
+		private Integer itemNumber;
 
 		@ScreenColumn(startColumn = 11, endColumn = 22)
 		private String alphaSearch;

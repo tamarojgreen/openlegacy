@@ -98,6 +98,7 @@ public class ScreenEntityDefinitionsBuilderUtils {
 		fieldMappingDefinition.setEditable(field.isEditable());
 		fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(label));
 		fieldMappingDefinition.setSampleValue(StringUtil.toSampleValue(field.getValue()));
+		fieldMappingDefinition.setJavaType(field.getType());
 
 		fieldName = findFreeFieldName(fieldName, fieldsDefinitions);
 		fieldMappingDefinition.setName(fieldName);

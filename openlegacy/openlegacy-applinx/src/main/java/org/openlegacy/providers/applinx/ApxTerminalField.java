@@ -1,6 +1,8 @@
 package org.openlegacy.providers.applinx;
 
+import com.sabratec.applinx.baseobject.GXBaseObjectConstants;
 import com.sabratec.applinx.common.runtime.field.GXBlockModeCommonFieldData;
+import com.sabratec.applinx.common.runtime.field.GXIDataTypeSupport;
 import com.sabratec.applinx.common.runtime.field.GXIField;
 
 import org.openlegacy.terminal.Color;
@@ -57,14 +59,20 @@ public class ApxTerminalField extends AbstractTerminalField {
 	}
 
 	public Color getColor() {
-		return Color.GREEN;
-		// TODO APX colors;
-		// return apxField.getCommonData().getForegroundColor();
+		return ApxUtils.convertForeColor(apxField.getCommonData().getBackgroundColor());
 	}
 
 	public Color getBackColor() {
-		return Color.BLACK;
-		// TODO APX colors;
-		// return apxField.getCommonData().getBackgroundColor();
+		return ApxUtils.convertBackColor(apxField.getCommonData().getBackgroundColor());
+	}
+
+	public Class<?> getType() {
+		if (apxField.getUnprotectedFieldData() instanceof GXIDataTypeSupport) {
+			GXIDataTypeSupport dataTypedField = (GXIDataTypeSupport)apxField;
+			if (dataTypedField.getDataType() == GXBaseObjectConstants.GX_FIELD_DATA_TYPE_NUMERIC) {
+				return Double.class;
+			}
+		}
+		return String.class;
 	}
 }

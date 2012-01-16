@@ -42,7 +42,7 @@ public class ${entityName} {
     
 	<#list sortedFields as field> 
 	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.editable == false> ,endColumn= ${field.endPosition.column}</#if><#if field.editable> ,editable= true</#if><#if field.type??> ,fieldType=${field.type.simpleName}.class</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
-    private String ${field.name};
+    private ${field.javaTypeName} ${field.name};
 
 	</#list>	
     
@@ -60,7 +60,7 @@ public class ${entityName} {
 	public static class ${table.tableEntityName} {
 		<#list table.columnDefinitions as column>
 		@ScreenColumn(startColumn = ${column.startColumn}, endColumn = ${column.endColumn}<#if column.editable>, editable=true</#if><#if column.key>, key=true</#if><#if column.selectionField>, selectionField=true</#if><#if column.displayName != ""> ,displayName = "${column.displayName}"</#if><#if column.sampleValue != "">, sampleValue="${column.sampleValue}"</#if>)
-		private String ${column.name};
+		private ${column.javaTypeName} ${column.name};
 		
 		</#list>	
 	}    

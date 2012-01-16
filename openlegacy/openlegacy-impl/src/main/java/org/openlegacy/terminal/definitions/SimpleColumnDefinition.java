@@ -13,6 +13,7 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 	private String sampleValue;
 	private String displayName;
 	private boolean selectionField;
+	private Class<?> javaType;
 
 	public SimpleColumnDefinition(String name) {
 		this.name = name;
@@ -76,5 +77,17 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 
 	public void setSelectionField(boolean selectionField) {
 		this.selectionField = selectionField;
+	}
+
+	public Class<?> getJavaType() {
+		return javaType;
+	}
+
+	public String getJavaTypeName() {
+		return javaType.getSimpleName();
+	}
+
+	public void setJavaType(Class<?> javaType) {
+		this.javaType = javaType;
 	}
 }

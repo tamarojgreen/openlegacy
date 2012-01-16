@@ -67,6 +67,8 @@ public interface TableDefinition {
 		String getDisplayName();
 
 		String getSampleValue();
+
+		Class<?> getJavaType();
 	}
 
 	public interface DrilldownDefinition {

@@ -21,19 +21,19 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
 	
     
 
-    public String MainMenu.getCompany(){
+    public Integer MainMenu.getCompany(){
     	return this.company;
     }
     
-    public void MainMenu.setCompany(String company){
+    public void MainMenu.setCompany(Integer company){
     	this.company = company;
     }
 
-    public String MainMenu.getSelection(){
+    public Integer MainMenu.getSelection(){
     	return this.selection;
     }
     
-    public void MainMenu.setSelection(String selection){
+    public void MainMenu.setSelection(Integer selection){
     	this.selection = selection;
     }
 

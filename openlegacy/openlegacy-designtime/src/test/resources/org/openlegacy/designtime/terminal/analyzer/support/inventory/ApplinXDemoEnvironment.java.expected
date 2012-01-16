@@ -21,10 +21,10 @@ import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 public class ApplinxDemoEnvironment {
     
 	@ScreenField(row = 21, column = 8 ,editable= true ,fieldType=MenuSelectionField.class ,displayName = "Menu Selection")
-    private String menuSelection;
+    private Integer menuSelection;
 
 	@ScreenField(row = 21, column = 74 ,editable= true ,displayName = "Company", sampleValue = "101")
-    private String company;
+    private Integer company;
 
     
 

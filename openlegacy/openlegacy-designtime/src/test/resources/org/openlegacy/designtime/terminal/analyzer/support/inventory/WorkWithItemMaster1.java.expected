@@ -19,7 +19,7 @@ import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKe
 public class WorkWithItemMaster1 {
     
 	@ScreenField(row = 6, column = 33 ,endColumn= 47 ,displayName = "Item Number", sampleValue = "2000")
-    private String itemNumber;
+    private Integer itemNumber;
 
 	@ScreenField(row = 7, column = 33 ,editable= true ,displayName = "Item Description", sampleValue = "Tomato - VEG")
     private String itemDescription;

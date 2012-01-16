@@ -39,7 +39,7 @@ public class WorkWithItemMaster {
 		private String itemDescription;
 		
 		@ScreenColumn(startColumn = 65, endColumn = 79 ,displayName = "Item Number", sampleValue="1007")
-		private String itemNumber;
+		private Integer itemNumber;
 		
 	}    
  

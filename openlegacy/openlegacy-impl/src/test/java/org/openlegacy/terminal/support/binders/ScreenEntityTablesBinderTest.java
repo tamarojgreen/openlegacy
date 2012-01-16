@@ -29,7 +29,7 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 		Assert.assertEquals("APPLE", rows.get(0).getAlphaSearch());
 		Assert.assertEquals("Red apple - FRT", rows.get(0).getItemDescription());
 		Assert.assertNotNull(rows.get(0).getItemDescriptionField());
-		Assert.assertEquals("1007", rows.get(0).getItemNumber());
+		Assert.assertTrue(1007 == rows.get(0).getItemNumber());
 
 		Assert.assertEquals("OLIVE", rows.get(rows.size() - 1).getAlphaSearch());
 
@@ -45,7 +45,7 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 		Assert.assertEquals(14, rows.size());
 		Assert.assertEquals("APPLE", rows.get(0).getAlphaSearch());
 		Assert.assertEquals("Red apple - FRT", rows.get(0).getItemDescription());
-		Assert.assertEquals("1007", rows.get(0).getItemNumber());
+		Assert.assertTrue(1007 == rows.get(0).getItemNumber());
 
 		Assert.assertEquals("TOMATO", rows.get(12).getAlphaSearch());
 

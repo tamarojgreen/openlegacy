@@ -33,7 +33,9 @@ public class DefaultRowComparator<T> implements RowComparator<T> {
 
 		int keyCount = 0;
 		for (String keyFieldName : keyFieldNames) {
-			if (!rowFieldsAccessor.getFieldValue(keyFieldName).equals(rowKeys[keyCount].toString())) {
+			String currentCellValue = rowFieldsAccessor.getFieldValue(keyFieldName).toString();
+			String expectedCellValue = rowKeys[keyCount].toString();
+			if (!currentCellValue.equals(expectedCellValue)) {
 				return false;
 			}
 			keyCount++;

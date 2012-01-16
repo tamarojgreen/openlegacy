@@ -22,7 +22,6 @@ privileged @SuppressWarnings("unused") aspect ItemsListItemsListRowTable_Aspect 
 	
     private TerminalField ItemsList.ItemsListRow.itemDescriptionField;
 	
-    private TerminalField ItemsList.ItemsListRow.itemNumberField;
     
     public String ItemsList.ItemsListRow.getAction(){
     	return this.action;
@@ -51,14 +50,11 @@ privileged @SuppressWarnings("unused") aspect ItemsListItemsListRowTable_Aspect 
     public TerminalField ItemsList.ItemsListRow.getItemDescriptionField(){
     	return itemDescriptionField;
     }
-    public String ItemsList.ItemsListRow.getItemNumber(){
+    public Integer ItemsList.ItemsListRow.getItemNumber(){
     	return this.itemNumber;
     }
     
 
-    public TerminalField ItemsList.ItemsListRow.getItemNumberField(){
-    	return itemNumberField;
-    }
 
     public int ItemsList.ItemsListRow.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);

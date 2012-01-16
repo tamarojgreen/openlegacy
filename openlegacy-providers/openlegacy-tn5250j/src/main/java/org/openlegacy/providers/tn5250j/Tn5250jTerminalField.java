@@ -80,4 +80,8 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 	public void setUnderline(boolean underline) {
 		this.underline = underline;
 	}
+
+	public Class<?> getType() {
+		return String.class;
+	}
 }

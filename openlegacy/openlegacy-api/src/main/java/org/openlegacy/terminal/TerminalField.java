@@ -31,4 +31,6 @@ public interface TerminalField extends TerminalPositionContainer, Serializable {
 	Color getColor();
 
 	Color getBackColor();
+
+	Class<?> getType();
 }

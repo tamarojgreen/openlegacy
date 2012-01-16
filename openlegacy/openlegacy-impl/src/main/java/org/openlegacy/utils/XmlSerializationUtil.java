@@ -53,7 +53,7 @@ public class XmlSerializationUtil {
 		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
 			String propertyName = propertyDescriptor.getName();
 			Class<?> propertyType = fieldAccessor.getPropertyType(propertyName);
-			if (propertyType == null || propertyType == Class.class || Collection.class.isAssignableFrom(propertyType)
+			if (propertyType == null || Collection.class.isAssignableFrom(propertyType)
 					|| Map.class.isAssignableFrom(propertyType)) {
 				continue;
 			}

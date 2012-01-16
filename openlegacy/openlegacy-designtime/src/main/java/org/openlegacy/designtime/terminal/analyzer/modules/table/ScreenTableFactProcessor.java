@@ -110,6 +110,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 		columnDefinition.setDisplayName(StringUtil.toDisplayName(columnName));
 		columnDefinition.setSampleValue(StringUtils.trim(firstCellField.getValue()));
 		columnDefinition.setEditable(firstCellField.isEditable());
+		columnDefinition.setJavaType(firstCellField.getType());
 
 		columnDefinition.setSelectionField(isSelectionField(i, firstCellField));
 		return columnDefinition;

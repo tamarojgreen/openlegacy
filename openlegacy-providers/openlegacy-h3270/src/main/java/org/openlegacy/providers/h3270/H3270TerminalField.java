@@ -72,4 +72,14 @@ public class H3270TerminalField extends AbstractTerminalField {
 		return Color.BLACK;
 	}
 
+	public Class<?> getType() {
+		if (s3270Field instanceof InputField) {
+			InputField inputField = (InputField)s3270Field;
+			if (inputField.isNumeric()) {
+				return Double.class;
+			}
+		}
+		return String.class;
+	}
+
 }

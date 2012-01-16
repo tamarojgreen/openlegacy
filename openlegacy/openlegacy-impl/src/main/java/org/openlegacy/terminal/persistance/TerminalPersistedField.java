@@ -55,6 +55,9 @@ public class TerminalPersistedField implements TerminalField {
 	@XmlAttribute
 	private Color backColor = Color.BLACK;
 
+	@XmlAttribute
+	private Class<?> type = String.class;
+
 	public TerminalPosition getPosition() {
 		if (position == null) {
 			position = SimpleTerminalPosition.newInstance(row, column);
@@ -165,4 +168,15 @@ public class TerminalPersistedField implements TerminalField {
 		return SnapshotUtils.fieldToString(this);
 	}
 
+	public Class<?> getType() {
+
+		if (type != String.class) {
+			return type;
+		}
+		return StringUtil.getTypeByValue(getValue());
+	}
+
+	public void setType(Class<?> type) {
+		this.type = type;
+	}
 }

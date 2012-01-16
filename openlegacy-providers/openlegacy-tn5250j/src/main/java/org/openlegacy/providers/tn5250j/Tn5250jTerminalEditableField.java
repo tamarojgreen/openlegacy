@@ -33,4 +33,11 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 		return true;
 	}
 
+	@Override
+	public Class<?> getType() {
+		if (screenField.isNumeric()) {
+			return Double.class;
+		}
+		return String.class;
+	}
 }

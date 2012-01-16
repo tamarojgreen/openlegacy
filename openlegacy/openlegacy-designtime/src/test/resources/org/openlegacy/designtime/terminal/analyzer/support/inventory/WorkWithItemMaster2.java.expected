@@ -20,7 +20,7 @@ import org.openlegacy.terminal.definitions.TerminalActionDefinition.AdditionalKe
 public class WorkWithItemMaster2 {
     
 	@ScreenField(row = 6, column = 22 ,endColumn= 36 ,displayName = "Item NumberDesc", sampleValue = "2000")
-    private String itemNumberdesc;
+    private Integer itemNumberdesc;
 
 	@ScreenField(row = 7, column = 29 ,editable= true ,displayName = "NL Cost of Sales Account")
     private String nlCostOfSalesAccount;
