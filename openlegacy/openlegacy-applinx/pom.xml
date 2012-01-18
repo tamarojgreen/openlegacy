@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<version>0.2-SNAPSHOT</version>
+		<version>0.3-SNAPSHOT</version>
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-applinx</artifactId>

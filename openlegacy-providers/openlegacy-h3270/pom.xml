@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>openlegacy-providers</artifactId>
 		<groupId>org.openlegacy.providers</groupId>
-		<version>0.2-SNAPSHOT</version>
+		<version>0.3-SNAPSHOT</version>
 	</parent>
 	<groupId>org.openlegacy.providers</groupId>
 	<artifactId>openlegacy-h3270</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>${project.parent.version}</version>
 	<name>Open legacy tn3270 terminal session provider based on http://h3270.sourceforge.net/</name>
 	
 	<dependencies>

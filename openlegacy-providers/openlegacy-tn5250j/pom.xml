@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>openlegacy-providers</artifactId>
 		<groupId>org.openlegacy.providers</groupId>
-		<version>0.2-SNAPSHOT</version>
+		<version>0.3-SNAPSHOT</version>
 	</parent>
 	<groupId>org.openlegacy.providers</groupId>
 	<artifactId>openlegacy-tn5250j</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>${project.parent.version}</version>
 	<name>Open legacy tn5250 terminal session provider based on http://tn5250j.sourceforge.net/</name>
 
 	<dependencies>
