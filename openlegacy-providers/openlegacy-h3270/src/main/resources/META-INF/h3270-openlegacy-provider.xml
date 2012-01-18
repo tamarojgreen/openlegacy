@@ -8,7 +8,7 @@
 
     <context:property-placeholder location="classpath*:/host.properties"/>
 
-	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.h3270.H3270TerminalConnectionFactory" p:hostName="localhost"/>
+	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.h3270.H3270TerminalConnectionFactory" p:hostName="${host.name}"/>
 
 	<util:map id="h3270DefaultActionMappings">
 		<entry key="org.openlegacy.terminal.actions.TerminalActions.ENTER"
