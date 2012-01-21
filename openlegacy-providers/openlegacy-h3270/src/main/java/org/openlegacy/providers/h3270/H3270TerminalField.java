@@ -65,11 +65,11 @@ public class H3270TerminalField extends AbstractTerminalField {
 	}
 
 	public Color getColor() {
-		return Color.GREEN;
+		return H3270Utils.convertForeColor(s3270Field.getExtendedColor());
 	}
 
 	public Color getBackColor() {
-		return Color.BLACK;
+		return H3270Utils.convertForeColor(s3270Field.getExtendedHighlight());
 	}
 
 	public Class<?> getType() {

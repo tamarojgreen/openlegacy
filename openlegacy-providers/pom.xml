@@ -6,9 +6,13 @@
   <packaging>pom</packaging>
   <name>Open Legacy providers maven container</name>
   <description>Open Legacy providers maven container</description>
+  <properties>
+		<spring.framework.version>3.0.6.RELEASE</spring.framework.version>
+  </properties>
   <modules>
   	<module>openlegacy-tn5250j</module>
   	<module>openlegacy-h3270</module>
+  	<module>openlegacy-htmlunit</module>
   </modules>
   
 	<dependencies>

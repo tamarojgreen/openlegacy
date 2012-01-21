@@ -6,8 +6,8 @@ public class Tn5250jUtils {
 
 	public static void applyAttributeToField(Tn5250jTerminalField field, int attribute) {
 
-		Color color = null;
-		Color backColor = null;
+		Color color = Color.GREEN;
+		Color backColor = Color.BLACK;
 		boolean underline = false;
 		switch (attribute) {
 			case 32:

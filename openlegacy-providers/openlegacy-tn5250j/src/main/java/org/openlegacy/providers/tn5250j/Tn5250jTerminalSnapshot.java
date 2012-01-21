@@ -84,10 +84,12 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 
 		Tn5250jTerminalField field;
 		if (screenData.field[startAbsolutePosition] != 0) {
+			int fieldAttributes = screenData.attr[startAbsolutePosition];
 			ScreenField screenField = screen.getScreenFields().findByPosition(startAbsolutePosition);
-			field = createEditableField(screenField, value, false);
+			field = createEditableField(screenField, value, false, fieldAttributes);
 		} else {
-			field = createReadOnlyField(value, startPosition.getRow(), startColumn);
+			int fieldAttributes = screenData.attr[startAbsolutePosition];
+			field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes);
 		}
 		fields.add(field);
 	}
@@ -101,14 +103,16 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		return sb.toString();
 	}
 
-	private static Tn5250jTerminalField createEditableField(ScreenField screenField, String value, boolean hidden) {
-		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField);
+	private static Tn5250jTerminalField createEditableField(ScreenField screenField, String value, boolean hidden,
+			int fieldAttributes) {
+		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField, fieldAttributes);
 		field.setHidden(hidden);
 		return field;
 	}
 
-	private static Tn5250jTerminalField createReadOnlyField(String value, int row, int column) {
-		Tn5250jTerminalField field = new Tn5250jTerminalField(value, new SimpleTerminalPosition(row, column), value.length());
+	private static Tn5250jTerminalField createReadOnlyField(String value, int row, int column, int fieldAttributes) {
+		Tn5250jTerminalField field = new Tn5250jTerminalField(value, new SimpleTerminalPosition(row, column), value.length(),
+				fieldAttributes);
 		return field;
 	}
 

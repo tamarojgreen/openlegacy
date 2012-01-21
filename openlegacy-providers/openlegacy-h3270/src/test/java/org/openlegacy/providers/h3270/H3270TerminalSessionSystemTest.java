@@ -14,6 +14,7 @@ public class H3270TerminalSessionSystemTest extends AbstractTest {
 
 	@Test
 	public void testH3270System() throws Exception {
+		// TODO improve the test some registry based M/F application
 		TerminalSession terminalSession = newTerminalSession();
 		terminalSession.doAction(TerminalActions.ENTER());
 		terminalSession.doAction(TerminalActions.ENTER());

@@ -20,10 +20,11 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 
 	private boolean underline;
 
-	public Tn5250jTerminalField(String value, TerminalPosition position, int length) {
+	public Tn5250jTerminalField(String value, TerminalPosition position, int length, int fieldAttributes) {
 		this.value = value;
 		this.position = position;
 		this.length = length;
+		Tn5250jUtils.applyAttributeToField(this, fieldAttributes);
 	}
 
 	public TerminalPosition getPosition() {
