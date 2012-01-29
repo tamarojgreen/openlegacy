@@ -13,28 +13,22 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<descriptors>
-						<descriptor>zip.xml</descriptor>
-					</descriptors>
-				</configuration>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
 				<executions>
 					<execution>
-						<id>make-assembly</id> <!-- this is used for inheritance merges -->
-						<phase>package</phase> <!-- append to the packaging phase. -->
+						<phase>package</phase>
+						<configuration>
+							<target>
+								<copy todir="${basedir}/../openlegacy/openlegacy-designtime/src/main/resources/templates" flatten="true">
+									<fileset dir="${basedir}">
+										<include name="**/*.zip"/>
+									</fileset>
+								</copy>
+							</target>
+						</configuration>
 						<goals>
-							<goal>single</goal> <!-- goals == mojos -->
+							<goal>run</goal>
 						</goals>
 					</execution>
 				</executions>
