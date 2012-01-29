@@ -27,6 +27,7 @@
 	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
 
 	<import resource="classpath:/META-INF/openlegacy-tables-context.xml" /> 
+	<import resource="classpath:/META-INF/default-actions-context.xml" /> 
 
 	<bean id="menuBuilder" class="org.openlegacy.terminal.modules.menu.DefaultMenuBuilder" />
 

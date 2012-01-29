@@ -3,6 +3,30 @@
 <plugin>
 
    <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.trail.xml" 
+            id="org.openlegacy.ide.eclipse.generate_trail_contribution">
+         <menu
+               label="Open Legacy"
+               path="additions"
+               id="org.openlegacy.ied.eclipse.right_menu">
+            <separator
+                  name="generate">
+            </separator>
+         </menu>
+         <action
+               label="Generate Screens"
+               class="org.openlegacy.ide.eclipse.actions.GenerateScreensAction"
+               menubarPath="org.openlegacy.ied.eclipse.right_menu/generate"
+               enablesFor="1"
+               id="org.openlegacy.ide.eclipse.actions.generateScreens">
+         </action>
+      </objectContribution>
+   </extension>
+   
+   <extension
          point="org.eclipse.ui.newWizards">
       <category
             name="Open Legacy"
@@ -10,13 +34,43 @@
       </category>
       <wizard
             name="OpenLegacy Project"
-            icon="icons/sample.gif"
+            icon="icons/openlegacy.png"
             category="org.openlegacy.ide.eclipse"
-            class="org.openlegacy.ide.eclipse.wizards.OpenLegacyeNewProjectWizard"
+            class="org.openlegacy.ide.eclipse.wizards.project.OpenLegacyeNewProjectWizard"
             project="true"
             id="org.openlegacy.ide.eclipse.wizards.OpenLegacyeNewProjectWizard">
             
       </wizard>
    </extension>
+
+   <extension
+         id="org.openlegacy.ide.eclipse.builder"
+         name="OpenLegacy Project Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="org.openlegacy.ide.eclipse.builder.OpenLegacyBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="org.openlegacy.ide.eclipse.nature"
+         name="OpenLegacy Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.openlegacy.ide.eclipse.builder.OpenLegacyNature">
+         </run>
+      </runtime>
+      <builder
+            id="org.openlegacy.ide.eclipse.builder">
+      </builder>
+   </extension>
+
+	<extension point="org.eclipse.ui.perspectives">
+		<perspective name="OpenLegacy" icon="icons/openlegacy.png" class="org.openlegacy.ide.eclipse.OpenLegacyPerspective" id="org.openlegacy.ide.eclipse.openlegacyPerspective">
+		</perspective>
+	</extension>
 
 </plugin>

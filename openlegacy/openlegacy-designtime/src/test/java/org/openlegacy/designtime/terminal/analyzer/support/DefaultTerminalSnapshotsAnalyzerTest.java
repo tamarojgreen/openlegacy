@@ -40,7 +40,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	private DefaultTerminalSnapshotsAnalyzer snapshotsAnalyzer;
 
 	@Inject
-	private DefaultTerminalSnapshotsOrganizer snapshotsSorter;
+	private DefaultTerminalSnapshotsOrganizer snapshotsOrganizer;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSnapshotsAnalyzerTest.class);
 
@@ -75,8 +75,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	}
 
 	private Map<String, ScreenEntityDefinition> analyze(String... fileNames) {
-		snapshotsSorter.setMatchingPercent(99);
-		snapshotsSorter.clear();
+		snapshotsOrganizer.setMatchingPercent(99);
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("mock").getFile(), fileNames);
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		return screenEntitiesDefinitions;
@@ -155,8 +154,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 	@Test
 	public void testInventoryAppGenerate() throws TemplateException, IOException {
-		snapshotsSorter.setMatchingPercent(95);
-		snapshotsSorter.clear();
+		snapshotsOrganizer.setMatchingPercent(95);
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
 				getClass().getResource("/apps/inventory/screens").getFile(), "SignOn.xml", "MainMenu.xml", "ItemsList.xml",
 				"ItemDetails1.xml", "ItemDetails2.xml");

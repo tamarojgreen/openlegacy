@@ -1,34 +1,21 @@
 package org.openlegacy.designtime.mains;
 
-import org.apache.commons.io.IOUtils;
-import org.openlegacy.utils.ZipUtil;
+import org.openlegacy.exceptions.UnableToGenerateSnapshotException;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.text.MessageFormat;
 
-public class DesignTimeExecuter {
+public interface DesignTimeExecuter {
 
-	public void createProject(String templateName, String location, String projectName) throws IOException {
-		URL zipFile = getClass().getResource(MessageFormat.format("/templates/{0}.zip", templateName));
+	public static final String MOCK_PROVIDER = "openlegacy-impl";
 
-		File targetZip = new File(location, templateName + ".zip");
-		FileOutputStream targetZipOutputStream = new FileOutputStream(targetZip);
-		IOUtils.copy(zipFile.openStream(), targetZipOutputStream);
-		targetZipOutputStream.close();
-		File targetPath = new File(location, projectName);
-		ZipUtil.unzip(targetZip.getAbsolutePath(), targetPath.getAbsolutePath());
+	void createProject(String templateName, File baseDir, String projectName, String providerName, String defaultPackage)
+			throws IOException;
 
-		File projectFile = new File(targetPath, ".project");
-		String projectFileContent = IOUtils.toString(new FileInputStream(projectFile));
+	void generateScreens(File trailFile, File sourceDirectory, String packageDir, OverrideConfirmer overrideConfirmer)
+			throws UnableToGenerateSnapshotException;
 
-		// NOTE assuming all project templates starts with "openlegacy-"
-		projectFileContent = projectFileContent.replaceAll("<name>openlegacy-.*</name>",
-				MessageFormat.format("<name>{0}</name>", projectName));
-		FileOutputStream fos = new FileOutputStream(projectFile);
-		IOUtils.write(projectFileContent, fos);
-	}
+	void generateAspect(File javaFile);
+
+	void initialize();
 }

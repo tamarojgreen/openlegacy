@@ -1,9 +1,6 @@
-package org.openlegacy.ide.eclipse.wizards;
+package org.openlegacy.ide.eclipse.wizards.project;
 
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -14,6 +11,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.openlegacy.designtime.mains.DesignTimeExecuter;
 
 public class OpenLegacyNewWizardPage extends WizardPage {
 
@@ -21,7 +19,14 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 
 	private Text projectName;
 
-	private ISelection selection;
+	private String[] projectTemplates = new String[] { "openlegacy-new-java-template", "openlegacy-mvc-sample" };
+
+	private Text defaultPackageName;
+
+	private String[] providers = new String[] { "openlegacy-tn5250j", "openlegacy-h3270", "openlegacy-applinx",
+			DesignTimeExecuter.MOCK_PROVIDER };
+
+	private Combo providerName;
 
 	/**
 	 * Constructor for SampleNewWizardPage.
@@ -32,7 +37,6 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		super("wizardPage");
 		setTitle("OpenLegacy project wizard");
 		setDescription("This wizard creates a new OpenLegacy project which enables you to integrate and modernize your Legacy system");
-		this.selection = selection;
 	}
 
 	public void createControl(Composite parent) {
@@ -46,6 +50,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		label.setText("&Project name:");
 
 		projectName = new Text(container, SWT.BORDER | SWT.SINGLE);
+		projectName.setText("OpenLegacyProject1");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		projectName.setLayoutData(gd);
 		projectName.addModifyListener(new ModifyListener() {
@@ -56,10 +61,23 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		});
 
 		label = new Label(container, SWT.NULL);
+		label.setText("&Default package:");
+
+		defaultPackageName = new Text(container, SWT.BORDER | SWT.SINGLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		defaultPackageName.setLayoutData(gd);
+		defaultPackageName.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		label = new Label(container, SWT.NULL);
 		label.setText("&Template:");
 
 		templateName = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
-		templateName.setItems(new String[] { "openlegacy-mvc-sample" });
+		templateName.setItems(projectTemplates);
 		templateName.select(0);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		templateName.addModifyListener(new ModifyListener() {
@@ -69,33 +87,21 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 			}
 		});
 
-		initialize();
-		dialogChanged();
+		label = new Label(container, SWT.NULL);
+		label.setText("&Provider:");
+
+		providerName = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
+		providerName.setItems(providers);
+		providerName.select(0);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		providerName.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
 		setControl(container);
-	}
-
-	/**
-	 * Tests if the current workbench selection is a suitable container to use.
-	 */
-
-	private void initialize() {
-		if (selection != null && selection.isEmpty() == false && selection instanceof IStructuredSelection) {
-			IStructuredSelection ssel = (IStructuredSelection)selection;
-			if (ssel.size() > 1) {
-				return;
-			}
-			Object obj = ssel.getFirstElement();
-			if (obj instanceof IResource) {
-				IContainer container;
-				if (obj instanceof IContainer) {
-					container = (IContainer)obj;
-				} else {
-					container = ((IResource)obj).getParent();
-				}
-				templateName.setText(container.getFullPath().toString());
-			}
-		}
-		projectName.setText("OpenLegacyProject1");
 	}
 
 	/**
@@ -111,6 +117,10 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		}
 		if (projectName.length() == 0) {
 			updateStatus("Project name must be specified");
+			return;
+		}
+		if (defaultPackageName.getText().length() == 0) {
+			updateStatus("Default package must be specified");
 			return;
 		}
 		if (projectName.replace('\\', '/').indexOf('/', 1) > 0) {
@@ -131,5 +141,13 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 
 	public String getProjectName() {
 		return projectName.getText();
+	}
+
+	public String getDefaultPackageName() {
+		return defaultPackageName.getText();
+	}
+
+	public String getProvider() {
+		return providerName.getText();
 	}
 }

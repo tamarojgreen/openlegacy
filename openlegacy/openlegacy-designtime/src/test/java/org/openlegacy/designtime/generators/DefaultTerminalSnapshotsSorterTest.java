@@ -23,14 +23,14 @@ import javax.xml.bind.JAXBException;
 public class DefaultTerminalSnapshotsSorterTest {
 
 	@Inject
-	private DefaultTerminalSnapshotsOrganizer snapshotsSorter;
+	private DefaultTerminalSnapshotsOrganizer snapshotsOrganizer;
 
 	@Inject
 	private SnapshotsLoader<TerminalSnapshot> snapshotsLoader;
 
 	@Before
 	public void setup() {
-		snapshotsSorter.clear();
+		snapshotsOrganizer.clear();
 	}
 
 	@Test
@@ -38,12 +38,12 @@ public class DefaultTerminalSnapshotsSorterTest {
 		String mockPath = getClass().getResource("mock").getFile();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(mockPath);
 
-		snapshotsSorter.setMatchingPercent(99);
+		snapshotsOrganizer.setMatchingPercent(99);
 
-		snapshotsSorter.add(snapshots);
+		snapshotsOrganizer.add(snapshots);
 
-		Assert.assertEquals(2, snapshotsSorter.getGroups().size());
-		Iterator<Set<TerminalSnapshot>> iterator = snapshotsSorter.getGroups().iterator();
+		Assert.assertEquals(2, snapshotsOrganizer.getGroups().size());
+		Iterator<Set<TerminalSnapshot>> iterator = snapshotsOrganizer.getGroups().iterator();
 		Assert.assertEquals(2, iterator.next().size());
 		Assert.assertEquals(2, iterator.next().size());
 	}
@@ -53,12 +53,12 @@ public class DefaultTerminalSnapshotsSorterTest {
 		String inventoryPath = getClass().getResource("/apps/inventory/screens").getFile();
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(inventoryPath);
 
-		snapshotsSorter.setMatchingPercent(93);
+		snapshotsOrganizer.setMatchingPercent(93);
 
-		snapshotsSorter.add(snapshots);
+		snapshotsOrganizer.add(snapshots);
 
-		Assert.assertEquals(11, snapshotsSorter.getGroups().size());
-		Iterator<Set<TerminalSnapshot>> iterator = snapshotsSorter.getGroups().iterator();
+		Assert.assertEquals(11, snapshotsOrganizer.getGroups().size());
+		Iterator<Set<TerminalSnapshot>> iterator = snapshotsOrganizer.getGroups().iterator();
 		// Inventory management
 		Assert.assertEquals(1, iterator.next().size());
 		// item details 1

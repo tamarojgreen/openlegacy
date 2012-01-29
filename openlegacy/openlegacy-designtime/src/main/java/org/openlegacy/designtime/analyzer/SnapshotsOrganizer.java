@@ -14,4 +14,6 @@ public interface SnapshotsOrganizer<S extends Snapshot> {
 
 	Collection<S> getGroupsRepresenters(SnapshotPickerStrategy<S> snapshotPickerStrategy);
 
+	void clear();
+
 }

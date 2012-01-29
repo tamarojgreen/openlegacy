@@ -6,6 +6,7 @@ import org.openlegacy.designtime.terminal.analyzer.support.ScreenEntityDefinitio
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.utils.ClassUtils;
 
 public class LoginScreenFactProcessor implements ScreenFactProcessor {
 
@@ -14,6 +15,7 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 		LoginScreenFact loginScreenFact = (LoginScreenFact)screenFact;
 
 		screenEntityDefinition.setType(Login.LoginEntity.class);
+		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(Login.LoginEntity.class));
 
 		ScreenFieldDefinition userFieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
 				loginScreenFact.getUserField(), loginScreenFact.getUserLabelField().getValue());

@@ -11,11 +11,13 @@ import org.openlegacy.designtime.rules.support.RuleParametersSetBean;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.utils.DroolsUtil;
+import org.openlegacy.exceptions.UnableToLoadSnapshotException;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.module.TerminalSessionTrail;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
 import org.openlegacy.utils.XmlSerializationUtil;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,7 +28,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 
-public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyzer {
+public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyzer, InitializingBean {
 
 	@Inject
 	private SnapshotsOrganizer<TerminalSnapshot> snapshotsOrganizer;
@@ -44,9 +46,21 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 
 	private String processName;
 
-	public Map<String, ScreenEntityDefinition> analyzeTrail(String trailFile) throws FileNotFoundException, JAXBException {
-		TerminalSessionTrail trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class,
-				new FileInputStream(trailFile));
+	private KnowledgeBase knowledgeBase;
+
+	private List<String> droolsResources = new ArrayList<String>();
+
+	private List<RuleParametersSet> ruleParametersFacts;
+
+	public Map<String, ScreenEntityDefinition> analyzeTrail(String trailFile) {
+		TerminalSessionTrail trail;
+		try {
+			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, new FileInputStream(trailFile));
+		} catch (FileNotFoundException e) {
+			throw (new UnableToLoadSnapshotException(e));
+		} catch (JAXBException e) {
+			throw (new UnableToLoadSnapshotException(e));
+		}
 		return analyzeTrail(trail);
 	}
 
@@ -56,26 +70,12 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 
 	public Map<String, ScreenEntityDefinition> analyzeSnapshots(List<TerminalSnapshot> snapshots) {
 
+		snapshotsOrganizer.clear();
+
 		TerminalSnapshotsAnalyzerContext snapshotsAnalyzerContext = new TerminalSnapshotsAnalyzerContext();
 		snapshotsAnalyzerContext.setActiveSnapshots(snapshots);
 
-		List<String> droolsResources = new ArrayList<String>();
-
-		List<RuleParametersSet> ruleParametersFacts = new ArrayList<RuleParametersSet>();
-		for (RuleDefinition ruleDefinition : ruleDefinitions) {
-			if (!ruleDefinition.isEnable()) {
-				continue;
-			}
-			droolsResources.add(ruleDefinition.getDroolsFile());
-
-			List<RuleParametersSet> ruleParametersSets = ruleDefinition.getRuleParameterSets();
-			for (RuleParametersSet ruleParametersSet : ruleParametersSets) {
-				((RuleParametersSetBean)ruleParametersSet).setRuleId(ruleDefinition.getRuleId());
-				ruleParametersFacts.add(ruleParametersSet);
-			}
-		}
-
-		KnowledgeBase knowledgeBase = DroolsUtil.createKnowledgeBase(droolsResources.toArray(new String[droolsResources.size()]));
+		KnowledgeBase knowledgeBase = getKnowledgeBase();
 		StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();
 
 		// KnowledgeRuntimeLoggerFactory.newConsoleLogger(session);
@@ -101,11 +101,39 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 		return snapshotsAnalyzerContext.getEntitiesDefinitions();
 	}
 
+	private KnowledgeBase getKnowledgeBase() {
+		if (knowledgeBase == null) {
+			knowledgeBase = DroolsUtil.createKnowledgeBase(droolsResources.toArray(new String[droolsResources.size()]));
+		}
+		return knowledgeBase;
+	}
+
 	public void setRuleDefinitions(RuleDefinition[] ruleDefinitions) {
 		this.ruleDefinitions = ruleDefinitions;
 	}
 
 	public void setProcessName(String processName) {
 		this.processName = processName;
+	}
+
+	private void initialize() {
+		ruleParametersFacts = new ArrayList<RuleParametersSet>();
+		for (RuleDefinition ruleDefinition : ruleDefinitions) {
+			if (!ruleDefinition.isEnable()) {
+				continue;
+			}
+			droolsResources.add(ruleDefinition.getDroolsFile());
+
+			List<RuleParametersSet> ruleParametersSets = ruleDefinition.getRuleParameterSets();
+			for (RuleParametersSet ruleParametersSet : ruleParametersSets) {
+				((RuleParametersSetBean)ruleParametersSet).setRuleId(ruleDefinition.getRuleId());
+				ruleParametersFacts.add(ruleParametersSet);
+			}
+		}
+	}
+
+	public void afterPropertiesSet() throws Exception {
+		initialize();
+		getKnowledgeBase();
 	}
 }

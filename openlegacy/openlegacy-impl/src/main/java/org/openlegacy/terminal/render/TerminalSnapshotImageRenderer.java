@@ -58,4 +58,8 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 		return column * 10;
 	}
 
+	public String getFileFormat() {
+		return "jpg";
+	}
+
 }

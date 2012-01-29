@@ -12,6 +12,11 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+			<name>org.openlegacy.ide.eclipse.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.ajdt.core.ajbuilder</name>
 			<arguments>
 			</arguments>
@@ -46,5 +51,7 @@
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>org.springframework.ide.eclipse.core.springnature</nature>
 		<nature>org.maven.ide.eclipse.maven2Nature</nature>
+		<nature>org.openlegacy.ide.eclipse.nature</nature>
 	</natures>
 </projectDescription>
+	

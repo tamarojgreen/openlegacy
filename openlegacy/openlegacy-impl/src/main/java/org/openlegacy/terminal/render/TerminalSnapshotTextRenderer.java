@@ -150,4 +150,8 @@ public class TerminalSnapshotTextRenderer implements TerminalSnapshotRenderer {
 		return fieldStartBufferLocation;
 	}
 
+	public String getFileFormat() {
+		return "txt";
+	}
+
 }

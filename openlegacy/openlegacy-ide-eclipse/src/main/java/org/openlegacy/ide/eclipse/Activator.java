@@ -1,7 +1,10 @@
 package org.openlegacy.ide.eclipse;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -29,6 +32,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		EclipseDesignTimeExecuter.instance().initialize();
 	}
 
 	/*
@@ -60,5 +64,13 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
 		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+	}
+
+	public static Display getUIDisplay() {
+		return getDefault().getWorkbench().getDisplay();
+	}
+
+	public static IWorkbenchWindow getActiveWorkbenchWindow() {
+		return getDefault().getWorkbench().getActiveWorkbenchWindow();
 	}
 }

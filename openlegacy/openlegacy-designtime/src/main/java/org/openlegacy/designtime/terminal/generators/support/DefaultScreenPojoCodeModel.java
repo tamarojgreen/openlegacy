@@ -38,7 +38,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className) {
 
 		mainType = type;
-		this.packageName = compilationUnit.getPackage().getName().toString();
+		if (compilationUnit.getPackage() != null) {
+			this.packageName = compilationUnit.getPackage().getName().toString();
+		}
+
 		this.className = className;
 		calculateClassProperties();
 
