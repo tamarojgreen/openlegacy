@@ -161,8 +161,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		assertScreenContent(screenEntitiesDefinitions.get("SignOn"), "SignOn.java.expected");
 
-		assertScreenContent(screenEntitiesDefinitions.get("ApplinxDemoEnvironment"),
-				"inventory/ApplinxDemoEnvironment.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("DemoEnvironment"), "inventory/DemoEnvironment.java.expected");
 
 		// table
 		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster"), "inventory/WorkWithItemMaster.java.expected");

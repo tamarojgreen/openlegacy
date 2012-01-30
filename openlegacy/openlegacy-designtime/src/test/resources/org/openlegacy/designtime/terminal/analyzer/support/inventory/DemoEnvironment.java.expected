@@ -8,7 +8,7 @@ import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 
 @ScreenEntity(screenType=MenuEntity.class)
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 26, value = "   ApplinX Demo Environment   "), 
+				@Identifier(row = 1, column = 26, value = "           Demo Environment   "), 
 				@Identifier(row = 20, column = 2, value = "Selection:") 
 				})
 @ScreenActions(actions = { 
@@ -18,7 +18,7 @@ import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 				@Action(action = TerminalActions.F12.class, displayName = "Prev", alias = "prev"), 
 				@Action(action = TerminalActions.F9.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Command", alias = "command") 
 				})
-public class ApplinxDemoEnvironment {
+public class DemoEnvironment {
     
 	@ScreenField(row = 21, column = 8 ,editable= true ,fieldType=MenuSelectionField.class ,displayName = "Menu Selection")
     private Integer menuSelection;
