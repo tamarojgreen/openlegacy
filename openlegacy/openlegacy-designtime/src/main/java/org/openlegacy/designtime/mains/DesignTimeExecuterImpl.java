@@ -147,7 +147,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 				File screenResourcesDir = new File(packageDir, entityName + "-resources");
 				screenResourcesDir.mkdir();
-				TerminalSnapshot snapshot = screenEntityDefinition.getSnapshot();
+				TerminalSnapshot snapshot = screenEntityDefinition.getOriginalSnapshot();
 
 				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotTextRenderer.instance());
 				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotImageRenderer.instance());

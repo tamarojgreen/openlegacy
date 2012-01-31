@@ -72,4 +72,8 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 	public void setWindow(boolean window) {
 		this.window = window;
 	}
+
+	public TerminalSnapshot getOriginalSnapshot() {
+		return getSnapshot();
+	}
 }

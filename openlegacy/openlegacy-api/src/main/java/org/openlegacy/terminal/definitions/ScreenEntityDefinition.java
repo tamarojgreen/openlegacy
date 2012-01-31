@@ -38,5 +38,11 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 
 	TerminalSnapshot getSnapshot();
 
+	/**
+	 * Holds a snapshot with analyzer manipulations
+	 */
+	TerminalSnapshot getOriginalSnapshot();
+
 	boolean isWindow();
+
 }

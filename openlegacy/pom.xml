@@ -16,7 +16,7 @@
 	</modules>
 
 	<properties>
-		<spring.framework.version>3.0.6.RELEASE</spring.framework.version>
+		<spring.framework.version>3.1.0.RELEASE</spring.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<deploy.dir>file://C:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps\maven2</deploy.dir>
 	</properties>
