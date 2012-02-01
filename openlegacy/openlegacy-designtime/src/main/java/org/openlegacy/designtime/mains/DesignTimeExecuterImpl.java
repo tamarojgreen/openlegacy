@@ -3,14 +3,16 @@ package org.openlegacy.designtime.mains;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
+import org.openlegacy.designtime.analyzer.support.AbstractSnapshotsOrganizer;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
-import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
+import org.openlegacy.designtime.terminal.generators.TrailJunitGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
-import org.openlegacy.exceptions.UnableToGenerateSnapshotException;
+import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
@@ -18,14 +20,13 @@ import org.openlegacy.terminal.render.TerminalSnapshotRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotXmlRenderer;
 import org.openlegacy.utils.FileUtils;
+import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.ZipUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-import japa.parser.JavaParser;
 import japa.parser.ParseException;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +40,8 @@ import java.util.Collection;
 import java.util.Map;
 
 public class DesignTimeExecuterImpl implements DesignTimeExecuter {
+
+	private final static Log logger = LogFactory.getLog(AbstractSnapshotsOrganizer.class);
 
 	private static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
 	private ApplicationContext applicationContext;
@@ -124,15 +127,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	public void generateScreens(File trailFile, File sourceDirectory, String packageDirectoryName,
-			OverrideConfirmer overrideConfirmer) throws UnableToGenerateSnapshotException {
-		ApplicationContext applicationContext = getApplicationContext();
+			OverrideConfirmer overrideConfirmer, File analyzerContextFile) throws GenerationException {
+		ApplicationContext applicationContext = getApplicationContext(analyzerContextFile);
 		TerminalSnapshotsAnalyzer snapshotsAnalyzer = applicationContext.getBean(TerminalSnapshotsAnalyzer.class);
 
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trailFile.getAbsolutePath());
 		Collection<ScreenEntityDefinition> screenDefinitions = screenEntitiesDefinitions.values();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(packageDirectoryName.replaceAll("/", "."));
-			FileOutputStream fos = null;
 			try {
 				File packageDir = new File(sourceDirectory, packageDirectoryName);
 				String entityName = screenEntityDefinition.getEntityName();
@@ -143,7 +145,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 						continue;
 					}
 				}
-				fos = generateJava(screenEntityDefinition, file);
+				generateJava(screenEntityDefinition, file);
 
 				File screenResourcesDir = new File(packageDir, entityName + "-resources");
 				screenResourcesDir.mkdir();
@@ -152,24 +154,44 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotTextRenderer.instance());
 				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotImageRenderer.instance());
 				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotXmlRenderer.instance());
+
 			} catch (TemplateException e) {
-				throw (new UnableToGenerateSnapshotException(e));
+				throw (new GenerationException(e));
 			} catch (IOException e) {
-				throw (new UnableToGenerateSnapshotException(e));
-			} finally {
-				IOUtils.closeQuietly(fos);
+				throw (new GenerationException(e));
 			}
+		}
+
+		generateTest(trailFile, screenDefinitions, sourceDirectory);
+	}
+
+	private static void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File sourceDirectory) {
+		TrailJunitGenerator generator = new TrailJunitGenerator();
+		File testsDirectory = new File(sourceDirectory, "tests");
+		try {
+			testsDirectory.mkdir();
+			String fileWithoutAnyExtension = FileUtils.fileWithoutAnyExtension(trailFile.getName());
+			String testName = StringUtil.toClassName(fileWithoutAnyExtension) + "Test";
+			FileOutputStream fos = new FileOutputStream(new File(testsDirectory, testName + ".java"));
+			generator.generate(screenDefinitions, testName, fos);
+		} catch (TemplateException e) {
+			throw (new GenerationException(e));
+		} catch (IOException e) {
+			throw (new GenerationException(e));
 		}
 
 	}
 
-	private static FileOutputStream generateJava(ScreenEntityDefinition screenEntityDefinition, File file)
-			throws FileNotFoundException, TemplateException, IOException {
-		FileOutputStream fos;
-		file.getParentFile().mkdirs();
-		fos = new FileOutputStream(file);
-		new ScreenEntityJavaGenerator().generate(screenEntityDefinition, fos);
-		return fos;
+	private static void generateJava(ScreenEntityDefinition screenEntityDefinition, File file) throws FileNotFoundException,
+			TemplateException, IOException {
+		FileOutputStream fos = null;
+		try {
+			file.getParentFile().mkdirs();
+			fos = new FileOutputStream(file);
+			new ScreenEntityJavaGenerator().generate(screenEntityDefinition, fos);
+		} finally {
+			IOUtils.closeQuietly(fos);
+		}
 	}
 
 	private static void generateResource(TerminalSnapshot terminalSnapshot, String entityName, File screenResourcesDir,
@@ -181,15 +203,19 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			fos = new FileOutputStream(screenTextFile);
 			renderer.render(terminalSnapshot, fos);
 		} catch (FileNotFoundException e) {
-			throw (new UnableToGenerateSnapshotException(e));
+			throw (new GenerationException(e));
 		} finally {
 			IOUtils.closeQuietly(fos);
 		}
 	}
 
-	private synchronized ApplicationContext getApplicationContext() {
+	private synchronized ApplicationContext getApplicationContext(File analyzerContextFile) {
 		if (applicationContext == null) {
-			applicationContext = new ClassPathXmlApplicationContext("/openlegacy-designtime-context.xml");
+			if (analyzerContextFile != null && analyzerContextFile.exists()) {
+				applicationContext = new FileSystemXmlApplicationContext(analyzerContextFile.getAbsolutePath());
+			} else {
+				applicationContext = new ClassPathXmlApplicationContext("/openlegacy-default-designtime-context.xml");
+			}
 		}
 		return applicationContext;
 	}
@@ -198,34 +224,23 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		OutputStream fos = null;
 		try {
-			File aspectFile = new File(javaFile.getParentFile(), FileUtils.fileWithoutExtenstion(javaFile.getName())
-					+ "_Aspect.aj");
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			CompilationUnit compilationUnit = JavaParser.parse(javaFile);
-			ScreenPojoCodeModel screenPojoCodeModel = new ScreenPojosAjGenerator().generateScreenEntity(compilationUnit,
-					getMainType(compilationUnit), baos);
-			if (screenPojoCodeModel.isRelevant()) {
-				fos = new FileOutputStream(aspectFile);
-				fos.write(baos.toByteArray());
-			}
+			new ScreenPojosAjGenerator().generate(javaFile);
 		} catch (IOException e) {
-			throw (new UnableToGenerateSnapshotException(e));
+			throw (new GenerationException(e));
 		} catch (TemplateException e) {
-			throw (new UnableToGenerateSnapshotException(e));
+			throw (new GenerationException(e));
 		} catch (ParseException e) {
-			throw (new UnableToGenerateSnapshotException(e));
+			logger.warn("Failed parsing java file:" + e.getMessage());
+			// non compiled java class. Ignore it
 		} finally {
 			IOUtils.closeQuietly(fos);
 		}
 
 	}
 
-	private static ClassOrInterfaceDeclaration getMainType(CompilationUnit compilationUnit) {
-		return (ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0);
-	}
-
-	public void initialize() {
+	public void initialize(File analyzerContextFile) {
 		// initialize application context & analyzer
-		getApplicationContext().getBean(SnapshotsAnalyzer.class);
+		applicationContext = null;
+		getApplicationContext(analyzerContextFile).getBean(SnapshotsAnalyzer.class);
 	}
 }

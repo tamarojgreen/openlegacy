@@ -17,14 +17,10 @@ public class PluginConstants {
 
 	public static final String DEFAULT_PACKAGE = "default_package";
 
-	public static final String ASPECT_SUFFIX = "_Aspect.aj";
-
 	public static final String OPENLEGACY_IMAGE_VIEW_ID = null;
 
 	public static final String OPENLEGACY_PERSPECTIVE_ID = "org.openlegacy.ide.eclipse.openlegacyPerspective";
 
 	public static final String NEW_PROJECT_WIZARD_ID = "org.openlegacy.ide.eclipse.wizards.OpenLegacyeNewProjectWizard";
-
-	public static final String RESOURCES_FOLDER_SUFFIX = "-resources";
 
 }

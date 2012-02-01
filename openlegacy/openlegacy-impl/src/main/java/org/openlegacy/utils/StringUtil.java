@@ -136,4 +136,8 @@ public class StringUtil {
 		}
 		return String.class;
 	}
+
+	public static String toSetterMethodName(String propertyName) {
+		return "set" + toVariableName(propertyName, true);
+	}
 }

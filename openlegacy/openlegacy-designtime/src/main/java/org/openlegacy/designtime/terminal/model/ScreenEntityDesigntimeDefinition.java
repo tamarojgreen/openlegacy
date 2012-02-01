@@ -40,4 +40,8 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 	List<String> getReferredClasses();
 
 	void setNavigationDefinition(NavigationDefinition navigationDefinition);
+
+	void setAccessedFromSnapshot(TerminalSnapshot accessedFromSnapshot);
+
+	void setAccessedFromScreenDefinition(ScreenEntityDefinition screenEntityDefinition);
 }

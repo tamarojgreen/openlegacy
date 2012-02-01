@@ -54,8 +54,13 @@ public class FileUtils {
 		outputStream.write(content.getBytes());
 	}
 
-	public static String fileWithoutExtenstion(String filename) {
+	public static String fileWithoutExtension(String filename) {
 		filename = new File(filename).getName();
 		return filename.substring(0, filename.lastIndexOf("."));
+	}
+
+	public static String fileWithoutAnyExtension(String filename) {
+		filename = new File(filename).getName();
+		return filename.substring(0, filename.indexOf("."));
 	}
 }

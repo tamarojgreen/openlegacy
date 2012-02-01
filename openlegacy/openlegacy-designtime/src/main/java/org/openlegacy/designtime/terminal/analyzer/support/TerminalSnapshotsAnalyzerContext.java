@@ -130,7 +130,7 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 		return outgoingSnapshots;
 	}
 
-	private static class TerminalSnapshotSequenceComparator implements Comparator<ScreenEntityDefinition> {
+	public static class TerminalSnapshotSequenceComparator implements Comparator<ScreenEntityDefinition> {
 
 		private static TerminalSnapshotSequenceComparator instance = new TerminalSnapshotSequenceComparator();
 

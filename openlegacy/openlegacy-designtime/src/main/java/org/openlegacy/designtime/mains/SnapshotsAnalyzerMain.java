@@ -16,17 +16,18 @@ import java.util.List;
 public class SnapshotsAnalyzerMain {
 
 	public static void main(String[] args) {
-		if (args.length != 3) {
-			System.out.println("Usage:\njava org.openlegacy.designtime.mains.SnapshotsAnalyzerMain screens-resource-folder output-folder package");
+		if (args.length < 3) {
+			System.out.println("Usage:\njava org.openlegacy.designtime.mains.SnapshotsAnalyzerMain screens-resource-folder output-folder package [spring-context]");
 			return;
 		}
 		String inputFolderName = args[0];
 		String outputFolderName = args[1];
 		String packageFolder = args[2].replaceAll(".", "/");
+		String springContext = args.length >= 4 ? args[3] : "classpath:/openlegacy-default-designtime-context.xml";
 
 		File outputFolder = new File(outputFolderName, packageFolder);
 
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:/openlegacy-designtime-context.xml");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(springContext);
 
 		TerminalSnapshotsLoader snapshotsLoader = applicationContext.getBean(TerminalSnapshotsLoader.class);
 		try {

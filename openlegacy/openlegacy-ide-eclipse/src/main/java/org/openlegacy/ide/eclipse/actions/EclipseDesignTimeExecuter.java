@@ -14,7 +14,7 @@ import org.eclipse.ui.actions.GlobalBuildAction;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.designtime.mains.OverrideConfirmer;
-import org.openlegacy.exceptions.UnableToGenerateSnapshotException;
+import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 
@@ -38,9 +38,11 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateScreens(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			OverrideConfirmer overrideConfirmer) throws UnableToGenerateSnapshotException {
+			OverrideConfirmer overrideConfirmer) throws GenerationException {
+		File anaylzerContextFile = new File(trailFile.getProject().getLocation().toOSString(),
+				DesignTimeExecuter.ANALYZER_DEFAULT_PATH);
 		designTimeExecuter.generateScreens(PathsUtil.toOsLocation(trailFile), PathsUtil.toSourceDirectory(sourceDirectory),
-				PathsUtil.packageToPath(packageDir), overrideConfirmer);
+				PathsUtil.packageToPath(packageDir), overrideConfirmer, anaylzerContextFile);
 
 		Display.getDefault().asyncExec(new Runnable() {
 
@@ -57,11 +59,15 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void initialize() {
+		initialize(null);
+	}
+
+	public void initialize(final File analyzerFile) {
 		Job job = new Job("Initializing analyzer") {
 
 			@Override
 			protected IStatus run(IProgressMonitor arg0) {
-				designTimeExecuter.initialize();
+				designTimeExecuter.initialize(analyzerFile);
 				return Status.OK_STATUS;
 			}
 

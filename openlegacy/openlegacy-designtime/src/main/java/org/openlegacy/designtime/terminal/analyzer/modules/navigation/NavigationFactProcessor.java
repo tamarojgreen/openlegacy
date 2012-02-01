@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
+import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalField;
@@ -44,7 +45,15 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 		ScreenEntityDesigntimeDefinition accessedFromScreenEntityDefinition = navigationFact.getAccessedFromScreenEntityDefinition();
 		TerminalSnapshot accessedFromSnapshot = navigationFact.getAccessedFromSnapshot();
 
+		screenEntityDefinition.setAccessedFromSnapshot(accessedFromSnapshot);
+		screenEntityDefinition.setAccessedFromScreenDefinition(accessedFromScreenEntityDefinition);
+
 		if (abortWhenHasPasswordFields(accessedFromSnapshot)) {
+			return;
+		}
+
+		// do not define navigation from login screen
+		if (accessedFromScreenEntityDefinition.getType() == LoginEntity.class) {
 			return;
 		}
 

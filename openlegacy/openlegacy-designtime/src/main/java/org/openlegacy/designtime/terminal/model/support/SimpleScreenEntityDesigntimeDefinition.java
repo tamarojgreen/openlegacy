@@ -74,6 +74,7 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		return terminalSnapshot;
 	}
 
+	@Override
 	public TerminalSnapshot getOriginalSnapshot() {
 		return originalSnapshot;
 	}

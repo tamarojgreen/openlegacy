@@ -68,7 +68,7 @@ public class ScreenPojosAjGenerator {
 					screenEntityCodeModel = generateScreenTable(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							baos, "");
 				}
-				if (screenEntityCodeModel.isRelevant()) {
+				if (screenEntityCodeModel != null && screenEntityCodeModel.isRelevant()) {
 					writeToFile(javaFile, baos, screenEntityCodeModel);
 				}
 			}

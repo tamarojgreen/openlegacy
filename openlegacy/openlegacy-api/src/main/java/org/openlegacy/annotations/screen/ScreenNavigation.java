@@ -20,5 +20,5 @@ public @interface ScreenNavigation {
 
 	AssignedField[] assignedFields() default {};
 
-	Class<? extends TerminalAction> exitAction();
+	Class<? extends TerminalAction> exitAction() default TerminalActions.F3.class;
 }

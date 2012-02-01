@@ -21,6 +21,9 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 	private boolean window;
 
+	private TerminalSnapshot accessedFromSnapshot;
+	private ScreenEntityDefinition accessedFromScreenDefinition;
+
 	public SimpleScreenEntityDefinition(String entityName, Class<?> entityClass) {
 		super(entityName, entityClass);
 	}
@@ -75,5 +78,21 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 
 	public TerminalSnapshot getOriginalSnapshot() {
 		return getSnapshot();
+	}
+
+	public TerminalSnapshot getAccessedFromSnapshot() {
+		return accessedFromSnapshot;
+	}
+
+	public void setAccessedFromSnapshot(TerminalSnapshot accessedFromSnapshot) {
+		this.accessedFromSnapshot = accessedFromSnapshot;
+	}
+
+	public ScreenEntityDefinition getAccessedFromScreenDefinition() {
+		return this.accessedFromScreenDefinition;
+	}
+
+	public void setAccessedFromScreenDefinition(ScreenEntityDefinition accessedFromScreenDefinition) {
+		this.accessedFromScreenDefinition = accessedFromScreenDefinition;
 	}
 }

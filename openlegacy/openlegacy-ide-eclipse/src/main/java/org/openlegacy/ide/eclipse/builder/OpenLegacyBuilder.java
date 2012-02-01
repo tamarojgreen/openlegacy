@@ -10,8 +10,10 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
+import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.utils.FileUtils;
 
 import java.util.Map;
@@ -37,12 +39,12 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 					String fileName = resource.getName();
 					if (resource instanceof IFile && fileName.endsWith(PluginConstants.JAVA_EXTENSION)) {
 
-						String fileNoExtension = FileUtils.fileWithoutExtenstion(fileName);
+						String fileNoExtension = FileUtils.fileWithoutExtension(fileName);
 						IResource[] members = resource.getParent().members();
 						for (IResource iResource : members) {
 							String resourceName = iResource.getName();
 							if (resourceName.startsWith(fileNoExtension)
-									&& (resourceName.endsWith(PluginConstants.ASPECT_SUFFIX) || resourceName.endsWith(PluginConstants.RESOURCES_FOLDER_SUFFIX))) {
+									&& (resourceName.endsWith(DesignTimeExecuter.ASPECT_SUFFIX) || resourceName.endsWith(DesignTimeExecuter.RESOURCES_FOLDER_SUFFIX))) {
 								iResource.delete(false, null);
 							}
 						}
@@ -56,11 +58,13 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 					break;
 				case IResourceDelta.CHANGED:
 					checkAspectGenerate(resource);
+					checkAnalyzerContextChange(resource);
 					break;
 			}
 			// return true to continue visiting children.
 			return true;
 		}
+
 	}
 
 	class OpenLegacyResourceVisitor implements IResourceVisitor {
@@ -105,6 +109,19 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 			}
 
 		}
+	}
+
+	private void checkAnalyzerContextChange(IResource resource) {
+		if (resource instanceof IFile && resource.getFullPath().toString().contains(DesignTimeExecuter.ANALYZER_DEFAULT_PATH)) {
+			EclipseDesignTimeExecuter.instance().initialize(PathsUtil.toOsLocation(resource));
+			try {
+				getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
+			} catch (CoreException e) {
+				logger.fatal(e);
+			}
+
+		}
+
 	}
 
 	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {

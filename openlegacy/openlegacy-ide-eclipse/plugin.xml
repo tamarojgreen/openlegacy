@@ -73,4 +73,16 @@
 		</perspective>
 	</extension>
 
+	<extension point="org.eclipse.ui.navigator.navigatorContent">
+		<commonFilter class="org.openlegacy.ide.eclipse.OpenLegacyProjectFilter" description="Hides generated aspects" id="org.openlegacy.ide.eclipse.OpenLegacyProjectFilter" name="OpenLegacy Aspect hidden resources" activeByDefault="true" />
+	</extension>
+
+	<extension point="org.eclipse.ui.navigator.viewer">
+		<viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+			<includes>
+				<contentExtension pattern="org.openlegacy.ide.eclipse.OpenLegacyProjectFilter" />
+			</includes>
+		</viewerContentBinding>
+	</extension>
+
 </plugin>

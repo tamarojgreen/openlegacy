@@ -1,0 +1,30 @@
+package tests;
+
+import javax.inject.Inject;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.openlegacy.terminal.TerminalSession;
+import org.springframework.test.context.ContextConfiguration;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.test.SignOn;  
+import com.test.MainMenu;  
+
+@ContextConfiguration("/META-INF/spring/applicationContext.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+public class Test {
+
+	@Inject
+	private TerminalSession terminalSession;
+	
+	@Test
+	public void testSession(){
+
+		 SignOn signon = terminalSession.getEntity(SignOn.class);
+		 signon.setUser("user");
+		 MainMenu mainmenu = terminalSession.doAction(TerminalActions.ENTER(),signon,MainMenu.class);
+				
+	}
+}
