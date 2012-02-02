@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.persistance;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalOutgoingSnapshot;
@@ -17,7 +16,9 @@ import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
 import org.openlegacy.terminal.utils.FieldsQuery.ModifiedFieldsCriteria;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
+import org.openlegacy.utils.StringUtil;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -189,7 +190,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 	public String toString() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		TerminalSnapshotTextRenderer.instance().render(this, baos);
-		return new String(baos.toByteArray());
+		return StringUtil.toString(baos);
 	}
 
 	@Override

@@ -1,18 +1,17 @@
 package org.openlegacy.terminal.web.render.support;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.commons.lang.CharEncoding;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.web.render.ElementsProvider;
 import org.openlegacy.terminal.web.render.HtmlProportionsHandler;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
+import org.openlegacy.utils.StringUtil;
 import org.openlegacy.web.HtmlConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.io.UnsupportedEncodingException;
+import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
 
@@ -88,11 +87,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		trans.transform(src, new StreamResult(baos));
-		try {
-			return new String(baos.toByteArray(), CharEncoding.UTF_8);
-		} catch (UnsupportedEncodingException e) {
-			throw (new OpenLegacyRuntimeException(e));
-		}
+		return StringUtil.toString(baos);
 	}
 
 	private void calculateWidthHeight(TerminalSnapshot terminalSnapshot, Element wrapperTag) {

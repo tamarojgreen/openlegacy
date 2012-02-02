@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.support;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
@@ -8,7 +7,9 @@ import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
+import org.openlegacy.utils.StringUtil;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +33,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 	public String toString() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		TerminalSnapshotTextRenderer.instance().render(this, baos);
-		return new String(baos.toByteArray());
+		return StringUtil.toString(baos);
 	}
 
 	@Override

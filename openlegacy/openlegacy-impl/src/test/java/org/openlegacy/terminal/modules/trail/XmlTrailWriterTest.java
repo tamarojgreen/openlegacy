@@ -10,6 +10,7 @@ import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -34,7 +35,7 @@ public class XmlTrailWriterTest extends AbstractTest {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		trailWriter.write(terminalSession.getModule(Trail.class).getSessionTrail(), baos);
-		String result = new String(baos.toByteArray());
+		String result = StringUtil.toString(baos);
 
 		String userSent = "<field column=\"53\" value=\"user\" length=\"10\" modified=\"true\" editable=\"true\"/>";
 

@@ -1,6 +1,11 @@
 package org.openlegacy.utils;
 
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 
 public class StringUtil {
 
@@ -139,5 +144,13 @@ public class StringUtil {
 
 	public static String toSetterMethodName(String propertyName) {
 		return "set" + toVariableName(propertyName, true);
+	}
+
+	public static String toString(ByteArrayOutputStream baos) {
+		try {
+			return new String(baos.toByteArray(), CharEncoding.UTF_8);
+		} catch (UnsupportedEncodingException e) {
+			throw (new OpenLegacyRuntimeException(e));
+		}
 	}
 }
