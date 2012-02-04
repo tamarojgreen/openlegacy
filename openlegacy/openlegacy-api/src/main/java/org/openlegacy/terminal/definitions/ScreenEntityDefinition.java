@@ -2,6 +2,7 @@ package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 
@@ -48,4 +49,6 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	ScreenEntityDefinition getAccessedFromScreenDefinition();
 
 	TerminalSnapshot getAccessedFromSnapshot();
+
+	ScreenSize getScreenSize();
 }

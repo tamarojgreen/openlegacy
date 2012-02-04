@@ -2,6 +2,7 @@ package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.SimpleEntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenIdentification;
@@ -23,6 +24,7 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 
 	private TerminalSnapshot accessedFromSnapshot;
 	private ScreenEntityDefinition accessedFromScreenDefinition;
+	private ScreenSize screenSize;
 
 	public SimpleScreenEntityDefinition(String entityName, Class<?> entityClass) {
 		super(entityName, entityClass);
@@ -94,5 +96,13 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 
 	public void setAccessedFromScreenDefinition(ScreenEntityDefinition accessedFromScreenDefinition) {
 		this.accessedFromScreenDefinition = accessedFromScreenDefinition;
+	}
+
+	public ScreenSize getScreenSize() {
+		return screenSize;
+	}
+
+	public void setScreenSize(ScreenSize screenSize) {
+		this.screenSize = screenSize;
 	}
 }

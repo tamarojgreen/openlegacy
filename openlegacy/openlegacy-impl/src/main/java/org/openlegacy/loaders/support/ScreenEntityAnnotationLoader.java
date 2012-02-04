@@ -6,6 +6,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -39,10 +40,11 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 		screenEntityDefinition.setType(screenEntity.screenType());
 		screenEntityDefinition.setWindow(screenEntity.window());
 
+		screenEntityDefinition.setScreenSize(new SimpleScreenSize(screenEntity.rows(), screenEntity.columns()));
+
 		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
 				containingClass.getName()));
 
 		screenEntitiesRegistry.add(screenEntityDefinition);
 	}
-
 }

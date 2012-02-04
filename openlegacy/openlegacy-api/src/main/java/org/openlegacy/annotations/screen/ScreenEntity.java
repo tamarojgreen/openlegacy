@@ -30,4 +30,8 @@ public @interface ScreenEntity {
 	boolean window() default false;
 
 	Class<? extends EntityType> screenType() default ScreenEntityType.General.class;
+
+	int columns() default 80;
+
+	int rows() default 24;
 }

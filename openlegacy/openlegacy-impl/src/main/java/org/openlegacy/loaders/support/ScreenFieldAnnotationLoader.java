@@ -29,35 +29,35 @@ public class ScreenFieldAnnotationLoader implements FieldAnnotationsLoader {
 		ScreenField fieldAnnotation = (ScreenField)annotation;
 
 		SimpleTerminalPosition position = SimpleTerminalPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
-		SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(fieldName,
+		SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition(fieldName,
 				fieldAnnotation.fieldType());
-		fieldMappingDefinition.setPosition(position);
+		screenFieldDefinition.setPosition(position);
 
 		if (fieldAnnotation.endColumn() == 0) {
-			fieldMappingDefinition.setLength(0);
+			screenFieldDefinition.setLength(0);
 		} else {
-			fieldMappingDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
+			screenFieldDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
 		}
 
-		fieldMappingDefinition.setEditable(fieldAnnotation.editable());
+		screenFieldDefinition.setEditable(fieldAnnotation.editable());
 
 		if (fieldAnnotation.displayName().length() > 0) {
-			fieldMappingDefinition.setDisplayName(fieldAnnotation.displayName());
+			screenFieldDefinition.setDisplayName(fieldAnnotation.displayName());
 		} else {
-			fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(fieldName));
+			screenFieldDefinition.setDisplayName(StringUtil.toDisplayName(fieldName));
 		}
 
-		fieldMappingDefinition.setSampleValue(fieldAnnotation.sampleValue());
+		screenFieldDefinition.setSampleValue(fieldAnnotation.sampleValue());
 
 		EntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
 		// look in screen entities
 		if (screenEntityDefinition != null) {
-			screenEntityDefinition.getFieldsDefinitions().put(fieldName, fieldMappingDefinition);
+			screenEntityDefinition.getFieldsDefinitions().put(fieldName, screenFieldDefinition);
 		} else {
 			// look in screen entities parts
 			ScreenPartEntityDefinition screenPartEntityDefinition = screenEntitiesRegistry.getPart(containingClass);
 			if (screenPartEntityDefinition != null) {
-				screenPartEntityDefinition.getFieldsDefinitions().put(fieldName, fieldMappingDefinition);
+				screenPartEntityDefinition.getFieldsDefinitions().put(fieldName, screenFieldDefinition);
 			}
 
 		}

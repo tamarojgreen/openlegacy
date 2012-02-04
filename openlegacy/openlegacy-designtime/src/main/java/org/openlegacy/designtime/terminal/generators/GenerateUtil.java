@@ -14,8 +14,7 @@ import java.util.Collection;
 
 public class GenerateUtil {
 
-	public static void generate(ScreenEntityDefinition screenEntityDefinition, OutputStream out, String templateName)
-			throws TemplateException, IOException {
+	public static void generate(Object model, OutputStream out, String templateName) throws TemplateException, IOException {
 
 		Configuration configuration = new Configuration();
 		configuration.setClassForTemplateLoading(GenerateUtil.class, "/");
@@ -24,7 +23,7 @@ public class GenerateUtil {
 
 		OutputStreamWriter output = new OutputStreamWriter(out);
 
-		template.process(screenEntityDefinition, output);
+		template.process(model, output);
 	}
 
 	public static void setPackageName(Collection<ScreenEntityDefinition> screenDefinitions, String packageName) {

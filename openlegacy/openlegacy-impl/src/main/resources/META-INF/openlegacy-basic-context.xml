@@ -63,6 +63,8 @@
 			<bean class="org.openlegacy.terminal.support.ScreenEntityMethodInterceptor" />
 		</property>
 	</bean>
+
+	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
 	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-provider.xml" /> 
