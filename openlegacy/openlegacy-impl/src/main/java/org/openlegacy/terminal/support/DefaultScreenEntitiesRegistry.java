@@ -7,7 +7,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 
@@ -25,7 +25,7 @@ import java.util.Map;
 public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<ScreenEntityDefinition, ScreenFieldDefinition> implements ScreenEntitiesRegistry {
 
 	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
-	private final Map<Class<?>, TableDefinition> tableDefinitions = new HashMap<Class<?>, TableDefinition>();
+	private final Map<Class<?>, ScreenTableDefinition> tableDefinitions = new HashMap<Class<?>, ScreenTableDefinition>();
 	private ArrayList<ScreenEntityDefinition> sortedScreenDefinitions;
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntitiesRegistry.class);
@@ -75,11 +75,11 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 		return screenPartDefinitions.get(containingClass);
 	}
 
-	public void addTable(TableDefinition tableDefinition) {
+	public void addTable(ScreenTableDefinition tableDefinition) {
 		tableDefinitions.put(tableDefinition.getTableClass(), tableDefinition);
 	}
 
-	public TableDefinition getTable(Class<?> containingClass) {
+	public ScreenTableDefinition getTable(Class<?> containingClass) {
 		return tableDefinitions.get(containingClass);
 	}
 

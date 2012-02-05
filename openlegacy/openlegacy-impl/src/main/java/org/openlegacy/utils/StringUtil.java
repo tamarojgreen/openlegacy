@@ -33,9 +33,16 @@ public class StringUtil {
 	}
 
 	private static String toVariableName(String text, boolean capFirst) {
+
+		if (!text.contains(" ")) {
+			text = text.replaceAll("\\W", "");
+			return StringUtils.uncapitalize(text);
+		}
+
 		char[] chars = text.toCharArray();
 		StringBuilder sb = new StringBuilder(text.length());
 		for (char d : chars) {
+
 			char c = d;
 
 			if (capFirst) {
@@ -152,5 +159,18 @@ public class StringUtil {
 		} catch (UnsupportedEncodingException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
+	}
+
+	/**
+	 * Remove namespace from a given class style String: package.class -> class , prefix.suffix -> suffix
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String removeNamespace(String str) {
+		if (!str.contains(".")) {
+			return str;
+		}
+		return str.substring(str.lastIndexOf(".") + 1);
 	}
 }

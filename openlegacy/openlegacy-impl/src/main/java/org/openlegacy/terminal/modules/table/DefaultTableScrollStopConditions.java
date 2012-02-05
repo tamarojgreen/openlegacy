@@ -2,7 +2,7 @@ package org.openlegacy.terminal.modules.table;
 
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 
@@ -33,7 +33,7 @@ public class DefaultTableScrollStopConditions<T> implements TableScrollStopCondi
 	}
 
 	public boolean shouldStop(T currentEntity) {
-		Entry<String, TableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
 				tablesDefinitionProvider, currentEntity.getClass());
 
 		ScreenPojoFieldAccessor screenPojoFieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);

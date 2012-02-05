@@ -2,8 +2,8 @@ package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenTableDrilldown;
-import org.openlegacy.terminal.definitions.TableDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -21,7 +21,7 @@ public class ScreenTableDrilldownAnnotationLoader extends AbstractClassAnnotatio
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 		ScreenTableDrilldown drilldownAnnotation = (ScreenTableDrilldown)annotation;
 
-		TableDefinition tableDefinition = screenEntitiesRegistry.getTable(containingClass);
+		ScreenTableDefinition tableDefinition = screenEntitiesRegistry.getTable(containingClass);
 		Assert.notNull(tableDefinition, "@ScreenTableDrilldown must be define along @ScreenTable annotation");
 
 		DrilldownDefinition drilldownDefinition = tableDefinition.getDrilldownDefinition();

@@ -3,7 +3,7 @@ package org.openlegacy.terminal.modules.table;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.table.ScreenTableCollector;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
@@ -26,12 +26,12 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 	public List<T> collectAll(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass) {
 
 		ScreenEntityDefinition screenEntityDefintion = screenEntitiesRegistry.get(screenEntityClass);
-		Map<String, TableDefinition> tableDefinitionsMap = screenEntityDefintion.getTableDefinitions();
-		Set<Entry<String, TableDefinition>> tableDefinitionEntries = tableDefinitionsMap.entrySet();
+		Map<String, ScreenTableDefinition> tableDefinitionsMap = screenEntityDefintion.getTableDefinitions();
+		Set<Entry<String, ScreenTableDefinition>> tableDefinitionEntries = tableDefinitionsMap.entrySet();
 
-		Entry<String, TableDefinition> matchingDefinitionEntry = null;
+		Entry<String, ScreenTableDefinition> matchingDefinitionEntry = null;
 
-		for (Entry<String, TableDefinition> tableDefinitionEntry : tableDefinitionEntries) {
+		for (Entry<String, ScreenTableDefinition> tableDefinitionEntry : tableDefinitionEntries) {
 			if (tableDefinitionEntry.getValue().getTableClass() == rowClass) {
 				matchingDefinitionEntry = tableDefinitionEntry;
 				break;
@@ -43,7 +43,7 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 					screenEntityDefintion)));
 		}
 
-		TableDefinition matchingTableDefinition = matchingDefinitionEntry.getValue();
+		ScreenTableDefinition matchingTableDefinition = matchingDefinitionEntry.getValue();
 		int rowsCount = matchingTableDefinition.getEndRow() - matchingTableDefinition.getStartRow() + 1;
 
 		List<T> allRows = new ArrayList<T>();

@@ -7,8 +7,8 @@ import org.openlegacy.modules.table.drilldown.DrilldownAction;
 import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
@@ -36,7 +36,7 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 
 	public <T> List<T> collectAll(Class<?> screenEntityClass, Class<T> rowClass) {
 
-		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
+		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				screenEntityClass).getValue();
 
 		TableCollector<TerminalSession, T> tableCollector = SpringUtil.getDefaultBean(applicationContext,
@@ -55,7 +55,7 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 			return (T)getSession().getEntity();
 		}
 
-		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
+		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				sourceEntityClass).getValue();
 		DrilldownDefinition drilldownDefinition = tableDefinition.getDrilldownDefinition();
 

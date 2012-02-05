@@ -22,9 +22,9 @@ public class Test {
 	@Test
 	public void testSession(){
 
-		 SignOn signon = terminalSession.getEntity(SignOn.class);
-		 signon.setUser("user");
-		 MainMenu mainmenu = terminalSession.doAction(TerminalActions.ENTER(),signon,MainMenu.class);
+		 SignOn signOn = terminalSession.getEntity(SignOn.class);
+		 signOn.setuser("user");
+		 MainMenu mainMenu = terminalSession.doAction(TerminalActions.ENTER(),signOn,MainMenu.class);
 				
 	}
 }

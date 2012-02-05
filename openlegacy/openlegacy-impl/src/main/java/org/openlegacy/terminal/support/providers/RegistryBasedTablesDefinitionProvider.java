@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.support.providers;
 
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
 
@@ -18,7 +18,7 @@ public class RegistryBasedTablesDefinitionProvider implements TablesDefinitionPr
 	@Inject
 	private DefaultScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public Map<String, TableDefinition> getTableDefinitions(Class<?> screenEntity) {
+	public Map<String, ScreenTableDefinition> getTableDefinitions(Class<?> screenEntity) {
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);
 		return screenEntityDefinition.getTableDefinitions();
 	}

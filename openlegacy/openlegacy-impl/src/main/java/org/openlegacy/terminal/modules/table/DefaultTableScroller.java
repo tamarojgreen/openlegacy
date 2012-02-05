@@ -5,7 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.table.ScreenTableScroller;
 import org.openlegacy.utils.ReflectionUtil;
@@ -42,7 +42,7 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 			return null;
 		}
 
-		TableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
+		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				entityClass).getValue();
 
 		TerminalAction nextAction = tableDefinition.getNextScreenAction() != null ? tableDefinition.getNextScreenAction()

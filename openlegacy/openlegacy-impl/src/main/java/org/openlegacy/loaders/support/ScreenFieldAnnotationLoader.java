@@ -13,6 +13,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
+import java.text.MessageFormat;
 
 @Component
 public class ScreenFieldAnnotationLoader implements FieldAnnotationsLoader {
@@ -55,9 +56,11 @@ public class ScreenFieldAnnotationLoader implements FieldAnnotationsLoader {
 			screenEntityDefinition.getFieldsDefinitions().put(fieldName, screenFieldDefinition);
 		} else {
 			// look in screen entities parts
-			ScreenPartEntityDefinition screenPartEntityDefinition = screenEntitiesRegistry.getPart(containingClass);
-			if (screenPartEntityDefinition != null) {
-				screenPartEntityDefinition.getFieldsDefinitions().put(fieldName, screenFieldDefinition);
+			ScreenPartEntityDefinition screenPart = screenEntitiesRegistry.getPart(containingClass);
+			if (screenPart != null) {
+				fieldName = MessageFormat.format("{0}.{1}", screenPart.getPartName(), fieldName);
+				screenFieldDefinition.setName(fieldName);
+				screenPart.getFieldsDefinitions().put(fieldName, screenFieldDefinition);
 			}
 
 		}

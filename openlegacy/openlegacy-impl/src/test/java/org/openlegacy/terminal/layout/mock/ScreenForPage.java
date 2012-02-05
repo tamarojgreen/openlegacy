@@ -1,9 +1,13 @@
 package org.openlegacy.terminal.layout.mock;
 
+import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenPart;
+import org.openlegacy.annotations.screen.ScreenTable;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @ScreenEntity
 @Component
@@ -28,6 +32,8 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	private String orphanFld;
 
 	private ScreenForPagePart screenForPagePart;
+
+	private List<ScreenForPageTable> screenForPageRow;
 
 	public String getFldCol12() {
 		return fldCol12;
@@ -57,6 +63,10 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 		return screenForPagePart;
 	}
 
+	public List<ScreenForPageTable> getScreenForPageRow() {
+		return screenForPageRow;
+	}
+
 	public String getFocusField() {
 		return null;
 	}
@@ -67,18 +77,37 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	@Component
 	public static class ScreenForPagePart {
 
-		@ScreenField(row = 15, column = 13, endColumn = 43)
-		private String fldRow15;
+		@ScreenField(row = 20, column = 13, endColumn = 43)
+		private String fldRow20;
 
-		@ScreenField(row = 15, column = 33)
-		private String fld2Row15;
+		@ScreenField(row = 20, column = 33)
+		private String fld2Row20;
 
-		public String getFldRow15() {
-			return fldRow15;
+		public String getFldRow20() {
+			return fldRow20;
 		}
 
-		public String getFld2Row15() {
-			return fld2Row15;
+		public String getFld2Row20() {
+			return fld2Row20;
+		}
+	}
+
+	@ScreenTable(startRow = 15, endRow = 20)
+	@Component
+	public static class ScreenForPageTable {
+
+		@ScreenColumn(startColumn = 10, endColumn = 20)
+		private String column1;
+
+		@ScreenColumn(startColumn = 25, endColumn = 30)
+		private String column2;
+
+		public String getColumn1() {
+			return column1;
+		}
+
+		public String getColumn2() {
+			return column2;
 		}
 	}
 }

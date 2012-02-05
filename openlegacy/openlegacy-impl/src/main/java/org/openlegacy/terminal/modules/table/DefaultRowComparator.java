@@ -2,7 +2,7 @@ package org.openlegacy.terminal.modules.table;
 
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.springframework.util.Assert;
@@ -23,7 +23,7 @@ public class DefaultRowComparator<T> implements RowComparator<T> {
 
 	public boolean isRowMatch(T tableRow, Object... rowKeys) {
 
-		TableDefinition tableDefinition = screenEntitiesRegistry.getTable(tableRow.getClass());
+		ScreenTableDefinition tableDefinition = screenEntitiesRegistry.getTable(tableRow.getClass());
 		List<String> keyFieldNames = tableDefinition.getKeyFieldNames();
 
 		Assert.isTrue(rowKeys.length > 0);

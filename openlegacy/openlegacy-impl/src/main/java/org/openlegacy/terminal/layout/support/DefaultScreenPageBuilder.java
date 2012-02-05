@@ -13,6 +13,8 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
 import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
@@ -59,9 +61,35 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		Collection<ScreenPartEntityDefinition> screenParts = entityDefinition.getPartsDefinitions().values();
 		for (ScreenPartEntityDefinition screenPartEntityDefinition : screenParts) {
 			pageDefinition.getPageParts().add(buildPagePartFromScreenPart(screenPartEntityDefinition, entityDefinition));
+		}
 
+		Collection<ScreenTableDefinition> tables = entityDefinition.getTableDefinitions().values();
+		for (ScreenTableDefinition tableDefinition : tables) {
+			pageDefinition.getPageParts().add(buildPagePartFromTable(tableDefinition, entityDefinition));
 		}
 		return pageDefinition;
+	}
+
+	private PagePartDefinition buildPagePartFromTable(ScreenTableDefinition tableDefinition,
+			ScreenEntityDefinition entityDefinition) {
+		SimplePagePartDefinition pagePart = new SimplePagePartDefinition();
+
+		List<ScreenColumnDefinition> columns = tableDefinition.getColumnDefinitions();
+
+		int tableStartColumn = columns.get(0).getStartColumn();
+		int tableEndColumn = columns.get(columns.size() - 1).getEndColumn();
+		int firstRow = tableDefinition.getStartRow() - 1; // -1 -> header
+
+		ScreenSize screenSize = entityDefinition.getScreenSize();
+		int topMarginPercentage = (100 * (firstRow - 1)) / screenSize.getRows();
+		int leftMarginPercentage = (100 * tableStartColumn) / screenSize.getColumns();
+
+		pagePart.setTopMargin(topMarginPercentage);
+		pagePart.setLeftMargin(leftMarginPercentage);
+		calculateWidth(entityDefinition, pagePart, tableStartColumn, tableEndColumn);
+
+		pagePart.setTableDefinition(tableDefinition);
+		return pagePart;
 	}
 
 	private PagePartDefinition buildPagePartFromScreenPart(ScreenPartEntityDefinition screenPartEntityDefinition,

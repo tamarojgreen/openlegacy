@@ -2,7 +2,7 @@ package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.loaders.FieldLoader;
-import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.beans.factory.BeanFactory;
@@ -29,7 +29,7 @@ public class TableFieldsLoader implements FieldLoader {
 
 		Class<?> listType = ReflectionUtil.getListType(field);
 
-		TableDefinition tableDefinition = screenEntitiesRegistry.getTable(listType);
+		ScreenTableDefinition tableDefinition = screenEntitiesRegistry.getTable(listType);
 		if (tableDefinition != null) {
 			screenEntitiesRegistry.get(containingClass).getTableDefinitions().put(field.getName(), tableDefinition);
 		}

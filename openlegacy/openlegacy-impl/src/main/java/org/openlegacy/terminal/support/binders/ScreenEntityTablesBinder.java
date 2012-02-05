@@ -5,8 +5,8 @@ import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.definitions.TableDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
@@ -38,16 +38,16 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
-		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(screenEntity.getClass());
+		Map<String, ScreenTableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(screenEntity.getClass());
 
 		Set<String> tableFieldNames = tableDefinitions.keySet();
 
 		for (String tableFieldName : tableFieldNames) {
 
-			TableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
+			ScreenTableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
 			List<Object> rows = new ArrayList<Object>();
 
-			List<ColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
+			List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
 			int startRow = tableDefinition.getStartRow();
 			int endRow = tableDefinition.getEndRow();
 			for (int currentRow = startRow; currentRow <= endRow; currentRow++) {
@@ -57,7 +57,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 
 				boolean keyIsEmpty = false;
 
-				for (ColumnDefinition columnDefinition : columnDefinitions) {
+				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
 					TerminalPosition position = SimpleTerminalPosition.newInstance(currentRow,
 							columnDefinition.getStartColumn());
 					String cellText = getCellContent(terminalSnapshot, position, columnDefinition);
@@ -78,7 +78,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 	}
 
 	private String getCellContent(TerminalSnapshot terminalSnapshot, TerminalPosition position,
-			ColumnDefinition columnDefinition) {
+			ScreenColumnDefinition columnDefinition) {
 		int length = columnDefinition.getEndColumn() - columnDefinition.getStartColumn() + 1;
 		String columnText = terminalSnapshot.getText(position, length);
 		columnText = fieldFormatter.format(columnText);
@@ -92,19 +92,19 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalScreen, Object entity) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(entity);
 
-		Map<String, TableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(entity.getClass());
+		Map<String, ScreenTableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(entity.getClass());
 
 		Set<String> tableFieldNames = tableDefinitions.keySet();
 
 		for (String tableFieldName : tableFieldNames) {
-			TableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
+			ScreenTableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
 			List<?> rows = (List<?>)fieldAccessor.getFieldValue(tableFieldName);
 
 			int rowCount = 0;
 			for (Object row : rows) {
-				List<ColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
+				List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(row);
-				for (ColumnDefinition columnDefinition : columnDefinitions) {
+				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
 					if (columnDefinition.isEditable()) {
 						Object value = fieldAccessor.getFieldValue(columnDefinition.getName());
 						if (value == null) {

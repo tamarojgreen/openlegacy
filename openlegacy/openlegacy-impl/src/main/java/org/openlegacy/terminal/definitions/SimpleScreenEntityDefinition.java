@@ -16,7 +16,7 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 
 	private ScreenIdentification screenIdentification = new SimpleScreenIdentification();
 	private NavigationDefinition navigationDefinition;
-	private Map<String, TableDefinition> tableDefinitions = new HashMap<String, TableDefinition>();
+	private Map<String, ScreenTableDefinition> tableDefinitions = new HashMap<String, ScreenTableDefinition>();
 	private Map<String, ScreenPartEntityDefinition> partDefinitions = new HashMap<String, ScreenPartEntityDefinition>();
 	private TerminalSnapshot snapshot;
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
@@ -46,7 +46,7 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 		this.navigationDefinition = navigationDefinition;
 	}
 
-	public Map<String, TableDefinition> getTableDefinitions() {
+	public Map<String, ScreenTableDefinition> getTableDefinitions() {
 		return tableDefinitions;
 	}
 

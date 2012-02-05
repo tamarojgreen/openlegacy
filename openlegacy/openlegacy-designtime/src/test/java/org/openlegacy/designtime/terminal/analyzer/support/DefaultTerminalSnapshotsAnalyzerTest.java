@@ -13,8 +13,8 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
@@ -90,35 +90,35 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 		ScreenEntityDefinition tableScreen = screenEntitiesDefinitions.get("TableScreen");
 		Assert.assertNotNull(tableScreen);
-		Map<String, TableDefinition> tablesDefinitions = tableScreen.getTableDefinitions();
+		Map<String, ScreenTableDefinition> tablesDefinitions = tableScreen.getTableDefinitions();
 		Assert.assertEquals(1, tablesDefinitions.size());
-		TableDefinition table1 = tablesDefinitions.get("TableScreenRecord");
+		ScreenTableDefinition table1 = tablesDefinitions.get("TableScreenRecord");
 
 		Assert.assertEquals(5, table1.getStartRow());
 		Assert.assertEquals(7, table1.getEndRow());
 
-		ColumnDefinition columnSelction = table1.getColumnDefinition("action");
+		ScreenColumnDefinition columnSelction = table1.getColumnDefinition("action");
 		Assert.assertNotNull(columnSelction);
 		Assert.assertEquals(4, columnSelction.getStartColumn());
 		Assert.assertEquals(5, columnSelction.getEndColumn());
 		Assert.assertTrue(columnSelction.isEditable());
 		Assert.assertEquals("Action", columnSelction.getDisplayName());
 
-		ColumnDefinition columnA = table1.getColumnDefinition("columnA");
+		ScreenColumnDefinition columnA = table1.getColumnDefinition("columnA");
 		Assert.assertNotNull(columnA);
 		Assert.assertEquals(11, columnA.getStartColumn());
 		Assert.assertEquals(19, columnA.getEndColumn());
 		Assert.assertEquals("Column A", columnA.getDisplayName());
 		Assert.assertEquals("Cell 1A", columnA.getSampleValue());
 
-		ColumnDefinition columnB = table1.getColumnDefinition("columnB");
+		ScreenColumnDefinition columnB = table1.getColumnDefinition("columnB");
 		Assert.assertNotNull(columnB);
 		Assert.assertEquals(21, columnB.getStartColumn());
 		Assert.assertEquals(29, columnB.getEndColumn());
 		Assert.assertEquals("Column B", columnB.getDisplayName());
 		Assert.assertEquals("Cell 1B", columnB.getSampleValue());
 
-		ColumnDefinition columnC = table1.getColumnDefinition("column4");
+		ScreenColumnDefinition columnC = table1.getColumnDefinition("column4");
 		Assert.assertNotNull(columnC);
 		Assert.assertEquals(31, columnC.getStartColumn());
 		Assert.assertEquals(39, columnC.getEndColumn());

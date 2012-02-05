@@ -10,7 +10,7 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
@@ -69,7 +69,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 					columnName = COLUMN + (i + 1);
 				}
 			}
-			ColumnDefinition columnDefinition = initColumn(i, firstCellField, columnName);
+			ScreenColumnDefinition columnDefinition = initColumn(i, firstCellField, columnName);
 
 			tableDefinition.getColumnDefinitions().add(columnDefinition);
 

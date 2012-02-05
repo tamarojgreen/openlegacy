@@ -9,6 +9,8 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 
 	private final Map<String, ScreenFieldDefinition> fieldDefinitions = new LinkedHashMap<String, ScreenFieldDefinition>();
 
+	private String partName;
+
 	public SimpleScreenPartEntityDefinition(Class<?> partClass) {
 		this.partClass = partClass;
 	}
@@ -19,6 +21,14 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 
 	public Map<String, ScreenFieldDefinition> getFieldsDefinitions() {
 		return fieldDefinitions;
+	}
+
+	public String getPartName() {
+		return partName;
+	}
+
+	public void setPartName(String partName) {
+		this.partName = partName;
 	}
 
 }

@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class SimpleTableDefinition implements TableDefinition {
+public class SimpleTableDefinition implements ScreenTableDefinition {
 
 	private Class<?> rowClass;
 
 	private int startRow;
 	private int endRow;
-	private List<ColumnDefinition> columnDefinitions = new ArrayList<ColumnDefinition>();
+	private List<ScreenColumnDefinition> columnDefinitions = new ArrayList<ScreenColumnDefinition>();
 
 	private TerminalAction nextScreenAction;
 	private TerminalAction previousScreenAction;
@@ -57,7 +57,7 @@ public class SimpleTableDefinition implements TableDefinition {
 		this.endRow = endRow;
 	}
 
-	public List<ColumnDefinition> getColumnDefinitions() {
+	public List<ScreenColumnDefinition> getColumnDefinitions() {
 		return columnDefinitions;
 	}
 
@@ -79,7 +79,7 @@ public class SimpleTableDefinition implements TableDefinition {
 
 	public List<String> getKeyFieldNames() {
 		List<String> keyFields = new ArrayList<String>();
-		for (ColumnDefinition columnDefinition : columnDefinitions) {
+		for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
 			if (columnDefinition.isKey()) {
 				keyFields.add(columnDefinition.getName());
 			}
@@ -92,8 +92,8 @@ public class SimpleTableDefinition implements TableDefinition {
 		return getEndRow() - getStartRow() + 1;
 	}
 
-	public ColumnDefinition getColumnDefinition(String fieldName) {
-		for (ColumnDefinition columnDefinition : columnDefinitions) {
+	public ScreenColumnDefinition getColumnDefinition(String fieldName) {
+		for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
 			if (columnDefinition.getName().equals(fieldName)) {
 				return columnDefinition;
 			}
@@ -193,9 +193,9 @@ public class SimpleTableDefinition implements TableDefinition {
 	}
 
 	public String getRowSelectionField() {
-		List<ColumnDefinition> columns = getColumnDefinitions();
+		List<ScreenColumnDefinition> columns = getColumnDefinitions();
 		String selectionField = null;
-		for (ColumnDefinition columnDefinition : columns) {
+		for (ScreenColumnDefinition columnDefinition : columns) {
 			if (columnDefinition.isSelectionField()) {
 				Assert.isNull(selectionField, "Table can contain only a single selection field:" + rowClass);
 				selectionField = columnDefinition.getName();

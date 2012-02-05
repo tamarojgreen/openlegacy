@@ -2,9 +2,9 @@ package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenPart;
-import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenPartEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -21,9 +21,13 @@ public class ScreenPartEntityAnnotationLoader extends AbstractClassAnnotationLoa
 
 	public void load(EntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
+		ScreenPart screenPartAnnotation = (ScreenPart)annotation;
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
-		ScreenPartEntityDefinition screenPartEntityDefinition = new SimpleScreenPartEntityDefinition(containingClass);
+		SimpleScreenPartEntityDefinition screenPartEntityDefinition = new SimpleScreenPartEntityDefinition(containingClass);
+		String name = screenPartAnnotation.name().length() > 0 ? screenPartAnnotation.name()
+				: StringUtil.toJavaFieldName(containingClass.getSimpleName());
+		screenPartEntityDefinition.setPartName(name);
 		screenEntitiesRegistry.addPart(screenPartEntityDefinition);
 	}
 }

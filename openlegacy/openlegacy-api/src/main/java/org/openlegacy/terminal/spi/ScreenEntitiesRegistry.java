@@ -4,7 +4,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 
 /**
  * Define a registry spi for screen related entities registration
@@ -16,7 +16,7 @@ public interface ScreenEntitiesRegistry extends EntitiesRegistry<ScreenEntityDef
 
 	ScreenPartEntityDefinition getPart(Class<?> containingClass);
 
-	void addTable(TableDefinition tableDefinition);
+	void addTable(ScreenTableDefinition tableDefinition);
 
-	TableDefinition getTable(Class<?> containingClass);
+	ScreenTableDefinition getTable(Class<?> containingClass);
 }

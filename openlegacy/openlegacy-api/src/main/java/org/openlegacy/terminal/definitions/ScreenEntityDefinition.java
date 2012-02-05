@@ -26,7 +26,7 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	 * 
 	 * @return
 	 */
-	Map<String, TableDefinition> getTableDefinitions();
+	Map<String, ScreenTableDefinition> getTableDefinitions();
 
 	/**
 	 * field name -> part defintion

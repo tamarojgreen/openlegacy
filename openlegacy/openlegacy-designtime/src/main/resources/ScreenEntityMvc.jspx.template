@@ -33,9 +33,23 @@
 				</#list>
 			</#list>
 			</#if>
+			<#if pagePart.hasTable>
+				<table>
+				<#list pagePart.tableDefinition.columnDefinitions as column>
+					<th>
+					${column.displayName}
+					</th>
+				</#list>
+					<tr>
+				<#list pagePart.tableDefinition.columnDefinitions as column>
+					<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}.${column.name}">
+						<td>${r"${"}${fieldAssignment}${r"}"}</td>
+				</#list>
+					</tr>
+				</table>
+			</#if>
 		</div>
 		</#list>	
 		
 	</form>
 </div>
-

@@ -1,6 +1,6 @@
 package org.openlegacy.terminal.providers;
 
-import org.openlegacy.terminal.definitions.TableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 
 import java.util.Map;
 
@@ -10,6 +10,6 @@ import java.util.Map;
  */
 public interface TablesDefinitionProvider extends DefinitionsProvider {
 
-	Map<String, TableDefinition> getTableDefinitions(Class<?> screenEntityClass);
+	Map<String, ScreenTableDefinition> getTableDefinitions(Class<?> screenEntityClass);
 
 }

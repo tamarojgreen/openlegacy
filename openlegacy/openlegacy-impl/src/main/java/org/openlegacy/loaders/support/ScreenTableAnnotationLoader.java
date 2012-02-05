@@ -7,6 +7,7 @@ import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.Collections;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE - 1)
@@ -35,6 +37,10 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));
 		tableDefinition.setPreviousScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));
+
+		String name = screenTableAnnotation.name().length() > 0 ? screenTableAnnotation.name()
+				: StringUtil.toJavaFieldName(containingClass.getSimpleName());
+		tableDefinition.setTableEntityName(name);
 
 		tableDefinition.setTableCollector(screenTableAnnotation.tableCollector());
 		collectColumnsMetadata(containingClass, tableDefinition);
@@ -57,7 +63,9 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				columnDefinition.setEndColumn(screenColumnAnnotation.endColumn());
 				columnDefinition.setKey(screenColumnAnnotation.key());
 				columnDefinition.setEditable(screenColumnAnnotation.editable());
-				columnDefinition.setDisplayName(screenColumnAnnotation.displayName());
+				String displayName = screenColumnAnnotation.displayName().length() > 0 ? screenColumnAnnotation.displayName()
+						: StringUtil.toDisplayName(field.getName());
+				columnDefinition.setDisplayName(displayName);
 				columnDefinition.setSampleValue(screenColumnAnnotation.sampleValue());
 
 				columnDefinition.setSelectionField(screenColumnAnnotation.selectionField());
@@ -66,6 +74,6 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 			}
 		});
-
+		Collections.sort(tableDefinition.getColumnDefinitions());
 	}
 }

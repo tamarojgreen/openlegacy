@@ -10,7 +10,7 @@ import org.openlegacy.modules.table.drilldown.TableScroller;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.table.ScreenTableDrilldownPerformer;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;

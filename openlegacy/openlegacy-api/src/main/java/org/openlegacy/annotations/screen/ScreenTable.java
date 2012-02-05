@@ -26,6 +26,8 @@ public @interface ScreenTable {
 
 	int endRow();
 
+	String name() default "";
+
 	Class<? extends TerminalAction> nextScreenAction() default TerminalActions.PAGEDOWN.class;
 
 	Class<? extends TerminalAction> previousScreenAction() default TerminalActions.PAGEUP.class;

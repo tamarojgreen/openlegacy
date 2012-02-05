@@ -7,6 +7,7 @@ import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.utils.ProxyUtil;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.beans.DirectFieldAccessor;
 
 import java.text.MessageFormat;
@@ -33,7 +34,7 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#isReadableProperty(java.lang.String)
 	 */
 	public boolean isExists(String fieldName) {
-		return directFieldAccessor.isReadableProperty(fieldName);
+		return directFieldAccessor.isReadableProperty(getFieldPojoName(fieldName));
 	}
 
 	/*
@@ -42,7 +43,7 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#isWritableProperty(java.lang.String)
 	 */
 	public boolean isWritable(String fieldName) {
-		return directFieldAccessor.isWritableProperty(fieldName);
+		return directFieldAccessor.isWritableProperty(getFieldPojoName(fieldName));
 	}
 
 	/*
@@ -52,6 +53,7 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	 * org.openlegacy.terminal.TerminalField)
 	 */
 	public void setTerminalField(String fieldName, TerminalField terminalField) {
+		fieldName = getFieldPojoName(fieldName);
 		String terminalFieldName = fieldName + FIELD_SUFFIX;
 		if (directFieldAccessor.isReadableProperty(terminalFieldName)) {
 			directFieldAccessor.setPropertyValue(terminalFieldName, terminalField);
@@ -68,7 +70,7 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setFieldValue(java.lang.String, java.lang.Object)
 	 */
 	public void setFieldValue(String fieldName, Object value) {
-		directFieldAccessor.setPropertyValue(fieldName, value);
+		directFieldAccessor.setPropertyValue(getFieldPojoName(fieldName), value);
 		if (logger.isDebugEnabled()) {
 			if (value instanceof String) {
 				String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
@@ -114,7 +116,11 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#getFieldValue(java.lang.String)
 	 */
 	public Object getFieldValue(String fieldName) {
-		return directFieldAccessor.getPropertyValue(fieldName);
+		return directFieldAccessor.getPropertyValue(getFieldPojoName(fieldName));
+	}
+
+	private static String getFieldPojoName(String fieldName) {
+		return StringUtil.removeNamespace(fieldName);
 	}
 
 	public void setFocusField(String fieldName) {

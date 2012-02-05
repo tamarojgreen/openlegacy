@@ -1,8 +1,9 @@
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
 
-public class SimpleColumnDefinition implements ColumnDefinition {
+public class SimpleColumnDefinition implements ScreenColumnDefinition {
 
 	private String name;
 	private int startColumn;
@@ -89,5 +90,14 @@ public class SimpleColumnDefinition implements ColumnDefinition {
 
 	public void setJavaType(Class<?> javaType) {
 		this.javaType = javaType;
+	}
+
+	public int compareTo(ColumnDefinition other) {
+		if (!(other instanceof ScreenColumnDefinition)) {
+			return -1;
+		}
+		ScreenColumnDefinition otherColumn = (ScreenColumnDefinition)other;
+
+		return getStartColumn() - otherColumn.getStartColumn();
 	}
 }

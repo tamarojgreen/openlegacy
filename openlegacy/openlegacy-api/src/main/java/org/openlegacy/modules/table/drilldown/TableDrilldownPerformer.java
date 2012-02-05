@@ -1,7 +1,7 @@
 package org.openlegacy.modules.table.drilldown;
 
 import org.openlegacy.Session;
-import org.openlegacy.terminal.definitions.TableDefinition.DrilldownDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
 
 /**
  * Performs a drill down action on the given session from sourceEntityClass to targetEntityClass using drill down action and the

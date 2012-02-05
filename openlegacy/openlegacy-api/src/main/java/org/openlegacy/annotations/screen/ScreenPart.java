@@ -20,4 +20,6 @@ import java.lang.annotation.Target;
 public @interface ScreenPart {
 
 	boolean supportTerminalData() default false;
+
+	String name() default "";
 }

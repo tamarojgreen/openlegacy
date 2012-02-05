@@ -2,6 +2,7 @@ package org.openlegacy.definitions.page.support;
 
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.layout.PagePartRowDefinition;
+import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.layout.PositionedPagePartDefinition;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 	private int topMargin;
 	private int leftMargin;
 	private int columns;
+	private TableDefinition<?> tableDefinition;
 
 	public int getColumns() {
 		return columns;
@@ -74,5 +76,23 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 			return getPartRows().get(0).getFields().get(0);
 		}
 		return null;
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public TableDefinition getTableDefinition() {
+		return tableDefinition;
+	}
+
+	public void setTableDefinition(TableDefinition<?> tableDefinition) {
+		this.tableDefinition = tableDefinition;
+	}
+
+	/**
+	 * Used as free-marker helper method
+	 * 
+	 * @return
+	 */
+	public boolean isHasTable() {
+		return getTableDefinition() != null;
 	}
 }

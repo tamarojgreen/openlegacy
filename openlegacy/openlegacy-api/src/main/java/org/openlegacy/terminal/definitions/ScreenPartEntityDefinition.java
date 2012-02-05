@@ -12,4 +12,6 @@ public interface ScreenPartEntityDefinition {
 	Class<?> getPartClass();
 
 	Map<String, ScreenFieldDefinition> getFieldsDefinitions();
+
+	String getPartName();
 }
