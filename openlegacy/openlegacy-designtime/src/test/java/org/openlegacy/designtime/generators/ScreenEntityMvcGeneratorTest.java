@@ -1,14 +1,15 @@
 package org.openlegacy.designtime.generators;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
-import org.openlegacy.terminal.layout.mock.Screen1;
+import org.openlegacy.terminal.layout.mock.ScreenForPage;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.utils.StringUtil;
+import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -28,14 +29,14 @@ public class ScreenEntityMvcGeneratorTest {
 	@Test
 	public void testGenerateJspx() throws Exception {
 
-		ScreenEntityDefinition screen1Definition = screenEntitiesRegistry.get(Screen1.class);
+		ScreenEntityDefinition screen1Definition = screenEntitiesRegistry.get(ScreenForPage.class);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 		PageDefinition pageDefinition = screenPageBuilder.build(screen1Definition);
 		new ScreenEntityMvcGenerator().generateJspx(pageDefinition, baos);
 
-		System.out.println(StringUtil.toString(baos));
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPage.jspx.expected"));
 
-		// AssertUtils.assertContent(expectedBytes, baos.toByteArray());
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 }

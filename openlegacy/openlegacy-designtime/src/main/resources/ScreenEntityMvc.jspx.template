@@ -12,18 +12,27 @@
 
 	<form>
 		<#list pageParts as pagePart>
-		<div style="margin-left: ${pagePart.leftMarginPercentage}%; margin-top: ${pagePart.topMarginPercentage}%; width: ${pagePart.widthPercentage}%" class="panel">
+		<div style="margin-left: ${pagePart.leftMargin}%; margin-top: ${pagePart.topMargin}%; width: ${pagePart.width}%;<#if pagePart.oneField>position:absolute;</#if>" <#if pagePart.multyFields>class="panel"</#if>>
+			<#if pagePart.oneField>
+			<div class="field">
+				<label>${pagePart.singleField.displayName}: </label>
+				<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.singleField.name}">
+				<#if pagePart.singleField.editable><input value="${r"${"}${fieldAssignment}${r"}"}" /><#else><span>${r"${"}${fieldAssignment}${r"}"}</span>
+				</#if>
+			</div>
+			<#else>
 			<#list pagePart.partRows as partRow> 
 				<#list partRow.fields as field> 
 			<div class="<#if partRow.fields?size &gt; 1>col_${field_index+1}_of_${partRow.fields?size} </#if>field">
 				
 				<label>${field.displayName}: </label>
 				<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${field.name}">
-				<#if field.editable><input value="${r"${"}${fieldAssignment}${r"}"}" /><#else><span>${r"${"}${fieldAssignment}${r"}"}"</span>
+				<#if field.editable><input value="${r"${"}${fieldAssignment}${r"}"}" /><#else><span>${r"${"}${fieldAssignment}${r"}"}</span>
 				</#if>
 			</div>
 				</#list>
 			</#list>
+			</#if>
 		</div>
 		</#list>	
 		

@@ -8,5 +8,5 @@ public interface PagePartDefinition {
 
 	List<PagePartRowDefinition> getPartRows();
 
-	int getWidthPercentage();
+	int getWidth();
 }

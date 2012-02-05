@@ -4,7 +4,7 @@ import org.openlegacy.layout.PagePartDefinition;
 
 public interface PositionedPagePartDefinition extends PagePartDefinition {
 
-	int getTopMarginPercentage();
+	int getTopMargin();
 
-	int getLeftMarginPercentage();
+	int getLeftMargin();
 }

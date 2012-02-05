@@ -12,6 +12,7 @@ import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
 import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
@@ -23,6 +24,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Default screen page builder create a page which is combined from page part
+ * 
+ */
 public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenPageBuilder.class);
@@ -30,6 +35,11 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	private int maxRowDistanceWithinPart = 1;
 	private int maxColumnDistanceWithinPart = 12;
 	private int labelFieldDistance = 3;
+
+	// used for setting default field length when none specified (@ScreenField doesn't force endColumn/length)
+	private int defaultFieldLength = 10;
+
+	private int defaultLeftMargin = 10;
 
 	public PageDefinition build(ScreenEntityDefinition entityDefinition) {
 		Collection<ScreenFieldDefinition> fields = entityDefinition.getFieldsDefinitions().values();
@@ -44,23 +54,37 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		for (List<ScreenFieldDefinition> neighbourfields : neighourFieldsGroups) {
 			pageDefinition.getPageParts().add(buildPagePart(neighbourfields, entityDefinition));
+		}
+
+		Collection<ScreenPartEntityDefinition> screenParts = entityDefinition.getPartsDefinitions().values();
+		for (ScreenPartEntityDefinition screenPartEntityDefinition : screenParts) {
+			pageDefinition.getPageParts().add(buildPagePartFromScreenPart(screenPartEntityDefinition, entityDefinition));
 
 		}
 		return pageDefinition;
 	}
 
-	private PagePartDefinition buildPagePart(List<ScreenFieldDefinition> neighbourfields, ScreenEntityDefinition entityDefinition) {
-		SimplePagePartDefinition pagePart = new SimplePagePartDefinition();
+	private PagePartDefinition buildPagePartFromScreenPart(ScreenPartEntityDefinition screenPartEntityDefinition,
+			ScreenEntityDefinition entityDefinition) {
+		Collection<ScreenFieldDefinition> fields = screenPartEntityDefinition.getFieldsDefinitions().values();
+		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
+		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 
-		calculateMargins(neighbourfields, entityDefinition, pagePart);
+		return buildPagePart(sortedFields, entityDefinition);
+	}
+
+	private PagePartDefinition buildPagePart(List<ScreenFieldDefinition> fields, ScreenEntityDefinition entityDefinition) {
+		SimplePagePartDefinition pagePart = new SimplePagePartDefinition();
 
 		int currentRow = -1;
 		PagePartRowDefinition currentPagePartRow = null;
 		Set<Integer> columnValues = new HashSet<Integer>();
-		ScreenFieldDefinition firstField = neighbourfields.get(0);
+		ScreenFieldDefinition firstField = fields.get(0);
 		int startColumn = calculateLabelColumn(firstField);
 		int endColumn = firstField.getEndPosition().getColumn();
-		for (ScreenFieldDefinition screenFieldDefinition : neighbourfields) {
+
+		// iterate through all the neighbor fields, and build row part rows upon row change, and find the end column
+		for (ScreenFieldDefinition screenFieldDefinition : fields) {
 			if (screenFieldDefinition.getPosition().getRow() != currentRow) {
 				currentPagePartRow = new SimplePagePartRowDefinition();
 				pagePart.getPartRows().add(currentPagePartRow);
@@ -68,33 +92,44 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			}
 			currentPagePartRow.getFields().add(screenFieldDefinition);
 			columnValues.add(screenFieldDefinition.getPosition().getColumn());
-			int fieldEndColumn = screenFieldDefinition.getEndPosition().getColumn();
+			int fieldEndColumn = screenFieldDefinition.getLength() > 0 ? screenFieldDefinition.getEndPosition().getColumn()
+					: screenFieldDefinition.getPosition().getColumn() + defaultFieldLength;
+			// find the most right end column
 			if (fieldEndColumn > endColumn) {
 				endColumn = fieldEndColumn;
 			}
 		}
 		pagePart.setColumns(columnValues.size());
-		int widthPercentage = 100 * (endColumn - startColumn) / entityDefinition.getScreenSize().getColumns();
-		pagePart.setWidthPercentage(widthPercentage);
+
+		calculatePartPosition(fields, entityDefinition, pagePart);
+		calculateWidth(entityDefinition, pagePart, startColumn, endColumn);
+
 		return pagePart;
 	}
 
-	private void calculateMargins(List<ScreenFieldDefinition> neighbourfields, ScreenEntityDefinition entityDefinition,
+	protected void calculateWidth(ScreenEntityDefinition entityDefinition, SimplePagePartDefinition pagePart, int startColumn,
+			int endColumn) {
+		int widthPercentage = 100 * (endColumn - startColumn) / entityDefinition.getScreenSize().getColumns();
+		pagePart.setWidth(widthPercentage);
+	}
+
+	protected void calculatePartPosition(List<ScreenFieldDefinition> neighbourfields, ScreenEntityDefinition entityDefinition,
 			SimplePagePartDefinition pagePart) {
 		ScreenFieldDefinition firstField = neighbourfields.get(0);
 		TerminalPosition firstFieldPosition = firstField.getPosition();
 
 		ScreenSize screenSize = entityDefinition.getScreenSize();
 		int topMarginPercentage = (100 * (firstFieldPosition.getRow() - 1)) / screenSize.getRows();
-		int topLeftColumn = calculateLabelColumn(firstField);
+		int topLeftColumn = calculateLabelColumn(firstField) + defaultLeftMargin;
 		int leftMarginPercentage = (100 * topLeftColumn) / screenSize.getColumns();
 
-		pagePart.setTopMarginPercentage(topMarginPercentage);
-		pagePart.setLeftMarginPercentage(leftMarginPercentage);
+		pagePart.setTopMargin(topMarginPercentage);
+		pagePart.setLeftMargin(leftMarginPercentage);
 	}
 
 	private int calculateLabelColumn(ScreenFieldDefinition firstField) {
-		return firstField.getPosition().getColumn() - (firstField.getDisplayName().length() + labelFieldDistance);
+		int column = firstField.getPosition().getColumn() - (firstField.getDisplayName().length() + labelFieldDistance);
+		return column > 0 ? column : 1;
 	}
 
 	/**
@@ -153,5 +188,13 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	public void setMaxColumnDistanceWithinPart(int maxColumnDistanceWithinPart) {
 		this.maxColumnDistanceWithinPart = maxColumnDistanceWithinPart;
+	}
+
+	public void setDefaultFieldLength(int defaultFieldLength) {
+		this.defaultFieldLength = defaultFieldLength;
+	}
+
+	public void setDefaultLeftMargin(int defaultLeftMargin) {
+		this.defaultLeftMargin = defaultLeftMargin;
 	}
 }
