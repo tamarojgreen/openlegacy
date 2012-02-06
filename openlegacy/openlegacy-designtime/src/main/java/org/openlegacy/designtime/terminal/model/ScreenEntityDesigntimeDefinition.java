@@ -6,7 +6,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.definitions.SimpleTableDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 	/**
 	 * Adds a table to the screen definition without a name yet. Name will be given by the screen entity name at a pater phase
 	 */
-	void addTemporaryTable(SimpleTableDefinition tableDefinition);
+	void addTemporaryTable(SimpleScreenTableDefinition tableDefinition);
 
 	List<ScreenFieldDefinition> getSortedFields();
 

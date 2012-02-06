@@ -8,8 +8,8 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.analyzer.support.ColumnComparator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
-import org.openlegacy.terminal.definitions.SimpleTableDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.utils.StringUtil;
 
@@ -40,7 +40,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 
 		Collections.sort(TableColumnFacts, ColumnComparator.instance());
 
-		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(null);
+		SimpleScreenTableDefinition tableDefinition = new SimpleScreenTableDefinition(null);
 
 		List<TerminalField> firstColumnFields = TableColumnFacts.get(0).getFields();
 		TerminalField topLeftTableCell = firstColumnFields.get(0);
@@ -102,8 +102,8 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 		return headerField;
 	}
 
-	private static SimpleColumnDefinition initColumn(int i, TerminalField firstCellField, String columnName) {
-		SimpleColumnDefinition columnDefinition = new SimpleColumnDefinition(StringUtil.toJavaFieldName(columnName));
+	private static SimpleScreenColumnDefinition initColumn(int i, TerminalField firstCellField, String columnName) {
+		SimpleScreenColumnDefinition columnDefinition = new SimpleScreenColumnDefinition(StringUtil.toJavaFieldName(columnName));
 
 		columnDefinition.setStartColumn(firstCellField.getPosition().getColumn());
 		columnDefinition.setEndColumn(columnDefinition.getStartColumn() + firstCellField.getLength() - 1);

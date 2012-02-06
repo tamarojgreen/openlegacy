@@ -6,6 +6,7 @@ import freemarker.template.TemplateException;
 
 import org.openlegacy.designtime.terminal.generators.support.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel;
+import org.openlegacy.designtime.utils.JavaParserUtil;
 
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
@@ -54,17 +55,17 @@ public class ScreenPojosAjGenerator {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			for (AnnotationExpr annotationExpr : annotations) {
 				ScreenPojoCodeModel screenEntityCodeModel = null;
-				if (hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_ANNOTATION)
-						|| hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
+				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_ANNOTATION)
+						|| JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					screenEntityCodeModel = generateScreenEntity(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							baos);
 					checkInnerClasses(javaFile, compilationUnit, typeDeclaration);
 				}
-				if (hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
+				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
 					screenEntityCodeModel = generateScreenPart(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							baos, "");
 				}
-				if (hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
+				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
 					screenEntityCodeModel = generateScreenTable(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							baos, "");
 				}
@@ -74,10 +75,6 @@ public class ScreenPojosAjGenerator {
 			}
 		}
 
-	}
-
-	private static boolean hasAnnotation(AnnotationExpr annotationExpr, String annotation) {
-		return annotationExpr.getName().getName().equals(annotation);
 	}
 
 	private void checkInnerClasses(File javaFile, CompilationUnit compilationUnit, TypeDeclaration parentType)
@@ -91,11 +88,11 @@ public class ScreenPojosAjGenerator {
 				for (AnnotationExpr annotationExpr : annotations) {
 					ScreenPojoCodeModel screenEntityCodeModel = null;
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					if (hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
+					if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
 						screenEntityCodeModel = generateScreenPart(compilationUnit, (ClassOrInterfaceDeclaration)bodyDeclaration,
 								baos, parentType.getName());
 					}
-					if (hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
+					if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
 						screenEntityCodeModel = generateScreenTable(compilationUnit,
 								(ClassOrInterfaceDeclaration)bodyDeclaration, baos, parentType.getName());
 					}

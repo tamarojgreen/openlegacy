@@ -16,8 +16,16 @@ public class AnnotationConstants {
 	public static final String SCREEN_COLUMN_ANNOTATION = ScreenColumn.class.getSimpleName();
 	public static final String TRUE = "true";
 	public static final String FIELD_SUFFIX = "Field";
-	public static final String FIELD_MAPPING_ANNOTATION = ScreenField.class.getSimpleName();
+	public static final String SCREEN_FIELD_ANNOTATION = ScreenField.class.getSimpleName();
 
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String EDITABLE = "editable";
+	public static final String ROW = "row";
+	public static final String COLUMN = "column";
+	public static final String DISPLAY_NAME = "displayName";
+	public static final String NAME = "name";
+	public static final String START_COLUMN = "startColumn";
+	public static final String END_COLUMN = "endColumn";
+	public static final String START_ROW = "startRow";
+	public static final String END_ROW = "endRow";
 }

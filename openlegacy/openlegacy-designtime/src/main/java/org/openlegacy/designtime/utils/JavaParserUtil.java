@@ -31,4 +31,7 @@ public class JavaParserUtil {
 		return false;
 	}
 
+	public static boolean hasAnnotation(AnnotationExpr annotationExpr, String annotation) {
+		return annotationExpr.getName().getName().equals(annotation);
+	}
 }

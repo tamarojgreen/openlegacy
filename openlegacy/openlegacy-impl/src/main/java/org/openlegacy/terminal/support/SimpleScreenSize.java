@@ -10,8 +10,10 @@ public class SimpleScreenSize implements ScreenSize {
 
 	private static final long serialVersionUID = 1L;
 
-	private int rows;
-	private int columns;
+	private int rows = ScreenSize.DEFAULT_ROWS;
+	private int columns = ScreenSize.DEFAULT_COLUMN;
+
+	public SimpleScreenSize() {}
 
 	public SimpleScreenSize(int rows, int columns) {
 		this.rows = rows;

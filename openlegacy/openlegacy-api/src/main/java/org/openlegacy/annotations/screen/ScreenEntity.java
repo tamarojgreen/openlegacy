@@ -2,6 +2,7 @@ package org.openlegacy.annotations.screen;
 
 import org.openlegacy.EntityType;
 import org.openlegacy.terminal.ScreenEntityType;
+import org.openlegacy.terminal.ScreenSize;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -31,7 +32,7 @@ public @interface ScreenEntity {
 
 	Class<? extends EntityType> screenType() default ScreenEntityType.General.class;
 
-	int columns() default 80;
+	int columns() default ScreenSize.DEFAULT_COLUMN;
 
-	int rows() default 24;
+	int rows() default ScreenSize.DEFAULT_ROWS;
 }

@@ -1,0 +1,114 @@
+package org.openlegacy.terminal.layout.mock;
+
+import org.openlegacy.annotations.screen.ScreenColumn;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.ScreenPart;
+import org.openlegacy.annotations.screen.ScreenTable;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@ScreenEntity
+@Component
+public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
+
+	@ScreenField(row = 6, column = 22, editable = true)
+	private String fldCol12;
+
+	@ScreenField(row = 7, column = 22, editable = true)
+	private String fld2Col12;
+
+	@ScreenField(row = 8, column = 22, editable = true)
+	private String fld3Col12;
+
+	@ScreenField(row = 10, column = 33, endColumn = 43)
+	private String fldRow10;
+
+	@ScreenField(row = 10, column = 53)
+	private String fld2Row10;
+
+	@ScreenField(row = 24, column = 20)
+	private String orphanFld;
+
+	private ScreenForPagePart screenForPagePart;
+
+	private List<ScreenForPageTable> screenForPageRow;
+
+	public String getFldCol12() {
+		return fldCol12;
+	}
+
+	public String getFld2Col12() {
+		return fld2Col12;
+	}
+
+	public String getFld3Col12() {
+		return fld3Col12;
+	}
+
+	public String getFldRow10() {
+		return fldRow10;
+	}
+
+	public String getFld2Row10() {
+		return fld2Row10;
+	}
+
+	public String getOrphanFld() {
+		return orphanFld;
+	}
+
+	public ScreenForPagePart getScreenForPagePart() {
+		return screenForPagePart;
+	}
+
+	public List<ScreenForPageTable> getScreenForPageRow() {
+		return screenForPageRow;
+	}
+
+	public String getFocusField() {
+		return null;
+	}
+
+	public void setFocusField(String focusField) {}
+
+}
+
+@ScreenPart
+@Component
+class ScreenForPagePart {
+
+	@ScreenField(row = 20, column = 13, endColumn = 43)
+	private String fldRow20;
+
+	@ScreenField(row = 20, column = 33)
+	private String fld2Row20;
+
+	public String getFldRow20() {
+		return fldRow20;
+	}
+
+	public String getFld2Row20() {
+		return fld2Row20;
+	}
+}
+
+@ScreenTable(startRow = 15, endRow = 20)
+@Component
+class ScreenForPageTable {
+
+	@ScreenColumn(startColumn = 10, endColumn = 20)
+	private String column1;
+
+	@ScreenColumn(startColumn = 25, endColumn = 30)
+	private String column2;
+
+	public String getColumn1() {
+		return column1;
+	}
+
+	public String getColumn2() {
+		return column2;
+	}
+}

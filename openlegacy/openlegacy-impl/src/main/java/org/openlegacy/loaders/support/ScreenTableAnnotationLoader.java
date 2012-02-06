@@ -3,8 +3,8 @@ package org.openlegacy.loaders.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
-import org.openlegacy.terminal.definitions.SimpleColumnDefinition;
-import org.openlegacy.terminal.definitions.SimpleTableDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
@@ -30,7 +30,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 		ScreenTable screenTableAnnotation = (ScreenTable)annotation;
 
-		SimpleTableDefinition tableDefinition = new SimpleTableDefinition(containingClass);
+		SimpleScreenTableDefinition tableDefinition = new SimpleScreenTableDefinition(containingClass);
 		tableDefinition.setStartRow(screenTableAnnotation.startRow());
 		tableDefinition.setEndRow(screenTableAnnotation.endRow());
 		tableDefinition.setScrollable(screenTableAnnotation.scrollable());
@@ -48,7 +48,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	}
 
-	private static void collectColumnsMetadata(final Class<?> rowClass, final SimpleTableDefinition tableDefinition) {
+	private static void collectColumnsMetadata(final Class<?> rowClass, final SimpleScreenTableDefinition tableDefinition) {
 		ReflectionUtils.doWithFields(rowClass, new FieldCallback() {
 
 			public void doWith(Field field) {
@@ -58,7 +58,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				}
 				ScreenColumn screenColumnAnnotation = field.getAnnotation(ScreenColumn.class);
 
-				SimpleColumnDefinition columnDefinition = new SimpleColumnDefinition(field.getName());
+				SimpleScreenColumnDefinition columnDefinition = new SimpleScreenColumnDefinition(field.getName());
 				columnDefinition.setStartColumn(screenColumnAnnotation.startColumn());
 				columnDefinition.setEndColumn(screenColumnAnnotation.endColumn());
 				columnDefinition.setKey(screenColumnAnnotation.key());

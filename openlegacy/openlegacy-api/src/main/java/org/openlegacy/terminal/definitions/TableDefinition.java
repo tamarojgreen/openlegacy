@@ -22,8 +22,6 @@ public interface TableDefinition<C extends ColumnDefinition> {
 
 	boolean isScrollable();
 
-	String getRowSelectionField();
-
 	public interface ColumnDefinition extends Comparable<ColumnDefinition> {
 
 		String getName();

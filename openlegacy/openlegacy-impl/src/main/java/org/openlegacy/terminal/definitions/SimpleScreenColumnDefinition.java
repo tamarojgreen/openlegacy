@@ -3,7 +3,7 @@ package org.openlegacy.terminal.definitions;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
 
-public class SimpleColumnDefinition implements ScreenColumnDefinition {
+public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
 
 	private String name;
 	private int startColumn;
@@ -16,7 +16,7 @@ public class SimpleColumnDefinition implements ScreenColumnDefinition {
 	private boolean selectionField;
 	private Class<?> javaType;
 
-	public SimpleColumnDefinition(String name) {
+	public SimpleScreenColumnDefinition(String name) {
 		this.name = name;
 	}
 

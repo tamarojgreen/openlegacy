@@ -8,7 +8,7 @@ import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
-import org.openlegacy.terminal.definitions.SimpleTableDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalRectangle;
 import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
@@ -36,7 +36,7 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 
 	private TerminalRectangle snapshotBorders = null;
 
-	private List<SimpleTableDefinition> temporaryTableDefinitions = new ArrayList<SimpleTableDefinition>();
+	private List<SimpleScreenTableDefinition> temporaryTableDefinitions = new ArrayList<SimpleScreenTableDefinition>();
 
 	private List<String> imports = new ArrayList<String>();
 
@@ -53,7 +53,7 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 	 */
 	private void populateTableNames(String entityName) {
 		int count = 0;
-		for (SimpleTableDefinition tableDefinition : temporaryTableDefinitions) {
+		for (SimpleScreenTableDefinition tableDefinition : temporaryTableDefinitions) {
 
 			String tableSuffix = count == 0 ? "" : String.valueOf(count - 1);
 			String tableEntityName = MessageFormat.format("{0}{1}{2}", entityName, RECORD, tableSuffix);
@@ -103,7 +103,7 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		setWindow(true);
 	}
 
-	public void addTemporaryTable(SimpleTableDefinition tableDefinition) {
+	public void addTemporaryTable(SimpleScreenTableDefinition tableDefinition) {
 		temporaryTableDefinitions.add(tableDefinition);
 	}
 

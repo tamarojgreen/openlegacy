@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class SimpleTableDefinition implements ScreenTableDefinition {
+public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 
 	private Class<?> rowClass;
 
@@ -33,7 +33,7 @@ public class SimpleTableDefinition implements ScreenTableDefinition {
 
 	private String tableEntityName;
 
-	public SimpleTableDefinition(Class<?> rowClass) {
+	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
 	}
 
