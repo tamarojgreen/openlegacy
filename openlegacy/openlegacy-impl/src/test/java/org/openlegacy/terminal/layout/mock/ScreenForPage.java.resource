@@ -73,42 +73,43 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	public void setFocusField(String focusField) {}
 
-}
 
-@ScreenPart
-@Component
-class ScreenForPagePart {
-
-	@ScreenField(row = 20, column = 13, endColumn = 43)
-	private String fldRow20;
-
-	@ScreenField(row = 20, column = 33)
-	private String fld2Row20;
-
-	public String getFldRow20() {
-		return fldRow20;
+	@ScreenPart
+	@Component
+	public static class ScreenForPagePart {
+	
+		@ScreenField(row = 20, column = 13, endColumn = 43)
+		private String fldRow20;
+	
+		@ScreenField(row = 20, column = 33)
+		private String fld2Row20;
+	
+		public String getFldRow20() {
+			return fldRow20;
+		}
+	
+		public String getFld2Row20() {
+			return fld2Row20;
+		}
+	}
+	
+	@ScreenTable(startRow = 15, endRow = 20)
+	@Component
+	public static class ScreenForPageTable {
+	
+		@ScreenColumn(startColumn = 10, endColumn = 20)
+		private String column1;
+	
+		@ScreenColumn(startColumn = 25, endColumn = 30)
+		private String column2;
+	
+		public String getColumn1() {
+			return column1;
+		}
+	
+		public String getColumn2() {
+			return column2;
+		}
 	}
 
-	public String getFld2Row20() {
-		return fld2Row20;
-	}
-}
-
-@ScreenTable(startRow = 15, endRow = 20)
-@Component
-class ScreenForPageTable {
-
-	@ScreenColumn(startColumn = 10, endColumn = 20)
-	private String column1;
-
-	@ScreenColumn(startColumn = 25, endColumn = 30)
-	private String column2;
-
-	public String getColumn1() {
-		return column1;
-	}
-
-	public String getColumn2() {
-		return column2;
-	}
 }

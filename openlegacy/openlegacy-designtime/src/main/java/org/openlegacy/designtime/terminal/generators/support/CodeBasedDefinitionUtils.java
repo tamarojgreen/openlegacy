@@ -12,6 +12,7 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringUtil;
 
 import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
@@ -50,6 +51,16 @@ public class CodeBasedDefinitionUtils {
 	public static ScreenEntityDefinition getEntityDefinition(CompilationUnit compilationUnit) {
 		List<TypeDeclaration> types = compilationUnit.getTypes();
 		CodeBasedScreenEntityDefinition screenDefinition = null;
+
+		TypeDeclaration type = compilationUnit.getTypes().get(0);
+		List<BodyDeclaration> members = type.getMembers();
+		for (BodyDeclaration bodyDeclaration : members) {
+			// look for inner classes
+			if (bodyDeclaration instanceof ClassOrInterfaceDeclaration) {
+				types.add((TypeDeclaration)bodyDeclaration);
+			}
+		}
+
 		for (TypeDeclaration typeDeclaration : types) {
 			List<AnnotationExpr> annotations = typeDeclaration.getAnnotations();
 			if (annotations == null) {
