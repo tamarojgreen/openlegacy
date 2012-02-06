@@ -4,6 +4,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.generators.support.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
@@ -24,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -40,6 +43,8 @@ import java.util.List;
  */
 public class ScreenPojosAjGenerator {
 
+	private final static Log logger = LogFactory.getLog(ScreenPojosAjGenerator.class);
+
 	public void generate(File javaFile) throws IOException, TemplateException, ParseException {
 
 		FileInputStream input = new FileInputStream(javaFile);
@@ -47,6 +52,20 @@ public class ScreenPojosAjGenerator {
 		CompilationUnit compilationUnit = JavaParser.parse(input);
 
 		List<TypeDeclaration> types = compilationUnit.getTypes();
+
+		if (types.size() == 0) {
+			logger.warn(MessageFormat.format("No types detected for {0}. skippinf file", javaFile.getName()));
+			return;
+		}
+
+		List<BodyDeclaration> members = types.get(0).getMembers();
+		for (BodyDeclaration bodyDeclaration : members) {
+			// look for inner classes
+			if (bodyDeclaration instanceof ClassOrInterfaceDeclaration) {
+				types.add((TypeDeclaration)bodyDeclaration);
+			}
+		}
+
 		for (TypeDeclaration typeDeclaration : types) {
 			List<AnnotationExpr> annotations = typeDeclaration.getAnnotations();
 			if (annotations == null) {
@@ -59,7 +78,6 @@ public class ScreenPojosAjGenerator {
 						|| JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					screenEntityCodeModel = generateScreenEntity(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							baos);
-					checkInnerClasses(javaFile, compilationUnit, typeDeclaration);
 				}
 				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
 					screenEntityCodeModel = generateScreenPart(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
@@ -77,44 +95,19 @@ public class ScreenPojosAjGenerator {
 
 	}
 
-	private void checkInnerClasses(File javaFile, CompilationUnit compilationUnit, TypeDeclaration parentType)
-			throws IOException, TemplateException, ParseException, FileNotFoundException {
-		List<BodyDeclaration> members = parentType.getMembers();
-
-		for (BodyDeclaration bodyDeclaration : members) {
-			if (bodyDeclaration instanceof ClassOrInterfaceDeclaration) {
-
-				List<AnnotationExpr> annotations = ((ClassOrInterfaceDeclaration)bodyDeclaration).getAnnotations();
-				for (AnnotationExpr annotationExpr : annotations) {
-					ScreenPojoCodeModel screenEntityCodeModel = null;
-					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
-						screenEntityCodeModel = generateScreenPart(compilationUnit, (ClassOrInterfaceDeclaration)bodyDeclaration,
-								baos, parentType.getName());
-					}
-					if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
-						screenEntityCodeModel = generateScreenTable(compilationUnit,
-								(ClassOrInterfaceDeclaration)bodyDeclaration, baos, parentType.getName());
-					}
-					writeToFile(javaFile, baos, screenEntityCodeModel);
-				}
-			}
-		}
-	}
-
 	public ScreenPojoCodeModel generateScreenEntity(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
 			OutputStream out) throws IOException, TemplateException, ParseException {
-		return generate(out, compilationUnit, "", typeDeclaration, "Screen_Aspect.aj.template");
+		return generate(out, compilationUnit, typeDeclaration, "Screen_Aspect.aj.template");
 	}
 
 	public ScreenPojoCodeModel generateScreenPart(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
 			OutputStream out, String parentClass) throws IOException, TemplateException, ParseException {
-		return generate(out, compilationUnit, parentClass + ".", typeDeclaration, "ScreenPart_Aspect.aj.template");
+		return generate(out, compilationUnit, typeDeclaration, "ScreenPart_Aspect.aj.template");
 	}
 
 	public ScreenPojoCodeModel generateScreenTable(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
 			OutputStream out, String parentClass) throws IOException, TemplateException, ParseException {
-		return generate(out, compilationUnit, parentClass + ".", typeDeclaration, "ScreenTable_Aspect.aj.template");
+		return generate(out, compilationUnit, typeDeclaration, "ScreenTable_Aspect.aj.template");
 	}
 
 	private static void writeToFile(File javaFile, ByteArrayOutputStream baos, ScreenPojoCodeModel screenEntityCodeModel)
@@ -128,12 +121,12 @@ public class ScreenPojosAjGenerator {
 		}
 	}
 
-	public ScreenPojoCodeModel generate(OutputStream out, CompilationUnit compilationUnit, String classPrefix,
+	public ScreenPojoCodeModel generate(OutputStream out, CompilationUnit compilationUnit,
 			ClassOrInterfaceDeclaration typeDeclaration, String templateFileName) throws IOException, TemplateException,
 			ParseException {
 
-		String className = classPrefix + typeDeclaration.getName();
-		ScreenPojoCodeModel screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit, typeDeclaration, className);
+		ScreenPojoCodeModel screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit, typeDeclaration,
+				typeDeclaration.getName());
 
 		if (!screenEntityCodeModel.isRelevant()) {
 			return screenEntityCodeModel;
