@@ -44,7 +44,7 @@ public class ScreenEntityAjGeneratorTest {
 	public void testNotScreenEntity() throws Exception {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		InputStream input = getClass().getResourceAsStream("testNotScreenEntity.java");
+		InputStream input = getClass().getResourceAsStream("testNotScreenEntity.java.resource");
 		CompilationUnit compilationUnit = JavaParser.parse(input);
 
 		new ScreenPojosAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
@@ -72,7 +72,7 @@ public class ScreenEntityAjGeneratorTest {
 
 	private void testGenerate() throws Exception {
 		String testMethodName = getTestMethodName();
-		testGenerate(testMethodName + ".java", testMethodName + "_Aspect.aj");
+		testGenerate(testMethodName + ".java.resource", testMethodName + "_Aspect.aj.expected");
 	}
 
 	private void testGenerate(String javaSource, String expectAspect) throws IOException, TemplateException, ParseException {

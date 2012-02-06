@@ -102,11 +102,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String displayName = !StringUtil.isEmpty(displayNameValue) ? displayNameValue : StringUtil.toDisplayName(field.getName());
 		field.setDisplayName(displayName);
 
-		// for @ScreenColumn - re-using field for columns as well
 		if (startColumnValue != null) {
 			field.setColumn(Integer.valueOf(startColumnValue));
 		}
-		// for @ScreenColumn - re-using field for columns as well
 		if (endColumnValue != null) {
 			field.setEndColumn(Integer.valueOf(endColumnValue));
 		}
