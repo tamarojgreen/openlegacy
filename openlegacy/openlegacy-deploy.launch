@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<launchConfiguration type="org.maven.ide.eclipse.Maven2LaunchConfigurationType">
+<launchConfiguration type="org.eclipse.m2e.Maven2LaunchConfigurationType">
 <booleanAttribute key="M2_DEBUG_OUTPUT" value="false"/>
 <stringAttribute key="M2_GOALS" value="deploy"/>
 <booleanAttribute key="M2_NON_RECURSIVE" value="false"/>
@@ -8,9 +8,9 @@
 <listAttribute key="M2_PROPERTIES">
 <listEntry value="maven.test.skip=true"/>
 </listAttribute>
-<stringAttribute key="M2_RUNTIME" value="D:\devhome\springsource\maven-2.2.1.RELEASE"/>
+<stringAttribute key="M2_RUNTIME" value="D:\devhome\springsource-2.8.1\apache-maven-3.0.3"/>
 <booleanAttribute key="M2_SKIP_TESTS" value="false"/>
 <booleanAttribute key="M2_UPDATE_SNAPSHOTS" value="false"/>
 <booleanAttribute key="M2_WORKSPACE_RESOLUTION" value="false"/>
-<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="C:/Users/RoiM/git/openlegacy2/openlegacy"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="C:/Users/RoiM/git/openlegacy3/openlegacy"/>
 </launchConfiguration>
