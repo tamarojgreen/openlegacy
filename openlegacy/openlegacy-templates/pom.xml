@@ -20,7 +20,7 @@
 						<phase>package</phase>
 						<configuration>
 							<target>
-								<copy todir="${basedir}/../openlegacy/openlegacy-designtime/src/main/resources/templates" flatten="true">
+								<copy todir="${basedir}/../../openlegacy/openlegacy-designtime/src/main/resources/templates" flatten="true">
 									<fileset dir="${basedir}">
 										<include name="**/*.zip"/>
 									</fileset>
@@ -35,4 +35,9 @@
 			</plugin>
 		</plugins>
 	</build>
+	<parent>
+		<groupId>org.openlegacy</groupId>
+		<artifactId>openlegacy</artifactId>
+		<version>0.3-SNAPSHOT</version>
+	</parent>
 </project>
