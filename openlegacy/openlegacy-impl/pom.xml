@@ -6,7 +6,6 @@
 		<groupId>org.openlegacy</groupId>
 		<version>0.3-SNAPSHOT</version>
 	</parent>
-	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-impl</artifactId>
 	<name>Open Legacy implementation</name>
 	<version>${project.parent.version}</version>
