@@ -8,6 +8,7 @@
 	<name>Open Legacy Maven container project for all templates</name>
 	<modules>
 		<module>openlegacy-new-java-template</module>
+		<module>openlegacy-mvc-sample</module>
 	</modules>
 
 	<build>
