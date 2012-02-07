@@ -19,6 +19,7 @@
 	<modules>
 		<module>openlegacy-tn5250j</module>
 		<module>openlegacy-h3270</module>
+		<module>openlegacy-applinx</module>
 	</modules>
 
 	<distributionManagement>
