@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * A terminal screen interface. Defines common terminal screen properties Legacy vendors needs to implement this class
+ * A terminal snapshot interface. Defines common terminal snapshot properties Legacy vendors needs to implement this class
  */
 public interface TerminalSnapshot extends Snapshot, Serializable {
 
