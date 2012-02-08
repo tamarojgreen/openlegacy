@@ -28,7 +28,7 @@ Wait for the import to complete
 
 7.
 Once complete, select "Next" & "Import existing projects"
-Select all the project beside "openlegacy-web-resources", "openlegacy-mvc-sample"
+Select all the project beside "openlegacy-web-resources"
 
 8.
 Now import individual project into the workspace.
@@ -55,3 +55,8 @@ Uncheck "Contact All update sites".
 Import code style preferences. Select Import -> prefrences, and select the file from openlegacy/eclipsep-
 
 openlegacy-prefs.epf
+
+10.
+For Demo web application, import openlegacy/openlegacy-templates/openlegacy-mvc-sample project,
+right click on "run-openlegacy-mvc-sample.launch", and click run as-> "run-openlegacy-mvc-sample".
+Open your browser to http://localhost:8080/mvc
