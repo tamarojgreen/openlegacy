@@ -41,16 +41,6 @@ public class ScreenEntityMvcGeneratorTest {
 		assertPageGeneration(screen1Definition);
 	}
 
-	private void assertPageGeneration(ScreenEntityDefinition screen1Definition) throws TemplateException, IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PageDefinition pageDefinition = screenPageBuilder.build(screen1Definition);
-		new ScreenEntityMvcGenerator().generateJspx(pageDefinition, baos);
-
-		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPage.jspx.expected"));
-
-		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
-	}
-
 	@Test
 	public void testGenerateJspxByCodeModel() throws Exception {
 		String javaSource = "/org/openlegacy/terminal/layout/mock/ScreenForPage.java.resource";
@@ -58,5 +48,38 @@ public class ScreenEntityMvcGeneratorTest {
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit);
 		assertPageGeneration(screenDefinition);
+	}
+
+	@Test
+	public void testGenerateController() throws Exception {
+
+		ScreenEntityDefinition screen1Definition = screenEntitiesRegistry.get(ScreenForPage.class);
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PageDefinition pageDefinition = screenPageBuilder.build(screen1Definition);
+		new ScreenEntityMvcGenerator().generateController(pageDefinition, baos);
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageController.java.expected"));
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
+	}
+
+	@Test
+	public void testGenerateControllerAspect() throws Exception {
+
+		ScreenEntityDefinition screen1Definition = screenEntitiesRegistry.get(ScreenForPage.class);
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PageDefinition pageDefinition = screenPageBuilder.build(screen1Definition);
+		new ScreenEntityMvcGenerator().generateControllerAspect(pageDefinition, baos);
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageController.aj.expected"));
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
+	}
+
+	private void assertPageGeneration(ScreenEntityDefinition screen1Definition) throws TemplateException, IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PageDefinition pageDefinition = screenPageBuilder.build(screen1Definition);
+		new ScreenEntityMvcGenerator().generateJspx(pageDefinition, baos);
+
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPage.jspx.expected"));
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 }

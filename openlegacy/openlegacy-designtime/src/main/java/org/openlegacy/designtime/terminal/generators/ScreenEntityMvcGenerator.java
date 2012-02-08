@@ -11,7 +11,17 @@ public class ScreenEntityMvcGenerator {
 
 	public void generateJspx(PageDefinition pageDefinition, OutputStream output) throws TemplateException, IOException {
 
-		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvc.jspx.template");
+		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcPage.jspx.template");
 	}
 
+	public void generateController(PageDefinition pageDefinition, OutputStream output) throws TemplateException, IOException {
+
+		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.java.template");
+	}
+
+	public void generateControllerAspect(PageDefinition pageDefinition, OutputStream output) throws TemplateException,
+			IOException {
+
+		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.aj.template");
+	}
 }
