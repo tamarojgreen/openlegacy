@@ -35,7 +35,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Inject
 	private List<ScreenEntityBinder> screenEntityBinders;
 
-	private TerminalConnectionDelegator terminalConnection;
+	private transient TerminalConnectionDelegator terminalConnection;
 
 	private ScreenEntity entity;
 

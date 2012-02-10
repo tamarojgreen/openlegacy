@@ -56,6 +56,11 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 		lazyMetadataInit();
 
+		if (loginMetadata.getLoginScreenDefinition() == null) {
+			throw (new RegistryException(
+					"LoginModule entity doesn't contain a login screen definition. Verify one of your screen entity classes is defined as @ScreenEntity(screenType = Login.LoginEntity.class)"));
+		}
+
 		try {
 			ScreenEntity loginEntity = (ScreenEntity)loginMetadata.getLoginScreenDefinition().getEntityClass().newInstance();
 			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
@@ -77,6 +82,10 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 		lazyMetadataInit();
 
+		if (loginMetadata.getLoginScreenDefinition() == null) {
+			throw (new RegistryException(
+					"LoginModule entity doesn't contain a login screen definition. Verify one of your screen entity classes is defined as @ScreenEntity(screenType = Login.LoginEntity.class)"));
+		}
 		Class<?> registryLoginClass = loginMetadata.getLoginScreenDefinition().getEntityClass();
 		if (!ProxyUtil.isClassesMatch(loginEntity.getClass(), registryLoginClass)) {
 			throw (new RegistryException("LoginModule entity " + loginEntity.getClass() + " doesn't match registry login screen"
@@ -124,6 +133,9 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	private void logoffOnly() {
 		lazyMetadataInit();
+		if (loginMetadata.getLoginScreenDefinition() == null) {
+			return;
+		}
 		Class<?> loginClass = loginMetadata.getLoginScreenDefinition().getEntityClass();
 
 		if (getSession().isConnected()) {

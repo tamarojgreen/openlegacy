@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+  <definition name="Emulation" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/Emulation.jspx" />
+  </definition>
+
+  <definition name="HtmlEmulation" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/HtmlEmulation.jspx" />
+  </definition>
+
+  <definition name="logoff" extends="public">
+    <put-attribute name="body" value="/WEB-INF/views/logoff.jspx" />
+  </definition>
+  
+  <definition name="uncaughtException" extends="public">
+    <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
+  </definition>
+  
+  <definition name="sessionEndedException" extends="public">
+    <put-attribute name="body" value="/WEB-INF/views/sessionEndedException.jspx" />
+  </definition>
+
+</tiles-definitions>
