@@ -9,6 +9,7 @@
 	<modules>
 		<module>openlegacy-new-java-template</module>
 		<module>openlegacy-mvc-sample</module>
+		<!-- <module>openlegacy-mvc-new</module> -->
 	</modules>
 
 	<build>

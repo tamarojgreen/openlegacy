@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+	<wb-module deploy-name="openlegacy-mvc-new">
+		<wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
+        <dependent-module archiveName="openlegacy-api-0.3-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-api/openlegacy-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="openlegacy-impl-0.3-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-impl/openlegacy-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+		<property name="java-output-path" value="target/classes"/>
+		<property name="context-root" value="openlegacy-mvc-new"/>
+	</wb-module>
+</project-modules>

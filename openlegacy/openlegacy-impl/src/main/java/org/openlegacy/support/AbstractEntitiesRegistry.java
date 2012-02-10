@@ -79,8 +79,8 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	public E getSingleEntityDefinition(Class<? extends EntityType> entityType) throws RegistryException {
 		List<Class<?>> matchingTypes = getByType(entityType);
 
-		if (matchingTypes.size() == 0) {
-			throw (new RegistryException(MessageFormat.format("Entity {0} not defined in the registry", entityType)));
+		if (matchingTypes == null || matchingTypes.size() == 0) {
+			return null;
 		}
 
 		if (matchingTypes.size() > 1) {

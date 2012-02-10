@@ -29,6 +29,10 @@ public class LoginMetadata implements SessionModuleMetadata {
 
 		loginScreenDefinition = screenEntitiesRegistry.getSingleEntityDefinition(Login.LoginEntity.class);
 
+		if (loginScreenDefinition == null) {
+			return;
+		}
+
 		userField = loginScreenDefinition.getFirstFieldDefinition(Login.UserField.class);
 		passwordField = loginScreenDefinition.getFirstFieldDefinition(Login.PasswordField.class);
 		errorField = loginScreenDefinition.getFirstFieldDefinition(Login.ErrorField.class);
