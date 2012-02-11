@@ -231,4 +231,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	public TerminalSnapshot fetchSnapshot() {
 		return terminalConnection.fetchSnapshot();
 	}
+
+	public String getSessionId() {
+		return terminalConnection.getSessionId();
+	}
 }

@@ -119,11 +119,14 @@ public class StringUtil {
 	}
 
 	public static final String rightTrim(String s) {
-		return rightTrim(s, ' ');
+		String str = rightTrim(s, ' ');
+		str = rightTrim(s, 0);
+		return str;
 	}
 
-	public static final String rightTrim(String string, char ch) {
-		int len = string.length(), i;
+	private static final String rightTrim(String string, int ch) {
+		int len = string.length();
+		int i;
 		for (i = len - 1; i >= 0; i--) {
 			if (string.charAt(i) != ch) {
 				break;
@@ -135,6 +138,9 @@ public class StringUtil {
 		return string.substring(0, i + 1);
 	}
 
+	/**
+	 * Return Java type according to string content
+	 */
 	public static Class<?> getTypeByValue(String value) {
 		if (value == null) {
 			return String.class;

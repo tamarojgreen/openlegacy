@@ -69,4 +69,8 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 		terminalSnapshot = null;
 		return getSnapshot();
 	}
+
+	public String getSessionId() {
+		return terminalConnection.getSessionId();
+	}
 }

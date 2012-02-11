@@ -3,6 +3,7 @@ package org.openlegacy.providers.tn5250j;
 import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
+import org.openlegacy.terminal.support.SnapshotUtils;
 
 public class Tn5250jTerminalField extends AbstractTerminalField {
 
@@ -32,6 +33,9 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 	}
 
 	public TerminalPosition getEndPosition() {
+		if (endPosition == null) {
+			endPosition = SnapshotUtils.getEndPosition(this);
+		}
 		return endPosition;
 	}
 

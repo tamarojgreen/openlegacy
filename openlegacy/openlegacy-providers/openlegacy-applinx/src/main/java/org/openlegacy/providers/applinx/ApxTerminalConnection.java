@@ -96,4 +96,8 @@ public class ApxTerminalConnection implements TerminalConnection {
 		return getSnapshot();
 	}
 
+	public String getSessionId() {
+		return baseObject.getSessionID();
+	}
+
 }

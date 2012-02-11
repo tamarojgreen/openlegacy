@@ -14,5 +14,7 @@
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">
         <aop:scoped-proxy/>
 	</bean>
+
+	<bean id="openlegacyProperties" class="org.openlegacy.web.OpenLegacyWebProperties" />
 	
 </beans>

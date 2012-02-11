@@ -45,4 +45,9 @@ public class H3270Connection implements TerminalConnection {
 		return s3270Session;
 	}
 
+	public String getSessionId() {
+		// TODO better session id handling
+		return String.valueOf(s3270Session.hashCode());
+	}
+
 }
