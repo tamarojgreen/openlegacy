@@ -76,9 +76,22 @@ public class SnapshotPersistanceDTO {
 				continue;
 			}
 
+			formatFieldsForCleanXml(persistedRow);
 			persistedSnapshot.getRows().add(persistedRow);
 		}
 		return persistedSnapshot;
+	}
+
+	private static void formatFieldsForCleanXml(TerminalPersistedRow persistedRow) {
+		List<TerminalField> fields = persistedRow.getFields();
+		for (TerminalField terminalField : fields) {
+			TerminalPersistedField persistedField = (TerminalPersistedField)terminalField;
+			boolean modified = terminalField.isModified();
+			terminalField.setValue(StringUtil.rightTrim(terminalField.getValue()));
+			if (!modified) {
+				persistedField.setModified(false);
+			}
+		}
 	}
 
 	private static void collectRowFields(List<TerminalPosition> fieldSeperators, TerminalRow terminalRow,

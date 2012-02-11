@@ -26,4 +26,5 @@ public class TerminalTrailXmlWriter implements TrailWriter {
 		}
 
 	}
+
 }

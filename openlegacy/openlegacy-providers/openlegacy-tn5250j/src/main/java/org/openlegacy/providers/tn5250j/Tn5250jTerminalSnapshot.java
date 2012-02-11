@@ -24,8 +24,11 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 
 	private List<TerminalPosition> fieldSeperators;
 
-	public Tn5250jTerminalSnapshot(Screen5250 screen) {
+	private int sequence;
+
+	public Tn5250jTerminalSnapshot(Screen5250 screen, int sequence) {
 		this.screen = screen;
+		this.sequence = sequence;
 	}
 
 	@Override
@@ -82,16 +85,20 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		}
 		String value = grabText(screenData.text, startAbsolutePosition, endAbsolutePosition);
 
-		Tn5250jTerminalField field;
+		Tn5250jTerminalField field = null;
 		if (screenData.field[startAbsolutePosition] != 0) {
 			int fieldAttributes = screenData.attr[startAbsolutePosition];
 			ScreenField screenField = screen.getScreenFields().findByPosition(startAbsolutePosition);
-			field = createEditableField(screenField, value, false, fieldAttributes);
+			if (screenField != null) {
+				field = createEditableField(screenField, value, false, fieldAttributes);
+			}
 		} else {
 			int fieldAttributes = screenData.attr[startAbsolutePosition];
 			field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes);
 		}
-		fields.add(field);
+		if (field != null) {
+			fields.add(field);
+		}
 	}
 
 	private static String grabText(char[] text, int startPosition, int endPosition) {
@@ -151,8 +158,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 	}
 
 	public Integer getSequence() {
-		// TODO
-		return 0;
+		return sequence;
 	}
 
 	public String getCommand() {

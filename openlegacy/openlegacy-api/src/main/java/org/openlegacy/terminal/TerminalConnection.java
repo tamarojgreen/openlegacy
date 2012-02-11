@@ -15,4 +15,6 @@ public interface TerminalConnection {
 
 	Object getDelegate();
 
+	String getSessionId();
+
 }

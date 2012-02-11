@@ -17,15 +17,19 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 
 	private int waitForUnlock = 300;
 
+	// adding sequence support to tn5250j which doesn't support it
+	private int sequence = 1;
+
 	public Tn5250jTerminalConnection(Session5250 session) {
 		this.session = session;
 	}
 
 	public TerminalSnapshot getSnapshot() {
-		return new Tn5250jTerminalSnapshot(session.getScreen());
+		return new Tn5250jTerminalSnapshot(session.getScreen(), sequence);
 	}
 
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
+		sequence++;
 		TerminalSnapshot snapshot = getSnapshot();
 		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
 		for (TerminalField terminalField : modifiedFields) {
@@ -39,6 +43,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 		}
 
 		waitForKeyboardUnlock((String)terminalSendAction.getCommand());
+		sequence++;
 		return this;
 	}
 
@@ -66,5 +71,9 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 
 	public TerminalSnapshot fetchSnapshot() {
 		return getSnapshot();
+	}
+
+	public String getSessionId() {
+		return String.valueOf(session.getSessionName());
 	}
 }

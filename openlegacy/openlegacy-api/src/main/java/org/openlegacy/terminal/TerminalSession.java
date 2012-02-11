@@ -27,4 +27,6 @@ public interface TerminalSession extends StatefullSession<TerminalSnapshot> {
 
 	<S extends ScreenEntity> S getEntity();
 
+	String getSessionId();
+
 }

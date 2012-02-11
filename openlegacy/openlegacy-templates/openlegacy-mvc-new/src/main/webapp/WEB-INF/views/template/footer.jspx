@@ -4,6 +4,7 @@
   <jsp:output omit-xml-declaration="yes"/>
 
 <a href="logoff">Logoff</a>
-footer
+ | 
+<a href="trail/download">Download trail</a>
 
 </div>
