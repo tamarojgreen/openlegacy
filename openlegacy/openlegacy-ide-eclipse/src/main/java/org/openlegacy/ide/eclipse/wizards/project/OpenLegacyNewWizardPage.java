@@ -19,7 +19,8 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 
 	private Text projectName;
 
-	private String[] projectTemplates = new String[] { "openlegacy-new-java-template", "openlegacy-mvc-sample" };
+	private String[] projectTemplates = new String[] { "openlegacy-new-java-template", "openlegacy-mvc-new",
+			"openlegacy-mvc-sample" };
 
 	private Text defaultPackageName;
 
