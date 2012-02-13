@@ -44,6 +44,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private final static Log logger = LogFactory.getLog(AbstractSnapshotsOrganizer.class);
 
 	private static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
+
+	private static final String RUN_APPLICATION = "run-application";
+
 	private ApplicationContext applicationContext;
 
 	public void createProject(String templateName, File baseDir, String projectName, String provider, String defaultPackageName)
@@ -54,10 +57,27 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		renameProject(projectName, targetPath);
 		renameProjectPOM(projectName, targetPath);
 		renameProviderInPOM(provider, targetPath);
+		renameLauncher(projectName, targetPath);
 
 		updateSpringContextWithDefaultPackage(defaultPackageName, targetPath);
 
 		targetZip.delete();
+	}
+
+	private static void renameLauncher(String projectName, File targetPath) throws FileNotFoundException, IOException {
+		File launcherFile = new File(targetPath, RUN_APPLICATION);
+
+		if (!launcherFile.exists()) {
+			return;
+		}
+
+		String launchFileContent = IOUtils.toString(new FileInputStream(launcherFile));
+
+		launchFileContent = launchFileContent.replaceAll("${workspace_loc:.*}",
+				MessageFormat.format("${workspace_loc:{0}}", projectName));
+		FileOutputStream fos = new FileOutputStream(launcherFile);
+		IOUtils.write(launchFileContent, fos);
+
 	}
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
@@ -87,8 +107,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		File pomFile = new File(targetPath, "pom.xml");
 		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
 
-		pomFileContent = pomFileContent.replaceFirst("<groupId>.*</groupId>",
-				MessageFormat.format("<groupId>{0}</groupId>", projectName));
 		pomFileContent = pomFileContent.replaceFirst("<artifactId>.*</artifactId>",
 				MessageFormat.format("<artifactId>{0}</artifactId>", projectName));
 		FileOutputStream fos = new FileOutputStream(pomFile);
@@ -100,10 +118,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
 
 		if (!provider.equals(DesignTimeExecuter.MOCK_PROVIDER)) {
-			pomFileContent = pomFileContent.replace("<groupId>org.openlegacy</groupId>",
-					"<groupId>org.openlegacy.providers</groupId>");
-			pomFileContent = pomFileContent.replace("<artifactId>openlegacy-Impl</artifactId>",
-					MessageFormat.format("<artifactId>{0}</artifactId>", provider));
+			pomFileContent = pomFileContent.replace(
+					"<groupId>org.openlegacy</groupId>\\s+<artifactId>openlegacy-Impl</artifactId>", MessageFormat.format(
+							"<groupId>org.openlegacy.providers</groupId>\\n\\t\\t\\t<artifactId>openlegacy-{0}</artifactId>",
+							provider));
 		}
 
 		FileOutputStream fos = new FileOutputStream(pomFile);
