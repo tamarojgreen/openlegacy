@@ -35,6 +35,13 @@ public class EclipseDesignTimeExecuter {
 			String defaultPackageName) throws IOException {
 		designTimeExecuter.createProject(templateName, PathsUtil.toOsLocation(workspacePath), projectName, provider,
 				defaultPackageName);
+
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.FULL_BUILD)).run();
+			}
+		});
 	}
 
 	public void generateScreens(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,

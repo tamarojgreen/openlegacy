@@ -82,6 +82,13 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	}
 
 	@Test
+	public void testSessionAnalyzer() throws TemplateException, IOException {
+		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
+				"Session.trail.xml"));
+		Assert.assertEquals(3, definitions.size());
+	}
+
+	@Test
 	public void testBasicTable() {
 
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("TableScreen.xml");

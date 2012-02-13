@@ -45,7 +45,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
 
-	private static final String RUN_APPLICATION = "run-application";
+	private static final String RUN_APPLICATION = "run-application.launch";
 
 	private ApplicationContext applicationContext;
 
@@ -54,12 +54,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		File targetZip = extractTemplate(templateName, baseDir);
 		File targetPath = unzipTemplate(baseDir, projectName, targetZip);
 
-		renameProject(projectName, targetPath);
+		// maven files
 		renameProjectPOM(projectName, targetPath);
 		renameProviderInPOM(provider, targetPath);
-		renameLauncher(projectName, targetPath);
 
+		// spring files
 		updateSpringContextWithDefaultPackage(defaultPackageName, targetPath);
+
+		// eclipse files
+		renameProject(projectName, targetPath);
+		renameLauncher(projectName, targetPath);
 
 		targetZip.delete();
 	}
@@ -73,8 +77,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		String launchFileContent = IOUtils.toString(new FileInputStream(launcherFile));
 
-		launchFileContent = launchFileContent.replaceAll("${workspace_loc:.*}",
-				MessageFormat.format("${workspace_loc:{0}}", projectName));
+		launchFileContent = launchFileContent.replaceAll("workspace_loc:.*}", ("workspace_loc:" + projectName + "}"));
 		FileOutputStream fos = new FileOutputStream(launcherFile);
 		IOUtils.write(launchFileContent, fos);
 
@@ -149,7 +152,13 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		ApplicationContext applicationContext = getApplicationContext(analyzerContextFile);
 		TerminalSnapshotsAnalyzer snapshotsAnalyzer = applicationContext.getBean(TerminalSnapshotsAnalyzer.class);
 
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trailFile.getAbsolutePath());
+		FileInputStream trailInputStream;
+		try {
+			trailInputStream = new FileInputStream(trailFile.getAbsolutePath());
+		} catch (FileNotFoundException e1) {
+			throw (new GenerationException(e1));
+		}
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trailInputStream);
 		Collection<ScreenEntityDefinition> screenDefinitions = screenEntitiesDefinitions.values();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(packageDirectoryName.replaceAll("/", "."));
