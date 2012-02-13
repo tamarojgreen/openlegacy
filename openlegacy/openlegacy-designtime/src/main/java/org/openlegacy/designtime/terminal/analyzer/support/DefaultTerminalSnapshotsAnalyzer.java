@@ -19,8 +19,7 @@ import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
 import org.openlegacy.utils.XmlSerializationUtil;
 import org.springframework.beans.factory.InitializingBean;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,12 +51,10 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 
 	private List<RuleParametersSet> ruleParametersFacts;
 
-	public Map<String, ScreenEntityDefinition> analyzeTrail(String trailFile) {
+	public Map<String, ScreenEntityDefinition> analyzeTrail(InputStream inputStream) {
 		TerminalSessionTrail trail;
 		try {
-			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, new FileInputStream(trailFile));
-		} catch (FileNotFoundException e) {
-			throw (new UnableToLoadSnapshotException(e));
+			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, inputStream);
 		} catch (JAXBException e) {
 			throw (new UnableToLoadSnapshotException(e));
 		}
