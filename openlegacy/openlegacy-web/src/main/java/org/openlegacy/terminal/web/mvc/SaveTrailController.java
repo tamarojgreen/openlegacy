@@ -1,10 +1,4 @@
-package org.openlegacy.newmvc.web;
-
-import java.io.ByteArrayOutputStream;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+package org.openlegacy.terminal.web.mvc;
 
 import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
@@ -13,7 +7,13 @@ import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.TerminalSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+
+import java.io.ByteArrayOutputStream;
+import java.text.MessageFormat;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Handles requests for the application home page.
@@ -27,16 +27,17 @@ public class SaveTrailController {
 	@Inject
 	private TrailWriter trailWriter;
 
-	
 	@RequestMapping(value = "/trail/download")
-	public ModelAndView download(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
+	public void download(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		if (!terminalSession.isConnected()) {
+			response.getWriter().write("Session is not connected");
+			return;
+		}
 		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		trailWriter.write(trail, baos);
-		response.setHeader("Content-Disposition", "attachment; filename=\"trail.xml\"");
+		response.setHeader("Content-Disposition",
+				MessageFormat.format("attachment; filename=\"{0}.trail.xml\"", terminalSession.getSessionId()));
 		response.getOutputStream().write(baos.toByteArray());
-		return null;
 	}
 }

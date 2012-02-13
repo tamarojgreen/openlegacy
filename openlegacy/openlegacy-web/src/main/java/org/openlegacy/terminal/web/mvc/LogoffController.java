@@ -1,4 +1,4 @@
-package org.openlegacy.newmvc.web;
+package org.openlegacy.terminal.web.mvc;
 
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.trail.TrailWriter;

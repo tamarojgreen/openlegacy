@@ -1,4 +1,4 @@
-package org.openlegacy.newmvc.web;
+package org.openlegacy.terminal.web.mvc;
 
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
