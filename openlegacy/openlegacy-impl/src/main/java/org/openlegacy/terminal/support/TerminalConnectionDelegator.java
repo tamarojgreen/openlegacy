@@ -71,6 +71,9 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 	}
 
 	public String getSessionId() {
+		if (terminalConnection == null) {
+			return null;
+		}
 		return terminalConnection.getSessionId();
 	}
 }
