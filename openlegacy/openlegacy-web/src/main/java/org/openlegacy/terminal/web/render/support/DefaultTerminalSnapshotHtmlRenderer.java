@@ -58,12 +58,19 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			Element formTag = elementsProvider.createFormTag(wrapperTag, formActionURL, formMethod,
 					TerminalHtmlConstants.HTML_EMULATION_FORM_NAME);
 
-			elementsProvider.createHidden(formTag, TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
+			String cursorFieldName = HtmlNamingUtil.getFieldName(terminalSnapshot.getCursorPosition());
+			Element cursorHidden = elementsProvider.createHidden(formTag, TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
+			cursorHidden.setAttribute(HtmlConstants.VALUE, cursorFieldName);
 			elementsProvider.createHidden(formTag, TerminalHtmlConstants.TERMINAL_COMMAND_HIDDEN);
 
 			elementsProvider.createStyleTag(wrapperTag, styleSettings);
 
 			createFields(terminalSnapshot, formTag);
+
+			String script = MessageFormat.format("document.{0}.{1}.focus();", TerminalHtmlConstants.HTML_EMULATION_FORM_NAME,
+					cursorFieldName);
+
+			elementsProvider.createScriptTag(wrapperTag, script);
 
 			calculateWidthHeight(terminalSnapshot, wrapperTag);
 

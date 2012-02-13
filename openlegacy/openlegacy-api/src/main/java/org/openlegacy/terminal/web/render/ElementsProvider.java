@@ -13,4 +13,8 @@ public interface ElementsProvider<T> {
 	T createStyleTag(T rootTag, String styleSettings);
 
 	T createFormTag(T rootTag, String formActionURL, String formMethod, String formName);
+
+	T createTag(T rootTag, String tagName);
+
+	T createScriptTag(T wrapperTag, String script);
 }

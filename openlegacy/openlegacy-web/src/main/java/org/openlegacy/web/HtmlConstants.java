@@ -18,4 +18,7 @@ public class HtmlConstants {
 	public static final String TYPE = "type";
 	public static final String HIDDEN = "hidden";
 	public static final String ACTION = "action";
+	public static final String SCRIPT = "script";
+	public static final String SRC = "src";
+	public static final String TEXT_JAVASCRIPT = "text/javascript";
 }
