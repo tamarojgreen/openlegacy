@@ -29,7 +29,7 @@ import javax.xml.transform.stream.StreamResult;
 
 public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtmlRenderer {
 
-	private static final String SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {font-family:Courier New;font-size:FONTpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input {position:absolute;font-family:Courier New;font-size:FONTpx}";
+	private static final String SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {font-family:Courier New;font-size:FONTpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input {position:absolute;font-family:Courier New;font-size:FONTpx;height:INPUT-HEIGHTpx;}";
 
 	@Inject
 	private ElementsProvider<Element> elementsProvider;
@@ -51,6 +51,8 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			String styleSettings = SNAPSHOT_STYLE_SETTINGS.replaceAll("FONT",
 					String.valueOf(htmlProportionsHandler.getFontSize()));
 
+			styleSettings = styleSettings.replaceAll("INPUT-HEIGHT", String.valueOf(htmlProportionsHandler.getInputHeight()));
+
 			Element wrapperTag = (Element)doc.appendChild(doc.createElement(HtmlConstants.DIV));
 
 			wrapperTag.setAttribute(HtmlConstants.ID, TerminalHtmlConstants.WRAPPER_TAG_ID);
@@ -61,7 +63,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			String cursorFieldName = HtmlNamingUtil.getFieldName(terminalSnapshot.getCursorPosition());
 			Element cursorHidden = elementsProvider.createHidden(formTag, TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
 			cursorHidden.setAttribute(HtmlConstants.VALUE, cursorFieldName);
-			elementsProvider.createHidden(formTag, TerminalHtmlConstants.TERMINAL_COMMAND_HIDDEN);
+			elementsProvider.createHidden(formTag, TerminalHtmlConstants.KEYBOARD_KEY);
 
 			elementsProvider.createStyleTag(wrapperTag, styleSettings);
 

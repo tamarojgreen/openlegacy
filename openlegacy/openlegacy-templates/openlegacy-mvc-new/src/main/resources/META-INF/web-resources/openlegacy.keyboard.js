@@ -1,12 +1,13 @@
-function sendPF(keyCode){
-	terminalSession.doAction("[pf" + keyCode - 111 + "]");
+function sendFunctionKey(keyCode){
+	terminalSession.doAction("F" + (keyCode - 111));
 } 
 dojo.connect(dojo.doc.body, "onkeydown", function(e) {
 
 	var handled = true;
 	switch (e.keyCode) {
 		case dojo.keys.ENTER:
-			terminalSession.doAction("[enter]");
+			terminalSession.doAction("ENTER");
+			break;
 		case dojo.keys.F1:
 		case dojo.keys.F2:
 		case dojo.keys.F3:
@@ -19,7 +20,8 @@ dojo.connect(dojo.doc.body, "onkeydown", function(e) {
 		case dojo.keys.F10:
 		case dojo.keys.F11:
 		case dojo.keys.F12:
-			sendPF(e.keyCode);
+			sendFunctionKey(e.keyCode);
+			break;
 		default:
 			handled = false;
 

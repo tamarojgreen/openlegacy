@@ -43,7 +43,8 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 			populateCommonAttributes(input, field);
 			input.setAttribute(HtmlConstants.VALUE, field.getValue());
 			input.setAttribute(HtmlConstants.MAXLENGTH, String.valueOf(field.getLength()));
-			int width = htmlProportionsHandler.toWidth(field.getLength());
+			int width = htmlProportionsHandler.toWidth(field.getLength()) + htmlProportionsHandler.getInputAdditionalWidth();
+
 			input.setAttribute(HtmlConstants.STYLE,
 					MessageFormat.format("{0}{1}", input.getAttribute(HtmlConstants.STYLE), HtmlNamingUtil.toStyleWidth(width)));
 			String fieldName = HtmlNamingUtil.getFieldName(field);

@@ -120,7 +120,7 @@ public class StringUtil {
 
 	public static final String rightTrim(String s) {
 		String str = rightTrim(s, ' ');
-		str = rightTrim(s, 0);
+		str = rightTrim(str, 0);
 		return str;
 	}
 

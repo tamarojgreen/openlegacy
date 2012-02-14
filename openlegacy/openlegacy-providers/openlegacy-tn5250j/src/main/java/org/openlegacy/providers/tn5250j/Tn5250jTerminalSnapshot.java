@@ -104,7 +104,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 	private static String grabText(char[] text, int startPosition, int endPosition) {
 
 		StringBuilder sb = new StringBuilder();
-		for (int i = startPosition; i < endPosition; i++) {
+		for (int i = startPosition; i <= endPosition; i++) {
 			sb.append(text[i]);
 		}
 		return sb.toString();

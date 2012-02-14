@@ -18,4 +18,7 @@ public class TerminalActionNotMappedException extends OpenLegacyRuntimeException
 		super(s);
 	}
 
+	public TerminalActionNotMappedException(String s, Exception e) {
+		super(s, e);
+	}
 }

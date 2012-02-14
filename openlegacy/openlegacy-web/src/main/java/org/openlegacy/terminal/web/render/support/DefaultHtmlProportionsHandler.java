@@ -8,6 +8,10 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 	private int rowProportion;
 	private int fontSize;
 
+	private int inputAdditionalWidth = 3;
+
+	private Integer inputHeight;
+
 	public int toWidth(int column) {
 		return column * columnProportion;
 	}
@@ -30,5 +34,24 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 
 	public void setFontSize(int fontSize) {
 		this.fontSize = fontSize;
+	}
+
+	public int getInputHeight() {
+		if (inputHeight == null) {
+			inputHeight = getFontSize() - 4;
+		}
+		return inputHeight;
+	}
+
+	public void setInputHeight(Integer inputHeight) {
+		this.inputHeight = inputHeight;
+	}
+
+	public int getInputAdditionalWidth() {
+		return inputAdditionalWidth;
+	}
+
+	public void setInputAdditionalWidth(Integer inputAdditionalWidth) {
+		this.inputAdditionalWidth = inputAdditionalWidth;
 	}
 }
