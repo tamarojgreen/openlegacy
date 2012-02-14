@@ -36,7 +36,11 @@ public class StringUtil {
 
 		if (!text.contains(" ")) {
 			text = text.replaceAll("\\W", "");
-			return StringUtils.uncapitalize(text);
+			if (!capFirst) {
+				return StringUtils.uncapitalize(text);
+			} else {
+				return StringUtils.capitalize(text);
+			}
 		}
 
 		char[] chars = text.toCharArray();

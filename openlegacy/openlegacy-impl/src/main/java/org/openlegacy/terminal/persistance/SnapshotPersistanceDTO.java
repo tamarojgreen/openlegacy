@@ -48,7 +48,7 @@ public class SnapshotPersistanceDTO {
 			TerminalPosition fieldPosition = terminalField.getPosition();
 			TerminalPersistedRow row = (TerminalPersistedRow)persistedSnapshot.getRow(fieldPosition.getRow());
 			TerminalPersistedField field = (TerminalPersistedField)row.getField(fieldPosition.getColumn());
-			field.setValue(terminalField.getValue());
+			field.setValue(terminalField.getValue(), false);
 			field.setModified(true);
 		}
 		return persistedSnapshot;
@@ -86,11 +86,9 @@ public class SnapshotPersistanceDTO {
 		List<TerminalField> fields = persistedRow.getFields();
 		for (TerminalField terminalField : fields) {
 			TerminalPersistedField persistedField = (TerminalPersistedField)terminalField;
-			boolean modified = terminalField.isModified();
-			terminalField.setValue(StringUtil.rightTrim(terminalField.getValue()));
-			if (!modified) {
-				persistedField.setModified(false);
-			}
+			// String value = StringUtil.rightTrim(terminalField.getValue());
+			String value = terminalField.getValue().replace((char)0, ' ');
+			persistedField.setValue(value, false);
 		}
 	}
 
@@ -122,7 +120,7 @@ public class SnapshotPersistanceDTO {
 				}
 
 				field = iterator.next();
-				persistedField.setValue(persistedField.getValue() + field.getValue());
+				persistedField.setValue(persistedField.getValue() + field.getValue(), false);
 			}
 			persistedRow.getFields().add(persistedField);
 		}

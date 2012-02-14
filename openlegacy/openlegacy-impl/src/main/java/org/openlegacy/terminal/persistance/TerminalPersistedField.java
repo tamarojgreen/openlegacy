@@ -82,9 +82,14 @@ public class TerminalPersistedField implements TerminalField {
 		return value;
 	}
 
-	public void setValue(String value) {
-		this.modified = true;
+	public void setValue(String value, boolean modified) {
+		this.modified = modified;
 		this.value = value;
+
+	}
+
+	public void setValue(String value) {
+		setValue(value, true);
 	}
 
 	public int getLength() {

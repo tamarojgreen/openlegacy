@@ -3,6 +3,7 @@ package org.openlegacy.designtime.mains;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
@@ -198,7 +199,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		try {
 			testsDirectory.mkdir();
 			String fileWithoutAnyExtension = FileUtils.fileWithoutAnyExtension(trailFile.getName());
-			String testName = StringUtil.toClassName(fileWithoutAnyExtension) + "Test";
+			String testName = StringUtils.capitalize(StringUtil.toClassName(fileWithoutAnyExtension) + "Test");
 			FileOutputStream fos = new FileOutputStream(new File(testsDirectory, testName + ".java"));
 			generator.generate(screenDefinitions, testName, fos);
 		} catch (TemplateException e) {
@@ -269,5 +270,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		// initialize application context & analyzer
 		applicationContext = null;
 		getApplicationContext(analyzerContextFile).getBean(SnapshotsAnalyzer.class);
+	}
+
+	public void generateMvcViewAndContoller(File screenEntitySourceFile, File sourceDirectory, String packageToPath,
+			OverrideConfirmer overrideConfirmer) {
+
 	}
 }

@@ -13,4 +13,6 @@ public interface TerminalPosition extends Comparable<TerminalPosition>, Serializ
 	public int getColumn();
 
 	public TerminalPosition next();
+
+	TerminalPosition previous();
 }

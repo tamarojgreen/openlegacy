@@ -2,18 +2,28 @@ package org.openlegacy.terminal;
 
 import apps.inventory.screens.InventoryManagement;
 import apps.inventory.screens.ItemDetails1;
-import apps.inventory.screens.ItemsList;
 import apps.inventory.screens.MainMenu;
 import apps.inventory.screens.SignOn;
 
 import org.junit.Assert;
 import org.openlegacy.AbstractTest;
+import org.openlegacy.Snapshot;
 import org.openlegacy.exceptions.SessionEndedException;
+import org.openlegacy.modules.trail.SessionTrail;
+import org.openlegacy.modules.trail.Trail;
+import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.utils.StringUtil;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 public class AbstractAS400TerminalSessionSystemTest extends AbstractTest {
+
+	@Inject
+	private TrailWriter trailWriter;
 
 	protected void testAS400InventorySystem() throws IOException {
 
@@ -34,14 +44,13 @@ public class AbstractAS400TerminalSessionSystemTest extends AbstractTest {
 		Assert.assertNotNull(mainMenu);
 		Assert.assertTrue(101 == mainMenu.getCompany());
 
+		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		trailWriter.write(trail, baos);
+		System.out.println(StringUtil.toString(baos));
+
 		InventoryManagement inventoryManagement = terminalSession.getEntity(InventoryManagement.class);
 		Assert.assertNotNull(inventoryManagement);
-
-		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
-		Assert.assertNotNull(itemList);
-		while (terminalSession.getEntity() instanceof ItemsList) {
-			terminalSession.doAction(TerminalActions.ENTER());
-		}
 
 		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class);
 		Assert.assertNotNull(itemDetails1);
@@ -65,6 +74,7 @@ public class AbstractAS400TerminalSessionSystemTest extends AbstractTest {
 		} catch (SessionEndedException e) {
 			// ok
 		}
+
 	}
 
 }

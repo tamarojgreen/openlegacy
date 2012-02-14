@@ -51,7 +51,7 @@ public class OpenLegacyeNewProjectWizard extends BasicNewResourceWizard {
 		final IProject projHandle = w.getRoot().getProject(projectName);
 		final IProjectDescription desc = w.newProjectDescription(projHandle.getName());
 
-		Prefrences.put(PluginConstants.DEFAULT_PACKAGE, defaultPackageName);
+		Prefrences.put(PluginConstants.DEFAULT_PACKAGE_JAVA, defaultPackageName);
 
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 
