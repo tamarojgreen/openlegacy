@@ -51,6 +51,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		TerminalPosition previousPosition = new SimpleTerminalPosition(1, 1); // assume 1,1 always has attribute
 
 		for (TerminalPosition terminalPosition : fieldSeperators) {
+			boolean previousIsAttributePosition = true;
 			boolean currentIsAttributePosition = true;
 			if (currentPosition == null) {
 				currentPosition = terminalPosition;
@@ -59,29 +60,35 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 				currentPosition = new SimpleTerminalPosition(previousPosition.getRow(), getSize().getColumns());
 				previousPosition = tempPosition;
 				// add field from previous to end of line
-				addField(fields, previousPosition, currentPosition, true);
+				if (previousPosition.getColumn() < getSize().getColumns()) {
+					addField(fields, previousPosition, currentPosition, true, false);
+				}
 
 				previousPosition = new SimpleTerminalPosition(terminalPosition.getRow(), 1);
 				currentPosition = terminalPosition;
-				currentIsAttributePosition = false;
+				previousIsAttributePosition = false;
+				currentIsAttributePosition = true;
 			} else {
 				previousPosition = currentPosition;
 				currentPosition = terminalPosition;
 			}
-			addField(fields, previousPosition, currentPosition, currentIsAttributePosition);
+			addField(fields, previousPosition, currentPosition, previousIsAttributePosition, currentIsAttributePosition);
 		}
 
 		return fields;
 	}
 
 	private void addField(List<TerminalField> fields, TerminalPosition startPosition, TerminalPosition endPosition,
-			boolean isAttributePosition) {
+			boolean startIsAttributePosition, boolean endIsAttributePosition) {
 		int endAbsolutePosition = SnapshotUtils.toAbsolutePosition(endPosition, getSize()); // 1 based
 		int startAbsolutePosition = SnapshotUtils.toAbsolutePosition(startPosition, getSize()); // 1 based
 		int startColumn = startPosition.getColumn();
-		if (isAttributePosition) {
+		if (startIsAttributePosition) {
 			startAbsolutePosition++;
 			startColumn++;
+		}
+		if (endIsAttributePosition) {
+			endAbsolutePosition--;
 		}
 		String value = grabText(screenData.text, startAbsolutePosition, endAbsolutePosition);
 

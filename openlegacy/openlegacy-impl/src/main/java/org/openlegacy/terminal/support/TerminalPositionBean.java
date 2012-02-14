@@ -77,4 +77,8 @@ public class TerminalPositionBean implements TerminalPosition {
 	public TerminalPosition next() {
 		return SimpleTerminalPosition.newInstance(row, column + 1);
 	}
+
+	public TerminalPosition previous() {
+		return SimpleTerminalPosition.newInstance(row, column - 1);
+	}
 }

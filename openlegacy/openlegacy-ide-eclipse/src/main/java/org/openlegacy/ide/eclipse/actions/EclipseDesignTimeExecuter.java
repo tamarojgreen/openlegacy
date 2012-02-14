@@ -81,4 +81,19 @@ public class EclipseDesignTimeExecuter {
 		};
 		job.schedule();
 	}
+
+	public void generateMvcViewAndContoller(IFile screenEntitySourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
+			OverrideConfirmer overrideConfirmer) {
+
+		designTimeExecuter.generateMvcViewAndContoller(PathsUtil.toOsLocation(screenEntitySourceFile),
+				PathsUtil.toSourceDirectory(sourceDirectory), PathsUtil.packageToPath(packageDir), overrideConfirmer);
+
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
+			}
+		});
+
+	}
 }

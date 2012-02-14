@@ -15,7 +15,9 @@ public class PluginConstants {
 
 	public static final String DEFAULT_SOURCE_FOLDER = "src/main/java";
 
-	public static final String DEFAULT_PACKAGE = "default_package";
+	public static final String DEFAULT_PACKAGE_JAVA = "default_package_java";
+
+	public static final String DEFAULT_PACKAGE_WEB = "default_package_web";
 
 	public static final String OPENLEGACY_IMAGE_VIEW_ID = null;
 
