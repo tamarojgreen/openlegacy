@@ -193,14 +193,37 @@ public class TerminalActions {
 		return new PAGEUP();
 	}
 
+	/**
+	 * Retrieve a command value which is mapped to the given keyboradKey Used for parsing JavaScript keyboard actions, sent via
+	 * http request
+	 * 
+	 * @param keyboardKey
+	 * @param terminalActionMapper
+	 * @return
+	 * @throws TerminalActionNotMappedException
+	 */
+	@SuppressWarnings("unchecked")
 	public static Object getCommand(String keyboardKey, TerminalActionMapper terminalActionMapper)
 			throws TerminalActionNotMappedException {
-		String keyboardKeyClass = MessageFormat.format("{0}${1}", TerminalActions.class.getName(), keyboardKey);
-		Class<?> keyboardClazz;
+		String[] keyboardActionParts = keyboardKey.split("-");
+
+		Class<? extends TerminalAction> keyboardClazz;
+		AdditionalKey additionalKey = AdditionalKey.NONE;
+		TerminalAction terminalAction = null;
 		Object command;
 		try {
-			keyboardClazz = Class.forName(keyboardKeyClass);
-			command = terminalActionMapper.getCommand((TerminalAction)keyboardClazz.newInstance());
+			if (keyboardActionParts.length == 2) {
+				keyboardKey = keyboardActionParts[1];
+				String keyboardKeyClass = MessageFormat.format("{0}${1}", TerminalActions.class.getName(), keyboardKey);
+				keyboardClazz = (Class<? extends TerminalAction>)Class.forName(keyboardKeyClass);
+				additionalKey = AdditionalKey.valueOf(keyboardActionParts[0]);
+				terminalAction = (TerminalAction)TerminalActions.combined(additionalKey, keyboardClazz);
+			} else {
+				String keyboardKeyClass = MessageFormat.format("{0}${1}", TerminalActions.class.getName(), keyboardKey);
+				keyboardClazz = (Class<? extends TerminalAction>)Class.forName(keyboardKeyClass);
+				terminalAction = keyboardClazz.newInstance();
+			}
+			command = terminalActionMapper.getCommand(terminalAction);
 		} catch (Exception e) {
 			throw (new TerminalActionNotMappedException(MessageFormat.format(
 					"The keyboard key {0} has not been mapped to any command", keyboardKey), e));

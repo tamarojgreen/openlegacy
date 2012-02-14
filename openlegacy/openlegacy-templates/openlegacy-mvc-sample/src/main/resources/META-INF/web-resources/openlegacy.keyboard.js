@@ -1,5 +1,9 @@
-function sendFunctionKey(keyCode){
-	terminalSession.doAction("F" + (keyCode - 111));
+function sendFunctionKey(keyCode,shiftKey){
+	var action =  "F" + (keyCode - 111);
+	if (shiftKey){
+		action = "SHIFT-" + action;
+	}
+	terminalSession.doAction(action);
 } 
 dojo.connect(dojo.doc.body, "onkeydown", function(e) {
 
@@ -20,7 +24,7 @@ dojo.connect(dojo.doc.body, "onkeydown", function(e) {
 		case dojo.keys.F10:
 		case dojo.keys.F11:
 		case dojo.keys.F12:
-			sendFunctionKey(e.keyCode);
+			sendFunctionKey(e.keyCode,e.shiftKey);
 			break;
 		default:
 			handled = false;
