@@ -1,6 +1,7 @@
 package org.openlegacy.providers.tn5250j;
 
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.utils.StringUtil;
 import org.tn5250j.framework.tn5250.ScreenField;
 
 public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
@@ -20,7 +21,7 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 		if (getModifiedValue() != null) {
 			return getModifiedValue();
 		}
-		return screenField.getString();
+		return StringUtil.rightTrim(screenField.getString());
 	}
 
 	@Override

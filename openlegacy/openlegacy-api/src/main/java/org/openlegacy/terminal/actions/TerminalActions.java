@@ -2,6 +2,7 @@ package org.openlegacy.terminal.actions;
 
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
+import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.exceptions.TerminalActionNotMappedException;
@@ -190,5 +191,21 @@ public class TerminalActions {
 
 	public static PAGEUP PAGEUP() {
 		return new PAGEUP();
+	}
+
+	public static Object getCommand(String keyboardKey, TerminalActionMapper terminalActionMapper)
+			throws TerminalActionNotMappedException {
+		String keyboardKeyClass = MessageFormat.format("{0}${1}", TerminalActions.class.getName(), keyboardKey);
+		Class<?> keyboardClazz;
+		Object command;
+		try {
+			keyboardClazz = Class.forName(keyboardKeyClass);
+			command = terminalActionMapper.getCommand((TerminalAction)keyboardClazz.newInstance());
+		} catch (Exception e) {
+			throw (new TerminalActionNotMappedException(MessageFormat.format(
+					"The keyboard key {0} has not been mapped to any command", keyboardKey), e));
+		}
+		return command;
+
 	}
 }

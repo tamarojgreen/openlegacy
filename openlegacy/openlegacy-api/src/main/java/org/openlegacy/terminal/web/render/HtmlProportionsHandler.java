@@ -7,4 +7,8 @@ public interface HtmlProportionsHandler {
 	int toHeight(int row);
 
 	int getFontSize();
+
+	int getInputHeight();
+
+	int getInputAdditionalWidth();
 }

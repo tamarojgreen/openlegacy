@@ -6,7 +6,9 @@ import com.sabratec.applinx.framework.web.GXIScreenBasedForm;
 import com.sabratec.applinx.presentation.internal.tags.GXTagNamesUtil;
 import com.sabratec.util.GXPosition;
 
+import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.web.render.support.TerminalHtmlConstants;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +17,13 @@ public class ApxHttpScreenBasedWebForm implements GXIScreenBasedForm {
 
 	private HttpServletRequest request;
 	private TerminalSnapshot snapshot;
+	private TerminalActionMapper terminalActionMapper;
 
-	public ApxHttpScreenBasedWebForm(HttpServletRequest request, TerminalSnapshot snapshot) {
+	public ApxHttpScreenBasedWebForm(HttpServletRequest request, TerminalSnapshot snapshot,
+			TerminalActionMapper terminalActionMapper) {
 		this.request = request;
 		this.snapshot = snapshot;
+		this.terminalActionMapper = terminalActionMapper;
 	}
 
 	public String getAppFieldContent(String arg0) throws GXGeneralException {
@@ -45,7 +50,9 @@ public class ApxHttpScreenBasedWebForm implements GXIScreenBasedForm {
 	}
 
 	public String getHostKeys() {
-		return request.getParameter(TerminalHtmlConstants.TERMINAL_COMMAND_HIDDEN);
+		String keyboardKey = request.getParameter(TerminalHtmlConstants.KEYBOARD_KEY);
+		Object command = TerminalActions.getCommand(keyboardKey, terminalActionMapper);
+		return command.toString();
 	}
 
 	public String getMultipleFieldContent(String arg0, int arg1) throws GXGeneralException {

@@ -1,7 +1,7 @@
 function TerminalSession() {
 
-	this.doAction = function(command) {
-		document.HtmlEmulation.TerminalCommand.value = command;
+	this.doAction = function(keyboardKey) {
+		document.HtmlEmulation.KeyboardKey.value = keyboardKey;
 		document.HtmlEmulation.submit();
 	};
 }

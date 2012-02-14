@@ -9,6 +9,7 @@ import com.sabratec.util.lang.GXLanguages;
 
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.providers.applinx.ApxPositionUtil;
+import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
@@ -16,13 +17,17 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.SimpleTerminalSendAction;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 public class ApxHttpPostTerminalSendActionBuilder implements TerminalSendActionBuilder<HttpServletRequest> {
 
+	@Inject
+	private TerminalActionMapper terminalActionMapper;
+
 	public TerminalSendAction buildSendAction(TerminalSnapshot terminalSnapshot, HttpServletRequest source) {
 		GXIScreen screen = (GXIScreen)terminalSnapshot.getDelegate();
-		ApxHttpScreenBasedWebForm apxForm = new ApxHttpScreenBasedWebForm(source, terminalSnapshot);
+		ApxHttpScreenBasedWebForm apxForm = new ApxHttpScreenBasedWebForm(source, terminalSnapshot, terminalActionMapper);
 		GXSendKeysRequest sendKeysRequext;
 		try {
 			sendKeysRequext = GXFrameworkHandler.prepareSendKeysRequest(screen, apxForm, GXLanguages.LANG_STRING_ENGLISH);
