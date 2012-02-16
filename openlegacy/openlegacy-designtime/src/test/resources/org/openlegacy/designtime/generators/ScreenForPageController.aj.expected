@@ -5,7 +5,10 @@ package org.openlegacy.terminal.layout.mock.web;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalActions;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +18,10 @@ import org.openlegacy.terminal.layout.mock.ScreenForPage;
 
 privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 
-	@Inject
-	private TerminalSession ScreenForPageController.terminalSession;
+@Inject
+private TerminalSession ScreenForPageController.terminalSession;
 
+	// handle page initial display
     @RequestMapping(value="/ScreenForPage", method = RequestMethod.GET)
     public String ScreenForPageController.show(Model uiModel) {
     	ScreenForPage screenForPage = terminalSession.getEntity(ScreenForPage.class);
@@ -26,12 +30,27 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
         return "ScreenForPage";
     }
 
+	// handle submit action
     @RequestMapping(value="/ScreenForPage", method = RequestMethod.POST)
     public String ScreenForPageController.submit(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), screenForPage);
-	// go to the contoller for the resulting screen name
+	// go to the controller for the resulting screen name
         return "redirect:" + resultScreenEntity.getClass().getSimpleName();
     }
     
+	// handle help action
+    @RequestMapping(value="/ScreenForPage?action=help", method = RequestMethod.POST)
+    public String ScreenForPageController.help(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F1(), screenForPage);
+	// go to the controller for the resulting screen name
+        return "redirect:" + resultScreenEntity.getClass().getSimpleName();
+    }
+	// handle exit action
+    @RequestMapping(value="/ScreenForPage?action=exit", method = RequestMethod.POST)
+    public String ScreenForPageController.exit(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F3(), screenForPage);
+	// go to the controller for the resulting screen name
+        return "redirect:" + resultScreenEntity.getClass().getSimpleName();
+    }
 	
 }

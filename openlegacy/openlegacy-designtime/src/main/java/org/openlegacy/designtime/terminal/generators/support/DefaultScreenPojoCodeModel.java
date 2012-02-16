@@ -13,9 +13,12 @@ import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
+import japa.parser.ast.expr.ArrayInitializerExpr;
+import japa.parser.ast.expr.Expression;
 import japa.parser.ast.expr.MemberValuePair;
 import japa.parser.ast.expr.NormalAnnotationExpr;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +42,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private String entityName;
 	private int startRow;
 	private int endRow;
+
+	private List<Action> actions = new ArrayList<Action>();
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className) {
 
@@ -165,6 +170,25 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 					superClass = true;
 				}
 			}
+			if (annotationName.equals(AnnotationConstants.SCREEN_ACTIONS_ANNOTATION)) {
+				populateScreenActions(annotationExpr);
+			}
+		}
+	}
+
+	private void populateScreenActions(AnnotationExpr annotationExpr) {
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			List<MemberValuePair> screenActionAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			MemberValuePair actionsKeyValue = screenActionAttributes.get(0);
+			ArrayInitializerExpr actionsPairs = (ArrayInitializerExpr)actionsKeyValue.getValue();
+			List<Expression> actionsAnnotations = actionsPairs.getValues();
+			for (Expression expression : actionsAnnotations) {
+				NormalAnnotationExpr singleAction = (NormalAnnotationExpr)expression;
+				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION);
+				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
+				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
+				actions.add(new Action(actionAlias, actionClassName, displayName));
+			}
 		}
 	}
 
@@ -265,6 +289,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	 */
 	public Collection<Field> getFields() {
 		return fields.values();
+	}
+
+	public List<Action> getActions() {
+		return actions;
 	}
 
 	public static class Field {
@@ -368,6 +396,31 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setEndColumn(Integer endColumn) {
 			this.endColumn = endColumn;
+		}
+	}
+
+	public static class Action {
+
+		private String alias;
+		private String actionName;
+		private String displayName;
+
+		public Action(String alias, String actionName, String displayName) {
+			this.alias = alias;
+			this.actionName = actionName;
+			this.displayName = displayName;
+		}
+
+		public String getAlias() {
+			return alias;
+		}
+
+		public String getActionName() {
+			return actionName;
+		}
+
+		public String getDisplayName() {
+			return displayName;
 		}
 	}
 

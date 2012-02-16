@@ -28,6 +28,10 @@ public class StringUtil {
 		return toVariableName(text, false);
 	}
 
+	public static String toJavaMethodName(String text) {
+		return toVariableName(text, false);
+	}
+
 	public static String toClassName(String text) {
 		return toVariableName(text, true);
 	}
@@ -182,5 +186,16 @@ public class StringUtil {
 			return str;
 		}
 		return str.substring(str.lastIndexOf(".") + 1);
+	}
+
+	public static String stripQuotes(String text) {
+		if (text.startsWith("\"")) {
+			text = text.substring(1);
+		}
+		if (text.endsWith("\"")) {
+			text = text.substring(0, text.length() - 1);
+		}
+
+		return text;
 	}
 }

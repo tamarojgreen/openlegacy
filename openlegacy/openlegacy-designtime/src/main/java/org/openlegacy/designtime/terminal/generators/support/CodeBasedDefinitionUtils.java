@@ -1,8 +1,11 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
+import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenTableDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
+import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -17,6 +20,7 @@ import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -91,5 +95,20 @@ public class CodeBasedDefinitionUtils {
 
 		return screenDefinition;
 
+	}
+
+	public static List<ActionDefinition> getActionsFromCodeModel(ScreenPojoCodeModel codeModel) {
+		List<Action> actions = codeModel.getActions();
+		List<ActionDefinition> actionDefinitions = new ArrayList<ActionDefinition>();
+		for (Action action : actions) {
+			// keep just the action class name: TerminalActions.F3.class -> F3
+			String actionName = action.getActionName().replace("TerminalActions.", "").replace(".class", "");
+			SimpleActionDefinition actionDefinition = new SimpleActionDefinition(actionName,
+					StringUtil.stripQuotes(action.getDisplayName()));
+			actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
+			actionDefinitions.add(actionDefinition);
+		}
+
+		return actionDefinitions;
 	}
 }

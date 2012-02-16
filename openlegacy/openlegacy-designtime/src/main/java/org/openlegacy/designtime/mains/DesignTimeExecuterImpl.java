@@ -10,12 +10,18 @@ import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.analyzer.support.AbstractSnapshotsOrganizer;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
+import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
+import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.designtime.terminal.generators.TrailJunitGenerator;
+import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEntityDefinition;
+import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.GenerationException;
+import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
@@ -27,7 +33,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import japa.parser.JavaParser;
 import japa.parser.ParseException;
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,6 +56,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
 
 	private static final String RUN_APPLICATION = "run-application.launch";
+
+	private static final String VIEWS_DIR = "src/main/webapp/WEB-INF/views/";
 
 	private ApplicationContext applicationContext;
 
@@ -272,8 +283,42 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		getApplicationContext(analyzerContextFile).getBean(SnapshotsAnalyzer.class);
 	}
 
-	public void generateMvcViewAndContoller(File screenEntitySourceFile, File sourceDirectory, String packageToPath,
-			OverrideConfirmer overrideConfirmer) {
+	public void generateMvcViewAndContoller(File projectDir, File screenEntitySourceFile, File sourceDirectory,
+			String packageDirectoryName, OverrideConfirmer overrideConfirmer) {
+		FileOutputStream fos = null;
+		try {
+			String screenEntityFileWithoutExtension = FileUtils.fileWithoutExtension(screenEntitySourceFile.getName());
+			CompilationUnit compilationUnit = JavaParser.parse(screenEntitySourceFile);
+			ScreenPojoCodeModel codeModel = new DefaultScreenPojoCodeModel(compilationUnit,
+					(ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0), screenEntityFileWithoutExtension);
+			ScreenEntityDefinition screenEntityDefinition = new CodeBasedScreenEntityDefinition(codeModel);
 
+			File packageDir = new File(sourceDirectory, packageDirectoryName);
+			File contollerFile = new File(packageDir, screenEntityFileWithoutExtension + "Controller.java");
+			contollerFile.getParentFile().mkdirs();
+			fos = new FileOutputStream(contollerFile);
+			if (contollerFile.exists()) {
+				boolean override = overrideConfirmer.isOverride(contollerFile);
+				if (!override) {
+					return;
+				}
+			}
+			PageDefinition pageDefinition = new DefaultScreenPageBuilder().build(screenEntityDefinition);
+			ScreenEntityMvcGenerator screenEntityMvcGenerator = new ScreenEntityMvcGenerator();
+			screenEntityMvcGenerator.generateController(pageDefinition, fos);
+
+			File contollerAspectFile = new File(packageDir, screenEntityFileWithoutExtension + "Controller_Aspect.aj");
+			fos = new FileOutputStream(contollerAspectFile);
+			screenEntityMvcGenerator.generateControllerAspect(pageDefinition, fos);
+
+			File webPageFile = new File(projectDir, VIEWS_DIR + screenEntityDefinition.getEntityClassName() + ".jspx");
+			fos = new FileOutputStream(webPageFile);
+			screenEntityMvcGenerator.generatePage(pageDefinition, fos);
+
+		} catch (Exception e) {
+			throw (new GenerationException(e));
+		} finally {
+			IOUtils.closeQuietly(fos);
+		}
 	}
 }

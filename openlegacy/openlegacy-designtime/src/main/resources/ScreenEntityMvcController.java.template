@@ -1,20 +1,12 @@
 package ${entityDefinition.packageName}.web;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-
-import org.openlegacy.terminal.TerminalSession;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import ${entityDefinition.packageName}.${entityDefinition.entityName};
 
 /**
  * Handles requests for screen ${entityDefinition.entityName}
  */
 @Controller
-public class ${entityDefinition.entityName}Controller {
-	
+public class ${entityDefinition.entityClassName}Controller {
+
+	// actions are generated within ${entityDefinition.entityClassName}Controller_Aspect.aj	
 }

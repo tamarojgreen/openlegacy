@@ -48,7 +48,7 @@ public class DefaultTerminalActionAnalyzer implements TerminalActionAnalyzer {
 		TerminalAction actionInstance = ReflectionUtil.newInstance(actionClass);
 		SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionInstance, additionalKey,
 				caption, position);
-		actionDefinition.setAlias(StringUtil.toJavaFieldName(caption));
+		actionDefinition.setAlias(StringUtil.toJavaMethodName(caption));
 		return actionDefinition;
 	}
 }

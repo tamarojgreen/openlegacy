@@ -14,6 +14,8 @@ public interface EntityDefinition<D extends FieldDefinition> {
 
 	Class<?> getEntityClass();
 
+	String getEntityClassName();
+
 	Class<? extends EntityType> getType();
 
 	/**
