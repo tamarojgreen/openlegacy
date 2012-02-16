@@ -27,6 +27,6 @@ public interface DesignTimeExecuter {
 
 	void initialize(File analyzerContextFile);
 
-	void generateMvcViewAndContoller(File screenEntitySourceFile, File sourceDirectory, String packageToPath,
+	void generateMvcViewAndContoller(File projectDir, File screenEntitySourceFile, File sourceDirectory, String packageToPath,
 			OverrideConfirmer overrideConfirmer);
 }

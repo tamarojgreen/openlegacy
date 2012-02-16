@@ -47,7 +47,17 @@ public class ScreenEntityMvcGeneratorTest {
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit);
+
 		assertPageGeneration(screenDefinition);
+	}
+
+	@Test
+	public void testGenerateContollerAspectByCodeModel() throws Exception {
+		String javaSource = "/org/openlegacy/terminal/layout/mock/ScreenForPage.java.resource";
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
+
+		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit);
+		assertControllerAspectGeneration(screenDefinition);
 	}
 
 	@Test
@@ -65,19 +75,23 @@ public class ScreenEntityMvcGeneratorTest {
 	@Test
 	public void testGenerateControllerAspect() throws Exception {
 
-		ScreenEntityDefinition screen1Definition = screenEntitiesRegistry.get(ScreenForPage.class);
+		ScreenEntityDefinition screenDefinition = screenEntitiesRegistry.get(ScreenForPage.class);
 
+		assertControllerAspectGeneration(screenDefinition);
+	}
+
+	private void assertControllerAspectGeneration(ScreenEntityDefinition screenDefinition) throws TemplateException, IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PageDefinition pageDefinition = screenPageBuilder.build(screen1Definition);
+		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
 		new ScreenEntityMvcGenerator().generateControllerAspect(pageDefinition, baos);
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageController.aj.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
-	private void assertPageGeneration(ScreenEntityDefinition screen1Definition) throws TemplateException, IOException {
+	private void assertPageGeneration(ScreenEntityDefinition screenDefinition) throws TemplateException, IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PageDefinition pageDefinition = screenPageBuilder.build(screen1Definition);
-		new ScreenEntityMvcGenerator().generateJspx(pageDefinition, baos);
+		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
+		new ScreenEntityMvcGenerator().generatePage(pageDefinition, baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPage.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());

@@ -26,6 +26,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	private Map<String, ScreenFieldDefinition> fields;
 	private SimpleScreenSize screenSize;
 	private Map<String, ScreenTableDefinition> tableDefinitions = new TreeMap<String, ScreenTableDefinition>();
+	private List<ActionDefinition> actions;
 
 	public CodeBasedScreenEntityDefinition(ScreenPojoCodeModel codeModel) {
 		this.codeModel = codeModel;
@@ -46,6 +47,10 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	public Class<?> getEntityClass() {
 		throwNotImplemented();
 		return null;
+	}
+
+	public String getEntityClassName() {
+		return codeModel.getClassName();
 	}
 
 	public Class<? extends EntityType> getType() {
@@ -88,8 +93,10 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public List<ActionDefinition> getActions() {
-		throwNotImplemented();
-		return null;
+		if (actions == null) {
+			actions = CodeBasedDefinitionUtils.getActionsFromCodeModel(codeModel);
+		}
+		return actions;
 	}
 
 	public TerminalSnapshot getSnapshot() {

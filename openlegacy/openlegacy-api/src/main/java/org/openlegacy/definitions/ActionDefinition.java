@@ -11,6 +11,8 @@ public interface ActionDefinition {
 
 	SessionAction<? extends Session> getAction();
 
+	String getActionName();
+
 	String getDisplayName();
 
 	/**

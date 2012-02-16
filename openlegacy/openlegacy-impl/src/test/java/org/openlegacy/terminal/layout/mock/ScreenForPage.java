@@ -1,16 +1,21 @@
 package org.openlegacy.terminal.layout.mock;
 
+import org.openlegacy.annotations.screen.Action;
+import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @ScreenEntity
 @Component
+@ScreenActions(actions = { @Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"),
+		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit") })
 public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	@ScreenField(row = 6, column = 22, editable = true)

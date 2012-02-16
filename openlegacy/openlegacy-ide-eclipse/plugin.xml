@@ -24,6 +24,25 @@
                id="org.openlegacy.ide.eclipse.actions.generateScreens">
          </action>
       </objectContribution>
+      <objectContribution
+            objectClass="org.eclipse.jdt.core.ICompilationUnit"
+            id="org.openlegacy.ide.eclipse.generate_web">
+         <menu
+               label="Open Legacy"
+               path="additions"
+               id="org.openlegacy.ied.eclipse.right_menu">
+            <separator
+                  name="generate">
+            </separator>
+         </menu>
+         <action
+               label="Generate Web page"
+               class="org.openlegacy.ide.eclipse.actions.GenerateWebPage"
+               menubarPath="org.openlegacy.ied.eclipse.right_menu/generate"
+               enablesFor="1"
+               id="org.openlegacy.ide.eclipse.actions.generateWebPage">
+         </action>
+      </objectContribution>
    </extension>
    
    <extension

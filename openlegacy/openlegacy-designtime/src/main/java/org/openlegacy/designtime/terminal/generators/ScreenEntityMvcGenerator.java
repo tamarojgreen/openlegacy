@@ -7,9 +7,9 @@ import org.openlegacy.layout.PageDefinition;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class ScreenEntityMvcGenerator {
+public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
-	public void generateJspx(PageDefinition pageDefinition, OutputStream output) throws TemplateException, IOException {
+	public void generatePage(PageDefinition pageDefinition, OutputStream output) throws TemplateException, IOException {
 
 		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcPage.jspx.template");
 	}

@@ -1,5 +1,6 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
+import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenEntitySuperClass;
@@ -17,6 +18,7 @@ public class AnnotationConstants {
 	public static final String TRUE = "true";
 	public static final String FIELD_SUFFIX = "Field";
 	public static final String SCREEN_FIELD_ANNOTATION = ScreenField.class.getSimpleName();
+	public static final Object SCREEN_ACTIONS_ANNOTATION = ScreenActions.class.getSimpleName();
 
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String EDITABLE = "editable";
@@ -28,4 +30,6 @@ public class AnnotationConstants {
 	public static final String END_COLUMN = "endColumn";
 	public static final String START_ROW = "startRow";
 	public static final String END_ROW = "endRow";
+	public static final String ACTION = "action";
+	public static final String ALIAS = "alias";
 }

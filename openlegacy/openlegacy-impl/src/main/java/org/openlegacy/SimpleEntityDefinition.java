@@ -36,6 +36,10 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 		return entityClass;
 	}
 
+	public String getEntityClassName() {
+		return getEntityClass().getSimpleName();
+	}
+
 	public Map<String, F> getFieldsDefinitions() {
 		return fieldDefinitions;
 	}
