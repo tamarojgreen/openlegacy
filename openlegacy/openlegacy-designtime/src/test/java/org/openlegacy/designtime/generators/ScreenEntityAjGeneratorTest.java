@@ -11,12 +11,14 @@ import org.openlegacy.test.utils.AssertUtils;
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.List;
 
 public class ScreenEntityAjGeneratorTest {
 
@@ -45,7 +47,11 @@ public class ScreenEntityAjGeneratorTest {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream("testTable.java.resource"));
 
-		new ScreenPojosAjGenerator().generateScreenTable(compilationUnit, getMainType(compilationUnit), baos, "TestClass");
+		ClassOrInterfaceDeclaration mainType = getMainType(compilationUnit);
+		List<BodyDeclaration> members = mainType.getMembers();
+		BodyDeclaration lastMember = members.get(members.size() - 1);
+		new ScreenPojosAjGenerator().generateScreenTable(compilationUnit, (ClassOrInterfaceDeclaration)lastMember, baos,
+				"TestClass");
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("testTable_Aspect.aj.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}

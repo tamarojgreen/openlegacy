@@ -13,6 +13,7 @@ public class Tn5250jTerminalSessionSystemTest extends AbstractAS400TerminalSessi
 	@Test
 	public void testTn5250jSystem() throws Exception {
 		testAS400InventorySystem();
+
 	}
 
 }

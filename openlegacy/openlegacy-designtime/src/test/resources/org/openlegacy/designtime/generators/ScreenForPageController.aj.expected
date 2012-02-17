@@ -22,7 +22,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 private TerminalSession ScreenForPageController.terminalSession;
 
 	// handle page initial display
-    @RequestMapping(value="/ScreenForPage", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String ScreenForPageController.show(Model uiModel) {
     	ScreenForPage screenForPage = terminalSession.getEntity(ScreenForPage.class);
 	uiModel.addAttribute("screenForPage", screenForPage);
@@ -31,7 +31,7 @@ private TerminalSession ScreenForPageController.terminalSession;
     }
 
 	// handle submit action
-    @RequestMapping(value="/ScreenForPage", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String ScreenForPageController.submit(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), screenForPage);
 	// go to the controller for the resulting screen name
@@ -39,14 +39,14 @@ private TerminalSession ScreenForPageController.terminalSession;
     }
     
 	// handle help action
-    @RequestMapping(value="/ScreenForPage?action=help", method = RequestMethod.POST)
+    @RequestMapping(value="?action=help", method = RequestMethod.POST)
     public String ScreenForPageController.help(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F1(), screenForPage);
 	// go to the controller for the resulting screen name
         return "redirect:" + resultScreenEntity.getClass().getSimpleName();
     }
 	// handle exit action
-    @RequestMapping(value="/ScreenForPage?action=exit", method = RequestMethod.POST)
+    @RequestMapping(value="?action=exit", method = RequestMethod.POST)
     public String ScreenForPageController.exit(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F3(), screenForPage);
 	// go to the controller for the resulting screen name
