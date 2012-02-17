@@ -17,6 +17,10 @@ public class TrailUtil {
 	public static void saveTrail(TerminalSession terminalSession, TrailWriter trailWriter, String trailPath)
 			throws FileNotFoundException {
 
+		if (terminalSession.getSessionId() == null) {
+			return;
+		}
+
 		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
 		OutputStream trailOut = null;
 		try {

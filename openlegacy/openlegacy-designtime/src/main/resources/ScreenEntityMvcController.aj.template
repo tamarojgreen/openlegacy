@@ -22,7 +22,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 private TerminalSession ${entityDefinition.entityClassName}Controller.terminalSession;
 
 	// handle page initial display
-    @RequestMapping(value="/${entityDefinition.entityClassName}", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String ${entityDefinition.entityClassName}Controller.show(Model uiModel) {
     	${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
 	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
@@ -31,7 +31,7 @@ private TerminalSession ${entityDefinition.entityClassName}Controller.terminalSe
     }
 
 	// handle submit action
-    @RequestMapping(value="/${entityDefinition.entityClassName}", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String ${entityDefinition.entityClassName}Controller.submit(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), ${entityDefinition.entityName?uncap_first});
 	// go to the controller for the resulting screen name
@@ -40,7 +40,7 @@ private TerminalSession ${entityDefinition.entityClassName}Controller.terminalSe
     
 	<#list entityDefinition.actions as action>
 	// handle ${action.alias} action
-    @RequestMapping(value="/${entityDefinition.entityClassName}?action=${action.alias}", method = RequestMethod.POST)
+    @RequestMapping(value="?action=${action.alias}", method = RequestMethod.POST)
     public String ${entityDefinition.entityClassName}Controller.${action.alias}(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.${action.actionName}(), ${entityDefinition.entityName?uncap_first});
 	// go to the controller for the resulting screen name

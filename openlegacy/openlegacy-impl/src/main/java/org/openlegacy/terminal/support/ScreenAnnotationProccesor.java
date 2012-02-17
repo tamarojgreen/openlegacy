@@ -42,6 +42,9 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 		for (String beanName : beanFactory.getBeanDefinitionNames()) {
 			try {
 				BeanDefinition bean = beanFactory.getBeanDefinition(beanName);
+				if (bean.getBeanClassName() == null) {
+					continue;
+				}
 				Class<?> beanClass = Class.forName(bean.getBeanClassName());
 
 				Class<?> currentBeanClass = beanClass;

@@ -42,7 +42,7 @@ public class CodeBasedDefinitionUtils {
 			SimpleScreenFieldDefinition fieldDefinition = new SimpleScreenFieldDefinition(containerPrefix + field.getName(), null);
 			fieldDefinition.setPosition(new SimpleTerminalPosition(field.getRow(), field.getColumn()));
 			fieldDefinition.setEditable(field.isEditable());
-			fieldDefinition.setDisplayName(field.getDisplayName());
+			fieldDefinition.setDisplayName(StringUtil.stripQuotes(field.getDisplayName()));
 			if (field.getEndColumn() != null) {
 				fieldDefinition.setLength(field.getEndColumn() - field.getColumn() + 1);
 			}
@@ -75,18 +75,18 @@ public class CodeBasedDefinitionUtils {
 				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_ANNOTATION)
 						|| JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
-							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName());
+							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
 					screenDefinition = new CodeBasedScreenEntityDefinition(screenEntityCodeModel);
 				}
 				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
-							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName());
+							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
 					CodeBasedScreenPartDefinition partDefinition = new CodeBasedScreenPartDefinition(screenEntityCodeModel);
 					screenDefinition.getPartsDefinitions().put(partDefinition.getPartName(), partDefinition);
 				}
 				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
-							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName());
+							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
 					CodeBasedScreenTableDefinition tableDefinition = new CodeBasedScreenTableDefinition(screenEntityCodeModel);
 					screenDefinition.getTableDefinitions().put(tableDefinition.getTableEntityName(), tableDefinition);
 				}

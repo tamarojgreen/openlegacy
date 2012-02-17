@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
  * Handles requests for screen ${entityDefinition.entityName}
  */
 @Controller
+@RequestMapping("/${entityDefinition.entityClassName}")
 public class ${entityDefinition.entityClassName}Controller {
 
 	// actions are generated within ${entityDefinition.entityClassName}Controller_Aspect.aj	

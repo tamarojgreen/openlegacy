@@ -54,6 +54,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private final static Log logger = LogFactory.getLog(AbstractSnapshotsOrganizer.class);
 
 	private static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
+	private static final String DEFAULT_SPRING_TEST_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext-test.xml";
+	private static final String DEFAULT_SPRING_WEB_CONTEXT_FILE = "/src/main/webapp/META-INF/spring/webmvc-config.xml";
 
 	private static final String RUN_APPLICATION = "run-application.launch";
 
@@ -84,6 +86,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		File launcherFile = new File(targetPath, RUN_APPLICATION);
 
 		if (!launcherFile.exists()) {
+			logger.warn(MessageFormat.format("Unable to find launcher {0} within {1}", RUN_APPLICATION, projectName));
 			return;
 		}
 
@@ -97,8 +100,15 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
 			FileNotFoundException {
-		File springFile = new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE);
+		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE));
+		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_WEB_CONTEXT_FILE));
+		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE));
+	}
 
+	private static void updateSpringFile(String defaultPackageName, File springFile) throws IOException, FileNotFoundException {
+		if (!springFile.exists()) {
+			return;
+		}
 		String springFileContent = IOUtils.toString(new FileInputStream(springFile));
 
 		springFileContent = springFileContent.replaceAll("<context:component-scan base-package=\".*\" />",
@@ -120,6 +130,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static void renameProjectPOM(String projectName, File targetPath) throws IOException, FileNotFoundException {
 		File pomFile = new File(targetPath, "pom.xml");
+		if (!pomFile.exists()) {
+			logger.error(MessageFormat.format("Unable to find pom.xml within {0}", projectName));
+			return;
+		}
 		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
 
 		pomFileContent = pomFileContent.replaceFirst("<artifactId>.*</artifactId>",
@@ -130,6 +144,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static void renameProviderInPOM(String provider, File targetPath) throws FileNotFoundException, IOException {
 		File pomFile = new File(targetPath, "pom.xml");
+
+		if (!pomFile.exists()) {
+			logger.error(MessageFormat.format("Unable to find pom.xml within {0}", targetPath));
+			return;
+		}
+
 		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
 
 		if (!provider.equals(DesignTimeExecuter.MOCK_PROVIDER)) {
@@ -190,8 +210,11 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				screenResourcesDir.mkdir();
 				TerminalSnapshot snapshot = screenEntityDefinition.getOriginalSnapshot();
 
+				// generate txt file with screen content
 				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotTextRenderer.instance());
+				// generate jpg file with screen image
 				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotImageRenderer.instance());
+				// generate xml file with screen XML for testing purposes
 				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotXmlRenderer.instance());
 
 			} catch (TemplateException e) {
@@ -289,8 +312,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		try {
 			String screenEntityFileWithoutExtension = FileUtils.fileWithoutExtension(screenEntitySourceFile.getName());
 			CompilationUnit compilationUnit = JavaParser.parse(screenEntitySourceFile);
-			ScreenPojoCodeModel codeModel = new DefaultScreenPojoCodeModel(compilationUnit,
-					(ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0), screenEntityFileWithoutExtension);
+			ClassOrInterfaceDeclaration mainType = (ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0);
+			ScreenPojoCodeModel codeModel = new DefaultScreenPojoCodeModel(compilationUnit, mainType,
+					screenEntityFileWithoutExtension, null);
 			ScreenEntityDefinition screenEntityDefinition = new CodeBasedScreenEntityDefinition(codeModel);
 
 			File packageDir = new File(sourceDirectory, packageDirectoryName);
