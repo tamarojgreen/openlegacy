@@ -198,4 +198,18 @@ public class StringUtil {
 
 		return text;
 	}
+
+	/**
+	 * Surrounds a given string with quotes if it of type string. Usefull for code generation
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static Object surroundStringWithQuotes(String value) {
+		Class<?> type = getTypeByValue(value);
+		if (type == String.class) {
+			return "\"" + value + "\"";
+		}
+		return value;
+	}
 }

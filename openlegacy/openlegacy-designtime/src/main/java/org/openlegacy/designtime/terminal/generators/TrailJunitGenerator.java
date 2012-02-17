@@ -59,6 +59,7 @@ public class TrailJunitGenerator {
 				MessageFormat.format("{0} {1} = terminalSession.getEntity({0}.class);", entityName, variableName));
 
 		for (ScreenEntityDefinition screenEntityDefinition : screenEntityDefinitions) {
+
 			generatedApi.getRefferedClasses().add(
 					MessageFormat.format("{0}.{1}", screenEntityDefinition.getPackageName(),
 							screenEntityDefinition.getEntityName()));
@@ -70,8 +71,9 @@ public class TrailJunitGenerator {
 					TerminalField terminalField = accessedFromSnapshot.getField(screenFieldDefinition.getPosition());
 					if (terminalField.isModified()) {
 						generatedApi.getApiCalls().add(
-								MessageFormat.format("{0}.{1}(\"{2}\");", variableName,
-										StringUtil.toSetterMethodName(screenFieldDefinition.getName()), terminalField.getValue()));
+								MessageFormat.format("{0}.{1}({2});", variableName,
+										StringUtil.toSetterMethodName(screenFieldDefinition.getName()),
+										StringUtil.surroundStringWithQuotes(terminalField.getValue())));
 					}
 
 				}
@@ -81,6 +83,8 @@ public class TrailJunitGenerator {
 						MessageFormat.format("{0} {1} = terminalSession.doAction(TerminalActions.ENTER(),{2},{0}.class);",
 								nextEntityName, StringUtil.toJavaFieldName(nextEntityName), variableName));
 
+				entityName = screenEntityDefinition.getEntityName();
+				variableName = StringUtil.toJavaFieldName(entityName);
 			}
 		}
 		return generatedApi;

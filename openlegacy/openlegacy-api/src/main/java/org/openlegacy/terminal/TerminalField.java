@@ -32,5 +32,10 @@ public interface TerminalField extends TerminalPositionContainer, Serializable {
 
 	Color getBackColor();
 
+	/**
+	 * The field matching Java type. Used mostly to generate Java class field code from the field type
+	 * 
+	 * @return
+	 */
 	Class<?> getType();
 }

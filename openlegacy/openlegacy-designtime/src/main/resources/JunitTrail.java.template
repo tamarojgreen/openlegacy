@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ${refferedClass};  
 </#list>	
 
-@ContextConfiguration("/META-INF/spring/applicationContext.xml")
+@ContextConfiguration("/META-INF/spring/applicationContext-test.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ${testName} {
 

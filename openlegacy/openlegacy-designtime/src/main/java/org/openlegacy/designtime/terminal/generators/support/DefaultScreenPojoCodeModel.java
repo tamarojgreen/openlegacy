@@ -44,10 +44,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private int endRow;
 
 	private List<Action> actions = new ArrayList<Action>();
+	private String parentClassName;
 
-	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className) {
+	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
+			String parentClassName) {
 
 		mainType = type;
+		this.parentClassName = parentClassName;
+
 		if (compilationUnit.getPackage() != null) {
 			this.packageName = compilationUnit.getPackage().getName().toString();
 		}
@@ -256,6 +260,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	 */
 	public String getClassName() {
 		return className;
+	}
+
+	public String getParentClassName() {
+		return parentClassName;
 	}
 
 	public String getEntityName() {

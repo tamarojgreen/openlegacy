@@ -92,7 +92,7 @@ public class EclipseDesignTimeExecuter {
 		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
-				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
+				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.FULL_BUILD)).run();
 			}
 		});
 

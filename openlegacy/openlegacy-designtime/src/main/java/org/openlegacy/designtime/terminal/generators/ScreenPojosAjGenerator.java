@@ -58,6 +58,8 @@ public class ScreenPojosAjGenerator {
 			return;
 		}
 
+		String parentClassName = types.get(0).getName();
+
 		List<BodyDeclaration> members = types.get(0).getMembers();
 		for (BodyDeclaration bodyDeclaration : members) {
 			// look for inner classes
@@ -81,11 +83,11 @@ public class ScreenPojosAjGenerator {
 				}
 				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
 					screenEntityCodeModel = generateScreenPart(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
-							baos, "");
+							baos, parentClassName);
 				}
 				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
 					screenEntityCodeModel = generateScreenTable(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
-							baos, "");
+							baos, parentClassName);
 				}
 				if (screenEntityCodeModel != null && screenEntityCodeModel.isRelevant()) {
 					writeToFile(javaFile, baos, screenEntityCodeModel);
@@ -97,17 +99,17 @@ public class ScreenPojosAjGenerator {
 
 	public ScreenPojoCodeModel generateScreenEntity(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
 			OutputStream out) throws IOException, TemplateException, ParseException {
-		return generate(out, compilationUnit, typeDeclaration, "Screen_Aspect.aj.template");
+		return generate(out, compilationUnit, typeDeclaration, "Screen_Aspect.aj.template", null);
 	}
 
 	public ScreenPojoCodeModel generateScreenPart(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
 			OutputStream out, String parentClass) throws IOException, TemplateException, ParseException {
-		return generate(out, compilationUnit, typeDeclaration, "ScreenPart_Aspect.aj.template");
+		return generate(out, compilationUnit, typeDeclaration, "ScreenPart_Aspect.aj.template", parentClass);
 	}
 
 	public ScreenPojoCodeModel generateScreenTable(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
 			OutputStream out, String parentClass) throws IOException, TemplateException, ParseException {
-		return generate(out, compilationUnit, typeDeclaration, "ScreenTable_Aspect.aj.template");
+		return generate(out, compilationUnit, typeDeclaration, "ScreenTable_Aspect.aj.template", parentClass);
 	}
 
 	private static void writeToFile(File javaFile, ByteArrayOutputStream baos, ScreenPojoCodeModel screenEntityCodeModel)
@@ -122,11 +124,11 @@ public class ScreenPojosAjGenerator {
 	}
 
 	public ScreenPojoCodeModel generate(OutputStream out, CompilationUnit compilationUnit,
-			ClassOrInterfaceDeclaration typeDeclaration, String templateFileName) throws IOException, TemplateException,
-			ParseException {
+			ClassOrInterfaceDeclaration typeDeclaration, String templateFileName, String parentClass) throws IOException,
+			TemplateException, ParseException {
 
 		ScreenPojoCodeModel screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit, typeDeclaration,
-				typeDeclaration.getName());
+				typeDeclaration.getName(), parentClass);
 
 		if (!screenEntityCodeModel.isRelevant()) {
 			return screenEntityCodeModel;
