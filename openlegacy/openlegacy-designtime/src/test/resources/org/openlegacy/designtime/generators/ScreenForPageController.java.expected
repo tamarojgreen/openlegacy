@@ -1,11 +1,13 @@
 package org.openlegacy.terminal.layout.mock.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Handles requests for screen ScreenForPage
  */
 @Controller
+@RequestMapping("/ScreenForPage")
 public class ScreenForPageController {
 
 	// actions are generated within ScreenForPageController_Aspect.aj	

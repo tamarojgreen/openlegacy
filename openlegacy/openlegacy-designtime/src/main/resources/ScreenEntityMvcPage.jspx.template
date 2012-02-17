@@ -10,7 +10,7 @@
 	<spring:message code="security_login_title" var="title"
 		htmlEscape="false" />
 
-	<form name="${entityDefinition.entityName}">
+	<form name="${entityDefinition.entityClassName}">
 		<#list pageParts as pagePart>
 		<div style="margin-left: ${pagePart.leftMargin}%; margin-top: ${pagePart.topMargin}%; width: ${pagePart.width}%;<#if pagePart.oneField>position:absolute;</#if>" <#if pagePart.multyFields>class="panel"</#if>>
 			<#if pagePart.oneField>
