@@ -46,8 +46,8 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 				monitor.beginTask("Generating", 3);
 
 				monitor.worked(2);
-				EclipseDesignTimeExecuter.instance().generateMvcViewAndContoller(screenEntitySourceFile, getSourceFolder(),
-						getPackageValue(), GenerateWebPageDialog.this);
+				EclipseDesignTimeExecuter.instance().createWebPage(screenEntitySourceFile, getSourceFolder(), getPackageValue(),
+						GenerateWebPageDialog.this);
 
 				monitor.worked(1);
 				Display.getDefault().syncExec(new Runnable() {
@@ -79,7 +79,17 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(project);
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));
 
-		String prefrencePackage = Prefrences.get(PluginConstants.DEFAULT_PACKAGE_WEB, "");
-		getPackageText().setText(prefrencePackage);
+		String prefrencePackage = Prefrences.get(PluginConstants.DEFAULT_PACKAGE_JAVA, "");
+		// default web package should with ".web" at the end
+		String prefrenceWebPackage = Prefrences.get(PluginConstants.DEFAULT_PACKAGE_WEB, prefrencePackage + ".web");
+		getPackageText().setText(prefrenceWebPackage);
+	}
+
+	@Override
+	protected void savePreferences() {
+		String sourceFolderOnly = getSourceFolderPathText().getText().substring(
+				getSourceFolder().getJavaProject().getProject().getName().length() + 1);
+		Prefrences.put(PluginConstants.DEFAULT_SOURCE_FOLDER_ID, sourceFolderOnly);
+		Prefrences.put(PluginConstants.DEFAULT_PACKAGE_WEB, getPackageText().getText());
 	}
 }

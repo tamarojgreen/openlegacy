@@ -7,10 +7,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
-import org.openlegacy.designtime.analyzer.support.AbstractSnapshotsOrganizer;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
+import org.openlegacy.designtime.terminal.generators.ScreenEntityWebGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.designtime.terminal.generators.TrailJunitGenerator;
@@ -18,10 +18,8 @@ import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEnti
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.GenerationException;
-import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
@@ -51,15 +49,13 @@ import java.util.Map;
 
 public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
-	private final static Log logger = LogFactory.getLog(AbstractSnapshotsOrganizer.class);
+	private final static Log logger = LogFactory.getLog(DesignTimeExecuterImpl.class);
 
 	private static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
 	private static final String DEFAULT_SPRING_TEST_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext-test.xml";
-	private static final String DEFAULT_SPRING_WEB_CONTEXT_FILE = "/src/main/webapp/META-INF/spring/webmvc-config.xml";
+	private static final String DEFAULT_SPRING_WEB_CONTEXT_FILE = "/src/main/webapp/WEB-INF/spring/webmvc-config.xml";
 
 	private static final String RUN_APPLICATION = "run-application.launch";
-
-	private static final String VIEWS_DIR = "src/main/webapp/WEB-INF/views/";
 
 	private ApplicationContext applicationContext;
 
@@ -111,8 +107,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 		String springFileContent = IOUtils.toString(new FileInputStream(springFile));
 
-		springFileContent = springFileContent.replaceAll("<context:component-scan base-package=\".*\" />",
-				MessageFormat.format("<context:component-scan base-package=\"{0}\" />", defaultPackageName));
+		springFileContent = springFileContent.replaceFirst("<context:component-scan base-package=\".*\"",
+				MessageFormat.format("<context:component-scan base-package=\"{0}\"", defaultPackageName));
 		FileOutputStream fos = new FileOutputStream(springFile);
 		IOUtils.write(springFileContent, fos);
 	}
@@ -306,43 +302,24 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		getApplicationContext(analyzerContextFile).getBean(SnapshotsAnalyzer.class);
 	}
 
-	public void generateMvcViewAndContoller(File projectDir, File screenEntitySourceFile, File sourceDirectory,
-			String packageDirectoryName, OverrideConfirmer overrideConfirmer) {
-		FileOutputStream fos = null;
+	public void createWebPage(File projectDir, File screenEntitySourceFile, File sourceDirectory, String packageDirectoryName,
+			OverrideConfirmer overrideConfirmer) throws GenerationException {
+
+		ScreenEntityDefinition screenEntityDefinition = null;
 		try {
 			String screenEntityFileWithoutExtension = FileUtils.fileWithoutExtension(screenEntitySourceFile.getName());
 			CompilationUnit compilationUnit = JavaParser.parse(screenEntitySourceFile);
 			ClassOrInterfaceDeclaration mainType = (ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0);
 			ScreenPojoCodeModel codeModel = new DefaultScreenPojoCodeModel(compilationUnit, mainType,
 					screenEntityFileWithoutExtension, null);
-			ScreenEntityDefinition screenEntityDefinition = new CodeBasedScreenEntityDefinition(codeModel);
-
-			File packageDir = new File(sourceDirectory, packageDirectoryName);
-			File contollerFile = new File(packageDir, screenEntityFileWithoutExtension + "Controller.java");
-			contollerFile.getParentFile().mkdirs();
-			fos = new FileOutputStream(contollerFile);
-			if (contollerFile.exists()) {
-				boolean override = overrideConfirmer.isOverride(contollerFile);
-				if (!override) {
-					return;
-				}
-			}
-			PageDefinition pageDefinition = new DefaultScreenPageBuilder().build(screenEntityDefinition);
-			ScreenEntityMvcGenerator screenEntityMvcGenerator = new ScreenEntityMvcGenerator();
-			screenEntityMvcGenerator.generateController(pageDefinition, fos);
-
-			File contollerAspectFile = new File(packageDir, screenEntityFileWithoutExtension + "Controller_Aspect.aj");
-			fos = new FileOutputStream(contollerAspectFile);
-			screenEntityMvcGenerator.generateControllerAspect(pageDefinition, fos);
-
-			File webPageFile = new File(projectDir, VIEWS_DIR + screenEntityDefinition.getEntityClassName() + ".jspx");
-			fos = new FileOutputStream(webPageFile);
-			screenEntityMvcGenerator.generatePage(pageDefinition, fos);
-
+			screenEntityDefinition = new CodeBasedScreenEntityDefinition(codeModel);
 		} catch (Exception e) {
 			throw (new GenerationException(e));
-		} finally {
-			IOUtils.closeQuietly(fos);
 		}
+
+		ScreenEntityWebGenerator screenEntityWebGenerator = new ScreenEntityMvcGenerator();
+		screenEntityWebGenerator.generateAll(projectDir, screenEntityDefinition, sourceDirectory, packageDirectoryName,
+				overrideConfirmer);
 	}
+
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +19,11 @@ import ${entityDefinition.packageName}.${entityDefinition.entityClassName};
 
 privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName}Controller_Aspect {
 
-@Inject
-private TerminalSession ${entityDefinition.entityClassName}Controller.terminalSession;
+	@Inject
+	private TerminalSession ${entityDefinition.entityClassName}Controller.terminalSession;
+
+	@Inject
+	private ScreenEntitiesRegistry ${entityDefinition.entityClassName}Controller.screenEntitiesRegistry;
 
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET)
@@ -35,7 +39,10 @@ private TerminalSession ${entityDefinition.entityClassName}Controller.terminalSe
     public String ${entityDefinition.entityClassName}Controller.submit(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), ${entityDefinition.entityName?uncap_first});
 	// go to the controller for the resulting screen name
-        return "redirect:" + resultScreenEntity.getClass().getSimpleName();
+		if (resultScreenEntity != null){
+        	return "redirect:" + screenEntitiesRegistry(resultScreenEntity.getClass()).getEntityClassName();
+		}
+    	return "redirect:HtmlEmulation";
     }
     
 	<#list entityDefinition.actions as action>
@@ -44,7 +51,11 @@ private TerminalSession ${entityDefinition.entityClassName}Controller.terminalSe
     public String ${entityDefinition.entityClassName}Controller.${action.alias}(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.${action.actionName}(), ${entityDefinition.entityName?uncap_first});
 	// go to the controller for the resulting screen name
-        return "redirect:" + resultScreenEntity.getClass().getSimpleName();
+		if (resultScreenEntity != null){
+        	return "redirect:" + screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+		}
+    	return "redirect:HtmlEmulation";
+		
     }
 	</#list>	
 	

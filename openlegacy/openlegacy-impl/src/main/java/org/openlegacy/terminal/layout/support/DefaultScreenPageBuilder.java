@@ -41,7 +41,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	// used for setting default field length when none specified (@ScreenField doesn't force endColumn/length)
 	private int defaultFieldLength = 10;
 
-	private int defaultLeftMargin = 10;
+	private int defaultLeftMarginOffset = 10;
+	private int defaultTopMarginOffset = 0;
 
 	public PageDefinition build(ScreenEntityDefinition entityDefinition) {
 		Collection<ScreenFieldDefinition> fields = entityDefinition.getFieldsDefinitions().values();
@@ -148,8 +149,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		ScreenSize screenSize = entityDefinition.getScreenSize();
 		int topMarginPercentage = (100 * (firstFieldPosition.getRow() - 1)) / screenSize.getRows();
-		int topLeftColumn = calculateLabelColumn(firstField) + defaultLeftMargin;
-		int leftMarginPercentage = (100 * topLeftColumn) / screenSize.getColumns();
+		int topLeftColumn = calculateLabelColumn(firstField) + defaultLeftMarginOffset;
+		int leftMarginPercentage = ((100 * topLeftColumn) / screenSize.getColumns()) + defaultTopMarginOffset;
 
 		pagePart.setTopMargin(topMarginPercentage);
 		pagePart.setLeftMargin(leftMarginPercentage);
@@ -222,7 +223,11 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		this.defaultFieldLength = defaultFieldLength;
 	}
 
-	public void setDefaultLeftMargin(int defaultLeftMargin) {
-		this.defaultLeftMargin = defaultLeftMargin;
+	public void setDefaultLeftMarginOffset(int defaultLeftMarginOffset) {
+		this.defaultLeftMarginOffset = defaultLeftMarginOffset;
+	}
+
+	public void setDefaultTopMarginOffset(int defaultTopMarginOffset) {
+		this.defaultTopMarginOffset = defaultTopMarginOffset;
 	}
 }

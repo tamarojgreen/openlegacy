@@ -83,4 +83,12 @@ public class GenerateScreensDialog extends AbstractGenerateDialog {
 		getPackageText().setText(prefrencePackage);
 	}
 
+	@Override
+	protected void savePreferences() {
+		String sourceFolderOnly = getSourceFolderPathText().getText().substring(
+				getSourceFolder().getJavaProject().getProject().getName().length() + 1);
+		Prefrences.put(PluginConstants.DEFAULT_SOURCE_FOLDER_ID, sourceFolderOnly);
+		Prefrences.put(PluginConstants.DEFAULT_PACKAGE_JAVA, getPackageText().getText());
+	}
+
 }

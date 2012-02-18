@@ -7,10 +7,8 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
-	<spring:message code="security_login_title" var="title"
-		htmlEscape="false" />
 
-	<form name="${entityDefinition.entityClassName}">
+	<form name="openlegacyForm" method="post">
 		<#list pageParts as pagePart>
 		<div style="margin-left: ${pagePart.leftMargin}%; margin-top: ${pagePart.topMargin}%; width: ${pagePart.width}%;<#if pagePart.oneField>position:absolute;</#if>" <#if pagePart.multyFields>class="panel"</#if>>
 			<#if pagePart.oneField>
@@ -53,7 +51,7 @@
 		
 		<#list entityDefinition.actions as action>
 		<div class="action">
-			<button onclick="doPost('${action.alias}')" value="${action.displayName}"/>
+			<button onclick="doPost('${action.alias}')">${action.displayName}</button>
 		</div>
 		</#list>	
 		

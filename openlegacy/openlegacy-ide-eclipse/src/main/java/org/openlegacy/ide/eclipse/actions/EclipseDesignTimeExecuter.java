@@ -82,10 +82,10 @@ public class EclipseDesignTimeExecuter {
 		job.schedule();
 	}
 
-	public void generateMvcViewAndContoller(IFile screenEntitySourceFile, IPackageFragmentRoot sourceDirectory,
+	public void createWebPage(IFile screenEntitySourceFile, IPackageFragmentRoot sourceDirectory,
 			String packageDir, OverrideConfirmer overrideConfirmer) {
 
-		designTimeExecuter.generateMvcViewAndContoller(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
+		designTimeExecuter.createWebPage(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
 				PathsUtil.toOsLocation(screenEntitySourceFile), PathsUtil.toSourceDirectory(sourceDirectory),
 				PathsUtil.packageToPath(packageDir), overrideConfirmer);
 

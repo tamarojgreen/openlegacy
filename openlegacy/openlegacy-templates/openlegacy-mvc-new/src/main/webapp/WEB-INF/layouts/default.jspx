@@ -9,6 +9,16 @@
 
 <head>
 
+  <script type="text/javascript">var djConfig = {parseOnLoad: true, isDebug: true, locale: '${fn:toLowerCase(userLocale)}'};</script>
+
+  <spring:url value="/dj/dojo/dojo.js" var="dojo_url" />
+  <script src="${dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script language="JavaScript" type="text/javascript">dojo.require("dojo.parser");</script>
+
+  <spring:url value="/resources/openlegacy_mvc.js" var="ol_mvc_js" />
+  <script src="${ol_mvc_js}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+
 <style type="text/css">
 body {
 	margin: 0px;
@@ -23,6 +33,7 @@ body {
 	font-size: x-large;
 	font-family: Helvetica, sans-serif;
 	color: navy;
+	left: 10%;
 }
 
 .container input {
@@ -62,6 +73,19 @@ body {
 	width: 100px;
 	float: left;
 }
+
+.actions {
+	border: 1px solid black;
+	position: absolute;
+	left: 45%;
+	top: 3%;
+	z-index: 1;
+}
+
+.actions button{
+	background-color: white;
+}
+
 </style>
 
 
@@ -73,10 +97,15 @@ body {
 
 		<div id="header" style="background-color: #FFA500;">
 			<tiles:insertAttribute name="header" ignore="true" />
+
+			<div class="actions">
+				<button onclick="doPost();">Submit</button>
+				<tiles:insertAttribute name="actions" ignore="true" />
+			</div>
 		</div>
 
 		<div id="menu" class="menu">
-			<b>JavaScript Menu</b><br />
+			<b>Menu</b><br />
 		</div>
 
 		<div class="container">
