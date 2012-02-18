@@ -5,6 +5,13 @@
 
 <tiles-definitions>
 
+  <!-- Marker for code generation start
+  <definition name="VIEW-NAME" extends="default">
+    <put-attribute name="body" value="/WEB-INF/views/VIEW-NAME.jspx" />
+  </definition>
+  Marker for code generation end -->
+
+  
   <definition name="Emulation" extends="default">
     <put-attribute name="body" value="/WEB-INF/views/Emulation.jspx" />
   </definition>
@@ -16,7 +23,9 @@
   <definition name="logoff" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/logoff.jspx" />
   </definition>
-  
+
+  <!-- Place holder for code generation -->
+    
   <definition name="uncaughtException" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/uncaughtException.jspx" />
   </definition>

@@ -8,7 +8,7 @@ public interface HtmlProportionsHandler {
 
 	int getFontSize();
 
-	int getInputHeight();
+	Integer getInputHeight();
 
 	int getInputAdditionalWidth();
 }

@@ -40,7 +40,6 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.openlegacy.designtime.mains.OverrideConfirmer;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
-import org.openlegacy.ide.eclipse.util.Prefrences;
 
 import java.io.File;
 
@@ -227,14 +226,9 @@ public abstract class AbstractGenerateDialog extends Dialog implements OverrideC
 		close();
 	}
 
-	protected abstract void executeGenerate();
+	protected abstract void savePreferences();
 
-	private void savePreferences() {
-		String sourceFolderOnly = getSourceFolderPathText().getText().substring(
-				sourceFolder.getJavaProject().getProject().getName().length() + 1);
-		Prefrences.put(PluginConstants.DEFAULT_SOURCE_FOLDER_ID, sourceFolderOnly);
-		Prefrences.put(PluginConstants.DEFAULT_PACKAGE_JAVA, getPackageText().getText());
-	}
+	protected abstract void executeGenerate();
 
 	public boolean isOverride(final File file) {
 		final Object[] result = new Object[1];

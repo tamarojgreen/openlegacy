@@ -186,7 +186,8 @@ public class SnapshotUtils {
 
 	public static String getText(TerminalSnapshot snapshot, TerminalPosition position, int length) {
 		int beginIndex = ((position.getRow() - 1) * snapshot.getSize().getColumns()) + (position.getColumn() - 1);
-		return snapshot.getText().substring(beginIndex, beginIndex + length);
+		String result = snapshot.getText().substring(beginIndex, beginIndex + length);
+		return result;
 	}
 
 	public static String getRowText(TerminalRow row) {

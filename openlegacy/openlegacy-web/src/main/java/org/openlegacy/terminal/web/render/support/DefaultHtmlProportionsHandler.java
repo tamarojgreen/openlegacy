@@ -36,9 +36,9 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 		this.fontSize = fontSize;
 	}
 
-	public int getInputHeight() {
+	public Integer getInputHeight() {
 		if (inputHeight == null) {
-			inputHeight = getFontSize() - 4;
+			inputHeight = getFontSize() + 2;
 		}
 		return inputHeight;
 	}

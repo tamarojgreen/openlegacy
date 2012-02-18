@@ -6,5 +6,7 @@
 <a href="logoff">Logoff</a>
  | 
 <a href="trail/download">Download trail</a>
+ |
+<a href="javascript:location.href=location.href">Refresh</a>
 
 </div>
