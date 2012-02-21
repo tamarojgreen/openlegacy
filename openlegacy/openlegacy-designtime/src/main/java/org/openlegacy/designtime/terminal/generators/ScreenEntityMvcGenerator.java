@@ -72,6 +72,12 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			logger.info(MessageFormat.format("Generated controller aspect: {0}", contollerAspectFile.getAbsoluteFile()));
 
 			File webPageFile = new File(projectDir, VIEWS_DIR + entityClassName + ".jspx");
+			if (webPageFile.exists()) {
+				boolean override = overrideConfirmer.isOverride(webPageFile);
+				if (!override) {
+					return;
+				}
+			}
 			fos = new FileOutputStream(webPageFile);
 			generatePage(pageDefinition, fos);
 			fos.close();

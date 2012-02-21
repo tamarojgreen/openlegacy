@@ -39,10 +39,12 @@
 					</th>
 				</#list>
 					<tr>
+					<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}">
+					<c:forEach items="${r"${"}${fieldAssignment}${r"}"}" var="item">
 				<#list pagePart.tableDefinition.columnDefinitions as column>
-					<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}.${column.name}">
-						<td>${r"${"}${fieldAssignment}${r"}"}</td>
+						<td>${r"${"}item.${column.name}${r"}"}</td>
 				</#list>
+					</c:forEach>
 					</tr>
 				</table>
 			</#if>

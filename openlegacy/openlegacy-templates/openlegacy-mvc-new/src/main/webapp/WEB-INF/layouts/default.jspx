@@ -44,6 +44,12 @@ body {
 	vertical-align: middle;
 }
 
+.container table tr th ,.container table tr td {
+	font-size: medium;
+	font-family: Helvetica, sans-serif;
+	color: navy;
+}
+
 .field label {
 	position: absolute;
 	white-space: nowrap;

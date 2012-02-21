@@ -151,6 +151,12 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 	@Override
 	public String initText() {
 		init();
+		char[] chars = screenData.text;
+		for (int i = 0; i < chars.length; i++) {
+			if (chars[i] == 0) {
+				chars[i] = ' ';
+			}
+		}
 		return new String(screenData.text);
 	}
 

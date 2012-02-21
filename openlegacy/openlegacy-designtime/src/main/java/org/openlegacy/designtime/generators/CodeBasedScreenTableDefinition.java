@@ -7,6 +7,7 @@ import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
+import org.openlegacy.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,7 +44,7 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition {
 		List<ScreenColumnDefinition> columnDefinitions = new ArrayList<ScreenColumnDefinition>();
 		for (Field field : fields) {
 			SimpleScreenColumnDefinition columnDefinition = new SimpleScreenColumnDefinition(field.getName());
-			columnDefinition.setDisplayName(field.getDisplayName());
+			columnDefinition.setDisplayName(StringUtil.stripQuotes(field.getDisplayName()));
 			columnDefinition.setStartColumn(field.getColumn());
 			columnDefinition.setEndColumn(field.getEndColumn());
 			columnDefinitions.add(columnDefinition);

@@ -40,7 +40,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), ${entityDefinition.entityName?uncap_first});
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
-        	return "redirect:" + screenEntitiesRegistry(resultScreenEntity.getClass()).getEntityClassName();
+        	return "redirect:" + screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
 		}
     	return "redirect:HtmlEmulation";
     }

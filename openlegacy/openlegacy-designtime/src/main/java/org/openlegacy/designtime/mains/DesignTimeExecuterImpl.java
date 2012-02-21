@@ -11,11 +11,9 @@ import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityWebGenerator;
-import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.designtime.terminal.generators.TrailJunitGenerator;
-import org.openlegacy.designtime.terminal.generators.support.CodeBasedScreenEntityDefinition;
-import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel;
+import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -34,7 +32,6 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -307,12 +304,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		ScreenEntityDefinition screenEntityDefinition = null;
 		try {
-			String screenEntityFileWithoutExtension = FileUtils.fileWithoutExtension(screenEntitySourceFile.getName());
 			CompilationUnit compilationUnit = JavaParser.parse(screenEntitySourceFile);
-			ClassOrInterfaceDeclaration mainType = (ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0);
-			ScreenPojoCodeModel codeModel = new DefaultScreenPojoCodeModel(compilationUnit, mainType,
-					screenEntityFileWithoutExtension, null);
-			screenEntityDefinition = new CodeBasedScreenEntityDefinition(codeModel);
+			screenEntityDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit);
 		} catch (Exception e) {
 			throw (new GenerationException(e));
 		}
