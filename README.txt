@@ -10,12 +10,12 @@ Start: springsource/sts-<VERSION>/sts.exe
 Select a clean workspace folder
 
 3.
-Select "import" -> "Project from git"
-On "Check HOME Directory" click OK
+Select file-> "import" -> Git -> "Project from git"
+On "Check HOME Directory" dialog click OK
 
 4.
+Copy the following URL to your clipboard: https://openlegacy@github.com/openlegacy/openlegacy.git
 Click "Clone"
-Enter: https://openlegacy@github.com/openlegacy/openlegacy.git
 Provide your user & password
 TODO check annonymous
 
@@ -32,14 +32,14 @@ Select all the project beside "openlegacy-web-resources"
 
 8.
 Now import individual project into the workspace.
-Import -> Existing projects into workspace
+File->Import -> General ->Existing projects into workspace
 Select:
 <GIT LOCAL DIRECTORY>/openlegacy/openlegacy-api
 <GIT LOCAL DIRECTORY>/openlegacy/openlegacy-impl
 
 Perform project -> clean..., "Clean all project", in case of errors
 Execute the test suite: OpenLegacyRuntimeSuite to run all OpenLegacy runtime unitests.
-
+On windows, you may need to allow Windows firewall
 Optional projects:
 <GIT LOCAL DIRECTORY>/openlegacy/openlegacy-designtime
 <GIT LOCAL DIRECTORY>/openlegacy/openlegacy-ide-eclipse

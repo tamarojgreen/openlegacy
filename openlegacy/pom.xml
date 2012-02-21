@@ -31,6 +31,18 @@
 		</dependency>
 	</dependencies>
 	
+	<repositories>
+		<repository>
+			<id>openlegacy-release</id>
+			<url>http://openlegacy.org/maven2/release</url>
+		</repository>
+		<repository>
+			<id>java.net</id>
+			<name>Java net</name>
+			<url>http://download.java.net/maven/2/</url>
+		</repository>
+	</repositories>
+	
 	<distributionManagement>
 		<site>
 			<id>staging</id>
