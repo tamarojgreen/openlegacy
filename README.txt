@@ -1,11 +1,14 @@
 Development environment installation guide:
 
+Pre-requiresites:
+JDK 1.6 Installed
+Eclipse 3.6 or higher including Maven M2 plugin & AspectJ plug-in
+OR (preffered)
+Spring tool suite - STS (Spring's eclipse) from http://www.springsource.org/downloads/sts
+
 1.
-Download Spring Tools suite from:
-http://www.springsource.org/downloads/sts
-and extract it.
-2.
-Start: springsource/sts-<VERSION>/sts.exe
+For STS - start springsource/sts-<VERSION>/sts.exe
+OR start your eclipse
 
 Select a clean workspace folder
 
@@ -14,10 +17,9 @@ Select file-> "import" -> Git -> "Project from git"
 On "Check HOME Directory" dialog click OK
 
 4.
-Copy the following URL to your clipboard: https://openlegacy@github.com/openlegacy/openlegacy.git
+Copy the following URL to your clipboard: https://github.com/openlegacy/openlegacy.git
 Click "Clone"
 Provide your user & password
-TODO check annonymous
 
 5.
 Select the working branch (master). Click "Next"

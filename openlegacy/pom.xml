@@ -7,8 +7,8 @@
 	<packaging>pom</packaging>
 	<name>Open Legacy</name>
 	<modules>
-		<module>openlegacy-api</module>
-		<module>openlegacy-impl</module>
+		<module>../openlegacy-api</module>
+		<module>../openlegacy-impl</module>
 		<module>openlegacy-designtime</module>
 		<module>openlegacy-web</module>
 		<module>openlegacy-ide-eclipse</module>
