@@ -11,6 +11,13 @@
 	<name>Open Legacy Applinx adapter</name>
 	<version>${project.parent.version}</version>
 
+	<repositories>
+		<repository>
+			<id>openlegacy-release</id>
+			<url>http://openlegacy.org/maven2/release</url>
+		</repository>
+	</repositories>
+
 	<description>Open Legacy adapter  implementation for Applinx legacy provider.</description>
 	<dependencies>
 		<dependency>
