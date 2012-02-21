@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +19,11 @@ import org.openlegacy.terminal.layout.mock.ScreenForPage;
 
 privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 
-@Inject
-private TerminalSession ScreenForPageController.terminalSession;
+	@Inject
+	private TerminalSession ScreenForPageController.terminalSession;
+
+	@Inject
+	private ScreenEntitiesRegistry ScreenForPageController.screenEntitiesRegistry;
 
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET)
@@ -35,7 +39,10 @@ private TerminalSession ScreenForPageController.terminalSession;
     public String ScreenForPageController.submit(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), screenForPage);
 	// go to the controller for the resulting screen name
-        return "redirect:" + resultScreenEntity.getClass().getSimpleName();
+		if (resultScreenEntity != null){
+        	return "redirect:" + screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+		}
+    	return "redirect:HtmlEmulation";
     }
     
 	// handle help action
@@ -43,14 +50,22 @@ private TerminalSession ScreenForPageController.terminalSession;
     public String ScreenForPageController.help(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F1(), screenForPage);
 	// go to the controller for the resulting screen name
-        return "redirect:" + resultScreenEntity.getClass().getSimpleName();
+		if (resultScreenEntity != null){
+        	return "redirect:" + screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+		}
+    	return "redirect:HtmlEmulation";
+		
     }
 	// handle exit action
     @RequestMapping(value="?action=exit", method = RequestMethod.POST)
     public String ScreenForPageController.exit(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F3(), screenForPage);
 	// go to the controller for the resulting screen name
-        return "redirect:" + resultScreenEntity.getClass().getSimpleName();
+		if (resultScreenEntity != null){
+        	return "redirect:" + screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+		}
+    	return "redirect:HtmlEmulation";
+		
     }
 	
 }
