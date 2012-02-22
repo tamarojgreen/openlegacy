@@ -9,9 +9,9 @@
 	<modules>
 		<module>../openlegacy-api</module>
 		<module>../openlegacy-impl</module>
-		<module>openlegacy-designtime</module>
-		<module>openlegacy-web</module>
-		<module>openlegacy-ide-eclipse</module>
+		<module>../openlegacy-designtime</module>
+		<module>../openlegacy-web</module>
+		<module>../openlegacy-ide-eclipse</module>
 		<module>openlegacy-providers</module>
 		<module>openlegacy-templates</module>
 	</modules>
@@ -30,12 +30,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
 	<repositories>
-		<repository>
-			<id>openlegacy-release</id>
-			<url>http://openlegacy.org/maven2/release</url>
-		</repository>
 		<repository>
 			<id>java.net</id>
 			<name>Java net</name>
