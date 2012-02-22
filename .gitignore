@@ -1,2 +1,7 @@
 
 /openlegacy-web-resources/target
+/openlegacy-designtime/target
+/openlegacy-ide-eclipse/target
+/openlegacy-web/target
+/openlegacy-api/target
+/openlegacy-impl/target

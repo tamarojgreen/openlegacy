@@ -11,6 +11,13 @@
 	<version>${project.parent.version}</version>
 	<name>Open legacy tn5250 terminal session provider based on http://tn5250j.sourceforge.net/</name>
 
+	<repositories>
+		<repository>
+			<id>openlegacy-release</id>
+			<url>http://openlegacy.org/maven2/release</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
