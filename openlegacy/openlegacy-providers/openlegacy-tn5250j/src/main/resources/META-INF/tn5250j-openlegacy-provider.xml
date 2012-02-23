@@ -8,12 +8,8 @@
 
     <context:property-placeholder location="classpath*:/host.properties"/>
 
-	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.tn5250j.Tn5250jTerminalConnectionFactory" p:waitForConnect="1000" p:waitForUnlock="300">
-		<property name="protocolBean">
-			<bean class="org.tn5250j.beans.ProtocolBean" p:codePage="${host.codePage}" p:hostName="${host.name}" factory-bean="terminalConnectionFactory" factory-method="getProtocolBean" />
-		</property>
-		
-	</bean>
+	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.tn5250j.Tn5250jTerminalConnectionFactory" p:waitForConnect="1000" p:waitForUnlock="300" />
+	<bean id="protocolBean" class="org.tn5250j.beans.ProtocolBean" p:codePage="${host.codePage}" p:hostName="${host.name}" factory-bean="terminalConnectionFactory" factory-method="getProtocolBean" scope="prototype" />
 
 	<util:map id="tn520jDefaultActionMappings">
 		<entry key="org.openlegacy.terminal.actions.TerminalActions.ENTER"
