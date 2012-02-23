@@ -1,21 +1,26 @@
 package org.openlegacy.providers.tn5250j;
 
+import javax.inject.Inject;
+
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
+import org.springframework.context.ApplicationContext;
 import org.tn5250j.Session5250;
 import org.tn5250j.beans.ProtocolBean;
 import org.tn5250j.framework.common.SessionManager;
 
 public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFactory {
 
-	private ProtocolBean protocolBean;
-
 	private int waitForConnect = 1000;
 	private int waitForUnlock = 300;
 
+	@Inject
+	private ApplicationContext applicationContext;
+	
 	public synchronized TerminalConnection getConnection() {
 
+		ProtocolBean protocolBean = (ProtocolBean) applicationContext.getBean("protocolBean");
 		Session5250 session = protocolBean.getSession();
 
 		protocolBean.connect();
@@ -38,10 +43,6 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 	public void disconnect(TerminalConnection terminalConnection) {
 		((Session5250)terminalConnection.getDelegate()).disconnect();
-	}
-
-	public void setProtocolBean(ProtocolBean protocolBean) {
-		this.protocolBean = protocolBean;
 	}
 
 	public void setWaitForConnect(int waitForConnect) {
