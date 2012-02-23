@@ -29,7 +29,7 @@ public class SignOn {
 	@ScreenField(row = 7, column = 53 ,editable= true ,fieldType=PasswordField.class ,displayName = "Password")
     private String password;
 
-	@ScreenField(row = 8, column = 53 ,editable= true ,displayName = "Programprocedure")
+	@ScreenField(row = 8, column = 53 ,editable= true ,displayName = "Program/procedure")
     private String programprocedure;
 
 	@ScreenField(row = 9, column = 53 ,editable= true ,displayName = "Menu")
