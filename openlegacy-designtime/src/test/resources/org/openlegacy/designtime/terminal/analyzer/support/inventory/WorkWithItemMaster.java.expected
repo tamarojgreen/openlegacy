@@ -2,6 +2,7 @@ package com.test;
 
 import org.openlegacy.annotations.screen.*;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.*;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import java.util.List;
 import org.openlegacy.annotations.screen.ScreenTable;

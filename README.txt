@@ -2,9 +2,9 @@ Development environment installation guide:
 
 Pre-requiresites:
 JDK 1.6 Installed
-Eclipse 3.6 or higher including Maven M2 plugin & AspectJ plug-in
-OR (preffered)
 Spring tool suite - STS (Spring's eclipse) from http://www.springsource.org/downloads/sts
+OR
+Eclipse 3.6 or higher including Maven M2 plugin, AspectJ plug-in & EGit plug-in
 
 1.
 For STS - start springsource/sts-<VERSION>/sts.exe
@@ -30,21 +30,17 @@ Wait for the import to complete
 
 7.
 Once complete, select "Next" & "Import existing projects"
-Select all the project beside "openlegacy-web-resources"
+
+Select at least: openlegacy-api, openlegacy-impl.
+
+Optional projects:
+openlegacy-designtime
+openlegacy-ide-eclipse
 
 8.
-Now import individual project into the workspace.
-File->Import -> General ->Existing projects into workspace
-Select:
-<GIT LOCAL DIRECTORY>/openlegacy/openlegacy-api
-<GIT LOCAL DIRECTORY>/openlegacy/openlegacy-impl
-
 Perform project -> clean..., "Clean all project", in case of errors
 Execute the test suite: OpenLegacyRuntimeSuite to run all OpenLegacy runtime unitests.
 On windows, you may need to allow Windows firewall
-Optional projects:
-<GIT LOCAL DIRECTORY>/openlegacy/openlegacy-designtime
-<GIT LOCAL DIRECTORY>/openlegacy/openlegacy-ide-eclipse
 
 designtime project is using Drools rule engine. It is recommended to install the plugin from:
 http://download.jboss.org/jbosstools/updates/development/indigo/soa-tooling/
@@ -59,6 +55,6 @@ Import code style preferences. Select Import -> prefrences, and select the file 
 openlegacy-prefs.epf
 
 10.
-For Demo web application, import openlegacy/openlegacy-templates/openlegacy-mvc-sample project,
-right click on "run-openlegacy-mvc-sample.launch", and click run as-> "run-openlegacy-mvc-sample".
+For Demo web application, import <GIT HOME>/openlegacy/openlegacy/openlegacy-templates/openlegacy-mvc-sample project (demo application), OR <GIT HOME>/openlegacy/openlegacy/openlegacy-templates/openlegacy-mvc-new project (new application)
+right click on "run-application.launch", and click run as-> "run-application".
 Open your browser to http://localhost:8080/mvc
