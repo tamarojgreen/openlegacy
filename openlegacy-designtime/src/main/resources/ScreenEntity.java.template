@@ -3,6 +3,7 @@ package ${packageName};
 import org.openlegacy.annotations.screen.*;
 <#if actions?size != 0>
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.*;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 </#if>
 <#if tableDefinitions?size != 0>
@@ -29,7 +30,7 @@ import ${referredClass};
 <#if navigationDefinition??>
 @ScreenNavigation(accessedFrom = ${navigationDefinition.accessedFromEntityName}.class 
 					<#if navigationDefinition.terminalAction??>
-					, terminalAction=${navigationDefinition.terminalAction.terminalAction.simpleName}.class , additionalKey=${navigationDefinition.terminalAction.additionalKey}
+					, terminalAction=${navigationDefinition.terminalAction.terminalAction.simpleName}.class <#if navigationDefinition.terminalAction.additionalKey??>, additionalKey=${navigationDefinition.terminalAction.additionalKey}</#if>
 					</#if>
 					<#if navigationDefinition.assignedFields?size != 0>
 					, assignedFields = { 

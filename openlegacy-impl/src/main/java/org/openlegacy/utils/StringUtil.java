@@ -76,7 +76,7 @@ public class StringUtil {
 		char[] chars = text.toCharArray();
 		StringBuilder sb = new StringBuilder(text.length());
 		for (char c : chars) {
-			if (Character.isLetter(c) || Character.isDigit(c) || c == ' ') {
+			if (Character.isLetter(c) || Character.isDigit(c) || c == ' ' || c == '\\' || c == '/') {
 				sb.append(c);
 			}
 

@@ -25,5 +25,5 @@ public @interface ScreenNavigation {
 
 	Class<? extends TerminalAction> exitAction() default TerminalActions.F3.class;
 
-	AdditionalKey exitAdditionalKey() default AdditionalKey.NONE;
+	AdditionalKey exitadditionalKey() default AdditionalKey.NONE;
 }
