@@ -16,7 +16,7 @@
   <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script language="JavaScript" type="text/javascript">dojo.require("dojo.parser");</script>
 
-  <spring:url value="/resources/openlegacy_mvc.js" var="ol_mvc_js" />
+  <spring:url value="/resources/openlegacy.mvc.js" var="ol_mvc_js" />
   <script src="${ol_mvc_js}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
 <style type="text/css">
