@@ -38,23 +38,25 @@
 					${column.displayName}
 					</th>
 				</#list>
-					<tr>
-					<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}">
+					<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s">
 					<c:forEach items="${r"${"}${fieldAssignment}${r"}"}" var="item">
-				<#list pagePart.tableDefinition.columnDefinitions as column>
+					<tr>
+						<#list pagePart.tableDefinition.columnDefinitions as column>
 						<td>${r"${"}item.${column.name}${r"}"}</td>
-				</#list>
-					</c:forEach>
+						</#list>
 					</tr>
+					</c:forEach>
 				</table>
 			</#if>
 		</div>
 		</#list>	
 		
 		<#list entityDefinition.actions as action>
+			<#if type??>
 		<div class="action">
 			<button onclick="doPost('${action.alias}')">${action.displayName}</button>
 		</div>
+			</#if>
 		</#list>	
 		
 	</form>

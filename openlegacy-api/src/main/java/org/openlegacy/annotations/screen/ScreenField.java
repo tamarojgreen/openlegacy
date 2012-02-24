@@ -34,4 +34,7 @@ public @interface ScreenField {
 	String displayName() default "";
 
 	String sampleValue() default "";
+
+	int labelColumn() default 0;
+	
 }
