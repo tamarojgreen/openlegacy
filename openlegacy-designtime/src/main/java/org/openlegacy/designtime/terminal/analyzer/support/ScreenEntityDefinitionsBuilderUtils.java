@@ -69,6 +69,14 @@ public class ScreenEntityDefinitionsBuilderUtils {
 	}
 
 	public static ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
+			TerminalField labelField) {
+		SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition) addField(screenEntityDefinition, field, labelField.getValue());
+		if (fieldDefinition != null && labelField != null){
+			fieldDefinition.setLabelPosition(labelField.getPosition());
+		}
+		return fieldDefinition;
+	}
+	public static ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
 			String label) {
 
 		if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {

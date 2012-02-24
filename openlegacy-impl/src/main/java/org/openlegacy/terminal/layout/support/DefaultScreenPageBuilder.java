@@ -156,12 +156,12 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		pagePart.setLeftMargin(leftMarginPercentage);
 	}
 
-	private int calculateLabelColumn(ScreenFieldDefinition firstField) {
-		if (firstField.getLabelPosition() != null){
-			return firstField.getLabelPosition().getColumn();
+	private int calculateLabelColumn(ScreenFieldDefinition field) {
+		if (field.getLabelPosition() != null){
+			return field.getLabelPosition().getColumn();
 		}
 		else{
-			int column = firstField.getPosition().getColumn() - (firstField.getDisplayName().length() + labelFieldDistance);
+			int column = field.getPosition().getColumn() - (field.getDisplayName().length() + labelFieldDistance);
 			return column > 0 ? column : 1;
 		}
 	}

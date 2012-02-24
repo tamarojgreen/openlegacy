@@ -10,7 +10,7 @@
 
 	<bean id="htmlRenderer" class="org.openlegacy.terminal.web.render.support.DefaultTerminalSnapshotHtmlRenderer" />
 	<bean id="elementsProvider" class="org.openlegacy.terminal.web.render.support.DefaultElementsProvider" />
-	<bean id="htmlProportionsHandler" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="22" p:columnProportion="11" p:fontSize="19" />
+	<bean id="htmlProportionsHandler" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="22" p:columnProportion="11" p:fontSize="19" p:inputHeight="22" />
 	<bean id="terminalSendActionBuilder" class="org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder" />
 	
 </beans>

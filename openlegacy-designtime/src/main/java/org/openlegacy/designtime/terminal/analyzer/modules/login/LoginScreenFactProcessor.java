@@ -18,11 +18,11 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(Login.LoginEntity.class));
 
 		ScreenFieldDefinition userFieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-				loginScreenFact.getUserField(), loginScreenFact.getUserLabelField().getValue());
+				loginScreenFact.getUserField(), loginScreenFact.getUserLabelField());
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, userFieldDefinition, Login.UserField.class);
 
 		ScreenFieldDefinition passwordFieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-				loginScreenFact.getPasswordField(), loginScreenFact.getPasswordLabelField().getValue());
+				loginScreenFact.getPasswordField(), loginScreenFact.getPasswordLabelField());
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, passwordFieldDefinition,
 				Login.PasswordField.class);
 

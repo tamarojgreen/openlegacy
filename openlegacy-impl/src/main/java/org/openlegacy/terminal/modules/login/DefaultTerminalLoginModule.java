@@ -200,6 +200,10 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	@Override
 	public void destroy() {
-		logoffOnly();
+		try {
+			logoffOnly();
+		} catch (Exception e) {
+			logger.warn("Disconnected with error",e);
+		}
 	}
 }

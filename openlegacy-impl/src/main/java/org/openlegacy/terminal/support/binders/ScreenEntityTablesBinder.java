@@ -99,7 +99,10 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 		for (String tableFieldName : tableFieldNames) {
 			ScreenTableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
 			List<?> rows = (List<?>)fieldAccessor.getFieldValue(tableFieldName);
-
+			// TODO send tables values
+			if (rows == null){
+				continue;
+			}
 			int rowCount = 0;
 			for (Object row : rows) {
 				List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();

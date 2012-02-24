@@ -9,21 +9,21 @@
 	<jsp:output omit-xml-declaration="yes" />
 
 	<form name="openlegacyForm" method="post">
-				<div style="margin-left: 26%; margin-top: 20%; width: 26%;" class="panel">
+				<div style="margin-left: 13%; margin-top: 20%; width: 25%;" class="panel">
 			<div class="field">
 				
 				<label>fldCol12: </label>
-				<input value="${screenForPage.fldCol12}" />			</div>
+				<input value="${screenForPage.fldCol12}" size="10" maxlength="10" />			</div>
 			<div class="field">
 				
 				<label>fld2Col12: </label>
-				<input value="${screenForPage.fld2Col12}" />			</div>
+				<input value="${screenForPage.fld2Col12}" size="10" maxlength="10" />			</div>
 			<div class="field">
 				
 				<label>fld3Col12: </label>
-				<input value="${screenForPage.fld3Col12}" />			</div>
+				<input value="${screenForPage.fld3Col12}" size="10" maxlength="10" />			</div>
 		</div>
-		<div style="margin-left: 40%; margin-top: 37%; width: 51%;" class="panel">
+		<div style="margin-left: 27%; margin-top: 37%; width: 51%;" class="panel">
 			<div class="col_1_of_2 field">
 				
 				<label>fldRow10: </label>
@@ -35,13 +35,13 @@
 				<span>${screenForPage.fld2Row10}</span>
 			</div>
 		</div>
-		<div style="margin-left: 22%; margin-top: 95%; width: 27%;position:absolute;" >
+		<div style="margin-left: 10%; margin-top: 95%; width: 27%;position:absolute;" >
 			<div class="field">
 				<label>orphanFld: </label>
 				<span>${screenForPage.orphanFld}</span>
 			</div>
 		</div>
-		<div style="margin-left: 15%; margin-top: 79%; width: 51%;" class="panel">
+		<div style="margin-left: 2%; margin-top: 79%; width: 51%;" class="panel">
 			<div class="col_1_of_2 field">
 				
 				<label>fldRow20: </label>
@@ -61,21 +61,15 @@
 					<th>
 					column2
 					</th>
+					<c:forEach items="${screenForPage.screenForPageTables}" var="item">
 					<tr>
-					<c:forEach items="${screenForPage.screenForPageTable}" var="item">
 						<td>${item.column1}</td>
 						<td>${item.column2}</td>
-					</c:forEach>
 					</tr>
+					</c:forEach>
 				</table>
 		</div>
 		
-		<div class="action">
-			<button onclick="doPost('help')">Help</button>
-		</div>
-		<div class="action">
-			<button onclick="doPost('exit')">Exit</button>
-		</div>
 		
 	</form>
 </div>
