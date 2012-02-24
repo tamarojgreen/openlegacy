@@ -14,31 +14,31 @@ import org.openlegacy.modules.login.Login.ErrorField;
 				})
 public class SignOn {
     
-	@ScreenField(row = 2, column = 70 ,endColumn= 77 ,displayName = "System", sampleValue = "S44R5550")
+	@ScreenField(row = 2, column = 70, endColumn= 77 ,labelColumn= 48 ,displayName = "System", sampleValue = "S44R5550")
     private String system;
 
-	@ScreenField(row = 3, column = 70 ,endColumn= 79 ,displayName = "Subsystem", sampleValue = "QBASE")
+	@ScreenField(row = 3, column = 70, endColumn= 79 ,labelColumn= 48 ,displayName = "Subsystem", sampleValue = "QBASE")
     private String subsystem;
 
-	@ScreenField(row = 4, column = 70 ,endColumn= 79 ,displayName = "Display", sampleValue = "QPADEV00RT")
+	@ScreenField(row = 4, column = 70, endColumn= 79 ,labelColumn= 48 ,displayName = "Display", sampleValue = "QPADEV00RT")
     private String display;
 
-	@ScreenField(row = 6, column = 53 ,editable= true ,fieldType=UserField.class ,displayName = "User")
+	@ScreenField(row = 6, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,fieldType=UserField.class ,displayName = "User")
     private String user;
 
-	@ScreenField(row = 7, column = 53 ,editable= true ,fieldType=PasswordField.class ,displayName = "Password")
+	@ScreenField(row = 7, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,fieldType=PasswordField.class ,displayName = "Password")
     private String password;
 
-	@ScreenField(row = 8, column = 53 ,editable= true ,displayName = "Program/procedure")
+	@ScreenField(row = 8, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,displayName = "Program/procedure")
     private String programprocedure;
 
-	@ScreenField(row = 9, column = 53 ,editable= true ,displayName = "Menu")
+	@ScreenField(row = 9, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,displayName = "Menu")
     private String menu;
 
-	@ScreenField(row = 10, column = 53 ,editable= true ,displayName = "Current library")
+	@ScreenField(row = 10, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,displayName = "Current library")
     private String currentLibrary;
 
-	@ScreenField(row = 24, column = 1 ,endColumn= 38 ,fieldType=ErrorField.class ,displayName = "Error Message")
+	@ScreenField(row = 24, column = 1, endColumn= 38 ,fieldType=ErrorField.class ,displayName = "Error Message")
     private String errorMessage;
 
     

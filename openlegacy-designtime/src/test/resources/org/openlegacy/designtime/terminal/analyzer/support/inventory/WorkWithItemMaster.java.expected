@@ -21,7 +21,7 @@ import org.openlegacy.annotations.screen.ScreenTable;
 				})
 public class WorkWithItemMaster {
     
-	@ScreenField(row = 21, column = 19 ,editable= true ,displayName = "Position to")
+	@ScreenField(row = 21, column = 19, endColumn= 28 ,labelColumn= 2 ,editable= true ,displayName = "Position to")
     private String positionTo;
 
     

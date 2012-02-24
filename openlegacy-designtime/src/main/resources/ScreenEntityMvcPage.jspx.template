@@ -15,7 +15,7 @@
 			<div class="field">
 				<label>${pagePart.singleField.displayName}: </label>
 				<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.singleField.name}">
-				<#if pagePart.singleField.editable><input value="${r"${"}${fieldAssignment}${r"}"}" /><#else><span>${r"${"}${fieldAssignment}${r"}"}</span>
+				<#if pagePart.singleField.editable><input value="${r"${"}${fieldAssignment}${r"}"}" size="${pagePart.singleField.length}" maxlength="${pagePart.singleField.length}" /><#else><span>${r"${"}${fieldAssignment}${r"}"}</span>
 				</#if>
 			</div>
 			<#else>
@@ -25,7 +25,7 @@
 				
 				<label>${field.displayName}: </label>
 				<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${field.name}">
-				<#if field.editable><input value="${r"${"}${fieldAssignment}${r"}"}" /><#else><span>${r"${"}${fieldAssignment}${r"}"}</span>
+				<#if field.editable><input value="${r"${"}${fieldAssignment}${r"}"}" size="${field.length}" maxlength="${field.length}" /><#else><span>${r"${"}${fieldAssignment}${r"}"}</span>
 				</#if>
 			</div>
 				</#list>

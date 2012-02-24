@@ -54,7 +54,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	}
 
 	public void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, TerminalField labelField) {
-		ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition, field, labelField.getValue());
+		ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition, field, labelField);
 	}
 
 	public void processFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
