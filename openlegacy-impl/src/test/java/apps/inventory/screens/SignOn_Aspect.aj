@@ -33,6 +33,14 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 		return terminalSnapshot;
     }
 
+    public String SignOn.getSystem(){
+    	return this.system;
+    }
+    
+    public void SignOn.setSystem(String system){
+    	this.system = system;
+    }
+    
     public String SignOn.getMessage(){
     	return this.message;
     }

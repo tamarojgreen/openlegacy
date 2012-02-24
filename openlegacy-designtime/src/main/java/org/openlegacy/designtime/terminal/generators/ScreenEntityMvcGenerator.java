@@ -52,18 +52,21 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			File packageDir = new File(sourceDirectory, packageDirectoryName);
 			String entityClassName = screenEntityDefinition.getEntityClassName();
 			File contollerFile = new File(packageDir, entityClassName + "Controller.java");
+			boolean generateController = true;
 			if (contollerFile.exists()) {
 				boolean override = overrideConfirmer.isOverride(contollerFile);
 				if (!override) {
-					return;
+					generateController = false;
 				}
 			}
-			contollerFile.getParentFile().mkdirs();
-			fos = new FileOutputStream(contollerFile);
 			PageDefinition pageDefinition = new DefaultScreenPageBuilder().build(screenEntityDefinition);
-			generateController(pageDefinition, fos);
-			fos.close();
-			logger.info(MessageFormat.format("Generated controller : {0}", contollerFile.getAbsoluteFile()));
+			if (generateController){
+				contollerFile.getParentFile().mkdirs();
+				fos = new FileOutputStream(contollerFile);
+				generateController(pageDefinition, fos);
+				fos.close();
+				logger.info(MessageFormat.format("Generated controller : {0}", contollerFile.getAbsoluteFile()));
+			}
 
 			File contollerAspectFile = new File(packageDir, entityClassName + "Controller_Aspect.aj");
 			fos = new FileOutputStream(contollerAspectFile);

@@ -17,6 +17,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private boolean editable;
 	private String sampleValue;
 	private Class<?> javaType;
+	private TerminalPosition labelPosition;
 
 	public SimpleScreenFieldDefinition(String name, Class<? extends FieldType> fieldType) {
 		super(name, fieldType);
@@ -77,5 +78,13 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setJavaType(Class<?> javaType) {
 		this.javaType = javaType;
+	}
+
+	public TerminalPosition getLabelPosition() {
+		return labelPosition;
+	}
+	
+	public void setLabelPosition(TerminalPosition labelPosition) {
+		this.labelPosition = labelPosition;
 	}
 }

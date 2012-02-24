@@ -41,7 +41,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	// used for setting default field length when none specified (@ScreenField doesn't force endColumn/length)
 	private int defaultFieldLength = 10;
 
-	private int defaultLeftMarginOffset = 10;
+	private int defaultLeftMarginOffset = 0;
 	private int defaultTopMarginOffset = 0;
 
 	public PageDefinition build(ScreenEntityDefinition entityDefinition) {
@@ -157,8 +157,13 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	}
 
 	private int calculateLabelColumn(ScreenFieldDefinition firstField) {
-		int column = firstField.getPosition().getColumn() - (firstField.getDisplayName().length() + labelFieldDistance);
-		return column > 0 ? column : 1;
+		if (firstField.getLabelPosition() != null){
+			return firstField.getLabelPosition().getColumn();
+		}
+		else{
+			int column = firstField.getPosition().getColumn() - (firstField.getDisplayName().length() + labelFieldDistance);
+			return column > 0 ? column : 1;
+		}
 	}
 
 	/**

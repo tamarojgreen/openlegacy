@@ -14,7 +14,10 @@ import org.openlegacy.terminal.actions.TerminalActions;
 @ScreenActions(actions = { @Action(action = TerminalActions.ESC.class, displayName = "Escape") })
 public class SignOn extends AbstractScreen {
 
-	@ScreenField(row = 6, column = 53, fieldType = Login.UserField.class, editable = true)
+	@ScreenField(row = 2, column = 70 ,endColumn= 77 ,displayName = "System", sampleValue = "S44R5550", labelColumn=48)
+    private String system;
+	
+	@ScreenField(row = 6, column = 53, fieldType = Login.UserField.class, editable = true, labelColumn=17)
 	private String user;
 
 	@ScreenField(row = 7, column = 53, fieldType = Login.PasswordField.class, editable = true)

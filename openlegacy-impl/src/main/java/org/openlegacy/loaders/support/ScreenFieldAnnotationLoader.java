@@ -40,6 +40,11 @@ public class ScreenFieldAnnotationLoader implements FieldAnnotationsLoader {
 			screenFieldDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
 		}
 
+		if (fieldAnnotation.labelColumn() > 0){
+			SimpleTerminalPosition labelPosition = SimpleTerminalPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.labelColumn());
+			screenFieldDefinition.setLabelPosition(labelPosition);
+		}
+		
 		screenFieldDefinition.setEditable(fieldAnnotation.editable());
 
 		if (fieldAnnotation.displayName().length() > 0) {
