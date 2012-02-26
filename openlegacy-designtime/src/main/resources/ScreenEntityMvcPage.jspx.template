@@ -51,13 +51,16 @@
 		</div>
 		</#list>	
 		
+		<#-- Uncomment to generate actions
+		
 		<#list entityDefinition.actions as action>
-			<#if type??>
+			<#if action.alias??>
 		<div class="action">
 			<button onclick="doPost('${action.alias}')">${action.displayName}</button>
 		</div>
 			</#if>
-		</#list>	
-		
+		</#list>
+			
+		-->		
 	</form>
 </div>

@@ -76,7 +76,7 @@ body {
 .menu {
 	background-color: #FFD700;
 	height: 100%;
-	width: 100px;
+	width: 200px;
 	float: left;
 }
 
@@ -104,14 +104,11 @@ body {
 		<div id="header" style="background-color: #FFA500;">
 			<tiles:insertAttribute name="header" ignore="true" />
 
-			<div class="actions">
-				<button onclick="doPost();">Submit</button>
-				<tiles:insertAttribute name="actions" ignore="true" />
-			</div>
+			<tiles:insertAttribute name="actions" ignore="true" />
 		</div>
 
 		<div id="menu" class="menu">
-			<b>Menu</b><br />
+			<tiles:insertAttribute name="menu" />
 		</div>
 
 		<div class="container">

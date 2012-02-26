@@ -6,7 +6,7 @@ public interface MenuItem {
 
 	Class<?> getTargetEntity();
 
-	String getCaption();
-
+	String getDisplayName();
+	
 	List<MenuItem> getMenuItems();
 }
