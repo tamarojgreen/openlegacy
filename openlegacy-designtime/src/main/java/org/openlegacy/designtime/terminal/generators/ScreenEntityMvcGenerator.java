@@ -75,7 +75,8 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			logger.info(MessageFormat.format("Generated controller aspect: {0}", contollerAspectFile.getAbsoluteFile()));
 
 			File webPageFile = new File(projectDir, VIEWS_DIR + entityClassName + ".jspx");
-			if (webPageFile.exists()) {
+			boolean webPageFileExists = webPageFile.exists();
+			if (webPageFileExists) {
 				boolean override = overrideConfirmer.isOverride(webPageFile);
 				if (!override) {
 					return;
@@ -86,7 +87,9 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			fos.close();
 			logger.info(MessageFormat.format("Generated jspx file: {0}", webPageFile.getAbsoluteFile()));
 
-			updateViewsFile(projectDir, entityClassName);
+			if (!webPageFileExists){
+				updateViewsFile(projectDir, entityClassName);
+			}
 		} catch (Exception e) {
 			throw (new GenerationException(e));
 		} finally {

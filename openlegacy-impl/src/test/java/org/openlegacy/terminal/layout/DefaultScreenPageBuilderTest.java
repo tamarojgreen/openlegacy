@@ -38,16 +38,16 @@ public class DefaultScreenPageBuilderTest extends AbstractTest {
 		SimplePagePartDefinition part1 = (SimplePagePartDefinition)pageDefinition.getPageParts().get(0);
 		Assert.assertEquals(1, part1.getColumns());
 		Assert.assertEquals(3, part1.getPartRows().size());
-		Assert.assertEquals(13, part1.getLeftMargin());
+		Assert.assertEquals(12, part1.getLeftMargin());
 		Assert.assertEquals(20, part1.getTopMargin());
-		Assert.assertEquals(25, part1.getWidth());
+		Assert.assertEquals(26, part1.getWidth());
 
 		SimplePagePartDefinition part2 = (SimplePagePartDefinition)pageDefinition.getPageParts().get(1);
 		Assert.assertEquals(2, part2.getColumns());
 		Assert.assertEquals(1, part2.getPartRows().size());
-		Assert.assertEquals(27, part2.getLeftMargin());
+		Assert.assertEquals(26, part2.getLeftMargin());
 		Assert.assertEquals(37, part2.getTopMargin());
-		Assert.assertEquals(51, part2.getWidth());
+		Assert.assertEquals(52, part2.getWidth());
 
 	}
 

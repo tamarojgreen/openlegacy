@@ -75,9 +75,19 @@ public class StringUtil {
 	public static String toDisplayName(String text) {
 		char[] chars = text.toCharArray();
 		StringBuilder sb = new StringBuilder(text.length());
-		for (char c : chars) {
+		for (int i=0;i<chars.length;i++) {
+			char c = chars[i];
 			if (Character.isLetter(c) || Character.isDigit(c) || c == ' ' || c == '\\' || c == '/') {
-				sb.append(c);
+				if (i == 0){
+					sb.append(Character.toUpperCase(c));
+				}
+				else {
+					// add blank current char is upper case, previous char is blank and not upper case 
+					if (Character.isUpperCase(c) && chars[i-1] != ' ' && Character.isLetter(chars[i-1]) && !Character.isUpperCase(chars[i-1]) ){
+						sb.append(' ');
+					}
+					sb.append(c);
+				}
 			}
 
 		}

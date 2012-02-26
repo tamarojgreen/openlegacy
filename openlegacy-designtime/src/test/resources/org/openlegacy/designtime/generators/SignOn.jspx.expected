@@ -18,30 +18,29 @@
 		<div style="margin-left: 21%; margin-top: 20%; width: 57%;" class="panel">
 			<div class="field">
 				
-				<label>user: </label>
+				<label>User: </label>
 				<input value="${signOn.user}" size="10" maxlength="10" />			</div>
 			<div class="field">
 				
-				<label>password: </label>
+				<label>Password: </label>
 				<input value="${signOn.password}" size="10" maxlength="10" />			</div>
 			<div class="field">
 				
-				<label>programProcedure: </label>
+				<label>Program Procedure: </label>
 				<input value="${signOn.programProcedure}" size="0" maxlength="0" />			</div>
 		</div>
 		<div style="margin-left: 1%; margin-top: 95%; width: 13%;position:absolute;" >
 			<div class="field">
-				<label>error: </label>
+				<label>Error: </label>
 				<span>${signOn.error}</span>
 			</div>
 		</div>
 		<div style="margin-left: 43%; margin-top: 95%; width: 33%;position:absolute;" >
 			<div class="field">
-				<label>message: </label>
+				<label>Message: </label>
 				<span>${signOn.message}</span>
 			</div>
 		</div>
-		
 		
 	</form>
 </div>
