@@ -5,14 +5,14 @@
 
 <tiles-definitions>
 
-  <definition name="default" template="/WEB-INF/layouts/default.jspx">
+  <definition name="template" template="/WEB-INF/layouts/template.jspx">
     <put-attribute name="header" value="/WEB-INF/views/template/header.jspx" />
     <put-attribute name="menu" value="/WEB-INF/views/template/menu.jspx" />
     <put-attribute name="footer" value="/WEB-INF/views/template/footer.jspx" />
     <put-attribute name="actions" value="/WEB-INF/views/template/actions.jspx" />
   </definition>
 
-  <definition name="public" template="/WEB-INF/layouts/default.jspx">
+  <definition name="public" template="/WEB-INF/layouts/template.jspx">
     <put-attribute name="header" value="/WEB-INF/views/template/header.jspx" />
     <put-attribute name="footer" value="/WEB-INF/views/template/footer.jspx" />
   </definition>

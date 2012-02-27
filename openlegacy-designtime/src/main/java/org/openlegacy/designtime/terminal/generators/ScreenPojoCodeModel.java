@@ -34,4 +34,6 @@ public interface ScreenPojoCodeModel {
 	int getEndRow();
 
 	List<Action> getActions();
+
+	String getTypeName();
 }

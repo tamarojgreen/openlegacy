@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface Navigation extends SessionModule {
 
-	List<EntityDescriptor> getPathFromRoot();
+	List<EntityDescriptor> getPaths();
 }

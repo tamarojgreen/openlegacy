@@ -46,7 +46,7 @@ public class InsertEntityDefinitionsInterceptor extends HandlerInterceptorAdapte
 
 		Navigation navigationModule = terminalSession.getModule(Navigation.class);
 		if (navigationModule != null) {
-			List<EntityDescriptor> breadCrumb = navigationModule.getPathFromRoot();
+			List<EntityDescriptor> breadCrumb = navigationModule.getPaths();
 			if (breadCrumb != null) {
 				modelAndView.addObject("breadCrumb", breadCrumb);
 			}

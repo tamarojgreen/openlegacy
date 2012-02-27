@@ -30,7 +30,7 @@ public class DefaultNavigationModuleTest extends AbstractTest {
 		terminalSession.getModule(Login.class).login("user", "pwd");
 		terminalSession.getEntity(ItemsList.class);
 
-		List<EntityDescriptor> path = terminalSession.getModule(Navigation.class).getPathFromRoot();
+		List<EntityDescriptor> path = terminalSession.getModule(Navigation.class).getPaths();
 
 		Assert.assertEquals(path.get(0).getEntityClass(), MainMenu.class);
 		Assert.assertFalse(path.get(0).isCurrent());

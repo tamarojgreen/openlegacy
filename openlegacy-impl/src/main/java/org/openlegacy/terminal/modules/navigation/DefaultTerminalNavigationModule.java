@@ -21,7 +21,7 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public List<EntityDescriptor> getPathFromRoot() {
+	public List<EntityDescriptor> getPaths() {
 
 		Object currentEntity = getSession().getEntity();
 
