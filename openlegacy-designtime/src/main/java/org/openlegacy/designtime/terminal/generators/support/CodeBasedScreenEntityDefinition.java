@@ -131,4 +131,8 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return screenSize;
 	}
 
+	public String getTypeName() {
+		return codeModel.getTypeName();
+	}
+
 }

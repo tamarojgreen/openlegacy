@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.mains.OverrideConfirmer;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 
@@ -25,6 +26,10 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	private static final String TILES_VIEW_PLACEHOLDER_END = "Marker for code generation end -->";
 
 	private static final String VIEW_TOKEN = "VIEW-NAME";
+	private static final String TEMPLATE_TOKEN = "TEMPLATE-NAME";
+
+	private static final String DEFAULT_TEMPLATE = "template";
+	private static final String PUBLIC_TEMPLATE = "public";
 
 	private static final CharSequence TILES_VIEW_PLACEHOLDER = "<!-- Place holder for code generation -->";
 
@@ -60,7 +65,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				}
 			}
 			PageDefinition pageDefinition = new DefaultScreenPageBuilder().build(screenEntityDefinition);
-			if (generateController){
+			if (generateController) {
 				contollerFile.getParentFile().mkdirs();
 				fos = new FileOutputStream(contollerFile);
 				generateController(pageDefinition, fos);
@@ -87,8 +92,8 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			fos.close();
 			logger.info(MessageFormat.format("Generated jspx file: {0}", webPageFile.getAbsoluteFile()));
 
-			if (!webPageFileExists){
-				updateViewsFile(projectDir, entityClassName);
+			if (!webPageFileExists) {
+				updateViewsFile(projectDir, screenEntityDefinition);
 			}
 		} catch (Exception e) {
 			throw (new GenerationException(e));
@@ -98,7 +103,9 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	}
 
-	private static void updateViewsFile(File projectDir, String viewName) throws IOException {
+	private static void updateViewsFile(File projectDir, ScreenEntityDefinition screenEntityDefinition) throws IOException {
+		String viewName = screenEntityDefinition.getEntityClassName();
+
 		File viewsFile = new File(projectDir, TILES_VIEWS_FILE);
 		if (!viewsFile.exists()) {
 			logger.warn(MessageFormat.format("Views file {0} not found in project directory:{1}", TILES_VIEWS_FILE, projectDir));
@@ -118,6 +125,14 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 			String definitionTemplate = viewsFileContent.substring(templateMarkerStart, templateMarkerEnd);
 			String newViewDefinition = definitionTemplate.replaceAll(VIEW_TOKEN, viewName);
+
+			// don't include menu & actions in login page
+			if (screenEntityDefinition.getTypeName().equals(Login.LoginEntity.class.getSimpleName())) {
+				newViewDefinition = newViewDefinition.replaceAll(TEMPLATE_TOKEN, PUBLIC_TEMPLATE);
+			} else {
+				newViewDefinition = newViewDefinition.replaceAll(TEMPLATE_TOKEN, DEFAULT_TEMPLATE);
+			}
+
 			viewsFileContent = viewsFileContent.replace(TILES_VIEW_PLACEHOLDER, TILES_VIEW_PLACEHOLDER + newViewDefinition);
 			fos = new FileOutputStream(viewsFile);
 			IOUtils.write(viewsFileContent, fos);

@@ -33,4 +33,5 @@ public class AnnotationConstants {
 	public static final String ACTION = "action";
 	public static final String ALIAS = "alias";
 	public static final String LABEL_COLUMN = "labelColumn";
+	public static final String SCREEN_TYPE = "screenType";
 }

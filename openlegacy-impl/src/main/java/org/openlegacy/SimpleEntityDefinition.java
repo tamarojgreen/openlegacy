@@ -52,6 +52,10 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 		return entityType;
 	}
 
+	public String getTypeName() {
+		return getType().getSimpleName();
+	}
+
 	public void setType(Class<? extends EntityType> entityType) {
 		this.entityType = entityType;
 	}

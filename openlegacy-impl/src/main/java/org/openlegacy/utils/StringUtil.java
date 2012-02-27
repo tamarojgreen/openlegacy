@@ -6,11 +6,37 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StringUtil {
 
+	/**
+	 * this array contains forbidden words from java,c#,vb,javaScript
+	 */
+	private static final String[] RESERVED_WORDS = new String[] { "abstract", "do", "if", "package", "synchronized",
+			"implements", "private", "this", "break", "else", "import", "protected", "throw", "byte", "extends", "instanceof",
+			"public", "throws", "case", "false", "return", "transient", "catch", "final", "interface", "short", "int", "float",
+			"double", "boolean", "true", "char", "long", "static", "try", "class", "native", "strictfp", "void", "const", "for",
+			"new", "super", "volatile", "continue", "goto", "null", "switch", "while", "default", "assert", "exception", "java",
+			"jsp", "context",/* cs */"event", "struct", "as", "explicit", "base", "extern", "object", "bool", "operator", "out",
+			"fixed", "override", "params", "typeof", "uint", "foreach", "ulong", "checked", "unchecked", "readonly", "unsafe",
+			"implicit", "ref", "ushort", "in", "using", "decimal", "sbyte", "virtual", "sealed", "delegate", "internal", "is",
+			"sizeof", "lock", "stackalloc", "enum", "namespace", "string", /* javaScript */"target", "var", "undefined",
+			"until", "substring", "window", "document", "open", "write", "close", "date", "value", "screen", "tostring", "get",
+			"put", "clear", "escape", "delete", "eval", "field", "finally", "in", "index", "instanceof" };
+
+	private static Map<String, String> RESERVERD_WORDS_DICTIONARY = new HashMap<String, String>();
+
+	static {
+		for (String element : RESERVED_WORDS) {
+			RESERVERD_WORDS_DICTIONARY.put(element, element);
+		}
+	}
+
 	public static String ignoreChars(String s, char[] ignoreChars) {
 		char[] chars = ignoreChars;
+
 		for (char c : chars) {
 			s = s.replaceAll("\\" + Character.toString(c), "");
 		}
@@ -29,10 +55,17 @@ public class StringUtil {
 	}
 
 	public static String toJavaMethodName(String text) {
-		return toVariableName(text, false);
+		String methodName = toVariableName(text, false);
+		if (RESERVERD_WORDS_DICTIONARY.containsKey(methodName)) {
+			methodName = methodName + "_";
+		}
+		return methodName;
 	}
 
 	public static String toClassName(String text) {
+		if (text.endsWith(".class")) {
+			text = text.replace(".class", "");
+		}
 		return toVariableName(text, true);
 	}
 
@@ -75,15 +108,15 @@ public class StringUtil {
 	public static String toDisplayName(String text) {
 		char[] chars = text.toCharArray();
 		StringBuilder sb = new StringBuilder(text.length());
-		for (int i=0;i<chars.length;i++) {
+		for (int i = 0; i < chars.length; i++) {
 			char c = chars[i];
 			if (Character.isLetter(c) || Character.isDigit(c) || c == ' ' || c == '\\' || c == '/') {
-				if (i == 0){
+				if (i == 0) {
 					sb.append(Character.toUpperCase(c));
-				}
-				else {
-					// add blank current char is upper case, previous char is blank and not upper case 
-					if (Character.isUpperCase(c) && chars[i-1] != ' ' && Character.isLetter(chars[i-1]) && !Character.isUpperCase(chars[i-1]) ){
+				} else {
+					// add blank current char is upper case, previous char is blank and not upper case
+					if (Character.isUpperCase(c) && chars[i - 1] != ' ' && Character.isLetter(chars[i - 1])
+							&& !Character.isUpperCase(chars[i - 1])) {
 						sb.append(' ');
 					}
 					sb.append(c);

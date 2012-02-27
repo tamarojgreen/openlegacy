@@ -1,5 +1,6 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
+import org.openlegacy.FieldType.General;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
@@ -45,6 +46,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	private List<Action> actions = new ArrayList<Action>();
 	private String parentClassName;
+	private String typeName;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -203,6 +205,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private void populateEntityAttributes(AnnotationExpr annotationExpr) {
 		String displayNameFromAnnotation = null;
 		String entityNameFromAnnotation = null;
+		String typeNameFromAnnotation = null;
 		String startRowFromTableAnnotation = null;
 		String endRowFromTableAnnotation = null;
 
@@ -214,11 +217,15 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, normalAnnotationExpr.getPairs());
 			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, normalAnnotationExpr.getPairs());
+			typeNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCREEN_TYPE, normalAnnotationExpr.getPairs());
 			startRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.START_ROW, normalAnnotationExpr.getPairs());
 			endRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.END_ROW, normalAnnotationExpr.getPairs());
 		}
 		displayName = displayNameFromAnnotation != null ? displayNameFromAnnotation : StringUtil.toDisplayName(getClassName());
 		entityName = entityNameFromAnnotation != null ? entityNameFromAnnotation : StringUtil.toJavaFieldName(getClassName());
+
+		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)
+				: General.class.getSimpleName();
 
 		if (startRowFromTableAnnotation != null) {
 			startRow = Integer.parseInt(startRowFromTableAnnotation);
@@ -280,6 +287,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	public String getPackageName() {
 		return packageName;
+	}
+
+	public String getTypeName() {
+		return typeName;
 	}
 
 	public String getDisplayName() {
@@ -444,5 +455,4 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			return displayName;
 		}
 	}
-
 }

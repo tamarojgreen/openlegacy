@@ -18,6 +18,8 @@ public interface EntityDefinition<D extends FieldDefinition> {
 
 	Class<? extends EntityType> getType();
 
+	String getTypeName();
+
 	/**
 	 * Map of field name -> field mapping definition
 	 * 
