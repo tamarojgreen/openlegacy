@@ -98,6 +98,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String displayNameValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.DISPLAY_NAME);
 		String startColumnValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.START_COLUMN);
 		String endColumnValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.END_COLUMN);
+		String labelColumnValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.LABEL_COLUMN);
 
 		if (AnnotationConstants.TRUE.equals(editableValue)) {
 			field.setEditable(true);
@@ -116,6 +117,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 		if (endColumnValue != null) {
 			field.setEndColumn(Integer.valueOf(endColumnValue));
+		}
+		if (labelColumnValue != null) {
+			field.setLabelColumn(Integer.valueOf(labelColumnValue));
 		}
 	}
 
@@ -316,6 +320,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private Integer row;
 		private Integer column;
 		private Integer endColumn;
+		private Integer labelColumn;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -404,6 +409,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setEndColumn(Integer endColumn) {
 			this.endColumn = endColumn;
+		}
+
+		public Integer getLabelColumn() {
+			return labelColumn;
+		}
+
+		public void setLabelColumn(Integer labelColumn) {
+			this.labelColumn = labelColumn;
 		}
 	}
 

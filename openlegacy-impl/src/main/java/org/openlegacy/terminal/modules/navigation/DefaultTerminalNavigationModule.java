@@ -25,9 +25,12 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 
 		Object currentEntity = getSession().getEntity();
 
-		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
-
 		List<EntityDescriptor> pathEntries = new ArrayList<EntityDescriptor>();
+		if (currentEntity == null) {
+			return pathEntries;
+		}
+
+		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
 
 		boolean first = true;
 		while (currentEntityDefinition != null) {

@@ -42,6 +42,9 @@ public class CodeBasedDefinitionUtils {
 			SimpleScreenFieldDefinition fieldDefinition = new SimpleScreenFieldDefinition(containerPrefix + field.getName(), null);
 			fieldDefinition.setPosition(new SimpleTerminalPosition(field.getRow(), field.getColumn()));
 			fieldDefinition.setEditable(field.isEditable());
+			if (field.getLabelColumn() != null) {
+				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(field.getRow(), field.getLabelColumn()));
+			}
 			fieldDefinition.setDisplayName(StringUtil.stripQuotes(field.getDisplayName()));
 			if (field.getEndColumn() != null) {
 				fieldDefinition.setLength(field.getEndColumn() - field.getColumn() + 1);

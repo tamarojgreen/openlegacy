@@ -32,4 +32,5 @@ public class AnnotationConstants {
 	public static final String END_ROW = "endRow";
 	public static final String ACTION = "action";
 	public static final String ALIAS = "alias";
+	public static final String LABEL_COLUMN = "labelColumn";
 }

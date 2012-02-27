@@ -1,11 +1,5 @@
 package org.openlegacy.terminal.web.mvc;
 
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.openlegacy.EntityDescriptor;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
@@ -17,31 +11,46 @@ import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class InsertEntityDefinitionsInterceptor extends HandlerInterceptorAdapter{
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class InsertEntityDefinitionsInterceptor extends HandlerInterceptorAdapter {
 
 	@Inject
 	private TerminalSession terminalSession;
-	
+
 	@Inject
 	private ScreenEntitiesRegistry entitiesRegistry;
-	
+
 	@Override
-	public void postHandle(HttpServletRequest request,
-			HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
-		if (modelAndView == null){
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
+			throws Exception {
+		if (modelAndView == null) {
 			return;
 		}
-		
+
 		ScreenEntity entity = terminalSession.getEntity();
 
-		ScreenEntityDefinition definitions = entitiesRegistry.get(entity.getClass());
-		modelAndView.addObject("definitions", definitions);
-		MenuItem menuRoot = terminalSession.getModule(Menu.class).getMenuTree();
-		modelAndView.addObject("menu", menuRoot);
+		if (entity != null) {
+			ScreenEntityDefinition definitions = entitiesRegistry.get(entity.getClass());
+			modelAndView.addObject("definitions", definitions);
+		}
+		Menu menuModule = terminalSession.getModule(Menu.class);
+		if (menuModule != null) {
+			MenuItem menuRoot = menuModule.getMenuTree();
+			modelAndView.addObject("menu", menuRoot);
+		}
 
-		List<EntityDescriptor> breadCrumb = terminalSession.getModule(Navigation.class).getPathFromRoot();
-		modelAndView.addObject("breadCrumb", breadCrumb);
-		
+		Navigation navigationModule = terminalSession.getModule(Navigation.class);
+		if (navigationModule != null) {
+			List<EntityDescriptor> breadCrumb = navigationModule.getPathFromRoot();
+			if (breadCrumb != null) {
+				modelAndView.addObject("breadCrumb", breadCrumb);
+			}
+		}
+
 	}
 }
