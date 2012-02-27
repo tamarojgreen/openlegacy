@@ -1,7 +1,6 @@
 package org.openlegacy.terminal.modules.menu;
 
 import org.apache.commons.lang.StringUtils;
-import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.modules.menu.MenuBuilder;
 import org.openlegacy.modules.menu.MenuItem;
@@ -91,14 +90,15 @@ public class DefaultMenuBuilder implements MenuBuilder {
 				rootMenuClass = menuEntityClass;
 			}
 		}
-		if (rootMenuClass == null) {
-			throw (new RegistryException("Could not find root entity class from registry screen navigation defintion"));
-		}
 
 		return rootMenuClass;
 	}
 
 	private MenuItem buildMenu(Class<?> rootClass) {
+		if (rootClass == null) {
+			return null;
+		}
+
 		String displayName = screenEntitiesRegistry.get(rootClass).getDisplayName();
 		MenuItem menuItem = new SimpleMenuItem(rootClass, displayName);
 
