@@ -11,10 +11,4 @@
 		</c:forEach>
 	</div>
 
-	<div class="breadcrumb">
-		<c:forEach items="${breadCrumb}" var="pathItem">
-		> ${pathItem.displayName}
-		</c:forEach>
-	</div>
-
 </div>

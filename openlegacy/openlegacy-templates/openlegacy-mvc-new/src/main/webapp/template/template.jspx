@@ -19,88 +19,7 @@
   <spring:url value="/resources/openlegacy.mvc.js" var="ol_mvc_js" />
   <script src="${ol_mvc_js}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
-<style type="text/css">
-body {
-	margin: 0px;
-	height: 91%;
-	width: 100%;
-}
-
-.container {
-	height: 80%;
-	width: 100%;
-	position: absolute;
-	font-size: x-large;
-	font-family: Helvetica, sans-serif;
-	color: navy;
-	left: 10%;
-}
-
-.container input {
-	font-size: large;
-	font-family: Helvetica, sans-serif;
-	color: navy;
-	height: 1.4em;
-	vertical-align: middle;
-}
-
-.container table tr th ,.container table tr td {
-	font-size: medium;
-	font-family: Helvetica, sans-serif;
-	color: navy;
-}
-
-.field label {
-	position: absolute;
-	white-space: nowrap;
-}
-
-.panel {
-	border: 1px solid black;
-	position: absolute;
-}
-
-.col_1_of_2 {
-	float: left;
-	width: 50%;
-}
-
-.col_2_of_2 {
-	margin-left: 50%;
-}
-
-.field span,.field input {
-	margin-left: 45%;
-}
-
-.menu {
-	background-color: #FFD700;
-	height: 100%;
-	width: 200px;
-	float: left;
-}
-
-.actions {
-	border: 1px solid black;
-	position: absolute;
-	left: 45%;
-	top: 3%;
-	z-index: 1;
-}
-
-.actions button{
-	background-color: white;
-}
-
-.breadcrumb{
-	position: absolute;
-	left: 25%;
-	top: 7%;
-	z-index: 1;
-}
-</style>
-
-
+  <link rel="stylesheet" type="text/css" href="template/openlegacy.css" />	
 </head>
 
 <body>
@@ -111,6 +30,7 @@ body {
 			<tiles:insertAttribute name="header" />
 
 			<tiles:insertAttribute name="actions" ignore="true" />
+			<tiles:insertAttribute name="breadcrumb" ignore="true" />
 		</div>
 
 		<div id="menu" class="menu">
