@@ -47,7 +47,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
     
 	<#list entityDefinition.actions as action>
 	// handle ${action.alias} action
-    @RequestMapping(value="?action=${action.alias}", method = RequestMethod.POST)
+    @RequestMapping(params="action=${action.alias}", method = RequestMethod.POST)
     public String ${entityDefinition.entityClassName}Controller.${action.alias}(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.${action.actionName}(), ${entityDefinition.entityName?uncap_first});
 	// go to the controller for the resulting screen name
