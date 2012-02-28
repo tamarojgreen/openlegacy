@@ -15,7 +15,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"), 
 				@Action(action = TerminalActions.F3.class, displayName = "Cancel", alias = "cancel"), 
 				@Action(action = TerminalActions.F4.class, displayName = "Prompt", alias = "prompt"), 
-				@Action(action = TerminalActions.F12.class, displayName = "Return", alias = "return"), 
+				@Action(action = TerminalActions.F12.class, displayName = "Return", alias = "return_"), 
 				@Action(action = TerminalActions.F2.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") 
 				})
 public class WorkWithItemMaster2 {
