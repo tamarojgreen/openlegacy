@@ -2,6 +2,7 @@ package org.openlegacy;
 
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.terminal.ScreenEntityType;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -53,6 +54,9 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 	}
 
 	public String getTypeName() {
+		if (getType() == null) {
+			return ScreenEntityType.General.class.getSimpleName();
+		}
 		return getType().getSimpleName();
 	}
 

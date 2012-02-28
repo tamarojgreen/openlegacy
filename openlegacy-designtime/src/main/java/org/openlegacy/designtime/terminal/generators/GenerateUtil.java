@@ -15,14 +15,29 @@ import java.util.Collection;
 
 public class GenerateUtil {
 
-	public static void generate(Object model, OutputStream out, String templateName) throws GenerationException {
+	/**
+	 * 
+	 * @param model
+	 * @param out
+	 * @param templateName
+	 * @param templatePrefix
+	 *            allows to work with template with prefix if exists. e.g: MenuScreenEntityMvcPage.jspx.template /
+	 *            ScreenEntityMvcPage.jspx.template
+	 * @throws GenerationException
+	 */
+	public static void generate(Object model, OutputStream out, String templateName, String templatePrefix)
+			throws GenerationException {
 
 		Configuration configuration = new Configuration();
 		configuration.setClassForTemplateLoading(GenerateUtil.class, "/");
 
 		Template template;
 		try {
-			template = configuration.getTemplate(templateName);
+			if (GenerateUtil.class.getResource(templatePrefix + templateName) != null) {
+				template = configuration.getTemplate(templatePrefix + templateName);
+			} else {
+				template = configuration.getTemplate(templateName);
+			}
 			OutputStreamWriter output = new OutputStreamWriter(out);
 			template.process(model, output);
 		} catch (TemplateException e) {
@@ -34,7 +49,7 @@ public class GenerateUtil {
 
 	public static void setPackageName(Collection<ScreenEntityDefinition> screenDefinitions, String packageName) {
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName("com.test");
+			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(packageName);
 		}
 
 	}
