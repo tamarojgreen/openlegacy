@@ -104,8 +104,7 @@ public class CodeBasedDefinitionUtils {
 		List<Action> actions = codeModel.getActions();
 		List<ActionDefinition> actionDefinitions = new ArrayList<ActionDefinition>();
 		for (Action action : actions) {
-			// keep just the action class name: TerminalActions.F3.class -> F3
-			String actionName = action.getActionName().replace("TerminalActions.", "").replace(".class", "");
+			String actionName = StringUtil.toClassName(action.getActionName());
 			SimpleActionDefinition actionDefinition = new SimpleActionDefinition(actionName,
 					StringUtil.stripQuotes(action.getDisplayName()));
 			actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));

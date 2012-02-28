@@ -45,7 +45,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
     	return "redirect:HtmlEmulation";
     }
     
-	<#list entityDefinition.actions as action>
+	<#list actions as action>
 	// handle ${action.alias} action
     @RequestMapping(params="action=${action.alias}", method = RequestMethod.POST)
     public String ${entityDefinition.entityClassName}Controller.${action.alias}(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {

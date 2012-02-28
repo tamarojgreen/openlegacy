@@ -19,12 +19,7 @@ public class StringUtil {
 			"public", "throws", "case", "false", "return", "transient", "catch", "final", "interface", "short", "int", "float",
 			"double", "boolean", "true", "char", "long", "static", "try", "class", "native", "strictfp", "void", "const", "for",
 			"new", "super", "volatile", "continue", "goto", "null", "switch", "while", "default", "assert", "exception", "java",
-			"jsp", "context",/* cs */"event", "struct", "as", "explicit", "base", "extern", "object", "bool", "operator", "out",
-			"fixed", "override", "params", "typeof", "uint", "foreach", "ulong", "checked", "unchecked", "readonly", "unsafe",
-			"implicit", "ref", "ushort", "in", "using", "decimal", "sbyte", "virtual", "sealed", "delegate", "internal", "is",
-			"sizeof", "lock", "stackalloc", "enum", "namespace", "string", /* javaScript */"target", "var", "undefined",
-			"until", "substring", "window", "document", "open", "write", "close", "date", "value", "screen", "tostring", "get",
-			"put", "clear", "escape", "delete", "eval", "field", "finally", "in", "index", "instanceof" };
+			"jsp", "context" };
 
 	private static Map<String, String> RESERVERD_WORDS_DICTIONARY = new HashMap<String, String>();
 
@@ -65,6 +60,10 @@ public class StringUtil {
 	public static String toClassName(String text) {
 		if (text.endsWith(".class")) {
 			text = text.replace(".class", "");
+		}
+		// remove package
+		if (text.contains(".")) {
+			text = text.substring(text.lastIndexOf(".") + 1);
 		}
 		return toVariableName(text, true);
 	}

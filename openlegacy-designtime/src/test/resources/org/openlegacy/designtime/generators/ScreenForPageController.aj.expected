@@ -46,7 +46,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
     }
     
 	// handle help action
-    @RequestMapping(value="?action=help", method = RequestMethod.POST)
+    @RequestMapping(params="action=help", method = RequestMethod.POST)
     public String ScreenForPageController.help(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F1(), screenForPage);
 	// go to the controller for the resulting screen name
@@ -57,7 +57,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 		
     }
 	// handle exit action
-    @RequestMapping(value="?action=exit", method = RequestMethod.POST)
+    @RequestMapping(params="action=exit", method = RequestMethod.POST)
     public String ScreenForPageController.exit(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F3(), screenForPage);
 	// go to the controller for the resulting screen name

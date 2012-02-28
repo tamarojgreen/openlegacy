@@ -198,6 +198,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					}
 				}
 				generateJava(screenEntityDefinition, file);
+				generateAspect(file);
 
 				File screenResourcesDir = new File(packageDir, entityName + "-resources");
 				screenResourcesDir.mkdir();
@@ -218,6 +219,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 
 		generateTest(trailFile, screenDefinitions, sourceDirectory);
+
 	}
 
 	private static void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File sourceDirectory) {

@@ -49,6 +49,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		PageDefinition pageDefinition = new SimplePageDefinition(entityDefinition);
 
+		// copy all actions to the page definition to allow separate control in page actions
+		pageDefinition.getActions().addAll(entityDefinition.getActions());
+
 		// sort fields by position
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
@@ -157,10 +160,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	}
 
 	private int calculateLabelColumn(ScreenFieldDefinition field) {
-		if (field.getLabelPosition() != null){
+		if (field.getLabelPosition() != null) {
 			return field.getLabelPosition().getColumn();
-		}
-		else{
+		} else {
 			int column = field.getPosition().getColumn() - (field.getDisplayName().length() + labelFieldDistance);
 			return column > 0 ? column : 1;
 		}

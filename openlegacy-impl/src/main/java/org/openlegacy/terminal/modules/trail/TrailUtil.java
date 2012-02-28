@@ -11,24 +11,25 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 
 public class TrailUtil {
 
 	public static void saveTrail(TerminalSession terminalSession, TrailWriter trailWriter, String trailPath)
 			throws FileNotFoundException {
 
-		if (terminalSession.getSessionId() == null) {
+		if (!terminalSession.isConnected()) {
 			return;
 		}
 
 		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
 		OutputStream trailOut = null;
 		try {
-			File trailFile = new File(trailPath, terminalSession.getSessionId() + ".trail.xml");
+			File trailFile = new File(trailPath, MessageFormat.format("{0}_{1}.trail.xml", terminalSession.getSessionId(),
+					System.currentTimeMillis()));
 			if (!trailFile.getParentFile().exists()) {
 				trailFile.getParentFile().mkdirs();
 			}
-			terminalSession.getSessionId();
 			trailOut = new FileOutputStream(trailFile);
 			trailWriter.write(trail, trailOut);
 		} finally {
