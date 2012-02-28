@@ -36,17 +36,18 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	private final static Log logger = LogFactory.getLog(ScreenEntityMvcGenerator.class);
 
 	public void generatePage(PageDefinition pageDefinition, OutputStream output) {
-
-		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcPage.jspx.template");
+		String typeName = pageDefinition.getEntityDefinition().getTypeName();
+		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcPage.jspx.template", typeName);
 	}
 
 	public void generateController(PageDefinition pageDefinition, OutputStream output) {
-
-		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.java.template");
+		String typeName = pageDefinition.getEntityDefinition().getTypeName();
+		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.java.template", typeName);
 	}
 
 	public void generateControllerAspect(PageDefinition pageDefinition, OutputStream output) {
-		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.aj.template");
+		String typeName = pageDefinition.getEntityDefinition().getTypeName();
+		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.aj.template", typeName);
 	}
 
 	public void generateAll(File projectDir, ScreenEntityDefinition screenEntityDefinition, File sourceDirectory,

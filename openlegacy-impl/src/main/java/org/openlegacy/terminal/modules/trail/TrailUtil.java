@@ -12,6 +12,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class TrailUtil {
 
@@ -24,9 +26,12 @@ public class TrailUtil {
 
 		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
 		OutputStream trailOut = null;
+
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HHmm");
 		try {
 			File trailFile = new File(trailPath, MessageFormat.format("{0}_{1}.trail.xml", terminalSession.getSessionId(),
-					System.currentTimeMillis()));
+					dateFormat.format(cal.getTime())));
 			if (!trailFile.getParentFile().exists()) {
 				trailFile.getParentFile().mkdirs();
 			}

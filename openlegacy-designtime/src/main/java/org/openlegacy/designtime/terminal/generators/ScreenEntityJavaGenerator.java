@@ -10,6 +10,7 @@ import java.io.OutputStream;
 public class ScreenEntityJavaGenerator {
 
 	public void generate(ScreenEntityDefinition screenEntityDefinition, OutputStream out) throws TemplateException, IOException {
-		GenerateUtil.generate(screenEntityDefinition, out, "ScreenEntity.java.template");
+		String typeName = screenEntityDefinition.getTypeName();
+		GenerateUtil.generate(screenEntityDefinition, out, "ScreenEntity.java.template", typeName);
 	}
 }
