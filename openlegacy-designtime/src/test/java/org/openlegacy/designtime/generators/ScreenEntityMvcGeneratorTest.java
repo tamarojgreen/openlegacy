@@ -1,5 +1,6 @@
 package org.openlegacy.designtime.generators;
 
+import apps.inventory.screens.SignOn;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
@@ -10,13 +11,12 @@ import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinition
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
+import org.openlegacy.terminal.layout.mock.MenuScreenForPage;
 import org.openlegacy.terminal.layout.mock.ScreenForPage;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import apps.inventory.screens.SignOn;
 
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
@@ -41,6 +41,19 @@ public class ScreenEntityMvcGeneratorTest {
 		ScreenEntityDefinition screenDefinition = screenEntitiesRegistry.get(ScreenForPage.class);
 
 		assertPageGeneration(screenDefinition);
+	}
+
+	@Test
+	public void testGenerateJspxByType() throws Exception {
+
+		ScreenEntityDefinition screenDefinition = screenEntitiesRegistry.get(MenuScreenForPage.class);
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
+		new ScreenEntityMvcGenerator().generatePage(pageDefinition, baos);
+
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("MenuScreenForPage.jspx.expected"));
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
 	@Test
@@ -98,7 +111,7 @@ public class ScreenEntityMvcGeneratorTest {
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPage.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
-	
+
 	@Test
 	public void testGenerateInventoryApp() throws Exception {
 
@@ -111,5 +124,5 @@ public class ScreenEntityMvcGeneratorTest {
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("SignOn.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
-	
+
 }
