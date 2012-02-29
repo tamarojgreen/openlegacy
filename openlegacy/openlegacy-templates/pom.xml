@@ -19,10 +19,11 @@
 				<version>1.7</version>
 				<executions>
 					<execution>
+						<!-- TODO find a way to run after children -->
 						<phase>package</phase>
 						<configuration>
 							<target>
-								<copy todir="${basedir}/../../openlegacy-designtime/src/main/resources/templates" flatten="true">
+								<copy todir="${basedir}/../../openlegacy-designtime/src/main/resources/templates" flatten="true" overwrite="true">
 									<fileset dir="${basedir}">
 										<include name="**/*.zip"/>
 									</fileset>

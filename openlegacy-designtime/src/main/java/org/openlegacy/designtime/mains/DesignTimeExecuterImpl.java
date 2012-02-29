@@ -131,6 +131,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		pomFileContent = pomFileContent.replaceFirst("<artifactId>.*</artifactId>",
 				MessageFormat.format("<artifactId>{0}</artifactId>", projectName));
+		pomFileContent = pomFileContent.replaceFirst("<warName>.*</warName>",
+				MessageFormat.format("<warName>{0}</warName>", projectName));
+
 		FileOutputStream fos = new FileOutputStream(pomFile);
 		IOUtils.write(pomFileContent, fos);
 	}
