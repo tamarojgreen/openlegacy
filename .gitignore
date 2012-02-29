@@ -5,3 +5,4 @@
 /openlegacy-web/target
 /openlegacy-api/target
 /openlegacy-impl/target
+/openlegacy-designtime/src/main/resources/templates

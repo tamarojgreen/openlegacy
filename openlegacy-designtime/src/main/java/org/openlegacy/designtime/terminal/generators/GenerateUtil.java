@@ -11,6 +11,8 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Collection;
 
 public class GenerateUtil {
@@ -33,7 +35,8 @@ public class GenerateUtil {
 
 		Template template;
 		try {
-			if (GenerateUtil.class.getResource(templatePrefix + templateName) != null) {
+			URL resource = GenerateUtil.class.getResource(MessageFormat.format("/{0}{1}", templatePrefix, templateName));
+			if (resource != null) {
 				template = configuration.getTemplate(templatePrefix + templateName);
 			} else {
 				template = configuration.getTemplate(templateName);

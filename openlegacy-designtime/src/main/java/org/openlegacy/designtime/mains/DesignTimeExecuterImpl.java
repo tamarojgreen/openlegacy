@@ -311,6 +311,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		} catch (Exception e) {
 			throw (new GenerationException(e));
 		}
+		if (screenEntityDefinition == null) {
+			throw (new GenerationException(MessageFormat.format("{0} is not a screen entity", screenEntitySourceFile.getName())));
+		}
 
 		ScreenEntityWebGenerator screenEntityWebGenerator = new ScreenEntityMvcGenerator();
 		screenEntityWebGenerator.generateAll(projectDir, screenEntityDefinition, sourceDirectory, packageDirectoryName,
