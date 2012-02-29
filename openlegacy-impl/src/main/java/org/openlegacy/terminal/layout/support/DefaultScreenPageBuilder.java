@@ -179,11 +179,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		for (ScreenFieldDefinition screenFieldDefinition : sortedFields) {
 			boolean found = false;
-			TerminalPosition fieldPosition = screenFieldDefinition.getPosition();
 			for (List<ScreenFieldDefinition> neighourFields : neighourFieldsGroups) {
 				for (ScreenFieldDefinition neighourField : neighourFields) {
-					TerminalPosition neighbourFieldPosition = neighourField.getPosition();
-					if (isUnderNighbour(fieldPosition, neighbourFieldPosition)
+					if (isUnderNighbour(screenFieldDefinition, neighourField)
 							|| isRightNeighbour(screenFieldDefinition.getPosition(), neighourField)) {
 						logger.debug(MessageFormat.format("Adding field definition {0} to neighbour fields: {1}",
 								screenFieldDefinition, neighourFields));
@@ -209,9 +207,25 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 				&& fieldPosition.getRow() == neighbourEndPosition.getRow();
 	}
 
-	private boolean isUnderNighbour(TerminalPosition fieldPosition, TerminalPosition neighbourFieldPosition) {
-		return fieldPosition.getColumn() == neighbourFieldPosition.getColumn()
+	private boolean isUnderNighbour(ScreenFieldDefinition screenFieldDefinition, ScreenFieldDefinition neighbourField) {
+
+		TerminalPosition fieldPosition = screenFieldDefinition.getPosition();
+		TerminalPosition neighbourFieldPosition = neighbourField.getPosition();
+		boolean underNeighbourByField = fieldPosition.getColumn() == neighbourFieldPosition.getColumn()
 				&& fieldPosition.getRow() - maxRowDistanceWithinPart == neighbourFieldPosition.getRow();
+		if (underNeighbourByField) {
+			return true;
+		}
+		TerminalPosition fieldLabelPosition = screenFieldDefinition.getLabelPosition();
+		TerminalPosition neighbourFieldLabelPosition = neighbourField.getLabelPosition();
+
+		if (fieldLabelPosition == null || neighbourFieldLabelPosition == null) {
+			return false;
+		}
+
+		boolean underNeighbourByLabel = fieldLabelPosition.getColumn() == neighbourFieldLabelPosition.getColumn()
+				&& fieldPosition.getRow() - maxRowDistanceWithinPart == neighbourFieldPosition.getRow();
+		return underNeighbourByLabel;
 	}
 
 	public void setLabelFieldDistance(int labelFieldDistance) {
