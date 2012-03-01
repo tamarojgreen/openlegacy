@@ -241,7 +241,7 @@
 	<parent>
 		<groupId>org.openlegacy.templates</groupId>
 		<artifactId>openlegacy-templates</artifactId>
-		<version>0.3-SNAPSHOT</version>
+		<version>0.4-SNAPSHOT</version>
 	</parent>
 	<version>${project.parent.version}</version>
 </project>
