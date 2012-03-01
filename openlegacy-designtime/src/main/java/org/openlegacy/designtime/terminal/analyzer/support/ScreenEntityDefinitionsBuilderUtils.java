@@ -22,6 +22,7 @@ import java.util.Map;
 public class ScreenEntityDefinitionsBuilderUtils {
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityDefinitionsBuilderUtils.class);
+	private static final String FIELD = "field";
 
 	public static void defineFieldType(ScreenEntityDesigntimeDefinition screenEntityDefinition,
 			ScreenFieldDefinition fieldDefinition, Class<? extends FieldType> clazz) {
@@ -70,12 +71,14 @@ public class ScreenEntityDefinitionsBuilderUtils {
 
 	public static ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
 			TerminalField labelField) {
-		SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition) addField(screenEntityDefinition, field, labelField.getValue());
-		if (fieldDefinition != null && labelField != null){
+		SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)addField(screenEntityDefinition, field,
+				labelField.getValue());
+		if (fieldDefinition != null && labelField != null) {
 			fieldDefinition.setLabelPosition(labelField.getPosition());
 		}
 		return fieldDefinition;
 	}
+
 	public static ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
 			String label) {
 
@@ -100,17 +103,23 @@ public class ScreenEntityDefinitionsBuilderUtils {
 		}
 
 		String fieldName = StringUtil.toJavaFieldName(label);
-		SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(fieldName, null);
-		fieldMappingDefinition.setPosition(field.getPosition());
-		fieldMappingDefinition.setLength(field.getLength());
-		fieldMappingDefinition.setEditable(field.isEditable());
-		fieldMappingDefinition.setDisplayName(StringUtil.toDisplayName(label));
-		fieldMappingDefinition.setSampleValue(StringUtil.toSampleValue(field.getValue()));
-		fieldMappingDefinition.setJavaType(field.getType());
+		if (StringUtil.isEmpty(fieldName)) {
+			fieldName = FIELD;
+		}
+
+		SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition(fieldName, null);
+		screenFieldDefinition.setPosition(field.getPosition());
+		screenFieldDefinition.setLength(field.getLength());
+		screenFieldDefinition.setEditable(field.isEditable());
+		String displayName = StringUtil.toDisplayName(label);
+		screenFieldDefinition.setDisplayName(displayName);
+
+		screenFieldDefinition.setSampleValue(StringUtil.toSampleValue(field.getValue()));
+		screenFieldDefinition.setJavaType(field.getType());
 
 		fieldName = findFreeFieldName(fieldName, fieldsDefinitions);
-		fieldMappingDefinition.setName(fieldName);
-		fieldsDefinitions.put(fieldName, fieldMappingDefinition);
+		screenFieldDefinition.setName(fieldName);
+		fieldsDefinitions.put(fieldName, screenFieldDefinition);
 
 		// remove the field from the snapshot
 		screenEntityDefinition.getSnapshot().getFields().remove(field);
@@ -119,7 +128,7 @@ public class ScreenEntityDefinitionsBuilderUtils {
 		logger.info(MessageFormat.format("Added {0} field {1} at position {2} to screen entity", fieldTypeText, fieldName,
 				field.getPosition()));
 
-		return fieldMappingDefinition;
+		return screenFieldDefinition;
 	}
 
 	/**

@@ -85,7 +85,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="\w+.*" />
+										<entry key="labelRegex" value="(\w|\. \.)+.*" />
 									</map>
 								</property>
 							</bean>
