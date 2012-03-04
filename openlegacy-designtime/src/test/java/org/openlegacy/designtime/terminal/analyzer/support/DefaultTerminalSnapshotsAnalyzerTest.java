@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.definitions.BooleanFieldDefinition;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
@@ -64,7 +65,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		ScreenEntityDefinition screen2 = screenEntitiesDefinitions.get("FormScreen");
 		Assert.assertNotNull(screen2);
 		fieldsDefinitions = screen2.getFieldsDefinitions();
-		Assert.assertEquals(9, fieldsDefinitions.size());
+		Assert.assertEquals(10, fieldsDefinitions.size());
 		fieldA = fieldsDefinitions.get("fieldA");
 		Assert.assertNotNull(fieldA);
 
@@ -72,6 +73,12 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertNotNull(fieldB);
 		Assert.assertTrue(!fieldB.isEditable());
 		Assert.assertEquals("Field B", fieldB.getDisplayName());
+
+		ScreenFieldDefinition booleanField = fieldsDefinitions.get("booleanField");
+		Assert.assertNotNull(booleanField);
+		BooleanFieldDefinition typeDefinition = (BooleanFieldDefinition)booleanField.getFieldTypeDefinition();
+		Assert.assertEquals("Y",typeDefinition.getTrueValue());
+		Assert.assertEquals("N",typeDefinition.getFalseValue());
 	}
 
 	private Map<String, ScreenEntityDefinition> analyze(String... fileNames) {

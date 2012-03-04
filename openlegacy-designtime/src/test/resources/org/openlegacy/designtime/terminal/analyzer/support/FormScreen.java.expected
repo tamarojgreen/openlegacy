@@ -43,6 +43,10 @@ public class FormScreen {
 	@ScreenField(row = 8, column = 60, endColumn= 67 ,labelColumn= 50 ,displayName = "Field F3", sampleValue = "F3")
     private String fieldF3;
 
+	@ScreenField(row = 9, column = 20, endColumn= 20 ,labelColumn= 3 ,editable= true ,displayName = "Boolean field")
+	@ScreenBooleanField(trueValue="Y",falseValue="N")
+    private Boolean booleanField;
+
     
 
 

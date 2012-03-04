@@ -18,7 +18,7 @@
 	
 	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsOrganizer" p:matchingPercent="93" />
 
-	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultScreenEntityDefinitionsBuilder">
+	<bean id="screenEntityDefinitionsBuilder" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultScreenEntityDefinitionsBuilder">
 		<property name="screenFactProcessors">
 			<list>
 				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ScreenWindowFactProcessor" />
@@ -28,6 +28,7 @@
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuScreenFactProcessor"/>
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.navigation.NavigationFactProcessor" />
+				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.BooleanFieldFactProcessor" />
 			</list>
 		</property>
 	</bean>
@@ -181,6 +182,21 @@
 										<entry key="identifierRegex" value="\s*[a-zA-Z]+[.: ]*.*" />
 										<entry key="startRow" value="4" />
 										<entry key="endRow" value="20" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-boolean.drl" p:ruleId="identify-boolean">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="trueFalseTextRegex" value="(Y\w*)/(N\w*).*" />
+										<entry key="inputSize" value="1" />
+										<entry key="maxDistance" value="6" />
 									</map>
 								</property>
 							</bean>

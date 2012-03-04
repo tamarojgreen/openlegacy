@@ -4,6 +4,7 @@ import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface ScreenEntityDefinitionsBuilder {
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields);
 
-	void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField editableField, TerminalField labelField);
+	ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField editableField, TerminalField labelField);
 
 	void processFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact);
 }

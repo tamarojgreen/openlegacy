@@ -1,5 +1,8 @@
-package org.openlegacy;
+package org.openlegacy.definitions.support;
 
+import org.openlegacy.EntityDefinition;
+import org.openlegacy.EntityType;
+import org.openlegacy.FieldType;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.ScreenEntityType;

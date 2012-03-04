@@ -1,12 +1,15 @@
-package org.openlegacy;
+package org.openlegacy.definitions.support;
 
+import org.openlegacy.FieldType;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.FieldTypeDefinition;
 
 public abstract class AbstractFieldDefinition<D extends FieldDefinition> implements FieldDefinition {
 
 	private String name;
 	private Class<? extends FieldType> type;
 	private String displayName;
+	private FieldTypeDefinition fieldTypeDefinition;
 
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
@@ -42,5 +45,13 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
+	}
+
+	public FieldTypeDefinition getFieldTypeDefinition() {
+		return fieldTypeDefinition;
+	}
+
+	public void setFieldTypeDefinition(FieldTypeDefinition fieldTypeDefinition) {
+		this.fieldTypeDefinition = fieldTypeDefinition;
 	}
 }

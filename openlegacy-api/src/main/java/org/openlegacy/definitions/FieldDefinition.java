@@ -15,4 +15,6 @@ public interface FieldDefinition {
 	String getSampleValue();
 
 	Class<? extends FieldType> getType();
+
+	FieldTypeDefinition getFieldTypeDefinition();
 }

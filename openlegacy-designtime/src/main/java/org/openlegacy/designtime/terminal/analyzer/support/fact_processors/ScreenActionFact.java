@@ -9,10 +9,10 @@ public class ScreenActionFact implements ScreenFact {
 	private TerminalPosition terminalPosition;
 	private String regex;
 
-	public ScreenActionFact(String captionAction, TerminalPosition terminalPosition, String regex) {
+	public ScreenActionFact(String captionAction, TerminalPosition terminalPosition, String trueFalseRegex) {
 		this.captionAction = captionAction;
 		this.terminalPosition = terminalPosition;
-		this.regex = regex;
+		this.regex = trueFalseRegex;
 	}
 
 	public String getCaptionAction() {

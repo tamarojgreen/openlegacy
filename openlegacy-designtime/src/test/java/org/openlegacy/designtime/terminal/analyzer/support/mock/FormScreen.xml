@@ -34,6 +34,11 @@
         <field value="Field F3:" column="50" />
         <field value="F3" length="8" column="60"/>
     </row>
+    <row rowNumber="9">
+        <field value="Boolean field:" column="3" />
+        <field value="" editable="true" length="1" column="20" />
+        <field value="Y/N" column="23" />
+    </row>
     <row rowNumber="24">
         <field value="F1=Help" column="3" />
         <field value="F2=Save data" column="12" />

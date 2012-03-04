@@ -39,6 +39,13 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     	return this.itemNumber;
     }
     
+	public Boolean ItemDetails1.getPalletLabelRequired() {
+		return palletLabelRequired;
+	}
+
+	public void ItemDetails1.setPalletLabelRequired(Boolean palletLabelRequired) {
+		this.palletLabelRequired = palletLabelRequired;
+	}
 
 
     public String ItemDetails1.getFocusField(){
