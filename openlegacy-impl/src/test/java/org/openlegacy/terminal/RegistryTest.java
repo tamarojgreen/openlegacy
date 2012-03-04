@@ -1,5 +1,6 @@
 package org.openlegacy.terminal;
 
+import apps.inventory.screens.ItemDetails1;
 import apps.inventory.screens.ItemDetails2;
 import apps.inventory.screens.ItemsList;
 import apps.inventory.screens.SignOn;
@@ -7,7 +8,10 @@ import apps.inventory.screens.SignOn;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.definitions.BooleanFieldDefinition;
+import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.springframework.test.context.ContextConfiguration;
@@ -55,6 +59,19 @@ public class RegistryTest {
 		ScreenEntityDefinition screenDefintion = assertScreenExists(SignOn.class);
 		// 1 from class, 1 from super class
 		Assert.assertEquals(2, screenDefintion.getActions().size());
+	}
+
+	@Test
+	public void testFieldTypes() {
+		ScreenEntityDefinition screenDefintion = assertScreenExists(ItemDetails1.class);
+		ScreenFieldDefinition screenFieldDefinition = screenDefintion.getFieldsDefinitions().get("palletLabelRequired");
+		Assert.assertNotNull(screenFieldDefinition);
+		FieldTypeDefinition fieldTypeDefinition = screenFieldDefinition.getFieldTypeDefinition();
+		Assert.assertNotNull(fieldTypeDefinition);
+		Assert.assertTrue(BooleanFieldDefinition.class.isAssignableFrom(fieldTypeDefinition.getClass()));
+		BooleanFieldDefinition booleanFieldTypeDefinition = (BooleanFieldDefinition)screenFieldDefinition.getFieldTypeDefinition();
+		Assert.assertEquals("Y", booleanFieldTypeDefinition.getTrueValue());
+		Assert.assertEquals("N", booleanFieldTypeDefinition.getFalseValue());
 	}
 
 	@Test

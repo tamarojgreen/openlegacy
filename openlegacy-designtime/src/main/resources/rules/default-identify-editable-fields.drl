@@ -1,5 +1,11 @@
 package openlegacy;
 
+declare EditableField
+	labelField: TerminalField;
+	editableField: TerminalField;
+	screenFieldDefinition: ScreenFieldDefinition;
+end
+
 rule "find-editable-fields"
 ruleflow-group "identify-editable-fields"
 when
@@ -21,5 +27,6 @@ when
 	// and there is no label field which is closer to the field in the format of a label field 
 	not TerminalField(editable == false, value matches $labelRegex, $editableField.position.column - position.column < $editableField.position.column - $labelField.position.column)
 then
-	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$labelField);
+	ScreenFieldDefinition screenFieldDefinition = screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$labelField);
+	insert(new EditableField($labelField,$editableField,screenFieldDefinition)); 
 end

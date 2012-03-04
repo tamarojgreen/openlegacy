@@ -13,20 +13,13 @@
 		<div style="margin-left: ${pagePart.leftMargin}%; margin-top: ${pagePart.topMargin}%; width: ${pagePart.width}%;<#if pagePart.oneField>position:absolute;</#if>" <#if pagePart.multyFields>class="panel"</#if>>
 			<#if pagePart.oneField>
 			<div class="field">
-				<label>${pagePart.singleField.displayName}: </label>
-				<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.singleField.name}">
-				<#if pagePart.singleField.editable><input value="${r"${"}${fieldAssignment}${r"}"}" size="${pagePart.singleField.length}" maxlength="${pagePart.singleField.length}" /><#else><span>${r"${"}${fieldAssignment}${r"}"}</span>
-				</#if>
+				<@fieldTypesDrawer field=pagePart.singleField entityDefinition=entityDefinition />
 			</div>
 			<#else>
 			<#list pagePart.partRows as partRow> 
 				<#list partRow.fields as field> 
 			<div class="<#if partRow.fields?size &gt; 1>col_${field_index+1}_of_${partRow.fields?size} </#if>field">
-				
-				<label>${field.displayName}: </label>
-				<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${field.name}">
-				<#if field.editable><input value="${r"${"}${fieldAssignment}${r"}"}" size="${field.length}" maxlength="${field.length}" /><#else><span>${r"${"}${fieldAssignment}${r"}"}</span>
-				</#if>
+				<@fieldTypesDrawer field=field entityDefinition=entityDefinition />
 			</div>
 				</#list>
 			</#list>
@@ -64,3 +57,27 @@
 		-->		
 	</form>
 </div>
+		
+<#macro fieldTypesDrawer field entityDefinition>
+		<label>${field.displayName}: </label>
+	<#if field.fieldTypeDefinition??>
+		<#switch field.fieldTypeDefinition.typeName>
+		  <#case "boolean">
+		     <input type="checkbox" name="${field.name}" />
+		     <#break>
+		  <#default>
+			<@fieldDrawer field=field entityDefinition=entityDefinition />
+		</#switch>  
+	<#else>
+			<@fieldDrawer field=field entityDefinition=entityDefinition />
+	</#if>
+</#macro>
+	
+<#macro fieldDrawer field entityDefinition>
+	<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${field.name}">
+	<#if field.editable>
+		<input type="text" value="${r"${"}${fieldAssignment}${r"}"}" size="${field.length}" maxlength="${field.length}" />
+	<#else>
+		<span>${r"${"}${fieldAssignment}${r"}"}</span>
+	</#if>
+</#macro>

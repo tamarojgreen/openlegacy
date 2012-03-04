@@ -1,22 +1,24 @@
 package org.openlegacy.loaders.support;
 
+import java.lang.annotation.Annotation;
+import java.text.MessageFormat;
+
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.ScreenField;
-import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.lang.annotation.Annotation;
-import java.text.MessageFormat;
-
 @Component
-public class ScreenFieldAnnotationLoader implements FieldAnnotationsLoader {
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenField.class;

@@ -1,0 +1,25 @@
+package openlegacy;
+
+import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.BooleanFieldFact;
+
+rule "identify-boolean"
+ruleflow-group "identify-field-types"
+when
+	$ruleParameterSet   : RuleParametersSet(ruleId == "identify-boolean")
+	$trueFalseTextRegex : String()  from (String)$ruleParameterSet.getRuleParameters().get("trueFalseTextRegex");
+	$inputSize  		: Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("inputSize");
+	$maxDistance		: Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("maxDistance");
+
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// which has a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+
+	EditableField($editableField: editableField, $screenFieldDefinition: screenFieldDefinition, editableField.length == $inputSize)
+
+	$trueFalseField: TerminalField(position.row == $editableField.position.row, position.column >= $editableField.endPosition.column - $maxDistance,
+									editable == false, value matches $trueFalseTextRegex) from $snapshot.getFields()	 	
+then
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new BooleanFieldFact($screenFieldDefinition,$trueFalseField,$trueFalseTextRegex));
+end

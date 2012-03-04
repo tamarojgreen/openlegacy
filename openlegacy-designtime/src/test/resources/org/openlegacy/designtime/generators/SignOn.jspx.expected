@@ -19,15 +19,15 @@
 			<div class="field">
 				
 				<label>User: </label>
-				<input value="${signOn.user}" size="10" maxlength="10" />			</div>
+				<input type="text" value="${signOn.user}" size="10" maxlength="10" />			</div>
 			<div class="field">
 				
 				<label>Password: </label>
-				<input value="${signOn.password}" size="10" maxlength="10" />			</div>
+				<input type="text" value="${signOn.password}" size="10" maxlength="10" />			</div>
 			<div class="field">
 				
 				<label>Program Procedure: </label>
-				<input value="${signOn.programProcedure}" size="0" maxlength="0" />			</div>
+				<input type="text" value="${signOn.programProcedure}" size="0" maxlength="0" />			</div>
 		</div>
 		<div style="margin-left: 1%; margin-top: 95%; width: 13%;position:absolute;" >
 			<div class="field">

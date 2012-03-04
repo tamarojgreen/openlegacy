@@ -10,6 +10,7 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
@@ -53,8 +54,8 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	}
 
-	public void addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, TerminalField labelField) {
-		ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition, field, labelField);
+	public ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, TerminalField labelField) {
+		return ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition, field, labelField);
 	}
 
 	public void processFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {

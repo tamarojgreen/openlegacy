@@ -1,8 +1,8 @@
 package org.openlegacy.terminal.definitions;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.openlegacy.AbstractFieldDefinition;
 import org.openlegacy.FieldType;
+import org.openlegacy.definitions.support.AbstractFieldDefinition;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
 
@@ -83,8 +83,9 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	public TerminalPosition getLabelPosition() {
 		return labelPosition;
 	}
-	
+
 	public void setLabelPosition(TerminalPosition labelPosition) {
 		this.labelPosition = labelPosition;
 	}
+
 }

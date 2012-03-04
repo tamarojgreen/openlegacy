@@ -5,7 +5,7 @@ import org.springframework.beans.factory.BeanFactory;
 
 import java.lang.annotation.Annotation;
 
-public interface FieldAnnotationsLoader {
+public interface FieldAnnotationsLoader extends Comparable<FieldAnnotationsLoader> {
 
 	boolean match(Annotation annotation);
 

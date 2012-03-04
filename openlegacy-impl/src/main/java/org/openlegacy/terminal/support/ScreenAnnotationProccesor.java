@@ -34,7 +34,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		Collection<ClassAnnotationsLoader> annotationLoadersCollection = beanFactory.getBeansOfType(ClassAnnotationsLoader.class).values();
-		List<ClassAnnotationsLoader> annotationLoaders = sortAnnoationLoaders(annotationLoadersCollection);
+		List<ClassAnnotationsLoader> annotationLoaders = sortClassAnnoationLoaders(annotationLoadersCollection);
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
 		screenEntitiesRegistry.clear();
@@ -76,16 +76,26 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 		}
 	}
 
-	private static List<ClassAnnotationsLoader> sortAnnoationLoaders(
+	private static List<ClassAnnotationsLoader> sortClassAnnoationLoaders(
 			Collection<ClassAnnotationsLoader> annotationLoadersCollection) {
 		List<ClassAnnotationsLoader> annotationLoaders = new ArrayList<ClassAnnotationsLoader>(annotationLoadersCollection);
 		Collections.sort(annotationLoaders);
 		return annotationLoaders;
 	}
 
+	private static List<FieldAnnotationsLoader> sortFieldAnnoationLoaders(
+			Collection<FieldAnnotationsLoader> annotationLoadersCollection) {
+		List<FieldAnnotationsLoader> annotationLoaders = new ArrayList<FieldAnnotationsLoader>(annotationLoadersCollection);
+		Collections.sort(annotationLoaders);
+		return annotationLoaders;
+	}
+
 	private static void handleChilds(final ConfigurableListableBeanFactory beanFactory,
 			final ScreenEntitiesRegistry screenEntitiesRegistry, final Class<?> beanClass) {
-		final Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(FieldAnnotationsLoader.class).values();
+		Collection<FieldAnnotationsLoader> fieldAnnotationLoadersCollection = beanFactory.getBeansOfType(
+				FieldAnnotationsLoader.class).values();
+		final List<FieldAnnotationsLoader> fieldAnnotationLoaders = sortFieldAnnoationLoaders(fieldAnnotationLoadersCollection);
+
 		final Collection<FieldLoader> fieldLoaders = beanFactory.getBeansOfType(FieldLoader.class).values();
 		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
 
@@ -98,8 +108,8 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 			private void loadDefinitionFromAnnotations(final ScreenEntitiesRegistry screenEntitiesRegistry,
 					final Class<?> beanClass, final Collection<FieldAnnotationsLoader> fieldAnnotationLoaders, Field field) {
 				Annotation[] annotations = field.getAnnotations();
-				for (Annotation annotation : annotations) {
-					for (FieldAnnotationsLoader fieldAnnotationsLoader : fieldAnnotationLoaders) {
+				for (FieldAnnotationsLoader fieldAnnotationsLoader : fieldAnnotationLoaders) {
+					for (Annotation annotation : annotations) {
 						if (fieldAnnotationsLoader.match(annotation)) {
 							if (logger.isDebugEnabled()) {
 								logger.debug(MessageFormat.format(
