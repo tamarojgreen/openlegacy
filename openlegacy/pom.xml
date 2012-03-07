@@ -11,10 +11,10 @@
 		<module>../openlegacy-impl</module>
 		<module>../openlegacy-designtime</module>
 		<module>../openlegacy-web</module>
-		<module>../openlegacy-ide-eclipse</module>
-		<module>openlegacy-providers</module>
-		<module>openlegacy-templates</module>
-	</modules>
+<!-- 		<module>../openlegacy-ide-eclipse</module>
+ -->		<module>openlegacy-providers</module>
+<!-- 		<module>openlegacy-templates</module>
+ --> 	</modules>
 
 	<properties>
 		<spring.framework.version>3.1.0.RELEASE</spring.framework.version>
