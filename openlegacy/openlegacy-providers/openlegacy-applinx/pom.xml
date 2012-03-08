@@ -5,6 +5,7 @@
 		<artifactId>openlegacy-providers</artifactId>
 		<groupId>org.openlegacy.providers</groupId>
 		<version>0.4-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-applinx</artifactId>
