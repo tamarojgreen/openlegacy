@@ -68,9 +68,9 @@ public class ApxTerminalField extends AbstractTerminalField {
 
 	public Class<?> getType() {
 		if (apxField.getUnprotectedFieldData() instanceof GXIDataTypeSupport) {
-			GXIDataTypeSupport dataTypedField = (GXIDataTypeSupport)apxField;
+			GXIDataTypeSupport dataTypedField = (GXIDataTypeSupport)apxField.getUnprotectedFieldData();
 			if (dataTypedField.getDataType() == GXBaseObjectConstants.GX_FIELD_DATA_TYPE_NUMERIC) {
-				return Double.class;
+				return Integer.class;
 			}
 		}
 		return String.class;

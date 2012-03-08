@@ -18,11 +18,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class AbstractTerminalSessionSnapshotsDumper {
+public abstract class AbstractTerminalSessionSnapshotsDumper implements TerminalSessionSnapshotsDumper {
 
 	private final static Log logger = LogFactory.getLog(AbstractTerminalSessionSnapshotsDumper.class);
 	protected static final String OUTGOING_FILE_INDICATOR = "-out";
+
+	private List<TerminalSnapshotDumper> dumpers = new ArrayList<TerminalSnapshotDumper>();
 
 	public void dumpSession(File baseDir, boolean cleanupFolder, String springContext) throws Exception {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(springContext);
@@ -37,14 +41,17 @@ public abstract class AbstractTerminalSessionSnapshotsDumper {
 			FileCommandExecuter.execute(baseDir, new FileCommand() {
 
 				public void doCommand(File file) {
-					if (!file.getName().contains(OUTGOING_FILE_INDICATOR) || !file.getName().contains(getDumpFileExtension())) {
-						file.delete();
-					}
+					file.delete();
 				}
 
 				public boolean accept(File file) {
 					String ext = FilenameUtils.getExtension(file.getName());
-					return ext.equals(getDumpFileExtension());
+					for (TerminalSnapshotDumper terminalSnapshotDumper : dumpers) {
+						if (ext.equals(terminalSnapshotDumper.getDumpFileExtension())) {
+							return true;
+						}
+					}
+					return false;
 				}
 			});
 		}
@@ -61,9 +68,10 @@ public abstract class AbstractTerminalSessionSnapshotsDumper {
 					entityName = screenEntitiesRegistry.getEntityName(matchedScreenEntity);
 				}
 
-				byte[] bytes = getDumpContent(terminalSnapshot);
-
-				writeFileContentIfDifferent(baseDir, entityName, count, bytes);
+				for (TerminalSnapshotDumper terminalSnapshotDumper : dumpers) {
+					byte[] bytes = terminalSnapshotDumper.getDumpContent(terminalSnapshot);
+					writeFileContentIfDifferent(baseDir, entityName, count, bytes, terminalSnapshotDumper.getDumpFileExtension());
+				}
 
 				terminalSession.doAction(TerminalActions.ENTER(), null);
 			}
@@ -75,10 +83,11 @@ public abstract class AbstractTerminalSessionSnapshotsDumper {
 
 	}
 
-	private void writeFileContentIfDifferent(File baseDir, String entityName, int count, byte[] bytes) throws IOException {
+	private static void writeFileContentIfDifferent(File baseDir, String entityName, int count, byte[] bytes,
+			String dumpFileExtension) throws IOException {
 		String fileNameNoSuffix = entityName != null ? entityName : "screen" + count;
 
-		File file = FileUtils.findNextAndDifferentFreeFile(baseDir, fileNameNoSuffix, getDumpFileExtension(), bytes);
+		File file = FileUtils.findNextAndDifferentFreeFile(baseDir, fileNameNoSuffix, dumpFileExtension, bytes);
 
 		if (file != null) {
 			FileOutputStream fos = new FileOutputStream(file);
@@ -87,8 +96,7 @@ public abstract class AbstractTerminalSessionSnapshotsDumper {
 		}
 	}
 
-	protected abstract byte[] getDumpContent(TerminalSnapshot snapshot) throws Exception;
-
-	protected abstract String getDumpFileExtension();
-
+	public void setDumpers(List<TerminalSnapshotDumper> dumpers) {
+		this.dumpers = dumpers;
+	}
 }

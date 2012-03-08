@@ -27,20 +27,14 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 	
     private TerminalField SignOn.programProcedureField;
 	
+    private TerminalField SignOn.systemField;
+	
     private TerminalField SignOn.userField;
     
     public TerminalSnapshot SignOn.getTerminalSnapshot(){
 		return terminalSnapshot;
     }
 
-    public String SignOn.getSystem(){
-    	return this.system;
-    }
-    
-    public void SignOn.setSystem(String system){
-    	this.system = system;
-    }
-    
     public String SignOn.getMessage(){
     	return this.message;
     }
@@ -70,6 +64,14 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 
     public TerminalField SignOn.getProgramProcedureField(){
     	return programProcedureField;
+    }
+    public String SignOn.getSystem(){
+    	return this.system;
+    }
+    
+
+    public TerminalField SignOn.getSystemField(){
+    	return systemField;
     }
     public String SignOn.getUser(){
     	return this.user;

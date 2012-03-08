@@ -35,27 +35,27 @@
     </row>
     <row rowNumber="9">
         <field column="2" value="Superceding item 'To' . . . ."/>
-        <field column="33" value="" length="15" editable="true"/>
+        <field column="33" length="15" editable="true"/>
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="10">
         <field column="2" value="Superceding Item 'From' . . ."/>
-        <field column="33" value="" length="15" editable="true"/>
+        <field column="33" length="15" editable="true"/>
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="11">
         <field column="2" value="Substitute item number  . . ."/>
-        <field column="33" value="" length="15" editable="true"/>
+        <field column="33" length="15" editable="true"/>
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="12">
         <field column="2" value="Manufacturers Item No.  . . ."/>
-        <field column="33" value="" length="15" editable="true"/>
+        <field column="33" length="15" editable="true"/>
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="13">
         <field column="2" value="Item weight . . . . . . . . ."/>
-        <field column="33" value="" length="15" editable="true"/>
+        <field column="33" length="15" editable="true" type="java.lang.Integer"/>
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="14">
@@ -72,32 +72,32 @@
     </row>
     <row rowNumber="16">
         <field column="2" value="Unit of Measure . . . . . . ."/>
-        <field column="33" value="" length="5" editable="true"/>
+        <field column="33" length="5" editable="true"/>
         <field column="39" value="                                          "/>
     </row>
     <row rowNumber="17">
         <field column="2" value="Packing Multiplier  . . . . ."/>
-        <field column="33" value="" length="6" editable="true"/>
+        <field column="33" length="6" editable="true" type="java.lang.Integer"/>
         <field column="40" value="                                         "/>
     </row>
     <row rowNumber="18">
         <field column="2" value="Outer Unit of Measure . . . ."/>
-        <field column="33" value="" length="5" editable="true"/>
+        <field column="33" length="5" editable="true"/>
         <field column="39" value="                                          "/>
     </row>
     <row rowNumber="19">
         <field column="2" value="Outer Quantity  . . . . . . ."/>
-        <field column="33" value="" length="10" editable="true"/>
+        <field column="33" length="10" editable="true" type="java.lang.Integer"/>
         <field column="44" value="                                     "/>
     </row>
     <row rowNumber="20">
         <field column="2" value="Pallet label required . . . ."/>
-        <field column="33" value="" length="1" editable="true"/>
+        <field column="33" length="1" editable="true"/>
         <field column="35" value="                                              "/>
     </row>
     <row rowNumber="21">
         <field column="2" value="VAT Code  . . . . . . . . . ."/>
-        <field column="33" value="" length="2" editable="true"/>
+        <field column="33" length="2" editable="true"/>
         <field column="36" value="                                        "/>
         <field column="77" value="    "/>
     </row>

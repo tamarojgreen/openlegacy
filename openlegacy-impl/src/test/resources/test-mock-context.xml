@@ -20,6 +20,11 @@
 				<value>ItemsList.xml</value>
 				<value>ItemDetails1.xml</value>
 				<value>ItemDetails2.xml</value>
+				<value>ItemDetails1.xml</value>
+				<value>MainMenu.xml</value>
+				<value>WarehousesList.xml</value>
+				<value>WarehouseDetails.xml</value>
+				<value>WarehouseTypes.xml</value>
 			</list>
 		</property>
 	</bean>

@@ -3,7 +3,7 @@ package org.openlegacy.terminal.modules.menu;
 import apps.inventory.screens.InventoryManagement;
 import apps.inventory.screens.ItemsList;
 import apps.inventory.screens.MainMenu;
-import apps.inventory.screens.WarehouseDetails;
+import apps.inventory.screens.WarehousesList;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -50,6 +50,6 @@ public class DefaultTerminalMenuModuleTest extends AbstractTest {
 
 		Assert.assertEquals(2, subMenuItems.size());
 		Assert.assertEquals(ItemsList.class, subMenuItems.get(0).getTargetEntity());
-		Assert.assertEquals(WarehouseDetails.class, subMenuItems.get(1).getTargetEntity());
+		Assert.assertEquals(WarehousesList.class, subMenuItems.get(1).getTargetEntity());
 	}
 }

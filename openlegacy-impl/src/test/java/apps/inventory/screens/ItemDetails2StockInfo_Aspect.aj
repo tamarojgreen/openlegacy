@@ -5,28 +5,29 @@ package apps.inventory.screens;
 
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
+import apps.inventory.screens.ItemDetails2.StockInfo;
 
-privileged @SuppressWarnings("unused") aspect ItemDetails2StockInfoTable_Aspect {
+privileged @SuppressWarnings("unused") aspect StockInfoTable_Aspect {
     
-    declare @type: ItemDetails2.StockInfo : @Component;
-	declare @type: ItemDetails2.StockInfo : @Scope("prototype");
+    declare @type: StockInfo : @Component;
+	declare @type: StockInfo : @Scope("prototype");
     
 	
 	
     
-    public String ItemDetails2.StockInfo.getListPrice(){
+    public String StockInfo.getListPrice(){
     	return this.listPrice;
     }
     
-    public void ItemDetails2.StockInfo.setListPrice(String listPrice){
+    public void StockInfo.setListPrice(String listPrice){
     	this.listPrice = listPrice;
     }
 
-    public String ItemDetails2.StockInfo.getStandardUnitCost(){
+    public String StockInfo.getStandardUnitCost(){
     	return this.standardUnitCost;
     }
     
-    public void ItemDetails2.StockInfo.setStandardUnitCost(String standardUnitCost){
+    public void StockInfo.setStandardUnitCost(String standardUnitCost){
     	this.standardUnitCost = standardUnitCost;
     }
 

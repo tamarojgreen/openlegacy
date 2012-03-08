@@ -40,7 +40,7 @@ public class WorkWithItemMaster1 {
     private String manufacturersItemNo;
 
 	@ScreenField(row = 13, column = 33, endColumn= 47 ,labelColumn= 2 ,editable= true ,displayName = "Item weight")
-    private String itemWeight;
+    private Integer itemWeight;
 
 	@ScreenField(row = 14, column = 33, endColumn= 35 ,labelColumn= 2 ,editable= true ,displayName = "Item Class", sampleValue = "VEG")
     private String itemClass;
@@ -58,13 +58,13 @@ public class WorkWithItemMaster1 {
     private String unitOfMeasure;
 
 	@ScreenField(row = 17, column = 33, endColumn= 38 ,labelColumn= 2 ,editable= true ,displayName = "Packing Multiplier")
-    private String packingMultiplier;
+    private Integer packingMultiplier;
 
 	@ScreenField(row = 18, column = 33, endColumn= 37 ,labelColumn= 2 ,editable= true ,displayName = "Outer Unit of Measure")
     private String outerUnitOfMeasure;
 
 	@ScreenField(row = 19, column = 33, endColumn= 42 ,labelColumn= 2 ,editable= true ,displayName = "Outer Quantity")
-    private String outerQuantity;
+    private Integer outerQuantity;
 
 	@ScreenField(row = 20, column = 33, endColumn= 33 ,labelColumn= 2 ,editable= true ,displayName = "Pallet label required")
     private String palletLabelRequired;

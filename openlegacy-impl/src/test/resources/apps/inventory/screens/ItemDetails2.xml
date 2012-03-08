@@ -26,69 +26,69 @@
     </row>
     <row rowNumber="7">
         <field column="2" value="N/L Cost of Sales Account"/>
-        <field column="29" value="" length="15" editable="true"/>
+        <field column="29" length="15" editable="true"/>
         <field column="45" value="                                    "/>
     </row>
     <row rowNumber="8">
         <field column="2" value="N/L Sales Account . . . ."/>
-        <field column="29" value="" length="15" editable="true"/>
+        <field column="29" length="15" editable="true"/>
         <field column="45" value="                                    "/>
     </row>
     <row rowNumber="9">
         <field column="2" value="N/L Stock Account . . . ."/>
-        <field column="29" value="" length="15" editable="true"/>
+        <field column="29" length="15" editable="true"/>
         <field column="45" value="                                    "/>
     </row>
     <row rowNumber="10">
         <field column="2" value="               "/>
         <field column="18" value=". . . . ."/>
-        <field column="29" value="" length="5" editable="true"/>
+        <field column="29" length="5" editable="true"/>
         <field column="35" value="                                              "/>
     </row>
     <row rowNumber="11">
         <field column="2" value="               "/>
         <field column="18" value=". . . . ."/>
-        <field column="29" value="" length="5" editable="true"/>
+        <field column="29" length="5" editable="true"/>
         <field column="35" value="                                              "/>
     </row>
     <row rowNumber="12">
         <field column="2" value="               "/>
         <field column="18" value=". . . . ."/>
-        <field column="29" value="" length="5" editable="true"/>
+        <field column="29" length="5" editable="true"/>
         <field column="35" value="                                              "/>
     </row>
     <row rowNumber="13">
         <field column="2" value="Item Type - business area"/>
-        <field column="29" value="" length="1" editable="true"/>
+        <field column="29" length="1" editable="true"/>
         <field column="31" value="                                        "/>
         <field column="72" value="         "/>
     </row>
     <row rowNumber="14">
         <field column="2" value="Stock Analysis Code . . ."/>
-        <field column="29" value="" length="1" editable="true"/>
+        <field column="29" length="1" editable="true"/>
         <field column="31" value="                                        "/>
         <field column="72" value="         "/>
     </row>
     <row rowNumber="15">
         <field column="2" value="Stock Value Group . . . ."/>
-        <field column="29" value="" length="1" editable="true"/>
+        <field column="29" length="1" editable="true"/>
         <field column="31" value="                                        "/>
         <field column="72" value="         "/>
     </row>
     <row rowNumber="16">
         <field column="2" value="Stock Inventory Group . ."/>
-        <field column="29" value="" length="2" editable="true"/>
+        <field column="29" length="2" editable="true"/>
         <field column="32" value="                                        "/>
         <field column="73" value="        "/>
     </row>
     <row rowNumber="17">
         <field column="2" value="List Price  . . . . . . ."/>
-        <field column="29" value="" length="13" editable="true"/>
+        <field column="29" length="13" editable="true" type="java.lang.Integer"/>
         <field column="43" value="                                      "/>
     </row>
     <row rowNumber="18">
         <field column="2" value="Standard unit cost  . . ."/>
-        <field column="29" value="" length="13" editable="true"/>
+        <field column="29" length="13" editable="true" type="java.lang.Integer"/>
         <field column="43" value="             "/>
         <field column="57" value="Audit Details"/>
         <field column="71" value="          "/>

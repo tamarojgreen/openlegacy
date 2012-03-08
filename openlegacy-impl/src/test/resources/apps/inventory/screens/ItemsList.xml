@@ -35,7 +35,7 @@
     </row>
     <row rowNumber="8">
         <field column="2" value=" "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="APPLE     "/>
         <field column="22" value=" "/>
@@ -44,7 +44,7 @@
     </row>
     <row rowNumber="9">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="BANANA    "/>
         <field column="22" value=" "/>
@@ -53,7 +53,7 @@
     </row>
     <row rowNumber="10">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="CARROT    "/>
         <field column="22" value=" "/>
@@ -62,7 +62,7 @@
     </row>
     <row rowNumber="11">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="CHICKEN   "/>
         <field column="22" value=" "/>
@@ -71,7 +71,7 @@
     </row>
     <row rowNumber="12">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="CUCUMBER  "/>
         <field column="22" value=" "/>
@@ -80,7 +80,7 @@
     </row>
     <row rowNumber="13">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="EANS      "/>
         <field column="22" value=" "/>
@@ -89,7 +89,7 @@
     </row>
     <row rowNumber="14">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="FIG       "/>
         <field column="22" value=" "/>
@@ -98,7 +98,7 @@
     </row>
     <row rowNumber="15">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="GRAPE     "/>
         <field column="22" value=" "/>
@@ -107,7 +107,7 @@
     </row>
     <row rowNumber="16">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="HAMBURGER "/>
         <field column="22" value=" "/>
@@ -116,7 +116,7 @@
     </row>
     <row rowNumber="17">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="MELON     "/>
         <field column="22" value=" "/>
@@ -125,7 +125,7 @@
     </row>
     <row rowNumber="18">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="MUSHROOM  "/>
         <field column="22" value=" "/>
@@ -134,7 +134,7 @@
     </row>
     <row rowNumber="19">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="OLIVE     "/>
         <field column="22" value=" "/>
@@ -144,7 +144,7 @@
     </row>
     <row rowNumber="21">
         <field column="2" value="Position to . ."/>
-        <field column="19" value="" length="10" editable="true"/>
+        <field column="19" length="10" editable="true"/>
         <field column="30" value="                                                   "/>
     </row>
     <row rowNumber="23">

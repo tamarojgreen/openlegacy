@@ -36,7 +36,7 @@ public class ItemsList {
 	@ScreenTableDrilldown
 	public static class ItemsListRow {
 
-		@ScreenColumn(startColumn = 4, endColumn = 5, editable = true, selectionField = true)
+		@ScreenColumn(startColumn = 4, endColumn = 4, editable = true, selectionField = true)
 		private String action;
 
 		@ScreenColumn(startColumn = 65, endColumn = 68, key = true)

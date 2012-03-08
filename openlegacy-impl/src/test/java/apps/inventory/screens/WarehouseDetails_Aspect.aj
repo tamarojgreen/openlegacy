@@ -17,7 +17,22 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     declare parents: WarehouseDetails implements ScreenEntity;
     private String WarehouseDetails.focusField;
     
+	
+	
     
+
+    public String WarehouseDetails.getWarehouseNumber(){
+    	return this.warehouseNumber;
+    }
+    
+
+    public String WarehouseDetails.getWarehouseType(){
+    	return this.warehouseType;
+    }
+    
+    public void WarehouseDetails.setWarehouseType(String warehouseType){
+    	this.warehouseType = warehouseType;
+    }
 
 
     public String WarehouseDetails.getFocusField(){

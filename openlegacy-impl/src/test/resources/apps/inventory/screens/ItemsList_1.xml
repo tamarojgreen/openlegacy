@@ -35,7 +35,7 @@
     </row>
     <row rowNumber="8">
         <field column="2" value=" "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="TOMATO    "/>
         <field column="22" value=" "/>
@@ -44,7 +44,7 @@
     </row>
     <row rowNumber="9">
         <field column="1" value="  "/>
-        <field column="4" value="" length="1" editable="true"/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
         <field column="11" value="WATERMELON"/>
         <field column="22" value=" "/>
@@ -144,7 +144,7 @@
     </row>
     <row rowNumber="21">
         <field column="2" value="Position to . ."/>
-        <field column="19" value="" length="10" editable="true"/>
+        <field column="19" length="10" editable="true"/>
         <field column="30" value="                                                   "/>
     </row>
     <row rowNumber="23">

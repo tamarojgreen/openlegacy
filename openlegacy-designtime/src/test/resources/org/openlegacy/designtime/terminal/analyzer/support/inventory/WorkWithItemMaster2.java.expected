@@ -53,10 +53,10 @@ public class WorkWithItemMaster2 {
     private String stockInventoryGroup;
 
 	@ScreenField(row = 17, column = 29, endColumn= 41 ,labelColumn= 2 ,editable= true ,displayName = "List Price")
-    private String listPrice;
+    private Integer listPrice;
 
 	@ScreenField(row = 18, column = 29, endColumn= 41 ,labelColumn= 2 ,editable= true ,displayName = "Standard unit cost")
-    private String standardUnitCost;
+    private Integer standardUnitCost;
 
 	@ScreenField(row = 19, column = 69, endColumn= 78 ,labelColumn= 51 ,displayName = "Created date", sampleValue = "17/01/2005")
     private String createdDate;
