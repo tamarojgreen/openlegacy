@@ -9,58 +9,59 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.TerminalField;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
+import apps.inventory.screens.ItemsList.ItemsListRow;
 
-privileged @SuppressWarnings("unused") aspect ItemsListItemsListRowTable_Aspect {
+privileged @SuppressWarnings("unused") aspect ItemsListRowTable_Aspect {
     
-    declare @type: ItemsList.ItemsListRow : @Component;
-	declare @type: ItemsList.ItemsListRow : @Scope("prototype");
+    declare @type: ItemsListRow : @Component;
+	declare @type: ItemsListRow : @Scope("prototype");
     
 	
-    private TerminalField ItemsList.ItemsListRow.actionField;
+    private TerminalField ItemsListRow.actionField;
 	
-    private TerminalField ItemsList.ItemsListRow.alphaSearchField;
+    private TerminalField ItemsListRow.alphaSearchField;
 	
-    private TerminalField ItemsList.ItemsListRow.itemDescriptionField;
+    private TerminalField ItemsListRow.itemDescriptionField;
 	
     
-    public String ItemsList.ItemsListRow.getAction(){
+    public String ItemsListRow.getAction(){
     	return this.action;
     }
     
-    public void ItemsList.ItemsListRow.setAction(String action){
+    public void ItemsListRow.setAction(String action){
     	this.action = action;
     }
 
-    public TerminalField ItemsList.ItemsListRow.getActionField(){
+    public TerminalField ItemsListRow.getActionField(){
     	return actionField;
     }
-    public String ItemsList.ItemsListRow.getAlphaSearch(){
+    public String ItemsListRow.getAlphaSearch(){
     	return this.alphaSearch;
     }
     
 
-    public TerminalField ItemsList.ItemsListRow.getAlphaSearchField(){
+    public TerminalField ItemsListRow.getAlphaSearchField(){
     	return alphaSearchField;
     }
-    public String ItemsList.ItemsListRow.getItemDescription(){
+    public String ItemsListRow.getItemDescription(){
     	return this.itemDescription;
     }
     
 
-    public TerminalField ItemsList.ItemsListRow.getItemDescriptionField(){
+    public TerminalField ItemsListRow.getItemDescriptionField(){
     	return itemDescriptionField;
     }
-    public Integer ItemsList.ItemsListRow.getItemNumber(){
+    public Integer ItemsListRow.getItemNumber(){
     	return this.itemNumber;
     }
     
 
 
-    public int ItemsList.ItemsListRow.hashCode(){
+    public int ItemsListRow.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }
 
-    public boolean ItemsList.ItemsListRow.equals(Object other){
+    public boolean ItemsListRow.equals(Object other){
     	// TODO exclude terminal fields
 		return EqualsBuilder.reflectionEquals(this,other);
     }

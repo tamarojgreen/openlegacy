@@ -8,6 +8,7 @@ import org.openlegacy.terminal.TerminalField;
 </#if>
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
+import ${packageName}.${parentClassName}.${className};
 
 privileged @SuppressWarnings("unused") aspect ${formattedClassName}Table_Aspect {
     

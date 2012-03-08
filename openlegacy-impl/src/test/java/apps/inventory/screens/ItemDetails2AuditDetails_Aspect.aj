@@ -6,31 +6,32 @@ package apps.inventory.screens;
 import org.openlegacy.terminal.TerminalField;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
+import apps.inventory.screens.ItemDetails2.AuditDetails;
 
-privileged @SuppressWarnings("unused") aspect ItemDetails2AuditDetailsTable_Aspect {
+privileged @SuppressWarnings("unused") aspect AuditDetailsTable_Aspect {
     
-    declare @type: ItemDetails2.AuditDetails : @Component;
-	declare @type: ItemDetails2.AuditDetails : @Scope("prototype");
+    declare @type: AuditDetails : @Component;
+	declare @type: AuditDetails : @Scope("prototype");
     
 	
-    private TerminalField ItemDetails2.AuditDetails.createdByField;
+    private TerminalField AuditDetails.createdByField;
 	
-    private TerminalField ItemDetails2.AuditDetails.createdDateField;
+    private TerminalField AuditDetails.createdDateField;
     
-    public String ItemDetails2.AuditDetails.getCreatedBy(){
+    public String AuditDetails.getCreatedBy(){
     	return this.createdBy;
     }
     
 
-    public TerminalField ItemDetails2.AuditDetails.getCreatedByField(){
+    public TerminalField AuditDetails.getCreatedByField(){
     	return createdByField;
     }
-    public String ItemDetails2.AuditDetails.getCreatedDate(){
+    public String AuditDetails.getCreatedDate(){
     	return this.createdDate;
     }
     
 
-    public TerminalField ItemDetails2.AuditDetails.getCreatedDateField(){
+    public TerminalField AuditDetails.getCreatedDateField(){
     	return createdDateField;
     }
 }

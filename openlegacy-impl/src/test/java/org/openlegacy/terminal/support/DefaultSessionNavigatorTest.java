@@ -2,7 +2,7 @@ package org.openlegacy.terminal.support;
 
 import apps.inventory.screens.InventoryManagement;
 import apps.inventory.screens.ItemsList;
-import apps.inventory.screens.WarehouseDetails;
+import apps.inventory.screens.WarehousesList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,12 +43,12 @@ public class DefaultSessionNavigatorTest extends AbstractTest {
 		Assert.assertNotNull(itemsList);
 
 		// indirect navigation
-		WarehouseDetails warehouseDetails = terminalSession.getEntity(WarehouseDetails.class);
+		WarehousesList warehouseDetails = terminalSession.getEntity(WarehousesList.class);
 		Assert.assertNotNull(warehouseDetails);
 
 		// check caching
 		ScreenEntityDefinition source = screenEntitiesRegistry.get(InventoryManagement.class);
-		ScreenEntityDefinition target = screenEntitiesRegistry.get(WarehouseDetails.class);
+		ScreenEntityDefinition target = screenEntitiesRegistry.get(WarehousesList.class);
 		Assert.assertNotNull(navigationCache.get(source, target));
 	}
 

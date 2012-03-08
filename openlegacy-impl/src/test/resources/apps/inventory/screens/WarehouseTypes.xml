@@ -68,7 +68,7 @@
     <row rowNumber="10">
         <field column="3" value=" "/>
         <field column="5" value="  "/>
-        <field column="8" value="" length="1" editable="true"/>
+        <field column="8" length="1" editable="true" type="java.lang.Integer"/>
         <field column="10" value="   "/>
         <field column="14" value="DR"/>
         <field column="17" value="  "/>
@@ -81,7 +81,7 @@
         <field column="1" value=" "/>
         <field column="3" value=" "/>
         <field column="5" value="  "/>
-        <field column="8" value="" length="1" editable="true"/>
+        <field column="8" length="1" editable="true" type="java.lang.Integer"/>
         <field column="10" value="   "/>
         <field column="14" value="GL"/>
         <field column="17" value="  "/>
@@ -93,7 +93,7 @@
     <row rowNumber="12">
         <field column="3" value=" "/>
         <field column="5" value="  "/>
-        <field column="8" value="" length="1" editable="true"/>
+        <field column="8" length="1" editable="true" type="java.lang.Integer"/>
         <field column="10" value="   "/>
         <field column="14" value="MT"/>
         <field column="17" value="  "/>
@@ -105,7 +105,7 @@
     <row rowNumber="13">
         <field column="3" value=" "/>
         <field column="5" value="  "/>
-        <field column="8" value="" length="1" editable="true"/>
+        <field column="8" length="1" editable="true" type="java.lang.Integer"/>
         <field column="10" value="   "/>
         <field column="14" value="VF"/>
         <field column="17" value="  "/>

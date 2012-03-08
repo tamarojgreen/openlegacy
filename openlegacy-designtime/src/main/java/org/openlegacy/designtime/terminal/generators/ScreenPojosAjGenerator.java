@@ -90,7 +90,7 @@ public class ScreenPojosAjGenerator {
 							baos, parentClassName);
 				}
 				if (screenEntityCodeModel != null && screenEntityCodeModel.isRelevant()) {
-					writeToFile(javaFile, baos, screenEntityCodeModel);
+					writeToFile(javaFile, baos, screenEntityCodeModel, parentClassName);
 				}
 			}
 		}
@@ -112,11 +112,15 @@ public class ScreenPojosAjGenerator {
 		return generate(out, compilationUnit, typeDeclaration, "ScreenTable_Aspect.aj.template", parentClass);
 	}
 
-	private static void writeToFile(File javaFile, ByteArrayOutputStream baos, ScreenPojoCodeModel screenEntityCodeModel)
-			throws FileNotFoundException, IOException {
+	private static void writeToFile(File javaFile, ByteArrayOutputStream baos, ScreenPojoCodeModel screenEntityCodeModel,
+			String parentClassName) throws FileNotFoundException, IOException {
 		if (screenEntityCodeModel != null && screenEntityCodeModel.isRelevant()) {
 			File outputFolder = javaFile.getParentFile().getAbsoluteFile();
-			File outputFile = new File(outputFolder, screenEntityCodeModel.getFormattedClassName() + "_Aspect.aj");
+			String formattedClassName = screenEntityCodeModel.getFormattedClassName();
+			// append the parentClassName to aspect file name if it's not the parent class is not the generated one
+			String classFileName = !formattedClassName.equals(parentClassName) ? (parentClassName + formattedClassName)
+					: formattedClassName;
+			File outputFile = new File(outputFolder, classFileName + "_Aspect.aj");
 			FileOutputStream fos = new FileOutputStream(outputFile);
 			fos.write(baos.toByteArray());
 			fos.close();

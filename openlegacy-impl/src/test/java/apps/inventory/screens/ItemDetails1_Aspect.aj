@@ -20,6 +20,7 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 	
 	
 	
+	
     
 
     public String ItemDetails1.getItemDescription(){
@@ -39,13 +40,14 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     	return this.itemNumber;
     }
     
-	public Boolean ItemDetails1.getPalletLabelRequired() {
-		return palletLabelRequired;
-	}
 
-	public void ItemDetails1.setPalletLabelRequired(Boolean palletLabelRequired) {
-		this.palletLabelRequired = palletLabelRequired;
-	}
+    public Boolean ItemDetails1.getPalletLabelRequired(){
+    	return this.palletLabelRequired;
+    }
+    
+    public void ItemDetails1.setPalletLabelRequired(Boolean palletLabelRequired){
+    	this.palletLabelRequired = palletLabelRequired;
+    }
 
 
     public String ItemDetails1.getFocusField(){

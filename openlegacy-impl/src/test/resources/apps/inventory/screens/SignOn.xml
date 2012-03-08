@@ -35,28 +35,28 @@
         <field column="1" value="               "/>
         <field column="17" value="Password  . . . . . . . . . . . ."/>
         <field column="51" value=" "/>
-        <field column="53" value="" length="10" editable="true"/>
+        <field column="53" length="10" editable="true"/>
         <field column="64" value="                 "/>
     </row>
     <row rowNumber="8">
         <field column="1" value="               "/>
         <field column="17" value="Program/procedure . . . . . . . ."/>
         <field column="51" value=" "/>
-        <field column="53" value="" length="10" editable="true"/>
+        <field column="53" length="10" editable="true"/>
         <field column="64" value="                 "/>
     </row>
     <row rowNumber="9">
         <field column="1" value="               "/>
         <field column="17" value="Menu  . . . . . . . . . . . . . ."/>
         <field column="51" value=" "/>
-        <field column="53" value="" length="10" editable="true"/>
+        <field column="53" length="10" editable="true"/>
         <field column="64" value="                 "/>
     </row>
     <row rowNumber="10">
         <field column="1" value="               "/>
         <field column="17" value="Current library . . . . . . . . ."/>
         <field column="51" value=" "/>
-        <field column="53" value="" length="10" editable="true"/>
+        <field column="53" length="10" editable="true"/>
         <field column="64" value="                 "/>
     </row>
     <row rowNumber="24">
