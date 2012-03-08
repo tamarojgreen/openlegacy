@@ -7,7 +7,7 @@
 	<name>OpenLegacy new Java application</name>
 	<version>${project.parent.version}</version>
 	<properties>
-		<openlegacy-version>0.3-SNAPSHOT</openlegacy-version>
+		<openlegacy-version>${project.parent.version}</openlegacy-version>
 	</properties>
 
 	<repositories>
@@ -58,5 +58,6 @@
 		<groupId>org.openlegacy.templates</groupId>
 		<artifactId>openlegacy-templates</artifactId>
 		<version>0.4-SNAPSHOT</version>
+		<relativePath>..</relativePath>
 	</parent>
 </project>

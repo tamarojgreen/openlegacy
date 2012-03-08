@@ -42,5 +42,6 @@
 		<groupId>org.openlegacy</groupId>
 		<artifactId>openlegacy</artifactId>
 		<version>0.4-SNAPSHOT</version>
+		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 </project>

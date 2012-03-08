@@ -5,6 +5,7 @@
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
 		<version>0.4-SNAPSHOT</version>
+		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-impl</artifactId>
 	<name>Open Legacy implementation</name>
