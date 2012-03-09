@@ -15,10 +15,14 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	TerminalPosition getEndPosition();
 
 	TerminalPosition getLabelPosition();
-	
+
 	int getLength();
 
 	boolean isEditable();
 
 	Class<?> getJavaType();
+
+	Class<?> getSourceScreenEntityClass();
+
+	boolean isCollectAllRecords();
 }

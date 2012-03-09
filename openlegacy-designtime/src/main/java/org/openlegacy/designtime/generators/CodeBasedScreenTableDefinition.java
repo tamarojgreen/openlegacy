@@ -105,4 +105,9 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition {
 		return null;
 	}
 
+	public String getMainDisplayField() {
+		throwNotImplemented();
+		return null;
+	}
+
 }

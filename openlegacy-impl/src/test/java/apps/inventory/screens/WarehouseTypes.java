@@ -1,5 +1,6 @@
 package apps.inventory.screens;
 
+import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 4, column = 23, value = "List of Warehouse Types") })
-@ScreenNavigation(accessedFrom = WarehousesList.class, exitAction = F3.class)
+@ScreenNavigation(accessedFrom = WarehouseDetails.class, assignedFields = { @AssignedField(field = "warehouseType") }, exitAction = F3.class)
 public class WarehouseTypes {
 
 	private List<WarehouseTypeRow> warehouseTypeRows;
@@ -26,7 +27,7 @@ public class WarehouseTypes {
 		@ScreenColumn(startColumn = 14, endColumn = 15, key = true)
 		private String warehouseType;
 
-		@ScreenColumn(startColumn = 20, endColumn = 59)
+		@ScreenColumn(startColumn = 20, endColumn = 59, mainDisplayField = true)
 		private String warehouseTypeDescription;
 
 	}

@@ -13,6 +13,8 @@ public interface Table extends SessionModule {
 
 	<T> List<T> collectAll(Class<?> entityClass, Class<T> rowClass);
 
+	<T> List<T> collectOne(Class<?> entityClass, Class<T> rowClass);
+
 	<T> T drillDown(Class<T> targetClass, DrilldownAction<?> drilldownAction, Object... rowKeys);
 
 	<T> T drillDown(Class<?> entityClass, Class<T> targetClass, DrilldownAction<?> drilldownAction, Object... rowKeys);

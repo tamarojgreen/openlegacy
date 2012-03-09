@@ -3,6 +3,7 @@ package org.openlegacy.loaders.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -16,6 +17,7 @@ import org.springframework.util.ReflectionUtils.FieldCallback;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.text.MessageFormat;
 import java.util.Collections;
 
 @Component
@@ -71,6 +73,14 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				columnDefinition.setSelectionField(screenColumnAnnotation.selectionField());
 
 				tableDefinition.getColumnDefinitions().add(columnDefinition);
+
+				if (screenColumnAnnotation.mainDisplayField()) {
+					if (tableDefinition.getMainDisplayField() != null) {
+						throw (new RegistryException(MessageFormat.format(
+								"More then one main display field defined for class:{0}", rowClass)));
+					}
+					tableDefinition.setMainDisplayField(field.getName());
+				}
 
 			}
 		});

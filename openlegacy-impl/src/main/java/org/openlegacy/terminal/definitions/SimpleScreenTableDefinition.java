@@ -33,6 +33,8 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 
 	private String tableEntityName;
 
+	private String mainDisplayField;
+
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
 	}
@@ -202,6 +204,14 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 			}
 		}
 		return selectionField;
+	}
+
+	public String getMainDisplayField() {
+		return mainDisplayField;
+	}
+
+	public void setMainDisplayField(String mainDisplayField) {
+		this.mainDisplayField = mainDisplayField;
 	}
 
 }
