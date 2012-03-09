@@ -25,7 +25,5 @@ public @interface ScreenFieldValues {
 
 	Class<?> sourceScreenEntity();
 
-	Class<?> record();
-
 	boolean collectAll() default false;
 }
