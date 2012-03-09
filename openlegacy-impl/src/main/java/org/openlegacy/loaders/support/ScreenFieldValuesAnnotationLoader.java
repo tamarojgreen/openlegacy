@@ -61,7 +61,6 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 		ScreenRecordsProvider screenRecordsProvider = SpringUtil.getDefaultBean(applicationContext,
 				fieldValuesAnnotation.provider());
 		fieldDefinition.setRecordsProvider(screenRecordsProvider);
-		fieldDefinition.setRecordClass(fieldValuesAnnotation.record());
 		fieldDefinition.setSourceScreenEntityClass(fieldValuesAnnotation.sourceScreenEntity());
 		fieldDefinition.setCollectAllRecords(fieldValuesAnnotation.collectAll());
 	}

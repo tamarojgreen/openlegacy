@@ -18,6 +18,6 @@ public class WarehouseDetails {
 	private String warehouseNumber;
 
 	@ScreenField(column = 34, row = 8, editable = true)
-	@ScreenFieldValues(sourceScreenEntity = WarehouseTypes.class, record = WarehouseTypes.WarehouseTypeRow.class, collectAll = false)
+	@ScreenFieldValues(sourceScreenEntity = WarehouseTypes.class, collectAll = false)
 	private String warehouseType;
 }
