@@ -27,5 +27,7 @@
 
 	<bean id="defaultTableScrollStopConditions" class="org.openlegacy.terminal.modules.table.DefaultTableScrollStopConditions">
 	</bean>
-	
+
+	<bean id="defaultScreenRecordsProvider" class="org.openlegacy.terminal.support.DefaultScreenRecordsProvider">
+	</bean>	
 </beans>

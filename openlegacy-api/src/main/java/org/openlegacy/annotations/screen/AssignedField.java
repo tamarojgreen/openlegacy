@@ -17,6 +17,6 @@ public @interface AssignedField {
 
 	String field();
 
-	String value();
+	String value() default "";
 
 }

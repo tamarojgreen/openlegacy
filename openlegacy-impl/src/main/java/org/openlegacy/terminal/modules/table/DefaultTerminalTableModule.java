@@ -35,12 +35,7 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public <T> List<T> collectAll(Class<?> screenEntityClass, Class<T> rowClass) {
-
-		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
-				screenEntityClass).getValue();
-
-		TableCollector<TerminalSession, T> tableCollector = SpringUtil.getDefaultBean(applicationContext,
-				tableDefinition.getTableCollector());
+		TableCollector<TerminalSession, T> tableCollector = getTableCollector(screenEntityClass);
 		return tableCollector.collectAll(getSession(), screenEntityClass, rowClass);
 	}
 
@@ -77,5 +72,19 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 		Class<?> accessedFrom = navigationDefinition.getAccessedFrom();
 
 		return drillDown(accessedFrom, targetClass, drilldownAction, rowKeys);
+	}
+
+	public <T> List<T> collectOne(Class<?> screenEntityClass, Class<T> rowClass) {
+		TableCollector<TerminalSession, T> tableCollector = getTableCollector(screenEntityClass);
+		return tableCollector.collectOne(getSession(), screenEntityClass, rowClass);
+	}
+
+	private <T> TableCollector<TerminalSession, T> getTableCollector(Class<?> screenEntityClass) {
+		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
+				screenEntityClass).getValue();
+
+		TableCollector<TerminalSession, T> tableCollector = SpringUtil.getDefaultBean(applicationContext,
+				tableDefinition.getTableCollector());
+		return tableCollector;
 	}
 }

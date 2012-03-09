@@ -35,7 +35,7 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 
 	String getRowSelectionField();
 
-	public interface ScreenColumnDefinition extends org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition {
+	public interface ScreenColumnDefinition extends TableDefinition.ColumnDefinition {
 
 		boolean isSelectionField();
 

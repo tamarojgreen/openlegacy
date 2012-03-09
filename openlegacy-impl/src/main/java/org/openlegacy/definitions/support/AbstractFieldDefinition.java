@@ -10,6 +10,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	private Class<? extends FieldType> type;
 	private String displayName;
 	private FieldTypeDefinition fieldTypeDefinition;
+	private Class<?> recordClass;
 
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
@@ -53,5 +54,13 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setFieldTypeDefinition(FieldTypeDefinition fieldTypeDefinition) {
 		this.fieldTypeDefinition = fieldTypeDefinition;
+	}
+
+	public Class<?> getRecordClass() {
+		return recordClass;
+	}
+
+	public void setRecordClass(Class<?> recordClass) {
+		this.recordClass = recordClass;
 	}
 }

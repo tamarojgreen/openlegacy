@@ -61,7 +61,14 @@
 			</bean>
 		</property>
 		<property name="interceptor">
-			<bean class="org.openlegacy.terminal.support.ScreenEntityMethodInterceptor" />
+			<bean class="org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor">
+				<property name="proxyHandlers">
+					<list>
+						<bean class="org.openlegacy.terminal.support.proxy.ReferredScreenEntityProxyHandler" />
+						<bean class="org.openlegacy.terminal.support.proxy.RecordValuesProxyHandler" />
+					</list>
+				</property>
+			</bean>
 		</property>
 	</bean>
 

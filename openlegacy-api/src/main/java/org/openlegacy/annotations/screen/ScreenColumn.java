@@ -22,6 +22,8 @@ public @interface ScreenColumn {
 
 	boolean selectionField() default false;
 
+	boolean mainDisplayField() default false;
+
 	int startColumn();
 
 	int endColumn();

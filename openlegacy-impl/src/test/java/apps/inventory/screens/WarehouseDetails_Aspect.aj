@@ -4,6 +4,8 @@
 package apps.inventory.screens;
 
 import java.util.List;
+import java.util.Map;
+
 import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
@@ -17,6 +19,8 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     declare parents: WarehouseDetails implements ScreenEntity;
     private String WarehouseDetails.focusField;
     
+    private Map<String,Object> WarehouseDetails.warehouseTypeValues;
+    
 	
 	
     
@@ -28,6 +32,10 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
 
     public String WarehouseDetails.getWarehouseType(){
     	return this.warehouseType;
+    }
+
+    public Map<String,Object> WarehouseDetails.getWarehouseTypeValues(){
+    	return this.warehouseTypeValues;
     }
     
     public void WarehouseDetails.setWarehouseType(String warehouseType){

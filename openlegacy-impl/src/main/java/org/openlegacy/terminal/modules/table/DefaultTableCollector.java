@@ -22,8 +22,17 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	@SuppressWarnings("unchecked")
 	public List<T> collectAll(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass) {
+		return collectAllInner(terminalSession, screenEntityClass, rowClass, false);
+	}
+
+	public List<T> collectOne(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass) {
+		return collectAllInner(terminalSession, screenEntityClass, rowClass, true);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<T> collectAllInner(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass,
+			boolean firstOnly) {
 
 		ScreenEntityDefinition screenEntityDefintion = screenEntitiesRegistry.get(screenEntityClass);
 		Map<String, ScreenTableDefinition> tableDefinitionsMap = screenEntityDefintion.getTableDefinitions();
@@ -63,6 +72,9 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 			if (rows.size() < rowsCount) {
 				cont = false;
 			} else {
+				if (firstOnly) {
+					break;
+				}
 				screenEntity = terminalSession.doAction(matchingTableDefinition.getNextScreenAction());
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}

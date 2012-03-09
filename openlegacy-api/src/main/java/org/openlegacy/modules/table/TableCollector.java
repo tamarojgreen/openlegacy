@@ -15,4 +15,6 @@ import java.util.List;
 public interface TableCollector<S extends Session, T> {
 
 	public List<T> collectAll(S session, Class<?> entityClass, Class<T> rowClass);
+
+	public List<T> collectOne(S session, Class<?> entityClass, Class<T> rowClass);
 }

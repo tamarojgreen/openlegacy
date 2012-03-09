@@ -18,6 +18,8 @@ public interface TableDefinition<C extends ColumnDefinition> {
 
 	List<String> getKeyFieldNames();
 
+	String getMainDisplayField();
+
 	int getMaxRowsCount();
 
 	boolean isScrollable();
