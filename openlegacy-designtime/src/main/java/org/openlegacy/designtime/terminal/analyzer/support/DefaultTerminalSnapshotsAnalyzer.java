@@ -1,6 +1,9 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
+import org.apache.log4j.Logger;
 import org.drools.KnowledgeBase;
+import org.drools.logger.KnowledgeRuntimeLogger;
+import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.designtime.analyzer.SnapshotsOrganizer;
@@ -21,6 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +55,8 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 
 	private List<RuleParametersSet> ruleParametersFacts;
 
+	private static final Logger logger = Logger.getLogger(DefaultTerminalSnapshotsAnalyzer.class);
+
 	public Map<String, ScreenEntityDefinition> analyzeTrail(InputStream inputStream) {
 		TerminalSessionTrail trail;
 		try {
@@ -73,9 +79,10 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 		snapshotsAnalyzerContext.setActiveSnapshots(snapshots);
 
 		KnowledgeBase knowledgeBase = getKnowledgeBase();
-		StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();
 
-		// KnowledgeRuntimeLoggerFactory.newConsoleLogger(session);
+		long beforeCreateSession = Calendar.getInstance().getTimeInMillis();
+
+		StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();
 
 		for (RuleParametersSet ruleParametersSet : ruleParametersFacts) {
 			session.insert(ruleParametersSet);
@@ -89,8 +96,26 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 		session.setGlobal("snapshotsSimilarityChecker", snapshotsSimilarityChecker);
 
 		try {
+
+			KnowledgeRuntimeLogger droolsLogger = null;
+			if (logger.isDebugEnabled()) {
+				long afterCreateSession = Calendar.getInstance().getTimeInMillis();
+				long timeCreateSession = afterCreateSession - beforeCreateSession;
+				logger.debug("Time to create session: " + timeCreateSession);
+				droolsLogger = KnowledgeRuntimeLoggerFactory.newConsoleLogger(session);
+			}
+			long beforeExecuteRules = Calendar.getInstance().getTimeInMillis();
+
 			session.startProcess(processName);
 			session.fireAllRules();
+
+			if (logger.isDebugEnabled()) {
+				droolsLogger.close();
+				long afterExecuteRules = Calendar.getInstance().getTimeInMillis();
+				long timeExecuteRules = afterExecuteRules - beforeExecuteRules;
+				logger.debug("Time to execute rules: " + timeExecuteRules);
+			}
+
 		} finally {
 			session.dispose();
 		}

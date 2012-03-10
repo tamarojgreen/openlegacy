@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.definitions.BooleanFieldDefinition;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
+import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -16,6 +17,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
@@ -77,8 +79,8 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		ScreenFieldDefinition booleanField = fieldsDefinitions.get("booleanField");
 		Assert.assertNotNull(booleanField);
 		BooleanFieldDefinition typeDefinition = (BooleanFieldDefinition)booleanField.getFieldTypeDefinition();
-		Assert.assertEquals("Y",typeDefinition.getTrueValue());
-		Assert.assertEquals("N",typeDefinition.getFalseValue());
+		Assert.assertEquals("Y", typeDefinition.getTrueValue());
+		Assert.assertEquals("N", typeDefinition.getFalseValue());
 	}
 
 	private Map<String, ScreenEntityDefinition> analyze(String... fileNames) {
@@ -164,6 +166,29 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		assertScreenContent(screenEntitiesDefinitions.get("MainMenuScreen"), "navigation/MainMenuScreen.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("SubMenu1"), "navigation/SubMenu1.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("SimpleScreen"), "navigation/SimpleScreen.java.expected");
+	}
+
+	@Test
+	public void testGenerateWindowValues() throws TemplateException, IOException {
+
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("SimpleScreen.xml",
+				"SimpleScreen-towindow-out.xml", "WindowTableScreen.xml");
+
+		ScreenEntityDefinition windowTableScreen = screenEntitiesDefinitions.get("WindowTableScreen");
+		Assert.assertNotNull(windowTableScreen);
+		Assert.assertTrue(windowTableScreen.isWindow());
+		Assert.assertEquals(1, windowTableScreen.getTableDefinitions().size());
+		ScreenNavigationDesignTimeDefinition navigationDefinition = (ScreenNavigationDesignTimeDefinition)windowTableScreen.getNavigationDefinition();
+		Assert.assertNotNull(navigationDefinition);
+		Assert.assertNotNull(navigationDefinition.getAccessedFromEntityName());
+		// verify the target screen saved cursor field
+		Assert.assertEquals(1, navigationDefinition.getAssignedFields().size());
+
+		ScreenEntityDefinition simpleScreenDefinition = screenEntitiesDefinitions.get("SimpleScreen");
+		SimpleScreenFieldDefinition fieldAdefinition = (SimpleScreenFieldDefinition)simpleScreenDefinition.getFieldsDefinitions().get(
+				"fieldA");
+		Assert.assertEquals(windowTableScreen.getEntityName(), fieldAdefinition.getSourceEntityClassName());
+		assertScreenContent(simpleScreenDefinition, "SimpleScreenValues.java.expected");
 	}
 
 	@Test

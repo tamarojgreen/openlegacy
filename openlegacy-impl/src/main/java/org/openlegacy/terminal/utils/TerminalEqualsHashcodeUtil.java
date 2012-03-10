@@ -16,7 +16,7 @@ public class TerminalEqualsHashcodeUtil {
 	}
 
 	public static int snapshotHashcode(TerminalSnapshot terminalSnapshot) {
-		return Arrays.hashCode(terminalSnapshot.getRows().toArray());
+		return Arrays.hashCode(terminalSnapshot.getRows().toArray()) + terminalSnapshot.getSnapshotType().hashCode();
 	}
 
 	public static boolean rowEquals(TerminalRow row1, TerminalRow row2) {

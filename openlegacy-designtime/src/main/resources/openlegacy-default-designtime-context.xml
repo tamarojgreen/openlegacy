@@ -29,6 +29,7 @@
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuScreenFactProcessor"/>
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.navigation.NavigationFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.BooleanFieldFactProcessor" />
+				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.FieldValuesFactProcessor" />
 			</list>
 		</property>
 	</bean>
@@ -204,6 +205,7 @@
 					</property>
 				</bean>
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-navigation.drl" p:ruleId="identify-navigation" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-lookup-screens.drl" p:ruleId="identify-lookup-screens" />
 			</list>
 		</property>
 	</bean>

@@ -2,6 +2,7 @@ package openlegacy;
 
 rule "identify-readonly-fields"
 ruleflow-group "identify-readonly-fields"
+no-loop
 when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-readonly-fields")
 	$fieldRegex      : String()  from (String)$ruleParameterSet.getRuleParameters().get("fieldRegex");

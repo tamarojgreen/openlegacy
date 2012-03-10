@@ -49,11 +49,15 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 		screenEntityDefinition.setAccessedFromScreenDefinition(accessedFromScreenEntityDefinition);
 
 		if (abortWhenHasPasswordFields(accessedFromSnapshot)) {
+			logger.info(MessageFormat.format("Not adding navigation step for {0} .Accessed from snapshot has password field",
+					screenEntityDefinition.getEntityName()));
 			return;
 		}
 
-		// do not define navigation from login screen
+		// do not define navigation from login screen for example
 		if (accessedFromScreenEntityDefinition.getType() == LoginEntity.class) {
+			logger.info(MessageFormat.format("Not adding navigation step for {0} .Accessed from login screen",
+					screenEntityDefinition.getEntityName()));
 			return;
 		}
 
@@ -65,7 +69,7 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 		TerminalAction action = terminalActionMapper.getAction(navigationFact.getAccessedFromSnapshot().getCommand());
 		if (action instanceof CombinedTerminalAction) {
 			CombinedTerminalAction combinedAction = (CombinedTerminalAction)action;
-			// add action definition only if it's not ENTER
+			// add action definition only if it's not ENTER (ENTER is the default)
 			if (combinedAction.getTerminalAction() != ENTER.class || combinedAction.getAdditionalKey() != AdditionalKey.NONE) {
 				navigationDefinition.setTerminalAction(action);
 			}
@@ -76,6 +80,18 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 			buildAssignedFields(screenEntityDefinition, navigationDefinition, accessedFromScreenEntityDefinition,
 					accessedFromSnapshot);
 		}
+
+		// add assign fields when setting cursor is set on editable field
+		if (accessedFromSnapshot.getCursorPosition() != null) {
+			TerminalField terminalField = accessedFromSnapshot.getField(accessedFromSnapshot.getCursorPosition());
+			if (terminalField != null && terminalField.isEditable()) {
+				ScreenFieldDefinition fieldDefinition = getFieldDefinitionByPosition(accessedFromScreenEntityDefinition,
+						terminalField);
+				FieldAssignDefinition assignFieldDefinition = new SimpleFieldAssignDefinition(fieldDefinition.getName(), null);
+				navigationDefinition.getAssignedFields().add(assignFieldDefinition);
+			}
+		}
+
 	}
 
 	private static boolean abortWhenHasPasswordFields(TerminalSnapshot accessedFromSnapshot) {

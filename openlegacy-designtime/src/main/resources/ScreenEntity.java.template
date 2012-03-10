@@ -45,6 +45,7 @@ public class ${entityName} {
 	<#if field.fieldTypeDefinition??>
 	<#if field.fieldTypeDefinition.trueValue??>@ScreenBooleanField(trueValue="${field.fieldTypeDefinition.trueValue}",falseValue="${field.fieldTypeDefinition.falseValue}")</#if>
 	</#if>
+	<#if field.sourceEntityClassName??>@ScreenFieldValues(sourceScreenEntity=${field.sourceEntityClassName}.class,collectAll=false)</#if>
     private ${field.javaTypeName} ${field.name};
 
 	</#list>	

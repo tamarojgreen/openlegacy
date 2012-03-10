@@ -2,6 +2,7 @@ package openlegacy;
 
 rule "sort-snapshots"
 ruleflow-group "initialize-screen-entities"
+no-loop
 when
 then
 	// get all the snapshots provided

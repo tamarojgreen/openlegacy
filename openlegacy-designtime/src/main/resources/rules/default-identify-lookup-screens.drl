@@ -1,0 +1,22 @@
+package openlegacy;
+
+import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.FieldValuesFact;
+import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
+
+rule "identify-lookup-screens"
+ruleflow-group "identify-lookup-screens"
+when
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// there is a window screen with 1 table 
+	$lookupWindowScreenDefinition: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition,window == true, tableDefinitions.size == 1)
+
+	// which is accessed from the source screen entity	
+	$navigationDefinition: ScreenNavigationDesignTimeDefinition(accessedFromEntityName == $screenEntityDefinition.entityName) from $lookupWindowScreenDefinition.getNavigationDefinition()
+	$relevantField: FieldAssignDefinition() from $navigationDefinition.getAssignedFields()   
+
+then
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new FieldValuesFact($relevantField,$lookupWindowScreenDefinition));
+	System.out.println("**************** Found match!");
+end
