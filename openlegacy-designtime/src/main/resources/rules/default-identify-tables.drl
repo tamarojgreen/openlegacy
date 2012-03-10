@@ -4,6 +4,7 @@ import org.openlegacy.designtime.terminal.analyzer.modules.table.*;
 
 rule "find-columns"
 ruleflow-group "identify-tables"
+no-loop
 salience 100
 when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-tables")
@@ -37,6 +38,7 @@ end
 
 rule "find-column-headers"
 ruleflow-group "identify-tables"
+no-loop
 salience 90
 when
 	// there is a screen definition
@@ -57,6 +59,7 @@ end
 
 rule "find-table"
 ruleflow-group "identify-tables"
+no-loop
 salience 80
 when
 	// there is a column

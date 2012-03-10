@@ -8,6 +8,7 @@ end
 
 rule "find-editable-fields"
 ruleflow-group "identify-editable-fields"
+no-loop
 when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-editable-fields")
 	$labelRegex      : String()  from (String)$ruleParameterSet.getRuleParameters().get("labelRegex");

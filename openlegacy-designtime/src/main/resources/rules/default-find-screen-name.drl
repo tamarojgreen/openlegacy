@@ -2,6 +2,7 @@ package openlegacy;
 
 rule "find-screen-name"
 ruleflow-group "find-screen-name"
+no-loop
 when
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()

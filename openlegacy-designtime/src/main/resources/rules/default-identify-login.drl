@@ -7,6 +7,7 @@ rule "identify-login"
 ruleflow-group "identify-screen-types"
 no-loop
 salience 100 
+no-loop
 when
 	$ruleParameterSet			  : RuleParametersSet(ruleId == "identify-login")
 	$userFieldRegex  			  : String()  from (String)$ruleParameterSet.getRuleParameters().get("userFieldRegex");

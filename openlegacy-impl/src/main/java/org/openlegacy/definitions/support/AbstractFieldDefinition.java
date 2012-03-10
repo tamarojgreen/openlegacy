@@ -15,6 +15,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	private RecordsProvider<? extends Session, Object> recordsProvider;
 	private Class<?> sourceEntityClass;
 	private boolean collectAll;
+	private String sourceEntityClassName;
 
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
@@ -75,6 +76,24 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setSourceScreenEntityClass(Class<?> sourceScreenEntityClass) {
 		this.sourceEntityClass = sourceScreenEntityClass;
+	}
+
+	/**
+	 * Required for design-time where class doesn't exists yet
+	 * 
+	 * @param sourceScreenEntityClassName
+	 */
+	public void setSourceScreenEntityClassName(String sourceScreenEntityClassName) {
+		this.sourceEntityClassName = sourceScreenEntityClassName;
+	}
+
+	/**
+	 * Required for design-time where class doesn't exists yet
+	 * 
+	 * @return
+	 */
+	public String getSourceEntityClassName() {
+		return sourceEntityClassName;
 	}
 
 	public boolean isCollectAll() {

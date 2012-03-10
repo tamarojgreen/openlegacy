@@ -4,6 +4,7 @@ import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.Scree
 
 rule "identify-snapshots"
 ruleflow-group "identify-snapshots"
+no-loop
 when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-snapshots")
 	$identifierRegex    : String()  from (String)$ruleParameterSet.getRuleParameters().get("identifierRegex");

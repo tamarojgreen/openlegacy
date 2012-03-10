@@ -4,6 +4,7 @@ import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.Boole
 
 rule "identify-boolean"
 ruleflow-group "identify-field-types"
+no-loop
 when
 	$ruleParameterSet   : RuleParametersSet(ruleId == "identify-boolean")
 	$trueFalseTextRegex : String()  from (String)$ruleParameterSet.getRuleParameters().get("trueFalseTextRegex");

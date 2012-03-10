@@ -4,6 +4,7 @@ import org.openlegacy.designtime.terminal.analyzer.modules.navigation.Navigation
 
 rule "insert-accessed-from-snsapshots"
 ruleflow-group "identify-navigation"
+no-loop
 salience 100
 when
 	$snapshots: List() from accumulate ( $screenEntityDefinition: ScreenEntityDesigntimeDefinition() , collectList($screenEntityDefinition.getSnapshot()) )
@@ -19,6 +20,7 @@ end
 
 rule "identify-navigation"
 ruleflow-group "identify-navigation"
+no-loop
 salience 90
 when
 	// there is a screen definition
@@ -37,4 +39,5 @@ when
 
 then
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new NavigationFact($accessedFromScreenDefinition,$accessedFromSnapshot));
+	update($screenEntityDefinition);
 end
