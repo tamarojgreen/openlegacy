@@ -2,11 +2,8 @@ package org.openlegacy.terminal.definitions;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.FieldType;
-import org.openlegacy.RecordsProvider;
-import org.openlegacy.Session;
 import org.openlegacy.definitions.support.AbstractFieldDefinition;
 import org.openlegacy.terminal.TerminalPosition;
-import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.support.SnapshotUtils;
 
 /**
@@ -21,9 +18,6 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private String sampleValue;
 	private Class<?> javaType;
 	private TerminalPosition labelPosition;
-	private RecordsProvider<TerminalSession, Object> recordsProvider;
-	private Class<?> sourceScreenEntityClass;
-	private boolean collectAllRecords;
 
 	public SimpleScreenFieldDefinition(String name, Class<? extends FieldType> fieldType) {
 		super(name, fieldType);
@@ -94,28 +88,4 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.labelPosition = labelPosition;
 	}
 
-	public void setRecordsProvider(RecordsProvider<TerminalSession, Object> recordsProvider) {
-		this.recordsProvider = recordsProvider;
-	}
-
-	@SuppressWarnings("unchecked")
-	public <S extends Session, T> RecordsProvider<S, T> getRecordsProvider() {
-		return (RecordsProvider<S, T>)recordsProvider;
-	}
-
-	public Class<?> getSourceScreenEntityClass() {
-		return sourceScreenEntityClass;
-	}
-
-	public void setSourceScreenEntityClass(Class<?> sourceScreenEntityClass) {
-		this.sourceScreenEntityClass = sourceScreenEntityClass;
-	}
-
-	public boolean isCollectAllRecords() {
-		return collectAllRecords;
-	}
-
-	public void setCollectAllRecords(boolean collectAllRecords) {
-		this.collectAllRecords = collectAllRecords;
-	}
 }

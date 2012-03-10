@@ -80,7 +80,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									AnnotationConstants.SCREEN_FIELD_ANNOTATION, AnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
-								handleScreenFieldOrColumnAnnotation(fieldDeclaration, annotationExpr, field);
+								handleScreenFieldOrColumnAnnotation(annotationExpr, field);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									AnnotationConstants.SCREEN_FIELD_VALUES_ANNOTATION)) {
+								handleFieldValues(annotationExpr, field);
 							}
 						}
 					}
@@ -92,8 +96,15 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		checkHasGetterAndSetter(members);
 	}
 
-	private static void handleScreenFieldOrColumnAnnotation(FieldDeclaration fieldDeclaration, AnnotationExpr annotationExpr,
-			Field field) {
+	private static void handleFieldValues(AnnotationExpr annotationExpr, Field field) {
+		String sourceScreenClassValue = JavaParserUtil.getAnnotationValue(annotationExpr,
+				AnnotationConstants.SOURCE_SCREEN_ENTITY);
+		String sourceScreenClass = StringUtil.toClassName(sourceScreenClassValue);
+		field.setSourceScreenClassName(sourceScreenClass);
+		field.setHasValues(true);
+	}
+
+	private static void handleScreenFieldOrColumnAnnotation(AnnotationExpr annotationExpr, Field field) {
 		String editableValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.EDITABLE);
 		String rowValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.ROW);
 		String columnValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.COLUMN);
@@ -325,6 +336,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean hasGetter;
 		private boolean hasSetter;
 		private boolean hasGetterField;
+		private boolean hasValues;
 		private String type;
 		private boolean editable;
 		private boolean primitiveType;
@@ -332,6 +344,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private Integer column;
 		private Integer endColumn;
 		private Integer labelColumn;
+		private String sourceScreenClassName;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -339,6 +352,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 
 		public boolean isScreenField() {
+			// field is either screen field or screen column. column doesn't have row property
 			return row != null;
 		}
 
@@ -429,6 +443,23 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public void setLabelColumn(Integer labelColumn) {
 			this.labelColumn = labelColumn;
 		}
+
+		public boolean isHasValues() {
+			return hasValues;
+		}
+
+		public void setHasValues(boolean hasValues) {
+			this.hasValues = hasValues;
+		}
+
+		public void setSourceScreenClassName(String sourceScreenClassName) {
+			this.sourceScreenClassName = sourceScreenClassName;
+		}
+
+		public String getSourceScreenClassName() {
+			return sourceScreenClassName;
+		}
+
 	}
 
 	public static class Action {

@@ -5,6 +5,7 @@ import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenEntitySuperClass;
 import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.ScreenFieldValues;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
 
@@ -19,6 +20,7 @@ public class AnnotationConstants {
 	public static final String FIELD_SUFFIX = "Field";
 	public static final String SCREEN_FIELD_ANNOTATION = ScreenField.class.getSimpleName();
 	public static final Object SCREEN_ACTIONS_ANNOTATION = ScreenActions.class.getSimpleName();
+	public static final String SCREEN_FIELD_VALUES_ANNOTATION = ScreenFieldValues.class.getSimpleName();
 
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String EDITABLE = "editable";
@@ -34,4 +36,8 @@ public class AnnotationConstants {
 	public static final String ALIAS = "alias";
 	public static final String LABEL_COLUMN = "labelColumn";
 	public static final String SCREEN_TYPE = "screenType";
+
+	// @ScreenFieldValues
+	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";
+	public static final String COLLECT_ALL = "collectAll";
 }

@@ -21,4 +21,8 @@ public interface FieldDefinition {
 	FieldTypeDefinition getFieldTypeDefinition();
 
 	<S extends Session, T> RecordsProvider<S, T> getRecordsProvider();
+
+	boolean isCollectAll();
+
+	Class<?> getSourceEntityClass();
 }

@@ -3,7 +3,7 @@
 
 package ${packageName};
 
-import java.util.List;
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 <#if supportTerminalData>
 import org.openlegacy.terminal.TerminalField;
@@ -30,9 +30,13 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
     
 	<#list fields as field>
 	
-	<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
+		<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
     private TerminalField ${className}.${field.name}Field;
-	</#if>
+		</#if>
+
+		<#if field.hasValues>
+    private Map<Object,Object> ${className}.${field.name}Values;
+		</#if>
 	</#list>	
     
 	<#if supportTerminalData  && !superClass>
@@ -54,11 +58,13 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
     }
 		</#if>
 
-		<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
-    public TerminalField ${className}.get${field.name?cap_first}Field(){
-    	return ${field.name}Field;
+		<#if field.hasValues>
+    public Map<Object,Object> ${className}.get${field.name?cap_first}Values(){
+    	return ${field.name}Values;
     }
 		</#if>
+
+
 	</#list>	
 
 <#if !superClass>
