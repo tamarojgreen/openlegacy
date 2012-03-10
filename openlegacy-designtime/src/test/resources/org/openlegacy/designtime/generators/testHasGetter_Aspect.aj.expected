@@ -3,7 +3,7 @@
 
 package com.someorg.examples.screens;
 
-import java.util.List;
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -22,8 +22,10 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     
 	
     private TerminalField SignOn.passwordField;
+
 	
     private TerminalField SignOn.userField;
+
     
     public TerminalSnapshot SignOn.getTerminalSnapshot(){
 		return terminalSnapshot;
@@ -34,14 +36,12 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     }
     
 
-    public TerminalField SignOn.getPasswordField(){
-    	return passwordField;
-    }
+
+
     
 
-    public TerminalField SignOn.getUserField(){
-    	return userField;
-    }
+
+
 
     public String SignOn.getFocusField(){
     	return focusField;
@@ -51,3 +51,4 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     }
     
 }
+

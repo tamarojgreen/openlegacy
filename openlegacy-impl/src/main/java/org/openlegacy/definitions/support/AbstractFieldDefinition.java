@@ -1,6 +1,8 @@
 package org.openlegacy.definitions.support;
 
 import org.openlegacy.FieldType;
+import org.openlegacy.RecordsProvider;
+import org.openlegacy.Session;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
 
@@ -10,6 +12,9 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	private Class<? extends FieldType> type;
 	private String displayName;
 	private FieldTypeDefinition fieldTypeDefinition;
+	private RecordsProvider<? extends Session, Object> recordsProvider;
+	private Class<?> sourceEntityClass;
+	private boolean collectAll;
 
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
@@ -53,5 +58,30 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setFieldTypeDefinition(FieldTypeDefinition fieldTypeDefinition) {
 		this.fieldTypeDefinition = fieldTypeDefinition;
+	}
+
+	public void setRecordsProvider(RecordsProvider<? extends Session, Object> recordsProvider) {
+		this.recordsProvider = recordsProvider;
+	}
+
+	@SuppressWarnings("unchecked")
+	public <S extends Session, T> RecordsProvider<S, T> getRecordsProvider() {
+		return (RecordsProvider<S, T>)recordsProvider;
+	}
+
+	public Class<?> getSourceEntityClass() {
+		return sourceEntityClass;
+	}
+
+	public void setSourceScreenEntityClass(Class<?> sourceScreenEntityClass) {
+		this.sourceEntityClass = sourceScreenEntityClass;
+	}
+
+	public boolean isCollectAll() {
+		return collectAll;
+	}
+
+	public void setCollectAllRecords(boolean collectAllRecords) {
+		this.collectAll = collectAllRecords;
 	}
 }

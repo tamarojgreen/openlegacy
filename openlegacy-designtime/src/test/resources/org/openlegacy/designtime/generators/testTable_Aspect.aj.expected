@@ -8,8 +8,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
-
 import com.someorg.examples.screens.TestClass.TableScreenRecord;
+
 privileged @SuppressWarnings("unused") aspect TableScreenRecordTable_Aspect {
     
     declare @type: TableScreenRecord : @Component;

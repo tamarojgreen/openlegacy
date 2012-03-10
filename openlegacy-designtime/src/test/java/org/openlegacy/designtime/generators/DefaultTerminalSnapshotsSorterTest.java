@@ -70,9 +70,9 @@ public class DefaultTerminalSnapshotsSorterTest {
 		// main menu
 		Assert.assertEquals(1, iterator.next().size());
 		// sign on
-		Assert.assertEquals(2, iterator.next().size());
-		// warehouse type list
 		Assert.assertEquals(1, iterator.next().size());
+		// warehouses list
+		Assert.assertEquals(2, iterator.next().size());
 
 	}
 }

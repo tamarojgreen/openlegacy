@@ -21,8 +21,4 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	boolean isEditable();
 
 	Class<?> getJavaType();
-
-	Class<?> getSourceScreenEntityClass();
-
-	boolean isCollectAllRecords();
 }

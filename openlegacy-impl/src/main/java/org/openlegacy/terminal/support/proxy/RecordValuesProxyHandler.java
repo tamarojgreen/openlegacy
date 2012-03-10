@@ -41,11 +41,11 @@ public class RecordValuesProxyHandler implements ScreenEntityProxyHandler {
 		RecordsProvider<Session, Object> recordsProvider = fieldDefinition.getRecordsProvider();
 
 		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
-				fieldDefinition.getSourceScreenEntityClass()).getValue();
+				fieldDefinition.getSourceEntityClass()).getValue();
 
 		@SuppressWarnings("unchecked")
-		Map<Object, Object> records = recordsProvider.getRecords(terminalSession, fieldDefinition.getSourceScreenEntityClass(),
-				(Class<Object>)tableDefinition.getTableClass(), fieldDefinition.isCollectAllRecords(), null);
+		Map<Object, Object> records = recordsProvider.getRecords(terminalSession, fieldDefinition.getSourceEntityClass(),
+				(Class<Object>)tableDefinition.getTableClass(), fieldDefinition.isCollectAll(), null);
 		return records;
 	}
 
