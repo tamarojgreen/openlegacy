@@ -65,6 +65,11 @@
 		  <#case "boolean">
 		     <input type="checkbox" name="${field.name}" />
 		     <#break>
+		  <#case "autocomplete">
+			<script language="JavaScript" type="text/javascript">dojo.require("dojo.data.ItemFileReadStore");dojo.require("dijit.form.FilteringSelect");</script>
+			<span data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props="url:'${entityDefinition.entityName?cap_first}/${field.name}'" data-dojo-id="${field.name}Values"></span>
+			<input data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:${field.name}Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	
+		     <#break>
 		  <#default>
 			<@fieldDrawer field=field entityDefinition=entityDefinition />
 		</#switch>  

@@ -2,6 +2,7 @@ package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
+import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
 import org.openlegacy.terminal.ScreenRecordsProvider;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
@@ -41,7 +42,7 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 		if (screenEntityDefinition != null) {
 			SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(
 					fieldName);
-			setRecordProviderDefinitions(fieldValuesAnnotation, fieldDefinition);
+			setfieldValuesDefinitions(fieldValuesAnnotation, fieldDefinition);
 
 		} else {
 			// look in screen entities parts
@@ -50,19 +51,24 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 				fieldName = MessageFormat.format("{0}.{1}", screenPart.getPartName(), fieldName);
 				SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenPart.getFieldsDefinitions().get(
 						fieldName);
-				setRecordProviderDefinitions(fieldValuesAnnotation, fieldDefinition);
+				setfieldValuesDefinitions(fieldValuesAnnotation, fieldDefinition);
 			}
 
 		}
 
 	}
 
-	private void setRecordProviderDefinitions(ScreenFieldValues fieldValuesAnnotation, SimpleScreenFieldDefinition fieldDefinition) {
+	private void setfieldValuesDefinitions(ScreenFieldValues fieldValuesAnnotation, SimpleScreenFieldDefinition fieldDefinition) {
 		ScreenRecordsProvider screenRecordsProvider = SpringUtil.getDefaultBean(applicationContext,
 				fieldValuesAnnotation.provider());
-		fieldDefinition.setRecordsProvider(screenRecordsProvider);
-		fieldDefinition.setSourceScreenEntityClass(fieldValuesAnnotation.sourceScreenEntity());
-		fieldDefinition.setCollectAllRecords(fieldValuesAnnotation.collectAll());
+
+		SimpleAutoCompleteFieldTypeDefinition fieldTypeDefinition = new SimpleAutoCompleteFieldTypeDefinition();
+		fieldTypeDefinition.setRecordsProvider(screenRecordsProvider);
+		fieldTypeDefinition.setSourceScreenEntityClass(fieldValuesAnnotation.sourceScreenEntity());
+		fieldTypeDefinition.setCollectAllRecords(fieldValuesAnnotation.collectAll());
+
+		fieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);
+
 	}
 
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

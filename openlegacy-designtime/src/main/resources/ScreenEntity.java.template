@@ -43,9 +43,9 @@ public class ${entityName} {
 	<#list sortedFields as field> 
 	@ScreenField(row = ${field.position.row}, column = ${field.position.column}, endColumn= ${field.endPosition.column}<#if field.labelPosition??> ,labelColumn= ${field.labelPosition.column}</#if><#if field.editable> ,editable= true</#if><#if field.type??> ,fieldType=${field.type.simpleName}.class</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
 	<#if field.fieldTypeDefinition??>
-	<#if field.fieldTypeDefinition.trueValue??>@ScreenBooleanField(trueValue="${field.fieldTypeDefinition.trueValue}",falseValue="${field.fieldTypeDefinition.falseValue}")</#if>
+	<#if field.fieldTypeDefinition.class.simpleName = "SimpleBooleanFieldTypeDefinition">@ScreenBooleanField(trueValue="${field.fieldTypeDefinition.trueValue}",falseValue="${field.fieldTypeDefinition.falseValue}")</#if>
+	<#if field.fieldTypeDefinition.class.simpleName = "SimpleAutoCompleteFieldTypeDefinition">@ScreenFieldValues(sourceScreenEntity=${field.fieldTypeDefinition.sourceEntityClassName}.class,collectAll=false)</#if>
 	</#if>
-	<#if field.sourceEntityClassName??>@ScreenFieldValues(sourceScreenEntity=${field.sourceEntityClassName}.class,collectAll=false)</#if>
     private ${field.javaTypeName} ${field.name};
 
 	</#list>	

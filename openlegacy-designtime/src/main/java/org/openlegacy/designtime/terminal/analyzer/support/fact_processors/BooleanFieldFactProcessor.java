@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.definitions.support.SimpleBooleanFieldDefinition;
+import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
@@ -39,7 +39,7 @@ public class BooleanFieldFactProcessor implements ScreenFactProcessor {
 		
 		SimpleScreenFieldDefinition screenFieldDefinition = (SimpleScreenFieldDefinition)booleanFieldFact.getScreenFieldDefinition();
 		
-		screenFieldDefinition.setFieldTypeDefinition(new SimpleBooleanFieldDefinition(trueValue, falseValue));
+		screenFieldDefinition.setFieldTypeDefinition(new SimpleBooleanFieldTypeDefinition(trueValue, falseValue));
 		screenFieldDefinition.setJavaType(Boolean.class);
 		logger.info(MessageFormat.format("Set field {0} to be boolean", screenFieldDefinition.getName()));
 

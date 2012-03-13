@@ -2,6 +2,7 @@ package org.openlegacy.designtime.terminal.generators.support;
 
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
+import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenTableDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
@@ -50,7 +51,9 @@ public class CodeBasedDefinitionUtils {
 				fieldDefinition.setLength(field.getEndColumn() - field.getColumn() + 1);
 			}
 			if (field.isHasValues()) {
-				fieldDefinition.setSourceScreenEntityClassName(field.getSourceScreenClassName());
+				SimpleAutoCompleteFieldTypeDefinition fieldTypeDefinition = new SimpleAutoCompleteFieldTypeDefinition();
+				fieldTypeDefinition.setSourceScreenEntityClassName(field.getSourceScreenClassName());
+				fieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);
 			}
 			fieldDefinitions.put(field.getName(), fieldDefinition);
 		}
