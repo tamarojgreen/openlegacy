@@ -9,11 +9,16 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.web.JsonSerializationUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ${entityDefinition.packageName}.${entityDefinition.entityClassName};
 
@@ -58,5 +63,27 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 		
     }
 	</#list>	
+
+	<#assign fields = entityDefinition.fieldsDefinitions?values>
+	<#list fields as field>
+		<#if field.sourceEntityClassName??>
+	
+	// handle ajax request for ${field.name} field
+	@RequestMapping(value="/${field.name}", method = RequestMethod.GET)
+    @ResponseBody
+	public ResponseEntity<String> ${entityDefinition.entityClassName}Controller.WorkWithWarehouseDetails1Json() {
+    	WorkWithWarehouseDetails workWithWarehouseDetails = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
+    	
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/text; charset=utf-8");
+		JSONSerializer jsonSerializer = new JSONSerializer();
+		Map<Object,Object> ${field.name}Values = ${entityDefinition.entityClassName?uncap_first}.get${field.name?cap_first}Values();
+		
+		String result = JsonSerializationUtil.toDojoFormat(${field.name}Values);
+        return new ResponseEntity<String>(result, headers, HttpStatus.OK);
+    }
+		</#if>
+	</#list>	
+	
 	
 }

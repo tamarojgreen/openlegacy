@@ -1,9 +1,11 @@
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
@@ -15,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,8 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 
 	@Inject
 	private ApplicationContext applicationContext;
+
+	private final static Log logger = LogFactory.getLog(ScreenEntityTablesBinder.class);
 
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {
 
@@ -58,10 +63,14 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 				boolean keyIsEmpty = false;
 
 				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
-					TerminalPosition position = SimpleTerminalPosition.newInstance(currentRow,
-							columnDefinition.getStartColumn());
+					TerminalPosition position = SimpleTerminalPosition.newInstance(currentRow, columnDefinition.getStartColumn());
 					String cellText = getCellContent(terminalSnapshot, position, columnDefinition);
 					if (columnDefinition.isKey() && cellText.length() == 0) {
+						if (logger.isDebugEnabled()) {
+							logger.debug(MessageFormat.format(
+									"Key field {0} is empty in row {1}. Aborting table rows collecting",
+									columnDefinition.getName(), position.getRow()));
+						}
 						keyIsEmpty = true;
 					}
 					rowAccessor.setFieldValue(columnDefinition.getName(), cellText);
@@ -100,7 +109,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 			ScreenTableDefinition tableDefinition = tableDefinitions.get(tableFieldName);
 			List<?> rows = (List<?>)fieldAccessor.getFieldValue(tableFieldName);
 			// TODO send tables values
-			if (rows == null){
+			if (rows == null) {
 				continue;
 			}
 			int rowCount = 0;
