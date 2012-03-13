@@ -1,12 +1,6 @@
 package org.openlegacy.terminal.layout.mock;
 
-import org.openlegacy.annotations.screen.Action;
-import org.openlegacy.annotations.screen.ScreenActions;
-import org.openlegacy.annotations.screen.ScreenColumn;
-import org.openlegacy.annotations.screen.ScreenEntity;
-import org.openlegacy.annotations.screen.ScreenField;
-import org.openlegacy.annotations.screen.ScreenPart;
-import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.annotations.screen.*;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +22,7 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	private String fld3Col12;
 
 	@ScreenField(row = 10, column = 33, endColumn = 43)
+	@ScreenFieldValues(sourceScreenEntity=LookupWindow.class)
 	private String fldRow10;
 
 	@ScreenField(row = 10, column = 53)

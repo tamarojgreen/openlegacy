@@ -5,6 +5,7 @@ import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.ScreenFieldValues;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -18,16 +19,17 @@ import java.util.List;
 		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit") })
 public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
-	@ScreenField(row = 6, column = 22, endColumn=31, editable = true)
+	@ScreenField(row = 6, column = 22, endColumn = 31, editable = true)
 	private String fldCol12;
 
-	@ScreenField(row = 7, column = 22, endColumn=31, editable = true)
+	@ScreenField(row = 7, column = 22, endColumn = 31, editable = true)
 	private String fld2Col12;
 
-	@ScreenField(row = 8, column = 22, endColumn=31, editable = true)
+	@ScreenField(row = 8, column = 22, endColumn = 31, editable = true)
 	private String fld3Col12;
 
 	@ScreenField(row = 10, column = 33, endColumn = 43)
+	@ScreenFieldValues(sourceScreenEntity = LookupWindow.class)
 	private String fldRow10;
 
 	@ScreenField(row = 10, column = 53)

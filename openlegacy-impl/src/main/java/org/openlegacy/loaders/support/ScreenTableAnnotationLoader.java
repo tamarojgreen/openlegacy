@@ -72,6 +72,12 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 				columnDefinition.setSelectionField(screenColumnAnnotation.selectionField());
 
+				if (columnDefinition.isKey() && columnDefinition.isSelectionField()) {
+					throw (new RegistryException(MessageFormat.format(
+							"A column cannot be defined as both selection and key field. Class: {0}, Column: {1}", rowClass,
+							columnDefinition.getName())));
+				}
+
 				tableDefinition.getColumnDefinitions().add(columnDefinition);
 
 				if (screenColumnAnnotation.mainDisplayField()) {

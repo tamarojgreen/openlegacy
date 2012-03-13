@@ -23,7 +23,7 @@ public class DefaultScreenRecordsProviderTest extends AbstractTest {
 
 		WarehouseDetails warehouseDetails = terminalSession.getEntity(WarehouseDetails.class);
 		Assert.assertNotNull(warehouseDetails);
-		Map<String, Object> values = warehouseDetails.getWarehouseTypeValues();
+		Map<Object, Object> values = warehouseDetails.getWarehouseTypeValues();
 		System.out.println(values);
 
 	}

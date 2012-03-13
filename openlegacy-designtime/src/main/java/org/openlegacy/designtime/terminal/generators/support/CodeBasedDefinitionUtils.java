@@ -49,6 +49,9 @@ public class CodeBasedDefinitionUtils {
 			if (field.getEndColumn() != null) {
 				fieldDefinition.setLength(field.getEndColumn() - field.getColumn() + 1);
 			}
+			if (field.isHasValues()) {
+				fieldDefinition.setSourceScreenEntityClassName(field.getSourceScreenClassName());
+			}
 			fieldDefinitions.put(field.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;

@@ -9,11 +9,16 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.web.JsonSerializationUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.openlegacy.terminal.layout.mock.ScreenForPage;
 
@@ -67,5 +72,22 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
     	return "redirect:HtmlEmulation";
 		
     }
+
+	
+	// handle ajax request for fldRow10 field
+	@RequestMapping(value="/fldRow10", method = RequestMethod.GET)
+    @ResponseBody
+	public ResponseEntity<String> ScreenForPageController.WorkWithWarehouseDetails1Json() {
+    	WorkWithWarehouseDetails workWithWarehouseDetails = terminalSession.getEntity(ScreenForPage.class);
+    	
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/text; charset=utf-8");
+		JSONSerializer jsonSerializer = new JSONSerializer();
+		Map<Object,Object> fldRow10Values = screenForPage.getFldRow10Values();
+		
+		String result = JsonSerializationUtil.toDojoFormat(fldRow10Values);
+        return new ResponseEntity<String>(result, headers, HttpStatus.OK);
+    }
+	
 	
 }

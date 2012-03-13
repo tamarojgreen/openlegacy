@@ -34,7 +34,7 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     	return this.warehouseType;
     }
 
-    public Map<String,Object> WarehouseDetails.getWarehouseTypeValues(){
+    public Map<Object,Object> WarehouseDetails.getWarehouseTypeValues(){
     	return this.warehouseTypeValues;
     }
     
