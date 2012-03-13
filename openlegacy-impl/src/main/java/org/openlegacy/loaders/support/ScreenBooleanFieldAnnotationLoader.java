@@ -5,7 +5,7 @@ import java.text.MessageFormat;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenBooleanField;
-import org.openlegacy.definitions.support.SimpleBooleanFieldDefinition;
+import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
@@ -31,14 +31,14 @@ public class ScreenBooleanFieldAnnotationLoader extends AbstractFieldAnnotationL
 		// look in screen entities
 		if (screenEntityDefinition != null) {
 			SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition) screenEntityDefinition.getFieldsDefinitions().get(fieldName);
-			fieldDefinition.setFieldTypeDefinition(new SimpleBooleanFieldDefinition(fieldAnnotation.trueValue(),fieldAnnotation.falseValue()));
+			fieldDefinition.setFieldTypeDefinition(new SimpleBooleanFieldTypeDefinition(fieldAnnotation.trueValue(),fieldAnnotation.falseValue()));
 		} else {
 			// look in screen entities parts
 			ScreenPartEntityDefinition screenPart = screenEntitiesRegistry.getPart(containingClass);
 			if (screenPart != null) {
 				fieldName = MessageFormat.format("{0}.{1}", screenPart.getPartName(), fieldName);
 				SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition) screenPart.getFieldsDefinitions().get(fieldName);
-				fieldDefinition.setFieldTypeDefinition(new SimpleBooleanFieldDefinition(fieldAnnotation.trueValue(),fieldAnnotation.falseValue()));
+				fieldDefinition.setFieldTypeDefinition(new SimpleBooleanFieldTypeDefinition(fieldAnnotation.trueValue(),fieldAnnotation.falseValue()));
 			}
 
 		}

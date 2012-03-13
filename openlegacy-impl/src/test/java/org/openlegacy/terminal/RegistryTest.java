@@ -8,7 +8,7 @@ import apps.inventory.screens.SignOn;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.definitions.BooleanFieldDefinition;
+import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
@@ -68,8 +68,8 @@ public class RegistryTest {
 		Assert.assertNotNull(screenFieldDefinition);
 		FieldTypeDefinition fieldTypeDefinition = screenFieldDefinition.getFieldTypeDefinition();
 		Assert.assertNotNull(fieldTypeDefinition);
-		Assert.assertTrue(BooleanFieldDefinition.class.isAssignableFrom(fieldTypeDefinition.getClass()));
-		BooleanFieldDefinition booleanFieldTypeDefinition = (BooleanFieldDefinition)screenFieldDefinition.getFieldTypeDefinition();
+		Assert.assertTrue(BooleanFieldTypeDefinition.class.isAssignableFrom(fieldTypeDefinition.getClass()));
+		BooleanFieldTypeDefinition booleanFieldTypeDefinition = (BooleanFieldTypeDefinition)screenFieldDefinition.getFieldTypeDefinition();
 		Assert.assertEquals("Y", booleanFieldTypeDefinition.getTrueValue());
 		Assert.assertEquals("N", booleanFieldTypeDefinition.getFalseValue());
 	}

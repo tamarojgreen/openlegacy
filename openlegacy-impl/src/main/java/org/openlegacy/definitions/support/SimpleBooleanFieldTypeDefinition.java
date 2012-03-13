@@ -1,13 +1,13 @@
 package org.openlegacy.definitions.support;
 
-import org.openlegacy.definitions.BooleanFieldDefinition;
+import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 
-public class SimpleBooleanFieldDefinition implements BooleanFieldDefinition {
+public class SimpleBooleanFieldTypeDefinition implements BooleanFieldTypeDefinition {
 
 	private String trueValue;
 	private String falseValue;
 
-	public SimpleBooleanFieldDefinition(String trueValue, String falseValue) {
+	public SimpleBooleanFieldTypeDefinition(String trueValue, String falseValue) {
 		this.trueValue = trueValue;
 		this.falseValue = falseValue;
 	}

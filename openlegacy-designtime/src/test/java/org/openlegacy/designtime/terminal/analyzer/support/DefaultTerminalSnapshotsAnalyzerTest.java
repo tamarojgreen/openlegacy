@@ -7,7 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.definitions.BooleanFieldDefinition;
+import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
+import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
@@ -78,7 +79,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 		ScreenFieldDefinition booleanField = fieldsDefinitions.get("booleanField");
 		Assert.assertNotNull(booleanField);
-		BooleanFieldDefinition typeDefinition = (BooleanFieldDefinition)booleanField.getFieldTypeDefinition();
+		BooleanFieldTypeDefinition typeDefinition = (BooleanFieldTypeDefinition)booleanField.getFieldTypeDefinition();
 		Assert.assertEquals("Y", typeDefinition.getTrueValue());
 		Assert.assertEquals("N", typeDefinition.getFalseValue());
 	}
@@ -187,7 +188,8 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		ScreenEntityDefinition simpleScreenDefinition = screenEntitiesDefinitions.get("SimpleScreen");
 		SimpleScreenFieldDefinition fieldAdefinition = (SimpleScreenFieldDefinition)simpleScreenDefinition.getFieldsDefinitions().get(
 				"fieldA");
-		Assert.assertEquals(windowTableScreen.getEntityName(), fieldAdefinition.getSourceEntityClassName());
+		AutoCompleteFieldTypeDefinition fieldTypeDefinition = (AutoCompleteFieldTypeDefinition)fieldAdefinition.getFieldTypeDefinition();
+		Assert.assertEquals(windowTableScreen.getEntityName(), fieldTypeDefinition.getSourceEntityClassName());
 		assertScreenContent(simpleScreenDefinition, "SimpleScreenValues.java.expected");
 	}
 
