@@ -1,8 +1,9 @@
 package openlegacy;
 
 import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ScreenWindowFact;
+import org.openlegacy.terminal.Color;
 
-rule "identify-window"
+rule "identify-window-signs"
 ruleflow-group "identify-window"
 no-loop 
 when
@@ -41,5 +42,37 @@ when
 then
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenWindowFact($topBorderField,$buttomBorderField));
 	// cause "find-screen-name" rule to be re-populated with updated border values
+	update($screenEntityDefinition);
+end
+
+rule "identify-window-backcolor"
+ruleflow-group "identify-window"
+no-loop 
+when
+	// capture window with back color
+
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-window")
+	$backColor : Boolean(booleanValue==true)  from (Boolean)$ruleParameterSet.getRuleParameters().get("backColor");
+	$minimumWindowWidth: Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("minimumWindowWidth");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// which has a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// with a top border field which matches the window horizontal border 
+	$topBorderField: TerminalField(length > $minimumWindowWidth, reversed == true) from $snapshot.getFields()
+	
+	// with a buttom border field which matches the window horizontal border, and in the same column & length as the top border, and at lease 2 rows after it   
+	$buttomBorderField: TerminalField(reversed == true,position.row >= $topBorderField.position.row+2, position.column == $topBorderField.position.column, 
+										length == $topBorderField.length) from $snapshot.getFields()
+	
+	// verify there is 1 length reversed fields between the 2 top and buttom borders
+	$windowHeight: Integer() from ($buttomBorderField.position.row - $topBorderField.position.row - 1)
+	List(size == $windowHeight) from collect (TerminalField(reversed == true, length == 1, position.column == $topBorderField.position.column) from $snapshot.getFields()) 
+	List(size == $windowHeight) from collect (TerminalField(reversed == true, length == 1, position.column == $buttomBorderField.position.column) from $snapshot.getFields()) 
+then
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenWindowFact($topBorderField,$buttomBorderField));
 	update($screenEntityDefinition);
 end

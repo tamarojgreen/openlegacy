@@ -3,6 +3,7 @@ package org.openlegacy.terminal.support.proxy;
 import org.aopalliance.intercept.MethodInvocation;
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
+import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -38,14 +39,15 @@ public class RecordValuesProxyHandler implements ScreenEntityProxyHandler {
 		Class<?> entityClass = target.getClass();
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(entityClass);
 		ScreenFieldDefinition fieldDefinition = screenEntityDefinition.getFieldsDefinitions().get(propertyName);
-		RecordsProvider<Session, Object> recordsProvider = fieldDefinition.getRecordsProvider();
+		AutoCompleteFieldTypeDefinition fieldTypeDefinition = (AutoCompleteFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+		RecordsProvider<Session, Object> recordsProvider = fieldTypeDefinition.getRecordsProvider();
 
 		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
-				fieldDefinition.getSourceEntityClass()).getValue();
+				fieldTypeDefinition.getSourceEntityClass()).getValue();
 
 		@SuppressWarnings("unchecked")
-		Map<Object, Object> records = recordsProvider.getRecords(terminalSession, fieldDefinition.getSourceEntityClass(),
-				(Class<Object>)tableDefinition.getTableClass(), fieldDefinition.isCollectAll(), null);
+		Map<Object, Object> records = recordsProvider.getRecords(terminalSession, fieldTypeDefinition.getSourceEntityClass(),
+				(Class<Object>)tableDefinition.getTableClass(), fieldTypeDefinition.isCollectAll(), null);
 		return records;
 	}
 

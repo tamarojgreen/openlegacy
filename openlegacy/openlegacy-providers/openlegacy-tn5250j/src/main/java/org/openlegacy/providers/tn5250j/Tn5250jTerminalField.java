@@ -89,4 +89,13 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 	public Class<?> getType() {
 		return String.class;
 	}
+
+	public boolean isBold() {
+		// TODO implement bold for 5250j
+		return false;
+	}
+
+	public boolean isReversed() {
+		return getColor() != Color.BLACK;
+	}
 }

@@ -38,4 +38,8 @@ public interface TerminalField extends TerminalPositionContainer, Serializable {
 	 * @return
 	 */
 	Class<?> getType();
+
+	boolean isBold();
+
+	boolean isReversed();
 }

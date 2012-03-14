@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.persistance;
 
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
@@ -89,6 +90,10 @@ public class SnapshotPersistanceDTO {
 			// String value = StringUtil.rightTrim(terminalField.getValue());
 			String value = terminalField.getValue().replace((char)0, ' ');
 			persistedField.setValue(value, false);
+			// disable default colors from saved XML
+			if (persistedField.getColor() == Color.BLACK || persistedField.getColor() == Color.LIGHT_GREEN) {
+				persistedField.setColor(null);
+			}
 		}
 	}
 

@@ -9,6 +9,8 @@ import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalRectangle;
 
+import java.util.List;
+
 public class ScreenWindowFactProcessor implements ScreenFactProcessor {
 
 	public boolean accept(ScreenFact screenFact) {
@@ -24,6 +26,12 @@ public class ScreenWindowFactProcessor implements ScreenFactProcessor {
 				buttomBorderField.getPosition().getColumn() + buttomBorderField.getLength());
 		TerminalRectangle borders = new SimpleTerminalRectangle(topBorderField.getPosition(), buttomLeftPosition);
 		screenEntityDefinition.setSnapshotBorders(borders);
+
+		// remove the fields from the snapshot to avoid re-recognize by other rules & endless loop
+		List<TerminalField> fields = screenEntityDefinition.getSnapshot().getFields();
+		fields.remove(topBorderField);
+		fields.remove(buttomBorderField);
+
 	}
 
 }

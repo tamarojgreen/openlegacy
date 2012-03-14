@@ -58,6 +58,9 @@ public class TerminalPersistedField implements TerminalField {
 	@XmlAttribute
 	private Class<?> type = String.class;
 
+	@XmlAttribute
+	private Boolean bold = false;
+
 	public TerminalPosition getPosition() {
 		if (position == null) {
 			position = SimpleTerminalPosition.newInstance(row, column);
@@ -151,8 +154,16 @@ public class TerminalPersistedField implements TerminalField {
 		return color;
 	}
 
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	public Color getBackColor() {
 		return backColor;
+	}
+
+	public void setBackColor(Color backColor) {
+		this.backColor = backColor;
 	}
 
 	@Override
@@ -184,5 +195,17 @@ public class TerminalPersistedField implements TerminalField {
 
 	public void setType(Class<?> type) {
 		this.type = type;
+	}
+
+	public boolean isBold() {
+		return bold;
+	}
+
+	public void setBold(Boolean bold) {
+		this.bold = bold;
+	}
+
+	public boolean isReversed() {
+		return getBackColor() != null && getBackColor() != Color.BLACK;
 	}
 }

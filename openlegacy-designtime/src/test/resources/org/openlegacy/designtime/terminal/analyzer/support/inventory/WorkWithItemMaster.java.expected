@@ -32,7 +32,7 @@ public class WorkWithItemMaster {
 		@ScreenColumn(startColumn = 4, endColumn = 4, editable=true, selectionField=true ,displayName = "Action")
 		private Integer action;
 		
-		@ScreenColumn(startColumn = 11, endColumn = 20 ,displayName = "Alpha search", sampleValue="APPLE")
+		@ScreenColumn(startColumn = 11, endColumn = 20, key=true ,displayName = "Alpha search", sampleValue="APPLE")
 		private String alphaSearch;
 		
 		@ScreenColumn(startColumn = 24, endColumn = 63 ,displayName = "Item Description", sampleValue="Red apple - FRT")
