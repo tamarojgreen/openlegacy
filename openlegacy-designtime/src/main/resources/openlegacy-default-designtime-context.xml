@@ -61,6 +61,15 @@
 									</map>
 								</property>
 							</bean>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="backColor" value="true" />
+										<entry key="minimumWindowWidth" value="5" />
+										
+									</map>
+								</property>
+							</bean>
 						</list>
 					</property>
 				</bean>

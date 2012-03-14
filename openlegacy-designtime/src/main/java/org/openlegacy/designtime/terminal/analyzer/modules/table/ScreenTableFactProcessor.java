@@ -10,7 +10,6 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
-import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
@@ -69,7 +68,13 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 					columnName = COLUMN + (i + 1);
 				}
 			}
-			ScreenColumnDefinition columnDefinition = initColumn(i, firstCellField, columnName);
+			SimpleScreenColumnDefinition columnDefinition = initColumn(i, firstCellField, columnName);
+
+			if (!isSelectionField(i, firstCellField) && tableDefinition.getKeyFieldNames().size() == 0) {
+				// mark the 1st non editable field as key
+				// TODO logic needs to be more rich to check for most populated column
+				columnDefinition.setKey(true);
+			}
 
 			tableDefinition.getColumnDefinitions().add(columnDefinition);
 
@@ -102,7 +107,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 		return headerField;
 	}
 
-	private static SimpleScreenColumnDefinition initColumn(int i, TerminalField firstCellField, String columnName) {
+	private static SimpleScreenColumnDefinition initColumn(int coloumnIndex, TerminalField firstCellField, String columnName) {
 		SimpleScreenColumnDefinition columnDefinition = new SimpleScreenColumnDefinition(StringUtil.toJavaFieldName(columnName));
 
 		columnDefinition.setStartColumn(firstCellField.getPosition().getColumn());
@@ -112,7 +117,8 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 		columnDefinition.setEditable(firstCellField.isEditable());
 		columnDefinition.setJavaType(firstCellField.getType());
 
-		columnDefinition.setSelectionField(isSelectionField(i, firstCellField));
+		columnDefinition.setSelectionField(isSelectionField(coloumnIndex, firstCellField));
+
 		return columnDefinition;
 	}
 

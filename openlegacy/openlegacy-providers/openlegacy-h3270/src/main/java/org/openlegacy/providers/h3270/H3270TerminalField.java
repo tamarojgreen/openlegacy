@@ -82,4 +82,12 @@ public class H3270TerminalField extends AbstractTerminalField {
 		return String.class;
 	}
 
+	public boolean isBold() {
+		return s3270Field.isIntensified();
+	}
+
+	public boolean isReversed() {
+		return s3270Field.hasExtendedHighlight();
+	}
+
 }

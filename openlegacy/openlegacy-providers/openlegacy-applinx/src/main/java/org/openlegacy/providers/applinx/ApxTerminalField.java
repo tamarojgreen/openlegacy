@@ -2,6 +2,7 @@ package org.openlegacy.providers.applinx;
 
 import com.sabratec.applinx.baseobject.GXBaseObjectConstants;
 import com.sabratec.applinx.common.runtime.field.GXBlockModeCommonFieldData;
+import com.sabratec.applinx.common.runtime.field.GXCharModeCommonFieldData;
 import com.sabratec.applinx.common.runtime.field.GXIDataTypeSupport;
 import com.sabratec.applinx.common.runtime.field.GXIField;
 
@@ -59,7 +60,7 @@ public class ApxTerminalField extends AbstractTerminalField {
 	}
 
 	public Color getColor() {
-		return ApxUtils.convertForeColor(apxField.getCommonData().getBackgroundColor());
+		return ApxUtils.convertForeColor(apxField.getCommonData().getForegroundColor());
 	}
 
 	public Color getBackColor() {
@@ -74,5 +75,19 @@ public class ApxTerminalField extends AbstractTerminalField {
 			}
 		}
 		return String.class;
+	}
+
+	public boolean isBold() {
+		if (apxField.getCommonData() instanceof GXCharModeCommonFieldData) {
+			return ((GXCharModeCommonFieldData)apxField.getCommonData()).isBold();
+		}
+		return ((GXBlockModeCommonFieldData)apxField.getCommonData()).isIntensified();
+	}
+
+	public boolean isReversed() {
+		if (this.apxField.getCommonData() instanceof GXCharModeCommonFieldData) {
+			return false;
+		}
+		return ((GXBlockModeCommonFieldData)this.apxField.getCommonData()).isReversedVideo();
 	}
 }

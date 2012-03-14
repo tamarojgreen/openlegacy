@@ -30,17 +30,21 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 		Font font = new Font("Courier New", Font.PLAIN, 15);
 		Graphics graphics = buffer.createGraphics();
 		graphics.setFont(font);
-		graphics.setColor(new Color(0x00ff00));
+		setDefaultColor(graphics);
 
 		Collection<TerminalField> fields = terminalSnapshot.getFields();
 		for (TerminalField terminalField : fields) {
 			TerminalPosition position = terminalField.getPosition();
 			int startX = toWidth(position.getColumn());
 			int startY = toHeight(position.getRow());
-			graphics.drawString(terminalField.getValue(), startX, startY);
+			int width = toWidth(terminalField.getEndPosition().getColumn() + 1);
 			if (terminalField.isEditable()) {
-				graphics.drawLine(startX, startY, toWidth(terminalField.getEndPosition().getColumn() + 1), startY);
+				graphics.drawLine(startX, startY, width, startY);
 			}
+			if (terminalField.getBackColor() != org.openlegacy.terminal.Color.BLACK) {
+				graphics.fillRect(startX, toHeight(position.getRow() - 1) + 5, toWidth(terminalField.getLength()), toHeight(1));
+			}
+			graphics.drawString(terminalField.getValue(), startX, startY);
 		}
 
 		try {
@@ -48,6 +52,10 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
+	}
+
+	private static void setDefaultColor(Graphics graphics) {
+		graphics.setColor(new Color(0x00ff00));
 	}
 
 	private static int toHeight(int row) {
