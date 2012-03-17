@@ -87,8 +87,10 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 			if (terminalField != null && terminalField.isEditable()) {
 				ScreenFieldDefinition fieldDefinition = getFieldDefinitionByPosition(accessedFromScreenEntityDefinition,
 						terminalField);
-				FieldAssignDefinition assignFieldDefinition = new SimpleFieldAssignDefinition(fieldDefinition.getName(), null);
-				navigationDefinition.getAssignedFields().add(assignFieldDefinition);
+				if (fieldDefinition != null) {
+					FieldAssignDefinition assignFieldDefinition = new SimpleFieldAssignDefinition(fieldDefinition.getName(), null);
+					navigationDefinition.getAssignedFields().add(assignFieldDefinition);
+				}
 			}
 		}
 

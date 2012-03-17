@@ -2,8 +2,11 @@
 // You may push code into the target .java compilation unit if you wish to edit any member(s).
 package org.openlegacy.terminal.layout.mock.web;
 
+import java.util.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+
+import org.openlegacy.terminal.layout.mock.*;
 
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
@@ -77,12 +80,11 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	// handle ajax request for fldRow10 field
 	@RequestMapping(value="/fldRow10", method = RequestMethod.GET)
     @ResponseBody
-	public ResponseEntity<String> ScreenForPageController.WorkWithWarehouseDetails1Json() {
-    	WorkWithWarehouseDetails workWithWarehouseDetails = terminalSession.getEntity(ScreenForPage.class);
+	public ResponseEntity<String> ScreenForPageController.FldRow10Json() {
+    	ScreenForPage screenForPage = terminalSession.getEntity(ScreenForPage.class);
     	
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/text; charset=utf-8");
-		JSONSerializer jsonSerializer = new JSONSerializer();
 		Map<Object,Object> fldRow10Values = screenForPage.getFldRow10Values();
 		
 		String result = JsonSerializationUtil.toDojoFormat(fldRow10Values);
