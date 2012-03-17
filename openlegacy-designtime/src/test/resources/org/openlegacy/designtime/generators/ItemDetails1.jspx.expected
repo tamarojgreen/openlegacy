@@ -11,17 +11,17 @@
 	<form name="openlegacyForm" method="post">
 				<div style="margin-left: 23%; margin-top: 20%; width: 30%;" class="panel">
 			<div class="field">
-	<label>Item Number: </label>
+		<label>Item Number: </label>
 		<span>${itemDetails1.itemNumber}</span>
 			</div>
 			<div class="field">
-	<label>Item Description: </label>
-		<input type="text" value="${itemDetails1.itemDescription}" size="8" maxlength="8" />
+		<label>Item Description: </label>
+		<input type="text" name="itemDescription" value="${itemDetails1.itemDescription}" size="8" maxlength="8" />
 			</div>
 		</div>
 		<div style="margin-left: 11%; margin-top: 79%; width: 42%;position:absolute;" >
 			<div class="field">
-	<label>Pallet Label Required: </label>
+		<label>Pallet Label Required: </label>
 		     <input type="checkbox" name="palletLabelRequired" />
 			</div>
 		</div>

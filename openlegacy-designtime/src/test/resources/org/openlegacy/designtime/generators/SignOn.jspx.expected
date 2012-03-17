@@ -11,34 +11,34 @@
 	<form name="openlegacyForm" method="post">
 				<div style="margin-left: 60%; margin-top: 4%; width: 36%;position:absolute;" >
 			<div class="field">
-				<label>System: </label>
-				<span>${signOn.system}</span>
+		<label>System: </label>
+		<span>${signOn.system}</span>
 			</div>
 		</div>
 		<div style="margin-left: 21%; margin-top: 20%; width: 57%;" class="panel">
 			<div class="field">
-				
-				<label>User: </label>
-				<input type="text" value="${signOn.user}" size="10" maxlength="10" />			</div>
+		<label>User: </label>
+		<input type="text" name="user" value="${signOn.user}" size="10" maxlength="10" />
+			</div>
 			<div class="field">
-				
-				<label>Password: </label>
-				<input type="text" value="${signOn.password}" size="10" maxlength="10" />			</div>
+		<label>Password: </label>
+		<input type="text" name="password" value="${signOn.password}" size="10" maxlength="10" />
+			</div>
 			<div class="field">
-				
-				<label>Program Procedure: </label>
-				<input type="text" value="${signOn.programProcedure}" size="0" maxlength="0" />			</div>
+		<label>Program Procedure: </label>
+		<input type="text" name="programProcedure" value="${signOn.programProcedure}" size="0" maxlength="0" />
+			</div>
 		</div>
 		<div style="margin-left: 1%; margin-top: 95%; width: 13%;position:absolute;" >
 			<div class="field">
-				<label>Error: </label>
-				<span>${signOn.error}</span>
+		<label>Error: </label>
+		<span>${signOn.error}</span>
 			</div>
 		</div>
 		<div style="margin-left: 43%; margin-top: 95%; width: 33%;position:absolute;" >
 			<div class="field">
-				<label>Message: </label>
-				<span>${signOn.message}</span>
+		<label>Message: </label>
+		<span>${signOn.message}</span>
 			</div>
 		</div>
 		
