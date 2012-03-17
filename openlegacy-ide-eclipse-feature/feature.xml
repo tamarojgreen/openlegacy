@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="openlegacy.ide.eclipse.feature"
+      label="OpenLegacy IDE"
+      version="0.4.0.qualifier"
+      provider-name="OpenLegacy">
+
+   <description url="http://www.openlegacy.org/description">
+      OpenLegacy description
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.openlegacy.org/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <update label="OpenLegacy update site" url="http://eclipse.openlegacy.org/updatesite"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.m2e.core"/>
+      <import plugin="org.eclipse.aspectj"/>
+   </requires>
+
+   <plugin
+         id="org.openlegacy.ide.eclipse"
+         download-size="0"
+         install-size="0"
+         version="0.4.0.qualifier"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.archetype.common"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"/>
+
+   <plugin
+         id="org.eclipse.m2e.core"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.core.ui"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.discovery"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.editor"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.editor.xml"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.jdt"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.launching"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.lifecyclemapping.defaults"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"/>
+
+   <plugin
+         id="org.eclipse.m2e.logback.appender"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.logback.configuration"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.maven.indexer"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"/>
+
+   <plugin
+         id="org.eclipse.m2e.maven.runtime"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"/>
+
+   <plugin
+         id="org.eclipse.m2e.model.edit"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.refactoring"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.m2e.scm"
+         download-size="0"
+         install-size="0"
+         version="1.0.100.20110804-1717"
+         unpack="false"/>
+
+   <plugin
+         id="org.sonatype.m2e.buildhelper"
+         download-size="0"
+         install-size="0"
+         version="0.14.0.201109282148"
+         unpack="false"/>
+
+   <plugin
+         id="org.sonatype.m2e.mavenarchiver"
+         download-size="0"
+         install-size="0"
+         version="0.15.0.201109290002"
+         unpack="false"/>
+
+   <plugin
+         id="org.aspectj.ajde"
+         download-size="0"
+         install-size="0"
+         version="1.6.12.20111003171000"/>
+
+   <plugin
+         id="org.aspectj.runtime"
+         download-size="0"
+         install-size="0"
+         version="1.6.12.20111003171000"/>
+
+   <plugin
+         id="org.aspectj.runtime.source"
+         download-size="0"
+         install-size="0"
+         version="1.6.12.20111003171000"
+         unpack="false"/>
+
+   <plugin
+         id="org.aspectj.weaver"
+         download-size="0"
+         install-size="0"
+         version="1.6.12.20111003171000"/>
+
+   <plugin
+         id="org.eclipse.aspectj"
+         download-size="0"
+         install-size="0"
+         version="2.2.0.e37x-20111004-0800"
+         unpack="false"/>
+
+</feature>
