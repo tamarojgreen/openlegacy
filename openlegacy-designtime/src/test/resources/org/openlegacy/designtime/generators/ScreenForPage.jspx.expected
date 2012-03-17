@@ -12,15 +12,15 @@
 				<div style="margin-left: 12%; margin-top: 20%; width: 26%;" class="panel">
 			<div class="field">
 		<label>Fld Col12: </label>
-		<input type="text" value="${screenForPage.fldCol12}" size="10" maxlength="10" />
+		<input type="text" name="fldCol12" value="${screenForPage.fldCol12}" size="10" maxlength="10" />
 			</div>
 			<div class="field">
 		<label>Fld2Col12: </label>
-		<input type="text" value="${screenForPage.fld2Col12}" size="10" maxlength="10" />
+		<input type="text" name="fld2Col12" value="${screenForPage.fld2Col12}" size="10" maxlength="10" />
 			</div>
 			<div class="field">
 		<label>Fld3Col12: </label>
-		<input type="text" value="${screenForPage.fld3Col12}" size="10" maxlength="10" />
+		<input type="text" name="fld3Col12" value="${screenForPage.fld3Col12}" size="10" maxlength="10" />
 			</div>
 		</div>
 		<div style="margin-left: 26%; margin-top: 37%; width: 52%;" class="panel">
@@ -28,7 +28,7 @@
 		<label>Fld Row10: </label>
 			<script language="JavaScript" type="text/javascript">dojo.require("dojo.data.ItemFileReadStore");dojo.require("dijit.form.FilteringSelect");</script>
 			<span data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props="url:'ScreenForPage/fldRow10'" data-dojo-id="fldRow10Values"></span>
-			<input data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:fldRow10Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	
+			<input name="fldRow10" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:fldRow10Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	
 			</div>
 			<div class="col_2_of_2 field">
 		<label>Fld2Row10: </label>

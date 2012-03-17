@@ -68,7 +68,7 @@
 		  <#case "autocomplete">
 			<script language="JavaScript" type="text/javascript">dojo.require("dojo.data.ItemFileReadStore");dojo.require("dijit.form.FilteringSelect");</script>
 			<span data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props="url:'${entityDefinition.entityName?cap_first}/${field.name}'" data-dojo-id="${field.name}Values"></span>
-			<input data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:${field.name}Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	
+			<input name="${field.name}" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:${field.name}Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	
 		     <#break>
 		  <#default>
 			<@fieldDrawer field=field entityDefinition=entityDefinition />
@@ -81,7 +81,7 @@
 <#macro fieldDrawer field entityDefinition>
 	<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${field.name}">
 	<#if field.editable>
-		<input type="text" value="${r"${"}${fieldAssignment}${r"}"}" size="${field.length}" maxlength="${field.length}" />
+		<input type="text" name="${field.name}" value="${r"${"}${fieldAssignment}${r"}"}" size="${field.length}" maxlength="${field.length}" />
 	<#else>
 		<span>${r"${"}${fieldAssignment}${r"}"}</span>
 	</#if>

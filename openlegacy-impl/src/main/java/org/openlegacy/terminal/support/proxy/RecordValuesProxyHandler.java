@@ -39,6 +39,9 @@ public class RecordValuesProxyHandler implements ScreenEntityProxyHandler {
 		Class<?> entityClass = target.getClass();
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(entityClass);
 		ScreenFieldDefinition fieldDefinition = screenEntityDefinition.getFieldsDefinitions().get(propertyName);
+		if (!(fieldDefinition.getFieldTypeDefinition() instanceof AutoCompleteFieldTypeDefinition)) {
+			return null;
+		}
 		AutoCompleteFieldTypeDefinition fieldTypeDefinition = (AutoCompleteFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 		RecordsProvider<Session, Object> recordsProvider = fieldTypeDefinition.getRecordsProvider();
 
