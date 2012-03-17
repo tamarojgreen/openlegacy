@@ -35,7 +35,7 @@ public class WorkWithItemMaster {
 		@ScreenColumn(startColumn = 11, endColumn = 20, key=true ,displayName = "Alpha search", sampleValue="APPLE")
 		private String alphaSearch;
 		
-		@ScreenColumn(startColumn = 24, endColumn = 63 ,displayName = "Item Description", sampleValue="Red apple - FRT")
+		@ScreenColumn(startColumn = 24, endColumn = 63, mainDisplayField=true ,displayName = "Item Description", sampleValue="Red apple - FRT")
 		private String itemDescription;
 		
 		@ScreenColumn(startColumn = 65, endColumn = 79 ,displayName = "Item Number", sampleValue="1007")

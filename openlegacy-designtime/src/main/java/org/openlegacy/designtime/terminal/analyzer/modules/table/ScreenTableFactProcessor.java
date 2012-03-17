@@ -71,9 +71,14 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 			SimpleScreenColumnDefinition columnDefinition = initColumn(i, firstCellField, columnName);
 
 			if (!isSelectionField(i, firstCellField) && tableDefinition.getKeyFieldNames().size() == 0) {
-				// mark the 1st non editable field as key
+				// mark the 1st non editable field as key (in design-time)
 				// TODO logic needs to be more rich to check for most populated column
 				columnDefinition.setKey(true);
+			}
+
+			if (tableDefinition.getKeyFieldNames().size() > 0 && tableDefinition.getMainDisplayField() == null) {
+				// assume (in design-time) the 2nd column followed by key column in the main display column
+				tableDefinition.setMainDisplayField(columnDefinition.getName());
 			}
 
 			tableDefinition.getColumnDefinitions().add(columnDefinition);

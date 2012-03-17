@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
@@ -36,8 +37,11 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 
 		AssignedField[] assignedFields = screenNavigation.assignedFields();
 		for (AssignedField assignedField : assignedFields) {
-			navigationDefinition.getAssignedFields().add(
-					new SimpleFieldAssignDefinition(assignedField.field(), assignedField.value()));
+			String value = assignedField.value();
+			if (FieldAssignDefinition.NULL.equals(value)) {
+				value = null;
+			}
+			navigationDefinition.getAssignedFields().add(new SimpleFieldAssignDefinition(assignedField.field(), value));
 		}
 
 		SimpleScreenEntityDefinition screenEntityDefinition = (SimpleScreenEntityDefinition)screenEntitiesRegistry.get(containingClass);

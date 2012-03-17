@@ -110,8 +110,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity) {
 
-		entity = null;
+		// verify screens are synch
+		if (screenEntity != null) {
+			getEntity(screenEntity.getClass());
+		}
 
+		entity = null;
 		Object command = terminalActionMapper.getCommand(terminalAction);
 		if (command == null) {
 			terminalAction.perform(this, screenEntity);

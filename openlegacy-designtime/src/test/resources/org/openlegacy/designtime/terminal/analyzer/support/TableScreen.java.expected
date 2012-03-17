@@ -19,10 +19,10 @@ public class TableScreen {
 		@ScreenColumn(startColumn = 4, endColumn = 5, editable=true, selectionField=true ,displayName = "Action")
 		private String action;
 		
-		@ScreenColumn(startColumn = 11, endColumn = 19 ,displayName = "Column A", sampleValue="Cell 1A")
+		@ScreenColumn(startColumn = 11, endColumn = 19, key=true ,displayName = "Column A", sampleValue="Cell 1A")
 		private String columnA;
 		
-		@ScreenColumn(startColumn = 21, endColumn = 29 ,displayName = "Column B", sampleValue="Cell 1B")
+		@ScreenColumn(startColumn = 21, endColumn = 29, mainDisplayField=true ,displayName = "Column B", sampleValue="Cell 1B")
 		private String columnB;
 		
 		@ScreenColumn(startColumn = 31, endColumn = 39 ,displayName = "Column4", sampleValue="Cell 1C")

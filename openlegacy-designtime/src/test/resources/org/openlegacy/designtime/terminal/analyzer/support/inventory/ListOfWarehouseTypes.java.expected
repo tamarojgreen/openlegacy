@@ -32,7 +32,7 @@ public class ListOfWarehouseTypes {
 		@ScreenColumn(startColumn = 14, endColumn = 15, key=true ,displayName = "Type", sampleValue="DR")
 		private String type;
 		
-		@ScreenColumn(startColumn = 20, endColumn = 59 ,displayName = "Description", sampleValue="Dairy warehouse")
+		@ScreenColumn(startColumn = 20, endColumn = 59, mainDisplayField=true ,displayName = "Description", sampleValue="Dairy warehouse")
 		private String description;
 		
 	}    

@@ -17,8 +17,7 @@ public class ContentDifferentFieldComparator implements FieldComparator {
 		if (oldValue == null && newValue != null) {
 			return true;
 		}
-		oldValue = fieldFormatter.format(oldValue.toString());
-		return !oldValue.equals(newValue);
+		oldValue = fieldFormatter.format(String.valueOf(oldValue));
+		return !oldValue.equals(String.valueOf(newValue));
 	}
-
 }
