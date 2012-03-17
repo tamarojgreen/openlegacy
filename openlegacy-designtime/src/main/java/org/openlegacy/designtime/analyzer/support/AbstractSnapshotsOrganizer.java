@@ -36,7 +36,9 @@ public abstract class AbstractSnapshotsOrganizer<S extends Snapshot> implements 
 		List<S> result = new ArrayList<S>();
 		for (Set<S> group : groups) {
 			S snapshot = snapshotPickerStrategy.pickRepresenter(group);
-			result.add(snapshot);
+			if (snapshot != null) {
+				result.add(snapshot);
+			}
 		}
 		return result;
 	}
