@@ -87,7 +87,7 @@ public class ScreenBinderLogic {
 				boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalField.getValue(), value);
 				if (fieldModified) {
 					if (fieldMappingDefinition.isEditable()) {
-						terminalField.setValue(value.toString());
+						terminalField.setValue(String.valueOf(value));
 						modifiedfields.add(terminalField);
 						if (logger.isDebugEnabled()) {
 							logger.debug(MessageFormat.format(

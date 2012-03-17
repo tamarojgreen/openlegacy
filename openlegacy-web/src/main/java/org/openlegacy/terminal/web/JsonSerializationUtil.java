@@ -31,7 +31,7 @@ public class JsonSerializationUtil {
 			jsonObject.put("name", entry.getValue());
 			jsonObjects.add(jsonObject);
 		}
-		jsonRoot.put("identifier", "name");
+		jsonRoot.put("identifier", "id");
 		jsonRoot.put("items", jsonObjects);
 		String result = jsonRoot.toJSONString();
 		return result;

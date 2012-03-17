@@ -6,6 +6,11 @@ package org.openlegacy.terminal.definitions;
  */
 public interface FieldAssignDefinition {
 
+	/**
+	 * marker for not sending field content in the given context
+	 */
+	String NULL = "$XX$";
+
 	String getName();
 
 	String getValue();

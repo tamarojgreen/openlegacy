@@ -32,7 +32,7 @@ public class GenerateUtil {
 
 		Configuration configuration = new Configuration();
 		configuration.setClassForTemplateLoading(GenerateUtil.class, "/");
-
+		configuration.setWhitespaceStripping(true);
 		Template template;
 		try {
 			URL resource = GenerateUtil.class.getResource(MessageFormat.format("/{0}{1}", templatePrefix, templateName));

@@ -74,9 +74,10 @@ public class DefaultSessionNavigator implements SessionNavigator {
 			ScreenNavigationUtil.validateCurrentScreen(targetScreenEntity, currentEntityClass);
 		}
 
-		navigationMetadata.add(currentEntityDefinition, targetEntityDefinition, navigationSteps);
-
-		performDirectNavigation(terminalSession, currentEntityClass, navigationSteps);
+		if (navigationSteps != null) {
+			navigationMetadata.add(currentEntityDefinition, targetEntityDefinition, navigationSteps);
+			performDirectNavigation(terminalSession, currentEntityClass, navigationSteps);
+		}
 	}
 
 	private static void exitCurrentScreen(TerminalSession terminalSession, Class<?> currentEntityClass,
@@ -100,8 +101,14 @@ public class DefaultSessionNavigator implements SessionNavigator {
 				logger.debug("Performing navigation actions from screen " + currentEntityClass);
 			}
 			for (FieldAssignDefinition fieldAssignDefinition : assignedFields) {
-				fieldAccessor.setFieldValue(fieldAssignDefinition.getName(), fieldAssignDefinition.getValue());
+				String value = fieldAssignDefinition.getValue();
+				if (value != null) {
+					fieldAccessor.setFieldValue(fieldAssignDefinition.getName(), value);
+				}
 				fieldAccessor.setFocusField(fieldAssignDefinition.getName());
+			}
+			if (assignedFields.size() == 0) {
+				currentEntity = null;
 			}
 			terminalSession.doAction(navigationDefinition.getTerminalAction(), currentEntity);
 			currentEntity = terminalSession.getEntity();

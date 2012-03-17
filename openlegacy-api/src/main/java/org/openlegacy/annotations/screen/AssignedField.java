@@ -1,5 +1,7 @@
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.terminal.definitions.FieldAssignDefinition;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,6 +19,7 @@ public @interface AssignedField {
 
 	String field();
 
-	String value() default "";
+	// marking with "fake" null since default can't be null. Handled in ScreenNavigationAnnotationLoader
+	String value() default FieldAssignDefinition.NULL;
 
 }
