@@ -39,7 +39,6 @@
                label="Generate Web page"
                class="org.openlegacy.ide.eclipse.actions.GenerateWebPage"
                menubarPath="org.openlegacy.ied.eclipse.right_menu/generate"
-               enablesFor="1"
                id="org.openlegacy.ide.eclipse.actions.generateWebPage">
          </action>
       </objectContribution>
