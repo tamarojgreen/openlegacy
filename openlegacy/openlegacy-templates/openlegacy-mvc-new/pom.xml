@@ -16,7 +16,7 @@
 	<repositories>
 		<repository>
 			<id>openlegacy-release</id>
-			<url>http://openlegacy.org/maven2/release</url>
+			<url>http://maven.openlegacy.org/maven2/release</url>
 		</repository>
 		<repository>
 			<id>java.net</id>
