@@ -20,8 +20,8 @@ public interface DesignTimeExecuter {
 	void createProject(String templateName, File baseDir, String projectName, String providerName, String defaultPackage)
 			throws IOException;
 
-	void generateScreens(File trailFile, File sourceDirectory, String packageDir, OverrideConfirmer overrideConfirmer,
-			File analyzerContextFile) throws GenerationException;
+	void generateScreens(File trailFile, File sourceDirectory, String packageDir, File templatesDir,
+			OverrideConfirmer overrideConfirmer, File analyzerContextFile) throws GenerationException;
 
 	void generateAspect(File javaFile);
 
@@ -42,5 +42,7 @@ public interface DesignTimeExecuter {
 	 * @throws GenerationException
 	 */
 	void createWebPage(File projectDir, File screenEntitySourceFile, File sourceDirectory, String packageToPath,
-			OverrideConfirmer overrideConfirmer) throws GenerationException;
+			File templatesDir, OverrideConfirmer overrideConfirmer) throws GenerationException;
+
+	void createCustomTemplatesDir(File projectPath);
 }

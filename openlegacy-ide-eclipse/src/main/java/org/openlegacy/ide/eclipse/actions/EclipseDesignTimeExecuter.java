@@ -1,8 +1,12 @@
 package org.openlegacy.ide.eclipse.actions;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -27,6 +31,8 @@ public class EclipseDesignTimeExecuter {
 
 	private DesignTimeExecuter designTimeExecuter = new DesignTimeExecuterImpl();
 
+	private final static Logger logger = Logger.getLogger(EclipseDesignTimeExecuter.class);
+
 	public static EclipseDesignTimeExecuter instance() {
 		return instance;
 	}
@@ -39,7 +45,11 @@ public class EclipseDesignTimeExecuter {
 		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
-				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.FULL_BUILD)).run();
+				try {
+					ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+				} catch (CoreException e) {
+					// OK
+				}
 			}
 		});
 	}
@@ -48,8 +58,10 @@ public class EclipseDesignTimeExecuter {
 			OverrideConfirmer overrideConfirmer) throws GenerationException {
 		File anaylzerContextFile = new File(trailFile.getProject().getLocation().toOSString(),
 				DesignTimeExecuter.ANALYZER_DEFAULT_PATH);
+		File projectPath = new File(PathsUtil.toOsLocation(trailFile.getProject()), DesignTimeExecuterImpl.TEMPLATES_DIR);
+
 		designTimeExecuter.generateScreens(PathsUtil.toOsLocation(trailFile), PathsUtil.toSourceDirectory(sourceDirectory),
-				PathsUtil.packageToPath(packageDir), overrideConfirmer, anaylzerContextFile);
+				PathsUtil.packageToPath(packageDir), projectPath, overrideConfirmer, anaylzerContextFile);
 
 		Display.getDefault().asyncExec(new Runnable() {
 
@@ -70,7 +82,7 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void initialize(final File analyzerFile) {
-		Job job = new Job("Initializing analyzer") {
+		Job job = new Job("Initializing OpenLegacy analyzer") {
 
 			@Override
 			protected IStatus run(IProgressMonitor arg0) {
@@ -85,9 +97,23 @@ public class EclipseDesignTimeExecuter {
 	public void createWebPage(IFile screenEntitySourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
 			OverrideConfirmer overrideConfirmer) {
 
+		File projectPath = new File(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
+				DesignTimeExecuterImpl.TEMPLATES_DIR);
+
 		designTimeExecuter.createWebPage(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
 				PathsUtil.toOsLocation(screenEntitySourceFile), PathsUtil.toSourceDirectory(sourceDirectory),
-				PathsUtil.packageToPath(packageDir), overrideConfirmer);
+				PathsUtil.packageToPath(packageDir), projectPath, overrideConfirmer);
+
+	}
+
+	public void copyTemplates(IProject project) {
+		File projectPath = PathsUtil.toOsLocation(project);
+		designTimeExecuter.createCustomTemplatesDir(projectPath);
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e) {
+			logger.fatal(e);
+		}
 
 	}
 }

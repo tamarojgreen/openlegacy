@@ -51,7 +51,11 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	}
 
 	public void generateAll(File projectDir, ScreenEntityDefinition screenEntityDefinition, File sourceDirectory,
-			String packageDirectoryName, OverrideConfirmer overrideConfirmer) throws GenerationException {
+			String packageDirectoryName, File templatesDir, OverrideConfirmer overrideConfirmer) throws GenerationException {
+
+		// TODO - requires re-factoring. should handle all generation types
+		GenerateUtil.setTemplateDirectory(templatesDir);
+
 		FileOutputStream fos = null;
 		try {
 
