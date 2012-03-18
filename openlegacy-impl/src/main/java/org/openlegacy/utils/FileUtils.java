@@ -1,11 +1,14 @@
 package org.openlegacy.utils;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.SystemUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Map;
@@ -62,5 +65,18 @@ public class FileUtils {
 	public static String fileWithoutAnyExtension(String filename) {
 		filename = new File(filename).getName();
 		return filename.substring(0, filename.indexOf("."));
+	}
+
+	public static File extractToTempDir(URL resource, String fileName) throws IOException {
+		File tempDir = SystemUtils.getJavaIoTmpDir();
+		File file = new File(tempDir, fileName);
+		FileOutputStream output = null;
+		try {
+			output = new FileOutputStream(file);
+			IOUtils.copy(resource.openStream(), output);
+		} finally {
+			IOUtils.closeQuietly(output);
+		}
+		return file;
 	}
 }

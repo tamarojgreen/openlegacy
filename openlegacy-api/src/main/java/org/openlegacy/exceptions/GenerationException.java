@@ -12,6 +12,10 @@ public class GenerationException extends OpenLegacyRuntimeException {
 		super(s);
 	}
 
+	public GenerationException(String s, Exception e) {
+		super(s, e);
+	}
+
 	public GenerationException(Exception e) {
 		super(e);
 	}

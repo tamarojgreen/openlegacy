@@ -5,6 +5,25 @@
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
+            objectClass="org.eclipse.core.resources.IProject"
+            id="org.openlegacy.ide.eclipse.generate_trail_contribution">
+         <menu
+               label="Open Legacy"
+               path="additions"
+               id="org.openlegacy.ied.eclipse.right_menu">
+            <separator
+                  name="customize">
+            </separator>
+         </menu>
+         <action
+               label="Customize templates..."
+               class="org.openlegacy.ide.eclipse.actions.CustomizeTemplatesAction"
+               menubarPath="org.openlegacy.ied.eclipse.right_menu/customize"
+               enablesFor="1"
+               id="org.openlegacy.ide.eclipse.actions.customizeTemplate">
+         </action>
+      </objectContribution>
+      <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
             nameFilter="*.trail.xml" 
             id="org.openlegacy.ide.eclipse.generate_trail_contribution">

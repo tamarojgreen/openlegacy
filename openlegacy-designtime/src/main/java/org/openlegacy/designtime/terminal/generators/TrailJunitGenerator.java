@@ -1,7 +1,5 @@
 package org.openlegacy.designtime.terminal.generators;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import org.openlegacy.designtime.terminal.analyzer.support.TerminalSnapshotsAnalyzerContext.TerminalSnapshotSequenceComparator;
@@ -13,7 +11,6 @@ import org.openlegacy.utils.StringUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,17 +25,11 @@ public class TrailJunitGenerator {
 	public void generate(Collection<ScreenEntityDefinition> screenEntityDefinitions, String testName, OutputStream out)
 			throws TemplateException, IOException {
 
-		Configuration configuration = new Configuration();
-		configuration.setClassForTemplateLoading(getClass(), "/");
-
-		Template template = configuration.getTemplate("JunitTrail.java.template");
-
-		OutputStreamWriter output = new OutputStreamWriter(out);
 		List<ScreenEntityDefinition> sortedScreenEntityDefintions = sortEntityDefinitions(screenEntityDefinitions);
 
 		GeneratedApi generatedApi = generateContentApiCalls(testName, sortedScreenEntityDefintions);
 
-		template.process(generatedApi, output);
+		GenerateUtil.generate(generatedApi, out, "JunitTrail.java.template", "");
 	}
 
 	private static List<ScreenEntityDefinition> sortEntityDefinitions(Collection<ScreenEntityDefinition> screenEntityDefinitions) {

@@ -1,7 +1,5 @@
 package org.openlegacy.designtime.terminal.generators;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.logging.Log;
@@ -25,7 +23,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -138,16 +135,8 @@ public class ScreenPojosAjGenerator {
 			return screenEntityCodeModel;
 		}
 
-		Configuration configuration = new Configuration();
-		configuration.setClassForTemplateLoading(getClass(), "/");
-
-		Template template = configuration.getTemplate(templateFileName);
-
-		OutputStreamWriter output = new OutputStreamWriter(out);
-
-		template.process(screenEntityCodeModel, output);
+		GenerateUtil.generate(screenEntityCodeModel, out, templateFileName, "");
 
 		return screenEntityCodeModel;
 	}
-
 }

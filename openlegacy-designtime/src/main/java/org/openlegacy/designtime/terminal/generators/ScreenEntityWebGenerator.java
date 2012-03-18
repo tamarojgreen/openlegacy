@@ -11,7 +11,7 @@ import java.io.OutputStream;
 public interface ScreenEntityWebGenerator {
 
 	void generateAll(File projectDir, ScreenEntityDefinition screenEntityDefinition, File sourceDirectory,
-			String packageDirectoryName, OverrideConfirmer overrideConfirmer) throws GenerationException;
+			String packageDirectoryName, File templatesDir, OverrideConfirmer overrideConfirmer) throws GenerationException;
 
 	void generatePage(PageDefinition pageDefinition, OutputStream output) throws GenerationException;
 

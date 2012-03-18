@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
+import org.openlegacy.designtime.terminal.generators.GenerateUtil;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityWebGenerator;
@@ -28,6 +29,8 @@ import org.openlegacy.utils.ZipUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
@@ -53,6 +56,11 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String DEFAULT_SPRING_WEB_CONTEXT_FILE = "/src/main/webapp/WEB-INF/spring/webmvc-config.xml";
 
 	private static final String RUN_APPLICATION = "run-application.launch";
+
+	public static final String TEMPLATES_DIR = "templates";
+
+	private static final String DEFAULT_TEMPLATES_PREFIX = "default.";
+	private static final String DEFAULT_TEMPLATES_PATTERN = "/*.template";
 
 	private ApplicationContext applicationContext;
 
@@ -175,8 +183,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return targetZip;
 	}
 
-	public void generateScreens(File trailFile, File sourceDirectory, String packageDirectoryName,
+	public void generateScreens(File trailFile, File sourceDirectory, String packageDirectoryName, File templatesDir,
 			OverrideConfirmer overrideConfirmer, File analyzerContextFile) throws GenerationException {
+
+		// TODO - requires re-factoring. should handle all generation types
+		GenerateUtil.setTemplateDirectory(templatesDir);
+
 		ApplicationContext applicationContext = getApplicationContext(analyzerContextFile);
 		TerminalSnapshotsAnalyzer snapshotsAnalyzer = applicationContext.getBean(TerminalSnapshotsAnalyzer.class);
 
@@ -305,7 +317,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	public void createWebPage(File projectDir, File screenEntitySourceFile, File sourceDirectory, String packageDirectoryName,
-			OverrideConfirmer overrideConfirmer) throws GenerationException {
+			File templatesDir, OverrideConfirmer overrideConfirmer) throws GenerationException {
 
 		ScreenEntityDefinition screenEntityDefinition = null;
 		try {
@@ -320,7 +332,26 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		ScreenEntityWebGenerator screenEntityWebGenerator = new ScreenEntityMvcGenerator();
 		screenEntityWebGenerator.generateAll(projectDir, screenEntityDefinition, sourceDirectory, packageDirectoryName,
-				overrideConfirmer);
+				templatesDir, overrideConfirmer);
 	}
 
+	public void createCustomTemplatesDir(File projectPath) {
+		File templatesDir = new File(projectPath, TEMPLATES_DIR);
+		templatesDir.mkdirs();
+		PathMatchingResourcePatternResolver pathResolver = new PathMatchingResourcePatternResolver();
+		Resource[] defaultTemplates;
+		OutputStream fos = null;
+		try {
+			defaultTemplates = pathResolver.getResources("classpath*:" + DEFAULT_TEMPLATES_PATTERN);
+			for (Resource resource : defaultTemplates) {
+				String filename = resource.getFilename();
+				fos = new FileOutputStream(new File(templatesDir, filename));
+				IOUtils.copy(resource.getInputStream(), fos);
+			}
+		} catch (IOException e) {
+			throw (new GenerationException("Error creating custom templates", e));
+		} finally {
+			IOUtils.closeQuietly(fos);
+		}
+	}
 }
