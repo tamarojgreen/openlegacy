@@ -25,7 +25,8 @@ public class TableColumnFact implements Serializable {
 	public TableColumnFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> fields) {
 		this.screenEntityDefinition = screenEntityDefinition;
 		Collections.sort(fields, new FieldRowsComparator());
-		this.fields = fields;
+		this.fields = new ArrayList<TerminalField>();
+		this.fields.addAll(fields);
 	}
 
 	public ScreenEntityDesigntimeDefinition getScreenEntityDefinition() {

@@ -5,13 +5,22 @@ import freemarker.template.TemplateException;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.utils.FileCommand;
 import org.openlegacy.utils.FileCommandExecuter;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import japa.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
+@Component
 public class ScreenPojosRecursiveAjGenerator {
+
+	@Inject
+	private ApplicationContext applicationContext;
 
 	public static void main(String[] args) throws ParseException, IOException, TemplateException {
 		if (args.length == 0) {
@@ -20,14 +29,22 @@ public class ScreenPojosRecursiveAjGenerator {
 		}
 		String root = args[0];
 
-		new ScreenPojosRecursiveAjGenerator().generateAll(new File(root));
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+				"classpath:/openlegacy-basic-designtime-context.xml");
+
+		ScreenPojosRecursiveAjGenerator generator = applicationContext.getBean(ScreenPojosRecursiveAjGenerator.class);
+		generator.generateAll(new File(root));
 	}
 
 	public void generateAll(File root) throws IOException, TemplateException {
-		FileCommandExecuter.execute(root, new AspectGeneratorCommand());
+		FileCommandExecuter.execute(root, applicationContext.getBean(AspectGeneratorCommand.class));
 	}
 
-	private static class AspectGeneratorCommand implements FileCommand {
+	@Component
+	public static class AspectGeneratorCommand implements FileCommand {
+
+		@Inject
+		private ScreenPojosAjGenerator screenPojosAjGenerator;
 
 		public boolean accept(File file) {
 			if (file.getName().endsWith("aj")) {
@@ -45,7 +62,7 @@ public class ScreenPojosRecursiveAjGenerator {
 
 		public void doCommand(File file) {
 			try {
-				new ScreenPojosAjGenerator().generate(file);
+				screenPojosAjGenerator.generate(file);
 			} catch (Exception e) {
 				throw (new RuntimeException(e));
 			}

@@ -8,6 +8,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.utils.StringUtil;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -17,10 +18,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * A generator which generates a junit test from a given trail
  */
+@Component
 public class TrailJunitGenerator {
+
+	@Inject
+	private GenerateUtil generateUtil;
 
 	public void generate(Collection<ScreenEntityDefinition> screenEntityDefinitions, String testName, OutputStream out)
 			throws TemplateException, IOException {
@@ -29,7 +36,7 @@ public class TrailJunitGenerator {
 
 		GeneratedApi generatedApi = generateContentApiCalls(testName, sortedScreenEntityDefintions);
 
-		GenerateUtil.generate(generatedApi, out, "JunitTrail.java.template", "");
+		generateUtil.generate(generatedApi, out, "JunitTrail.java.template", "");
 	}
 
 	private static List<ScreenEntityDefinition> sortEntityDefinitions(Collection<ScreenEntityDefinition> screenEntityDefinitions) {

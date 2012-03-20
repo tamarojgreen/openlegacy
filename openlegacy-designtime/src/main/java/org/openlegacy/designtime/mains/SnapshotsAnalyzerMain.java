@@ -37,7 +37,7 @@ public class SnapshotsAnalyzerMain {
 			for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
 				File outputFile = new File(outputFolder, screenEntityDefinition.getEntityName() + ".java");
 				FileOutputStream output = new FileOutputStream(outputFile);
-				new ScreenEntityJavaGenerator().generate(screenEntityDefinition, output);
+				applicationContext.getBean(ScreenEntityJavaGenerator.class).generate(screenEntityDefinition, output);
 				output.close();
 			}
 

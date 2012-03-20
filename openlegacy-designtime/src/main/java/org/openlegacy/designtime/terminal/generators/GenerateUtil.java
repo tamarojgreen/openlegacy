@@ -7,6 +7,7 @@ import freemarker.template.TemplateException;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,14 +18,12 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Collection;
 
+@Component
 public class GenerateUtil {
 
 	private static File templatesDir;
 
-	/**
-	 * TODO Not a the best design, but does the work. Will need re-factoring later on
-	 */
-	public static void setTemplateDirectory(File templatesDir) {
+	public void setTemplateDirectory(File templatesDir) {
 		GenerateUtil.templatesDir = templatesDir;
 	}
 
@@ -39,8 +38,7 @@ public class GenerateUtil {
 	 * @throws GenerationException
 	 * @throws IOException
 	 */
-	public static void generate(Object model, OutputStream out, String templateName, String templatePrefix)
-			throws GenerationException {
+	public void generate(Object model, OutputStream out, String templateName, String templatePrefix) throws GenerationException {
 
 		try {
 			Configuration configuration = new Configuration();

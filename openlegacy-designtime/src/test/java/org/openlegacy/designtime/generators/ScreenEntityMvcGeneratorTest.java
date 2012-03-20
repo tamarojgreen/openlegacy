@@ -33,8 +33,12 @@ public class ScreenEntityMvcGeneratorTest {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
 	@Inject
 	private ScreenPageBuilder screenPageBuilder;
+
+	@Inject
+	ScreenEntityMvcGenerator screenEntityMvcGenerator;
 
 	@Test
 	public void testGenerateJspx() throws Exception {
@@ -49,7 +53,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
-		new ScreenEntityMvcGenerator().generatePage(pageDefinition, baos);
+		screenEntityMvcGenerator.generatePage(pageDefinition, baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("MenuScreenForPage.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
@@ -81,7 +85,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
-		new ScreenEntityMvcGenerator().generateController(pageDefinition, baos);
+		screenEntityMvcGenerator.generateController(pageDefinition, baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageController.java.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
@@ -98,7 +102,7 @@ public class ScreenEntityMvcGeneratorTest {
 	private void assertControllerAspectGeneration(ScreenEntityDefinition screenDefinition) throws TemplateException, IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
-		new ScreenEntityMvcGenerator().generateControllerAspect(pageDefinition, baos);
+		screenEntityMvcGenerator.generateControllerAspect(pageDefinition, baos);
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageController.aj.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
@@ -115,7 +119,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenEntityDefinition);
-		new ScreenEntityMvcGenerator().generatePage(pageDefinition, baos);
+		screenEntityMvcGenerator.generatePage(pageDefinition, baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedPageResultResource));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());

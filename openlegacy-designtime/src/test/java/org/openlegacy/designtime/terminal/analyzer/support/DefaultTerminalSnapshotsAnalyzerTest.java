@@ -46,6 +46,9 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	@Inject
 	private DefaultTerminalSnapshotsOrganizer snapshotsOrganizer;
 
+	@Inject
+	private ScreenEntityJavaGenerator screenEntityJavaGenerator;
+
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSnapshotsAnalyzerTest.class);
 
 	@Test
@@ -220,7 +223,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 			IOException {
 		((ScreenEntityDesigntimeDefinition)screen).setPackageName("com.test");
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		new ScreenEntityJavaGenerator().generate(screen, baos);
+		screenEntityJavaGenerator.generate(screen, baos);
 
 		if (expectedResource == null) {
 			logger.info("\n" + new String(baos.toByteArray()));
