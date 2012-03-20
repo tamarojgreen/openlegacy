@@ -84,11 +84,13 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				logger.info(MessageFormat.format("Generated controller : {0}", contollerFile.getAbsoluteFile()));
 			}
 
-			File contollerAspectFile = new File(packageDir, entityClassName + "Controller_Aspect.aj");
-			fos = new FileOutputStream(contollerAspectFile);
-			generateControllerAspect(pageDefinition, fos);
-			fos.close();
-			logger.info(MessageFormat.format("Generated controller aspect: {0}", contollerAspectFile.getAbsoluteFile()));
+			if (generateController) {
+				File contollerAspectFile = new File(packageDir, entityClassName + "Controller_Aspect.aj");
+				fos = new FileOutputStream(contollerAspectFile);
+				generateControllerAspect(pageDefinition, fos);
+				fos.close();
+				logger.info(MessageFormat.format("Generated controller aspect: {0}", contollerAspectFile.getAbsoluteFile()));
+			}
 
 			File webPageFile = new File(projectDir, VIEWS_DIR + entityClassName + ".jspx");
 			boolean webPageFileExists = webPageFile.exists();

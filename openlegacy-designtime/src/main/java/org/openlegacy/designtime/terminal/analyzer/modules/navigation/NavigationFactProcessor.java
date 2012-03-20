@@ -88,8 +88,18 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 				ScreenFieldDefinition fieldDefinition = getFieldDefinitionByPosition(accessedFromScreenEntityDefinition,
 						terminalField);
 				if (fieldDefinition != null) {
-					FieldAssignDefinition assignFieldDefinition = new SimpleFieldAssignDefinition(fieldDefinition.getName(), null);
-					navigationDefinition.getAssignedFields().add(assignFieldDefinition);
+					FieldAssignDefinition assignCursorFieldDefinition = new SimpleFieldAssignDefinition(
+							fieldDefinition.getName(), null);
+
+					List<FieldAssignDefinition> assignedFields = navigationDefinition.getAssignedFields();
+					// don't assign cursor if only 1 field exists and it has value
+					if (assignedFields.size() == 1) {
+						if (!assignedFields.get(0).getName().equals(assignCursorFieldDefinition.getName())) {
+							assignedFields.add(assignCursorFieldDefinition);
+						}
+					} else {
+						assignedFields.add(assignCursorFieldDefinition);
+					}
 				}
 			}
 		}
