@@ -21,10 +21,10 @@ import java.util.Collection;
 @Component
 public class GenerateUtil {
 
-	private static File templatesDir;
+	private File templatesDir;
 
 	public void setTemplateDirectory(File templatesDir) {
-		GenerateUtil.templatesDir = templatesDir;
+		this.templatesDir = templatesDir;
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class GenerateUtil {
 
 		try {
 			Configuration configuration = new Configuration();
-			if (templatesDir != null && templatesDir.exists()) {
+			if (isUseCustomTemplates()) {
 				configuration.setDirectoryForTemplateLoading(templatesDir);
 			} else {
 				configuration.setClassForTemplateLoading(GenerateUtil.class, "/");
@@ -50,7 +50,7 @@ public class GenerateUtil {
 			configuration.setWhitespaceStripping(true);
 			Template template = null;
 			try {
-				if (templatesDir != null && templatesDir.exists()) {
+				if (isUseCustomTemplates()) {
 					template = findTemplate(templateName, templatePrefix, configuration);
 				}
 			} catch (FileNotFoundException e) {
@@ -58,7 +58,13 @@ public class GenerateUtil {
 			}
 			// pick default template if couldn't find custom template
 			if (template == null) {
-				template = findTemplate(templateName, templatePrefix, configuration);
+				URL resource = GenerateUtil.class.getResource(MessageFormat.format("/{0}{1}", templatePrefix, templateName));
+				configuration.setClassForTemplateLoading(GenerateUtil.class, "/");
+				if (resource != null) {
+					template = configuration.getTemplate(templatePrefix + templateName);
+				} else {
+					template = configuration.getTemplate("/" + templateName);
+				}
 			}
 
 			OutputStreamWriter output = new OutputStreamWriter(out);
@@ -70,12 +76,40 @@ public class GenerateUtil {
 		}
 	}
 
-	private static Template findTemplate(String templateName, String templatePrefix, Configuration configuration)
-			throws IOException {
+	private boolean isUseCustomTemplates() {
+		return templatesDir != null && templatesDir.exists();
+	}
+
+	private Template findTemplate(String templateName, String templatePrefix, Configuration configuration) throws IOException {
+		Template template = null;
+		if (isUseCustomTemplates()) {
+			File templateFile = new File(templatesDir, MessageFormat.format("/{0}{1}", templatePrefix, templateName));
+			if (templateFile.exists()) {
+				template = configuration.getTemplate(templatePrefix + templateName);
+			} else {
+				template = configuration.getTemplate(templateName);
+			}
+		} else {
+			URL resource = GenerateUtil.class.getResource(MessageFormat.format("/{0}{1}", templatePrefix, templateName));
+			if (resource != null) {
+				template = configuration.getTemplate(templatePrefix + templateName);
+			} else {
+				template = configuration.getTemplate(templateName);
+			}
+		}
+		return template;
+	}
+
+	private static Template getTemplate(String templateName, String templatePrefix, Configuration configuration,
+			boolean templateWithPrefixExists) throws IOException {
 		Template template;
-		URL resource = GenerateUtil.class.getResource(MessageFormat.format("/{0}{1}", templatePrefix, templateName));
-		if (resource != null) {
-			template = configuration.getTemplate(templatePrefix + templateName);
+		if (templateWithPrefixExists) {
+			try {
+				template = configuration.getTemplate(templatePrefix + templateName);
+			} catch (FileNotFoundException e) {
+				// fall back to default template
+				template = configuration.getTemplate(templateName);
+			}
 		} else {
 			template = configuration.getTemplate(templateName);
 		}
