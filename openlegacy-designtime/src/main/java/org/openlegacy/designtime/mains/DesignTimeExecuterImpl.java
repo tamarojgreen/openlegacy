@@ -59,8 +59,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	public static final String TEMPLATES_DIR = "templates";
 
-	private static final String DEFAULT_TEMPLATES_PREFIX = "default.";
-	private static final String DEFAULT_TEMPLATES_PATTERN = "/*.template";
+	private static final String DEFAULT_TEMPLATES_PATTERN = "classpath*:/*.template";
 
 	private ApplicationContext applicationContext;
 
@@ -186,8 +185,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	public void generateScreens(File trailFile, File sourceDirectory, String packageDirectoryName, File templatesDir,
 			OverrideConfirmer overrideConfirmer, File analyzerContextFile) throws GenerationException {
 
-		// TODO - requires re-factoring. should handle all generation types
-		GenerateUtil.setTemplateDirectory(templatesDir);
+		getGenerateUtil().setTemplateDirectory(templatesDir);
 
 		ApplicationContext applicationContext = getApplicationContext(analyzerContextFile);
 		TerminalSnapshotsAnalyzer snapshotsAnalyzer = applicationContext.getBean(TerminalSnapshotsAnalyzer.class);
@@ -237,8 +235,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	private static void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File sourceDirectory) {
-		TrailJunitGenerator generator = new TrailJunitGenerator();
+	private GenerateUtil getGenerateUtil() {
+		return applicationContext.getBean(GenerateUtil.class);
+	}
+
+	private void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File sourceDirectory) {
+		TrailJunitGenerator generator = applicationContext.getBean(TrailJunitGenerator.class);
 		File testsDirectory = new File(sourceDirectory, "tests");
 		try {
 			testsDirectory.mkdir();
@@ -254,13 +256,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	private static void generateJava(ScreenEntityDefinition screenEntityDefinition, File file) throws FileNotFoundException,
+	private void generateJava(ScreenEntityDefinition screenEntityDefinition, File file) throws FileNotFoundException,
 			TemplateException, IOException {
 		FileOutputStream fos = null;
 		try {
 			file.getParentFile().mkdirs();
 			fos = new FileOutputStream(file);
-			new ScreenEntityJavaGenerator().generate(screenEntityDefinition, fos);
+
+			ScreenEntityJavaGenerator screenEntityJavaGenerator = applicationContext.getBean(ScreenEntityJavaGenerator.class);
+
+			screenEntityJavaGenerator.generate(screenEntityDefinition, fos);
 		} finally {
 			IOUtils.closeQuietly(fos);
 		}
@@ -296,7 +301,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		OutputStream fos = null;
 		try {
-			new ScreenPojosAjGenerator().generate(javaFile);
+			ScreenPojosAjGenerator generator = applicationContext.getBean(ScreenPojosAjGenerator.class);
+			generator.generate(javaFile);
 		} catch (IOException e) {
 			throw (new GenerationException(e));
 		} catch (TemplateException e) {
@@ -330,7 +336,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			throw (new GenerationException(MessageFormat.format("{0} is not a screen entity", screenEntitySourceFile.getName())));
 		}
 
-		ScreenEntityWebGenerator screenEntityWebGenerator = new ScreenEntityMvcGenerator();
+		ScreenEntityWebGenerator screenEntityWebGenerator = applicationContext.getBean(ScreenEntityMvcGenerator.class);
+
 		screenEntityWebGenerator.generateAll(projectDir, screenEntityDefinition, sourceDirectory, packageDirectoryName,
 				templatesDir, overrideConfirmer);
 	}
@@ -342,7 +349,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		Resource[] defaultTemplates;
 		OutputStream fos = null;
 		try {
-			defaultTemplates = pathResolver.getResources("classpath*:" + DEFAULT_TEMPLATES_PATTERN);
+			defaultTemplates = pathResolver.getResources(DEFAULT_TEMPLATES_PATTERN);
 			for (Resource resource : defaultTemplates) {
 				String filename = resource.getFilename();
 				fos = new FileOutputStream(new File(templatesDir, filename));

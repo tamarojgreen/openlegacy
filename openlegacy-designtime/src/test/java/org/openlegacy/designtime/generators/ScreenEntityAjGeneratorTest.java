@@ -5,8 +5,11 @@ import freemarker.template.TemplateException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.test.utils.AssertUtils;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
@@ -20,7 +23,14 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import javax.inject.Inject;
+
+@ContextConfiguration("/openlegacy-basic-designtime-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class ScreenEntityAjGeneratorTest {
+
+	@Inject
+	private ScreenPojosAjGenerator screenPojosAjGenerator;
 
 	@Test
 	public void testSimple() throws Exception {
@@ -55,8 +65,7 @@ public class ScreenEntityAjGeneratorTest {
 		ClassOrInterfaceDeclaration mainType = getMainType(compilationUnit);
 		List<BodyDeclaration> members = mainType.getMembers();
 		BodyDeclaration lastMember = members.get(members.size() - 1);
-		new ScreenPojosAjGenerator().generateScreenTable(compilationUnit, (ClassOrInterfaceDeclaration)lastMember, baos,
-				"TestClass");
+		screenPojosAjGenerator.generateScreenTable(compilationUnit, (ClassOrInterfaceDeclaration)lastMember, baos, "TestClass");
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("testTable_Aspect.aj.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
@@ -68,7 +77,7 @@ public class ScreenEntityAjGeneratorTest {
 		InputStream input = getClass().getResourceAsStream("testNotScreenEntity.java.resource");
 		CompilationUnit compilationUnit = JavaParser.parse(input);
 
-		new ScreenPojosAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
+		screenPojosAjGenerator.generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 
 		Assert.assertEquals(0, baos.toByteArray().length);
 	}
@@ -83,7 +92,7 @@ public class ScreenEntityAjGeneratorTest {
 		try {
 			InputStream input = getClass().getResourceAsStream("testNonJavaFile.txt");
 			CompilationUnit compilationUnit = JavaParser.parse(input);
-			new ScreenPojosAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
+			screenPojosAjGenerator.generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 			Assert.fail("Parsing should have failed");
 		} catch (ParseException e) {
 			// good!
@@ -101,7 +110,7 @@ public class ScreenEntityAjGeneratorTest {
 
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
-		new ScreenPojosAjGenerator().generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
+		screenPojosAjGenerator.generateScreenEntity(compilationUnit, getMainType(compilationUnit), baos);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectAspect));
 

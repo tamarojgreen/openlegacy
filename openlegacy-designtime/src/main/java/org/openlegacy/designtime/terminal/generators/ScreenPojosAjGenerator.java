@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.generators.support.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.springframework.stereotype.Component;
 
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
@@ -26,6 +27,8 @@ import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * A generator which generate for screen pojos annotation with @ScreenEntity, @ScreenPart, @ScreenTable (a.k.a
  * "main screen annotation") Work closely with ScreenPojoCodeModelImpl and freemarker template engine Performs the following
@@ -38,9 +41,13 @@ import java.util.List;
  * </ul>
  * 
  */
+@Component
 public class ScreenPojosAjGenerator {
 
 	private final static Log logger = LogFactory.getLog(ScreenPojosAjGenerator.class);
+
+	@Inject
+	private GenerateUtil generateUtil;
 
 	public void generate(File javaFile) throws IOException, TemplateException, ParseException {
 
@@ -135,7 +142,7 @@ public class ScreenPojosAjGenerator {
 			return screenEntityCodeModel;
 		}
 
-		GenerateUtil.generate(screenEntityCodeModel, out, templateFileName, "");
+		generateUtil.generate(screenEntityCodeModel, out, templateFileName, "");
 
 		return screenEntityCodeModel;
 	}

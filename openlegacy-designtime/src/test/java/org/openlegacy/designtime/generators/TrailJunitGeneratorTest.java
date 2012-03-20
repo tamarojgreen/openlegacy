@@ -32,6 +32,12 @@ public class TrailJunitGeneratorTest {
 	@Inject
 	private DefaultTerminalSnapshotsAnalyzer snapshotsAnalyzer;
 
+	@Inject
+	private GenerateUtil generateUtil;
+
+	@Inject
+	private TrailJunitGenerator trailJunitGenerator;
+
 	@Test
 	public void testGenerateJunit() throws Exception {
 
@@ -49,22 +55,22 @@ public class TrailJunitGeneratorTest {
 		// test custom template
 		try {
 			File tempFile = FileUtils.extractToTempDir(getClass().getResource("dummyTemplate.txt"), "JunitTrail.java.template");
-			GenerateUtil.setTemplateDirectory(tempFile.getParentFile());
+			generateUtil.setTemplateDirectory(tempFile.getParentFile());
 			baos = generate(screenEntitiesDefinitions);
 			String result = org.openlegacy.utils.StringUtil.toString(baos);
 			Assert.assertEquals("This is a dummy template for Test", result);
 		} finally {
-			GenerateUtil.setTemplateDirectory(null);
+			generateUtil.setTemplateDirectory(null);
 		}
 
 	}
 
-	private static ByteArrayOutputStream generate(Map<String, ScreenEntityDefinition> screenEntitiesDefinitions)
+	private ByteArrayOutputStream generate(Map<String, ScreenEntityDefinition> screenEntitiesDefinitions)
 			throws TemplateException, IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		Collection<ScreenEntityDefinition> screenDefinitions = screenEntitiesDefinitions.values();
 		GenerateUtil.setPackageName(screenDefinitions, "com.test");
-		new TrailJunitGenerator().generate(screenDefinitions, "Test", baos);
+		trailJunitGenerator.generate(screenDefinitions, "Test", baos);
 		return baos;
 	}
 }

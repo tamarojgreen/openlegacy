@@ -10,6 +10,7 @@ import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,6 +18,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 
+import javax.inject.Inject;
+
+@Component
 public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	private static final String VIEWS_DIR = "src/main/webapp/WEB-INF/views/";
@@ -33,28 +37,30 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	private static final CharSequence TILES_VIEW_PLACEHOLDER = "<!-- Place holder for code generation -->";
 
+	@Inject
+	GenerateUtil generateUtil;
+
 	private final static Log logger = LogFactory.getLog(ScreenEntityMvcGenerator.class);
 
 	public void generatePage(PageDefinition pageDefinition, OutputStream output) {
 		String typeName = pageDefinition.getEntityDefinition().getTypeName();
-		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcPage.jspx.template", typeName);
+		generateUtil.generate(pageDefinition, output, "ScreenEntityMvcPage.jspx.template", typeName);
 	}
 
 	public void generateController(PageDefinition pageDefinition, OutputStream output) {
 		String typeName = pageDefinition.getEntityDefinition().getTypeName();
-		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.java.template", typeName);
+		generateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.java.template", typeName);
 	}
 
 	public void generateControllerAspect(PageDefinition pageDefinition, OutputStream output) {
 		String typeName = pageDefinition.getEntityDefinition().getTypeName();
-		GenerateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.aj.template", typeName);
+		generateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.aj.template", typeName);
 	}
 
 	public void generateAll(File projectDir, ScreenEntityDefinition screenEntityDefinition, File sourceDirectory,
 			String packageDirectoryName, File templatesDir, OverrideConfirmer overrideConfirmer) throws GenerationException {
 
-		// TODO - requires re-factoring. should handle all generation types
-		GenerateUtil.setTemplateDirectory(templatesDir);
+		generateUtil.setTemplateDirectory(templatesDir);
 
 		FileOutputStream fos = null;
 		try {
