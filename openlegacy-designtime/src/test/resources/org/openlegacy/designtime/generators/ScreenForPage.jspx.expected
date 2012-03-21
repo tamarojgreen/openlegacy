@@ -8,7 +8,6 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	<form name="openlegacyForm" method="post">
 				<div style="margin-left: 12%; margin-top: 20%; width: 26%;" class="panel">
 			<div class="field">
 		<label>Fld Col12: </label>
@@ -68,5 +67,4 @@
 				</table>
 		</div>
 		
-	</form>
 </div>

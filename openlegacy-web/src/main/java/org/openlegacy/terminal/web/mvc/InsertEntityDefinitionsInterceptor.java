@@ -17,6 +17,12 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Intercepter class for spring MVC. Injects commly used beans into the page context so they can be accessed via the web page
+ * 
+ * @author RoiM
+ * 
+ */
 public class InsertEntityDefinitionsInterceptor extends HandlerInterceptorAdapter {
 
 	@Inject
@@ -29,6 +35,10 @@ public class InsertEntityDefinitionsInterceptor extends HandlerInterceptorAdapte
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
 			throws Exception {
 		if (modelAndView == null) {
+			return;
+		}
+
+		if (!terminalSession.isConnected()) {
 			return;
 		}
 
