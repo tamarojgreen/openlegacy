@@ -76,6 +76,10 @@ body {
 	background-color: white;
 }
 
+button{
+	background-color: white;
+}
+
 .breadcrumb{
 	position: absolute;
 	left: 25%;

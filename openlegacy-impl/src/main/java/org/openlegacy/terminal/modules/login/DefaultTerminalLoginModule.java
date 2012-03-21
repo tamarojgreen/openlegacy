@@ -109,6 +109,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		if (ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
 			Object value = fieldAccessor.getFieldValue(loginMetadata.getErrorField().getName());
 			String message = value != null ? value.toString() : LOGIN_FAILED;
+			fieldAccessor.setFieldValue(loginMetadata.getErrorField().getName(), message);
 			throw (new LoginException(message));
 		} else {
 			loggedInUser = user;
@@ -203,7 +204,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		try {
 			logoffOnly();
 		} catch (Exception e) {
-			logger.warn("Disconnected with error",e);
+			logger.warn("Disconnected with error", e);
 		}
 	}
 }
