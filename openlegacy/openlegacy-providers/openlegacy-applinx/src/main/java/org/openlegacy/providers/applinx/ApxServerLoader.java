@@ -9,6 +9,8 @@ import com.sabratec.applinx.server.runtime.GXServerContext;
 import com.sabratec.util.GXSystem;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
@@ -44,6 +46,8 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 	private Resource serverConfiguration;
 
 	private Resource applicationRepository;
+
+	private final Log logger = LogFactory.getLog(ApxServerLoader.class);
 
 	public void startServer() throws Exception {
 
@@ -93,6 +97,9 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 
 	private void initFiles() throws IOException, FileNotFoundException {
 		File workingDir = initWorkingDir();
+
+		logger.info(MessageFormat.format("*** Initializing Applinx configuration files in: {0}", workingDir));
+
 		initLicense(workingDir);
 		initConfigFiles(workingDir);
 

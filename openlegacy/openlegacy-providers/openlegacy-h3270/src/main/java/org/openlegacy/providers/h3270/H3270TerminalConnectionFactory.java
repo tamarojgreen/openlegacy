@@ -5,6 +5,8 @@ import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.h3270.host.S3270;
 import org.h3270.logicalunit.LogicalUnitException;
 import org.h3270.logicalunit.LogicalUnitPool;
@@ -24,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Map;
 
 public class H3270TerminalConnectionFactory implements TerminalConnectionFactory, InitializingBean {
@@ -33,6 +36,8 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 	private String hostName;
 
 	private Configuration configuration;
+
+	private final Log logger = LogFactory.getLog(H3270TerminalConnectionFactory.class);
 
 	public TerminalConnection getConnection() {
 		try {
@@ -84,6 +89,7 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 
 	private void initialize() throws ConfigurationException, IOException {
 		File targetFile = initH3270ConfigWorkingCopy();
+
 		initConfiguration(targetFile);
 
 		if (OsUtils.isUnix()) {
@@ -115,8 +121,12 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 		String fileName = "/h3270-config.xml";
 		Resource h3270ConfigResource = new ClassPathResource(fileName);
 		Map keysValues = new HashedMap();
-		keysValues.put("H3270_HOME", initWorkingDir().getAbsolutePath().replace("\\", "\\\\"));
-		File configFile = initResource(initWorkingDir(), fileName, h3270ConfigResource, keysValues);
+		File workingDir = initWorkingDir();
+
+		logger.info(MessageFormat.format("*** Initializing H3270 configuration files in: {0}", workingDir));
+
+		keysValues.put("H3270_HOME", workingDir.getAbsolutePath().replace("\\", "\\\\"));
+		File configFile = initResource(workingDir, fileName, h3270ConfigResource, keysValues);
 		return configFile;
 	}
 
