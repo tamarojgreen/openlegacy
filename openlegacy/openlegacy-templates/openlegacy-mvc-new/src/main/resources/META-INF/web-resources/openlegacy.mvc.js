@@ -1,10 +1,14 @@
+function getMainForm(){
+	return document.openlegacyForm;
+}
+
 function doPost(actionName){
 	if (actionName != null && actionName.length > 0){
-		document.openlegacyForm.action = location.href + "?action=" + actionName;
+		getMainForm().action = location.href + "?action=" + actionName;
 	}
 	else{
-		document.openlegacyForm.action = location.href;
+		getMainForm().action = location.href;
 	}
 	
-	document.openlegacyForm.submit();
+	getMainForm().submit();
 }
