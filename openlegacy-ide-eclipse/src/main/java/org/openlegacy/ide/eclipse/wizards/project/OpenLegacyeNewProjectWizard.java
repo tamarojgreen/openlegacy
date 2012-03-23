@@ -16,8 +16,10 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
+import org.openlegacy.designtime.mains.ProjectCreationRequest;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
+import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.ide.eclipse.util.Prefrences;
 
 public class OpenLegacyeNewProjectWizard extends BasicNewResourceWizard {
@@ -44,6 +46,8 @@ public class OpenLegacyeNewProjectWizard extends BasicNewResourceWizard {
 		final String projectName = page.getProjectName();
 		String defaultPackageName = page.getDefaultPackageName();
 		String providerName = page.getProvider();
+		String hostName = page.getHostName();
+		String hostPort = page.getHostPort();
 
 		IPath workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
 
@@ -68,14 +72,27 @@ public class OpenLegacyeNewProjectWizard extends BasicNewResourceWizard {
 		};
 		try {
 			getContainer().run(true, true, op);
-			EclipseDesignTimeExecuter.instance().createProject(templateName, workspacePath, projectName, providerName,
-					defaultPackageName);
+
+			ProjectCreationRequest projectCreationRequest = new ProjectCreationRequest();
+			projectCreationRequest.setTemplateName(templateName);
+			projectCreationRequest.setBaseDir(PathsUtil.toOsLocation(workspacePath));
+			projectCreationRequest.setProjectName(projectName);
+			projectCreationRequest.setProvider(providerName);
+			projectCreationRequest.setDefaultPackageName(defaultPackageName);
+			projectCreationRequest.setHostName(hostName);
+			projectCreationRequest.setHostPort(Integer.parseInt(hostPort));
+			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
 		} catch (Exception e) {
 			logger.fatal(e.getMessage(), e);
 			return false;
 		}
 
 		return true;
+	}
+
+	@Override
+	public boolean canFinish() {
+		return page.isPageComplete();
 	}
 
 	/**

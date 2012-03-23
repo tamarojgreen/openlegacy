@@ -63,23 +63,38 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private ApplicationContext applicationContext;
 
-	public void createProject(String templateName, File baseDir, String projectName, String provider, String defaultPackageName)
-			throws IOException {
-		File targetZip = extractTemplate(templateName, baseDir);
-		File targetPath = unzipTemplate(baseDir, projectName, targetZip);
+	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
+		File targetZip = extractTemplate(projectCreationRequest.getTemplateName(), projectCreationRequest.getBaseDir());
+		File targetPath = unzipTemplate(projectCreationRequest.getBaseDir(), projectCreationRequest.getProjectName(), targetZip);
 
 		// maven files
-		renameProjectPOM(projectName, targetPath);
-		renameProviderInPOM(provider, targetPath);
+		renameProjectPOM(projectCreationRequest.getProjectName(), targetPath);
+		renameProviderInPOM(projectCreationRequest.getProvider(), targetPath);
 
 		// spring files
-		updateSpringContextWithDefaultPackage(defaultPackageName, targetPath);
+		updateSpringContextWithDefaultPackage(projectCreationRequest.getDefaultPackageName(), targetPath);
 
 		// eclipse files
-		renameProject(projectName, targetPath);
-		renameLauncher(projectName, targetPath);
+		renameProject(projectCreationRequest.getProjectName(), targetPath);
+		renameLauncher(projectCreationRequest.getProjectName(), targetPath);
+
+		updateHostpropertiesFile(projectCreationRequest, targetPath);
 
 		targetZip.delete();
+	}
+
+	private static void updateHostpropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath)
+			throws IOException, FileNotFoundException {
+		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
+		String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
+
+		hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.name=.*",
+				MessageFormat.format("host.name={0}", projectCreationRequest.getHostName()));
+
+		hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.port=.*",
+				MessageFormat.format("host.port={0}", projectCreationRequest.getHostPort()));
+		FileOutputStream fos = new FileOutputStream(hostPropertiesFile);
+		IOUtils.write(hostPropertiesFileContent, fos);
 	}
 
 	private static void renameLauncher(String projectName, File targetPath) throws FileNotFoundException, IOException {
@@ -156,9 +171,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
 
 		if (!provider.equals(DesignTimeExecuter.MOCK_PROVIDER)) {
-			pomFileContent = pomFileContent.replace(
-					"<groupId>org.openlegacy</groupId>\\s+<artifactId>openlegacy-Impl</artifactId>", MessageFormat.format(
-							"<groupId>org.openlegacy.providers</groupId>\\n\\t\\t\\t<artifactId>openlegacy-{0}</artifactId>",
+			// tn5250j or impl is the default pom setting
+
+			pomFileContent = pomFileContent.replaceFirst(
+					"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>",
+					MessageFormat.format(
+							"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
+							provider));
+			pomFileContent = pomFileContent.replaceFirst(
+					"<groupId>org.openlegacy</groupId>\\s+<artifactId>openlegacy-impl</artifactId>", MessageFormat.format(
+							"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
 							provider));
 		}
 
