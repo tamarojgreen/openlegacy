@@ -17,8 +17,7 @@ public interface DesignTimeExecuter {
 	public static final String ASPECT_SUFFIX = "_Aspect.aj";
 	public static final String RESOURCES_FOLDER_SUFFIX = "-resources";
 
-	void createProject(String templateName, File baseDir, String projectName, String providerName, String defaultPackage)
-			throws IOException;
+	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException;
 
 	void generateScreens(File trailFile, File sourceDirectory, String packageDir, File templatesDir,
 			OverrideConfirmer overrideConfirmer, File analyzerContextFile) throws GenerationException;

@@ -7,7 +7,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -18,6 +17,7 @@ import org.eclipse.ui.actions.GlobalBuildAction;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.designtime.mains.OverrideConfirmer;
+import org.openlegacy.designtime.mains.ProjectCreationRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
@@ -37,10 +37,9 @@ public class EclipseDesignTimeExecuter {
 		return instance;
 	}
 
-	public void createProject(String templateName, IPath workspacePath, String projectName, String provider,
-			String defaultPackageName) throws IOException {
-		designTimeExecuter.createProject(templateName, PathsUtil.toOsLocation(workspacePath), projectName, provider,
-				defaultPackageName);
+	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
+
+		designTimeExecuter.createProject(projectCreationRequest);
 
 		Display.getDefault().asyncExec(new Runnable() {
 
