@@ -8,7 +8,7 @@
             objectClass="org.eclipse.core.resources.IProject"
             id="org.openlegacy.ide.eclipse.generate_trail_contribution">
          <menu
-               label="Open Legacy"
+               label="OpenLegacy"
                path="additions"
                id="org.openlegacy.ied.eclipse.right_menu">
             <separator
@@ -28,7 +28,7 @@
             nameFilter="*.trail.xml" 
             id="org.openlegacy.ide.eclipse.generate_trail_contribution">
          <menu
-               label="Open Legacy"
+               label="OpenLegacy"
                path="additions"
                id="org.openlegacy.ied.eclipse.right_menu">
             <separator
@@ -47,7 +47,7 @@
             objectClass="org.eclipse.jdt.core.ICompilationUnit"
             id="org.openlegacy.ide.eclipse.generate_web">
          <menu
-               label="Open Legacy"
+               label="OpenLegacy"
                path="additions"
                id="org.openlegacy.ied.eclipse.right_menu">
             <separator
@@ -66,7 +66,7 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            name="Open Legacy"
+            name="OpenLegacy"
             id="org.openlegacy.ide.eclipse">
       </category>
       <wizard
