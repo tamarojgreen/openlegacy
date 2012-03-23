@@ -100,22 +100,6 @@ public class GenerateUtil {
 		return template;
 	}
 
-	private static Template getTemplate(String templateName, String templatePrefix, Configuration configuration,
-			boolean templateWithPrefixExists) throws IOException {
-		Template template;
-		if (templateWithPrefixExists) {
-			try {
-				template = configuration.getTemplate(templatePrefix + templateName);
-			} catch (FileNotFoundException e) {
-				// fall back to default template
-				template = configuration.getTemplate(templateName);
-			}
-		} else {
-			template = configuration.getTemplate(templateName);
-		}
-		return template;
-	}
-
 	public static void setPackageName(Collection<ScreenEntityDefinition> screenDefinitions, String packageName) {
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(packageName);
