@@ -26,6 +26,12 @@ dojo.connect(dojo.doc.body, "onkeydown", function(e) {
 		case dojo.keys.F12:
 			sendFunctionKey(e.keyCode,e.shiftKey);
 			break;
+		case dojo.keys.PAGE_UP:
+			terminalSession.doAction("PAGEUP");
+			break;
+		case dojo.keys.PAGE_DOWN:
+			terminalSession.doAction("PAGEDOWN");
+			break;
 		default:
 			handled = false;
 
