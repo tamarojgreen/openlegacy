@@ -4,6 +4,8 @@ import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
+import org.openlegacy.modules.table.LookupEntity;
+import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 
 public class FieldValuesFactProcessor implements ScreenFactProcessor {
@@ -19,7 +21,10 @@ public class FieldValuesFactProcessor implements ScreenFactProcessor {
 		SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(
 				fieldName);
 		SimpleAutoCompleteFieldTypeDefinition fieldTypeDefinition = new SimpleAutoCompleteFieldTypeDefinition();
-		fieldTypeDefinition.setSourceScreenEntityClassName(fieldValuesFact.getLookupWindowScreenDefinition().getEntityName());
+		SimpleScreenEntityDefinition lookupWindowScreenDefinition = (SimpleScreenEntityDefinition)fieldValuesFact.getLookupWindowScreenDefinition();
+		lookupWindowScreenDefinition.setType(LookupEntity.class);
+		// link the field type to the lookup screen class
+		fieldTypeDefinition.setSourceScreenEntityClassName(lookupWindowScreenDefinition.getEntityName());
 		fieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);
 
 	}
