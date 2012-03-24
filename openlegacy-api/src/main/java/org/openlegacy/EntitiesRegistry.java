@@ -22,7 +22,7 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 
 	H getSingleEntityDefinition(Class<? extends EntityType> entityType) throws RegistryException;
 
-	List<Class<?>> getAll();
+	Collection<Class<?>> getAll();
 
 	void add(H entityDefinition);
 

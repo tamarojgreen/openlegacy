@@ -52,5 +52,6 @@ when
 	$menuSelectionField : TerminalField() from $menuSelectionFields.get(0)
 then
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new MenuScreenFact($menuSelectionField,$menuItems));
+	update($screenEntityDefinition);
 end
 

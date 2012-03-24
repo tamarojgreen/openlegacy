@@ -45,8 +45,8 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 
 	}
 
-	public List<Class<?>> getAll() {
-		return (List<Class<?>>)entities.values();
+	public Collection<Class<?>> getAll() {
+		return entities.values();
 	}
 
 	public Class<?> getEntityClass(String entityName) {

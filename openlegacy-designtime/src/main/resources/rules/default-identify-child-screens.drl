@@ -1,0 +1,23 @@
+package openlegacy;
+
+import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
+import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ChildScreenFact;
+
+rule "identify-child-screens"
+ruleflow-group "identify-child-screens"
+when
+	// there is a child screen which is not a menu or window
+	$childScreenDefinition: ScreenEntityDesigntimeDefinition(window == false, typeName != "MenuEntity")
+
+	// with navigation definitions
+	$childNavigationDefinition: ScreenNavigationDesignTimeDefinition(this != null) from $childScreenDefinition.getNavigationDefinition()
+	
+	// with no assigned navigation values
+	not FieldAssignDefinition(value != null) from $childNavigationDefinition.getAssignedFields()
+	   
+	// which is accessed from a parent screen entity which is not a window or menu
+	$parentScreenDefinition: ScreenEntityDesigntimeDefinition(entityName == $childNavigationDefinition.getAccessedFromEntityName(),window == false, typeName != "MenuEntity")
+
+then
+	screenEntityDefinitionsBuilder.processFact($parentScreenDefinition, new ChildScreenFact($childScreenDefinition));
+end

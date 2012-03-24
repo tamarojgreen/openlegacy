@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.render;
 
+import org.apache.commons.lang.SystemUtils;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
@@ -30,7 +31,7 @@ public class TerminalSnapshotTextRenderer implements TerminalSnapshotRenderer {
 		boolean decorated = true;
 
 		String text = terminalSnapshot.getText();
-		String newline = System.getProperty("line.separator");
+		String newline = SystemUtils.LINE_SEPARATOR;
 		int rows = terminalSnapshot.getSize().getRows();
 		StringBuilder out = new StringBuilder();
 		if (decorated) {

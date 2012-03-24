@@ -14,6 +14,7 @@ import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavi
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
@@ -97,8 +98,27 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 	@Test
 	public void testSessionAnalyzer() throws TemplateException, IOException {
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
-				"Session.trail.xml"));
-		Assert.assertEquals(3, definitions.size());
+				"Inventory.trail.xml"));
+		Assert.assertEquals(6, definitions.size());
+	}
+
+	@Test
+	public void testChildScreenEntities() throws TemplateException, IOException {
+		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
+				"Inventory.trail.xml"));
+
+		ScreenEntityDefinition workWithItemMaster1 = definitions.get("WorkWithItemMaster1");
+		Assert.assertNotNull(workWithItemMaster1);
+		ScreenEntityDefinition workWithItemDetails2 = definitions.get("WorkWithItemMaster2");
+		Assert.assertNotNull(workWithItemDetails2);
+		Assert.assertNotNull(workWithItemDetails2.getNavigationDefinition());
+		List<FieldAssignDefinition> assignedFields = workWithItemDetails2.getNavigationDefinition().getAssignedFields();
+		Assert.assertEquals(1, assignedFields.size());
+		Assert.assertNull(assignedFields.get(0).getValue());
+		Assert.assertEquals(1, workWithItemMaster1.getChildScreensDefinitions().size());
+		Assert.assertEquals("WorkWithItemMaster2", workWithItemMaster1.getChildScreensDefinitions().get(0).getEntityName());
+
+		assertScreenContent(workWithItemMaster1, "inventory/WorkWithItemMaster1_with_childScreens.java.expected");
 	}
 
 	@Test
@@ -205,8 +225,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 		assertScreenContent(screenEntitiesDefinitions.get("SignOn"), "SignOn.java.expected");
 
-		// assertScreenContent(screenEntitiesDefinitions.get("ApplinxDemoEnvironment"),
-		// "inventory/DemoEnvironment.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("DemoEnvironment"), "inventory/DemoEnvironment.java.expected");
 
 		// table
 		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster"), "inventory/WorkWithItemMaster.java.expected");

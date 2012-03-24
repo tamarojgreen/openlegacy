@@ -28,6 +28,7 @@
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.navigation.NavigationFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.BooleanFieldFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.FieldValuesFactProcessor" />
+				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ChildScreenFactProcessor" />
 			</list>
 		</property>
 	</bean>
