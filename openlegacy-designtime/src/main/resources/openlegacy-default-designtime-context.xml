@@ -185,6 +185,7 @@
 					</property>
 				</bean>
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-navigation.drl" p:ruleId="identify-navigation" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-child-screens.drl" p:ruleId="identify-child-screens" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-lookup-screens.drl" p:ruleId="identify-lookup-screens" />
 			</list>
 		</property>

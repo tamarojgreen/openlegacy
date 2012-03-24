@@ -5,7 +5,9 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.utils.TypesUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -57,6 +59,32 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 			} catch (ClassNotFoundException e) {
 				throw (new BeanCreationException(e.getMessage(), e));
 			}
+		}
+
+		fillChildScreenEntities(screenEntitiesRegistry);
+	}
+
+	private static void fillChildScreenEntities(final ScreenEntitiesRegistry screenEntitiesRegistry) {
+		Collection<Class<?>> screenEntities = screenEntitiesRegistry.getAll();
+		for (Class<?> class1 : screenEntities) {
+
+			final ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(class1);
+
+			ReflectionUtils.doWithFields(class1, new FieldCallback() {
+
+				public void doWith(Field field) {
+					if (TypesUtil.isPrimitive(field.getType())) {
+						return;
+					}
+					if (List.class.isAssignableFrom(field.getType())) {
+						return;
+					}
+					ScreenEntityDefinition childScreenEntity = screenEntitiesRegistry.get(field.getType());
+					if (childScreenEntity != null) {
+						screenEntityDefinition.getChildScreensDefinitions().add(childScreenEntity);
+					}
+				}
+			});
 		}
 	}
 

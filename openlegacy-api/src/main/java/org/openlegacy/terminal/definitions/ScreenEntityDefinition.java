@@ -51,4 +51,6 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	TerminalSnapshot getAccessedFromSnapshot();
 
 	ScreenSize getScreenSize();
+
+	List<ScreenEntityDefinition> getChildScreensDefinitions();
 }

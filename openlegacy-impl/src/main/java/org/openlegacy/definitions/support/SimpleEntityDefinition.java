@@ -32,10 +32,6 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 		return entityName;
 	}
 
-	public void setName(String entityName) {
-		this.entityName = entityName;
-	}
-
 	public Class<?> getEntityClass() {
 		return entityClass;
 	}
@@ -74,7 +70,7 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 		for (FieldDefinition fieldDefinition : fieldValues) {
 			if (fieldDefinition.getType() == fieldType) {
 				if (matchedFieldDefinition != null) {
-					throw (new RegistryException(MessageFormat.format("Found 2 field of type{0} in class {1}", fieldType,
+					throw (new RegistryException(MessageFormat.format("Found 2 field of type {0} in class {1}", fieldType,
 							getEntityClass())));
 				}
 				matchedFieldDefinition = fieldDefinition;
@@ -91,7 +87,7 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 		this.displayName = displayName;
 	}
 
-	protected void setEntityName(String entityName) {
+	public void setEntityName(String entityName) {
 		this.entityName = entityName;
 
 	}

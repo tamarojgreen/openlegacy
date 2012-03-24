@@ -12,7 +12,9 @@ public class AssertUtils {
 	public static void assertContent(byte[] expectedContent, byte[] resultContent) {
 		if (!initTestString(expectedContent).equals(initTestString(resultContent))) {
 			logger.info("Expected content:\n" + new String(expectedContent));
-			logger.info("\nResult content:\n" + new String(resultContent));
+			logger.info("\nResult content:");
+			logger.info("************\n" + new String(resultContent) + "\n************");
+			logger.info("*** NOTE: If the result is correct copy the above result block into expected result file so test can pass next time\n");
 			Assert.fail("Generated content don't match. See log");
 
 		}

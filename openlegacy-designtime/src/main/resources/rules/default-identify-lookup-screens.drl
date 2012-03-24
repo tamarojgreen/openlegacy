@@ -18,5 +18,4 @@ when
 
 then
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new FieldValuesFact($relevantField,$lookupWindowScreenDefinition));
-	System.out.println("**************** Found match!");
 end

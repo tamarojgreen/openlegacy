@@ -135,4 +135,9 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return codeModel.getTypeName();
 	}
 
+	public List<ScreenEntityDefinition> getChildScreensDefinitions() {
+		throwNotImplemented();
+		return null;
+	}
+
 }

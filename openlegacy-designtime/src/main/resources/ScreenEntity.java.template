@@ -45,7 +45,10 @@ public class ${entityName} {
 	<#if field.fieldTypeDefinition.class.simpleName = "SimpleAutoCompleteFieldTypeDefinition">@ScreenFieldValues(sourceScreenEntity=${field.fieldTypeDefinition.sourceEntityClassName}.class,collectAll=false)</#if></#if>
 	@ScreenField(row = ${field.position.row}, column = ${field.position.column}, endColumn= ${field.endPosition.column}<#if field.labelPosition??> ,labelColumn= ${field.labelPosition.column}</#if><#if field.editable> ,editable= true</#if><#if field.type??> ,fieldType=${field.type.simpleName}.class</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
     private ${field.javaTypeName} ${field.name};
+	</#list>	
 
+ 	<#list childScreensDefinitions as childScreen>
+    private ${childScreen.entityName} ${childScreen.entityName?uncap_first};
 	</#list>	
     
 	<#assign tableNames = tableDefinitions?keys>

@@ -25,6 +25,7 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 	private TerminalSnapshot accessedFromSnapshot;
 	private ScreenEntityDefinition accessedFromScreenDefinition;
 	private ScreenSize screenSize;
+	private List<ScreenEntityDefinition> childScreensDefinitions = new ArrayList<ScreenEntityDefinition>();
 
 	public SimpleScreenEntityDefinition(String entityName, Class<?> entityClass) {
 		super(entityName, entityClass);
@@ -104,5 +105,9 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 
 	public void setScreenSize(ScreenSize screenSize) {
 		this.screenSize = screenSize;
+	}
+
+	public List<ScreenEntityDefinition> getChildScreensDefinitions() {
+		return childScreensDefinitions;
 	}
 }
