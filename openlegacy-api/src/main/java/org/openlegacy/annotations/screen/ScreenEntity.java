@@ -35,4 +35,6 @@ public @interface ScreenEntity {
 	int columns() default ScreenSize.DEFAULT_COLUMN;
 
 	int rows() default ScreenSize.DEFAULT_ROWS;
+
+	boolean child() default false;
 }

@@ -39,6 +39,7 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 		screenEntityDefinition.setDisplayName(displayName);
 		screenEntityDefinition.setType(screenEntity.screenType());
 		screenEntityDefinition.setWindow(screenEntity.window());
+		screenEntityDefinition.setChild(screenEntity.child());
 
 		screenEntityDefinition.setScreenSize(new SimpleScreenSize(screenEntity.rows(), screenEntity.columns()));
 

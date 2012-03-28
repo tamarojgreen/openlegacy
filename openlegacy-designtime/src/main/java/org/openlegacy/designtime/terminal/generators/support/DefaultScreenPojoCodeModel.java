@@ -47,6 +47,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private List<Action> actions = new ArrayList<Action>();
 	private String parentClassName;
 	private String typeName;
+	private boolean childScreen;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -217,6 +218,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String displayNameFromAnnotation = null;
 		String entityNameFromAnnotation = null;
 		String typeNameFromAnnotation = null;
+		String childFlagFromAnnotation = null;
 		String startRowFromTableAnnotation = null;
 		String endRowFromTableAnnotation = null;
 
@@ -229,6 +231,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, normalAnnotationExpr.getPairs());
 			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, normalAnnotationExpr.getPairs());
 			typeNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCREEN_TYPE, normalAnnotationExpr.getPairs());
+			childFlagFromAnnotation = findAnnotationAttribute(AnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
 			startRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.START_ROW, normalAnnotationExpr.getPairs());
 			endRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.END_ROW, normalAnnotationExpr.getPairs());
 		}
@@ -237,6 +240,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)
 				: General.class.getSimpleName();
+
+		childScreen = childFlagFromAnnotation != null ? Boolean.valueOf(childFlagFromAnnotation) : false;
 
 		if (startRowFromTableAnnotation != null) {
 			startRow = Integer.parseInt(startRowFromTableAnnotation);
@@ -489,5 +494,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public String getDisplayName() {
 			return displayName;
 		}
+	}
+
+	public boolean isChildScreen() {
+		return childScreen;
 	}
 }

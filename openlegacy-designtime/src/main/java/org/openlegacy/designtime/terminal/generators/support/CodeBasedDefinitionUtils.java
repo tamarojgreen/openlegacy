@@ -33,7 +33,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class CodeBasedDefinitionUtils {
 
@@ -161,7 +163,13 @@ public class CodeBasedDefinitionUtils {
 			try {
 				CompilationUnit compilationUnit = JavaParser.parse(childSourceFile);
 				ScreenEntityDefinition childEntityDefinition = getEntityDefinition(compilationUnit, packageDir);
-				childScreenDefinitions.add(childEntityDefinition);
+				if (childEntityDefinition.isChild()) {
+					childScreenDefinitions.add(childEntityDefinition);
+				} else {
+					logger.warn(MessageFormat.format(
+							"A non child screen {0} is related from {1}. NOT added to it''s child screen list",
+							childEntityDefinition.getEntityClassName(), codeModel.getClassName()));
+				}
 			} catch (ParseException e) {
 				logger.warn("Failed parsing java file:" + e.getMessage());
 			} catch (IOException e) {
@@ -171,4 +179,19 @@ public class CodeBasedDefinitionUtils {
 		}
 		return childScreenDefinitions;
 	}
+
+	public static Set<ScreenEntityDefinition> getAllChildScreensDefinitions(ScreenPojoCodeModel codeModel, File packageDir) {
+		Set<ScreenEntityDefinition> childs = new TreeSet<ScreenEntityDefinition>();
+		childs.addAll(getChildScreensDefinitions(codeModel, packageDir));
+		for (ScreenEntityDefinition childScreenDefinition : childs) {
+			Set<ScreenEntityDefinition> childScreensDefinitions = childScreenDefinition.getAllChildScreensDefinitions();
+			if (childScreensDefinitions.size() > 0) {
+				logger.info(MessageFormat.format("Adding child screens to list all child screens. Adding: {0}",
+						childScreensDefinitions));
+				childs.addAll(childScreensDefinitions);
+			}
+		}
+		return childs;
+	}
+
 }

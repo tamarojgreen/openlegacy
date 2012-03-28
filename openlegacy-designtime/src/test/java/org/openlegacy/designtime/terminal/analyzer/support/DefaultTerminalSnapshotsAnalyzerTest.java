@@ -109,16 +109,17 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 		ScreenEntityDefinition workWithItemMaster1 = definitions.get("WorkWithItemMaster1");
 		Assert.assertNotNull(workWithItemMaster1);
-		ScreenEntityDefinition workWithItemDetails2 = definitions.get("WorkWithItemMaster2");
-		Assert.assertNotNull(workWithItemDetails2);
-		Assert.assertNotNull(workWithItemDetails2.getNavigationDefinition());
-		List<FieldAssignDefinition> assignedFields = workWithItemDetails2.getNavigationDefinition().getAssignedFields();
+		ScreenEntityDefinition workWithItemMaster2 = definitions.get("WorkWithItemMaster2");
+		Assert.assertNotNull(workWithItemMaster2);
+		Assert.assertNotNull(workWithItemMaster2.getNavigationDefinition());
+		List<FieldAssignDefinition> assignedFields = workWithItemMaster2.getNavigationDefinition().getAssignedFields();
 		Assert.assertEquals(1, assignedFields.size());
 		Assert.assertNull(assignedFields.get(0).getValue());
 		Assert.assertEquals(1, workWithItemMaster1.getChildScreensDefinitions().size());
 		Assert.assertEquals("WorkWithItemMaster2", workWithItemMaster1.getChildScreensDefinitions().get(0).getEntityName());
 
 		assertScreenContent(workWithItemMaster1, "inventory/WorkWithItemMaster1_with_childScreens.java.expected");
+		assertScreenContent(workWithItemMaster2, "inventory/WorkWithItemMaster2_as_child.java.expected");
 	}
 
 	@Test

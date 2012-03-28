@@ -36,6 +36,7 @@ public class AnnotationConstants {
 	public static final String ALIAS = "alias";
 	public static final String LABEL_COLUMN = "labelColumn";
 	public static final String SCREEN_TYPE = "screenType";
+	public static final String CHILD = "child";
 
 	// @ScreenFieldValues
 	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";

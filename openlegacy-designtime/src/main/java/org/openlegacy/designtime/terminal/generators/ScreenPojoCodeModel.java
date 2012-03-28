@@ -36,4 +36,6 @@ public interface ScreenPojoCodeModel {
 	List<Action> getActions();
 
 	String getTypeName();
+
+	boolean isChildScreen();
 }
