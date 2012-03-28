@@ -18,6 +18,7 @@ import org.openlegacy.terminal.support.SimpleScreenSize;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
@@ -29,6 +30,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	private Map<String, ScreenTableDefinition> tableDefinitions = new TreeMap<String, ScreenTableDefinition>();
 	private List<ActionDefinition> actions;
 	private List<ScreenEntityDefinition> childScreens;
+	private Set<ScreenEntityDefinition> allChildScreens;
 	private File packageDir;
 
 	public CodeBasedScreenEntityDefinition(ScreenPojoCodeModel codeModel, File packageDir) {
@@ -144,6 +146,17 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 			childScreens = CodeBasedDefinitionUtils.getChildScreensDefinitions(codeModel, packageDir);
 		}
 		return childScreens;
+	}
+
+	public boolean isChild() {
+		return codeModel.isChildScreen();
+	}
+
+	public Set<ScreenEntityDefinition> getAllChildScreensDefinitions() {
+		if (allChildScreens == null) {
+			allChildScreens = CodeBasedDefinitionUtils.getAllChildScreensDefinitions(codeModel, packageDir);
+		}
+		return allChildScreens;
 	}
 
 }

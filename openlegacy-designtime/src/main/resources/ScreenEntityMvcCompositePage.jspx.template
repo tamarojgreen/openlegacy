@@ -16,7 +16,7 @@
 		<div id="${entityClassName}" title="${displayName}" selected="true" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${entityClassName}'">
 			<div>Place holder</div>
 		</div>
-		<#list childScreensDefinitions as childScreensDefinition>
+		<#list allChildScreensDefinitions as childScreensDefinition>
 		<div id="${childScreensDefinition.entityClassName}" title="${childScreensDefinition.displayName}" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${childScreensDefinition.entityClassName}'">
 			<div>Place holder</div>
 		</div>

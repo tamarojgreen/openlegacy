@@ -22,6 +22,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+/**
+ * Generates all Spring MVC web related content
+ * 
+ * @author RoiM
+ * 
+ */
 @Component
 public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
@@ -147,12 +153,14 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			fos.close();
 			logger.info(MessageFormat.format("Generated jspx file: {0}", webPageFile.getAbsoluteFile()));
 
+			// generate a composite page (with tabs)
 			if (isComposite) {
 				File webPageCompositeFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format(
 						"{0}{1}Composite.jspx", VIEWS_DIR, entityClassName));
 				fos = new FileOutputStream(webPageCompositeFile);
 				generateCompositePage(screenEntityDefinition, fos);
 				List<ScreenEntityDefinition> childScreens = screenEntityDefinition.getChildScreensDefinitions();
+				// generate page content for each of the child screens
 				for (ScreenEntityDefinition childScreenDefinition : childScreens) {
 					generateAll(generatePageRequest, childScreenDefinition, true);
 				}
@@ -202,6 +210,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 		FileOutputStream fos = null;
 		try {
+			// Find a marker block within Spring MVC tiles views.xml file
 			String viewsFileContent = FileUtils.readFileToString(viewsFile);
 			int templateMarkerStart = viewsFileContent.indexOf(TILES_VIEW_PLACEHOLDER_START)
 					+ TILES_VIEW_PLACEHOLDER_START.length();
@@ -211,7 +220,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 						viewsFile.getAbsolutePath()));
 				return;
 			}
-
+			// replace tokens within the place holder tag
 			String definitionTemplate = viewsFileContent.substring(templateMarkerStart, templateMarkerEnd);
 			String newViewDefinition = definitionTemplate.replaceAll(VIEW_TOKEN, viewName);
 

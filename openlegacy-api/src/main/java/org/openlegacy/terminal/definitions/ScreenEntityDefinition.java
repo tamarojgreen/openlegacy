@@ -8,6 +8,7 @@ import org.openlegacy.terminal.spi.ScreenIdentification;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Defines a screen entity definitions stored in the <code>ScreenEntitiesRegistry</code> Typically collected from @ScreenEntity,
@@ -29,7 +30,7 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	Map<String, ScreenTableDefinition> getTableDefinitions();
 
 	/**
-	 * field name -> part defintion
+	 * field name -> part definition
 	 * 
 	 * @return
 	 */
@@ -46,6 +47,8 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 
 	boolean isWindow();
 
+	boolean isChild();
+
 	ScreenEntityDefinition getAccessedFromScreenDefinition();
 
 	TerminalSnapshot getAccessedFromSnapshot();
@@ -53,4 +56,11 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	ScreenSize getScreenSize();
 
 	List<ScreenEntityDefinition> getChildScreensDefinitions();
+
+	/**
+	 * Fetch all children, grand children and so. Used for generating composite page also with child with indirect connection
+	 * 
+	 * @return
+	 */
+	Set<ScreenEntityDefinition> getAllChildScreensDefinitions();
 }
