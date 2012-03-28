@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -18,8 +18,6 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.actions.GlobalBuildAction;
-import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
 import org.openlegacy.ide.eclipse.util.Prefrences;
@@ -63,9 +61,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 					public void run() {
 						try {
 							monitor.worked(1);
-							((IProject)pathElements[0].getFirstSegment()).refreshLocal(IResource.DEPTH_INFINITE, monitor);
-							(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(),
-									IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
+							ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 							monitor.done();
 						} catch (CoreException e) {
 							logger.fatal(e);

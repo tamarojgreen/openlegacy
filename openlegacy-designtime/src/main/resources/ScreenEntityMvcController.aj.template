@@ -13,6 +13,7 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.web.JsonSerializationUtil;
+import org.openlegacy.web.HttpUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,9 +49,15 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), ${entityDefinition.entityName?uncap_first});
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
-        	return "redirect:" + screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			if (HttpUtil.isAjaxRequest(httpServletRequest)){
+				${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityName?cap_first}.class);
+		    	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
+		        return "${entityDefinition.entityName?cap_first}";
+			}
+        	return "redirect:" + screenEntityName;
 		}
-    	return "redirect:HtmlEmulation";
+    	return "redirect:/";
     }
     
 	<#list actions as action>
@@ -60,9 +67,15 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.${action.actionName}(), ${entityDefinition.entityName?uncap_first});
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
-        	return "redirect:" + screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			if (HttpUtil.isAjaxRequest(httpServletRequest)){
+				${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
+		    	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
+		        return "${entityDefinition.entityName?cap_first}";
+			}
+        	return "redirect:" + screenEntityName;
 		}
-    	return "redirect:HtmlEmulation";
+    	return "redirect:/";
 		
     }
 	</#list>	

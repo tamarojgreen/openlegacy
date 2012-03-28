@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.actions.GlobalBuildAction;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
+import org.openlegacy.designtime.mains.GeneratePageRequest;
 import org.openlegacy.designtime.mains.OverrideConfirmer;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
 import org.openlegacy.exceptions.GenerationException;
@@ -99,9 +100,14 @@ public class EclipseDesignTimeExecuter {
 		File projectPath = new File(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
 				DesignTimeExecuterImpl.TEMPLATES_DIR);
 
-		designTimeExecuter.createWebPage(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
-				PathsUtil.toOsLocation(screenEntitySourceFile), PathsUtil.toSourceDirectory(sourceDirectory),
-				PathsUtil.packageToPath(packageDir), projectPath, overrideConfirmer);
+		GeneratePageRequest generatePageRequest = new GeneratePageRequest();
+		generatePageRequest.setProjectDir(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()));
+		generatePageRequest.setScreenEntitySourceFile(PathsUtil.toOsLocation(screenEntitySourceFile));
+		generatePageRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
+		generatePageRequest.setPackageDirectoryName(PathsUtil.packageToPath(packageDir));
+		generatePageRequest.setTemplatesDir(projectPath);
+		generatePageRequest.setOverrideConfirmer(overrideConfirmer);
+		designTimeExecuter.createWebPage(generatePageRequest);
 
 	}
 

@@ -351,6 +351,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			this.type = type;
 		}
 
+		public boolean isChildScreenEntityField() {
+			return row == null && column == null;
+		}
+
 		public boolean isScreenField() {
 			// field is either screen field or screen column. column doesn't have row property
 			return row != null;

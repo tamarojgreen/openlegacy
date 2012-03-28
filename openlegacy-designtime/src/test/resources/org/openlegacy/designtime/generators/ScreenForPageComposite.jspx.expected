@@ -1,0 +1,24 @@
+<div xmlns:spring="http://www.springframework.org/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	
+	<script>
+		dojo.require("dijit.layout.TabContainer");
+		dojo.require("dijit.layout.ContentPane");
+	</script>
+
+	<div id="tabContainer" style="width: 100%; height: 100%;"
+		tabStrip="true" data-dojo-type="dijit.layout.TabContainer" data-dojo-props="tabPosition:'bottom'">
+		<div id="CompositeScreenForPage" title="Composite Screen For Page" selected="true" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'CompositeScreenForPage'">
+			<div>Place holder</div>
+		</div>
+		<div id="ScreenForPage" title="Screen For Page" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'ScreenForPage'">
+			<div>Place holder</div>
+		</div>
+	</div>
+
+</div>

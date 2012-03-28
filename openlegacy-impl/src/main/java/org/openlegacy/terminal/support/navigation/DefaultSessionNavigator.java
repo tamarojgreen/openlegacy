@@ -37,7 +37,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 
-	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntity) throws ScreenEntityNotAccessibleException {
+	public void navigate(TerminalSession terminalSession, Class<?> targetEntityClass) throws ScreenEntityNotAccessibleException {
 
 		TerminalSnapshot snapshot = terminalSession.getSnapshot();
 		Class<?> currentEntityClass = screensRecognizer.match(snapshot);
@@ -46,12 +46,12 @@ public class DefaultSessionNavigator implements SessionNavigator {
 			return;
 		}
 
-		if (ProxyUtil.isClassesMatch(currentEntityClass, targetScreenEntity)) {
+		if (ProxyUtil.isClassesMatch(currentEntityClass, targetEntityClass)) {
 			return;
 		}
 
 		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntityClass);
-		ScreenEntityDefinition targetEntityDefinition = screenEntitiesRegistry.get(targetScreenEntity);
+		ScreenEntityDefinition targetEntityDefinition = screenEntitiesRegistry.get(targetEntityClass);
 
 		List<NavigationDefinition> navigationSteps = navigationMetadata.get(currentEntityDefinition, targetEntityDefinition);
 
@@ -71,7 +71,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 		}
 
 		if (navigationSteps == null) {
-			ScreenNavigationUtil.validateCurrentScreen(targetScreenEntity, currentEntityClass);
+			ScreenNavigationUtil.validateCurrentScreen(targetEntityClass, currentEntityClass);
 		}
 
 		if (navigationSteps != null) {

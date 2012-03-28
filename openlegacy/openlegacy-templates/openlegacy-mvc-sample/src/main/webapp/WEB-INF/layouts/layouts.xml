@@ -5,15 +5,27 @@
 
 <tiles-definitions>
 
-  <definition name="default" template="/WEB-INF/layouts/default.jspx">
-    <put-attribute name="header" value="/WEB-INF/views/template/header.jspx" />
-    <put-attribute name="menu" value="/WEB-INF/views/template/menu.jspx" />
-    <put-attribute name="footer" value="/WEB-INF/views/template/footer.jspx" />
+  <definition name="template" template="/template/template.jspx">
+    <put-attribute name="header" value="/template/header.jspx" />
+    <put-attribute name="menu" value="/template/menu.jspx" />
+    <put-attribute name="footer" value="/template/footer.jspx" />
+    <put-attribute name="actions" value="/template/actions.jspx" />
+    <put-attribute name="breadcrumb" value="/template/breadcrumb.jspx" />
   </definition>
 
-  <definition name="public" template="/WEB-INF/layouts/default.jspx">
-    <put-attribute name="header" value="/WEB-INF/views/template/header.jspx" />
-    <put-attribute name="footer" value="/WEB-INF/views/template/footer.jspx" />
+  <definition name="compositeTemplate" template="/template/template.jspx">
+    <put-attribute name="header" value="/template/header.jspx" />
+    <put-attribute name="menu" value="/template/menu.jspx" />
+    <put-attribute name="footer" value="/template/footer.jspx" />
+  </definition>
+  
+  <definition name="view" template="/template/view.jspx">
+    <put-attribute name="actions" value="/template/ajaxActions.jspx" />
+  </definition>
+
+  <definition name="public" template="/template/template.jspx">
+    <put-attribute name="header" value="/template/header.jspx" />
+    <put-attribute name="footer" value="/template/footer.jspx" />
   </definition>
 
 </tiles-definitions>

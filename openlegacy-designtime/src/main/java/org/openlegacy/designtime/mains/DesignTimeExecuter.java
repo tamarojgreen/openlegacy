@@ -26,22 +26,7 @@ public interface DesignTimeExecuter {
 
 	void initialize(File analyzerContextFile);
 
-	/**
-	 * 
-	 * @param projectDir
-	 *            The project root directory
-	 * @param screenEntitySourceFile
-	 *            The screen entity java source which the page should be based on
-	 * @param sourceDirectory
-	 *            The java source directory where Controller code should be generated
-	 * @param packageToPath
-	 *            The package folder e.g: "com/test/web"
-	 * @param overrideConfirmer
-	 *            An interface for UI interaction to allow user to select whether to override an existing file
-	 * @throws GenerationException
-	 */
-	void createWebPage(File projectDir, File screenEntitySourceFile, File sourceDirectory, String packageToPath,
-			File templatesDir, OverrideConfirmer overrideConfirmer) throws GenerationException;
+	void createWebPage(GeneratePageRequest generatePageRequest) throws GenerationException;
 
 	void createCustomTemplatesDir(File projectPath);
 }
