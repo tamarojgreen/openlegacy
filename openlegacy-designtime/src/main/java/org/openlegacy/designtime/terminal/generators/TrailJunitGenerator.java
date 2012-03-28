@@ -36,7 +36,7 @@ public class TrailJunitGenerator {
 
 		GeneratedApi generatedApi = generateContentApiCalls(testName, sortedScreenEntityDefintions);
 
-		generateUtil.generate(generatedApi, out, "JunitTrail.java.template", "");
+		generateUtil.generate(generatedApi, out, "JunitTrail.java.template");
 	}
 
 	private static List<ScreenEntityDefinition> sortEntityDefinitions(Collection<ScreenEntityDefinition> screenEntityDefinitions) {

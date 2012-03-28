@@ -12,6 +12,7 @@ import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinition
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
+import org.openlegacy.terminal.layout.mock.CompositeScreenForPage;
 import org.openlegacy.terminal.layout.mock.MenuScreenForPage;
 import org.openlegacy.terminal.layout.mock.ScreenForPage;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -64,9 +65,19 @@ public class ScreenEntityMvcGeneratorTest {
 		String javaSource = "/org/openlegacy/terminal/layout/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
-		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit);
+		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 
 		assertPageGeneration(screenDefinition, "ScreenForPage.jspx.expected");
+	}
+
+	@Test
+	public void testGenerateCompositeJspx() throws Exception {
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos);
+
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageComposite.jspx.expected"));
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
 	@Test
@@ -74,7 +85,7 @@ public class ScreenEntityMvcGeneratorTest {
 		String javaSource = "/org/openlegacy/terminal/layout/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
-		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit);
+		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 		assertControllerAspectGeneration(screenDefinition);
 	}
 

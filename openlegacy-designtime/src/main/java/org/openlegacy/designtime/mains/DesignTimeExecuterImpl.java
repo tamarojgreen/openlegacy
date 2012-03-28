@@ -63,6 +63,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private ApplicationContext applicationContext;
 
+	private File analyzerContextFile;
+
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
 		File targetZip = extractTemplate(projectCreationRequest.getTemplateName(), projectCreationRequest.getBaseDir());
 		File targetPath = unzipTemplate(projectCreationRequest.getBaseDir(), projectCreationRequest.getProjectName(), targetZip);
@@ -309,8 +311,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private synchronized ApplicationContext getApplicationContext(File analyzerContextFile) {
-		if (applicationContext == null) {
+		// in case the context file is not longer the default one
+		if (applicationContext == null || (analyzerContextFile != null && this.analyzerContextFile == null)) {
 			if (analyzerContextFile != null && analyzerContextFile.exists()) {
+				this.analyzerContextFile = analyzerContextFile;
 				applicationContext = new FileSystemXmlApplicationContext(analyzerContextFile.getAbsolutePath());
 			} else {
 				applicationContext = new ClassPathXmlApplicationContext("/openlegacy-default-designtime-context.xml");
@@ -323,7 +327,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		OutputStream fos = null;
 		try {
-			ScreenPojosAjGenerator generator = applicationContext.getBean(ScreenPojosAjGenerator.class);
+			ScreenPojosAjGenerator generator = getApplicationContext(null).getBean(ScreenPojosAjGenerator.class);
 			generator.generate(javaFile);
 		} catch (IOException e) {
 			throw (new GenerationException(e));
@@ -344,24 +348,25 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		getApplicationContext(analyzerContextFile).getBean(SnapshotsAnalyzer.class);
 	}
 
-	public void createWebPage(File projectDir, File screenEntitySourceFile, File sourceDirectory, String packageDirectoryName,
-			File templatesDir, OverrideConfirmer overrideConfirmer) throws GenerationException {
+	public void createWebPage(GeneratePageRequest generatePageRequest) throws GenerationException {
 
 		ScreenEntityDefinition screenEntityDefinition = null;
 		try {
-			CompilationUnit compilationUnit = JavaParser.parse(screenEntitySourceFile);
-			screenEntityDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit);
+			CompilationUnit compilationUnit = JavaParser.parse(generatePageRequest.getScreenEntitySourceFile());
+			File packageDir = new File(generatePageRequest.getSourceDirectory(),
+					compilationUnit.getPackage().getName().toString().replaceAll("\\.", "/"));
+			screenEntityDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
 		} catch (Exception e) {
 			throw (new GenerationException(e));
 		}
 		if (screenEntityDefinition == null) {
-			throw (new GenerationException(MessageFormat.format("{0} is not a screen entity", screenEntitySourceFile.getName())));
+			throw (new GenerationException(MessageFormat.format("{0} is not a screen entity",
+					generatePageRequest.getScreenEntitySourceFile().getName())));
 		}
 
-		ScreenEntityWebGenerator screenEntityWebGenerator = applicationContext.getBean(ScreenEntityMvcGenerator.class);
+		ScreenEntityWebGenerator screenEntityWebGenerator = getApplicationContext(null).getBean(ScreenEntityMvcGenerator.class);
 
-		screenEntityWebGenerator.generateAll(projectDir, screenEntityDefinition, sourceDirectory, packageDirectoryName,
-				templatesDir, overrideConfirmer);
+		screenEntityWebGenerator.generateAll(generatePageRequest, screenEntityDefinition);
 	}
 
 	public void createCustomTemplatesDir(File projectPath) {

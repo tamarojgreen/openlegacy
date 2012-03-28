@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.designtime.mains.GeneratePageRequest;
 import org.openlegacy.designtime.mains.OverrideConfirmer;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
@@ -17,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -34,6 +36,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	private static final String DEFAULT_TEMPLATE = "template";
 	private static final String PUBLIC_TEMPLATE = "public";
+	private static final String VIEW_ONLY_TEMPLATE = "view";
 
 	private static final CharSequence TILES_VIEW_PLACEHOLDER = "<!-- Place holder for code generation -->";
 
@@ -41,6 +44,10 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	GenerateUtil generateUtil;
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityMvcGenerator.class);
+
+	private static final String COMPOSITE_SUFFIX = "Composite";
+
+	private static final String COMPOSITE_TEMPLATE = "compositeTemplate";
 
 	public void generatePage(PageDefinition pageDefinition, OutputStream output) {
 		String typeName = pageDefinition.getEntityDefinition().getTypeName();
@@ -57,16 +64,48 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 		generateUtil.generate(pageDefinition, output, "ScreenEntityMvcController.aj.template", typeName);
 	}
 
-	public void generateAll(File projectDir, ScreenEntityDefinition screenEntityDefinition, File sourceDirectory,
-			String packageDirectoryName, File templatesDir, OverrideConfirmer overrideConfirmer) throws GenerationException {
+	/**
+	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
+	 */
+	public void generateAll(GeneratePageRequest generatePageRequest, ScreenEntityDefinition screenEntityDefinition)
+			throws GenerationException {
+		generateAll(generatePageRequest, screenEntityDefinition, false);
+	}
 
-		generateUtil.setTemplateDirectory(templatesDir);
+	/**
+	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
+	 */
+	private void generateAll(GeneratePageRequest generatePageRequest, ScreenEntityDefinition screenEntityDefinition,
+			boolean isChild) throws GenerationException {
 
+		generateUtil.setTemplateDirectory(generatePageRequest.getTemplatesDir());
+
+		boolean isComposite = !isChild && screenEntityDefinition.getChildScreensDefinitions().size() > 0;
+
+		OverrideConfirmer overrideConfirmer = generatePageRequest.getOverrideConfirmer();
 		FileOutputStream fos = null;
 		try {
 
-			File packageDir = new File(sourceDirectory, packageDirectoryName);
+			File packageDir = new File(generatePageRequest.getSourceDirectory(), generatePageRequest.getPackageDirectoryName());
 			String entityClassName = screenEntityDefinition.getEntityClassName();
+
+			if (isComposite) {
+				File compositeContollerFile = new File(packageDir, entityClassName + "CompositeController.java");
+				boolean generateCompositeController = true;
+				if (compositeContollerFile.exists()) {
+					boolean override = overrideConfirmer.isOverride(compositeContollerFile);
+					if (!override) {
+						generateCompositeController = false;
+					}
+				}
+				if (generateCompositeController) {
+					compositeContollerFile.getParentFile().mkdirs();
+					fos = new FileOutputStream(compositeContollerFile);
+					generateCompositeContoller(screenEntityDefinition, fos);
+					fos.close();
+				}
+			}
+
 			File contollerFile = new File(packageDir, entityClassName + "Controller.java");
 			boolean generateController = true;
 			if (contollerFile.exists()) {
@@ -75,7 +114,9 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 					generateController = false;
 				}
 			}
+
 			PageDefinition pageDefinition = new DefaultScreenPageBuilder().build(screenEntityDefinition);
+
 			if (generateController) {
 				contollerFile.getParentFile().mkdirs();
 				fos = new FileOutputStream(contollerFile);
@@ -92,7 +133,8 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				logger.info(MessageFormat.format("Generated controller aspect: {0}", contollerAspectFile.getAbsoluteFile()));
 			}
 
-			File webPageFile = new File(projectDir, VIEWS_DIR + entityClassName + ".jspx");
+			File webPageFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format("{0}{1}.jspx", VIEWS_DIR,
+					entityClassName));
 			boolean webPageFileExists = webPageFile.exists();
 			if (webPageFileExists) {
 				boolean override = overrideConfirmer.isOverride(webPageFile);
@@ -105,8 +147,35 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			fos.close();
 			logger.info(MessageFormat.format("Generated jspx file: {0}", webPageFile.getAbsoluteFile()));
 
+			if (isComposite) {
+				File webPageCompositeFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format(
+						"{0}{1}Composite.jspx", VIEWS_DIR, entityClassName));
+				fos = new FileOutputStream(webPageCompositeFile);
+				generateCompositePage(screenEntityDefinition, fos);
+				List<ScreenEntityDefinition> childScreens = screenEntityDefinition.getChildScreensDefinitions();
+				for (ScreenEntityDefinition childScreenDefinition : childScreens) {
+					generateAll(generatePageRequest, childScreenDefinition, true);
+				}
+			}
+
+			// update views file only if web page wasn't exists (if exists, it's probably registered in views.xml)
 			if (!webPageFileExists) {
-				updateViewsFile(projectDir, screenEntityDefinition);
+				// mvc template type is the name of a template file defined in layouts.xml
+				String mvcTemplateType = (isComposite || isChild) ? VIEW_ONLY_TEMPLATE : DEFAULT_TEMPLATE;
+				if (screenEntityDefinition.getTypeName().equals(Login.LoginEntity.class.getSimpleName())) {
+					mvcTemplateType = PUBLIC_TEMPLATE;
+				}
+
+				String viewName = screenEntityDefinition.getEntityClassName();
+
+				updateViewsFile(generatePageRequest.getProjectDir(), screenEntityDefinition, viewName, mvcTemplateType);
+
+				if (isComposite) {
+					// add view for composite screen
+					updateViewsFile(generatePageRequest.getProjectDir(), screenEntityDefinition, viewName + COMPOSITE_SUFFIX,
+							COMPOSITE_TEMPLATE);
+				}
+
 			}
 		} catch (Exception e) {
 			throw (new GenerationException(e));
@@ -116,8 +185,15 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	}
 
-	private static void updateViewsFile(File projectDir, ScreenEntityDefinition screenEntityDefinition) throws IOException {
-		String viewName = screenEntityDefinition.getEntityClassName();
+	/**
+	 * Updates sprint views.xml file which contains all web page views definitions
+	 * 
+	 * @param projectDir
+	 * @param screenEntityDefinition
+	 * @throws IOException
+	 */
+	private static void updateViewsFile(File projectDir, ScreenEntityDefinition screenEntityDefinition, String viewName,
+			String mcvTemplateType) throws IOException {
 
 		File viewsFile = new File(projectDir, TILES_VIEWS_FILE);
 		if (!viewsFile.exists()) {
@@ -139,12 +215,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			String definitionTemplate = viewsFileContent.substring(templateMarkerStart, templateMarkerEnd);
 			String newViewDefinition = definitionTemplate.replaceAll(VIEW_TOKEN, viewName);
 
-			// don't include menu & actions in login page
-			if (screenEntityDefinition.getTypeName().equals(Login.LoginEntity.class.getSimpleName())) {
-				newViewDefinition = newViewDefinition.replaceAll(TEMPLATE_TOKEN, PUBLIC_TEMPLATE);
-			} else {
-				newViewDefinition = newViewDefinition.replaceAll(TEMPLATE_TOKEN, DEFAULT_TEMPLATE);
-			}
+			newViewDefinition = newViewDefinition.replaceAll(TEMPLATE_TOKEN, mcvTemplateType);
 
 			viewsFileContent = viewsFileContent.replace(TILES_VIEW_PLACEHOLDER, TILES_VIEW_PLACEHOLDER + newViewDefinition);
 			fos = new FileOutputStream(viewsFile);
@@ -156,4 +227,14 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			IOUtils.closeQuietly(fos);
 		}
 	}
+
+	public void generateCompositePage(ScreenEntityDefinition screenEntityDefinition, OutputStream output) {
+		generateUtil.generate(screenEntityDefinition, output, "ScreenEntityMvcCompositePage.jspx.template");
+	}
+
+	private void generateCompositeContoller(ScreenEntityDefinition screenEntityDefinition, OutputStream output) {
+		generateUtil.generate(screenEntityDefinition, output, "ScreenEntityMvcCompositeController.java.template");
+
+	}
+
 }

@@ -1,17 +1,16 @@
 package org.openlegacy.designtime.terminal.generators;
 
-import org.openlegacy.designtime.mains.OverrideConfirmer;
+import org.openlegacy.designtime.mains.GeneratePageRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
-import java.io.File;
 import java.io.OutputStream;
 
 public interface ScreenEntityWebGenerator {
 
-	void generateAll(File projectDir, ScreenEntityDefinition screenEntityDefinition, File sourceDirectory,
-			String packageDirectoryName, File templatesDir, OverrideConfirmer overrideConfirmer) throws GenerationException;
+	void generateAll(GeneratePageRequest generatePageRequest, ScreenEntityDefinition screenEntityDefinition)
+			throws GenerationException;
 
 	void generatePage(PageDefinition pageDefinition, OutputStream output) throws GenerationException;
 

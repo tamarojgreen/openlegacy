@@ -27,6 +27,10 @@ public class GenerateUtil {
 		this.templatesDir = templatesDir;
 	}
 
+	public void generate(Object model, OutputStream out, String templateName) throws GenerationException {
+		generate(model, out, templateName, "");
+	}
+
 	/**
 	 * 
 	 * @param model

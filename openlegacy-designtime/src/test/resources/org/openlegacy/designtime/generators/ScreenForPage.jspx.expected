@@ -5,8 +5,6 @@
 	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
 	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-	<jsp:directive.page contentType="text/html;charset=UTF-8" />
-	<jsp:output omit-xml-declaration="yes" />
 
 				<div style="margin-left: 12%; margin-top: 20%; width: 26%;" class="panel">
 			<div class="field">

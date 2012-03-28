@@ -142,7 +142,7 @@ public class ScreenPojosAjGenerator {
 			return screenEntityCodeModel;
 		}
 
-		generateUtil.generate(screenEntityCodeModel, out, templateFileName, "");
+		generateUtil.generate(screenEntityCodeModel, out, templateFileName);
 
 		return screenEntityCodeModel;
 	}

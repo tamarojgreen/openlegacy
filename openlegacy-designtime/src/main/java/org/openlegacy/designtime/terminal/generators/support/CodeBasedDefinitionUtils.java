@@ -1,5 +1,7 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
@@ -9,18 +11,24 @@ import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringUtil;
 
+import japa.parser.JavaParser;
+import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,6 +36,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class CodeBasedDefinitionUtils {
+
+	private final static Log logger = LogFactory.getLog(CodeBasedDefinitionUtils.class);
 
 	public static Map<String, ScreenFieldDefinition> getFieldsFromCodeModel(ScreenPojoCodeModel codeModel, String containerPrefix) {
 
@@ -61,7 +71,14 @@ public class CodeBasedDefinitionUtils {
 
 	}
 
-	public static ScreenEntityDefinition getEntityDefinition(CompilationUnit compilationUnit) {
+	/**
+	 * 
+	 * @param compilationUnit
+	 * @param packageDir
+	 *            the package source folder. Used for finding related compilation units. May be null in test mode only
+	 * @return
+	 */
+	public static ScreenEntityDefinition getEntityDefinition(CompilationUnit compilationUnit, File packageDir) {
 		List<TypeDeclaration> types = compilationUnit.getTypes();
 		CodeBasedScreenEntityDefinition screenDefinition = null;
 
@@ -85,7 +102,7 @@ public class CodeBasedDefinitionUtils {
 						|| JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
 							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
-					screenDefinition = new CodeBasedScreenEntityDefinition(screenEntityCodeModel);
+					screenDefinition = new CodeBasedScreenEntityDefinition(screenEntityCodeModel, packageDir);
 				}
 				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
@@ -113,10 +130,45 @@ public class CodeBasedDefinitionUtils {
 			String actionName = StringUtil.toClassName(action.getActionName());
 			SimpleActionDefinition actionDefinition = new SimpleActionDefinition(actionName,
 					StringUtil.stripQuotes(action.getDisplayName()));
-			actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
+			if (action.getAlias() != null) {
+				actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
+			}
 			actionDefinitions.add(actionDefinition);
 		}
 
 		return actionDefinitions;
+	}
+
+	public static List<ScreenEntityDefinition> getChildScreensDefinitions(ScreenPojoCodeModel codeModel, File packageDir) {
+		List<ScreenEntityDefinition> childScreenDefinitions = new ArrayList<ScreenEntityDefinition>();
+		if (packageDir == null) {
+			logger.warn(MessageFormat.format("Package directory for {0} is not defined. Unable to determine child screens",
+					codeModel.getClassName()));
+			return childScreenDefinitions;
+		}
+		Collection<Field> fields = codeModel.getFields();
+
+		for (Field field : fields) {
+			if (!field.isChildScreenEntityField()) {
+				continue;
+			}
+			File childSourceFile = new File(packageDir, field.getType() + ".java");
+			if (!childSourceFile.exists()) {
+				logger.debug(MessageFormat.format("Source file for field {0} is not defined. Unable to find file {1}",
+						field.getName(), childSourceFile.getAbsoluteFile()));
+				continue;
+			}
+			try {
+				CompilationUnit compilationUnit = JavaParser.parse(childSourceFile);
+				ScreenEntityDefinition childEntityDefinition = getEntityDefinition(compilationUnit, packageDir);
+				childScreenDefinitions.add(childEntityDefinition);
+			} catch (ParseException e) {
+				logger.warn("Failed parsing java file:" + e.getMessage());
+			} catch (IOException e) {
+				throw (new EntityNotAccessibleException(e));
+			}
+
+		}
+		return childScreenDefinitions;
 	}
 }

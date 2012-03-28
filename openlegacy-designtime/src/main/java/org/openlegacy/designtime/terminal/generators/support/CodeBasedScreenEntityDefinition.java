@@ -15,6 +15,7 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -27,9 +28,12 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	private SimpleScreenSize screenSize;
 	private Map<String, ScreenTableDefinition> tableDefinitions = new TreeMap<String, ScreenTableDefinition>();
 	private List<ActionDefinition> actions;
+	private List<ScreenEntityDefinition> childScreens;
+	private File packageDir;
 
-	public CodeBasedScreenEntityDefinition(ScreenPojoCodeModel codeModel) {
+	public CodeBasedScreenEntityDefinition(ScreenPojoCodeModel codeModel, File packageDir) {
 		this.codeModel = codeModel;
+		this.packageDir = packageDir;
 	}
 
 	public String getEntityName() {
@@ -136,8 +140,10 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public List<ScreenEntityDefinition> getChildScreensDefinitions() {
-		throwNotImplemented();
-		return null;
+		if (childScreens == null) {
+			childScreens = CodeBasedDefinitionUtils.getChildScreensDefinitions(codeModel, packageDir);
+		}
+		return childScreens;
 	}
 
 }

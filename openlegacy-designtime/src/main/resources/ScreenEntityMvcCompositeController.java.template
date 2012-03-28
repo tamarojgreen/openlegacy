@@ -1,0 +1,20 @@
+package ${packageName}.web;
+
+import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+/**
+ * Handles requests for screen ${entityClassName}Composite
+ */
+@Controller
+@RequestMapping("/${entityClassName}Composite")
+public class ${entityClassName}CompositeController {
+
+	// handle page initial display
+    @RequestMapping(method = RequestMethod.GET)
+    public String show(Model uiModel) {
+        return "${entityClassName}Composite";
+    }
+}

@@ -20,10 +20,10 @@
   <script src="${ol_mvc_js}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
   <link rel="stylesheet" type="text/css" href="template/openlegacy.css" />	
-  <link rel="stylesheet" href="dj/dijit/themes/soria/soria.css" />
+  <link rel="stylesheet" href="dj/dijit/themes/tundra/tundra.css" />
 </head>
 
-<body class="soria">
+<body class="tundra">
 
 	<div class="page_container">
 
