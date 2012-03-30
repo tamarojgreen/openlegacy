@@ -63,7 +63,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private ApplicationContext applicationContext;
 
-	private File analyzerContextFile;
+	private File designtimeContextFile;
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
 		File targetZip = extractTemplate(projectCreationRequest.getTemplateName(), projectCreationRequest.getBaseDir());
@@ -310,12 +310,13 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	private synchronized ApplicationContext getApplicationContext(File analyzerContextFile) {
+	private synchronized ApplicationContext getApplicationContext(File designtimeContextFile) {
 		// in case the context file is not longer the default one
-		if (applicationContext == null || (analyzerContextFile != null && this.analyzerContextFile == null)) {
-			if (analyzerContextFile != null && analyzerContextFile.exists()) {
-				this.analyzerContextFile = analyzerContextFile;
-				applicationContext = new FileSystemXmlApplicationContext(analyzerContextFile.getAbsolutePath());
+		if (applicationContext == null
+				|| (designtimeContextFile != null && designtimeContextFile.exists() && this.designtimeContextFile == null)) {
+			if (designtimeContextFile != null && designtimeContextFile.exists()) {
+				this.designtimeContextFile = designtimeContextFile;
+				applicationContext = new FileSystemXmlApplicationContext(designtimeContextFile.getAbsolutePath());
 			} else {
 				applicationContext = new ClassPathXmlApplicationContext("/openlegacy-default-designtime-context.xml");
 			}

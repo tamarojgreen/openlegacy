@@ -6,7 +6,7 @@
 
 	<input type="button" class="button" onclick="doPost(this);">Submit</button>
 	<c:forEach items="${definitions.actions}" var="action">
-		<button onclick="doPost(this,'${action.alias}');">${action.displayName}</button>
+		<input type="button" class="button" onclick="doPost(this,'${action.alias}');" value="${action.displayName}" />
 	</c:forEach>
 
 </div>

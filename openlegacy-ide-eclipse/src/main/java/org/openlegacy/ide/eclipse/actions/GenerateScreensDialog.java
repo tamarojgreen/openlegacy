@@ -20,6 +20,7 @@ import org.openlegacy.ide.eclipse.util.JavaUtils;
 import org.openlegacy.ide.eclipse.util.Prefrences;
 
 import java.io.File;
+import java.text.MessageFormat;
 
 public class GenerateScreensDialog extends AbstractGenerateDialog {
 
@@ -75,7 +76,8 @@ public class GenerateScreensDialog extends AbstractGenerateDialog {
 		IFile selectionFile = (IFile)((IStructuredSelection)getSelection()).getFirstElement();
 		String prefrenceSourceFolderPath = Prefrences.get(PluginConstants.DEFAULT_SOURCE_FOLDER_ID,
 				PluginConstants.DEFAULT_SOURCE_FOLDER);
-		getSourceFolderPathText().setText(selectionFile.getProject().getName() + "\\" + prefrenceSourceFolderPath);
+		getSourceFolderPathText().setText(
+				MessageFormat.format("{0}{1}{2}", selectionFile.getProject().getName(), File.separator, prefrenceSourceFolderPath));
 		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(selectionFile.getProject());
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));
 

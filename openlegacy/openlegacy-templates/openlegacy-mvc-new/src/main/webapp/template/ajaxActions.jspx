@@ -6,7 +6,7 @@
 
 	<input type="button" class="button" onclick="doAjaxPost('${definitions.entityName}');" value="Submit"/>
 	<c:forEach items="${definitions.actions}" var="action">
-		<button onclick="doAjaxPost('${definitions.entityName}','${action.alias}');">${action.displayName}</button>
+		<input type="button" class="button" onclick="doAjaxPost('${definitions.entityName}','${action.alias}');" value="${action.displayName}" />
 	</c:forEach>
 
 </div>
