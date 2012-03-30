@@ -13,7 +13,8 @@ import org.openlegacy.annotations.screen.ScreenTable;
 import ${referredClass};  
 </#list>	
 
-@ScreenEntity(<#if type??>screenType=${type.simpleName}.class</#if><#if window>window=true</#if><#if child>child=true</#if>)
+<#-- TODO find a nicer way to generate "," properly when 2 attributes exists -->
+@ScreenEntity(<#if window>window=true</#if><#if window && type??>,</#if><#if type??>screenType=${type.simpleName}.class</#if><#if child && (window || type??)>,</#if><#if child>child=true</#if>)
 @ScreenIdentifiers(identifiers = { 
 				<#list screenIdentification.screenIdentifiers as identifier> 
 				@Identifier(row = ${identifier.position.row}, column = ${identifier.position.column}, value = "${identifier.text}")<#if identifier_has_next>,</#if> 

@@ -5,8 +5,8 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.table.LookupEntity;
-import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
+import org.openlegacy.utils.ClassUtils;
 
 public class FieldValuesFactProcessor implements ScreenFactProcessor {
 
@@ -21,8 +21,9 @@ public class FieldValuesFactProcessor implements ScreenFactProcessor {
 		SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(
 				fieldName);
 		SimpleAutoCompleteFieldTypeDefinition fieldTypeDefinition = new SimpleAutoCompleteFieldTypeDefinition();
-		SimpleScreenEntityDefinition lookupWindowScreenDefinition = (SimpleScreenEntityDefinition)fieldValuesFact.getLookupWindowScreenDefinition();
+		ScreenEntityDesigntimeDefinition lookupWindowScreenDefinition = (ScreenEntityDesigntimeDefinition)fieldValuesFact.getLookupWindowScreenDefinition();
 		lookupWindowScreenDefinition.setType(LookupEntity.class);
+		lookupWindowScreenDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(LookupEntity.class));
 		// link the field type to the lookup screen class
 		fieldTypeDefinition.setSourceScreenEntityClassName(lookupWindowScreenDefinition.getEntityName());
 		fieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);

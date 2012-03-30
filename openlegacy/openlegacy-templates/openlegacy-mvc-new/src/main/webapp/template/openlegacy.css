@@ -72,7 +72,7 @@ body {
 	z-index: 1;
 }
 
-.actions button{
+.actions button , .button{
 	background-color: white;
 }
 

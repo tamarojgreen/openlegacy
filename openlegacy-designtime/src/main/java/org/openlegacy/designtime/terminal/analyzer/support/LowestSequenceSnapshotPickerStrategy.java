@@ -13,9 +13,9 @@ public class LowestSequenceSnapshotPickerStrategy implements SnapshotPickerStrat
 
 		TerminalSnapshot lowestSequenceSnapshot = null;
 
-		for (TerminalSnapshot terminalSnapshot : snapshots) {
+		int lowestSequence = Integer.MAX_VALUE;
 
-			int lowestSequence = Integer.MAX_VALUE;
+		for (TerminalSnapshot terminalSnapshot : snapshots) {
 
 			// pick only incoming snapshot as representer
 			if (terminalSnapshot.getSnapshotType() == SnapshotType.OUTGOING) {

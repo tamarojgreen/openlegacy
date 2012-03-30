@@ -66,6 +66,8 @@ public class TerminalSnapshotTextRenderer implements TerminalSnapshotRenderer {
 		drawEditableFields(terminalSnapshot, out, FieldsQuery.queryFields(terminalSnapshot, EditableFieldsCriteria.instance()));
 
 		try {
+			// append new line so snapshot will be rendered from start of line in logs
+			outputStream.write(SystemUtils.LINE_SEPARATOR.getBytes());
 			outputStream.write(out.toString().getBytes());
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
