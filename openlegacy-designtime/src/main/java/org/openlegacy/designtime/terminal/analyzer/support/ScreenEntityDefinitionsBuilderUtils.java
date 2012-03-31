@@ -142,9 +142,11 @@ public class ScreenEntityDefinitionsBuilderUtils {
 	 */
 	private static String findFreeFieldName(String fieldName, Map<String, ScreenFieldDefinition> fieldsDefinitions) {
 		int fieldNameCount = 1;
-		while (fieldsDefinitions.get(fieldName) != null) {
-			fieldName = fieldName + fieldNameCount++;
+		String tempFieldName = fieldName;
+		String baseFieldName = fieldName;
+		while (fieldsDefinitions.get(tempFieldName) != null) {
+			tempFieldName = baseFieldName + fieldNameCount++;
 		}
-		return fieldName;
+		return tempFieldName;
 	}
 }

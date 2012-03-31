@@ -41,9 +41,9 @@ import ${referredClass};
 </#if>
 public class ${entityName} {
     
-	<#list sortedFields as field> 
-	<#if field.fieldTypeDefinition??><#if field.fieldTypeDefinition.class.simpleName = "SimpleBooleanFieldTypeDefinition">@ScreenBooleanField(trueValue="${field.fieldTypeDefinition.trueValue}",falseValue="${field.fieldTypeDefinition.falseValue}")</#if>
-	<#if field.fieldTypeDefinition.class.simpleName = "SimpleAutoCompleteFieldTypeDefinition">@ScreenFieldValues(sourceScreenEntity=${field.fieldTypeDefinition.sourceEntityClassName}.class,collectAll=false)</#if></#if>
+	<#list sortedFields as field>
+	
+	<@fieldTypes field=field />
 	@ScreenField(row = ${field.position.row}, column = ${field.position.column}, endColumn= ${field.endPosition.column}<#if field.labelPosition??> ,labelColumn= ${field.labelPosition.column}</#if><#if field.editable> ,editable= true</#if><#if field.type??> ,fieldType=${field.type.simpleName}.class</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
     private ${field.javaTypeName} ${field.name};
 	</#list>	
@@ -73,3 +73,19 @@ public class ${entityName} {
 	</#list>	
  
 }
+<#macro fieldTypes field>
+	<#if field.fieldTypeDefinition??>
+		<#switch field.fieldTypeDefinition.typeName>
+		  <#case "boolean">
+	@ScreenBooleanField(trueValue="${field.fieldTypeDefinition.trueValue}",falseValue="${field.fieldTypeDefinition.falseValue}")
+		     <#break>
+		  <#case "autocomplete">
+	@ScreenFieldValues(sourceScreenEntity=${field.fieldTypeDefinition.sourceEntityClassName}.class,collectAll=false)
+		     <#break>
+		  <#case "date">
+	@ScreenDateField(dayColumn=${field.fieldTypeDefinition.dayColumn}, monthColumn=${field.fieldTypeDefinition.monthColumn}, yearColumn=${field.fieldTypeDefinition.yearColumn})
+		     <#break>
+		  <#default>
+		</#switch>  
+	</#if>
+</#macro>

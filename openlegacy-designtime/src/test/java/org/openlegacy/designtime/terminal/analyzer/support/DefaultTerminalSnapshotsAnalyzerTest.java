@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
+import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
@@ -72,7 +73,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		ScreenEntityDefinition screen2 = screenEntitiesDefinitions.get("FormScreen");
 		Assert.assertNotNull(screen2);
 		fieldsDefinitions = screen2.getFieldsDefinitions();
-		Assert.assertEquals(10, fieldsDefinitions.size());
+		Assert.assertEquals(11, fieldsDefinitions.size());
 		fieldA = fieldsDefinitions.get("fieldA");
 		Assert.assertNotNull(fieldA);
 
@@ -86,6 +87,13 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		BooleanFieldTypeDefinition typeDefinition = (BooleanFieldTypeDefinition)booleanField.getFieldTypeDefinition();
 		Assert.assertEquals("Y", typeDefinition.getTrueValue());
 		Assert.assertEquals("N", typeDefinition.getFalseValue());
+
+		ScreenFieldDefinition dateField = fieldsDefinitions.get("dateField");
+		Assert.assertNotNull(dateField);
+		DateFieldTypeDefinition dateTypeDefinition = (DateFieldTypeDefinition)dateField.getFieldTypeDefinition();
+		Assert.assertEquals(20, dateTypeDefinition.getDayColumn().intValue());
+		Assert.assertEquals(25, dateTypeDefinition.getMonthColumn().intValue());
+		Assert.assertEquals(30, dateTypeDefinition.getYearColumn().intValue());
 	}
 
 	private Map<String, ScreenEntityDefinition> analyze(String... fileNames) {
