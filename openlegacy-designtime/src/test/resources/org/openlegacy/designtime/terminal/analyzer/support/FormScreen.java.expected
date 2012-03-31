@@ -19,43 +19,38 @@ public class FormScreen {
 	
 	@ScreenField(row = 4, column = 13, endColumn= 21 ,labelColumn= 3 ,editable= true ,displayName = "Field A", sampleValue = "AAAA")
     private String fieldA;
-
 	
 	@ScreenField(row = 5, column = 13, endColumn= 20 ,labelColumn= 3 ,displayName = "Field B", sampleValue = "BBBB")
     private String fieldB;
-
 	
 	@ScreenField(row = 6, column = 13, endColumn= 20 ,labelColumn= 3 ,displayName = "Field C", sampleValue = "CCCC")
     private String fieldC;
-
 	
 	@ScreenField(row = 6, column = 43, endColumn= 50 ,labelColumn= 33 ,editable= true ,displayName = "Field D", sampleValue = "DDDD")
     private String fieldD;
-
 	
 	@ScreenField(row = 7, column = 13, endColumn= 18 ,labelColumn= 3 ,displayName = "Field E1", sampleValue = "EE")
     private String fieldE1;
-
 	
 	@ScreenField(row = 7, column = 44, endColumn= 49 ,labelColumn= 35 ,displayName = "Field E2", sampleValue = "EEEE")
     private String fieldE2;
-
 	
 	@ScreenField(row = 8, column = 13, endColumn= 18 ,labelColumn= 3 ,displayName = "Field F1", sampleValue = "FF")
     private String fieldF1;
-
 	
 	@ScreenField(row = 8, column = 47, endColumn= 56 ,labelColumn= 37 ,displayName = "Field F2", sampleValue = "F2")
     private String fieldF2;
-
 	
 	@ScreenField(row = 8, column = 60, endColumn= 67 ,labelColumn= 50 ,displayName = "Field F3", sampleValue = "F3")
     private String fieldF3;
-
-	@ScreenBooleanField(trueValue="Y",falseValue="N")
 	
+	@ScreenBooleanField(trueValue="Y",falseValue="N")
 	@ScreenField(row = 9, column = 20, endColumn= 20 ,labelColumn= 3 ,editable= true ,displayName = "Boolean field")
     private Boolean booleanField;
+	
+	@ScreenDateField(dayColumn=20, monthColumn=25, yearColumn=30)
+	@ScreenField(row = 10, column = 20, endColumn= 21 ,labelColumn= 3 ,editable= true ,displayName = "Date field")
+    private String dateField;
 
     
 

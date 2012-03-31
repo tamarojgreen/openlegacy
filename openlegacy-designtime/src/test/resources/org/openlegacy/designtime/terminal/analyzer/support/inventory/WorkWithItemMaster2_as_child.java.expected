@@ -38,7 +38,7 @@ public class WorkWithItemMaster2 {
     private String nlStockAccount;
 	
 	@ScreenField(row = 10, column = 29, endColumn= 33 ,labelColumn= 18 ,editable= true)
-    private String field12;
+    private String field2;
 	
 	@ScreenField(row = 11, column = 29, endColumn= 33 ,labelColumn= 18 ,editable= true)
     private String field1;
