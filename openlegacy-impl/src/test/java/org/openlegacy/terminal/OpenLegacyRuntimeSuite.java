@@ -16,6 +16,7 @@ import org.openlegacy.terminal.support.DefaultScreenRecordsProviderTest;
 import org.openlegacy.terminal.support.DefaultSessionNavigatorTest;
 import org.openlegacy.terminal.support.DefaultTerminalSessionTest;
 import org.openlegacy.terminal.support.WindowTest;
+import org.openlegacy.terminal.support.binders.DateFieldsBinderTest;
 import org.openlegacy.terminal.support.binders.ScreenEntityTablesBinderTest;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 
@@ -23,9 +24,9 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 @SuiteClasses({ RegistryTest.class, TerminalEqualsHashcodeTest.class, MockTerminalSessionSystemTest.class,
 		RecognizersSuite.class, XmlTrailWriterTest.class, DefaultLoginModuleTest.class, DefaultLoginModuleFailedTest.class,
 		DefaultTerminalSessionTest.class, WindowTest.class, DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class,
-		ScreenEntityTablesBinderTest.class, DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class,
-		DefaultTerminalMenuModuleTest.class, MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class,
-		DefaultScreenRecordsProviderTest.class })
+		ScreenEntityTablesBinderTest.class, DateFieldsBinderTest.class, DefaultNavigationModuleTest.class,
+		DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
+		MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class, DefaultScreenRecordsProviderTest.class })
 public class OpenLegacyRuntimeSuite {
 
 }

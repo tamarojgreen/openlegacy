@@ -11,6 +11,7 @@ import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
+import java.util.Date;
 
 public class DateFieldFactProcessor implements ScreenFactProcessor {
 
@@ -28,18 +29,29 @@ public class DateFieldFactProcessor implements ScreenFactProcessor {
 		ScreenFieldDefinition middleField = dateFieldFact.getMiddleField();
 		ScreenFieldDefinition rightField = dateFieldFact.getRightField();
 
-		leftFieldDefinition.setFieldTypeDefinition(new SimpleDateFieldTypeDefinition(
+		SimpleDateFieldTypeDefinition fieldTypeDefinition = new SimpleDateFieldTypeDefinition(
 				dateFieldFact.getLeftField().getPosition().getColumn(), middleField.getPosition().getColumn(),
-				rightField.getPosition().getColumn()));
+				rightField.getPosition().getColumn());
+		leftFieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);
+		leftFieldDefinition.setJavaType(Date.class);
+
+		screenEntityDefinition.getReferredClasses().add(Date.class.getName());
 
 		// remove all 3 fields date fields and add with the correct name. The middle/last date fields may take the label field
 		// name as drools as can't verify analysis order
 		screenEntityDefinition.getFieldsDefinitions().remove(leftFieldDefinition.getName());
-		screenEntityDefinition.getFieldsDefinitions().remove(middleField.getName());
-		screenEntityDefinition.getFieldsDefinitions().remove(rightField.getName());
+		if (middleField != null) {
+			screenEntityDefinition.getFieldsDefinitions().remove(middleField.getName());
+		}
+		if (rightField != null) {
+			screenEntityDefinition.getFieldsDefinitions().remove(rightField.getName());
+		}
 
-		String fieldName = StringUtil.toJavaFieldName(dateFieldFact.getLabelField().getValue());
+		// set the length as all 3 - as place holder
+		leftFieldDefinition.setLength(rightField.getEndPosition().getColumn() - leftFieldDefinition.getPosition().getColumn());
+
 		// re-add the field
+		String fieldName = StringUtil.toJavaFieldName(dateFieldFact.getLabelField().getValue());
 		leftFieldDefinition.setName(fieldName);
 		screenEntityDefinition.getFieldsDefinitions().put(fieldName, leftFieldDefinition);
 

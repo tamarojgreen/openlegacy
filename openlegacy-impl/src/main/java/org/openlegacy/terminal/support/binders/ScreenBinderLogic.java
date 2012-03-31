@@ -14,6 +14,7 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.utils.TypesUtil;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -50,8 +51,11 @@ public class ScreenBinderLogic {
 			}
 			String fieldName = fieldMappingDefinition.getName();
 			if (fieldAccessor.isWritable(fieldName)) {
-				String content = fieldFormatter.format(text);
-				fieldAccessor.setFieldValue(fieldName, content);
+				Class<?> javaType = fieldMappingDefinition.getJavaType();
+				if (TypesUtil.isPrimitive(javaType)) {
+					String content = fieldFormatter.format(text);
+					fieldAccessor.setFieldValue(fieldName, content);
+				}
 
 				fieldAccessor.setTerminalField(fieldName, terminalField);
 			}
@@ -87,12 +91,15 @@ public class ScreenBinderLogic {
 				boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalField.getValue(), value);
 				if (fieldModified) {
 					if (fieldMappingDefinition.isEditable()) {
-						terminalField.setValue(String.valueOf(value));
-						modifiedfields.add(terminalField);
-						if (logger.isDebugEnabled()) {
-							logger.debug(MessageFormat.format(
-									"Field {0} was set with value \"{1}\" to send fields for screen {2}", fieldName, value,
-									screenPojo.getClass()));
+						if (TypesUtil.isPrimitive(value.getClass())) {
+							terminalField.setValue(String.valueOf(value));
+							modifiedfields.add(terminalField);
+
+							if (logger.isDebugEnabled()) {
+								logger.debug(MessageFormat.format(
+										"Field {0} was set with value \"{1}\" to send fields for screen {2}", fieldName, value,
+										screenPojo.getClass()));
+							}
 						}
 					} else {
 						throw (new TerminalActionException(MessageFormat.format(

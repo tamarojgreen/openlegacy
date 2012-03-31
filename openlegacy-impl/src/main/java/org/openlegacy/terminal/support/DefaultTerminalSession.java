@@ -6,6 +6,7 @@ import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalSession;
@@ -15,7 +16,6 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.spi.ScreensRecognizer;
 import org.openlegacy.terminal.spi.SessionNavigator;
 import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.terminal.support.binders.ScreenEntityBinder;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
 import org.openlegacy.utils.ProxyUtil;
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
+import java.util.Date;
 
 @Component
 public class ScreenDateFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
@@ -55,6 +56,7 @@ public class ScreenDateFieldAnnotationLoader extends AbstractFieldAnnotationLoad
 		// just month+year for example)
 		fieldDefinition.setFieldTypeDefinition(new SimpleDateFieldTypeDefinition(dayColumn > 0 ? dayColumn : null,
 				monthColumn > 0 ? monthColumn : null, yearColumn > 0 ? yearColumn : null));
+		fieldDefinition.setJavaType(Date.class);
 	}
 
 }

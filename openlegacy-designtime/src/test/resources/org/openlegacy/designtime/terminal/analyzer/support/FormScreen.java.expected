@@ -50,7 +50,7 @@ public class FormScreen {
 	
 	@ScreenDateField(dayColumn=20, monthColumn=25, yearColumn=30)
 	@ScreenField(row = 10, column = 20, endColumn= 21 ,labelColumn= 3 ,editable= true ,displayName = "Date field")
-    private String dateField;
+    private Date dateField;
 
     
 
