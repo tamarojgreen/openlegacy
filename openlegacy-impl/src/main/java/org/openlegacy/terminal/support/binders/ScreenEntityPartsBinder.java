@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.support.binders;
 
+import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;

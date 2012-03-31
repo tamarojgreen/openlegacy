@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -24,7 +25,10 @@ public class DefaultScreenRecordsProviderTest extends AbstractTest {
 		WarehouseDetails warehouseDetails = terminalSession.getEntity(WarehouseDetails.class);
 		Assert.assertNotNull(warehouseDetails);
 		Map<Object, Object> values = warehouseDetails.getWarehouseTypeValues();
-		System.out.println(values);
+		Assert.assertEquals(4, values.size());
+		Set<Object> entrySet = values.keySet();
+		Object firstRecord = entrySet.iterator().next();
+		Assert.assertEquals("DR", firstRecord);
 
 	}
 

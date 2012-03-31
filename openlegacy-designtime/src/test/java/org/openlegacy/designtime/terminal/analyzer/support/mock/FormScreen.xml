@@ -41,11 +41,11 @@
     </row>
     <row rowNumber="10">
         <field value="Date field:" column="3" />
-        <field value="" editable="true" length="2" column="20" />
+        <field value="09" editable="true" length="2" column="20" />
         <field value="/" column="23" />
-        <field value="" editable="true" length="2" column="25" />
+        <field value="10" editable="true" length="2" column="25" />
         <field value="/" column="28" />
-        <field value="" editable="true" length="2" column="30" />
+        <field value="11" editable="true" length="2" column="30" />
     </row>
     <row rowNumber="24">
         <field value="F1=Help" column="3" />

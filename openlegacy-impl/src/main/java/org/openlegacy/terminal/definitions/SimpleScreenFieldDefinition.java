@@ -69,6 +69,9 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	}
 
 	public Class<?> getJavaType() {
+		if (javaType == null) {
+			javaType = String.class;
+		}
 		return javaType;
 	}
 

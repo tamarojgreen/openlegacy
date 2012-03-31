@@ -254,4 +254,12 @@ public class StringUtil {
 		}
 		return value;
 	}
+
+	public static String appendLeftZeros(int number, int length) {
+		String str = String.valueOf(number);
+		for (int i = str.length(); i < length; i++) {
+			str = "0" + str;
+		}
+		return str;
+	}
 }
