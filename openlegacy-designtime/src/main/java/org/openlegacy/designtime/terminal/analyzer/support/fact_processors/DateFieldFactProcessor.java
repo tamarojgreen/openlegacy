@@ -12,6 +12,7 @@ import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.Map;
 
 public class DateFieldFactProcessor implements ScreenFactProcessor {
 
@@ -25,13 +26,25 @@ public class DateFieldFactProcessor implements ScreenFactProcessor {
 		DateFieldFact dateFieldFact = (DateFieldFact)screenFact;
 
 		SimpleScreenFieldDefinition leftFieldDefinition = (SimpleScreenFieldDefinition)dateFieldFact.getLeftField();
+		ScreenFieldDefinition middleFieldDefinition = dateFieldFact.getMiddleField();
+		ScreenFieldDefinition rightFieldDefinition = dateFieldFact.getRightField();
 
-		ScreenFieldDefinition middleField = dateFieldFact.getMiddleField();
-		ScreenFieldDefinition rightField = dateFieldFact.getRightField();
+		Map<String, ScreenFieldDefinition> fieldsDefinitions = screenEntityDefinition.getFieldsDefinitions();
+		// verifying all fields belongs to the same screen entity. Couldn't do it in drools with memberOf. TODO
+		if (leftFieldDefinition != null && !fieldsDefinitions.containsValue(leftFieldDefinition)) {
+			return;
+		}
+		if (middleFieldDefinition != null && !fieldsDefinitions.containsValue(dateFieldFact.getMiddleField())) {
+			return;
+		}
+
+		if (rightFieldDefinition != null && !fieldsDefinitions.containsValue(dateFieldFact.getRightField())) {
+			return;
+		}
 
 		SimpleDateFieldTypeDefinition fieldTypeDefinition = new SimpleDateFieldTypeDefinition(
-				dateFieldFact.getLeftField().getPosition().getColumn(), middleField.getPosition().getColumn(),
-				rightField.getPosition().getColumn());
+				dateFieldFact.getLeftField().getPosition().getColumn(), middleFieldDefinition.getPosition().getColumn(),
+				rightFieldDefinition.getPosition().getColumn());
 		leftFieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);
 		leftFieldDefinition.setJavaType(Date.class);
 
@@ -39,21 +52,22 @@ public class DateFieldFactProcessor implements ScreenFactProcessor {
 
 		// remove all 3 fields date fields and add with the correct name. The middle/last date fields may take the label field
 		// name as drools as can't verify analysis order
-		screenEntityDefinition.getFieldsDefinitions().remove(leftFieldDefinition.getName());
-		if (middleField != null) {
-			screenEntityDefinition.getFieldsDefinitions().remove(middleField.getName());
+		fieldsDefinitions.remove(leftFieldDefinition.getName());
+		if (middleFieldDefinition != null) {
+			fieldsDefinitions.remove(middleFieldDefinition.getName());
 		}
-		if (rightField != null) {
-			screenEntityDefinition.getFieldsDefinitions().remove(rightField.getName());
+		if (rightFieldDefinition != null) {
+			fieldsDefinitions.remove(rightFieldDefinition.getName());
 		}
 
 		// set the length as all 3 - as place holder
-		leftFieldDefinition.setLength(rightField.getEndPosition().getColumn() - leftFieldDefinition.getPosition().getColumn());
+		leftFieldDefinition.setLength(rightFieldDefinition.getEndPosition().getColumn()
+				- leftFieldDefinition.getPosition().getColumn());
 
 		// re-add the field
 		String fieldName = StringUtil.toJavaFieldName(dateFieldFact.getLabelField().getValue());
 		leftFieldDefinition.setName(fieldName);
-		screenEntityDefinition.getFieldsDefinitions().put(fieldName, leftFieldDefinition);
+		fieldsDefinitions.put(fieldName, leftFieldDefinition);
 
 		logger.info(MessageFormat.format("Set field {0} to be date field", leftFieldDefinition.getName()));
 	}

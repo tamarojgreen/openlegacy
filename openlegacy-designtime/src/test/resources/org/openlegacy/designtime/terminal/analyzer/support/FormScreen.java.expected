@@ -3,6 +3,7 @@ package com.test;
 import org.openlegacy.annotations.screen.*;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import java.util.Date;  
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
@@ -49,7 +50,7 @@ public class FormScreen {
     private Boolean booleanField;
 	
 	@ScreenDateField(dayColumn=20, monthColumn=25, yearColumn=30)
-	@ScreenField(row = 10, column = 20, endColumn= 21 ,labelColumn= 3 ,editable= true ,displayName = "Date field")
+	@ScreenField(row = 10, column = 20, endColumn= 30 ,labelColumn= 3 ,editable= true ,displayName = "Date field", sampleValue = "09")
     private Date dateField;
 
     
