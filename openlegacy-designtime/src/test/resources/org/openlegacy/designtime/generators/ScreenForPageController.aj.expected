@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.openlegacy.terminal.layout.mock.*;
 
+import java.text.SimpleDateFormat;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -23,6 +26,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.WebDataBinder;
 
 import org.openlegacy.terminal.layout.mock.ScreenForPage;
 
@@ -110,5 +115,11 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
         return new ResponseEntity<String>(result, headers, HttpStatus.OK);
     }
 	
+	@InitBinder
+	public void ScreenForPageController.initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+	}
 	
 }

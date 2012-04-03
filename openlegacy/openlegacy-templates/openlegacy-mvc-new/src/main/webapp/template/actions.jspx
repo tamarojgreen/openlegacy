@@ -4,7 +4,7 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	<input type="button" class="button" onclick="doPost(this);">Submit</button>
+	<input type="button" class="button" onclick="doPost(this);" value="Submit" />
 	<c:forEach items="${definitions.actions}" var="action">
 		<input type="button" class="button" onclick="doPost(this,'${action.alias}');" value="${action.displayName}" />
 	</c:forEach>

@@ -2,6 +2,7 @@ package org.openlegacy.terminal.web.render.support;
 
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.web.render.ElementsProvider;
 import org.openlegacy.terminal.web.render.HtmlProportionsHandler;
@@ -60,7 +61,8 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			Element formTag = elementsProvider.createFormTag(wrapperTag, formActionURL, formMethod,
 					TerminalHtmlConstants.HTML_EMULATION_FORM_NAME);
 
-			String cursorFieldName = HtmlNamingUtil.getFieldName(terminalSnapshot.getCursorPosition());
+			TerminalPosition cursorPosition = terminalSnapshot.getCursorPosition();
+			String cursorFieldName = cursorPosition != null ? HtmlNamingUtil.getFieldName(cursorPosition) : "";
 			Element cursorHidden = elementsProvider.createHidden(formTag, TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
 			cursorHidden.setAttribute(HtmlConstants.VALUE, cursorFieldName);
 			elementsProvider.createHidden(formTag, TerminalHtmlConstants.KEYBOARD_KEY);

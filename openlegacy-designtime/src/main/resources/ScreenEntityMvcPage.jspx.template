@@ -2,7 +2,7 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:form="urn:jsptagdir:/WEB-INF/tags/form"
+	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
@@ -55,13 +55,22 @@
 </div>
 		
 <#macro fieldTypesDrawer field entityDefinition>
-		<label>${field.displayName}: </label>
 	<#if field.fieldTypeDefinition??>
 		<#switch field.fieldTypeDefinition.typeName>
 		  <#case "boolean">
-		     <input type="checkbox" name="${field.name}" />
+			<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${field.name}">
+			<script>dojo.require("dijit.form.CheckBox");</script>
+			<input type="checkbox" data-dojo-type="dijit.form.CheckBox" name="${field.name}" value="${r"${"}${fieldAssignment}${r"}"}" />
+			<label> ${field.displayName}</label>
+		     <#break>
+		  <#case "date">
+			<label class="fixed_label">${field.displayName}: </label>
+			<form:input id="${field.name}" path="${entityDefinition.entityName?uncap_first}.${field.name}"/>
+			<script>dojo.require("dijit.form.DateTextBox");</script>
+			<script>var dateField = new dijit.form.DateTextBox({name:"${field.name}", value:dojo.byId('${field.name}').value, datePattern :"yyyy-MM-dd"}, "${field.name}");</script>
 		     <#break>
 		  <#case "autocomplete">
+			<label>${field.displayName}: </label>
 			<script language="JavaScript" type="text/javascript">dojo.require("dojo.data.ItemFileReadStore");dojo.require("dijit.form.FilteringSelect");</script>
 			<span data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props="url:'${entityDefinition.entityName?cap_first}/${field.name}'" data-dojo-id="${field.name}Values"></span>
 			<input name="${field.name}" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:${field.name}Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	
@@ -75,6 +84,7 @@
 </#macro>
 	
 <#macro fieldDrawer field entityDefinition>
+	<label>${field.displayName}: </label>
 	<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${field.name}">
 	<#if field.editable>
 		<input type="text" name="${field.name}" value="${r"${"}${fieldAssignment}${r"}"}" size="${field.length}" maxlength="${field.length}" />

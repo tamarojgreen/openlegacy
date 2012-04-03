@@ -12,6 +12,33 @@ public class DateFieldFact implements ScreenFact {
 	private ScreenFieldDefinition middleField;
 	private ScreenFieldDefinition rightField;
 
+	// used by single date field format only
+	private String datePattern;
+
+	/**
+	 * Constructor for single date field
+	 * 
+	 * @param labelField
+	 * @param leftTerminalField
+	 * @param leftField
+	 */
+	public DateFieldFact(TerminalField labelField, TerminalField leftTerminalField, ScreenFieldDefinition leftField,
+			String datePattern) {
+		this.labelField = labelField;
+		this.leftTerminalField = leftTerminalField;
+		this.leftField = leftField;
+		this.datePattern = datePattern;
+	}
+
+	/**
+	 * Constructor for 3 date fields
+	 * 
+	 * @param labelField
+	 * @param leftTerminalField
+	 * @param leftField
+	 * @param middleField
+	 * @param rightField
+	 */
 	public DateFieldFact(TerminalField labelField, TerminalField leftTerminalField, ScreenFieldDefinition leftField,
 			ScreenFieldDefinition middleField, ScreenFieldDefinition rightField) {
 		this.labelField = labelField;
@@ -41,4 +68,7 @@ public class DateFieldFact implements ScreenFact {
 		return rightField;
 	}
 
+	public String getDatePattern() {
+		return datePattern;
+	}
 }

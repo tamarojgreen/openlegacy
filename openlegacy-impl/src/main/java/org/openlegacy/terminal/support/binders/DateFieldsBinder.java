@@ -42,6 +42,8 @@ public class DateFieldsBinder implements ScreenEntityBinder {
 
 	private final static Log logger = LogFactory.getLog(DateFieldsBinder.class);
 
+	private String centuryPrefix = "20";
+
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
 			ScreenEntityNotAccessibleException {
 
@@ -74,7 +76,9 @@ public class DateFieldsBinder implements ScreenEntityBinder {
 			String dayValue = dayField.getValue();
 			String monthValue = monthField.getValue();
 			String yearValue = yearField.getValue();
-
+			if (yearField.getLength() == 2) {
+				yearValue = centuryPrefix + yearValue;
+			}
 			// TOOD - currently only when all 3 date fields are full date is initialized.
 			// does it mean something if only 1-2 has value?
 			if (NumberUtils.isNumber(dayValue) && NumberUtils.isNumber(monthValue) && NumberUtils.isNumber(yearValue)) {
@@ -155,6 +159,15 @@ public class DateFieldsBinder implements ScreenEntityBinder {
 				yearField.setValue(StringUtil.appendLeftZeros(calender.get(Calendar.YEAR), yearField.getLength()));
 			}
 		}
+	}
 
+	/**
+	 * 
+	 * @param centuryPrefix
+	 *            Used in case of 2 field length host field. default to "20". Avoid 2100 bug.
+	 * 
+	 */
+	public void setCenturyPrefix(String centuryPrefix) {
+		this.centuryPrefix = centuryPrefix;
 	}
 }

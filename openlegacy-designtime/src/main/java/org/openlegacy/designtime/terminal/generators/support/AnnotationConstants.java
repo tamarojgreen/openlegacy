@@ -1,7 +1,9 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
 import org.openlegacy.annotations.screen.ScreenActions;
+import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenColumn;
+import org.openlegacy.annotations.screen.ScreenDateField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenEntitySuperClass;
 import org.openlegacy.annotations.screen.ScreenField;
@@ -21,6 +23,8 @@ public class AnnotationConstants {
 	public static final String SCREEN_FIELD_ANNOTATION = ScreenField.class.getSimpleName();
 	public static final Object SCREEN_ACTIONS_ANNOTATION = ScreenActions.class.getSimpleName();
 	public static final String SCREEN_FIELD_VALUES_ANNOTATION = ScreenFieldValues.class.getSimpleName();
+	public static final String SCREEN_BOOLEAN_FIELD_ANNOTATION = ScreenBooleanField.class.getSimpleName();
+	public static final String SCREEN_DATE_FIELD_ANNOTATION = ScreenDateField.class.getSimpleName();
 
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String EDITABLE = "editable";
@@ -41,4 +45,13 @@ public class AnnotationConstants {
 	// @ScreenFieldValues
 	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";
 	public static final String COLLECT_ALL = "collectAll";
+
+	// @ScreenBooleanField
+	public static final String TRUE_VALUE = "trueValue";
+	public static final String FALSE_VALUE = "falseValue";
+
+	// @ScreenDateField
+	public static final String YEAR_COLUMN = "yearColumn";
+	public static final String MONTH_COLUMN = "monthColumn";
+	public static final String DAY_COLUMN = "dayColumn";
 }

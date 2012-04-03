@@ -1,6 +1,9 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
+import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
+
 import org.openlegacy.FieldType.General;
+import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
@@ -14,9 +17,6 @@ import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
-import japa.parser.ast.expr.ArrayInitializerExpr;
-import japa.parser.ast.expr.Expression;
-import japa.parser.ast.expr.MemberValuePair;
 import japa.parser.ast.expr.NormalAnnotationExpr;
 
 import java.util.ArrayList;
@@ -81,11 +81,19 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									AnnotationConstants.SCREEN_FIELD_ANNOTATION, AnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
-								handleScreenFieldOrColumnAnnotation(annotationExpr, field);
+								ScreenAnnotationsParserUtils.loadScreenFieldOrColumnAnnotation(annotationExpr, field);
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									AnnotationConstants.SCREEN_FIELD_VALUES_ANNOTATION)) {
-								handleFieldValues(annotationExpr, field);
+								ScreenAnnotationsParserUtils.loadFieldValues(annotationExpr, field);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									AnnotationConstants.SCREEN_BOOLEAN_FIELD_ANNOTATION)) {
+								ScreenAnnotationsParserUtils.loadBooleanField(annotationExpr, field);
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									AnnotationConstants.SCREEN_DATE_FIELD_ANNOTATION)) {
+								ScreenAnnotationsParserUtils.loadDateField(annotationExpr, field);
 							}
 						}
 					}
@@ -95,46 +103,6 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 
 		checkHasGetterAndSetter(members);
-	}
-
-	private static void handleFieldValues(AnnotationExpr annotationExpr, Field field) {
-		String sourceScreenClassValue = JavaParserUtil.getAnnotationValue(annotationExpr,
-				AnnotationConstants.SOURCE_SCREEN_ENTITY);
-		String sourceScreenClass = StringUtil.toClassName(sourceScreenClassValue);
-		field.setSourceScreenClassName(sourceScreenClass);
-		field.setHasValues(true);
-	}
-
-	private static void handleScreenFieldOrColumnAnnotation(AnnotationExpr annotationExpr, Field field) {
-		String editableValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.EDITABLE);
-		String rowValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.ROW);
-		String columnValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.COLUMN);
-		String displayNameValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.DISPLAY_NAME);
-		String startColumnValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.START_COLUMN);
-		String endColumnValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.END_COLUMN);
-		String labelColumnValue = JavaParserUtil.getAnnotationValue(annotationExpr, AnnotationConstants.LABEL_COLUMN);
-
-		if (AnnotationConstants.TRUE.equals(editableValue)) {
-			field.setEditable(true);
-		}
-		if (rowValue != null) {
-			field.setRow(Integer.valueOf(rowValue));
-		}
-		if (columnValue != null) {
-			field.setColumn(Integer.valueOf(columnValue));
-		}
-		String displayName = !StringUtil.isEmpty(displayNameValue) ? displayNameValue : StringUtil.toDisplayName(field.getName());
-		field.setDisplayName(displayName);
-
-		if (startColumnValue != null) {
-			field.setColumn(Integer.valueOf(startColumnValue));
-		}
-		if (endColumnValue != null) {
-			field.setEndColumn(Integer.valueOf(endColumnValue));
-		}
-		if (labelColumnValue != null) {
-			field.setLabelColumn(Integer.valueOf(labelColumnValue));
-		}
 	}
 
 	private void checkHasGetterAndSetter(List<BodyDeclaration> members) {
@@ -199,19 +167,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	}
 
 	private void populateScreenActions(AnnotationExpr annotationExpr) {
-		if (annotationExpr instanceof NormalAnnotationExpr) {
-			List<MemberValuePair> screenActionAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
-			MemberValuePair actionsKeyValue = screenActionAttributes.get(0);
-			ArrayInitializerExpr actionsPairs = (ArrayInitializerExpr)actionsKeyValue.getValue();
-			List<Expression> actionsAnnotations = actionsPairs.getValues();
-			for (Expression expression : actionsAnnotations) {
-				NormalAnnotationExpr singleAction = (NormalAnnotationExpr)expression;
-				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION);
-				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
-				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
-				actions.add(new Action(actionAlias, actionClassName, displayName));
-			}
-		}
+		actions = ScreenAnnotationsParserUtils.populateScreenActions(annotationExpr);
 	}
 
 	private void populateEntityAttributes(AnnotationExpr annotationExpr) {
@@ -249,18 +205,6 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		if (endRowFromTableAnnotation != null) {
 			endRow = Integer.parseInt(endRowFromTableAnnotation);
 		}
-	}
-
-	private static String findAnnotationAttribute(String annotationName, List<MemberValuePair> pairs) {
-		if (pairs == null) {
-			return null;
-		}
-		for (MemberValuePair memberValuePair : pairs) {
-			if (memberValuePair.getName().equals(annotationName)) {
-				return memberValuePair.getValue().toString();
-			}
-		}
-		return null;
 	}
 
 	/*
@@ -349,7 +293,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private Integer column;
 		private Integer endColumn;
 		private Integer labelColumn;
-		private String sourceScreenClassName;
+		private FieldTypeDefinition fieldTypeDefiniton;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -461,14 +405,13 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			this.hasValues = hasValues;
 		}
 
-		public void setSourceScreenClassName(String sourceScreenClassName) {
-			this.sourceScreenClassName = sourceScreenClassName;
+		public FieldTypeDefinition getFieldTypeDefiniton() {
+			return fieldTypeDefiniton;
 		}
 
-		public String getSourceScreenClassName() {
-			return sourceScreenClassName;
+		public void setFieldTypeDefinition(FieldTypeDefinition fieldTypeDefiniton) {
+			this.fieldTypeDefiniton = fieldTypeDefiniton;
 		}
-
 	}
 
 	public static class Action {

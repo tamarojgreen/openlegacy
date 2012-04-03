@@ -1,0 +1,102 @@
+package org.openlegacy.designtime.terminal.generators.support;
+
+import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
+
+import org.openlegacy.definitions.FieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
+import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
+import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
+import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.utils.StringUtil;
+
+import japa.parser.ast.expr.AnnotationExpr;
+import japa.parser.ast.expr.ArrayInitializerExpr;
+import japa.parser.ast.expr.Expression;
+import japa.parser.ast.expr.MemberValuePair;
+import japa.parser.ast.expr.NormalAnnotationExpr;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ScreenAnnotationsParserUtils {
+
+	public static void loadDateField(AnnotationExpr annotationExpr, Field field) {
+		Integer yearColumn = Integer.valueOf(getAnnotationValue(annotationExpr, AnnotationConstants.YEAR_COLUMN));
+		Integer monthColumn = Integer.valueOf(getAnnotationValue(annotationExpr, AnnotationConstants.MONTH_COLUMN));
+		Integer dayColumn = Integer.valueOf(getAnnotationValue(annotationExpr, AnnotationConstants.DAY_COLUMN));
+		FieldTypeDefinition dateFieldDefiniton = new SimpleDateFieldTypeDefinition(dayColumn, monthColumn, yearColumn);
+		field.setFieldTypeDefinition(dateFieldDefiniton);
+	}
+
+	public static void loadBooleanField(AnnotationExpr annotationExpr, Field field) {
+		String trueValue = getAnnotationValue(annotationExpr, AnnotationConstants.TRUE_VALUE);
+		String falseValue = getAnnotationValue(annotationExpr, AnnotationConstants.FALSE_VALUE);
+		FieldTypeDefinition booleanFieldDefiniton = new SimpleBooleanFieldTypeDefinition(trueValue, falseValue);
+		field.setFieldTypeDefinition(booleanFieldDefiniton);
+	}
+
+	public static void loadFieldValues(AnnotationExpr annotationExpr, Field field) {
+		String sourceScreenClassValue = getAnnotationValue(annotationExpr, AnnotationConstants.SOURCE_SCREEN_ENTITY);
+		String sourceScreenClass = StringUtil.toClassName(sourceScreenClassValue);
+
+		SimpleAutoCompleteFieldTypeDefinition fieldDefinition = new SimpleAutoCompleteFieldTypeDefinition();
+		fieldDefinition.setSourceScreenEntityClassName(sourceScreenClass);
+		field.setFieldTypeDefinition(fieldDefinition);
+		// used for aspectj code generation
+		field.setHasValues(true);
+	}
+
+	public static void loadScreenFieldOrColumnAnnotation(AnnotationExpr annotationExpr, Field field) {
+		String editableValue = getAnnotationValue(annotationExpr, AnnotationConstants.EDITABLE);
+		String rowValue = getAnnotationValue(annotationExpr, AnnotationConstants.ROW);
+		String columnValue = getAnnotationValue(annotationExpr, AnnotationConstants.COLUMN);
+		String displayNameValue = getAnnotationValue(annotationExpr, AnnotationConstants.DISPLAY_NAME);
+		String startColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.START_COLUMN);
+		String endColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_COLUMN);
+		String labelColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.LABEL_COLUMN);
+
+		if (AnnotationConstants.TRUE.equals(editableValue)) {
+			field.setEditable(true);
+		}
+		if (rowValue != null) {
+			field.setRow(Integer.valueOf(rowValue));
+		}
+		if (columnValue != null) {
+			field.setColumn(Integer.valueOf(columnValue));
+		}
+		String displayName = !StringUtil.isEmpty(displayNameValue) ? displayNameValue : StringUtil.toDisplayName(field.getName());
+		field.setDisplayName(displayName);
+
+		if (startColumnValue != null) {
+			field.setColumn(Integer.valueOf(startColumnValue));
+		}
+		if (endColumnValue != null) {
+			field.setEndColumn(Integer.valueOf(endColumnValue));
+		}
+		if (labelColumnValue != null) {
+			field.setLabelColumn(Integer.valueOf(labelColumnValue));
+		}
+	}
+
+	public static List<Action> populateScreenActions(AnnotationExpr annotationExpr) {
+		List<Action> actions = new ArrayList<Action>();
+
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			List<MemberValuePair> screenActionAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			MemberValuePair actionsKeyValue = screenActionAttributes.get(0);
+			ArrayInitializerExpr actionsPairs = (ArrayInitializerExpr)actionsKeyValue.getValue();
+			List<Expression> actionsAnnotations = actionsPairs.getValues();
+			for (Expression expression : actionsAnnotations) {
+				NormalAnnotationExpr singleAction = (NormalAnnotationExpr)expression;
+				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION);
+				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
+				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
+				actions.add(new Action(actionAlias, actionClassName, displayName));
+			}
+		}
+		return actions;
+	}
+
+}

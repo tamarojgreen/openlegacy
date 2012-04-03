@@ -14,7 +14,7 @@ body {
 	height: 80%;
 	width: 80%;
 	position: fixed;
-	font-size: x-large;
+	font-size: large;
 	font-family: Helvetica, sans-serif;
 	color: navy;
 	left: 15%;
@@ -39,6 +39,16 @@ body {
 	white-space: nowrap;
 }
 
+.field .fixed_label {
+	position:relative;
+	white-space: nowrap;
+}
+
+.field span,.field input {
+	margin-left: 45%;
+}
+
+
 .panel {
 	border: 1px solid black;
 	position: absolute;
@@ -53,9 +63,6 @@ body {
 	margin-left: 50%;
 }
 
-.field span,.field input {
-	margin-left: 45%;
-}
 
 .menu {
 	background-color: #FFD700;
