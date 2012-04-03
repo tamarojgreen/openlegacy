@@ -7,6 +7,7 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +28,8 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 	private static final String SCREEN = "Screen";
 	private Collection<TerminalSnapshot> activeSnapshots;
 	private Map<String, List<ScreenEntityDesigntimeDefinition>> entitiesDefinitions = new HashMap<String, List<ScreenEntityDesigntimeDefinition>>();
-	private HashMap<String, ScreenEntityDefinition> entitiesDefinitionsResult;
+	private Map<String, ScreenEntityDefinition> entitiesDefinitionsResult;
+	private Map<ScreenIdentification, ScreenEntityDefinition> entitiesDefinitionsByIdentification;
 
 	private final static Log logger = LogFactory.getLog(TerminalSnapshotsAnalyzerContext.class);
 
@@ -88,6 +90,8 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 	public void finalizeEntitiesDefinitions() {
 		Set<Entry<String, List<ScreenEntityDesigntimeDefinition>>> entitiesByNameDefiniton = entitiesDefinitions.entrySet();
 		entitiesDefinitionsResult = new HashMap<String, ScreenEntityDefinition>();
+		// used to avoid building 2 screen entities with the same identifiers
+		entitiesDefinitionsByIdentification = new HashMap<ScreenIdentification, ScreenEntityDefinition>();
 
 		for (Entry<String, List<ScreenEntityDesigntimeDefinition>> entry : entitiesByNameDefiniton) {
 			List<ScreenEntityDesigntimeDefinition> definitions = entry.getValue();
@@ -96,9 +100,14 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 			Collections.sort(definitions, TerminalSnapshotSequenceComparator.instance());
 
 			for (ScreenEntityDesigntimeDefinition screenEntityDefinition : definitions) {
-				String actualEntityName = findFreeEntityName(entry.getKey(), entitiesDefinitionsResult);
-				screenEntityDefinition.setEntityName(actualEntityName);
-				entitiesDefinitionsResult.put(actualEntityName, screenEntityDefinition);
+				// verify no 2 screens with same identifiers are added (SimpleScreenIdentification.hashCode)
+				if (!entitiesDefinitionsByIdentification.containsKey(screenEntityDefinition.getScreenIdentification())) {
+					String actualEntityName = findFreeEntityName(entry.getKey(), entitiesDefinitionsResult);
+					screenEntityDefinition.setEntityName(actualEntityName);
+					entitiesDefinitionsResult.put(actualEntityName, screenEntityDefinition);
+					entitiesDefinitionsByIdentification.put(screenEntityDefinition.getScreenIdentification(),
+							screenEntityDefinition);
+				}
 			}
 		}
 	}
