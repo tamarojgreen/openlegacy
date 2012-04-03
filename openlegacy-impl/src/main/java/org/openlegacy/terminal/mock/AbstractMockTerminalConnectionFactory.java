@@ -3,6 +3,7 @@ package org.openlegacy.terminal.mock;
 import org.openlegacy.exceptions.UnableToLoadSnapshotException;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.utils.XmlSerializationUtil;
@@ -19,6 +20,7 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 	private String root;
 	private List<TerminalSnapshot> snapshots = null;
 	private String trailName;
+	private boolean verifySend;
 
 	/**
 	 * Loads all snapshots from the listed files NOTE: Currently All files are re-load from disk on every get connection, since
@@ -53,7 +55,15 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 		} catch (JAXBException e) {
 			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", trailName), e));
 		}
-		snapshots.addAll(trail.getSnapshots());
+
+		List<TerminalSnapshot> snapshotsList = trail.getSnapshots();
+		for (TerminalSnapshot snapshot : snapshotsList) {
+			// if verify send wasn't specified, don't add outgoing snapshots from trail file
+			// NOTE: this logic is not activated in loadSnapshotsFromFiles, since the files names are specified
+			if (snapshot.getSnapshotType() == SnapshotType.INCOMING || verifySend) {
+				snapshots.add(snapshot);
+			}
+		}
 	}
 
 	private void loadSnapshotsFromFiles() {
@@ -78,5 +88,9 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 
 	public void setTrailName(String trailName) {
 		this.trailName = trailName;
+	}
+
+	public void setVerifySend(boolean verifySend) {
+		this.verifySend = verifySend;
 	}
 }

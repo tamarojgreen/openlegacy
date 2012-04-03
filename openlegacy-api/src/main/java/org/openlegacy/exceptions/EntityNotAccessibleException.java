@@ -1,7 +1,7 @@
 package org.openlegacy.exceptions;
 
 /**
- * This exception is typically thrown when open legacy is unable to retrieve a entity
+ * This exception is typically thrown when open legacy is unable to retrieve/access an entity
  * 
  */
 public class EntityNotAccessibleException extends OpenLegacyRuntimeException {
@@ -10,6 +10,10 @@ public class EntityNotAccessibleException extends OpenLegacyRuntimeException {
 
 	public EntityNotAccessibleException(String s) {
 		super(s);
+	}
+
+	public EntityNotAccessibleException(String s, Exception e) {
+		super(s, e);
 	}
 
 	public EntityNotAccessibleException(Exception e) {
