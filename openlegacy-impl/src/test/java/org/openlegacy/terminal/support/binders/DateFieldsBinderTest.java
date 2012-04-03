@@ -23,7 +23,7 @@ public class DateFieldsBinderTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 
 		Screen1 screen1 = terminalSession.getEntity(Screen1.class);
-		Calendar calendar = new GregorianCalendar(11, 10 - 1, 9); // 9/Oct/11
+		Calendar calendar = new GregorianCalendar(2011, 10 - 1, 9); // 9/Oct/11
 		Assert.assertEquals(calendar.getTime(), screen1.getDateField());
 
 	}

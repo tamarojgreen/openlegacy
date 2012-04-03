@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.spi.ScreenIdentifier;
@@ -36,5 +38,19 @@ public class SimpleScreenIdentification implements ScreenIdentification {
 	@Override
 	public String toString() {
 		return screenIdentifiers.toString();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ScreenIdentification)) {
+			return false;
+		}
+		ScreenIdentification other = (ScreenIdentification)obj;
+		return new EqualsBuilder().append(screenIdentifiers.toArray(), other.getScreenIdentifiers().toArray()).isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(screenIdentifiers.toArray()).toHashCode();
 	}
 }
