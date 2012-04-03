@@ -4,7 +4,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
-import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenTableDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
@@ -48,26 +47,24 @@ public class CodeBasedDefinitionUtils {
 
 		Collection<Field> fields = codeModel.getFields();
 		Map<String, ScreenFieldDefinition> fieldDefinitions = new TreeMap<String, ScreenFieldDefinition>();
-		for (Field field : fields) {
-			if (!field.isScreenField()) {
+		for (Field javaFieldModel : fields) {
+			if (!javaFieldModel.isScreenField()) {
 				continue;
 			}
-			SimpleScreenFieldDefinition fieldDefinition = new SimpleScreenFieldDefinition(containerPrefix + field.getName(), null);
-			fieldDefinition.setPosition(new SimpleTerminalPosition(field.getRow(), field.getColumn()));
-			fieldDefinition.setEditable(field.isEditable());
-			if (field.getLabelColumn() != null) {
-				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(field.getRow(), field.getLabelColumn()));
+			SimpleScreenFieldDefinition fieldDefinition = new SimpleScreenFieldDefinition(containerPrefix
+					+ javaFieldModel.getName(), null);
+			fieldDefinition.setPosition(new SimpleTerminalPosition(javaFieldModel.getRow(), javaFieldModel.getColumn()));
+			fieldDefinition.setEditable(javaFieldModel.isEditable());
+			if (javaFieldModel.getLabelColumn() != null) {
+				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(javaFieldModel.getRow(),
+						javaFieldModel.getLabelColumn()));
 			}
-			fieldDefinition.setDisplayName(StringUtil.stripQuotes(field.getDisplayName()));
-			if (field.getEndColumn() != null) {
-				fieldDefinition.setLength(field.getEndColumn() - field.getColumn() + 1);
+			fieldDefinition.setDisplayName(StringUtil.stripQuotes(javaFieldModel.getDisplayName()));
+			if (javaFieldModel.getEndColumn() != null) {
+				fieldDefinition.setLength(javaFieldModel.getEndColumn() - javaFieldModel.getColumn() + 1);
 			}
-			if (field.isHasValues()) {
-				SimpleAutoCompleteFieldTypeDefinition fieldTypeDefinition = new SimpleAutoCompleteFieldTypeDefinition();
-				fieldTypeDefinition.setSourceScreenEntityClassName(field.getSourceScreenClassName());
-				fieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);
-			}
-			fieldDefinitions.put(field.getName(), fieldDefinition);
+			fieldDefinition.setFieldTypeDefinition(javaFieldModel.getFieldTypeDefiniton());
+			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;
 

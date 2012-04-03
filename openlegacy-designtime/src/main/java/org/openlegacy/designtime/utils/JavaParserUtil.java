@@ -34,4 +34,17 @@ public class JavaParserUtil {
 	public static boolean hasAnnotation(AnnotationExpr annotationExpr, String annotation) {
 		return annotationExpr.getName().getName().equals(annotation);
 	}
+
+	public static String findAnnotationAttribute(String annotationName, List<MemberValuePair> pairs) {
+		if (pairs == null) {
+			return null;
+		}
+		for (MemberValuePair memberValuePair : pairs) {
+			if (memberValuePair.getName().equals(annotationName)) {
+				return memberValuePair.getValue().toString();
+			}
+		}
+		return null;
+	}
+
 }
