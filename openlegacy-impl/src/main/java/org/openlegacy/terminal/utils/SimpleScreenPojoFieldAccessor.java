@@ -3,6 +3,7 @@ package org.openlegacy.terminal.utils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -16,6 +17,8 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 
 	private DirectFieldAccessor directFieldAccessor;
 
+	private Object target;
+
 	protected static final String FIELD_SUFFIX = "Field";
 
 	private final static Log logger = LogFactory.getLog(SimpleScreenPojoFieldAccessor.class);
@@ -26,6 +29,7 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	public SimpleScreenPojoFieldAccessor(Object target) {
 		target = ProxyUtil.getTargetObject(target);
 		directFieldAccessor = new DirectFieldAccessor(target);
+		this.target = target;
 	}
 
 	/*
@@ -70,7 +74,12 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setFieldValue(java.lang.String, java.lang.Object)
 	 */
 	public void setFieldValue(String fieldName, Object value) {
-		directFieldAccessor.setPropertyValue(getFieldPojoName(fieldName), value);
+		try {
+			directFieldAccessor.setPropertyValue(getFieldPojoName(fieldName), value);
+		} catch (Exception e) {
+			throw (new EntityNotAccessibleException(MessageFormat.format("Unable to update screen entity field: {0}.{1}",
+					target.getClass().getSimpleName(), fieldName), e));
+		}
 		if (logger.isDebugEnabled()) {
 			if (value instanceof String) {
 				String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
