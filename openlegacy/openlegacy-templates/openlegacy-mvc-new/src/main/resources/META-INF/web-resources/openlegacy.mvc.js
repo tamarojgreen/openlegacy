@@ -31,8 +31,10 @@ function doAjaxPost(entityName, actionName) {
 	var container = dijit.byId(entityName);
 	var title = container.get('title');
 	
+	form.action = form.action + "?partial=1";
+	
 	if (actionName != null && actionName.length > 0) {
-		form.action = form.action + "?action=" + actionName;
+		form.action = form.action + "&action=" + actionName;
 	}
 
 	var xhrArgs = {

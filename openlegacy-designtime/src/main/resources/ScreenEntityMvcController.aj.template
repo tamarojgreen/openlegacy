@@ -16,7 +16,6 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.web.JsonSerializationUtil;
-import org.openlegacy.web.HttpUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +39,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	private ScreenEntitiesRegistry ${entityDefinition.entityClassName}Controller.screenEntitiesRegistry;
 
 	// handle page initial display
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET<#if entityDefinition.child>, params="partial=1"</#if>)
     public String ${entityDefinition.entityClassName}Controller.show(Model uiModel) {
     	${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
 	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
@@ -55,7 +54,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (HttpUtil.isAjaxRequest(httpServletRequest)){
+			if (httpServletRequest.getParameter("partial") != null)){
 				${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityName?cap_first}.class);
 		    	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
 		        return "${entityDefinition.entityName?cap_first}";
@@ -73,7 +72,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (HttpUtil.isAjaxRequest(httpServletRequest)){
+			if (httpServletRequest.getParameter("partial") != null)){
 				${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
 		    	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
 		        return "${entityDefinition.entityName?cap_first}";
