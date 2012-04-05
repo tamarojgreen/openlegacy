@@ -1,3 +1,7 @@
+function getMainForm() {
+	return document.openlegacyForm;
+}
+
 function TerminalSession() {
 
 	this.doAction = function(keyboardKey) {

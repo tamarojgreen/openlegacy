@@ -6,6 +6,7 @@
 	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
+	<form id="SignOnForm" method="post">
 	<div style="margin-left: 21%; margin-top: 20%; width: 56%;"
 		class="panel">
 		<div class="field">
@@ -26,5 +27,6 @@
 			<span>${login.errorMessage}</span>
 		</div>
 	</div>
+	</form>
 
 </div>

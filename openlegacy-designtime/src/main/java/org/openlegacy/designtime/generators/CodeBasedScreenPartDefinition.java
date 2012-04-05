@@ -4,6 +4,7 @@ import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
+import org.openlegacy.utils.StringUtil;
 
 import java.util.Map;
 
@@ -22,7 +23,8 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 
 	public Map<String, ScreenFieldDefinition> getFieldsDefinitions() {
 		if (fields == null) {
-			fields = CodeBasedDefinitionUtils.getFieldsFromCodeModel(codeModel, codeModel.getEntityName());
+			String fieldName = StringUtil.toJavaFieldName(codeModel.getEntityName());
+			fields = CodeBasedDefinitionUtils.getFieldsFromCodeModel(codeModel, fieldName);
 		}
 		return fields;
 	}
