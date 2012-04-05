@@ -16,7 +16,6 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.web.JsonSerializationUtil;
-import org.openlegacy.web.HttpUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +54,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (HttpUtil.isAjaxRequest(httpServletRequest)){
+			if (httpServletRequest.getParameter("partial") != null)){
 				screenForPage = terminalSession.getEntity(ScreenForPage.class);
 		    	uiModel.addAttribute("screenForPage", screenForPage);
 		        return "ScreenForPage";
@@ -72,7 +71,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (HttpUtil.isAjaxRequest(httpServletRequest)){
+			if (httpServletRequest.getParameter("partial") != null)){
 				screenForPage = terminalSession.getEntity(ScreenForPage.class);
 		    	uiModel.addAttribute("screenForPage", screenForPage);
 		        return "ScreenForPage";
@@ -89,7 +88,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (HttpUtil.isAjaxRequest(httpServletRequest)){
+			if (httpServletRequest.getParameter("partial") != null)){
 				screenForPage = terminalSession.getEntity(ScreenForPage.class);
 		    	uiModel.addAttribute("screenForPage", screenForPage);
 		        return "ScreenForPage";

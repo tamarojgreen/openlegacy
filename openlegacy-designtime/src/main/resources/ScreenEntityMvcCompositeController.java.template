@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Handles requests for screen ${entityClassName}Composite
  */
 @Controller
-@RequestMapping("/${entityClassName}Composite")
+@RequestMapping("/${entityClassName}")
 public class ${entityClassName}CompositeController {
 
 	// handle page initial display
