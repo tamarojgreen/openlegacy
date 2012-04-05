@@ -7,8 +7,9 @@
 	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
-	<div style="margin-left: 200px; margin-top: 100px">
-		Select a page from the side menu
-	</div>
-
+	<form id="MenuScreenForPageForm" method="post">
+		<div class="menu_message">
+			Select a page from the side menu
+		</div>
+	</form>
 </div>

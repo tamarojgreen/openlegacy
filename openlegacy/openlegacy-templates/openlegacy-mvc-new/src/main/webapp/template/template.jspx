@@ -40,9 +40,7 @@
 		</div>
 
 		<div class="container">
-			<form name="openlegacyForm" method="post">
-				<tiles:insertAttribute name="body" />
-			</form>
+			<tiles:insertAttribute name="body" />
 		</div>
 
 		<div id="footer"

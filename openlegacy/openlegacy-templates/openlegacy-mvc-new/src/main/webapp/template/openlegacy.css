@@ -93,3 +93,8 @@ button{
 	top: 7%;
 	z-index: 1;
 }
+
+.menu_message{
+	margin-left: 200px; 
+	margin-top: 100px;	
+}

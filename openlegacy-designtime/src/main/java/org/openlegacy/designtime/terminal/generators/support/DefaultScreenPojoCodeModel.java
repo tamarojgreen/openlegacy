@@ -192,7 +192,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			endRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.END_ROW, normalAnnotationExpr.getPairs());
 		}
 		displayName = displayNameFromAnnotation != null ? displayNameFromAnnotation : StringUtil.toDisplayName(getClassName());
-		entityName = entityNameFromAnnotation != null ? entityNameFromAnnotation : StringUtil.toJavaFieldName(getClassName());
+		entityName = entityNameFromAnnotation != null ? entityNameFromAnnotation : StringUtil.toClassName(getClassName());
 
 		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)
 				: General.class.getSimpleName();
