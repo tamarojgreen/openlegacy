@@ -7,7 +7,7 @@ rule "identify-child-screens"
 ruleflow-group "identify-child-screens"
 when
 	// there is a child screen which is not a menu or window
-	$childScreenDefinition: ScreenEntityDesigntimeDefinition(window == false, typeName != "MenuEntity")
+	$childScreenDefinition: ScreenEntityDesigntimeDefinition(window == false, typeName != "MenuEntity", typeName != "RecordSelectionEntity")
 
 	// with navigation definitions
 	$childNavigationDefinition: ScreenNavigationDesignTimeDefinition(this != null) from $childScreenDefinition.getNavigationDefinition()
@@ -16,7 +16,7 @@ when
 	not FieldAssignDefinition(value != null) from $childNavigationDefinition.getAssignedFields()
 	   
 	// which is accessed from a parent screen entity which is not a window or menu
-	$parentScreenDefinition: ScreenEntityDesigntimeDefinition(entityName == $childNavigationDefinition.getAccessedFromEntityName(),window == false, typeName != "MenuEntity")
+	$parentScreenDefinition: ScreenEntityDesigntimeDefinition(entityName == $childNavigationDefinition.getAccessedFromEntityName(),window == false, typeName != "MenuEntity", typeName != "RecordSelectionEntity")
 
 then
 	screenEntityDefinitionsBuilder.processFact($parentScreenDefinition, new ChildScreenFact($childScreenDefinition));

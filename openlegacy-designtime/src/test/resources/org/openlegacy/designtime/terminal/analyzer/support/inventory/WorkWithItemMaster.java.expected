@@ -5,8 +5,9 @@ import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import java.util.List;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.modules.table.RecordSelectionEntity;  
 
-@ScreenEntity()
+@ScreenEntity(screenType=RecordSelectionEntity.class)
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 2, column = 26, value = "    Work with Item Master     "), 
 				@Identifier(row = 4, column = 2, value = "Type one or more action codes. Then Enter.                                    ") 
@@ -20,6 +21,7 @@ import org.openlegacy.annotations.screen.ScreenTable;
 				})
 public class WorkWithItemMaster {
     
+	
 	@ScreenField(row = 21, column = 19, endColumn= 28 ,labelColumn= 2 ,editable= true ,displayName = "Position to")
     private String positionTo;
 

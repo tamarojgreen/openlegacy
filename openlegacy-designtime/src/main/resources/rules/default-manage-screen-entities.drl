@@ -30,4 +30,9 @@ ruleflow-group "finalize-screen-entities"
 when
 then
 	snapshotsAnalyzerContext.finalizeEntitiesDefinitions();
+	Collection screenEntitiesDefinitions = snapshotsAnalyzerContext.getEntitiesDefinitions().values();
+	// update the screen entities in the session for further analysis
+	for(Object screenEntitiesDefinition : screenEntitiesDefinitions){
+		update(screenEntitiesDefinition);
+	}  
 end
