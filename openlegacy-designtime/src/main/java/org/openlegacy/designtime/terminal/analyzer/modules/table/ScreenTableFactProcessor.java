@@ -7,6 +7,7 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.analyzer.support.ColumnComparator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
+import org.openlegacy.modules.table.RecordSelectionEntity;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
@@ -70,8 +71,14 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 			}
 			SimpleScreenColumnDefinition columnDefinition = initColumn(i, firstCellField, columnName);
 
+			// define the screen as record selection type if it has a selection field and it's NOT window
+			if (columnDefinition.isSelectionField() && !screenEntityDefinition.isWindow()) {
+				screenEntityDefinition.setType(RecordSelectionEntity.class);
+				screenEntityDefinition.getReferredClasses().add(RecordSelectionEntity.class.getName());
+			}
+
 			if (!isSelectionField(i, firstCellField) && tableDefinition.getKeyFieldNames().size() == 0) {
-				// mark the 1st non editable field as key (in design-time)
+				// mark the 1st non edit-able field as key (in design-time)
 				// TODO logic needs to be more rich to check for most populated column
 				columnDefinition.setKey(true);
 			}

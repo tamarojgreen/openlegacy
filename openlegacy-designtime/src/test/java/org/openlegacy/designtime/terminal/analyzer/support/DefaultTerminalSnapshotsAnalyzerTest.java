@@ -110,6 +110,26 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertEquals(6, definitions.size());
 	}
 
+	/**
+	 * Test to reproduce a bug, when parent and child screen has the same name during analysis. happened since entities were not
+	 * "update" in the session after got the actual screen name
+	 * 
+	 * @throws TemplateException
+	 * @throws IOException
+	 */
+	@Test
+	public void testSessionWithChildAnalyzer() throws TemplateException, IOException {
+		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
+				"ChildScreens.trail.xml"));
+		ScreenEntityDefinition parent = definitions.get("WorkWithItemMaster");
+		Assert.assertNotNull(parent);
+		Assert.assertEquals(1, parent.getChildScreensDefinitions().size());
+		Assert.assertEquals("WorkWithItemMaster1", parent.getChildScreensDefinitions().get(0).getEntityName());
+		ScreenEntityDefinition childScreen = definitions.get("WorkWithItemMaster1");
+		Assert.assertNotNull(childScreen);
+		Assert.assertTrue(childScreen.isChild());
+	}
+
 	@Test
 	public void testChildScreenEntities() throws TemplateException, IOException {
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(

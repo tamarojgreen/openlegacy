@@ -76,5 +76,6 @@ when
 														eval(fields.size() +1 >= $firstColumn.getFields().size() ) ))
 then
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenTableFact($columns));
+	update($screenEntityDefinition);
 end
 

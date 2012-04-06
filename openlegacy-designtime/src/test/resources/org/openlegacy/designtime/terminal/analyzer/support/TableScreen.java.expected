@@ -3,13 +3,15 @@ package com.test;
 import org.openlegacy.annotations.screen.*;
 import java.util.List;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.modules.table.RecordSelectionEntity;  
 
-@ScreenEntity()
+@ScreenEntity(screenType=RecordSelectionEntity.class)
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 1, column = 40, value = "Table Screen") 
 				})
 public class TableScreen {
     
+
     
     private List<TableScreenRecord> tableScreenRecords;
 
