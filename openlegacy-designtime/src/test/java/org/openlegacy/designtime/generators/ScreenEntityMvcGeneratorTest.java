@@ -1,6 +1,7 @@
 package org.openlegacy.designtime.generators;
 
 import apps.inventory.screens.ItemDetails1;
+import apps.inventory.screens.ItemsList;
 import apps.inventory.screens.SignOn;
 import freemarker.template.TemplateException;
 
@@ -121,6 +122,8 @@ public class ScreenEntityMvcGeneratorTest {
 	@Test
 	public void testGenerateInventoryApp() throws Exception {
 		assertPageGeneration(screenEntitiesRegistry.get(SignOn.class), "SignOn.jspx.expected");
+
+		assertPageGeneration(screenEntitiesRegistry.get(ItemsList.class), "ItemsList.jspx.expected");
 
 		assertPageGeneration(screenEntitiesRegistry.get(ItemDetails1.class), "ItemDetails1.jspx.expected");
 	}

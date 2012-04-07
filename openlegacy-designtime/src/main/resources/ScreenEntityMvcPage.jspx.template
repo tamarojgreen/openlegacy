@@ -32,12 +32,29 @@
 					<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s">
 					<c:forEach items="${r"${"}${fieldAssignment}${r"}"}" var="item">
 					<tr>
+						<#if pagePart.tableDefinition.actions?size &gt; 0>
+						<td>
+							<select id="${pagePart.tableDefinition.selectionField.name}" name="${pagePart.tableDefinition.selectionField.name}" onchange="doPost()">
+								<option value="">-Select-</option>
+							<#list pagePart.tableDefinition.actions as action>
+								<option value="${action.action.actionValue}">${action.displayName}</option>
+							</#list>
+							</select>
+						</td>
+						</#if>
 						<#list pagePart.tableDefinition.columnDefinitions as column>
+							<#if !column.selectionField>
 						<td>${r"${"}item.${column.name}${r"}"}</td>
+							</#if>
 						</#list>
 					</tr>
 					</c:forEach>
 				</table>
+				<div>
+					<a href="doPost('${entityDefinition.entityName}Form','previous')">Previous</a>
+					| 
+					<a href="doPost('${entityDefinition.entityName}Form','next')">Next</a> 
+				</div>
 			</#if>
 		</div>
 		</#list>	

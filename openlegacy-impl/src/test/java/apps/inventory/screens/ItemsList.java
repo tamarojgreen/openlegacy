@@ -35,7 +35,7 @@ public class ItemsList {
 	private String errorMessage;
 
 	@ScreenTable(startRow = 8, endRow = 19, supportTerminalData = true)
-	@ScreenTableActions(actions = { @TableAction(actionValue = "2", displayName = "Revise") })
+	@ScreenTableActions(actions = { @TableAction(actionValue = "1", displayName = "View"), @TableAction(actionValue = "2", displayName = "Revise") })
 	@ScreenTableDrilldown
 	public static class ItemsListRow {
 

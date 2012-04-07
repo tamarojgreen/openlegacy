@@ -221,4 +221,13 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 		return actions;
 	}
 
+	public ColumnDefinition getSelectionField() {
+		List<ScreenColumnDefinition> columns = getColumnDefinitions();
+		for (ScreenColumnDefinition screenColumnDefinition : columns) {
+			if (screenColumnDefinition.isSelectionField()) {
+				return screenColumnDefinition;
+			}
+		}
+		return null;
+	}
 }
