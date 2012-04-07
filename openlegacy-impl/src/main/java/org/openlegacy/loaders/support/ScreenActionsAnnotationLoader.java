@@ -15,15 +15,12 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.ReflectionUtil;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
 
 @Component
-@Order(Ordered.LOWEST_PRECEDENCE)
 public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	private final static Log logger = LogFactory.getLog(ScreenActionsAnnotationLoader.class);
@@ -53,7 +50,10 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				} else {
 					actionDefinition = new SimpleActionDefinition(ReflectionUtil.newInstance(theAction), action.displayName());
 				}
-				if (!StringUtils.isEmpty(action.alias())) {
+
+				if (StringUtils.isEmpty(action.alias())) {
+					actionDefinition.setAlias(action.displayName());
+				} else {
 					actionDefinition.setAlias(action.alias());
 				}
 
@@ -64,7 +64,7 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				}
 
 			}
-			logger.info(MessageFormat.format("Screen identifications for \"{0}\" was added to the screen registry",
+			logger.info(MessageFormat.format("Screen actions for \"{0}\" was added to the screen registry",
 					screenEntityDefinition.getEntityClass()));
 		}
 	}

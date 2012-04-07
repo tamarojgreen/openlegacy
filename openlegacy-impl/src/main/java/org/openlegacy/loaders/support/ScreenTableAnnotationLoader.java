@@ -9,7 +9,6 @@ import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
@@ -21,7 +20,7 @@ import java.text.MessageFormat;
 import java.util.Collections;
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE - 1)
+@Order(3)
 public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	public boolean match(Annotation annotation) {

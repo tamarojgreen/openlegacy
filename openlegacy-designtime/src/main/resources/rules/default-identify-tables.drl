@@ -79,3 +79,33 @@ then
 	update($screenEntityDefinition);
 end
 
+rule "find-table-actions"
+ruleflow-group "identify-tables"
+no-loop
+salience 70
+when
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-tables")
+	$actionsRegex     : String()  from (String)$ruleParameterSet.getRuleParameters().get("actionsRegex");
+	$actionsSplitter  : String()  from (String)$ruleParameterSet.getRuleParameters().get("actionsSplitter");
+	$rowsDistance	  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("rowsDistance");
+	
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition(typeName == "RecordSelectionEntity")
+	$tableDefinition: ScreenTableDefinition() from $screenEntityDefinition.getTemporaryTableDefinitions()
+
+	// which has a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+
+	$actionsStartRow  : Integer()  from $tableDefinition.getStartRow() - $rowsDistance  
+	$actionsEndRow    : Integer()  from $tableDefinition.getEndRow() + $rowsDistance
+
+	$field: TerminalField(position.row >= $actionsStartRow,position.row <= $actionsEndRow) from $snapshot.getFields()
+	$captionAction: String(this matches $actionsRegex) from $field.getValue().split($actionsSplitter)
+		
+then
+	int offset = $field.getValue().indexOf($captionAction); 
+	TerminalPosition actionPosition = SimpleTerminalPosition.newInstance($field.getPosition().getRow(),$field.getPosition().getColumn()+offset);
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenTableActionFact($tableDefinition,$captionAction,actionPosition, $actionsRegex));
+	
+	System.out.println("***** in table actions:" + $captionAction);
+end
+

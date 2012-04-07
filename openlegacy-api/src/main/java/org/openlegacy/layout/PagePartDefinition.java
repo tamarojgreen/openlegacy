@@ -1,7 +1,7 @@
 package org.openlegacy.layout;
 
-import org.openlegacy.terminal.definitions.TableDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
+import org.openlegacy.definitions.TableDefinition;
+import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 
 import java.util.List;
 

@@ -5,14 +5,13 @@ import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.terminal.definitions.SimpleScreenPartEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.StringUtil;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(2)
 public class ScreenPartEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	public boolean match(Annotation annotation) {

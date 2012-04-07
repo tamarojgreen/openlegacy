@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;

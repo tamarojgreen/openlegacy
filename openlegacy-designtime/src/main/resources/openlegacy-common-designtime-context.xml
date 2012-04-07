@@ -23,6 +23,7 @@
 				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ScreenIdentifiersFactProcessor" p:maxIdentifiers="3"/>
 				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ScreenActionFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.table.ScreenTableFactProcessor" />
+				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.table.ScreenTableActionFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuScreenFactProcessor"/>
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.navigation.NavigationFactProcessor" />

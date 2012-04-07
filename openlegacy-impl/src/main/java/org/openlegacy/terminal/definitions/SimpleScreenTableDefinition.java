@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
@@ -34,6 +35,8 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 	private String tableEntityName;
 
 	private String mainDisplayField;
+
+	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
@@ -212,6 +215,10 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 
 	public void setMainDisplayField(String mainDisplayField) {
 		this.mainDisplayField = mainDisplayField;
+	}
+
+	public List<ActionDefinition> getActions() {
+		return actions;
 	}
 
 }

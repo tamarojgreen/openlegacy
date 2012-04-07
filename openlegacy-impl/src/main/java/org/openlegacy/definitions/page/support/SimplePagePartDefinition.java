@@ -1,8 +1,8 @@
 package org.openlegacy.definitions.page.support;
 
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.layout.PagePartRowDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition;
 import org.openlegacy.terminal.layout.PositionedPagePartDefinition;
 
 import java.util.ArrayList;

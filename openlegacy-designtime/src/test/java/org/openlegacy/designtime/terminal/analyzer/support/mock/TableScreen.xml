@@ -30,5 +30,9 @@
         <field value="Cell 3B" length="9" column="21" />
         <field value="Cell 3C" length="9" column="31" />
     </row>
+    <row rowNumber="8">
+        <field value="1=View" column="4" />
+        <field value="2=Edit" column="11" />
+    </row>
     <size rows="24" columns="80"/>
 </snapshot>

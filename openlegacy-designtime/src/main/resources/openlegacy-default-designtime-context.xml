@@ -117,6 +117,11 @@
 										<entry key="minimumTableRows" value="3" />
 										<!-- When identifying columns, at least one of the fields should contains alphanumeric chars -->
 										<entry key="atLeastOneFieldShouldBe" value="\w+.*" />
+										
+										<!--  used for identifying table actions -->
+										<entry key="actionsRegex" value="(\w+)[=-](\w+[\w ]*)" />
+										<entry key="actionsSplitter" value="  " />
+										<entry key="rowsDistance" value="2" />
 									</map>
 								</property>
 							</bean>

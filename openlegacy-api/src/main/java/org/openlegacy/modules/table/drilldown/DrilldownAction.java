@@ -10,4 +10,6 @@ import org.openlegacy.SessionAction;
 public interface DrilldownAction<S extends Session> extends SessionAction<S> {
 
 	Object getActionValue();
+
+	void setActionValue(Object actionValue);
 }

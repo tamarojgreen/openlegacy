@@ -13,7 +13,6 @@ public abstract class AbstractClassAnnotationLoader implements ClassAnnotationsL
 		int order1Value = order1 != null ? order1.value() : Ordered.LOWEST_PRECEDENCE;
 		int order2Value = order2 != null ? order2.value() : Ordered.LOWEST_PRECEDENCE;
 
-		// Spring order is opposite
-		return order2Value - order1Value;
+		return order1Value - order2Value;
 	}
 }

@@ -2,6 +2,7 @@ package openlegacy;
 
 import java.util.*;
 import org.openlegacy.*;
+import org.openlegacy.definitions.*;
 import org.openlegacy.utils.*;
 import org.openlegacy.terminal.*;
 import org.openlegacy.terminal.support.*;
