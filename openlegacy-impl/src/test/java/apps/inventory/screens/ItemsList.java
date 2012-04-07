@@ -10,7 +10,9 @@ import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.ScreenTableDrilldown;
+import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalActions.F3;
@@ -33,6 +35,7 @@ public class ItemsList {
 	private String errorMessage;
 
 	@ScreenTable(startRow = 8, endRow = 19, supportTerminalData = true)
+	@ScreenTableActions(actions = { @TableAction(actionValue = "2", displayName = "Revise") })
 	@ScreenTableDrilldown
 	public static class ItemsListRow {
 

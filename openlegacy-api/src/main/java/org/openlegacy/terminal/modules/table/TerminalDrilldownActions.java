@@ -6,7 +6,9 @@ import org.openlegacy.terminal.table.TerminalDrilldownAction;
 public class TerminalDrilldownActions {
 
 	public static TerminalDrilldownAction enter(Object actionValue) {
-		return new EnterDrilldownAction(actionValue);
+		EnterDrilldownAction action = new EnterDrilldownAction();
+		action.setActionValue(actionValue);
+		return action;
 	}
 
 	public static class EnterDrilldownAction extends ENTER implements TerminalDrilldownAction {
@@ -15,13 +17,14 @@ public class TerminalDrilldownActions {
 
 		private Object actionValue;
 
-		public EnterDrilldownAction(Object actionValue) {
-			this.actionValue = actionValue;
-		}
+		public EnterDrilldownAction() {}
 
 		public Object getActionValue() {
 			return actionValue;
 		}
 
+		public void setActionValue(Object actionValue) {
+			this.actionValue = actionValue;
+		}
 	}
 }

@@ -35,6 +35,8 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 	 */
 	void addTemporaryTable(SimpleScreenTableDefinition tableDefinition);
 
+	List<SimpleScreenTableDefinition> getTemporaryTableDefinitions();
+
 	List<ScreenFieldDefinition> getSortedFields();
 
 	List<String> getReferredClasses();

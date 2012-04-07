@@ -41,14 +41,17 @@ public class DefaultTerminalActionAnalyzer implements TerminalActionAnalyzer {
 		try {
 			actionClass = (Class<? extends TerminalAction>)Class.forName(MessageFormat.format("{0}{1}{2}",
 					TerminalActions.class.getName(), ClassUtils.INNER_CLASS_SEPARATOR, action));
-		} catch (ClassNotFoundException e) {
-			logger.warn(MessageFormat.format("Could not found class for Action {0}", action));
-		}
 
-		TerminalAction actionInstance = ReflectionUtil.newInstance(actionClass);
-		SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionInstance, additionalKey,
-				caption, position);
-		actionDefinition.setAlias(StringUtil.toJavaMethodName(caption));
-		return actionDefinition;
+			TerminalAction actionInstance = ReflectionUtil.newInstance(actionClass);
+			SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionInstance, additionalKey,
+					caption, position);
+			actionDefinition.setAlias(StringUtil.toJavaMethodName(caption));
+
+			return actionDefinition;
+
+		} catch (ClassNotFoundException e) {
+			logger.warn(MessageFormat.format("Could not find class for Action {0}", action));
+			return null;
+		}
 	}
 }

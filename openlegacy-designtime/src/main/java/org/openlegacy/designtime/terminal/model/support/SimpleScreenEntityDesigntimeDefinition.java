@@ -107,6 +107,10 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		temporaryTableDefinitions.add(tableDefinition);
 	}
 
+	public List<SimpleScreenTableDefinition> getTemporaryTableDefinitions() {
+		return temporaryTableDefinitions;
+	}
+
 	public List<ScreenFieldDefinition> getSortedFields() {
 		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
 

@@ -1,7 +1,7 @@
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
-import org.openlegacy.terminal.definitions.TableDefinition.ColumnDefinition;
 
 public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
 

@@ -1,6 +1,7 @@
 package org.openlegacy.designtime.generators;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.modules.table.TableCollector;
@@ -106,6 +107,11 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition {
 	}
 
 	public String getMainDisplayField() {
+		throwNotImplemented();
+		return null;
+	}
+
+	public List<ActionDefinition> getActions() {
 		throwNotImplemented();
 		return null;
 	}

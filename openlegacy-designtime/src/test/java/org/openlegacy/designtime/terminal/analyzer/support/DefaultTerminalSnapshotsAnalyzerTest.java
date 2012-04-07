@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
@@ -193,6 +194,12 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertEquals(39, columnC.getEndColumn());
 		Assert.assertEquals("Column4", columnC.getDisplayName());
 		Assert.assertEquals("Cell 1C", columnC.getSampleValue());
+
+		List<ActionDefinition> actions = table1.getActions();
+		Assert.assertEquals(2, actions.size());
+		Assert.assertEquals("View", actions.get(0).getDisplayName());
+		Assert.assertEquals("Edit", actions.get(1).getDisplayName());
+
 	}
 
 	@Test

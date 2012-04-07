@@ -8,7 +8,6 @@ import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.utils.StringUtil;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(1)
 public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityAnnotationLoader.class);
