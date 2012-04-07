@@ -1,0 +1,59 @@
+<div xmlns:spring="http://www.springframework.org/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+
+	<form id="ItemsListForm" method="post">
+		<div style="margin-left: 6%; top: 83%; width: 30%;position:absolute;" >
+			<div class="field">
+	<label>Position To: </label>
+		<span>${itemsList.positionTo}</span>
+			</div>
+		</div>
+		<div style="margin-left: 1%; top: 95%; width: 13%;position:absolute;" >
+			<div class="field">
+	<label>Error Message: </label>
+		<span>${itemsList.errorMessage}</span>
+			</div>
+		</div>
+		<div style="margin-left: 5%; top: 25%; width: 80%;" class="panel">
+				<table>
+					<th>
+					Action
+					</th>
+					<th>
+					Alpha Search
+					</th>
+					<th>
+					Item Description
+					</th>
+					<th>
+					Item Number
+					</th>
+					<c:forEach items="${itemsList.itemsListRows}" var="item">
+					<tr>
+						<td>
+							<select id="action" name="action" onchange="doPost()">
+								<option value="">-Select-</option>
+								<option value="1">View</option>
+								<option value="2">Revise</option>
+							</select>
+						</td>
+						<td>${item.alphaSearch}</td>
+						<td>${item.itemDescription}</td>
+						<td>${item.itemNumber}</td>
+					</tr>
+					</c:forEach>
+				</table>
+				<div>
+					<a href="doPost('ItemsListForm','previous')">Previous</a>
+					| 
+					<a href="doPost('ItemsListForm','next')">Next</a> 
+				</div>
+		</div>
+		
+	</form>
+</div>

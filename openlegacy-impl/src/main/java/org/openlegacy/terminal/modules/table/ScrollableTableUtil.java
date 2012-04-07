@@ -13,8 +13,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * Table utilities for retrieving various table entity definitions
+ * 
+ */
 public class ScrollableTableUtil {
 
+	/**
+	 * Retrieve a table entity definition on a screen which is scroll-able. Only a single scroll-able table is allowed per screen
+	 * 
+	 * @param tablesDefinitionProvider
+	 * @param screenEntityClass
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public static Entry<String, ScreenTableDefinition> getSingleScrollableTableDefinition(
 			TablesDefinitionProvider tablesDefinitionProvider, Class<?> screenEntityClass) {
@@ -53,4 +64,5 @@ public class ScrollableTableUtil {
 		return rows;
 
 	}
+
 }
