@@ -49,8 +49,11 @@
 		<span>${screenForPage.screenForPagePart.fld2Row20}</span>
 			</div>
 		</div>
-		<div style="margin-left: 12%; top: 54%; width: 25%;" class="panel">
+		<div style="margin-left: 6%; top: 54%; width: 31%;" class="panel">
 				<table>
+					<th>
+					Action
+					</th>
 					<th>
 					Column1
 					</th>
@@ -59,11 +62,23 @@
 					</th>
 					<c:forEach items="${screenForPage.screenForPageTables}" var="item">
 					<tr>
+						<td>
+							<select id="action" name="action" onchange="doPost()">
+								<option value="">-Select-</option>
+								<option value="1">View</option>
+								<option value="2">Revise</option>
+							</select>
+						</td>
 						<td>${item.column1}</td>
 						<td>${item.column2}</td>
 					</tr>
 					</c:forEach>
 				</table>
+				<div>
+					<a href="javascript:doPost('ScreenForPageForm','previous')">Previous</a>
+					| 
+					<a href="javascript:doPost('ScreenForPageForm','next')">Next</a> 
+				</div>
 		</div>
 		
 	</form>

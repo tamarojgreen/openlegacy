@@ -8,6 +8,8 @@ import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.annotations.screen.ScreenTableActions;
+import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.stereotype.Component;
 
@@ -100,14 +102,27 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	}
 
 	@ScreenTable(startRow = 15, endRow = 20)
+	@ScreenTableActions(actions = { @TableAction(actionValue = "1", displayName = "View"),
+			@TableAction(actionValue = "2", displayName = "Revise") })
 	@Component
 	public static class ScreenForPageTable {
+
+		@ScreenColumn(startColumn = 5, endColumn = 6, editable = true, selectionField = true)
+		private String action;
 
 		@ScreenColumn(startColumn = 10, endColumn = 20)
 		private String column1;
 
 		@ScreenColumn(startColumn = 25, endColumn = 30)
 		private String column2;
+
+		public String getAction() {
+			return action;
+		}
+
+		public void setAction(String action) {
+			this.action = action;
+		}
 
 		public String getColumn1() {
 			return column1;

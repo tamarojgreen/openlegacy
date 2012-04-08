@@ -36,7 +36,7 @@
             </separator>
          </menu>
          <action
-               label="Generate Screens"
+               label="Generate API"
                class="org.openlegacy.ide.eclipse.actions.GenerateScreensAction"
                menubarPath="org.openlegacy.ied.eclipse.right_menu/generate"
                enablesFor="1"

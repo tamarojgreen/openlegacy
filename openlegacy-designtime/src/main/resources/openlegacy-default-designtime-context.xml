@@ -121,7 +121,7 @@
 										<!--  used for identifying table actions -->
 										<entry key="actionsRegex" value="(\w+)[=-](\w+[\w ]*)" />
 										<entry key="actionsSplitter" value="  " />
-										<entry key="rowsDistance" value="2" />
+										<entry key="rowsDistance" value="3" />
 									</map>
 								</property>
 							</bean>

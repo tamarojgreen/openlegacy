@@ -9,6 +9,7 @@ import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
 
 import japa.parser.ast.expr.AnnotationExpr;
@@ -56,6 +57,9 @@ public class ScreenAnnotationsParserUtils {
 		String startColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.START_COLUMN);
 		String endColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_COLUMN);
 		String labelColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.LABEL_COLUMN);
+		String selectionFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.SELECTION_FIELD);
+		String keyValue = getAnnotationValue(annotationExpr, AnnotationConstants.KEY);
+		String mainDisplayFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.MAIN_DISPLAY_FIELD);
 
 		if (AnnotationConstants.TRUE.equals(editableValue)) {
 			field.setEditable(true);
@@ -78,14 +82,24 @@ public class ScreenAnnotationsParserUtils {
 		if (labelColumnValue != null) {
 			field.setLabelColumn(Integer.valueOf(labelColumnValue));
 		}
+
+		if (StringConstants.TRUE.equals(selectionFieldValue)) {
+			field.setSelectionField(true);
+		}
+		if (StringConstants.TRUE.equals(keyValue)) {
+			field.setKey(true);
+		}
+		if (StringConstants.TRUE.equals(mainDisplayFieldValue)) {
+			field.setMainDisplayField(true);
+		}
 	}
 
 	public static List<Action> populateScreenActions(AnnotationExpr annotationExpr) {
 		List<Action> actions = new ArrayList<Action>();
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
-			List<MemberValuePair> screenActionAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
-			MemberValuePair actionsKeyValue = screenActionAttributes.get(0);
+			List<MemberValuePair> actionAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			MemberValuePair actionsKeyValue = actionAttributes.get(0);
 			ArrayInitializerExpr actionsPairs = (ArrayInitializerExpr)actionsKeyValue.getValue();
 			List<Expression> actionsAnnotations = actionsPairs.getValues();
 			for (Expression expression : actionsAnnotations) {
@@ -93,7 +107,12 @@ public class ScreenAnnotationsParserUtils {
 				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION);
 				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
 				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
-				actions.add(new Action(actionAlias, actionClassName, displayName));
+				// used by @TableAction only
+				String actionValue = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION_VALUE);
+
+				Action action = new Action(actionAlias, actionClassName, displayName);
+				action.setActionValue(actionValue);
+				actions.add(action);
 			}
 		}
 		return actions;

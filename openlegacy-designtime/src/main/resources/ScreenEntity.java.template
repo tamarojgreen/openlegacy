@@ -63,6 +63,13 @@ public class ${entityName} {
 	<#list tableNames as tableName>
 	<#assign table = tableDefinitions[tableName]>
 	@ScreenTable(startRow = ${table.startRow}, endRow = ${table.endRow})
+	<#if table.actions?size &gt; 0>
+	@ScreenTableActions(actions = { 
+		<#list table.actions as action>
+			@TableAction(actionValue = "${action.action.actionValue}", displayName = "${action.displayName}")<#if action_has_next>,</#if> 
+		</#list>
+			})
+	</#if>
 	public static class ${table.tableEntityName} {
 		<#list table.columnDefinitions as column>
 		@ScreenColumn(startColumn = ${column.startColumn}, endColumn = ${column.endColumn}<#if column.editable>, editable=true</#if><#if column.key>, key=true</#if><#if table.mainDisplayField = column.name>, mainDisplayField=true</#if><#if column.selectionField>, selectionField=true</#if><#if column.displayName != ""> ,displayName = "${column.displayName}"</#if><#if column.sampleValue != "">, sampleValue="${column.sampleValue}"</#if>)

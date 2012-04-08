@@ -32,9 +32,9 @@
 					<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s">
 					<c:forEach items="${r"${"}${fieldAssignment}${r"}"}" var="item">
 					<tr>
-						<#if pagePart.tableDefinition.actions?size &gt; 0>
+						<#if pagePart.tableDefinition.actions?size &gt; 0 && pagePart.tableDefinition.rowSelectionField??>
 						<td>
-							<select id="${pagePart.tableDefinition.selectionField.name}" name="${pagePart.tableDefinition.selectionField.name}" onchange="doPost()">
+							<select id="${pagePart.tableDefinition.rowSelectionField}" name="${pagePart.tableDefinition.rowSelectionField}" onchange="doPost()">
 								<option value="">-Select-</option>
 							<#list pagePart.tableDefinition.actions as action>
 								<option value="${action.action.actionValue}">${action.displayName}</option>
@@ -51,9 +51,9 @@
 					</c:forEach>
 				</table>
 				<div>
-					<a href="doPost('${entityDefinition.entityName}Form','previous')">Previous</a>
+					<a href="javascript:doPost('${entityDefinition.entityName}Form','previous')">Previous</a>
 					| 
-					<a href="doPost('${entityDefinition.entityName}Form','next')">Next</a> 
+					<a href="javascript:doPost('${entityDefinition.entityName}Form','next')">Next</a> 
 				</div>
 			</#if>
 		</div>

@@ -1,6 +1,15 @@
 package org.openlegacy.terminal.layout.mock;
 
-import org.openlegacy.annotations.screen.*;
+import org.openlegacy.annotations.screen.Action;
+import org.openlegacy.annotations.screen.ScreenActions;
+import org.openlegacy.annotations.screen.ScreenColumn;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.ScreenFieldValues;
+import org.openlegacy.annotations.screen.ScreenPart;
+import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.annotations.screen.ScreenTableActions;
+import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +21,17 @@ import java.util.List;
 		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit") })
 public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
-	@ScreenField(row = 6, column = 22, endColumn=31, editable = true)
+	@ScreenField(row = 6, column = 22, endColumn = 31, editable = true)
 	private String fldCol12;
 
-	@ScreenField(row = 7, column = 22, endColumn=31, editable = true)
+	@ScreenField(row = 7, column = 22, endColumn = 31, editable = true)
 	private String fld2Col12;
 
-	@ScreenField(row = 8, column = 22, endColumn=31, editable = true)
+	@ScreenField(row = 8, column = 22, endColumn = 31, editable = true)
 	private String fld3Col12;
 
 	@ScreenField(row = 10, column = 33, endColumn = 43)
-	@ScreenFieldValues(sourceScreenEntity=LookupWindow.class)
+	@ScreenFieldValues(sourceScreenEntity = LookupWindow.class)
 	private String fldRow10;
 
 	@ScreenField(row = 10, column = 53)
@@ -93,14 +102,27 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	}
 
 	@ScreenTable(startRow = 15, endRow = 20)
+	@ScreenTableActions(actions = { @TableAction(actionValue = "1", displayName = "View"),
+			@TableAction(actionValue = "2", displayName = "Revise") })
 	@Component
 	public static class ScreenForPageTable {
+
+		@ScreenColumn(startColumn = 5, endColumn = 6, editable = true, selectionField = true)
+		private String action;
 
 		@ScreenColumn(startColumn = 10, endColumn = 20)
 		private String column1;
 
 		@ScreenColumn(startColumn = 25, endColumn = 30)
 		private String column2;
+
+		public String getAction() {
+			return action;
+		}
+
+		public void setAction(String action) {
+			this.action = action;
+		}
 
 		public String getColumn1() {
 			return column1;

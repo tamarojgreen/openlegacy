@@ -4,8 +4,10 @@ import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.table.drilldown.DrilldownException;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -63,6 +65,19 @@ public class ScrollableTableUtil {
 		List<?> rows = (List<?>)screenPojoFieldAccessor.getFieldValue(tableDefinition.getKey());
 		return rows;
 
+	}
+
+	public static String getRowSelectionField(ScreenTableDefinition tableDefinition) {
+		List<ScreenColumnDefinition> columns = tableDefinition.getColumnDefinitions();
+		String selectionField = null;
+		for (ScreenColumnDefinition columnDefinition : columns) {
+			if (columnDefinition.isSelectionField()) {
+				Assert.isNull(selectionField,
+						"Table can contain only a single selection field:" + tableDefinition.getTableEntityName());
+				selectionField = columnDefinition.getName();
+			}
+		}
+		return selectionField;
 	}
 
 }

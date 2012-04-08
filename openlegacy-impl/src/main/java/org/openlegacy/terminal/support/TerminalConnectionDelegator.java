@@ -2,11 +2,14 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.springframework.context.ApplicationContext;
+
+import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
@@ -19,14 +22,42 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 
 	private TerminalSnapshot terminalSnapshot;
 
+	private int waitBetweenEmptyScreens = 50;
+	private int maxWaitOnEmptyScreen = 10000;
+
 	private final static Log logger = LogFactory.getLog(TerminalConnectionDelegator.class);
 
 	public TerminalSnapshot getSnapshot() {
 		lazyConnect();
+
+		waitForNonEmptySnapshot();
+
 		if (terminalSnapshot == null) {
-			terminalSnapshot = terminalConnection.fetchSnapshot();
+			throw (new OpenLegacyProviderException(MessageFormat.format(
+					"Current screen is empty for session after waiting for {0}", maxWaitOnEmptyScreen)));
 		}
 		return terminalSnapshot;
+	}
+
+	private int waitForNonEmptySnapshot() {
+		int timer = 0;
+		do {
+			if (terminalSnapshot == null) {
+				terminalSnapshot = terminalConnection.fetchSnapshot();
+			}
+
+			if (terminalSnapshot.getFields().size() == 0) {
+				try {
+					Thread.sleep(waitBetweenEmptyScreens);
+					timer += waitBetweenEmptyScreens;
+				} catch (InterruptedException e) {
+					// do nothing
+				}
+				terminalSnapshot = null;
+			}
+
+		} while (terminalSnapshot == null && timer < maxWaitOnEmptyScreen);
+		return timer;
 	}
 
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
@@ -75,5 +106,13 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 			return null;
 		}
 		return terminalConnection.getSessionId();
+	}
+
+	public void setWaitBetweenEmptyScreens(int waitBetweenEmptyScreens) {
+		this.waitBetweenEmptyScreens = waitBetweenEmptyScreens;
+	}
+
+	public void setMaxWaitOnEmptyScreen(int maxWaitOnEmptyScreen) {
+		this.maxWaitOnEmptyScreen = maxWaitOnEmptyScreen;
 	}
 }
