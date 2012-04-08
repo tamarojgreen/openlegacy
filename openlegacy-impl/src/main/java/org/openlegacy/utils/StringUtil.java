@@ -19,7 +19,8 @@ public class StringUtil {
 			"public", "throws", "case", "false", "return", "transient", "catch", "final", "interface", "short", "int", "float",
 			"double", "boolean", "true", "char", "long", "static", "try", "class", "native", "strictfp", "void", "const", "for",
 			"new", "super", "volatile", "continue", "goto", "null", "switch", "while", "default", "assert", "exception", "java",
-			"jsp", "context" };
+			"jsp", "context", /** java-script **/
+			"action" };
 
 	private static Map<String, String> RESERVERD_WORDS_DICTIONARY = new HashMap<String, String>();
 
@@ -51,13 +52,13 @@ public class StringUtil {
 
 	public static String toJavaMethodName(String text) {
 		String methodName = toVariableName(text, false);
-		if (RESERVERD_WORDS_DICTIONARY.containsKey(methodName)) {
-			methodName = methodName + "_";
-		}
 		return methodName;
 	}
 
 	public static String toClassName(String text) {
+		if (text == null) {
+			return null;
+		}
 		if (text.endsWith(".class")) {
 			text = text.replace(".class", "");
 		}
@@ -70,37 +71,45 @@ public class StringUtil {
 
 	private static String toVariableName(String text, boolean capFirst) {
 
+		String variableName = null;
+
 		if (!text.contains(" ")) {
 			text = text.replaceAll("\\W", "");
 			if (!capFirst) {
-				return StringUtils.uncapitalize(text);
+				variableName = StringUtils.uncapitalize(text);
 			} else {
-				return StringUtils.capitalize(text);
+				variableName = StringUtils.capitalize(text);
 			}
+		} else {
+			char[] chars = text.toCharArray();
+			StringBuilder sb = new StringBuilder(text.length());
+			for (char d : chars) {
+
+				char c = d;
+
+				if (capFirst) {
+					c = Character.toUpperCase(c);
+					capFirst = false;
+				} else {
+					c = Character.toLowerCase(c);
+				}
+
+				if (Character.isLetter(c) || Character.isDigit(c)) {
+					sb.append(c);
+				}
+				if (c == ' ') {
+					capFirst = true;
+				}
+
+			}
+			variableName = sb.toString();
 		}
 
-		char[] chars = text.toCharArray();
-		StringBuilder sb = new StringBuilder(text.length());
-		for (char d : chars) {
-
-			char c = d;
-
-			if (capFirst) {
-				c = Character.toUpperCase(c);
-				capFirst = false;
-			} else {
-				c = Character.toLowerCase(c);
-			}
-
-			if (Character.isLetter(c) || Character.isDigit(c)) {
-				sb.append(c);
-			}
-			if (c == ' ') {
-				capFirst = true;
-			}
-
+		if (RESERVERD_WORDS_DICTIONARY.containsKey(variableName)) {
+			variableName = variableName + "_";
 		}
-		return sb.toString();
+
+		return variableName;
 
 	}
 

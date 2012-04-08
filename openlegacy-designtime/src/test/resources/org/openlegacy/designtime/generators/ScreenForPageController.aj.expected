@@ -54,7 +54,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (httpServletRequest.getParameter("partial") != null)){
+			if (httpServletRequest.getParameter("partial") != null){
 				screenForPage = terminalSession.getEntity(ScreenForPage.class);
 		    	uiModel.addAttribute("screenForPage", screenForPage);
 		        return "ScreenForPage";
@@ -62,6 +62,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
         	return "redirect:" + screenEntityName;
 		}
     	return "redirect:/";
+		
     }
     
 	// handle help action
@@ -71,7 +72,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (httpServletRequest.getParameter("partial") != null)){
+			if (httpServletRequest.getParameter("partial") != null){
 				screenForPage = terminalSession.getEntity(ScreenForPage.class);
 		    	uiModel.addAttribute("screenForPage", screenForPage);
 		        return "ScreenForPage";
@@ -88,7 +89,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (httpServletRequest.getParameter("partial") != null)){
+			if (httpServletRequest.getParameter("partial") != null){
 				screenForPage = terminalSession.getEntity(ScreenForPage.class);
 		    	uiModel.addAttribute("screenForPage", screenForPage);
 		        return "ScreenForPage";
@@ -98,7 +99,41 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
     	return "redirect:/";
 		
     }
-
+	// handle previous action
+    @RequestMapping(params="action=previous", method = RequestMethod.POST)
+    public String ScreenForPageController.previous(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.PAGEUP(), screenForPage);
+	// go to the controller for the resulting screen name
+		if (resultScreenEntity != null){
+			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			if (httpServletRequest.getParameter("partial") != null){
+				screenForPage = terminalSession.getEntity(ScreenForPage.class);
+		    	uiModel.addAttribute("screenForPage", screenForPage);
+		        return "ScreenForPage";
+			}
+        	return "redirect:" + screenEntityName;
+		}
+    	return "redirect:/";
+		
+    }
+	// handle next action
+    @RequestMapping(params="action=next", method = RequestMethod.POST)
+    public String ScreenForPageController.next(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.PAGEDOWN(), screenForPage);
+	// go to the controller for the resulting screen name
+		if (resultScreenEntity != null){
+			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			if (httpServletRequest.getParameter("partial") != null){
+				screenForPage = terminalSession.getEntity(ScreenForPage.class);
+		    	uiModel.addAttribute("screenForPage", screenForPage);
+		        return "ScreenForPage";
+			}
+        	return "redirect:" + screenEntityName;
+		}
+    	return "redirect:/";
+		
+    }
+	
 	
 	// handle ajax request for fldRow10 field
 	@RequestMapping(value="/fldRow10", method = RequestMethod.GET)

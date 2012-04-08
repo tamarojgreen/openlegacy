@@ -167,7 +167,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Assert.assertEquals(5, table1.getStartRow());
 		Assert.assertEquals(7, table1.getEndRow());
 
-		ScreenColumnDefinition columnSelction = table1.getColumnDefinition("action");
+		ScreenColumnDefinition columnSelction = table1.getColumnDefinition("action_");
 		Assert.assertNotNull(columnSelction);
 		Assert.assertEquals(4, columnSelction.getStartColumn());
 		Assert.assertEquals(5, columnSelction.getEndColumn());

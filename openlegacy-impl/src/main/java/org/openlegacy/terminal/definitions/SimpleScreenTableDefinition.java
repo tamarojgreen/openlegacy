@@ -9,7 +9,7 @@ import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.modules.table.drilldown.TableScroller;
 import org.openlegacy.terminal.actions.TerminalAction;
-import org.springframework.util.Assert;
+import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,15 +198,7 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 	}
 
 	public String getRowSelectionField() {
-		List<ScreenColumnDefinition> columns = getColumnDefinitions();
-		String selectionField = null;
-		for (ScreenColumnDefinition columnDefinition : columns) {
-			if (columnDefinition.isSelectionField()) {
-				Assert.isNull(selectionField, "Table can contain only a single selection field:" + rowClass);
-				selectionField = columnDefinition.getName();
-			}
-		}
-		return selectionField;
+		return ScrollableTableUtil.getRowSelectionField(this);
 	}
 
 	public String getMainDisplayField() {
@@ -221,13 +213,4 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 		return actions;
 	}
 
-	public ColumnDefinition getSelectionField() {
-		List<ScreenColumnDefinition> columns = getColumnDefinitions();
-		for (ScreenColumnDefinition screenColumnDefinition : columns) {
-			if (screenColumnDefinition.isSelectionField()) {
-				return screenColumnDefinition;
-			}
-		}
-		return null;
-	}
 }

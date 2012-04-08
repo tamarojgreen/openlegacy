@@ -49,9 +49,9 @@
 					</c:forEach>
 				</table>
 				<div>
-					<a href="doPost('ItemsListForm','previous')">Previous</a>
+					<a href="javascript:doPost('ItemsListForm','previous')">Previous</a>
 					| 
-					<a href="doPost('ItemsListForm','next')">Next</a> 
+					<a href="javascript:doPost('ItemsListForm','next')">Next</a> 
 				</div>
 		</div>
 		

@@ -56,4 +56,7 @@ public class SimpleActionDefinition implements ActionDefinition {
 		this.alias = alias;
 	}
 
+	public void setAction(SessionAction<? extends Session> action) {
+		this.action = action;
+	}
 }

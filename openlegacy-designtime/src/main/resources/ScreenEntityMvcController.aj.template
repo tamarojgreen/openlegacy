@@ -39,7 +39,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	private ScreenEntitiesRegistry ${entityDefinition.entityClassName}Controller.screenEntitiesRegistry;
 
 	// handle page initial display
-    @RequestMapping(method = RequestMethod.GET<#if entityDefinition.child>, params="partial=1"</#if>)
+    @RequestMapping(method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childScreensDefinitions?size &gt; 0>, params="partial=1"</#if>)
     public String ${entityDefinition.entityClassName}Controller.show(Model uiModel) {
     	${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
 	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
@@ -47,43 +47,16 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
         return "${entityDefinition.entityClassName}";
     }
 
-	// handle submit action
-    @RequestMapping(method = RequestMethod.POST)
-    public String ${entityDefinition.entityClassName}Controller.submit(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
-	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), ${entityDefinition.entityName?uncap_first});
-	// go to the controller for the resulting screen name
-		if (resultScreenEntity != null){
-			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (httpServletRequest.getParameter("partial") != null)){
-				${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityName?cap_first}.class);
-		    	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
-		        return "${entityDefinition.entityName?cap_first}";
-			}
-        	return "redirect:" + screenEntityName;
-		}
-    	return "redirect:/";
-    }
+	<@postMethod actionName="ENTER" actionAlias="submit" params="" />
     
 	<#list actions as action>
-	// handle ${action.alias} action
-    @RequestMapping(params="action=${action.alias}", method = RequestMethod.POST)
-    public String ${entityDefinition.entityClassName}Controller.${action.alias}(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
-	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.${action.actionName}(), ${entityDefinition.entityName?uncap_first});
-	// go to the controller for the resulting screen name
-		if (resultScreenEntity != null){
-			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (httpServletRequest.getParameter("partial") != null)){
-				${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
-		    	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
-		        return "${entityDefinition.entityName?cap_first}";
-			}
-        	return "redirect:" + screenEntityName;
-		}
-    	return "redirect:/";
-		
-    }
+	<@postMethod actionName=action.actionName actionAlias=action.alias params=action.alias />
 	</#list>	
-
+	<#if entityDefinition.tableDefinitions?size &gt; 0>
+	<@postMethod actionName="PAGEUP" actionAlias="previous" params="previous" />
+	<@postMethod actionName="PAGEDOWN" actionAlias="next" params="next" />
+	</#if>
+	
 	<#assign fields = entityDefinition.fieldsDefinitions?values>
 	<#list fields as field>
 		<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.class.simpleName = "SimpleAutoCompleteFieldTypeDefinition">
@@ -112,3 +85,22 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	}
 	
 }
+<#macro postMethod actionName actionAlias params>
+	// handle ${actionAlias} action
+    @RequestMapping(<#if params?length &gt; 0>params="action=${actionAlias}", </#if>method = RequestMethod.POST)
+    public String ${entityDefinition.entityClassName}Controller.${actionAlias}(${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.${actionName}(), ${entityDefinition.entityName?uncap_first});
+	// go to the controller for the resulting screen name
+		if (resultScreenEntity != null){
+			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			if (httpServletRequest.getParameter("partial") != null){
+				${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
+		    	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
+		        return "${entityDefinition.entityName?cap_first}";
+			}
+        	return "redirect:" + screenEntityName;
+		}
+    	return "redirect:/";
+		
+    }
+</#macro>

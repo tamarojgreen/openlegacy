@@ -20,6 +20,7 @@ import org.openlegacy.annotations.screen.ScreenTable;
 				})
 public class ListOfWarehouseTypes {
     
+
     
     private List<ListOfWarehouseTypesRecord> listOfWarehouseTypesRecords;
 
@@ -27,7 +28,7 @@ public class ListOfWarehouseTypes {
 	@ScreenTable(startRow = 10, endRow = 13)
 	public static class ListOfWarehouseTypesRecord {
 		@ScreenColumn(startColumn = 8, endColumn = 8, editable=true, selectionField=true ,displayName = "Action")
-		private Integer action;
+		private Integer action_;
 		
 		@ScreenColumn(startColumn = 14, endColumn = 15, key=true ,displayName = "Type", sampleValue="DR")
 		private String type;

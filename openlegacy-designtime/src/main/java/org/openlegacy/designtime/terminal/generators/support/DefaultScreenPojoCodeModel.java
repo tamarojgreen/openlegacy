@@ -160,14 +160,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 					superClass = true;
 				}
 			}
-			if (annotationName.equals(AnnotationConstants.SCREEN_ACTIONS_ANNOTATION)) {
-				populateScreenActions(annotationExpr);
+			if (annotationName.equals(AnnotationConstants.SCREEN_ACTIONS_ANNOTATION)
+					|| annotationName.equals(AnnotationConstants.SCREEN_TABLE_ACTIONS_ANNOTATION)) {
+				actions = ScreenAnnotationsParserUtils.populateScreenActions(annotationExpr);
 			}
 		}
-	}
-
-	private void populateScreenActions(AnnotationExpr annotationExpr) {
-		actions = ScreenAnnotationsParserUtils.populateScreenActions(annotationExpr);
 	}
 
 	private void populateEntityAttributes(AnnotationExpr annotationExpr) {
@@ -278,6 +275,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		return actions;
 	}
 
+	/**
+	 * Model for properties of @ScreenField or @ScreenColumn
+	 */
 	public static class Field {
 
 		private String name;
@@ -294,6 +294,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private Integer endColumn;
 		private Integer labelColumn;
 		private FieldTypeDefinition fieldTypeDefiniton;
+		private boolean selectionField;
+		private boolean key;
+		private boolean mainDisplayField;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -412,6 +415,30 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public void setFieldTypeDefinition(FieldTypeDefinition fieldTypeDefiniton) {
 			this.fieldTypeDefiniton = fieldTypeDefiniton;
 		}
+
+		public boolean isSelectionField() {
+			return selectionField;
+		}
+
+		public void setSelectionField(boolean selectionField) {
+			this.selectionField = selectionField;
+		}
+
+		public boolean isKey() {
+			return key;
+		}
+
+		public void setKey(boolean key) {
+			this.key = key;
+		}
+
+		public boolean isMainDisplayField() {
+			return mainDisplayField;
+		}
+
+		public void setMainDisplayField(boolean mainDisplayField) {
+			this.mainDisplayField = mainDisplayField;
+		}
 	}
 
 	public static class Action {
@@ -419,6 +446,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private String alias;
 		private String actionName;
 		private String displayName;
+		private String actionValue;
 
 		public Action(String alias, String actionName, String displayName) {
 			this.alias = alias;
@@ -436,6 +464,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public String getDisplayName() {
 			return displayName;
+		}
+
+		public String getActionValue() {
+			return actionValue;
+		}
+
+		public void setActionValue(String actionValue) {
+			this.actionValue = actionValue;
 		}
 	}
 
