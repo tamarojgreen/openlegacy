@@ -10,10 +10,14 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 
 	private ScreenField screenField;
 
+	private String value;
+
 	public Tn5250jTerminalEditableField(ScreenField screenField, int fieldAttributes) {
 		super(screenField.getString(), new SimpleTerminalPosition(screenField.startRow() + 1, screenField.startCol() + 1),
 				screenField.getLength(), fieldAttributes);
 		this.screenField = screenField;
+		// copy the field value - tn5250j implementation may re-use ScreenField in other screen
+		value = StringUtil.rightTrim(screenField.getString());
 	}
 
 	@Override
@@ -21,7 +25,7 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 		if (getModifiedValue() != null) {
 			return getModifiedValue();
 		}
-		return StringUtil.rightTrim(screenField.getString());
+		return value;
 	}
 
 	@Override
