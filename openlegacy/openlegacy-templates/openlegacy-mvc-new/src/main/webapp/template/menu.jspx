@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" id="menu" xmlns:c="http://java.sun.com/jsp/jstl/core"
-	version="2.0">
-    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-    <jsp:output omit-xml-declaration="yes"/>
-    
-	<a href="${menu.targetEntity.simpleName}">${menu.displayName}</a><br/>
-	<c:forEach items="${menu.menuItems}" var="menuItem">
-		<a href="${menuItem.targetEntity.simpleName}">${menuItem.displayName}</a><br/>
-		<c:forEach items="${menuItem.menuItems}" var="subMenuItem">
-			<a href="${subMenuItem.targetEntity.simpleName}">${subMenuItem.displayName}</a><br/>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" id="menu"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<script language="JavaScript" type="text/javascript">
+		dojo.require("dijit.dijit"); // optimize: load dijit layer
+		dojo.require("dijit.Menu");
+		dojo.require("dijit.MenuItem");
+		dojo.require("dijit.MenuSeparator");
+	</script>
+
+	<div id="navMenu" dojoType="dijit.Menu">
+		<c:forEach items="${menu.menuItems}" var="menuItem">
+			<div id="navMenuPopupItem_${menuItem.targetEntity.simpleName}"
+				dojoType="dijit.PopupMenuItem">
+				<span>${menuItem.displayName}</span>
+				<div id="navMenuSub_${subMenuItem.targetEntity.simpleName}"
+					dojoType="dijit.Menu">
+					<c:forEach items="${menuItem.menuItems}" var="subMenuItem">
+						<div
+							onClick="location.href='${subMenuItem.targetEntity.simpleName}';"
+							dojoType="dijit.MenuItem">${subMenuItem.displayName}</div>
+					</c:forEach>
+				</div>
+			</div>
 		</c:forEach>
-	</c:forEach>
-    
+	</div>
+
 </div>
