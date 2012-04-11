@@ -49,10 +49,13 @@ function doAjaxPost(formName, areaName, actionName) {
 	var xhrArgs = {
 			form : form,
 			handleAs : "text",
-			url:areaName,
+			url: form.action,
 			load : function(data) {
 				container.set('title',title);
 				container.set('content',data);
+			},
+			error : function(e){
+				alert(e);
 			}
 		}
 	container.set('title','Loading...');
