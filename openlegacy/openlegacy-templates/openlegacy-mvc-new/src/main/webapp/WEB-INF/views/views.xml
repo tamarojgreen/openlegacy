@@ -16,7 +16,7 @@
     <put-attribute name="body" value="/WEB-INF/views/Emulation.jspx" />
   </definition>
 
-  <definition name="HtmlEmulation" extends="public">
+  <definition name="HtmlEmulation" extends="emulation">
     <put-attribute name="body" value="/WEB-INF/views/HtmlEmulation.jspx" />
   </definition>
 

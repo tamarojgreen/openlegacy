@@ -4,10 +4,19 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	<div class="breadcrumb">
-		<c:forEach items="${breadCrumb}" var="pathItem">
-		> ${pathItem.displayName}
+	<ul class="breadcrumbs">
+		<c:forEach items="${breadCrumb}" var="pathItem" varStatus="rowCounter">
+			<li>
+			<c:choose>
+				<c:when test="${!rowCounter.last}">
+					<a href="${pathItem.entityName}">${pathItem.displayName}</a>
+				</c:when>
+				<c:otherwise>
+ 					${pathItem.displayName}
+				</c:otherwise>
+			</c:choose>
+			</li>
 		</c:forEach>
-	</div>
+	</ul>
 
 </div>

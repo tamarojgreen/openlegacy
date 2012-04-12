@@ -27,7 +27,7 @@
 
 	<div class="page_container">
 
-		<div id="header" style="background-color: #FFA500;">
+		<div id="header" class="header">
 			<tiles:insertAttribute name="header" />
 
 			<tiles:insertAttribute name="actions" ignore="true" />
@@ -43,8 +43,7 @@
 			<tiles:insertAttribute name="body" />
 		</div>
 
-		<div id="footer"
-			style="background-color: #FFA500; clear: both; text-align: center; vertical-align: top;">
+		<div id="footer" class="footer">
 			<tiles:insertAttribute name="footer" ignore="true" />
 		</div>
 

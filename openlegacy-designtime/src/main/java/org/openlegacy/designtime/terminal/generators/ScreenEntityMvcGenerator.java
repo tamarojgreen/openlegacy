@@ -9,6 +9,7 @@ import org.openlegacy.designtime.mains.OverrideConfirmer;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 import org.springframework.stereotype.Component;
@@ -43,6 +44,9 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	private static final String DEFAULT_TEMPLATE = "template";
 	private static final String PUBLIC_TEMPLATE = "public";
 	private static final String VIEW_ONLY_TEMPLATE = "view";
+	private static final String COMPOSITE_SUFFIX = "Composite";
+	private static final String COMPOSITE_TEMPLATE = "compositeTemplate";
+	private static final String MENU_TEMPLATE = "menu";
 
 	private static final CharSequence TILES_VIEW_PLACEHOLDER = "<!-- Place holder for code generation -->";
 
@@ -50,10 +54,6 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	GenerateUtil generateUtil;
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityMvcGenerator.class);
-
-	private static final String COMPOSITE_SUFFIX = "Composite";
-
-	private static final String COMPOSITE_TEMPLATE = "compositeTemplate";
 
 	public void generatePage(PageDefinition pageDefinition, OutputStream output) {
 		String typeName = pageDefinition.getEntityDefinition().getTypeName();
@@ -172,6 +172,9 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				String mvcTemplateType = (isComposite || isChild) ? VIEW_ONLY_TEMPLATE : DEFAULT_TEMPLATE;
 				if (screenEntityDefinition.getTypeName().equals(Login.LoginEntity.class.getSimpleName())) {
 					mvcTemplateType = PUBLIC_TEMPLATE;
+				}
+				if (screenEntityDefinition.getTypeName().equals(Menu.MenuEntity.class.getSimpleName())) {
+					mvcTemplateType = MENU_TEMPLATE;
 				}
 
 				String viewName = screenEntityDefinition.getEntityClassName();
