@@ -4,14 +4,32 @@ body {
 	width: 100%;
 }
 
-.page_container{
-	width: 100%; 
+.footer {
+	background-color: #EDEEF2;
+	clear: both;
+	text-align: center;
+	vertical-align: top;
+}
+
+.header {
+	background-color: #EDEEF2;
+	text-align: center;
+	height:50px;
+	vertical-align: top;
+}
+
+h1{
+	font-size: 22px;
+}
+
+.page_container {
+	width: 100%;
 	height: 100%;
 	position: relative;
 }
 
 .container {
-	height: 85%;
+	height: 78%;
 	width: 85%;
 	position: fixed;
 	font-family: Helvetica, sans-serif;
@@ -22,19 +40,35 @@ body {
 .container input {
 	font-family: Helvetica, sans-serif;
 	color: navy;
+	border-radius: 4px;
+	border-width: 1px;
+	font-size: 15px;
 	vertical-align: middle;
 }
 
-.container table tr th ,.container table tr td {
+.container table tr th,.container table tr td {
 	font-size: medium;
 	font-family: Helvetica, sans-serif;
 	color: navy;
 	padding: 0;
 }
 
-.container table{
-	border-collapse:collapse;
+.container table {
+	border-collapse: collapse;
 	width: 100%;
+}
+
+.container table tr:nth-child(odd) {
+	background-color: #eee;
+}
+
+.container table tr:nth-child(even) {
+	background-color: #fff;
+}
+
+.paging {
+	margin-top: 5px;
+	margin-left: 40%
 }
 
 .field label {
@@ -43,7 +77,7 @@ body {
 }
 
 .field .fixed_label {
-	position:relative;
+	position: relative;
 	white-space: nowrap;
 }
 
@@ -51,10 +85,11 @@ body {
 	margin-left: 45%;
 }
 
-
 .panel {
 	border: 1px solid black;
 	position: absolute;
+	border-radius: 9px;
+	padding: 10px;
 }
 
 .col_1_of_2 {
@@ -66,38 +101,78 @@ body {
 	margin-left: 50%;
 }
 
-
 .menu {
-	background-color: #FFD700;
-	height: 93%;
-	width: 200px;
+	background-color: #D3D8F0;
+	height: 89%;
+	width: 180px;
+	vertical-align:top;
 	float: left;
 }
 
-.menu_message{
-	margin-left: 200px; 
-	margin-top: 100px	
+.menu_message {
+	margin-left: 200px;
+	margin-top: 100px
 }
 
 .actions {
 	border: 1px solid black;
 	position: absolute;
-	left: 45%;
-	top: 3%;
+	left: 35%;
+	top: 8%;
 	z-index: 1;
 }
 
-.actions button , .button{
+.actions button,.button {
+	background-color: #fffff;
+	border-radius: 9px;
+	margin-left: 10px;
+	margin-right: 10px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+button {
 	background-color: white;
 }
 
-button{
-	background-color: white;
+ul,li {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
 }
 
-.breadcrumb{
+.breadcrumbs {
 	position: absolute;
-	left: 25%;
-	top: 7%;
+	left: 15%;
+	top: 13%;
 	z-index: 1;
+	background-color: #fff;
+	line-height: 20px;
+	overflow: auto;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.breadcrumbs li {
+	float: left;
+	padding-left: 8px;
+}
+
+.breadcrumbs li a {
+	padding: 0 24px 2px 0;
+	background: transparent url(../images/arrow.png) no-repeat right center;
+}
+
+.breadcrumbs li a:link,#breadcrumbs li a:visited {
+	text-decoration: none;
+	color: #003366;
+}
+
+.breadcrumbs li a:hover,#breadcrumbs li a:focus {
+	text-decoration: underline;
+	color: #0099CC;
+}
+
+.breadcrumbs li {
+	color: #FF9900;
 }
