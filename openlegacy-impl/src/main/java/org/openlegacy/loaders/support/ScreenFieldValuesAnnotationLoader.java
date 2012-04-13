@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
@@ -31,13 +32,15 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, String fieldName, Annotation annotation,
+	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, Field field, Annotation annotation,
 			Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenFieldValues fieldValuesAnnotation = (ScreenFieldValues)annotation;
 
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
+		String fieldName = field.getName();
+
 		// look in screen entities
 		if (screenEntityDefinition != null) {
 			SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(
