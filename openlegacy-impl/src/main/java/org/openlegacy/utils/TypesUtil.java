@@ -1,9 +1,11 @@
 package org.openlegacy.utils;
 
+import org.springframework.util.ClassUtils;
+
 public class TypesUtil {
 
 	public static boolean isPrimitive(Class<?> type) {
-		if (type.isPrimitive() || type == String.class) {
+		if (ClassUtils.isPrimitiveOrWrapper(type) || type == String.class) {
 			return true;
 		}
 		return false;
@@ -19,5 +21,4 @@ public class TypesUtil {
 		}
 		return false;
 	}
-
 }

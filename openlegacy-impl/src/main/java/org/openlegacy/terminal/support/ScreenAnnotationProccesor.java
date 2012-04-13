@@ -144,8 +144,7 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 										"Loading annotation {0} for field {1} in screen {2} into registry",
 										annotation.annotationType().getSimpleName(), field.getName(), beanClass));
 							}
-							fieldAnnotationsLoader.load(beanFactory, screenEntitiesRegistry, field.getName(), annotation,
-									beanClass);
+							fieldAnnotationsLoader.load(beanFactory, screenEntitiesRegistry, field, annotation, beanClass);
 						}
 					}
 				}

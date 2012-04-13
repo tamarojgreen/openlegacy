@@ -3,6 +3,7 @@ package org.openlegacy.loaders.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenDateField;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import java.util.Date;
 
@@ -22,13 +24,14 @@ public class ScreenDateFieldAnnotationLoader extends AbstractFieldAnnotationLoad
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, String fieldName, Annotation annotation,
+	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, Field field, Annotation annotation,
 			Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenDateField fieldAnnotation = (ScreenDateField)annotation;
 
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
+		String fieldName = field.getName();
 		// look in screen entities
 		if (screenEntityDefinition != null) {
 			SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(
@@ -49,6 +52,10 @@ public class ScreenDateFieldAnnotationLoader extends AbstractFieldAnnotationLoad
 	}
 
 	private static void fillTypeDefinition(ScreenDateField fieldAnnotation, SimpleScreenFieldDefinition fieldDefinition) {
+		if (fieldDefinition.getJavaType() != Date.class) {
+			throw (new RegistryException("A field marked with @ScreenDateField must be of type java.util.Date"));
+		}
+
 		int dayColumn = fieldAnnotation.dayColumn();
 		int monthColumn = fieldAnnotation.monthColumn();
 		int yearColumn = fieldAnnotation.yearColumn();

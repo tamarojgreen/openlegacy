@@ -11,6 +11,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.text.MessageFormat;
 
 @Component
@@ -21,13 +22,15 @@ public class ScreenBooleanFieldAnnotationLoader extends AbstractFieldAnnotationL
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, String fieldName, Annotation annotation,
+	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, Field field, Annotation annotation,
 			Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenBooleanField fieldAnnotation = (ScreenBooleanField)annotation;
 
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
+		String fieldName = field.getName();
+
 		// look in screen entities
 		if (screenEntityDefinition != null) {
 			SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(

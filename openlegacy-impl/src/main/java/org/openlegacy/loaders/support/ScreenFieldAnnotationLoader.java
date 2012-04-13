@@ -1,8 +1,5 @@
 package org.openlegacy.loaders.support;
 
-import java.lang.annotation.Annotation;
-import java.text.MessageFormat;
-
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.ScreenField;
@@ -16,6 +13,10 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.text.MessageFormat;
+
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
@@ -25,13 +26,14 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, String fieldName, Annotation annotation,
+	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, Field field, Annotation annotation,
 			Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenField fieldAnnotation = (ScreenField)annotation;
 
 		SimpleTerminalPosition position = SimpleTerminalPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
+		String fieldName = field.getName();
 		SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition(fieldName,
 				fieldAnnotation.fieldType());
 		screenFieldDefinition.setPosition(position);
@@ -42,11 +44,12 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			screenFieldDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
 		}
 
-		if (fieldAnnotation.labelColumn() > 0){
-			SimpleTerminalPosition labelPosition = SimpleTerminalPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.labelColumn());
+		if (fieldAnnotation.labelColumn() > 0) {
+			SimpleTerminalPosition labelPosition = SimpleTerminalPosition.newInstance(fieldAnnotation.row(),
+					fieldAnnotation.labelColumn());
 			screenFieldDefinition.setLabelPosition(labelPosition);
 		}
-		
+
 		screenFieldDefinition.setEditable(fieldAnnotation.editable());
 
 		if (fieldAnnotation.displayName().length() > 0) {
@@ -56,6 +59,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		}
 
 		screenFieldDefinition.setSampleValue(fieldAnnotation.sampleValue());
+		screenFieldDefinition.setJavaType(field.getType());
 
 		EntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
 		// look in screen entities
