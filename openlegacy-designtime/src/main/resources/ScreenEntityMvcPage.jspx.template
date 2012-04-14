@@ -50,10 +50,10 @@
 					</tr>
 					</c:forEach>
 				</table>
-				<div>
-					<a href="javascript:doPost('${entityDefinition.entityName}Form','previous')">Previous</a>
+				<div class="paging">
+					<a href="javascript:doPost('${entityDefinition.entityName}Form','previous')">&lt; Previous</a>
 					| 
-					<a href="javascript:doPost('${entityDefinition.entityName}Form','next')">Next</a> 
+					<a href="javascript:doPost('${entityDefinition.entityName}Form','next')">Next &gt;</a> 
 				</div>
 			</#if>
 		</div>
