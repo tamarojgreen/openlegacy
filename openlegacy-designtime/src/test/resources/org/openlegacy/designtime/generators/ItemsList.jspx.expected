@@ -48,10 +48,10 @@
 					</tr>
 					</c:forEach>
 				</table>
-				<div>
-					<a href="javascript:doPost('ItemsListForm','previous')">Previous</a>
+				<div class="paging">
+					<a href="javascript:doPost('ItemsListForm','previous')">&lt; Previous</a>
 					| 
-					<a href="javascript:doPost('ItemsListForm','next')">Next</a> 
+					<a href="javascript:doPost('ItemsListForm','next')">Next &gt;</a> 
 				</div>
 		</div>
 		
