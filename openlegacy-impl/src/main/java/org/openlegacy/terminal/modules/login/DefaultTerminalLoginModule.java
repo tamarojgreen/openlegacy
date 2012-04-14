@@ -183,11 +183,11 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		return exitAction;
 	}
 
-	public void setLoginAction(Class<? extends TerminalAction> terminalAction) {
+	public void setLoginActionClass(Class<? extends TerminalAction> terminalAction) {
 		this.loginAction = ReflectionUtil.newInstance(terminalAction);
 	}
 
-	public void setDefaultExitAction(Class<? extends TerminalAction> defaultExitAction) {
+	public void setDefaultExitActionClass(Class<? extends TerminalAction> defaultExitAction) {
 		this.defaultExitAction = ReflectionUtil.newInstance(defaultExitAction);
 	}
 

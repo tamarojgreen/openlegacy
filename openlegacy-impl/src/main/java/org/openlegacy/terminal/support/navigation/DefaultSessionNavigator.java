@@ -2,10 +2,12 @@ package org.openlegacy.terminal.support.navigation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -56,22 +58,44 @@ public class DefaultSessionNavigator implements SessionNavigator {
 		List<NavigationDefinition> navigationSteps = navigationMetadata.get(currentEntityDefinition, targetEntityDefinition);
 
 		while (navigationSteps == null) {
+			if (currentEntityDefinition.getEntityClass() == targetEntityDefinition.getEntityClass()) {
+				return;
+			}
+
 			navigationSteps = findDirectNavigationPath(currentEntityDefinition, targetEntityDefinition);
 
 			if (navigationSteps == null) {
 				NavigationDefinition currentScreenNavigationDefinition = currentEntityDefinition.getNavigationDefinition();
-				if (currentScreenNavigationDefinition == null) {
-					break;
+				TerminalAction defaultExitAction = terminalSession.getModule(Navigation.class).getDefaultExitAction();
+
+				TerminalAction exitAction;
+				if (currentScreenNavigationDefinition != null) {
+					exitAction = currentScreenNavigationDefinition.getExitAction();
+				} else {
+					exitAction = defaultExitAction;
+					if (logger.isDebugEnabled()) {
+						logger.debug(MessageFormat.format("Using default exit action {0} to step back of screen {1}", exitAction,
+								currentEntityClass));
+					}
 				}
-				exitCurrentScreen(terminalSession, currentEntityClass, currentScreenNavigationDefinition);
+
+				ScreenEntityDefinition beforeEntityClass = currentEntityDefinition;
+
+				exitCurrentScreen(terminalSession, currentEntityClass, exitAction);
+
 				snapshot = terminalSession.getSnapshot();
 				currentEntityClass = screensRecognizer.match(snapshot);
 				currentEntityDefinition = screenEntitiesRegistry.get(currentEntityClass);
-			}
-		}
 
-		if (navigationSteps == null) {
-			ScreenNavigationUtil.validateCurrentScreen(targetEntityClass, currentEntityClass);
+				if (currentEntityDefinition == beforeEntityClass) {
+					logger.error(MessageFormat.format(
+							"Exiting from screen {0} using {1} was not effective. Existing navigation attempt to {2}",
+							currentEntityClass, exitAction, targetEntityClass));
+
+					ScreenNavigationUtil.validateCurrentScreen(targetEntityClass, currentEntityClass);
+					break;
+				}
+			}
 		}
 
 		if (navigationSteps != null) {
@@ -80,13 +104,11 @@ public class DefaultSessionNavigator implements SessionNavigator {
 		}
 	}
 
-	private static void exitCurrentScreen(TerminalSession terminalSession, Class<?> currentEntityClass,
-			NavigationDefinition currentScreenNavigationDefinition) {
+	private static void exitCurrentScreen(TerminalSession terminalSession, Class<?> currentEntityClass, TerminalAction exitAction) {
 		if (logger.isDebugEnabled()) {
-			logger.debug(MessageFormat.format("Steping back of screen {0} using {1}", currentEntityClass,
-					currentScreenNavigationDefinition.getExitAction()));
+			logger.debug(MessageFormat.format("Steping back of screen {0} using {1}", currentEntityClass, exitAction));
 		}
-		terminalSession.doAction(currentScreenNavigationDefinition.getExitAction());
+		terminalSession.doAction(exitAction);
 	}
 
 	private static void performDirectNavigation(TerminalSession terminalSession, Class<?> currentEntityClass,

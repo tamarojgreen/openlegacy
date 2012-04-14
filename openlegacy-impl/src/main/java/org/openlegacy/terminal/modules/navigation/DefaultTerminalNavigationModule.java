@@ -3,10 +3,13 @@ package org.openlegacy.terminal.modules.navigation;
 import org.openlegacy.EntityDescriptor;
 import org.openlegacy.SimpleEntityDescriptor;
 import org.openlegacy.modules.navigation.Navigation;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
+import org.openlegacy.utils.ReflectionUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +23,8 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	private TerminalAction defaultExitAction = TerminalActions.F3();
 
 	public List<EntityDescriptor> getPaths() {
 
@@ -52,4 +57,11 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 		return pathEntries;
 	}
 
+	public void setDefaultExitActionClass(Class<? extends TerminalAction> defaultExitAction) {
+		this.defaultExitAction = ReflectionUtil.newInstance(defaultExitAction);
+	}
+
+	public TerminalAction getDefaultExitAction() {
+		return defaultExitAction;
+	}
 }
