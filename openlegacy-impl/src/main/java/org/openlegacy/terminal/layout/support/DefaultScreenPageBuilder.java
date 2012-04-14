@@ -85,6 +85,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		int firstRow = tableDefinition.getStartRow() - 1; // -1 -> header
 
 		ScreenSize screenSize = entityDefinition.getScreenSize();
+		// -1 -> since it is consider in HTML it is consider as start of the positioning
 		int topMarginPercentage = (100 * (firstRow - 1)) / screenSize.getRows();
 		int leftMarginPercentage = (100 * tableStartColumn) / screenSize.getColumns();
 
