@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  * Handles requests for the application home page.
  */
 @Controller
+@RequestMapping(value = "/HtmlEmulation")
 public class HtmlEmulationController {
 
 	@Inject
@@ -30,14 +31,14 @@ public class HtmlEmulationController {
 	@Inject
 	private HttpServletRequest request;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public String show(Model uiModel) {
 		String result = snapshotHtmlRenderer.render(terminalSession.getSnapshot());
 		uiModel.addAttribute("terminalHtml", result);
 		return "HtmlEmulation";
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public String post(Model uiModel) {
 
 		TerminalSendAction terminalSendAction = terminalSendActionBuilder.buildSendAction(terminalSession.getSnapshot(), request);
