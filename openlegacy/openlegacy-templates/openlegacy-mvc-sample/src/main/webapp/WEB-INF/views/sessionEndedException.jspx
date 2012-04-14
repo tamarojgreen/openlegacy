@@ -5,6 +5,7 @@
 	<jsp:output omit-xml-declaration="yes" />
 
 	Session ended <br />
-	<a href="HtmlEmulation">Reconnect</a>
+	<spring:url value="/" var="reconnect_url" />
+	<a href="${reconnect_url}">Reconnect</a>
 
 </div>
