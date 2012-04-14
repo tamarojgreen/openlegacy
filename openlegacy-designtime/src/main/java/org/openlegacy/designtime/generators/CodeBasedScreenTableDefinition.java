@@ -17,6 +17,8 @@ import org.openlegacy.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
@@ -49,7 +51,15 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition {
 	public List<ScreenColumnDefinition> getColumnDefinitions() {
 		Collection<Field> fields = codeModel.getFields();
 		List<ScreenColumnDefinition> columnDefinitions = new ArrayList<ScreenColumnDefinition>();
-		for (Field field : fields) {
+		List<Field> sortedFields = new ArrayList<Field>(fields);
+		Collections.sort(sortedFields, new Comparator<Field>() {
+
+			public int compare(Field field1, Field field2) {
+				return field1.getColumn() - field2.getColumn();
+			}
+		});
+
+		for (Field field : sortedFields) {
 			SimpleScreenColumnDefinition columnDefinition = new SimpleScreenColumnDefinition(field.getName());
 			columnDefinition.setDisplayName(StringUtil.stripQuotes(field.getDisplayName()));
 			columnDefinition.setStartColumn(field.getColumn());
