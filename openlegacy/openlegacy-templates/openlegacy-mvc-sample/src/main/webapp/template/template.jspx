@@ -1,0 +1,52 @@
+<html xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags">
+
+<jsp:directive.page contentType="text/html;charset=UTF-8" />
+<jsp:directive.page pageEncoding="UTF-8" />
+
+<head>
+
+  <script type="text/javascript">var djConfig = {parseOnLoad: true, isDebug: true, locale: '${fn:toLowerCase(userLocale)}'};</script>
+
+  <spring:url value="/dj/dojo/dojo.js" var="dojo_url" />
+  <script src="${dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script language="JavaScript" type="text/javascript">dojo.require("dojo.parser");</script>
+
+  <spring:url value="/resources/openlegacy.mvc.js" var="ol_mvc_js" />
+  <script src="${ol_mvc_js}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+
+  <link rel="stylesheet" type="text/css" href="template/openlegacy.css" />	
+  <link rel="stylesheet" href="dj/dijit/themes/tundra/tundra.css" />
+</head>
+
+<body class="tundra">
+
+	<div class="page_container">
+
+		<div id="header" class="header">
+			<tiles:insertAttribute name="header" />
+
+			<tiles:insertAttribute name="actions" ignore="true" />
+
+			<tiles:insertAttribute name="breadcrumb" ignore="true" />
+		</div>
+
+		<div id="menu" class="menu">
+			<tiles:insertAttribute name="menu" ignore="true"/>
+		</div>
+
+		<div class="container">
+			<tiles:insertAttribute name="body" />
+		</div>
+
+		<div id="footer" class="footer">
+			<tiles:insertAttribute name="footer" ignore="true" />
+		</div>
+
+	</div>
+</body>
+</html>
