@@ -48,12 +48,12 @@
 							</property>
 						</bean>
 						<bean class="org.openlegacy.terminal.modules.login.DefaultTerminalLoginModule"
-							p:loginAction="org.openlegacy.terminal.actions.TerminalActions.ENTER"
-							p:defaultExitAction="org.openlegacy.terminal.actions.TerminalActions.F3"
+							p:loginActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"
+							p:defaultExitActionClass="org.openlegacy.terminal.actions.TerminalActions.F3"
 							p:maxActionsToLogin="5" />
 						<bean class="org.openlegacy.terminal.modules.table.DefaultTerminalTableModule" />
 						<bean
-							class="org.openlegacy.terminal.modules.navigation.DefaultTerminalNavigationModule" />
+							class="org.openlegacy.terminal.modules.navigation.DefaultTerminalNavigationModule" p:defaultExitActionClass="org.openlegacy.terminal.actions.TerminalActions.F3"/>
 						<bean
 							class="org.openlegacy.terminal.modules.menu.DefaultTerminalMenuModule" />
 					</list>
