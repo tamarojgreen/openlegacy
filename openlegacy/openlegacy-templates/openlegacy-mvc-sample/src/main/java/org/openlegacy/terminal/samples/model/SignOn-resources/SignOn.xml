@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="1">
+    <row rowNumber="1">
+        <field column="2" value="                    "/>
+        <field column="23" value="             Sign On             " color="WHITE"/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="2">
+        <field column="1" value="                                              "/>
+        <field column="48" value="System  . . . . . :"/>
+        <field column="68" value=" "/>
+        <field column="70" value="S44R5550"/>
+        <field column="79" value="  "/>
+    </row>
+    <row rowNumber="3">
+        <field column="1" value="                                              "/>
+        <field column="48" value="Subsystem . . . . :"/>
+        <field column="68" value=" "/>
+        <field column="70" value="QBASE     "/>
+    </row>
+    <row rowNumber="4">
+        <field column="1" value="                                              "/>
+        <field column="48" value="Display . . . . . :"/>
+        <field column="68" value=" "/>
+        <field column="70" value="QPADEV00RT"/>
+    </row>
+    <row rowNumber="6">
+        <field column="1" value="               "/>
+        <field column="17" value="User  . . . . . . . . . . . . . ."/>
+        <field column="51" value=" "/>
+        <field column="53" value="user" length="10" editable="true"/>
+        <field column="64" value="                 "/>
+    </row>
+    <row rowNumber="7">
+        <field column="1" value="               "/>
+        <field column="17" value="Password  . . . . . . . . . . . ."/>
+        <field column="51" value=" "/>
+        <field column="53" value="pwd" length="10" editable="true"/>
+        <field column="64" value="                 "/>
+    </row>
+    <row rowNumber="8">
+        <field column="1" value="               "/>
+        <field column="17" value="Program/procedure . . . . . . . ."/>
+        <field column="51" value=" "/>
+        <field column="53" length="10" editable="true"/>
+        <field column="64" value="                 "/>
+    </row>
+    <row rowNumber="9">
+        <field column="1" value="               "/>
+        <field column="17" value="Menu  . . . . . . . . . . . . . ."/>
+        <field column="51" value=" "/>
+        <field column="53" length="10" editable="true"/>
+        <field column="64" value="                 "/>
+    </row>
+    <row rowNumber="10">
+        <field column="1" value="               "/>
+        <field column="17" value="Current library . . . . . . . . ."/>
+        <field column="51" value=" "/>
+        <field column="53" length="10" editable="true"/>
+        <field column="64" value="                 "/>
+    </row>
+    <row rowNumber="24">
+        <field column="1" value="                                      "/>
+        <field column="40" value=" (C) COPYRIGHT IBM CORP. 1980, 1999.    " color="WHITE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="6" column="53"/>
+</snapshot>

@@ -5,7 +5,6 @@
 	<jsp:output omit-xml-declaration="yes" />
 
 	Session ended <br />
-	<spring:url value="/SignOn" var="login_url" />
-	<a href="${login_url}">Login</a>
+	<a href="HtmlEmulation">Reconnect</a>
 
 </div>
