@@ -57,7 +57,7 @@
 		- is to propagate all exceptions to the servlet container: this will happen 
 		- here with all other types of exceptions. -->
 	<bean
-		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver" p:defaultErrorView="uncaughtException">
+		class="org.openlegacy.terminal.web.mvc.OpenLegacyExceptionResolver" p:defaultErrorView="uncaughtException">
 		<property name="exceptionMappings">
 			<props>
 				<prop key=".TypeMismatchException">resourceNotFound</prop>
