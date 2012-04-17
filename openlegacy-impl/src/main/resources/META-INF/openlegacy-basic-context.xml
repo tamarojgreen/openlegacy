@@ -44,7 +44,7 @@
 							class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrailModule">
 							<property name="sessionTrail">
 								<bean class="org.openlegacy.terminal.modules.trail.DefaultTerminalTrail"
-									p:historyCount="50" />
+									p:historyCount="3" />
 							</property>
 						</bean>
 						<bean class="org.openlegacy.terminal.modules.login.DefaultTerminalLoginModule"

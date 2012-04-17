@@ -13,7 +13,7 @@ public class DefaultTerminalTrail implements TerminalSessionTrail, Serializable 
 
 	private LinkedList<TerminalSnapshot> snapshots = new LinkedList<TerminalSnapshot>();
 
-	private int historyCount = 5;
+	private Integer historyCount = 3;
 
 	public List<TerminalSnapshot> getSnapshots() {
 		return snapshots;
@@ -22,16 +22,16 @@ public class DefaultTerminalTrail implements TerminalSessionTrail, Serializable 
 	public void appendSnapshot(TerminalSnapshot snapshot) {
 		snapshots.add(snapshot);
 
-		if (snapshots.size() > historyCount) {
+		if (historyCount != null && snapshots.size() > historyCount) {
 			snapshots.removeFirst();
 		}
 	}
 
-	public int getHistoryCount() {
+	public Integer getHistoryCount() {
 		return historyCount;
 	}
 
-	public void setHistoryCount(int historyCount) {
+	public void setHistoryCount(Integer historyCount) {
 		this.historyCount = historyCount;
 	}
 
