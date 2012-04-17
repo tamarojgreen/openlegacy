@@ -6,6 +6,7 @@ import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.utils.StringUtil;
 
 public class H3270TerminalField extends AbstractTerminalField {
 
@@ -15,6 +16,8 @@ public class H3270TerminalField extends AbstractTerminalField {
 	private int lineOffset;
 	private int endColumn;
 
+	private String value;
+
 	public H3270TerminalField(Field s3270Field, int lineOffset, int endColumn) {
 		this.s3270Field = s3270Field;
 		this.lineOffset = lineOffset;
@@ -22,10 +25,22 @@ public class H3270TerminalField extends AbstractTerminalField {
 	}
 
 	public String getValue() {
-		if (s3270Field.isMultiline()) {
-			return s3270Field.getValue(lineOffset);
+		if (value != null) {
+			return value;
 		}
-		return s3270Field.getValue();
+
+		if (s3270Field.isMultiline()) {
+			value = s3270Field.getValue(lineOffset);
+		} else {
+			value = s3270Field.getValue();
+		}
+		if (isEditable()) {
+			value = value.replace('_', ' ');
+		}
+		value = value.replace((char)0, ' ');
+		value = StringUtil.rightTrim(value);
+
+		return value;
 	}
 
 	public void setFocus() {

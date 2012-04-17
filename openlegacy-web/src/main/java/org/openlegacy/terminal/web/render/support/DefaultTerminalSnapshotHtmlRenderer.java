@@ -67,18 +67,18 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			cursorHidden.setAttribute(HtmlConstants.VALUE, cursorFieldName);
 			elementsProvider.createHidden(formTag, TerminalHtmlConstants.KEYBOARD_KEY);
 
-			elementsProvider.createStyleTag(wrapperTag, styleSettings);
-
 			createFields(terminalSnapshot, formTag);
 
 			String script = MessageFormat.format("document.{0}.{1}.focus();", TerminalHtmlConstants.HTML_EMULATION_FORM_NAME,
 					cursorFieldName);
 
-			elementsProvider.createScriptTag(wrapperTag, script);
+			elementsProvider.createScriptTag(formTag, script);
 
-			calculateWidthHeight(terminalSnapshot, wrapperTag);
+			calculateWidthHeight(terminalSnapshot, formTag);
 
-			return generate(doc);
+			// generate style before the document. cause non aligned page when it's part of the document
+			styleSettings = MessageFormat.format("<style>{0}</style>", styleSettings);
+			return generate(styleSettings, doc);
 
 		} catch (ParserConfigurationException e) {
 			throw (new OpenLegacyRuntimeException(e));
@@ -88,8 +88,8 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	}
 
-	private static String generate(Document doc) throws TransformerConfigurationException, TransformerFactoryConfigurationError,
-			TransformerException {
+	private static String generate(String styleSettings, Document doc) throws TransformerConfigurationException,
+			TransformerFactoryConfigurationError, TransformerException {
 		Transformer trans = TransformerFactory.newInstance().newTransformer();
 		trans.setOutputProperty(OutputKeys.METHOD, "html");
 		trans.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -98,7 +98,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		trans.transform(src, new StreamResult(baos));
-		return StringUtil.toString(baos);
+		return styleSettings + StringUtil.toString(baos);
 	}
 
 	private void calculateWidthHeight(TerminalSnapshot terminalSnapshot, Element wrapperTag) {
