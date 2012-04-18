@@ -23,11 +23,6 @@ public class BooleanFieldFactProcessor implements ScreenFactProcessor {
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		BooleanFieldFact booleanFieldFact = (BooleanFieldFact)screenFact;
 
-		// verifying field belongs to the same screen entity. Couldn't do it in drools with memberOf. TODO
-		if (!screenEntityDefinition.getFieldsDefinitions().containsValue(booleanFieldFact.getScreenFieldDefinition())) {
-			return;
-		}
-
 		String regex = booleanFieldFact.getRegex();
 		Pattern pattern = Pattern.compile(regex);
 		Matcher match = pattern.matcher(booleanFieldFact.getTrueFalseTextField().getValue());

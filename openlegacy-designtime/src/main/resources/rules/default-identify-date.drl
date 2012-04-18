@@ -21,16 +21,18 @@ when
 
 	// there is an editable field
 	// left field - day/month
-	$leftDateField: EditableField(editableField.length == $dateFieldLength)
+	$leftDateField: EditableField(screenEntityDefinition == $screenEntityDefinition,editableField.length == $dateFieldLength)
 
 	// and there is another field in the size of 2 or 4, which is it's distance from the 1st is not more then 12 columns 
-	$rightDateField: EditableField( (editableField.length == $dateFieldLength || editableField.length == $yearFieldMaxLength),
+	$rightDateField: EditableField(screenEntityDefinition == $screenEntityDefinition, 
+				  (editableField.length == $dateFieldLength || editableField.length == $yearFieldMaxLength),
 				  editableField.position.row == $leftDateField.editableField.position.row,
 				  editableField.position.column > $leftDateField.editableField.position.column,
 				  editableField.position.column <= $leftDateField.editableField.position.column + $dateFieldsDistance)
 	  
 	// and there is a field between the 1st two
-	$middleDateField: EditableField(editableField.length == $dateFieldLength, 
+	$middleDateField: EditableField(screenEntityDefinition == $screenEntityDefinition,
+				  editableField.length == $dateFieldLength, 
 				  editableField.position.row == $leftDateField.editableField.position.row,
 				  editableField.position.column > $leftDateField.editableField.position.column,
 				  //labelField.value matches $dateSeperator, 
