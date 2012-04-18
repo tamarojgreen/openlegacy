@@ -17,7 +17,7 @@ when
 	// which has a snapshot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
 
-	EditableField($editableField: editableField, $screenFieldDefinition: screenFieldDefinition, editableField.length == $inputSize)
+	EditableField(screenEntityDefinition == $screenEntityDefinition, $editableField: editableField, $screenFieldDefinition: screenFieldDefinition, editableField.length == $inputSize)
 
 	$trueFalseField: TerminalField(position.row == $editableField.position.row, position.column >= $editableField.endPosition.column - $maxDistance,
 									editable == false, value matches $trueFalseTextRegex) from $snapshot.getFields()	 	

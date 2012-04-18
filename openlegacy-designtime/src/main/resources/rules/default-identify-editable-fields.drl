@@ -1,6 +1,7 @@
 package openlegacy;
 
 declare EditableField
+	screenEntityDefinition: ScreenEntityDefinition;
 	labelField: TerminalField;
 	editableField: TerminalField;
 	screenFieldDefinition: ScreenFieldDefinition;
@@ -29,5 +30,5 @@ when
 	not TerminalField(editable == false, value matches $labelRegex, $editableField.position.column - position.column < $editableField.position.column - $labelField.position.column)
 then
 	ScreenFieldDefinition screenFieldDefinition = screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$labelField);
-	insert(new EditableField($labelField,$editableField,screenFieldDefinition)); 
+	insert(new EditableField($screenEntityDefinition,$labelField,$editableField,screenFieldDefinition)); 
 end

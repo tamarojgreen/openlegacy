@@ -30,17 +30,6 @@ public class DateFieldFactProcessor implements ScreenFactProcessor {
 		ScreenFieldDefinition rightFieldDefinition = dateFieldFact.getRightField();
 
 		Map<String, ScreenFieldDefinition> fieldsDefinitions = screenEntityDefinition.getFieldsDefinitions();
-		// verifying all fields belongs to the same screen entity. Couldn't do it in drools with memberOf. TODO
-		if (leftFieldDefinition != null && !fieldsDefinitions.containsValue(leftFieldDefinition)) {
-			return;
-		}
-		if (middleFieldDefinition != null && !fieldsDefinitions.containsValue(dateFieldFact.getMiddleField())) {
-			return;
-		}
-
-		if (rightFieldDefinition != null && !fieldsDefinitions.containsValue(dateFieldFact.getRightField())) {
-			return;
-		}
 
 		SimpleDateFieldTypeDefinition fieldTypeDefinition = new SimpleDateFieldTypeDefinition(
 				dateFieldFact.getLeftField().getPosition().getColumn(), middleFieldDefinition.getPosition().getColumn(),
