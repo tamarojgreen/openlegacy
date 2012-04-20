@@ -10,9 +10,11 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class ApxTerminalSnapshot extends AbstractSnapshot {
@@ -67,6 +69,47 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 	@Override
 	protected List<TerminalField> initFields() {
+		List<TerminalField> fields = new ArrayList<TerminalField>();
+
+		@SuppressWarnings("unchecked")
+		Collection<GXIField> apxInputFields = screen.getFields();
+
+		for (Iterator<GXIField> iterator = apxInputFields.iterator(); iterator.hasNext();) {
+			GXIField apxField = iterator.next();
+
+			ApxTerminalField field = new ApxTerminalField(apxField);
+
+			List<TerminalPosition> fieldSeperators = getFieldSeperators();
+
+			// gather all read-only fields which has no separator between them.
+			// the snapshot should not split read-only field unless defined that way by the host
+			while (!fieldSeperators.contains(calcFieldEndAttribute(apxField))) {
+				if (!iterator.hasNext()) {
+					break;
+				}
+				if (!apxField.isProtected()) {
+					break;
+				}
+				if (apxField.getPosition().getRow() != field.getPosition().getRow()) {
+					break;
+				}
+
+				apxField = iterator.next();
+				field.setValue(field.getValue() + apxField.getContent());
+			}
+			fields.add(field);
+		}
+
+		return fields;
+	}
+
+	private static SimpleTerminalPosition calcFieldEndAttribute(GXIField apxField) {
+		return new SimpleTerminalPosition(apxField.getPosition().getRow(), apxField.getPosition().getColumn()
+				+ apxField.getLength());
+	}
+
+	@Override
+	protected List<TerminalField> initLogicalFields() {
 		List<TerminalField> fields = new ArrayList<TerminalField>();
 
 		@SuppressWarnings("unchecked")

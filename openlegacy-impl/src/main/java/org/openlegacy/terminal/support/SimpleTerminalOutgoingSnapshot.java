@@ -100,4 +100,9 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return terminalSnapshot.getFields();
 	}
 
+	@Override
+	protected List<TerminalField> initLogicalFields() {
+		return terminalSnapshot.getLogicalFields();
+	}
+
 }

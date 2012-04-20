@@ -79,17 +79,31 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 		List<Field> h3270Fields = screen.getFields();
 		List<TerminalField> fields = new ArrayList<TerminalField>();
 		for (Field field : h3270Fields) {
+			// start column is 1 based, while field.getStartX() is 0 based
+			int startColumn = field.getStartX() + 1;
 			if (field.isMultiline()) {
 				for (int i = field.getStartY(); i <= field.getEndY(); i++) {
 					int endColumn = field.getEndX() + 1;
+					if (i > field.getStartY()) {
+						startColumn = 1;
+					}
 					if (i < field.getEndY()) {
 						endColumn = screen.getWidth();
 					}
-					fields.add(new H3270TerminalField(field, i - field.getStartY(), endColumn));
+					fields.add(new H3270TerminalField(field, i - field.getStartY(), startColumn, endColumn));
+				}
+			} else {
+				if (field.getEndX() >= 0) {
+					fields.add(new H3270TerminalField(field, 0, startColumn, field.getEndX()));
 				}
 			}
-			fields.add(new H3270TerminalField(field, 0, field.getEndX()));
 		}
 		return fields;
 	}
+
+	@Override
+	protected List<TerminalField> initLogicalFields() {
+		return initFields();
+	}
+
 }
