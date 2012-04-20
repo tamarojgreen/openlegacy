@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -271,6 +272,19 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster2"), "inventory/WorkWithItemMaster2.java.expected");
 		// reversed window
 		assertScreenContent(screenEntitiesDefinitions.get("ListOfWarehouseTypes"), "inventory/ListOfWarehouseTypes.java.expected");
+
+	}
+
+	@Test
+	public void testMainframeAppGenerate() throws TemplateException, IOException {
+		snapshotsOrganizer.setMatchingPercent(95);
+		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
+				"mainframe.trail.xml"));
+		Collection<ScreenEntityDefinition> values = definitions.values();
+		System.out.println(values.size());
+		for (ScreenEntityDefinition screenEntityDefinition : values) {
+			System.out.println(screenEntityDefinition.getEntityName());
+		}
 
 	}
 
