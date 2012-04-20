@@ -33,20 +33,35 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> possibleFields) {
 
 		String bestMatchEntityName = null;
+		TerminalField bestMatchEntityField = null;
 
-		Collections.sort(possibleFields, bestEntityNameFieldComparator);
+		if (possibleFields.size() > 1) {
+			Collections.sort(possibleFields, bestEntityNameFieldComparator);
+		}
 
-		TerminalField bestMatchEntityField = possibleFields.get(0);
-		bestMatchEntityName = StringUtil.toClassName(bestMatchEntityField.getValue());
+		if (possibleFields.size() > 0) {
+			bestMatchEntityField = possibleFields.get(0);
+			bestMatchEntityName = StringUtil.toClassName(bestMatchEntityField.getValue());
+		}
 
 		String existingEntityName = screenEntityDefinition.getEntityName();
 
 		if (existingEntityName == null) {
 			snapshotsAnalyzerContext.addEntityDefinition(bestMatchEntityName, screenEntityDefinition);
-			logger.info(MessageFormat.format("New potential screen entity add: {0}", bestMatchEntityName));
+			if (bestMatchEntityName != null) {
+				logger.info(MessageFormat.format("New potential screen entity add: {0}", bestMatchEntityName));
+			} else {
+				logger.info("New potential screen entity without title added");
+			}
 
 			// add the field which the entity name is based on as one of the identifiers
-			ScreenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, bestMatchEntityField);
+			if (bestMatchEntityField != null) {
+				ScreenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, bestMatchEntityField);
+			} else {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Added a screen without a initial title identifier");
+				}
+			}
 		} else {
 			logger.error(MessageFormat.format("Ignoring potential screen entity name {0}. Name already present:{1}",
 					bestMatchEntityName, existingEntityName));
@@ -54,7 +69,8 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	}
 
-	public ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field, TerminalField labelField) {
+	public ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
+			TerminalField labelField) {
 		return ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition, field, labelField);
 	}
 

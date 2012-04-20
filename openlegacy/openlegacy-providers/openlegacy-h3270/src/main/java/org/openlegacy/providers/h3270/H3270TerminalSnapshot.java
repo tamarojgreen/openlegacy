@@ -17,9 +17,11 @@ import java.util.List;
 public class H3270TerminalSnapshot extends AbstractSnapshot {
 
 	private S3270Screen screen;
+	private int sequence;
 
-	public H3270TerminalSnapshot(S3270Screen screen) {
+	public H3270TerminalSnapshot(S3270Screen screen, int sequence) {
 		this.screen = screen;
+		this.sequence = sequence;
 	}
 
 	public Object getDelegate() {
@@ -27,7 +29,7 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 	}
 
 	public Integer getSequence() {
-		return 0;
+		return sequence;
 	}
 
 	public String getCommand() {
@@ -39,7 +41,10 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 		List<Field> fields = screen.getFields();
 		List<TerminalPosition> fieldSepeators = new ArrayList<TerminalPosition>();
 		for (Field field : fields) {
-			fieldSepeators.add(new SimpleTerminalPosition(field.getStartY() + 1, field.getStartX()));
+			// don't count fields outside the snapshot
+			if (field.getStartX() > 0) {
+				fieldSepeators.add(new SimpleTerminalPosition(field.getStartY() + 1, field.getStartX()));
+			}
 		}
 		return fieldSepeators;
 	}

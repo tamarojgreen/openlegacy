@@ -27,8 +27,14 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 
 	private static final String SCREEN = "Screen";
 	private Collection<TerminalSnapshot> activeSnapshots;
+
+	// holds all entity definitions during analysis
 	private Map<String, List<ScreenEntityDesigntimeDefinition>> entitiesDefinitions = new HashMap<String, List<ScreenEntityDesigntimeDefinition>>();
+
+	// The resulting entity definitions
 	private Map<String, ScreenEntityDefinition> entitiesDefinitionsResult;
+
+	// entity definitions Organized by identification
 	private Map<ScreenIdentification, ScreenEntityDefinition> entitiesDefinitionsByIdentification;
 
 	private final static Log logger = LogFactory.getLog(TerminalSnapshotsAnalyzerContext.class);

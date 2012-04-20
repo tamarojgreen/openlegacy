@@ -50,8 +50,8 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 	private void loadSnapshotsFromTrailFile() {
 		TerminalPersistedTrail trail;
 		try {
-			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class,
-					getClass().getResourceAsStream(MessageFormat.format("{0}/{1}", root, trailName)));
+			String trailClasspath = MessageFormat.format("{0}/{1}", root, trailName);
+			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, getClass().getResourceAsStream(trailClasspath));
 		} catch (JAXBException e) {
 			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", trailName), e));
 		}
