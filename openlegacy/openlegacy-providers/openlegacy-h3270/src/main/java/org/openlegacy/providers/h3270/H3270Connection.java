@@ -13,13 +13,16 @@ public class H3270Connection implements TerminalConnection {
 
 	private S3270 s3270Session;
 
+	// adding sequence support to tn5250j which doesn't support it
+	private int sequence = 1;
+
 	public H3270Connection(S3270 s3270Session) {
 		this.s3270Session = s3270Session;
 	}
 
 	public TerminalSnapshot getSnapshot() {
 		s3270Session.updateScreen();
-		return new H3270TerminalSnapshot((S3270Screen)s3270Session.getScreen());
+		return new H3270TerminalSnapshot((S3270Screen)s3270Session.getScreen(), sequence);
 	}
 
 	public TerminalSnapshot fetchSnapshot() {
@@ -27,6 +30,7 @@ public class H3270Connection implements TerminalConnection {
 	}
 
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
+		sequence++;
 		TerminalSnapshot snapshot = getSnapshot();
 		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
 		for (TerminalField modifiedField : modifiedFields) {
@@ -37,6 +41,7 @@ public class H3270Connection implements TerminalConnection {
 			}
 		}
 		s3270Session.doKey(terminalSendAction.getCommand().toString());
+		sequence++;
 		return this;
 
 	}

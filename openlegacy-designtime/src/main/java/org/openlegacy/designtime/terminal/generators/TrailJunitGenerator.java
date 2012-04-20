@@ -36,7 +36,9 @@ public class TrailJunitGenerator {
 
 		GeneratedApi generatedApi = generateContentApiCalls(testName, sortedScreenEntityDefintions);
 
-		generateUtil.generate(generatedApi, out, "JunitTrail.java.template");
+		if (generatedApi != null) {
+			generateUtil.generate(generatedApi, out, "JunitTrail.java.template");
+		}
 	}
 
 	private static List<ScreenEntityDefinition> sortEntityDefinitions(Collection<ScreenEntityDefinition> screenEntityDefinitions) {
@@ -49,6 +51,10 @@ public class TrailJunitGenerator {
 	private static GeneratedApi generateContentApiCalls(String testName, List<ScreenEntityDefinition> screenEntityDefinitions) {
 		GeneratedApi generatedApi = new GeneratedApi();
 		generatedApi.setTestName(testName);
+
+		if (screenEntityDefinitions.size() == 0) {
+			return null;
+		}
 
 		ScreenEntityDefinition firstScreenEntityDefinition = screenEntityDefinitions.get(0);
 		String entityName = firstScreenEntityDefinition.getEntityName();
