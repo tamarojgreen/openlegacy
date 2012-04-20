@@ -14,13 +14,15 @@ public class H3270TerminalField extends AbstractTerminalField {
 	private TerminalPosition position;
 	private TerminalPosition endPosition;
 	private int lineOffset;
+	private int startColumn;
 	private int endColumn;
 
 	private String value;
 
-	public H3270TerminalField(Field s3270Field, int lineOffset, int endColumn) {
+	public H3270TerminalField(Field s3270Field, int lineOffset, int startColumn, int endColumn) {
 		this.s3270Field = s3270Field;
 		this.lineOffset = lineOffset;
+		this.startColumn = startColumn;
 		this.endColumn = endColumn;
 	}
 
@@ -68,7 +70,7 @@ public class H3270TerminalField extends AbstractTerminalField {
 	}
 
 	public int getLength() {
-		return endColumn - s3270Field.getStartX() + 1;
+		return endColumn - startColumn + 1;
 	}
 
 	public boolean isEditable() {

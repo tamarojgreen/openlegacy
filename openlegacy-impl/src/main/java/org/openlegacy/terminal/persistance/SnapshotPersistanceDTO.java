@@ -10,7 +10,6 @@ import org.openlegacy.terminal.support.SimpleTerminalOutgoingSnapshot;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class SnapshotPersistanceDTO {
@@ -100,32 +99,13 @@ public class SnapshotPersistanceDTO {
 	private static void collectRowFields(List<TerminalPosition> fieldSeperators, TerminalRow terminalRow,
 			TerminalPersistedRow persistedRow) {
 		List<TerminalField> fields = terminalRow.getFields();
-		for (Iterator<TerminalField> iterator = fields.iterator(); iterator.hasNext();) {
-			TerminalField field = iterator.next();
-
+		for (TerminalField field : fields) {
 			TerminalPersistedField persistedField = new TerminalPersistedField();
 			ReflectionUtil.copyProperties(persistedField, field);
 			persistedField.setModified(false);
 			// avoid persistence of length attribute if it's the same size as the value length
 			if (persistedField.getValue().length() == persistedField.getLength()) {
 				persistedField.resetLength();
-			}
-			// gather all read-only fields which has not separator between them
-			// when persisting a snapshot, the persisted snapshot should not split read-only field unless defined that way by
-			// the host
-			while (!fieldSeperators.contains(field.getEndPosition().next())) {
-				if (!iterator.hasNext()) {
-					break;
-				}
-				if (field.isEditable()) {
-					break;
-				}
-				if (field.getPosition().getRow() != persistedField.getPosition().getRow()) {
-					break;
-				}
-
-				field = iterator.next();
-				persistedField.setValue(persistedField.getValue() + field.getValue(), false);
 			}
 			persistedRow.getFields().add(persistedField);
 		}

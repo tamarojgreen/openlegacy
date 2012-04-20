@@ -6,7 +6,7 @@
   <language>
     <languageDir>
       <isTabDirectionRTL>false</isTabDirectionRTL>
-      <isScreenDirectionRTL>true</isScreenDirectionRTL>
+      <isScreenDirectionRTL>false</isScreenDirectionRTL>
       <isTypingDirectionRTL>false</isTypingDirectionRTL>
     </languageDir>
     <type>9</type>
@@ -32,9 +32,9 @@
       <address>localhost</address>
       <port>23</port>
       <protocol>TN3270E</protocol>
-      <deviceType>IBM3278</deviceType>
+      <deviceType>IBM3279</deviceType>
       <model>MODEL2</model>
-      <codePage>CP037</codePage>
+      <codePage>CP273</codePage>
       <guid>AAFE6DF8-DB15-7863-9FA4-685F2E2A7F94</guid>
       <connectionTimeout>0</connectionTimeout>
       <autoReconnect>false</autoReconnect>
