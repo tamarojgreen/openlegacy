@@ -60,7 +60,7 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 		if (focusedField == null) {
 			return null;
 		}
-		return new SimpleTerminalPosition(focusedField.getStartY(), focusedField.getStartX());
+		return new SimpleTerminalPosition(focusedField.getStartY() + 1, focusedField.getStartX() + 1);
 	}
 
 	@Override
@@ -81,9 +81,9 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 		for (Field field : h3270Fields) {
 			// start column is 1 based, while field.getStartX() is 0 based
 			int startColumn = field.getStartX() + 1;
+			int endColumn = field.getEndX() + 1;
 			if (field.isMultiline()) {
 				for (int i = field.getStartY(); i <= field.getEndY(); i++) {
-					int endColumn = field.getEndX() + 1;
 					if (i > field.getStartY()) {
 						startColumn = 1;
 					}
@@ -94,7 +94,7 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 				}
 			} else {
 				if (field.getEndX() >= 0) {
-					fields.add(new H3270TerminalField(field, 0, startColumn, field.getEndX()));
+					fields.add(new H3270TerminalField(field, 0, startColumn, endColumn));
 				}
 			}
 		}

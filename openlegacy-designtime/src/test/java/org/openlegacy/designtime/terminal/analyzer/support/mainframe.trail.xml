@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+    <snapshot type="INCOMING" sequence="1">
+        <row rowNumber="1">
+            <field column="2" value="Terminal: DAEETCCO" length="79"/>
+        </row>
+        <row rowNumber="2">
+            <field column="1" value="                        SSSSSSSSSSSSSSSS        SOFTWARE AG" length="80"/>
+        </row>
+        <row rowNumber="3">
+            <field column="1" value="                     SSSSSSSSSSSSSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="4">
+            <field column="1" value="                   SSSSSSSSSSSSSSSSSSSSS    Darmstadt-Eberstadt" length="80"/>
+        </row>
+        <row rowNumber="5">
+            <field column="1" value="                  SSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="6">
+            <field column="1" value="                 SSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="7">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EEEEEEEE" length="80"/>
+        </row>
+        <row rowNumber="8">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EE" length="80"/>
+        </row>
+        <row rowNumber="9">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EE" length="80"/>
+        </row>
+        <row rowNumber="10">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EEEE" length="80"/>
+        </row>
+        <row rowNumber="11">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EE" length="80"/>
+        </row>
+        <row rowNumber="12">
+            <field column="1" value="                                SSSSSSSS          EE" length="80"/>
+        </row>
+        <row rowNumber="13">
+            <field column="1" value="                               SSSSSSSS           EEEEEEEE" length="80"/>
+        </row>
+        <row rowNumber="14">
+            <field column="1" value="                 SSSSSSSSSSSSSSSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="15">
+            <field column="1" value="                 SSSSSSSSSSSSSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="16">
+            <field column="1" value="                 SSSSSSSSSSSSSSS                Environment" length="80"/>
+        </row>
+        <row rowNumber="18">
+            <field column="2" value="DAEE Local Targets: DAEE(C)O DAE(E)CO DAEE(TMVS)" length="79"/>
+        </row>
+        <row rowNumber="19">
+            <field column="2" value="Other  Targets: DAEX(VM) applid or LOGON APPLID(applid)" length="79"/>
+        </row>
+        <row rowNumber="21">
+            <field column="1" value="Desired Target:" length="80"/>
+            <field column="17" length="64" editable="true"/>
+        </row>
+        <row rowNumber="23">
+            <field column="1" value=" IP-addr: 10.64.21.84    :02309" length="80"/>
+        </row>
+        <row rowNumber="24">
+            <field column="1" value=" Host:" length="80"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="14" column="23"/>
+    </snapshot>
+    <snapshot type="OUTGOING" command="enter" sequence="2">
+        <row rowNumber="1">
+            <field column="2" value="Terminal: DAEETCCO" length="79"/>
+        </row>
+        <row rowNumber="2">
+            <field column="1" value="                        SSSSSSSSSSSSSSSS        SOFTWARE AG" length="80"/>
+        </row>
+        <row rowNumber="3">
+            <field column="1" value="                     SSSSSSSSSSSSSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="4">
+            <field column="1" value="                   SSSSSSSSSSSSSSSSSSSSS    Darmstadt-Eberstadt" length="80"/>
+        </row>
+        <row rowNumber="5">
+            <field column="1" value="                  SSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="6">
+            <field column="1" value="                 SSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="7">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EEEEEEEE" length="80"/>
+        </row>
+        <row rowNumber="8">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EE" length="80"/>
+        </row>
+        <row rowNumber="9">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EE" length="80"/>
+        </row>
+        <row rowNumber="10">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EEEE" length="80"/>
+        </row>
+        <row rowNumber="11">
+            <field column="1" value="                 SSSSSSSS       SSSSSSSS          EE" length="80"/>
+        </row>
+        <row rowNumber="12">
+            <field column="1" value="                                SSSSSSSS          EE" length="80"/>
+        </row>
+        <row rowNumber="13">
+            <field column="1" value="                               SSSSSSSS           EEEEEEEE" length="80"/>
+        </row>
+        <row rowNumber="14">
+            <field column="1" value="                 SSSSSSSSSSSSSSSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="15">
+            <field column="1" value="                 SSSSSSSSSSSSSSSSSSS" length="80"/>
+        </row>
+        <row rowNumber="16">
+            <field column="1" value="                 SSSSSSSSSSSSSSS                Environment" length="80"/>
+        </row>
+        <row rowNumber="18">
+            <field column="2" value="DAEE Local Targets: DAEE(C)O DAE(E)CO DAEE(TMVS)" length="79"/>
+        </row>
+        <row rowNumber="19">
+            <field column="2" value="Other  Targets: DAEX(VM) applid or LOGON APPLID(applid)" length="79"/>
+        </row>
+        <row rowNumber="21">
+            <field column="1" value="Desired Target:" length="80"/>
+            <field column="17" length="64" editable="true"/>
+        </row>
+        <row rowNumber="23">
+            <field column="1" value=" IP-addr: 10.64.21.84    :02309" length="80"/>
+        </row>
+        <row rowNumber="24">
+            <field column="1" value=" Host:" length="80"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="14" column="23"/>
+    </snapshot>
+    <snapshot type="INCOMING" sequence="3">
+        <row rowNumber="2">
+            <field column="2" value="17:16:56"/>
+            <field column="11" length="6"/>
+            <field column="18" value="TID"/>
+            <field column="22" value="   15"/>
+            <field column="28" length="8"/>
+            <field column="37" value="-DEMOCO-"/>
+            <field column="46" length="8"/>
+            <field column="55" value="User"/>
+            <field column="60" length="8"/>
+            <field column="69" length="3"/>
+            <field column="73" value="27.07.08"/>
+        </row>
+        <row rowNumber="3">
+            <field column="2" length="74"/>
+            <field column="77" value="ULG0"/>
+        </row>
+        <row rowNumber="4">
+            <field column="2" value="-------------------------   COM-PLETE  System Logon   -------------------------"/>
+        </row>
+        <row rowNumber="9">
+            <field column="1" length="80"/>
+            <field column="13" value="For hints on how to change your password, please read:"/>
+            <field column="68" length="13"/>
+        </row>
+        <row rowNumber="11">
+            <field column="1" length="80"/>
+            <field column="7" value="http://daemfwiki.eur.ad.sag/twiki/bin/view/GismfPub/MfGenFaqPswd"/>
+            <field column="72" length="9"/>
+        </row>
+        <row rowNumber="14">
+            <field column="2" value="User ID ...........:"/>
+            <field column="23" length="8" editable="true"/>
+            <field column="32" length="49"/>
+        </row>
+        <row rowNumber="15">
+            <field column="2" value="Password ..........:"/>
+            <field column="23" length="8" editable="true"/>
+            <field column="32" length="49"/>
+        </row>
+        <row rowNumber="16">
+            <field column="2" value="New password ......:"/>
+            <field column="23" length="8" editable="true"/>
+            <field column="32" length="49"/>
+        </row>
+        <row rowNumber="17">
+            <field column="2" value="Group"/>
+            <field column="8" value="(RACF) ......:"/>
+            <field column="23" length="8" editable="true"/>
+            <field column="32" length="49"/>
+        </row>
+        <row rowNumber="18">
+            <field column="2" value="Account ...........:"/>
+            <field column="23" length="12"/>
+            <field column="36" length="45"/>
+        </row>
+        <row rowNumber="19">
+            <field column="2" value="Model .............:"/>
+            <field column="23" length="8"/>
+            <field column="32" length="49"/>
+        </row>
+        <row rowNumber="20">
+            <field column="2" value="Session reconnect..:"/>
+            <field column="23" value="X" editable="true"/>
+            <field column="25" length="56"/>
+        </row>
+        <row rowNumber="23">
+            <field column="2" value="Enter-PF1---PF2---PF3---PF4---PF5---PF6---PF7---PF8---PF9---PF10--PF11--PF12---"/>
+        </row>
+        <row rowNumber="24">
+            <field column="2" value="Cont              End" length="77"/>
+            <field column="80" length="1"/>
+        </row>
+        <size rows="32" columns="80"/>
+        <cursor row="14" column="23"/>
+    </snapshot>
+</terminal-trail>
