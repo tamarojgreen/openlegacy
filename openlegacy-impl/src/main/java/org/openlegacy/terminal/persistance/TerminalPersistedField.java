@@ -1,8 +1,10 @@
 package org.openlegacy.terminal.persistance;
 
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.support.ModifiableTerminalField;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
@@ -16,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TerminalPersistedField implements TerminalField {
+public class TerminalPersistedField implements ModifiableTerminalField {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +30,9 @@ public class TerminalPersistedField implements TerminalField {
 
 	@XmlTransient
 	private TerminalPosition position;
+
+	@XmlTransient
+	private TerminalPosition endPosition;
 
 	@XmlAttribute
 	private String value = "";
@@ -127,7 +132,10 @@ public class TerminalPersistedField implements TerminalField {
 	}
 
 	public TerminalPosition getEndPosition() {
-		return SnapshotUtils.getEndPosition(this);
+		if (endPosition == null) {
+			endPosition = SnapshotUtils.getEndPosition(this);
+		}
+		return endPosition;
 	}
 
 	public boolean isHidden() {
@@ -207,5 +215,18 @@ public class TerminalPersistedField implements TerminalField {
 
 	public boolean isReversed() {
 		return getBackColor() != null && getBackColor() != Color.BLACK;
+	}
+
+	@Override
+	public TerminalField clone() {
+		try {
+			return (TerminalField)super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw (new OpenLegacyRuntimeException(e));
+		}
+	}
+
+	public void setEndPosition(TerminalPosition endPosition) {
+		this.endPosition = endPosition;
 	}
 }

@@ -38,12 +38,6 @@ public interface TerminalSnapshot extends Snapshot, Serializable {
 	 */
 	List<TerminalField> getFields();
 
-	/**
-	 * Designed to return fields based on the logical separation. For example split by 2 or more blanks, colors, etc.
-	 * 
-	 */
-	List<TerminalField> getLogicalFields();
-
 	SnapshotType getSnapshotType();
 
 	List<TerminalPosition> getFieldSeperators();

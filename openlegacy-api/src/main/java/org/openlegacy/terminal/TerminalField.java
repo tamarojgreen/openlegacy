@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Defines a field on a terminal screen
  * 
  */
-public interface TerminalField extends TerminalPositionContainer, Serializable {
+public interface TerminalField extends TerminalPositionContainer, Serializable, Cloneable {
 
 	TerminalPosition getPosition();
 
@@ -42,4 +42,6 @@ public interface TerminalField extends TerminalPositionContainer, Serializable {
 	boolean isBold();
 
 	boolean isReversed();
+
+	TerminalField clone();
 }

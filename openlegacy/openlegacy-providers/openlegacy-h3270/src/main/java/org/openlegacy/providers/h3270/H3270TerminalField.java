@@ -3,6 +3,7 @@ package org.openlegacy.providers.h3270;
 import org.h3270.host.Field;
 import org.h3270.host.InputField;
 import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
@@ -11,13 +12,9 @@ import org.openlegacy.utils.StringUtil;
 public class H3270TerminalField extends AbstractTerminalField {
 
 	private Field s3270Field;
-	private TerminalPosition position;
-	private TerminalPosition endPosition;
 	private int lineOffset;
 	private int startColumn;
 	private int endColumn;
-
-	private String value;
 
 	public H3270TerminalField(Field s3270Field, int lineOffset, int startColumn, int endColumn) {
 		this.s3270Field = s3270Field;
@@ -26,11 +23,10 @@ public class H3270TerminalField extends AbstractTerminalField {
 		this.endColumn = endColumn;
 	}
 
-	public String getValue() {
-		if (value != null) {
-			return value;
-		}
+	@Override
+	public String initValue() {
 
+		String value;
 		if (s3270Field.isMultiline()) {
 			value = s3270Field.getValue(lineOffset);
 		} else {
@@ -51,25 +47,24 @@ public class H3270TerminalField extends AbstractTerminalField {
 		}
 	}
 
-	public TerminalPosition getPosition() {
-		if (position == null) {
-			if (lineOffset > 0) {
-				position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, 1);
-			} else {
-				position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, s3270Field.getStartX() + 1);
-			}
+	@Override
+	public TerminalPosition initPosition() {
+		TerminalPosition position;
+		if (lineOffset > 0) {
+			position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, 1);
+		} else {
+			position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, s3270Field.getStartX() + 1);
 		}
 		return position;
 	}
 
-	public TerminalPosition getEndPosition() {
-		if (endPosition == null) {
-			endPosition = new SimpleTerminalPosition(s3270Field.getEndY() + 1, endColumn);
-		}
-		return endPosition;
+	@Override
+	public TerminalPosition initEndPosition() {
+		return new SimpleTerminalPosition(s3270Field.getEndY() + 1, endColumn);
 	}
 
-	public int getLength() {
+	@Override
+	public int initLength() {
 		return endColumn - startColumn + 1;
 	}
 
@@ -107,4 +102,10 @@ public class H3270TerminalField extends AbstractTerminalField {
 		return s3270Field.hasExtendedHighlight();
 	}
 
+	@Override
+	public TerminalField clone() {
+		H3270TerminalField field = new H3270TerminalField(s3270Field, lineOffset, startColumn, endColumn);
+		return field;
+
+	}
 }

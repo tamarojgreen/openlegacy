@@ -95,7 +95,7 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 				}
 
 				apxField = iterator.next();
-				field.setValue(field.getValue() + apxField.getContent());
+				field.setValue(field.getValue() + apxField.getContent(), false);
 			}
 			fields.add(field);
 		}
@@ -106,20 +106,6 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 	private static SimpleTerminalPosition calcFieldEndAttribute(GXIField apxField) {
 		return new SimpleTerminalPosition(apxField.getPosition().getRow(), apxField.getPosition().getColumn()
 				+ apxField.getLength());
-	}
-
-	@Override
-	protected List<TerminalField> initLogicalFields() {
-		List<TerminalField> fields = new ArrayList<TerminalField>();
-
-		@SuppressWarnings("unchecked")
-		Collection<GXIField> apxInputFields = screen.getFields();
-
-		fields = new ArrayList<TerminalField>();
-		for (GXIField apxField : apxInputFields) {
-			fields.add(new ApxTerminalField(apxField));
-		}
-		return fields;
 	}
 
 }

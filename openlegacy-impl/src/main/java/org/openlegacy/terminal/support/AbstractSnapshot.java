@@ -21,7 +21,6 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 
 	private List<TerminalRow> rows;
 	private List<TerminalField> fields;
-	private List<TerminalField> logicalFields;
 	private String text;
 
 	private List<TerminalPosition> fieldSeperators;
@@ -131,17 +130,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 		return fields;
 	}
 
-	public List<TerminalField> getLogicalFields() {
-		if (logicalFields == null) {
-			logicalFields = initLogicalFields();
-		}
-
-		return fields;
-	}
-
 	protected abstract List<TerminalField> initFields();
-
-	protected abstract List<TerminalField> initLogicalFields();
 
 	public TerminalField getField(TerminalPosition position) {
 		TerminalField field = SnapshotUtils.getField(this, position);
