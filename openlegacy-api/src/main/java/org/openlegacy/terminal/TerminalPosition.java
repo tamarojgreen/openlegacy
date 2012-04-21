@@ -15,4 +15,6 @@ public interface TerminalPosition extends Comparable<TerminalPosition>, Serializ
 	public TerminalPosition next();
 
 	TerminalPosition previous();
+
+	public TerminalPosition moveBy(int columns);
 }

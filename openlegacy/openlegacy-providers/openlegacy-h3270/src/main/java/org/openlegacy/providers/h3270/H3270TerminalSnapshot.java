@@ -101,9 +101,4 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 		return fields;
 	}
 
-	@Override
-	protected List<TerminalField> initLogicalFields() {
-		return initFields();
-	}
-
 }

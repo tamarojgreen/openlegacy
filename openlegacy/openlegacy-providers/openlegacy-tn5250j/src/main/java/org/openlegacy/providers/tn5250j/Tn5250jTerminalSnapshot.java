@@ -220,9 +220,4 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		public final char[] field;
 	}
 
-	@Override
-	protected List<TerminalField> initLogicalFields() {
-		return initFields();
-	}
-
 }

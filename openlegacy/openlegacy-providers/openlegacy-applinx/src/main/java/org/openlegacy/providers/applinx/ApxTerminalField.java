@@ -7,6 +7,7 @@ import com.sabratec.applinx.common.runtime.field.GXIDataTypeSupport;
 import com.sabratec.applinx.common.runtime.field.GXIField;
 
 import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
@@ -17,18 +18,13 @@ public class ApxTerminalField extends AbstractTerminalField {
 	private static final long serialVersionUID = 1L;
 
 	private final GXIField apxField;
-	private TerminalPosition position;
-
-	private TerminalPosition endPosition;
 
 	public ApxTerminalField(GXIField field) {
 		this.apxField = field;
 	}
 
-	public String getValue() {
-		if (getModifiedValue() != null) {
-			return getModifiedValue();
-		}
+	@Override
+	public String initValue() {
 		return apxField.getContent();
 	}
 
@@ -36,22 +32,19 @@ public class ApxTerminalField extends AbstractTerminalField {
 		return !apxField.isProtected();
 	}
 
-	public TerminalPosition getPosition() {
-		if (position == null) {
-			position = SimpleTerminalPosition.newInstance(apxField.getPosition().getRow(), apxField.getPosition().getColumn());
-		}
-		return position;
+	@Override
+	public TerminalPosition initPosition() {
+		return SimpleTerminalPosition.newInstance(apxField.getPosition().getRow(), apxField.getPosition().getColumn());
 	}
 
-	public int getLength() {
+	@Override
+	public int initLength() {
 		return apxField.getLength();
 	}
 
-	public TerminalPosition getEndPosition() {
-		if (endPosition == null) {
-			endPosition = SnapshotUtils.getEndPosition(this);
-		}
-		return endPosition;
+	@Override
+	public TerminalPosition initEndPosition() {
+		return SnapshotUtils.getEndPosition(this);
 	}
 
 	public boolean isHidden() {
@@ -89,5 +82,12 @@ public class ApxTerminalField extends AbstractTerminalField {
 			return false;
 		}
 		return ((GXBlockModeCommonFieldData)this.apxField.getCommonData()).isReversedVideo();
+	}
+
+	@Override
+	public TerminalField clone() {
+		ApxTerminalField field = new ApxTerminalField(apxField);
+		return field;
+
 	}
 }

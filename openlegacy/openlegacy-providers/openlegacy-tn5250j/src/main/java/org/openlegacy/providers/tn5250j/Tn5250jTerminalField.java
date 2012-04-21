@@ -1,6 +1,7 @@
 package org.openlegacy.providers.tn5250j;
 
 import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
 import org.openlegacy.terminal.support.SnapshotUtils;
@@ -10,7 +11,6 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 	private static final long serialVersionUID = 1L;
 
 	private TerminalPosition position;
-	private TerminalPosition endPosition;
 
 	private String value;
 	private int length;
@@ -21,32 +21,33 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 
 	private boolean underline;
 
+	private int fieldAttributes;
+
 	public Tn5250jTerminalField(String value, TerminalPosition position, int length, int fieldAttributes) {
 		this.value = value;
 		this.position = position;
 		this.length = length;
+		this.fieldAttributes = fieldAttributes;
 		Tn5250jUtils.applyAttributeToField(this, fieldAttributes);
 	}
 
-	public TerminalPosition getPosition() {
+	@Override
+	public TerminalPosition initPosition() {
 		return position;
 	}
 
-	public TerminalPosition getEndPosition() {
-		if (endPosition == null) {
-			endPosition = SnapshotUtils.getEndPosition(this);
-		}
-		return endPosition;
+	@Override
+	public TerminalPosition initEndPosition() {
+		return SnapshotUtils.getEndPosition(this);
 	}
 
-	public String getValue() {
-		if (getModifiedValue() != null) {
-			return getModifiedValue();
-		}
+	@Override
+	public String initValue() {
 		return value;
 	}
 
-	public int getLength() {
+	@Override
+	public int initLength() {
 		return length;
 	}
 
@@ -97,5 +98,11 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 
 	public boolean isReversed() {
 		return getColor() != Color.BLACK;
+	}
+
+	@Override
+	public TerminalField clone() {
+		Tn5250jTerminalField field = new Tn5250jTerminalField(value, position, length, fieldAttributes);
+		return field;
 	}
 }
