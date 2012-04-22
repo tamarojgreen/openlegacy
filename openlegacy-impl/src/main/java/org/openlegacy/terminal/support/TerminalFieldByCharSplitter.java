@@ -2,6 +2,7 @@ package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalFieldSplitter;
+import org.openlegacy.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,10 @@ public class TerminalFieldByCharSplitter implements TerminalFieldSplitter {
 
 	public List<TerminalField> split(TerminalField terminalField) {
 		if (!terminalField.getValue().contains(ch)) {
+			return null;
+		}
+
+		if (terminalField.isEditable()) {
 			return null;
 		}
 
@@ -45,35 +50,42 @@ public class TerminalFieldByCharSplitter implements TerminalFieldSplitter {
 					while (c == theChar) {
 						buffer.append(c);
 						i++;
+						if (i >= chars.length) {
+							break;
+						}
 						c = chars[i];
 					}
-					ModifiableTerminalField newTerminalField = (ModifiableTerminalField)terminalField.clone();
-					String newText = buffer.toString();
-					newTerminalField.setValue(newText, false);
-					newTerminalField.setPosition(newTerminalField.getPosition().moveBy(fieldStartOffset));
-					newTerminalField.setEndPosition(newTerminalField.getPosition().moveBy(newText.length() - 1));
-					newTerminalField.setLength(newText.length());
+					addSplittedField(terminalField, buffer, terminalFields, fieldStartOffset);
 					buffer.setLength(0);
 					fieldStartOffset = i;
 
-					terminalFields.add(newTerminalField);
 					buffer.append(c);
 				} else {
 					buffer.append(c);
 				}
 			}
 		}
+		// handle the last one
 		if (buffer.length() > 0) {
-			ModifiableTerminalField newTerminalField = (ModifiableTerminalField)terminalField.clone();
-			String newText = buffer.toString();
-			newTerminalField.setValue(newText, false);
-			newTerminalField.setPosition(newTerminalField.getPosition().moveBy(fieldStartOffset));
-			newTerminalField.setEndPosition(newTerminalField.getPosition().moveBy(newText.length() - 1));
-			newTerminalField.setLength(newText.length());
-			terminalFields.add(newTerminalField);
+			addSplittedField(terminalField, buffer, terminalFields, fieldStartOffset);
 		}
 
 		return terminalFields;
+	}
+
+	private static void addSplittedField(TerminalField terminalField, StringBuilder buffer, List<TerminalField> terminalFields,
+			int fieldStartOffset) {
+		ModifiableTerminalField newTerminalField = (ModifiableTerminalField)terminalField.clone();
+		String newText = buffer.toString();
+		// don't add empty fields
+		if (StringUtil.isEmpty(newText)) {
+			return;
+		}
+		newTerminalField.setValue(newText, false);
+		newTerminalField.setPosition(newTerminalField.getPosition().moveBy(fieldStartOffset));
+		newTerminalField.setEndPosition(newTerminalField.getPosition().moveBy(newText.length() - 1));
+		newTerminalField.setLength(newText.length());
+		terminalFields.add(newTerminalField);
 	}
 
 	public void setChar(String ch) {

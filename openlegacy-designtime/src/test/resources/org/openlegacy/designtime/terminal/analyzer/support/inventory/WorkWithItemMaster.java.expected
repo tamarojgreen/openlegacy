@@ -9,7 +9,7 @@ import org.openlegacy.modules.table.RecordSelectionEntity;
 
 @ScreenEntity(screenType=RecordSelectionEntity.class)
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 2, column = 26, value = "    Work with Item Master     "), 
+				@Identifier(row = 2, column = 30, value = "Work with Item Master     "), 
 				@Identifier(row = 4, column = 2, value = "Type one or more action codes. Then Enter.                                    ") 
 				})
 @ScreenActions(actions = { 

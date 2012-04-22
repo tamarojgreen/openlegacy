@@ -6,7 +6,9 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StringUtil {
@@ -270,5 +272,17 @@ public class StringUtil {
 			str = "0" + str;
 		}
 		return str;
+	}
+
+	public static int getDifferentCharsCount(String s) {
+		char[] chars = s.toCharArray();
+		List<String> charTypes = new ArrayList<String>();
+		for (char c : chars) {
+			String valueOfChar = String.valueOf(c);
+			if (!charTypes.contains(valueOfChar)) {
+				charTypes.add(valueOfChar);
+			}
+		}
+		return charTypes.size();
 	}
 }

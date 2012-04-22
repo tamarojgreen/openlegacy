@@ -281,10 +281,9 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
 				"mainframe.trail.xml"));
 		Collection<ScreenEntityDefinition> values = definitions.values();
-		System.out.println(values.size());
-		for (ScreenEntityDefinition screenEntityDefinition : values) {
-			System.out.println(screenEntityDefinition.getEntityName());
-		}
+		Assert.assertEquals(2, values.size());
+		assertScreenContent(definitions.get("DallasTexas"), "mainframe/DallasTexas.java.expected");
+		assertScreenContent(definitions.get("SystemLogon"), "mainframe/SystemLogon.java.expected");
 
 	}
 

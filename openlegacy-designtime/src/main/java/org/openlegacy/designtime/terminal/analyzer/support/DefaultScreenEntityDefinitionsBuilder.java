@@ -9,6 +9,7 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalFieldsSplitter;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.utils.StringUtil;
@@ -28,6 +29,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	@Inject
 	private BestEntityNameFieldComparator bestEntityNameFieldComparator;
 
+	@Inject
+	private TerminalFieldsSplitter terminalFieldsSplitter;
+
 	public void selectPotentialScreenEntityName(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> possibleFields) {
@@ -36,6 +40,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		TerminalField bestMatchEntityField = null;
 
 		if (possibleFields.size() > 1) {
+			possibleFields = terminalFieldsSplitter.splitFields(possibleFields);
 			Collections.sort(possibleFields, bestEntityNameFieldComparator);
 		}
 
@@ -56,7 +61,8 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 			// add the field which the entity name is based on as one of the identifiers
 			if (bestMatchEntityField != null) {
-				ScreenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, bestMatchEntityField);
+				// add identifier without verifying existence - split fields don't exists on the snapshot
+				ScreenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, bestMatchEntityField, false);
 			} else {
 				if (logger.isDebugEnabled()) {
 					logger.debug("Added a screen without a initial title identifier");

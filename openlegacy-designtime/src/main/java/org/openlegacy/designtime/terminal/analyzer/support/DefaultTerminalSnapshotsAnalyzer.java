@@ -15,6 +15,7 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilde
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.utils.DroolsUtil;
 import org.openlegacy.exceptions.UnableToLoadSnapshotException;
+import org.openlegacy.terminal.TerminalFieldsSplitter;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.module.TerminalSessionTrail;
@@ -44,6 +45,9 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 
 	@Inject
 	private FieldFormatter fieldFormatter;
+
+	@Inject
+	private TerminalFieldsSplitter fieldsSplitter;
 
 	private RuleDefinition[] ruleDefinitions;
 
@@ -94,6 +98,7 @@ public class DefaultTerminalSnapshotsAnalyzer implements TerminalSnapshotsAnalyz
 		session.setGlobal("snapshotsOrganizer", snapshotsOrganizer);
 		session.setGlobal("screenEntityDefinitionsBuilder", screenEntityDefinitionsBuilder);
 		session.setGlobal("snapshotsSimilarityChecker", snapshotsSimilarityChecker);
+		session.setGlobal("fieldsSplitter", fieldsSplitter);
 
 		try {
 

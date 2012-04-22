@@ -32,4 +32,5 @@ when
 
 then
 	screenEntityDefinitionsBuilder.selectPotentialScreenEntityName(snapshotsAnalyzerContext,$screenEntityDefinition,$potentialFieldsForEntityName);
+	update($screenEntityDefinition);
 end

@@ -5,13 +5,13 @@
             <field column="2" value="Terminal: DAEETCCO" length="79"/>
         </row>
         <row rowNumber="2">
-            <field column="1" value="                        SSSSSSSSSSSSSSSS        SOFTWARE AG" length="80"/>
+            <field column="1" value="                        SSSSSSSSSSSSSSSS        SOFTWARE MF" length="80"/>
         </row>
         <row rowNumber="3">
             <field column="1" value="                     SSSSSSSSSSSSSSSSSSS" length="80"/>
         </row>
         <row rowNumber="4">
-            <field column="1" value="                   SSSSSSSSSSSSSSSSSSSSS    Darmstadt-Eberstadt" length="80"/>
+            <field column="1" value="                   SSSSSSSSSSSSSSSSSSSSS    Dallas-Texas" length="80"/>
         </row>
         <row rowNumber="5">
             <field column="1" value="                  SSSSSSSS" length="80"/>
@@ -50,17 +50,17 @@
             <field column="1" value="                 SSSSSSSSSSSSSSS                Environment" length="80"/>
         </row>
         <row rowNumber="18">
-            <field column="2" value="DAEE Local Targets: DAEE(C)O DAE(E)CO DAEE(TMVS)" length="79"/>
+            <field column="2" value="Select Local Targets: Develop UAT Production" length="79"/>
         </row>
         <row rowNumber="19">
-            <field column="2" value="Other  Targets: DAEX(VM) applid or LOGON APPLID(applid)" length="79"/>
+            <field column="2" value="Other  Targets: Development(VM) applid or LOGON APPLID(applid)" length="79"/>
         </row>
         <row rowNumber="21">
             <field column="1" value="Desired Target:" length="80"/>
             <field column="17" length="64" editable="true"/>
         </row>
         <row rowNumber="23">
-            <field column="1" value=" IP-addr: 10.64.21.84    :02309" length="80"/>
+            <field column="1" value=" IP-addr: 192.168.2.152    :02319" length="80"/>
         </row>
         <row rowNumber="24">
             <field column="1" value=" Host:" length="80"/>
@@ -73,13 +73,13 @@
             <field column="2" value="Terminal: DAEETCCO" length="79"/>
         </row>
         <row rowNumber="2">
-            <field column="1" value="                        SSSSSSSSSSSSSSSS        SOFTWARE AG" length="80"/>
+            <field column="1" value="                        SSSSSSSSSSSSSSSS        SOFTWARE MF" length="80"/>
         </row>
         <row rowNumber="3">
             <field column="1" value="                     SSSSSSSSSSSSSSSSSSS" length="80"/>
         </row>
         <row rowNumber="4">
-            <field column="1" value="                   SSSSSSSSSSSSSSSSSSSSS    Darmstadt-Eberstadt" length="80"/>
+            <field column="1" value="                   SSSSSSSSSSSSSSSSSSSSS    Dallas-Texas" length="80"/>
         </row>
         <row rowNumber="5">
             <field column="1" value="                  SSSSSSSS" length="80"/>
@@ -118,17 +118,17 @@
             <field column="1" value="                 SSSSSSSSSSSSSSS                Environment" length="80"/>
         </row>
         <row rowNumber="18">
-            <field column="2" value="DAEE Local Targets: DAEE(C)O DAE(E)CO DAEE(TMVS)" length="79"/>
+            <field column="2" value="Select Local Targets: Develop UAT Production" length="79"/>
         </row>
         <row rowNumber="19">
-            <field column="2" value="Other  Targets: DAEX(VM) applid or LOGON APPLID(applid)" length="79"/>
+            <field column="2" value="Other  Targets: Development(VM) applid or LOGON APPLID(applid)" length="79"/>
         </row>
         <row rowNumber="21">
             <field column="1" value="Desired Target:" length="80"/>
             <field column="17" length="64" editable="true"/>
         </row>
         <row rowNumber="23">
-            <field column="1" value=" IP-addr: 10.64.21.84    :02309" length="80"/>
+            <field column="1" value=" IP-addr: 192.168.2.152    :02319" length="80"/>
         </row>
         <row rowNumber="24">
             <field column="1" value=" Host:" length="80"/>
@@ -164,7 +164,7 @@
         </row>
         <row rowNumber="11">
             <field column="1" length="80"/>
-            <field column="7" value="http://daemfwiki.eur.ad.sag/twiki/bin/view/GismfPub/MfGenFaqPswd"/>
+            <field column="7" value="http://doc.openlegacy.org"/>
             <field column="72" length="9"/>
         </row>
         <row rowNumber="14">
