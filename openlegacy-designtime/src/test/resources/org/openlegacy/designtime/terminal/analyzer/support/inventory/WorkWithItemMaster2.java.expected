@@ -68,6 +68,8 @@ public class WorkWithItemMaster2 {
 	@ScreenField(row = 21, column = 69, endColumn= 78 ,labelColumn= 51 ,displayName = "Amended date", sampleValue = "0/00/0000")
     private String amendedDate;
 
+	@ScreenField(row = 22, column = 69, endColumn= 78 ,labelColumn= 51 ,displayName = "Amended By")
+    private String amendedBy;
     
 
 
