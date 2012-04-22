@@ -1,29 +1,54 @@
 package org.openlegacy.designtime.terminal.analyzer.support.fact_processors;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.terminal.TerminalPosition;
 
+import java.text.MessageFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ScreenActionFact implements ScreenFact {
 
-	private String captionAction;
 	private TerminalPosition terminalPosition;
-	private String regex;
+	private String caption;
+	private String action;
 
-	public ScreenActionFact(String captionAction, TerminalPosition terminalPosition, String trueFalseRegex) {
-		this.captionAction = captionAction;
+	private final static Log logger = LogFactory.getLog(ScreenActionFact.class);
+
+	public ScreenActionFact(String actionCaption, TerminalPosition terminalPosition, String regex) {
 		this.terminalPosition = terminalPosition;
-		this.regex = trueFalseRegex;
+
+		Pattern pattern = Pattern.compile(regex);
+		Matcher match = pattern.matcher(actionCaption);
+
+		match.find();
+		if (match.groupCount() < 2) {
+			logger.warn(MessageFormat.format("text is not in the format of: action -> displayName", actionCaption));
+			return;
+		}
+
+		action = match.group(1);
+		caption = match.group(2);
+
 	}
 
-	public String getCaptionAction() {
-		return captionAction;
+	public ScreenActionFact(String caption, String action, TerminalPosition terminalPosition) {
+		this.terminalPosition = terminalPosition;
+		this.caption = caption;
+		this.action = action;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public String getCaption() {
+		return caption;
 	}
 
 	public TerminalPosition getTerminalPosition() {
 		return terminalPosition;
-	}
-
-	public String getRegex() {
-		return regex;
 	}
 }

@@ -16,6 +16,13 @@ import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavi
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
+import org.openlegacy.terminal.actions.TerminalActions.F10;
+import org.openlegacy.terminal.actions.TerminalActions.F11;
+import org.openlegacy.terminal.actions.TerminalActions.F3;
+import org.openlegacy.terminal.actions.TerminalActions.F4;
+import org.openlegacy.terminal.actions.TerminalActions.F7;
+import org.openlegacy.terminal.actions.TerminalActions.F8;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
@@ -130,6 +137,40 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		ScreenEntityDefinition childScreen = definitions.get("WorkWithItemMaster1");
 		Assert.assertNotNull(childScreen);
 		Assert.assertTrue(childScreen.isChild());
+	}
+
+	@Test
+	public void testNaturalActions() {
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("NaturalActionsScreen.xml");
+
+		Assert.assertEquals(1, screenEntitiesDefinitions.size());
+
+		ScreenEntityDefinition screen1 = screenEntitiesDefinitions.get("NaturalActionsScreen");
+		Assert.assertNotNull(screen1);
+		List<ActionDefinition> actions = screen1.getActions();
+
+		Assert.assertEquals(7, actions.size());
+
+		Assert.assertEquals("Save", actions.get(0).getDisplayName());
+		Assert.assertEquals(ENTER.class, actions.get(0).getAction().getClass());
+
+		Assert.assertEquals("Quit", actions.get(1).getDisplayName());
+		Assert.assertEquals(F3.class, actions.get(1).getAction().getClass());
+
+		Assert.assertEquals("Add", actions.get(2).getDisplayName());
+		Assert.assertEquals(F4.class, actions.get(2).getAction().getClass());
+
+		Assert.assertEquals("Up", actions.get(3).getDisplayName());
+		Assert.assertEquals(F7.class, actions.get(3).getAction().getClass());
+
+		Assert.assertEquals("Down", actions.get(4).getDisplayName());
+		Assert.assertEquals(F8.class, actions.get(4).getAction().getClass());
+
+		Assert.assertEquals("<", actions.get(5).getDisplayName());
+		Assert.assertEquals(F10.class, actions.get(5).getAction().getClass());
+
+		Assert.assertEquals(">", actions.get(6).getDisplayName());
+		Assert.assertEquals(F11.class, actions.get(6).getAction().getClass());
 	}
 
 	@Test

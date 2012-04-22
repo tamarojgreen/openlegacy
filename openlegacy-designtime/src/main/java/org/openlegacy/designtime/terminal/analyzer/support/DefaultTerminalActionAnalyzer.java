@@ -25,15 +25,21 @@ public class DefaultTerminalActionAnalyzer implements TerminalActionAnalyzer {
 		action = action.trim().toUpperCase();
 		AdditionalKey additionalKey = null;
 
+		String keyNumberText = "";
 		if (action.startsWith("F")) {
-			String keyNumberText = action.substring(1);
-			if (StringUtils.isNumeric(keyNumberText)) {
-				int keyNumber = Integer.valueOf(keyNumberText);
-				if (keyNumber > 12 && keyNumber <= 24) {
-					keyNumber = keyNumber - 12;
-					additionalKey = AdditionalKey.SHIFT;
-					action = "F" + keyNumber;
-				}
+			keyNumberText = action.substring(1);
+		} else if (action.startsWith("PF")) {
+			// Remove the P prefix
+			action = action.substring(1);
+			keyNumberText = action.substring(1);
+		}
+
+		if (!StringUtils.isEmpty(keyNumberText) && StringUtils.isNumeric(keyNumberText)) {
+			int keyNumber = Integer.valueOf(keyNumberText);
+			if (keyNumber > 12 && keyNumber <= 24) {
+				keyNumber = keyNumber - 12;
+				additionalKey = AdditionalKey.SHIFT;
+				action = "F" + keyNumber;
 			}
 		}
 

@@ -7,8 +7,8 @@ ruleflow-group "identify-actions"
 no-loop
 when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-actions")
-	$actionsRegex    : String()  from (String)$ruleParameterSet.getRuleParameters().get("actionsRegex");
-	$rowsFromEnd  : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("rowsFromEnd");
+	$actionsRegex     : String()  from (String)$ruleParameterSet.getRuleParameters().get("actionsRegex");
+	$rowsFromEnd  	  : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("rowsFromEnd");
 	$actionsSplitter  : String()  from (String)$ruleParameterSet.getRuleParameters().get("actionsSplitter");
 
 	// there is a screen definition

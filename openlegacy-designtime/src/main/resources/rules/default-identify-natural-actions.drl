@@ -1,0 +1,41 @@
+package openlegacy;
+
+import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.ScreenActionFact;
+
+rule "identify-natural-actions"
+ruleflow-group "identify-actions"
+no-loop
+when
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-natural-actions")
+	$pfActionsMinimumRow : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("pfActionsMinimumRow");
+	$pfActionsRowRegex 	 : String()   from (String)$ruleParameterSet.getRuleParameters().get("pfActionsRowRegex");
+	$maxCaptionLength    : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("maxCaptionLength");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// which has a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+
+	// and an action field in the format of natural (PF1--PF2--...)
+	$actionsField : TerminalField(position.row >= $pfActionsMinimumRow,value matches $pfActionsRowRegex) from $snapshot.getFields()
+
+	// and captions field one row below it 
+	$captionsField: TerminalField(position.row == $actionsField.position.row+1) from $snapshot.getFields()
+
+	// and an single action text from one of the action field 	 	
+	$action  : String()  from $actionsField.getValue().split("-+");
+	
+	// calculate field start offset 	 	
+	$offset	 : Integer(intValue >= 0) from $actionsField.getValue().indexOf($action);
+	
+	// check if $captionsField is long enough for substring
+	$length  : Integer(intValue > $offset+$maxCaptionLength) from $captionsField.getValue().length()
+	
+	// grab the caption right below the action 
+	$caption : String(length > 0)  from $captionsField.getValue().substring($offset,$offset+$maxCaptionLength).trim();
+then
+System.out.println("******" + $action + ":" + $caption);
+	TerminalPosition actionPosition = SimpleTerminalPosition.newInstance($actionsField.getPosition().getRow(),$actionsField.getPosition().getColumn()+$offset);
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenActionFact($caption,$action,actionPosition));
+end
