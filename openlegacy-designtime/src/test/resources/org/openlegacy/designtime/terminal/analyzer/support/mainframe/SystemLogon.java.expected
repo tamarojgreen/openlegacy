@@ -26,6 +26,12 @@ public class SystemLogon {
 	@ScreenField(row = 17, column = 23, endColumn= 30 ,labelColumn= 2 ,editable= true ,displayName = "Group")
     private String group;
 	
+	@ScreenField(row = 18, column = 23, endColumn= 34 ,labelColumn= 2 ,displayName = "Account")
+    private String account;
+	
+	@ScreenField(row = 19, column = 23, endColumn= 30 ,labelColumn= 2 ,displayName = "Model")
+    private String model;
+	
 	@ScreenField(row = 20, column = 23, endColumn= 23 ,labelColumn= 2 ,editable= true ,displayName = "Session reconnect", sampleValue = "X")
     private String sessionReconnect;
 

@@ -30,5 +30,6 @@ when
 	not TerminalField(editable == false, value matches $labelRegex, $editableField.position.column - position.column < $editableField.position.column - $labelField.position.column)
 then
 	ScreenFieldDefinition screenFieldDefinition = screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$labelField);
+	update($screenEntityDefinition);
 	insert(new EditableField($screenEntityDefinition,$labelField,$editableField,screenFieldDefinition)); 
 end

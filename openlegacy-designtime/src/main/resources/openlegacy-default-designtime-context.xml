@@ -131,12 +131,29 @@
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-readonly-fields.drl" p:ruleId="identify-readonly-fields">
 					<property name="ruleParameterSets">
 						<list>
+							<!-- Execution read-only fields with values -->
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
+										<entry key="labelRegex" value="\w+[\w /-\\']*[\.: ]*[\.:]+" />
+										<entry key="maximumLabelLength" value="30" />
+										<entry key="maxDistance" value="5" />
 										<entry key="fieldRegex" value="[ ]*\w+[\w/ ]*" />
-										<entry key="labelRegex" value="\w+.*[\.:].*" />
-										<entry key="maxDistance" value="7" />
+										<entry key="minimumFieldLength" value="1" />
+										<entry key="maximumFieldLength" value="30" />
+									</map>
+								</property>
+							</bean>
+							<!-- Execution empty read-only fields in 3-15 length -->
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="labelRegex" value="\w+[\w /-\\']*[\.: ]*[\.:]+" />
+										<entry key="maximumLabelLength" value="30" />
+										<entry key="maxDistance" value="5" />
+										<entry key="fieldRegex" value="\s*" />
+										<entry key="minimumFieldLength" value="3" />
+										<entry key="maximumFieldLength" value="15" />
 									</map>
 								</property>
 							</bean>

@@ -46,14 +46,8 @@ public class WorkWithItemMaster1 {
 	@ScreenField(row = 14, column = 33, endColumn= 35 ,labelColumn= 2 ,editable= true ,displayName = "Item Class", sampleValue = "VEG")
     private String itemClass;
 	
-	@ScreenField(row = 14, column = 37, endColumn= 76 ,labelColumn= 2 ,displayName = "Item Class", sampleValue = "Vegetables")
-    private String itemClass1;
-	
 	@ScreenField(row = 15, column = 33, endColumn= 35 ,labelColumn= 2 ,editable= true ,displayName = "Stock Group", sampleValue = "SG")
     private String stockGroup;
-	
-	@ScreenField(row = 15, column = 37, endColumn= 76 ,labelColumn= 2 ,displayName = "Stock Group", sampleValue = "Generic stock group")
-    private String stockGroup1;
 	
 	@ScreenField(row = 16, column = 33, endColumn= 37 ,labelColumn= 2 ,editable= true ,displayName = "Unit of Measure")
     private String unitOfMeasure;
