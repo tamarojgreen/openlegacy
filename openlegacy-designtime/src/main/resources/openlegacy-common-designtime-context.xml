@@ -38,7 +38,7 @@
 	<bean class="org.openlegacy.support.SimpleFieldFormatter" />
 
 	<bean id="terminalActionAnalyzer" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalActionAnalyzer" />
-	<bean id="bestEntityNameFieldComparator" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultBestEntityNameFieldComparator" />
+	<bean id="bestEntityNameFieldComparator" class="org.openlegacy.designtime.terminal.analyzer.support.ByMostCenteredFieldComparator" />
 
 	<bean id="ruleDefinition" class="org.openlegacy.designtime.rules.support.RuleDefinitionBean" abstract="true"/>
 	<bean id="ruleParametersSet" class="org.openlegacy.designtime.rules.support.RuleParametersSetBean" abstract="true"/>

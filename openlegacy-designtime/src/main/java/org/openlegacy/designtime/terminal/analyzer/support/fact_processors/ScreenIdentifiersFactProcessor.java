@@ -31,7 +31,7 @@ public class ScreenIdentifiersFactProcessor implements ScreenFactProcessor {
 
 		for (TerminalField field : screenIdentifiersFact.getIdentifiers()) {
 
-			ScreenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, field);
+			ScreenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, field, true);
 
 			// -1 -> one identifier is based on the screen entity field name - added at the end of the identification process
 			if (screenIdentifiers.size() >= maxIdentifiers) {

@@ -30,8 +30,16 @@ public class ScreenEntityDefinitionsBuilderUtils {
 		((SimpleScreenFieldDefinition)fieldDefinition).setType(clazz);
 	}
 
-	public static void addIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
-		ScreenIdentifier identitifer = createIdentifier(screenEntityDefinition, field);
+	/**
+	 * 
+	 * @param screenEntityDefinition
+	 * @param field
+	 * @param verifyExistance
+	 *            check if the field exists on the snapshot
+	 */
+	public static void addIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
+			boolean verifyExistance) {
+		ScreenIdentifier identitifer = createIdentifier(screenEntityDefinition, field, verifyExistance);
 		if (identitifer == null) {
 			return;
 		}
@@ -47,8 +55,10 @@ public class ScreenEntityDefinitionsBuilderUtils {
 
 	}
 
-	private static ScreenIdentifier createIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
-		if (ScreenEntityDefinitionsBuilderUtils.isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
+	private static ScreenIdentifier createIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition,
+			TerminalField field, boolean verifyExistance) {
+
+		if (verifyExistance && ScreenEntityDefinitionsBuilderUtils.isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
 			return null;
 		}
 

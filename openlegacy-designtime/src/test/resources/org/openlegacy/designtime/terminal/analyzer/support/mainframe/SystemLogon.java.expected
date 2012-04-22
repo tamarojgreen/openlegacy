@@ -1,0 +1,33 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.*;
+
+@ScreenEntity()
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 4, column = 41, value = "System Logon   "), 
+				@Identifier(row = 9, column = 13, value = "For hints on how to change your password, please read:"), 
+				@Identifier(row = 11, column = 7, value = "http://doc.openlegacy.org") 
+				})
+public class SystemLogon {
+    
+	
+	@ScreenField(row = 14, column = 23, endColumn= 30 ,labelColumn= 2 ,editable= true ,displayName = "User ID")
+    private String userId;
+	
+	@ScreenField(row = 15, column = 23, endColumn= 30 ,labelColumn= 2 ,editable= true ,displayName = "Password")
+    private String password;
+	
+	@ScreenField(row = 16, column = 23, endColumn= 30 ,labelColumn= 2 ,editable= true ,displayName = "New password")
+    private String newPassword;
+	
+	@ScreenField(row = 17, column = 23, endColumn= 30 ,labelColumn= 2 ,editable= true ,displayName = "Group")
+    private String group;
+	
+	@ScreenField(row = 20, column = 23, endColumn= 23 ,labelColumn= 2 ,editable= true ,displayName = "Session reconnect", sampleValue = "X")
+    private String sessionReconnect;
+
+    
+
+
+ 
+}

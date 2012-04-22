@@ -8,7 +8,7 @@ import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 
 @ScreenEntity(screenType=MenuEntity.class)
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 26, value = "           Demo Environment   "), 
+				@Identifier(row = 1, column = 37, value = "Demo Environment   "), 
 				@Identifier(row = 20, column = 2, value = "Selection:") 
 				})
 @ScreenActions(actions = { 

@@ -27,4 +27,5 @@ when
 	not TerminalField(editable == false, value matches $labelRegex, $field.position.column - position.column < $field.position.column - $labelField.position.column)
 then
 	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$field,$labelField);
+	update($screenEntityDefinition);
 end

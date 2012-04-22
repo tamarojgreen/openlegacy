@@ -6,7 +6,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 2, column = 26, value = "    Work with Item Master     "), 
+				@Identifier(row = 2, column = 30, value = "Work with Item Master     "), 
 				@Identifier(row = 4, column = 2, value = "Type choices, press Enter."), 
 				@Identifier(row = 6, column = 2, value = "Item Number/Desc :") 
 				})

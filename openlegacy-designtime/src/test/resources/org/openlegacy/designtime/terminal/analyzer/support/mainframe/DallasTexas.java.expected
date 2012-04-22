@@ -1,0 +1,21 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.*;
+
+@ScreenEntity()
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 4, column = 1, value = "                   SSSSSSSSSSSSSSSSSSSSS    Dallas-Texas"), 
+				@Identifier(row = 4, column = 45, value = "Dallas-Texas"), 
+				@Identifier(row = 5, column = 1, value = "                  SSSSSSSS") 
+				})
+public class DallasTexas {
+    
+	
+	@ScreenField(row = 21, column = 17, endColumn= 80 ,labelColumn= 1 ,editable= true ,displayName = "Desired Target")
+    private String desiredTarget;
+
+    
+
+
+ 
+}
