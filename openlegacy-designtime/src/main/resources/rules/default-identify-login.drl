@@ -30,10 +30,12 @@ when
 															editable == false,value matches $passwordFieldRegex) from $snapshot.getFields();
 
 	$errorLine: Integer() from $snapshot.getSize().getRows() - $errorMessageLinesFromButtom  
-	$errorMessageField: TerminalField(editable == false) from $snapshot.getField(new SimpleTerminalPosition($errorLine,$errorMessageColumn))
 	
 then
+	// error message field is optional - therefore not part of when
+	TerminalField errorMessageField = $snapshot.getField(new SimpleTerminalPosition($errorLine,$errorMessageColumn));
+System.out.println(errorMessageField);
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, 
-			new LoginScreenFact($userField,$userLabelField,$passwordField,$passwordLabelField,$errorMessageField));
+			new LoginScreenFact($userField,$userLabelField,$passwordField,$passwordLabelField,errorMessageField));
 	
 end
