@@ -5,6 +5,7 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.analyzer.support.ScreenEntityDefinitionsBuilderUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.utils.ClassUtils;
 
@@ -26,9 +27,13 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, passwordFieldDefinition,
 				Login.PasswordField.class);
 
-		ScreenFieldDefinition errorFieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-				loginScreenFact.getErrorField(), Login.ERROR_MESSAGE_LABEL);
-		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, errorFieldDefinition, Login.ErrorField.class);
+		TerminalField errorField = loginScreenFact.getErrorField();
+		if (errorField != null) {
+			ScreenFieldDefinition errorFieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
+					errorField, Login.ERROR_MESSAGE_LABEL);
+			ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, errorFieldDefinition,
+					Login.ErrorField.class);
+		}
 
 	}
 
