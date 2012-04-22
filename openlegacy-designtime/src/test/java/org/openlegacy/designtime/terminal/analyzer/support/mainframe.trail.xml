@@ -207,7 +207,7 @@
             <field column="2" value="Enter-PF1---PF2---PF3---PF4---PF5---PF6---PF7---PF8---PF9---PF10--PF11--PF12---"/>
         </row>
         <row rowNumber="24">
-            <field column="2" value="Cont              End" length="77"/>
+            <field column="2" value="Cont              Quit  " length="77"/>
             <field column="80" length="1"/>
         </row>
         <size rows="32" columns="80"/>
