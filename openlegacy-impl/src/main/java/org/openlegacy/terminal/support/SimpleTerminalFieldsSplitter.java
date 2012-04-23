@@ -4,14 +4,12 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalFieldSplitter;
 import org.openlegacy.terminal.TerminalFieldsSplitter;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-@Component
 public class SimpleTerminalFieldsSplitter implements TerminalFieldsSplitter {
 
 	@Inject
