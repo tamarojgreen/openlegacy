@@ -7,73 +7,109 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
 	<form id="WorkWithItemMaster1Form" method="post">
-		<div style="margin-left: 2%; top: 20%; width: 92%;" class="panel">
-			<div class="field">
-	<label>Item Number: </label>
-		<input type="text" name="itemNumber" value="${workWithItemMaster1.itemNumber}" size="15" maxlength="15" />
+		<div style="margin-left: 2%; top: 20%; width: 62%;height: 80%" class="panel">
+			<div data-dojo-type="dijit.TitlePane"
+				data-dojo-props="title: 'Item Details', open:true">
+				<div class="field">
+					<label>Item Number: </label> <input type="text" name="itemNumber"
+						value="${workWithItemMaster1.itemNumber}" size="15" maxlength="15" />
+				</div>
+				<div class="field">
+					<label>Item Description: </label> <input type="text"
+						name="itemDescription"
+						value="${workWithItemMaster1.itemDescription}" size="40"
+						maxlength="40" />
+				</div>
+				<div class="field">
+					<label>Alpha Search: </label> <input type="text" name="alphaSearch"
+						value="${workWithItemMaster1.alphaSearch}" size="10"
+						maxlength="10" />
+				</div>
+				<div class="field">
+					<label>Superceding item To: </label> <input type="text"
+						name="supercedingItemto"
+						value="${workWithItemMaster1.supercedingItemto}" size="15"
+						maxlength="15" />
+				</div>
+				<div class="field">
+					<label>Superceding Item From: </label> <input type="text"
+						name="supercedingItemfrom"
+						value="${workWithItemMaster1.supercedingItemfrom}" size="15"
+						maxlength="15" />
+				</div>
+				<div class="field">
+					<label>Substitute item number: </label> <input type="text"
+						name="substituteItemNumber"
+						value="${workWithItemMaster1.substituteItemNumber}" size="15"
+						maxlength="15" />
+				</div>
+				<div class="field">
+					<label>Manufacturers Item No: </label> <input type="text"
+						name="manufacturersItemNo"
+						value="${workWithItemMaster1.manufacturersItemNo}" size="15"
+						maxlength="15" />
+				</div>
+				<div class="field">
+					<label>Item weight: </label> <input type="text" name="itemWeight"
+						value="${workWithItemMaster1.itemWeight}" size="15" maxlength="15" />
+				</div>
+				<div class="field">
+					<label>Item Class: </label> <input type="text" name="itemClass"
+						value="${workWithItemMaster1.itemClass}" size="3" maxlength="3" />
+				</div>
+				<div class="field">
+					<label class="fixed_label">Stock Group: </label>
+					<!-- TODO doesn't work in dojo - load in Ajax panel -->
+
+					<select name="itemClass" value="${workWithItemMaster1.stockGroup}"
+						data-dojo-type="dijit.form.FilteringSelect">
+						<option value="">-Select-</option>
+						<option value="SG">Standard Stock Group</option>
+						<option value="CG">Custom Stock Group</option>
+					</select>
+				</div>
 			</div>
-			<div class="field">
-	<label>Item Description: </label>
-		<input type="text" name="itemDescription" value="${workWithItemMaster1.itemDescription}" size="40" maxlength="40" />
+			<div data-dojo-type="dijit.TitlePane"
+				data-dojo-props="title: 'Advanced', open:false">
+				<div class="field">
+					<label>Unit of Measure: </label> <input type="text"
+						name="unitOfMeasure" value="${workWithItemMaster1.unitOfMeasure}"
+						size="5" maxlength="5" />
+				</div>
+				<div class="field">
+					<label>Packing Multiplier: </label> <input type="text"
+						name="packingMultiplier"
+						value="${workWithItemMaster1.packingMultiplier}" size="6"
+						maxlength="6" />
+				</div>
+				<div class="field">
+					<label>Outer Unit of Measure: </label> <input type="text"
+						name="outerUnitOfMeasure"
+						value="${workWithItemMaster1.outerUnitOfMeasure}" size="5"
+						maxlength="5" />
+				</div>
+				<div class="field">
+					<label>Outer Quantity: </label> <input type="text"
+						name="outerQuantity" value="${workWithItemMaster1.outerQuantity}"
+						size="10" maxlength="10" />
+				</div>
+				<div class="field">
+					<label class="fixed_label">Pallet label required: </label>
+					<!-- TODO doesn't work in dojo - load in Ajax panel -->
+					<input type="checkbox" name="palletLabelRequired"
+						value="${workWithItemMaster1.palletLabelRequired}" />
+				</div>
+				<div class="field">
+					<label>VAT Code: </label> <input type="text" name="vatCode"
+						value="${workWithItemMaster1.vatCode}" size="2" maxlength="2" />
+				</div>
 			</div>
-			<div class="field">
-	<label>Alpha Search: </label>
-		<input type="text" name="alphaSearch" value="${workWithItemMaster1.alphaSearch}" size="10" maxlength="10" />
-			</div>
-			<div class="field">
-	<label>Superceding item To: </label>
-		<input type="text" name="supercedingItemto" value="${workWithItemMaster1.supercedingItemto}" size="15" maxlength="15" />
-			</div>
-			<div class="field">
-	<label>Superceding Item From: </label>
-		<input type="text" name="supercedingItemfrom" value="${workWithItemMaster1.supercedingItemfrom}" size="15" maxlength="15" />
-			</div>
-			<div class="field">
-	<label>Substitute item number: </label>
-		<input type="text" name="substituteItemNumber" value="${workWithItemMaster1.substituteItemNumber}" size="15" maxlength="15" />
-			</div>
-			<div class="field">
-	<label>Manufacturers Item No: </label>
-		<input type="text" name="manufacturersItemNo" value="${workWithItemMaster1.manufacturersItemNo}" size="15" maxlength="15" />
-			</div>
-			<div class="field">
-	<label>Item weight: </label>
-		<input type="text" name="itemWeight" value="${workWithItemMaster1.itemWeight}" size="15" maxlength="15" />
-			</div>
-			<div class="field">
-	<label>Item Class: </label>
-		<input type="text" name="itemClass" value="${workWithItemMaster1.itemClass}" size="3" maxlength="3" />
-			</div>
-			<div class="field">
-	<label>Stock Group: </label>
-		<input type="text" name="stockGroup" value="${workWithItemMaster1.stockGroup}" size="3" maxlength="3" />
-			</div>
-			<div class="field">
-	<label>Unit of Measure: </label>
-		<input type="text" name="unitOfMeasure" value="${workWithItemMaster1.unitOfMeasure}" size="5" maxlength="5" />
-			</div>
-			<div class="field">
-	<label>Packing Multiplier: </label>
-		<input type="text" name="packingMultiplier" value="${workWithItemMaster1.packingMultiplier}" size="6" maxlength="6" />
-			</div>
-			<div class="field">
-	<label>Outer Unit of Measure: </label>
-		<input type="text" name="outerUnitOfMeasure" value="${workWithItemMaster1.outerUnitOfMeasure}" size="5" maxlength="5" />
-			</div>
-			<div class="field">
-	<label>Outer Quantity: </label>
-		<input type="text" name="outerQuantity" value="${workWithItemMaster1.outerQuantity}" size="10" maxlength="10" />
-			</div>
-			<div class="field">
-	<label>Pallet label required: </label>
-		<input type="text" name="palletLabelRequired" value="${workWithItemMaster1.palletLabelRequired}" size="1" maxlength="1" />
-			</div>
-			<div class="field">
-	<label>VAT Code: </label>
-		<input type="text" name="vatCode" value="${workWithItemMaster1.vatCode}" size="2" maxlength="2" />
+			<div data-dojo-type="dijit.TitlePane"
+				data-dojo-props="title: 'Description', open:false">
+				<div data-dojo-type="dijit.Editor"></div>
 			</div>
 		</div>
-		
+
 	</form>
 </div>
-		
+
