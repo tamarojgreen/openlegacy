@@ -80,9 +80,10 @@ h1{
 .field .fixed_label {
 	position: relative;
 	white-space: nowrap;
+	margin-right: 30%;
 }
 
-.field span,.field input {
+.field span,.field input,.field select {
 	margin-left: 45%;
 }
 
@@ -176,4 +177,18 @@ ul,li {
 
 .breadcrumbs li {
 	color: #FF9900;
+}
+
+.item-catalog{
+	width: 170px;
+	height: 170px;
+	padding: 10px;
+}
+
+.note {
+      background: #FFFFBF;
+      border: 1px solid black;
+      width: 200px;
+      height: 120px;
+      cursor: pointer;
 }

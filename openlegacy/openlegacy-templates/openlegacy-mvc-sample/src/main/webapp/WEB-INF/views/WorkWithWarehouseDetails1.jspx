@@ -71,7 +71,11 @@
 				<label>Created by: </label> <span>${workWithWarehouseDetails1.createdBy}</span>
 			</div>
 		</div>
-
+		<!-- Google Maps Element Code -->
+		<iframe frameborder="0" marginwidth="0" marginheight="0" border="0"
+			style="border: 0; margin: 0; width: 300px; height: 250px;"
+			src="http://www.google.com/uds/modules/elements/mapselement/iframe.html?maptype=roadmap&latlng=51.508129%2C-0.128005&mlatlng=51.508129%2C-0.128005&maddress1=London"
+			scrolling="no" allowtransparency="true"></iframe>
 	</form>
 </div>
 

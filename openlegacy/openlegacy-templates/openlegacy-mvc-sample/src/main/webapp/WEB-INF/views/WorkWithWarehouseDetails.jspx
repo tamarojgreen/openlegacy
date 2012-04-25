@@ -14,6 +14,7 @@
 			</div>
 		</div>
 		<div style="margin-left: 5%; top: 25%; width: 63%;" class="panel">
+
 				<table>
 					<th>
 					Action
@@ -47,7 +48,8 @@
 					<a href="javascript:doPost('WorkWithWarehouseDetailsForm','next')">Next &gt;</a> 
 				</div>
 		</div>
-		
+
+
 	</form>
 </div>
 		
