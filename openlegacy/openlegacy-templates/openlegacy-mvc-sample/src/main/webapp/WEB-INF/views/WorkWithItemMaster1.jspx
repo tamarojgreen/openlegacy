@@ -11,7 +11,7 @@
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Item Details', open:true">
 				<div class="field">
-					<label>Item Number: </label> <input type="text" name="itemNumber"
+					<label>Item Number: </label> <input type="text" name="itemNumber" id="itemNumber"
 						value="${workWithItemMaster1.itemNumber}" size="15" maxlength="15" />
 				</div>
 				<div class="field">

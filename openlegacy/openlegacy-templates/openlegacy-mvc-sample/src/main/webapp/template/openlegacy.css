@@ -186,8 +186,10 @@ ul,li {
 }
 
 .note {
+ 	  float: left;
       background: #FFFFBF;
       border: 1px solid black;
+      margin-left: 10px;
       width: 200px;
       height: 120px;
       cursor: pointer;
