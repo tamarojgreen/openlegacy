@@ -1,6 +1,6 @@
 body {
 	margin: 0px;
-	height: 91%;
+	height: 100%;
 	width: 100%;
 }
 
@@ -29,8 +29,8 @@ h1{
 }
 
 .container {
-	height: 78%;
-	width: 85%;
+	height: 90%;
+	width: 100%;
 	position: fixed;
 	font-family: Helvetica, sans-serif;
 	color: navy;
@@ -105,7 +105,7 @@ h1{
 
 .menu {
 	background-color: #D3D8F0;
-	height: 89%;
+	height: 90%;
 	width: 180px;
 	vertical-align:top;
 	float: left;
@@ -145,7 +145,7 @@ ul,li {
 
 .breadcrumbs {
 	position: absolute;
-	left: 15%;
+	left: 16%;
 	top: 13%;
 	z-index: 1;
 	background-color: #fff;
@@ -194,3 +194,7 @@ ul,li {
       height: 120px;
       cursor: pointer;
 }
+
+#accordion{
+	height: 100%;
+	width: 195px;	
