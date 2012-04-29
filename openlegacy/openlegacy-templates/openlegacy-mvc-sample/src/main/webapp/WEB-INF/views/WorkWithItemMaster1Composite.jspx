@@ -54,12 +54,12 @@
 			data-dojo-props="href:'WorkWithItemMaster1?partial=1',parseOnLoad: true">
 			<div>Place holder</div>
 		</div>
-		<div id="WorkWithItemMaster2" title="Item stock Details"
+		<div id="WorkWithItemMaster2" title="Item Stock Details"
 			data-dojo-type="dijit.layout.ContentPane"
 			data-dojo-props="href:'WorkWithItemMaster2?partial=1'">
 			<div>Place holder</div>
 		</div>
-		<div id="ItemImages" title="Item gallery"
+		<div id="ItemImages" title="Item Gallery"
 			data-dojo-type="dijit.layout.ContentPane">
 			
 				<image src="images/items/domino.jpg" class="item-catalog" />
@@ -69,7 +69,7 @@
 
 		<div id="ItemNotes" title="Item Notes"
 			data-dojo-type="dijit.layout.ContentPane">
-			<button onclick="addNote();">Add Note</button>
+			<button onclick="addNote();">+</button>
 			<div id="notesContainer">
 				<c:forEach items="${notes}" var="note" varStatus="status">
 				<div class="note" data-dojo-type="dojo.dnd.Moveable">

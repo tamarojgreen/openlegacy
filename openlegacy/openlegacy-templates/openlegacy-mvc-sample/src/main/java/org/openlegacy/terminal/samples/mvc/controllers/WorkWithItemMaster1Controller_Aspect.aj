@@ -32,38 +32,10 @@ import org.openlegacy.terminal.samples.model.WorkWithItemMaster1;
 
 privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1Controller_Aspect {
 
-	@Inject
-	private TerminalSession WorkWithItemMaster1Controller.terminalSession;
 
 	@Inject
 	private ScreenEntitiesRegistry WorkWithItemMaster1Controller.screenEntitiesRegistry;
 
-	// handle page initial display
-    @RequestMapping(method = RequestMethod.GET, params="partial=1")
-    public String WorkWithItemMaster1Controller.show(Model uiModel) {
-    	WorkWithItemMaster1 workWithItemMaster1 = terminalSession.getEntity(WorkWithItemMaster1.class);
-	uiModel.addAttribute("workWithItemMaster1", workWithItemMaster1);
-	// show the resulting page for WorkWithItemMaster1
-        return "WorkWithItemMaster1";
-    }
-
-	// handle submit action
-    @RequestMapping(method = RequestMethod.POST)
-    public String WorkWithItemMaster1Controller.submit(WorkWithItemMaster1 workWithItemMaster1, Model uiModel, HttpServletRequest httpServletRequest) {
-	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), workWithItemMaster1);
-	// go to the controller for the resulting screen name
-		if (resultScreenEntity != null){
-			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (httpServletRequest.getParameter("partial") != null){
-				workWithItemMaster1 = terminalSession.getEntity(WorkWithItemMaster1.class);
-		    	uiModel.addAttribute("workWithItemMaster1", workWithItemMaster1);
-		        return "WorkWithItemMaster1";
-			}
-        	return "redirect:" + screenEntityName;
-		}
-    	return "redirect:/";
-		
-    }
     
 	// handle help action
     @RequestMapping(params="action=help", method = RequestMethod.POST)

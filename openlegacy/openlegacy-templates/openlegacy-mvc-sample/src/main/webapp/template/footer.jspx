@@ -3,10 +3,5 @@
   <jsp:directive.page contentType="text/html;charset=UTF-8"/>
   <jsp:output omit-xml-declaration="yes"/>
 
-<a href="logoff">Logoff</a>
- | 
-<a href="trail/download">Download trail</a>
- |
-<a href="javascript:location.href=location.href">Refresh</a>
 
 </div>
