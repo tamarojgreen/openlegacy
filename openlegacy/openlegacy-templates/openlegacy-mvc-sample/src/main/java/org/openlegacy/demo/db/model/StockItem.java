@@ -1,5 +1,7 @@
 package org.openlegacy.demo.db.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -24,6 +26,11 @@ public class StockItem {
 	@MapKey(name = "noteId")
 	private Map<String, StockItemNote> notes = new TreeMap<String, StockItemNote>();
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "stock_item")
+	@MapKey(name = "noteId")
+	private List<StockItemImage> images = new ArrayList<StockItemImage>();
+
 	public Integer getItemId() {
 		return itemId;
 	}
@@ -42,5 +49,9 @@ public class StockItem {
 
 	public Map<String, StockItemNote> getNotes() {
 		return notes;
+	}
+
+	public List<StockItemImage> getImages() {
+		return images;
 	}
 }

@@ -5,9 +5,6 @@
 	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 
-	<form id="${definitions.entityName}Form" name="${definitions.entityName}Form" action="${definitions.entityName}" method="post">
-		<tiles:insertAttribute name="actions" ignore="true" />
-
-		<tiles:insertAttribute name="body" />
-	</form>
+	<tiles:insertAttribute name="actions" ignore="true" />
+	<tiles:insertAttribute name="body" />
 </div>

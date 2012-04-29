@@ -1,27 +1,26 @@
 package org.openlegacy.terminal.samples.mvc.controllers;
 
 import org.openlegacy.demo.db.model.StockItem;
-import org.openlegacy.demo.db.model.StockItemNote;
+import org.openlegacy.demo.db.model.StockItemImage;
 import org.openlegacy.demo.db.services.StockItemsService;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.samples.model.WorkWithItemMaster1;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collection;
+import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
-/**
- * Handles requests for screen WorkWithItemMaster1Composite
- */
 @Controller
-@RequestMapping("/WorkWithItemMaster1")
-public class WorkWithItemMaster1CompositeController {
+@RequestMapping("/StockItemImages")
+public class StockItemImagesController {
 
 	@Inject
 	private StockItemsService stockItemsService;
@@ -37,20 +36,25 @@ public class WorkWithItemMaster1CompositeController {
 
 		// fetch relevant notes from the DB and pass the page
 		StockItem stockItem = stockItemsService.getOrCreateStockItem(itemNumber);
+		uiModel.addAttribute(stockItem);
 
-		Collection<StockItemNote> notes = stockItem.getNotes().values();
-		uiModel.addAttribute("notes", notes);
-
-		return "WorkWithItemMaster1Composite";
+		return "StockItemImages";
 	}
 
-	@RequestMapping(value = "/updateNote", method = RequestMethod.GET)
-	public @ResponseBody
-	String updateNode(@RequestParam("itemNumber") Integer itemNumber, @RequestParam("noteId") String noteId,
-			@RequestParam("text") String text) {
+	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
+	public void uploadImage(@RequestParam("itemNumber") Integer itemNumber, @RequestParam("file") MultipartFile file,
+			HttpServletResponse response) throws IOException {
 
-		stockItemsService.addOrUpdateNote(itemNumber, noteId, text);
-		return "";
+		if (!file.isEmpty()) {
+			byte[] bytes = file.getBytes();
+			stockItemsService.addImage(itemNumber, bytes);
+		}
 	}
 
+	@RequestMapping(value = "/images/{id}", method = RequestMethod.GET)
+	public void showImage(HttpServletResponse response, @PathVariable("id") Long imageId) throws IOException {
+
+		StockItemImage stockItemImage = stockItemsService.getImage(imageId);
+		response.getOutputStream().write(stockItemImage.getImage());
+	}
 }

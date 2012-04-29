@@ -1,6 +1,7 @@
 package org.openlegacy.demo.db.services;
 
 import org.openlegacy.demo.db.model.StockItem;
+import org.openlegacy.demo.db.model.StockItemImage;
 import org.openlegacy.demo.db.model.StockItemNote;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,5 +44,17 @@ public class StockItemsService {
 		stockItem.getNotes().put(noteId, stockItemNote);
 		entityManager.merge(stockItem);
 
+	}
+
+	public void addImage(Integer itemId, byte[] bytes) {
+		StockItem stockItem = getOrCreateStockItem(itemId);
+		StockItemImage stockItemImage = new StockItemImage();
+		stockItemImage.setImage(bytes);
+		stockItem.getImages().add(stockItemImage);
+		entityManager.merge(stockItem);
+	}
+
+	public StockItemImage getImage(Long imageId) {
+		return entityManager.find(StockItemImage.class, imageId);
 	}
 }

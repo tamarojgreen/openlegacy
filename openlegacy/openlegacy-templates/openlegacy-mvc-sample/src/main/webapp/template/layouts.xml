@@ -35,6 +35,9 @@
     <put-attribute name="actions" value="/template/ajaxActions.jspx" />
   </definition>
 
+  <definition name="flatView" template="/template/view.jspx">
+  </definition>
+
   <definition name="public" template="/template/template.jspx">
     <put-attribute name="header" value="/template/header.jspx" />
   </definition>

@@ -61,6 +61,10 @@
     <put-attribute name="body" value="/WEB-INF/views/DemoEnvironment.jspx" />
   </definition>
  
+
+  <definition name="StockItemImages" extends="flatView">
+    <put-attribute name="body" value="/WEB-INF/views/StockItemImages.jspx" />
+  </definition>
   
   <definition name="logoff" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/logoff.jspx" />

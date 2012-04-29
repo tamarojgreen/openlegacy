@@ -24,7 +24,7 @@
 	            // The URL to request
 	            url: "WorkWithItemMaster1/updateNote",
 	            content: {
-	                noteId: node.id,text:node.innerText, itemId:dojo.byId("itemNumber").value 
+	                noteId: node.id,text:node.innerText, itemNumber:dojo.byId("itemNumber").value 
 	            },
 	            load: function(result) {
 	            }
@@ -60,11 +60,9 @@
 			<div>Place holder</div>
 		</div>
 		<div id="ItemImages" title="Item Gallery"
-			data-dojo-type="dijit.layout.ContentPane">
-			
-				<image src="images/items/domino.jpg" class="item-catalog" />
-				<image src="images/items/domino2.jpg" class="item-catalog" />
-
+			data-dojo-type="dijit.layout.ContentPane"
+			data-dojo-props="href:'StockItemImages'">
+			<div>Place holder</div>
 		</div>
 
 		<div id="ItemNotes" title="Item Notes"
