@@ -11,13 +11,14 @@
 
   <script type="text/javascript">var djConfig = {parseOnLoad: true, isDebug: true, locale: '${fn:toLowerCase(userLocale)}'};</script>
 
-  <spring:url value="/dj/dojo/dojo.js" var="dojo_url" />
+  <spring:url value="/dj/dojo/dojo.js.uncompressed.js" var="dojo_url" />
   <script src="${dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-  <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script language="JavaScript" type="text/javascript">dojo.require("dojo.parser");</script>
 
   <spring:url value="/resources/openlegacy.mvc.js" var="ol_mvc_js" />
   <script src="${ol_mvc_js}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+
+  <script src="js/demo.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
   <link rel="stylesheet" type="text/css" href="template/openlegacy.css" />	
   <link rel="stylesheet" href="dj/dijit/themes/tundra/tundra.css" />

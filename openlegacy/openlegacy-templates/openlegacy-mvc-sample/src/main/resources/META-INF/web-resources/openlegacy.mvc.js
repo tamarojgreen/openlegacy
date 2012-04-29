@@ -37,8 +37,11 @@ function doPost(formName,actionName){
  */
 function doAjaxPost(formName, areaName, actionName) {
 	var form = dojo.byId(formName);
-	var container = dijit.byId(areaName);
-	var title = container.get('title');
+	var container = null;
+	if (areaName != null){
+		container = dijit.byId(areaName);
+		var title = container.get('title');
+	}
 	
 	form.action = form.action + "?partial=1";
 	
@@ -51,13 +54,17 @@ function doAjaxPost(formName, areaName, actionName) {
 			handleAs : "text",
 			url: form.action,
 			load : function(data) {
-				container.set('title',title);
-				container.set('content',data);
+				if (container != null){
+					container.set('title',title);
+					container.set('content',data);
+				}
 			},
 			error : function(e){
 				alert(e);
 			}
 		}
-	container.set('title','Loading...');
+	if (container != null){
+		container.set('title','Updating...');
+	}
 	var deferred = dojo.xhrPost(xhrArgs);
 }
