@@ -11,7 +11,7 @@
 		action="StockItemImages/uploadImage" enctype="multipart/form-data">
 		<div>
 			<input name="file" multiple="true" type="file" label="Select File"
-				id="uploader" /> <a href="#" onclick="uploadStockItemImage()">Upload</a>
+				id="uploader" onchange="uploadStockItemImage();" />
 		</div>
 	</form>
 	<c:forEach items="${stockItem.images}" var="image">
