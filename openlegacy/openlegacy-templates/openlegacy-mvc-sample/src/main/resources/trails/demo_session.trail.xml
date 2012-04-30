@@ -3713,6 +3713,12 @@
             <field column="34" length="1" editable="true"/>
             <field column="36" value="                                             "/>
         </row>
+        <row rowNumber="11">
+            <field column="1"/>
+            <field column="2" value="Address . . ."/>
+            <field column="20" length="55" value="4309 S Morgan Street, Chicago, IL, 60609, United States" editable="true"/>
+            <field column="36" value="                                             "/>
+        </row>
         <row rowNumber="12">
             <field column="1"/>
             <field column="2" value="Amended date . . . . . . . . :"/>
@@ -3817,6 +3823,12 @@
             <field column="2" value="Replenishment Cycle flag . . ."/>
             <field column="33"/>
             <field column="34" length="1" editable="true"/>
+            <field column="36" value="                                             "/>
+        </row>
+        <row rowNumber="11">
+            <field column="1"/>
+            <field column="2" value="Address . . ."/>
+            <field column="20" length="55" value="4309 S Morgan Street, Chicago, IL, 60609, United States" editable="true"/>
             <field column="36" value="                                             "/>
         </row>
         <row rowNumber="12">

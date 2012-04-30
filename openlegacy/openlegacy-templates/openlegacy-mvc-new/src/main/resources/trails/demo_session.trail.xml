@@ -638,7 +638,7 @@
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
-            <field column="21" value="Inventory                               " color="WHITE"/>
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
             <field column="62" value="          "/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
@@ -682,108 +682,108 @@
             <field column="2" value=" "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="APPLE     "/>
+            <field column="11" value="Water Ball"/>
             <field column="22" value=" "/>
-            <field column="24" value="Red apple - FRT                         "/>
+            <field column="24" value="Water Ball - Balls                      "/>
             <field column="65" value="1007           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="9">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="BANANA    "/>
+            <field column="11" value="Frisbee   "/>
             <field column="22" value=" "/>
-            <field column="24" value="Banana - FRT                            "/>
+            <field column="24" value="Dog Frisbee - Pet Toys                  "/>
             <field column="65" value="1008           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="10">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="CARROT    "/>
+            <field column="11" value="Pig Bank  "/>
             <field column="22" value=" "/>
-            <field column="24" value="Carrot - VEG                            "/>
+            <field column="24" value="Pig Saving Bank - Ceramics              "/>
             <field column="65" value="1005           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="11">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="CHICKEN   "/>
+            <field column="11" value="Kids Guitar"/>
             <field column="22" value=" "/>
-            <field column="24" value="Chicken breast - MEAT                   "/>
+            <field column="24" value="Kids Guitar - Musical Toys              "/>
             <field column="65" value="1006           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="12">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="CUCUMBER  "/>
+            <field column="11" value="Poker     "/>
             <field column="22" value=" "/>
-            <field column="24" value="Cucumber - VEG                          "/>
+            <field column="24" value="Hot Poker Playing Cards - Cards         "/>
             <field column="65" value="1004           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="13">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="EANS      "/>
+            <field column="11" value="Helicopter"/>
             <field column="22" value=" "/>
-            <field column="24" value="Red beans - VEG                         "/>
+            <field column="24" value="Toy Helicopter - Remote control toys     "/>
             <field column="65" value="1018           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="14">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="FIG       "/>
+            <field column="11" value="Bumper Car"/>
             <field column="22" value=" "/>
-            <field column="24" value="Fresh fig - FRT                         "/>
+            <field column="24" value="Bumper Car - Electrical Toys            "/>
             <field column="65" value="1020           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="15">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="GRAPE     "/>
+            <field column="11" value="Organ       "/>
             <field column="22" value=" "/>
-            <field column="24" value="White grapes - FRT                      "/>
+            <field column="24" value="37 Key Electronic Organ - Plastic Toys  "/>
             <field column="65" value="1011           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="16">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="HAMBURGER "/>
+            <field column="11" value="Ball Pool "/>
             <field column="22" value=" "/>
-            <field column="24" value="Hamburger - MEAT                        "/>
+            <field column="24" value="Ball Pool - Novelty Toys                "/>
             <field column="65" value="1000           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="17">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="MELON     "/>
+            <field column="11" value="Turtle     "/>
             <field column="22" value=" "/>
-            <field column="24" value="Yellow melon - FRT                      "/>
+            <field column="24" value="Twilight Turtle - Musical Toys          "/>
             <field column="65" value="1016           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="18">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="MUSHROOM  "/>
+            <field column="11" value="Toy Car   "/>
             <field column="22" value=" "/>
-            <field column="24" value="Champignon mushrooms - VEG              "/>
+            <field column="24" value="Ride on Toy Car - Vehicle Toys          "/>
             <field column="65" value="1013           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="19">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="OLIVE     "/>
+            <field column="11" value="Puzzle"/>
             <field column="22" value=" "/>
-            <field column="24" value="Black olive - VEG                       "/>
+            <field column="24" value="Wooden Puzzle - Wooden Toys           "/>
             <field column="65" value="1015         " type="java.lang.Integer"/>
             <field column="79" value=" " color="WHITE"/>
         </row>
@@ -805,7 +805,7 @@
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
-            <field column="21" value="Inventory                               " color="WHITE"/>
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
             <field column="62" value="          "/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
@@ -849,108 +849,108 @@
             <field column="2" value=" "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="APPLE     "/>
+            <field column="11" value="Water Ball"/>
             <field column="22" value=" "/>
-            <field column="24" value="Red apple - FRT                         "/>
+            <field column="24" value="Water Ball - Balls                      "/>
             <field column="65" value="1007           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="9">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="BANANA    "/>
+            <field column="11" value="Frisbee   "/>
             <field column="22" value=" "/>
-            <field column="24" value="Banana - FRT                            "/>
+            <field column="24" value="Dog Frisbee - Pet Toys                  "/>
             <field column="65" value="1008           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="10">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="CARROT    "/>
+            <field column="11" value="Pig Bank  "/>
             <field column="22" value=" "/>
-            <field column="24" value="Carrot - VEG                            "/>
+            <field column="24" value="Pig Saving Bank - Ceramics              "/>
             <field column="65" value="1005           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="11">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="CHICKEN   "/>
+            <field column="11" value="Kids Guitar"/>
             <field column="22" value=" "/>
-            <field column="24" value="Chicken breast - MEAT                   "/>
+            <field column="24" value="Kids Guitar - Musical Toys              "/>
             <field column="65" value="1006           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="12">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="CUCUMBER  "/>
+            <field column="11" value="Poker     "/>
             <field column="22" value=" "/>
-            <field column="24" value="Cucumber - VEG                          "/>
+            <field column="24" value="Hot Poker Playing Cards - Cards         "/>
             <field column="65" value="1004           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="13">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="EANS      "/>
+            <field column="11" value="Helicopter"/>
             <field column="22" value=" "/>
-            <field column="24" value="Red beans - VEG                         "/>
+            <field column="24" value="Toy Helicopter - Remote control toys     "/>
             <field column="65" value="1018           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="14">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="FIG       "/>
+            <field column="11" value="Bumper Car"/>
             <field column="22" value=" "/>
-            <field column="24" value="Fresh fig - FRT                         "/>
+            <field column="24" value="Bumper Car - Electrical Toys            "/>
             <field column="65" value="1020           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="15">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="GRAPE     "/>
+            <field column="11" value="Organ       "/>
             <field column="22" value=" "/>
-            <field column="24" value="White grapes - FRT                      "/>
+            <field column="24" value="37 Key Electronic Organ - Plastic Toys  "/>
             <field column="65" value="1011           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="16">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="HAMBURGER "/>
+            <field column="11" value="Ball Pool "/>
             <field column="22" value=" "/>
-            <field column="24" value="Hamburger - MEAT                        "/>
+            <field column="24" value="Ball Pool - Novelty Toys                "/>
             <field column="65" value="1000           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="17">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="MELON     "/>
+            <field column="11" value="Turtle     "/>
             <field column="22" value=" "/>
-            <field column="24" value="Yellow melon - FRT                      "/>
+            <field column="24" value="Twilight Turtle - Musical Toys          "/>
             <field column="65" value="1016           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="18">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="MUSHROOM  "/>
+            <field column="11" value="Toy Car   "/>
             <field column="22" value=" "/>
-            <field column="24" value="Champignon mushrooms - VEG              "/>
+            <field column="24" value="Ride on Toy Car - Vehicle Toys          "/>
             <field column="65" value="1013           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="19">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="OLIVE     "/>
+            <field column="11" value="Puzzle"/>
             <field column="22" value=" "/>
-            <field column="24" value="Black olive - VEG                       "/>
+            <field column="24" value="Wooden Puzzle - Wooden Toys           "/>
             <field column="65" value="1015         " type="java.lang.Integer"/>
             <field column="79" value=" " color="WHITE"/>
         </row>
@@ -972,7 +972,7 @@
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
-            <field column="21" value="Inventory                               " color="WHITE"/>
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
             <field column="62" value="          "/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
@@ -1016,18 +1016,18 @@
             <field column="2" value=" "/>
             <field column="4" value="2" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="TOMATO    "/>
+            <field column="11" value="Domino Cubes"/>
             <field column="22" value=" "/>
-            <field column="24" value="Tomato - VEG                            "/>
+            <field column="24" value="Domino Cubes - Board Games"/>
             <field column="65" value="2000           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="9">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="WATERMELON"/>
+            <field column="11" value="Bowling"/>
             <field column="22" value=" "/>
-            <field column="24" value="Watermelon - FRT                        "/>
+            <field column="24" value="Baby Bowling Game - Baby Toys           "/>
             <field column="65" value="1055           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="10">
@@ -1145,7 +1145,7 @@
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
-            <field column="21" value="Inventory                               " color="WHITE"/>
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
             <field column="62" value="          "/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
@@ -1189,18 +1189,18 @@
             <field column="2" value=" "/>
             <field column="4" value="2" modified="true" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="TOMATO    "/>
+            <field column="11" value="Domino Cubes"/>
             <field column="22" value=" "/>
-            <field column="24" value="Tomato - VEG                            "/>
-            <field column="65" value="2000           " type="java.lang.Integer"/>
+            <field column="24" value="Domino Cubes Toy- Magical Toys            "/>
+            <field column="65" value="1054           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="9">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="WATERMELON"/>
+            <field column="11" value="Swim Ring"/>
             <field column="22" value=" "/>
-            <field column="24" value="Watermelon - FRT                        "/>
+            <field column="24" value="Swimming Ring - Baby Toys               "/>
             <field column="65" value="1055           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="10">
@@ -1318,7 +1318,7 @@
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
-            <field column="21" value="Inventory                               " color="WHITE"/>
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
             <field column="62" value="          "/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
@@ -1350,28 +1350,28 @@
             <field column="1"/>
             <field column="2" value="Item Description  . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="Tomato - VEG" length="40" editable="true"/>
+            <field column="33" value="Domino Cubes - Board Games" length="40" editable="true"/>
             <field column="74" value="       "/>
         </row>
         <row rowNumber="8">
             <field column="1"/>
             <field column="2" value="Alpha Search  . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="TOMATO" length="10" editable="true"/>
+            <field column="33" value="Domino Cubes" length="10" editable="true"/>
             <field column="44" value="                                     "/>
         </row>
         <row rowNumber="9">
             <field column="1"/>
             <field column="2" value="Superceding item 'To' . . . ."/>
             <field column="32"/>
-            <field column="33" length="15" editable="true"/>
+            <field column="33" length="15" editable="true" value="2215" />
             <field column="49" value="                                "/>
         </row>
         <row rowNumber="10">
             <field column="1"/>
             <field column="2" value="Superceding Item 'From' . . ."/>
             <field column="32"/>
-            <field column="33" length="15" editable="true"/>
+            <field column="33" length="15" editable="true" value="2210" />
             <field column="49" value="                                "/>
         </row>
         <row rowNumber="11">
@@ -1392,15 +1392,15 @@
             <field column="1"/>
             <field column="2" value="Item weight . . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" length="15" editable="true" type="java.lang.Integer"/>
-            <field column="49" value="                                "/>
+            <field column="33" length="15" editable="true" value="850" type="java.lang.Integer"/>
+            <field column="49" value="GR"/>
         </row>
         <row rowNumber="14">
             <field column="1"/>
             <field column="2" value="Item Class  . . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="VEG" editable="true"/>
-            <field column="37" value="Vegetables                              "/>
+            <field column="33" value="BG" editable="true"/>
+            <field column="37" value="Board Games"/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="15">
@@ -1408,7 +1408,7 @@
             <field column="2" value="Stock Group . . . . . . . . ."/>
             <field column="32"/>
             <field column="33" value="SG" length="3" editable="true"/>
-            <field column="37" value="Generic stock group                     "/>
+            <field column="37" value="Standard stock group                  "/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="16">
@@ -1471,7 +1471,7 @@
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
-            <field column="21" value="Inventory                               " color="WHITE"/>
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
             <field column="62" value="          "/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
@@ -1503,14 +1503,14 @@
             <field column="1"/>
             <field column="2" value="Item Description  . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="Tomato - VEG" length="40" editable="true"/>
+            <field column="33" value="Domino Cubes - Board Games" length="40" editable="true"/>
             <field column="74" value="       "/>
         </row>
         <row rowNumber="8">
             <field column="1"/>
             <field column="2" value="Alpha Search  . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="TOMATO" length="10" editable="true"/>
+            <field column="33" value="Domino Cubes" length="10" editable="true"/>
             <field column="44" value="                                     "/>
         </row>
         <row rowNumber="9">
@@ -1552,8 +1552,8 @@
             <field column="1"/>
             <field column="2" value="Item Class  . . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="VEG" editable="true"/>
-            <field column="37" value="Vegetables                              "/>
+            <field column="33" value="BG" editable="true"/>
+            <field column="37" value="Board Games"/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="15">
@@ -1561,7 +1561,7 @@
             <field column="2" value="Stock Group . . . . . . . . ."/>
             <field column="32"/>
             <field column="33" value="SG" length="3" editable="true"/>
-            <field column="37" value="Generic stock group                     "/>
+            <field column="37" value="Standard stock group                     "/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="16">
@@ -1624,7 +1624,7 @@
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
-            <field column="21" value="Inventory                               " color="WHITE"/>
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
             <field column="62" value="          "/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
@@ -1650,7 +1650,7 @@
             <field column="2" value="Item Number/Desc :"/>
             <field column="21"/>
             <field column="22" value="2000           " type="java.lang.Integer"/>
-            <field column="38" value="Tomato - VEG                            "/>
+            <field column="38" value="Domino Cubes - Board Games                 "/>
             <field column="79" value="  "/>
         </row>
         <row rowNumber="7">
@@ -1817,7 +1817,7 @@
             <field column="2" value="Item Number/Desc :"/>
             <field column="21"/>
             <field column="22" value="2000           " type="java.lang.Integer"/>
-            <field column="38" value="Tomato - VEG                            "/>
+            <field column="38" value="Domino Cubes - Board Games               "/>
             <field column="79" value="  "/>
         </row>
         <row rowNumber="7">
@@ -1990,14 +1990,14 @@
             <field column="1"/>
             <field column="2" value="Item Description  . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="Tomato - VEG" length="40" editable="true"/>
+            <field column="33" value="Domino Cubes - Board Games" length="40" editable="true"/>
             <field column="74" value="       "/>
         </row>
         <row rowNumber="8">
             <field column="1"/>
             <field column="2" value="Alpha Search  . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="TOMATO" length="10" editable="true"/>
+            <field column="33" value="Domino Cubes" length="10" editable="true"/>
             <field column="44" value="                                     "/>
         </row>
         <row rowNumber="9">
@@ -2039,8 +2039,8 @@
             <field column="1"/>
             <field column="2" value="Item Class  . . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="VEG" editable="true"/>
-            <field column="37" value="Vegetables                              "/>
+            <field column="33" value="BG" editable="true"/>
+            <field column="37" value="Board Games"/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="15">
@@ -2048,8 +2048,7 @@
             <field column="2" value="Stock Group . . . . . . . . ."/>
             <field column="32"/>
             <field column="33" value="SG" length="3" editable="true"/>
-            <field column="37" value="Generic stock group                     "/>
-            <field column="78" value="   "/>
+            <field column="78" value="SG=Standard stock group  CG=Custom Sock Group"/>
         </row>
         <row rowNumber="16">
             <field column="1"/>
@@ -2143,14 +2142,14 @@
             <field column="1"/>
             <field column="2" value="Item Description  . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="Tomato - VEG" length="40" editable="true"/>
+            <field column="33" value="Domino Cubes - Board Games" length="40" editable="true"/>
             <field column="74" value="       "/>
         </row>
         <row rowNumber="8">
             <field column="1"/>
             <field column="2" value="Alpha Search  . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="TOMATO" length="10" editable="true"/>
+            <field column="33" value="Domino Cubes" length="10" editable="true"/>
             <field column="44" value="                                     "/>
         </row>
         <row rowNumber="9">
@@ -2192,8 +2191,8 @@
             <field column="1"/>
             <field column="2" value="Item Class  . . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="VEG" editable="true"/>
-            <field column="37" value="Vegetables                              "/>
+            <field column="33" value="BG" editable="true"/>
+            <field column="37" value="Board Games"/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="15">
@@ -2201,7 +2200,7 @@
             <field column="2" value="Stock Group . . . . . . . . ."/>
             <field column="32"/>
             <field column="33" value="SG" length="3" editable="true"/>
-            <field column="37" value="Generic stock group                     "/>
+            <field column="37" value="Standard stock group                     "/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="16">
@@ -2290,7 +2289,7 @@
             <field column="2" value="Item Number/Desc :"/>
             <field column="21"/>
             <field column="22" value="2000           " type="java.lang.Integer"/>
-            <field column="38" value="Tomato - VEG                            "/>
+            <field column="38" value="Domino Cubes - Board Games       "/>
             <field column="79" value="  "/>
         </row>
         <row rowNumber="7">
@@ -2457,7 +2456,7 @@
             <field column="2" value="Item Number/Desc :"/>
             <field column="21"/>
             <field column="22" value="2000           " type="java.lang.Integer"/>
-            <field column="38" value="Tomato - VEG                            "/>
+            <field column="38" value="Domino Cubes - Board Games   "/>
             <field column="79" value="  "/>
         </row>
         <row rowNumber="7">
@@ -2630,14 +2629,14 @@
             <field column="1"/>
             <field column="2" value="Item Description  . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="Tomato - VEG" length="40" editable="true"/>
+            <field column="33" value="Domino Cubes - Board Games" length="40" editable="true"/>
             <field column="74" value="       "/>
         </row>
         <row rowNumber="8">
             <field column="1"/>
             <field column="2" value="Alpha Search  . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="TOMATO" length="10" editable="true"/>
+            <field column="33" value="Domino Cubes" length="10" editable="true"/>
             <field column="44" value="                                     "/>
         </row>
         <row rowNumber="9">
@@ -2679,8 +2678,8 @@
             <field column="1"/>
             <field column="2" value="Item Class  . . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="VEG" editable="true"/>
-            <field column="37" value="Vegetables                              "/>
+            <field column="33" value="BG" editable="true"/>
+            <field column="37" value="Board Games"/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="15">
@@ -2688,7 +2687,7 @@
             <field column="2" value="Stock Group . . . . . . . . ."/>
             <field column="32"/>
             <field column="33" value="SG" length="3" editable="true"/>
-            <field column="37" value="Generic stock group                     "/>
+            <field column="37" value="Standard stock group                     "/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="16">
@@ -2783,14 +2782,14 @@
             <field column="1"/>
             <field column="2" value="Item Description  . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="Tomato - VEG" length="40" editable="true"/>
+            <field column="33" value="Domino Cubes - Board Games" length="40" editable="true"/>
             <field column="74" value="       "/>
         </row>
         <row rowNumber="8">
             <field column="1"/>
             <field column="2" value="Alpha Search  . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="TOMATO" length="10" editable="true"/>
+            <field column="33" value="Domino Cubes" length="10" editable="true"/>
             <field column="44" value="                                     "/>
         </row>
         <row rowNumber="9">
@@ -2832,8 +2831,8 @@
             <field column="1"/>
             <field column="2" value="Item Class  . . . . . . . . ."/>
             <field column="32"/>
-            <field column="33" value="VEG" editable="true"/>
-            <field column="37" value="Vegetables                              "/>
+            <field column="33" value="BG" editable="true"/>
+            <field column="37" value="Board Games"/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="15">
@@ -2841,7 +2840,7 @@
             <field column="2" value="Stock Group . . . . . . . . ."/>
             <field column="32"/>
             <field column="33" value="SG" length="3" editable="true"/>
-            <field column="37" value="Generic stock group                     "/>
+            <field column="37" value="Standard stock group                     "/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="16">
@@ -2948,191 +2947,18 @@
             <field column="2" value=" "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="TOMATO    "/>
+            <field column="11" value="Domino Cubes"/>
             <field column="22" value=" "/>
-            <field column="24" value="Tomato - VEG                            "/>
+            <field column="24" value="Domino Cubes - Board Games               "/>
             <field column="65" value="2000           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="9">
             <field column="1" value="  "/>
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
-            <field column="11" value="WATERMELON"/>
+            <field column="11" value="Mixer Truck"/>
             <field column="22" value=" "/>
-            <field column="24" value="Watermelon - FRT                        "/>
-            <field column="65" value="1055           " type="java.lang.Integer"/>
-        </row>
-        <row rowNumber="10">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
-        </row>
-        <row rowNumber="11">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
-        </row>
-        <row rowNumber="12">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
-        </row>
-        <row rowNumber="13">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
-        </row>
-        <row rowNumber="14">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
-        </row>
-        <row rowNumber="15">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
-        </row>
-        <row rowNumber="16">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
-        </row>
-        <row rowNumber="17">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
-        </row>
-        <row rowNumber="18">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
-        </row>
-        <row rowNumber="19">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="          "/>
-            <field column="22" value=" "/>
-            <field column="24" value="                                        "/>
-            <field column="65" value="             "/>
-            <field column="79" value=" " color="WHITE"/>
-        </row>
-        <row rowNumber="21">
-            <field column="1"/>
-            <field column="2" value="Position to . ."/>
-            <field column="18"/>
-            <field column="19" length="10" editable="true"/>
-            <field column="30" value="                                                   "/>
-        </row>
-        <row rowNumber="23">
-            <field column="1" color="BLUE"/>
-            <field column="2" value="F1=Help  F3=Exit  F6=Create  F12=Cancel  F18=Number Seq" color="BLUE"/>
-            <field column="58" value="                       "/>
-        </row>
-        <row rowNumber="24">
-            <field column="1" color="WHITE"/>
-            <field column="2" value="Record update for file IMS Item master             IT.                      " color="WHITE"/>
-            <field column="79" value="+" color="WHITE"/>
-        </row>
-        <size rows="24" columns="80"/>
-        <cursor row="8" column="4"/>
-    </snapshot>
-    <snapshot type="OUTGOING" command="[pf12]" sequence="22">
-        <row rowNumber="1">
-            <field column="2" value="TESTUSER  " color="BLUE"/>
-            <field column="13" value="       "/>
-            <field column="21" value="Inventory                               " color="WHITE"/>
-            <field column="62" value="          "/>
-            <field column="73" value=" 2/06/05" color="BLUE"/>
-        </row>
-        <row rowNumber="2">
-            <field column="1" color="BLUE"/>
-            <field column="2" value="MITMMAST  " color="BLUE"/>
-            <field column="13" value="            "/>
-            <field column="26" value="    Work with Item Master     " color="WHITE"/>
-            <field column="57" value="               "/>
-            <field column="73" value="11:44:40" color="BLUE"/>
-        </row>
-        <row rowNumber="3">
-            <field column="1"/>
-            <field column="2" value="                                                                               "/>
-        </row>
-        <row rowNumber="4">
-            <field column="1" color="BLUE"/>
-            <field column="2" value="Type one or more action codes. Then Enter.                                    " color="BLUE"/>
-        </row>
-        <row rowNumber="5">
-            <field column="1" value="  "/>
-            <field column="4" value="2=Revise" color="BLUE"/>
-            <field column="13" color="BLUE"/>
-            <field column="14" value="4=Delete" color="BLUE"/>
-            <field column="23" color="BLUE"/>
-            <field column="24" value="5=Display" color="BLUE"/>
-            <field column="34" value="                                               "/>
-        </row>
-        <row rowNumber="7">
-            <field column="1" color="WHITE"/>
-            <field column="2" value="Action" color="WHITE"/>
-            <field column="9" value=" "/>
-            <field column="11" value="Alpha search" color="WHITE"/>
-            <field column="24" value="Item Description" color="WHITE"/>
-            <field column="41" value="                       "/>
-            <field column="65" value="Item Number" color="WHITE"/>
-            <field column="77" value="    "/>
-        </row>
-        <row rowNumber="8">
-            <field column="1"/>
-            <field column="2" value=" "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="TOMATO    "/>
-            <field column="22" value=" "/>
-            <field column="24" value="Tomato - VEG                            "/>
-            <field column="65" value="2000           " type="java.lang.Integer"/>
-        </row>
-        <row rowNumber="9">
-            <field column="1" value="  "/>
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="6" value="    "/>
-            <field column="11" value="WATERMELON"/>
-            <field column="22" value=" "/>
-            <field column="24" value="Watermelon - FRT                        "/>
+            <field column="24" value="Mixer Truck - Baby Toys"/>
             <field column="65" value="1055           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="10">
@@ -3541,7 +3367,7 @@
             <field column="6" value="   "/>
             <field column="10" value="001" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Big meat warehouse                      "/>
+            <field column="16" value="Magics warehouse                      "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="9">
@@ -3550,7 +3376,7 @@
             <field column="6" value="   "/>
             <field column="10" value="002" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Small fruit and vegetables warehouse    "/>
+            <field column="16" value="Baby Toys warehouse    "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="10">
@@ -3568,7 +3394,7 @@
             <field column="6" value="   "/>
             <field column="10" value="004" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Beef only warehouse                     "/>
+            <field column="16" value="Pet Toys warehouse                     "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="12">
@@ -3577,7 +3403,7 @@
             <field column="6" value="   "/>
             <field column="10" value="005" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Northern warehouse                      "/>
+            <field column="16" value="Kid Toys warehouse                      "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="13">
@@ -3586,7 +3412,7 @@
             <field column="6" value="   "/>
             <field column="10" value="006" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Exotic fruits                           "/>
+            <field column="16" value="Electronic Toys warehouse "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="14">
@@ -3595,7 +3421,7 @@
             <field column="6" value="   "/>
             <field column="10" value="007" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Exclusive products warehouse            "/>
+            <field column="16" value="Wooden Toys warehouse            "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="15">
@@ -3622,7 +3448,7 @@
             <field column="6" value="   "/>
             <field column="10" value="011" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Vegetables warehouse                    "/>
+            <field column="16" value="Musical Toys warehouse                    "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="18">
@@ -3631,7 +3457,7 @@
             <field column="6" value="   "/>
             <field column="10" value="012" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Center dairy warehouse                  "/>
+            <field column="16" value="Sport equipment warehouse                  "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="19">
@@ -3640,7 +3466,7 @@
             <field column="6" value="   "/>
             <field column="10" value="013" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Drinks warehouse                        "/>
+            <field column="16" value="Plastic Toys warehouse                    "/>
             <field column="57" value="                     "/>
             <field column="79" value=" " color="WHITE"/>
         </row>
@@ -3710,16 +3536,16 @@
             <field column="6" value="   "/>
             <field column="10" value="001" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Big meat warehouse                      "/>
+            <field column="16" value="Magics warehouse                      "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="9">
             <field column="1" value="  "/>
-            <field column="4" value="2" modified="true" editable="true" type="java.lang.Integer"/>
+            <field column="4" value="2" editable="true" type="java.lang.Integer"/>
             <field column="6" value="   "/>
             <field column="10" value="002" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Small fruit and vegetables warehouse    "/>
+            <field column="16" value="Baby Toys warehouse    "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="10">
@@ -3737,7 +3563,7 @@
             <field column="6" value="   "/>
             <field column="10" value="004" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Beef only warehouse                     "/>
+            <field column="16" value="Pet Toys warehouse                     "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="12">
@@ -3746,7 +3572,7 @@
             <field column="6" value="   "/>
             <field column="10" value="005" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Northern warehouse                      "/>
+            <field column="16" value="Kid Toys warehouse                      "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="13">
@@ -3755,7 +3581,7 @@
             <field column="6" value="   "/>
             <field column="10" value="006" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Exotic fruits                           "/>
+            <field column="16" value="Electronic Toys warehouse "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="14">
@@ -3764,7 +3590,7 @@
             <field column="6" value="   "/>
             <field column="10" value="007" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Exclusive products warehouse            "/>
+            <field column="16" value="Wooden Toys warehouse            "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="15">
@@ -3791,7 +3617,7 @@
             <field column="6" value="   "/>
             <field column="10" value="011" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Vegetables warehouse                    "/>
+            <field column="16" value="Musical Toys warehouse                    "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="18">
@@ -3800,7 +3626,7 @@
             <field column="6" value="   "/>
             <field column="10" value="012" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Center dairy warehouse                  "/>
+            <field column="16" value="Sport equipment warehouse                  "/>
             <field column="57" value="                        "/>
         </row>
         <row rowNumber="19">
@@ -3809,7 +3635,7 @@
             <field column="6" value="   "/>
             <field column="10" value="013" type="java.lang.Integer"/>
             <field column="14" value=" "/>
-            <field column="16" value="Drinks warehouse                        "/>
+            <field column="16" value="Plastic Toys warehouse                    "/>
             <field column="57" value="                     "/>
             <field column="79" value=" " color="WHITE"/>
         </row>
@@ -3885,6 +3711,12 @@
             <field column="2" value="Replenishment Cycle flag . . ."/>
             <field column="33"/>
             <field column="34" length="1" editable="true"/>
+            <field column="36" value="                                             "/>
+        </row>
+        <row rowNumber="11">
+            <field column="1"/>
+            <field column="2" value="Address . . ."/>
+            <field column="20" length="55" value="4309 S Morgan Street, Chicago, IL, 60609, United States" editable="true"/>
             <field column="36" value="                                             "/>
         </row>
         <row rowNumber="12">
@@ -3993,13 +3825,21 @@
             <field column="34" length="1" editable="true"/>
             <field column="36" value="                                             "/>
         </row>
+        <row rowNumber="11">
+            <field column="1"/>
+            <field column="2" value="Address . . ."/>
+            <field column="20" length="55" value="4309 S Morgan Street, Chicago, IL, 60609, United States" editable="true"/>
+            <field column="36" value="                                             "/>
+        </row>
         <row rowNumber="12">
             <field column="1"/>
             <field column="2" value="Amended date . . . . . . . . :"/>
             <field column="33"/>
             <field column="34" value="23" editable="true" type="java.lang.Integer"/>
-            <field column="36" value="/01"/>
-            <field column="39" value="/2011"/>
+            <field column="36" value="/"/>
+            <field column="37" value="01" editable="true" />
+            <field column="39" value="/"/>
+            <field column="40" value="2011" editable="true" />
             <field column="45" value="                                    "/>
         </row>
         <row rowNumber="13">
@@ -4040,7 +3880,7 @@
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
-            <field column="21" value="Inventory                               " color="WHITE"/>
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
             <field column="62" value="          "/>
             <field column="73" value=" 2/06/05" color="BLUE"/>
         </row>
@@ -4155,7 +3995,7 @@
             <field column="10" value="   "/>
             <field column="14" value="MT"/>
             <field column="17" value="  "/>
-            <field column="20" value="Meat warehouse                          "/>
+            <field column="20" value="Games warehouse                          "/>
             <field column="61" value=" "/>
             <field column="63" value=" " backColor="BLUE"/>
             <field column="65" value="                "/>
@@ -4169,7 +4009,7 @@
             <field column="10" value="   "/>
             <field column="14" value="VF"/>
             <field column="17" value="  "/>
-            <field column="20" value="Vegtables &amp; fruits warehouse            "/>
+            <field column="20" value="Baby Toys warehouse            "/>
             <field column="61" value=" "/>
             <field column="63" value=" " backColor="BLUE"/>
             <field column="65" value="                "/>

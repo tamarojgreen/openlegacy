@@ -65,6 +65,13 @@ privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails1_Aspect {
     	this.costingType = costingType;
     }
 
+    public String WorkWithWarehouseDetails1.getAddress(){
+    	return this.address;
+    }
+    
+    public void WorkWithWarehouseDetails1.setAddress(String address){
+    	this.address = address;
+    }
 
 
     public String WorkWithWarehouseDetails1.getCreatedBy(){
