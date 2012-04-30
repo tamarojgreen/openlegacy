@@ -51,7 +51,7 @@
 				</div>
 			</div>
 			<div data-dojo-type="dijit.TitlePane"
-				data-dojo-props="title: 'User Details', open:true">
+				data-dojo-props="title: 'User Details', open:false">
 				<div class="field">
 					<label class="fixed_label">Amended date: </label>
 					<form:input id="amendedDate"
@@ -76,6 +76,21 @@
 				<div class="field">
 					<label>Created by: </label> <span>${workWithWarehouseDetails1.createdBy}</span>
 				</div>
+			</div>
+			<div data-dojo-type="dijit.TitlePane"
+				data-dojo-props="title: 'Location Details', open:true">
+				<div class="field">
+					<label>Address: </label> <input type="text" name="address"
+						value="${workWithWarehouseDetails1.address}" size="60"
+						maxlength="60" />
+				</div>
+				<div id="map_canvas" style="margin-top:10px; height: 200px"></div>
+				<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"><!-- required for FF3 and Opera --></script>
+				<script type="text/javascript">
+					dojo.addOnLoad(function() {
+						createMap("${workWithWarehouseDetails1.address}");
+					});
+				</script>
 			</div>
 		</div>
 	</form>
