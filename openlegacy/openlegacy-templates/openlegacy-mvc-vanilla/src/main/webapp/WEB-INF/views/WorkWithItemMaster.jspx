@@ -1,0 +1,55 @@
+<div xmlns:spring="http://www.springframework.org/tags"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+
+	<form id="WorkWithItemMasterForm" method="post">
+		<div style="margin-left: 2%; top: 87%; width: 32%;position:absolute;" >
+			<div class="field">
+	<label>Position to: </label>
+		<input type="text" name="positionTo" value="${workWithItemMaster.positionTo}" size="10" maxlength="10" />
+			</div>
+		</div>
+		<div style="margin-left: 5%; top: 25%; width: 93%;" class="panel">
+				<table>
+					<th>
+					Action
+					</th>
+					<th>
+					Alpha search
+					</th>
+					<th>
+					Item Description
+					</th>
+					<th>
+					Item Number
+					</th>
+					<c:forEach items="${workWithItemMaster.workWithItemMasterRecords}" var="item">
+					<tr>
+						<td>
+							<select id="action_" name="action_" onchange="doPost()">
+								<option value="">-Select-</option>
+								<option value="2">Revise</option>
+								<option value="4">Delete</option>
+								<option value="5">Display</option>
+							</select>
+						</td>
+						<td>${item.alphaSearch}</td>
+						<td>${item.itemDescription}</td>
+						<td>${item.itemNumber}</td>
+					</tr>
+					</c:forEach>
+				</table>
+				<div>
+					<a href="javascript:doPost('WorkWithItemMasterForm','previous')">Previous</a>
+					| 
+					<a href="javascript:doPost('WorkWithItemMasterForm','next')">Next</a> 
+				</div>
+		</div>
+		
+	</form>
+</div>
+		
