@@ -8,9 +8,12 @@ import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenIdentification;
+import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,5 +142,13 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 			}
 		}
 		return childs;
+	}
+
+	public List<ScreenFieldDefinition> getSortedFields() {
+		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
+
+		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
+		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
+		return sortedFields;
 	}
 }

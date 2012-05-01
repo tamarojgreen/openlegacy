@@ -95,7 +95,7 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void createWebPage(IFile screenEntitySourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			OverrideConfirmer overrideConfirmer) {
+			OverrideConfirmer overrideConfirmer, boolean generateHelp) {
 
 		File projectPath = new File(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
 				DesignTimeExecuterImpl.TEMPLATES_DIR);
@@ -107,6 +107,7 @@ public class EclipseDesignTimeExecuter {
 		generatePageRequest.setPackageDirectoryName(PathsUtil.packageToPath(packageDir));
 		generatePageRequest.setTemplatesDir(projectPath);
 		generatePageRequest.setOverrideConfirmer(overrideConfirmer);
+		generatePageRequest.setGenerateHelp(generateHelp);
 		designTimeExecuter.createWebPage(generatePageRequest);
 
 	}

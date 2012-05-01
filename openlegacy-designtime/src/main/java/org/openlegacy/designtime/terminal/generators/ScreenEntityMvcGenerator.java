@@ -33,6 +33,7 @@ import javax.inject.Inject;
 public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	private static final String VIEWS_DIR = "src/main/webapp/WEB-INF/views/";
+	private static final String HELP_DIR = "src/main/webapp/help/";
 
 	private static final String TILES_VIEWS_FILE = VIEWS_DIR + "/views.xml";
 	private static final String TILES_VIEW_PLACEHOLDER_START = "<!-- Marker for code generation start";
@@ -51,7 +52,10 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	private static final CharSequence TILES_VIEW_PLACEHOLDER = "<!-- Place holder for code generation -->";
 
 	@Inject
-	GenerateUtil generateUtil;
+	private GenerateUtil generateUtil;
+
+	@Inject
+	private HelpGenerator helpGenerator;
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityMvcGenerator.class);
 
@@ -185,6 +189,22 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 					// add view for composite screen
 					updateViewsFile(generatePageRequest.getProjectDir(), screenEntityDefinition, viewName + COMPOSITE_SUFFIX,
 							COMPOSITE_TEMPLATE);
+				}
+			}
+			if (generatePageRequest.isGenerateHelp()) {
+				boolean generateHelp = true;
+				File helpFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format("{0}{1}.html", HELP_DIR,
+						entityClassName));
+				if (helpFile.exists()) {
+					boolean override = overrideConfirmer.isOverride(helpFile);
+					if (!override) {
+						generateHelp = false;
+					}
+				}
+				if (generateHelp) {
+					helpFile.getParentFile().mkdirs();
+					OutputStream out = new FileOutputStream(helpFile);
+					helpGenerator.generate(screenEntityDefinition, out);
 				}
 
 			}

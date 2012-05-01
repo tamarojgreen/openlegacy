@@ -106,9 +106,16 @@ public abstract class AbstractGenerateDialog extends Dialog implements OverrideC
 			}
 		});
 
+		new Label(parent, SWT.NONE);
+
+		createDialogSpecific(parent);
 		loadPrefrences();
 
 		return parent;
+	}
+
+	protected void createDialogSpecific(Composite parent) {
+		// empty to allow override
 	}
 
 	protected abstract void loadPrefrences();
