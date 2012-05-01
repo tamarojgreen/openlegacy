@@ -194,7 +194,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<warName>openlegacy-mvc-sample</warName>
+					<warName>openlegacy-mvc-vanilla</warName>
 				</configuration>
 			</plugin>
 			<plugin>
