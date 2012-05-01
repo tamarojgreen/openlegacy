@@ -9,6 +9,7 @@ public class GeneratePageRequest {
 	private File sourceDirectory;
 	private String packageDirectoryName;
 	private File templatesDir;
+	private boolean generateHelp;
 	private OverrideConfirmer overrideConfirmer;
 
 	public File getProjectDir() {
@@ -59,4 +60,11 @@ public class GeneratePageRequest {
 		this.overrideConfirmer = overrideConfirmer;
 	}
 
+	public boolean isGenerateHelp() {
+		return generateHelp;
+	}
+
+	public void setGenerateHelp(boolean generateHelp) {
+		this.generateHelp = generateHelp;
+	}
 }

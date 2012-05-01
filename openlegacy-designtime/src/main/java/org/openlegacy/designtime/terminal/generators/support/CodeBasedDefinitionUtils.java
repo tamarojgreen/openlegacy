@@ -46,6 +46,7 @@ public class CodeBasedDefinitionUtils {
 		containerPrefix = !StringUtil.isEmpty(containerPrefix) ? containerPrefix + "." : "";
 
 		Collection<Field> fields = codeModel.getFields();
+
 		Map<String, ScreenFieldDefinition> fieldDefinitions = new TreeMap<String, ScreenFieldDefinition>();
 		for (Field javaFieldModel : fields) {
 			if (!javaFieldModel.isScreenField()) {

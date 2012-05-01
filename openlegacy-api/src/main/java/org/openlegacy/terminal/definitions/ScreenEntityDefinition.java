@@ -63,4 +63,7 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	 * @return
 	 */
 	Set<ScreenEntityDefinition> getAllChildScreensDefinitions();
+
+	List<ScreenFieldDefinition> getSortedFields();
+
 }

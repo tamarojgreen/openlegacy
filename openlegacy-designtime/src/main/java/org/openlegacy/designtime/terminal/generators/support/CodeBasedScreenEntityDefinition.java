@@ -14,8 +14,12 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.spi.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenSize;
+import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -157,6 +161,13 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 			allChildScreens = CodeBasedDefinitionUtils.getAllChildScreensDefinitions(codeModel, packageDir);
 		}
 		return allChildScreens;
+	}
+
+	public List<ScreenFieldDefinition> getSortedFields() {
+		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
+		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
+		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
+		return sortedFields;
 	}
 
 }

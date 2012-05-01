@@ -3,32 +3,32 @@
 package org.openlegacy.terminal.samples.mvc.controllers;
 
 import java.util.*;
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-
-import org.openlegacy.terminal.samples.model.*;
-
-import java.text.SimpleDateFormat;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-
+import org.apache.commons.io.IOUtils;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.samples.model.WorkWithWarehouseDetails1;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.web.JsonSerializationUtil;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.openlegacy.terminal.samples.model.WorkWithWarehouseDetails1;
+import java.io.IOException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails1Controller_Aspect {
 
@@ -47,6 +47,16 @@ privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails1Controlle
         return "WorkWithWarehouseDetails1";
     }
 
+    @RequestMapping(value="/help", method = RequestMethod.GET)
+    public @ResponseBody String WorkWithWarehouseDetails1Controller.systemHelp(HttpServletRequest request) throws IOException {
+    	URL resource = request.getSession().getServletContext().getResource("/help/WorkWithWarehouseDetails1.html");
+    	String result = "";
+    	if (resource != null){
+    		result = IOUtils.toString(resource.openStream());
+    	}
+    	return result;
+    }
+    
 	// handle submit action
     @RequestMapping(method = RequestMethod.POST)
     public String WorkWithWarehouseDetails1Controller.submit(WorkWithWarehouseDetails1 workWithWarehouseDetails1, Model uiModel, HttpServletRequest httpServletRequest) {

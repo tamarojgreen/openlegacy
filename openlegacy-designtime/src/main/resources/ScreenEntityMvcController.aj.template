@@ -6,8 +6,12 @@ import java.util.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.IOUtils;
 import ${entityDefinition.packageName}.*;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
@@ -45,6 +49,16 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
 	// show the resulting page for ${entityDefinition.entityClassName}
         return "${entityDefinition.entityClassName}";
+    }
+
+    @RequestMapping(value="/help", method = RequestMethod.GET)
+    public @ResponseBody String ${entityDefinition.entityClassName}Controller.systemHelp(HttpServletRequest request) throws IOException {
+    	URL resource = request.getSession().getServletContext().getResource("/help/${entityDefinition.entityName?uncap_first}.html");
+    	String result = "";
+    	if (resource != null){
+    		result = IOUtils.toString(resource.openStream());
+    	}
+    	return result;
     }
 
 	<@postMethod actionName="ENTER" actionAlias="submit" params="" />

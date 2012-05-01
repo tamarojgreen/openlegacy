@@ -16,6 +16,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.ide.eclipse.PluginConstants;
@@ -25,6 +28,7 @@ import org.openlegacy.ide.eclipse.util.Prefrences;
 public class GenerateWebPageDialog extends AbstractGenerateDialog {
 
 	private final static Logger logger = Logger.getLogger(GenerateWebPageDialog.class);
+	private Button generateHelpBtn;
 
 	protected GenerateWebPageDialog(Shell shell, ISelection selection) {
 		super(shell, selection);
@@ -33,6 +37,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 	@Override
 	protected void executeGenerate() {
 
+		final boolean generateHelp = generateHelpBtn.getSelection();
 		Job job = new Job("Generating web page") {
 
 			@Override
@@ -47,7 +52,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 						final IFile screenEntitySourceFile = (IFile)((ICompilationUnit)treePath.getLastSegment()).getResource();
 
 						EclipseDesignTimeExecuter.instance().createWebPage(screenEntitySourceFile, getSourceFolder(),
-								getPackageValue(), GenerateWebPageDialog.this);
+								getPackageValue(), GenerateWebPageDialog.this, generateHelp);
 
 						monitor.worked(1);
 
@@ -73,6 +78,13 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 			}
 		};
 		job.schedule();
+	}
+
+	@Override
+	protected void createDialogSpecific(Composite parent) {
+		generateHelpBtn = new Button(parent, SWT.CHECK);
+		generateHelpBtn.setText("Generate Help");
+		generateHelpBtn.setSelection(true);
 	}
 
 	@Override

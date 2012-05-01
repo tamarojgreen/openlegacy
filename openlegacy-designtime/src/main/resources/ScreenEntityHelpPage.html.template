@@ -1,0 +1,24 @@
+<html>
+<head>
+<style>
+label {
+	font-weight: bold;
+}
+
+div {
+	margin-bottom: 5px;
+}
+</style>
+</head>
+<body>
+	<h1>Help for ${displayName}</h1>
+
+	<p>Description for ${displayName}</p>
+
+	<#list sortedFields as field>
+	<div>
+		<label>${field.displayName}:</label><span>Description for ${field.displayName}</span>
+	</div>
+	</#list>
+</body>
+</html>
