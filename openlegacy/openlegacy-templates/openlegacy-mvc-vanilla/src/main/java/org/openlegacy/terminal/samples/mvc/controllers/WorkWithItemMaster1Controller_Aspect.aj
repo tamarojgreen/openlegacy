@@ -6,8 +6,11 @@ import java.util.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.openlegacy.terminal.samples.model.*;
+import org.apache.commons.io.IOUtils;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
@@ -45,6 +48,16 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1Controller_Aspe
 	uiModel.addAttribute("workWithItemMaster1", workWithItemMaster1);
 	// show the resulting page for WorkWithItemMaster1
         return "WorkWithItemMaster1";
+    }
+
+    @RequestMapping(value="/help", method = RequestMethod.GET)
+    public @ResponseBody String WorkWithItemMaster1Controller.systemHelp(HttpServletRequest request) throws IOException {
+    	URL resource = request.getSession().getServletContext().getResource("/help/workWithItemMaster1.html");
+    	String result = "";
+    	if (resource != null){
+    		result = IOUtils.toString(resource.openStream());
+    	}
+    	return result;
     }
 
 	// handle submit action

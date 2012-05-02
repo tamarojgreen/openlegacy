@@ -6,8 +6,11 @@ import java.util.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.openlegacy.terminal.samples.model.*;
+import org.apache.commons.io.IOUtils;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
@@ -45,6 +48,16 @@ privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails1Controlle
 	uiModel.addAttribute("workWithWarehouseDetails1", workWithWarehouseDetails1);
 	// show the resulting page for WorkWithWarehouseDetails1
         return "WorkWithWarehouseDetails1";
+    }
+
+    @RequestMapping(value="/help", method = RequestMethod.GET)
+    public @ResponseBody String WorkWithWarehouseDetails1Controller.systemHelp(HttpServletRequest request) throws IOException {
+    	URL resource = request.getSession().getServletContext().getResource("/help/workWithWarehouseDetails1.html");
+    	String result = "";
+    	if (resource != null){
+    		result = IOUtils.toString(resource.openStream());
+    	}
+    	return result;
     }
 
 	// handle submit action
@@ -134,20 +147,6 @@ privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails1Controlle
 		
     }
 	
-	
-	// handle ajax request for warehouseType field
-	@RequestMapping(value="/warehouseType", method = RequestMethod.GET)
-    @ResponseBody
-	public ResponseEntity<String> WorkWithWarehouseDetails1Controller.WarehouseTypeJson() {
-    	WorkWithWarehouseDetails1 workWithWarehouseDetails1 = terminalSession.getEntity(WorkWithWarehouseDetails1.class);
-    	
-		HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/text; charset=utf-8");
-		Map<Object,Object> warehouseTypeValues = workWithWarehouseDetails1.getWarehouseTypeValues();
-		
-		String result = JsonSerializationUtil.toDojoFormat(warehouseTypeValues);
-        return new ResponseEntity<String>(result, headers, HttpStatus.OK);
-    }
 	
 	@InitBinder
 	public void WorkWithWarehouseDetails1Controller.initBinder(WebDataBinder binder) {

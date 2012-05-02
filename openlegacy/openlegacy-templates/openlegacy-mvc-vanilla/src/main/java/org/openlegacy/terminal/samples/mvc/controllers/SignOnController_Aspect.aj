@@ -6,8 +6,6 @@ import java.util.*;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.openlegacy.terminal.samples.model.*;
-
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
