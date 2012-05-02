@@ -135,62 +135,6 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				logger.info(MessageFormat.format("Generated controller : {0}", contollerFile.getAbsoluteFile()));
 			}
 
-			if (generateController) {
-				File contollerAspectFile = new File(packageDir, entityClassName + "Controller_Aspect.aj");
-				fos = new FileOutputStream(contollerAspectFile);
-				generateControllerAspect(pageDefinition, fos);
-				fos.close();
-				logger.info(MessageFormat.format("Generated controller aspect: {0}", contollerAspectFile.getAbsoluteFile()));
-			}
-
-			File webPageFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format("{0}{1}.jspx", VIEWS_DIR,
-					entityClassName));
-			boolean webPageFileExists = webPageFile.exists();
-			if (webPageFileExists) {
-				boolean override = overrideConfirmer.isOverride(webPageFile);
-				if (!override) {
-					return;
-				}
-			}
-			fos = new FileOutputStream(webPageFile);
-			generatePage(pageDefinition, fos);
-			fos.close();
-			logger.info(MessageFormat.format("Generated jspx file: {0}", webPageFile.getAbsoluteFile()));
-
-			// generate a composite page (with tabs)
-			if (isComposite) {
-				File webPageCompositeFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format(
-						"{0}{1}Composite.jspx", VIEWS_DIR, entityClassName));
-				fos = new FileOutputStream(webPageCompositeFile);
-				generateCompositePage(screenEntityDefinition, fos);
-				List<ScreenEntityDefinition> childScreens = screenEntityDefinition.getChildScreensDefinitions();
-				// generate page content for each of the child screens
-				for (ScreenEntityDefinition childScreenDefinition : childScreens) {
-					generateAll(generatePageRequest, childScreenDefinition, true);
-				}
-			}
-
-			// update views file only if web page wasn't exists (if exists, it's probably registered in views.xml)
-			if (!webPageFileExists) {
-				// mvc template type is the name of a template file defined in layouts.xml
-				String mvcTemplateType = (isComposite || isChild) ? VIEW_ONLY_TEMPLATE : DEFAULT_TEMPLATE;
-				if (screenEntityDefinition.getTypeName().equals(Login.LoginEntity.class.getSimpleName())) {
-					mvcTemplateType = PUBLIC_TEMPLATE;
-				}
-				if (screenEntityDefinition.getTypeName().equals(Menu.MenuEntity.class.getSimpleName())) {
-					mvcTemplateType = MENU_TEMPLATE;
-				}
-
-				String viewName = screenEntityDefinition.getEntityClassName();
-
-				updateViewsFile(generatePageRequest.getProjectDir(), screenEntityDefinition, viewName, mvcTemplateType);
-
-				if (isComposite) {
-					// add view for composite screen
-					updateViewsFile(generatePageRequest.getProjectDir(), screenEntityDefinition, viewName + COMPOSITE_SUFFIX,
-							COMPOSITE_TEMPLATE);
-				}
-			}
 			if (generatePageRequest.isGenerateHelp()) {
 				boolean generateHelp = true;
 				File helpFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format("{0}{1}.html", HELP_DIR,
@@ -205,6 +149,66 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 					helpFile.getParentFile().mkdirs();
 					OutputStream out = new FileOutputStream(helpFile);
 					helpGenerator.generate(pageDefinition, out);
+				}
+			}
+
+			if (generateController) {
+				File contollerAspectFile = new File(packageDir, entityClassName + "Controller_Aspect.aj");
+				fos = new FileOutputStream(contollerAspectFile);
+				generateControllerAspect(pageDefinition, fos);
+				fos.close();
+				logger.info(MessageFormat.format("Generated controller aspect: {0}", contollerAspectFile.getAbsoluteFile()));
+			}
+
+			File webPageFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format("{0}{1}.jspx", VIEWS_DIR,
+					entityClassName));
+			boolean webPageFileExists = webPageFile.exists();
+			boolean generateWebPage = true;
+			if (webPageFileExists) {
+				boolean override = overrideConfirmer.isOverride(webPageFile);
+				if (!override) {
+					generateWebPage = false;
+				}
+			}
+			if (generateWebPage) {
+				fos = new FileOutputStream(webPageFile);
+				generatePage(pageDefinition, fos);
+				fos.close();
+				logger.info(MessageFormat.format("Generated jspx file: {0}", webPageFile.getAbsoluteFile()));
+
+				// generate a composite page (with tabs)
+				if (isComposite) {
+					File webPageCompositeFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format(
+							"{0}{1}Composite.jspx", VIEWS_DIR, entityClassName));
+					fos = new FileOutputStream(webPageCompositeFile);
+					generateCompositePage(screenEntityDefinition, fos);
+					List<ScreenEntityDefinition> childScreens = screenEntityDefinition.getChildScreensDefinitions();
+					// generate page content for each of the child screens
+					for (ScreenEntityDefinition childScreenDefinition : childScreens) {
+						generateAll(generatePageRequest, childScreenDefinition, true);
+					}
+				}
+
+				// update views file only if web page wasn't exists (if exists, it's probably registered in views.xml)
+				if (!webPageFileExists) {
+					// mvc template type is the name of a template file defined in layouts.xml
+					String mvcTemplateType = (isComposite || isChild) ? VIEW_ONLY_TEMPLATE : DEFAULT_TEMPLATE;
+					if (screenEntityDefinition.getTypeName().equals(Login.LoginEntity.class.getSimpleName())) {
+						mvcTemplateType = PUBLIC_TEMPLATE;
+					}
+					if (screenEntityDefinition.getTypeName().equals(Menu.MenuEntity.class.getSimpleName())) {
+						mvcTemplateType = MENU_TEMPLATE;
+					}
+
+					String viewName = screenEntityDefinition.getEntityClassName();
+
+					updateViewsFile(generatePageRequest.getProjectDir(), screenEntityDefinition, viewName, mvcTemplateType);
+
+					if (isComposite) {
+						// add view for composite screen
+						updateViewsFile(generatePageRequest.getProjectDir(), screenEntityDefinition, viewName + COMPOSITE_SUFFIX,
+								COMPOSITE_TEMPLATE);
+					}
 				}
 
 			}
