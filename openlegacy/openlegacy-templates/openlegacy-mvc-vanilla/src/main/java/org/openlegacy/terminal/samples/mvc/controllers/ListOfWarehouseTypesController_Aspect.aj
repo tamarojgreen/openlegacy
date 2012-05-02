@@ -52,7 +52,7 @@ privileged @SuppressWarnings("unused") aspect ListOfWarehouseTypesController_Asp
 
     @RequestMapping(value="/help", method = RequestMethod.GET)
     public @ResponseBody String ListOfWarehouseTypesController.systemHelp(HttpServletRequest request) throws IOException {
-    	URL resource = request.getSession().getServletContext().getResource("/help/listOfWarehouseTypes.html");
+    	URL resource = request.getSession().getServletContext().getResource("/help/ListOfWarehouseTypes.html");
     	String result = "";
     	if (resource != null){
     		result = IOUtils.toString(resource.openStream());

@@ -52,7 +52,7 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster2Controller_Aspe
 
     @RequestMapping(value="/help", method = RequestMethod.GET)
     public @ResponseBody String WorkWithItemMaster2Controller.systemHelp(HttpServletRequest request) throws IOException {
-    	URL resource = request.getSession().getServletContext().getResource("/help/workWithItemMaster2.html");
+    	URL resource = request.getSession().getServletContext().getResource("/help/WorkWithItemMaster2.html");
     	String result = "";
     	if (resource != null){
     		result = IOUtils.toString(resource.openStream());

@@ -15,6 +15,7 @@
 
   <definition name="emulation" template="/template/template.jspx">
     <put-attribute name="header" value="/template/header.jspx" />
+    <put-attribute name="menu" value="/template/menu.jspx" />
     <put-attribute name="footer" value="/template/footer.jspx" />
   </definition>
   
@@ -22,6 +23,7 @@
     <put-attribute name="header" value="/template/header.jspx" />
     <put-attribute name="menu" value="/template/menu.jspx" />
     <put-attribute name="footer" value="/template/footer.jspx" />
+    <put-attribute name="breadcrumb" value="/template/breadcrumb.jspx" />
   </definition>
 
   <definition name="compositeTemplate" template="/template/template.jspx">
@@ -34,11 +36,9 @@
     <put-attribute name="actions" value="/template/ajaxActions.jspx" />
   </definition>
 
-  <definition name="flatView" template="/template/view.jspx">
-  </definition>
-
   <definition name="public" template="/template/template.jspx">
     <put-attribute name="header" value="/template/header.jspx" />
+    <put-attribute name="footer" value="/template/footer.jspx" />
   </definition>
 
 </tiles-definitions>

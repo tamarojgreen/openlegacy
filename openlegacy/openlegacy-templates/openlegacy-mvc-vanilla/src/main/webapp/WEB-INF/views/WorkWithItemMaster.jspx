@@ -13,7 +13,7 @@
 		<input type="text" name="positionTo" value="${workWithItemMaster.positionTo}" size="10" maxlength="10" />
 			</div>
 		</div>
-		<div style="margin-left: 5%; top: 25%; width: 93%;" class="panel">
+		<div style="margin-left: 5%; top: 25%; width: 73%;" class="panel">
 				<table>
 					<th>
 					Action
@@ -43,10 +43,10 @@
 					</tr>
 					</c:forEach>
 				</table>
-				<div>
-					<a href="javascript:doPost('WorkWithItemMasterForm','previous')">Previous</a>
+				<div class="paging">
+					<a href="javascript:doPost('WorkWithWarehouseDetailsForm','previous')">&lt; Previous</a>
 					| 
-					<a href="javascript:doPost('WorkWithItemMasterForm','next')">Next</a> 
+					<a href="javascript:doPost('WorkWithWarehouseDetailsForm','next')">Next &gt;</a> 
 				</div>
 		</div>
 		
