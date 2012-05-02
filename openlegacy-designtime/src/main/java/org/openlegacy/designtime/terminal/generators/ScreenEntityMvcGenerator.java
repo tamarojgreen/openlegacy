@@ -204,7 +204,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				if (generateHelp) {
 					helpFile.getParentFile().mkdirs();
 					OutputStream out = new FileOutputStream(helpFile);
-					helpGenerator.generate(screenEntityDefinition, out);
+					helpGenerator.generate(pageDefinition, out);
 				}
 
 			}

@@ -2,7 +2,7 @@ package org.openlegacy.designtime.terminal.generators;
 
 import freemarker.template.TemplateException;
 
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.layout.PageDefinition;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,9 +19,9 @@ public class HelpGenerator {
 	@Inject
 	private GenerateUtil generateUtil;
 
-	public void generate(ScreenEntityDefinition screenEntityDefinition, OutputStream out) throws TemplateException, IOException {
+	public void generate(PageDefinition pageDefinition, OutputStream out) throws TemplateException, IOException {
 
-		generateUtil.generate(screenEntityDefinition, out, "ScreenEntityHelpPage.html.template");
+		generateUtil.generate(pageDefinition, out, "ScreenEntityHelpPage.html.template");
 
 	}
 }

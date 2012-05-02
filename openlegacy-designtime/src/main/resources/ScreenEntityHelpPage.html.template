@@ -1,24 +1,39 @@
 <html>
 <head>
 <style>
-label {
+.help label {
 	font-weight: bold;
 }
 
-div {
+.help div {
 	margin-bottom: 5px;
 }
 </style>
 </head>
 <body>
-	<h1>Help for ${displayName}</h1>
+	<h1> ${entityDefinition.displayName}</h1>
 
-	<p>Description for ${displayName}</p>
+	<div class="help">
+	
+	<p>Description for ${entityDefinition.displayName}</p>
 
-	<#list sortedFields as field>
-	<div>
-		<label>${field.displayName}:</label><span>Description for ${field.displayName}</span>
-	</div>
+	<#list pageParts as pagePart>
+		<hr/>
+		<#list pagePart.partRows as partRow>
+			<#list partRow.fields as field>
+		<div>
+			<label>${field.displayName}:</label><span>Description for ${field.displayName}</span>
+		</div>
+			</#list>
+		</#list>
+		<#if pagePart.tableDefinition??>
+			<#list pagePart.tableDefinition.columnDefinitions as column>
+		<div>
+			<label>${column.displayName}:</label><span>Description for Column ${column.displayName}</span>
+		</div>
+			</#list>
+		</#if>
 	</#list>
+	
 </body>
 </html>
