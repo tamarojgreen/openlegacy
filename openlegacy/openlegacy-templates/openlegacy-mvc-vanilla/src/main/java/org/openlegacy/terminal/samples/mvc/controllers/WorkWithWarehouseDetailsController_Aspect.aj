@@ -52,7 +52,7 @@ privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetailsController
 
     @RequestMapping(value="/help", method = RequestMethod.GET)
     public @ResponseBody String WorkWithWarehouseDetailsController.systemHelp(HttpServletRequest request) throws IOException {
-    	URL resource = request.getSession().getServletContext().getResource("/help/workWithWarehouseDetails.html");
+    	URL resource = request.getSession().getServletContext().getResource("/help/WorkWithWarehouseDetails.html");
     	String result = "";
     	if (resource != null){
     		result = IOUtils.toString(resource.openStream());

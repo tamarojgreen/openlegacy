@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" id="footer" version="2.0">
-  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
-  <jsp:output omit-xml-declaration="yes"/>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags" id="footer"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
 
-<a href="logoff">Logoff</a>
- | 
-<a href="trail/download">Download trail</a>
- |
-<a href="javascript:location.href=location.href">Refresh</a>
+	<div id="helpDialog" data-dojo-type="dijit.Dialog"
+		style="margin-left:39%;width:270px;height:500px; overflow: auto;" title="System Help"
+		data-dojo-props="parseOnLoad: true, draggable:false,duration:600"></div>
 
 </div>

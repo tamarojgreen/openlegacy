@@ -20,6 +20,7 @@
 
 		<div class="element" title="Menu"
 			data-dojo-type="dijit.layout.ContentPane">
+			<c:if test="${definitions != null}">
 			<div id="navMenu" data-dojo-type="dijit.Menu">
 				<c:forEach items="${menu.menuItems}" var="menuItem">
 					<div id="navMenuPopupItem_${menuItem.targetEntity.simpleName}"
@@ -36,12 +37,15 @@
 					</div>
 				</c:forEach>
 			</div>
+			</c:if>
 			<p>
 				<a href="logoff">Logoff</a>
 			</p>
+			<c:if test="definitions">
 			<p>
 				<a href="javascript:showHelp();">Help</a>
 			</p>
+			</c:if>
 		</div>
 
 		<div class="element" title="Tools"

@@ -52,7 +52,7 @@ privileged @SuppressWarnings("unused") aspect InventoryManagementController_Aspe
 
     @RequestMapping(value="/help", method = RequestMethod.GET)
     public @ResponseBody String InventoryManagementController.systemHelp(HttpServletRequest request) throws IOException {
-    	URL resource = request.getSession().getServletContext().getResource("/help/inventoryManagement.html");
+    	URL resource = request.getSession().getServletContext().getResource("/help/InventoryManagement.html");
     	String result = "";
     	if (resource != null){
     		result = IOUtils.toString(resource.openStream());
