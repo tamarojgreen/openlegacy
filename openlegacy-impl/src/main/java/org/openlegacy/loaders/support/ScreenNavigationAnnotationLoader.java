@@ -34,7 +34,7 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 
 		navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
 		navigationDefinition.setExitAction(ReflectionUtil.newInstance(screenNavigation.exitAction()));
-
+		navigationDefinition.setRequiresParamaters(screenNavigation.requiresParameters());
 		AssignedField[] assignedFields = screenNavigation.assignedFields();
 		for (AssignedField assignedField : assignedFields) {
 			String value = assignedField.value();

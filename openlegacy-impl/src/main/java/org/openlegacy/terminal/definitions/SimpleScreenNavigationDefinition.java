@@ -11,6 +11,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition {
 	private List<FieldAssignDefinition> assignedFields = new ArrayList<FieldAssignDefinition>();
 	private TerminalAction terminalAction;
 	private TerminalAction exitAction;
+	private boolean requiresParameters;
 
 	public Class<?> getAccessedFrom() {
 		return accessedFrom;
@@ -38,6 +39,14 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition {
 
 	public void setExitAction(TerminalAction exitAction) {
 		this.exitAction = exitAction;
+	}
+
+	public boolean isRequiresParameters() {
+		return requiresParameters;
+	}
+
+	public void setRequiresParamaters(boolean requiresParameters) {
+		this.requiresParameters = requiresParameters;
 	}
 
 }

@@ -107,7 +107,7 @@
 			<input type="hidden" id="description" name="description" />
 			<div data-dojo-type="dijit.TitlePane" id="_description" 
 				data-dojo-props="title: 'Full Description', open:false">
-				<div data-dojo-type="dijit.Editor" onkeyup="dojo.byId('description').value = this.getValue();alert(this.getValue());">${stockItem.description}</div>
+				<div data-dojo-type="dijit.Editor" onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
 			</div>
 		</div>
 

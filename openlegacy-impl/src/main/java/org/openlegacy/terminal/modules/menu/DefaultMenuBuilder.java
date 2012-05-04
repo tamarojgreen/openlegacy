@@ -99,7 +99,13 @@ public class DefaultMenuBuilder implements MenuBuilder {
 			return null;
 		}
 
-		String displayName = screenEntitiesRegistry.get(rootClass).getDisplayName();
+		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(rootClass);
+
+		if (screenEntityDefinition.getNavigationDefinition().isRequiresParameters()) {
+			return null;
+		}
+
+		String displayName = screenEntityDefinition.getDisplayName();
 		MenuItem menuItem = new SimpleMenuItem(rootClass, displayName);
 
 		if (!allMenusOptions.containsKey(rootClass)) {
