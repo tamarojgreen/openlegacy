@@ -43,9 +43,14 @@
 					</c:forEach>
 				</table>
 				<div class="paging">
-					<a href="javascript:doPost('WorkWithWarehouseDetailsForm','previous')">&lt; Previous</a>
+					<a href="javascript:doAjaxPost('${entityDefinition.entityName}Form','container','previous','body')">&lt; Previous</a>
 					| 
-					<a href="javascript:doPost('WorkWithWarehouseDetailsForm','next')">Next &gt;</a> 
+					<a href="javascript:doAjaxPost('${entityDefinition.entityName}Form','container','next','body')">Next &gt;</a> 
+				</div>
+				<div class="paging">
+					<a href="javascript:doAjaxPost('WorkWithWarehouseDetailsForm','container','previous','body')">&lt; Previous</a>
+					| 
+					<a href="javascript:doAjaxPost('WorkWithWarehouseDetailsForm','container','next','body')">Next &gt;</a> 
 				</div>
 		</div>
 

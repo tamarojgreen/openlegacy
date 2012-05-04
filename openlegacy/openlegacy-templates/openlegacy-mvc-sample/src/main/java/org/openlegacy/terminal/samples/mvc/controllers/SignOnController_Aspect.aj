@@ -32,9 +32,6 @@ import org.openlegacy.terminal.samples.model.SignOn;
 privileged @SuppressWarnings("unused") aspect SignOnController_Aspect {
 
 	@Inject
-	private TerminalSession SignOnController.terminalSession;
-
-	@Inject
 	private ScreenEntitiesRegistry SignOnController.screenEntitiesRegistry;
 
 	// handle page initial display
@@ -44,26 +41,5 @@ privileged @SuppressWarnings("unused") aspect SignOnController_Aspect {
 		uiModel.addAttribute("signOn", signOn);
         return "SignOn";
     }
-    
-	// handle submit action
-    @RequestMapping(method = RequestMethod.POST)
-    public String SignOnController.submit(SignOn signOn, Model uiModel, HttpServletRequest httpServletRequest) {
-    	try{
-        	terminalSession.getModule(Login.class).login(signOn);
-    	}
-    	catch(LoginException e){
-    		// errorMessage is assigned within login method
-    		return "SignOn";
-    	}
-
-    	// find the main menu screen and navigate to it
-    	MenuItem mainMenu = terminalSession.getModule(Menu.class).getMenuTree();
-    	if (mainMenu != null){
-    		Class<?> mainMenuEntity = mainMenu.getTargetEntity();
-           	return "redirect:" + screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
-		}
-    	return "redirect:HtmlEmulation";
-    }
-
 	
 }

@@ -41,7 +41,7 @@
 			<p>
 				<a href="logoff">Logoff</a>
 			</p>
-			<c:if test="definitions">
+			<c:if test="${definitions != null}">
 			<p>
 				<a href="javascript:showHelp();">Help</a>
 			</p>
