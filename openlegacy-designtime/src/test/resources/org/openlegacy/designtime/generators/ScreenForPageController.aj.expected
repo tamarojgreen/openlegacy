@@ -10,6 +10,8 @@ import org.apache.commons.io.IOUtils;
 import org.openlegacy.terminal.layout.mock.*;
 
 import java.io.IOException;
+import org.openlegacy.modules.table.Table;
+import org.openlegacy.modules.table.TableWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -42,6 +44,9 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	@Inject
 	private ScreenEntitiesRegistry ScreenForPageController.screenEntitiesRegistry;
 
+	@Inject
+	private TableWriter ScreenForPageController.tableWriter;
+	
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET)
     public String ScreenForPageController.show(Model uiModel) {
@@ -147,6 +152,16 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
     	return "redirect:/";
 		
     }
+	
+	// export to excel
+    @RequestMapping(value="/excel", method = RequestMethod.GET)
+    public void ScreenForPageController.excel(HttpServletResponse response) throws IOException {
+    	List<ScreenForPage.ScreenForPageRecord> records = terminalSession.getModule(Table.class).collectOne(ScreenForPage.class,ScreenForPage.ScreenForPageRecord.class);
+		response.setContentType("application/vnd.ms-excel");
+		response.addHeader("Content-Disposition", "attachment; filename=\"ScreenForPage.xls\"");
+    	tableWriter.writeTable(records, response.getOutputStream());
+    }
+	
 	
 	
 	// handle ajax request for fldRow10 field

@@ -43,6 +43,9 @@
 					</tr>
 					</c:forEach>
 				</table>
+				<div class="excel">
+					<a href="WorkWithItemMaster/excel"><img src="images/excel.jpg" /></a>
+				</div>
 				<div class="paging">
 					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','previous','body')">&lt; Previous</a>
 					| 

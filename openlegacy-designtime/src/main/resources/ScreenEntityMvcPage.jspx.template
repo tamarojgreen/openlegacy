@@ -50,6 +50,9 @@
 					</tr>
 					</c:forEach>
 				</table>
+				<div class="excel">
+					<a href="${entityDefinition.entityName}/excel"><img src="images/excel.jpg" /></a>
+				</div>
 				<div class="paging">
 					<a href="javascript:doAjaxPost('${entityDefinition.entityName}Form','container','previous','body')">&lt; Previous</a>
 					| 

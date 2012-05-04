@@ -42,10 +42,8 @@
 					</tr>
 					</c:forEach>
 				</table>
-				<div class="paging">
-					<a href="javascript:doAjaxPost('${entityDefinition.entityName}Form','container','previous','body')">&lt; Previous</a>
-					| 
-					<a href="javascript:doAjaxPost('${entityDefinition.entityName}Form','container','next','body')">Next &gt;</a> 
+				<div class="excel">
+					<a href="WorkWithWarehouseDetails/excel"><img src="images/excel.jpg" /></a>
 				</div>
 				<div class="paging">
 					<a href="javascript:doAjaxPost('WorkWithWarehouseDetailsForm','container','previous','body')">&lt; Previous</a>

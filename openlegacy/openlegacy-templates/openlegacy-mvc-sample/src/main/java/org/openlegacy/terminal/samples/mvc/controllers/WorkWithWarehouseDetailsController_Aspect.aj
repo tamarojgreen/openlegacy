@@ -3,10 +3,14 @@
 package org.openlegacy.terminal.samples.mvc.controllers;
 
 import java.util.*;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.openlegacy.modules.table.Table;
+import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.terminal.samples.model.*;
 
 import java.io.IOException;
@@ -41,6 +45,9 @@ privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetailsController
 	@Inject
 	private ScreenEntitiesRegistry WorkWithWarehouseDetailsController.screenEntitiesRegistry;
 
+	@Inject
+	private TableWriter WorkWithWarehouseDetailsController.tableWriter;
+	
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET)
     public String WorkWithWarehouseDetailsController.show(Model uiModel) {
@@ -181,6 +188,14 @@ privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetailsController
 		
     }
 	
+	// export to excel
+    @RequestMapping(value="/excel", method = RequestMethod.GET)
+    public void WorkWithWarehouseDetailsController.excel(HttpServletResponse response) throws IOException {
+    	List<WorkWithWarehouseDetails.WorkWithWarehouseDetailsRecord> records = terminalSession.getModule(Table.class).collectOne(WorkWithWarehouseDetails.class,WorkWithWarehouseDetails.WorkWithWarehouseDetailsRecord.class);
+		response.setContentType("application/vnd.ms-excel");
+		response.addHeader("Content-Disposition", "attachment; filename=\"WorkWithWarehouseDetails.xls\"");
+    	tableWriter.writeTable(records, response.getOutputStream());
+    }
 	
 	@InitBinder
 	public void WorkWithWarehouseDetailsController.initBinder(WebDataBinder binder) {

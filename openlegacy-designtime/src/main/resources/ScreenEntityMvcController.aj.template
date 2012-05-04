@@ -10,6 +10,8 @@ import org.apache.commons.io.IOUtils;
 import ${entityDefinition.packageName}.*;
 
 import java.io.IOException;
+import org.openlegacy.modules.table.Table;
+import org.openlegacy.modules.table.TableWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -42,6 +44,11 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	@Inject
 	private ScreenEntitiesRegistry ${entityDefinition.entityClassName}Controller.screenEntitiesRegistry;
 
+	<#if entityDefinition.tableDefinitions?size &gt; 0>
+	@Inject
+	private TableWriter ${entityDefinition.entityClassName}Controller.tableWriter;
+	</#if>
+	
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childScreensDefinitions?size &gt; 0>, params="partial=1"</#if>)
     public String ${entityDefinition.entityClassName}Controller.show(Model uiModel) {
@@ -69,6 +76,16 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	<#if entityDefinition.tableDefinitions?size &gt; 0>
 	<@postMethod actionName="PAGEUP" actionAlias="previous" params="previous" />
 	<@postMethod actionName="PAGEDOWN" actionAlias="next" params="next" />
+	
+	// export to excel
+    @RequestMapping(value="/excel", method = RequestMethod.GET)
+    public void ${entityDefinition.entityClassName}Controller.excel(HttpServletResponse response) throws IOException {
+    	List<${entityDefinition.entityClassName}.${entityDefinition.entityClassName}Record> records = terminalSession.getModule(Table.class).collectOne(${entityDefinition.entityClassName}.class,${entityDefinition.entityClassName}.${entityDefinition.entityClassName}Record.class);
+		response.setContentType("application/vnd.ms-excel");
+		response.addHeader("Content-Disposition", "attachment; filename=\"${entityDefinition.entityClassName}.xls\"");
+    	tableWriter.writeTable(records, response.getOutputStream());
+    }
+	
 	</#if>
 	
 	<#assign fields = entityDefinition.fieldsDefinitions?values>

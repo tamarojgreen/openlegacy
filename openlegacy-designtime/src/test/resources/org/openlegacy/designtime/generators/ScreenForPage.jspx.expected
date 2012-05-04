@@ -74,10 +74,13 @@
 					</tr>
 					</c:forEach>
 				</table>
+				<div class="excel">
+					<a href="ScreenForPage/excel"><img src="images/excel.jpg" /></a>
+				</div>
 				<div class="paging">
-					<a href="javascript:doPost('ScreenForPageForm','previous')">&lt; Previous</a>
+					<a href="javascript:doAjaxPost('ScreenForPageForm','container','previous','body')">&lt; Previous</a>
 					| 
-					<a href="javascript:doPost('ScreenForPageForm','next')">Next &gt;</a> 
+					<a href="javascript:doAjaxPost('ScreenForPageForm','container','next','body')">Next &gt;</a> 
 				</div>
 		</div>
 		

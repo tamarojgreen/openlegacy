@@ -76,7 +76,7 @@ h1{
 }
 
 .paging {
-	margin-top: 5px;
+	margin-top: 20px;
 	margin-left: 40%
 }
 
@@ -205,6 +205,18 @@ ul,li {
 #accordion{
 	height: 100%;
 	width: 195px;	
+}
+
+.excel{
+	margin-top:10px;
+	position: absolute;
+	left: 10px;
+}
+
+.excel a img{
+	border:0px;
+	width: 30px;
+	height: 30px;
 }
 
 .stockImage {

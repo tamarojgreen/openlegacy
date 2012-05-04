@@ -3,8 +3,10 @@
 package org.openlegacy.terminal.samples.mvc.controllers;
 
 import java.util.*;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 
@@ -14,6 +16,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
+import org.openlegacy.modules.table.Table;
+import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -41,6 +45,9 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMasterController_Aspec
 	@Inject
 	private ScreenEntitiesRegistry WorkWithItemMasterController.screenEntitiesRegistry;
 
+	@Inject
+	private TableWriter WorkWithItemMasterController.tableWriter;
+	
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET)
     public String WorkWithItemMasterController.show(Model uiModel) {
@@ -198,6 +205,15 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMasterController_Aspec
 		
     }
 	
+	// export to excel
+    @RequestMapping(value="/excel", method = RequestMethod.GET)
+    public void WorkWithItemMasterController.excel(HttpServletResponse response) throws IOException {
+    	List<WorkWithItemMaster.WorkWithItemMasterRecord> records = terminalSession.getModule(Table.class).collectOne(WorkWithItemMaster.class,WorkWithItemMaster.WorkWithItemMasterRecord.class);
+		response.setContentType("application/vnd.ms-excel");
+		response.addHeader("Content-Disposition", "attachment; filename=\"WorkWithItemMasterRecord.xls\"");
+    	tableWriter.writeTable(records, response.getOutputStream());
+    }
+    
 	
 	@InitBinder
 	public void WorkWithItemMasterController.initBinder(WebDataBinder binder) {
