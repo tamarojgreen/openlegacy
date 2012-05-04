@@ -53,7 +53,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 
     @RequestMapping(value="/help", method = RequestMethod.GET)
     public @ResponseBody String ScreenForPageController.systemHelp(HttpServletRequest request) throws IOException {
-    	URL resource = request.getSession().getServletContext().getResource("/help/screenForPage.html");
+    	URL resource = request.getSession().getServletContext().getResource("/help/ScreenForPage.html");
     	String result = "";
     	if (resource != null){
     		result = IOUtils.toString(resource.openStream());

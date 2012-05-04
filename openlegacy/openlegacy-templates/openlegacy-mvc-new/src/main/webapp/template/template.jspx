@@ -39,7 +39,7 @@
 			<tiles:insertAttribute name="menu" ignore="true"/>
 		</div>
 
-		<div class="container">
+		<div id="container" class="container" data-dojo-type="dijit.layout.ContentPane">
 			<tiles:insertAttribute name="body" />
 		</div>
 

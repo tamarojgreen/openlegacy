@@ -7,12 +7,15 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
 	<form id="WorkWithItemMaster1Form" method="post">
-		<div style="margin-left: 2%; top: 20%; width:60% ;height:auto;" class="panel">
+		<div style="margin-left: 2%; top: 18%; width:80% ;height:auto;" class="panel">
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Item Details', open:true">
 				<div class="field">
 					<label>Item Number: </label> <input type="text" name="itemNumber" id="itemNumber"
 						value="${workWithItemMaster1.itemNumber}" size="15" maxlength="15" />
+					<c:if test="${imageId != null}">
+					<image class="stockImage" style="left:74%; position:absolute" src="StockItemImages/images/${imageId}" />
+					</c:if>
 				</div>
 				<div class="field">
 					<label>Item Description: </label> <input type="text"
@@ -103,8 +106,8 @@
 			</div>
 			<input type="hidden" id="description" name="description" />
 			<div data-dojo-type="dijit.TitlePane" id="_description" 
-				data-dojo-props="title: 'Description', open:false">
-				<div data-dojo-type="dijit.Editor" onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
+				data-dojo-props="title: 'Full Description', open:false">
+				<div data-dojo-type="dijit.Editor" onkeyup="dojo.byId('description').value = this.getValue();alert(this.getValue());">${stockItem.description}</div>
 			</div>
 		</div>
 

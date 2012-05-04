@@ -44,9 +44,9 @@
 					</c:forEach>
 				</table>
 				<div class="paging">
-					<a href="javascript:doPost('WorkWithItemMasterForm','previous')">Previous</a>
+					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','previous','body')">&lt; Previous</a>
 					| 
-					<a href="javascript:doPost('WorkWithItemMasterForm','next')">Next</a> 
+					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','next','body')">Next &gt;</a> 
 				</div>
 		</div>
 		

@@ -36,15 +36,21 @@ function doPost(formName, actionName) {
  * @param entityName
  * @param actionName
  */
-function doAjaxPost(formName, areaName, actionName) {
+function doAjaxPost(formName, areaName, actionName,fragments) {
 	var form = dojo.byId(formName);
 	var container = null;
+	var title = null;
 	if (areaName != null) {
 		container = dijit.byId(areaName);
-		var title = container.get('title');
+		if (container != null){
+			title = container.get('title');
+		}
 	}
 
 	form.action = form.action + "?partial=1";
+	if (fragments != null){
+		form.action = form.action + "&fragments=" + fragments;
+	}
 
 	if (actionName != null && actionName.length > 0) {
 		form.action = form.action + "&action=" + actionName;
@@ -53,10 +59,13 @@ function doAjaxPost(formName, areaName, actionName) {
 	var xhrArgs = {
 		form : form,
 		handleAs : "text",
+		headers: { "Accept": "text/html;type=ajax" },
 		url : form.action,
 		load : function(data) {
 			if (container != null) {
-				container.set('title', title);
+				if (title != null){
+					container.set('title', title);
+				}
 				container.set('content', data);
 			}
 		},
@@ -71,7 +80,7 @@ function doAjaxPost(formName, areaName, actionName) {
 }
 
 function showHelp() {
-	helpDialog = dijit.byId('helpDialog');
+	var helpDialog = dijit.byId('helpDialog');
 	if(helpDialog == null){
 		alert("'helpDialog' tag not found");
 		return;

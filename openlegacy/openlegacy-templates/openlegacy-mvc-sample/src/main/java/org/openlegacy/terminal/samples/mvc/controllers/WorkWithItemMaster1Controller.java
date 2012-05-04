@@ -37,6 +37,11 @@ public class WorkWithItemMaster1Controller {
 		StockItem stockItem = stockItemsService.getOrCreateStockItem(workWithItemMaster1.getItemNumber());
 		uiModel.addAttribute(stockItem);
 
+		if (stockItem.getImages().size() > 0) {
+			// show the item first image on the details page
+			uiModel.addAttribute("imageId", stockItem.getImages().get(0).getId());
+		}
+
 		return "WorkWithItemMaster1";
 	}
 

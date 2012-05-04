@@ -9,13 +9,14 @@
 
 	<form method="post" id="uploadForm"
 		action="StockItemImages/uploadImage" enctype="multipart/form-data">
-		<div>
+		
+		<div style="margin-top: 50px">
 			<input name="file" multiple="true" type="file" label="Select File"
 				id="uploader" onchange="uploadStockItemImage();" />
 		</div>
 	</form>
 	<c:forEach items="${stockItem.images}" var="image">
-		<image src="StockItemImages/images/${image.id}" />
+		<image class="stockImage" src="StockItemImages/images/${image.id}" />
 	</c:forEach>
 
 </div>
