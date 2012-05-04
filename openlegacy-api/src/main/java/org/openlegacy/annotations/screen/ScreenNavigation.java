@@ -1,8 +1,8 @@
 package org.openlegacy.annotations.screen;
 
 import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -20,10 +20,12 @@ public @interface ScreenNavigation {
 	Class<? extends TerminalAction> terminalAction() default TerminalActions.ENTER.class;
 
 	AdditionalKey additionalKey() default AdditionalKey.NONE;
-	
+
 	AssignedField[] assignedFields() default {};
 
 	Class<? extends TerminalAction> exitAction() default TerminalActions.F3.class;
 
-	AdditionalKey exitadditionalKey() default AdditionalKey.NONE;
+	AdditionalKey exitAdditionalKey() default AdditionalKey.NONE;
+
+	boolean requiresParameters() default false;
 }

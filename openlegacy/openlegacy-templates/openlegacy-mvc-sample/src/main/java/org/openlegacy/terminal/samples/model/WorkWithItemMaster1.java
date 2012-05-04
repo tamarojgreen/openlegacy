@@ -1,7 +1,6 @@
 package org.openlegacy.terminal.samples.model;
 
 import org.openlegacy.annotations.screen.Action;
-import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenEntity;
@@ -19,7 +18,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 		@Action(action = TerminalActions.F4.class, displayName = "Prompt", alias = "prompt"),
 		@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"),
 		@Action(action = TerminalActions.F2.class, additionalKey = AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") })
-@ScreenNavigation(accessedFrom = InventoryManagement.class, assignedFields = { @AssignedField(field = "selection", value = "1") })
+@ScreenNavigation(accessedFrom = WorkWithItemMaster.class, requiresParameters = true)
 public class WorkWithItemMaster1 {
 
 	@ScreenField(row = 6, column = 33, endColumn = 47, labelColumn = 2, editable = true, displayName = "Item Number", sampleValue = "2000")

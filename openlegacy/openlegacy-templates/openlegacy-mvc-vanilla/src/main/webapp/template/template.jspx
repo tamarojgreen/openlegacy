@@ -39,8 +39,10 @@
 			<tiles:insertAttribute name="menu" ignore="true"/>
 		</div>
 
-		<div id="container" class="container" data-dojo-type="dijit.layout.ContentPane">
-			<tiles:insertAttribute name="body" />
+		<div id="main" class="main">
+			<div id="container" class="container" data-dojo-type="dijit.layout.ContentPane">
+				<tiles:insertAttribute name="body" />
+			</div>
 		</div>
 
 		<div id="footer" class="footer">
