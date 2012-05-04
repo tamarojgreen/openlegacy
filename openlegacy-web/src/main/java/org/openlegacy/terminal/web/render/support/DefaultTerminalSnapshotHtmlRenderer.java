@@ -7,6 +7,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.web.render.ElementsProvider;
 import org.openlegacy.terminal.web.render.HtmlProportionsHandler;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
+import org.openlegacy.utils.DomUtils;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.web.HtmlConstants;
 import org.w3c.dom.Document;
@@ -19,14 +20,9 @@ import java.util.Collection;
 import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtmlRenderer {
 
@@ -90,14 +86,8 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	private static String generate(String styleSettings, Document doc) throws TransformerConfigurationException,
 			TransformerFactoryConfigurationError, TransformerException {
-		Transformer trans = TransformerFactory.newInstance().newTransformer();
-		trans.setOutputProperty(OutputKeys.METHOD, "html");
-		trans.setOutputProperty(OutputKeys.INDENT, "yes");
-
-		DOMSource src = new DOMSource(doc.getDocumentElement());
-
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		trans.transform(src, new StreamResult(baos));
+		DomUtils.render(doc, baos);
 		return styleSettings + StringUtil.toString(baos);
 	}
 

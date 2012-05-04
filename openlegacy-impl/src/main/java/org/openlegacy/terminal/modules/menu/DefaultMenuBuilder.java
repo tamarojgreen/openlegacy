@@ -101,7 +101,10 @@ public class DefaultMenuBuilder implements MenuBuilder {
 
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(rootClass);
 
-		if (screenEntityDefinition.getNavigationDefinition().isRequiresParameters()) {
+		NavigationDefinition navigationDefinition = screenEntityDefinition.getNavigationDefinition();
+
+		// don't include in the menu screens which needs parameters to access them
+		if (navigationDefinition != null && navigationDefinition.isRequiresParameters()) {
 			return null;
 		}
 

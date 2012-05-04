@@ -41,6 +41,9 @@
 					</tr>
 					</c:forEach>
 				</table>
+				<div class="excel">
+					<a href="WorkWithWarehouseDetails/excel"><img src="images/excel.jpg" /></a>
+				</div>
 				<div class="paging">
 					<a href="javascript:doAjaxPost('WorkWithWarehouseDetailsForm','container','previous','body')">&lt; Previous</a>
 					| 

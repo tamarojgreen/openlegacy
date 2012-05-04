@@ -48,10 +48,13 @@
 					</tr>
 					</c:forEach>
 				</table>
+				<div class="excel">
+					<a href="ItemsList/excel"><img src="images/excel.jpg" /></a>
+				</div>
 				<div class="paging">
-					<a href="javascript:doPost('ItemsListForm','previous')">&lt; Previous</a>
+					<a href="javascript:doAjaxPost('ItemsListForm','container','previous','body')">&lt; Previous</a>
 					| 
-					<a href="javascript:doPost('ItemsListForm','next')">Next &gt;</a> 
+					<a href="javascript:doAjaxPost('ItemsListForm','container','next','body')">Next &gt;</a> 
 				</div>
 		</div>
 		
