@@ -80,11 +80,19 @@ function doAjaxPost(formName, areaName, actionName,fragments) {
 }
 
 function showHelp() {
-	var helpDialog = dijit.byId('helpDialog');
-	if(helpDialog == null){
-		alert("'helpDialog' tag not found");
+	showDialog("helpDialog",location.href + "/help");
+}
+
+function showSessionViewer() {
+	showDialog("sessionViewerDialog", "HtmlEmulation/sessionViewer");
+}
+
+function showDialog(dialogTagId,url) {
+	var dialog = dijit.byId(dialogTagId);
+	if(dialog == null){
+		alert(dialogTagId +  " tag not found");
 		return;
 	}
-	helpDialog.set("href",location.href + "/help");
-	helpDialog.show();
+	dialog.set("href",url);
+	dialog.show();
 }

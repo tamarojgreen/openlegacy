@@ -5,15 +5,20 @@ import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.modules.trail.DefaultTerminalTrail;
+import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Handles requests for the application home page.
@@ -50,6 +55,19 @@ public class HtmlEmulationController {
 		String result = snapshotHtmlRenderer.render(terminalSession.getSnapshot());
 		uiModel.addAttribute("terminalHtml", result);
 		return "HtmlEmulation";
+	}
+
+	@RequestMapping(value = "/image", method = RequestMethod.GET)
+	public void image(HttpServletResponse response) throws IOException {
+		response.setContentType("image/jpeg");
+		TerminalSnapshotImageRenderer.instance().render(terminalSession.getSnapshot(), response.getOutputStream());
+	}
+
+	@RequestMapping(value = "/sessionViewer", method = RequestMethod.GET)
+	public @ResponseBody
+	String viewer() throws IOException {
+		// html container for the image viewer (the method above)
+		return "<html><body><image src=\"HtmlEmulation/image\"</body></html>";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

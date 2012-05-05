@@ -46,6 +46,9 @@
 				<a href="javascript:showHelp();">Help</a>
 			</p>
 			</c:if>
+			<p>
+				<a href="javascript:showSessionViewer();">View Session</a>
+			</p>
 		</div>
 
 		<div class="element" title="Tools"
