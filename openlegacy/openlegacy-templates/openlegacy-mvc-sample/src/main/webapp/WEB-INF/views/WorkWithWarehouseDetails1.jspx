@@ -53,7 +53,7 @@
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'User Details', open:false">
 				<div class="field">
-					<label class="fixed_label">Amended date: </label>
+					<label class="widget_fixed_label">Amended date: </label>
 					<form:input id="amendedDate"
 						path="workWithWarehouseDetails1.amendedDate" />
 					<script>

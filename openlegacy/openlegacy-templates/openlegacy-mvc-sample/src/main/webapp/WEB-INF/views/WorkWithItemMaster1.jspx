@@ -61,7 +61,7 @@
 						value="${workWithItemMaster1.itemClass}" size="3" maxlength="3" />
 				</div>
 				<div class="field">
-					<label class="fixed_label">Stock Group: </label>
+					<label class="widget_fixed_label">Stock Group: </label>
 					<select name="itemClass" value="${workWithItemMaster1.stockGroup}"
 						data-dojo-type="dijit.form.FilteringSelect">
 						<option value="">-Select-</option>
