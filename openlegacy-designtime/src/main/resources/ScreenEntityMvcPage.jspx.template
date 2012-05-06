@@ -86,13 +86,13 @@
 			<label> ${field.displayName}</label>
 		     <#break>
 		  <#case "date">
-			<label class="fixed_label">${field.displayName}: </label>
+			<label class="widget_fixed_label">${field.displayName}: </label>
 			<form:input id="${field.name}" path="${entityDefinition.entityName?uncap_first}.${field.name}"/>
 			<script>dojo.require("dijit.form.DateTextBox");</script>
 			<script>var dateField = new dijit.form.DateTextBox({name:"${field.name}", value:dojo.byId('${field.name}').value, datePattern :"yyyy-MM-dd"}, "${field.name}");</script>
 		     <#break>
 		  <#case "autocomplete">
-			<label>${field.displayName}: </label>
+			<label class="widget_fixed_label">${field.displayName}: </label>
 			<script language="JavaScript" type="text/javascript">dojo.require("dojo.data.ItemFileReadStore");dojo.require("dijit.form.FilteringSelect");</script>
 			<span data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props="url:'${entityDefinition.entityName?cap_first}/${field.name}'" data-dojo-id="${field.name}Values"></span>
 			<input name="${field.name}" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:${field.name}Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	

@@ -23,7 +23,7 @@
 		</div>
 		<div style="margin-left: 26%; top: 37%; width: 52%;" class="panel">
 			<div class="col_1_of_2 field">
-			<label>Fld Row10: </label>
+			<label class="widget_fixed_label">Fld Row10: </label>
 			<script language="JavaScript" type="text/javascript">dojo.require("dojo.data.ItemFileReadStore");dojo.require("dijit.form.FilteringSelect");</script>
 			<span data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props="url:'ScreenForPage/fldRow10'" data-dojo-id="fldRow10Values"></span>
 			<input name="fldRow10" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:fldRow10Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	
