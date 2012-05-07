@@ -93,6 +93,8 @@ function showDialog(dialogTagId,url) {
 		alert(dialogTagId +  " tag not found");
 		return;
 	}
-	dialog.set("href",url);
+	if (url != null){
+		dialog.set("href",url);
+	}
 	dialog.show();
 }
