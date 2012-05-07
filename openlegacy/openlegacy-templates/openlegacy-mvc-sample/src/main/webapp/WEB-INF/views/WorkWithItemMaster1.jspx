@@ -7,14 +7,17 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
 	<form id="WorkWithItemMaster1Form" method="post">
-		<div style="margin-left: 2%; top: 18%; width:80% ;height:auto;" class="panel">
+		<div style="margin-left: 2%; top: 18%; width: 80%; height: auto;"
+			class="panel">
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Item Details', open:true">
 				<div class="field">
-					<label>Item Number: </label> <input type="text" name="itemNumber" id="itemNumber"
-						value="${workWithItemMaster1.itemNumber}" size="15" maxlength="15" />
+					<label>Item Number: </label> <input type="text" name="itemNumber"
+						id="itemNumber" value="${workWithItemMaster1.itemNumber}"
+						size="15" maxlength="15" />
 					<c:if test="${imageId != null}">
-					<image class="stockImage" style="left:74%; position:absolute" src="StockItemImages/images/${imageId}" />
+						<image class="stockImage" style="left:74%; position:absolute"
+							src="StockItemImages/images/${imageId}" />
 					</c:if>
 				</div>
 				<div class="field">
@@ -61,8 +64,8 @@
 						value="${workWithItemMaster1.itemClass}" size="3" maxlength="3" />
 				</div>
 				<div class="field">
-					<label class="widget_fixed_label">Stock Group: </label>
-					<select name="itemClass" value="${workWithItemMaster1.stockGroup}"
+					<label class="widget_fixed_label">Stock Group: </label> <select
+						name="itemClass" value="${workWithItemMaster1.stockGroup}"
 						data-dojo-type="dijit.form.FilteringSelect">
 						<option value="">-Select-</option>
 						<option value="SG">Standard Stock Group</option>
@@ -95,8 +98,8 @@
 						size="10" maxlength="10" />
 				</div>
 				<div class="field">
-					<label>Pallet label required: </label>
-					<input type="checkbox" name="palletLabelRequired"
+					<label>Pallet label required: </label> <input type="checkbox"
+						name="palletLabelRequired"
 						value="${workWithItemMaster1.palletLabelRequired}" />
 				</div>
 				<div class="field">
@@ -105,10 +108,22 @@
 				</div>
 			</div>
 			<input type="hidden" id="description" name="description" />
-			<div data-dojo-type="dijit.TitlePane" id="_description" 
+			<div data-dojo-type="dijit.TitlePane" id="_description"
 				data-dojo-props="title: 'Full Description', open:false">
-				<div data-dojo-type="dijit.Editor" onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
+				<div data-dojo-type="dijit.Editor"
+					onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
 			</div>
+			<div data-dojo-type="dijit.TitlePane" id="video"
+				data-dojo-props="title: 'Video', open:false">
+				<div class="field">
+					<label>Video URL:</label><input name="videoUrl"
+						value="${stockItem.videoUrl}" size="60"/>
+				</div>
+				<c:if test="${not empty stockItem.videoUrl}">
+					<iframe width="400" height="400" src="${stockItem.videoUrl}"></iframe>
+				</c:if>
+			</div>
+
 		</div>
 
 	</form>

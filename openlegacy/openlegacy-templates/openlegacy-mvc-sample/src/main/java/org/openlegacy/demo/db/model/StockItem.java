@@ -21,6 +21,8 @@ public class StockItem {
 
 	private String description;
 
+	private String videoUrl;
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "stock_item")
 	@MapKey(name = "noteId")
@@ -53,5 +55,13 @@ public class StockItem {
 
 	public List<StockItemImage> getImages() {
 		return images;
+	}
+
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
 	}
 }
