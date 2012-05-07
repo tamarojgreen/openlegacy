@@ -30,23 +30,23 @@
 			</div>
 			<div class="col_2_of_2 field">
 	<label>Fld2Row10: </label>
-		<span>${screenForPage.fld2Row10}</span>
+		<span>${screenForPage.fld2Row10}</span>&amp;nbsp;
 			</div>
 		</div>
 		<div style="margin-left: 8%; top: 95%; width: 28%;position:absolute;" >
 			<div class="field">
 	<label>Orphan Fld: </label>
-		<span>${screenForPage.orphanFld}</span>
+		<span>${screenForPage.orphanFld}</span>&amp;nbsp;
 			</div>
 		</div>
 		<div style="margin-left: 1%; top: 79%; width: 52%;" class="panel">
 			<div class="col_1_of_2 field">
 	<label>Fld Row20: </label>
-		<span>${screenForPage.screenForPagePart.fldRow20}</span>
+		<span>${screenForPage.screenForPagePart.fldRow20}</span>&amp;nbsp;
 			</div>
 			<div class="col_2_of_2 field">
 	<label>Fld2Row20: </label>
-		<span>${screenForPage.screenForPagePart.fld2Row20}</span>
+		<span>${screenForPage.screenForPagePart.fld2Row20}</span>&amp;nbsp;
 			</div>
 		</div>
 		<div style="margin-left: 6%; top: 54%; width: 31%;" class="panel">

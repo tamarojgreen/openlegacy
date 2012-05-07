@@ -111,6 +111,6 @@
 	<#if field.editable>
 		<input type="text" name="${field.name}" value="${r"${"}${fieldAssignment}${r"}"}" size="${field.length}" maxlength="${field.length}" />
 	<#else>
-		<span>${r"${"}${fieldAssignment}${r"}"}</span>
+		<span>${r"${"}${fieldAssignment}${r"}"}</span>&amp;nbsp;
 	</#if>
 </#macro>

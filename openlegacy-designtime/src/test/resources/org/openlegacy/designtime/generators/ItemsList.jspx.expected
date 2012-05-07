@@ -10,13 +10,13 @@
 		<div style="margin-left: 6%; top: 83%; width: 30%;position:absolute;" >
 			<div class="field">
 	<label>Position To: </label>
-		<span>${itemsList.positionTo}</span>
+		<span>${itemsList.positionTo}</span>&amp;nbsp;
 			</div>
 		</div>
 		<div style="margin-left: 1%; top: 95%; width: 13%;position:absolute;" >
 			<div class="field">
 	<label>Error Message: </label>
-		<span>${itemsList.errorMessage}</span>
+		<span>${itemsList.errorMessage}</span>&amp;nbsp;
 			</div>
 		</div>
 		<div style="margin-left: 5%; top: 25%; width: 80%;" class="panel">
