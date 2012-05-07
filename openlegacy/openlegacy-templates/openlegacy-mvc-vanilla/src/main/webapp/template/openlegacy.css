@@ -28,7 +28,7 @@ h1{
 	position: relative;
 }
 
-.main {
+.container {
 	height: 90%;
 	width: 100%;
 	position: fixed;
@@ -45,7 +45,7 @@ h1{
 	xoverflow: auto;
 	margin-top: 3%;
 }
-.main input,.main select {
+.container input,.container select {
 	font-family: Helvetica, sans-serif;
 	color: navy;
 	border-radius: 4px;
@@ -55,23 +55,23 @@ h1{
 	height: 22px;
 }
 
-.main table tr th,.main table tr td {
+.container table tr th,.container table tr td {
 	font-size: 15px;
 	font-family: Helvetica, sans-serif;
 	color: navy;
 	padding: 0;
 }
 
-.main table {
+.container table {
 	border-collapse: collapse;
 	width: 100%;
 }
 
-.main table tr:nth-child(odd) {
+.container table tr:nth-child(odd) {
 	background-color: #eee;
 }
 
-.main table tr:nth-child(even) {
+.container table tr:nth-child(even) {
 	background-color: #fff;
 }
 
