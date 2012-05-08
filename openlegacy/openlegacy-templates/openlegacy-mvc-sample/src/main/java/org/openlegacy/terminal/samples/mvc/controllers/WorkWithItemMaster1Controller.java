@@ -2,7 +2,9 @@ package org.openlegacy.terminal.samples.mvc.controllers;
 
 import org.openlegacy.demo.db.model.StockItem;
 import org.openlegacy.demo.db.services.StockItemsService;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.samples.model.WorkWithItemMaster1;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -72,6 +72,12 @@
 						<option value="CG">Custom Stock Group</option>
 					</select>
 				</div>
+				<div class="field">
+					<label>Video URL:</label><input name="videoUrl" value="${stockItem.videoUrl}" size="60"/>
+					<c:if test="${not empty stockItem.videoUrl}">
+						<a href="javascript:showDialog('videoDialog')">Show</a>	
+					</c:if>
+				</div>
 			</div>
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Advanced', open:false">
@@ -113,17 +119,11 @@
 				<div data-dojo-type="dijit.Editor"
 					onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
 			</div>
-			<div data-dojo-type="dijit.TitlePane" id="video"
-				data-dojo-props="title: 'Video', open:false">
-				<div class="field">
-					<label>Video URL:</label><input name="videoUrl"
-						value="${stockItem.videoUrl}" size="60"/>
-				</div>
-				<c:if test="${not empty stockItem.videoUrl}">
-					<iframe width="400" height="400" src="${stockItem.videoUrl}"></iframe>
-				</c:if>
-			</div>
-
+		</div>
+	<div id="videoDialog" data-dojo-type="dijit.Dialog"
+		style="overflow: auto;" title="Session Viewer"
+		data-dojo-props="parseOnLoad: true, duration:600">
+		<iframe width="600" height="400" src="${stockItem.videoUrl}"></iframe>
 		</div>
 
 	</form>
