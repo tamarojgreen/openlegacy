@@ -44,7 +44,7 @@ h1{
 	width: 83%;
 	margin-left:1%; 
 	margin-right:3%; 
-	height: 95%;
+	height: 92%;
 	margin-top: 3%;
 }
 .container input,.container select {
@@ -93,10 +93,16 @@ h1{
 	margin-right: 25%;
 }
 
-.field .widget_fixed_label {
+.field .widget_label {
 	position: relative;
 	white-space: nowrap;
 	margin-right: 23%;
+}
+
+.field .numeric_widget_label {
+	position: relative;
+	white-space: nowrap;
+	margin-right: 24%;
 }
 
 .field span,.field input,.field select {
@@ -120,9 +126,10 @@ h1{
 }
 
 .menu {
-	height: 87%;
+	height: 88%;
 	width: 180px;
 	vertical-align:top;
+	margin-bottom: 5px;
 	float: left;
 }
 

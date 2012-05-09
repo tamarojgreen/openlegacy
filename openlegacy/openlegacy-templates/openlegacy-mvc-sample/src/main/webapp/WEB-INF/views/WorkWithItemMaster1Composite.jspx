@@ -18,7 +18,8 @@
 		dojo.require("dijit.form.FilteringSelect");		
 		dojo.require("dijit.form.CheckBox");
 		dojo.require("dijit.TitlePane");
-						
+		dojo.require("dijit.form.NumberSpinner");
+		
 		function saveNote(node) {
 			dojo.xhr.get({
 	            // The URL to request

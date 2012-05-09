@@ -56,15 +56,16 @@
 						maxlength="15" />
 				</div>
 				<div class="field">
-					<label>Item weight: </label> <input type="text" name="itemWeight"
-						value="${workWithItemMaster1.itemWeight}" size="15" maxlength="15" />
+					<script>dojo.require("dijit.form.NumberSpinner");</script>
+					<label class="numeric_widget_label">Item weight: </label> <input type="text" name="itemWeight" data-dojo-type="dijit.form.NumberSpinner"
+						value="${workWithItemMaster1.itemWeight}" style="width:100px" />
 				</div>
 				<div class="field">
 					<label>Item Class: </label> <input type="text" name="itemClass"
 						value="${workWithItemMaster1.itemClass}" size="3" maxlength="3" />
 				</div>
 				<div class="field">
-					<label class="widget_fixed_label">Stock Group: </label> <select
+					<label class="widget_label">Stock Group: </label> <select
 						name="itemClass" value="${workWithItemMaster1.stockGroup}"
 						data-dojo-type="dijit.form.FilteringSelect">
 						<option value="">-Select-</option>
