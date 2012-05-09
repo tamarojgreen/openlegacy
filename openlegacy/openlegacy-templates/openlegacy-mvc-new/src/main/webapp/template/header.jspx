@@ -6,4 +6,10 @@
 	<jsp:output omit-xml-declaration="yes" />
 
 	<h1>OpenLegacy Spring MVC Web Application</h1>
+	<c:if test="${loggedInUser != null}">
+		<div class="welcome">Hello ${loggedInUser}</div>
+		<div class="logoff">
+			<a href="logoff">Logoff</a>
+		</div>
+	</c:if>
 </div>
