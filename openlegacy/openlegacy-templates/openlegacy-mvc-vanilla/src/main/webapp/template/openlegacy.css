@@ -14,7 +14,7 @@ body {
 .header {
 	background-color: #EDEEF2;
 	text-align: center;
-	height:50px;
+	height:55px;
 	vertical-align: top;
 }
 
@@ -42,7 +42,6 @@ h1{
 	margin-left:1%; 
 	margin-right:3%; 
 	height: 95%;
-	xoverflow: auto;
 	margin-top: 3%;
 }
 .container input,.container select {
@@ -223,4 +222,25 @@ ul,li {
 	border:0px;
 	width: 30px;
 	height: 30px;
+}
+
+.welcome{
+	font-size: small;
+	color: navy;
+	float: left;
+	margin-left:90%;
+	margin-right: 5px;
+}
+
+.logoff a:link, .logoff a:visited, .logoff a:active, .logoff a:hover{
+	font-size: small;
+	float: left;
+}
+
+.stockImage {
+  max-width: 200px;
+  max-height: 200px;
+  width: expression(this.width > 200 ? "200px" : true);
+  height: expression(this.height > 200 ? "200px" : true);
+  margin-right: 10px;
 }
