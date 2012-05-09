@@ -6,7 +6,7 @@
 	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
-	<form id="${entityDefinition.entityName}Form" method="post">
+	<form id="${entityDefinition.entityName}Form" method="post" action="${r"${"}pageContext.request.contextPath}/${entityDefinition.entityName}">
 		<#list pageParts as pagePart>
 		<div style="margin-left: ${pagePart.leftMargin}%; top: ${pagePart.topMargin}%; width: ${pagePart.width}%;<#if pagePart.oneField>position:absolute;</#if>" <#if pagePart.multyFields>class="panel"</#if>>
 			<#if pagePart.oneField>

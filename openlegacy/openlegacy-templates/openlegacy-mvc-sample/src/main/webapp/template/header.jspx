@@ -9,7 +9,7 @@
 	<c:if test="${loggedInUser != null}">
 		<div class="welcome">Hello ${loggedInUser}</div>
 		<div class="logoff">
-			<a href="logoff">Logoff</a>
+			<a href="${pageContext.request.contextPath}/logoff">Logoff</a>
 		</div>
 	</c:if>
 </div>

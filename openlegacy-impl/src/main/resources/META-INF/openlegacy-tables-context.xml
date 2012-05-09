@@ -11,7 +11,7 @@
 	<bean id="defaultScreenTableCollector" class="org.openlegacy.terminal.modules.table.DefaultTableCollector">
 	</bean>
 
-	<bean id="defaultScreenTableDrilldownPerformer" class="org.openlegacy.terminal.modules.table.DefaultTableDrilldownPerformer">
+	<bean id="defaultTableDrilldownPerformer" class="org.openlegacy.terminal.modules.table.DefaultTableDrilldownPerformer">
 	</bean>
 
 	<bean id="defaultRowFinder" class="org.openlegacy.terminal.modules.table.DefaultRowFinder">
@@ -19,7 +19,7 @@
 
 	<bean id="defaultRowComparator" class="org.openlegacy.terminal.modules.table.DefaultRowComparator">
 	</bean>
-	<bean id="defaultScreenTableScroller" class="org.openlegacy.terminal.modules.table.DefaultTableScroller">
+	<bean id="defaultTableScroller" class="org.openlegacy.terminal.modules.table.DefaultTableScroller">
 	</bean>
 	
 	<bean id="defaultRowSelector" class="org.openlegacy.terminal.modules.table.DefaultRowSelector">

@@ -23,7 +23,7 @@
 		function saveNote(node) {
 			dojo.xhr.get({
 	            // The URL to request
-	            url: "WorkWithItemMaster1/updateNote",
+	            url: "${pageContext.request.contextPath}/WorkWithItemMaster1/updateNote",
 	            content: {
 	                noteId: node.id,text:node.innerText, itemNumber:dojo.byId("itemNumber").value 
 	            },
@@ -52,17 +52,17 @@
 		data-dojo-props="tabPosition:'bottom'">
 		<div id="WorkWithItemMaster1" title="Item Main Details"
 			selected="true" data-dojo-type="dijit.layout.ContentPane"
-			data-dojo-props="href:'WorkWithItemMaster1?partial=1',parseOnLoad: true">
+			data-dojo-props="href:'${pageContext.request.contextPath}/WorkWithItemMaster1?partial=1',parseOnLoad: true">
 			<div>Place holder</div>
 		</div>
 		<div id="WorkWithItemMaster2" title="Item Stock Details"
 			data-dojo-type="dijit.layout.ContentPane"
-			data-dojo-props="href:'WorkWithItemMaster2?partial=1'">
+			data-dojo-props="href:'${pageContext.request.contextPath}/WorkWithItemMaster2?partial=1'">
 			<div>Place holder</div>
 		</div>
 		<div id="ItemImages" title="Item Gallery"
 			data-dojo-type="dijit.layout.ContentPane"
-			data-dojo-props="href:'StockItemImages'">
+			data-dojo-props="href:'${pageContext.request.contextPath}/StockItemImages'">
 			<div>Place holder</div>
 		</div>
 

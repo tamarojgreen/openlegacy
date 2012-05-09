@@ -6,7 +6,7 @@
 	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
-	<form id="WorkWithItemMaster1Form" method="post">
+	<form id="WorkWithItemMaster1Form" method="post" action="${pageContext.request.contextPath}/WorkWithItemMaster1">
 		<div style="margin-left: 2%; top: 18%; width: 80%; height: auto;"
 			class="panel">
 			<div data-dojo-type="dijit.TitlePane"
@@ -17,7 +17,7 @@
 						size="15" maxlength="15" />
 					<c:if test="${imageId != null}">
 						<image class="stockImage" style="left:74%; position:absolute"
-							src="StockItemImages/images/${imageId}" />
+							src="${pageContext.request.contextPath}/StockItemImages/images/${imageId}" />
 					</c:if>
 				</div>
 				<div class="field">

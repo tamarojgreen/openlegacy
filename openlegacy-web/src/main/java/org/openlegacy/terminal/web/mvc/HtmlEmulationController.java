@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -65,9 +66,8 @@ public class HtmlEmulationController {
 
 	@RequestMapping(value = "/sessionViewer", method = RequestMethod.GET)
 	public @ResponseBody
-	String viewer() throws IOException {
-		// html container for the image viewer (the method above)
-		return "<html><body><image src=\"HtmlEmulation/image\"</body></html>";
+	String viewer(HttpServletRequest request) throws IOException {
+		return MessageFormat.format("<html><body><image src=\"{0}/HtmlEmulation/image\"</body></html>", request.getContextPath());
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

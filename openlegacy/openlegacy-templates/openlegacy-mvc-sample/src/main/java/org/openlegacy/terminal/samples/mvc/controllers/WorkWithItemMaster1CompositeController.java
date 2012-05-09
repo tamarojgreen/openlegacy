@@ -3,10 +3,13 @@ package org.openlegacy.terminal.samples.mvc.controllers;
 import org.openlegacy.demo.db.model.StockItem;
 import org.openlegacy.demo.db.model.StockItemNote;
 import org.openlegacy.demo.db.services.StockItemsService;
+import org.openlegacy.modules.table.Table;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.modules.table.TerminalDrilldownActions;
 import org.openlegacy.terminal.samples.model.WorkWithItemMaster1;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,11 +38,26 @@ public class WorkWithItemMaster1CompositeController {
 		// get the item number from the host session
 		Integer itemNumber = terminalSession.getEntity(WorkWithItemMaster1.class).getItemNumber();
 
+		addNotesToPage(uiModel, itemNumber);
+
+		return "/WorkWithItemMaster1Composite";
+	}
+
+	private void addNotesToPage(Model uiModel, Integer itemNumber) {
 		// fetch relevant notes from the DB and pass the page
 		StockItem stockItem = stockItemsService.getOrCreateStockItem(itemNumber);
 
 		Collection<StockItemNote> notes = stockItem.getNotes().values();
 		uiModel.addAttribute("notes", notes);
+	}
+
+	// handle page navigation with friendly for drilldown
+	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+	public String edit(@PathVariable("id") Integer itemNumber, Model uiModel) {
+		terminalSession.getModule(Table.class).drillDown(WorkWithItemMaster1.class, TerminalDrilldownActions.enter("2"),
+				itemNumber);
+
+		addNotesToPage(uiModel, itemNumber);
 
 		return "WorkWithItemMaster1Composite";
 	}
