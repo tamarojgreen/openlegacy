@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Intercepter class for spring MVC. Injects commly used beans into the page context so they can be accessed via the web page
+ * Intercepter class for spring MVC. Injects commonly used beans into the page context so they can be accessed via the web page
  * 
  * @author RoiM
  * 
