@@ -6,7 +6,7 @@
 	xmlns:fields="urn:jsptagdir:/WEB-INF/tags/form/fields"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 
-	<form id="ItemsListForm" method="post">
+	<form id="ItemsListForm" method="post" action="${pageContext.request.contextPath}/ItemsList">
 		<div style="margin-left: 6%; top: 83%; width: 30%;position:absolute;" >
 			<div class="field">
 	<label>Position To: </label>

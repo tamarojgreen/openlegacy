@@ -29,14 +29,14 @@
             <field column="1" value="               "/>
             <field column="17" value="User  . . . . . . . . . . . . . ."/>
             <field column="51" value=" "/>
-            <field column="53" value="" length="10" editable="true"/>
+            <field column="53" length="10" editable="true"/>
             <field column="64" value="                 "/>
         </row>
         <row rowNumber="7">
             <field column="1" value="               "/>
             <field column="17" value="Password  . . . . . . . . . . . ."/>
             <field column="51" value=" "/>
-            <field column="53" value="" length="10" editable="true"/>
+            <field column="53" length="10" editable="true"/>
             <field column="64" value="                 "/>
         </row>
         <row rowNumber="8">
@@ -305,7 +305,7 @@
             <field column="1"/>
             <field column="2" value="===&gt;"/>
             <field column="7"/>
-            <field column="8" value="" length="2" editable="true" type="java.lang.Integer"/>
+            <field column="8"  length="2" editable="true" type="java.lang.Integer"/>
             <field column="11" value="                                         "/>
             <field column="53" value="Company . . . . . ."/>
             <field column="73"/>
@@ -434,7 +434,7 @@
             <field column="1"/>
             <field column="2" value="===&gt;"/>
             <field column="7"/>
-            <field column="8" value="" length="2" modified="true" editable="true" type="java.lang.Integer"/>
+            <field column="8" length="2" modified="true" editable="true" type="java.lang.Integer"/>
             <field column="11" value="                                         "/>
             <field column="53" value="Company . . . . . ."/>
             <field column="73"/>
@@ -563,7 +563,7 @@
             <field column="1"/>
             <field column="2" value="===&gt;"/>
             <field column="7"/>
-            <field column="8" value="" length="2" editable="true" type="java.lang.Integer"/>
+            <field column="8" length="2" editable="true" type="java.lang.Integer"/>
             <field column="11" value="                                                                      "/>
         </row>
         <row rowNumber="23">
@@ -684,7 +684,7 @@
             <field column="1"/>
             <field column="2" value="===&gt;"/>
             <field column="7"/>
-            <field column="8" value="" length="2" modified="true" editable="true" type="java.lang.Integer"/>
+            <field column="8" length="2" modified="true" editable="true" type="java.lang.Integer"/>
             <field column="11" value="                                                                      "/>
         </row>
         <row rowNumber="23">
@@ -1078,7 +1078,7 @@
         <row rowNumber="8">
             <field column="1"/>
             <field column="2" value=" "/>
-            <field column="4" value="" editable="true" type="java.lang.Integer"/>
+            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
             <field column="11" value="Domino Cubes"/>
             <field column="22" value=" "/>
@@ -1251,7 +1251,7 @@
         <row rowNumber="8">
             <field column="1"/>
             <field column="2" value=" "/>
-            <field column="4" value="" modified="true" editable="true" type="java.lang.Integer"/>
+            <field column="4" length="1" modified="true" editable="true" type="java.lang.Integer"/>
             <field column="6" value="    "/>
             <field column="11" value="Domino Cubes"/>
             <field column="22" value=" "/>
@@ -2112,7 +2112,7 @@
             <field column="2" value="Stock Group . . . . . . . . ."/>
             <field column="32"/>
             <field column="33" value="SG" length="3" editable="true"/>
-            <field column="78" value="SG=Standard stock group  CG=Custom Sock Group"/>
+            <field column="38" value="SG=Standard stock group  CG=Custom Stock Gr"/>
         </row>
         <row rowNumber="16">
             <field column="1"/>
@@ -3243,7 +3243,7 @@
             <field column="1"/>
             <field column="2" value="===&gt;"/>
             <field column="7"/>
-            <field column="8" value="" length="2" editable="true" type="java.lang.Integer"/>
+            <field column="8" length="2" editable="true" type="java.lang.Integer"/>
             <field column="11" value="                                                                      "/>
         </row>
         <row rowNumber="23">
@@ -3364,7 +3364,7 @@
             <field column="1"/>
             <field column="2" value="===&gt;"/>
             <field column="7"/>
-            <field column="8" value="" length="2" modified="true" editable="true" type="java.lang.Integer"/>
+            <field column="8" length="2" modified="true" editable="true" type="java.lang.Integer"/>
             <field column="11" value="                                                                      "/>
         </row>
         <row rowNumber="23">
@@ -3436,7 +3436,7 @@
         </row>
         <row rowNumber="9">
             <field column="1" value="  "/>
-            <field column="4" value="" editable="true" type="java.lang.Integer"/>
+            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="   "/>
             <field column="10" value="002" type="java.lang.Integer"/>
             <field column="14" value=" "/>
@@ -3605,7 +3605,7 @@
         </row>
         <row rowNumber="9">
             <field column="1" value="  "/>
-            <field column="4" value="" editable="true" type="java.lang.Integer"/>
+            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="6" value="   "/>
             <field column="10" value="002" type="java.lang.Integer"/>
             <field column="14" value=" "/>

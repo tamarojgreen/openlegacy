@@ -19,7 +19,6 @@ function getForm(formName) {
 }
 function doPost(formName, actionName) {
 	var form = getForm(formName);
-
 	if (actionName != null && actionName.length > 0) {
 		form.action = location.href + "?action=" + actionName;
 	} else {
@@ -46,7 +45,6 @@ function doAjaxPost(formName, areaName, actionName,fragments) {
 			title = container.get('title');
 		}
 	}
-
 	form.action = form.action + "?partial=1";
 	if (fragments != null){
 		form.action = form.action + "&fragments=" + fragments;
@@ -79,12 +77,8 @@ function doAjaxPost(formName, areaName, actionName,fragments) {
 	var deferred = dojo.xhrPost(xhrArgs);
 }
 
-function showHelp() {
-	showDialog("helpDialog",location.href + "/help");
-}
-
-function showSessionViewer() {
-	showDialog("sessionViewerDialog", "HtmlEmulation/sessionViewer");
+function showSessionViewer(baseUrl) {
+	showDialog("sessionViewerDialog", baseUrl + "/HtmlEmulation/sessionViewer");
 }
 
 function showDialog(dialogTagId,url) {

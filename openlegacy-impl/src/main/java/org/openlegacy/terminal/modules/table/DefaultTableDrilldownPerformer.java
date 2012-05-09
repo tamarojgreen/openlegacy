@@ -10,6 +10,7 @@ import org.openlegacy.modules.table.drilldown.TableScroller;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.table.ScreenTableDrilldownPerformer;
@@ -17,7 +18,9 @@ import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
@@ -48,8 +51,10 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 
 		TableScrollStopConditions tableScrollStopConditions = getDefaultBean(drilldownDefinition.getTableScrollStopCondition());
 
-		String tableFieldName = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
-				sourceEntityClass).getKey();
+		Entry<String, ScreenTableDefinition> singleScrollableTableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+				tablesDefinitionProvider, sourceEntityClass);
+		ScreenTableDefinition tableDefinition = singleScrollableTableDefinition.getValue();
+		String tableFieldName = singleScrollableTableDefinition.getKey();
 
 		ScreenEntity currentEntity = (ScreenEntity)session.getEntity(sourceEntityClass);
 
@@ -70,7 +75,8 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 			rowSelector.selectRow(session, currentEntity, drilldownAction, rowNumber);
 			return session.getEntity(targetEntityClass);
 		}
-		throw (new DrilldownException("Unable to drilldown into " + targetEntityClass + " with keys:" + rowKeys));
+		throw (new DrilldownException("Unable to drilldown into " + targetEntityClass + ", with key field: "
+				+ Arrays.toString(tableDefinition.getKeyFieldNames().toArray()) + " with keys values:" + Arrays.toString(rowKeys)));
 	}
 
 	private <T> T getDefaultBean(Class<T> clazz) {

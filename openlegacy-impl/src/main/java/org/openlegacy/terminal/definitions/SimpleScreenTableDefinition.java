@@ -128,17 +128,17 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 
 	public static class SimpleDrilldownDefinition implements DrilldownDefinition {
 
-		private Class<? extends RowFinder> rowFinder;
+		private Class<? extends RowFinder> rowFinder = RowFinder.class;
 
-		private Class<? extends RowComparator> rowComparator;
+		private Class<? extends RowComparator> rowComparator = RowComparator.class;
 
-		private Class<? extends TableScrollStopConditions> tableScrollStopConditions;
+		private Class<? extends TableScrollStopConditions> tableScrollStopConditions = TableScrollStopConditions.class;
 
-		private Class<? extends TableScroller> tableScroller;
+		private Class<? extends TableScroller> tableScroller = TableScroller.class;
 
-		private Class<? extends RowSelector> rowSelector;
+		private Class<? extends RowSelector> rowSelector = RowSelector.class;
 
-		private Class<? extends TableDrilldownPerformer> drilldownPerformer;
+		private Class<? extends TableDrilldownPerformer> drilldownPerformer = TableDrilldownPerformer.class;
 
 		public Class<? extends RowFinder> getRowFinder() {
 			return rowFinder;

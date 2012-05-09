@@ -30,12 +30,9 @@
 					<c:forEach items="${workWithItemMaster.workWithItemMasterRecords}" var="item">
 					<tr>
 						<td>
-							<select id="action_" name="action_" onchange="doPost()">
-								<option value="">-Select-</option>
-								<option value="2">Revise</option>
-								<option value="4">Delete</option>
-								<option value="5">Display</option>
-							</select>
+							<a href="WorkWithItemMaster1/edit/${item.itemNumber}">Edit</a> |
+							<a href="WorkWithItemMaster1/revise/${item.itemNumber}">Revise</a> |
+							<a href="WorkWithItemMaster1/delete/${item.itemNumber}">Delete</a>
 						</td>
 						<td>${item.alphaSearch}</td>
 						<td>${item.itemDescription}</td>
