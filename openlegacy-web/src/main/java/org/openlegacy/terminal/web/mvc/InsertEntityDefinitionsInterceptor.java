@@ -9,13 +9,10 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Intercepter class for spring MVC. Injects commonly used beans into the page context so they can be accessed via the web page
@@ -23,25 +20,14 @@ import javax.servlet.http.HttpServletResponse;
  * @author RoiM
  * 
  */
-public class InsertEntityDefinitionsInterceptor extends HandlerInterceptorAdapter {
-
-	@Inject
-	private TerminalSession terminalSession;
+public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 
 	@Inject
 	private ScreenEntitiesRegistry entitiesRegistry;
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
-			throws Exception {
-		if (modelAndView == null) {
-			return;
-		}
-
-		if (!terminalSession.isConnected()) {
-			return;
-		}
-
+	protected void insertModelData(ModelAndView modelAndView) {
+		TerminalSession terminalSession = getTerminalSession();
 		ScreenEntity entity = terminalSession.getEntity();
 
 		if (entity != null) {

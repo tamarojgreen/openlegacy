@@ -7,6 +7,10 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
+	<div class="trademark">
+		OpenLegacy <sup>TM</sup>– Copyright 2012 OpenLegacy LTD.
+	</div>
+		
 	<div id="helpDialog" data-dojo-type="dijit.Dialog"
 		style="margin-left: 39%; width: 270px; height: 500px; overflow: auto;"
 		title="System Help"
