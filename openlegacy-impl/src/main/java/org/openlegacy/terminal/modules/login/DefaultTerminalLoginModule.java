@@ -97,16 +97,18 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 		Object currentEntity = getSession().doAction(loginAction, (ScreenEntity)loginEntity);
 
-		Class<? extends Object> currentEntityClass = currentEntity.getClass();
+		Class<? extends Object> currentEntityClass = null;
+		if (currentEntity != null) {
+			currentEntityClass = currentEntity.getClass();
+			fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug(MessageFormat.format("After performing login action current entity is:{0}", currentEntityClass));
+			if (logger.isDebugEnabled()) {
+				logger.debug(MessageFormat.format("After performing login action current entity is:{0}", currentEntityClass));
+			}
 		}
 
-		fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
-
 		// throw exception if after login screen is still login
-		if (ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
+		if (currentEntityClass != null && ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
 			Object value = fieldAccessor.getFieldValue(loginMetadata.getErrorField().getName());
 			String message = value != null ? value.toString() : LOGIN_FAILED;
 			fieldAccessor.setFieldValue(loginMetadata.getErrorField().getName(), message);

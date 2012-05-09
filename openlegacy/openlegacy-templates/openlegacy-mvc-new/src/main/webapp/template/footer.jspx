@@ -8,11 +8,28 @@
 	<jsp:output omit-xml-declaration="yes" />
 
 	<div id="helpDialog" data-dojo-type="dijit.Dialog"
-		style="margin-left:39%;width:270px;height:500px; overflow: auto;" title="System Help"
+		style="margin-left: 39%; width: 270px; height: 500px; overflow: auto;"
+		title="System Help"
 		data-dojo-props="parseOnLoad: true, draggable:false,duration:600"></div>
 
 	<div id="sessionViewerDialog" data-dojo-type="dijit.Dialog"
-		style="width:830px;height:550px; overflow: auto;" title="Session Viewer"
+		style="width: 830px; height: 550px; overflow: auto;"
+		title="Session Viewer"
 		data-dojo-props="parseOnLoad: true, duration:600"></div>
+
+	<c:if test="${messages != null}">
+		<div id="messageDialog" data-dojo-type="dijit.Dialog"
+			style="overflow: auto;"
+			title="System Messages">
+			<c:forEach items="${messages}" var="message">
+				<p>${message}</p>
+			</c:forEach>
+		</div>
+		<script>
+		dojo.addOnLoad(function() {
+			showDialog("messageDialog");
+		});
+		</script>
+	</c:if>
 
 </div>
