@@ -121,7 +121,7 @@
 			</div>
 		</div>
 	<div id="videoDialog" data-dojo-type="dijit.Dialog"
-		style="overflow: auto;" title="Session Viewer"
+		style="overflow: auto;" title="Video"
 		data-dojo-props="parseOnLoad: true, duration:600">
 		<iframe width="600" height="400" src="${stockItem.videoUrl}"></iframe>
 		</div>
