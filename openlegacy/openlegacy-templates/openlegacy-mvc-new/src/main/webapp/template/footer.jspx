@@ -8,7 +8,7 @@
 	<jsp:output omit-xml-declaration="yes" />
 
 	<div class="trademark">
-		OpenLegacy <sup>TM</sup>– Copyright 2012 OpenLegacy LTD.
+		OpenLegacy <sup>TM</sup>– Copyright 2012 OpenLegacy Inc.
 	</div>
 		
 	<div id="helpDialog" data-dojo-type="dijit.Dialog"
