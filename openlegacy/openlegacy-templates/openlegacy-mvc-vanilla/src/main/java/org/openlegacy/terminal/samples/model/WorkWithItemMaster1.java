@@ -16,6 +16,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"), 
 				@Action(action = TerminalActions.F2.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") 
 				})
+@ScreenNavigation(accessedFrom = WorkWithItemMaster.class, requiresParameters = true)
 public class WorkWithItemMaster1 {
     
 	

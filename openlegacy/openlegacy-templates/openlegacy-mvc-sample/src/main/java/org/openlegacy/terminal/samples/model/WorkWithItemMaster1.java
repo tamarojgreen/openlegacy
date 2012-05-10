@@ -10,7 +10,7 @@ import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 
-@ScreenEntity()
+@ScreenEntity(displayName = "Main Item Details")
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 26, value = "    Work with Item Master     "),
 		@Identifier(row = 4, column = 2, value = "Type choices, press Enter."),
 		@Identifier(row = 6, column = 2, value = "Item Number . . . . . . . . .") })

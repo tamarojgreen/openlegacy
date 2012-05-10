@@ -14,7 +14,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.util.Date;
 
-@ScreenEntity()
+@ScreenEntity(displayName = "Warehouse Details")
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 26, value = "  Work with Warehouse Details "),
 		@Identifier(row = 4, column = 2, value = "Type choices, press Enter."),
 		@Identifier(row = 6, column = 2, value = "Warehouse Number . . . . . . .") })

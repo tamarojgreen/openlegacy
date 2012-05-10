@@ -7,8 +7,6 @@
 	<script language="JavaScript" type="text/javascript">
 		dojo.require("dijit.dijit"); // optimize: load dijit layer
 		dojo.require("dijit.Menu");
-		dojo.require("dijit.MenuItem");
-		dojo.require("dijit.MenuSeparator");
 		dojo.require("dijit.layout.AccordionContainer");
 		dojo.require('dijit.layout.ContentPane');
 		dojo.require("dijit.Dialog");
@@ -18,43 +16,41 @@
 	<div id="accordion" data-dojo-type="dijit.layout.AccordionContainer"
 		style="height: 100%">
 
-		<div class="element" title="Menu"
-			data-dojo-type="dijit.layout.ContentPane">
-			<c:if test="${definitions != null}">
-			<div id="navMenu" data-dojo-type="dijit.Menu">
-				<c:forEach items="${menu.menuItems}" var="menuItem">
-					<div id="navMenuPopupItem_${menuItem.targetEntity.simpleName}"
-						data-dojo-type="dijit.PopupMenuItem">
-						<span>${menuItem.displayName}</span>
-						<div id="navMenuSub_${subMenuItem.targetEntity.simpleName}"
-							data-dojo-type="dijit.Menu">
-							<c:forEach items="${menuItem.menuItems}" var="subMenuItem">
-								<div
-									onClick="location.href='${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}';"
-									data-dojo-type="dijit.MenuItem">${subMenuItem.displayName}</div>
-							</c:forEach>
-						</div>
+		<c:if test="${definitions != null}">
+			<c:forEach items="${menu.menuItems}" var="menuItem">
+				<div class="element" title="${menuItem.displayName}"
+					data-dojo-type="dijit.layout.ContentPane">
+					<div id="navMenuSub_${subMenuItem.targetEntity.simpleName}"
+						data-dojo-type="dijit.Menu">
+						<c:forEach items="${menuItem.menuItems}" var="subMenuItem">
+							<div
+								onClick="location.href='${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}';"
+								data-dojo-type="dijit.MenuItem">${subMenuItem.displayName}</div>
+						</c:forEach>
 					</div>
-				</c:forEach>
-			</div>
-			</c:if>
-			<p>
-				<a href="${pageContext.request.contextPath}/logoff">Logoff</a>
-			</p>
-			<c:if test="${definitions != null}">
-			<p>
-				<a href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a>
-			</p>
-			</c:if>
-			<p>
-				<a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View Session</a>
-			</p>
-		</div>
+				</div>
+			</c:forEach>
+		</c:if>
 
 		<div class="element" title="Tools"
 			data-dojo-type="dijit.layout.ContentPane">
 			<p>
-				<a href="${pageContext.request.contextPath}/trail/download">Download trail</a>
+				<a href="${pageContext.request.contextPath}/logoff">Logoff</a>
+			</p>
+			<c:if test="${definitions != null}">
+				<p>
+					<a
+						href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a>
+				</p>
+			</c:if>
+			<p>
+				<a
+					href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View
+					Session</a>
+			</p>
+			<p>
+				<a href="${pageContext.request.contextPath}/trail/download">Download
+					trail</a>
 			</p>
 			<p>
 				<a href="javascript:location.href=location.href">Refresh</a>
