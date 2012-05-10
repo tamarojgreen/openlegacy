@@ -7,7 +7,7 @@ import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.modules.messages.Messages.MessageField;
 
-@ScreenEntity(screenType = Messages.MessagesEntity.class)
+@ScreenEntity(screenType = Messages.MessagesEntity.class, displayName = "System Messages")
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 28, value = "Display Program Messages") })
 public class DisplayProgramMessages implements org.openlegacy.terminal.ScreenEntity {
 

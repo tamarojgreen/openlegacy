@@ -252,3 +252,11 @@ ul,li {
 	font-family: verdana;
 	color: #666;
 }
+
+.dijitmenuitem{
+	background-color: white;
+}
+.tundra .dijitMenu,
+.tundra .dijitMenuBar {
+	border: 0px;
+}

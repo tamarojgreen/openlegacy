@@ -17,7 +17,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.util.List;
 
-@ScreenEntity(screenType = RecordSelectionEntity.class)
+@ScreenEntity(screenType = RecordSelectionEntity.class, displayName = "Warehouses List")
 @ScreenIdentifiers(identifiers = {
 		@Identifier(row = 2, column = 26, value = "  Work with Warehouse Details "),
 		@Identifier(row = 4, column = 2, value = "Type one or more action codes. Then Enter.                                    ") })
