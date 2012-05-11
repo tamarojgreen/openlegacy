@@ -1,11 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
-	xmlns:spring="http://www.springframework.org/tags">
-	<jsp:directive.page contentType="text/html;charset=UTF-8" />
-	<jsp:output omit-xml-declaration="yes" />
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags">	
 
 	Session ended <br />
-	<spring:url value="/" var="reconnect_url" />
-	<a href="${reconnect_url}">Reconnect</a>
+	<a href="${pageContext.request.contextPath}">Reconnect</a>
 	
 </div>
