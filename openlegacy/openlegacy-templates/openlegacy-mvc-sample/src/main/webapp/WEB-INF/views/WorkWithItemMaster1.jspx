@@ -50,7 +50,9 @@
 				</div>
 				<div class="field">
 					<script>dojo.require("dijit.form.NumberSpinner");</script>
-					<label class="numeric_widget_label">Item weight: </label> <input type="text" name="itemWeight" data-dojo-type="dijit.form.NumberSpinner"
+					<label>Item weight: </label> 
+					<span></span> 
+					<input type="text" name="itemWeight" data-dojo-type="dijit.form.NumberSpinner"
 						value="${workWithItemMaster1.itemWeight}" style="width:100px" />
 				</div>
 				<div class="field">
@@ -58,7 +60,9 @@
 						value="${workWithItemMaster1.itemClass}" size="3" maxlength="3" />
 				</div>
 				<div class="field">
-					<label class="widget_label">Stock Group: </label> <select
+					<label>Stock Group: </label>
+					<span></span> 
+					<select
 						name="itemClass" value="${workWithItemMaster1.stockGroup}"
 						data-dojo-type="dijit.form.FilteringSelect">
 						<option value="">-Select-</option>
@@ -98,7 +102,9 @@
 						size="10" maxlength="10" />
 				</div>
 				<div class="field">
-					<label>Pallet label required: </label> <input type="checkbox"
+					<label>Pallet label required: </label>
+					<span></span> 
+					<input type="checkbox" data-dojo-type="dijit.form.CheckBox"
 						name="palletLabelRequired"
 						value="${workWithItemMaster1.palletLabelRequired}" />
 				</div>

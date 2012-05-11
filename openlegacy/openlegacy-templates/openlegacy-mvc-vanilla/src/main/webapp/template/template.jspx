@@ -16,8 +16,6 @@
 
   <script src="${pageContext.request.contextPath}/resources/openlegacy.mvc.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
-  <script src="${pageContext.request.contextPath}/js/demo.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
-
   <link rel="stylesheet" href="${pageContext.request.contextPath}/dj/dijit/themes/tundra/tundra.css" />
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/template/openlegacy.css" />	
 </head>

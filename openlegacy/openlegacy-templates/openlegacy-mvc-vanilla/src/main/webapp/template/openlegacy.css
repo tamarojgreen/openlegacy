@@ -87,24 +87,6 @@ h1{
 	white-space: nowrap;
 }
 
-.field .fixed_label {
-	position: relative;
-	white-space: nowrap;
-	margin-right: 25%;
-}
-
-.field .widget_label {
-	position: relative;
-	white-space: nowrap;
-	margin-right: 23%;
-}
-
-.field .numeric_widget_label {
-	position: relative;
-	white-space: nowrap;
-	margin-right: 24%;
-}
-
 .field span,.field input,.field select {
 	margin-left: 35%;
 }
