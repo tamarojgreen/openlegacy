@@ -20,6 +20,7 @@
 				</div>
 				<div class="field">
 					<label>Warehouse Type: </label>
+					<span></span>
 					<script language="JavaScript" type="text/javascript">
 						dojo.require("dojo.data.ItemFileReadStore");
 						dojo.require("dijit.form.FilteringSelect");
@@ -46,12 +47,11 @@
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'User Details', open:false">
 				<div class="field">
-					<label class="widget_label">Amended date: </label>
+					<label>Amended date: </label>
+					<span></span>
 					<form:input id="amendedDate"
 						path="workWithWarehouseDetails1.amendedDate" />
-					<script>
-						dojo.require("dijit.form.DateTextBox");
-					</script>
+					<script>dojo.require("dijit.form.DateTextBox");</script>
 					<script>
 						var dateField = new dijit.form.DateTextBox({
 							name : "amendedDate",
@@ -70,6 +70,7 @@
 					<label>Created by: </label> <span>${workWithWarehouseDetails1.createdBy}</span>
 				</div>
 			</div>
+			<!-- Additional Google Map Panel -->
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Location Details', open:true">
 				<div class="field">

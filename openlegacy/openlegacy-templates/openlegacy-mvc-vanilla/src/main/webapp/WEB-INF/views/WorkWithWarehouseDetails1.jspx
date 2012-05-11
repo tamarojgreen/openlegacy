@@ -15,6 +15,7 @@
 			</div>
 			<div class="field">
 				<label>Warehouse Type: </label>
+				<span></span>
 				<script language="JavaScript" type="text/javascript">
 					dojo.require("dojo.data.ItemFileReadStore");
 					dojo.require("dijit.form.FilteringSelect");
@@ -40,7 +41,8 @@
 		</div>
 		<div style="margin-left: 2%; top: 45%; width: 51%;" class="panel">
 			<div class="field">
-				<label class="fixed_label">Amended date: </label>
+				<label>Amended date: </label>
+				<span></span>
 				<form:input id="amendedDate"
 					path="workWithWarehouseDetails1.amendedDate" />
 				<script>
