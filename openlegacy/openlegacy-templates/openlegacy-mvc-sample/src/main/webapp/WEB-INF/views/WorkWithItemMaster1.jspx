@@ -1,64 +1,22 @@
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags">	
-	<form id="WorkWithItemMaster1Form" method="post" action="${pageContext.request.contextPath}/WorkWithItemMaster1">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags" xmlns:form="http://www.springframework.org/tags/form">	
+    <form:form id="WorkWithItemMaster1Form" method="post" action="${pageContext.request.contextPath}/WorkWithItemMaster1" modelAttribute="workWithItemMaster1">
 		<div style="margin-left: 2%; top: 18%; width: 80%; height: auto;"
 			class="panel">
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Item Details', open:true">
-				<div class="field">
-					<label>Item Number: </label> <input type="text" name="itemNumber"
-						id="itemNumber" value="${workWithItemMaster1.itemNumber}"
-						size="15" maxlength="15" />
+				<ol:field id="itemNumber">
 					<c:if test="${imageId != null}">
 						<image class="stockImage" style="left:74%; position:absolute"
 							src="${pageContext.request.contextPath}/StockItemImages/images/${imageId}" />
 					</c:if>
-				</div>
-				<div class="field">
-					<label>Item Description: </label> <input type="text"
-						name="itemDescription"
-						value="${workWithItemMaster1.itemDescription}" size="40"
-						maxlength="40" />
-				</div>
-				<div class="field">
-					<label>Alpha Search: </label> <input type="text" name="alphaSearch"
-						value="${workWithItemMaster1.alphaSearch}" size="10"
-						maxlength="10" />
-				</div>
-				<div class="field">
-					<label>Superceding item To: </label> <input type="text"
-						name="supercedingItemto"
-						value="${workWithItemMaster1.supercedingItemto}" size="15"
-						maxlength="15" />
-				</div>
-				<div class="field">
-					<label>Superceding Item From: </label> <input type="text"
-						name="supercedingItemfrom"
-						value="${workWithItemMaster1.supercedingItemfrom}" size="15"
-						maxlength="15" />
-				</div>
-				<div class="field">
-					<label>Substitute item number: </label> <input type="text"
-						name="substituteItemNumber"
-						value="${workWithItemMaster1.substituteItemNumber}" size="15"
-						maxlength="15" />
-				</div>
-				<div class="field">
-					<label>Manufacturers Item No: </label> <input type="text"
-						name="manufacturersItemNo"
-						value="${workWithItemMaster1.manufacturersItemNo}" size="15"
-						maxlength="15" />
-				</div>
-				<div class="field">
-					<script>dojo.require("dijit.form.NumberSpinner");</script>
-					<label>Item weight: </label> 
-					<span></span> 
-					<input type="text" name="itemWeight" data-dojo-type="dijit.form.NumberSpinner"
-						value="${workWithItemMaster1.itemWeight}" style="width:100px" />
-				</div>
-				<div class="field">
-					<label>Item Class: </label> <input type="text" name="itemClass"
-						value="${workWithItemMaster1.itemClass}" size="3" maxlength="3" />
-				</div>
+				</ol:field>
+				<ol:field id="itemDescription" />
+				<ol:field id="alphaSearch" />
+				<ol:field id="supercedingItemto" />
+				<ol:field id="supercedingItemfrom" />
+				<ol:field id="substituteItemNumber" />
+				<ol:field id="manufacturersItemNo" />
+				<ol:field id="itemWeight" />
 				<div class="field">
 					<label>Stock Group: </label>
 					<span></span> 
@@ -79,35 +37,11 @@
 			</div>
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Advanced', open:false">
-				<div class="field">
-					<label>Unit of Measure: </label> <input type="text"
-						name="unitOfMeasure" value="${workWithItemMaster1.unitOfMeasure}"
-						size="5" maxlength="5" />
-				</div>
-				<div class="field">
-					<label>Packing Multiplier: </label> <input type="text"
-						name="packingMultiplier"
-						value="${workWithItemMaster1.packingMultiplier}" size="6"
-						maxlength="6" />
-				</div>
-				<div class="field">
-					<label>Outer Unit of Measure: </label> <input type="text"
-						name="outerUnitOfMeasure"
-						value="${workWithItemMaster1.outerUnitOfMeasure}" size="5"
-						maxlength="5" />
-				</div>
-				<div class="field">
-					<label>Outer Quantity: </label> <input type="text"
-						name="outerQuantity" value="${workWithItemMaster1.outerQuantity}"
-						size="10" maxlength="10" />
-				</div>
-				<div class="field">
-					<label>Pallet label required: </label>
-					<span></span> 
-					<input type="checkbox" data-dojo-type="dijit.form.CheckBox"
-						name="palletLabelRequired"
-						value="${workWithItemMaster1.palletLabelRequired}" />
-				</div>
+				<ol:field id="unitOfMeasure" />
+				<ol:field id="packingMultiplier" />
+				<ol:field id="outerUnitOfMeasure" />
+				<ol:field id="outerQuantity" />
+				<ol:field id="palletLabelRequired" />
 				<div class="field">
 					<label>VAT Code: </label> <input type="text" name="vatCode"
 						value="${workWithItemMaster1.vatCode}" size="2" maxlength="2" />
@@ -126,6 +60,6 @@
 		<iframe width="600" height="400" src="${stockItem.videoUrl}"></iframe>
 		</div>
 
-	</form>
+    </form:form>
 </div>
 

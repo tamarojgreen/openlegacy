@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.web.mvc;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.TerminalSession;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver {
+
+	private final static Log logger = LogFactory.getLog(OpenLegacyExceptionResolver.class);
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
@@ -23,6 +27,11 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 				}
 			}
 		}
-		return super.resolveException(request, response, handler, ex);
+		try {
+			return super.resolveException(request, response, handler, ex);
+		} catch (RuntimeException e) {
+			logger.fatal(e);
+			return null;
+		}
 	}
 }

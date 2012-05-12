@@ -1,26 +1,12 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags" xmlns:form="http://www.springframework.org/tags/form">	
-	<script>
-		dojo.require("dijit.TitlePane");
-	</script>
-	<form id="WorkWithWarehouseDetails1Form" method="post">
+    <form:form id="WorkWithWarehouseDetails1Form" method="post" action="${pageContext.request.contextPath}/WorkWithWarehouseDetails1" modelAttribute="workWithWarehouseDetails1">
 		<div style="margin-left: 2%; top: 20%; width: 72%;" class="panel">
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Warehouse Details', open:true">
-				<div class="field">
-					<label>Warehouse Number: </label> <input type="text"
-						name="warehouseNumber"
-						value="${workWithWarehouseDetails1.warehouseNumber}" size="3"
-						maxlength="3" />
-				</div>
-				<div class="field">
-					<label>Warehouse Description: </label> <input type="text"
-						name="warehouseDescription"
-						value="${workWithWarehouseDetails1.warehouseDescription}"
-						size="40" maxlength="40" />
-				</div>
+				<ol:field id="warehouseNumber" />
+				<ol:field id="warehouseDescription" />
 				<div class="field">
 					<label>Warehouse Type: </label>
-					<span></span>
 					<script language="JavaScript" type="text/javascript">
 						dojo.require("dojo.data.ItemFileReadStore");
 						dojo.require("dijit.form.FilteringSelect");
@@ -32,43 +18,15 @@
 						data-dojo-props="store:warehouseTypeValues, searchAttr:'name', pageSize:100"
 						style="width: 200px"></input>
 				</div>
-				<div class="field">
-					<label>Costing Type: </label> <input type="text" name="costingType"
-						value="${workWithWarehouseDetails1.costingType}" size="1"
-						maxlength="1" />
-				</div>
-				<div class="field">
-					<label>Replenishment Cycle flag: </label> <input type="text"
-						name="replenishmentCycleFlag"
-						value="${workWithWarehouseDetails1.replenishmentCycleFlag}"
-						size="1" maxlength="1" />
-				</div>
+				<ol:field id="costingType" />
+				<ol:field id="replenishmentCycleFlag" />
 			</div>
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'User Details', open:false">
-				<div class="field">
-					<label>Amended date: </label>
-					<span></span>
-					<form:input id="amendedDate"
-						path="workWithWarehouseDetails1.amendedDate" />
-					<script>dojo.require("dijit.form.DateTextBox");</script>
-					<script>
-						var dateField = new dijit.form.DateTextBox({
-							name : "amendedDate",
-							value : dojo.byId('amendedDate').value,
-							datePattern : "yyyy-MM-dd"
-						}, "amendedDate");
-					</script>
-				</div>
-				<div class="field">
-					<label>Amended By: </label> <span>${workWithWarehouseDetails1.amendedBy}</span>
-				</div>
-				<div class="field">
-					<label>Created Date: </label> <span>${workWithWarehouseDetails1.createdDate}</span>
-				</div>
-				<div class="field">
-					<label>Created by: </label> <span>${workWithWarehouseDetails1.createdBy}</span>
-				</div>
+				<ol:field id="amendedDate" />
+				<ol:field id="amendedBy" />
+				<ol:field id="createdDate" />
+				<ol:field id="createdBy" />
 			</div>
 			<!-- Additional Google Map Panel -->
 			<div data-dojo-type="dijit.TitlePane"
@@ -87,6 +45,6 @@
 				</script>
 			</div>
 		</div>
-	</form>
+	</form:form>
 </div>
 

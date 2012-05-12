@@ -3,6 +3,7 @@ package org.openlegacy.terminal.samples.model;
 import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenActions;
+import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
@@ -69,8 +70,9 @@ public class WorkWithItemMaster1 {
 	@ScreenField(row = 19, column = 33, endColumn = 42, labelColumn = 2, editable = true, displayName = "Outer Quantity")
 	private Integer outerQuantity;
 
+	@ScreenBooleanField(trueValue = "1", falseValue = "")
 	@ScreenField(row = 20, column = 33, endColumn = 33, labelColumn = 2, editable = true, displayName = "Pallet label required")
-	private String palletLabelRequired;
+	private Boolean palletLabelRequired;
 
 	@ScreenField(row = 21, column = 33, endColumn = 34, labelColumn = 2, editable = true, displayName = "VAT Code")
 	private String vatCode;

@@ -154,11 +154,11 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1_Aspect {
 
 
 
-    public String WorkWithItemMaster1.getPalletLabelRequired(){
+    public Boolean WorkWithItemMaster1.getPalletLabelRequired(){
     	return this.palletLabelRequired;
     }
     
-    public void WorkWithItemMaster1.setPalletLabelRequired(String palletLabelRequired){
+    public void WorkWithItemMaster1.setPalletLabelRequired(Boolean palletLabelRequired){
     	this.palletLabelRequired = palletLabelRequired;
     }
 

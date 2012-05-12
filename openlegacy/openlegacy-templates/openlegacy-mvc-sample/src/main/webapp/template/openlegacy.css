@@ -87,7 +87,7 @@ h1{
 	white-space: nowrap;
 }
 
-.field span,.field input,.field select {
+.readonlyField, .field span,.field input,.field select {
 	margin-left: 35%;
 }
 
@@ -244,9 +244,9 @@ ul,li {
 }
 
 .stockImage {
-  max-width: 200px;
-  max-height: 200px;
-  width: expression(this.width > 200 ? "200px" : true);
-  height: expression(this.height > 200 ? "200px" : true);
+  max-width: 150px;
+  max-height: 150px;
+  width: expression(this.width > 150 ? "150px" : true);
+  height: expression(this.height > 150 ? "150px" : true);
   margin-right: 10px;
 }
