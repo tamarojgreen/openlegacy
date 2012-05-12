@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.web.mvc;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.TerminalSession;
@@ -18,6 +20,8 @@ import javax.inject.Inject;
 @Controller
 public class LogoffController {
 
+	private final static Log logger = LogFactory.getLog(LogoffController.class);
+
 	@Inject
 	private TerminalSession terminalSession;
 
@@ -32,7 +36,11 @@ public class LogoffController {
 
 		String trailPath = openLegacyProperties.getProperty(OpenLegacyProperties.TRAIL_FOLDER_PATH);
 		if (trailPath != null) {
-			TrailUtil.saveTrail(terminalSession, trailWriter, trailPath);
+			try {
+				TrailUtil.saveTrail(terminalSession, trailWriter, trailPath);
+			} catch (Exception e) {
+				logger.error("Unable to save trail file", e);
+			}
 		}
 
 		terminalSession.disconnect();

@@ -18,4 +18,5 @@ public interface FieldDefinition {
 
 	FieldTypeDefinition getFieldTypeDefinition();
 
+	public Class<?> getJavaType();
 }

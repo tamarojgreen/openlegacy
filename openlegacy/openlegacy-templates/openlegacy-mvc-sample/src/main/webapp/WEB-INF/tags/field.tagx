@@ -1,0 +1,72 @@
+<jsp:root xmlns:ol="http://www.openlegacy.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.attribute name="id" type="java.lang.String"
+		required="true" rtexprvalue="true"
+		description="The identifier for this tag" />
+	<jsp:directive.attribute name="label" type="java.lang.String"
+		required="false" rtexprvalue="true"
+		description="The label for this tag" />
+	<jsp:directive.attribute name="value" type="java.lang.String"
+		required="false" rtexprvalue="true"
+		description="The value for this tag" />
+	<jsp:directive.attribute name="size" type="java.lang.Integer"
+		required="false" rtexprvalue="true" description="The size of this tag" />
+	<jsp:directive.attribute name="type" type="java.lang.String"
+		required="false" rtexprvalue="true"
+		description="Set field type (default 'text', or 'password')" />
+
+	<c:set var="fieldMetadata" value="${definitions.fieldsDefinitions[id]}" />
+	<c:if test="${empty label}">
+		<c:set var="label" value="${fieldMetadata.displayName}" />
+	</c:if>
+	<c:if test="${empty size}">
+		<c:set var="size" value="${fieldMetadata.length}" />
+	</c:if>
+
+	<div class="field">
+		<label class="label">${label}: </label>
+		<c:choose>
+			<c:when test="${fieldMetadata.editable}">
+				<c:choose>
+					<c:when
+						test="${ol:isAssignable(fieldMetadata.javaType, 'java.lang.Number')}">
+						<script>dojo.require("dijit.form.NumberSpinner");</script>
+						<span class="fieldPlaceholder" />
+						<form:input type="text" name="${id}"
+							data-dojo-type="dijit.form.NumberSpinner" path="${id}" />
+					</c:when>
+					<c:when
+						test="${ol:isAssignable(fieldMetadata.javaType, 'java.lang.Boolean')}">
+						<script>dojo.require("dijit.form.CheckBox");</script>
+						<span class="fieldPlaceholder" />
+						<form:checkbox name="${id}" data-dojo-type="dijit.form.CheckBox"
+							path="${id}" />
+					</c:when>
+					<c:when
+						test="${ol:isAssignable(fieldMetadata.javaType, 'java.util.Date')}">
+						<span class="fieldPlaceholder" />
+						<form:input id="${id}" path="${id}" />
+						<script>
+					dojo.require("dijit.form.DateTextBox");
+					var dateField = new dijit.form.DateTextBox({ name : "${id}", value : dojo.byId('${id}').value, datePattern : "yyyy-MM-dd" }, "${id}");
+					</script>
+					</c:when>
+					<c:otherwise>
+						<form:input type="text" id="${id}" name="${id}" size="${size}"
+							maxlength="${size}" path="${id}" />
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<ol:span cssClass="readonlyField" path="${id}"/>
+			</c:otherwise>
+		</c:choose>
+	</div>
+
+	<jsp:doBody />
+</jsp:root>
