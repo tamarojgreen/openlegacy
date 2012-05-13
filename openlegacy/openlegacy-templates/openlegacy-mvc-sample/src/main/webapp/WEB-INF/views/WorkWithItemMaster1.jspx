@@ -1,22 +1,21 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags" xmlns:form="http://www.springframework.org/tags/form">	
-    <form:form id="WorkWithItemMaster1Form" method="post" action="${pageContext.request.contextPath}/WorkWithItemMaster1" modelAttribute="workWithItemMaster1">
-		<div style="margin-left: 2%; top: 18%; width: 80%; height: auto;"
-			class="panel">
+    <ol:form model="workWithItemMaster1">
+    	<ol:panel width="90%" left="2%" top="18%">
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Item Details', open:true">
-				<ol:field id="itemNumber">
+				<ol:field name="itemNumber">
 					<c:if test="${imageId != null}">
-						<image class="stockImage" style="left:74%; position:absolute"
+						<img class="stockImage" style="left:74%; position:absolute"
 							src="${pageContext.request.contextPath}/StockItemImages/images/${imageId}" />
 					</c:if>
 				</ol:field>
-				<ol:field id="itemDescription" />
-				<ol:field id="alphaSearch" />
-				<ol:field id="supercedingItemto" />
-				<ol:field id="supercedingItemfrom" />
-				<ol:field id="substituteItemNumber" />
-				<ol:field id="manufacturersItemNo" />
-				<ol:field id="itemWeight" />
+				<ol:field name="itemDescription" />
+				<ol:field name="alphaSearch" />
+				<ol:field name="supercedingItemto" />
+				<ol:field name="supercedingItemfrom" />
+				<ol:field name="substituteItemNumber" />
+				<ol:field name="manufacturersItemNo" />
+				<ol:field name="itemWeight" />
 				<div class="field">
 					<label>Stock Group: </label>
 					<span></span> 
@@ -37,11 +36,11 @@
 			</div>
 			<div data-dojo-type="dijit.TitlePane"
 				data-dojo-props="title: 'Advanced', open:false">
-				<ol:field id="unitOfMeasure" />
-				<ol:field id="packingMultiplier" />
-				<ol:field id="outerUnitOfMeasure" />
-				<ol:field id="outerQuantity" />
-				<ol:field id="palletLabelRequired" />
+				<ol:field name="unitOfMeasure" />
+				<ol:field name="packingMultiplier" />
+				<ol:field name="outerUnitOfMeasure" />
+				<ol:field name="outerQuantity" />
+				<ol:field name="palletLabelRequired" />
 				<div class="field">
 					<label>VAT Code: </label> <input type="text" name="vatCode"
 						value="${workWithItemMaster1.vatCode}" size="2" maxlength="2" />
@@ -53,13 +52,13 @@
 				<div data-dojo-type="dijit.Editor"
 					onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
 			</div>
-		</div>
+    	</ol:panel>
 	<div id="videoDialog" data-dojo-type="dijit.Dialog"
 		style="overflow: auto;" title="Video"
 		data-dojo-props="parseOnLoad: true, duration:600">
 		<iframe width="600" height="400" src="${stockItem.videoUrl}"></iframe>
 		</div>
 
-    </form:form>
+    </ol:form>
 </div>
 

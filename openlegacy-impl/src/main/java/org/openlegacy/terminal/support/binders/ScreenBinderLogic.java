@@ -46,7 +46,7 @@ public class ScreenBinderLogic {
 			}
 			TerminalRow row = terminalSnapshot.getRow(position.getRow());
 			String text = terminalField.getValue();
-			if (fieldMappingDefinition.getLength() > 0) {
+			if (fieldMappingDefinition.getLength() > 0 && fieldMappingDefinition.getLength() != terminalField.getLength()) {
 				text = row.getText(position.getColumn(), fieldMappingDefinition.getLength());
 			}
 			String fieldName = fieldMappingDefinition.getName();

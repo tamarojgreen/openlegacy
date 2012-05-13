@@ -5,6 +5,7 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.samples.model.WorkWithItemMaster2.StockInfo;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
@@ -17,59 +18,6 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster2_Aspect {
     declare parents: WorkWithItemMaster2 implements ScreenEntity;
     private String WorkWithItemMaster2.focusField;
     
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-    
-
-    public String WorkWithItemMaster2.getAmendedDate(){
-    	return this.amendedDate;
-    }
-    
-
-
-
-    public String WorkWithItemMaster2.getCreatedBy(){
-    	return this.createdBy;
-    }
-    
-
-
-
-    public String WorkWithItemMaster2.getCreatedDate(){
-    	return this.createdDate;
-    }
-    
-
 
 
     public String WorkWithItemMaster2.getField(){
@@ -197,6 +145,9 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster2_Aspect {
     	this.stockValueGroup = stockValueGroup;
     }
 
+    public StockInfo WorkWithItemMaster2.getStockInfo(){
+    	return this.stockInfo;
+    }
 
 
 
@@ -206,5 +157,6 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster2_Aspect {
     public void WorkWithItemMaster2.setFocusField(String focusField){
     	this.focusField = focusField;
     }
+
     
 }
