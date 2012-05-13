@@ -42,7 +42,7 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	private ScreenForPagePart screenForPagePart;
 
-	private List<ScreenForPageTable> screenForPageRow;
+	private List<ScreenForPageRow> screenForPageRow;
 
 	public String getFldCol12() {
 		return fldCol12;
@@ -72,7 +72,7 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 		return screenForPagePart;
 	}
 
-	public List<ScreenForPageTable> getScreenForPageRow() {
+	public List<ScreenForPageRow> getScreenForPageRow() {
 		return screenForPageRow;
 	}
 
@@ -105,7 +105,7 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	@ScreenTableActions(actions = { @TableAction(actionValue = "1", displayName = "View"),
 			@TableAction(actionValue = "2", displayName = "Revise") })
 	@Component
-	public static class ScreenForPageTable {
+	public static class ScreenForPageRow {
 
 		@ScreenColumn(startColumn = 5, endColumn = 6, editable = true, selectionField = true)
 		private String action;

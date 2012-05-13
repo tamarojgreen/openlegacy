@@ -87,7 +87,7 @@ h1{
 	white-space: nowrap;
 }
 
-.readonlyField, .field span,.field input,.field select {
+.readonlyField, .fieldPlaceholder,.field span,.field input,.field select {
 	margin-left: 35%;
 }
 

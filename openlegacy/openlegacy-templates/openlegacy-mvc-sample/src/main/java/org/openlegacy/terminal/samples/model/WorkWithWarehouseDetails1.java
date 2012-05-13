@@ -44,7 +44,7 @@ public class WorkWithWarehouseDetails1 {
 	@ScreenField(row = 10, column = 34, endColumn = 34, labelColumn = 2, editable = true, displayName = "Replenishment Cycle flag")
 	private String replenishmentCycleFlag;
 
-	@ScreenField(row = 11, column = 20, labelColumn = 2, editable = true, displayName = "Address")
+	@ScreenField(row = 11, column = 20, labelColumn = 2, endColumn = 74, editable = true, displayName = "Address")
 	private String address;
 
 	@ScreenDateField(dayColumn = 34, monthColumn = 37, yearColumn = 40)

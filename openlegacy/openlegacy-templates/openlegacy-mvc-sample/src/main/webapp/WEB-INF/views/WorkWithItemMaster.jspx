@@ -1,12 +1,7 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags">	
-	<form id="WorkWithItemMasterForm" method="post">
-		<div style="margin-left: 2%; top: 87%; width: 32%;position:absolute;" >
-			<div class="field">
-	<label>Position to: </label>
-		<input type="text" name="positionTo" value="${workWithItemMaster.positionTo}" size="10" maxlength="10" />
-			</div>
-		</div>
-		<div style="margin-left: 5%; top: 25%; width: 70%;" class="panel">
+	<ol:form model="workWithItemMaster">
+		<ol:field name="positionTo" top="87%" left="2%" width="32%" />
+		<ol:panel width="70%" left="5%" top="25%">
 				<table>
 					<th>
 					Action
@@ -41,8 +36,8 @@
 					| 
 					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','next','body')">Next &gt;</a> 
 				</div>
-		</div>
+		</ol:panel>
 		
-	</form>
+	</ol:form>
 </div>
 		

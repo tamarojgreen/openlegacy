@@ -8,6 +8,7 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 
@@ -62,13 +63,19 @@ public class WorkWithItemMaster2 {
 	@ScreenField(row = 18, column = 29, endColumn = 41, labelColumn = 2, editable = true, displayName = "Standard unit cost")
 	private Integer standardUnitCost;
 
-	@ScreenField(row = 19, column = 69, endColumn = 78, labelColumn = 51, displayName = "Created date", sampleValue = "17/01/2010")
-	private String createdDate;
+	private StockInfo stockInfo;
 
-	@ScreenField(row = 20, column = 69, endColumn = 78, labelColumn = 51, displayName = "Created By", sampleValue = "TESTUSER")
-	private String createdBy;
+	@ScreenPart
+	public static class StockInfo {
 
-	@ScreenField(row = 21, column = 69, endColumn = 78, labelColumn = 51, displayName = "Amended date", sampleValue = "0/00/0000")
-	private String amendedDate;
+		@ScreenField(row = 19, column = 69, endColumn = 78, labelColumn = 51, displayName = "Created date", sampleValue = "17/01/2010")
+		private String createdDate;
 
+		@ScreenField(row = 20, column = 69, endColumn = 78, labelColumn = 51, displayName = "Created By", sampleValue = "TESTUSER")
+		private String createdBy;
+
+		@ScreenField(row = 21, column = 69, endColumn = 78, labelColumn = 51, displayName = "Amended date", sampleValue = "0/00/0000")
+		private String amendedDate;
+
+	}
 }

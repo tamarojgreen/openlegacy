@@ -1,5 +1,7 @@
 package org.openlegacy.web.tags;
 
+import org.apache.commons.lang.StringUtils;
+
 public class TagUtils {
 
 	public static boolean isAssignable(Class<?> actualClass, String expectedClassName) {
@@ -10,6 +12,10 @@ public class TagUtils {
 			return false;
 		}
 		return expectedClass.isAssignableFrom(actualClass);
+	}
+
+	public static String capFirst(String text) {
+		return StringUtils.capitalize(text);
 	}
 
 	public static boolean instanceOf(Object o, String className) {
