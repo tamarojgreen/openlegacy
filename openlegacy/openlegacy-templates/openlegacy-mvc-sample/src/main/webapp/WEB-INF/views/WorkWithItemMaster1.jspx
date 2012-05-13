@@ -1,8 +1,7 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags" xmlns:form="http://www.springframework.org/tags/form">	
     <ol:form model="workWithItemMaster1">
-    	<ol:panel width="90%" left="2%" top="18%">
-			<div data-dojo-type="dijit.TitlePane"
-				data-dojo-props="title: 'Item Details', open:true">
+    	<ol:pagePart width="90%" left="2%" top="18%">
+			<ol:panel title="Item Details" open="true">
 				<ol:field name="itemNumber">
 					<c:if test="${imageId != null}">
 						<img class="stockImage" style="left:74%; position:absolute"
@@ -33,9 +32,8 @@
 						<a href="javascript:showDialog('videoDialog')">Show</a>	
 					</c:if>
 				</div>
-			</div>
-			<div data-dojo-type="dijit.TitlePane"
-				data-dojo-props="title: 'Advanced', open:false">
+			</ol:panel>
+			<ol:panel title="Advanced" open="false">
 				<ol:field name="unitOfMeasure" />
 				<ol:field name="packingMultiplier" />
 				<ol:field name="outerUnitOfMeasure" />
@@ -45,18 +43,15 @@
 					<label>VAT Code: </label> <input type="text" name="vatCode"
 						value="${workWithItemMaster1.vatCode}" size="2" maxlength="2" />
 				</div>
-			</div>
-			<input type="hidden" id="description" name="description" />
-			<div data-dojo-type="dijit.TitlePane" id="_description"
-				data-dojo-props="title: 'Full Description', open:false">
+			</ol:panel>
+			<ol:panel title="Full Description" open="false">
+				<input type="hidden" id="description" name="description" />
 				<div data-dojo-type="dijit.Editor"
 					onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
-			</div>
-    	</ol:panel>
-	<div id="videoDialog" data-dojo-type="dijit.Dialog"
-		style="overflow: auto;" title="Video"
-		data-dojo-props="parseOnLoad: true, duration:600">
-		<iframe width="600" height="400" src="${stockItem.videoUrl}"></iframe>
+			</ol:panel>
+    	</ol:pagePart>
+		<div id="videoDialog" data-dojo-type="dijit.Dialog" style="overflow: auto;" title="Video" data-dojo-props="parseOnLoad: true, duration:600">
+			<iframe width="600" height="400" src="${stockItem.videoUrl}"></iframe>
 		</div>
 
     </ol:form>

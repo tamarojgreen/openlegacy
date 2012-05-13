@@ -5,12 +5,10 @@
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:output omit-xml-declaration="yes" />
-	<jsp:directive.attribute name="top" type="java.lang.String" required="true" rtexprvalue="true" description="The top position of this panel" />
-	<jsp:directive.attribute name="left" type="java.lang.String" required="true" rtexprvalue="true" description="The left position of this panel" />
-	<jsp:directive.attribute name="width" type="java.lang.String" required="true" rtexprvalue="true" description="The width of this panel" />
+	<jsp:directive.attribute name="open" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be opened" />
+	<jsp:directive.attribute name="title" type="java.lang.String" required="false" rtexprvalue="true" description="The panel title" />
 
-	<div style="margin-left: ${left}; top: ${top}; width: ${width}; height: auto;"
-		class="panel">
+	<div data-dojo-type="dijit.TitlePane" data-dojo-props="title: '${title}', open:${open}">
 		<jsp:doBody />
 	</div>
 

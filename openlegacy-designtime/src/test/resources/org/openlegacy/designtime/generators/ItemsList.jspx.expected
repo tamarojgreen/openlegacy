@@ -5,7 +5,7 @@
 		
 			<ol:field name="errorMessage" top="95%" left="1%" width="13%" />
 		
-			<ol:panel left="5%" top="25%" width="80%">
+			<ol:pagePart left="5%" top="25%" width="80%">
 				<table>
 					<th>
 					Action
@@ -42,7 +42,7 @@
 					| 
 					<a href="javascript:doAjaxPost('ItemsListForm','container','next','body')">Next &gt;</a> 
 				</div>
-			</ol:panel>
+			</ol:pagePart>
 		
 	</ol:form>
 </div>
