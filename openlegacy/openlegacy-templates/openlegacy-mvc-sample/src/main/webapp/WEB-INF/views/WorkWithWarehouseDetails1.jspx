@@ -1,8 +1,7 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags" xmlns:form="http://www.springframework.org/tags/form">	
     <ol:form model="workWithWarehouseDetails1">
-		<ol:panel left="2%" top="20%" width="72%">
-			<div data-dojo-type="dijit.TitlePane"
-				data-dojo-props="title: 'Warehouse Details', open:true">
+		<ol:pagePart left="2%" top="20%" width="72%">
+			<ol:panel title="Warehouse Details" open="true">
 				<ol:field name="warehouseNumber" />
 				<ol:field name="warehouseDescription" />
 				<div class="field">
@@ -20,17 +19,15 @@
 				</div>
 				<ol:field name="costingType" />
 				<ol:field name="replenishmentCycleFlag" />
-			</div>
-			<div data-dojo-type="dijit.TitlePane"
-				data-dojo-props="title: 'User Details', open:false">
+			</ol:panel>
+			<ol:panel title="User Details" open="false">
 				<ol:field name="amendedDate" />
 				<ol:field name="amendedBy" />
 				<ol:field name="createdDate" />
 				<ol:field name="createdBy" />
-			</div>
+			</ol:panel>
 			<!-- Additional Google Map Panel -->
-			<div data-dojo-type="dijit.TitlePane"
-				data-dojo-props="title: 'Location Details', open:true">
+			<ol:panel title="Location Details" open="true">
 				<ol:field name="address">
 					<div id="map_canvas" style="margin-top:10px; height: 200px"></div>
 					<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"><!-- required for FF3 and Opera --></script>
@@ -40,8 +37,8 @@
 						});
 					</script>
 				</ol:field>
-			</div>
-		</ol:panel>
+			</ol:panel>
+		</ol:pagePart>
 	</ol:form>
 </div>
 

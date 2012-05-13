@@ -5,7 +5,7 @@
 		<#if pagePart.oneField>
 			<ol:field name="${pagePart.singleField.name}" top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%" width="${pagePart.width}%" />
 		<#else>
-			<ol:panel left="${pagePart.leftMargin}%" top="${pagePart.topMargin}%" width="${pagePart.width}%">
+			<ol:pagePart left="${pagePart.leftMargin}%" top="${pagePart.topMargin}%" width="${pagePart.width}%">
 			<#list pagePart.partRows as partRow> 
 				<#list partRow.fields as field>
 				<#if partRow.fields?size &gt; 1>
@@ -54,7 +54,7 @@
 					<a href="javascript:doAjaxPost('${entityDefinition.entityName}Form','container','next','body')">Next &gt;</a> 
 				</div>
 			</#if>
-			</ol:panel>
+			</ol:pagePart>
 		</#if>
 			
 		</#list>	
