@@ -61,9 +61,9 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 		String terminalFieldName = fieldName + FIELD_SUFFIX;
 		if (directFieldAccessor.isReadableProperty(terminalFieldName)) {
 			directFieldAccessor.setPropertyValue(terminalFieldName, terminalField);
-		}
-		if (logger.isDebugEnabled()) {
-			logger.debug(MessageFormat.format("Terminal Field {0} was set", fieldName, terminalField));
+			if (logger.isDebugEnabled()) {
+				logger.debug(MessageFormat.format("Terminal Field {0} was set", fieldName, terminalField));
+			}
 		}
 
 	}

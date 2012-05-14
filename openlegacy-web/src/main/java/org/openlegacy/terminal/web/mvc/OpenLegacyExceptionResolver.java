@@ -27,11 +27,9 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 				}
 			}
 		}
-		try {
-			return super.resolveException(request, response, handler, ex);
-		} catch (RuntimeException e) {
-			logger.fatal(e);
-			return null;
-		}
+
+		logger.fatal(ex);
+
+		return super.resolveException(request, response, handler, ex);
 	}
 }

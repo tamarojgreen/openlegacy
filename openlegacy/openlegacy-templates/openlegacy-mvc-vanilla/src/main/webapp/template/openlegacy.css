@@ -87,7 +87,7 @@ h1{
 	white-space: nowrap;
 }
 
-.field span,.field input,.field select {
+.readonlyField, .fieldPlaceholder,.field span,.field input,.field select {
 	margin-left: 35%;
 }
 
@@ -242,3 +242,4 @@ ul,li {
 .tundra .dijitMenuBar {
 	border: 0px;
 }
+

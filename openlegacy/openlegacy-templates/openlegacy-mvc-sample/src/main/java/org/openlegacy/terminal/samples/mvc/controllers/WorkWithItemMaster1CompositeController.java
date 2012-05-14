@@ -51,10 +51,26 @@ public class WorkWithItemMaster1CompositeController {
 		uiModel.addAttribute("notes", notes);
 	}
 
-	// handle page navigation with friendly for drilldown
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public String edit(@PathVariable("id") Integer itemNumber, Model uiModel) {
-		terminalSession.getModule(Table.class).drillDown(WorkWithItemMaster1.class, TerminalDrilldownActions.enter("2"),
+	// handle page navigation with friendly URL for drill-down
+	@RequestMapping(value = "/revise/{id}", method = RequestMethod.GET)
+	public String revise(@PathVariable("id") Integer itemNumber, Model uiModel) {
+		return performDrillDownAction(itemNumber, uiModel, "2");
+	}
+
+	// handle page navigation with friendly URL for drill-down
+	@RequestMapping(value = "/display/{id}", method = RequestMethod.GET)
+	public String display(@PathVariable("id") Integer itemNumber, Model uiModel) {
+		return performDrillDownAction(itemNumber, uiModel, "5");
+	}
+
+	// handle page navigation with friendly URL for drill-down
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public String delete(@PathVariable("id") Integer itemNumber, Model uiModel) {
+		return performDrillDownAction(itemNumber, uiModel, "4");
+	}
+
+	private String performDrillDownAction(Integer itemNumber, Model uiModel, String actionValue) {
+		terminalSession.getModule(Table.class).drillDown(WorkWithItemMaster1.class, TerminalDrilldownActions.enter(actionValue),
 				itemNumber);
 
 		addNotesToPage(uiModel, itemNumber);

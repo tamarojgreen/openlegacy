@@ -18,8 +18,8 @@
 					<c:forEach items="${workWithItemMaster.workWithItemMasterRecords}" var="item">
 					<tr>
 						<td>
-							<a href="WorkWithItemMaster1/edit/${item.itemNumber}">Edit</a> |
 							<a href="WorkWithItemMaster1/revise/${item.itemNumber}">Revise</a> |
+							<a href="WorkWithItemMaster1/display/${item.itemNumber}">Display</a> |
 							<a href="WorkWithItemMaster1/delete/${item.itemNumber}">Delete</a>
 						</td>
 						<td>${item.alphaSearch}</td>
