@@ -9,6 +9,7 @@ import org.openlegacy.designtime.terminal.analyzer.support.ColumnComparator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.table.RecordSelectionEntity;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 import org.openlegacy.utils.StringUtil;
@@ -52,6 +53,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 			return;
 		}
 
+		List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
 		for (int i = 0; i < TableColumnFacts.size(); i++) {
 			TableColumnFact TableColumnFact = TableColumnFacts.get(i);
 
@@ -88,7 +90,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 				tableDefinition.setMainDisplayField(columnDefinition.getName());
 			}
 
-			tableDefinition.getColumnDefinitions().add(columnDefinition);
+			columnDefinitions.add(columnDefinition);
 
 			// remove the fields from the snapshot to avoid re-recognize by other rules
 			screenEntityDefinition.getSnapshot().getFields().removeAll(TableColumnFact.getFields());
@@ -96,6 +98,11 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 				screenEntityDefinition.getSnapshot().getFields().remove(headerField);
 			}
 
+		}
+
+		// set the last field as main display field if non was set - may happen if there only 2 columns - 1 action field
+		if (tableDefinition.getMainDisplayField() == null) {
+			tableDefinition.setMainDisplayField(columnDefinitions.get(columnDefinitions.size() - 1).getName());
 		}
 
 		tableDefinition.setStartRow(topLeftTableCell.getPosition().getRow());
