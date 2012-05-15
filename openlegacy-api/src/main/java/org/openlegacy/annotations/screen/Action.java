@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A terminal session action for a screen entity. Defined within @ScreenActions<br/>
+ * A terminal session action for a screen entity. Defined within {@link ScreenActions} annotation<br/>
  * <br/>
  * 
  */

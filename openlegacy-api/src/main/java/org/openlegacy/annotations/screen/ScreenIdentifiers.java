@@ -9,8 +9,9 @@ import java.lang.annotation.Target;
 /**
  * Specifies that the class contains screen identifiers.<br/>
  * <br/>
+ * <code>
  * 
- * @SimpleScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 36, value = "Sign On") }) </code> <br/>
+ * @ScreenIdentifiers (identifiers = { @Identifier(row = 1, column = 36, value = "Sign On") }) </code> <br/>
  * <br/>
  * 
  * 

@@ -1,5 +1,6 @@
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.modules.table.Table;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
 import org.openlegacy.modules.table.drilldown.RowSelector;
@@ -14,11 +15,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is a screen entity. Screens defined as @ScreenEntity are scanned and put into ScreenEntitiesRegistry <br/>
- * <br/>
+ * Specifies custom table drill down implementation for {@link ScreenTable} entity<br/>
+ * Allows customized drill down logic into tables.
  * 
- * @ScreenEntity </code>
- * 
+ * @see Table
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

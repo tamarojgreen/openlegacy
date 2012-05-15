@@ -7,10 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is a screen entity. Screens defined as @ScreenEntity are scanned and put into ScreenEntitiesRegistry <br/>
- * <br/>
- * 
- * @ScreenEntity </code>
+ * Specifies that the class is a screen entity abstract class. This annotation allows reusing screen entities definitions using
+ * inheritance
  * 
  */
 @Documented

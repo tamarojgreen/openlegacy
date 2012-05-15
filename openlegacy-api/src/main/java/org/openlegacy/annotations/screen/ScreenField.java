@@ -9,11 +9,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the field is an terminal screen field. This annotation is applied to classes marked as @ScreenEntity
+ * Specifies that the field is an terminal screen field. This annotation is applied to classes marked with {@link ScreenEntity}
+ * annotation
  * 
  * <code>
  * 
- * @FieldMapping(row = 6, column = 18) private String user </code>
+ * @ScreenField (row = 6, column = 18) private String user </code>
  * 
  */
 @Documented
@@ -36,5 +37,5 @@ public @interface ScreenField {
 	String sampleValue() default "";
 
 	int labelColumn() default 0;
-	
+
 }

@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A screen entity field assignment. Currently used within @ScreenNavigation
+ * A screen entity field assignment. Currently used within {@link ScreenNavigation} annotation
  * 
  */
 @Documented
