@@ -7,24 +7,13 @@
 				<ol:field name="warehouseType" />
 				<ol:field name="costingType" />
 				<ol:field name="replenishmentCycleFlag" />
+				<ol:field name="address" type="address"/>
 			</ol:panel>
-			<ol:panel title="User Details" open="false">
+			<ol:panel title="User Details" open="true">
 				<ol:field name="amendedDate" />
 				<ol:field name="amendedBy" />
 				<ol:field name="createdDate" />
 				<ol:field name="createdBy" />
-			</ol:panel>
-			<!-- Additional Google Map Panel -->
-			<ol:panel title="Location Details" open="true">
-				<ol:field name="address">
-					<div id="map_canvas" style="margin-top:10px; height: 200px"></div>
-					<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"><!-- required for FF3 and Opera --></script>
-					<script type="text/javascript">
-						dojo.addOnLoad(function() {
-							createMap("${workWithWarehouseDetails1.address}");
-						});
-					</script>
-				</ol:field>
 			</ol:panel>
 		</ol:pagePart>
 	</ol:form>
