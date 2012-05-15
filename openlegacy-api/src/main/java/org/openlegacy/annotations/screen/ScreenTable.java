@@ -2,6 +2,7 @@ package org.openlegacy.annotations.screen;
 
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.table.ScreenTableCollector;
 
 import java.lang.annotation.Documented;
@@ -11,10 +12,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is a screen entity. Screens defined as @ScreenEntity are scanned and put into ScreenEntitiesRegistry <br/>
+ * Specifies that the class is a screen table entity. Screens defined as {@link ScreenTable} are scanned and put into
+ * {@link ScreenEntitiesRegistry} <br/>
  * <br/>
- * 
- * @ScreenEntity </code>
  * 
  */
 @Documented

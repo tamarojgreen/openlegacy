@@ -7,8 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies terminal actions for a screen entity.<br/>
- * <br/>
+ * Specifies table actions for entities marked with {@link ScreenTable} annotation<br/>
  * 
  */
 @Documented

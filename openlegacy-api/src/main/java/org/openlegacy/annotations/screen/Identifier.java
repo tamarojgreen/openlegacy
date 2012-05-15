@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines a terminal screen identifier. This annotation should be declared only within a @ScreenEntity annotation
+ * Defines a terminal screen identifier. This annotation should be declared only within a {@link ScreenEntity} annotation
  * 
  * <code>
  * 

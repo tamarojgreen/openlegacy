@@ -11,8 +11,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is a screen entity. Screens defined as @ScreenEntity are scanned and put into ScreenEntitiesRegistry <br/>
+ * Specifies that the class is a screen entity. Screens defined with this annotation Entity are scanned and put into
+ * ScreenEntitiesRegistry. <br/>
  * <br/>
+ * Scanning must be defined in spring context using &lt;context:component-scan base-package="&lt;PACKAGE&gt;" /&gt;
  * 
  * @ScreenEntity </code>
  * 

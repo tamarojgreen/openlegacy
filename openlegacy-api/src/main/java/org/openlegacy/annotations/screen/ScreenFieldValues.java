@@ -1,5 +1,6 @@
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.modules.table.LookupEntity;
 import org.openlegacy.terminal.ScreenRecordsProvider;
 
 import java.lang.annotation.Documented;
@@ -9,11 +10,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the field is an terminal screen field. This annotation is applied to classes marked as @ScreenEntity
+ * Specifies that the field has values list from another screen entity defined as {@link LookupEntity} type. This annotation
+ * triggers OpenLegacy to generate a method to the {@link ScreenEntity}, get&lt;PropertyName&gt;Values()
  * 
- * <code>
- * 
- * @FieldMapping(row = 6, column = 18) private String user </code>
  * 
  */
 @Documented

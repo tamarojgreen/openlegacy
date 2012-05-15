@@ -7,10 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is a screen entity. Screens defined as @ScreenEntity are scanned and put into ScreenEntitiesRegistry <br/>
- * <br/>
- * 
- * @ScreenEntity </code>
+ * Specifies that the field is a screen table column. The field containing should be marked with {@link ScreenTable} annotation<br/>
  * 
  */
 @Documented
