@@ -80,6 +80,15 @@
 							style="width: 200px"></input>
 					</c:when>
 					<c:when
+						test="${type == 'address'}">
+						<form:input type="text" id="${name}" size="${size}" maxlength="${size}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+						<a href="javascript:createMap(dojo.byId('${name}').value);showDialog('mapDialog')"><img class="map-icon" src="${pageContext.request.contextPath}/images/map.gif"/></a>	
+						<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"><!-- required for FF3 and Opera --></script>
+						<div id="mapDialog" data-dojo-type="dijit.Dialog" style="overflow: auto;" title="Map">
+							<div id="map_canvas" style="width:500px;height:500px"></div>
+						</div>
+					</c:when>
+					<c:when
 						test="${type == 'password'}">
 						<form:input type="password" id="${name}" size="${size}" maxlength="${size}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
