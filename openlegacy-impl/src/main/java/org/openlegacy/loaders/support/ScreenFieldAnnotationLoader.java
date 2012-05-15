@@ -3,6 +3,10 @@ package org.openlegacy.loaders.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
+import java.util.Date;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -51,6 +56,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		}
 
 		screenFieldDefinition.setEditable(fieldAnnotation.editable());
+		screenFieldDefinition.setPassword(fieldAnnotation.password());
 
 		if (fieldAnnotation.displayName().length() > 0) {
 			screenFieldDefinition.setDisplayName(fieldAnnotation.displayName());
@@ -60,6 +66,8 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 		screenFieldDefinition.setSampleValue(fieldAnnotation.sampleValue());
 		screenFieldDefinition.setJavaType(field.getType());
+
+		setupFieldType(field, screenFieldDefinition);
 
 		EntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
 		// look in screen entities
@@ -76,6 +84,22 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 		}
 
+	}
+
+	private static void setupFieldType(Field field, SimpleScreenFieldDefinition screenFieldDefinition) {
+		// set number type definition - may be overridden by ScreenNumericFieldAnnotationLoader to fill in specific numeric properties
+		if (Number.class.isAssignableFrom(field.getType())) {
+			screenFieldDefinition.setFieldTypeDefinition(new SimpleNumericFieldTypeDefinition());
+		}
+		// set date type definition - may be overridden by ScreenDateFieldAnnotationLoader to fill in specific date properties
+		else if (Date.class.isAssignableFrom(field.getType())) {
+			screenFieldDefinition.setFieldTypeDefinition(new SimpleDateFieldTypeDefinition());
+		} else if (screenFieldDefinition.isPassword()) {
+			screenFieldDefinition.setFieldTypeDefinition(new SimplePasswordFieldTypeDefinition());
+		} else {
+			// set a default type definition
+			screenFieldDefinition.setFieldTypeDefinition(new SimpleTextFieldTypeDefinition());
+		}
 	}
 
 }

@@ -4,19 +4,7 @@
 			<ol:panel title="Warehouse Details" open="true">
 				<ol:field name="warehouseNumber" />
 				<ol:field name="warehouseDescription" />
-				<div class="field">
-					<label>Warehouse Type: </label>
-					<script language="JavaScript" type="text/javascript">
-						dojo.require("dojo.data.ItemFileReadStore");
-						dojo.require("dijit.form.FilteringSelect");
-					</script>
-					<span data-dojo-type="dojo.data.ItemFileReadStore"
-						data-dojo-props="url:'WorkWithWarehouseDetails1/warehouseType'"
-						data-dojo-id="warehouseTypeValues"></span> <input
-						name="warehouseType" data-dojo-type="dijit.form.FilteringSelect"
-						data-dojo-props="store:warehouseTypeValues, searchAttr:'name', pageSize:100"
-						style="width: 200px"></input>
-				</div>
+				<ol:field name="warehouseType" />
 				<ol:field name="costingType" />
 				<ol:field name="replenishmentCycleFlag" />
 			</ol:panel>

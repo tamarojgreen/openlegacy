@@ -19,17 +19,17 @@
 		<c:when test="${fn:contains(name,'.')}">
 			<c:set var="fieldNameParts" value="${fn:split(name,'.')}" />
 			<c:set var="fieldPart" value="${definitions.partsDefinitions[fieldNameParts[0]]}" />
-			<c:set var="fieldMetadata" value="${fieldPart.fieldsDefinitions[name]}" />
+			<c:set var="fieldDefinition" value="${fieldPart.fieldsDefinitions[name]}" />
 		</c:when>
 		<c:otherwise>
-			<c:set var="fieldMetadata" value="${definitions.fieldsDefinitions[name]}" />
+			<c:set var="fieldDefinition" value="${definitions.fieldsDefinitions[name]}" />
 		</c:otherwise>
 	</c:choose>
 	<c:if test="${empty label}">
-		<c:set var="label" value="${fieldMetadata.displayName}" />
+		<c:set var="label" value="${fieldDefinition.displayName}" />
 	</c:if>
 	<c:if test="${empty size}">
-		<c:set var="size" value="${fieldMetadata.length}" />
+		<c:set var="size" value="${fieldDefinition.length}" />
 	</c:if>
 	<c:if test="${empty type}">
 		<c:set var="type" value="${type}" />
