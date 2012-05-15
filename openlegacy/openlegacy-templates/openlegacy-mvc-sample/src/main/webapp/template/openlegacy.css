@@ -243,6 +243,10 @@ ul,li {
 	border: 0px;
 }
 
+.map-icon{
+	width: 1em;
+	height: 1em;
+}
 .stockImage {
   max-width: 150px;
   max-height: 150px;
