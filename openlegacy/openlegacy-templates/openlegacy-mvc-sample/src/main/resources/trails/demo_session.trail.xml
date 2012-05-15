@@ -434,7 +434,7 @@
             <field column="1"/>
             <field column="2" value="===&gt;"/>
             <field column="7"/>
-            <field column="8" length="2" modified="true" editable="true" type="java.lang.Integer"/>
+            <field column="8" value="1" length="2" modified="true" editable="true" type="java.lang.Integer"/>
             <field column="11" value="                                         "/>
             <field column="53" value="Company . . . . . ."/>
             <field column="73"/>
@@ -3364,7 +3364,7 @@
             <field column="1"/>
             <field column="2" value="===&gt;"/>
             <field column="7"/>
-            <field column="8" length="2" modified="true" editable="true" type="java.lang.Integer"/>
+            <field column="8" value="2" length="2" modified="true" editable="true" type="java.lang.Integer"/>
             <field column="11" value="                                                                      "/>
         </row>
         <row rowNumber="23">
