@@ -8,6 +8,8 @@ public class SimpleDateFieldTypeDefinition implements DateFieldTypeDefinition {
 	private Integer monthColumn;
 	private Integer yearColumn;
 
+	public SimpleDateFieldTypeDefinition() {}
+
 	public SimpleDateFieldTypeDefinition(Integer dayColumn, Integer monthColumn, Integer yearColumn) {
 		this.dayColumn = dayColumn;
 		this.monthColumn = monthColumn;

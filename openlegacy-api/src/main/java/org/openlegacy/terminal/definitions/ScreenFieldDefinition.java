@@ -20,5 +20,7 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 
 	boolean isEditable();
 
+	boolean isPassword();
+
 	Class<?> getJavaType();
 }

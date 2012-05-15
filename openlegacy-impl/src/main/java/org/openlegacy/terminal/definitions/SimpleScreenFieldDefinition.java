@@ -18,6 +18,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private String sampleValue;
 	private Class<?> javaType;
 	private TerminalPosition labelPosition;
+	private boolean password;
 
 	public SimpleScreenFieldDefinition(String name, Class<? extends FieldType> fieldType) {
 		super(name, fieldType);
@@ -89,6 +90,14 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setLabelPosition(TerminalPosition labelPosition) {
 		this.labelPosition = labelPosition;
+	}
+
+	public boolean isPassword() {
+		return password;
+	}
+
+	public void setPassword(boolean password) {
+		this.password = password;
 	}
 
 }

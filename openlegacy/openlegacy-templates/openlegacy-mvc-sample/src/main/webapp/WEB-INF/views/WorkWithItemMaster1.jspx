@@ -2,7 +2,7 @@
     <ol:form model="workWithItemMaster1">
     	<ol:pagePart width="90%" left="2%" top="18%">
 			<ol:panel title="Item Details" open="true">
-				<ol:field name="itemNumber">
+				<ol:field name="itemNumber" type="text">
 					<c:if test="${imageId != null}">
 						<img class="stockImage" style="left:74%; position:absolute"
 							src="${pageContext.request.contextPath}/StockItemImages/images/${imageId}" />

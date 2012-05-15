@@ -92,6 +92,9 @@ public class ${entityName} {
 		  <#case "date">
 	@ScreenDateField(dayColumn=${field.fieldTypeDefinition.dayColumn}, monthColumn=${field.fieldTypeDefinition.monthColumn}, yearColumn=${field.fieldTypeDefinition.yearColumn})
 		     <#break>
+		  <#case "number">
+	@ScreenNumericField
+		     <#break>
 		  <#default>
 		</#switch>  
 	</#if>

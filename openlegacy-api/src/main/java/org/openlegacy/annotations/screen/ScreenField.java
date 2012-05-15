@@ -30,6 +30,8 @@ public @interface ScreenField {
 
 	boolean editable() default false;
 
+	boolean password() default false;
+
 	Class<? extends FieldType> fieldType() default FieldType.General.class;
 
 	String displayName() default "";
