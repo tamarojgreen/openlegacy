@@ -36,6 +36,7 @@ Select at least: openlegacy-api, openlegacy-impl.
 Optional projects:
 openlegacy-designtime
 openlegacy-ide-eclipse
+openlegacy-web
 
 8.
 Perform project -> clean..., "Clean all project", in case of errors
@@ -57,4 +58,4 @@ openlegacy-prefs.epf
 10.
 For Demo web application, import <GIT HOME>/openlegacy/openlegacy/openlegacy-templates/openlegacy-mvc-sample project (demo application), OR <GIT HOME>/openlegacy/openlegacy/openlegacy-templates/openlegacy-mvc-new project (new application)
 right click on "run-application.launch", and click run as-> "run-application".
-Open your browser to http://localhost:8080/mvc
+Open your browser to http://localhost:8080/openlegacy-mvc-sample or http://localhost:8080/openlegacy-mvc-new
