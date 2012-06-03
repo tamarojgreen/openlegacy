@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openlegacy-providers</artifactId>
 		<groupId>org.openlegacy.providers</groupId>
-		<version>0.4-SNAPSHOT</version>
+		<version>0.5-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<groupId>org.openlegacy</groupId>
@@ -15,7 +15,7 @@
 	<repositories>
 		<repository>
 			<id>openlegacy-release</id>
-			<url>http://openlegacy.org/maven2/release</url>
+			<url>http://maven.openlegacy.org/maven2/release</url>
 		</repository>
 	</repositories>
 
