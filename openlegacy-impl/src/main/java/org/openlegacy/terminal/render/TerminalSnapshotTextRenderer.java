@@ -139,9 +139,13 @@ public class TerminalSnapshotTextRenderer implements TerminalSnapshotRenderer {
 			out.setCharAt(afterInputBufferLocation, rightMark);
 
 			String value = terminalField.getValue();
-			for (int i = 0; i < value.length(); i++) {
+			for (int i = 0; i < terminalField.getLength(); i++) {
 				int inputBufferLocation = beforeInputBufferLocation + 1;
-				out.setCharAt(inputBufferLocation + i, value.charAt(i));
+				if (i < value.length()) {
+					out.setCharAt(inputBufferLocation + i, value.charAt(i));
+				} else {
+					out.setCharAt(inputBufferLocation + i, ' ');
+				}
 			}
 		}
 	}

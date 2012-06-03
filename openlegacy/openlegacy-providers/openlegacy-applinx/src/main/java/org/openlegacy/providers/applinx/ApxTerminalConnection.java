@@ -100,4 +100,8 @@ public class ApxTerminalConnection implements TerminalConnection {
 		return baseObject.getSessionID();
 	}
 
+	public boolean isConnected() {
+		return true;
+	}
+
 }

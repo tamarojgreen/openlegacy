@@ -17,4 +17,8 @@ public interface TerminalConnection {
 
 	String getSessionId();
 
+	boolean isConnected();
+
+	void disconnect();
+
 }

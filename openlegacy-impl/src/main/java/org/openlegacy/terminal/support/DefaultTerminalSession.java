@@ -8,6 +8,7 @@ import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.TerminalActionMapper;
+import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -36,7 +37,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Inject
 	private List<ScreenEntityBinder> screenEntityBinders;
 
-	private transient TerminalConnectionDelegator terminalConnection;
+	private transient TerminalConnection terminalConnection;
 
 	private ScreenEntity entity;
 
@@ -152,7 +153,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 	}
 
-	private void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {
+	protected void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof TerminalConnectionListener) {
@@ -161,7 +162,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 	}
 
-	private void notifyModulesAfterSend() {
+	protected void notifyModulesAfterSend() {
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof TerminalConnectionListener) {
@@ -188,7 +189,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return terminalConnection.getDelegate();
 	}
 
-	public void setTerminalConnection(TerminalConnectionDelegator terminalConnection) {
+	public void setTerminalConnection(TerminalConnection terminalConnection) {
 		this.terminalConnection = terminalConnection;
 	}
 
@@ -215,12 +216,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	public void doAction(TerminalSendAction sendAction) {
-		if (logger.isDebugEnabled()) {
-			logger.debug(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
-					sendAction.getCursorPosition()));
-			logger.debug("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
-					+ getSnapshot());
-		}
+		logScreenBefore(sendAction);
 		// sort the modified fields by position
 		Collections.sort(sendAction.getModifiedFields(), TerminalPositionContainerComparator.instance());
 
@@ -228,6 +224,19 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		terminalConnection.doAction(sendAction);
 		notifyModulesAfterSend();
 
+		logScreenAfter();
+	}
+
+	private void logScreenBefore(TerminalSendAction sendAction) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(MessageFormat.format("\nAction:{0}, Cursor:{1}\n", sendAction.getCommand(),
+					sendAction.getCursorPosition()));
+			logger.debug("\nScreen before\n(* abc * marks a modified field, [ abc ] mark an input field, # mark cursor):\n\n"
+					+ getSnapshot());
+		}
+	}
+
+	protected void logScreenAfter() {
 		if (logger.isDebugEnabled()) {
 			logger.debug("\n\nScreen after ([ abc ] indicates a input field):\n\n" + getSnapshot());
 		}
@@ -239,5 +248,13 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	public String getSessionId() {
 		return terminalConnection.getSessionId();
+	}
+
+	protected TerminalConnection getTerminalConnection() {
+		return terminalConnection;
+	}
+
+	protected ScreensRecognizer getScreensRecognizer() {
+		return screensRecognizer;
 	}
 }
