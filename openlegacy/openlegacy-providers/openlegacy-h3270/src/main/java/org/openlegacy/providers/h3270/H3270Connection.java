@@ -55,4 +55,12 @@ public class H3270Connection implements TerminalConnection {
 		return String.valueOf(s3270Session.hashCode());
 	}
 
+	public boolean isConnected() {
+		return s3270Session.isConnected();
+	}
+
+	public void disconnect() {
+		s3270Session.disconnect();
+	}
+
 }

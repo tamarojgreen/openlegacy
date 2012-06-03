@@ -51,7 +51,23 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 		currentIndex = 0;
 	}
 
+	public void setCurrentIndex(int currentIndex) {
+		this.currentIndex = currentIndex;
+	}
+
 	public TerminalSnapshot fetchSnapshot() {
 		return getSnapshot();
+	}
+
+	public List<TerminalSnapshot> getSnapshots() {
+		return snapshots;
+	}
+
+	public boolean isConnected() {
+		return currentIndex > 0;
+	}
+
+	public void disconnect() {
+		reset();
 	}
 }

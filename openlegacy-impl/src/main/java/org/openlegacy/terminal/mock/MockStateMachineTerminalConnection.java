@@ -47,4 +47,12 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 	public TerminalSnapshot fetchSnapshot() {
 		return getSnapshot();
 	}
+
+	public boolean isConnected() {
+		return true;
+	}
+
+	public void disconnect() {
+		// do nothing
+	}
 }

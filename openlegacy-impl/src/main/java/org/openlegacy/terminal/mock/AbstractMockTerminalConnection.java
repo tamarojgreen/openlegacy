@@ -7,4 +7,5 @@ public abstract class AbstractMockTerminalConnection implements TerminalConnecti
 	public String getSessionId() {
 		return "mock session";
 	}
+
 }
