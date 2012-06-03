@@ -25,10 +25,10 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 @SuiteClasses({ RegistryTest.class, TerminalEqualsHashcodeTest.class, MockTerminalSessionSystemTest.class,
 		RecognizersSuite.class, XmlTrailWriterTest.class, DefaultLoginModuleTest.class, DefaultLoginModuleFailedTest.class,
 		DefaultTerminalMessagesModuleTest.class, DefaultTerminalSessionTest.class, WindowTest.class,
-		DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, ScreenEntityTablesBinderTest.class,
-		DateFieldsBinderTest.class, DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class,
-		DefaultTerminalMenuModuleTest.class, MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class,
-		DefaultScreenRecordsProviderTest.class })
+		DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, MockTerminalSessionTest.class,
+		ScreenEntityTablesBinderTest.class, DateFieldsBinderTest.class, DefaultNavigationModuleTest.class,
+		DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
+		MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class, DefaultScreenRecordsProviderTest.class })
 public class OpenLegacyRuntimeSuite {
 
 }
