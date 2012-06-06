@@ -7,15 +7,18 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MockTerminalConnection extends AbstractMockTerminalConnection {
 
-	private List<TerminalSnapshot> snapshots;
+	private List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
 	private int currentIndex = 0;
 
 	public MockTerminalConnection(List<TerminalSnapshot> snapshots) {
-		this.snapshots = snapshots;
+		for (TerminalSnapshot terminalSnapshot : snapshots) {
+			this.snapshots.add((TerminalSnapshot)SerializationUtils.clone(terminalSnapshot));
+		}
 	}
 
 	public TerminalSnapshot getSnapshot() {
@@ -23,7 +26,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 			throw (new SessionEndedException("Mock session has been finished"));
 		}
 		TerminalSnapshot snapshot = snapshots.get(currentIndex);
-		return (TerminalSnapshot)SerializationUtils.clone(snapshot);
+		return snapshot;
 	}
 
 	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
