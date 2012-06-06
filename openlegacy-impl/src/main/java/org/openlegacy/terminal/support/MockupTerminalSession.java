@@ -3,8 +3,8 @@ package org.openlegacy.terminal.support;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.mock.MockTerminalConnection;
+import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.utils.ProxyUtil;
 
 import java.util.ArrayList;
@@ -17,23 +17,14 @@ import java.util.Map;
  * A mock-up implementation for a terminal session. Main purpose is to be able to navigate between entities relatively easily, and
  * sync with the terminal connection. Coupled by design to the mock terminal connection.
  * 
- * TODO: <br/>
- * - Design is not ideal and may be error prone.<br/>
- * - Actions are NOT sync immediately (Next on demo)
- * 
  */
 public class MockupTerminalSession extends DefaultTerminalSession {
 
 	private Map<Class<?>, SnapshotsList> snapshotsMap = new HashMap<Class<?>, SnapshotsList>();
 
-	private TerminalSnapshot terminalSnapshot;
-
 	@Override
 	public TerminalSnapshot getSnapshot() {
-		if (terminalSnapshot == null) {
-			terminalSnapshot = getTerminalConnection().getSnapshot();
-		}
-		return terminalSnapshot;
+		return super.getSnapshot();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -41,47 +32,26 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	public <S> S getEntity(Class<S> screenEntityClass) throws EntityNotFoundException {
 		screenEntityClass = (Class<S>)ProxyUtil.getOriginalClass(screenEntityClass);
 		SnapshotInfo snapshotInfo = snapshotsMap.get(screenEntityClass).getCurrent();
-		terminalSnapshot = snapshotInfo.getTerminalSnapshot();
 		getTerminalConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
 		return super.getEntity(screenEntityClass);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity,
-			java.lang.Class<R> expectedEntity) {
-		terminalSnapshot = null;
-		ScreenEntity result = super.doAction(terminalAction, screenEntity);
-		syncSnapshot(result);
-		return (R)result;
+	protected void doTerminalAction(TerminalSendAction sendAction) {
+		ScreenEntity currentEntity = getEntity();
+		super.doTerminalAction(sendAction);
+		progressSnapshot(currentEntity);
 	}
 
-	@SuppressWarnings({ "unchecked" })
-	@Override
-	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity) {
-		terminalSnapshot = null;
-		ScreenEntity result = super.doAction(terminalAction, screenEntity);
-		syncSnapshot(result);
-		return (R)result;
-	}
-
-	/**
-	 * Sync the result screen entity with the current terminalSnapshot
-	 * 
-	 * @param result
-	 */
-	private void syncSnapshot(ScreenEntity result) {
+	private void progressSnapshot(ScreenEntity result) {
 		Class<?> screenEntityClass = ProxyUtil.getOriginalClass(result.getClass());
 		SnapshotsList snapshotsList = snapshotsMap.get(screenEntityClass);
 		snapshotsList.next();
-		terminalSnapshot = snapshotsList.getCurrent().getTerminalSnapshot();
 	}
 
 	@Override
 	protected void notifyModulesAfterSend() {
-		terminalSnapshot = null;
 		super.notifyModulesAfterSend();
-		terminalSnapshot = null;
 	}
 
 	public void setTerminalConnection(MockTerminalConnection terminalConnection) {
@@ -106,11 +76,11 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 
 	@Override
 	public void disconnect() {
+		super.disconnect();
 		Collection<SnapshotsList> snapshotLists = snapshotsMap.values();
 		for (SnapshotsList snapshotsList : snapshotLists) {
 			snapshotsList.setCurrent(0);
 		}
-		super.disconnect();
 	}
 
 	@Override
@@ -162,8 +132,5 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 			return indexInSession;
 		}
 
-		public TerminalSnapshot getTerminalSnapshot() {
-			return terminalSnapshot;
-		}
 	}
 }

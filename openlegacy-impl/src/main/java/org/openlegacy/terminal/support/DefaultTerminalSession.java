@@ -221,10 +221,15 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		Collections.sort(sendAction.getModifiedFields(), TerminalPositionContainerComparator.instance());
 
 		notifyModulesBeforeSend(sendAction);
-		terminalConnection.doAction(sendAction);
+		doTerminalAction(sendAction);
 		notifyModulesAfterSend();
 
 		logScreenAfter();
+	}
+
+	protected void doTerminalAction(TerminalSendAction sendAction) {
+		terminalConnection.doAction(sendAction);
+		entity = null;
 	}
 
 	private void logScreenBefore(TerminalSendAction sendAction) {
