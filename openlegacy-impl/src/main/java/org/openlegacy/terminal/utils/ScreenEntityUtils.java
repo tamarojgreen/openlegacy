@@ -24,7 +24,7 @@ public class ScreenEntityUtils {
 		List<Object> keysValue = new ArrayList<Object>();
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(entity);
 		for (FieldDefinition fieldDefinition : keyFields) {
-			fieldAccessor.getFieldValue(fieldDefinition.getName());
+			keysValue.add(fieldAccessor.getFieldValue(fieldDefinition.getName()));
 		}
 		return keysValue;
 	}
