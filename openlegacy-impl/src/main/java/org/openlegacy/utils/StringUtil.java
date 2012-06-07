@@ -287,6 +287,10 @@ public class StringUtil {
 	}
 
 	public static String toString(List<?> elements, char seperator) {
+		if (elements == null || elements.size() == 0) {
+			return "";
+		}
+
 		StringBuilder sb = new StringBuilder();
 		for (Object object : elements) {
 			sb.append(object.toString());
