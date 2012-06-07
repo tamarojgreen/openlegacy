@@ -285,4 +285,14 @@ public class StringUtil {
 		}
 		return charTypes.size();
 	}
+
+	public static String toString(List<?> elements, char seperator) {
+		StringBuilder sb = new StringBuilder();
+		for (Object object : elements) {
+			sb.append(object.toString());
+			sb.append(seperator);
+		}
+		sb.setLength(sb.length() - 1);
+		return sb.toString();
+	}
 }

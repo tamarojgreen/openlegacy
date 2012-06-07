@@ -28,8 +28,8 @@ public class RegistryTest {
 
 	@Test
 	public void testIdentifiers() {
-		ScreenEntityDefinition screenDefintion = assertScreenExists(SignOn.class);
-		ScreenIdentification screenIdentification = screenDefintion.getScreenIdentification();
+		ScreenEntityDefinition screenDefinition = assertScreenExists(SignOn.class);
+		ScreenIdentification screenIdentification = screenDefinition.getScreenIdentification();
 		Assert.assertNotNull(screenIdentification);
 		// 1 from class, 1 from super class
 		Assert.assertEquals(2, screenIdentification.getScreenIdentifiers().size());
@@ -37,21 +37,21 @@ public class RegistryTest {
 
 	@Test
 	public void testFields() {
-		ScreenEntityDefinition screenDefintion = assertScreenExists(SignOn.class);
+		ScreenEntityDefinition screenDefinition = assertScreenExists(SignOn.class);
 		// 4 from class, 1 from super class
-		Assert.assertEquals(6, screenDefintion.getFieldsDefinitions().size());
+		Assert.assertEquals(6, screenDefinition.getFieldsDefinitions().size());
 	}
 
 	@Test
 	public void testScreenPart() {
-		ScreenEntityDefinition screenDefintion = assertScreenExists(ItemDetails2.class);
-		Assert.assertEquals(2, screenDefintion.getPartsDefinitions().size());
+		ScreenEntityDefinition screenDefinition = assertScreenExists(ItemDetails2.class);
+		Assert.assertEquals(2, screenDefinition.getPartsDefinitions().size());
 	}
 
 	@Test
 	public void testScreenTable() {
-		ScreenEntityDefinition screenDefintion = assertScreenExists(ItemsList.class);
-		Assert.assertEquals(1, screenDefintion.getTableDefinitions().size());
+		ScreenEntityDefinition screenDefinition = assertScreenExists(ItemsList.class);
+		Assert.assertEquals(1, screenDefinition.getTableDefinitions().size());
 	}
 
 	@Test
@@ -63,8 +63,8 @@ public class RegistryTest {
 
 	@Test
 	public void testFieldTypes() {
-		ScreenEntityDefinition screenDefintion = assertScreenExists(ItemDetails1.class);
-		ScreenFieldDefinition screenFieldDefinition = screenDefintion.getFieldsDefinitions().get("palletLabelRequired");
+		ScreenEntityDefinition screenDefinition = assertScreenExists(ItemDetails1.class);
+		ScreenFieldDefinition screenFieldDefinition = screenDefinition.getFieldsDefinitions().get("palletLabelRequired");
 		Assert.assertNotNull(screenFieldDefinition);
 		FieldTypeDefinition fieldTypeDefinition = screenFieldDefinition.getFieldTypeDefinition();
 		Assert.assertNotNull(fieldTypeDefinition);
@@ -76,13 +76,20 @@ public class RegistryTest {
 
 	@Test
 	public void testFieldFromSuperClass() {
-		ScreenEntityDefinition screenDefintion = assertScreenExists(SignOn.class);
-		Assert.assertNotNull(screenDefintion.getFieldsDefinitions().get("error"));
+		ScreenEntityDefinition screenDefinition = assertScreenExists(SignOn.class);
+		Assert.assertNotNull(screenDefinition.getFieldsDefinitions().get("error"));
+	}
+
+	@Test
+	public void testKeyFields() {
+		ScreenEntityDefinition screenDefinition = assertScreenExists(ItemDetails1.class);
+		Assert.assertNotNull(screenDefinition.getKeys());
+		Assert.assertEquals("itemNumber", screenDefinition.getKeys().get(0).getName());
 	}
 
 	private ScreenEntityDefinition assertScreenExists(Class<?> clazz) {
-		ScreenEntityDefinition screenDefintion = screenEntitiesRegistry.get(clazz);
-		Assert.assertNotNull(screenDefintion);
-		return screenDefintion;
+		ScreenEntityDefinition screenDefinition = screenEntitiesRegistry.get(clazz);
+		Assert.assertNotNull(screenDefinition);
+		return screenDefinition;
 	}
 }

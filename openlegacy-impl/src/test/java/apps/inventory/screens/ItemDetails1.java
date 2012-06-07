@@ -14,7 +14,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 @ScreenNavigation(accessedFrom = ItemsList.class, exitAction = TerminalActions.F12.class)
 public class ItemDetails1 {
 
-	@ScreenField(row = 6, column = 33)
+	@ScreenField(row = 6, column = 33, key = true)
 	private String itemNumber;
 
 	@ScreenField(row = 7, column = 33, endColumn = 40, editable = true)

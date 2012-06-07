@@ -34,4 +34,6 @@ public interface FieldDefinition {
 	 * @return
 	 */
 	public Class<?> getJavaType();
+
+	boolean isKey();
 }
