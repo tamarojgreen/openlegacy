@@ -67,6 +67,8 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		screenFieldDefinition.setSampleValue(fieldAnnotation.sampleValue());
 		screenFieldDefinition.setJavaType(field.getType());
 
+		screenFieldDefinition.setKey(fieldAnnotation.key());
+
 		setupFieldType(field, screenFieldDefinition);
 
 		EntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
@@ -87,7 +89,8 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 	}
 
 	private static void setupFieldType(Field field, SimpleScreenFieldDefinition screenFieldDefinition) {
-		// set number type definition - may be overridden by ScreenNumericFieldAnnotationLoader to fill in specific numeric properties
+		// set number type definition - may be overridden by ScreenNumericFieldAnnotationLoader to fill in specific numeric
+		// properties
 		if (Number.class.isAssignableFrom(field.getType())) {
 			screenFieldDefinition.setFieldTypeDefinition(new SimpleNumericFieldTypeDefinition());
 		}

@@ -2,6 +2,7 @@ package org.openlegacy;
 
 import org.openlegacy.definitions.FieldDefinition;
 
+import java.util.List;
 import java.util.Map;
 
 public interface EntityDefinition<D extends FieldDefinition> {
@@ -29,4 +30,5 @@ public interface EntityDefinition<D extends FieldDefinition> {
 
 	D getFirstFieldDefinition(Class<? extends FieldType> fieldType);
 
+	List<? extends FieldDefinition> getKeys();
 }

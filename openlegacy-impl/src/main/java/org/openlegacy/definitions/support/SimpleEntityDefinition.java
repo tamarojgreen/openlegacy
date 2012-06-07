@@ -8,7 +8,9 @@ import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.ScreenEntityType;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -22,6 +24,7 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 	// LinkedHashMap preserve insert order
 	private final Map<String, F> fieldDefinitions = new TreeMap<String, F>();
 	private String displayName;
+	private ArrayList<F> keyFields;
 
 	public SimpleEntityDefinition(String entityName, Class<?> screenEntityClass) {
 		this.entityName = entityName;
@@ -92,4 +95,16 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 
 	}
 
+	public List<? extends FieldDefinition> getKeys() {
+		if (keyFields == null) {
+			Collection<F> allFields = fieldDefinitions.values();
+			keyFields = new ArrayList<F>();
+			for (F field : allFields) {
+				if (field.isKey()) {
+					keyFields.add(field);
+				}
+			}
+		}
+		return keyFields;
+	}
 }

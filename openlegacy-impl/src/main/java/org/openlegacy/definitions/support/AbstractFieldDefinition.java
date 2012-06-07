@@ -10,6 +10,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	private Class<? extends FieldType> type;
 	private String displayName;
 	private FieldTypeDefinition fieldTypeDefinition;
+	private boolean key;
 
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
@@ -55,4 +56,11 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.fieldTypeDefinition = fieldTypeDefinition;
 	}
 
+	public boolean isKey() {
+		return key;
+	}
+
+	public void setKey(boolean key) {
+		this.key = key;
+	}
 }

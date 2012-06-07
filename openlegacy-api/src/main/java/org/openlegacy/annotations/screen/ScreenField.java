@@ -40,4 +40,5 @@ public @interface ScreenField {
 
 	int labelColumn() default 0;
 
+	boolean key() default false;
 }
