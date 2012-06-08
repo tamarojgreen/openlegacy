@@ -1,0 +1,13 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:form="http://www.springframework.org/tags/form">
+	<ol:form model="workWithWarehouseDetails1">
+		<ol:pagePart>
+			<ol:field name="warehouseNumber" />
+			<ol:field name="warehouseDescription" type="textarea" />
+			<ol:field name="warehouseType" />
+			<ol:field name="amendedDate" />
+			<ol:field name="address" type="address" />
+		</ol:pagePart>
+	</ol:form>
+</div>

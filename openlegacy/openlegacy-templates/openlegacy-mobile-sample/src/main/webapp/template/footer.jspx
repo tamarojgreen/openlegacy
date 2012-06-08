@@ -1,0 +1,12 @@
+<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags">
+
+	<div id="calPicker" data-dojo-type="dojox.mobile.Opener" data-dojo-props="onHide:getDateFromCalendar, onShow:setDateToCelendar">
+		<h1 data-dojo-type="dojox.mobile.Heading" label="Select a Date">
+			<div data-dojo-type="dojox.mobile.ToolBarButton" label="Done" class="mblColorBlue" style="position: absolute; width: 45px; right: 0;" onclick="dijit.byId('calPicker').hide(true)"></div>
+			<div data-dojo-type="dojox.mobile.ToolBarButton" label="Cancel" class="mblColorBlue" style="position: absolute; width: 45px; left: 0;" onclick="dijit.byId('calPicker').hide(false)"></div>
+		</h1>
+		<div id="calendarWidget" data-dojo-type='dijit.Calendar'></div>
+	</div>
+
+</div>

@@ -1,0 +1,13 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<h1 data-dojo-type="dojox.mobile.Heading" moveTo="DemoEnvironmentPanel" back="Back">OpenLegacy Demo</h1>
+	<h2 data-dojo-type="dojox.mobile.RoundRectCategory">Inventory management</h2>
+	<ul data-dojo-type="dojox.mobile.RoundRectList">
+
+		<!-- list item with an icon containing a switch -->
+		<li data-dojo-type="dojox.mobile.ListItem" transition="slide"
+			url="WorkWithItemMaster">Items List</li>
+		<li data-dojo-type="dojox.mobile.ListItem" transition="slide"
+			url="WorkWithWarehouseDetails">Warehouses List</li>
+	</ul>
+</div>

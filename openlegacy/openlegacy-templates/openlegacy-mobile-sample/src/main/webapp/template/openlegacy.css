@@ -1,0 +1,118 @@
+div.fieldset {
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	background-color: white;
+	margin: 2px 5px;
+	padding: 2px 6px;
+}
+
+div.field-row {
+	width: 100%;
+	margin-top: 7px;
+	margin-bottom: 7px;
+}
+
+div.field-title {
+	font-size: 18px;
+	font-weight: bold;
+	margin: 1em .7em .3em;
+}
+
+.label {
+	display: inline-block;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333;
+	vertical-align: top;
+	line-height: 30px;
+	width: 130px;
+}
+
+.field-row input[ "checkbox "],.field-row input[ "radio "] {
+	width: 30px;
+	vertical-align: middle;
+}
+
+.field-row input["text"], .field-row input["password"], .field-row textarea {
+	width: 145px;
+	padding: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.logoffBtn {
+	float: right;
+}
+
+.mblpageindicatorcontainer {
+	background-color: #5CB0FF;
+}
+
+.map-icon {
+	width: 15px;
+	height: 15px;
+	margin-top: 3px;
+}
+
+.stockImage {
+	max-width: 150px;
+	max-height: 150px;
+	width: expression(this.width >       150 ?       "150px" :       true);
+	height: expression(this.height >       150 ?       "150px" :       true);
+	margin-right: 10px;
+}
+
+.loadMore {
+	margin-bottom: 30x;
+	margin-left: 150px;
+}
+
+.readonlyField {
+}
+
+button.baseBtn {
+	-webkit-background-clip: padding-box;
+	-webkit-box-align: center;
+	background-clip: padding-box;
+	border-style: solid;
+	border-width: 1px;
+	color: black;
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica-Neue, Helvetica,
+		'BBAlpha Sans';
+	font-size: 15px;
+	font-weight: bold;
+	vertical-align: middle;
+	margin: 10px;
+	height: 28px;
+	border-bottom-left-radius: 7px;
+	border-bottom-right-radius: 7px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+}
+
+button.navyBtn {
+	background-image: -webkit-gradient(linear, 0% 0, 0% 100%, from(#B0D0EC),
+		color-stop(0.06, #73ADDE), to(#295584) );
+	border-color: #2D4769;
+	border-top-color: #426C95;
+	text-shadow: 0 1px 2px #183249;
+	color: white;
+}
+
+.mblBtn {
+	cursor: pointer;
+	outline: none;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+	padding: 0px 10px;
+	height: 19px;
+	border: #9CACC0 1px outset;
+	-webkit-border-radius: 5px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FDFDFD),
+		to(#CECECE), color-stop(0.5, #F8F8F8), color-stop(0.5, #EEE) );
+	color: black;
+	font-family: Helvetica;
+	font-size: 13px;
+	line-height: 29px;
+}

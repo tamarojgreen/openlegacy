@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" id="menu"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<div id="${menu.targetEntity.simpleName}Panel" data-dojo-type="dojox.mobile.View"
+		selected="true">
+		<h1 data-dojo-type="dojox.mobile.Heading" fixed="top">
+			OpenLegacy Demo
+			<button data-dojo-type="dojox.mobile.ToolBarButton" fixed="right"
+				class="logoffBtn"
+				onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
+		</h1>
+		<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${menu.displayName}</h2>
+		<ul data-dojo-type="dojox.mobile.RoundRectList">
+			<c:forEach items="${menu.menuItems}" var="menuItem">
+				<li data-dojo-type="dojox.mobile.ListItem" transition="slide" onclick="addViewToHistory('${menuItem.targetEntity.simpleName}Panel');"
+					moveTo="${menuItem.targetEntity.simpleName}Panel">${menuItem.displayName}</li>
+			</c:forEach>
+		</ul>
+
+
+
+	</div>
+
+	<c:forEach items="${menu.menuItems}" var="menuItem2">
+		<div id="${menuItem2.targetEntity.simpleName}Panel"
+			data-dojo-type="dojox.mobile.View">
+		<h1 data-dojo-type="dojox.mobile.Heading" fixed="top" back="Back"
+				moveTo="${menu.targetEntity.simpleName}Panel">
+			OpenLegacy Demo
+			<button data-dojo-type="dojox.mobile.ToolBarButton" fixed="right"
+				class="logoffBtn"
+				onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
+		</h1>
+			<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${menuItem2.displayName}</h2>
+			<div data-dojo-type="dojox.mobile.RoundRectList">
+				<c:forEach items="${menuItem2.menuItems}" var="subMenuItem">
+					<li data-dojo-type="dojox.mobile.ListItem" onclick="showLoading();addViewToHistory('${subMenuItem.targetEntity.simpleName}Panel');"
+						url="${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}">${subMenuItem.displayName}</li>
+				</c:forEach>
+			</div>
+		</div>
+	</c:forEach>
+
+</div>
