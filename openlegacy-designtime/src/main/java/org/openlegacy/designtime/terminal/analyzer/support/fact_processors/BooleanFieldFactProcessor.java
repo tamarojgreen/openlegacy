@@ -39,7 +39,7 @@ public class BooleanFieldFactProcessor implements ScreenFactProcessor {
 
 		SimpleScreenFieldDefinition screenFieldDefinition = (SimpleScreenFieldDefinition)booleanFieldFact.getScreenFieldDefinition();
 
-		screenFieldDefinition.setFieldTypeDefinition(new SimpleBooleanFieldTypeDefinition(trueValue, falseValue));
+		screenFieldDefinition.setFieldTypeDefinition(new SimpleBooleanFieldTypeDefinition(trueValue, falseValue, false));
 		screenFieldDefinition.setJavaType(Boolean.class);
 		logger.info(MessageFormat.format("Set field {0} to be boolean", screenFieldDefinition.getName()));
 
