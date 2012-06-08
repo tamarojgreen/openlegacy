@@ -6,10 +6,12 @@ public class SimpleBooleanFieldTypeDefinition implements BooleanFieldTypeDefinit
 
 	private String trueValue;
 	private String falseValue;
+	private boolean treatNullAsEmpty;
 
-	public SimpleBooleanFieldTypeDefinition(String trueValue, String falseValue) {
+	public SimpleBooleanFieldTypeDefinition(String trueValue, String falseValue, boolean treatNullAsEmpty) {
 		this.trueValue = trueValue;
 		this.falseValue = falseValue;
+		this.treatNullAsEmpty = treatNullAsEmpty;
 	}
 
 	public String getTrueValue() {
@@ -24,4 +26,7 @@ public class SimpleBooleanFieldTypeDefinition implements BooleanFieldTypeDefinit
 		return "boolean";
 	}
 
+	public boolean isTreatNullAsEmpty() {
+		return treatNullAsEmpty;
+	}
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="OUTGOING" command="[enter]">
+    <cursor row="6" column="53" />
+    <row rowNumber="1">
+        <field value="Boolean Screen title" column="30" />
+    </row>
+    <row rowNumber="3">
+        <field value="Boolean true:" column="3" />
+        <field value="Y" editable="true" modified="true" length="1" column="20" />
+        <field value="Y/N" column="25" />
+    </row>
+    <row rowNumber="4">
+        <field value="Boolean false:" column="3" />
+        <field value="N" editable="true" modified="true" length="1" column="20" />
+        <field value="Y/N" column="25" />
+    </row>
+    <row rowNumber="5">
+        <field value="Boolean empty:" column="3" />
+        <field value="N" editable="true" modified="true" length="1" column="20" />
+        <field value="Y/N" column="25" />
+    </row>
+    
+    <size rows="24" columns="80"/>
+</snapshot>

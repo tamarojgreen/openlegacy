@@ -98,7 +98,10 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 		private int current;
 
 		public void add(TerminalSnapshot terminalSnapshot, int indexInSession) {
-			terminalSnapshots.add(new SnapshotInfo(terminalSnapshot, indexInSession));
+			// don't put duplicates
+			if (!terminalSnapshots.contains(terminalSnapshot)) {
+				terminalSnapshots.add(new SnapshotInfo(terminalSnapshot, indexInSession));
+			}
 		}
 
 		public void setCurrent(int current) {
@@ -132,5 +135,9 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 			return indexInSession;
 		}
 
+		@SuppressWarnings("unused")
+		public TerminalSnapshot getTerminalSnapshot() {
+			return terminalSnapshot;
+		}
 	}
 }

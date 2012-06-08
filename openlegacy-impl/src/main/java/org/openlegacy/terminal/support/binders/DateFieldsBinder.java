@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -148,16 +149,27 @@ public class DateFieldsBinder implements ScreenEntityBinder {
 			Calendar calender = Calendar.getInstance();
 			calender.setTime(dateFieldValue);
 
+			List<TerminalField> modifiedFields = sendAction.getModifiedFields();
 			if (dayField != null) {
-				dayField.setValue(StringUtil.appendLeftZeros(calender.get(Calendar.DAY_OF_MONTH), dayField.getLength()));
+				String value = StringUtil.appendLeftZeros(calender.get(Calendar.DAY_OF_MONTH), dayField.getLength());
+				setValue(dayField, modifiedFields, value);
 			}
 			if (monthField != null) {
 				// MONTH is 0 based in calendar
-				monthField.setValue(StringUtil.appendLeftZeros(calender.get(Calendar.MONTH) + 1, monthField.getLength()));
+				String value = StringUtil.appendLeftZeros(calender.get(Calendar.MONTH) + 1, monthField.getLength());
+				setValue(monthField, modifiedFields, value);
 			}
 			if (yearField != null) {
-				yearField.setValue(StringUtil.appendLeftZeros(calender.get(Calendar.YEAR), yearField.getLength()));
+				String value = StringUtil.appendLeftZeros(calender.get(Calendar.YEAR), yearField.getLength());
+				setValue(yearField, modifiedFields, value);
 			}
+		}
+	}
+
+	private static void setValue(TerminalField field, List<TerminalField> modifiedFields, String value) {
+		if (!value.equals(field.getValue())) {
+			field.setValue(value);
+			modifiedFields.add(field);
 		}
 	}
 

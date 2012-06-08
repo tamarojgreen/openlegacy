@@ -52,7 +52,7 @@ public class ScreenBooleanFieldAnnotationLoader extends AbstractFieldAnnotationL
 
 	private static void fillTypeDefinition(ScreenBooleanField fieldAnnotation, SimpleScreenFieldDefinition fieldDefinition) {
 		fieldDefinition.setFieldTypeDefinition(new SimpleBooleanFieldTypeDefinition(fieldAnnotation.trueValue(),
-				fieldAnnotation.falseValue()));
+				fieldAnnotation.falseValue(), fieldAnnotation.treatEmptyAsNull()));
 	}
 
 }

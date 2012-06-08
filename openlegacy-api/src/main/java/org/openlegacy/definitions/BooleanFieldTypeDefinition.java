@@ -9,4 +9,6 @@ public interface BooleanFieldTypeDefinition extends FieldTypeDefinition {
 	String getTrueValue();
 
 	String getFalseValue();
+
+	boolean isTreatNullAsEmpty();
 }

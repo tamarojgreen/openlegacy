@@ -19,4 +19,6 @@ public @interface ScreenBooleanField {
 
 	String falseValue();
 
+	boolean treatEmptyAsNull() default false;
+
 }
