@@ -52,7 +52,7 @@ public class ScreenBinderLogic {
 			String fieldName = fieldMappingDefinition.getName();
 			if (fieldAccessor.isWritable(fieldName)) {
 				Class<?> javaType = fieldMappingDefinition.getJavaType();
-				if (TypesUtil.isPrimitive(javaType)) {
+				if (TypesUtil.isNumberOrString(javaType)) {
 					String content = fieldFormatter.format(text);
 					fieldAccessor.setFieldValue(fieldName, content);
 				}
@@ -91,7 +91,7 @@ public class ScreenBinderLogic {
 				boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalField.getValue(), value);
 				if (fieldModified) {
 					if (fieldMappingDefinition.isEditable()) {
-						if (TypesUtil.isPrimitive(value.getClass())) {
+						if (TypesUtil.isNumberOrString(value.getClass())) {
 							terminalField.setValue(String.valueOf(value));
 							modifiedfields.add(terminalField);
 

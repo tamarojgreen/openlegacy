@@ -21,4 +21,15 @@ public class TypesUtil {
 		}
 		return false;
 	}
+
+	public static boolean isNumber(Class<?> type) {
+		if (Number.class.isAssignableFrom(type)) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isNumberOrString(Class<?> type) {
+		return isNumber(type) || type == String.class;
+	}
 }

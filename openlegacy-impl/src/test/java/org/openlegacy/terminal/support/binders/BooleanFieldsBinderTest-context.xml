@@ -10,12 +10,12 @@
 	<context:component-scan base-package="org.openlegacy.terminal.support.mock" />
 
 	<bean id="terminalConnectionFactory"
-		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory" p:verifySend="true">
 		<property name="root" value="/org/openlegacy/terminal/support/mock" />
 		<property name="files">
 			<list>
-				<value>DateScreen.xml</value>
-				<value>DateScreen-out.xml</value>
+				<value>BooleanScreen.xml</value>
+				<value>BooleanScreen-out.xml</value>
 			</list>
 		</property>
 	</bean>

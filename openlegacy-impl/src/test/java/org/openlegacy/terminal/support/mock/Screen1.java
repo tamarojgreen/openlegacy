@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Component
 @ScreenEntity
-@ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 30, value = "Screen title") })
+@ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 30, value = "Date Screen title") })
 public class Screen1 implements org.openlegacy.terminal.ScreenEntity {
 
 	@ScreenDateField(dayColumn = 20, monthColumn = 25, yearColumn = 30)
