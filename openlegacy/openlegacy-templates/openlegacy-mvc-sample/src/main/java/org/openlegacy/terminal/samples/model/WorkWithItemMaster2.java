@@ -24,7 +24,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 @ScreenNavigation(accessedFrom = WorkWithItemMaster1.class, assignedFields = { @AssignedField(field = "itemDescription") })
 public class WorkWithItemMaster2 {
 
-	@ScreenField(row = 6, column = 22, endColumn = 36, labelColumn = 2, displayName = "Item Number/Desc", sampleValue = "2000")
+	@ScreenField(key = true, row = 6, column = 22, endColumn = 36, labelColumn = 2, displayName = "Item Number/Desc", sampleValue = "2000")
 	private Integer itemNumberdesc;
 
 	@ScreenField(row = 7, column = 29, endColumn = 43, labelColumn = 2, editable = true, displayName = "N/L Cost of Sales Account")
