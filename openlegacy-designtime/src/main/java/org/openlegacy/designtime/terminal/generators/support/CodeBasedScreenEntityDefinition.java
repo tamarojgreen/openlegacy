@@ -4,6 +4,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -168,6 +169,11 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 		return sortedFields;
+	}
+
+	public List<? extends FieldDefinition> getKeys() {
+		throwNotImplemented();
+		return null;
 	}
 
 }
