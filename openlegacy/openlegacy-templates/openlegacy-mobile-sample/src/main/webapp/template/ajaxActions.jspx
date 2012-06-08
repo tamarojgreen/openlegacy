@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"  class="actions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<h2 data-dojo-type="dojox.mobile.Heading">
+	<button data-dojo-type="dojox.mobile.Button" class="baseBtn mblBtn navyBtn" onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel');">Submit</button>
+	<c:forEach items="${definitions.actions}" var="action">
+		<button data-dojo-type="dojox.mobile.Button" class="mblBtn baseBtn navyBtn" onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel','${action.alias}');" >${action.displayName}</button> 
+	</c:forEach>
+	</h2>
+
+</div>

@@ -1,0 +1,15 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags" xmlns:form="http://www.springframework.org/tags/form">	
+    <ol:form model="workWithItemMaster1">
+		<ol:pagePart>
+			<ol:field name="itemNumber" type="text" />
+			<ol:field name="itemDescription" type="textarea"/>
+			<ol:field name="alphaSearch" />
+			<ol:field name="supercedingItemto" />
+			<ol:field name="supercedingItemfrom" />
+			<ol:field name="substituteItemNumber" />
+			<ol:field name="manufacturersItemNo" />
+			<ol:field name="itemWeight" />
+			<ol:field name="palletLabelRequired" />
+		</ol:pagePart>
+	</ol:form>
+</div>

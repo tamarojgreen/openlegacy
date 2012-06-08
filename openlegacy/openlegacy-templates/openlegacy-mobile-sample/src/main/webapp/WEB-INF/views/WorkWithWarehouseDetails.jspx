@@ -1,0 +1,21 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:form="http://www.springframework.org/tags/form">
+	<ol:form model="workWithWarehouseDetails">
+		<ol:pagePart>
+			<ul data-dojo-type="dojox.mobile.RoundRectList"
+				id="WorkWithWarehouseDetailsTable">
+
+				<c:forEach
+					items="${workWithWarehouseDetails.workWithWarehouseDetailsRecords}"
+					var="warehouse">
+					<li data-dojo-type="dojox.mobile.ListItem" transition="slide"
+						onclick="showLoading();addViewToHistory('WorkWithWarehouseDetailsPanel');"
+						data-dojo-props="parseOnLoad: true"
+						url="WorkWithWarehouseDetails1/revise/${warehouse.whse}">${warehouse.description}</li>
+				</c:forEach>
+			</ul>
+			<a class="loadMore" title="" href="javascript:loadMore('WorkWithWarehouseDetailsTable','${pageContext.request.contextPath}/workWithWarehouseDetails/more','whse','description','workWithWarehouseDetails1/revise/')">More...</a>
+		</ol:pagePart>
+	</ol:form>
+</div>
