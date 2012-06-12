@@ -76,4 +76,12 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 	public String getSessionId() {
 		return String.valueOf(session.getSessionName());
 	}
+
+	public boolean isConnected() {
+		return session.isConnected();
+	}
+
+	public void disconnect() {
+		session.disconnect();
+	}
 }
