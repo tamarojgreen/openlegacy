@@ -35,5 +35,6 @@
 		</#if>
 	</#list>
 	
+	</div>
 </body>
 </html>
