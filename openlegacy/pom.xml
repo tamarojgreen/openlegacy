@@ -13,7 +13,7 @@
 		<module>../openlegacy-web</module>
   		<module>../openlegacy-ide-eclipse</module>
  		<module>openlegacy-providers</module>
- 		<module>openlegacy-templates</module>
+  		<module>openlegacy-templates</module>
  	</modules>
 
 	<properties>

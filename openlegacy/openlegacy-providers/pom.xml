@@ -4,12 +4,11 @@
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
 		<version>0.5-SNAPSHOT</version>
-		<relativePath>../openlegacy</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.openlegacy.providers</groupId>
 	<artifactId>openlegacy-providers</artifactId>
-	<version>${project.parent.version}</version>
 	<packaging>pom</packaging>
 	<name>Open Legacy providers maven container</name>
 	<description>Open Legacy providers maven container</description>

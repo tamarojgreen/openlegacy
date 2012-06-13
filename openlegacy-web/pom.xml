@@ -9,7 +9,6 @@
 	</parent>
 	<artifactId>openlegacy-web</artifactId>
 	<name>Open Legacy web components</name>
-	<version>${project.parent.version}</version>
 
 	<dependencies>
 		<dependency>

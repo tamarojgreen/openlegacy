@@ -3,13 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.openlegacy.templates</groupId>
 	<artifactId>openlegacy-templates</artifactId>
-	<version>${project.parent.version}</version>
 	<packaging>pom</packaging>
 	<name>Open Legacy Maven container project for all templates</name>
 	<modules>
 		<module>openlegacy-new-java-template</module>
 		<module>openlegacy-mvc-new</module>
+		<module>openlegacy-mvc-vanilla</module>
 		<module>openlegacy-mvc-sample</module>
+		<module>openlegacy-mobile-sample</module>
 	</modules>
 
 	<build>
@@ -42,6 +43,6 @@
 		<groupId>org.openlegacy</groupId>
 		<artifactId>openlegacy</artifactId>
 		<version>0.5-SNAPSHOT</version>
-		<relativePath>../openlegacy/pom.xml</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 </project>
