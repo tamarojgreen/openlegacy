@@ -4,10 +4,10 @@
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
 		<version>0.5-SNAPSHOT</version>
+		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>openlegacy-ide-eclipse</artifactId>
-	<version>${project.parent.version}</version>
 	<name>OpenLegacy eclipse plug-in</name>
 
 	<dependencies>

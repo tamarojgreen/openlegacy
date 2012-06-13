@@ -9,8 +9,6 @@
 	</parent>
 	<artifactId>openlegacy-impl</artifactId>
 	<name>Open Legacy implementation</name>
-	<version>${project.parent.version}</version>
-
 	<description>Open Legacy implementation provides a default implementation for Open Legacy API along with a legacy provider adapter.</description>
 	<url>http://openlegacy.org</url>
 	<dependencies>

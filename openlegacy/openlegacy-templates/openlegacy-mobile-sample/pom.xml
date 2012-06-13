@@ -3,12 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>openlegacy-mobile-sample</artifactId>
-	<name>OpenLegacy Spring MVC mobile demo application</name>
+	<name>OpenLegacy Spring mobile demo application</name>
 	<packaging>war</packaging>
 	<properties>
-		<java-version>1.6</java-version>
+		<java-version>1.5</java-version>
 		<org.springframework-version>3.1.0.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.9</org.aspectj-version>
+        <aspectj.version>1.6.11</aspectj.version>
 		<org.slf4j-version>1.5.10</org.slf4j-version>
 		<openlegacy-version>${project.parent.version}</openlegacy-version>
 	</properties>
@@ -296,6 +297,43 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.2</version> <!-- NB: do use 1.3 or 1.3.x due to MASPECTJ-90 - wait for 1.4 -->
+                <dependencies>
+                    <!-- NB: You must use Maven 2.0.9 or above or these are ignored (see MNG-2972) -->
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjrt</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outxml>true</outxml>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>org.springframework</groupId>
+                            <artifactId>spring-aspects</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.7</version>
