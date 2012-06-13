@@ -4,13 +4,12 @@
 	<parent>
 		<artifactId>openlegacy-providers</artifactId>
 		<groupId>org.openlegacy.providers</groupId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.6-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-applinx</artifactId>
 	<name>Open Legacy Applinx adapter</name>
-	<version>${project.parent.version}</version>
 
 	<repositories>
 		<repository>

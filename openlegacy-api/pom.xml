@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.6-SNAPSHOT</version>
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-api</artifactId>
