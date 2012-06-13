@@ -11,7 +11,7 @@
 		<org.aspectj-version>1.6.9</org.aspectj-version>
 		<aspectj.version>1.6.11</aspectj.version>
 		<org.slf4j-version>1.5.10</org.slf4j-version>
-		<openlegacy-version>0.5-SNAPSHOT</openlegacy-version>
+		<openlegacy-version>0.6-SNAPSHOT</openlegacy-version>
 	</properties>
 
 	<repositories>
@@ -284,7 +284,7 @@
 	<parent>
 		<groupId>org.openlegacy.templates</groupId>
 		<artifactId>openlegacy-templates</artifactId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.6-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<version>${project.parent.version}</version>
