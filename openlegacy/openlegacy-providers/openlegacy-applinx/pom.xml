@@ -27,6 +27,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-test-apps</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-web</artifactId>
 			<version>${project.version}</version>
 		</dependency>
