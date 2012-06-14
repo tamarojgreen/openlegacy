@@ -69,4 +69,7 @@ public class ProjectCreationRequest {
 		this.hostPort = hostPort;
 	}
 
+	public boolean isDemo() {
+		return templateName.endsWith("sample") || templateName.endsWith("demo");
+	}
 }

@@ -21,19 +21,23 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 
 	private Combo templateName;
 
-	private Text projectName;
+	private Text projectNameTxt;
+	private String projectName;
 
 	private String[] projectTemplates = new String[] { "-- Select --", "openlegacy-new-java-template", "openlegacy-mvc-new",
-			"openlegacy-mvc-sample" };
+			"openlegacy-mvc-sample", "openlegacy-mobile-sample" };
 
 	private String[] projectTemplatesDescriptions = new String[] { "",
 			"A java API application for connecting to your Legacy application",
 			"A new web application Spring MVC based for connecting to your Legacy application",
-			"A sample web application Spring MVC for connecting to a sample AS/400 Legacy application" };
+			"A sample web application Spring MVC for connecting to a sample AS/400 Legacy application",
+			"A sample mobile application based on Spring MVC for connecting to a sample AS/400 Legacy application" };
 
 	private Label templateDescription;
 
-	private Text defaultPackageName;
+	private Text defaultPackageTxt;
+
+	private String defaultPackage;
 
 	private String[] providers = new String[] { "--Select--", "tn5250j", "h3270", "applinx" };
 
@@ -68,42 +72,12 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		layout.verticalSpacing = 9;
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText("&Project name:");
-
-		projectName = new Text(container, SWT.BORDER | SWT.SINGLE);
-
-		projectName.setText("");
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		projectName.setLayoutData(gd);
-		projectName.addModifyListener(new ModifyListener() {
-
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
-
-		projectName.setFocus();
-
-		label = new Label(container, SWT.NULL);
-		label.setText("&Default package:");
-
-		defaultPackageName = new Text(container, SWT.BORDER | SWT.SINGLE);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		defaultPackageName.setLayoutData(gd);
-		defaultPackageName.addModifyListener(new ModifyListener() {
-
-			public void modifyText(ModifyEvent e) {
-				dialogChanged();
-			}
-		});
-
-		label = new Label(container, SWT.NULL);
 		label.setText("&Template:");
 
 		templateName = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		templateName.setItems(projectTemplates);
 		templateName.select(2);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		templateName.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
@@ -120,6 +94,36 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		gd.widthHint = 600;
 		gd.grabExcessHorizontalSpace = true;
 		templateDescription.setLayoutData(gd);
+
+		label = new Label(container, SWT.NULL);
+		label.setText("&Project name:");
+
+		projectNameTxt = new Text(container, SWT.BORDER | SWT.SINGLE);
+
+		projectNameTxt.setText("");
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		projectNameTxt.setLayoutData(gd);
+		projectNameTxt.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		projectNameTxt.setFocus();
+
+		label = new Label(container, SWT.NULL);
+		label.setText("&Default package:");
+
+		defaultPackageTxt = new Text(container, SWT.BORDER | SWT.SINGLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		defaultPackageTxt.setLayoutData(gd);
+		defaultPackageTxt.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
 
 		label = new Label(container, SWT.NULL);
 		label.setText("&Provider:");
@@ -185,10 +189,22 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 	 */
 
 	private void dialogChanged() {
-		String projectName = getProjectName();
 
 		providerDescription.setText(providersDescription[providerName.getSelectionIndex()]);
 		templateDescription.setText(projectTemplatesDescriptions[templateName.getSelectionIndex()]);
+
+		if (templateName.getText().endsWith("sample")) {
+			projectName = templateName.getText();
+			defaultPackage = null;
+			setEnabled(false);
+			this.providerName.setText(providers[1]); // AS/400
+			updateStatus(null);
+			return;
+		} else {
+			defaultPackage = defaultPackageTxt.getText();
+			projectName = projectNameTxt.getText();
+			setEnabled(true);
+		}
 
 		IProject[] project = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject iProject : project) {
@@ -206,7 +222,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 			updateStatus("Project name must be specified");
 			return;
 		}
-		if (defaultPackageName.getText().length() == 0) {
+		if (defaultPackageTxt.getText().length() == 0) {
 			updateStatus("Default package must be specified");
 			return;
 		}
@@ -234,6 +250,14 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		updateStatus(null);
 	}
 
+	private void setEnabled(boolean enabled) {
+		this.projectNameTxt.setEnabled(enabled);
+		this.hostName.setEnabled(enabled);
+		this.hostPort.setEnabled(enabled);
+		this.defaultPackageTxt.setEnabled(enabled);
+		this.providerName.setEnabled(enabled);
+	}
+
 	private void updateStatus(String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
@@ -244,11 +268,17 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 	}
 
 	public String getProjectName() {
-		return projectName.getText();
+		if (projectName == null) {
+			projectName = projectNameTxt.getText();
+		}
+		return projectName;
 	}
 
 	public String getDefaultPackageName() {
-		return defaultPackageName.getText();
+		if (defaultPackage == null) {
+			defaultPackage = defaultPackageTxt.getText();
+		}
+		return defaultPackage;
 	}
 
 	public String getProvider() {

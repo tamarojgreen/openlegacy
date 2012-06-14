@@ -61,6 +61,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String DEFAULT_TEMPLATES_PATTERN = "classpath*:/*.template";
 
+	private static final String DEFAULT_NEW_PROJECT_VERSION = "0.1";
+
 	private ApplicationContext applicationContext;
 
 	private File designtimeContextFile;
@@ -69,8 +71,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		File targetZip = extractTemplate(projectCreationRequest.getTemplateName(), projectCreationRequest.getBaseDir());
 		File targetPath = unzipTemplate(projectCreationRequest.getBaseDir(), projectCreationRequest.getProjectName(), targetZip);
 
+		if (projectCreationRequest.isDemo()) {
+			return;
+		}
+
 		// maven files
-		renameProjectPOM(projectCreationRequest.getProjectName(), targetPath);
+		renameProjectProperties(projectCreationRequest.getProjectName(), targetPath);
 		renameProviderInPOM(projectCreationRequest.getProvider(), targetPath);
 
 		// spring files
@@ -145,7 +151,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		IOUtils.write(projectFileContent, fos);
 	}
 
-	private static void renameProjectPOM(String projectName, File targetPath) throws IOException, FileNotFoundException {
+	private static void renameProjectProperties(String projectName, File targetPath) throws IOException, FileNotFoundException {
 		File pomFile = new File(targetPath, "pom.xml");
 		if (!pomFile.exists()) {
 			logger.error(MessageFormat.format("Unable to find pom.xml within {0}", projectName));
@@ -153,13 +159,23 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
 
-		pomFileContent = pomFileContent.replaceFirst("<artifactId>.*</artifactId>",
-				MessageFormat.format("<artifactId>{0}</artifactId>", projectName));
-		pomFileContent = pomFileContent.replaceFirst("<warName>.*</warName>",
-				MessageFormat.format("<warName>{0}</warName>", projectName));
+		pomFileContent = replaceFirstAttribute("artifactId", projectName, pomFileContent);
+		pomFileContent = replaceFirstAttribute("groupId", projectName, pomFileContent);
+		pomFileContent = replaceFirstAttribute("warName", projectName, pomFileContent);
+		pomFileContent = replaceFirstAttribute("version", DEFAULT_NEW_PROJECT_VERSION, pomFileContent);
+		String openlegacyVersion = DesignTimeExecuterImpl.class.getPackage().getImplementationVersion();
+		if (openlegacyVersion != null) {
+			pomFileContent = replaceFirstAttribute("openlegacy-version", openlegacyVersion, pomFileContent);
+		}
 
 		FileOutputStream fos = new FileOutputStream(pomFile);
 		IOUtils.write(pomFileContent, fos);
+	}
+
+	private static String replaceFirstAttribute(String attributeName, String attributeValue, String pomFileContent) {
+		String stringToReplace = MessageFormat.format("<{0}>.*</{0}>", attributeName);
+		return pomFileContent.replaceFirst(stringToReplace, MessageFormat.format("<{0}>{1}</{0}>", attributeName, attributeValue));
+
 	}
 
 	private static void renameProviderInPOM(String provider, File targetPath) throws FileNotFoundException, IOException {
