@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING">
+    <cursor row="6" column="53" />
+    <row rowNumber="1">
+        <field value="Date Screen title" column="30" />
+    </row>
+    <row rowNumber="2">
+        <field value="Date field:" column="3" />
+        <field value="09" editable="true" length="2" column="20" />
+        <field value="/" column="23" />
+        <field value="10" editable="true" length="2" column="25" />
+        <field value="/" column="28" />
+        <field value="11" editable="true" length="2" column="30" />
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

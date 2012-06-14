@@ -8,7 +8,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged @SuppressWarnings("unused") aspect WarehouseTypes_Aspect {
+privileged aspect WarehouseTypes_Aspect {
     
     declare @type: WarehouseTypes : @Component;
 	declare @type: WarehouseTypes : @Scope("prototype");

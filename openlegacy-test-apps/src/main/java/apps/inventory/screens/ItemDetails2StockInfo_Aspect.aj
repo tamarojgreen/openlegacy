@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import apps.inventory.screens.ItemDetails2.StockInfo;
 
-privileged @SuppressWarnings("unused") aspect StockInfoTable_Aspect {
+privileged aspect StockInfoTable_Aspect {
     
     declare @type: StockInfo : @Component;
 	declare @type: StockInfo : @Scope("prototype");
