@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="2">
+    <row rowNumber="1">
+        <field column="2" value="STUDENT2  "/>
+        <field column="13" value="            "/>
+        <field column="26" value="           Demo Environment   "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="3">
+        <field column="2" value="Select one of the following:"/>
+        <field column="31" value="                                                  "/>
+    </row>
+    <row rowNumber="5">
+        <field column="2" value="   "/>
+        <field column="6" value=" 1."/>
+        <field column="10" value="Inventory Management                              "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="6">
+        <field column="1" value="    "/>
+        <field column="6" value=" 2."/>
+        <field column="10" value="Inventory Purchasing                              "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="7">
+        <field column="1" value="    "/>
+        <field column="6" value=" 3."/>
+        <field column="10" value="Sales Order Processing                            "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="8">
+        <field column="1" value="    "/>
+        <field column="6" value=" 4."/>
+        <field column="10" value="Menu Options                                      "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="9">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="10">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="11">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="12">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="13">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="14">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="15">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="16">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="17">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                    "/>
+    </row>
+    <row rowNumber="18">
+        <field column="1" value="    "/>
+        <field column="6" value="   "/>
+        <field column="10" value="                                                  "/>
+        <field column="61" value="                 "/>
+        <field column="79" value=" "/>
+    </row>
+    <row rowNumber="20">
+        <field column="2" value="Selection:"/>
+        <field column="13" value="                                                                    "/>
+    </row>
+    <row rowNumber="21">
+        <field column="2" value="===&gt;"/>
+        <field column="8" length="2" editable="true" type="java.lang.Integer"/>
+        <field column="11" value="                                         "/>
+        <field column="53" value="Company . . . . . ."/>
+        <field column="74" value="101" editable="true"/>
+        <field column="78" value="   "/>
+    </row>
+    <row rowNumber="23">
+        <field column="2" value="F1=Help"/>
+        <field column="11" value="F3=Exit"/>
+        <field column="20" value="F4=Prompt"/>
+        <field column="31" value="F12=Prev"/>
+        <field column="41" value="F21=Command"/>
+        <field column="53" value="                            "/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="21" column="8"/>
+</snapshot>
