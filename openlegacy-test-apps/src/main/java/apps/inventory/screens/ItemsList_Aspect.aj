@@ -8,7 +8,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 
-privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
+privileged aspect ItemsList_Aspect {
     
     declare @type: ItemsList : @Component;
 	declare @type: ItemsList : @Scope("prototype");

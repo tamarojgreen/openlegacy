@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import apps.inventory.screens.ItemDetails2.AuditDetails;
 
-privileged @SuppressWarnings("unused") aspect AuditDetailsTable_Aspect {
+privileged aspect AuditDetailsTable_Aspect {
     
     declare @type: AuditDetails : @Component;
 	declare @type: AuditDetails : @Scope("prototype");
