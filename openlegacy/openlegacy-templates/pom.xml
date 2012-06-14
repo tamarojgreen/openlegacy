@@ -6,10 +6,10 @@
 	<packaging>pom</packaging>
 	<name>Open Legacy Maven container project for all templates</name>
 	<modules>
-		<module>openlegacy-new-java-template</module>
+  		<!-- <module>openlegacy-new-java-template</module> -->
 		<module>openlegacy-mvc-new</module>
 		<module>openlegacy-mvc-vanilla</module>
-		<module>openlegacy-mvc-sample</module>
+ 		<module>openlegacy-mvc-sample</module>
 		<module>openlegacy-mobile-sample</module>
 	</modules>
 
@@ -24,7 +24,7 @@
 						<phase>package</phase>
 						<configuration>
 							<target>
-								<copy todir="${basedir}/../../../openlegacy-designtime/src/main/resources/templates" flatten="true" overwrite="true">
+								<copy todir="${basedir}/../../openlegacy-designtime/src/main/resources/templates" flatten="true" overwrite="true">
 									<fileset dir="${basedir}">
 										<include name="**/*.zip"/>
 									</fileset>

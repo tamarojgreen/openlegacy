@@ -2,7 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.openlegacy.templates</groupId>
 	<artifactId>openlegacy-mvc-new</artifactId>
+	<version>0.6-SNAPSHOT</version>
 	<name>OpenLegacy Spring MVC new application</name>
 	<packaging>war</packaging>
 	<properties>
@@ -281,11 +283,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<parent>
-		<groupId>org.openlegacy.templates</groupId>
-		<artifactId>openlegacy-templates</artifactId>
-		<version>0.6-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
-	<version>${project.parent.version}</version>
 </project>

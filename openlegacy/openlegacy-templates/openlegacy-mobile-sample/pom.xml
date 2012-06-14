@@ -2,22 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.openlegacy.templates</groupId>
 	<artifactId>openlegacy-mobile-sample</artifactId>
 	<name>OpenLegacy Spring mobile demo application</name>
 	<packaging>war</packaging>
+	<version>0.6-SNAPSHOT</version>
 	<properties>
 		<java-version>1.5</java-version>
 		<org.springframework-version>3.1.0.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.9</org.aspectj-version>
         <aspectj.version>1.6.11</aspectj.version>
 		<org.slf4j-version>1.5.10</org.slf4j-version>
-		<openlegacy-version>${project.parent.version}</openlegacy-version>
+		<openlegacy-version>0.6-SNAPSHOT</openlegacy-version>
 	</properties>
 
 	<repositories>
 		<repository>
 			<id>openlegacy-release</id>
-			<url>http://maven.openlegacy.org/maven2/release</url>
+			<url>http://maven.openlegacy.org/maven2/snapshot</url>
 		</repository>
 		<repository>
 			<id>java.net</id>
@@ -348,11 +350,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<parent>
-		<groupId>org.openlegacy.templates</groupId>
-		<artifactId>openlegacy-templates</artifactId>
-		<version>0.6-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
-	<version>${project.parent.version}</version>
 </project>
