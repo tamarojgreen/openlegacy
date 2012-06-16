@@ -29,7 +29,7 @@ public class HelpGeneratorTest {
 	@Test
 	public void testGenerateHelp() throws Exception {
 
-		String javaSource = "/org/openlegacy/terminal/layout/mock/ScreenForPage.java.resource";
+		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 

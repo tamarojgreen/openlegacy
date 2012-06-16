@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 import junit.framework.Assert;
 
-@ContextConfiguration
+@ContextConfiguration("TerminalFieldByTextSplitterTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TerminalFieldByTextSplitterTest extends AbstractTest {
 

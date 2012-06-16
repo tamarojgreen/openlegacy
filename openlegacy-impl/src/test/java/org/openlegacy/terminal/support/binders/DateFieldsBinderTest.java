@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-@ContextConfiguration
+@ContextConfiguration("DateFieldsBinderTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DateFieldsBinderTest extends AbstractTest {
 

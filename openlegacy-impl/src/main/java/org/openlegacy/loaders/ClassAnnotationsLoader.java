@@ -8,5 +8,6 @@ public interface ClassAnnotationsLoader extends Comparable<ClassAnnotationsLoade
 
 	boolean match(Annotation annotation);
 
-	void load(EntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass);
+	@SuppressWarnings("rawtypes")
+	void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass);
 }

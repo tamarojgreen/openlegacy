@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.layout.mock.web;
+package org.openlegacy.designtime.generators.mock.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

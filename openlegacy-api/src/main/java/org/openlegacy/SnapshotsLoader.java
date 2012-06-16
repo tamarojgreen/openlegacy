@@ -1,6 +1,5 @@
-package org.openlegacy.designtime.analyzer;
+package org.openlegacy;
 
-import org.openlegacy.Snapshot;
 import org.openlegacy.exceptions.UnableToLoadSnapshotException;
 
 import java.util.List;

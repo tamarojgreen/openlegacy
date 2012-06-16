@@ -9,7 +9,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@ContextConfiguration
+@ContextConfiguration("TerminalEqualsHashcodeTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TerminalEqualsHashcodeTest extends AbstractTest {
 

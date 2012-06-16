@@ -17,7 +17,9 @@ public class ScreenTableDrilldownAnnotationLoader extends AbstractClassAnnotatio
 		return annotation.annotationType() == ScreenTableDrilldown.class;
 	}
 
-	public void load(EntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
+	@SuppressWarnings("rawtypes")
+	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
+
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 		ScreenTableDrilldown drilldownAnnotation = (ScreenTableDrilldown)annotation;
 

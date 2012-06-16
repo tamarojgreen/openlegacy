@@ -8,14 +8,14 @@ import freemarker.template.TemplateException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.designtime.generators.mock.CompositeScreenForPage;
+import org.openlegacy.designtime.generators.mock.MenuScreenForPage;
+import org.openlegacy.designtime.generators.mock.ScreenForPage;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
 import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
-import org.openlegacy.terminal.layout.mock.CompositeScreenForPage;
-import org.openlegacy.terminal.layout.mock.MenuScreenForPage;
-import org.openlegacy.terminal.layout.mock.ScreenForPage;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,7 +29,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-@ContextConfiguration
+@ContextConfiguration("ScreenEntityMvcGeneratorTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ScreenEntityMvcGeneratorTest {
 
@@ -63,7 +63,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 	@Test
 	public void testGenerateJspxByCodeModel() throws Exception {
-		String javaSource = "/org/openlegacy/terminal/layout/mock/ScreenForPage.java.resource";
+		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
@@ -83,7 +83,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 	@Test
 	public void testGenerateContollerAspectByCodeModel() throws Exception {
-		String javaSource = "/org/openlegacy/terminal/layout/mock/ScreenForPage.java.resource";
+		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);

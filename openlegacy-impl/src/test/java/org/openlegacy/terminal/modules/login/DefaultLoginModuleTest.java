@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 import junit.framework.Assert;
 
-@ContextConfiguration
+@ContextConfiguration("DefaultLoginModuleTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultLoginModuleTest extends AbstractTest {
 
@@ -67,7 +67,7 @@ public class DefaultLoginModuleTest extends AbstractTest {
 		Assert.assertNotNull(itemsList);
 
 		SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
-		
+
 		terminalSession.getModule(Login.class).logoff();
 
 		Assert.assertFalse(terminalSession.getModule(Login.class).isLoggedIn());

@@ -26,7 +26,8 @@ public class SimpleScreenIdentifiersAnnotationLoader extends AbstractClassAnnota
 		return annotation.annotationType() == ScreenIdentifiers.class;
 	}
 
-	public void load(EntitiesRegistry<?, ?> screenEntitiesRegistry, Annotation annotation, Class<?> containingClass) {
+	@SuppressWarnings("rawtypes")
+	public void load(EntitiesRegistry screenEntitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		this.screenEntitiesRegistry = (ScreenEntitiesRegistry)screenEntitiesRegistry;
 		processScreenEntity((ScreenIdentifiers)annotation, containingClass);
 	}

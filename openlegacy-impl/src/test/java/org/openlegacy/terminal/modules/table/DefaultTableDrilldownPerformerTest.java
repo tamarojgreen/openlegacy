@@ -11,7 +11,7 @@ import org.openlegacy.terminal.TerminalSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@ContextConfiguration
+@ContextConfiguration("DefaultTableDrilldownPerformerTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTableDrilldownPerformerTest extends AbstractTest {
 

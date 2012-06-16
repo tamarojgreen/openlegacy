@@ -24,7 +24,8 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 		return annotation.annotationType() == ScreenEntity.class;
 	}
 
-	public void load(EntitiesRegistry<?, ?> entitiesRegistry, Annotation annotation, Class<?> containingClass) {
+	@SuppressWarnings("rawtypes")
+	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
 		ScreenEntity screenEntity = (ScreenEntity)annotation;
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;

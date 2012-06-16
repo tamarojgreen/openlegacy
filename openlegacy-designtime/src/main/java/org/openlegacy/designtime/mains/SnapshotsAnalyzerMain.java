@@ -1,9 +1,9 @@
 package org.openlegacy.designtime.mains;
 
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
-import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.TerminalSnapshotsLoader;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
