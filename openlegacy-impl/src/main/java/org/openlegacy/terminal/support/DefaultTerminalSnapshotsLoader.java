@@ -1,8 +1,8 @@
-package org.openlegacy.designtime.terminal.analyzer.support;
+package org.openlegacy.terminal.support;
 
-import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsLoader;
 import org.openlegacy.exceptions.UnableToLoadSnapshotException;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.TerminalSnapshotsLoader;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.utils.XmlSerializationUtil;
 import org.springframework.stereotype.Component;

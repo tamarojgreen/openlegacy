@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-@ContextConfiguration
+@ContextConfiguration("ScreenEntityTablesBinderTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ScreenEntityTablesBinderTest extends AbstractTest {
 

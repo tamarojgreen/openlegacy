@@ -38,7 +38,6 @@ public class WorkWithItemMasterController {
 		headers.add("Content-Type", "application/text; charset=utf-8");
 
 		String result = new JSONSerializer().serialize(workWithItemMaster.getWorkWithItemMasterRecords());
-		System.out.println(result);
 		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
 	}
 

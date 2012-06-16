@@ -18,7 +18,7 @@ import javax.inject.Inject;
 
 import junit.framework.Assert;
 
-@ContextConfiguration
+@ContextConfiguration("DefaultTerminalMessagesModuleTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalMessagesModuleTest extends AbstractTest {
 

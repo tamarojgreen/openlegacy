@@ -79,7 +79,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	@SuppressWarnings("unchecked")
-	public <S extends ScreenEntity> S getEntity() {
+	public <R extends ScreenEntity> R getEntity() {
 		if (entity == null) {
 			TerminalSnapshot terminalSnapshot = getSnapshot();
 
@@ -88,13 +88,14 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				return null;
 			}
 
-			entity = (S)getEntity(matchedScreenEntity);
+			entity = (R)getEntity(matchedScreenEntity);
 		}
-		return (S)entity;
+		return (R)entity;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <R extends ScreenEntity> R doAction(TerminalAction action) {
-		return doAction(action, null);
+		return (R)doAction(action, null);
 	}
 
 	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity,
@@ -109,6 +110,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity) {
 
 		// verify screens are synch
@@ -132,7 +134,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			doAction(sendAction);
 		}
 
-		return getEntity();
+		return (R)getEntity();
 	}
 
 	private void notifyModulesBeforeConnect() {

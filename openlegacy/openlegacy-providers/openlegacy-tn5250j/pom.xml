@@ -7,7 +7,6 @@
 		<version>0.6-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<groupId>org.openlegacy.providers</groupId>
 	<artifactId>openlegacy-tn5250j</artifactId>
 	<name>Open legacy tn5250 terminal session provider based on http://tn5250j.sourceforge.net/</name>
 
@@ -23,6 +22,12 @@
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-impl</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-test-apps</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>tn5250j</groupId>

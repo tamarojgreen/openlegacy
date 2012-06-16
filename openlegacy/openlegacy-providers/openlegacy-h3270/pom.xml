@@ -7,7 +7,6 @@
 		<version>0.6-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<groupId>org.openlegacy.providers</groupId>
 	<artifactId>openlegacy-h3270</artifactId>
 	<name>Open legacy tn3270 terminal session provider based on http://h3270.sourceforge.net/</name>
 	
@@ -38,6 +37,12 @@
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-impl</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-test-apps</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

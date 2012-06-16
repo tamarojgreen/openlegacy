@@ -17,7 +17,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-@ContextConfiguration
+@ContextConfiguration("DefaultScreenPageBuilderTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultScreenPageBuilderTest extends AbstractTest {
 

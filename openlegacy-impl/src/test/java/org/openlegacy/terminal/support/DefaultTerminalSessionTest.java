@@ -20,7 +20,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-@ContextConfiguration
+@ContextConfiguration("DefaultTerminalSessionTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalSessionTest extends AbstractTest {
 

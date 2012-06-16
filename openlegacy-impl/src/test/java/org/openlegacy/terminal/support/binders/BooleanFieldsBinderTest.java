@@ -11,7 +11,7 @@ import org.openlegacy.terminal.support.mock.BooleanScreen;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@ContextConfiguration
+@ContextConfiguration("BooleanFieldsBinderTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BooleanFieldsBinderTest extends AbstractTest {
 

@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.designtime.analyzer.SnapshotsLoader;
+import org.openlegacy.SnapshotsLoader;
 import org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsOrganizer;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.springframework.test.context.ContextConfiguration;

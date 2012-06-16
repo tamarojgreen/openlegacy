@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * priority during snapshot identification process
  * 
  */
-@ContextConfiguration
+@ContextConfiguration("WindowTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class WindowTest extends AbstractTest {
 

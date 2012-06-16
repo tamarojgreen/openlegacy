@@ -20,7 +20,7 @@ import javax.inject.Inject;
 
 import junit.framework.Assert;
 
-@ContextConfiguration
+@ContextConfiguration("DefaultSessionNavigatorTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultSessionNavigatorTest extends AbstractTest {
 

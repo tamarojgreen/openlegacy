@@ -14,7 +14,7 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-@ContextConfiguration
+@ContextConfiguration("DefaultScreenRecordsProviderTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultScreenRecordsProviderTest extends AbstractTest {
 

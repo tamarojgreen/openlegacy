@@ -29,9 +29,10 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 		return annotation.annotationType() == ScreenActions.class;
 	}
 
-	public void load(EntitiesRegistry<?, ?> screenEntitiesRegistry, Annotation annotation, Class<?> containingClass) {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
-		ScreenEntityDefinition screenEntityDefinition = (ScreenEntityDefinition)screenEntitiesRegistry.get(containingClass);
+		ScreenEntityDefinition screenEntityDefinition = (ScreenEntityDefinition)entitiesRegistry.get(containingClass);
 		ScreenActions screenActions = (ScreenActions)annotation;
 
 		Action[] actions = screenActions.actions();

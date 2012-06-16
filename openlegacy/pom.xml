@@ -8,13 +8,14 @@
 	<name>Open Legacy</name>
 	<modules>
 		<module>../openlegacy-api</module>
+		<module>../openlegacy-utils</module>
 		<module>../openlegacy-test-apps</module>
 		<module>../openlegacy-impl</module>
 		<module>../openlegacy-designtime</module>
 		<module>../openlegacy-web</module>
-  		<module>../openlegacy-ide-eclipse</module>
  		<module>openlegacy-providers</module>
   		<module>openlegacy-templates</module>
+  		<module>../openlegacy-ide-eclipse</module>
 	</modules>
 
 	<properties>

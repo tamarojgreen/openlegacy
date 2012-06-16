@@ -3,8 +3,6 @@ package org.openlegacy.test.utils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import junit.framework.Assert;
-
 public class AssertUtils {
 
 	private final static Log logger = LogFactory.getLog(AssertUtils.class);
@@ -15,7 +13,7 @@ public class AssertUtils {
 			logger.info("\nResult content:");
 			logger.info("************\n" + new String(resultContent) + "\n************");
 			logger.info("*** NOTE: If the result is correct copy the above result block into expected result file so test can pass next time\n");
-			Assert.fail("Generated content don't match. See log");
+			throw new RuntimeException("Generated content don't match. See log");
 
 		}
 	}

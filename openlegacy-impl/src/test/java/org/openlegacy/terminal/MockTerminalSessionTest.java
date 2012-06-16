@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import junit.framework.Assert;
 
-@ContextConfiguration
+@ContextConfiguration("MockTerminalSessionTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MockTerminalSessionTest extends AbstractTest {
 
