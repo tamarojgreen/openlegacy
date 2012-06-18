@@ -49,6 +49,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 					MessageFormat.format("{0}{1}", input.getAttribute(HtmlConstants.STYLE), HtmlNamingUtil.toStyleWidth(width)));
 			String fieldName = HtmlNamingUtil.getFieldName(field);
 			input.setAttribute(HtmlConstants.NAME, fieldName);
+			input.setAttribute(HtmlConstants.ID, fieldName);
 		}
 		parentTag.appendChild(input);
 		return input;
