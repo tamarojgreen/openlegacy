@@ -10,13 +10,64 @@
 	<artifactId>openlegacy-ide-eclipse</artifactId>
 	<name>OpenLegacy eclipse plug-in</name>
 
+	<repositories>
+		<repository>
+			<id>eclipse</id>
+			<url>http://maven.eclipse.org/nexus/content/repositories/repo1</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-designtime</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.core</groupId>
+			<artifactId>org.eclipse.core.resources</artifactId>
+			<version>3.6.0.v20100526-0737</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>jface</artifactId>
+			<version>3.3.0-I20070606-0010</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.eclipse.ui</groupId>
+		    <artifactId>workbench</artifactId>
+		    <version>3.3.0-I20070608-1100</version>
+			<scope>provided</scope>
+   		</dependency>
+		<dependency>
+		    <groupId>org.eclipse.swt.win32.win32</groupId>
+		    <artifactId>x86</artifactId>
+		    <version>3.3.0-v3346</version>
+			<scope>provided</scope>
+   		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jdt</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.0-v_771</version>		    
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jdt</groupId>
+			<artifactId>ui</artifactId>
+			<version>3.3.0-v20070607-0010</version>		    
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.ui</groupId>
+			<artifactId>ide</artifactId>
+			<version>3.3.0-I20070620</version>
+			<scope>provided</scope>
+		</dependency>
+				
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
