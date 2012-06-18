@@ -5,7 +5,9 @@
 	<artifactId>openlegacy</artifactId>
 	<version>0.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Open Legacy</name>
+	<name>OpenLegacy</name>
+	<description>OpenLegacy is a collection of API, framework and tools designed to provide a full stack of Legacy modernization abilities which should help you expose legacy functionallity to Java, REST, SOA, Mobile and Web based applications</description>
+	
 	<modules>
 		<module>../openlegacy-api</module>
 		<module>../openlegacy-utils</module>
@@ -49,17 +51,16 @@
 		</site>
 		<snapshotRepository>
 			<id>openlegacy</id>
-			<name>Open Legacy Snapshot Repository</name>
+			<name>OpenLegacy Snapshot Repository</name>
 			<url>${deploy.dir}/snapshot</url>
 		</snapshotRepository>
 		<repository>
 			<id>openlegacy</id>
-			<name>Open Legacy Release Repository</name>
+			<name>OpenLegacy Release Repository</name>
 			<url>${deploy.dir}/release</url>
 		</repository>
 	</distributionManagement>
 
-	<description>Open Legacy framework is a spring based framework for connecting to legacy system and expose the legacy functionallity to open system using a lightweight POJO model, and declarative annotation in a JPA style</description>
 	<url>http://openlegacy.org</url>
 	<issueManagement>
 		<system>Github</system>
@@ -69,7 +70,7 @@
 		<url>https://github.com/openlegacy/openlegacy</url>
 	</scm>
 	<organization>
-		<name>Open Legacy</name>
+		<name>OpenLegacy</name>
 		<url>http://openlegacy.org</url>
 	</organization>
 	<build>

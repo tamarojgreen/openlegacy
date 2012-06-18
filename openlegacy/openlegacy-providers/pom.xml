@@ -10,8 +10,8 @@
 	<groupId>org.openlegacy.providers</groupId>
 	<artifactId>openlegacy-providers</artifactId>
 	<packaging>pom</packaging>
-	<name>Open Legacy providers maven container</name>
-	<description>Open Legacy providers maven container</description>
+	<name>OpenLegacy legacy providers maven container</name>
+	<description>OpenLegacy legacy providers maven container</description>
 	<modules>
 		<module>openlegacy-tn5250j</module>
 		<module>openlegacy-h3270</module>

@@ -8,9 +8,9 @@
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-designtime</artifactId>
-	<name>Open Legacy Designtime API</name>
-
-	<description>An API for Open Legacy designtime tools such as code generator, etc</description>
+	<name>OpenLegacy Designtime API</name>
+	<description>An API for OpenLegacy designtime tools such as anaylzer, code generators, etc</description>
+	
 	<repositories>
 		<repository>
 			<id>javaparser</id>

@@ -8,10 +8,10 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-h3270</artifactId>
-	<name>Open legacy tn3270 terminal session provider based on http://h3270.sourceforge.net/</name>
-	
+	<name>OpenLegacy TN3270 legacy connection provider</name>
+	<description>Legacy connection provider implementation based on http://h3270.sourceforge.net</description>
+		
 	<dependencies>
-
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
