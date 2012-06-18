@@ -34,7 +34,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	@Inject
 	private HtmlProportionsHandler htmlProportionsHandler;
 
-	private String formActionURL = "HtmlEmulation";
+	private String formActionURL = "emulation";
 	private String formMethod = HtmlConstants.POST;
 
 	public String render(TerminalSnapshot terminalSnapshot) {

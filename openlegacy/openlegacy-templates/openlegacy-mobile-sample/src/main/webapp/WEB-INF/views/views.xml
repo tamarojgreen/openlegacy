@@ -11,15 +11,6 @@
   </definition>
   Marker for code generation end -->
 
-  
-  <definition name="Emulation" extends="template">
-    <put-attribute name="body" value="/WEB-INF/views/Emulation.jspx" />
-  </definition>
-
-  <definition name="HtmlEmulation" extends="emulation">
-    <put-attribute name="body" value="/WEB-INF/views/HtmlEmulation.jspx" />
-  </definition>
-
   <!-- Place holder for code generation -->
   <definition name="WorkWithItemMaster1Composite" extends="compositeView">
     <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster1Composite.jspx" />
