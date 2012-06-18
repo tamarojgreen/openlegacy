@@ -11,13 +11,13 @@ public class Prefrences {
 	private final static Logger logger = Logger.getLogger(Prefrences.class);
 
 	public static String get(String key, String defaultValue) {
-		IEclipsePreferences preferences = ConfigurationScope.INSTANCE.getNode(PluginConstants.PLUGIN_ID);
+		IEclipsePreferences preferences = new ConfigurationScope().getNode(PluginConstants.PLUGIN_ID);
 		return preferences.get(key, defaultValue);
 
 	}
 
 	public static void put(String key, String value) {
-		IEclipsePreferences preferences = ConfigurationScope.INSTANCE.getNode(PluginConstants.PLUGIN_ID);
+		IEclipsePreferences preferences = new ConfigurationScope().getNode(PluginConstants.PLUGIN_ID);
 		preferences.put(key, value);
 		try {
 			preferences.flush();
