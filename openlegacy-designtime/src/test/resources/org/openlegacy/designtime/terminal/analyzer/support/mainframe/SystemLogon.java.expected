@@ -23,7 +23,7 @@ public class SystemLogon {
 	@ScreenField(row = 14, column = 23, endColumn= 30 ,labelColumn= 2 ,editable= true ,fieldType=UserField.class ,displayName = "User ID")
     private String userId;
 	
-	@ScreenField(row = 15, column = 23, endColumn= 30 ,labelColumn= 2 ,editable= true ,fieldType=PasswordField.class ,displayName = "Password")
+	@ScreenField(row = 15, column = 23, endColumn= 30 ,labelColumn= 2 ,password= true ,editable= true ,fieldType=PasswordField.class ,displayName = "Password")
     private String password;
 	
 	@ScreenField(row = 16, column = 23, endColumn= 30 ,labelColumn= 2 ,editable= true ,displayName = "New password")

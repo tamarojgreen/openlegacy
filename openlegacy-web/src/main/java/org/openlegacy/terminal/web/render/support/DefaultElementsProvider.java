@@ -50,6 +50,9 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 			String fieldName = HtmlNamingUtil.getFieldName(field);
 			input.setAttribute(HtmlConstants.NAME, fieldName);
 			input.setAttribute(HtmlConstants.ID, fieldName);
+			if (field.isHidden()) {
+				input.setAttribute(HtmlConstants.TYPE, HtmlConstants.PASSWORD);
+			}
 		}
 		parentTag.appendChild(input);
 		return input;
