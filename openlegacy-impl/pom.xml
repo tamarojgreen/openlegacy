@@ -8,8 +8,8 @@
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-impl</artifactId>
-	<name>Open Legacy implementation</name>
-	<description>Open Legacy implementation provides a default implementation for Open Legacy API along with a legacy provider adapter.</description>
+	<name>OpenLegacy implementation</name>
+	<description>OpenLegacy implementation provides default implementations for OpenLegacy API</description>
 	<url>http://openlegacy.org</url>
 	<dependencies>
 		<dependency>

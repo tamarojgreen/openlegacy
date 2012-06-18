@@ -9,8 +9,9 @@
 	</parent>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy-applinx</artifactId>
-	<name>Open Legacy Applinx adapter</name>
-
+	<name>OpenLegacy Applinx legacy connection provider</name>
+	<description>Legacy connection provider implementation of Applinx from SoftwareAG</description>
+	
 	<repositories>
 		<repository>
 			<id>openlegacy-release</id>
@@ -18,7 +19,6 @@
 		</repository>
 	</repositories>
 
-	<description>Open Legacy adapter  implementation for Applinx legacy provider.</description>
 	<dependencies>
 		<dependency>
 			<groupId>org.openlegacy</groupId>

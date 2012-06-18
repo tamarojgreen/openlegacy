@@ -8,8 +8,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-tn5250j</artifactId>
-	<name>Open legacy tn5250 terminal session provider based on http://tn5250j.sourceforge.net/</name>
-
+	<name>OpenLegacy TN5250 legacy connection provider</name>
+	<description>Legacy connection provider implementation based on http://tn5250j.sourceforge.net</description>
+	
 	<repositories>
 		<repository>
 			<id>openlegacy-release</id>

@@ -8,7 +8,8 @@
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-web</artifactId>
-	<name>Open Legacy web components</name>
+	<name>OpenLegacy web components</name>
+	<description>OpenLegacy web components provides a set of tools for building web,REST and mobile application using OpenLegacy API</description>	
 
 	<dependencies>
 		<dependency>

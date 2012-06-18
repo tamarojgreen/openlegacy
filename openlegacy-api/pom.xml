@@ -8,8 +8,8 @@
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-api</artifactId>
-	<name>Open Legacy API</name>
-	<description>Open Legacy API provides a specification for legacy application mostrly throught interfaces &amp; annotations.</description>
+	<name>OpenLegacy API</name>
+	<description>OpenLegacy API provides a set of interfaces &amp; annotations which provide a specification for describing and connecting to a legacy application</description>
 	<url>http://openlegacy.org</url>
 	<issueManagement>
 	</issueManagement>
