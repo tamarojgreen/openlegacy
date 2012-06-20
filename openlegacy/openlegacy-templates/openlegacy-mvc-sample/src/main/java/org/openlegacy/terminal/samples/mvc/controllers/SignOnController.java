@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
  * Handles requests for screen SignOn
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping({ "/", "/SignOn" })
 public class SignOnController {
 
 	@Inject
