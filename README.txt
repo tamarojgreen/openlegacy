@@ -4,7 +4,9 @@ Pre-requiresites:
 JDK 1.6 Installed
 Spring tool suite - STS (Spring's eclipse) from http://www.springsource.org/downloads/sts
 OR
-Eclipse 3.6 or higher including Maven M2 plugin, AspectJ plug-in & EGit plug-in
+Eclipse 3.6 or higher including Maven M2eclipse plugin, AspectJ plug-in & EGit plug-in
+
+Tested with STS 2.8.1 and STS 2.9.2
 
 1.
 For STS - start springsource/sts-<VERSION>/sts.exe
@@ -31,16 +33,11 @@ Wait for the import to complete
 7.
 Once complete, select "Next" & "Import existing projects"
 
-Select at least: openlegacy-api, openlegacy-impl.
-
-Optional projects:
-openlegacy-designtime
-openlegacy-ide-eclipse
-openlegacy-web
+Select all projects
 
 8.
 Perform project -> clean..., "Clean all project", in case of errors
-Execute the test suite: OpenLegacyRuntimeSuite to run all OpenLegacy runtime unitests.
+Execute the test suite: OpenLegacyRuntimeSuite (CTRL+SHIFT+T to find it) to run all OpenLegacy runtime unitests.
 On windows, you may need to allow Windows firewall
 
 designtime project is using Drools rule engine. It is recommended to install the plugin from:
@@ -56,6 +53,21 @@ Import code style preferences. Select Import -> prefrences, and select the file 
 openlegacy-prefs.epf
 
 10.
-For Demo web application, import <GIT HOME>/openlegacy/openlegacy/openlegacy-templates/openlegacy-mvc-sample project (demo application), OR <GIT HOME>/openlegacy/openlegacy/openlegacy-templates/openlegacy-mvc-new project (new application)
+For running OpenLegacy an web application, import:
+
+- <GIT CLONE DIR>/openlegacy/openlegacy-templates/openlegacy-mvc-sample project (web demo application)
+(URL is http://localhost:8080/openlegacy-mvc-sample)
+
+OR 
+
+- <GIT CLONE DIR>/openlegacy/openlegacy-templates/openlegacy-mobile-sample project (mobile demo application)
+(URL is http://localhost:8080/openlegacy-mobile-sample)
+OR
+
+- <GIT CLONE DIR>/openlegacy/openlegacy-templates/openlegacy-mvc-new project (new empty web application)
+(URL is http://localhost:8080/openlegacy-mvc-new/emulation)
+
 right click on "run-application.launch", and click run as-> "run-application".
-Open your browser to http://localhost:8080/openlegacy-mvc-sample or http://localhost:8080/openlegacy-mvc-new
+Verify the launcher is using JDK 1.6 in case of an error.
+
+Open your browser to the chosen application above mentioned URL.
