@@ -12,7 +12,7 @@
 		data-dojo-props="onShow: asyncLoadMobilePanel('WorkWithItemMaster1_${entityId}Panel','${pageContext.request.contextPath}/WorkWithItemMaster1?partial=1',0)">Loading...</div>
 	<div id="WorkWithItemMaster2_${entityId}Panel"
 		data-dojo-type="dojox.mobile.View"
-		data-dojo-props="onShow: asyncLoadMobilePanel('WorkWithItemMaster2_${entityId}Panel','${pageContext.request.contextPath}/WorkWithItemMaster2?partial=1',300)">Loading...</div>
+		data-dojo-props="onShow: asyncLoadMobilePanel('WorkWithItemMaster2_${entityId}Panel','${pageContext.request.contextPath}/WorkWithItemMaster2?partial=1',1000)">Loading...</div>
 
 	<div id="WorkWithItemMasterImages_${entityId}Panel"
 		data-dojo-type="dojox.mobile.View">

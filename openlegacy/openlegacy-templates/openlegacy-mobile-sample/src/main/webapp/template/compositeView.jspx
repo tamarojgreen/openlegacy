@@ -3,8 +3,5 @@
 	xmlns:ol="urn:jsptagdir:/WEB-INF/tags" data-dojo-type="dojox.mobile.View" id="${entityUniqueId}_CompositePanel">
 
 	<tiles:insertAttribute name="header" />
-	
-	<div data-dojo-type="dojox.mobile.ScrollableView" selected="true">
-		<tiles:insertAttribute name="body" />
-	</div>
+	<tiles:insertAttribute name="body" />
 </div>

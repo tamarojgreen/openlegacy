@@ -19,8 +19,6 @@ import java.util.Date;
 		@Identifier(row = 4, column = 2, value = "Type choices, press Enter."),
 		@Identifier(row = 6, column = 2, value = "Warehouse Number . . . . . . .") })
 @ScreenActions(actions = { @Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"),
-		@Action(action = TerminalActions.F4.class, displayName = "Prompt", alias = "prompt"),
-		@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"),
 		@Action(action = TerminalActions.F2.class, additionalKey = AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") })
 @ScreenNavigation(accessedFrom = WorkWithWarehouseDetails.class)
 public class WorkWithWarehouseDetails1 {

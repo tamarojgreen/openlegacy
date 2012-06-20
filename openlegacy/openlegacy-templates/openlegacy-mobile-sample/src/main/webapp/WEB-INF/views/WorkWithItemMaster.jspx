@@ -12,7 +12,8 @@
 						url="WorkWithItemMaster1/revise/${item.itemNumber}">${item.itemDescription}</li>
 				</c:forEach>
 			</ul>
-			<a class="loadMore" title="" href="javascript:loadMore('WorkWithItemMasterTable','${pageContext.request.contextPath}/WorkWithItemMaster/more','itemNumber','itemDescription','WorkWithItemMaster1/revise/')">More...</a>
+			<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn" onclick="javascript:loadMore('WorkWithItemMasterTable','${pageContext.request.contextPath}/WorkWithItemMaster/more','itemNumber','itemDescription','WorkWithItemMaster1/revise/')" >Load More</button>
+			
 		</ol:pagePart>
 	</ol:form>
 </div>
