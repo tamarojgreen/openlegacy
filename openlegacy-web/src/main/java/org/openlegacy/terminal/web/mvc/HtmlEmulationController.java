@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  * Handles requests for the application home page.
  */
 @Controller
-@RequestMapping(value = "/HtmlEmulation")
+@RequestMapping(value = "/emulation")
 public class HtmlEmulationController {
 
 	@Inject
@@ -56,18 +56,6 @@ public class HtmlEmulationController {
 		String result = snapshotHtmlRenderer.render(terminalSession.getSnapshot());
 		uiModel.addAttribute("terminalHtml", result);
 		return "HtmlEmulation";
-	}
-
-	@RequestMapping(value = "/image", method = RequestMethod.GET)
-	public void image(HttpServletResponse response) throws IOException {
-		response.setContentType("image/jpeg");
-		TerminalSnapshotImageRenderer.instance().render(terminalSession.getSnapshot(), response.getOutputStream());
-	}
-
-	@RequestMapping(value = "/sessionViewer", method = RequestMethod.GET)
-	public @ResponseBody
-	String viewer(HttpServletRequest request) throws IOException {
-		return MessageFormat.format("<html><body><image src=\"{0}/HtmlEmulation/image\"</body></html>", request.getContextPath());
 	}
 
 	@RequestMapping(method = RequestMethod.POST)

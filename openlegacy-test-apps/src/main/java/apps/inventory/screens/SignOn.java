@@ -20,7 +20,7 @@ public class SignOn extends AbstractScreen {
 	@ScreenField(row = 6, column = 53, endColumn = 62, fieldType = Login.UserField.class, editable = true, labelColumn = 17)
 	private String user;
 
-	@ScreenField(row = 7, column = 53, endColumn = 62, fieldType = Login.PasswordField.class, editable = true)
+	@ScreenField(row = 7, column = 53, endColumn = 62, fieldType = Login.PasswordField.class, editable = true, password = true)
 	private String password;
 
 	@ScreenField(row = 8, column = 53, editable = true)

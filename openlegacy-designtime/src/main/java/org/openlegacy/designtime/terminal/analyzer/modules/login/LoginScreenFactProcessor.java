@@ -7,6 +7,7 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.utils.ClassUtils;
 
 public class LoginScreenFactProcessor implements ScreenFactProcessor {
@@ -26,6 +27,7 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 				loginScreenFact.getPasswordField(), loginScreenFact.getPasswordLabelField());
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, passwordFieldDefinition,
 				Login.PasswordField.class);
+		((SimpleScreenFieldDefinition)passwordFieldDefinition).setPassword(true);
 
 		TerminalField errorField = loginScreenFact.getErrorField();
 		if (errorField != null) {

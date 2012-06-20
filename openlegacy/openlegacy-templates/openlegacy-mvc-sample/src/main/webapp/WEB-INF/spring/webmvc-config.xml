@@ -8,6 +8,7 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources -->
 	<mvc:resources cache-period="86400" location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
 	<mvc:resources cache-period="86400" location="classpath:/dj/" mapping="/dj/**"/>
+	<mvc:resources cache-period="86400" location="classpath:/openlegacy-js/" mapping="/openlegacy-js/**"/>
 
 	<!-- The controllers are autodetected POJOs labeled with the @Controller 
 		annotation. -->
