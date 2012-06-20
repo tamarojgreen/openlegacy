@@ -80,7 +80,7 @@ function doAjaxPost(formName, areaName, actionName,fragments) {
 }
 
 function showSessionViewer(baseUrl) {
-	showDialog("sessionViewerDialog", baseUrl + "/HtmlEmulation/sessionViewer");
+	showDialog("sessionViewerDialog", baseUrl + "/sessionViewer");
 }
 
 function showDialog(dialogTagId,url) {
@@ -261,6 +261,9 @@ function setDateToCelendar(node){
 }
 
 function showLoading(){
+	var loading = dojo.byId('loadingMessage');
+	if (loading == null) return;
+	
 	dojo.byId('loadingMessage').style.display='';
 	hideLoading();
 }
