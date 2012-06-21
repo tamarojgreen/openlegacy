@@ -44,6 +44,9 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	}
 
 	private void progressSnapshot(ScreenEntity result) {
+		if (result == null){
+			return;
+		}
 		Class<?> screenEntityClass = ProxyUtil.getOriginalClass(result.getClass());
 		SnapshotsList snapshotsList = snapshotsMap.get(screenEntityClass);
 		snapshotsList.next();

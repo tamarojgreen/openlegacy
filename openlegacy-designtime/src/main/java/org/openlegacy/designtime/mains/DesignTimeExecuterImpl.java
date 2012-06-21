@@ -64,6 +64,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String DEFAULT_NEW_PROJECT_VERSION = "0.1";
 
+	private static final String TEST_SOURCE_DIR = "test/main/java";
+
 	private ApplicationContext applicationContext;
 
 	private File designtimeContextFile;
@@ -229,7 +231,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	public void generateScreens(File trailFile, File sourceDirectory, String packageDirectoryName, File templatesDir,
-			OverrideConfirmer overrideConfirmer, File analyzerContextFile) throws GenerationException {
+			OverrideConfirmer overrideConfirmer, File analyzerContextFile,File projectPath) throws GenerationException {
 
 		getGenerateUtil().setTemplateDirectory(templatesDir);
 
@@ -277,7 +279,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		generateTest(trailFile, screenDefinitions, sourceDirectory);
+		generateTest(trailFile, screenDefinitions, projectPath);
 
 	}
 
@@ -285,11 +287,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return applicationContext.getBean(GenerateUtil.class);
 	}
 
-	private void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File sourceDirectory) {
+	private void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File projectPath) {
 		TrailJunitGenerator generator = applicationContext.getBean(TrailJunitGenerator.class);
-		File testsDirectory = new File(sourceDirectory, "tests");
+		File testSourceDirectory = new File(projectPath,TEST_SOURCE_DIR);
+		File testsDirectory = new File(testSourceDirectory, "tests");
 		try {
-			testsDirectory.mkdir();
+			testsDirectory.mkdirs();
 			String fileWithoutAnyExtension = FileUtils.fileWithoutAnyExtension(trailFile.getName());
 			String testName = StringUtils.capitalize(StringUtil.toClassName(fileWithoutAnyExtension) + "Test");
 			FileOutputStream fos = new FileOutputStream(new File(testsDirectory, testName + ".java"));

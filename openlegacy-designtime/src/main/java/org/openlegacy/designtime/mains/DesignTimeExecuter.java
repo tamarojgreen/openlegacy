@@ -20,7 +20,7 @@ public interface DesignTimeExecuter {
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException;
 
 	void generateScreens(File trailFile, File sourceDirectory, String packageDir, File templatesDir,
-			OverrideConfirmer overrideConfirmer, File analyzerContextFile) throws GenerationException;
+			OverrideConfirmer overrideConfirmer, File analyzerContextFile, File projectPath) throws GenerationException;
 
 	void generateAspect(File javaFile);
 

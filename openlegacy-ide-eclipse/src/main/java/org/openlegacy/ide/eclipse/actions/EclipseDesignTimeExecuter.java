@@ -58,10 +58,11 @@ public class EclipseDesignTimeExecuter {
 			OverrideConfirmer overrideConfirmer) throws GenerationException {
 		File anaylzerContextFile = new File(trailFile.getProject().getLocation().toOSString(),
 				DesignTimeExecuter.ANALYZER_DEFAULT_PATH);
-		File projectPath = new File(PathsUtil.toOsLocation(trailFile.getProject()), DesignTimeExecuterImpl.TEMPLATES_DIR);
+		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
+		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
 
 		designTimeExecuter.generateScreens(PathsUtil.toOsLocation(trailFile), PathsUtil.toSourceDirectory(sourceDirectory),
-				PathsUtil.packageToPath(packageDir), projectPath, overrideConfirmer, anaylzerContextFile);
+				PathsUtil.packageToPath(packageDir), templatesDirectory, overrideConfirmer, anaylzerContextFile,projectDirectory);
 
 		Display.getDefault().asyncExec(new Runnable() {
 

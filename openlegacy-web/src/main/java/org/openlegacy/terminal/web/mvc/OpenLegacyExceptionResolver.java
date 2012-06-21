@@ -28,7 +28,7 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 			}
 		}
 
-		logger.fatal(ex);
+		logger.fatal(ex.getMessage(),ex);
 
 		return super.resolveException(request, response, handler, ex);
 	}
