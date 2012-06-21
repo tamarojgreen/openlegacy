@@ -56,6 +56,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String DEFAULT_SPRING_WEB_CONTEXT_FILE = "/src/main/webapp/WEB-INF/spring/webmvc-config.xml";
 
 	private static final String RUN_APPLICATION = "run-application.launch";
+	private static final String BUILD_WAR = "build-application.launch";
 
 	public static final String TEMPLATES_DIR = "templates";
 
@@ -84,7 +85,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		// eclipse files
 		renameProject(projectCreationRequest.getProjectName(), targetPath);
-		renameLauncher(projectCreationRequest.getProjectName(), targetPath);
+		renameLaunchers(projectCreationRequest.getProjectName(), targetPath);
 
 		updateHostpropertiesFile(projectCreationRequest, targetPath);
 
@@ -105,11 +106,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		IOUtils.write(hostPropertiesFileContent, fos);
 	}
 
-	private static void renameLauncher(String projectName, File targetPath) throws FileNotFoundException, IOException {
-		File launcherFile = new File(targetPath, RUN_APPLICATION);
+	private static void renameLaunchers(String projectName, File targetPath) throws FileNotFoundException, IOException {
+		renameLauncher(projectName, targetPath, RUN_APPLICATION);
+		renameLauncher(projectName, targetPath, BUILD_WAR);
+	}
+
+	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException, IOException {
+		File launcherFile = new File(targetPath, fileName);
 
 		if (!launcherFile.exists()) {
-			logger.warn(MessageFormat.format("Unable to find launcher {0} within {1}", RUN_APPLICATION, projectName));
+			logger.warn(MessageFormat.format("Unable to find launcher {0} within {1}", fileName, projectName));
 			return;
 		}
 
@@ -120,7 +126,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		IOUtils.write(launchFileContent, fos);
 
 	}
-
+	
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
 			FileNotFoundException {
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE));
