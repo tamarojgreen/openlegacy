@@ -57,7 +57,7 @@ public class ScreenPojosAjGenerator {
 
 		List<TypeDeclaration> types = compilationUnit.getTypes();
 
-		if (types.size() == 0) {
+		if (types == null || types.size() == 0) {
 			logger.warn(MessageFormat.format("No types detected for {0}. skipping file", javaFile.getName()));
 			return;
 		}

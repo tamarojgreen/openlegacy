@@ -47,6 +47,12 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * OpenLegacy main design-time API entry point.
+ * Consolidate all design-time common UI actions 
+ *  
+ *@see DesignTimeExecuter
+ */
 public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private final static Log logger = LogFactory.getLog(DesignTimeExecuterImpl.class);

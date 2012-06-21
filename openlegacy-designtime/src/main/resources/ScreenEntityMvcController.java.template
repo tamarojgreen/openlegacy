@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * Handles requests for screen ${entityDefinition.entityName}
  */
+@Controller
 @RequestMapping("/${entityDefinition.entityClassName}")
 public class ${entityDefinition.entityClassName}Controller {
 

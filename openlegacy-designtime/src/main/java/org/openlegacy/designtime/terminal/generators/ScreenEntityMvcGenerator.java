@@ -79,6 +79,12 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	 */
 	public void generateAll(GeneratePageRequest generatePageRequest, ScreenEntityDefinition screenEntityDefinition)
 			throws GenerationException {
+
+		if (screenEntityDefinition.isChild()){
+			logger.warn("Skipping generation of child entity" + screenEntityDefinition.getEntityClassName());
+			return;
+		}
+		
 		generateAll(generatePageRequest, screenEntityDefinition, false);
 	}
 

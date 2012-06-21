@@ -4,6 +4,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -70,9 +71,16 @@ public class GenerateUtil {
 					template = configuration.getTemplate("/" + templateName);
 				}
 			}
-
-			OutputStreamWriter output = new OutputStreamWriter(out);
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			OutputStreamWriter output = new OutputStreamWriter(baos);
 			template.process(model, output);
+			
+			// only write the file if it has content (sometimes using empty template)
+			byte[] bytes = baos.toByteArray();
+			if (bytes.length > 0){
+				out.write(bytes);
+			}
 		} catch (TemplateException e) {
 			throw (new GenerationException(e));
 		} catch (IOException e) {
