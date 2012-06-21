@@ -33,6 +33,10 @@ public class AbstractAS400TerminalSessionSystemTest extends AbstractTest {
 		Assert.assertNotNull(signOn);
 		Assert.assertNotNull(signOn.getTerminalSnapshot());
 		Assert.assertNotNull(signOn.getUserField());
+		Assert.assertFalse(signOn.getUserField().isPassword());
+		
+		Assert.assertNotNull(signOn.getPasswordField());
+		Assert.assertTrue(signOn.getPasswordField().isPassword());
 		Assert.assertEquals("COPYRIGHT IBM CORP", signOn.getMessage());
 
 		signOn.setUser("user");

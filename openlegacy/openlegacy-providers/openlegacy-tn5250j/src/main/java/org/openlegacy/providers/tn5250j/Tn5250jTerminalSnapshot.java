@@ -97,7 +97,11 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 			int fieldAttributes = screenData.attr[startAbsolutePosition];
 			ScreenField screenField = screen.getScreenFields().findByPosition(startAbsolutePosition);
 			if (screenField != null) {
-				field = createEditableField(screenField, value, false, fieldAttributes);
+				boolean hidden = false;
+				if ((screenData.extended[startAbsolutePosition] & TN5250jConstants.EXTENDED_5250_NON_DSP) != 0){
+					hidden = true;
+				}
+				field = createEditableField(screenField, value, hidden, fieldAttributes);
 			}
 		} else {
 			int fieldAttributes = screenData.attr[startAbsolutePosition];
