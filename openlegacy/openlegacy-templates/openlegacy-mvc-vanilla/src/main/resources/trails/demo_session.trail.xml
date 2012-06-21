@@ -4779,7 +4779,7 @@
             <field column="79" value=" " color="WHITE"/>
         </row>
         <size rows="24" columns="80"/>
-        <cursor row="8" column="34"/>
+        <cursor row="7" column="34"/>
     </snapshot>
     <snapshot type="OUTGOING" command="[pf4]" sequence="32">
         <row rowNumber="1">
@@ -4973,7 +4973,7 @@
             <field column="2" backColor="BLUE"/>
             <field column="3" value=" " backColor="BLUE"/>
             <field column="5" value="  "/>
-            <field column="8" value="x" editable="true" type="java.lang.Integer"/>
+            <field column="8" value="" editable="true" type="java.lang.Integer"/>
             <field column="10" value="   "/>
             <field column="14" value="DR"/>
             <field column="17" value="  "/>
@@ -5161,7 +5161,7 @@
             <field column="2" backColor="BLUE"/>
             <field column="3" value=" " backColor="BLUE"/>
             <field column="5" value="  "/>
-            <field column="8" value="x" modified="true" editable="true" type="java.lang.Integer"/>
+            <field column="8" value="" modified="true" editable="true" type="java.lang.Integer"/>
             <field column="10" value="   "/>
             <field column="14" value="DR"/>
             <field column="17" value="  "/>
