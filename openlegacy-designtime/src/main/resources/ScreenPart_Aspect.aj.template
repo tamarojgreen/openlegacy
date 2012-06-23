@@ -6,17 +6,10 @@ package ${packageName};
 <#if supportTerminalData>
 import org.openlegacy.terminal.TerminalField;
 </#if>
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 import ${packageName}.${parentClassName}.${className};
 
 privileged @SuppressWarnings("unused") aspect ${formattedClassName}Table_Aspect {
-    
-    declare @type: ${className} : @Component;
-	declare @type: ${className} : @Scope("prototype");
-    
 	<#list fields as field>
-	
 	<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
     private TerminalField ${className}.${field.name}Field;
 	</#if>

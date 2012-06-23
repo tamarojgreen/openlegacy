@@ -48,7 +48,7 @@ public class ${entityName} {
     private ${field.javaTypeName} ${field.name};
 	</#list>	
 
- 	<#list childScreensDefinitions as childScreen>
+ 	<#list childEntitiesDefinitions as childScreen>
     private ${childScreen.entityName} ${childScreen.entityName?uncap_first};
 	</#list>	
     

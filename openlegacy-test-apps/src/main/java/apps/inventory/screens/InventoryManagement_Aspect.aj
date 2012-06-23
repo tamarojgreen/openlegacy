@@ -5,15 +5,9 @@ package apps.inventory.screens;
 
 import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect InventoryManagement_Aspect {
     
-    declare @type: InventoryManagement : @Component;
-	declare @type: InventoryManagement : @Scope("prototype");
-    
-
     declare parents: InventoryManagement implements ScreenEntity;
     private String InventoryManagement.focusField;
     

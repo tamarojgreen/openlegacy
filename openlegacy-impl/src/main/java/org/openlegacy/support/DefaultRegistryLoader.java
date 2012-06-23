@@ -37,6 +37,11 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 		Resource[] resources;
 		List<String> packages = entitiesRegistry.getPackages();
+		if (packages == null) {
+			logger.warn("Not packages defined for entity registry " + entitiesRegistry.getClass());
+			return;
+		}
+
 		for (String thePackage : packages) {
 			try {
 				String packagePath = org.openlegacy.utils.ClassUtils.packageToResourcePath(thePackage);

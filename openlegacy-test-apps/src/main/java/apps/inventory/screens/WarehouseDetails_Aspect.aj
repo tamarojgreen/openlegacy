@@ -7,15 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     
-    declare @type: WarehouseDetails : @Component;
-	declare @type: WarehouseDetails : @Scope("prototype");
-    
-
     declare parents: WarehouseDetails implements ScreenEntity;
     private String WarehouseDetails.focusField;
     

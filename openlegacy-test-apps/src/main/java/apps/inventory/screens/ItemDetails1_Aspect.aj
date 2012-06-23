@@ -5,15 +5,9 @@ package apps.inventory.screens;
 
 import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     
-    declare @type: ItemDetails1 : @Component;
-	declare @type: ItemDetails1 : @Scope("prototype");
-    
-
     declare parents: ItemDetails1 implements ScreenEntity;
     private String ItemDetails1.focusField;
     

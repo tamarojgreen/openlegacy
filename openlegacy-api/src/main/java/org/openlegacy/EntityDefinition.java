@@ -40,5 +40,5 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	 * 
 	 * @return
 	 */
-	Set<EntityDefinition<?>> getAllChildScreensDefinitions();
+	Set<EntityDefinition<?>> getAllChildEntitiesDefinitions();
 }

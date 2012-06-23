@@ -7,13 +7,8 @@ import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
-    
-    declare @type: SignOn : @Component;
-	declare @type: SignOn : @Scope("prototype");
     
     private TerminalSnapshot SignOn.terminalSnapshot;
 

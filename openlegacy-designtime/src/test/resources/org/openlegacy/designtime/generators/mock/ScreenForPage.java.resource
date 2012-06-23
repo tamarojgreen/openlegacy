@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @ScreenEntity
-@Component
 @ScreenActions(actions = { @Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"),
 		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit") })
 public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {

@@ -5,15 +5,9 @@ package apps.inventory.screens;
 
 import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged aspect WarehousesList_Aspect {
     
-    declare @type: WarehousesList : @Component;
-	declare @type: WarehousesList : @Scope("prototype");
-    
-
     declare parents: WarehousesList implements ScreenEntity;
     private String WarehousesList.focusField;
     

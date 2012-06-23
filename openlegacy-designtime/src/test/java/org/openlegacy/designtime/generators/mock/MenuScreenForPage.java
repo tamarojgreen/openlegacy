@@ -3,10 +3,8 @@ package org.openlegacy.designtime.generators.mock;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.modules.menu.Menu;
-import org.springframework.stereotype.Component;
 
 @ScreenEntity(screenType = Menu.MenuEntity.class)
-@Component
 public class MenuScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	@ScreenField(row = 6, column = 22, endColumn = 31, editable = true)

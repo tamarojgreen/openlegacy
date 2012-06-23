@@ -6,17 +6,9 @@ package com.someorg.examples.screens;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 import com.someorg.examples.screens.TestClass.TableScreenRecord;
 
 privileged @SuppressWarnings("unused") aspect TableScreenRecordTable_Aspect {
-    
-    declare @type: TableScreenRecord : @Component;
-	declare @type: TableScreenRecord : @Scope("prototype");
-    
-	
-	
     
     public String TableScreenRecord.getColumn1(){
     	return this.column1;

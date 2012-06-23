@@ -126,11 +126,11 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 		return child;
 	}
 
-	public Set<EntityDefinition<?>> getAllChildScreensDefinitions() {
+	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
 		Set<EntityDefinition<?>> childs = new TreeSet<EntityDefinition<?>>();
 		childs.addAll(getChildEntitiesDefinitions());
 		for (EntityDefinition<?> childScreenDefinition : childs) {
-			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition.getAllChildScreensDefinitions();
+			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition.getAllChildEntitiesDefinitions();
 			if (childScreensDefinitions.size() > 0) {
 				logger.info(MessageFormat.format("Adding child screens to list all child screens. Adding: {0}",
 						childScreensDefinitions));

@@ -12,6 +12,8 @@
 
 	<import resource="classpath:/openlegacy-common-designtime-context.xml" />
 
+	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry" />
+		
 	<!-- OpenLegacy default terminal snapshot analyzer rules definition -->	 
 	<bean id="terminalSnapshotsAnalyzer" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsAnalyzer" p:processName="screen-builder">
 		<property name="ruleDefinitions">

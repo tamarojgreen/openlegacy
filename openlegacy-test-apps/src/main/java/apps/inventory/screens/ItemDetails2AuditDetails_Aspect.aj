@@ -4,16 +4,10 @@
 package apps.inventory.screens;
 
 import org.openlegacy.terminal.TerminalField;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 import apps.inventory.screens.ItemDetails2.AuditDetails;
 
 privileged aspect AuditDetailsTable_Aspect {
     
-    declare @type: AuditDetails : @Component;
-	declare @type: AuditDetails : @Scope("prototype");
-    
-	
     private TerminalField AuditDetails.createdByField;
 	
     private TerminalField AuditDetails.createdDateField;

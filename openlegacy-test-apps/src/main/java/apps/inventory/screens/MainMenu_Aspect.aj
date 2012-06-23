@@ -5,14 +5,8 @@ package apps.inventory.screens;
 
 import java.util.List;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
-    
-    declare @type: MainMenu : @Component;
-	declare @type: MainMenu : @Scope("prototype");
-    
 
     declare parents: MainMenu implements ScreenEntity;
     private String MainMenu.focusField;

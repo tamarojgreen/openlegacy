@@ -7,16 +7,10 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.TerminalField;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 import apps.inventory.screens.ItemsList.ItemsListRow;
 
 privileged @SuppressWarnings("unused") aspect ItemsListRowTable_Aspect {
     
-    declare @type: ItemsListRow : @Component;
-	declare @type: ItemsListRow : @Scope("prototype");
-    
-	
     private TerminalField ItemsListRow.actionField;
 	
     private TerminalField ItemsListRow.alphaSearchField;

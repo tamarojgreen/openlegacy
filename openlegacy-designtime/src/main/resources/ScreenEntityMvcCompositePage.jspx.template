@@ -14,7 +14,7 @@
 		<div id="${entityClassName}" title="${displayName}" selected="true" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${r"${"}pageContext.request.contextPath}/${entityClassName}?partial=1'">
 			<div>Place holder</div>
 		</div>
-		<#list allChildScreensDefinitions as childScreensDefinition>
+		<#list allChildEntitiesDefinitions as childScreensDefinition>
 		<div id="${childScreensDefinition.entityClassName}" title="${childScreensDefinition.displayName}" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${r"${"}pageContext.request.contextPath}/${childScreensDefinition.entityClassName}?partial=1'">
 			<div>Place holder</div>
 		</div>

@@ -51,7 +51,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	</#if>
 	
 	// handle page initial display
-    @RequestMapping(method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childScreensDefinitions?size &gt; 0>, params="partial=1"</#if>)
+    @RequestMapping(method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childEntitiesDefinitions?size &gt; 0>, params="partial=1"</#if>)
     public String ${entityDefinition.entityClassName}Controller.show(Model uiModel) {
     	${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
 	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});

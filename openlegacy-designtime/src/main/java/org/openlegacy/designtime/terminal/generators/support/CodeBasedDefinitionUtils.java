@@ -183,7 +183,7 @@ public class CodeBasedDefinitionUtils {
 		Set<EntityDefinition<?>> childs = new TreeSet<EntityDefinition<?>>();
 		childs.addAll(getChildScreensDefinitions(codeModel, packageDir));
 		for (EntityDefinition<?> childScreenDefinition : childs) {
-			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition.getAllChildScreensDefinitions();
+			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition.getAllChildEntitiesDefinitions();
 			if (childScreensDefinitions.size() > 0) {
 				logger.info(MessageFormat.format("Adding child screens to list all child screens. Adding: {0}",
 						childScreensDefinitions));

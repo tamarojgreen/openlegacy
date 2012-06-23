@@ -158,7 +158,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return codeModel.isChildScreen();
 	}
 
-	public Set<EntityDefinition<?>> getAllChildScreensDefinitions() {
+	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
 		if (allChildScreens == null) {
 			allChildScreens = CodeBasedDefinitionUtils.getAllChildScreensDefinitions(codeModel, packageDir);
 		}

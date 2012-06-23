@@ -5,14 +5,8 @@ package com.someorg.examples.screens;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect ScreenWithValues_Aspect {
-    
-    declare @type: ScreenWithValues : @Component;
-	declare @type: ScreenWithValues : @Scope("prototype");
-    
 
     declare parents: ScreenWithValues implements ScreenEntity;
     private String ScreenWithValues.focusField;

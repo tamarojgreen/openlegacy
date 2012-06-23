@@ -6,18 +6,9 @@ package apps.inventory.screens;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 import apps.inventory.screens.WarehouseTypes.WarehouseTypeRow;
 
 privileged @SuppressWarnings("unused") aspect WarehouseTypeRowTable_Aspect {
-    
-    declare @type: WarehouseTypeRow : @Component;
-	declare @type: WarehouseTypeRow : @Scope("prototype");
-    
-	
-	
-	
     
     public String WarehouseTypeRow.getAction(){
     	return this.action;

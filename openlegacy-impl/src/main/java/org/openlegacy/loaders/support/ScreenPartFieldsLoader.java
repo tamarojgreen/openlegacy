@@ -1,12 +1,12 @@
 package org.openlegacy.loaders.support;
 
+import java.lang.reflect.Field;
+
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Field;
 
 @Component
 public class ScreenPartFieldsLoader implements FieldLoader {

@@ -7,7 +7,12 @@
 
 	<import resource="classpath:/test-designtime-context.xml" />
 
-	<context:component-scan base-package="org.openlegacy.designtime.generators.mock" />
-	<context:component-scan base-package="apps.inventory.screens" />
-
+	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
+	    <property name="packages">
+	        <list>
+	            <value>org.openlegacy.designtime.generators.mock</value>
+	            <value>apps.inventory.screens</value>
+	            </list>
+	    </property>
+    </bean>
 </beans>
