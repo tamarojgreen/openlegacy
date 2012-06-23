@@ -19,4 +19,5 @@ public interface ScreenEntitiesRegistry extends EntitiesRegistry<ScreenEntityDef
 	void addTable(ScreenTableDefinition tableDefinition);
 
 	ScreenTableDefinition getTable(Class<?> containingClass);
+
 }

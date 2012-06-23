@@ -23,6 +23,8 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 
 	private final Map<Class<?>, E> entitiesDefinitions = new HashMap<Class<?>, E>();
 
+	private List<String> packages;
+	
 	@SuppressWarnings("unchecked")
 	private Map<String, Class<?>> entities = new CaseInsensitiveMap();
 	private Map<Class<?>, String> reversedEntities = new HashMap<Class<?>, String>();
@@ -91,6 +93,14 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		return get(matchingTypes.get(0));
 	}
 
+	public void setPackages(List<String> packages) {
+		this.packages = packages;
+	}
+
+	public List<String> getPackages() {
+		return packages;
+	}
+	
 	public void clear() {
 		entities.clear();
 		reversedEntities.clear();

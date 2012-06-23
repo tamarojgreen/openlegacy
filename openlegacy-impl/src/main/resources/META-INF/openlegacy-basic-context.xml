@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<bean class="org.openlegacy.terminal.support.ScreenAnnotationProccesor"/>
+ 	<bean class="org.openlegacy.terminal.support.ScreenAnnotationProccesor"/>
 
 	<context:component-scan base-package="org.openlegacy">
         <context:exclude-filter expression=".*mock.*" type="regex"/>
@@ -16,7 +16,8 @@
 	</context:component-scan>
 	
 	<!-- Open legacy default beans -->
-	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry" />
+	<!-- <bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry" /> -->
+	
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />
 	<bean id="fieldMappingsProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedFieldMappingsProvider" />
 	<bean id="tableDefinitionsProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedTablesDefinitionProvider" />

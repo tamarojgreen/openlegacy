@@ -12,7 +12,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 @ScreenEntitySuperClass(supportTerminalData = true)
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 48, value = "System") })
 @ScreenActions(actions = { @Action(action = TerminalActions.ENTER.class, displayName = "Enter") })
-public class AbstractScreen {
+public abstract class AbstractScreen {
 
 	@ScreenField(row = 24, column = 2, fieldType = Login.ErrorField.class)
 	private String error;

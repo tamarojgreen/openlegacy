@@ -29,4 +29,6 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 	H get(Class<?> entityClass);
 
 	void clear();
+
+	List<String> getPackages();
 }

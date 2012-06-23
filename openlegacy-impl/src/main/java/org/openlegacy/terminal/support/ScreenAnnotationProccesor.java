@@ -1,5 +1,13 @@
 package org.openlegacy.terminal.support;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
@@ -9,20 +17,14 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.TypesUtil;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Open legacy integration point with spring component-scan. The classes are scanned for @ScreenEntity annotation and all the
@@ -41,25 +43,38 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 		ScreenEntitiesRegistry screenEntitiesRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
 		screenEntitiesRegistry.clear();
 
-		for (String beanName : beanFactory.getBeanDefinitionNames()) {
+		ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+		Resource[] resources;
+		List<String> packages = screenEntitiesRegistry.getPackages();
+		for (String thePackage : packages) {
 			try {
-				BeanDefinition bean = beanFactory.getBeanDefinition(beanName);
-				if (bean.getBeanClassName() == null) {
-					continue;
-				}
-				Class<?> beanClass = Class.forName(bean.getBeanClassName());
+				String packagePath = org.openlegacy.utils.ClassUtils.packageToResourcePath(thePackage);
+				resources = resourcePatternResolver.getResources("classpath*:" + packagePath + "/*.class");
 
-				Class<?> currentBeanClass = beanClass;
-				while (currentBeanClass != Object.class) {
-					Annotation[] annotations = currentBeanClass.getAnnotations();
-					processAnnotations(annotationLoaders, screenEntitiesRegistry, beanClass, annotations);
-					currentBeanClass = currentBeanClass.getSuperclass();
+				for (Resource resource : resources) {
+					String resourcePath = resource.getURI().toString();
+					String resourceRelativePath = resourcePath.substring(resourcePath.indexOf(packagePath),resourcePath.indexOf(".class"));
+					String className = ClassUtils.convertResourcePathToClassName(resourceRelativePath);
+					
+					Class<?> beanClass = Class.forName(className);
+					if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass)){
+						continue;
+					}
+					Class<?> currentBeanClass = Class.forName(className);
+					while (currentBeanClass != Object.class) {
+						Annotation[] annotations = currentBeanClass.getAnnotations();
+						processAnnotations(annotationLoaders, screenEntitiesRegistry, beanClass, annotations);
+						currentBeanClass = currentBeanClass.getSuperclass();
+					}
+					handleChilds(beanFactory, screenEntitiesRegistry, beanClass);
 				}
-				handleChilds(beanFactory, screenEntitiesRegistry, beanClass);
-			} catch (ClassNotFoundException e) {
-				throw (new BeanCreationException(e.getMessage(), e));
+				
+				
+			} catch (Exception e) {
+				throw(new RuntimeException(e));
 			}
 		}
+		
 
 		fillChildScreenEntities(screenEntitiesRegistry);
 	}

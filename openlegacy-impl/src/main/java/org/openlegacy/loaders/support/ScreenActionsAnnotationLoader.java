@@ -7,6 +7,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
@@ -33,6 +34,12 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
 		ScreenEntityDefinition screenEntityDefinition = (ScreenEntityDefinition)entitiesRegistry.get(containingClass);
+		if (screenEntityDefinition == null){
+			throw(new RegistryException(MessageFormat
+					.format("Failed to find {0} in regitry during loading @Actions annotation",
+							containingClass)));
+		}
+		
 		ScreenActions screenActions = (ScreenActions)annotation;
 
 		Action[] actions = screenActions.actions();

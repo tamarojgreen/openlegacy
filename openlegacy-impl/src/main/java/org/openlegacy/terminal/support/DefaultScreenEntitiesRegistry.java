@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +28,7 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
 	private final Map<Class<?>, ScreenTableDefinition> tableDefinitions = new HashMap<Class<?>, ScreenTableDefinition>();
 	private ArrayList<ScreenEntityDefinition> sortedScreenDefinitions;
+	
 
 	private final static Log logger = LogFactory.getLog(DefaultScreenEntitiesRegistry.class);
 
@@ -95,4 +97,5 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 		}
 
 	}
+	
 }
