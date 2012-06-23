@@ -6,19 +6,10 @@ package org.openlegacy.terminal.samples.model;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 import org.openlegacy.terminal.samples.model.WorkWithItemMaster.WorkWithItemMasterRecord;
 
 privileged @SuppressWarnings("unused") aspect WorkWithItemMasterRecordTable_Aspect {
     
-    declare @type: WorkWithItemMasterRecord : @Component;
-	declare @type: WorkWithItemMasterRecord : @Scope("prototype");
-    
-	
-	
-	
-	
     
     public Integer WorkWithItemMasterRecord.getAction_(){
     	return this.action_;

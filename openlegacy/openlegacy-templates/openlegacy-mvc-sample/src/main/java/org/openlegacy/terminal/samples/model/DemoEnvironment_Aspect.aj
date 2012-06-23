@@ -5,14 +5,8 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect DemoEnvironment_Aspect {
-    
-    declare @type: DemoEnvironment : @Component;
-	declare @type: DemoEnvironment : @Scope("prototype");
-    
 
     declare parents: DemoEnvironment implements ScreenEntity;
     private String DemoEnvironment.focusField;

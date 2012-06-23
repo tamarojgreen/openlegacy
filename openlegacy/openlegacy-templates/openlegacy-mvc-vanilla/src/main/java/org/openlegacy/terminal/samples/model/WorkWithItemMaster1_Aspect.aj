@@ -5,13 +5,8 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1_Aspect {
-    
-    declare @type: WorkWithItemMaster1 : @Component;
-	declare @type: WorkWithItemMaster1 : @Scope("prototype");
     
 
     declare parents: WorkWithItemMaster1 implements ScreenEntity;

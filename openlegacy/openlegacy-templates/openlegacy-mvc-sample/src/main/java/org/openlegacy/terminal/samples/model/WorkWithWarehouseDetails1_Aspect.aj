@@ -5,13 +5,8 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails1_Aspect {
-    
-    declare @type: WorkWithWarehouseDetails1 : @Component;
-	declare @type: WorkWithWarehouseDetails1 : @Scope("prototype");
     
 
     declare parents: WorkWithWarehouseDetails1 implements ScreenEntity;

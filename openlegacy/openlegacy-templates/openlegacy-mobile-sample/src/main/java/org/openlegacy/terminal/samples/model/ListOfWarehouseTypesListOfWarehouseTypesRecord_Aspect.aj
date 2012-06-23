@@ -6,17 +6,10 @@ package org.openlegacy.terminal.samples.model;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 import org.openlegacy.terminal.samples.model.ListOfWarehouseTypes.ListOfWarehouseTypesRecord;;
 
 privileged @SuppressWarnings("unused") aspect ListOfWarehouseTypesRecordTable_Aspect {
     
-    declare @type: ListOfWarehouseTypesRecord : @Component;
-	declare @type: ListOfWarehouseTypesRecord : @Scope("prototype");
-    
-	
-	
 	
     
     public Integer ListOfWarehouseTypesRecord.getAction_(){

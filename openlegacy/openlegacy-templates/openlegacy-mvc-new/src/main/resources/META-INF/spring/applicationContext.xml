@@ -14,8 +14,14 @@
 	
 	<import resource="classpath*:/META-INF/openlegacy-webenabling-context.xml"/>
 
-	<context:component-scan base-package="com.test" />
-
+	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
+	    <property name="packages">
+	        <list>
+	            <value>com.example</value>
+            </list>
+	    </property>
+    </bean>
+	
 	<bean id="snapshotHtmlRenderer" class="org.openlegacy.terminal.web.render.support.DefaultTerminalSnapshotHtmlRenderer" p:formActionURL=""/>		
 
 <!--

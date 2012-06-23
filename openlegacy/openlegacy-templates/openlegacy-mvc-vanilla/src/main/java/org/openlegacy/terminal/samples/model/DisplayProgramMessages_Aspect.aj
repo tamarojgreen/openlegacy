@@ -5,13 +5,8 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect DisplayProgramMessages_Aspect {
-    
-    declare @type: DisplayProgramMessages : @Component;
-	declare @type: DisplayProgramMessages : @Scope("prototype");
     
 
     declare parents: DisplayProgramMessages implements ScreenEntity;

@@ -5,13 +5,8 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
-    
-    declare @type: SignOn : @Component;
-	declare @type: SignOn : @Scope("prototype");
     
 
     declare parents: SignOn implements ScreenEntity;
