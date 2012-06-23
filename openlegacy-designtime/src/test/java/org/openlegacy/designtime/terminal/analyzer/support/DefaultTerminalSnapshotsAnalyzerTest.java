@@ -132,8 +132,8 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 				"ChildScreens.trail.xml"));
 		ScreenEntityDefinition parent = definitions.get("WorkWithItemMaster");
 		Assert.assertNotNull(parent);
-		Assert.assertEquals(1, parent.getChildScreensDefinitions().size());
-		Assert.assertEquals("WorkWithItemMaster1", parent.getChildScreensDefinitions().get(0).getEntityName());
+		Assert.assertEquals(1, parent.getChildEntitiesDefinitions().size());
+		Assert.assertEquals("WorkWithItemMaster1", parent.getChildEntitiesDefinitions().get(0).getEntityName());
 		ScreenEntityDefinition childScreen = definitions.get("WorkWithItemMaster1");
 		Assert.assertNotNull(childScreen);
 		Assert.assertTrue(childScreen.isChild());
@@ -186,8 +186,8 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 		List<FieldAssignDefinition> assignedFields = workWithItemMaster2.getNavigationDefinition().getAssignedFields();
 		Assert.assertEquals(1, assignedFields.size());
 		Assert.assertNull(assignedFields.get(0).getValue());
-		Assert.assertEquals(1, workWithItemMaster1.getChildScreensDefinitions().size());
-		Assert.assertEquals("WorkWithItemMaster2", workWithItemMaster1.getChildScreensDefinitions().get(0).getEntityName());
+		Assert.assertEquals(1, workWithItemMaster1.getChildEntitiesDefinitions().size());
+		Assert.assertEquals("WorkWithItemMaster2", workWithItemMaster1.getChildEntitiesDefinitions().get(0).getEntityName());
 
 		assertScreenContent(workWithItemMaster1, "inventory/WorkWithItemMaster1_with_childScreens.java.expected");
 		assertScreenContent(workWithItemMaster2, "inventory/WorkWithItemMaster2_as_child.java.expected");

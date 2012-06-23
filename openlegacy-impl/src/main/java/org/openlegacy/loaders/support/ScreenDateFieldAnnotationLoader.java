@@ -8,7 +8,6 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -24,8 +23,7 @@ public class ScreenDateFieldAnnotationLoader extends AbstractFieldAnnotationLoad
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, Field field, Annotation annotation,
-			Class<?> containingClass) {
+	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenDateField fieldAnnotation = (ScreenDateField)annotation;

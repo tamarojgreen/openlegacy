@@ -12,7 +12,6 @@ import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringUtil;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -31,8 +30,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, Field field, Annotation annotation,
-			Class<?> containingClass) {
+	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenField fieldAnnotation = (ScreenField)annotation;

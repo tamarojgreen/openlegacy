@@ -26,6 +26,8 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 	private String displayName;
 	private ArrayList<F> keyFields;
 
+	private List<EntityDefinition<?>> childEntitiesDefinitions = new ArrayList<EntityDefinition<?>>();
+
 	public SimpleEntityDefinition(String entityName, Class<?> screenEntityClass) {
 		this.entityName = entityName;
 		this.entityClass = screenEntityClass;
@@ -107,4 +109,9 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 		}
 		return keyFields;
 	}
+
+	public List<EntityDefinition<?>> getChildEntitiesDefinitions() {
+		return childEntitiesDefinitions;
+	}
+
 }

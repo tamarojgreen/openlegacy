@@ -7,8 +7,14 @@
 
 	<import resource="classpath*:/test-basic-context.xml" />
 
-	<context:component-scan base-package="org.openlegacy.terminal.support.mock" />
-
+	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
+	    <property name="packages">
+	        <list>
+	            <value>org.openlegacy.terminal.support.mock</value>
+            </list>
+	    </property>
+    </bean>
+		
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/org/openlegacy/terminal/support/mock" />

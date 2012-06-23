@@ -2,6 +2,7 @@ package org.openlegacy.terminal.definitions;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.support.SimpleEntityDefinition;
 import org.openlegacy.terminal.ScreenSize;
@@ -34,7 +35,6 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 	private TerminalSnapshot accessedFromSnapshot;
 	private ScreenEntityDefinition accessedFromScreenDefinition;
 	private ScreenSize screenSize;
-	private List<ScreenEntityDefinition> childScreensDefinitions = new ArrayList<ScreenEntityDefinition>();
 
 	private final static Log logger = LogFactory.getLog(SimpleScreenEntityDefinition.class);
 
@@ -118,10 +118,6 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 		this.screenSize = screenSize;
 	}
 
-	public List<ScreenEntityDefinition> getChildScreensDefinitions() {
-		return childScreensDefinitions;
-	}
-
 	public void setChild(boolean child) {
 		this.child = child;
 	}
@@ -130,11 +126,11 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 		return child;
 	}
 
-	public Set<ScreenEntityDefinition> getAllChildScreensDefinitions() {
-		Set<ScreenEntityDefinition> childs = new TreeSet<ScreenEntityDefinition>();
-		childs.addAll(getChildScreensDefinitions());
-		for (ScreenEntityDefinition childScreenDefinition : childs) {
-			Set<ScreenEntityDefinition> childScreensDefinitions = childScreenDefinition.getAllChildScreensDefinitions();
+	public Set<EntityDefinition<?>> getAllChildScreensDefinitions() {
+		Set<EntityDefinition<?>> childs = new TreeSet<EntityDefinition<?>>();
+		childs.addAll(getChildEntitiesDefinitions());
+		for (EntityDefinition<?> childScreenDefinition : childs) {
+			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition.getAllChildScreensDefinitions();
 			if (childScreensDefinitions.size() > 0) {
 				logger.info(MessageFormat.format("Adding child screens to list all child screens. Adding: {0}",
 						childScreensDefinitions));

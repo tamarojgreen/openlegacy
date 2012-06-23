@@ -16,7 +16,7 @@ public class ChildScreenFactProcessor implements ScreenFactProcessor {
 
 		SimpleScreenEntityDesigntimeDefinition childScreenEntityDefinition = (SimpleScreenEntityDesigntimeDefinition)childScreenFact.getChildScreenEntityDefinition();
 		childScreenEntityDefinition.setChild(true);
-		screenEntityDefinition.getChildScreensDefinitions().add(childScreenEntityDefinition);
+		screenEntityDefinition.getChildEntitiesDefinitions().add(childScreenEntityDefinition);
 	}
 
 }

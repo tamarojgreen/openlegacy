@@ -10,7 +10,6 @@ import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
@@ -32,8 +31,7 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void load(BeanFactory beanFactory, EntitiesRegistry entitiesRegistry, Field field, Annotation annotation,
-			Class<?> containingClass) {
+	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenFieldValues fieldValuesAnnotation = (ScreenFieldValues)annotation;

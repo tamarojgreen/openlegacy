@@ -14,7 +14,7 @@ import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
-import org.springframework.context.ApplicationContext;
+import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -34,9 +34,6 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 
 	@Inject
 	private FieldFormatter fieldFormatter;
-
-	@Inject
-	private ApplicationContext applicationContext;
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityTablesBinder.class);
 
@@ -58,7 +55,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 			int endRow = tableDefinition.getEndRow();
 			for (int currentRow = startRow; currentRow <= endRow; currentRow++) {
 
-				Object row = applicationContext.getBean(tableDefinition.getTableClass());
+				Object row = ReflectionUtil.newInstance(tableDefinition.getTableClass());
 				ScreenPojoFieldAccessor rowAccessor = new SimpleScreenPojoFieldAccessor(row);
 
 				boolean keyIsEmpty = false;

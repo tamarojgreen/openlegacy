@@ -1,6 +1,7 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
 import org.openlegacy.definitions.ActionDefinition;
@@ -34,8 +35,8 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	private SimpleScreenSize screenSize;
 	private Map<String, ScreenTableDefinition> tableDefinitions = new TreeMap<String, ScreenTableDefinition>();
 	private List<ActionDefinition> actions;
-	private List<ScreenEntityDefinition> childScreens;
-	private Set<ScreenEntityDefinition> allChildScreens;
+	private List<EntityDefinition<?>> childScreens;
+	private Set<EntityDefinition<?>> allChildScreens;
 	private File packageDir;
 
 	public CodeBasedScreenEntityDefinition(ScreenPojoCodeModel codeModel, File packageDir) {
@@ -146,7 +147,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return codeModel.getTypeName();
 	}
 
-	public List<ScreenEntityDefinition> getChildScreensDefinitions() {
+	public List<EntityDefinition<?>> getChildEntitiesDefinitions() {
 		if (childScreens == null) {
 			childScreens = CodeBasedDefinitionUtils.getChildScreensDefinitions(codeModel, packageDir);
 		}
@@ -157,7 +158,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return codeModel.isChildScreen();
 	}
 
-	public Set<ScreenEntityDefinition> getAllChildScreensDefinitions() {
+	public Set<EntityDefinition<?>> getAllChildScreensDefinitions() {
 		if (allChildScreens == null) {
 			allChildScreens = CodeBasedDefinitionUtils.getAllChildScreensDefinitions(codeModel, packageDir);
 		}

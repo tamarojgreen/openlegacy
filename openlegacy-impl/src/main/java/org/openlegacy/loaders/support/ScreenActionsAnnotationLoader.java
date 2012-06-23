@@ -34,12 +34,11 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
 		ScreenEntityDefinition screenEntityDefinition = (ScreenEntityDefinition)entitiesRegistry.get(containingClass);
-		if (screenEntityDefinition == null){
-			throw(new RegistryException(MessageFormat
-					.format("Failed to find {0} in regitry during loading @Actions annotation",
-							containingClass)));
+		if (screenEntityDefinition == null) {
+			throw (new RegistryException(MessageFormat.format("Failed to find {0} in regitry during loading @Actions annotation",
+					containingClass)));
 		}
-		
+
 		ScreenActions screenActions = (ScreenActions)annotation;
 
 		Action[] actions = screenActions.actions();

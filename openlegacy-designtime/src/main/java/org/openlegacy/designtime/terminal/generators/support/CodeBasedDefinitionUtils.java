@@ -2,6 +2,7 @@ package org.openlegacy.designtime.terminal.generators.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
@@ -139,12 +140,12 @@ public class CodeBasedDefinitionUtils {
 		return actionDefinitions;
 	}
 
-	public static List<ScreenEntityDefinition> getChildScreensDefinitions(ScreenPojoCodeModel codeModel, File packageDir) {
-		List<ScreenEntityDefinition> childScreenDefinitions = new ArrayList<ScreenEntityDefinition>();
+	public static List<EntityDefinition<?>> getChildScreensDefinitions(ScreenPojoCodeModel codeModel, File packageDir) {
+		List<EntityDefinition<?>> childDefinitions = new ArrayList<EntityDefinition<?>>();
 		if (packageDir == null) {
 			logger.warn(MessageFormat.format("Package directory for {0} is not defined. Unable to determine child screens",
 					codeModel.getClassName()));
-			return childScreenDefinitions;
+			return childDefinitions;
 		}
 		Collection<Field> fields = codeModel.getFields();
 
@@ -162,7 +163,7 @@ public class CodeBasedDefinitionUtils {
 				CompilationUnit compilationUnit = JavaParser.parse(childSourceFile);
 				ScreenEntityDefinition childEntityDefinition = getEntityDefinition(compilationUnit, packageDir);
 				if (childEntityDefinition.isChild()) {
-					childScreenDefinitions.add(childEntityDefinition);
+					childDefinitions.add(childEntityDefinition);
 				} else {
 					logger.warn(MessageFormat.format(
 							"A non child screen {0} is related from {1}. NOT added to it''s child screen list",
@@ -175,14 +176,14 @@ public class CodeBasedDefinitionUtils {
 			}
 
 		}
-		return childScreenDefinitions;
+		return childDefinitions;
 	}
 
-	public static Set<ScreenEntityDefinition> getAllChildScreensDefinitions(ScreenPojoCodeModel codeModel, File packageDir) {
-		Set<ScreenEntityDefinition> childs = new TreeSet<ScreenEntityDefinition>();
+	public static Set<EntityDefinition<?>> getAllChildScreensDefinitions(ScreenPojoCodeModel codeModel, File packageDir) {
+		Set<EntityDefinition<?>> childs = new TreeSet<EntityDefinition<?>>();
 		childs.addAll(getChildScreensDefinitions(codeModel, packageDir));
-		for (ScreenEntityDefinition childScreenDefinition : childs) {
-			Set<ScreenEntityDefinition> childScreensDefinitions = childScreenDefinition.getAllChildScreensDefinitions();
+		for (EntityDefinition<?> childScreenDefinition : childs) {
+			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition.getAllChildScreensDefinitions();
 			if (childScreensDefinitions.size() > 0) {
 				logger.info(MessageFormat.format("Adding child screens to list all child screens. Adding: {0}",
 						childScreensDefinitions));
