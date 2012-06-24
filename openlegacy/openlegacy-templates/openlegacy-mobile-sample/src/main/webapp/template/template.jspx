@@ -16,6 +16,7 @@
 		<script src="${pageContext.request.contextPath}/js/dojo.mobile.custom.build.js" type="text/javascript"><!-- aa --></script>
 		
 		<script src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
+		<script src="${pageContext.request.contextPath}/js/demo.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
 		<link href="${pageContext.request.contextPath}/dj/dojox/mobile/themes/custom/custom.css" rel="stylesheet"></link>
 		<link href="${pageContext.request.contextPath}/styles/dijit.css" rel="stylesheet" />		

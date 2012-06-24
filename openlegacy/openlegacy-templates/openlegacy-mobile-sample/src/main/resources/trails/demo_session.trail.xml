@@ -3785,6 +3785,17 @@
         </row>
         <row rowNumber="12">
             <field column="1"/>
+            <field column="2" value="Phone . . ."/>
+            <field column="20" length="12" value="919.372.3412" editable="true"/>
+            <field column="36" value="                                             "/>
+        </row>
+        <row rowNumber="13">
+            <field column="1"/>
+            <field column="2" value="Email . . ."/>
+            <field column="20" length="25" value="chicago.wh@legacytoys.com" editable="true"/>
+        </row>
+        <row rowNumber="14">
+            <field column="1"/>
             <field column="2" value="Amended date . . . . . . . . :"/>
             <field column="33"/>
             <field column="34" value="23" editable="true" type="java.lang.Integer"/>
@@ -3794,21 +3805,21 @@
             <field column="40" value="2011" editable="true" type="java.lang.Integer"/>
             <field column="45" value="                                    "/>
         </row>
-        <row rowNumber="13">
+        <row rowNumber="15">
             <field column="1"/>
             <field column="2" value="Amended By . . . . . . . . . :"/>
             <field column="33"/>
             <field column="34" value="TESTUSER  "/>
             <field column="45" value="                                    "/>
         </row>
-        <row rowNumber="14">
+        <row rowNumber="16">
             <field column="1"/>
             <field column="2" value="Created Date . . . . . . . . :"/>
             <field column="33"/>
             <field column="34" value="21/12/2002"/>
             <field column="45" value="                                    "/>
         </row>
-        <row rowNumber="15">
+        <row rowNumber="17">
             <field column="1"/>
             <field column="2" value="Created by . . . . . . . . . :"/>
             <field column="33"/>

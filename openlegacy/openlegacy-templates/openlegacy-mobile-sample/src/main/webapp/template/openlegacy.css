@@ -9,6 +9,7 @@ div.field-row {
 	width: 100%;
 	margin-top: 7px;
 	margin-bottom: 7px;
+	border-bottom: 1px solid lightgray;
 }
 
 div.field-title {
@@ -24,7 +25,8 @@ div.field-title {
 	color: #333;
 	vertical-align: middle;
 	line-height: 30px;
-	width: 180px;
+	width: 200px;
+	white-space: nowrap;
 }
 
 .field-row input[type="checkbox"],.field-row input["radio"] {
@@ -40,6 +42,7 @@ div.field-title {
 	font-size: 14px;
 	margin-left: 0px;
 	margin-right: 0px;
+	margin-bottom: 5px;
 	border-radius: 2px;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;

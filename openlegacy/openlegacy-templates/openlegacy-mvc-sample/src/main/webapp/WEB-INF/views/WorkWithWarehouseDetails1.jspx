@@ -8,6 +8,8 @@
 				<ol:field name="costingType" />
 				<ol:field name="replenishmentCycleFlag" />
 				<ol:field name="address" type="address"/>
+				<ol:field name="phone" />
+				<ol:field name="email" />
 			</ol:panel>
 			<ol:panel title="User Details" open="true">
 				<ol:field name="amendedDate" />

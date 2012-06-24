@@ -45,17 +45,23 @@ public class WorkWithWarehouseDetails1 {
 	@ScreenField(row = 11, column = 20, labelColumn = 2, endColumn = 74, editable = true, displayName = "Address")
 	private String address;
 
+	@ScreenField(row = 12, column = 20, labelColumn = 2, endColumn = 31, editable = true, displayName = "Phone")
+	private String phone;
+
+	@ScreenField(row = 13, column = 20, labelColumn = 2, endColumn = 44, editable = true, displayName = "Email")
+	private String email;
+
 	@ScreenDateField(dayColumn = 34, monthColumn = 37, yearColumn = 40)
-	@ScreenField(row = 12, column = 34, endColumn = 42, labelColumn = 2, editable = true, displayName = "Amended date", sampleValue = "23")
+	@ScreenField(row = 14, column = 34, endColumn = 42, labelColumn = 2, editable = true, displayName = "Amended date", sampleValue = "23")
 	private Date amendedDate;
 
-	@ScreenField(row = 13, column = 34, endColumn = 43, labelColumn = 2, displayName = "Amended By", sampleValue = "TESTUSER")
+	@ScreenField(row = 15, column = 34, endColumn = 43, labelColumn = 2, displayName = "Amended By", sampleValue = "TESTUSER")
 	private String amendedBy;
 
-	@ScreenField(row = 14, column = 34, endColumn = 43, labelColumn = 2, displayName = "Created Date", sampleValue = "21/12/2002")
+	@ScreenField(row = 16, column = 34, endColumn = 43, labelColumn = 2, displayName = "Created Date", sampleValue = "21/12/2002")
 	private String createdDate;
 
-	@ScreenField(row = 15, column = 34, endColumn = 43, labelColumn = 2, displayName = "Created by", sampleValue = "Terry")
+	@ScreenField(row = 17, column = 34, endColumn = 43, labelColumn = 2, displayName = "Created by", sampleValue = "Terry")
 	private String createdBy;
 
 }

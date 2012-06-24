@@ -7,7 +7,7 @@ import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails1_Aspect {
-
+    
     declare parents: WorkWithWarehouseDetails1 implements ScreenEntity;
     private String WorkWithWarehouseDetails1.focusField;
     
@@ -59,8 +59,30 @@ privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails1_Aspect {
     	this.costingType = costingType;
     }
 
+    public String WorkWithWarehouseDetails1.getAddress(){
+    	return this.address;
+    }
+    
+    public void WorkWithWarehouseDetails1.setAddress(String address){
+    	this.address = address;
+    }
 
+    public String WorkWithWarehouseDetails1.getPhone(){
+    	return this.phone;
+    }
+    
+    public void WorkWithWarehouseDetails1.setPhone(String phone){
+    	this.phone = phone;
+    }
 
+    public String WorkWithWarehouseDetails1.getEmail(){
+    	return this.email;
+    }
+    
+    public void WorkWithWarehouseDetails1.setEmail(String email){
+    	this.email = email;
+    }
+    
     public String WorkWithWarehouseDetails1.getCreatedBy(){
     	return this.createdBy;
     }

@@ -51,7 +51,6 @@
 						<form:checkbox name="${name}" data-dojo-type="dojox.mobile.CheckBox" path="${name}" cssStyle="${style}" cssClass="checkbox ${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'date'}">
-
 						<form:input type="text" id="${name}" readOnly="true" path="${name}" onclick="dijit.byId('calPicker').show(this, ['above-centered','below-centered','after','before'])" />
 					</c:when>
 					<c:when test="${type == 'autocomplete'}">
@@ -61,8 +60,17 @@
 							var combo = new dojox.mobile.ComboBox({store:store},"${fieldDefinition.name}"); }, error : function(e) {alert(e);} } var deferred = dojo.xhrGet(xhrArgs);</div>
 					</c:when>
 					<c:when test="${type == 'address'}">
+						<a href="javascript:location.href = 'http://maps.google.com/maps?q=' + dojo.byId('${name}').value;"><img class="map-icon" src="${pageContext.request.contextPath}/images/map.png" /></a>
 						<form:textarea data-dojo-type="dojox.mobile.TextArea" id="${name}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" rows="${rows}"/>
-						<a target="_new" href="javascript:location.href= 'http://maps.google.com/maps?q=' + dojo.byId('${name}').value;"><img class="map-icon" src="${pageContext.request.contextPath}/images/map.png" /></a>
+					</c:when>
+					<c:when test="${type == 'phone'}">
+						<a href="javascript:location.href= 'tel:' + dojo.byId('${name}').value;" style="margin-right: 5px"><img src="images/phone.png" /></a>
+						<a href="javascript:location.href= 'sms:' + dojo.byId('${name}').value;"><img src="images/sms.png" /></a>
+						<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+					</c:when>
+					<c:when test="${type == 'email'}">
+						<a href="javascript:location.href= 'mailto:' + dojo.byId('${name}').value;"><img src="images/mail.png" /></a>
+						<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'password'}">
 						<form:input type="password" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
