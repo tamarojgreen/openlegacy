@@ -23,10 +23,7 @@ import java.util.List;
 		@Identifier(row = 2, column = 26, value = "    Work with Item Master     "),
 		@Identifier(row = 4, column = 2, value = "Type one or more action codes. Then Enter.                                    ") })
 @ScreenActions(actions = {
-		@Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"),
-		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit"),
 		@Action(action = TerminalActions.F6.class, displayName = "Create", alias = "create"),
-		@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"),
 		@Action(action = TerminalActions.F6.class, additionalKey = AdditionalKey.SHIFT, displayName = "Number Seq", alias = "numberSeq") })
 @ScreenNavigation(accessedFrom = InventoryManagement.class, assignedFields = { @AssignedField(field = "menuSelection", value = "1") })
 public class WorkWithItemMaster {

@@ -2,7 +2,7 @@
     <ol:form model="workWithItemMaster1">
 		<ol:pagePart>
 			<ol:field name="itemNumber" type="text" />
-			<ol:field name="itemDescription" type="textarea"/>
+			<ol:field name="itemDescription" rows="4" />
 			<ol:field name="alphaSearch" />
 			<ol:field name="supercedingItemto" />
 			<ol:field name="supercedingItemfrom" />

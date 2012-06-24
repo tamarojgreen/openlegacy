@@ -3,8 +3,8 @@
 	<jsp:output omit-xml-declaration="yes" />
 	<jsp:directive.attribute name="name" type="java.lang.String" required="true" rtexprvalue="true" description="The entity field to bind the tag to" />
 	<jsp:directive.attribute name="label" type="java.lang.String" required="false" rtexprvalue="true" description="The label for this tag. Default to field display name" />
-	<jsp:directive.attribute name="size" type="java.lang.Integer" required="false" rtexprvalue="true" description="The size of this tag. Default to field length" />
 	<jsp:directive.attribute name="maxlength" type="java.lang.Integer" required="false" rtexprvalue="true" description="The maxlength of this tag. Default to field length" />
+	<jsp:directive.attribute name="rows" type="java.lang.Integer" required="false" rtexprvalue="true" description="The number of rows of this tag. If more then 1, it rendered as textarea" />
 	<jsp:directive.attribute name="type" type="java.lang.String" required="false" rtexprvalue="true" description="Set field type (default 'text', or 'password')" />
 	<jsp:directive.attribute name="style" type="java.lang.String" required="false" rtexprvalue="true" description="Set field style" />
 	<jsp:directive.attribute name="cssClass" type="java.lang.String" required="false" rtexprvalue="true" description="Set field CSS class" />
@@ -32,6 +32,9 @@
 	<c:if test="${not empty top}">
 		<c:set var="style" value="${style};position:absolute;top:${top};left:${left}" />
 	</c:if>
+	<c:if test="${empty rows}">
+		<c:set var="rows" value="1" />
+	</c:if>
 
 	<div class="field-row">
 		<c:if test="${not empty label}">
@@ -45,7 +48,7 @@
 					</c:when>
 					<c:when test="${type == 'boolean'}">
 						<script>dojo.require("dojox.mobile.CheckBox");</script>
-						<form:checkbox name="${name}" data-dojo-type="dojox.mobile.CheckBox" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+						<form:checkbox name="${name}" data-dojo-type="dojox.mobile.CheckBox" path="${name}" cssStyle="${style}" cssClass="checkbox ${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'date'}">
 
@@ -58,17 +61,21 @@
 							var combo = new dojox.mobile.ComboBox({store:store},"${fieldDefinition.name}"); }, error : function(e) {alert(e);} } var deferred = dojo.xhrGet(xhrArgs);</div>
 					</c:when>
 					<c:when test="${type == 'address'}">
-						<form:input type="text" id="${name}" size="${size}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+						<form:textarea data-dojo-type="dojox.mobile.TextArea" id="${name}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" rows="${rows}"/>
 						<a target="_new" href="javascript:location.href= 'http://maps.google.com/maps?q=' + dojo.byId('${name}').value;"><img class="map-icon" src="${pageContext.request.contextPath}/images/map.png" /></a>
 					</c:when>
 					<c:when test="${type == 'password'}">
-						<form:input type="password" id="${name}" size="${size}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
-					</c:when>
-					<c:when test="${type == 'textarea'}">
-						<form:textarea data-dojo-type="dojox.mobile.TextArea" id="${name}" size="${size}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+						<form:input type="password" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
 					<c:otherwise>
-						<form:input type="text" data-dojo-type="dojox.mobile.TextBox" name="${name}" size="${size}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}"/>
+						<c:choose>
+							<c:when test="${rows > 1}">
+								<form:textarea rows="${rows}" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+							</c:when>
+							<c:otherwise>
+								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 			</c:when>
