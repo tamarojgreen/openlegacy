@@ -55,6 +55,7 @@ public class StockItemImagesController {
 	public void showImage(HttpServletResponse response, @PathVariable("id") Long imageId) throws IOException {
 
 		StockItemImage stockItemImage = stockItemsService.getImage(imageId);
+		// response.setContentType("image/jpeg");
 		response.getOutputStream().write(stockItemImage.getImage());
 	}
 }

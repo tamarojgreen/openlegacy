@@ -85,6 +85,7 @@ public class ScreenEntityDefinitionsBuilderUtils {
 				labelField.getValue());
 		if (fieldDefinition != null && labelField != null) {
 			fieldDefinition.setLabelPosition(labelField.getPosition());
+			fieldDefinition.setTerminalLabelField(labelField);
 		}
 		return fieldDefinition;
 	}
@@ -123,7 +124,7 @@ public class ScreenEntityDefinitionsBuilderUtils {
 		screenFieldDefinition.setEditable(field.isEditable());
 		String displayName = StringUtil.toDisplayName(label);
 		screenFieldDefinition.setDisplayName(displayName);
-
+		screenFieldDefinition.setTerminalField(field);
 		screenFieldDefinition.setSampleValue(StringUtil.toSampleValue(field.getValue()));
 		screenFieldDefinition.setJavaType(field.getType());
 

@@ -17,8 +17,10 @@ when
 	// which has a snapshot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
 
-	EditableField(screenEntityDefinition == $screenEntityDefinition, $editableField: editableField, $screenFieldDefinition: screenFieldDefinition, editableField.length == $inputSize)
+	$screenFieldDefinition: ScreenFieldDefinition() from $screenEntityDefinition.getSortedFields()
 
+	$editableField: TerminalField(editable == true, length == $inputSize) from $screenFieldDefinition.getTerminalField() 
+	
 	$trueFalseField: TerminalField(position.row == $editableField.position.row, position.column >= $editableField.endPosition.column - $maxDistance,
 									editable == false, value matches $trueFalseTextRegex) from $snapshot.getFields()	 	
 then
