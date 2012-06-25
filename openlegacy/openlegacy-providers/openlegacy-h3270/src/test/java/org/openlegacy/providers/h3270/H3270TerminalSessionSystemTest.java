@@ -7,8 +7,12 @@ import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.SimpleTerminalSendAction;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -25,9 +29,15 @@ public class H3270TerminalSessionSystemTest extends AbstractTest {
 
 	@Test
 	public void testH3270System() throws Exception {
-		// TODO improve the test with some entities in the registry based on M/F application
 		TerminalSession terminalSession = newTerminalSession();
-		terminalSession.doAction(TerminalActions.ENTER());
+		TerminalSnapshot snapshot = terminalSession.getSnapshot();
+
+		TerminalField desiredTarget = snapshot.getField(SimpleTerminalPosition.newInstance(21, 17));
+		desiredTarget.setValue("a");
+		SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction("enter");
+		sendAction.getModifiedFields().add(desiredTarget);
+		terminalSession.doAction(sendAction);
+
 		terminalSession.doAction(TerminalActions.ENTER());
 		terminalSession.doAction(TerminalActions.ENTER());
 		terminalSession.doAction(TerminalActions.ENTER());
