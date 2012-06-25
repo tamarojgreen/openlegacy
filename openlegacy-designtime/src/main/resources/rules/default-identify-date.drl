@@ -21,31 +21,32 @@ when
 
 	// there is an editable field
 	// left field - day/month
-	$leftDateField: EditableField(screenEntityDefinition == $screenEntityDefinition,editableField.length == $dateFieldLength)
+	$leftDateField: ScreenFieldDefinition(length == $dateFieldLength) from $screenEntityDefinition.getSortedFields() 
 
 	// and there is another field in the size of 2 or 4, which is it's distance from the 1st is not more then 12 columns 
-	$rightDateField: EditableField(screenEntityDefinition == $screenEntityDefinition, 
-				  (editableField.length == $dateFieldLength || editableField.length == $yearFieldMaxLength),
-				  editableField.position.row == $leftDateField.editableField.position.row,
-				  editableField.position.column > $leftDateField.editableField.position.column,
-				  editableField.position.column <= $leftDateField.editableField.position.column + $dateFieldsDistance)
+	$rightDateField: ScreenFieldDefinition(
+				  this != $leftDateField, 
+				  (length == $dateFieldLength || length == $yearFieldMaxLength),
+				  position.row == $leftDateField.position.row,
+				  position.column > $leftDateField.position.column,
+				  position.column <= $leftDateField.position.column + $dateFieldsDistance) from $screenEntityDefinition.getSortedFields()
 	  
 	// and there is a field between the 1st two
-	$middleDateField: EditableField(screenEntityDefinition == $screenEntityDefinition,
-				  editableField.length == $dateFieldLength, 
-				  editableField.position.row == $leftDateField.editableField.position.row,
-				  editableField.position.column > $leftDateField.editableField.position.column,
-				  //labelField.value matches $dateSeperator, 
-				  editableField.position.column < $rightDateField.editableField.position.column)
+	$middleDateField: ScreenFieldDefinition(
+				  this != $leftDateField, this != $rightDateField,  
+				  length == $dateFieldLength, 
+				  position.row == $leftDateField.position.row,
+				  position.column > $leftDateField.position.column,
+				  position.column < $rightDateField.position.column) from $screenEntityDefinition.getSortedFields()
 
-	// and there are 2 seperators betwen these fields
+	// and there are 2 seperators between these fields
 	List(size == $numberOfSeperators) from collect (TerminalField(editable == false,
-												 position.row == $leftDateField.editableField.position.row,
+												 position.row == $leftDateField.position.row,
 												 value matches $dateSeperator) from $snapshot.getFields())
 then
-	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new DateFieldFact($leftDateField.getLabelField(),
-																						  $leftDateField.getEditableField(),
-																						  $leftDateField.getScreenFieldDefinition(),
-																						  $middleDateField.getScreenFieldDefinition(),
-																						  $rightDateField.getScreenFieldDefinition()));
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new DateFieldFact($leftDateField.getTerminalLabelField(),
+																						  $leftDateField.getTerminalField(),
+																						  $leftDateField,
+																						  $middleDateField,
+																						  $rightDateField));
 end

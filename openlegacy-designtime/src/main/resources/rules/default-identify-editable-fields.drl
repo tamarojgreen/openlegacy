@@ -1,11 +1,5 @@
 package openlegacy;
 
-declare EditableField
-	screenEntityDefinition: ScreenEntityDefinition;
-	labelField: TerminalField;
-	editableField: TerminalField;
-	screenFieldDefinition: ScreenFieldDefinition;
-end
 
 rule "find-editable-fields"
 ruleflow-group "identify-editable-fields"
@@ -31,5 +25,4 @@ when
 then
 	ScreenFieldDefinition screenFieldDefinition = screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$labelField);
 	update($screenEntityDefinition);
-	insert(new EditableField($screenEntityDefinition,$labelField,$editableField,screenFieldDefinition)); 
 end

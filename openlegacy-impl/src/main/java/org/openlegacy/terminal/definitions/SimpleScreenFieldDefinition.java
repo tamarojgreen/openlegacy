@@ -3,6 +3,7 @@ package org.openlegacy.terminal.definitions;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.FieldType;
 import org.openlegacy.definitions.support.AbstractFieldDefinition;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
 
@@ -19,6 +20,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private Class<?> javaType;
 	private TerminalPosition labelPosition;
 	private boolean password;
+	private TerminalField terminalField;
+	private TerminalField terminalLabelfield;
 
 	public SimpleScreenFieldDefinition(String name, Class<? extends FieldType> fieldType) {
 		super(name, fieldType);
@@ -100,4 +103,19 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.password = password;
 	}
 
+	public void setTerminalField(TerminalField terminalField) {
+		this.terminalField = terminalField;
+	}
+
+	public TerminalField getTerminalField() {
+		return terminalField;
+	}
+
+	public TerminalField getTerminalLabelField() {
+		return terminalLabelfield;
+	}
+
+	public void setTerminalLabelField(TerminalField terminalLabelfield) {
+		this.terminalLabelfield = terminalLabelfield;
+	}
 }
