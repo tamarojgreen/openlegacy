@@ -1,9 +1,13 @@
 package org.openlegacy.providers.applinx;
 
+import com.sabratec.applinx.baseobject.GXBaseObjectConstants;
 import com.sabratec.applinx.baseobject.GXClientBaseObjectFactory;
+import com.sabratec.applinx.baseobject.GXConnectionException;
 import com.sabratec.applinx.baseobject.GXCursor;
 import com.sabratec.applinx.baseobject.GXGeneralException;
+import com.sabratec.applinx.baseobject.GXGetScreenRequest;
 import com.sabratec.applinx.baseobject.GXIClientBaseObject;
+import com.sabratec.applinx.baseobject.GXIScreen;
 import com.sabratec.applinx.baseobject.GXInputField;
 import com.sabratec.applinx.baseobject.GXSendKeysRequest;
 import com.sabratec.applinx.baseobject.internal.GXClientScreen;
@@ -33,11 +37,17 @@ public class ApxTerminalConnection implements TerminalConnection {
 
 	private TerminalSnapshot newTerminalSnapshot() {
 		try {
-			GXRuntimeScreen screen = ((GXClientScreen)baseObject.getScreen()).getRuntimeScreen();
+			GXRuntimeScreen screen = ((GXClientScreen)fetchScreen()).getRuntimeScreen();
 			return new ApxTerminalSnapshot(screen);
 		} catch (GXGeneralException e) {
 			throw (new OpenLegacyProviderException(e));
 		}
+	}
+
+	private GXIScreen fetchScreen() throws GXConnectionException, GXGeneralException {
+		GXGetScreenRequest screenRequest = new GXGetScreenRequest();
+		screenRequest.addVariable(GXBaseObjectConstants.GX_VAR_ENCODING_LOGICAL, "true");
+		return baseObject.getScreen(screenRequest);
 	}
 
 	public void disconnect() {

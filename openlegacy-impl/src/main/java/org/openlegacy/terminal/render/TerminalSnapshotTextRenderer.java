@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.render;
 
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.SystemUtils;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ScreenSize;
@@ -68,7 +69,7 @@ public class TerminalSnapshotTextRenderer implements TerminalSnapshotRenderer {
 		try {
 			// append new line so snapshot will be rendered from start of line in logs
 			outputStream.write(SystemUtils.LINE_SEPARATOR.getBytes());
-			outputStream.write(out.toString().getBytes());
+			outputStream.write(out.toString().getBytes(CharEncoding.UTF_8));
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}

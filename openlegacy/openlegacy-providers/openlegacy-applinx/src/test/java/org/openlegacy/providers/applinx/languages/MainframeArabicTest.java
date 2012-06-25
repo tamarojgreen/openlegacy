@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 
-@ContextConfiguration
+@ContextConfiguration("MainframeArabicTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MainframeArabicTest extends AbstractTest {
 

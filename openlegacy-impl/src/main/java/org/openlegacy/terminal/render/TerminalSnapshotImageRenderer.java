@@ -44,7 +44,10 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 			if (terminalField.getBackColor() != org.openlegacy.terminal.Color.BLACK) {
 				graphics.fillRect(startX, toHeight(position.getRow() - 1) + 5, toWidth(terminalField.getLength()), toHeight(1));
 			}
-			graphics.drawString(terminalField.getValue(), startX, startY);
+			String text = terminalField.getValue();
+			for (int i = 0; i < text.length(); i++) {
+				graphics.drawString(String.valueOf(text.charAt(i)), startX + toWidth(i), startY);
+			}
 		}
 
 		try {

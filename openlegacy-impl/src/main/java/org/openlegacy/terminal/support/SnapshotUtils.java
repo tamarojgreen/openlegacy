@@ -85,7 +85,7 @@ public class SnapshotUtils {
 	 * @param rows
 	 * @param screenSize
 	 * @param fieldsSeperators
-	 * @return
+	 * @return screen text content
 	 */
 	public static String initSnapshot(List<TerminalRow> rows, ScreenSize screenSize, List<TerminalPosition> fieldsSeperators) {
 

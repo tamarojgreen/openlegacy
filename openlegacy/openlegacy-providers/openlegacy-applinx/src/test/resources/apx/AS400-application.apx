@@ -39,7 +39,7 @@
       <protocol>TN5250E</protocol>
       <deviceType>IBM3179</deviceType>
       <model>MODEL2</model>
-      <codePage>CP424</codePage>
+      <codePage>CP037</codePage>
       <guid>B8B182D9-C91F-0322-01D4-D22143C4E2BF</guid>
       <connectionTimeout>100000</connectionTimeout>
       <autoReconnect>false</autoReconnect>
