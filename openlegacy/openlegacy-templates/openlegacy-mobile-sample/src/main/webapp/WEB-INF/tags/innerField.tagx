@@ -55,9 +55,16 @@
 					</c:when>
 					<c:when test="${type == 'autocomplete'}">
 						<input id="${fieldDefinition.name}" type="text" onclick="eval(dojo.byId('${fieldDefinition.name}Script').innerHTML);" />
-						<div id="${fieldDefinition.name}Script" style="display: none">if (dijit.byId('${fieldDefinition.name}') != null) return; var xhrArgs = { handleAs : "json", url :
-							"${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}", load : function(records) { var store = new dojo.store.Memory({ idProperty: "name", data: records});
-							var combo = new dojox.mobile.ComboBox({store:store},"${fieldDefinition.name}"); }, error : function(e) {alert(e);} } var deferred = dojo.xhrGet(xhrArgs);</div>
+						<div id="${fieldDefinition.name}Script" style="display: none">
+							if (dijit.byId('${fieldDefinition.name}') != null) return; 
+							var xhrArgs = { handleAs : "json", url :
+								"${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}", 
+								load : function(records) { var store = new dojo.store.Memory({ idProperty: "name", data: records});	
+								var combo = new dojox.mobile.ComboBox({store:store},"${fieldDefinition.name}"); }, 
+								error : function(e) {alert(e);} 
+							} 
+							var deferred = dojo.xhrGet(xhrArgs);
+						</div>
 					</c:when>
 					<c:when test="${type == 'address'}">
 						<a href="javascript:location.href = 'http://maps.google.com/maps?q=' + dojo.byId('${name}').value;"><img class="map-icon" src="${pageContext.request.contextPath}/images/map.png" /></a>
