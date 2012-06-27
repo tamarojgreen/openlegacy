@@ -9,9 +9,14 @@
     
 	<import resource="classpath:/test-basic-context.xml" />
 
-
-	<context:component-scan base-package="apps.inventory.screens" />
-
+	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
+	    <property name="packages">
+	        <list>
+	            <value>apps.inventory.screens</value>
+            </list>
+	    </property>
+    </bean>
+	
 	<bean id="apxServerLoader" class="org.openlegacy.providers.applinx.ApxServerLoader"
 		p:license="classpath:/apx/apx82.xml" p:applicationConfiguration="classpath:/apx/AS400-application.apx" p:serverConfiguration="classpath:/apx/server.apx" />
 	

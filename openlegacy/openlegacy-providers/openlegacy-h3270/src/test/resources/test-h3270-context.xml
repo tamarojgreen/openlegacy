@@ -10,8 +10,6 @@
 	<import resource="classpath:/test-basic-context.xml" />
 
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry" />
-		
-	<context:component-scan base-package="apps.inventory.screens" />
 
 	<util:map id="testActionMappings">
 		<entry>
