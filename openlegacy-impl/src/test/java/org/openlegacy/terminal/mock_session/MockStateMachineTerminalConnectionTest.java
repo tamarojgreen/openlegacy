@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import junit.framework.Assert;
 
-@ContextConfiguration
+@ContextConfiguration("MockStateMachineTerminalConnectionTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MockStateMachineTerminalConnectionTest extends AbstractTest {
 

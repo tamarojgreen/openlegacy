@@ -83,7 +83,8 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 			// gather all read-only fields which has no separator between them.
 			// the snapshot should not split read-only field unless defined that way by the host
-			while (!fieldSeperators.contains(calcFieldEndAttribute(apxField))) {
+			SimpleTerminalPosition fieldEndPosition = calcFieldEndAttribute(apxField);
+			while (!fieldSeperators.contains(fieldEndPosition) && fieldEndPosition.getColumn() < screen.getSize().getWidth()) {
 				if (!iterator.hasNext()) {
 					break;
 				}

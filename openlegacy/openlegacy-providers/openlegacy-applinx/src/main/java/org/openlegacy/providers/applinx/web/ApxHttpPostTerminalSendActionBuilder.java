@@ -1,62 +1,30 @@
 package org.openlegacy.providers.applinx.web;
 
-import com.sabratec.applinx.baseobject.GXGeneralException;
-import com.sabratec.applinx.baseobject.GXIScreen;
-import com.sabratec.applinx.baseobject.GXInputField;
-import com.sabratec.applinx.baseobject.GXSendKeysRequest;
-import com.sabratec.applinx.framework.GXFrameworkHandler;
-import com.sabratec.util.lang.GXLanguages;
+import com.sabratec.applinx.framework.web.GXHiddenConstants;
+import com.sabratec.applinx.presentation.internal.tags.GXTagNamesUtil;
+import com.sabratec.util.GXPosition;
 
-import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.providers.applinx.ApxPositionUtil;
-import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalPosition;
-import org.openlegacy.terminal.TerminalSendActionBuilder;
-import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.TerminalSendAction;
-import org.openlegacy.terminal.support.SimpleTerminalSendAction;
+import org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-public class ApxHttpPostTerminalSendActionBuilder implements TerminalSendActionBuilder<HttpServletRequest> {
+public class ApxHttpPostTerminalSendActionBuilder extends DefaultHttpPostSendActionBuilder {
 
-	@Inject
-	private TerminalActionMapper terminalActionMapper;
-
-	public TerminalSendAction buildSendAction(TerminalSnapshot terminalSnapshot, HttpServletRequest source) {
-		GXIScreen screen = (GXIScreen)terminalSnapshot.getDelegate();
-		ApxHttpScreenBasedWebForm apxForm = new ApxHttpScreenBasedWebForm(source, terminalSnapshot, terminalActionMapper);
-		GXSendKeysRequest sendKeysRequext;
-		try {
-			sendKeysRequext = GXFrameworkHandler.prepareSendKeysRequest(screen, apxForm, GXLanguages.LANG_STRING_ENGLISH);
-
-			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(sendKeysRequext.getKeys());
-
-			convertCursor(sendKeysRequext, sendAction);
-			convertFields(terminalSnapshot, sendKeysRequext, sendAction);
-
-			return sendAction;
-		} catch (GXGeneralException e) {
-			throw (new OpenLegacyRuntimeException(e));
-		}
-
+	@Override
+	protected String getCursorHttpName() {
+		return GXHiddenConstants.CURSOR_POSITION_HIDDEN;
 	}
 
-	private static void convertCursor(GXSendKeysRequest sendKeysRequext, SimpleTerminalSendAction sendAction) {
-		TerminalPosition cursorPosition = ApxPositionUtil.toScreenPosition(sendKeysRequext.getCursor().getPosition());
-		sendAction.setCursorPosition(cursorPosition);
+	@Override
+	protected Object getCommand(HttpServletRequest httpRequest) {
+		return httpRequest.getParameter(GXHiddenConstants.HOSTKEYS_HIDDEN);
 	}
 
-	private static void convertFields(TerminalSnapshot terminalSnapshot, GXSendKeysRequest sendKeysRequext,
-			SimpleTerminalSendAction sendAction) {
-		GXInputField[] fields = sendKeysRequext.getInputFields();
-		for (GXInputField field : fields) {
-			TerminalPosition position = ApxPositionUtil.toScreenPosition(field.getPosition());
-			TerminalField inputField = terminalSnapshot.getField(position);
-			inputField.setValue(field.getValue());
-			sendAction.getModifiedFields().add(inputField);
-		}
+	@Override
+	protected String getFieldHttpName(TerminalField terminalField, int columns) {
+		GXPosition position = ApxPositionUtil.toPosition(terminalField.getPosition());
+		return GXTagNamesUtil.getHostFieldName(position, columns);
 	}
 }

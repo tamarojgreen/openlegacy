@@ -192,7 +192,7 @@ public class SnapshotUtils {
 
 	public static String getRowText(TerminalRow row) {
 		TerminalField lastField = row.getFields().get(row.getFields().size() - 1);
-		int lastColumn = lastField.getPosition().getColumn() + lastField.getLength() + 1;
+		int lastColumn = lastField.getPosition().getColumn() + lastField.getLength() - 1;
 		StringBuilder rowContent = SnapshotUtils.initEmptyBuffer(lastColumn);
 		List<TerminalField> fields = row.getFields();
 		for (TerminalField terminalField : fields) {

@@ -20,22 +20,36 @@ public class DefaultHttpPostSendActionBuilder implements TerminalSendActionBuild
 	private TerminalActionMapper terminalActionMapper;
 
 	public TerminalSendAction buildSendAction(TerminalSnapshot terminalSnapshot, HttpServletRequest httpRequest) {
-		String keyboardKey = httpRequest.getParameter(TerminalHtmlConstants.KEYBOARD_KEY);
-		Object command = TerminalActions.getCommand(keyboardKey, terminalActionMapper);
+		Object command = getCommand(httpRequest);
 		TerminalSendAction sendAction = new SimpleTerminalSendAction(command);
 
-		String terminalCursor = httpRequest.getParameter(TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
+		String terminalCursor = httpRequest.getParameter(getCursorHttpName());
 		sendAction.setCursorPosition(HtmlNamingUtil.toPosition(terminalCursor));
 
 		List<TerminalField> editableFields = FieldsQuery.queryFields(terminalSnapshot,
 				FieldsQuery.EditableFieldsCriteria.instance());
 		for (TerminalField terminalField : editableFields) {
-			String value = httpRequest.getParameter(HtmlNamingUtil.getFieldName(terminalField));
+			String value = httpRequest.getParameter(getFieldHttpName(terminalField, terminalSnapshot.getSize().getColumns()));
 			if (!terminalField.getValue().equals(value)) {
 				terminalField.setValue(value);
 				sendAction.getModifiedFields().add(terminalField);
 			}
 		}
 		return sendAction;
+	}
+
+	protected Object getCommand(HttpServletRequest httpRequest) {
+		String keyboardKey = httpRequest.getParameter(TerminalHtmlConstants.KEYBOARD_KEY);
+		Object command = TerminalActions.getCommand(keyboardKey, terminalActionMapper);
+		return command;
+
+	}
+
+	protected String getCursorHttpName() {
+		return TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN;
+	}
+
+	protected String getFieldHttpName(TerminalField terminalField, int columns) {
+		return HtmlNamingUtil.getFieldName(terminalField);
 	}
 }
