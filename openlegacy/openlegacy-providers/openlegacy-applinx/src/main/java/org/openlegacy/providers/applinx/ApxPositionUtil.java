@@ -8,7 +8,7 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 
 public class ApxPositionUtil {
 
-	public static TerminalPosition toScreenPosition(GXPosition position) {
+	public static TerminalPosition toTerminalPosition(GXPosition position) {
 		return new SimpleTerminalPosition(position.getRow(), position.getColumn());
 	}
 

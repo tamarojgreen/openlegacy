@@ -6,6 +6,7 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.SnapshotUtils;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -60,7 +61,14 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 				if (currentField != null && currentField.getBackColor() != org.openlegacy.terminal.Color.BLACK) {
 					graphics.setColor(Color.BLACK);
 				} else {
-					graphics.setColor(Color.GREEN);
+					if (currentField != null) {
+						graphics.setColor(SnapshotUtils.convertColor(currentField.getColor()));
+						if (currentField.isBold() && currentField.getColor() == org.openlegacy.terminal.Color.GREEN) {
+							graphics.setColor(Color.WHITE);
+						}
+					} else {
+						graphics.setColor(Color.GREEN);
+					}
 				}
 				graphics.drawString(String.valueOf(text.charAt(i)), toWidth(i), startY);
 			}
@@ -70,17 +78,19 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 	private static void markBackgroundAndInputFields(TerminalSnapshot terminalSnapshot, Graphics graphics) {
 		int width;
 		List<TerminalField> fields = terminalSnapshot.getFields();
+		graphics.setColor(Color.GREEN);
 		for (TerminalField terminalField : fields) {
 			TerminalPosition position = terminalField.getPosition();
-			int startX = toWidth(position.getColumn());
+			int startX = toWidth(position.getColumn() - 1);
 			int startY = toHeight(position.getRow());
-			width = toWidth(terminalField.getEndPosition().getColumn() + 1);
+			width = toWidth(terminalField.getEndPosition().getColumn());
 			if (terminalField.isEditable()) {
 				graphics.drawLine(startX, startY, width, startY);
 			}
 			int rowHeight = toHeight(1);
 			if (terminalField.getBackColor() != org.openlegacy.terminal.Color.BLACK) {
-				graphics.fillRect(startX, toHeight(position.getRow() - 1) + 5, toWidth(terminalField.getLength()), rowHeight);
+				graphics.setColor(SnapshotUtils.convertColor(terminalField.getBackColor()));
+				graphics.fillRect(startX, toHeight(position.getRow() - 1) + 2, toWidth(terminalField.getLength()), rowHeight);
 			}
 		}
 	}

@@ -48,7 +48,7 @@ public class ApxDesignTimeFieldMappingsProvider implements ScreenFieldsDefinitio
 			for (GXAbstractFieldMapping apxFieldMapping : apxFieldMappings) {
 				if (apxFieldMapping.getArea() instanceof GXScreenAreaPosition) {
 					GXScreenAreaPosition positionArea = (GXScreenAreaPosition)apxFieldMapping.getArea();
-					TerminalPosition screenPosition = ApxPositionUtil.toScreenPosition(positionArea.getStartPosition());
+					TerminalPosition screenPosition = ApxPositionUtil.toTerminalPosition(positionArea.getStartPosition());
 					SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(
 							apxFieldMapping.getField().getName(), FieldType.General.class);
 

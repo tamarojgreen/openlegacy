@@ -3,7 +3,7 @@ In order to use openlegacy with Applinx, the following actions needs to be perfo
 - Place the following JAR's from Applinx installation in lib folder:
 gxserver.jar, gxadmin.jar, gxframework.jar, saglic.jar
 
-- Edit each of the following launchers under: openlegacy\openlegacy-providers\openlegacy-applinx\lib,
+- Install to local maven repository: Edit each of the following launchers under: openlegacy\openlegacy-providers\openlegacy-applinx\lib,
 to match your local maven path (typically C:\Users\**** YOUR_USER*****\.m2)
 
 - Execute ALL the launchers (right click run as -> <launcher name> )

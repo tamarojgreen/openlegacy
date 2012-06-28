@@ -8,6 +8,7 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
 
+import java.awt.Color;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -206,4 +207,19 @@ public class SnapshotUtils {
 	public static String getRowText(TerminalRow row, int column, int length) {
 		return row.getText().substring(column - 1, column + length - 1);
 	}
+
+	public static Color convertColor(org.openlegacy.terminal.Color color) {
+		switch (color) {
+			case BLUE:
+				return Color.BLUE;
+			case RED:
+			case LIGHT_RED:
+				return Color.RED;
+			case LIGHT_WHITE:
+				return Color.WHITE;
+			default:
+				return Color.GREEN;
+		}
+	}
+
 }

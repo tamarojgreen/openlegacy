@@ -83,12 +83,15 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 			// gather all read-only fields which has no separator between them.
 			// the snapshot should not split read-only field unless defined that way by the host
-			SimpleTerminalPosition fieldEndPosition = calcFieldEndAttribute(apxField);
-			while (!fieldSeperators.contains(fieldEndPosition) && fieldEndPosition.getColumn() < screen.getSize().getWidth()) {
+			TerminalPosition fieldEndPosition = calcFieldEndAttribute(apxField);
+			while (!fieldSeperators.contains(fieldEndPosition)) {
+				if (fieldEndPosition.getColumn() == screen.getSize().getWidth()) {
+					break;
+				}
 				if (!iterator.hasNext()) {
 					break;
 				}
-				if (!apxField.isProtected()) {
+				if (field.isEditable() != apxField.isProtected()) {
 					break;
 				}
 				if (apxField.getPosition().getRow() != field.getPosition().getRow()) {
@@ -106,7 +109,7 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 	private static SimpleTerminalPosition calcFieldEndAttribute(GXIField apxField) {
 		return new SimpleTerminalPosition(apxField.getPosition().getRow(), apxField.getPosition().getColumn()
-				+ apxField.getLength());
+				+ apxField.getLength() - 1);
 	}
 
 }

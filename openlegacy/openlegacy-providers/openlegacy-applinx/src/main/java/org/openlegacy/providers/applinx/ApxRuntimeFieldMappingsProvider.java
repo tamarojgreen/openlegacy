@@ -42,7 +42,7 @@ public class ApxRuntimeFieldMappingsProvider implements ScreenFieldsDefinitionPr
 		for (int i = 0; i < apxApplicationFields.getFieldCount(); i++) {
 			GXIField apxField = apxApplicationFields.getFieldAt(i);
 
-			TerminalPosition screenPosition = ApxPositionUtil.toScreenPosition(apxField.getPosition());
+			TerminalPosition screenPosition = ApxPositionUtil.toTerminalPosition(apxField.getPosition());
 			SimpleScreenFieldDefinition fieldMappingDefinition = new SimpleScreenFieldDefinition(apxField.getName(),
 					FieldType.General.class);
 			fieldMappingDefinition.setLength(apxField.getLength());

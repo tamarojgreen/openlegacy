@@ -6,11 +6,23 @@ import com.sabratec.util.GXPosition;
 
 import org.openlegacy.providers.applinx.ApxPositionUtil;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder;
+import org.openlegacy.utils.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class ApxHttpPostTerminalSendActionBuilder extends DefaultHttpPostSendActionBuilder {
+
+	@Override
+	protected TerminalPosition getCursor(HttpServletRequest httpRequest, int columns) {
+		String cursorValue = httpRequest.getParameter(GXHiddenConstants.CURSOR_POSITION_HIDDEN);
+		if (StringUtil.isEmpty(cursorValue)) {
+			return null;
+		}
+		GXPosition position = GXTagNamesUtil.getPositionByHostFieldName(cursorValue, 0, columns);
+		return ApxPositionUtil.toTerminalPosition(position);
+	}
 
 	@Override
 	protected String getCursorHttpName() {
