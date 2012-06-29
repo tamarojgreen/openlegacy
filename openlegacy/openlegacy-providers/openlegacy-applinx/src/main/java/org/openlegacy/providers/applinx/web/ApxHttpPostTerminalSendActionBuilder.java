@@ -25,11 +25,6 @@ public class ApxHttpPostTerminalSendActionBuilder extends DefaultHttpPostSendAct
 	}
 
 	@Override
-	protected String getCursorHttpName() {
-		return GXHiddenConstants.CURSOR_POSITION_HIDDEN;
-	}
-
-	@Override
 	protected Object getCommand(HttpServletRequest httpRequest) {
 		return httpRequest.getParameter(GXHiddenConstants.HOSTKEYS_HIDDEN);
 	}

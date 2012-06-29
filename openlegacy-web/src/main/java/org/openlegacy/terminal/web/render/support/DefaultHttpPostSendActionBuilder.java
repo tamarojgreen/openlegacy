@@ -54,10 +54,6 @@ public class DefaultHttpPostSendActionBuilder implements TerminalSendActionBuild
 
 	}
 
-	protected String getCursorHttpName() {
-		return TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN;
-	}
-
 	protected String getFieldHttpName(TerminalField terminalField, int columns) {
 		return HtmlNamingUtil.getFieldName(terminalField);
 	}
