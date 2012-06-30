@@ -22,10 +22,10 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 
 	private static final int LEFT_COLUMNS_OFFSET = 2;
 	private static final int TOP_PIXELS_OFFSET = 2;
-	private static final Color WEB_BACKGROUND_COLOR = Color.BLACK;
-	private static final Color WEB_BOLD_FIELD_COLOR = Color.WHITE;
-	private static final Color WEB_DEFAULT_TEXT_COLOR = Color.GREEN;
-	private static final Color SURROUNDING_TEXT_COLOR = Color.WHITE;
+	private static final Color IMAGE_BACKGROUND_COLOR = Color.BLACK;
+	private static final Color IMAGE_BOLD_FIELD_COLOR = Color.WHITE;
+	private static final Color IMAGE_DEFAULT_TEXT_COLOR = Color.GREEN;
+	private static final Color IMAGE_SURROUNDING_TEXT_COLOR = Color.WHITE;
 
 	private static TerminalSnapshotImageRenderer instance = new TerminalSnapshotImageRenderer();
 
@@ -35,7 +35,7 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream output) {
 
-		BufferedImage buffer = new BufferedImage(812, 500, BufferedImage.TYPE_INT_RGB);
+		BufferedImage buffer = new BufferedImage(812, 370, BufferedImage.TYPE_INT_RGB);
 
 		Font font = new Font("Courier New", Font.PLAIN, 15);
 		Graphics graphics = buffer.createGraphics();
@@ -62,7 +62,7 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 			int startY = toHeight(rowNumber);
 
 			// draw row number
-			graphics.setColor(SURROUNDING_TEXT_COLOR);
+			graphics.setColor(IMAGE_SURROUNDING_TEXT_COLOR);
 			graphics.drawString(String.valueOf(String.format("%2d", terminalRow.getRowNumber())), 0, startY);
 
 			int rowStart = (rowNumber - 1) * columns; // row is 1 based, drawing is 0 base
@@ -71,12 +71,12 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 				// text is 0 based, columns are 1 based
 				TerminalField currentField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(rowNumber, i + 1));
 				if (currentField != null && currentField.getBackColor() != org.openlegacy.terminal.Color.BLACK) {
-					graphics.setColor(WEB_BACKGROUND_COLOR);
+					graphics.setColor(IMAGE_BACKGROUND_COLOR);
 				} else {
 					if (currentField != null) {
 						graphics.setColor(SnapshotUtils.convertColor(currentField.getColor()));
 						if (currentField.isBold() && currentField.getColor() == org.openlegacy.terminal.Color.GREEN) {
-							graphics.setColor(WEB_BOLD_FIELD_COLOR);
+							graphics.setColor(IMAGE_BOLD_FIELD_COLOR);
 						}
 					} else {
 						setDefaultColor(graphics);
@@ -89,7 +89,7 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 	}
 
 	private static void markBackgroundAndInputFields(TerminalSnapshot terminalSnapshot, Graphics graphics) {
-		int width;
+		int endX;
 		List<TerminalField> fields = terminalSnapshot.getFields();
 		setDefaultColor(graphics);
 		for (TerminalField terminalField : fields) {
@@ -97,9 +97,9 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 			// -1 - pixels is 0 based , column is 1 based
 			int startX = toWidth(position.getColumn() - 1 + LEFT_COLUMNS_OFFSET);
 			int startY = toHeight(position.getRow());
-			width = toWidth(terminalField.getEndPosition().getColumn());
+			endX = toWidth(terminalField.getEndPosition().getColumn() + LEFT_COLUMNS_OFFSET);
 			if (terminalField.isEditable()) {
-				graphics.drawLine(startX, startY, width, startY);
+				graphics.drawLine(startX, startY, endX, startY);
 			}
 			int rowHeight = toHeight(1);
 			if (terminalField.getBackColor() != org.openlegacy.terminal.Color.BLACK) {
@@ -109,10 +109,17 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 						toWidth(terminalField.getLength()), rowHeight);
 			}
 		}
+
+		List<TerminalPosition> fieldSeperators = terminalSnapshot.getFieldSeperators();
+		graphics.setColor(IMAGE_DEFAULT_TEXT_COLOR);
+		for (TerminalPosition terminalPosition : fieldSeperators) {
+			graphics.drawString("^", toWidth(terminalPosition.getColumn() - 1 + LEFT_COLUMNS_OFFSET),
+					toHeight(terminalPosition.getRow()));
+		}
 	}
 
 	private static void setDefaultColor(Graphics graphics) {
-		graphics.setColor(WEB_DEFAULT_TEXT_COLOR);
+		graphics.setColor(IMAGE_DEFAULT_TEXT_COLOR);
 	}
 
 	private static int toHeight(int row) {

@@ -27,10 +27,28 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<!-- // "+" sign followed by "-" X times, and ends with "+" sign -->
+										<!-- 
+											 +-+
+											 | |
+											 +-+ 
+										 -->
 										<entry key="topHorizonalBordersPattern" value="\+-+\+" />
 										<entry key="buttomHorizonalBordersPattern" value="\+-+\+" />
 										<entry key="verticalBorder" value="|" />
+									</map>
+								</property>
+							</bean>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<!-- 
+											 ....
+											 :  :
+											 :..: 
+										 -->
+										<entry key="topHorizonalBordersPattern" value="[.]{5,}" />
+										<entry key="buttomHorizonalBordersPattern" value=":[.]+:" />
+										<entry key="verticalBorder" value=":" />
 									</map>
 								</property>
 							</bean>
@@ -52,7 +70,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="titleRegex" value="[\s-]*[\w-]+[\w- ]*" />
+										<entry key="titleRegex" value="[\s-]*[\w\p{L}-]+[\w\p{L}- ]*" />
 										<entry key="titleStartRow" value="1" />
 										<entry key="titleEndRow" value="4" />
 										<entry key="titleStartColumn" value="1" />
@@ -69,7 +87,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="(\w|\. \.)+.*" />
+										<entry key="labelRegex" value="([a-zA-Z\p{L}]|\. \.)+.*" />
 									</map>
 								</property>
 							</bean>
@@ -82,7 +100,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="menuOptionRegex" value="\s*\d+\.\w*" />
+										<entry key="menuOptionRegex" value="\s*\d+\.[a-zA-Z\p{L}]*" />
 										<entry key="maxDistance" value="4" />
 										<entry key="minimumMenuItems" value="2" />
 										<entry key="maxSelectionFieldLength" value="2" />
@@ -115,13 +133,13 @@
 								<property name="ruleParameters">
 									<map>
 										<!-- don't identify column which are in the format of: "Field A....:" which are typically leading labels -->
-										<entry key="notAcolumnRegex" value="([\w ]+[\.:])+" />
+										<entry key="notAcolumnRegex" value="([\w\p{L} ]+[\.:])+" />
 										<entry key="minimumTableRows" value="3" />
 										<!-- When identifying columns, at least one of the fields should contains alphanumeric chars -->
-										<entry key="atLeastOneFieldShouldBe" value="\w+.*" />
+										<entry key="atLeastOneFieldShouldBe" value="[\w\p{L}]+.*" />
 										
 										<!--  used for identifying table actions -->
-										<entry key="actionsRegex" value="(\w+)[=-](\w+[\w ]*)" />
+										<entry key="actionsRegex" value="([\w\p{L}]+)[=-]([\w\p{L}]+[\w\p{L} ]*)" />
 										<entry key="actionsSplitter" value="  " />
 										<entry key="rowsDistance" value="3" />
 									</map>
@@ -137,10 +155,10 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="\w+[\w /-\\']*[\.: ]*[\.:]+" />
+										<entry key="labelRegex" value="[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
 										<entry key="maximumLabelLength" value="30" />
 										<entry key="maxDistance" value="5" />
-										<entry key="fieldRegex" value="[ ]*\w+[\w/ ]*" />
+										<entry key="fieldRegex" value="[ ]*[\wp{L}]+[\wp{L}/ ]*" />
 										<entry key="minimumFieldLength" value="1" />
 										<entry key="maximumFieldLength" value="30" />
 									</map>
@@ -150,7 +168,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="\w+[\w /-\\']*[\.: ]*[\.:]+" />
+										<entry key="labelRegex" value="[\wp{L}]+[\wp{L} /-\\']*[\.: ]*[\.:]+" />
 										<entry key="maximumLabelLength" value="30" />
 										<entry key="maxDistance" value="5" />
 										<entry key="fieldRegex" value="\s*" />
@@ -169,7 +187,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="actionsRegex" value="(\w+)[=-](\w+[\w ]*)" />
+										<entry key="actionsRegex" value="([\wp{L}]+)[=-]([\wp{L}]+[\wp{L} ]*)" />
 										<entry key="rowsFromEnd" value="3" />
 										<entry key="actionsSplitter" value="  " />
 									</map>
@@ -199,7 +217,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="identifierRegex" value="\s*[a-zA-Z]+[.: ]*.*" />
+										<entry key="identifierRegex" value="\s*[\p{L}]+[.: ]*.*" />
 										<entry key="startRow" value="4" />
 										<entry key="endRow" value="20" />
 									</map>

@@ -72,9 +72,9 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 		List<TerminalField> fields = new ArrayList<TerminalField>();
 
 		@SuppressWarnings("unchecked")
-		Collection<GXIField> apxInputFields = screen.getFields();
+		Collection<GXIField> apxFields = screen.getFields();
 
-		for (Iterator<GXIField> iterator = apxInputFields.iterator(); iterator.hasNext();) {
+		for (Iterator<GXIField> iterator = apxFields.iterator(); iterator.hasNext();) {
 			GXIField apxField = iterator.next();
 
 			ApxTerminalField field = new ApxTerminalField(apxField);
@@ -85,13 +85,13 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 			// the snapshot should not split read-only field unless defined that way by the host
 			TerminalPosition fieldEndPosition = calcFieldEndAttribute(apxField);
 			while (!fieldSeperators.contains(fieldEndPosition)) {
-				if (fieldEndPosition.getColumn() == screen.getSize().getWidth()) {
+				if (fieldEndPosition.getColumn() >= screen.getSize().getWidth()) {
 					break;
 				}
 				if (!iterator.hasNext()) {
 					break;
 				}
-				if (field.isEditable() != apxField.isProtected()) {
+				if (field.isEditable() != !apxField.isProtected()) {
 					break;
 				}
 				if (apxField.getPosition().getRow() != field.getPosition().getRow()) {
@@ -99,7 +99,9 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 				}
 
 				apxField = iterator.next();
+				fieldEndPosition = calcFieldEndAttribute(apxField);
 				field.setValue(field.getValue() + apxField.getContent(), false);
+				field.setLength(field.getValue().length());
 			}
 			fields.add(field);
 		}
@@ -109,7 +111,7 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 
 	private static SimpleTerminalPosition calcFieldEndAttribute(GXIField apxField) {
 		return new SimpleTerminalPosition(apxField.getPosition().getRow(), apxField.getPosition().getColumn()
-				+ apxField.getLength() - 1);
+				+ apxField.getLength());
 	}
 
 }

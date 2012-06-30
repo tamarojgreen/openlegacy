@@ -2,7 +2,6 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 
 import freemarker.template.TemplateException;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
@@ -12,10 +11,7 @@ import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
-import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
-import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.TerminalSnapshotsLoader;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.actions.TerminalActions.F10;
 import org.openlegacy.terminal.actions.TerminalActions.F11;
@@ -30,35 +26,19 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
-import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import junit.framework.Assert;
 
 @ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class DefaultTerminalSnapshotsAnalyzerTest {
-
-	@Inject
-	private TerminalSnapshotsLoader snapshotsLoader;
-
-	@Inject
-	private DefaultTerminalSnapshotsAnalyzer snapshotsAnalyzer;
-
-	@Inject
-	private DefaultTerminalSnapshotsOrganizer snapshotsOrganizer;
-
-	@Inject
-	private ScreenEntityJavaGenerator screenEntityJavaGenerator;
+public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSnapshotsAnalyzerTest.class);
 
@@ -328,18 +308,4 @@ public class DefaultTerminalSnapshotsAnalyzerTest {
 
 	}
 
-	private void assertScreenContent(ScreenEntityDefinition screen, String expectedResource) throws TemplateException,
-			IOException {
-		((ScreenEntityDesigntimeDefinition)screen).setPackageName("com.test");
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		screenEntityJavaGenerator.generate(screen, baos);
-
-		if (expectedResource == null) {
-			logger.info("\n" + new String(baos.toByteArray()));
-			return;
-		}
-
-		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedResource));
-		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
-	}
 }
