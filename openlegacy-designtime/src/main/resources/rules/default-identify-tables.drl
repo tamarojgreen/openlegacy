@@ -31,8 +31,8 @@ when
 then
 	// if the fields were removed from the snapshot, don't create a column
 	if ($snapshot.getFields().contains($columnFields.get(0))) {
-		TableColumnFact TableColumnFact = new TableColumnFact($screenEntityDefinition, $columnFields);
-		insert(TableColumnFact);
+		TableColumnFact tableColumnFact = new TableColumnFact($screenEntityDefinition, $columnFields);
+		insert(tableColumnFact);
 	}
 end
 
@@ -68,7 +68,7 @@ when
 	// which belongs to a screen entity 
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition() from $firstColumn.getScreenEntityDefinition()
 	
-	not TableColumnFact(startColumn < $firstColumn.startColumn, screenEntityDefinition == $screenEntityDefinition)
+	not TableColumnFact(screenEntityDefinition == $screenEntityDefinition, startColumn < $firstColumn.startColumn)
 	  
 	// and there is a list of columns which has a bigger column, start at the same row, and has the same number of fields
 	$columns: List(size >= 2) from collect (TableColumnFact(screenEntityDefinition == $screenEntityDefinition,startColumn >= $firstColumn.startColumn ,startRow == $firstColumn.startRow,
@@ -105,7 +105,6 @@ then
 	int offset = $field.getValue().indexOf($captionAction); 
 	TerminalPosition actionPosition = SimpleTerminalPosition.newInstance($field.getPosition().getRow(),$field.getPosition().getColumn()+offset);
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition,new ScreenTableActionFact($tableDefinition,$captionAction,actionPosition, $actionsRegex));
-	
-	System.out.println("***** in table actions:" + $captionAction);
+	update($screenEntityDefinition);
 end
 

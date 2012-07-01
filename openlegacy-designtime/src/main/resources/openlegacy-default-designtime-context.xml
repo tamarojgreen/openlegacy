@@ -136,8 +136,7 @@
 										<entry key="notAcolumnRegex" value="([\w\p{L} ]+[\.:])+" />
 										<entry key="minimumTableRows" value="3" />
 										<!-- When identifying columns, at least one of the fields should contains alphanumeric chars -->
-										<entry key="atLeastOneFieldShouldBe" value="[\w\p{L}]+.*" />
-										
+										<entry key="atLeastOneFieldShouldBe" value="[\s]*[\w\p{L}]+.*" />
 										<!--  used for identifying table actions -->
 										<entry key="actionsRegex" value="([\w\p{L}]+)[=-]([\w\p{L}]+[\w\p{L} ]*)" />
 										<entry key="actionsSplitter" value="  " />

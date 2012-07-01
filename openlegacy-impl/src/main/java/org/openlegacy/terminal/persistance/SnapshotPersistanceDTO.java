@@ -103,10 +103,6 @@ public class SnapshotPersistanceDTO {
 			TerminalPersistedField persistedField = new TerminalPersistedField();
 			ReflectionUtil.copyProperties(persistedField, field);
 			persistedField.setModified(false);
-			// avoid persistence of length attribute if it's the same size as the value length
-			if (persistedField.getValue().length() == persistedField.getLength()) {
-				persistedField.resetLength();
-			}
 			persistedRow.getFields().add(persistedField);
 		}
 	}

@@ -2,8 +2,6 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 
 import freemarker.template.TemplateException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.definitions.ActionDefinition;
@@ -39,8 +37,6 @@ import junit.framework.Assert;
 @ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
-
-	private final static Log logger = LogFactory.getLog(DefaultTerminalSnapshotsAnalyzerTest.class);
 
 	@Test
 	public void testBasicAnalisys() {
