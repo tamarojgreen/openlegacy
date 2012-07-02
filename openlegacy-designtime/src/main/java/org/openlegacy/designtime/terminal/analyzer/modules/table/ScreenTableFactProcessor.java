@@ -3,6 +3,8 @@ package org.openlegacy.designtime.terminal.analyzer.modules.table;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.FieldFormatter;
+import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.analyzer.support.ColumnComparator;
@@ -18,10 +20,18 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class ScreenTableFactProcessor implements ScreenFactProcessor {
 
 	private static final String SELECTION_FIELD = "Selection";
 	private static final String COLUMN = "Column";
+
+	@Inject
+	private FieldFormatter fieldFormatter;
+
+	@Inject
+	private TextTranslator textTranslator;
 
 	private final static Log logger = LogFactory.getLog(ScreenTableFactProcessor.class);
 
@@ -36,8 +46,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 
 	}
 
-	public static void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition,
-			List<TableColumnFact> TableColumnFacts) {
+	public void addTableDefinition(ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TableColumnFact> TableColumnFacts) {
 
 		Collections.sort(TableColumnFacts, ColumnComparator.instance());
 
@@ -55,14 +64,17 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 
 		List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
 		for (int i = 0; i < TableColumnFacts.size(); i++) {
-			TableColumnFact TableColumnFact = TableColumnFacts.get(i);
+			TableColumnFact tableColumnFact = TableColumnFacts.get(i);
 
-			TerminalField headerField = getHeader(TableColumnFact);
+			TerminalField headerField = getHeader(tableColumnFact);
 
 			// 1st column cell
-			TerminalField firstCellField = TableColumnFact.getFields().get(0);
+			TerminalField firstCellField = tableColumnFact.getFields().get(0);
 
 			String columnName = headerField != null ? headerField.getValue() : null;
+
+			columnName = fieldFormatter.format(columnName);
+
 			if (StringUtil.getLength(columnName) == 0) {
 				// if it is the 1st column and the field is editable in the size of 1-2, it's probably a selection field
 				if (isSelectionField(i, firstCellField)) {
@@ -93,7 +105,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 			columnDefinitions.add(columnDefinition);
 
 			// remove the fields from the snapshot to avoid re-recognize by other rules
-			screenEntityDefinition.getSnapshot().getFields().removeAll(TableColumnFact.getFields());
+			screenEntityDefinition.getSnapshot().getFields().removeAll(tableColumnFact.getFields());
 			if (headerField != null) {
 				screenEntityDefinition.getSnapshot().getFields().remove(headerField);
 			}
@@ -126,7 +138,8 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 		return headerField;
 	}
 
-	private static SimpleScreenColumnDefinition initColumn(int coloumnIndex, TerminalField firstCellField, String columnName) {
+	private SimpleScreenColumnDefinition initColumn(int coloumnIndex, TerminalField firstCellField, String columnName) {
+		columnName = textTranslator.translate(columnName);
 		SimpleScreenColumnDefinition columnDefinition = new SimpleScreenColumnDefinition(StringUtil.toJavaFieldName(columnName));
 
 		columnDefinition.setStartColumn(firstCellField.getPosition().getColumn());

@@ -8,6 +8,14 @@ import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 
+/**
+ * A field formatter implementation which:
+ * <ul>
+ * <li>Removes chars configured via spring configuration</li>
+ * <li>Can convert to lower/upper case via spring configuration</li>
+ * <li>Can be configure to trim content</li>
+ * 
+ */
 public class SimpleFieldFormatter implements FieldFormatter {
 
 	private char[] chars = new char[0];

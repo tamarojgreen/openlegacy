@@ -2,6 +2,7 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 
 import freemarker.template.TemplateException;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -9,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Map;
 
 @ContextConfiguration("DefaultTerminalSnapshotsAnalyzerHebrewTest-context.xml")
@@ -21,13 +21,9 @@ public class DefaultTerminalSnapshotsAnalyzerHebrewTest extends AbstractAnalyzer
 		snapshotsOrganizer.setMatchingPercent(95);
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
 				"hebrew_as400.trail.xml"));
-		Collection<ScreenEntityDefinition> values = definitions.values();
-		for (ScreenEntityDefinition screenEntityDefinition : values) {
-			assertScreenContent(screenEntityDefinition, null);
-		}
-		// Assert.assertEquals(2, values.size());
-		// assertScreenContent(definitions.get("DallasTexas"), "mainframe/DallasTexas.java.expected");
-		// assertScreenContent(definitions.get("SystemLogon"), "mainframe/SystemLogon.java.expected");
+
+		Assert.assertEquals(2, definitions.size());
+		assertScreenContent(definitions.get("Mdd"), "hebrew/HebrewWindowTable.java.expected");
 
 	}
 

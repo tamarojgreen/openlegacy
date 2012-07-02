@@ -3,6 +3,7 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
+import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.terminal.analyzer.BestEntityNameFieldComparator;
 import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
@@ -32,6 +33,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	@Inject
 	private TerminalFieldsSplitter terminalFieldsSplitter;
 
+	@Inject
+	private TextTranslator textTranslator;
+
 	public void selectPotentialScreenEntityName(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> possibleFields) {
@@ -46,7 +50,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 		if (possibleFields.size() > 0) {
 			bestMatchEntityField = possibleFields.get(0);
-			bestMatchEntityName = StringUtil.toClassName(bestMatchEntityField.getValue());
+			String text = bestMatchEntityField.getValue();
+			String translatedText = textTranslator.translate(text);
+			bestMatchEntityName = StringUtil.toClassName(translatedText);
 		}
 
 		String existingEntityName = screenEntityDefinition.getEntityName();

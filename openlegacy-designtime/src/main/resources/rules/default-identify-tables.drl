@@ -51,7 +51,7 @@ when
 	$column: TableColumnFact(screenEntityDefinition == $screenEntityDefinition)
 	
 	$headerFields: List() from collect( TerminalField( this.isEmpty() == false, position.row == $column.getStartRow() - 1,
-								position.column >= $column.getStartColumn() - 2,position.column <= $column.getStartColumn() + 2) from $snapshot.getFields() )
+								position.column >= $column.getStartColumn() - 2,position.column <= $column.getEndColumn() + 2) from $snapshot.getFields() )
 then
 	$column.getHeaderFields().addAll($headerFields);
 end

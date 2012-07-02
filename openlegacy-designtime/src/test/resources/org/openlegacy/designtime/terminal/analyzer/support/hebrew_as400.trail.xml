@@ -160,7 +160,7 @@
         </row>
         <row rowNumber="4">
             <field column="2" value=":" length="1" backColor="BLUE"/>
-            <field column="4" value="   מדד" length="5"/>
+            <field column="4" value="  מדד" length="5"/>
             <field column="11" value="                     " length="21"/>
             <field column="33" length="9" editable="true" type="java.lang.Integer"/>
             <field column="44" value="מס.קופה:" length="8"/>
@@ -241,8 +241,8 @@
         <row rowNumber="11">
             <field column="2" value=":" length="1" backColor="BLUE"/>
             <field column="4" value=" 76.84" length="6" color="LIGHT_WHITE"/>
-            <field column="11" value="     670,523,685" length="16" color="LIGHT_WHITE"/>
-            <field column="28" value="  מקפת החדשה - סחיר" length="19" color="LIGHT_WHITE"/>
+            <field column="11" value="     170,123,685" length="16" color="LIGHT_WHITE"/>
+            <field column="28" value="  קופה החדשה - סחיר" length="19" color="LIGHT_WHITE"/>
             <field column="48" value="    10833" length="9" color="LIGHT_WHITE"/>
             <field column="58" length="1" editable="true" color="LIGHT_WHITE"/>
             <field column="60" value=":" length="1" backColor="BLUE"/>
@@ -253,7 +253,7 @@
         <row rowNumber="12">
             <field column="2" value=":" length="1" backColor="BLUE"/>
             <field column="4" value=" 84.78" length="6" color="LIGHT_WHITE"/>
-            <field column="11" value="      16,549,252" length="16" color="LIGHT_WHITE"/>
+            <field column="11" value="      36,149,252" length="16" color="LIGHT_WHITE"/>
             <field column="28" value="קופה חדשה אקטוארית " length="19" color="LIGHT_WHITE"/>
             <field column="48" value="    11074" length="9" color="LIGHT_WHITE"/>
             <field column="58" length="1" editable="true" color="LIGHT_WHITE"/>
@@ -265,7 +265,7 @@
         <row rowNumber="13">
             <field column="2" value=":" length="1" backColor="BLUE"/>
             <field column="4" value=" 86.96" length="6" color="LIGHT_WHITE"/>
-            <field column="11" value="      32,173,709" length="16" color="LIGHT_WHITE"/>
+            <field column="11" value="      42,171,709" length="16" color="LIGHT_WHITE"/>
             <field column="28" value="קופה החדשה - מיוחדת" length="19" color="LIGHT_WHITE"/>
             <field column="48" value="    11082" length="9" color="LIGHT_WHITE"/>
             <field column="58" length="1" editable="true" color="LIGHT_WHITE"/>
@@ -277,8 +277,8 @@
         <row rowNumber="14">
             <field column="2" value=":" length="1" backColor="BLUE"/>
             <field column="4" value="      " length="6" color="LIGHT_WHITE"/>
-            <field column="11" value="   1,599,342,545" length="16" color="LIGHT_WHITE"/>
-            <field column="28" value="    מקפת חדשה - ערד" length="19" color="LIGHT_WHITE"/>
+            <field column="11" value="   1,519,342,545" length="16" color="LIGHT_WHITE"/>
+            <field column="28" value="    קופה חדשה - ערד" length="19" color="LIGHT_WHITE"/>
             <field column="48" value="    11163" length="9" color="LIGHT_WHITE"/>
             <field column="58" length="1" editable="true" color="LIGHT_WHITE"/>
             <field column="60" value=":" length="1" backColor="BLUE"/>
