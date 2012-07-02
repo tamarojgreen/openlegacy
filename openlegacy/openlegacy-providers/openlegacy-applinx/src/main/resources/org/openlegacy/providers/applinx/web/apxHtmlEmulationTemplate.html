@@ -1,0 +1,27 @@
+  <link rel="stylesheet" href="styles/applinx.css" />
+
+	<form name="GX_Form" id="GX_Form" method="post">
+	<input type="hidden" name="GX_CursorPos" value="APX_CURSOR"/>  
+	<input type="hidden" name="GX_ActionKey" />
+	<input type="hidden" name="GX_SeqScreenNumber" />
+	<input type="button" style="display:none" id="gx_HostKey" onclick="document.GX_Form.submit();"/> 
+  <script>
+  var gx_engineConfig = new function(){ gx_webEmulatorConfig = new Object(),gx_instantEmulatorConfig = new Object()};
+  var gx_AppInfo = new Object();gx_AppInfo.isDynamicFont = true;
+  </script>
+  <script src="applinx-js/z_constants.js"  type="text/javascript"><!-- required for FF3 and Opera --></script>  
+  <script src="applinx-js/z_3rdparty.js"  type="text/javascript"><!-- required for FF3 and Opera --></script>  
+  <script src="applinx-js/z_engine.js"  type="text/javascript"><!-- required for FF3 and Opera --></script>  
+  <script src="applinx-js/z_emulator.js"  type="text/javascript"><!-- required for FF3 and Opera --></script>
+  <script>
+  dojo.addOnLoad(function(){
+	  	gx_engine.init();
+	  	gx_engine.addKeyBoardMapping(GXAdditionalKey.NONE,GXKeyCodes.ENTER,function() {gx_session.sendKeys('[enter]')},true);
+		gx_engine.addKeyBoardMappingRange(GXAdditionalKey.NONE,GXKeyCodes.F1,GXKeyCodes.F12,GXEmulatorUtils.send_pf,true);
+		gx_engine.addKeyBoardMappingRange(GXAdditionalKey.SHIFT,GXKeyCodes.F1,GXKeyCodes.F12,GXEmulatorUtils.send_pf,true);
+	});
+  </script>
+  
+	  TERMINAL_HTML
+
+	</form>

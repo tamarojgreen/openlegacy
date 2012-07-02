@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshotsLoader;
+import org.openlegacy.terminal.web.render.support.DefaultTerminalSnapshotHtmlRenderer;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,7 +20,7 @@ import javax.inject.Inject;
 public class DefaultTerminalSnapshotHtmlRendererTest {
 
 	@Inject
-	private TerminalSnapshotHtmlRenderer htmlRenderer;
+	private DefaultTerminalSnapshotHtmlRenderer htmlRenderer;
 
 	@Inject
 	private TerminalSnapshotsLoader snapshotsLoader;
@@ -35,4 +36,18 @@ public class DefaultTerminalSnapshotHtmlRendererTest {
 		AssertUtils.assertContent(expectedBytes, result.getBytes());
 
 	}
+
+	@Test
+	public void testHtmlRenderNoTemplate() throws IOException {
+
+		htmlRenderer.setIncludeTemplate(false);
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("/").getFile(), "SignOn.xml");
+
+		String result = htmlRenderer.render(snapshots.get(0));
+
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("html.noTemplate.expected"));
+		AssertUtils.assertContent(expectedBytes, result.getBytes());
+
+	}
+
 }

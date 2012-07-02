@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.web.render.support;
 
+import org.apache.commons.io.IOUtils;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
@@ -14,6 +15,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
 
@@ -28,6 +31,11 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	private static final String SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {font-family:Courier New;font-size:FONTpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input {position:absolute;font-family:Courier New;font-size:FONTpx;height:INPUT-HEIGHTpx;}";
 
+	private static final String TERMINAL_HTML = "TERMINAL_HTML";
+
+	private String templateResourceName = "defaultHtmlEmulationTemplate.html";
+	private boolean includeTemplate = true;
+
 	@Inject
 	private ElementsProvider<Element> elementsProvider;
 
@@ -38,6 +46,23 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	private String formMethod = HtmlConstants.POST;
 
 	public String render(TerminalSnapshot terminalSnapshot) {
+		String htmlContent = renderHtml(terminalSnapshot);
+
+		if (includeTemplate) {
+			InputStream htmlEmulationTemplateStream = getClass().getResourceAsStream(templateResourceName);
+			String htmlEmulationTemplateContent;
+			try {
+				htmlEmulationTemplateContent = IOUtils.toString(htmlEmulationTemplateStream);
+			} catch (IOException e) {
+				throw (new RuntimeException(e));
+			}
+			htmlEmulationTemplateContent = htmlEmulationTemplateContent.replace(TERMINAL_HTML, htmlContent);
+			return htmlEmulationTemplateContent;
+		}
+		return htmlContent;
+	}
+
+	private String renderHtml(TerminalSnapshot terminalSnapshot) {
 
 		DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
 
@@ -45,30 +70,15 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 		try {
 			doc = dfactory.newDocumentBuilder().newDocument();
 
-			String styleSettings = SNAPSHOT_STYLE_SETTINGS.replaceAll("FONT",
-					String.valueOf(htmlProportionsHandler.getFontSize()));
+			String styleSettings = createStyleSettings();
 
-			styleSettings = styleSettings.replaceAll("INPUT-HEIGHT", String.valueOf(htmlProportionsHandler.getInputHeight()));
+			Element formTag = createWrappingTag(doc);
 
-			Element wrapperTag = (Element)doc.appendChild(doc.createElement(HtmlConstants.DIV));
-
-			wrapperTag.setAttribute(HtmlConstants.ID, TerminalHtmlConstants.WRAPPER_TAG_ID);
-
-			Element formTag = elementsProvider.createFormTag(wrapperTag, formActionURL, formMethod,
-					TerminalHtmlConstants.HTML_EMULATION_FORM_NAME);
-
-			TerminalPosition cursorPosition = terminalSnapshot.getCursorPosition();
-			String cursorFieldName = cursorPosition != null ? HtmlNamingUtil.getFieldName(cursorPosition) : "";
-			Element cursorHidden = elementsProvider.createHidden(formTag, TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
-			cursorHidden.setAttribute(HtmlConstants.VALUE, cursorFieldName);
-			elementsProvider.createHidden(formTag, TerminalHtmlConstants.KEYBOARD_KEY);
+			String cursorFieldName = createHiddens(terminalSnapshot, formTag);
 
 			createFields(terminalSnapshot, formTag);
 
-			String script = MessageFormat.format("document.{0}.{1}.focus();", TerminalHtmlConstants.HTML_EMULATION_FORM_NAME,
-					cursorFieldName);
-
-			elementsProvider.createScriptTag(formTag, script);
+			createScript(formTag, cursorFieldName);
 
 			calculateWidthHeight(terminalSnapshot, formTag);
 
@@ -82,6 +92,39 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			throw (new OpenLegacyRuntimeException(e));
 		}
 
+	}
+
+	private String createStyleSettings() {
+		String styleSettings = SNAPSHOT_STYLE_SETTINGS.replaceAll("FONT", String.valueOf(htmlProportionsHandler.getFontSize()));
+
+		styleSettings = styleSettings.replaceAll("INPUT-HEIGHT", String.valueOf(htmlProportionsHandler.getInputHeight()));
+		return styleSettings;
+	}
+
+	private Element createWrappingTag(Document doc) {
+		Element wrapperTag = (Element)doc.appendChild(doc.createElement(HtmlConstants.DIV));
+
+		wrapperTag.setAttribute(HtmlConstants.ID, TerminalHtmlConstants.WRAPPER_TAG_ID);
+
+		Element formTag = elementsProvider.createFormTag(wrapperTag, formActionURL, formMethod,
+				TerminalHtmlConstants.HTML_EMULATION_FORM_NAME);
+		return formTag;
+	}
+
+	private void createScript(Element formTag, String cursorFieldName) {
+		String script = MessageFormat.format("document.{0}.{1}.focus();", TerminalHtmlConstants.HTML_EMULATION_FORM_NAME,
+				cursorFieldName);
+
+		elementsProvider.createScriptTag(formTag, script);
+	}
+
+	private String createHiddens(TerminalSnapshot terminalSnapshot, Element formTag) {
+		TerminalPosition cursorPosition = terminalSnapshot.getCursorPosition();
+		String cursorFieldName = cursorPosition != null ? HtmlNamingUtil.getFieldName(cursorPosition) : "";
+		Element cursorHidden = elementsProvider.createHidden(formTag, TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
+		cursorHidden.setAttribute(HtmlConstants.VALUE, cursorFieldName);
+		elementsProvider.createHidden(formTag, TerminalHtmlConstants.KEYBOARD_KEY);
+		return cursorFieldName;
 	}
 
 	private static String generate(String styleSettings, Document doc) throws TransformerConfigurationException,
@@ -118,5 +161,13 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	public void setFormMethod(String formMethod) {
 		this.formMethod = formMethod;
+	}
+
+	public void setIncludeTemplate(boolean includeTemplate) {
+		this.includeTemplate = includeTemplate;
+	}
+
+	public void setTemplateResourceName(String templateResourceName) {
+		this.templateResourceName = templateResourceName;
 	}
 }
