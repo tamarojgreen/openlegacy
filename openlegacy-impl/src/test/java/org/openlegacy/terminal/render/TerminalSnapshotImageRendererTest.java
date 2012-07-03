@@ -32,13 +32,13 @@ public class TerminalSnapshotImageRendererTest {
 		testImage(inventoryPrefix + xmlSnapshot, inventoryPrefix + expectedImageFile);
 	}
 
-	public void testImage(String xmlSnapshot, String expectedImageFile) throws IOException {
+	public void testImage(String xmlSnapshot, String expectedImageFileName) throws IOException {
 		String file = getClass().getResource(xmlSnapshot).getFile();
 		TerminalSnapshot snapshot = terminalSnapshotsLoader.load(file);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		TerminalSnapshotImageRenderer.instance().render(snapshot, baos);
 
-		byte[] expectedImage = IOUtils.toByteArray(getClass().getResourceAsStream(expectedImageFile));
+		byte[] expectedImage = IOUtils.toByteArray(getClass().getResourceAsStream(expectedImageFileName));
 		AssertUtils.assertImageContent(expectedImage, baos.toByteArray());
 	}
 

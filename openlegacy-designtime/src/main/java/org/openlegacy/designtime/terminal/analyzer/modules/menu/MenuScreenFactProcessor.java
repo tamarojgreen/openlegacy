@@ -11,9 +11,14 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.utils.ClassUtils;
 
+import javax.inject.Inject;
+
 public class MenuScreenFactProcessor implements ScreenFactProcessor {
 
 	private final static Log logger = LogFactory.getLog(MenuScreenFactProcessor.class);
+
+	@Inject
+	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
@@ -23,7 +28,7 @@ public class MenuScreenFactProcessor implements ScreenFactProcessor {
 		screenEntityDefinition.setType(Menu.MenuEntity.class);
 		TerminalSnapshot snapshot = screenEntityDefinition.getSnapshot();
 
-		ScreenFieldDefinition fieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
+		ScreenFieldDefinition fieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
 				menuScreenFact.getSelectionField(), Menu.SELECTION_LABEL);
 		if (fieldDefinition == null) {
 			logger.warn("Menu selection field not added to screen entity");

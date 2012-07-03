@@ -33,9 +33,11 @@ public class AssertUtils {
 			writeTempImage(resultContent, "ol_tests/result.jpg");
 
 			File tempDir = SystemUtils.getJavaIoTmpDir();
-			logger.info(MessageFormat.format("*** Result screen doesn''t match expected screen. see: {0}/ol_tests", tempDir));
 
-			throw new RuntimeException("Generated content don't match. See log");
+			String message = MessageFormat.format("Image doesn''t match expected image. see: {0}/ol_tests",
+					tempDir.getAbsolutePath());
+			logger.info(message);
+			throw new RuntimeException(message);
 
 		}
 	}

@@ -36,6 +36,9 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	@Inject
 	private TextTranslator textTranslator;
 
+	@Inject
+	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
+
 	public void selectPotentialScreenEntityName(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> possibleFields) {
@@ -68,7 +71,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			// add the field which the entity name is based on as one of the identifiers
 			if (bestMatchEntityField != null) {
 				// add identifier without verifying existence - split fields don't exists on the snapshot
-				ScreenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, bestMatchEntityField, false);
+				screenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, bestMatchEntityField, false);
 			} else {
 				if (logger.isDebugEnabled()) {
 					logger.debug("Added a screen without a initial title identifier");
@@ -83,7 +86,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	public ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
 			TerminalField labelField) {
-		return ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition, field, labelField);
+		return screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition, field, labelField);
 	}
 
 	public void processFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {

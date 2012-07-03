@@ -3,6 +3,7 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldType;
+import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
@@ -19,10 +20,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 public class ScreenEntityDefinitionsBuilderUtils {
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityDefinitionsBuilderUtils.class);
 	private static final String FIELD = "field";
+
+	@Inject
+	private TextTranslator textTranslator;
 
 	public static void defineFieldType(ScreenEntityDesigntimeDefinition screenEntityDefinition,
 			ScreenFieldDefinition fieldDefinition, Class<? extends FieldType> clazz) {
@@ -37,7 +43,7 @@ public class ScreenEntityDefinitionsBuilderUtils {
 	 * @param verifyExistance
 	 *            check if the field exists on the snapshot
 	 */
-	public static void addIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
+	public void addIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
 			boolean verifyExistance) {
 		ScreenIdentifier identitifer = createIdentifier(screenEntityDefinition, field, verifyExistance);
 		if (identitifer == null) {
@@ -55,10 +61,10 @@ public class ScreenEntityDefinitionsBuilderUtils {
 
 	}
 
-	private static ScreenIdentifier createIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition,
-			TerminalField field, boolean verifyExistance) {
+	private ScreenIdentifier createIdentifier(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
+			boolean verifyExistance) {
 
-		if (verifyExistance && ScreenEntityDefinitionsBuilderUtils.isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
+		if (verifyExistance && isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
 			return null;
 		}
 
@@ -75,11 +81,11 @@ public class ScreenEntityDefinitionsBuilderUtils {
 	 * if the field was removed from the snapshot (convert to entity field/column) ignore it drools analyze the fields in advance,
 	 * and ignore fields removal done during execution
 	 */
-	public static boolean isFieldRemovedFromSnapshot(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
+	public boolean isFieldRemovedFromSnapshot(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field) {
 		return !screenEntityDefinition.getSnapshot().getFields().contains(field);
 	}
 
-	public static ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
+	public ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
 			TerminalField labelField) {
 		SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)addField(screenEntityDefinition, field,
 				labelField.getValue());
@@ -90,7 +96,7 @@ public class ScreenEntityDefinitionsBuilderUtils {
 		return fieldDefinition;
 	}
 
-	public static ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
+	public ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
 			String label) {
 
 		if (isFieldRemovedFromSnapshot(screenEntityDefinition, field)) {
@@ -112,6 +118,7 @@ public class ScreenEntityDefinitionsBuilderUtils {
 				return screenFieldDefinition;
 			}
 		}
+		label = textTranslator.translate(label);
 
 		String fieldName = StringUtil.toJavaFieldName(label);
 		if (StringUtil.isEmpty(fieldName)) {

@@ -12,9 +12,14 @@ import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class ScreenIdentifiersFactProcessor implements ScreenFactProcessor {
 
 	private int maxIdentifiers;
+
+	@Inject
+	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
 	public boolean accept(ScreenFact screenFact) {
 		return (screenFact instanceof ScreenIdentifiersFact);
@@ -31,7 +36,7 @@ public class ScreenIdentifiersFactProcessor implements ScreenFactProcessor {
 
 		for (TerminalField field : screenIdentifiersFact.getIdentifiers()) {
 
-			ScreenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, field, true);
+			screenEntityDefinitionsBuilderUtils.addIdentifier(screenEntityDefinition, field, true);
 
 			// -1 -> one identifier is based on the screen entity field name - added at the end of the identification process
 			if (screenIdentifiers.size() >= maxIdentifiers) {

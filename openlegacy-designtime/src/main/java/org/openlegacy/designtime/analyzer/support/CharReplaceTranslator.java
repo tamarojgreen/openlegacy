@@ -1,14 +1,19 @@
 package org.openlegacy.designtime.analyzer.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 public class CharReplaceTranslator implements TextTranslator, InitializingBean {
 
 	private Map<String, String> charsToReplace;
+
+	private final static Log logger = LogFactory.getLog(CharReplaceTranslator.class);
 
 	public String translate(String text) {
 		StringBuilder sb = new StringBuilder(text);
@@ -19,7 +24,11 @@ public class CharReplaceTranslator implements TextTranslator, InitializingBean {
 				sb.setCharAt(i, newChar.charAt(0));
 			}
 		}
-		return sb.toString();
+		String result = sb.toString();
+		if (logger.isDebugEnabled() && !text.equals(result)) {
+			logger.debug(MessageFormat.format("Translated \"{0}\" to \"{1}\"", text, result));
+		}
+		return result;
 	}
 
 	public void setCharsToReplace(Map<String, String> charsToReplace) {

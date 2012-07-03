@@ -87,6 +87,10 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	}
 
 	public String getValue() {
+		// do not allow null based terminal fields. empty string if null (might be null due to XML de-serialization)
+		if (value == null) {
+			value = "";
+		}
 		return value;
 	}
 

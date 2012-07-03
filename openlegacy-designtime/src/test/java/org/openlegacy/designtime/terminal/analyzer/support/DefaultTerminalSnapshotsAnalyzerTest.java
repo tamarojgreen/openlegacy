@@ -28,7 +28,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -268,40 +267,6 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		AutoCompleteFieldTypeDefinition fieldTypeDefinition = (AutoCompleteFieldTypeDefinition)fieldAdefinition.getFieldTypeDefinition();
 		Assert.assertEquals(windowTableScreen.getEntityName(), fieldTypeDefinition.getSourceEntityClassName());
 		assertScreenContent(simpleScreenDefinition, "SimpleScreenValues.java.expected");
-	}
-
-	@Test
-	public void testInventoryAppGenerate() throws TemplateException, IOException {
-		snapshotsOrganizer.setMatchingPercent(95);
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
-				getClass().getResource("/apps/inventory/screens").getFile(), "SignOn.xml", "MainMenu.xml", "ItemsList.xml",
-				"ItemDetails1.xml", "ItemDetails2.xml", "WarehouseTypes.xml");
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
-		assertScreenContent(screenEntitiesDefinitions.get("SignOn"), "SignOn.java.expected");
-
-		assertScreenContent(screenEntitiesDefinitions.get("DemoEnvironment"), "inventory/DemoEnvironment.java.expected");
-
-		// table
-		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster"), "inventory/WorkWithItemMaster.java.expected");
-		// form1
-		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster1"), "inventory/WorkWithItemMaster1.java.expected");
-		// form2
-		assertScreenContent(screenEntitiesDefinitions.get("WorkWithItemMaster2"), "inventory/WorkWithItemMaster2.java.expected");
-		// reversed window
-		assertScreenContent(screenEntitiesDefinitions.get("ListOfWarehouseTypes"), "inventory/ListOfWarehouseTypes.java.expected");
-
-	}
-
-	@Test
-	public void testMainframeAppGenerate() throws TemplateException, IOException {
-		snapshotsOrganizer.setMatchingPercent(95);
-		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
-				"mainframe.trail.xml"));
-		Collection<ScreenEntityDefinition> values = definitions.values();
-		Assert.assertEquals(2, values.size());
-		assertScreenContent(definitions.get("DallasTexas"), "mainframe/DallasTexas.java.expected");
-		assertScreenContent(definitions.get("SystemLogon"), "mainframe/SystemLogon.java.expected");
-
 	}
 
 }

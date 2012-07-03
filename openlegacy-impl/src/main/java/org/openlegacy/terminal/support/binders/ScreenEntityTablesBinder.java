@@ -15,7 +15,6 @@ import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 

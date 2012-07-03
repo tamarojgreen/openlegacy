@@ -10,7 +10,12 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.utils.ClassUtils;
 
+import javax.inject.Inject;
+
 public class LoginScreenFactProcessor implements ScreenFactProcessor {
+
+	@Inject
+	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
@@ -19,11 +24,11 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 		screenEntityDefinition.setType(Login.LoginEntity.class);
 		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(Login.LoginEntity.class));
 
-		ScreenFieldDefinition userFieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
+		ScreenFieldDefinition userFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
 				loginScreenFact.getUserField(), loginScreenFact.getUserLabelField());
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, userFieldDefinition, Login.UserField.class);
 
-		ScreenFieldDefinition passwordFieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
+		ScreenFieldDefinition passwordFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
 				loginScreenFact.getPasswordField(), loginScreenFact.getPasswordLabelField());
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, passwordFieldDefinition,
 				Login.PasswordField.class);
@@ -31,7 +36,7 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 
 		TerminalField errorField = loginScreenFact.getErrorField();
 		if (errorField != null) {
-			ScreenFieldDefinition errorFieldDefinition = ScreenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
+			ScreenFieldDefinition errorFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
 					errorField, Login.ERROR_MESSAGE_LABEL);
 			ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, errorFieldDefinition,
 					Login.ErrorField.class);
