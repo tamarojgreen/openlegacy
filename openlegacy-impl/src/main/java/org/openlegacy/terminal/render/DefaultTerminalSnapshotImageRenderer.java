@@ -18,7 +18,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
+public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotImageRenderer {
 
 	private static final int LEFT_COLUMNS_OFFSET = 2;
 	private static final int TOP_PIXELS_OFFSET = 2;
@@ -26,12 +26,6 @@ public class TerminalSnapshotImageRenderer implements TerminalSnapshotRenderer {
 	private static final Color IMAGE_BOLD_FIELD_COLOR = Color.WHITE;
 	private static final Color IMAGE_DEFAULT_TEXT_COLOR = Color.GREEN;
 	private static final Color IMAGE_SURROUNDING_TEXT_COLOR = Color.WHITE;
-
-	private static TerminalSnapshotImageRenderer instance = new TerminalSnapshotImageRenderer();
-
-	public static TerminalSnapshotImageRenderer instance() {
-		return instance;
-	}
 
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream output) {
 

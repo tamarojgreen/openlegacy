@@ -20,11 +20,11 @@ import java.util.List;
  * A textual utility which format terminal snapshot in to a preventable text which is very comfort for debugging purposes
  * 
  */
-public class TerminalSnapshotTextRenderer implements TerminalSnapshotRenderer {
+public class DefaultTerminalSnapshotTextRenderer implements TerminalSnapshotTextRenderer {
 
-	private static TerminalSnapshotTextRenderer instance = new TerminalSnapshotTextRenderer();
+	private static DefaultTerminalSnapshotTextRenderer instance = new DefaultTerminalSnapshotTextRenderer();
 
-	public static TerminalSnapshotTextRenderer instance() {
+	public static DefaultTerminalSnapshotTextRenderer instance() {
 		return instance;
 	}
 

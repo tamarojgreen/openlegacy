@@ -10,13 +10,7 @@ import java.io.OutputStream;
 
 import javax.xml.bind.JAXBException;
 
-public class TerminalSnapshotXmlRenderer implements TerminalSnapshotRenderer {
-
-	private static TerminalSnapshotRenderer instance = new TerminalSnapshotXmlRenderer();
-
-	public static TerminalSnapshotRenderer instance() {
-		return instance;
-	}
+public class DefaultTerminalSnapshotXmlRenderer implements TerminalSnapshotXmlRenderer {
 
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream outputStream) {
 		TerminalPersistedSnapshot persistedSnapshot = null;

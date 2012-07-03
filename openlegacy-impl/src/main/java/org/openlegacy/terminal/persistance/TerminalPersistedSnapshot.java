@@ -6,7 +6,7 @@ import org.openlegacy.terminal.TerminalOutgoingSnapshot;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
+import org.openlegacy.terminal.render.DefaultTerminalSnapshotTextRenderer;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.support.ScreenSizeBean;
 import org.openlegacy.terminal.support.SimpleTerminalSendAction;
@@ -189,7 +189,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 	@Override
 	public String toString() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		TerminalSnapshotTextRenderer.instance().render(this, baos);
+		DefaultTerminalSnapshotTextRenderer.instance().render(this, baos);
 		return StringUtil.toString(baos);
 	}
 

@@ -22,7 +22,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
-import org.openlegacy.terminal.render.TerminalSnapshotXmlRenderer;
+import org.openlegacy.terminal.render.DefaultTerminalSnapshotXmlRenderer;
 import org.openlegacy.utils.FileUtils;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.ZipUtil;
@@ -48,10 +48,9 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * OpenLegacy main design-time API entry point.
- * Consolidate all design-time common UI actions 
- *  
- *@see DesignTimeExecuter
+ * OpenLegacy main design-time API entry point. Consolidate all design-time common UI actions
+ * 
+ * @see DesignTimeExecuter
  */
 public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
@@ -119,7 +118,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		renameLauncher(projectName, targetPath, BUILD_WAR);
 	}
 
-	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException, IOException {
+	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException,
+			IOException {
 		File launcherFile = new File(targetPath, fileName);
 
 		if (!launcherFile.exists()) {
@@ -134,7 +134,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		IOUtils.write(launchFileContent, fos);
 
 	}
-	
+
 	private static void updateSpringContextWithDefaultPackage(String defaultPackageName, File targetPath) throws IOException,
 			FileNotFoundException {
 		updateSpringFile(defaultPackageName, new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE));
@@ -237,7 +237,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	public void generateScreens(File trailFile, File sourceDirectory, String packageDirectoryName, File templatesDir,
-			OverrideConfirmer overrideConfirmer, File analyzerContextFile,File projectPath) throws GenerationException {
+			OverrideConfirmer overrideConfirmer, File analyzerContextFile, File projectPath) throws GenerationException {
 
 		getGenerateUtil().setTemplateDirectory(templatesDir);
 
@@ -271,12 +271,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				screenResourcesDir.mkdir();
 				TerminalSnapshot snapshot = screenEntityDefinition.getOriginalSnapshot();
 
+				TerminalSnapshotImageRenderer imageRenderer = applicationContext.getBean(TerminalSnapshotImageRenderer.class);
+				TerminalSnapshotTextRenderer textRenderer = applicationContext.getBean(TerminalSnapshotTextRenderer.class);
+				DefaultTerminalSnapshotXmlRenderer xmlRenderer = applicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
+
 				// generate txt file with screen content
-				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotTextRenderer.instance());
+				generateResource(snapshot, entityName, screenResourcesDir, textRenderer);
 				// generate jpg file with screen image
-				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotImageRenderer.instance());
+				generateResource(snapshot, entityName, screenResourcesDir, imageRenderer);
 				// generate xml file with screen XML for testing purposes
-				generateResource(snapshot, entityName, screenResourcesDir, TerminalSnapshotXmlRenderer.instance());
+				generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer);
 
 			} catch (TemplateException e) {
 				throw (new GenerationException(e));
@@ -295,7 +299,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File projectPath) {
 		TrailJunitGenerator generator = applicationContext.getBean(TrailJunitGenerator.class);
-		File testSourceDirectory = new File(projectPath,TEST_SOURCE_DIR);
+		File testSourceDirectory = new File(projectPath, TEST_SOURCE_DIR);
 		File testsDirectory = new File(testSourceDirectory, "tests");
 		try {
 			testsDirectory.mkdirs();

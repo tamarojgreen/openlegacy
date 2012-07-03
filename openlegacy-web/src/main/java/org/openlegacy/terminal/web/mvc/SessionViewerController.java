@@ -24,6 +24,9 @@ public class SessionViewerController {
 	@Inject
 	private TerminalSession terminalSession;
 
+	@Inject
+	private TerminalSnapshotImageRenderer imageRenderer;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
 	String viewer(HttpServletRequest request) throws IOException {
@@ -33,7 +36,7 @@ public class SessionViewerController {
 	@RequestMapping(value = "/image", method = RequestMethod.GET)
 	public void image(HttpServletResponse response) throws IOException {
 		response.setContentType("image/jpeg");
-		TerminalSnapshotImageRenderer.instance().render(terminalSession.getSnapshot(), response.getOutputStream());
+		imageRenderer.render(terminalSession.getSnapshot(), response.getOutputStream());
 	}
 
 }

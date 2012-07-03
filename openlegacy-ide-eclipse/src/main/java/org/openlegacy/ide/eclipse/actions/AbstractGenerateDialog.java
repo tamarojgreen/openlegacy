@@ -43,7 +43,6 @@ import org.openlegacy.ide.eclipse.util.JavaUtils;
 
 import java.io.File;
 
-@SuppressWarnings("restriction")
 public abstract class AbstractGenerateDialog extends Dialog implements OverrideConfirmer {
 
 	private Text sourceFolderPathText;

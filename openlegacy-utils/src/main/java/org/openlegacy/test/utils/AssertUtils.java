@@ -26,15 +26,18 @@ public class AssertUtils {
 		}
 	}
 
-	public static void assertImageContent(byte[] expectedContent, byte[] resultContent) throws IOException {
+	public static void assertImageContent(String expectedImageFileName, byte[] expectedContent, byte[] resultContent)
+			throws IOException {
 		if (!Arrays.equals(expectedContent, resultContent)) {
 
 			writeTempImage(expectedContent, "ol_tests/expected.jpg");
-			writeTempImage(resultContent, "ol_tests/result.jpg");
+			// copy the file as the file name for comfort copy back to the compared resource
+			writeTempImage(resultContent, "ol_tests/" + expectedImageFileName);
 
 			File tempDir = SystemUtils.getJavaIoTmpDir();
 
-			String message = MessageFormat.format("Image doesn''t match expected image. see: {0}/ol_tests",
+			String message = MessageFormat.format(
+					"Image doesn''t match expected image. see: {0}/ol_tests. If the resulting image is OK, replace it back as the original resource",
 					tempDir.getAbsolutePath());
 			logger.info(message);
 			throw new RuntimeException(message);

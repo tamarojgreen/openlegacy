@@ -21,6 +21,9 @@ public class TerminalSnapshotImageRendererTest {
 	@Inject
 	private TerminalSnapshotsLoader terminalSnapshotsLoader;
 
+	@Inject
+	private TerminalSnapshotImageRenderer imageRenderer;
+
 	@Test
 	public void testInventoryImages() throws IOException {
 		testInventoryImage("InventoryManagement.xml", "InventoryManagement.jpg");
@@ -28,18 +31,17 @@ public class TerminalSnapshotImageRendererTest {
 	}
 
 	public void testInventoryImage(String xmlSnapshot, String expectedImageFile) throws IOException {
-		String inventoryPrefix = "/apps/inventory/screens/";
-		testImage(inventoryPrefix + xmlSnapshot, inventoryPrefix + expectedImageFile);
+		testImage("/apps/inventory/screens/", xmlSnapshot, expectedImageFile);
 	}
 
-	public void testImage(String xmlSnapshot, String expectedImageFileName) throws IOException {
-		String file = getClass().getResource(xmlSnapshot).getFile();
+	public void testImage(String prefix, String xmlSnapshot, String expectedImageFileName) throws IOException {
+		String file = getClass().getResource(prefix + xmlSnapshot).getFile();
 		TerminalSnapshot snapshot = terminalSnapshotsLoader.load(file);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		TerminalSnapshotImageRenderer.instance().render(snapshot, baos);
+		imageRenderer.render(snapshot, baos);
 
-		byte[] expectedImage = IOUtils.toByteArray(getClass().getResourceAsStream(expectedImageFileName));
-		AssertUtils.assertImageContent(expectedImage, baos.toByteArray());
+		byte[] expectedImage = IOUtils.toByteArray(getClass().getResourceAsStream(prefix + expectedImageFileName));
+		AssertUtils.assertImageContent(expectedImageFileName, expectedImage, baos.toByteArray());
 	}
 
 }

@@ -30,6 +30,10 @@
 
 	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
 
+	<bean id="imageRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer" />
+	<bean id="textRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotTextRenderer" />
+	<bean id="xmlRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotXmlRenderer" />
+				
 	<import resource="classpath:/META-INF/openlegacy-tables-context.xml" /> 
 	<import resource="classpath:/META-INF/default-actions-context.xml" /> 
 

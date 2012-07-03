@@ -5,7 +5,7 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
+import org.openlegacy.terminal.render.DefaultTerminalSnapshotTextRenderer;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 import org.openlegacy.utils.StringUtil;
 
@@ -32,7 +32,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 	@Override
 	public String toString() {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		TerminalSnapshotTextRenderer.instance().render(this, baos);
+		DefaultTerminalSnapshotTextRenderer.instance().render(this, baos);
 		return StringUtil.toString(baos);
 	}
 
