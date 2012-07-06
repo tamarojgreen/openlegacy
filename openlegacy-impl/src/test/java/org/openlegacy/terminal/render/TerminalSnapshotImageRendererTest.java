@@ -1,6 +1,7 @@
 package org.openlegacy.terminal.render;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -24,6 +25,7 @@ public class TerminalSnapshotImageRendererTest {
 	@Inject
 	private TerminalSnapshotImageRenderer imageRenderer;
 
+	@Ignore
 	@Test
 	public void testInventoryImages() throws IOException {
 		testInventoryImage("InventoryManagement.xml", "InventoryManagement.jpg");
