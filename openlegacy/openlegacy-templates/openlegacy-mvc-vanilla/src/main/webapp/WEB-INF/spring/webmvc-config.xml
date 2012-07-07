@@ -32,6 +32,7 @@
 		<bean class="org.openlegacy.terminal.web.mvc.InsertEntityDefinitionsInterceptor" />
 		<bean class="org.openlegacy.terminal.web.mvc.InsertMessagesInterceptor" />
 		<bean class="org.openlegacy.terminal.web.mvc.InsertGlobalsInterceptor" />
+		<bean class="org.openlegacy.terminal.web.mvc.DesigntimeInterceptor" />
 	</mvc:interceptors>
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 

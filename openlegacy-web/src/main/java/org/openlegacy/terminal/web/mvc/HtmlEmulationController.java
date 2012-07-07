@@ -1,10 +1,7 @@
 package org.openlegacy.terminal.web.mvc;
 
-import org.openlegacy.OpenLegacyProperties;
-import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.modules.trail.DefaultTerminalTrail;
 import org.openlegacy.terminal.spi.TerminalSendAction;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.springframework.stereotype.Controller;
@@ -34,18 +31,8 @@ public class HtmlEmulationController {
 	@Inject
 	private HttpServletRequest request;
 
-	@Inject
-	private OpenLegacyProperties openLegacyProperties;
-
 	@RequestMapping(method = RequestMethod.GET)
 	public String show(Model uiModel) {
-
-		// check out if configured to save trail - if so, define unlimited recording size (design-time)
-		String trailPath = openLegacyProperties.getProperty(OpenLegacyProperties.TRAIL_FOLDER_PATH);
-		if (trailPath != null) {
-			DefaultTerminalTrail trail = (DefaultTerminalTrail)terminalSession.getModule(Trail.class).getSessionTrail();
-			trail.setHistoryCount(null);
-		}
 
 		String result = snapshotHtmlRenderer.render(terminalSession.getSnapshot());
 		uiModel.addAttribute("terminalHtml", result);
