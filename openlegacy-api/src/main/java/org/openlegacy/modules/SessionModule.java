@@ -1,8 +1,13 @@
 package org.openlegacy.modules;
 
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.modules.trail.Trail;
+
 /**
- * Define a session plug-able module into Session. Purpose is to allow extending the Session functionality with functionality such
- * as: SessionTrail, LoginModule, Menu, System data, Global data, etc
+ * Define a plug-able module into a session. Purpose is to allow extending the session functionality with functionality such as:
+ * {@link Trail}, {@link Login}, {@link Menu}, etc <br/>
+ * Example: <code>terminalSession.getModule(Login.class).login("user","password")</code>
  * 
  */
 public interface SessionModule {

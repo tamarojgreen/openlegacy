@@ -75,7 +75,8 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 	}
 
 	private static void fillChildEntities(final EntitiesRegistry<?, ?> entitiesRegistry) {
-		Collection<Class<?>> entities = entitiesRegistry.getAll();
+		@SuppressWarnings("unchecked")
+		Collection<Class<?>> entities = (Collection<Class<?>>)entitiesRegistry.getEntitiesDefinitions();
 		for (Class<?> class1 : entities) {
 
 			final EntityDefinition<?> entityDefinition = entitiesRegistry.get(class1);
