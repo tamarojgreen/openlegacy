@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.GenerateUtil;
@@ -19,10 +20,10 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.render.DefaultTerminalSnapshotXmlRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
-import org.openlegacy.terminal.render.DefaultTerminalSnapshotXmlRenderer;
 import org.openlegacy.utils.FileUtils;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.ZipUtil;
@@ -236,35 +237,41 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return targetZip;
 	}
 
-	public void generateScreens(File trailFile, File sourceDirectory, String packageDirectoryName, File templatesDir,
-			OverrideConfirmer overrideConfirmer, File analyzerContextFile, File projectPath) throws GenerationException {
+	public void generateScreens(GenerateScreenRequest generateScreenRequest) throws GenerationException {
+		// initialize application context
+		getApplicationContext(generateScreenRequest.getAnalyzerContextFile());
 
-		getGenerateUtil().setTemplateDirectory(templatesDir);
+		getGenerateUtil().setTemplateDirectory(generateScreenRequest.getCodeGenerationTemplatesDirectory());
 
-		ApplicationContext applicationContext = getApplicationContext(analyzerContextFile);
 		TerminalSnapshotsAnalyzer snapshotsAnalyzer = applicationContext.getBean(TerminalSnapshotsAnalyzer.class);
 
 		FileInputStream trailInputStream;
 		try {
-			trailInputStream = new FileInputStream(trailFile.getAbsolutePath());
+			trailInputStream = new FileInputStream(generateScreenRequest.getTrailFile().getAbsolutePath());
 		} catch (FileNotFoundException e1) {
 			throw (new GenerationException(e1));
 		}
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trailInputStream);
 		Collection<ScreenEntityDefinition> screenDefinitions = screenEntitiesDefinitions.values();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(packageDirectoryName.replaceAll("/", "."));
+			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateScreenRequest.getPackageDirectory().replaceAll(
+					"/", "."));
+
+			generateScreenRequest.getEntityUserInteraction().customizeEntity(screenEntityDefinition);
+
 			try {
-				File packageDir = new File(sourceDirectory, packageDirectoryName);
+				File packageDir = new File(generateScreenRequest.getSourceDirectory(),
+						generateScreenRequest.getPackageDirectory());
+
 				String entityName = screenEntityDefinition.getEntityName();
 				File file = new File(packageDir, MessageFormat.format("{0}.java", entityName));
 				if (file.exists()) {
-					boolean override = overrideConfirmer.isOverride(file);
+					boolean override = generateScreenRequest.getEntityUserInteraction().isOverride(file);
 					if (!override) {
 						continue;
 					}
 				}
-				generateJava(screenEntityDefinition, file);
+				generateJava(screenEntityDefinition, file, generateScreenRequest.getEntityUserInteraction());
 				generateAspect(file);
 
 				File screenResourcesDir = new File(packageDir, entityName + "-resources");
@@ -289,7 +296,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		generateTest(trailFile, screenDefinitions, projectPath);
+		generateTest(generateScreenRequest.getTrailFile(), screenDefinitions, generateScreenRequest.getProjectPath());
 
 	}
 
@@ -315,8 +322,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	private void generateJava(ScreenEntityDefinition screenEntityDefinition, File file) throws FileNotFoundException,
-			TemplateException, IOException {
+	private void generateJava(ScreenEntityDefinition screenEntityDefinition, File file,
+			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction) throws FileNotFoundException, TemplateException,
+			IOException {
+
 		FileOutputStream fos = null;
 		try {
 			file.getParentFile().mkdirs();
@@ -384,7 +393,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		getApplicationContext(analyzerContextFile).getBean(SnapshotsAnalyzer.class);
 	}
 
-	public void createWebPage(GeneratePageRequest generatePageRequest) throws GenerationException {
+	/**
+	 * Generates all required file for a Spring MVC framework
+	 */
+	public void generateWebPage(GeneratePageRequest generatePageRequest) throws GenerationException {
 
 		ScreenEntityDefinition screenEntityDefinition = null;
 		try {
@@ -405,7 +417,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		screenEntityWebGenerator.generateAll(generatePageRequest, screenEntityDefinition);
 	}
 
-	public void createCustomTemplatesDir(File projectPath) {
+	public void createCustomCodeGenerationTemplatesDirectory(File projectPath) {
 		File templatesDir = new File(projectPath, TEMPLATES_DIR);
 		templatesDir.mkdirs();
 		PathMatchingResourcePatternResolver pathResolver = new PathMatchingResourcePatternResolver();

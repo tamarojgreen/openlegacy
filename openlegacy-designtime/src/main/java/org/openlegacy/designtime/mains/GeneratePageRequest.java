@@ -1,5 +1,7 @@
 package org.openlegacy.designtime.mains;
 
+import org.openlegacy.designtime.UserInteraction;
+
 import java.io.File;
 
 public class GeneratePageRequest {
@@ -10,7 +12,7 @@ public class GeneratePageRequest {
 	private String packageDirectoryName;
 	private File templatesDir;
 	private boolean generateHelp;
-	private OverrideConfirmer overrideConfirmer;
+	private UserInteraction userInteraction;
 
 	public File getProjectDir() {
 		return projectDir;
@@ -52,12 +54,12 @@ public class GeneratePageRequest {
 		this.templatesDir = templatesDir;
 	}
 
-	public OverrideConfirmer getOverrideConfirmer() {
-		return overrideConfirmer;
+	public UserInteraction getUserInteraction() {
+		return userInteraction;
 	}
 
-	public void setOverrideConfirmer(OverrideConfirmer overrideConfirmer) {
-		this.overrideConfirmer = overrideConfirmer;
+	public void setUserInteraction(UserInteraction userInteraction) {
+		this.userInteraction = userInteraction;
 	}
 
 	public boolean isGenerateHelp() {

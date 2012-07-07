@@ -51,7 +51,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 					if (treePath.getLastSegment() instanceof ICompilationUnit) {
 						final IFile screenEntitySourceFile = (IFile)((ICompilationUnit)treePath.getLastSegment()).getResource();
 
-						EclipseDesignTimeExecuter.instance().createWebPage(screenEntitySourceFile, getSourceFolder(),
+						EclipseDesignTimeExecuter.instance().generateWebPage(screenEntitySourceFile, getSourceFolder(),
 								getPackageValue(), GenerateWebPageDialog.this, generateHelp);
 
 						monitor.worked(1);

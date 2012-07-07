@@ -37,13 +37,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
-import org.openlegacy.designtime.mains.OverrideConfirmer;
+import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
 
 import java.io.File;
 
-public abstract class AbstractGenerateDialog extends Dialog implements OverrideConfirmer {
+public abstract class AbstractGenerateDialog extends Dialog implements UserInteraction {
 
 	private Text sourceFolderPathText;
 	private IPackageFragmentRoot sourceFolder;

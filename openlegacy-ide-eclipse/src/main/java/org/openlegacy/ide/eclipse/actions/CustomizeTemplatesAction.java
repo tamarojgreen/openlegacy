@@ -18,7 +18,7 @@ public class CustomizeTemplatesAction extends AbstractAction {
 				"Customize templates will create a directory names \"templates\" under your project, and will allow you to customize OpenLegacy generated code. Continue?");
 		if (cont) {
 			IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
-			EclipseDesignTimeExecuter.instance().copyTemplates(project);
+			EclipseDesignTimeExecuter.instance().copyCodeGenerationTemplates(project);
 		}
 
 	}

@@ -19,14 +19,13 @@ public interface DesignTimeExecuter {
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException;
 
-	void generateScreens(File trailFile, File sourceDirectory, String packageDir, File templatesDir,
-			OverrideConfirmer overrideConfirmer, File analyzerContextFile, File projectPath) throws GenerationException;
+	void generateScreens(GenerateScreenRequest generateScreenRequest) throws GenerationException;
 
 	void generateAspect(File javaFile);
 
 	void initialize(File analyzerContextFile);
 
-	void createWebPage(GeneratePageRequest generatePageRequest) throws GenerationException;
+	void generateWebPage(GeneratePageRequest generatePageRequest) throws GenerationException;
 
-	void createCustomTemplatesDir(File projectPath);
+	void createCustomCodeGenerationTemplatesDirectory(File projectPath);
 }

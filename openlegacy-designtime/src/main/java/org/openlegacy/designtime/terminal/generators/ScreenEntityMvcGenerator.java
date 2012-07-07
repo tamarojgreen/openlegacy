@@ -5,8 +5,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.GeneratePageRequest;
-import org.openlegacy.designtime.mains.OverrideConfirmer;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.modules.login.Login;
@@ -99,7 +99,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 		boolean isComposite = !isChild && entityDefinition.getChildEntitiesDefinitions().size() > 0;
 
-		OverrideConfirmer overrideConfirmer = generatePageRequest.getOverrideConfirmer();
+		UserInteraction overrideConfirmer = generatePageRequest.getUserInteraction();
 		FileOutputStream fos = null;
 		try {
 

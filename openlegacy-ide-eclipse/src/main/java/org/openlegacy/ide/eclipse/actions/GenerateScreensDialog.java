@@ -15,14 +15,16 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
 import org.openlegacy.ide.eclipse.util.Prefrences;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
 import java.text.MessageFormat;
 
-public class GenerateScreensDialog extends AbstractGenerateDialog {
+public class GenerateScreensDialog extends AbstractGenerateDialog implements EntityUserInteraction<ScreenEntityDefinition> {
 
 	protected GenerateScreensDialog(Shell shell, ISelection selection) {
 		super(shell, selection);
@@ -91,6 +93,17 @@ public class GenerateScreensDialog extends AbstractGenerateDialog {
 				getSourceFolder().getJavaProject().getProject().getName().length() + 1);
 		Prefrences.put(PluginConstants.DEFAULT_SOURCE_FOLDER_ID, sourceFolderOnly);
 		Prefrences.put(PluginConstants.DEFAULT_PACKAGE_JAVA, getPackageText().getText());
+	}
+
+	public void customizeEntity(final ScreenEntityDefinition screenEntityDefinition) {
+
+		Display.getDefault().syncExec(new Runnable() {
+
+			public void run() {
+				CustomizeScreenEntityDialog customizeDialog = new CustomizeScreenEntityDialog(getShell(), screenEntityDefinition);
+				customizeDialog.open();
+			}
+		});
 	}
 
 }
