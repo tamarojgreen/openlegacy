@@ -21,9 +21,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.openlegacy.ide.eclipse.PluginConstants;
+import org.openlegacy.designtime.PerfrencesConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
-import org.openlegacy.ide.eclipse.util.Prefrences;
+
+import java.io.File;
+import java.text.MessageFormat;
 
 public class GenerateWebPageDialog extends AbstractGenerateDialog {
 
@@ -89,25 +91,33 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 
 	@Override
 	protected void loadPrefrences() {
-		ICompilationUnit selectionJavaSource = (ICompilationUnit)((IStructuredSelection)getSelection()).getFirstElement();
-		String prefrenceSourceFolderPath = Prefrences.get(PluginConstants.DEFAULT_SOURCE_FOLDER_ID,
-				PluginConstants.DEFAULT_SOURCE_FOLDER);
-		IProject project = selectionJavaSource.getResource().getProject();
-		getSourceFolderPathText().setText(project.getName() + "\\" + prefrenceSourceFolderPath);
+		ICompilationUnit selectionFile = (ICompilationUnit)((IStructuredSelection)getSelection()).getFirstElement();
+
+		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
+		IProject project = selectionFile.getResource().getProject();
+
+		String prefrenceSourceFolderPath = designtimeExecuter.getPerference(project, PerfrencesConstants.API_SOURCE_FOLDER);
+		getSourceFolderPathText().setText(
+				MessageFormat.format("{0}{1}{2}", project.getName(), File.separator, prefrenceSourceFolderPath));
+
 		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(project);
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));
 
-		String prefrencePackage = Prefrences.get(PluginConstants.DEFAULT_PACKAGE_JAVA, "");
-		// default web package should with ".web" at the end
-		String prefrenceWebPackage = Prefrences.get(PluginConstants.DEFAULT_PACKAGE_WEB, prefrencePackage + ".web");
-		getPackageText().setText(prefrenceWebPackage);
+		String prefrencePackage = designtimeExecuter.getPerference(project, PerfrencesConstants.WEB_PACKAGE);
+		getPackageText().setText(prefrencePackage);
 	}
 
 	@Override
 	protected void savePreferences() {
+		ICompilationUnit selectionFile = (ICompilationUnit)((IStructuredSelection)getSelection()).getFirstElement();
+
 		String sourceFolderOnly = getSourceFolderPathText().getText().substring(
 				getSourceFolder().getJavaProject().getProject().getName().length() + 1);
-		Prefrences.put(PluginConstants.DEFAULT_SOURCE_FOLDER_ID, sourceFolderOnly);
-		Prefrences.put(PluginConstants.DEFAULT_PACKAGE_WEB, getPackageText().getText());
+
+		IProject project = selectionFile.getResource().getProject();
+		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
+
+		designtimeExecuter.savePerference(project, PerfrencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
+		designtimeExecuter.savePerference(project, PerfrencesConstants.WEB_PACKAGE, getPackageText().getText());
 	}
 }

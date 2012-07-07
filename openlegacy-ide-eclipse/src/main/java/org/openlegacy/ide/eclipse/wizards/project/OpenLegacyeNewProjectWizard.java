@@ -17,10 +17,8 @@ import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
-import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
-import org.openlegacy.ide.eclipse.util.Prefrences;
 
 public class OpenLegacyeNewProjectWizard extends BasicNewResourceWizard {
 
@@ -54,8 +52,6 @@ public class OpenLegacyeNewProjectWizard extends BasicNewResourceWizard {
 		IWorkspace w = ResourcesPlugin.getWorkspace();
 		final IProject projHandle = w.getRoot().getProject(projectName);
 		final IProjectDescription desc = w.newProjectDescription(projHandle.getName());
-
-		Prefrences.put(PluginConstants.DEFAULT_PACKAGE_JAVA, defaultPackageName);
 
 		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 

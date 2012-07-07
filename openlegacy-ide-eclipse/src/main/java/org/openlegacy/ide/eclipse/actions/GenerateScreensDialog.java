@@ -2,6 +2,7 @@ package org.openlegacy.ide.eclipse.actions;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -17,9 +18,9 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.designtime.EntityUserInteraction;
+import org.openlegacy.designtime.PerfrencesConstants;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
-import org.openlegacy.ide.eclipse.util.Prefrences;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
@@ -77,23 +78,33 @@ public class GenerateScreensDialog extends AbstractGenerateDialog implements Ent
 	@Override
 	protected void loadPrefrences() {
 		IFile selectionFile = (IFile)((IStructuredSelection)getSelection()).getFirstElement();
-		String prefrenceSourceFolderPath = Prefrences.get(PluginConstants.DEFAULT_SOURCE_FOLDER_ID,
-				PluginConstants.DEFAULT_SOURCE_FOLDER);
+
+		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
+		IProject project = selectionFile.getProject();
+
+		String prefrenceSourceFolderPath = designtimeExecuter.getPerference(project, PerfrencesConstants.API_SOURCE_FOLDER);
 		getSourceFolderPathText().setText(
-				MessageFormat.format("{0}{1}{2}", selectionFile.getProject().getName(), File.separator, prefrenceSourceFolderPath));
-		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(selectionFile.getProject());
+				MessageFormat.format("{0}{1}{2}", project.getName(), File.separator, prefrenceSourceFolderPath));
+
+		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(project);
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));
 
-		String prefrencePackage = Prefrences.get(PluginConstants.DEFAULT_PACKAGE_JAVA, "");
+		String prefrencePackage = designtimeExecuter.getPerference(project, PerfrencesConstants.API_PACKAGE);
 		getPackageText().setText(prefrencePackage);
 	}
 
 	@Override
 	protected void savePreferences() {
+		IFile selectionFile = (IFile)((IStructuredSelection)getSelection()).getFirstElement();
+
 		String sourceFolderOnly = getSourceFolderPathText().getText().substring(
 				getSourceFolder().getJavaProject().getProject().getName().length() + 1);
-		Prefrences.put(PluginConstants.DEFAULT_SOURCE_FOLDER_ID, sourceFolderOnly);
-		Prefrences.put(PluginConstants.DEFAULT_PACKAGE_JAVA, getPackageText().getText());
+
+		IProject project = selectionFile.getProject();
+		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
+
+		designtimeExecuter.savePerference(project, PerfrencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
+		designtimeExecuter.savePerference(project, PerfrencesConstants.API_PACKAGE, getPackageText().getText());
 	}
 
 	public boolean customizeEntity(final ScreenEntityDefinition screenEntityDefinition) {

@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.EntityUserInteraction;
+import org.openlegacy.designtime.PerfrencesConstants;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.GenerateUtil;
@@ -46,6 +47,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -72,9 +74,13 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String TEST_SOURCE_DIR = "test/main/java";
 
+	private static final String PERFERENCES_FILE = "ol.perferences";
+
 	private ApplicationContext applicationContext;
 
 	private File designtimeContextFile;
+
+	private Map<File, ProjectPerferences> projectsPerferences = new HashMap<File, ProjectPerferences>();
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
 		File targetZip = extractTemplate(projectCreationRequest.getTemplateName(), projectCreationRequest.getBaseDir());
@@ -97,6 +103,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		updateHostPropertiesFile(projectCreationRequest, targetPath);
 
+		savePerference(targetPath, PerfrencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
+		savePerference(targetPath, PerfrencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
 		targetZip.delete();
 	}
 
@@ -449,4 +457,30 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			IOUtils.closeQuietly(fos);
 		}
 	}
+
+	public String getPerferences(File projectPath, String key) {
+		ProjectPerferences perferences = getPerferences(projectPath);
+		return perferences.get(key);
+	}
+
+	public void savePerference(File projectPath, String key, String value) {
+		ProjectPerferences perferences = getPerferences(projectPath);
+		perferences.put(key, value);
+
+	}
+
+	private ProjectPerferences getPerferences(File projectPath) {
+		ProjectPerferences perferences = projectsPerferences.get(projectPath);
+		if (perferences != null) {
+			return perferences;
+		}
+
+		File prefFile = new File(projectPath, PERFERENCES_FILE);
+
+		ProjectPerferences perfernces = new SimpleProjectPerferences(prefFile);
+		projectsPerferences.put(prefFile, perferences);
+
+		return perfernces;
+	}
+
 }

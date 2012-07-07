@@ -132,6 +132,14 @@ public class EclipseDesignTimeExecuter {
 		} catch (CoreException e) {
 			logger.fatal(e);
 		}
+	}
 
+	public String getPerference(IProject project, String key) {
+		return designTimeExecuter.getPerferences(PathsUtil.toProjectOsLocation(project), key);
+
+	}
+
+	public void savePerference(IProject project, String key, String value) {
+		designTimeExecuter.savePerference(PathsUtil.toProjectOsLocation(project), key, value);
 	}
 }

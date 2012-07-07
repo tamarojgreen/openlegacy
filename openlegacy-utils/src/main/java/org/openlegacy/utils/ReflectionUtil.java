@@ -42,4 +42,14 @@ public class ReflectionUtil {
 			throw (new IllegalArgumentException(e));
 		}
 	}
+
+	public static Object getStaticFieldValue(Class<?> class1, String value) {
+		try {
+			Field field = class1.getField(value);
+			return field.get(class1.newInstance());
+		} catch (Exception e) {
+			// do nothing
+		}
+		return null;
+	}
 }

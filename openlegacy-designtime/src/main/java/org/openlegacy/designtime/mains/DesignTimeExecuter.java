@@ -28,4 +28,8 @@ public interface DesignTimeExecuter {
 	void generateWebPage(GeneratePageRequest generatePageRequest) throws GenerationException;
 
 	void createCustomCodeGenerationTemplatesDirectory(File projectPath);
+
+	String getPerferences(File projectPath, String key);
+
+	void savePerference(File projectPath, String key, String value);
 }
