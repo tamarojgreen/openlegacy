@@ -1,11 +1,18 @@
 package org.openlegacy.ide.eclipse;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.MessageConsole;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.osgi.framework.BundleContext;
+
+import java.io.PrintStream;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -17,6 +24,8 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
+
+	private MessageConsole olConsole;
 
 	/**
 	 * The constructor
@@ -33,6 +42,21 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 		EclipseDesignTimeExecuter.instance().initialize();
+
+		olConsole = new MessageConsole("OpenLegacy", new ImageDescriptor() {
+
+			@Override
+			public ImageData getImageData() {
+				return new ImageData("icons/openlegacy.png");
+			}
+		});
+		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] { olConsole });
+		ConsolePlugin.getDefault().getConsoleManager().showConsoleView(olConsole);
+
+		MessageConsoleStream stream = olConsole.newMessageStream();
+
+		System.setOut(new PrintStream(stream));
+		System.setErr(new PrintStream(stream));
 	}
 
 	/*
