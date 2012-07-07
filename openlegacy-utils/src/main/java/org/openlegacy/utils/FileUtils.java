@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.SystemUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,5 +79,25 @@ public class FileUtils {
 			IOUtils.closeQuietly(output);
 		}
 		return file;
+	}
+
+	/**
+	 * Deletes the file if it's empty
+	 * 
+	 * @param file
+	 */
+	public static void deleteEmptyFile(File file) {
+		if (file == null) {
+			return;
+		}
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			byte[] bytes = IOUtils.toByteArray(fis);
+			if (bytes.length == 0) {
+				org.apache.commons.io.FileUtils.deleteQuietly(file);
+			}
+		} catch (IOException e) {
+			// do nothing
+		}
 	}
 }

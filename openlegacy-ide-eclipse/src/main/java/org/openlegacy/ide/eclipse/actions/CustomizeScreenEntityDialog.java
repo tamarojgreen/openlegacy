@@ -39,15 +39,15 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 		parent = new Composite(parent, SWT.NONE);
 
+		parent.getShell().setText(PluginConstants.TITLE + "- Generate screens API");
+
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		GridData gd = new GridData();
 		gd.widthHint = 850;
-		gd.heightHint = 600;
+		gd.heightHint = 480;
 		parent.setLayoutData(gd);
 		parent.setLayout(gridLayout);
-
-		parent.getShell().setText(PluginConstants.TITLE);
 
 		Label labelPackage = new Label(parent, SWT.NULL);
 		labelPackage.setText("Entity Name:");
@@ -57,13 +57,17 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 		entityNameTxt.setText(screenEntityDefinition.getEntityName());
 
+		// space
+		Label label = new Label(parent, SWT.NONE);
+		label.setText(" ");
+
 		TerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		renderer.render(screenEntityDefinition.getSnapshot(), baos);
 		Canvas canvas = new Canvas(parent, SWT.NONE);
 		gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
 		gd.widthHint = 850;
-		gd.heightHint = 600;
+		gd.heightHint = 480;
 		gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 

@@ -13,6 +13,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.designtime.EntityUserInteraction;
@@ -95,15 +96,33 @@ public class GenerateScreensDialog extends AbstractGenerateDialog implements Ent
 		Prefrences.put(PluginConstants.DEFAULT_PACKAGE_JAVA, getPackageText().getText());
 	}
 
-	public void customizeEntity(final ScreenEntityDefinition screenEntityDefinition) {
+	public boolean customizeEntity(final ScreenEntityDefinition screenEntityDefinition) {
 
+		final BooleanContainer generate = new BooleanContainer();
 		Display.getDefault().syncExec(new Runnable() {
 
 			public void run() {
 				CustomizeScreenEntityDialog customizeDialog = new CustomizeScreenEntityDialog(getShell(), screenEntityDefinition);
-				customizeDialog.open();
+				int result = customizeDialog.open();
+				if (result == Window.CANCEL) {
+					generate.setBooleanValue(false);
+				}
 			}
 		});
+		return generate.getBooleanValue();
 	}
 
+	private static class BooleanContainer {
+
+		boolean booleanValue = true;
+
+		public void setBooleanValue(boolean booleanValue) {
+			this.booleanValue = booleanValue;
+		}
+
+		public boolean getBooleanValue() {
+			return booleanValue;
+
+		}
+	}
 }

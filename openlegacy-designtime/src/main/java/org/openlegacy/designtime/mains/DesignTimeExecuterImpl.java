@@ -95,12 +95,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		renameProject(projectCreationRequest.getProjectName(), targetPath);
 		renameLaunchers(projectCreationRequest.getProjectName(), targetPath);
 
-		updateHostpropertiesFile(projectCreationRequest, targetPath);
+		updateHostPropertiesFile(projectCreationRequest, targetPath);
 
 		targetZip.delete();
 	}
 
-	private static void updateHostpropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath)
+	private static void updateHostPropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath)
 			throws IOException, FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
 		String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
@@ -257,22 +257,28 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateScreenRequest.getPackageDirectory().replaceAll(
 					"/", "."));
 
-			generateScreenRequest.getEntityUserInteraction().customizeEntity(screenEntityDefinition);
+			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateScreenRequest.getEntityUserInteraction();
+			if (entityUserInteraction != null) {
+				boolean generate = entityUserInteraction.customizeEntity(screenEntityDefinition);
+				if (!generate) {
+					continue;
+				}
+			}
 
 			try {
 				File packageDir = new File(generateScreenRequest.getSourceDirectory(),
 						generateScreenRequest.getPackageDirectory());
 
 				String entityName = screenEntityDefinition.getEntityName();
-				File file = new File(packageDir, MessageFormat.format("{0}.java", entityName));
-				if (file.exists()) {
-					boolean override = generateScreenRequest.getEntityUserInteraction().isOverride(file);
+				File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
+				if (targetJavaFile.exists()) {
+					boolean override = entityUserInteraction != null && entityUserInteraction.isOverride(targetJavaFile);
 					if (!override) {
 						continue;
 					}
 				}
-				generateJava(screenEntityDefinition, file, generateScreenRequest.getEntityUserInteraction());
-				generateAspect(file);
+				generateJava(screenEntityDefinition, targetJavaFile);
+				generateAspect(targetJavaFile);
 
 				File screenResourcesDir = new File(packageDir, entityName + "-resources");
 				screenResourcesDir.mkdir();
@@ -308,23 +314,27 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		TrailJunitGenerator generator = applicationContext.getBean(TrailJunitGenerator.class);
 		File testSourceDirectory = new File(projectPath, TEST_SOURCE_DIR);
 		File testsDirectory = new File(testSourceDirectory, "tests");
+		File junitFile = null;
 		try {
 			testsDirectory.mkdirs();
 			String fileWithoutAnyExtension = FileUtils.fileWithoutAnyExtension(trailFile.getName());
 			String testName = StringUtils.capitalize(StringUtil.toClassName(fileWithoutAnyExtension) + "Test");
-			FileOutputStream fos = new FileOutputStream(new File(testsDirectory, testName + ".java"));
+			junitFile = new File(testsDirectory, testName + ".java");
+			FileOutputStream fos = new FileOutputStream(junitFile);
 			generator.generate(screenDefinitions, testName, fos);
 		} catch (TemplateException e) {
 			throw (new GenerationException(e));
 		} catch (IOException e) {
 			throw (new GenerationException(e));
+		} finally {
+			FileUtils.deleteEmptyFile(junitFile);
+
 		}
 
 	}
 
-	private void generateJava(ScreenEntityDefinition screenEntityDefinition, File file,
-			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction) throws FileNotFoundException, TemplateException,
-			IOException {
+	private void generateJava(ScreenEntityDefinition screenEntityDefinition, File file) throws FileNotFoundException,
+			TemplateException, IOException {
 
 		FileOutputStream fos = null;
 		try {
@@ -336,21 +346,24 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			screenEntityJavaGenerator.generate(screenEntityDefinition, fos);
 		} finally {
 			IOUtils.closeQuietly(fos);
+			FileUtils.deleteEmptyFile(file);
 		}
 	}
 
 	private static void generateResource(TerminalSnapshot terminalSnapshot, String entityName, File screenResourcesDir,
 			TerminalSnapshotRenderer renderer) {
 		FileOutputStream fos = null;
+		File renderedScreenResourceFile = null;
 		try {
-			File screenTextFile = new File(screenResourcesDir, MessageFormat.format("{0}.{1}", entityName,
+			renderedScreenResourceFile = new File(screenResourcesDir, MessageFormat.format("{0}.{1}", entityName,
 					renderer.getFileFormat()));
-			fos = new FileOutputStream(screenTextFile);
+			fos = new FileOutputStream(renderedScreenResourceFile);
 			renderer.render(terminalSnapshot, fos);
 		} catch (FileNotFoundException e) {
 			throw (new GenerationException(e));
 		} finally {
 			IOUtils.closeQuietly(fos);
+			FileUtils.deleteEmptyFile(renderedScreenResourceFile);
 		}
 	}
 

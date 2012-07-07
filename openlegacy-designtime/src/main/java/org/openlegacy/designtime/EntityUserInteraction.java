@@ -11,5 +11,5 @@ import org.openlegacy.EntityDefinition;
  */
 public interface EntityUserInteraction<E extends EntityDefinition<?>> extends UserInteraction {
 
-	void customizeEntity(E entityDefinition);
+	boolean customizeEntity(E entityDefinition);
 }

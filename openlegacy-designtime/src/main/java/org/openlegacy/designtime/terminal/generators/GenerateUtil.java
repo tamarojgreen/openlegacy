@@ -71,14 +71,14 @@ public class GenerateUtil {
 					template = configuration.getTemplate("/" + templateName);
 				}
 			}
-			
+
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			OutputStreamWriter output = new OutputStreamWriter(baos);
 			template.process(model, output);
-			
+
 			// only write the file if it has content (sometimes using empty template)
 			byte[] bytes = baos.toByteArray();
-			if (bytes.length > 0){
+			if (bytes.length > 0) {
 				out.write(bytes);
 			}
 		} catch (TemplateException e) {
