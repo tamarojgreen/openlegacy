@@ -7,6 +7,9 @@ package org.openlegacy;
  * registry
  * 
  * It is possible to define more field types by implementing this interface
+ * 
+ * @see org.openlegacy.modules.login.UserField
+ * @see org.openlegacy.modules.SessionModule
  */
 public interface FieldType {
 
