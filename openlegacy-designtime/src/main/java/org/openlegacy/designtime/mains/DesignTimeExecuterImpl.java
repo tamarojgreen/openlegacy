@@ -43,6 +43,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.text.MessageFormat;
@@ -74,7 +75,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String TEST_SOURCE_DIR = "test/main/java";
 
-	private static final String PERFERENCES_FILE = "ol.perferences";
+	private static final String PERFERENCES_FILE = ".perferences";
 
 	private ApplicationContext applicationContext;
 
@@ -438,7 +439,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		screenEntityWebGenerator.generateAll(generatePageRequest, screenEntityDefinition);
 	}
 
-	public void createCustomCodeGenerationTemplatesDirectory(File projectPath) {
+	public void copyCodeGenerationTemplates(File projectPath) {
 		File templatesDir = new File(projectPath, TEMPLATES_DIR);
 		templatesDir.mkdirs();
 		PathMatchingResourcePatternResolver pathResolver = new PathMatchingResourcePatternResolver();
@@ -481,6 +482,23 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		projectsPerferences.put(prefFile, perferences);
 
 		return perfernces;
+	}
+
+	public void copyDesigntimeContext(File projectPath) {
+		File customDesigntimeFile = new File(projectPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
+		customDesigntimeFile.getParentFile().mkdirs();
+
+		FileOutputStream fos = null;
+		try {
+			InputStream defaultDesigntimeStream = getClass().getResourceAsStream(
+					DesignTimeExecuter.DEFAULT_DESIGNTIME_CONTEXT_FILE_NAME);
+			fos = new FileOutputStream(customDesigntimeFile);
+			IOUtils.copy(defaultDesigntimeStream, fos);
+		} catch (IOException e) {
+			throw (new GenerationException("Error creating custom templates", e));
+		} finally {
+			IOUtils.closeQuietly(fos);
+		}
 	}
 
 }

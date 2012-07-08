@@ -115,7 +115,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 	}
 
 	private void checkAnalyzerContextChange(IResource resource) {
-		if (resource instanceof IFile && resource.getFullPath().toString().contains(DesignTimeExecuter.ANALYZER_DEFAULT_PATH)) {
+		if (resource instanceof IFile && resource.getFullPath().toString().contains(DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH)) {
 			EclipseDesignTimeExecuter.instance().initialize(PathsUtil.toOsLocation(resource));
 			try {
 				getProject().refreshLocal(IResource.DEPTH_INFINITE, null);

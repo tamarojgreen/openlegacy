@@ -17,7 +17,9 @@
 	<bean id="xmlRenderer" class="org.openlegacy.terminal.render.DefaultTerminalSnapshotXmlRenderer" />
 		
 	<import resource="classpath:/META-INF/default-actions-context.xml" />
-	 
+
+	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry" />
+	
 	<bean class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsOrganizer" p:matchingPercent="93" />
 
 	<bean id="screenEntityDefinitionsBuilder" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultScreenEntityDefinitionsBuilder">

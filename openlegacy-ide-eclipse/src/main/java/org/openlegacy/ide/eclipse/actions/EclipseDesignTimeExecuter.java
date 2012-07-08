@@ -60,7 +60,7 @@ public class EclipseDesignTimeExecuter {
 	public void generateScreens(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
 			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction) throws GenerationException {
 		File anaylzerContextFile = new File(trailFile.getProject().getLocation().toOSString(),
-				DesignTimeExecuter.ANALYZER_DEFAULT_PATH);
+				DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
 		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
 		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
 
@@ -126,7 +126,7 @@ public class EclipseDesignTimeExecuter {
 
 	public void copyCodeGenerationTemplates(IProject project) {
 		File projectPath = PathsUtil.toOsLocation(project);
-		designTimeExecuter.createCustomCodeGenerationTemplatesDirectory(projectPath);
+		designTimeExecuter.copyCodeGenerationTemplates(projectPath);
 		try {
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
@@ -141,5 +141,15 @@ public class EclipseDesignTimeExecuter {
 
 	public void savePerference(IProject project, String key, String value) {
 		designTimeExecuter.savePerference(PathsUtil.toProjectOsLocation(project), key, value);
+	}
+
+	public void copyDesigntimeContext(IProject project) {
+		File projectPath = PathsUtil.toOsLocation(project);
+		designTimeExecuter.copyDesigntimeContext(projectPath);
+		try {
+			project.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e) {
+			logger.fatal(e);
+		}
 	}
 }

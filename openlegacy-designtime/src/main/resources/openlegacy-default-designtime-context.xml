@@ -12,8 +12,6 @@
 
 	<import resource="classpath:/openlegacy-common-designtime-context.xml" />
 
-	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry" />
-
 	<bean id="textTranslator" class="org.openlegacy.designtime.analyzer.support.EmptyTranslator" />
 			
 	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" p:trim="true">
@@ -27,7 +25,7 @@
 				<bean parent="ruleDefinition" p:droolsFile="rules/screen-builder.bpmn" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/package.drl" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-manage-screen-entities.drl" />
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-window.drl" p:ruleId="identify-window">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-window.drl" p:ruleId="identify-window" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -70,7 +68,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-find-screen-name.drl" p:ruleId="find-screen-name">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-find-screen-name.drl" p:ruleId="find-screen-name" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -87,7 +85,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-editable-fields.drl" p:ruleId="identify-editable-fields">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-editable-fields.drl" p:ruleId="identify-editable-fields" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -100,7 +98,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-menu.drl" p:ruleId="identify-menu">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-menu.drl" p:ruleId="identify-menu" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -116,7 +114,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-login.drl" p:ruleId="identify-login">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-login.drl" p:ruleId="identify-login" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -132,7 +130,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-tables.drl" p:ruleId="identify-tables">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-tables.drl" p:ruleId="identify-tables" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -153,7 +151,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-readonly-fields.drl" p:ruleId="identify-readonly-fields">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-readonly-fields.drl" p:ruleId="identify-readonly-fields" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<!-- Execution read-only fields with values -->
@@ -186,7 +184,7 @@
 					</property>
 				</bean>
 				
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-actions.drl" p:ruleId="identify-actions">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-actions.drl" p:ruleId="identify-actions" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -201,7 +199,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-natural-actions.drl" p:ruleId="identify-natural-actions">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-natural-actions.drl" p:ruleId="identify-natural-actions" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -216,7 +214,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-snapshots.drl" p:ruleId="identify-snapshots">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-snapshots.drl" p:ruleId="identify-snapshots" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -231,7 +229,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-boolean.drl" p:ruleId="identify-boolean">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-boolean.drl" p:ruleId="identify-boolean" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -246,7 +244,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-date.drl" p:ruleId="identify-date">
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-date.drl" p:ruleId="identify-date" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -259,9 +257,9 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-navigation.drl" p:ruleId="identify-navigation" />
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-child-screens.drl" p:ruleId="identify-child-screens" />
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-lookup-screens.drl" p:ruleId="identify-lookup-screens" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-navigation.drl" p:ruleId="identify-navigation" p:enabled="true" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-child-screens.drl" p:ruleId="identify-child-screens" p:enabled="true" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-lookup-screens.drl" p:ruleId="identify-lookup-screens"  p:enabled="true" />
 			</list>
 		</property>
 	</bean>

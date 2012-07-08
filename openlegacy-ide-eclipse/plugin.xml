@@ -16,11 +16,18 @@
             </separator>
          </menu>
          <action
-               label="Customize templates..."
-               class="org.openlegacy.ide.eclipse.actions.CustomizeTemplatesAction"
+               label="Customize code templates..."
+               class="org.openlegacy.ide.eclipse.actions.CustomizeCodeTemplatesAction"
                menubarPath="org.openlegacy.ied.eclipse.right_menu/customize"
                enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.customizeTemplate">
+               id="org.openlegacy.ide.eclipse.actions.customizeCodeTemplate">
+         </action>
+         <action
+               label="Customize Analyzer rules..."
+               class="org.openlegacy.ide.eclipse.actions.CustomizeRulesAction"
+               menubarPath="org.openlegacy.ied.eclipse.right_menu/customize"
+               enablesFor="1"
+               id="org.openlegacy.ide.eclipse.actions.customizeRules">
          </action>
       </objectContribution>
       <objectContribution
