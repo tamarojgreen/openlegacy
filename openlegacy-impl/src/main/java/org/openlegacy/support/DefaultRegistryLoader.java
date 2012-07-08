@@ -76,12 +76,10 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 
 	private static void fillChildEntities(final EntitiesRegistry<?, ?> entitiesRegistry) {
 		@SuppressWarnings("unchecked")
-		Collection<Class<?>> entities = (Collection<Class<?>>)entitiesRegistry.getEntitiesDefinitions();
-		for (Class<?> class1 : entities) {
+		Collection<EntityDefinition<?>> entities = (Collection<EntityDefinition<?>>)entitiesRegistry.getEntitiesDefinitions();
+		for (final EntityDefinition<?> entityDefinition : entities) {
 
-			final EntityDefinition<?> entityDefinition = entitiesRegistry.get(class1);
-
-			ReflectionUtils.doWithFields(class1, new FieldCallback() {
+			ReflectionUtils.doWithFields(entityDefinition.getEntityClass(), new FieldCallback() {
 
 				public void doWith(Field field) {
 					if (TypesUtil.isPrimitive(field.getType())) {

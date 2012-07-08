@@ -69,7 +69,7 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 	}
 
 	private static File initWorkingDir() {
-		File workingDir = new File(System.getProperty("user.home") + "/.h3270");
+		File workingDir = new File(System.getProperty("user.home") + "/.openlegacy/.h3270");
 		workingDir.mkdirs();
 		return workingDir;
 	}

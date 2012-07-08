@@ -151,7 +151,7 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 	}
 
 	private static File initWorkingDir() {
-		File workingDir = new File(System.getProperty("user.home") + "/.applinx");
+		File workingDir = new File(System.getProperty("user.home") + "/.openlegacy/.applinx");
 		workingDir.mkdirs();
 		GXSystem.setProperty("com.sabratec.gxhome", workingDir.getAbsolutePath());
 
