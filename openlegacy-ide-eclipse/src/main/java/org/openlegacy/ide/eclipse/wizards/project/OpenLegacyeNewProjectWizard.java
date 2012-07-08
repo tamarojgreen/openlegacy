@@ -46,6 +46,7 @@ public class OpenLegacyeNewProjectWizard extends BasicNewResourceWizard {
 		String providerName = page.getProvider();
 		String hostName = page.getHostName();
 		String hostPort = page.getHostPort();
+		String codePage = page.getCodePage();
 
 		IPath workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
 
@@ -77,6 +78,7 @@ public class OpenLegacyeNewProjectWizard extends BasicNewResourceWizard {
 			projectCreationRequest.setDefaultPackageName(defaultPackageName);
 			projectCreationRequest.setHostName(hostName);
 			projectCreationRequest.setHostPort(Integer.parseInt(hostPort));
+			projectCreationRequest.setCodePage(codePage);
 			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
 		} catch (Exception e) {
 			logger.fatal(e.getMessage(), e);

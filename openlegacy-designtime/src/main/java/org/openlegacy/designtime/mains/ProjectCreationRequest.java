@@ -12,6 +12,7 @@ public class ProjectCreationRequest {
 
 	private String hostName;
 	private int hostPort;
+	private String codePage;
 
 	public String getTemplateName() {
 		return templateName;
@@ -71,5 +72,13 @@ public class ProjectCreationRequest {
 
 	public boolean isDemo() {
 		return templateName.endsWith("sample") || templateName.endsWith("demo");
+	}
+
+	public String getCodePage() {
+		return codePage;
+	}
+
+	public void setCodePage(String codePage) {
+		this.codePage = codePage;
 	}
 }

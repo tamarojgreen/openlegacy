@@ -19,6 +19,9 @@ public interface DesignTimeExecuter {
 	public static final String ASPECT_SUFFIX = "_Aspect.aj";
 	public static final String RESOURCES_FOLDER_SUFFIX = "-resources";
 
+	public static final int DEFAULT_PORT = 23;
+	public static final String DEFAULT_CODE_PAGE = "037";
+
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException;
 
 	void generateScreens(GenerateScreenRequest generateScreenRequest) throws GenerationException;

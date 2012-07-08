@@ -14,10 +14,9 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.openlegacy.designtime.mains.DesignTimeExecuter;
 
 public class OpenLegacyNewWizardPage extends WizardPage {
-
-	private static final int DEFAULT_PORT = 23;
 
 	private Combo templateName;
 
@@ -52,6 +51,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 
 	private Text hostName;
 	private Text hostPort;
+	private Text codePage;
 
 	/**
 	 * Constructor for SampleNewWizardPage.
@@ -172,8 +172,21 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 
 		hostPort = new Text(container, SWT.BORDER | SWT.SINGLE);
 
-		hostPort.setText(String.valueOf(DEFAULT_PORT));
+		hostPort.setText(String.valueOf(DesignTimeExecuter.DEFAULT_PORT));
 		hostPort.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				dialogChanged();
+			}
+		});
+
+		label = new Label(container, SWT.NULL);
+		label.setText("&Code Page:");
+
+		codePage = new Text(container, SWT.BORDER | SWT.SINGLE);
+
+		codePage.setText(String.valueOf(DesignTimeExecuter.DEFAULT_CODE_PAGE));
+		codePage.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
@@ -246,6 +259,10 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 			updateStatus("Host port should be numeric");
 			return;
 		}
+		if (codePage.getText().length() == 0) {
+			updateStatus("Code page must be specified");
+			return;
+		}
 
 		updateStatus(null);
 	}
@@ -291,5 +308,9 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 
 	public String getHostPort() {
 		return hostPort.getText();
+	}
+
+	public String getCodePage() {
+		return codePage.getText();
 	}
 }
