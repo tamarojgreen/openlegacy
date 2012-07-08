@@ -1,7 +1,6 @@
 package org.openlegacy.ide.eclipse;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -43,13 +42,7 @@ public class Activator extends AbstractUIPlugin {
 		plugin = this;
 		EclipseDesignTimeExecuter.instance().initialize();
 
-		olConsole = new MessageConsole("OpenLegacy", new ImageDescriptor() {
-
-			@Override
-			public ImageData getImageData() {
-				return new ImageData("icons/openlegacy.png");
-			}
-		});
+		olConsole = new MessageConsole("OpenLegacy", null);
 		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] { olConsole });
 		ConsolePlugin.getDefault().getConsoleManager().showConsoleView(olConsole);
 
