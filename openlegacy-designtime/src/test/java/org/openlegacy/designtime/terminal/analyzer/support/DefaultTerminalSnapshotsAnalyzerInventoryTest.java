@@ -39,4 +39,10 @@ public class DefaultTerminalSnapshotsAnalyzerInventoryTest extends AbstractAnaly
 
 	}
 
+	@Test
+	public void testInventoryAppTrail() throws TemplateException, IOException {
+		// TODO Take ~35 seconds - need to improve rules execution time
+		snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream("inventory_session.trail.xml"));
+	}
+
 }
