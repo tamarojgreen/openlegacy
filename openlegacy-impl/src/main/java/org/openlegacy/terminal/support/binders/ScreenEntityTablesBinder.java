@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
@@ -44,6 +45,11 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 		Map<String, ScreenTableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(screenEntity.getClass());
 
 		Set<String> tableFieldNames = tableDefinitions.keySet();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug(MessageFormat.format("Found {0} tables to bind to entity {1}: {2}", tableFieldNames.size(),
+					screenEntity.getClass().getName(), ArrayUtils.toString(tableFieldNames.toArray())));
+		}
 
 		for (String tableFieldName : tableFieldNames) {
 

@@ -8,6 +8,7 @@ import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
 
+import java.util.Collection;
 import java.util.List;
 
 public class ScreenEntityMethodInterceptor implements MethodInterceptor {
@@ -21,7 +22,7 @@ public class ScreenEntityMethodInterceptor implements MethodInterceptor {
 		Class<?> returnType = invocation.getMethod().getReturnType();
 
 		// exit if return type is primitive
-		if (TypesUtil.isPrimitive(returnType)) {
+		if (TypesUtil.isPrimitive(returnType) || Collection.class.isAssignableFrom(returnType)) {
 			return invocation.proceed();
 		}
 

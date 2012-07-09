@@ -16,6 +16,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
@@ -47,23 +48,26 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 				String packagePath = org.openlegacy.utils.ClassUtils.packageToResourcePath(thePackage);
 				resources = resourcePatternResolver.getResources("classpath*:" + packagePath + "/*.class");
 
+				// scan all classes with annotations
 				for (Resource resource : resources) {
-					String resourcePath = resource.getURI().toString();
-					String resourceRelativePath = resourcePath.substring(resourcePath.indexOf(packagePath),
-							resourcePath.indexOf(".class"));
-					String className = ClassUtils.convertResourcePathToClassName(resourceRelativePath);
-
-					Class<?> beanClass = Class.forName(className);
+					Class<?> beanClass = getClassFromResource(packagePath, resource);
 					if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass)) {
 						continue;
 					}
-					Class<?> currentBeanClass = Class.forName(className);
+					Class<?> currentBeanClass = beanClass;
+					// scan parent classes for annotations
 					while (currentBeanClass != Object.class) {
 						Annotation[] annotations = currentBeanClass.getAnnotations();
 						processAnnotations(annotationLoadersList, entitiesRegistry, beanClass, annotations);
 						currentBeanClass = currentBeanClass.getSuperclass();
 					}
-					handleChilds(fieldAnnotationLoaders, fieldLoaders, entitiesRegistry, beanClass);
+					// scan field for annotations
+					handleEntityAnnotationFields(fieldAnnotationLoaders, entitiesRegistry, beanClass);
+				}
+				// another cycle on all classes for scanning fields of registered types (List<TableRowClass> for example)
+				for (Resource resource : resources) {
+					Class<?> beanClass = getClassFromResource(packagePath, resource);
+					handleEntityFields(fieldLoaders, entitiesRegistry, beanClass);
 				}
 
 			} catch (Exception e) {
@@ -71,10 +75,25 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 			}
 		}
 
-		fillChildEntities(entitiesRegistry);
+		fillEntitiesReferences(entitiesRegistry);
 	}
 
-	private static void fillChildEntities(final EntitiesRegistry<?, ?> entitiesRegistry) {
+	private static Class<?> getClassFromResource(String packagePath, Resource resource) throws IOException,
+			ClassNotFoundException {
+		String resourcePath = resource.getURI().toString();
+		String resourceRelativePath = resourcePath.substring(resourcePath.indexOf(packagePath), resourcePath.indexOf(".class"));
+		String className = ClassUtils.convertResourcePathToClassName(resourceRelativePath);
+
+		Class<?> beanClass = Class.forName(className);
+		return beanClass;
+	}
+
+	/**
+	 * fills references to other entities
+	 * 
+	 * @param entitiesRegistry
+	 */
+	private static void fillEntitiesReferences(final EntitiesRegistry<?, ?> entitiesRegistry) {
 		@SuppressWarnings("unchecked")
 		Collection<EntityDefinition<?>> entities = (Collection<EntityDefinition<?>>)entitiesRegistry.getEntitiesDefinitions();
 		for (final EntityDefinition<?> entityDefinition : entities) {
@@ -127,15 +146,13 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		return annotationLoaders;
 	}
 
-	private static void handleChilds(final Collection<FieldAnnotationsLoader> fieldAnnotationLoadersCollection,
-			final Collection<FieldLoader> fieldLoaders, final EntitiesRegistry<?, ?> entitiesRegistry, final Class<?> beanClass) {
+	private static void handleEntityAnnotationFields(final Collection<FieldAnnotationsLoader> fieldAnnotationLoadersCollection,
+			final EntitiesRegistry<?, ?> entitiesRegistry, final Class<?> beanClass) {
 		final List<FieldAnnotationsLoader> fieldAnnotationLoaders = sortFieldAnnoationLoaders(fieldAnnotationLoadersCollection);
 
 		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
 
 			public void doWith(Field field) {
-
-				loadDefinition(entitiesRegistry, beanClass, fieldLoaders, field);
 				loadDefinitionFromAnnotations(entitiesRegistry, beanClass, fieldAnnotationLoaders, field);
 			}
 
@@ -156,6 +173,20 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 				}
 			}
 
+		});
+
+	}
+
+	private static void handleEntityFields(final Collection<FieldLoader> fieldLoaders,
+			final EntitiesRegistry<?, ?> entitiesRegistry, final Class<?> beanClass) {
+
+		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
+
+			public void doWith(Field field) {
+
+				loadDefinition(entitiesRegistry, beanClass, fieldLoaders, field);
+			}
+
 			private void loadDefinition(final EntitiesRegistry<?, ?> entitiesRegistry, final Class<?> beanClass,
 					final Collection<FieldLoader> fieldLoaders, Field field) {
 				for (FieldLoader fieldLoader : fieldLoaders) {
@@ -172,4 +203,5 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		});
 
 	}
+
 }
