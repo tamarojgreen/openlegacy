@@ -1,5 +1,6 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
+import org.apache.commons.collections.set.ListOrderedSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
@@ -35,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class CodeBasedDefinitionUtils {
 
@@ -180,7 +180,8 @@ public class CodeBasedDefinitionUtils {
 	}
 
 	public static Set<EntityDefinition<?>> getAllChildScreensDefinitions(ScreenPojoCodeModel codeModel, File packageDir) {
-		Set<EntityDefinition<?>> childs = new TreeSet<EntityDefinition<?>>();
+		@SuppressWarnings("unchecked")
+		Set<EntityDefinition<?>> childs = new ListOrderedSet();
 		childs.addAll(getChildScreensDefinitions(codeModel, packageDir));
 		for (EntityDefinition<?> childScreenDefinition : childs) {
 			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition.getAllChildEntitiesDefinitions();
