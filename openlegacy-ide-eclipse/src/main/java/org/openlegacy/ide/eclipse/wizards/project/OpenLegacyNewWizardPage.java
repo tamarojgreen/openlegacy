@@ -270,6 +270,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 	private void setEnabled(boolean enabled) {
 		this.projectNameTxt.setEnabled(enabled);
 		this.hostName.setEnabled(enabled);
+		this.codePage.setEnabled(enabled);
 		this.hostPort.setEnabled(enabled);
 		this.defaultPackageTxt.setEnabled(enabled);
 		this.providerName.setEnabled(enabled);
