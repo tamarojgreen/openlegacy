@@ -100,13 +100,16 @@ public class SnapshotUtils {
 				TerminalPosition fieldPosition = terminalField.getPosition();
 				TerminalPosition beforeStartPosition = new SimpleTerminalPosition(fieldPosition.getRow(),
 						fieldPosition.getColumn() - 1);
-				fieldsSeperators.add(beforeStartPosition);
+				if (beforeStartPosition.getColumn() > 0 && !fieldsSeperators.contains(beforeStartPosition)) {
+					fieldsSeperators.add(beforeStartPosition);
+				}
 
 				TerminalPosition afterEndPosition = new SimpleTerminalPosition(fieldPosition.getRow(), fieldPosition.getColumn()
-						+ terminalField.getLength());
+						+ terminalField.getLength() - 1);
 				// check if the position right after the field is empty, and not exceed right bound, is so add a field separator
 				if (terminalRow.getField(afterEndPosition.getColumn()) == null
-						&& afterEndPosition.getColumn() < screenSize.getColumns()) {
+						&& afterEndPosition.getColumn() < screenSize.getColumns() && afterEndPosition.getColumn() > 0
+						&& !fieldsSeperators.contains(afterEndPosition)) {
 					fieldsSeperators.add(afterEndPosition);
 				}
 			}
@@ -211,7 +214,7 @@ public class SnapshotUtils {
 	public static Color convertColor(org.openlegacy.terminal.Color color) {
 		switch (color) {
 			case BLUE:
-				return Color.BLUE;
+				return new Color(0x0586F7);
 			case RED:
 			case LIGHT_RED:
 				return Color.RED;

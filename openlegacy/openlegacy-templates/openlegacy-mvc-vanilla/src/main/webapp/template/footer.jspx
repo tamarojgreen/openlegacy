@@ -17,7 +17,7 @@
 		data-dojo-props="parseOnLoad: true, draggable:false,duration:600"></div>
 
 	<div id="sessionViewerDialog" data-dojo-type="dijit.Dialog"
-		style="width: 830px; height: 550px; overflow: auto;"
+		style="width: 850px; height: 460px; overflow: auto;"
 		title="Session Viewer"
 		data-dojo-props="parseOnLoad: true, duration:600"></div>
 
