@@ -3792,7 +3792,7 @@
         <row rowNumber="13">
             <field column="1"/>
             <field column="2" value="Email . . ."/>
-			<field column="20" length="25" value="chicago.wh@legacytoys.com" editable="true"/>
+            <field column="20" length="25" value="chicago.wh@legacytoys.com" editable="true"/>
         </row>
         <row rowNumber="14">
             <field column="1"/>
