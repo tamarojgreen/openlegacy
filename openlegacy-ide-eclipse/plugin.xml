@@ -32,7 +32,7 @@
       </objectContribution>
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
-            nameFilter="*.trail.xml" 
+            nameFilter="*.trail" 
             id="org.openlegacy.ide.eclipse.generate_trail_contribution">
          <menu
                label="OpenLegacy"
@@ -129,4 +129,23 @@
 		</viewerContentBinding>
 	</extension>
 
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Trail Editor"
+            icon="icons/trail.png"
+            class="org.openlegacy.ide.eclipse.editors.TrailEditor"
+            id="org.openlegacy.ide.eclipse.editors.TrailEditor">
+            <contentTypeBinding contentTypeId="org.openlegacy.ide.eclipse.editors.trailXmlFile" />
+      </editor>
+   </extension>
+
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+      	<content-type id="org.openlegacy.ide.eclipse.editors.trailXmlFile" 
+      		base-type="org.eclipse.core.runtime.xml"
+			file-extensions="trail" 
+			name="OpenLegacy Trail File" 
+			priority="normal">
+		 </content-type>
+	</extension> 
 </plugin>
