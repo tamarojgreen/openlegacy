@@ -16,14 +16,14 @@
             </separator>
          </menu>
          <action
-               label="Customize code templates..."
+               label="%customize_code_templates"
                class="org.openlegacy.ide.eclipse.actions.CustomizeCodeTemplatesAction"
                menubarPath="org.openlegacy.ied.eclipse.right_menu/customize"
                enablesFor="1"
                id="org.openlegacy.ide.eclipse.actions.customizeCodeTemplate">
          </action>
          <action
-               label="Customize Analyzer rules..."
+               label="%customize_analyzer_rules"
                class="org.openlegacy.ide.eclipse.actions.CustomizeRulesAction"
                menubarPath="org.openlegacy.ied.eclipse.right_menu/customize"
                enablesFor="1"
@@ -35,7 +35,7 @@
             nameFilter="*.trail" 
             id="org.openlegacy.ide.eclipse.generate_trail_contribution">
          <menu
-               label="OpenLegacy"
+               label="%openlegacy_menu_label"
                path="additions"
                id="org.openlegacy.ied.eclipse.right_menu">
             <separator
@@ -43,7 +43,7 @@
             </separator>
          </menu>
          <action
-               label="Generate API"
+               label="%generate_api_menu_label"
                class="org.openlegacy.ide.eclipse.actions.GenerateScreensAction"
                menubarPath="org.openlegacy.ied.eclipse.right_menu/generate"
                enablesFor="1"
@@ -54,7 +54,7 @@
             objectClass="org.eclipse.jdt.core.ICompilationUnit"
             id="org.openlegacy.ide.eclipse.generate_web">
          <menu
-               label="OpenLegacy"
+               label="%openlegacy"
                path="additions"
                id="org.openlegacy.ied.eclipse.right_menu">
             <separator
@@ -62,7 +62,7 @@
             </separator>
          </menu>
          <action
-               label="Generate Web page"
+               label="%generate_web_page"
                class="org.openlegacy.ide.eclipse.actions.GenerateWebPage"
                menubarPath="org.openlegacy.ied.eclipse.right_menu/generate"
                id="org.openlegacy.ide.eclipse.actions.generateWebPage">
@@ -73,11 +73,11 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            name="OpenLegacy"
+            name="%openlegacy"
             id="org.openlegacy.ide.eclipse">
       </category>
       <wizard
-            name="OpenLegacy Project"
+            name="%openlegacy_project"
             icon="icons/openlegacy.png"
             category="org.openlegacy.ide.eclipse"
             class="org.openlegacy.ide.eclipse.wizards.project.OpenLegacyeNewProjectWizard"
@@ -144,7 +144,7 @@
       	<content-type id="org.openlegacy.ide.eclipse.editors.trailXmlFile" 
       		base-type="org.eclipse.core.runtime.xml"
 			file-extensions="trail" 
-			name="OpenLegacy Trail File" 
+			name="%openlegacy_trail_file" 
 			priority="normal">
 		 </content-type>
 	</extension> 

@@ -4,6 +4,7 @@ Bundle-Name: OpenLegacy eclipse plug-in
 Bundle-SymbolicName: org.openlegacy.ide.eclipse; singleton:=true
 Bundle-Version: 0.6.0.qualifier
 Bundle-Activator: org.openlegacy.ide.eclipse.Activator
+Bundle-Localization: plugin
 Bundle-Vendor: OpenLegacy
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
