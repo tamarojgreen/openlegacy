@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.designtime.PerfrencesConstants;
+import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
 
 import java.io.File;
@@ -50,14 +51,14 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 	protected void executeGenerate() {
 
 		final boolean generateHelp = generateHelpBtn.getSelection();
-		Job job = new Job("Generating web page") {
+		Job job = new Job(Messages.job_generting_web_page) {
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 
 				final TreePath[] pathElements = ((TreeSelection)getSelection()).getPaths();
 
-				monitor.beginTask("Generating", pathElements.length + 1);
+				monitor.beginTask(Messages.task_generating, pathElements.length + 1);
 
 				for (TreePath treePath : pathElements) {
 					if (treePath.getLastSegment() instanceof ICompilationUnit) {
@@ -69,7 +70,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 						monitor.worked(1);
 
 					} else {
-						logger.warn(treePath.getLastSegment() + " is not a valid Java source selection");
+						logger.warn(MessageFormat.format(Messages.warn_java_source_not_valid_selection, treePath.getLastSegment()));
 					}
 				}
 
@@ -95,7 +96,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 	@Override
 	protected void createDialogSpecific(Composite parent) {
 		generateHelpBtn = new Button(parent, SWT.CHECK);
-		generateHelpBtn.setText("Generate Help");
+		generateHelpBtn.setText(Messages.label_generate_help);
 		generateHelpBtn.setSelection(true);
 	}
 
@@ -108,7 +109,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 
 		String prefrenceSourceFolderPath = designtimeExecuter.getPerference(project, PerfrencesConstants.API_SOURCE_FOLDER);
 		getSourceFolderPathText().setText(
-				MessageFormat.format("{0}{1}{2}", project.getName(), File.separator, prefrenceSourceFolderPath));
+				MessageFormat.format("{0}{1}{2}", project.getName(), File.separator, prefrenceSourceFolderPath)); //$NON-NLS-1$
 
 		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(project);
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));

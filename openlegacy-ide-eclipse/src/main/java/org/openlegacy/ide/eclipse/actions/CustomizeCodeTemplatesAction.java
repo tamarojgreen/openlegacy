@@ -15,6 +15,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IActionDelegate;
+import org.openlegacy.ide.eclipse.Messages;
 
 public class CustomizeCodeTemplatesAction extends AbstractAction {
 
@@ -24,8 +25,8 @@ public class CustomizeCodeTemplatesAction extends AbstractAction {
 	public void run(IAction action) {
 		boolean cont = MessageDialog.openConfirm(
 				getShell(),
-				"OpenLegacy",
-				"Customize templates will create a directory names \"templates\" under your project, and will allow you to customize OpenLegacy generated code. Continue?");
+				Messages.title_openlegacy,
+				Messages.message_customize_templates);
 		if (cont) {
 			IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
 			EclipseDesignTimeExecuter.instance().copyCodeGenerationTemplates(project);

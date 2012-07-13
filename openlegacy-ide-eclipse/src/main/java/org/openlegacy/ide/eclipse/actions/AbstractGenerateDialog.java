@@ -19,7 +19,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jdt.internal.ui.wizards.TypedElementSelectionValidator;
 import org.eclipse.jdt.internal.ui.wizards.TypedViewerFilter;
 import org.eclipse.jdt.ui.JavaElementComparator;
@@ -48,10 +47,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.openlegacy.designtime.UserInteraction;
+import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
 
 import java.io.File;
+import java.text.MessageFormat;
 
 public abstract class AbstractGenerateDialog extends Dialog implements UserInteraction {
 
@@ -81,7 +82,7 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 		parent.getShell().setText(PluginConstants.TITLE);
 
 		Label label = new Label(parent, SWT.NULL);
-		label.setText("Source folder:");
+		label.setText(Messages.label_source_folder);
 
 		setSourceFolderPathText(new Text(parent, SWT.SINGLE | SWT.BORDER));
 
@@ -90,7 +91,7 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		getSourceFolderPathText().setLayoutData(gd);
 		Button sourceFolderButton = new Button(parent, SWT.NONE);
-		sourceFolderButton.setText("Browse...");
+		sourceFolderButton.setText(Messages.label_browse);
 		sourceFolderButton.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -103,7 +104,7 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 		});
 
 		Label labelPackage = new Label(parent, SWT.NULL);
-		labelPackage.setText("Package:");
+		labelPackage.setText(Messages.label_package);
 		packageText = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		getPackageText().setLayoutData(gd);
@@ -195,8 +196,8 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 		ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(getShell(), labelProvider, provider);
 		dialog.setValidator(validator);
 		dialog.setComparator(new JavaElementComparator());
-		dialog.setTitle(NewWizardMessages.NewContainerWizardPage_ChooseSourceContainerDialog_title);
-		dialog.setMessage(NewWizardMessages.NewContainerWizardPage_ChooseSourceContainerDialog_description);
+		dialog.setTitle(""); //$NON-NLS-1$
+		dialog.setMessage(""); //$NON-NLS-1$
 		dialog.addFilter(filter);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		dialog.setInput(JavaCore.create(root));
@@ -219,11 +220,11 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 	private boolean validate() {
 
 		if (getPackageText().getText().length() == 0) {
-			MessageDialog.openError(getShell(), PluginConstants.TITLE, "Package connot be empty");
+			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.error_package_cannot_be_empty);
 			return false;
 		}
 		if (getSourceFolderPathText().getText().length() == 0) {
-			MessageDialog.openError(getShell(), PluginConstants.TITLE, "Source folder connot be empty");
+			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.error_source_folder_cannot_be_empty);
 			return false;
 		}
 		return true;
@@ -251,7 +252,8 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 		Display.getDefault().syncExec(new Runnable() {
 
 			public void run() {
-				result[0] = MessageDialog.openQuestion(getShell(), PluginConstants.TITLE, "Override " + file.getName() + "?");
+				result[0] = MessageDialog.openQuestion(getShell(), PluginConstants.TITLE,
+						MessageFormat.format(Messages.question_override_file, file.getName()));  
 			}
 		});
 

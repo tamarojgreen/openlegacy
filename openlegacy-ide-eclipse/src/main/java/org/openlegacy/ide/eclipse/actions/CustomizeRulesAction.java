@@ -16,6 +16,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IActionDelegate;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
+import org.openlegacy.ide.eclipse.Messages;
 
 import java.text.MessageFormat;
 
@@ -27,9 +28,9 @@ public class CustomizeRulesAction extends AbstractAction {
 	public void run(IAction action) {
 		boolean cont = MessageDialog.openConfirm(
 				getShell(),
-				"OpenLegacy",
+				Messages.title_openlegacy,
 				MessageFormat.format(
-						"Customize rules will create a a spring context under your project at: {0}, and will allow you to customize OpenLegacy analyzer rules. Continue? ",
+						Messages.message_customize_rules,
 						DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH));
 		if (cont) {
 			IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();

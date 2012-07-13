@@ -21,7 +21,7 @@ import java.io.File;
 public class PathsUtil {
 
 	public static String packageToPath(String packageDir) {
-		return packageDir.replaceAll("\\.", "/");
+		return packageDir.replaceAll("\\.", "/"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public static File toProjectOsLocation(IResource resource) {

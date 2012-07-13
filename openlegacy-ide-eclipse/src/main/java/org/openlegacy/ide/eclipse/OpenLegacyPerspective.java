@@ -26,13 +26,13 @@ import org.eclipse.ui.navigator.resources.ProjectExplorer;
  */
 public class OpenLegacyPerspective implements IPerspectiveFactory {
 
-	private static final String JAVA_PERSPECTIVE_ID = "org.eclipse.jdt.ui.JavaPerspective";
-	private static final String DEBUG_PERSPECTIVE_ID = "org.eclipse.debug.ui.DebugPerspective";
-	private static final String NEW_FOLDER_WIZARD_ID = "org.eclipse.ui.wizards.new.folder";
-	private static final String NAVIGATOR_VIEW_ID = "org.eclipse.ui.views.ResourceNavigator";
-	private static final String ERROR_LOG_VIEW_ID = "org.eclipse.pde.runtime.LogView";
-	private static final String BOTTOM = "bottom";
-	private static final String LEFT = "left";
+	private static final String JAVA_PERSPECTIVE_ID = "org.eclipse.jdt.ui.JavaPerspective"; //$NON-NLS-1$
+	private static final String DEBUG_PERSPECTIVE_ID = "org.eclipse.debug.ui.DebugPerspective"; //$NON-NLS-1$
+	private static final String NEW_FOLDER_WIZARD_ID = "org.eclipse.ui.wizards.new.folder"; //$NON-NLS-1$
+	private static final String NAVIGATOR_VIEW_ID = "org.eclipse.ui.views.ResourceNavigator"; //$NON-NLS-1$
+	private static final String ERROR_LOG_VIEW_ID = "org.eclipse.pde.runtime.LogView"; //$NON-NLS-1$
+	private static final String BOTTOM = "bottom"; //$NON-NLS-1$
+	private static final String LEFT = "left"; //$NON-NLS-1$
 
 	public void createInitialLayout(IPageLayout layout) {
 		defineActions(layout);
@@ -70,7 +70,7 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 		layout.addActionSet(JavaUI.ID_CODING_ACTION_SET);
 		layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
 		layout.addActionSet(IDebugUIConstants.DEBUG_ACTION_SET);
-		layout.addActionSet("org.eclipse.ui.NavigateActionSet");
+		layout.addActionSet("org.eclipse.ui.NavigateActionSet"); //$NON-NLS-1$
 
 		// Add to "show views".
 		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);

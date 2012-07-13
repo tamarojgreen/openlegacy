@@ -36,6 +36,7 @@ import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.openlegacy.designtime.DesigntimeException;
+import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.components.SnapshotComposite;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -69,9 +70,9 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		try {
 			editor = new StructuredTextEditor();
 			int index = addPage(editor, getEditorInput());
-			setPageText(index, "Source");
+			setPageText(index, Messages.page_name_source);
 		} catch (PartInitException e) {
-			ErrorDialog.openError(getSite().getShell(), "Error creating nested text editor", null, e.getStatus());
+			ErrorDialog.openError(getSite().getShell(), Messages.error_creating_text_editor, null, e.getStatus());
 		}
 	}
 
@@ -98,7 +99,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 			removePage(0);
 		}
 		addPage(0, trailComposite);
-		setPageText(0, "Snapshots");
+		setPageText(0, Messages.page_name_snapshots);
 	}
 
 	private TerminalPersistedTrail loadTrail() {
@@ -113,10 +114,10 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		try {
 			terminalSessionTrail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, new FileInputStream(file));
 		} catch (Exception e) {
-			throw (new DesigntimeException("Unable to open trail file", e));
+			throw (new DesigntimeException(Messages.error_unable_to_open_trail_file, e));
 		}
 		if (terminalSessionTrail.getSnapshots().size() == 0) {
-			throw (new DesigntimeException("No spanshots found"));
+			throw (new DesigntimeException(Messages.error_no_snapshots_found));
 		}
 		return terminalSessionTrail;
 	}
@@ -142,7 +143,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 					table.remove(selectionIndex);
 					try {
 						Element root = extractDocumentRoot();
-						List<Element> snapshots = DomUtils.getChildElementsByTagName(root, "snapshot");
+						List<Element> snapshots = DomUtils.getChildElementsByTagName(root, "snapshot"); //$NON-NLS-1$
 						root.removeChild(snapshots.get(selectionIndex));
 					} catch (Exception e) {
 						throw (new DesigntimeException(e));
@@ -160,14 +161,15 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		});
 		TableViewerColumn column = new TableViewerColumn(tableViewer, SWT.NONE);
 		column.getColumn().setWidth(100);
-		column.getColumn().setText("Sequence:");
+		column.getColumn().setText(Messages.label_sequence);
 		column.setLabelProvider(new ColumnLabelProvider() {
 
 			@Override
 			public String getText(Object element) {
 				TerminalSnapshot snapshot = (TerminalSnapshot)element;
-				String direction = snapshot.getSnapshotType() == SnapshotType.INCOMING ? " (IN)" : " (OUT)";
-				return String.valueOf("Screen " + snapshot.getSequence() + direction);
+				String direction = snapshot.getSnapshotType() == SnapshotType.INCOMING ? Messages.label_screen_in
+						: Messages.label_screen_out;
+				return String.valueOf(Messages.label_screen_prefix + snapshot.getSequence() + direction);
 			}
 
 		});
@@ -247,7 +249,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 	@Override
 	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException {
 		if (!(editorInput instanceof IFileEditorInput)) {
-			throw new PartInitException("Invalid Input: Must be IFileEditorInput");
+			throw new PartInitException(Messages.error_invalid_input_file);
 		}
 		super.init(site, editorInput);
 	}

@@ -89,7 +89,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	public static final String BUILDER_ID = "org.openlegacy.ide.eclipse.builder";
+	public static final String BUILDER_ID = "org.openlegacy.ide.eclipse.builder"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)

@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PerfrencesConstants;
+import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -49,17 +50,17 @@ public class GenerateScreensDialog extends AbstractGenerateDialog implements Ent
 
 		Object firstElement = ((TreeSelection)getSelection()).getFirstElement();
 		if (!(firstElement instanceof IFile)) {
-			MessageDialog.openError(getShell(), PluginConstants.TITLE, "Invalid trail file selection");
+			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.error_invalid_trail_file_selection);
 		}
 		final IFile trailPath = (IFile)firstElement;
 
-		Job job = new Job("Generating screens") {
+		Job job = new Job(Messages.job_generating_screens) {
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 
 				int fileSize = (int)(new File(trailPath.getLocation().toOSString()).length() / 1000);
-				monitor.beginTask("Activating Analyzer", fileSize);
+				monitor.beginTask(Messages.job_activating_analyzer, fileSize);
 
 				monitor.worked(2);
 				EclipseDesignTimeExecuter.instance().generateScreens(trailPath, getSourceFolder(), getPackageValue(),
@@ -94,7 +95,7 @@ public class GenerateScreensDialog extends AbstractGenerateDialog implements Ent
 
 		String prefrenceSourceFolderPath = designtimeExecuter.getPerference(project, PerfrencesConstants.API_SOURCE_FOLDER);
 		getSourceFolderPathText().setText(
-				MessageFormat.format("{0}{1}{2}", project.getName(), File.separator, prefrenceSourceFolderPath));
+				MessageFormat.format("{0}{1}{2}", project.getName(), File.separator, prefrenceSourceFolderPath)); //$NON-NLS-1$
 
 		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(project);
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));

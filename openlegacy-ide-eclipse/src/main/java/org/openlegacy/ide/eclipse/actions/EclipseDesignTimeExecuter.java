@@ -33,6 +33,7 @@ import org.openlegacy.designtime.mains.GenerateScreenRequest;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.ide.eclipse.Activator;
+import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
@@ -104,7 +105,7 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void initialize(final File analyzerFile) {
-		Job job = new Job("Initializing OpenLegacy analyzer") {
+		Job job = new Job(Messages.message_initializing_ol_analyzer) {
 
 			@Override
 			protected IStatus run(IProgressMonitor arg0) {

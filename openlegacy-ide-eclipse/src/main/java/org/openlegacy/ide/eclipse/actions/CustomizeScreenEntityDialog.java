@@ -21,10 +21,13 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.components.SnapshotComposite;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
+
+import java.text.MessageFormat;
 
 public class CustomizeScreenEntityDialog extends Dialog {
 
@@ -43,7 +46,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 		parent = new Composite(parent, SWT.NONE);
 
-		parent.getShell().setText(PluginConstants.TITLE + "- Generate screens API");
+		parent.getShell().setText(MessageFormat.format(Messages.title_ol_generate_screens_api, PluginConstants.TITLE));
 
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
@@ -54,7 +57,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		parent.setLayout(gridLayout);
 
 		Label labelPackage = new Label(parent, SWT.NULL);
-		labelPackage.setText("Entity Name:");
+		labelPackage.setText(Messages.field_entity_name);
 		entityNameTxt = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		entityNameTxt.setLayoutData(gd);
@@ -63,7 +66,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 		// space
 		Label label = new Label(parent, SWT.NONE);
-		label.setText(" ");
+		label.setText(" "); //$NON-NLS-1$
 
 		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getSnapshot());
 

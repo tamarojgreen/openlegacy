@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
+import org.openlegacy.ide.eclipse.Messages;
 
 public class OpenLegacyNewWizardPage extends WizardPage {
 
@@ -33,14 +34,14 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 	private Text projectNameTxt;
 	private String projectName;
 
-	private String[] projectTemplates = new String[] { "-- Select --", "openlegacy-new-java-template", "openlegacy-mvc-new",
-			"openlegacy-mvc-sample", "openlegacy-mobile-sample" };
+	private String[] projectTemplates = new String[] { Messages.label_dropdown_select, "openlegacy-new-java-template", "openlegacy-mvc-new",  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+			"openlegacy-mvc-sample", "openlegacy-mobile-sample" }; //$NON-NLS-1$ //$NON-NLS-2$
 
-	private String[] projectTemplatesDescriptions = new String[] { "",
-			"A java API application for connecting to your Legacy application",
-			"A new web application Spring MVC based for connecting to your Legacy application",
-			"A sample web application Spring MVC for connecting to a sample AS/400 Legacy application",
-			"A sample mobile application based on Spring MVC for connecting to a sample AS/400 Legacy application" };
+	private String[] projectTemplatesDescriptions = new String[] { "", //$NON-NLS-1$
+			Messages.info_ol_java_api_project,
+			Messages.info_ol_new_web_mvc_project,
+			Messages.info_ol_sample_web_mvc_project,
+			Messages.info_ol_sample_mobile_mvc_project };
 
 	private Label templateDescription;
 
@@ -48,12 +49,12 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 
 	private String defaultPackage;
 
-	private String[] providers = new String[] { "--Select--", "tn5250j", "h3270", "applinx" };
+	private String[] providers = new String[] { Messages.label_dropdown_select2, "tn5250j", "h3270", "applinx" };  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
-	private String[] providersDescription = new String[] { "",
-			"Open source provider for AS/400 TN5250 protocol. http://tn5250j.sourceforge.net/",
-			"Open source provider for M/F TN3270 protocol. http://h3270.sourceforge.net/",
-			"Commercial provider for many terminal protocols. http://www.softwareag.com/us/products/az/applinx.asp" };
+	private String[] providersDescription = new String[] { "", //$NON-NLS-1$
+			Messages.info_provider_tn5250j,
+			Messages.info_provider_h3270,
+			Messages.info_provider_applinx };
 
 	private Combo providerName;
 
@@ -69,9 +70,9 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 	 * @param pageName
 	 */
 	public OpenLegacyNewWizardPage(ISelection selection) {
-		super("wizardPage");
-		setTitle("OpenLegacy project wizard");
-		setDescription("This wizard creates a new OpenLegacy project which enables you to integrate and modernize your Legacy system");
+		super("wizardPage"); //$NON-NLS-1$
+		setTitle(Messages.title_ol_project_wizard);
+		setDescription(Messages.info_ol_project_wizard);
 	}
 
 	public void createControl(Composite parent) {
@@ -82,7 +83,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		layout.verticalSpacing = 9;
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText("&Template:");
+		label.setText(Messages.label_template);
 
 		templateName = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		templateName.setItems(projectTemplates);
@@ -96,7 +97,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		});
 
 		label = new Label(container, SWT.NULL);
-		label.setText("");
+		label.setText(""); //$NON-NLS-1$
 		templateDescription = label = new Label(container, SWT.NULL);
 		templateDescription.setText(projectTemplatesDescriptions[templateName.getSelectionIndex()]);
 
@@ -106,11 +107,11 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		templateDescription.setLayoutData(gd);
 
 		label = new Label(container, SWT.NULL);
-		label.setText("&Project name:");
+		label.setText(Messages.label_project_name);
 
 		projectNameTxt = new Text(container, SWT.BORDER | SWT.SINGLE);
 
-		projectNameTxt.setText("");
+		projectNameTxt.setText(""); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		projectNameTxt.setLayoutData(gd);
 		projectNameTxt.addModifyListener(new ModifyListener() {
@@ -123,7 +124,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		projectNameTxt.setFocus();
 
 		label = new Label(container, SWT.NULL);
-		label.setText("&Default package:");
+		label.setText(Messages.label_default_project);
 
 		defaultPackageTxt = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -136,7 +137,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		});
 
 		label = new Label(container, SWT.NULL);
-		label.setText("&Provider:");
+		label.setText(Messages.label_provider);
 
 		providerName = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		providerName.setItems(providers);
@@ -152,7 +153,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		setControl(container);
 
 		label = new Label(container, SWT.NULL);
-		label.setText("");
+		label.setText(""); //$NON-NLS-1$
 		providerDescription = label = new Label(container, SWT.NULL);
 
 		gd = new GridData();
@@ -161,11 +162,11 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		providerDescription.setLayoutData(gd);
 
 		label = new Label(container, SWT.NULL);
-		label.setText("&Host Name/IP:");
+		label.setText(Messages.label_host_ip);
 
 		hostName = new Text(container, SWT.BORDER | SWT.SINGLE);
 
-		hostName.setText("");
+		hostName.setText(""); //$NON-NLS-1$
 		gd = new GridData();
 		gd.widthHint = 200;
 		hostName.setLayoutData(gd);
@@ -178,7 +179,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		});
 
 		label = new Label(container, SWT.NULL);
-		label.setText("&Host port:");
+		label.setText(Messages.label_host_port);
 
 		hostPort = new Text(container, SWT.BORDER | SWT.SINGLE);
 
@@ -191,7 +192,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		});
 
 		label = new Label(container, SWT.NULL);
-		label.setText("&Code Page:");
+		label.setText(Messages.label_code_page);
 
 		codePage = new Text(container, SWT.BORDER | SWT.SINGLE);
 
@@ -216,7 +217,7 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		providerDescription.setText(providersDescription[providerName.getSelectionIndex()]);
 		templateDescription.setText(projectTemplatesDescriptions[templateName.getSelectionIndex()]);
 
-		if (templateName.getText().endsWith("sample")) {
+		if (templateName.getText().endsWith("sample")) { //$NON-NLS-1$
 			projectName = templateName.getText();
 			defaultPackage = null;
 			setEnabled(false);
@@ -232,45 +233,45 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 		IProject[] project = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject iProject : project) {
 			if (iProject.getName().equalsIgnoreCase(projectName)) {
-				updateStatus("Project name already exists");
+				updateStatus(Messages.error_project_already_exists);
 				return;
 			}
 		}
 
 		if (templateName.getSelectionIndex() == 0) {
-			updateStatus("Template must be specified");
+			updateStatus(Messages.error_template_not_specified);
 			return;
 		}
 		if (projectName.length() == 0) {
-			updateStatus("Project name must be specified");
+			updateStatus(Messages.error_project_name_not_specified);
 			return;
 		}
 		if (defaultPackageTxt.getText().length() == 0) {
-			updateStatus("Default package must be specified");
+			updateStatus(Messages.error_package_not_specified);
 			return;
 		}
 		if (projectName.replace('\\', '/').indexOf('/', 1) > 0) {
-			updateStatus("Project name must be valid");
+			updateStatus(Messages.error_project_name_oinvalid);
 			return;
 		}
 		if (providerName.getSelectionIndex() == 0) {
-			updateStatus("Provider must be selected");
+			updateStatus(Messages.error_provider_not_selected);
 			return;
 		}
 		if (hostName.getText().length() == 0) {
-			updateStatus("Host name/IP must be specified");
+			updateStatus(Messages.error_host_name_not_specified);
 			return;
 		}
 		if (hostPort.getText().length() == 0) {
-			updateStatus("Host port must be specified");
+			updateStatus(Messages.errror_host_port_not_specified);
 			return;
 		}
 		if (!NumberUtils.isNumber(hostPort.getText())) {
-			updateStatus("Host port should be numeric");
+			updateStatus(Messages.error_port_not_numeric);
 			return;
 		}
 		if (codePage.getText().length() == 0) {
-			updateStatus("Code page must be specified");
+			updateStatus(Messages.error_code_page_not_specified);
 			return;
 		}
 
