@@ -19,11 +19,17 @@ import org.drools.io.ResourceFactory;
 
 public class DroolsUtil {
 
+	private static final String FILE_PREFIX = "file:";
+
 	public static KnowledgeBase createKnowledgeBase(String... droolFiles) {
 		KnowledgeBuilder builder = KnowledgeBuilderFactory.newKnowledgeBuilder();
 		for (String droolFile : droolFiles) {
 			ResourceType resourceType = ResourceType.determineResourceType(droolFile);
-			builder.add(ResourceFactory.newClassPathResource(droolFile), resourceType);
+			if (droolFile.startsWith(FILE_PREFIX)) {
+				builder.add(ResourceFactory.newFileResource(droolFile.substring(FILE_PREFIX.length())), resourceType);
+			} else {
+				builder.add(ResourceFactory.newClassPathResource(droolFile), resourceType);
+			}
 		}
 
 		if (builder.hasErrors()) {

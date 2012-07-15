@@ -260,6 +260,10 @@
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-navigation.drl" p:ruleId="identify-navigation" p:enabled="true" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-child-screens.drl" p:ruleId="identify-child-screens" p:enabled="true" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-lookup-screens.drl" p:ruleId="identify-lookup-screens"  p:enabled="true" />
+				
+				<!-- 
+				<bean parent="ruleDefinition" p:droolsFile="file:<PROJECT_PATH>/src/main/resources/sample.drl" p:ruleId="sample"  p:enabled="true" />
+				 -->
 			</list>
 		</property>
 	</bean>
