@@ -21,7 +21,6 @@
 				<version>1.7</version>
 				<executions>
 					<execution>
-						<!-- TODO find a way to run after children -->
 						<phase>package</phase>
 						<configuration>
 							<target>
