@@ -17,7 +17,9 @@
   		<module>openlegacy-providers</module>
   		<module>openlegacy-templates</module>
  		<module>../openlegacy-designtime</module>
-  		<module>../openlegacy-ide-eclipse</module>
+ 		<!-- Plugin is built from eclipse until overcoming Maven/Eclipse issues (Tyco? / P2?) -->
+ 		<!-- Uncomment during development phase -->
+  		<!-- <module>../openlegacy-ide-eclipse</module> -->
 	</modules>
 
 	<properties>
