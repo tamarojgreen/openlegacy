@@ -14,9 +14,9 @@
 		<module>../openlegacy-test-apps</module>
 		<module>../openlegacy-impl</module>
 		<module>../openlegacy-web</module>
- 		<module>openlegacy-providers</module>
+  		<module>openlegacy-providers</module>
   		<module>openlegacy-templates</module>
-		<module>../openlegacy-designtime</module>
+ 		<module>../openlegacy-designtime</module>
   		<module>../openlegacy-ide-eclipse</module>
 	</modules>
 
@@ -25,7 +25,7 @@
 		<spring.framework.version>3.1.0.RELEASE</spring.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <aspectj.version>1.6.11</aspectj.version>
-		<deploy.dir>file://C:\Program Files\Apache Software Foundation\Tomcat 6.0\webapps\maven2</deploy.dir>
+		<deploy.dir>ftp://maven.openlegacy.org</deploy.dir>
 	</properties>
 
 	<dependencies>
@@ -47,17 +47,17 @@
 	<distributionManagement>
 		<site>
 			<id>staging</id>
-			<url>${deploy.dir}/snapshots/${project.artifactId}</url>
+			<url>${deploy.dir}/snapshot/${project.artifactId}</url>
 		</site>
 		<snapshotRepository>
-			<id>openlegacy</id>
+			<id>openlegacy-ftp</id>
 			<name>OpenLegacy Snapshot Repository</name>
-			<url>${deploy.dir}/snapshot</url>
+			<url>${deploy.dir}/maven2/snapshot</url>
 		</snapshotRepository>
 		<repository>
-			<id>openlegacy</id>
+			<id>openlegacy-ftp</id>
 			<name>OpenLegacy Release Repository</name>
-			<url>${deploy.dir}/release</url>
+			<url>${deploy.dir}/maven2/release</url>
 		</repository>
 	</distributionManagement>
 
@@ -79,7 +79,7 @@
 			<extension>
 				<groupId>org.apache.maven.wagon</groupId>
 				<artifactId>wagon-ftp</artifactId>
-				<version>1.0-beta-6</version>
+				<version>2.2</version>
 			</extension>
 		</extensions>
 		<plugins>
