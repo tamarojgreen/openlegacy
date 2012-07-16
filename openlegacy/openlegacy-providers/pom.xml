@@ -15,7 +15,8 @@
 	<modules>
 		<module>openlegacy-tn5250j</module>
 		<module>openlegacy-h3270</module>
-		<module>openlegacy-applinx</module>
+		<!-- Uncomment applinx provider as can't publish it's JAR's in a public maven - need provider approval (depends on license file) -->
+		<!-- <module>openlegacy-applinx</module> -->
 	</modules>
 	
 	 <build>
