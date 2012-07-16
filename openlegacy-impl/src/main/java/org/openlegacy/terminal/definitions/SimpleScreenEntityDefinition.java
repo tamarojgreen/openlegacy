@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.definitions;
 
+import org.apache.commons.collections.set.ListOrderedSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
@@ -29,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenFieldDefinition> implements ScreenEntityDefinition {
 
@@ -137,7 +137,8 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 	}
 
 	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
-		Set<EntityDefinition<?>> childs = new TreeSet<EntityDefinition<?>>();
+		@SuppressWarnings("unchecked")
+		Set<EntityDefinition<?>> childs = new ListOrderedSet();
 		childs.addAll(getChildEntitiesDefinitions());
 		for (EntityDefinition<?> childScreenDefinition : childs) {
 			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition.getAllChildEntitiesDefinitions();
