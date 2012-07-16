@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/openlegacy.ide.eclipse.feature_0.6.0.201207110013.jar" id="openlegacy.ide.eclipse.feature" version="0.6.0.201207110013">
+   <feature url="features/openlegacy.ide.eclipse.feature_0.6.0.201207160946.jar" id="openlegacy.ide.eclipse.feature" version="0.6.0.201207160946">
       <category name="OpenLegacy"/>
    </feature>
    <category-def name="OpenLegacy" label="OpenLegacy"/>
