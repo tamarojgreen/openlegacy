@@ -1,10 +1,12 @@
 package openlegacy
 
+// A sample analyzer rule.
+
 rule "sample"
-// define the analyser step. 
-//possible values: 
-// identify-snapshots, identify-editable-fields,identify-tables,identify-actions,identify-readonly-fields,identify-window,find-screen-name,identify-screen-types,identify-navigation,finalize-screen-entities,identify-lookup-screens,identify-field-types,identify-child-screens  
+
+// define the analyzer step. possible values: identify-snapshots, identify-editable-fields,identify-tables,identify-actions,identify-readonly-fields,identify-window,find-screen-name,identify-screen-types,identify-navigation,finalize-screen-entities,identify-lookup-screens,identify-field-types,identify-child-screens  
 ruleflow-group "identify-readonly-fields"
+
 when
 	// to use parameters, define ruleParameterSets node within the rule spring XML definitions	
 	//$ruleParameterSet: RuleParametersSet(ruleId == "sample")
