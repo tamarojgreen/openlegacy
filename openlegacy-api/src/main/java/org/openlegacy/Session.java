@@ -23,6 +23,8 @@ public interface Session {
 
 	<T> T getEntity(Class<T> entityClass) throws EntityNotFoundException;
 
+	Object getEntity(String entityName) throws EntityNotFoundException;
+	
 	<M extends SessionModule> M getModule(Class<M> module);
 
 	void disconnect();
