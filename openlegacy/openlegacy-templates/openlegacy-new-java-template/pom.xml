@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.openlegacy.templates</groupId>
 	<artifactId>openlegacy-new-java-template</artifactId>
-	<version>0.6-SNAPSHOT</version>
+	<version>0.7-SNAPSHOT</version>
 	<name>OpenLegacy new Java application</name>
 	<properties>
 		<openlegacy-version>0.6-SNAPSHOT</openlegacy-version>
