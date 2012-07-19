@@ -150,7 +150,7 @@
 		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-web-resources</artifactId>
-			<version>0.7-SNAPSHOT</version>
+			<version>0.6-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
