@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * An entity definition is the meta data on an entity class, typically gathered from annotations on the entity class, Loaded
+ * An entity definition is the meta-data on an entity class, typically gathered from annotations on the entity class. Loaded
  * usually using {@link ClassAnnotationsLoader} or {@link FieldAnnotationsLoader} Example: store screen identifications, screen
  * actions, field positions
  * 

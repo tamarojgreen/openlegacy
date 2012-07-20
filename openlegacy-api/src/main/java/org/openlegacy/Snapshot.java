@@ -11,7 +11,12 @@
 package org.openlegacy;
 
 /**
- * Represent a state-full session snapshot
+ * Represent a generic application connection snapshot. Depending on the implementation, returns a snapshot from an application
+ * connection
+ * 
+ * @see ApplicationConnection
+ * 
+ * @author Roi Mor
  * 
  */
 public interface Snapshot {

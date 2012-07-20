@@ -12,6 +12,7 @@ package org.openlegacy.annotations.screen;
 
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -20,8 +21,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A terminal session action for a screen entity. Defined within {@link ScreenActions} annotation<br/>
+ * Defines a terminal session action for a screen entity. Defined within {@link ScreenActions} annotation<br/>
+ * Defines a an action to be performed on entities marked with {@link ScreenEntity} <br/>
+ * Implementation might be simple using classes from : {@link TerminalActions}, or custom (commonly known as "macro") by
+ * implementing {@link TerminalAction} <br/>
  * <br/>
+ * Example:<br/>
+ * <br/>
+ * <code>@ScreenActions(actions = { @Action(action = TerminalActions.F2.class, displayName = "Save") }) <br/>public class ItemDetails {<br/>...<br/>}</code>
+ * <br/>
+ * 
+ * @author Roi Mor
  * 
  */
 @Documented
@@ -29,6 +39,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface Action {
 
+	/**
+	 * The action class to invoke. Typically {@link TerminalActions}.&lt;F KEY&gt;
+	 * 
+	 * @return
+	 */
 	Class<? extends TerminalAction> action();
 
 	String displayName();

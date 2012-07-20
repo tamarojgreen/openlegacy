@@ -20,11 +20,13 @@ package org.openlegacy;
  * 
  * @see org.openlegacy.modules.login.UserField
  * @see org.openlegacy.modules.SessionModule
+ * 
+ * @author Roi Mor
  */
 public interface FieldType {
 
 	/**
-	 * The default field type is general
+	 * General field type. The default field type for all fields unless specified oterwise
 	 */
 	public static class General implements FieldType {
 	}

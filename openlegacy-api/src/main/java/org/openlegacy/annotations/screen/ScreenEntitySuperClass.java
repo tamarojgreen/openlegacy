@@ -17,9 +17,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is a screen entity abstract class. This annotation allows reusing screen entities definitions using
- * inheritance
+ * Defines that the marked class is a screen entity abstract class. This annotation allows reusing screen entities definitions
+ * using inheritance.<br/>
+ * Once defined, all annotations applied to classes defined with {@link ScreenEntity} are applying the relevant class definitions. <br/>
+ * This means it is applicable for <code>org.openlegacy.annotations.screen.*</code> annotations.<br/>
  * 
+ * <br/>
+ * Example:<br/>
+ * <br/>
+ * <code>@ScreenEntitySuperClass<br/>@ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 48, value = "System") })<br/>@ScreenActions(actions = { @Action(action = TerminalActions.ENTER.class, displayName = "Enter") }) <br/>public abstract class
+ *                        AbstractPurchasingScreen {<br/>...<br/>} </code>
+ * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
