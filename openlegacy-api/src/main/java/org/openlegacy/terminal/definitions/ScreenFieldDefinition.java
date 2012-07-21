@@ -33,8 +33,6 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 
 	boolean isPassword();
 
-	Class<?> getJavaType();
-
 	/**
 	 * Used mostly for designtime usage
 	 * 

@@ -70,10 +70,10 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 		return timer;
 	}
 
-	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
+	public void doAction(TerminalSendAction terminalSendAction) {
 		lazyConnect();
 		terminalSnapshot = null;
-		return terminalConnection.doAction(terminalSendAction);
+		terminalConnection.doAction(terminalSendAction);
 	}
 
 	public Object getDelegate() {

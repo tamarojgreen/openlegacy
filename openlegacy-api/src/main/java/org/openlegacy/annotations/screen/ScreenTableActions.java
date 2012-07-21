@@ -17,8 +17,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies table actions for entities marked with {@link ScreenTable} annotation<br/>
+ * Define table actions for entities marked with {@link ScreenTable} annotation<br/>
  * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

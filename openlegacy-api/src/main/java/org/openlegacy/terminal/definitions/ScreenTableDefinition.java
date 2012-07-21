@@ -54,8 +54,6 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 
 		int getEndColumn();
 
-		boolean isEditable();
-
 	}
 
 	public interface DrilldownDefinition {

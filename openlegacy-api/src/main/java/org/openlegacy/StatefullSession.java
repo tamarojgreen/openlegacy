@@ -10,9 +10,10 @@
  *******************************************************************************/
 package org.openlegacy;
 
-
 /**
- * Represents a state-full session. Returns a snapshot of the current state
+ * Represents a logical state-full session. Returns a snapshot of the current state of the session
+ * 
+ * @author Roi Mor
  * 
  */
 public interface StatefullSession<S extends Snapshot> extends Session {

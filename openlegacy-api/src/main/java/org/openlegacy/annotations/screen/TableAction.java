@@ -22,6 +22,7 @@ import java.lang.annotation.Target;
 /**
  * A table action for a screen table entity. Defined within {@link} {@link ScreenTableActions}<br/>
  * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

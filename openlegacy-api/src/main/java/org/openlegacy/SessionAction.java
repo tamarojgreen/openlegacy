@@ -11,7 +11,9 @@
 package org.openlegacy;
 
 /**
- * A simple interface for defining a session action
+ * An interface for defining a session action on a given {@link Session}
+ * 
+ * @author Roi Mor
  * 
  */
 public interface SessionAction<S extends Session> {

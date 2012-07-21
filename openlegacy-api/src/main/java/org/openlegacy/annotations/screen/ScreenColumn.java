@@ -17,8 +17,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the field is a screen table column. The field containing should be marked with {@link ScreenTable} annotation<br/>
+ * Define a Java field as a screen table column. The field containing class should be marked with {@link ScreenTable} annotation<br/>
+ * <br/>
+ * <br/>
+ * Example:<br/>
+ * <br/>
+ * <code>@ScreenColumn(startColumn = 65, endColumn = 68, key = true) <br/>private Integer itemNumber;</code>
  * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

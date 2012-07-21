@@ -17,8 +17,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies terminal actions for a screen entity.<br/>
+ * A container annotation for all {@link Action} annotations which define fixed actions on a class marked with
+ * {@link ScreenEntity}<br/>
+ * Actions are used as meta-data for exposing possible actions on a screen entity to front-ends / remote API's, An example is
+ * OpenLegacy MVC web framework, which automatically generates web controllers handler methods for each action. <br/>
+ * 
  * <br/>
+ * <br/>
+ * Example:<br/>
+ * <br/>
+ * <code>@ScreenActions(actions = { @Action(action = TerminalActions.F2.class, displayName = "Save") }) <br/>public class ItemDetails {<br/>...<br/>}</code>
+ * <br/>
+ * 
+ * @author Roi Mor
  * 
  */
 @Documented

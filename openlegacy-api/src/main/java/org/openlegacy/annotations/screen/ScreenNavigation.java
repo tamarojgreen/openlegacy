@@ -22,7 +22,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies navigation definition for the given screen entity class.
+ * Define navigation information for the marked screen entity class. Screen must be marked with {@link ScreenEntity} annotation as
+ * well.<br/>
+ * <br/>
+ * <br/>
+ * Example:<br/>
+ * <br/>
+ * <code>@ScreenEntity<br/>@ScreenIdentifiers(... })<br/>@ScreenNavigation(accessedFrom = InventoryManagement.class, assignedFields = { @AssignedField(field = "selection", value = "1") }, exitAction = F3.class)<br/>public class ItemsList{<br/>...<br/>} </code>
+ * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -37,14 +45,14 @@ public @interface ScreenNavigation {
 	Class<?> accessedFrom();
 
 	/**
-	 * {@link TerminalAction} to execute to reach from the accessed screen
+	 * {@link TerminalAction} to execute to reach from the accessed screen. Default to ENTER action.
 	 * 
 	 * @return
 	 */
 	Class<? extends TerminalAction> terminalAction() default TerminalActions.ENTER.class;
 
 	/**
-	 * {@link AdditionalKey} to use in addition to the terminalAction
+	 * {@link AdditionalKey} to use in addition to the terminalAction. Default to NONE
 	 * 
 	 * @return
 	 */

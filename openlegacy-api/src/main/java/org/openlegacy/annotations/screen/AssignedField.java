@@ -19,8 +19,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A screen entity field assignment. Currently used within {@link ScreenNavigation} annotation
+ * Defines an constant field assignment. Currently used within {@link ScreenNavigation} annotation. Typical usage would be within
+ * moving from screen 1 to screen 2 using a constant argumnt.
  * 
+ * <br/>
+ * <br/>
+ * Example:<br/>
+ * <br/>
+ * 
+ * <code>@ScreenNavigation(accessedFrom = InventoryManagement.class, assignedFields = { @AssignedField(field = "selection", value ="1")})<br/>public class ItemDetails {<br/>...<br/>} </code>
+ * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

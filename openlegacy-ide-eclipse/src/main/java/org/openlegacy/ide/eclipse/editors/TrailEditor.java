@@ -151,7 +151,6 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 				}
 			}
 
-			@SuppressWarnings("restriction")
 			private Element extractDocumentRoot() {
 				IDocument document = editor.getDocumentProvider().getDocument(getEditorInput());
 				Object model = StructuredModelManager.getModelManager().getExistingModelForRead(document);

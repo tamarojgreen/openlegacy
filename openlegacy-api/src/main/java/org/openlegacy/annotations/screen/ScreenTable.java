@@ -22,10 +22,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the class is a screen table entity. Screens defined as {@link ScreenTable} are scanned and put into
+ * Define the marked class as a screen table entity. Screens defined as {@link ScreenTable} are scanned and put into
  * {@link ScreenEntitiesRegistry} <br/>
  * <br/>
  * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

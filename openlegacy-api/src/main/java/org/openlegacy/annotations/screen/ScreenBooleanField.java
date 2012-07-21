@@ -17,8 +17,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the field is an terminal screen boolean field. This annotation is applied to java fields marked as
- * {@link ScreenField} annotation
+ * Defines that a {@link Boolean} Java field is an terminal screen boolean field. This annotation applied to Boolean Java fields
+ * already marked with {@link ScreenField} annotation. The annotation determine <code>trueValue</code> and <code>falseValue</code>
+ * which are sent to the host for according to the field true/false state. When the java field value is null, the field is
+ * ignored. <br/>
+ * <br/>
+ * Example:<br/>
+ * <br/>
+ * 
+ * <code>@ScreenBooleanField(trueValue = "Y", falseValue = "N")<br/>@ScreenField(row = 20, column = 33, editable = true) <br/>private Boolean sendInvoice; </code>
+ * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -29,6 +38,11 @@ public @interface ScreenBooleanField {
 
 	String falseValue();
 
+	/**
+	 * Determine whether to set the field to null when the mapped host field position is empty
+	 * 
+	 * @return
+	 */
 	boolean treatEmptyAsNull() default false;
 
 }

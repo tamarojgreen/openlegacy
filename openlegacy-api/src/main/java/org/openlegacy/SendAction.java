@@ -10,7 +10,13 @@
  *******************************************************************************/
 package org.openlegacy;
 
-
+/**
+ * Defines an generic send action on an application connection. An action is invoking application logic on the application
+ * connection.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface SendAction {
 
 }
