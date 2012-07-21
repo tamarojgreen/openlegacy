@@ -15,7 +15,7 @@ import java.lang.reflect.Field;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
 
 @Component

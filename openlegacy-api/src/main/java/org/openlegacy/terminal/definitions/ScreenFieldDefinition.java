@@ -10,14 +10,17 @@
  *******************************************************************************/
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 
 /**
- * Defines a mapping between a screenEntity java field name and it's screen position and length
+ * Defines a mapping between a screenEntity java field name and it's screen position and length. Typically loaded into
+ * {@link ScreenEntityDefinition}, and loaded from {@link ScreenField} annotation
  * 
+ * @author Roi Mor
  */
 public interface ScreenFieldDefinition extends FieldDefinition, TerminalPositionContainer, Comparable<ScreenFieldDefinition> {
 

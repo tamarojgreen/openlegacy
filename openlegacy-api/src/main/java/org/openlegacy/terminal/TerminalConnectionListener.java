@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
 /**
  * Define a terminal session override-able methods which happens before & after a terminal session action

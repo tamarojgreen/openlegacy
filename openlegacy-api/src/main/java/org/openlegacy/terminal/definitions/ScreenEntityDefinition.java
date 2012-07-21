@@ -11,19 +11,25 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.annotations.screen.ScreenActions;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.ScreenIdentification;
+import org.openlegacy.terminal.services.ScreenIdentification;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Defines a screen entity definitions stored in the <code>ScreenEntitiesRegistry</code> Typically collected from @ScreenEntity,
+ * Defines a screen entity definitions stored in the <code>ScreenEntitiesRegistry</code> Typically collected from
+ * {@link ScreenEntity}, {@link ScreenIdentifiers}, {@link ScreenNavigation}, {@link ScreenActions}, {@link ScreenField}
+ * annotations
  * 
- * @ScreenIdentifiers, @ScreenNavigation, @ScreenActions, @FieldMapping annotations
- * 
+ * @author Roi Mor
  */
 public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefinition> {
 

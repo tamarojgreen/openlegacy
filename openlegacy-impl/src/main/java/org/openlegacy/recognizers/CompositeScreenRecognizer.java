@@ -11,7 +11,7 @@
 package org.openlegacy.recognizers;
 
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.ScreensRecognizer;
+import org.openlegacy.terminal.services.ScreensRecognizer;
 
 import java.util.List;
 

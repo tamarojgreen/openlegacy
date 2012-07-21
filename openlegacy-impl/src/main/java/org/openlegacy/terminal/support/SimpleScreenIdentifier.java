@@ -15,7 +15,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.ScreenIdentifier;
+import org.openlegacy.terminal.services.ScreenIdentifier;
 
 /**
  * A simple implementation for a screen identifier

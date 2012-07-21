@@ -15,9 +15,11 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 
 /**
- * An session action definition. Translated from {@link Action} and store within a {@link ScreenEntityDefinition} in the
+ * A session action definition. Translated from {@link Action} and store within a {@link ScreenEntityDefinition} into
+ * {@link ScreenEntitiesRegistry}
  * 
  * @author Roi Mor
  * 

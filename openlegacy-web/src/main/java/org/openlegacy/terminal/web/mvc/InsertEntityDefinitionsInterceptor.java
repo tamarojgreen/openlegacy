@@ -17,7 +17,7 @@ import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.web.servlet.ModelAndView;

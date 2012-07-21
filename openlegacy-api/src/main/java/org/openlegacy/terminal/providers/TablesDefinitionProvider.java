@@ -15,8 +15,9 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import java.util.Map;
 
 /**
- * FieldMapping meta-data provider purpose is to return mappings for a given screenEntity
+ * Table definitions provider purpose is to return table definitions for a given screen entity.
  * 
+ * @author Roi Mor
  */
 public interface TablesDefinitionProvider extends DefinitionsProvider {
 

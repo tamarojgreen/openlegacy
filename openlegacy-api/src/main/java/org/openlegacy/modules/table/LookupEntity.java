@@ -13,9 +13,9 @@ package org.openlegacy.modules.table;
 import org.openlegacy.EntityType;
 
 /**
- * Represents a lookup window table entity type, used for selecting a value from a list
+ * Represents a lookup window table entity type, used for selecting a value from a list. Used for auto complete functionality.
  * 
- * @author RoiM
+ * @author Roi Mor
  * 
  */
 public class LookupEntity implements EntityType {

@@ -14,6 +14,12 @@ import org.openlegacy.modules.table.drilldown.DrilldownAction;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 
+/**
+ * Defines a drill down terminal action on a {@link TerminalSession}
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface TerminalDrilldownAction extends DrilldownAction<TerminalSession>, TerminalAction {
 
 }

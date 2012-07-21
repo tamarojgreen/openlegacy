@@ -11,8 +11,11 @@
 package org.openlegacy.terminal;
 
 /**
- * Interface for a screen entity. Currently used for identifying child screen getters methods calls to perform lazy fetching
+ * Interface for a screen entity. Currently used for identifying child screen getters methods calls to perform lazy fetching. Not
+ * to be confused with {@link org.openlegacy.annotations.screen.ScreenEntity} which marks screen entity classes. This interface is
+ * added to classes marked with {@link org.openlegacy.annotations.screen.ScreenEntity} using AspectJ class.
  * 
+ * @author Roi Mor
  */
 public interface ScreenEntity {
 

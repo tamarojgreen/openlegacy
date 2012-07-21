@@ -10,6 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.terminal.render;
 
+/**
+ * A terminal snapshot renderer interface for rendering into an XML format. Defined as an empty interface for easier access from
+ * Spring
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface TerminalSnapshotXmlRenderer extends TerminalSnapshotRenderer {
 
 }

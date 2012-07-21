@@ -15,7 +15,7 @@ import org.openlegacy.EntityType;
 /**
  * Represents a table entity type which is used for performing actions on it's records
  * 
- * @author RoiM
+ * @author Roi Mor
  * 
  */
 public class RecordSelectionEntity implements EntityType {

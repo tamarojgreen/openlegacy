@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.annotations.screen.ScreenColumn;
+import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.annotations.screen.ScreenTableDrilldown;
 import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
@@ -20,12 +23,15 @@ import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.modules.table.drilldown.TableScroller;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 
 /**
  * Defines all the information required to manage terminal session tables including drill-down definitions Typically loaded from
  * 
- * @ScreenTable, @ScreenTableDrilldown & @ScreenColumn annotations and stored within <code>ScreenEntitiesRegistry</code>
+ * {@link ScreenTable}, {@link ScreenTableDrilldown} & {@link ScreenColumn} annotations and stored within
+ * {@link ScreenEntitiesRegistry}
  * 
+ * @author Roi Mor
  */
 @SuppressWarnings("rawtypes")
 public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefinition> {

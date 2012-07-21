@@ -8,16 +8,20 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.spi;
+package org.openlegacy.terminal.services;
 
 import org.openlegacy.EntitiesRegistry;
-import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 
 /**
- * Define a registry spi for screen related entities registration
+ * Defines a registry for screen related entities registration. Stores all information gathers from screen entities classes and
+ * their related annotations, into a registry which contains multiple {@link ScreenEntityDefinition},
+ * {@link ScreenTableDefinition} and {@link ScreenPartEntityDefinition}
+ * 
+ * @author Roi Mor
  * 
  */
 public interface ScreenEntitiesRegistry extends EntitiesRegistry<ScreenEntityDefinition, ScreenFieldDefinition> {

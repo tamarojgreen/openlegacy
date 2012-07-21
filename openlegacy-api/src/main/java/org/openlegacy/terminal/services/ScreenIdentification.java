@@ -8,18 +8,22 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.spi;
+package org.openlegacy.terminal.services;
 
-import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
+import org.openlegacy.terminal.TerminalSnapshot;
+
+import java.util.List;
 
 /**
- * Session navigator enables navigating from the current one screen entity to the specified one
+ * A single screen identification which determine if a given terminal screen matches the given {@link TerminalSnapshot}
  * 
- * @author RoiM
- * 
+ * @author Roi Mor
  */
-public interface SessionNavigator {
+public interface ScreenIdentification {
 
-	void navigate(TerminalSession terminalSession, Class<?> targetScreenEntity) throws ScreenEntityNotAccessibleException;
+	List<ScreenIdentifier> getScreenIdentifiers();
+
+	boolean match(TerminalSnapshot terminalSnapshot);
+
+	void addIdentifier(ScreenIdentifier screenIdentifier);
 }

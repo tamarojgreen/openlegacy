@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * Define a table collector over multiple entities
  * 
+ * @author Roi Mor
  * @param <S>
  *            The session type
  * @param <T>

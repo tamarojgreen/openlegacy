@@ -12,11 +12,17 @@ package org.openlegacy.modules.menu;
 
 import java.util.List;
 
+/**
+ * Defines a menu item. Each menu item has a target entity, display name, and a tree of menu items.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface MenuItem {
 
 	Class<?> getTargetEntity();
 
 	String getDisplayName();
-	
+
 	List<MenuItem> getMenuItems();
 }

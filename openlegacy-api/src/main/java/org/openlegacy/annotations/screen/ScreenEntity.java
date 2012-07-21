@@ -15,8 +15,8 @@ import org.openlegacy.terminal.ScreenEntityType;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.spi.ScreensRecognizer;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreensRecognizer;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -71,7 +71,7 @@ public @interface ScreenEntity {
 	/**
 	 * The entity display name. translated to friendly label if not defined specifically
 	 * 
-	 * @return
+	 * @return display name
 	 */
 	String displayName() default "";
 

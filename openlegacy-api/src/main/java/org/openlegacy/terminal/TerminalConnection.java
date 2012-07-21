@@ -11,7 +11,7 @@
 package org.openlegacy.terminal;
 
 import org.openlegacy.ApplicationConnection;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
 /**
  * Emulation providers needs to implement this class

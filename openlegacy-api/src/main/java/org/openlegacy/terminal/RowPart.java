@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
+/**
+ * A row part represents the content of a part of the row. A row part is typically split by editable property of
+ * {@link TerminalField}, whitin a {@link TerminalRow}
+ * 
+ * @author Roi Mor
+ */
 public interface RowPart {
 
 	TerminalPosition getPosition();

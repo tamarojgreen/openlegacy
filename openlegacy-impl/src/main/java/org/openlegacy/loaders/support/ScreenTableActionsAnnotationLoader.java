@@ -19,7 +19,7 @@ import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;

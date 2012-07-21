@@ -15,8 +15,8 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.spi.ScreensRecognizer;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;

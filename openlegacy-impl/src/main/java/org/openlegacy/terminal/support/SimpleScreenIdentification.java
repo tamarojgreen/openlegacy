@@ -13,8 +13,8 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.ScreenIdentification;
-import org.openlegacy.terminal.spi.ScreenIdentifier;
+import org.openlegacy.terminal.services.ScreenIdentification;
+import org.openlegacy.terminal.services.ScreenIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.terminal.web.render;
 
+/**
+ * Responsible for converting host units to web units
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface HtmlProportionsHandler {
 
 	int toWidth(int column);

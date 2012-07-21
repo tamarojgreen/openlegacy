@@ -8,21 +8,16 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.spi;
+package org.openlegacy.terminal.services;
 
 import org.openlegacy.terminal.TerminalSnapshot;
 
-import java.util.List;
-
 /**
- * A single screen identification which determine if a given terminal screen is found
+ * Screen recognizer returns a matching screen entity class for a given {@link TerminalSnapshot}
  * 
+ * @author Roi Mor
  */
-public interface ScreenIdentification {
+public interface ScreensRecognizer {
 
-	List<ScreenIdentifier> getScreenIdentifiers();
-
-	boolean match(TerminalSnapshot terminalSnapshot);
-
-	void addIdentifier(ScreenIdentifier screenIdentifier);
+	Class<?> match(TerminalSnapshot terminalSnapshot);
 }

@@ -11,9 +11,17 @@
 package org.openlegacy.loaders;
 
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
 
 import java.lang.annotation.Annotation;
 
+/**
+ * Class annotations loader serves as the mechanism for translating annotations into {@link EntityDefinition} stored within
+ * {@link EntitiesRegistry}. Handles class level annotations.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface ClassAnnotationsLoader extends Comparable<ClassAnnotationsLoader> {
 
 	boolean match(Annotation annotation);

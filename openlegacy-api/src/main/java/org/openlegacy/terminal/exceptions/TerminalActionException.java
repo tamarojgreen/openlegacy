@@ -15,6 +15,8 @@ import org.openlegacy.exceptions.EntityNotAccessibleException;
 /**
  * An exception indicating a problem with a terminal action execution
  * 
+ * @author Roi Mor
+ * 
  */
 public class TerminalActionException extends EntityNotAccessibleException {
 

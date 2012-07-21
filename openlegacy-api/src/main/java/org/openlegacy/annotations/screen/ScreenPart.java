@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.annotations.screen;
 
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -24,20 +24,6 @@ import java.lang.annotation.Target;
  * <br/>
  * A screen part definition defines a repeatable class with mappings which can belongs to a 1 or more screens. A screen is also
  * helpful to break a screen entity with many fields into smaller parts. <br/>
- * <br/>
- * Example:<br/>
- * <br/>
- * <code><pre>
- * 
- * @ScreenEntity
- * @ScreenIdentifiers(...) public class ItemDetails {
- * @ScreenField(row = 6, column = 22) private String itemNumber;<br/> private StockInfo stockInfo;
- * @ScreenPart public static class StockInfo {
- * @ScreenField(row = 17, column = 29, editable = true) private String listPrice;
- * @ScreenField(row = 18, column = 29, editable = true) private String standardUnitCost; } }
- * 
- *                  <pre></code> <br/>
- * <br/>
  * <br/>
  * 
  * @author Roi Mor

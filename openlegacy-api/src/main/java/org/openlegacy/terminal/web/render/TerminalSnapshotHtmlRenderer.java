@@ -12,6 +12,12 @@ package org.openlegacy.terminal.web.render;
 
 import org.openlegacy.terminal.TerminalSnapshot;
 
+/**
+ * An interface for HTML rendering of a {@link TerminalSnapshot}
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface TerminalSnapshotHtmlRenderer {
 
 	String render(TerminalSnapshot terminalSnapshot);

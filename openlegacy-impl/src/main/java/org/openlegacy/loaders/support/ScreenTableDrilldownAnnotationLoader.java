@@ -14,7 +14,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenTableDrilldown;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 

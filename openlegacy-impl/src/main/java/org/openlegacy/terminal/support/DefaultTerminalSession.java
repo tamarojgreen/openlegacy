@@ -24,9 +24,9 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
-import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.openlegacy.terminal.spi.SessionNavigator;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.ScreensRecognizer;
+import org.openlegacy.terminal.services.SessionNavigator;
+import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
 import org.openlegacy.utils.ProxyUtil;
 

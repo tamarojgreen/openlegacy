@@ -13,7 +13,7 @@ package org.openlegacy.loaders.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 

@@ -13,6 +13,13 @@ package org.openlegacy.terminal.modules.table;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 
+/**
+ * A utility class for working with drill down actions. A drill down action is useful for performing drill down into a details
+ * screen from a table.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public class TerminalDrilldownActions {
 
 	public static TerminalDrilldownAction enter(Object actionValue) {

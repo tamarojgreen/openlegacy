@@ -22,9 +22,9 @@ import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.openlegacy.terminal.spi.SessionNavigator;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreensRecognizer;
+import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
@@ -49,7 +49,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 
-	public void navigate(TerminalSession terminalSession, Class<?> targetEntityClass) throws ScreenEntityNotAccessibleException {
+	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntityClass) throws ScreenEntityNotAccessibleException {
 
 		TerminalSnapshot snapshot = terminalSession.getSnapshot();
 		Class<?> currentEntityClass = screensRecognizer.match(snapshot);
@@ -58,12 +58,12 @@ public class DefaultSessionNavigator implements SessionNavigator {
 			return;
 		}
 
-		if (ProxyUtil.isClassesMatch(currentEntityClass, targetEntityClass)) {
+		if (ProxyUtil.isClassesMatch(currentEntityClass, targetScreenEntityClass)) {
 			return;
 		}
 
 		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntityClass);
-		ScreenEntityDefinition targetEntityDefinition = screenEntitiesRegistry.get(targetEntityClass);
+		ScreenEntityDefinition targetEntityDefinition = screenEntitiesRegistry.get(targetScreenEntityClass);
 
 		List<NavigationDefinition> navigationSteps = navigationMetadata.get(currentEntityDefinition, targetEntityDefinition);
 
@@ -100,9 +100,9 @@ public class DefaultSessionNavigator implements SessionNavigator {
 				if (currentEntityDefinition == beforeEntityClass) {
 					logger.error(MessageFormat.format(
 							"Exiting from screen {0} using {1} was not effective. Existing navigation attempt to {2}",
-							currentEntityClass, exitAction, targetEntityClass));
+							currentEntityClass, exitAction, targetScreenEntityClass));
 
-					ScreenNavigationUtil.validateCurrentScreen(targetEntityClass, currentEntityClass);
+					ScreenNavigationUtil.validateCurrentScreen(targetScreenEntityClass, currentEntityClass);
 					break;
 				}
 			}
