@@ -38,7 +38,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 		return new Tn5250jTerminalSnapshot(session.getScreen(), sequence);
 	}
 
-	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
+	public void doAction(TerminalSendAction terminalSendAction) {
 		sequence++;
 		TerminalSnapshot snapshot = getSnapshot();
 		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
@@ -54,7 +54,6 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 
 		waitForKeyboardUnlock((String)terminalSendAction.getCommand());
 		sequence++;
-		return this;
 	}
 
 	private void waitForKeyboardUnlock(String aid) {

@@ -29,7 +29,7 @@ public class H3270Connection implements TerminalConnection {
 		return getSnapshot();
 	}
 
-	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
+	public void doAction(TerminalSendAction terminalSendAction) {
 		sequence++;
 		TerminalSnapshot snapshot = getSnapshot();
 		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
@@ -42,8 +42,6 @@ public class H3270Connection implements TerminalConnection {
 		}
 		s3270Session.doKey(terminalSendAction.getCommand().toString());
 		sequence++;
-		return this;
-
 	}
 
 	public Object getDelegate() {
