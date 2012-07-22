@@ -19,7 +19,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.web.JsonSerializationUtil;
 
 import org.springframework.stereotype.Controller;
