@@ -36,6 +36,10 @@ public class TerminalActions {
 					"Specified action {0} is not mapped to a terminal command", getClass())));
 		}
 
+		public void getActionName() {
+			getClass().getSimpleName();
+		}
+
 		@Override
 		public int hashCode() {
 			return getClass().hashCode();

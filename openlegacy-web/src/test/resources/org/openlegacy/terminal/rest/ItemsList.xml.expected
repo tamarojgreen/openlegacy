@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simpleScreenEntityWrapper>
+    <screenEntityName>ItemsList</screenEntityName>
+    <screenEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" xsi:type="java:apps.inventory.screens.ItemsList">
+        <positionTo></positionTo>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>APPLE</alphaSearch>
+            <itemDescription>Red apple - FRT</itemDescription>
+            <itemNumber>1007</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>BANANA</alphaSearch>
+            <itemDescription>Banana - FRT</itemDescription>
+            <itemNumber>1008</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>CARROT</alphaSearch>
+            <itemDescription>Carrot - VEG</itemDescription>
+            <itemNumber>1005</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>CHICKEN</alphaSearch>
+            <itemDescription>Chicken breast - MEAT</itemDescription>
+            <itemNumber>1006</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>CUCUMBER</alphaSearch>
+            <itemDescription>Cucumber - VEG</itemDescription>
+            <itemNumber>1004</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>EANS</alphaSearch>
+            <itemDescription>Red beans - VEG</itemDescription>
+            <itemNumber>1018</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>FIG</alphaSearch>
+            <itemDescription>Fresh fig - FRT</itemDescription>
+            <itemNumber>1020</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>GRAPE</alphaSearch>
+            <itemDescription>White grapes - FRT</itemDescription>
+            <itemNumber>1011</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>HAMBURGER</alphaSearch>
+            <itemDescription>Hamburger - MEAT</itemDescription>
+            <itemNumber>1000</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>MELON</alphaSearch>
+            <itemDescription>Yellow melon - FRT</itemDescription>
+            <itemNumber>1016</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>MUSHROOM</alphaSearch>
+            <itemDescription>Champignon mushrooms - VEG</itemDescription>
+            <itemNumber>1013</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>OLIVE</alphaSearch>
+            <itemDescription>Black olive - VEG</itemDescription>
+            <itemNumber>1015</itemNumber>
+            <action></action>
+        </itemListRows>
+    </screenEntity>
+    <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" current="false" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
+        <displayName>Main Menu</displayName>
+        <entityName>MainMenu</entityName>
+    </paths>
+    <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" current="false" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
+        <displayName>Inventory Management</displayName>
+        <entityName>InventoryManagement</entityName>
+    </paths>
+    <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" current="true" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
+        <displayName>Items List</displayName>
+        <entityName>ItemsList</entityName>
+    </paths>
+    <actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+        <additionalKey>SHIFT</additionalKey>
+        <actionName>CombinedTerminalAction</actionName>
+        <displayName>Number Seq</displayName>
+        <alias>Number Seq</alias>
+        <action xsi:type="java:org.openlegacy.terminal.actions.CombinedTerminalAction">
+            <additionalKey>SHIFT</additionalKey>
+        </action>
+    </actions>
+</simpleScreenEntityWrapper>

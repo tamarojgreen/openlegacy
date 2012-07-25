@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simpleScreenEntityWrapper>
+    <screenEntityName>ItemsList</screenEntityName>
+    <screenEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" xsi:type="java:apps.inventory.screens.ItemsList">
+        <positionTo></positionTo>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Water Ball</alphaSearch>
+            <itemDescription>Water Ball - Balls</itemDescription>
+            <itemNumber>1007</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Frisbee</alphaSearch>
+            <itemDescription>Dog Frisbee - Pet Toys</itemDescription>
+            <itemNumber>1008</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Pig Bank</alphaSearch>
+            <itemDescription>Pig Saving Bank - Ceramics</itemDescription>
+            <itemNumber>1005</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Kids Guitar</alphaSearch>
+            <itemDescription>Kids Guitar - Musical Toys</itemDescription>
+            <itemNumber>1006</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Poker</alphaSearch>
+            <itemDescription>Hot Poker Playing Cards - Cards</itemDescription>
+            <itemNumber>1004</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Helicopter</alphaSearch>
+            <itemDescription>Toy Helicopter - Remote control toys</itemDescription>
+            <itemNumber>1018</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Bumper Car</alphaSearch>
+            <itemDescription>Bumper Car - Electrical Toys</itemDescription>
+            <itemNumber>1020</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Organ</alphaSearch>
+            <itemDescription>37 Key Electronic Organ - Plastic Toy</itemDescription>
+            <itemNumber>1011</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Ball Pool</alphaSearch>
+            <itemDescription>Ball Pool - Novelty Toys</itemDescription>
+            <itemNumber>1000</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Turtle</alphaSearch>
+            <itemDescription>Twilight Turtle - Musical Toys</itemDescription>
+            <itemNumber>1016</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Toy Car</alphaSearch>
+            <itemDescription>Ride on Toy Car - Vehicle Toys</itemDescription>
+            <itemNumber>1013</itemNumber>
+            <action></action>
+        </itemListRows>
+        <itemListRows xsi:type="java:apps.inventory.screens.ItemsList$ItemsListRow">
+            <alphaSearch>Puzzle</alphaSearch>
+            <itemDescription>Wooden Puzzle - Wooden Toys</itemDescription>
+            <itemNumber>1015</itemNumber>
+            <action></action>
+        </itemListRows>
+    </screenEntity>
+    <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" current="false" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
+        <displayName>Main Menu</displayName>
+        <entityName>MainMenu</entityName>
+    </paths>
+    <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" current="false" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
+        <displayName>Inventory Management</displayName>
+        <entityName>InventoryManagement</entityName>
+    </paths>
+    <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" current="true" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
+        <displayName>Items List</displayName>
+        <entityName>ItemsList</entityName>
+    </paths>
+    <actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+        <additionalKey>SHIFT</additionalKey>
+        <actionName>CombinedTerminalAction</actionName>
+        <displayName>Number Seq</displayName>
+        <alias>numberSeq</alias>
+        <action xsi:type="java:org.openlegacy.terminal.actions.CombinedTerminalAction">
+            <additionalKey>SHIFT</additionalKey>
+        </action>
+    </actions>
+</simpleScreenEntityWrapper>

@@ -11,13 +11,6 @@ import apps.inventory.screens.ItemsList.ItemsListRow;
 
 privileged @SuppressWarnings("unused") aspect ItemsListRowTable_Aspect {
     
-    private TerminalField ItemsListRow.actionField;
-	
-    private TerminalField ItemsListRow.alphaSearchField;
-	
-    private TerminalField ItemsListRow.itemDescriptionField;
-	
-    
     public String ItemsListRow.getAction(){
     	return this.action;
     }
@@ -26,25 +19,16 @@ privileged @SuppressWarnings("unused") aspect ItemsListRowTable_Aspect {
     	this.action = action;
     }
 
-    public TerminalField ItemsListRow.getActionField(){
-    	return actionField;
-    }
     public String ItemsListRow.getAlphaSearch(){
     	return this.alphaSearch;
     }
     
 
-    public TerminalField ItemsListRow.getAlphaSearchField(){
-    	return alphaSearchField;
-    }
     public String ItemsListRow.getItemDescription(){
     	return this.itemDescription;
     }
     
 
-    public TerminalField ItemsListRow.getItemDescriptionField(){
-    	return itemDescriptionField;
-    }
     public Integer ItemsListRow.getItemNumber(){
     	return this.itemNumber;
     }

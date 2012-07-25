@@ -21,29 +21,32 @@
 		Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />
 
-	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-	  <property name="order" value="1" />
-	  <property name="mediaTypes">
-	    <map>
-	      <entry key="json" value="application/json" />
-	      <entry key="xml" value="application/xml" />
-	    </map>
-	  </property>
-	  <property name="defaultViews">
-	    <list>
-	      <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
-	      <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
-	        <constructor-arg>
-	          <bean class="org.springframework.oxm.xstream.XStreamMarshaller" />
-	        </constructor-arg>
-	      </bean>
-	    </list>
-	  </property>
-	  <property name="ignoreAcceptHeader" value="true" />
-	</bean>
 
+    <bean
+        class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="defaultContentType" value="text/html" />
+        <property name="ignoreAcceptHeader" value="true" />
+        <property name="favorPathExtension" value="true" />
+        <property name="mediaTypes">
+            <map>
+                <entry key="json" value="application/json" />
+                <entry key="xml" value="application/xml" />
+            </map>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+   		        <bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+		          <constructor-arg>
+		             <bean class="org.springframework.oxm.castor.CastorMarshaller" /> 
+		          </constructor-arg>
+		        </bean>
+            </list>
+        </property>
+    </bean>
+    
 	<bean
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean"
 		id="applicationConversionService" />
-
+	
 </beans>
