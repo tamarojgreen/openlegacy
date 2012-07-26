@@ -15,6 +15,8 @@ import org.openlegacy.exceptions.EntityNotAccessibleException;
 /**
  * This exception is typically thrown when a session is unable to access the requested screen entity
  * 
+ * @author Roi Mor
+ * 
  */
 public class ScreenEntityNotAccessibleException extends EntityNotAccessibleException {
 

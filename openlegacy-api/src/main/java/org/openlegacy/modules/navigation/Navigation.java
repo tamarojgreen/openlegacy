@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Defines navigation module. Adds extra methods to the session related to session navigation
  * 
- * 
+ * @author Roi Mor
  */
 public interface Navigation extends SessionModule {
 

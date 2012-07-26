@@ -18,8 +18,8 @@ import com.sabratec.applinx.baseobject.GXNavigateRequest;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.spi.SessionNavigator;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.SessionNavigator;
 
 import javax.inject.Inject;
 

@@ -12,8 +12,8 @@ import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.spi.ScreenIdentification;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenIdentification;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

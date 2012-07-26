@@ -14,6 +14,11 @@ import org.openlegacy.exceptions.UnableToLoadSnapshotException;
 
 import java.util.List;
 
+/**
+ * A testing and mock-up mostly interface designed to design a snapshot loader single/multiple snapshot from file/s
+ * 
+ * @author Roi Mor
+ */
 public interface SnapshotsLoader<S extends Snapshot> {
 
 	/**

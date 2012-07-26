@@ -21,7 +21,10 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
- * A utility class for exposing common terminal actions
+ * A utility class which contains all common terminal actions. Contains both class for usages by annotation definition, and
+ * initialized instances for direct usage from API.
+ * 
+ * @author Roi Mor
  * 
  */
 public class TerminalActions {

@@ -15,8 +15,8 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.analyzer.support.ScreenEntityDefinitionsBuilderUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.spi.ScreenIdentification;
-import org.openlegacy.terminal.spi.ScreenIdentifier;
+import org.openlegacy.terminal.services.ScreenIdentification;
+import org.openlegacy.terminal.services.ScreenIdentifier;
 import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
 import java.util.Collections;

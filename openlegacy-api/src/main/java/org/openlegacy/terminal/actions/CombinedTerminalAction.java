@@ -15,6 +15,12 @@ import org.openlegacy.terminal.exceptions.TerminalActionNotMappedException;
 
 import java.text.MessageFormat;
 
+/**
+ * Represent a terminal action which is combined of a keyboard action and additional key (SHIFT, CTRL, ALT or NONE).
+ * 
+ * @author Roi Mor
+ * 
+ */
 public class CombinedTerminalAction implements TerminalAction {
 
 	private AdditionalKey additionalKey;

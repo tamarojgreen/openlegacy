@@ -19,6 +19,7 @@ import java.util.List;
 /**
  * A Messages module is handling messages screens and store the messages in the module for a later usage, and skip them
  * 
+ * @author Roi Mor
  */
 public interface Messages extends SessionModule {
 

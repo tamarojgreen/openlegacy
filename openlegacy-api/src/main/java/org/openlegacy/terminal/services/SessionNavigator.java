@@ -8,15 +8,18 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.spi;
+package org.openlegacy.terminal.services;
 
-import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 
 /**
- * Screen recognizer is returns a matching screenEntity class for the given terminal screen
+ * Session navigator enables navigating from the current screen entity to the specified target screen entity class
+ * 
+ * @author Roi Mor
  * 
  */
-public interface ScreensRecognizer {
+public interface SessionNavigator {
 
-	Class<?> match(TerminalSnapshot terminalSnapshot);
+	void navigate(TerminalSession terminalSession, Class<?> targetScreenEntityClass) throws ScreenEntityNotAccessibleException;
 }

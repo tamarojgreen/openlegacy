@@ -17,7 +17,7 @@ import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalOutgoingSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
 import java.util.HashMap;
 import java.util.List;

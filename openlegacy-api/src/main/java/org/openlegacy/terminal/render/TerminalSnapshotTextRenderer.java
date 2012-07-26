@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.terminal.render;
 
+/**
+ * A terminal snapshot renderer interface for rendering into text. Defined as an empty interface for easier access from Spring
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface TerminalSnapshotTextRenderer extends TerminalSnapshotRenderer {
 
 }

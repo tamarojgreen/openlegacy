@@ -18,7 +18,7 @@ import org.openlegacy.modules.support.menu.SimpleMenuItem;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;

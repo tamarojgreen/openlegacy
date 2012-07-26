@@ -21,7 +21,7 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.PropertyUtil;
 
 import java.util.Map;

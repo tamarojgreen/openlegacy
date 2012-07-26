@@ -14,7 +14,7 @@ import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.loaders.RegistryLoader;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

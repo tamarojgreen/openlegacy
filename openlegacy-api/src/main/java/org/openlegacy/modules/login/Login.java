@@ -18,6 +18,7 @@ import org.openlegacy.modules.SessionModule;
 /**
  * A Login module is able to perform a login/log-off based on field and entity declaration
  * 
+ * @author Roi Mor
  */
 public interface Login extends SessionModule {
 

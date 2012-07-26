@@ -20,7 +20,7 @@ import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.SpringUtil;

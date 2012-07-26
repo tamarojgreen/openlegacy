@@ -15,8 +15,9 @@ import org.openlegacy.Snapshot;
 import java.util.List;
 
 /**
- * Defines a session trail. A session trail is compound of multiple <code>Snapshot</code>
+ * Defines a session trail. A session trail is compound of multiple {@link Snapshot}.
  * 
+ * @author Roi Mor
  * @param <S>
  *            The snapshot type
  */

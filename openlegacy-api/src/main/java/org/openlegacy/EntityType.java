@@ -24,6 +24,8 @@ import org.openlegacy.modules.menu.Menu.MenuEntity;
  * @see LoginEntity
  * @see MenuEntity
  * 
+ * @author Roi Mor
+ * 
  */
 public interface EntityType {
 

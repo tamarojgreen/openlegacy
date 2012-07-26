@@ -12,7 +12,7 @@ package org.openlegacy.terminal.web.mvc;
 
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -10,25 +10,18 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.ApplicationConnection;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
 /**
  * Emulation providers needs to implement this class
  */
-public interface TerminalConnection {
+public interface TerminalConnection extends ApplicationConnection<TerminalSnapshot, TerminalSendAction> {
 
 	TerminalSnapshot getSnapshot();
 
 	TerminalSnapshot fetchSnapshot();
 
-	TerminalConnection doAction(TerminalSendAction terminalSendAction);
-
-	Object getDelegate();
-
-	String getSessionId();
-
-	boolean isConnected();
-
-	void disconnect();
+	void doAction(TerminalSendAction terminalSendAction);
 
 }

@@ -15,6 +15,13 @@ import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 
 import java.util.List;
 
+/**
+ * Defines a page part definition. A page part represents a part within a page, which contains form columns (1 or more), row parts
+ * ({@link PagePartRowDefinition}), and a potentially a table definition.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface PagePartDefinition {
 
 	int getColumns();

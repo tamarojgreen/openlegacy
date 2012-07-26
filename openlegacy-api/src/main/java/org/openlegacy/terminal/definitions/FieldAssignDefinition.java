@@ -13,6 +13,8 @@ package org.openlegacy.terminal.definitions;
 /**
  * Field assign definition defines fields which should be send to the terminal, in the given context (navigation, etc).
  * 
+ * @author Roi Mor
+ * 
  */
 public interface FieldAssignDefinition {
 

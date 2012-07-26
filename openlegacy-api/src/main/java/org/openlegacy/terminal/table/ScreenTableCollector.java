@@ -14,7 +14,9 @@ import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.terminal.TerminalSession;
 
 /**
- * Define a collector for tables based multiple screen entities
+ * Define a collector for tables based on multiple screen entities
+ * 
+ * @author IL505100
  */
 public interface ScreenTableCollector<T> extends TableCollector<TerminalSession, T> {
 

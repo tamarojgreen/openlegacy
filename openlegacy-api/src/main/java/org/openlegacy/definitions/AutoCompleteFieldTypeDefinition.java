@@ -14,8 +14,10 @@ import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
 
 /**
- * Defines an auto complete field type
+ * Defines an auto complete field type definition. An auto complete definition contains definition for auto complete field,
+ * including the records provider, collect all, and source entity, if available.
  * 
+ * @author Roi Mor
  */
 public interface AutoCompleteFieldTypeDefinition extends FieldTypeDefinition {
 
@@ -26,7 +28,7 @@ public interface AutoCompleteFieldTypeDefinition extends FieldTypeDefinition {
 	Class<?> getSourceEntityClass();
 
 	/**
-	 * For designtime purposes
+	 * The source entity class name, Used for design-time purposes
 	 * 
 	 * @return
 	 */

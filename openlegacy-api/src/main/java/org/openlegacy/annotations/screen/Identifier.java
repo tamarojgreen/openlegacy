@@ -17,14 +17,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Defines a terminal screen identifier. This annotation should be declared only within a {@link ScreenEntity} annotation
+ * Defines a terminal screen identifier. A set of identifiers on {@link ScreenIdentifiers} annotation, define a unique identifier
+ * for a snapshot screen, and make it matched to a given a class marked with {@link ScreenEntity} annotation.
  * 
- * <code>
+ * <br/>
+ * <br/>
+ * Example:<br/>
+ * <br/>
+ * <code>@ScreenEntity<br/>@ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 36, value = "Expected text in position 1,36 on screen"),@Identifier(row = 2, column = 27, value = "Expected text in position 2,27 on screen") })<br/>public class ItemDetails{<br/>...<br/>} </code>
  * 
- * @ScreenEntity(identifiers = {
- * @Identifier(row = 1, column = 36, value = "Expected text in position 1,36 on screen")
- * @Identifier(row = 2, column = 27, value = "Expected text in position 2,27 on screen") }) </code>
- * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

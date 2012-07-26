@@ -12,7 +12,7 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;

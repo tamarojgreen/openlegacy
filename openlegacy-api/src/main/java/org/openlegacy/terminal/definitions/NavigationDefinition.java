@@ -15,7 +15,10 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import java.util.List;
 
 /**
- * A screen navigation definitions. Define how to step into and out from the given screen entity
+ * A screen navigation definitions. Define how to step into and out from the given screen entity.
+ * 
+ * @author Roi Mor
+ * 
  * 
  */
 public interface NavigationDefinition {

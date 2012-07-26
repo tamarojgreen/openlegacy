@@ -18,8 +18,8 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.spi.ScreenIdentification;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenIdentification;
 
 import java.util.ArrayList;
 import java.util.Collection;

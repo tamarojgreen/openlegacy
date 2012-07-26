@@ -11,7 +11,9 @@
 package org.openlegacy;
 
 /**
- * Marker interface for session module meta-data
+ * Marker interface for session module meta-data classes
+ * 
+ * @author Roi Mor
  * 
  */
 public interface SessionModuleMetadata {

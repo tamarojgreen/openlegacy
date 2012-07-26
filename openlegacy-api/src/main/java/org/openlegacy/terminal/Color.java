@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
+/**
+ * Define all types of host colors
+ * 
+ * @author Roi Mor
+ * 
+ */
 public enum Color {
 	BLACK,
 	BLUE,

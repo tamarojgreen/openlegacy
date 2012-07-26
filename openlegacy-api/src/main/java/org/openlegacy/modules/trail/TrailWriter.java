@@ -15,8 +15,10 @@ import org.openlegacy.Snapshot;
 import java.io.OutputStream;
 
 /**
- * Define a session trail writer. Write the given session trail to the given output stream
+ * Defines a session trail writer. Write the given session trail to the given output stream. Default implementations are in XML,
+ * but can be saved in other formats.
  * 
+ * @author Roi Mor
  */
 public interface TrailWriter {
 

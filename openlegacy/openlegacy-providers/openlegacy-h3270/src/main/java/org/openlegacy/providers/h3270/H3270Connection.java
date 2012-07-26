@@ -5,7 +5,7 @@ import org.h3270.host.S3270Screen;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class H3270Connection implements TerminalConnection {
 		return getSnapshot();
 	}
 
-	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
+	public void doAction(TerminalSendAction terminalSendAction) {
 		sequence++;
 		TerminalSnapshot snapshot = getSnapshot();
 		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
@@ -42,8 +42,6 @@ public class H3270Connection implements TerminalConnection {
 		}
 		s3270Session.doKey(terminalSendAction.getCommand().toString());
 		sequence++;
-		return this;
-
 	}
 
 	public Object getDelegate() {

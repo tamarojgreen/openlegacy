@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.openlegacy;
 
+/**
+ * Describe a session entity information: class, display name, entity name. Used for representing a an entity information.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface EntityDescriptor {
 
 	Class<?> getEntityClass();
@@ -18,5 +24,10 @@ public interface EntityDescriptor {
 
 	String getDisplayName();
 
+	/**
+	 * Determine if the entity is the current entity in the session
+	 * 
+	 * @return is the entity is the current entity in the session
+	 */
 	boolean isCurrent();
 }

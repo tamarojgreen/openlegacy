@@ -16,8 +16,9 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import java.util.Collection;
 
 /**
- * FieldMapping meta-data provider purpose is to return mappings for a given screenEntity
+ * Screen parts definitions provider purpose is to return screen parts for a given screen entity.
  * 
+ * @author Roi Mor
  */
 public interface ScreenPartsDefinitionProvider extends DefinitionsProvider {
 

@@ -10,10 +10,18 @@
  *******************************************************************************/
 package org.openlegacy.modules.menu;
 
+import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
 import org.openlegacy.modules.SessionModule;
 
+/**
+ * A menu module is responsible for constructing hierarchy menu items from multiple {@link MenuEntity} entities defines with the
+ * {@link EntitiesRegistry}
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface Menu extends SessionModule {
 
 	public static final String SELECTION_LABEL = "Menu Selection";

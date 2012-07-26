@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.core.annotation.Order;

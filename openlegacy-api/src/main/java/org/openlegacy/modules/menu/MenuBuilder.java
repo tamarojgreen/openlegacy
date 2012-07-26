@@ -10,6 +10,15 @@
  *******************************************************************************/
 package org.openlegacy.modules.menu;
 
+import org.openlegacy.modules.menu.Menu.MenuEntity;
+
+/**
+ * Defines a menu builder logic. A menu builder builds a {@link MenuItem} and it's child nodes, from a given {@link MenuEntity}
+ * class, or from root if not specified.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface MenuBuilder {
 
 	/**

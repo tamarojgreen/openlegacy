@@ -15,6 +15,8 @@ import org.openlegacy.exceptions.OpenLegacyException;
 /**
  * A login exception is thrown when a session is not able to pass the login phase
  * 
+ * @author Roi Mor
+ * 
  */
 public class LoginException extends OpenLegacyException {
 

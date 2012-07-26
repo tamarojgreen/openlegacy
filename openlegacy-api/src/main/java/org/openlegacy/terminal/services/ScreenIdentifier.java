@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.spi;
+package org.openlegacy.terminal.services;
 
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -16,6 +16,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 /**
  * An interface for a terminal screen identifier. Determine whether the given identifier matches the given terminal screen
  * 
+ * @author Roi Mor
  */
 public interface ScreenIdentifier extends TerminalPositionContainer {
 

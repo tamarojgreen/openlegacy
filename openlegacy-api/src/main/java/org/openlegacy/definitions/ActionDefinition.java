@@ -10,23 +10,44 @@
  *******************************************************************************/
 package org.openlegacy.definitions;
 
+import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
+import org.openlegacy.annotations.screen.Action;
 
 /**
- * An action definition. Translated from @ScreenAction and store within a screen entity in the registry
+ * A generic session action meta-data definition. Stored within {@link EntityDefinition} in {@link EntitiesRegistry}. <br/>
+ * Loaded from {@link Action} annotation for screen entities.
+ * 
+ * @author Roi Mor
  * 
  */
 public interface ActionDefinition {
 
+	/**
+	 * The session action to execute
+	 * 
+	 * @return the session action to execute
+	 */
 	SessionAction<? extends Session> getAction();
 
+	/**
+	 * the action name
+	 * 
+	 * @return the action name
+	 */
 	String getActionName();
 
+	/**
+	 * The action display name
+	 * 
+	 * @return the action display name
+	 */
 	String getDisplayName();
 
 	/**
-	 * Allow to refer an action by a logical name, and not "technical" action name ("F3", etc)
+	 * Allow to refer an action by a logical name
 	 */
 	String getAlias();
 

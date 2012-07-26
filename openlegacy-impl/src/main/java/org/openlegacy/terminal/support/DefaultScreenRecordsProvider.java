@@ -18,7 +18,7 @@ import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.ScreenRecordsProvider;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.BeansException;

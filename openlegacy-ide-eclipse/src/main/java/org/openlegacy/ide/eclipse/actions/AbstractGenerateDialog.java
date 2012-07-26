@@ -54,6 +54,7 @@ import org.openlegacy.ide.eclipse.util.JavaUtils;
 import java.io.File;
 import java.text.MessageFormat;
 
+@SuppressWarnings("restriction")
 public abstract class AbstractGenerateDialog extends Dialog implements UserInteraction {
 
 	private Text sourceFolderPathText;
@@ -253,7 +254,7 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 
 			public void run() {
 				result[0] = MessageDialog.openQuestion(getShell(), PluginConstants.TITLE,
-						MessageFormat.format(Messages.question_override_file, file.getName()));  
+						MessageFormat.format(Messages.question_override_file, file.getName()));
 			}
 		});
 

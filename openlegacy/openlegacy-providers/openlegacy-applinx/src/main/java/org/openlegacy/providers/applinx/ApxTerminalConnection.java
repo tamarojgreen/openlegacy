@@ -29,7 +29,7 @@ import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public class ApxTerminalConnection implements TerminalConnection {
 		return baseObject;
 	}
 
-	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
+	public void doAction(TerminalSendAction terminalSendAction) {
 
 		List<TerminalField> fields = terminalSendAction.getModifiedFields();
 		TerminalPosition cursorPosition = terminalSendAction.getCursorPosition();
@@ -88,7 +88,6 @@ public class ApxTerminalConnection implements TerminalConnection {
 		} catch (GXGeneralException e) {
 			throw (new OpenLegacyProviderException(e));
 		}
-		return this;
 	}
 
 	private static GXSendKeysRequest buildRequest(List<TerminalField> fields, Object command) {
