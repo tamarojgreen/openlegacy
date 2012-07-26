@@ -5,6 +5,7 @@ import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.xml.sax.InputSource;
 
@@ -47,10 +47,10 @@ public class DefaultRestController {
 	@Inject
 	private ScreenEntitySerializer jsonScreenEntitySerializer;
 
-	@ResponseBody
-	@RequestMapping(value = "/menu", method = RequestMethod.GET)
+	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { "application/json", "application/xml" })
 	public Object getMenu(ModelMap model) {
-		return terminalSession.getModule(Menu.class).getMenuTree();
+		MenuItem menus = terminalSession.getModule(Menu.class).getMenuTree();
+		return menus;
 	}
 
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)

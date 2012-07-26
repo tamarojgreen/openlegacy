@@ -97,7 +97,7 @@
         <additionalKey>SHIFT</additionalKey>
         <actionName>CombinedTerminalAction</actionName>
         <displayName>Number Seq</displayName>
-        <alias>Number Seq</alias>
+        <alias>numberSeq</alias>
         <action xsi:type="java:org.openlegacy.terminal.actions.CombinedTerminalAction">
             <additionalKey>SHIFT</additionalKey>
         </action>

@@ -1,6 +1,8 @@
 package org.openlegacy.terminal.rest;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -39,13 +41,15 @@ public class DefaultRestControllerTest {
 	private static final String USER = "user1";
 	private static final String PASSWORD = "pwd1";
 
+	private final static Log logger = LogFactory.getLog(DefaultRestControllerTest.class);
+
 	@Test
 	public void testInventoryRestApplicationJson() throws IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 
 		try {
 			// authenticate(httpClient);
-			String result = execute(httpClient, "ItemsList.json");
+			String result = execute(httpClient, "ItemsList.json", "json");
 			byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ItemsList.json.expected"));
 			AssertUtils.assertContent(expectedBytes, result.getBytes());
 
@@ -59,11 +63,25 @@ public class DefaultRestControllerTest {
 	}
 
 	@Test
+	public void testInventoryRestApplicationJsonMenu() throws IOException {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+
+		try {
+			// authenticate(httpClient);
+			String result = execute(httpClient, "menu", "json");
+			byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("menu.json.expected"));
+			AssertUtils.assertContent(expectedBytes, result.getBytes());
+		} finally {
+			httpClient.getConnectionManager().closeExpiredConnections();
+		}
+	}
+
+	@Test
 	public void testInventoryRestApplicationXml() throws IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 
 		try {
-			String result = execute(httpClient, "ItemsList.xml");
+			String result = execute(httpClient, "ItemsList.xml", "xml");
 			byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ItemsList.xml.expected"));
 			AssertUtils.assertContent(expectedBytes, result.getBytes());
 
@@ -73,6 +91,20 @@ public class DefaultRestControllerTest {
 					"ItemsList.xml?action=numberSeq",
 					"xml",
 					"<?xml version=\"1.0\" encoding=\"UTF-8\"?><screenEntity xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:java=\"http://java.sun.com\" xsi:type=\"java:apps.inventory.screens.ItemsList\"><positionTo>5</positionTo><focusField>positionTo</focusField></screenEntity>");
+		} finally {
+			httpClient.getConnectionManager().closeExpiredConnections();
+		}
+	}
+
+	@Test
+	public void testInventoryRestApplicationXmlMenu() throws IOException {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+
+		try {
+			// authenticate(httpClient);
+			String result = execute(httpClient, "menu", "xml");
+			byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("menu.xml.expected"));
+			AssertUtils.assertContent(expectedBytes, result.getBytes());
 		} finally {
 			httpClient.getConnectionManager().closeExpiredConnections();
 		}
@@ -100,11 +132,20 @@ public class DefaultRestControllerTest {
 		localcontext.setAttribute(ClientContext.AUTH_CACHE, authCache);
 	}
 
-	private static String execute(HttpClient httpClient, String relativeUrl) throws ClientProtocolException, IOException {
+	private static String execute(HttpClient httpClient, String relativeUrl, String type) throws ClientProtocolException,
+			IOException {
 		HttpGet httpGet = new HttpGet(BASE_URL + relativeUrl);
+		httpGet.addHeader("Content-Type", "application/" + type);
+		httpGet.addHeader("Accept", "application/" + type);
 		HttpResponse response = httpClient.execute(httpGet);
 		HttpEntity httpEntity = response.getEntity();
 		String result = IOUtils.toString(httpEntity.getContent());
+
+		if (response.getStatusLine().getStatusCode() >= 400) {
+			logger.error(result);
+			throw (new RuntimeException(response.getStatusLine().getReasonPhrase()));
+		}
+
 		return result;
 	}
 
@@ -113,6 +154,7 @@ public class DefaultRestControllerTest {
 
 		HttpPost post = new HttpPost(BASE_URL + relativeUrl);
 		post.setHeader("Content-Type", "application/" + type);
+		post.addHeader("Accept", "application/" + type);
 		post.setEntity(new StringEntity(content, "UTF-8"));
 		ResponseHandler<String> responseHandler = new BasicResponseHandler();
 		String response = httpClient.execute(post, responseHandler);
