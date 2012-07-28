@@ -46,6 +46,7 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 	private int widthProportion = 10;
 	private int heightProportion = 15;
 	private int fontType = Font.PLAIN;
+	private boolean drawFieldSeparators = true;
 
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream output) {
 
@@ -126,11 +127,13 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 			}
 		}
 
-		List<TerminalPosition> fieldSeperators = terminalSnapshot.getFieldSeperators();
-		graphics.setColor(imageDefaultTextColor);
-		for (TerminalPosition terminalPosition : fieldSeperators) {
-			graphics.drawString("^", toWidth(terminalPosition.getColumn() - 1 + leftColumnsOffset),
-					toHeight(terminalPosition.getRow()));
+		if (drawFieldSeparators) {
+			List<TerminalPosition> fieldSeperators = terminalSnapshot.getFieldSeperators();
+			graphics.setColor(imageDefaultTextColor);
+			for (TerminalPosition terminalPosition : fieldSeperators) {
+				graphics.drawString("^", toWidth(terminalPosition.getColumn() - 1 + leftColumnsOffset),
+						toHeight(terminalPosition.getRow()));
+			}
 		}
 	}
 
@@ -204,5 +207,9 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 	public void setFontType(int fontType) {
 		this.fontType = fontType;
+	}
+
+	public void setDrawFieldSeparators(boolean drawFieldSeparators) {
+		this.drawFieldSeparators = drawFieldSeparators;
 	}
 }
