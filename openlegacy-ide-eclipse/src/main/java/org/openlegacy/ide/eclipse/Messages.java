@@ -22,6 +22,7 @@ public class Messages extends NLS {
 	public static String errror_host_port_not_specified;
 	public static String field_entity_name;
 	public static String info_ol_java_api_project;
+	public static String info_ol_new_rest_project;
 	public static String info_ol_new_web_mvc_project;
 	public static String info_ol_project_wizard;
 	public static String info_ol_sample_mobile_mvc_project;
