@@ -14,10 +14,14 @@ import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.ActionDefinition;
 
-public class SimpleActionDefinition implements ActionDefinition {
+import java.io.Serializable;
+
+public class SimpleActionDefinition implements ActionDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String displayName;
-	private SessionAction<? extends Session> action;
+	private transient SessionAction<? extends Session> action;
 	private String alias;
 	private String actionName;
 

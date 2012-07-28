@@ -22,6 +22,8 @@ public interface MenuItem {
 
 	Class<?> getTargetEntity();
 
+	String getTargetEntityName();
+
 	String getDisplayName();
 
 	List<MenuItem> getMenuItems();

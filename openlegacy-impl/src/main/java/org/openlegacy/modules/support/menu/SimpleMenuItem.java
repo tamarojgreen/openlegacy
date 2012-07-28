@@ -17,17 +17,25 @@ import java.util.List;
 
 public class SimpleMenuItem implements MenuItem {
 
-	private Class<?> targetEntity;
+	private transient Class<?> targetEntity;
+	private String targetEntityName;
+
 	private List<MenuItem> menuItems = new ArrayList<MenuItem>();
+
 	private String displayName;
 
 	public SimpleMenuItem(Class<?> targetEntity, String displayName) {
 		this.targetEntity = targetEntity;
+		this.targetEntityName = targetEntity.getSimpleName();
 		this.displayName = displayName;
 	}
 
 	public Class<?> getTargetEntity() {
 		return targetEntity;
+	}
+
+	public String getTargetEntityName() {
+		return targetEntityName;
 	}
 
 	public List<MenuItem> getMenuItems() {

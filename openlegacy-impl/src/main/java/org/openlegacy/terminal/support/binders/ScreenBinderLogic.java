@@ -85,15 +85,28 @@ public class ScreenBinderLogic {
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 
-			if (!fieldMappingDefinition.isEditable()) {
-				continue;
-			}
 			TerminalPosition fieldPosition = fieldMappingDefinition.getPosition();
 			String fieldName = fieldMappingDefinition.getName();
 
 			if (!fieldAccessor.isExists(fieldName)) {
 				continue;
 			}
+
+			if (screenPojo instanceof ScreenEntity) {
+				ScreenEntity screenEntity = (ScreenEntity)screenPojo;
+				if (fieldName.equalsIgnoreCase(screenEntity.getFocusField())) {
+					sendAction.setCursorPosition(fieldPosition);
+					if (logger.isDebugEnabled()) {
+						logger.debug(MessageFormat.format("Cursor was set at position {0} from field {1}", fieldPosition,
+								screenEntity.getFocusField()));
+					}
+				}
+			}
+
+			if (!fieldMappingDefinition.isEditable()) {
+				continue;
+			}
+
 			Object value = fieldAccessor.getFieldValue(fieldName);
 
 			TerminalField terminalField = terminalSnapshot.getField(fieldPosition);
@@ -116,16 +129,6 @@ public class ScreenBinderLogic {
 								"Field {0} in screen {1} was modified with value {2}, but is not defined as editable", fieldName,
 								screenPojo, value)));
 
-					}
-				}
-			}
-			if (screenPojo instanceof ScreenEntity) {
-				ScreenEntity screenEntity = (ScreenEntity)screenPojo;
-				if (fieldName.equals(screenEntity.getFocusField())) {
-					sendAction.setCursorPosition(fieldPosition);
-					if (logger.isDebugEnabled()) {
-						logger.debug(MessageFormat.format("Cursor was set at position {0} from field {1}", fieldPosition,
-								screenEntity.getFocusField()));
 					}
 				}
 			}

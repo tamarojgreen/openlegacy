@@ -18,6 +18,8 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 public class SimpleTerminalActionDefinition extends SimpleActionDefinition implements TerminalActionDefinition {
 
+	private static final long serialVersionUID = 1L;
+
 	private TerminalPosition position;
 	private AdditionalKey additionalKey;
 

@@ -7,7 +7,8 @@
 	<packaging>pom</packaging>
 	<name>OpenLegacy</name>
 	<description>OpenLegacy is a collection of API, framework and tools designed to provide a full stack of Legacy modernization abilities which should help you expose legacy functionallity to Java, REST, SOA, Mobile and Web based applications</description>
-	
+
+		
 	<modules>
 		<module>../openlegacy-api</module>
 		<module>../openlegacy-utils</module>
