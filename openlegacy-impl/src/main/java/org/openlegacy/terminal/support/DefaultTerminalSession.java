@@ -30,7 +30,6 @@ import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -282,7 +281,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	public Object getEntity(String entityName) throws EntityNotFoundException {
 		Class<?> entityClass = screenEntitiesRegistry.getEntityClass(entityName);
-		Assert.notNull(entityClass, MessageFormat.format("Screen entity \"{0}\" not found", entityName));
+		if (entityClass == null) {
+			throw (new EntityNotFoundException(MessageFormat.format("Screen entity \"{0}\" not found", entityName)));
+		}
 		return getEntity(entityClass);
 	}
 

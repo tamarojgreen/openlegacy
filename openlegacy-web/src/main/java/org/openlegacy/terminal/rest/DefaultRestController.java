@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
+import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
@@ -12,6 +13,7 @@ import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.modules.trail.TrailUtil;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenEntityWrapper;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
@@ -58,26 +60,36 @@ public class DefaultRestController {
 	@Inject
 	private ScreenEntityUtils screenEntityUtils;
 
+	@Inject
+	private TrailUtil trailUtil;
+
 	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
 	public Object getMenu(ModelMap model) {
 		MenuItem menus = terminalSession.getModule(Menu.class).getMenuTree();
 		return menus;
 	}
 
-	@RequestMapping(value = "/logoff", method = RequestMethod.GET)
+	@RequestMapping(value = "/logoff", method = RequestMethod.GET, consumes = { JSON, XML })
 	public void logoff(HttpServletResponse response) {
+		trailUtil.saveTrail(terminalSession);
 		terminalSession.getModule(Login.class).logoff();
+
 		response.setStatus(HttpServletResponse.SC_OK);
 	}
 
-	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
-	public ModelAndView getScreenEntity(@PathVariable("screen") String screenEntityName) {
-		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
-		return getEntityInner(screenEntity);
-
+	@RequestMapping(value = "/{screen}", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getScreenEntity(@PathVariable("screen") String screenEntityName, HttpServletResponse response)
+			throws IOException {
+		try {
+			ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
+			return getEntityInner(screenEntity);
+		} catch (EntityNotFoundException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+			return null;
+		}
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getScreenEntity() {
 		ScreenEntity screenEntity = terminalSession.getEntity();
 		return getEntityInner(screenEntity);
@@ -147,7 +159,7 @@ public class DefaultRestController {
 		response.setStatus(HttpServletResponse.SC_OK);
 	}
 
-	public void handleDeserializationException(String screenEntityName, HttpServletResponse response, Exception e)
+	private static void handleDeserializationException(String screenEntityName, HttpServletResponse response, Exception e)
 			throws IOException {
 		String message = MessageFormat.format("Unable to desirialize entity {0}", screenEntityName);
 		response.sendError(HttpServletResponse.SC_BAD_REQUEST, message);
@@ -163,7 +175,7 @@ public class DefaultRestController {
 	 * @return
 	 * @throws IOException
 	 */
-	public Class<?> findAndHandleNotFound(String screenEntityName, HttpServletResponse response) throws IOException {
+	private Class<?> findAndHandleNotFound(String screenEntityName, HttpServletResponse response) throws IOException {
 		Class<?> entityClass = screenEntitiesRegistry.getEntityClass(screenEntityName);
 		if (entityClass == null) {
 			String message = MessageFormat.format("Screen entity {0} not found", screenEntityName);

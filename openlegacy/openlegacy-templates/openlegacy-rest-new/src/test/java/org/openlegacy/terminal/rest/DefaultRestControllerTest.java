@@ -23,6 +23,7 @@ import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openlegacy.test.utils.AssertUtils;
 
@@ -68,6 +69,22 @@ public class DefaultRestControllerTest {
 
 		try {
 			execute(httpClient, "", "json");
+			execute(httpClient, "logoff", "json");
+		} finally {
+			httpClient.getConnectionManager().closeExpiredConnections();
+		}
+	}
+
+	@Test
+	public void testBadRequest() throws IOException {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+
+		try {
+			execute(httpClient, "Dummy", "json");
+		} catch (RuntimeException e) {
+			if (!e.getMessage().equals("400")) {
+				Assert.assertEquals("400", e.getMessage(), "Expected HTTP error 400");
+			}
 		} finally {
 			httpClient.getConnectionManager().closeExpiredConnections();
 		}
@@ -152,9 +169,11 @@ public class DefaultRestControllerTest {
 		HttpEntity httpEntity = response.getEntity();
 		String result = IOUtils.toString(httpEntity.getContent());
 
-		if (response.getStatusLine().getStatusCode() >= 400) {
+		int statusCode = response.getStatusLine().getStatusCode();
+		if (statusCode >= 400) {
+			logger.error("statusCode=" + statusCode);
 			logger.error(result);
-			throw (new RuntimeException(response.getStatusLine().getReasonPhrase()));
+			throw (new RuntimeException(String.valueOf(statusCode)));
 		}
 
 		return result;
