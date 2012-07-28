@@ -63,6 +63,17 @@ public class DefaultRestControllerTest {
 	}
 
 	@Test
+	public void testRoot() throws IOException {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+
+		try {
+			execute(httpClient, "", "json");
+		} finally {
+			httpClient.getConnectionManager().closeExpiredConnections();
+		}
+	}
+
+	@Test
 	public void testInventoryRestApplicationJsonMenu() throws IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 

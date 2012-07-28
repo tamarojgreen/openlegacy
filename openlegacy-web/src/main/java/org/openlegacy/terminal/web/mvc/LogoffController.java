@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal.web.mvc;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openlegacy.OpenLegacyProperties;
-import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.modules.trail.TrailUtil;
 import org.springframework.stereotype.Controller;
@@ -30,28 +26,16 @@ import javax.inject.Inject;
 @Controller
 public class LogoffController {
 
-	private final static Log logger = LogFactory.getLog(LogoffController.class);
-
 	@Inject
 	private TerminalSession terminalSession;
 
 	@Inject
-	private OpenLegacyProperties openLegacyProperties;
-
-	@Inject
-	private TrailWriter trailWriter;
+	private TrailUtil trailUtil;
 
 	@RequestMapping(value = "/logoff", method = RequestMethod.GET)
 	public String logoff() throws IOException {
 
-		String trailPath = openLegacyProperties.getProperty(OpenLegacyProperties.TRAIL_FOLDER_PATH);
-		if (trailPath != null) {
-			try {
-				TrailUtil.saveTrail(terminalSession, trailWriter, trailPath);
-			} catch (Exception e) {
-				logger.error("Unable to save trail file", e);
-			}
-		}
+		trailUtil.saveTrail(terminalSession);
 
 		terminalSession.disconnect();
 		return "logoff";

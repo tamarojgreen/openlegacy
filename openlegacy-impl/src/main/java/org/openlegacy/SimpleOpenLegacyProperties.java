@@ -8,11 +8,12 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.web;
+package org.openlegacy;
 
-import org.openlegacy.OpenLegacyProperties;
+import org.springframework.stereotype.Component;
 
-public class OpenLegacyWebProperties implements OpenLegacyProperties {
+@Component
+public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 
 	public static final String TRAIL_FOLDER_PATH = "org.openlegacy.trail.path";
 

@@ -10,13 +10,19 @@
  *******************************************************************************/
 package org.openlegacy.terminal.utils;
 
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
+import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +32,16 @@ import javax.inject.Inject;
 public class ScreenEntityUtils {
 
 	@Inject
-	private ScreenEntitiesRegistry entitiesRegistry;
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
+	/**
+	 * Find the all screen fields marked as key=true
+	 * 
+	 * @param entity
+	 * @return
+	 */
 	public List<Object> getKeysValues(ScreenEntity entity) {
-		ScreenEntityDefinition definitions = entitiesRegistry.get(entity.getClass());
+		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(entity.getClass());
 		List<? extends FieldDefinition> keyFields = definitions.getKeys();
 		List<Object> keysValue = new ArrayList<Object>();
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(entity);
@@ -38,4 +50,32 @@ public class ScreenEntityUtils {
 		}
 		return keysValue;
 	}
+
+	/**
+	 * Sends the provided screen entity and action alias over the given terminal session
+	 * 
+	 * @param terminalSession
+	 *            A terminal session to perform over the send action
+	 * @param screenEntity
+	 *            The screen entity to send
+	 * @param actionAlias
+	 *            An action alias which belongs to the screen entity
+	 */
+	public void sendScreenEntity(TerminalSession terminalSession, ScreenEntity screenEntity, String actionAlias) {
+		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
+		TerminalAction sessionAction = null;
+		if (actionAlias == null) {
+			sessionAction = TerminalActions.ENTER();
+		} else {
+			List<ActionDefinition> actions = entityDefinitions.getActions();
+			for (ActionDefinition actionDefinition : actions) {
+				if (actionDefinition.getAlias().equals(actionAlias)) {
+					sessionAction = (TerminalAction)actionDefinition.getAction();
+				}
+			}
+		}
+		Assert.notNull(sessionAction, MessageFormat.format("Alias for session action {0} not found", actionAlias));
+		terminalSession.doAction(sessionAction, screenEntity);
+	}
+
 }

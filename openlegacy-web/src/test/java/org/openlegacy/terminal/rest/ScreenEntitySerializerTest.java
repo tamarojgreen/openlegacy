@@ -13,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.oxm.castor.CastorMarshaller;
@@ -31,13 +33,15 @@ import javax.xml.transform.stream.StreamResult;
 public class ScreenEntitySerializerTest extends AbstractTest {
 
 	@Inject
-	private ScreenEntitySerializer screenEntitySerializer;
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Test
 	public void testJsonSerialization() throws IOException {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
-		Object result = screenEntitySerializer.createSerializationContainer((ScreenEntity)itemList, terminalSession);
+		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
+		Object result = ScreenEntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
+				definitions);
 		ObjectMapper mapper = new ObjectMapper();
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -51,7 +55,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 
 	@Test
 	public void testJsonDesiralization() throws JsonParseException, JsonMappingException, IOException {
-		ItemsList itemsList = screenEntitySerializer.deserialize("{\"positionTo\":\"5\",\"focusField\":\"positionTo\"}",
+		ItemsList itemsList = ScreenEntitySerializationUtils.deserialize("{\"positionTo\":\"5\",\"focusField\":\"positionTo\"}",
 				ItemsList.class);
 		Assert.notNull(itemsList);
 	}
@@ -60,7 +64,9 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 	public void testXmlSerialization() throws IOException {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
-		Object wrapper = screenEntitySerializer.createSerializationContainer((ScreenEntity)itemList, terminalSession);
+		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
+		Object wrapper = ScreenEntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
+				definitions);
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(2048);
 		CastorMarshaller marshaller = new CastorMarshaller();
