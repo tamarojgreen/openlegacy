@@ -64,6 +64,30 @@ public class DefaultRestControllerTest {
 	}
 
 	@Test
+	public void testSignOnJson() throws IOException {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+
+		try {
+			// caused exception in server log
+			execute(httpClient, "SignOn", "json");
+		} finally {
+			httpClient.getConnectionManager().closeExpiredConnections();
+		}
+	}
+
+	@Test
+	public void testSignOnXml() throws IOException {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+
+		try {
+			// caused exception in server log
+			execute(httpClient, "SignOn", "xml");
+		} finally {
+			httpClient.getConnectionManager().closeExpiredConnections();
+		}
+	}
+
+	@Test
 	public void testRoot() throws IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 

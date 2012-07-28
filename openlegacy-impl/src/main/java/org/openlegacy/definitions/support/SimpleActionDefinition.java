@@ -26,6 +26,11 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	private String actionName;
 
 	/**
+	 * for serialization purpose only
+	 */
+	public SimpleActionDefinition() {}
+
+	/**
 	 * Used for run-time registry
 	 * 
 	 * @param action
@@ -33,6 +38,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	 */
 	public SimpleActionDefinition(SessionAction<? extends Session> action, String displayName) {
 		this.action = action;
+		this.actionName = action.getClass().getSimpleName();
 		this.displayName = displayName;
 	}
 
@@ -52,10 +58,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	}
 
 	public String getActionName() {
-		if (actionName != null) {
-			return actionName;
-		}
-		return action.getClass().getSimpleName();
+		return actionName;
 	}
 
 	public String getDisplayName() {

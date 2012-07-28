@@ -29,7 +29,7 @@ import java.text.MessageFormat;
  */
 public class TerminalActions {
 
-	private static class TerminalMappedAction implements TerminalAction, Serializable {
+	public static class TerminalMappedAction implements TerminalAction, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
@@ -39,8 +39,8 @@ public class TerminalActions {
 					"Specified action {0} is not mapped to a terminal command", getClass())));
 		}
 
-		public void getActionName() {
-			getClass().getSimpleName();
+		public String getActionName() {
+			return getClass().getSimpleName();
 		}
 
 		@Override
