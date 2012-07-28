@@ -24,7 +24,8 @@ public class JsonSerializationUtilTest {
 	@Test
 	public void testSnapshotJsonSerialization() throws IOException {
 
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("/").getFile(), "SignOn.xml");
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("/inventory").getFile(),
+				"SignOn.xml");
 
 		String result = JsonSerializationUtil.toJson(snapshots.get(0));
 

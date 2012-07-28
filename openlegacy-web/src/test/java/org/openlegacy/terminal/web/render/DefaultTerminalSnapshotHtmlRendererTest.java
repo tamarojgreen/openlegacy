@@ -28,7 +28,8 @@ public class DefaultTerminalSnapshotHtmlRendererTest {
 	@Test
 	public void testHtmlRender() throws IOException {
 
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("/").getFile(), "SignOn.xml");
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("/inventory").getFile(),
+				"SignOn.xml");
 
 		String result = htmlRenderer.render(snapshots.get(0));
 
@@ -41,7 +42,8 @@ public class DefaultTerminalSnapshotHtmlRendererTest {
 	public void testHtmlRenderNoTemplate() throws IOException {
 
 		htmlRenderer.setIncludeTemplate(false);
-		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("/").getFile(), "SignOn.xml");
+		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("/inventory").getFile(),
+				"SignOn.xml");
 
 		String result = htmlRenderer.render(snapshots.get(0));
 
