@@ -43,4 +43,5 @@
 	</bean>
  -->
  
+	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>
