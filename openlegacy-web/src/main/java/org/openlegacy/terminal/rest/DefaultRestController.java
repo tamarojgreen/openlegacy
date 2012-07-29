@@ -6,7 +6,9 @@ import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
@@ -36,7 +38,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * OpenLegacy default REST API controller. Handles GET/POST requests in the format of JSON or XML
+ * OpenLegacy default REST API controller. Handles GET/POST requests in the format of JSON or XML. Also handles login /logoff of
+ * the host session
  * 
  * @author Roi Mor
  * 
@@ -50,6 +53,14 @@ public class DefaultRestController {
 	private static final String ACTION = "action";
 
 	private final static Log logger = LogFactory.getLog(DefaultRestController.class);
+	private static final String USER = "user";
+	private static final String PASSWORD = "password";
+
+	/**
+	 * Whether to perform login on session start. Can be overridden from /application.properties
+	 * defaultRestController.requiresLogin=true
+	 */
+	private boolean requiresLogin = false;
 
 	@Inject
 	private TerminalSession terminalSession;
@@ -63,10 +74,18 @@ public class DefaultRestController {
 	@Inject
 	private TrailUtil trailUtil;
 
-	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
-	public Object getMenu(ModelMap model) {
-		MenuItem menus = terminalSession.getModule(Menu.class).getMenuTree();
-		return menus;
+	@RequestMapping(value = "/login", consumes = { JSON, XML })
+	public void login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
+			throws IOException {
+		try {
+			terminalSession.getModule(Login.class).login(user, password);
+		} catch (RegistryException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		} catch (LoginException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		}
+		response.setStatus(HttpServletResponse.SC_OK);
+
 	}
 
 	@RequestMapping(value = "/logoff", method = RequestMethod.GET, consumes = { JSON, XML })
@@ -80,6 +99,9 @@ public class DefaultRestController {
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getScreenEntity(@PathVariable("screen") String screenEntityName, HttpServletResponse response)
 			throws IOException {
+		if (!authenticate(response)) {
+			return null;
+		}
 		try {
 			ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
 			return getEntityInner(screenEntity);
@@ -90,7 +112,11 @@ public class DefaultRestController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET, consumes = { JSON, XML })
-	public ModelAndView getScreenEntity() {
+	public ModelAndView getScreenEntity(HttpServletResponse response) throws IOException {
+		if (!authenticate(response)) {
+			return null;
+		}
+
 		ScreenEntity screenEntity = terminalSession.getEntity();
 		return getEntityInner(screenEntity);
 
@@ -102,6 +128,12 @@ public class DefaultRestController {
 		SimpleScreenEntityWrapper wrapper = new SimpleScreenEntityWrapper(screenEntity, terminalSession.getModule(
 				Navigation.class).getPaths(), entityDefinitions.getActions());
 		return new ModelAndView(SCREEN_MODEL, SCREEN_MODEL, wrapper);
+	}
+
+	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
+	public Object getMenu(ModelMap model) {
+		MenuItem menus = terminalSession.getModule(Menu.class).getMenuTree();
+		return menus;
 	}
 
 	/**
@@ -117,6 +149,9 @@ public class DefaultRestController {
 	@RequestMapping(value = "/{screen}", method = RequestMethod.POST, consumes = JSON)
 	public void postScreenEntityJson(@PathVariable("screen") String screenEntityName, @RequestParam(ACTION) String action,
 			@RequestBody String json, HttpServletResponse response) throws IOException {
+		if (!authenticate(response)) {
+			return;
+		}
 
 		Class<?> entityClass = findAndHandleNotFound(screenEntityName, response);
 		if (entityClass == null) {
@@ -138,6 +173,9 @@ public class DefaultRestController {
 	@RequestMapping(value = "/{screen}", method = RequestMethod.POST, consumes = XML)
 	public void postScreenEntityXml(@PathVariable("screen") String screenEntityName, @RequestParam(ACTION) String action,
 			@RequestBody String xml, HttpServletResponse response) throws IOException {
+		if (!authenticate(response)) {
+			return;
+		}
 
 		Class<?> entityClass = findAndHandleNotFound(screenEntityName, response);
 		if (entityClass == null) {
@@ -157,6 +195,17 @@ public class DefaultRestController {
 
 		screenEntityUtils.sendScreenEntity(terminalSession, screenEntity, action);
 		response.setStatus(HttpServletResponse.SC_OK);
+	}
+
+	private boolean authenticate(HttpServletResponse response) throws IOException {
+		if (!requiresLogin) {
+			return true;
+		}
+		if (!terminalSession.getModule(Login.class).isLoggedIn()) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+		}
+		return true;
+
 	}
 
 	private static void handleDeserializationException(String screenEntityName, HttpServletResponse response, Exception e)
@@ -183,5 +232,9 @@ public class DefaultRestController {
 			logger.error(message);
 		}
 		return entityClass;
+	}
+
+	public void setRequiresLogin(boolean requiresLogin) {
+		this.requiresLogin = requiresLogin;
 	}
 }

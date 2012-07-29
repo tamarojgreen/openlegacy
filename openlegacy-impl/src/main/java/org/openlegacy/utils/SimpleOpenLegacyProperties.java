@@ -8,8 +8,9 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy;
+package org.openlegacy.utils;
 
+import org.openlegacy.OpenLegacyProperties;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -100,6 +100,17 @@ public class DefaultRestControllerTest {
 	}
 
 	@Test
+	public void testRootLogin() throws IOException {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+
+		try {
+			execute(httpClient, "login?user=user1&password=password1", "json");
+		} finally {
+			httpClient.getConnectionManager().closeExpiredConnections();
+		}
+	}
+
+	@Test
 	public void testBadRequest() throws IOException {
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 

@@ -2,10 +2,8 @@ package org.openlegacy.terminal.layout.mock;
 
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
-import org.springframework.stereotype.Component;
 
 @ScreenEntity
-@Component
 public class CompositeScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	@ScreenField(row = 6, column = 22, endColumn = 31)

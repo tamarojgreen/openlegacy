@@ -38,9 +38,6 @@ public class HtmlEmulationController {
 	@Inject
 	private TerminalSendActionBuilder<HttpServletRequest> terminalSendActionBuilder;
 
-	@Inject
-	private HttpServletRequest request;
-
 	@RequestMapping(method = RequestMethod.GET)
 	public String show(Model uiModel) {
 
@@ -50,7 +47,7 @@ public class HtmlEmulationController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String post(Model uiModel) {
+	public String post(Model uiModel, HttpServletRequest request) {
 
 		TerminalSendAction terminalSendAction = terminalSendActionBuilder.buildSendAction(terminalSession.getSnapshot(), request);
 		terminalSession.doAction(terminalSendAction);

@@ -5,11 +5,9 @@ import org.openlegacy.annotations.screen.ScreenDateField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Component
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 30, value = "Date Screen title") })
 public class Screen1 implements org.openlegacy.terminal.ScreenEntity {

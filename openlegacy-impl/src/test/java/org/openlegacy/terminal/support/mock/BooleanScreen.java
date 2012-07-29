@@ -5,9 +5,7 @@ import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
-import org.springframework.stereotype.Component;
 
-@Component
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 30, value = "Screen title") })
 public class BooleanScreen implements org.openlegacy.terminal.ScreenEntity {

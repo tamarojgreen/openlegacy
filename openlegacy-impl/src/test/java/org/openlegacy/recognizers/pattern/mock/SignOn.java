@@ -3,7 +3,6 @@ package org.openlegacy.recognizers.pattern.mock;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.springframework.stereotype.Component;
 
-@Component
 @ScreenEntity
 public class SignOn implements org.openlegacy.terminal.ScreenEntity {
 
