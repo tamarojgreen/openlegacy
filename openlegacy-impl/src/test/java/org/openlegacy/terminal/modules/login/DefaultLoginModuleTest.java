@@ -14,7 +14,7 @@ import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.ScreensRecognizer;
+import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

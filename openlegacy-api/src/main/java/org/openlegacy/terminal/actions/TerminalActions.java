@@ -21,12 +21,15 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
- * A utility class for exposing common terminal actions
+ * A utility class which contains all common terminal actions. Contains both class for usages by annotation definition, and
+ * initialized instances for direct usage from API.
+ * 
+ * @author Roi Mor
  * 
  */
 public class TerminalActions {
 
-	private static class TerminalMappedAction implements TerminalAction, Serializable {
+	public static class TerminalMappedAction implements TerminalAction, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
@@ -34,6 +37,10 @@ public class TerminalActions {
 			// if we got here it means the actions is not mapped...
 			throw (new TerminalActionNotMappedException(MessageFormat.format(
 					"Specified action {0} is not mapped to a terminal command", getClass())));
+		}
+
+		public String getActionName() {
+			return getClass().getSimpleName();
 		}
 
 		@Override

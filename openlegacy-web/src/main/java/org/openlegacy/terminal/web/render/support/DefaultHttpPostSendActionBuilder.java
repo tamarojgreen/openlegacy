@@ -16,7 +16,7 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.support.SimpleTerminalSendAction;
 import org.openlegacy.terminal.utils.FieldsQuery;
 

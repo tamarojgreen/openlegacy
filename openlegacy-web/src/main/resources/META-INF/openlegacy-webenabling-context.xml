@@ -15,6 +15,4 @@
         <aop:scoped-proxy/>
 	</bean>
 
-	<bean id="openlegacyProperties" class="org.openlegacy.web.OpenLegacyWebProperties" />
-	
 </beans>

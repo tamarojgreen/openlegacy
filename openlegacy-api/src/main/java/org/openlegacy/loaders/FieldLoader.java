@@ -11,9 +11,18 @@
 package org.openlegacy.loaders;
 
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
 
 import java.lang.reflect.Field;
 
+/**
+ * Field loader serves as the mechanism for translating annotations into {@link EntityDefinition} stored within
+ * {@link EntitiesRegistry}. Handles fields without any special annotation, but refers to other entities (e.g screen part, screen
+ * table)
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface FieldLoader {
 
 	@SuppressWarnings("rawtypes")

@@ -17,8 +17,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the field is a terminal screen numeric field. This annotation is applied to java fields marked with
- * {@link ScreenField} annotation
+ * Defines that a Java field is an terminal screen numeric field. This annotation applied to {@link Number} based Java fields
+ * (Integer, Double) already marked with {@link ScreenField} annotation. The annotation determine <code>minimumValue</code> and
+ * <code>maximumValue</code> meta-data for pages. <br/>
+ * <br/>
+ * Example:<br/>
+ * <br/>
+ * 
+ * <code>@ScreenNumericField(minimumValue= 16, maximumValue = 120)<br/>@ScreenField(row = 20, column = 33, editable = true) <br/>private Integer bankAccountOpenerAge; </code>
+ * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

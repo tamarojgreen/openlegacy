@@ -24,7 +24,13 @@
 			type="annotation" />
 	</context:component-scan>
 
-	<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
+	<context:component-scan base-package="org.openlegacy.web.mvc"
+		use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+	
+		<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
 		Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />
 
@@ -91,4 +97,6 @@
 			</list>
 		</property>
 	</bean>
+
+	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>

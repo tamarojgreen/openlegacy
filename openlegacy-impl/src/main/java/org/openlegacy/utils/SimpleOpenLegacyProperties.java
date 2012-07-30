@@ -8,21 +8,18 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.spi;
+package org.openlegacy.utils;
 
-import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.OpenLegacyProperties;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
+@Component
+public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 
-/**
- * A single screen identification which determine if a given terminal screen is found
- * 
- */
-public interface ScreenIdentification {
+	public static final String TRAIL_FOLDER_PATH = "org.openlegacy.trail.path";
 
-	List<ScreenIdentifier> getScreenIdentifiers();
+	public String getProperty(String propertyName) {
+		return System.getProperty(propertyName);
+	}
 
-	boolean match(TerminalSnapshot terminalSnapshot);
-
-	void addIdentifier(ScreenIdentifier screenIdentifier);
 }

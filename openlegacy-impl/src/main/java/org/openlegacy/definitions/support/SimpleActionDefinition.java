@@ -14,12 +14,21 @@ import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.ActionDefinition;
 
-public class SimpleActionDefinition implements ActionDefinition {
+import java.io.Serializable;
+
+public class SimpleActionDefinition implements ActionDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String displayName;
-	private SessionAction<? extends Session> action;
+	private transient SessionAction<? extends Session> action;
 	private String alias;
 	private String actionName;
+
+	/**
+	 * for serialization purpose only
+	 */
+	public SimpleActionDefinition() {}
 
 	/**
 	 * Used for run-time registry
@@ -29,6 +38,7 @@ public class SimpleActionDefinition implements ActionDefinition {
 	 */
 	public SimpleActionDefinition(SessionAction<? extends Session> action, String displayName) {
 		this.action = action;
+		this.actionName = action.getClass().getSimpleName();
 		this.displayName = displayName;
 	}
 
@@ -48,10 +58,7 @@ public class SimpleActionDefinition implements ActionDefinition {
 	}
 
 	public String getActionName() {
-		if (actionName != null) {
-			return actionName;
-		}
-		return action.getClass().getSimpleName();
+		return actionName;
 	}
 
 	public String getDisplayName() {

@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<version>0.6-SNAPSHOT</version>
+		<version>0.7-SNAPSHOT</version>
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-web</artifactId>
@@ -17,6 +17,12 @@
 			<artifactId>openlegacy-impl</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-test-apps</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.flexjson</groupId>
@@ -51,5 +57,20 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.framework.version}</version>
 		</dependency>
+		<dependency>
+		   <groupId>org.springframework</groupId>
+		   <artifactId>spring-oxm</artifactId>
+ 		   <version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+		   <groupId>org.codehaus.jackson</groupId>
+		   <artifactId>jackson-mapper-asl</artifactId>
+		   <version>1.9.3</version>
+		</dependency>
+		<dependency>
+		   <groupId>org.codehaus.castor</groupId>
+		   <artifactId>castor-xml</artifactId>
+		   <version>1.3.2</version>
+		</dependency>		
 	</dependencies>
 </project>

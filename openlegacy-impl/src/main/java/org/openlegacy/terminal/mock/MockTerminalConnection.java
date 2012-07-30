@@ -12,10 +12,9 @@ package org.openlegacy.terminal.mock;
 
 import org.apache.commons.lang.SerializationUtils;
 import org.openlegacy.exceptions.SessionEndedException;
-import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 		return snapshot;
 	}
 
-	public TerminalConnection doAction(TerminalSendAction terminalSendAction) {
+	public void doAction(TerminalSendAction terminalSendAction) {
 		currentIndex++;
 		if (currentIndex >= snapshots.size()) {
 			throw (new SessionEndedException("Mock session has been finished"));
@@ -52,8 +51,6 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 			}
 			currentIndex++;
 		}
-
-		return this;
 	}
 
 	public Object getDelegate() {

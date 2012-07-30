@@ -8,7 +8,6 @@ import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.modules.messages.Messages.MessageField;
 import org.springframework.stereotype.Component;
 
-@Component
 @ScreenEntity(screenType = Messages.MessagesEntity.class)
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 28, value = "Display Program Messages") })
 public class DisplayProgramMessages implements org.openlegacy.terminal.ScreenEntity {

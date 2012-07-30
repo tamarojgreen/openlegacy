@@ -10,9 +10,13 @@
  *******************************************************************************/
 package org.openlegacy;
 
-public class SimpleEntityDescriptor implements EntityDescriptor {
+import java.io.Serializable;
 
-	private Class<?> entityClass;
+public class SimpleEntityDescriptor implements EntityDescriptor, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private transient Class<?> entityClass;
 	private String entityName;
 	private String displayName;
 	private boolean current;

@@ -11,24 +11,44 @@
 package org.openlegacy.terminal.modules.trail;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
 import org.openlegacy.terminal.TerminalSession;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.inject.Inject;
+
+@Component
 public class TrailUtil {
 
-	public static void saveTrail(TerminalSession terminalSession, TrailWriter trailWriter, String trailPath)
-			throws FileNotFoundException {
+	private final static Log logger = LogFactory.getLog(TrailUtil.class);
+
+	@Inject
+	private OpenLegacyProperties openLegacyProperties;
+
+	@Inject
+	private TrailWriter trailWriter;
+
+	public void saveTrail(TerminalSession terminalSession) {
+
+		String trailPath = openLegacyProperties.getProperty(OpenLegacyProperties.TRAIL_FOLDER_PATH);
+
+		if (trailPath == null) {
+			return;
+		}
 
 		if (!terminalSession.isConnected()) {
 			return;
@@ -47,6 +67,8 @@ public class TrailUtil {
 			}
 			trailOut = new FileOutputStream(trailFile);
 			trailWriter.write(trail, trailOut);
+		} catch (IOException e) {
+			logger.fatal("Failed to save trail file", e);
 		} finally {
 			IOUtils.closeQuietly(trailOut);
 		}

@@ -10,7 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.terminal.providers;
 
-
+/**
+ * A common interface for classes which provides definition to the various modules
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface DefinitionsProvider {
 
 }

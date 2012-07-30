@@ -17,7 +17,7 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.spi.ScreenIdentification;
+import org.openlegacy.terminal.services.ScreenIdentification;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 

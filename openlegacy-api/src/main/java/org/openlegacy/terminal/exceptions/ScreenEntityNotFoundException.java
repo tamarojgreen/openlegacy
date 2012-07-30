@@ -10,12 +10,14 @@
  *******************************************************************************/
 package org.openlegacy.terminal.exceptions;
 
+import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.exceptions.EntityNotFoundException;
 
 /**
  * This exception is thrown when the request screen entity class is not found in the registry. May happen if component scan is not
- * defined properly or the class is not marked with @ScreenEntity
+ * defined properly or the class is not marked with {@link ScreenEntity} annotation
  * 
+ * @author Roi Mor
  */
 public class ScreenEntityNotFoundException extends EntityNotFoundException {
 

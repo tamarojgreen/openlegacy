@@ -10,9 +10,10 @@
  *******************************************************************************/
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.modules.table.Table;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.table.ScreenTableCollector;
 
 import java.lang.annotation.Documented;
@@ -20,12 +21,17 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.List;
 
 /**
- * Specifies that the class is a screen table entity. Screens defined as {@link ScreenTable} are scanned and put into
+ * Define the marked class as a screen table entity. Screens defined as {@link ScreenTable} are scanned and put into
  * {@link ScreenEntitiesRegistry} <br/>
+ * A <code>ScreenTable</code> represents a single row, and the containing class holds {@link List} of the table class. <br/>
+ * 
  * <br/>
  * 
+ * @see Table
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

@@ -14,7 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.spi.ScreensRecognizer;
+import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
 
 import javax.inject.Inject;

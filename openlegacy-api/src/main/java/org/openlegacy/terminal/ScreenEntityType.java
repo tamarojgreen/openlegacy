@@ -19,6 +19,8 @@ import org.openlegacy.EntityType;
  * querying the registry
  * 
  * It is possible to define more screen entity types by implementing this interface
+ * 
+ * @author Roi Mor
  */
 public interface ScreenEntityType extends EntityType {
 

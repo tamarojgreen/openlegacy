@@ -14,7 +14,7 @@ import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.mock.MockTerminalConnection;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.utils.ProxyUtil;
 
 import java.util.ArrayList;

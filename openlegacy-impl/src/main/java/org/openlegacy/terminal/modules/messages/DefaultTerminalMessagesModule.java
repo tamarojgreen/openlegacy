@@ -19,7 +19,7 @@ import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;

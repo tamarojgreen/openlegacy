@@ -11,10 +11,13 @@
 package org.openlegacy.terminal;
 
 import org.openlegacy.EntityFieldAccessor;
+import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.screen.ScreenPart;
 
 /**
- * An interface for accessing POJO's marked with @ScreenEntity, @ScreenPart
+ * An interface for accessing POJO's marked with {@link ScreenEntity}, {@link ScreenPart} annotations
  * 
+ * @author Roi Mor
  */
 public interface ScreenPojoFieldAccessor extends EntityFieldAccessor {
 

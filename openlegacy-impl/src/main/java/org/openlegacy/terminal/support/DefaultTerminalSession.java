@@ -24,9 +24,10 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
-import org.openlegacy.terminal.spi.ScreensRecognizer;
-import org.openlegacy.terminal.spi.SessionNavigator;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreensRecognizer;
+import org.openlegacy.terminal.services.SessionNavigator;
+import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
 import org.openlegacy.utils.ProxyUtil;
 
@@ -59,6 +60,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Inject
 	private TerminalActionMapper terminalActionMapper;
+
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	private ScreenEntityMethodInterceptor interceptor;
 
@@ -275,4 +279,13 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	protected ScreensRecognizer getScreensRecognizer() {
 		return screensRecognizer;
 	}
+
+	public Object getEntity(String entityName) throws EntityNotFoundException {
+		Class<?> entityClass = screenEntitiesRegistry.getEntityClass(entityName);
+		if (entityClass == null) {
+			throw (new EntityNotFoundException(MessageFormat.format("Screen entity \"{0}\" not found", entityName)));
+		}
+		return getEntity(entityClass);
+	}
+
 }

@@ -22,20 +22,11 @@
 
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
-		<property name="root" value="/apps/inventory/screens" />
+		<property name="root" value="/inventory" />
 		<property name="files">
 			<list>
 				<value>SignOn.xml</value>
-				<value>MainMenu.xml</value>
-				<value>InventoryManagement.xml</value>
 				<value>ItemsList.xml</value>
-				<value>ItemDetails1.xml</value>
-				<value>ItemDetails2.xml</value>
-				<value>ItemDetails1.xml</value>
-				<value>MainMenu.xml</value>
-				<value>WarehousesList.xml</value>
-				<value>WarehouseDetails.xml</value>
-				<value>WarehouseTypes.xml</value>
 			</list>
 		</property>
 	</bean>

@@ -14,8 +14,9 @@ import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.terminal.TerminalSession;
 
 /**
- * Defines a table drill-down performer on a terminal session
+ * Defines a table drill-down performer on a {@link TerminalSession}
  * 
+ * @author Roi Mor
  */
 public interface ScreenTableDrilldownPerformer extends TableDrilldownPerformer<TerminalSession> {
 

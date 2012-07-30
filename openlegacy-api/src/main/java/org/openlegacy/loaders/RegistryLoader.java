@@ -14,6 +14,12 @@ import org.openlegacy.EntitiesRegistry;
 
 import java.util.Collection;
 
+/**
+ * Defines a registry loader which is responsible for loading metadata from the given loaders into the {@link EntitiesRegistry}
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface RegistryLoader {
 
 	public void load(EntitiesRegistry<?, ?> entitiesRegistry);

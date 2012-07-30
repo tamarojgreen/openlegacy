@@ -14,8 +14,9 @@ import org.openlegacy.Snapshot;
 import org.openlegacy.modules.SessionModule;
 
 /**
- * Session TrailModule module interface
+ * Session trail module interface. gives access to a session trail, which can be persisted using {@link TrailWriter}.
  * 
+ * @author Roi Mor
  */
 public interface Trail extends SessionModule {
 

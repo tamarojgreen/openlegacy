@@ -8,16 +8,16 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.web;
+package org.openlegacy.terminal.services;
 
-import org.openlegacy.OpenLegacyProperties;
+import org.openlegacy.terminal.TerminalSnapshot;
 
-public class OpenLegacyWebProperties implements OpenLegacyProperties {
+/**
+ * Screen recognizer returns a matching screen entity class for a given {@link TerminalSnapshot}
+ * 
+ * @author Roi Mor
+ */
+public interface ScreensRecognizer {
 
-	public static final String TRAIL_FOLDER_PATH = "org.openlegacy.trail.path";
-
-	public String getProperty(String propertyName) {
-		return System.getProperty(propertyName);
-	}
-
+	Class<?> match(TerminalSnapshot terminalSnapshot);
 }

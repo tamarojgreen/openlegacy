@@ -11,7 +11,10 @@
 package org.openlegacy;
 
 /**
- * A field formatter format the content of a field text. typically removes certain chars: ' ', '-', etc according to configuration
+ * A field formatter format the content of a field text. typically removes certain chars: ' ', '-', etc according to the
+ * implementing bean configuration
+ * 
+ * @author Roi Mor
  */
 public interface FieldFormatter {
 

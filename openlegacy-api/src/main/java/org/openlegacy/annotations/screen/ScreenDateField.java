@@ -15,11 +15,21 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Date;
 
 /**
- * Specifies that the field is an terminal screen date field. This annotation is applied to fields marked with
- * {@link ScreenEntity} annotation
+ * Defines that a Java {@link Date} field is an terminal screen date field. This annotation applied to Date Java fields already
+ * marked with {@link ScreenField} annotation. This annotation supports mapping of 3 different columns. Row is determined by
+ * {@link ScreenField} annotation
  * 
+ * <br/>
+ * <br/>
+ * Example:<br/>
+ * <br/>
+ * 
+ * <code>@ScreenDateField(dayColumn = 34, monthColumn = 37, yearColumn = 40)<br/>@ScreenField(row = 14, column = 34, endColumn = 42, labelColumn = 2, editable = true, displayName = "Amended date", sampleValue= "23") <br/>private Date amendedDate; </code>
+ * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

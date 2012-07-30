@@ -14,6 +14,13 @@ import org.openlegacy.terminal.TerminalSnapshot;
 
 import java.io.OutputStream;
 
+/**
+ * Defines a renderer interface for rendering a {@link TerminalSnapshot} to some {@link OutputStream} Known Implementations are
+ * text, image, XML.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface TerminalSnapshotRenderer {
 
 	void render(TerminalSnapshot terminalSnapshot, OutputStream outputStream);

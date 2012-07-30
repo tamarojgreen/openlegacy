@@ -11,7 +11,17 @@
 package org.openlegacy.terminal.web.render;
 
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalSnapshot;
 
+/**
+ * An elements provider is a factory responsable for producing various element types. Used for rendering HTML from a
+ * {@link TerminalSnapshot} fields ({@link TerminalField})
+ * 
+ * @author Roi Mor
+ * 
+ * @param <T>
+ *            The tag type
+ */
 public interface ElementsProvider<T> {
 
 	T createInput(T rootTag, TerminalField terminalField);

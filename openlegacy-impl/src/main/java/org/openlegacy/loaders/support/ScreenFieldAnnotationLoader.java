@@ -19,7 +19,7 @@ import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;

@@ -11,8 +11,16 @@
 package org.openlegacy.terminal;
 
 import org.openlegacy.EntityBinder;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
+/**
+ * Defines a binder between a screen entity instance from a {@link TerminalSnapshot} and to a {@link TerminalSendAction},
+ * typically using field mappings defined using {@link ScreenField} annotations.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface ScreenEntityBinder extends EntityBinder<TerminalSnapshot, TerminalSendAction> {
 
 }

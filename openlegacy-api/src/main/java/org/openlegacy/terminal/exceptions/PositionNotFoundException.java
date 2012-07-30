@@ -15,6 +15,8 @@ import org.openlegacy.exceptions.EntityNotFoundException;
 /**
  * An exception for request a field from a <code>TerminalSnapshot</code> by position which doesn't exists on the snapshot
  * 
+ * @author Roi Mor
+ * 
  */
 public class PositionNotFoundException extends EntityNotFoundException {
 

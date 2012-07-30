@@ -20,10 +20,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the field has values list from another screen entity defined as {@link LookupEntity} type. This annotation
- * triggers OpenLegacy to generate a method to the {@link ScreenEntity}, get&lt;PropertyName&gt;Values()
+ * Define that the field has values list from another screen entity defined as {@link LookupEntity} screen type. This annotation
+ * is triggering generation of method to the {@link ScreenEntity}, get&lt;PropertyName&gt;Values()
  * 
+ * <br>
+ * </br> Example:<br/>
+ * <br/>
+ * <code>@ScreenFieldValues(sourceScreenEntity = WarehouseTypes.class)<br/>@ScreenField(row = 8, column = 34, endColumn = 35, labelColumn = 2, editable = true, displayName = "Warehouse Type", sampleValue = "GL")<br/>
+	private String warehouseType;
+</code>
  * 
+ * @author Roi Mor
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

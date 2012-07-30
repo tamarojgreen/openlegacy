@@ -16,8 +16,9 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import java.util.Collection;
 
 /**
- * Field mapping provider purpose is to return mappings for a given screenEntity. Implementation depends on the legacy provider
+ * Field mapping provider purpose is to return mappings for a given screen entity. Implementation depends on the legacy provider.
  * 
+ * @author Roi Mor
  */
 public interface ScreenFieldsDefinitionProvider extends DefinitionsProvider {
 

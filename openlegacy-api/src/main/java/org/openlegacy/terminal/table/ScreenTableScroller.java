@@ -16,6 +16,7 @@ import org.openlegacy.terminal.TerminalSession;
 /**
  * Defines a table scroller on a terminal session and a given screen entity
  * 
+ * @author Roi Mor
  * @param <T>
  *            The screen entity class
  */

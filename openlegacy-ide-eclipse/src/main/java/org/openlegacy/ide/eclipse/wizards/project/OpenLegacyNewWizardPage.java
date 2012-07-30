@@ -34,14 +34,15 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 	private Text projectNameTxt;
 	private String projectName;
 
-	private String[] projectTemplates = new String[] { Messages.label_dropdown_select, "openlegacy-new-java-template", "openlegacy-mvc-new",  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
-			"openlegacy-mvc-sample", "openlegacy-mobile-sample" }; //$NON-NLS-1$ //$NON-NLS-2$
+	private String[] projectTemplates = new String[] { Messages.label_dropdown_select,
+			"openlegacy-new-java-template", "openlegacy-mvc-new", //$NON-NLS-1$//$NON-NLS-2$ 
+			"openlegacy-mvc-sample", "openlegacy-mobile-sample", "openlegacy-rest-new" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
-	private String[] projectTemplatesDescriptions = new String[] { "", //$NON-NLS-1$
-			Messages.info_ol_java_api_project,
-			Messages.info_ol_new_web_mvc_project,
-			Messages.info_ol_sample_web_mvc_project,
-			Messages.info_ol_sample_mobile_mvc_project };
+	private String[] projectTemplatesDescriptions = new String[] {
+			"", //$NON-NLS-1$
+			Messages.info_ol_java_api_project, Messages.info_ol_new_web_mvc_project, Messages.info_ol_sample_web_mvc_project,
+			Messages.info_ol_sample_mobile_mvc_project,
+			Messages.info_ol_new_rest_project };
 
 	private Label templateDescription;
 
@@ -49,12 +50,10 @@ public class OpenLegacyNewWizardPage extends WizardPage {
 
 	private String defaultPackage;
 
-	private String[] providers = new String[] { Messages.label_dropdown_select2, "tn5250j", "h3270", "applinx" };  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	private String[] providers = new String[] { Messages.label_dropdown_select2, "tn5250j", "h3270", "applinx" }; //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ 
 
 	private String[] providersDescription = new String[] { "", //$NON-NLS-1$
-			Messages.info_provider_tn5250j,
-			Messages.info_provider_h3270,
-			Messages.info_provider_applinx };
+			Messages.info_provider_tn5250j, Messages.info_provider_h3270, Messages.info_provider_applinx };
 
 	private Combo providerName;
 

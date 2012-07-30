@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.layout;
 
+/**
+ * Represents a page definition layout. A page definition refers to the source entity definitions, 
+ * and contains page parts and actions.
+ *
+ * @author Roi Mor
+ */
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
 

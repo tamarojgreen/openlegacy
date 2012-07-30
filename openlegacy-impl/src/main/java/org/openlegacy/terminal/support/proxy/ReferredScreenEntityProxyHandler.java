@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 
 import java.text.MessageFormat;
 

@@ -17,7 +17,7 @@ import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
 

@@ -13,6 +13,12 @@ package org.openlegacy.terminal.module;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.terminal.TerminalSnapshot;
 
+/**
+ * Defines a terminal session trail for a terminal session . Compound of {@link TerminalSnapshot}
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface TerminalSessionTrail extends SessionTrail<TerminalSnapshot> {
 
 }

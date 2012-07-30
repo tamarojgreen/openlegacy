@@ -16,7 +16,7 @@ import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinition
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

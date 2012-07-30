@@ -11,10 +11,18 @@
 package org.openlegacy.loaders;
 
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
+/**
+ * Field annotations loader serves as the mechanism for translating annotations into {@link EntityDefinition} stored within
+ * {@link EntitiesRegistry}. Handles field level annotations.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface FieldAnnotationsLoader extends Comparable<FieldAnnotationsLoader> {
 
 	boolean match(Annotation annotation);

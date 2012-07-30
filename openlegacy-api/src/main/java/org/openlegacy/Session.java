@@ -14,7 +14,10 @@ import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.modules.SessionModule;
 
 /**
- * A common interface for a session
+ * An abstract interface for a session. A session is logical, and provides additional logic over it's connection:
+ * {@link ApplicationConnection}
+ * 
+ * @author Roi Mor
  * 
  */
 public interface Session {
@@ -23,6 +26,8 @@ public interface Session {
 
 	<T> T getEntity(Class<T> entityClass) throws EntityNotFoundException;
 
+	Object getEntity(String entityName) throws EntityNotFoundException;
+	
 	<M extends SessionModule> M getModule(Class<M> module);
 
 	void disconnect();

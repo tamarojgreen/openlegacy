@@ -18,6 +18,7 @@ import org.openlegacy.terminal.TerminalSession;
  * <code>TerminalActions.ENTER(), etc</code>) or a custom action which implements this interface and perform a sequence of mapped
  * actions (macro style)
  * 
+ * @author Roi Mor
  */
 public interface TerminalAction extends SessionAction<TerminalSession> {
 

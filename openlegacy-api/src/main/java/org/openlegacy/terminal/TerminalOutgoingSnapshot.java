@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
 public interface TerminalOutgoingSnapshot extends TerminalSnapshot {
 

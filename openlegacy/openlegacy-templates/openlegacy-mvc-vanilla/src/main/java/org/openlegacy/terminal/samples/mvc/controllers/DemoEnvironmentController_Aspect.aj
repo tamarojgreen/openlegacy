@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.spi.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;

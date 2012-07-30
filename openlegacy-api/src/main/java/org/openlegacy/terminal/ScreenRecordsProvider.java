@@ -12,6 +12,12 @@ package org.openlegacy.terminal;
 
 import org.openlegacy.RecordsProvider;
 
+/**
+ * A screen records provider define a records provided from a screen entity
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface ScreenRecordsProvider extends RecordsProvider<TerminalSession, Object> {
 
 }

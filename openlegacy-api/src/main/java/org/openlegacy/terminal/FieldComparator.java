@@ -10,6 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
+/**
+ * A field comparator is responsible to determine whether a field was modified. Used to determine wether the field should be sent
+ * to the host.
+ * 
+ * @author Roi Mor
+ * 
+ */
 public interface FieldComparator {
 
 	boolean isFieldModified(Object screenPojo, String fieldName, Object oldValue, Object newValue);

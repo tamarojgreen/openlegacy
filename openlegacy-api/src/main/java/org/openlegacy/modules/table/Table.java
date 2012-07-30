@@ -18,6 +18,8 @@ import java.util.List;
 /**
  * Defines a table module. Performs actions on multiple entities (e.g: screens) like collecting multiple entities, drill down, etc
  * 
+ * @author Roi Mor
+ * 
  */
 public interface Table extends SessionModule {
 

@@ -170,8 +170,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 		String springFileContent = IOUtils.toString(new FileInputStream(springFile));
 
+		/*
+		 * Replace only the 1st component-scan definition, assuming it is the project component-scan, 2nd component-scan points to
+		 * openlegacy controllers
+		 */
 		springFileContent = springFileContent.replaceFirst("<context:component-scan base-package=\".*\"",
 				MessageFormat.format("<context:component-scan base-package=\"{0}\"", defaultPackageName));
+
+		/*
+		 * Replace apps.inventory.screens with default package
+		 */
+		springFileContent = springFileContent.replaceFirst("<value>apps.inventory.screens</value>",
+				MessageFormat.format("<value>{0}</value>", defaultPackageName));
 		FileOutputStream fos = new FileOutputStream(springFile);
 		IOUtils.write(springFileContent, fos);
 	}

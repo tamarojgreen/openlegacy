@@ -11,9 +11,15 @@
 package org.openlegacy.terminal.exceptions;
 
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.terminal.TerminalActionMapper;
+import org.openlegacy.terminal.services.TerminalSendAction;
 
 /**
- * Throw when a terminal action is not mapped to a <code>TerminalConnection</code> within <code>TerminalSendAction</code>
+ * Thrown when a terminal action is not mapped in a {@link TerminalActionMapper}
+ * 
+ * @see TerminalSendAction
+ * 
+ * @author Roi Mor
  * 
  */
 public class TerminalActionNotMappedException extends OpenLegacyRuntimeException {

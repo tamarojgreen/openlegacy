@@ -20,7 +20,7 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
-import org.openlegacy.terminal.spi.TerminalSendAction;
+import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Component;

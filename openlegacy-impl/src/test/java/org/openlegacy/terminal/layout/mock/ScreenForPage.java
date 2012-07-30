@@ -11,12 +11,10 @@ import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @ScreenEntity
-@Component
 @ScreenActions(actions = { @Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"),
 		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit") })
 public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
@@ -83,7 +81,6 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	public void setFocusField(String focusField) {}
 
 	@ScreenPart
-	@Component
 	public static class ScreenForPagePart {
 
 		@ScreenField(row = 20, column = 13, endColumn = 43)
@@ -104,7 +101,6 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 	@ScreenTable(startRow = 15, endRow = 20)
 	@ScreenTableActions(actions = { @TableAction(actionValue = "1", displayName = "View"),
 			@TableAction(actionValue = "2", displayName = "Revise") })
-	@Component
 	public static class ScreenForPageRow {
 
 		@ScreenColumn(startColumn = 5, endColumn = 6, editable = true, selectionField = true)
