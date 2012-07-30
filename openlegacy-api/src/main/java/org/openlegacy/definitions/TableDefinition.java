@@ -14,6 +14,15 @@ import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 
 import java.util.List;
 
+/**
+ * Defines a table registry information. Stores all information related to a screen table: class, name, columns, keys, max rows
+ * count, actions
+ * 
+ * @author Roi Mor
+ * 
+ * @param <C>
+ *            Column class definition
+ */
 public interface TableDefinition<C extends ColumnDefinition> {
 
 	Class<?> getTableClass();

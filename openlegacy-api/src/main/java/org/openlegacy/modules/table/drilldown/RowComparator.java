@@ -13,6 +13,7 @@ package org.openlegacy.modules.table.drilldown;
 /**
  * A table row comparator interface. Check whether the given row POJO matches the given row keys
  * 
+ * @author Roi Mor
  */
 public interface RowComparator<T> {
 

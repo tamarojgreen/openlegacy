@@ -15,6 +15,7 @@ import org.openlegacy.FieldType;
 /**
  * Defines a mapping between a screenEntity java field name and it's screen position and length
  * 
+ * @author Roi Mor
  */
 public interface FieldDefinition {
 

@@ -26,8 +26,9 @@ import java.lang.annotation.Target;
 
 /**
  * Specifies custom table drill down implementation for {@link ScreenTable} entity<br/>
- * Allows customized drill down logic into tables.
+ * Allows customized drill down logic into tables by specifying various drill-down logic implementations
  * 
+ * @author Roi Mor
  * @see Table
  */
 @Documented
@@ -36,15 +37,46 @@ import java.lang.annotation.Target;
 @SuppressWarnings("rawtypes")
 public @interface ScreenTableDrilldown {
 
+	/**
+	 * Defines a drill-down performer. Performer is the most high-level drill-down component and allows customization of the
+	 * entire drill-down logic. It is recommended to avoid implementing it, and use the other components.
+	 * 
+	 * @return
+	 */
 	Class<? extends TableDrilldownPerformer> drilldownPerfomer() default TableDrilldownPerformer.class;
 
+	/**
+	 * Defines how to find a row in a given screen
+	 * 
+	 * @return {@link RowFinder} implementation
+	 */
 	Class<? extends RowFinder> rowFinder() default RowFinder.class;
 
+	/**
+	 * Defines how to compare row to a row key
+	 * 
+	 * @return {@link RowComparator} implementation
+	 */
 	Class<? extends RowComparator> rowComparator() default RowComparator.class;
 
+	/**
+	 * Defines how to scroll within a table
+	 * 
+	 * @return {@link TableScroller} implementation
+	 */
 	Class<? extends TableScroller> tableScroller() default TableScroller.class;
 
+	/**
+	 * Defines how to select a given row within a table
+	 * 
+	 * @return {@link RowSelector} implementation
+	 */
 	Class<? extends RowSelector> rowSelector() default RowSelector.class;
 
+	/**
+	 * Defines wehn to stop a table scrolling
+	 * 
+	 * @return {@link TableScrollStopConditions} implementation
+	 */
 	Class<? extends TableScrollStopConditions> stopConditions() default TableScrollStopConditions.class;
 }

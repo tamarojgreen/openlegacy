@@ -10,6 +10,14 @@
  *******************************************************************************/
 package org.openlegacy.definitions;
 
+import org.openlegacy.annotations.screen.ScreenNumericField;
+
+/**
+ * Defines a numeric field type registry information stored within {@link FieldDefinition}. A numeric field is created from
+ * {@link ScreenNumericField} annotation.
+ * 
+ * @author Roi Mor
+ */
 public interface NumericFieldTypeDefinition extends FieldTypeDefinition {
 
 	public double getMinimumValue();

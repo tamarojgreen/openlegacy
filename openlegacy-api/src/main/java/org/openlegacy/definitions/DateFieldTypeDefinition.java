@@ -11,8 +11,9 @@
 package org.openlegacy.definitions;
 
 /**
- * Defines a date field type
+ * Defines a date field type registry information stored within {@link FieldDefinition}.
  * 
+ * @author Roi Mor
  */
 public interface DateFieldTypeDefinition extends FieldTypeDefinition {
 

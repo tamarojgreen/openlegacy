@@ -12,10 +12,12 @@ package org.openlegacy.definitions;
 
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
+import org.openlegacy.annotations.screen.ScreenFieldValues;
 
 /**
- * Defines an auto complete field type definition. An auto complete definition contains definition for auto complete field,
- * including the records provider, collect all, and source entity, if available.
+ * Defines an auto complete field type registry information. An auto complete definition contains definition for auto complete
+ * field, including the records provider, collect all, and source entity, if available. Typically created from
+ * {@link ScreenFieldValues} annotation
  * 
  * @author Roi Mor
  */

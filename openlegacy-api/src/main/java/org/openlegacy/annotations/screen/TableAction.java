@@ -20,7 +20,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A table action for a screen table entity. Defined within {@link} {@link ScreenTableActions}<br/>
+ * A table action for a screen table entity. Defined within {@link ScreenTableActions}<br/>
  * 
  * @author Roi Mor
  */
