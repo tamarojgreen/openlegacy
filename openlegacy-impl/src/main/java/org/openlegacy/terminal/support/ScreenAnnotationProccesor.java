@@ -31,14 +31,18 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		Collection<ClassAnnotationsLoader> classAnnotationsLoaders = beanFactory.getBeansOfType(ClassAnnotationsLoader.class).values();
-		Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(
-				FieldAnnotationsLoader.class).values();
+		Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(FieldAnnotationsLoader.class).values();
 		Collection<FieldLoader> fieldLoaders = beanFactory.getBeansOfType(FieldLoader.class).values();
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
 
 		RegistryLoader registryLoader = beanFactory.getBean(RegistryLoader.class);
-		registryLoader.load(screenEntitiesRegistry, classAnnotationsLoaders, fieldAnnotationLoaders, fieldLoaders);
+
+		registryLoader.setAnnotationLoaders(classAnnotationsLoaders);
+		registryLoader.setFieldAnnotationLoaders(fieldAnnotationLoaders);
+		registryLoader.setFieldLoaders(fieldLoaders);
+
+		registryLoader.load(screenEntitiesRegistry);
 	}
 
 }

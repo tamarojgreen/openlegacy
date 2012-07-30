@@ -22,6 +22,7 @@ import org.openlegacy.utils.TypesUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
@@ -39,11 +40,17 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 
 	private final static Log logger = LogFactory.getLog(DefaultRegistryLoader.class);
 
-	public void load(EntitiesRegistry<?, ?> entitiesRegistry, Collection<ClassAnnotationsLoader> annotationLoaders,
-			Collection<FieldAnnotationsLoader> fieldAnnotationLoaders, Collection<FieldLoader> fieldLoaders) {
-		List<ClassAnnotationsLoader> annotationLoadersList = sortClassAnnoationLoaders(annotationLoaders);
+	private Collection<FieldAnnotationsLoader> fieldAnnotationLoaders;
+	private Collection<FieldLoader> fieldLoaders;
 
+	private List<ClassAnnotationsLoader> classAnnotationLoaders;
+
+	public void load(EntitiesRegistry<?, ?> entitiesRegistry) {
 		entitiesRegistry.clear();
+
+		Assert.notNull(classAnnotationLoaders);
+		Assert.notNull(fieldAnnotationLoaders);
+		Assert.notNull(fieldLoaders);
 
 		ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
 		Resource[] resources;
@@ -61,18 +68,7 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 				// scan all classes with annotations
 				for (Resource resource : resources) {
 					Class<?> beanClass = getClassFromResource(packagePath, resource);
-					if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass)) {
-						continue;
-					}
-					Class<?> currentBeanClass = beanClass;
-					// scan parent classes for annotations
-					while (currentBeanClass != Object.class) {
-						Annotation[] annotations = currentBeanClass.getAnnotations();
-						processAnnotations(annotationLoadersList, entitiesRegistry, beanClass, annotations);
-						currentBeanClass = currentBeanClass.getSuperclass();
-					}
-					// scan field for annotations
-					handleEntityAnnotationFields(fieldAnnotationLoaders, entitiesRegistry, beanClass);
+					loadSingleClass(entitiesRegistry, beanClass);
 				}
 				// another cycle on all classes for scanning fields of registered types (List<TableRowClass> for example)
 				for (Resource resource : resources) {
@@ -86,6 +82,33 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		}
 
 		fillEntitiesReferences(entitiesRegistry);
+	}
+
+	public void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass) {
+		if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass)) {
+			return;
+		}
+		Class<?> currentBeanClass = beanClass;
+		// scan parent classes for annotations
+		while (currentBeanClass != Object.class) {
+			Annotation[] annotations = currentBeanClass.getAnnotations();
+			processAnnotations(classAnnotationLoaders, entitiesRegistry, beanClass, annotations);
+			currentBeanClass = currentBeanClass.getSuperclass();
+		}
+		// scan field for annotations
+		handleEntityAnnotationFields(fieldAnnotationLoaders, entitiesRegistry, beanClass);
+	}
+
+	public void setAnnotationLoaders(Collection<ClassAnnotationsLoader> classAnnotationLoaders) {
+		this.classAnnotationLoaders = sortClassAnnoationLoaders(classAnnotationLoaders);
+	}
+
+	public void setFieldAnnotationLoaders(Collection<FieldAnnotationsLoader> fieldAnnotationLoaders) {
+		this.fieldAnnotationLoaders = fieldAnnotationLoaders;
+	}
+
+	public void setFieldLoaders(Collection<FieldLoader> fieldLoaders) {
+		this.fieldLoaders = fieldLoaders;
 	}
 
 	private static Class<?> getClassFromResource(String packagePath, Resource resource) throws IOException,
@@ -211,7 +234,6 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 			}
 
 		});
-
 	}
 
 }

@@ -16,6 +16,13 @@ import java.util.Collection;
 
 public interface RegistryLoader {
 
-	public void load(EntitiesRegistry<?, ?> entitiesRegistry, Collection<ClassAnnotationsLoader> annotationLoaders,
-			Collection<FieldAnnotationsLoader> fieldAnnotationLoaders, Collection<FieldLoader> fieldLoaders);
+	public void load(EntitiesRegistry<?, ?> entitiesRegistry);
+
+	void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass);
+
+	void setAnnotationLoaders(Collection<ClassAnnotationsLoader> annotationLoaders);
+
+	void setFieldAnnotationLoaders(Collection<FieldAnnotationsLoader> fieldAnnotationLoaders);
+
+	void setFieldLoaders(Collection<FieldLoader> fieldLoaders);
 }

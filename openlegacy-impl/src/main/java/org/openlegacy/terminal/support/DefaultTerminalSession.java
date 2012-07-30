@@ -210,6 +210,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		for (SessionModule sessionModule : sessionModulesList) {
 			sessionModule.destroy();
 		}
+		entity = null;
 		terminalConnection.disconnect();
 	}
 
