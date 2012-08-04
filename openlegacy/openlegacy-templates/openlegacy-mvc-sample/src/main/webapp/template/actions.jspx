@@ -1,12 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:jsp="http://java.sun.com/JSP/Page"  class="actions"
+<div xmlns:jsp="http://java.sun.com/JSP/Page" class="toolbar"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
-
-	<input type="button" class="button" onclick="doPost('${definitions.entityName}');" value="Submit" />
-	<c:forEach items="${definitions.actions}" var="action">
-		<input type="button" class="button" onclick="doPost('${definitions.entityName}','${action.alias}');" value="${action.displayName}" />
-	</c:forEach>
-
+	<ul>
+		<li><a href="javascript:doPost('${definitions.entityName}');">
+				<img src="images/icon_submit.png" width="15" height="14"
+					alt="Submit" />Submit
+			</a></li>
+		<c:forEach items="${definitions.actions}" var="action">
+			<li><a
+					href="javascript:doPost('${definitions.entityName}','${action.alias}');">
+					<img src="images/icon_${action.alias}.png" width="15" height="14"
+						alt="Submit" />${action.displayName}
+				</a></li>
+		</c:forEach>
+	</ul>
 </div>

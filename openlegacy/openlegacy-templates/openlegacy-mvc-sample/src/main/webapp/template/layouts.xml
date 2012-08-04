@@ -40,7 +40,7 @@
   <definition name="flatView" template="/template/view.jspx">
   </definition>
   
-  <definition name="public" template="/template/template.jspx">
+  <definition name="public" template="/template/public.jspx">
     <put-attribute name="header" value="/template/header.jspx" />
     <put-attribute name="footer" value="/template/footer.jspx" />
   </definition>

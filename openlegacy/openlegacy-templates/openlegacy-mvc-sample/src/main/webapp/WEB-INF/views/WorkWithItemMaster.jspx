@@ -1,43 +1,47 @@
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags">	
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags">
 	<ol:form model="workWithItemMaster">
-		<ol:field name="positionTo" top="87%" left="2%" width="32%" />
-		<ol:pagePart width="70%" left="5%" top="25%">
-				<table>
-					<th>
-					Action
-					</th>
-					<th>
-					Alpha search
-					</th>
-					<th>
-					Item Description
-					</th>
-					<th>
-					Item Number
-					</th>
-					<c:forEach items="${workWithItemMaster.workWithItemMasterRecords}" var="item">
-					<tr>
+		<div class="table">
+			<table>
+				<tr>
+					<th>Action</th>
+					<th>Alpha search</th>
+					<th>Item Description</th>
+					<th>Item Number</th>
+				</tr>
+				<c:forEach items="${workWithItemMaster.workWithItemMasterRecords}"
+					var="item" varStatus="i">
+					<tr class="${i.index % 2 == 0 ? '' : 'alt'}">
 						<td>
-							<a href="WorkWithItemMaster1/revise/${item.itemNumber}">Revise</a> |
-							<a href="WorkWithItemMaster1/display/${item.itemNumber}">Display</a> |
-							<a href="WorkWithItemMaster1/delete/${item.itemNumber}">Delete</a>
+							<a href="WorkWithItemMaster1/revise/${item.itemNumber}"
+								class="rbtn revise" title="Revise">Revise</a> 
+							<a href="WorkWithItemMaster1/display/${item.itemNumber}" class="rbtn display"
+								title="Display">Display</a> 
+							<a href="WorkWithItemMaster1/delete/${item.itemNumber}" class="rbtn delete"
+								title="Delete">Delete</a>
 						</td>
 						<td>${item.alphaSearch}</td>
 						<td>${item.itemDescription}</td>
 						<td>${item.itemNumber}</td>
 					</tr>
-					</c:forEach>
-				</table>
-				<div class="excel">
-					<a href="WorkWithItemMaster/excel"><img src="images/excel.jpg" /></a>
-				</div>
-				<div class="paging">
-					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','previous','body')">&lt; Previous</a>
-					| 
-					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','next','body')">Next &gt;</a> 
-				</div>
-		</ol:pagePart>
-		
+				</c:forEach>
+			</table>
+		</div>
+		<div class="paging">
+			<div class="previous">
+				<a
+					href="javascript:doAjaxPost('WorkWithItemMasterForm','container','previous','body')">
+					<img src="images/icon_previous.png" width="13" height="13"
+						alt="Previous" /> <span>Previous</span>
+				</a>
+			</div>
+			<div class="next">
+				<a
+					href="javascript:doAjaxPost('WorkWithItemMasterForm','container','next','body')">
+					<span>Next</span> <img src="images/icon_next.png" width="13"
+						height="13" alt="Next" />
+				</a>
+			</div>
+		</div>
 	</ol:form>
 </div>
-		
