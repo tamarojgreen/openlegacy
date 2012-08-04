@@ -7,27 +7,10 @@ import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1_Aspect {
-    
 
     declare parents: WorkWithItemMaster1 implements ScreenEntity;
     private String WorkWithItemMaster1.focusField;
     
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
 	
 
 	
@@ -59,23 +42,6 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1_Aspect {
     public void WorkWithItemMaster1.setAlphaSearch(String alphaSearch){
     	this.alphaSearch = alphaSearch;
     }
-
-
-
-    public String WorkWithItemMaster1.getItemClass(){
-    	return this.itemClass;
-    }
-    
-    public void WorkWithItemMaster1.setItemClass(String itemClass){
-    	this.itemClass = itemClass;
-    }
-
-
-
-    public String WorkWithItemMaster1.getItemClass1(){
-    	return this.itemClass1;
-    }
-    
 
 
 
@@ -119,36 +85,6 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1_Aspect {
 
 
 
-    public Integer WorkWithItemMaster1.getOuterQuantity(){
-    	return this.outerQuantity;
-    }
-    
-    public void WorkWithItemMaster1.setOuterQuantity(Integer outerQuantity){
-    	this.outerQuantity = outerQuantity;
-    }
-
-
-
-    public String WorkWithItemMaster1.getOuterUnitOfMeasure(){
-    	return this.outerUnitOfMeasure;
-    }
-    
-    public void WorkWithItemMaster1.setOuterUnitOfMeasure(String outerUnitOfMeasure){
-    	this.outerUnitOfMeasure = outerUnitOfMeasure;
-    }
-
-
-
-    public Integer WorkWithItemMaster1.getPackingMultiplier(){
-    	return this.packingMultiplier;
-    }
-    
-    public void WorkWithItemMaster1.setPackingMultiplier(Integer packingMultiplier){
-    	this.packingMultiplier = packingMultiplier;
-    }
-
-
-
     public Boolean WorkWithItemMaster1.getPalletLabelRequired(){
     	return this.palletLabelRequired;
     }
@@ -166,13 +102,6 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1_Aspect {
     public void WorkWithItemMaster1.setStockGroup(String stockGroup){
     	this.stockGroup = stockGroup;
     }
-
-
-
-    public String WorkWithItemMaster1.getStockGroup1(){
-    	return this.stockGroup1;
-    }
-    
 
 
 
@@ -202,26 +131,6 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1_Aspect {
     
     public void WorkWithItemMaster1.setSupercedingItemto(String supercedingItemto){
     	this.supercedingItemto = supercedingItemto;
-    }
-
-
-
-    public String WorkWithItemMaster1.getUnitOfMeasure(){
-    	return this.unitOfMeasure;
-    }
-    
-    public void WorkWithItemMaster1.setUnitOfMeasure(String unitOfMeasure){
-    	this.unitOfMeasure = unitOfMeasure;
-    }
-
-
-
-    public String WorkWithItemMaster1.getVatCode(){
-    	return this.vatCode;
-    }
-    
-    public void WorkWithItemMaster1.setVatCode(String vatCode){
-    	this.vatCode = vatCode;
     }
 
 

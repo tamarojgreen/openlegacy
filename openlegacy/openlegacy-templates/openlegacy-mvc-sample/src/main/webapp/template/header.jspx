@@ -12,8 +12,10 @@
 			<div class="topmenu">
 				<ul>
 					<li>Welcome, ${loggedInUser}!</li>
+					<!-- 
 					<li class="account"><a href="#">Account</a></li>
 					<li class="prefs"><a href="#">Preferences</a></li>
+					 -->
 					<li class="logout"><a
 							href="${pageContext.request.contextPath}/logoff">Logout</a></li>
 				</ul>

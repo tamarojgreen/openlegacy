@@ -1,23 +1,22 @@
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags" xmlns:form="http://www.springframework.org/tags/form">	
-    <ol:form model="workWithItemMaster1">
-    	<ol:pagePart width="90%" left="2%" top="18%">
-			<ol:panel title="Item Details" open="true">
-				<ol:field name="itemNumber" type="text">
-					<c:if test="${imageId != null}">
-						<img class="stockImage" style="left:74%; position:absolute"
-							src="${pageContext.request.contextPath}/StockItemImages/images/${imageId}" />
-					</c:if>
-				</ol:field>
-				<ol:field name="itemDescription" />
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags"
+	xmlns:form="http://www.springframework.org/tags/form">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	<ol:form model="workWithItemMaster1">
+		<div class="page_inner" data-dojo-type="dijit.TitlePane"
+			data-dojo-props="title: 'Item Details'">
+			<div class="ib_content">
+				<ol:field name="itemNumber" type="text" />
+				<ol:field name="itemDescription" type="textarea"/>
 				<ol:field name="alphaSearch" />
-				<ol:field name="supercedingItemto" />
 				<ol:field name="supercedingItemfrom" />
-				<ol:field name="substituteItemNumber" />
-				<ol:field name="manufacturersItemNo" />
-				<ol:field name="itemWeight" />
-				<div class="field">
-					<label>Stock Group: </label>
-					<span></span> 
+				<ol:field name="supercedingItemto"/>
+				<ol:field name="substituteItemNumber"/>
+				<ol:field name="itemWeight"/>
+				<div class="field_row">
+					<label class="label">Stock Group: </label>
 					<select
 						name="itemClass" value="${workWithItemMaster1.stockGroup}"
 						data-dojo-type="dijit.form.FilteringSelect">
@@ -26,34 +25,14 @@
 						<option value="CG">Custom Stock Group</option>
 					</select>
 				</div>
-				<div class="field">
-					<label>Video URL:</label><input name="videoUrl" value="${stockItem.videoUrl}" size="60"/>
-					<c:if test="${not empty stockItem.videoUrl}">
-						<a href="javascript:showDialog('videoDialog')">Show</a>	
-					</c:if>
-				</div>
-			</ol:panel>
-			<ol:panel title="Advanced" open="false">
-				<ol:field name="unitOfMeasure" />
-				<ol:field name="packingMultiplier" />
-				<ol:field name="outerUnitOfMeasure" />
-				<ol:field name="outerQuantity" />
-				<ol:field name="palletLabelRequired" />
-				<div class="field">
-					<label>VAT Code: </label> <input type="text" name="vatCode"
-						value="${workWithItemMaster1.vatCode}" size="2" maxlength="2" />
-				</div>
-			</ol:panel>
-			<ol:panel title="Full Description" open="false">
-				<input type="hidden" id="description" name="description" />
-				<div data-dojo-type="dijit.Editor"
-					onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
-			</ol:panel>
-    	</ol:pagePart>
-		<div id="videoDialog" data-dojo-type="dijit.Dialog" style="overflow: auto;" title="Video" data-dojo-props="parseOnLoad: true, duration:600">
-			<iframe width="600" height="400" src="${stockItem.videoUrl}"></iframe>
+			</div>
 		</div>
-
-    </ol:form>
+		<div class="page_inner" data-dojo-type="dijit.TitlePane"
+			data-dojo-props="title: 'Item Details'">
+			<div class="ib_content">
+				<ol:field name="manufacturersItemNo" />
+				<ol:field name="palletLabelRequired" />
+			</div>
+		</div>
+	</ol:form>
 </div>
-
