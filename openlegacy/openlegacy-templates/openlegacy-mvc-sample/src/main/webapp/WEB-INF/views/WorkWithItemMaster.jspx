@@ -12,20 +12,23 @@
 				<c:forEach items="${workWithItemMaster.workWithItemMasterRecords}"
 					var="item" varStatus="i">
 					<tr class="${i.index % 2 == 0 ? '' : 'alt'}">
-						<td>
-							<a href="WorkWithItemMaster1/revise/${item.itemNumber}"
-								class="rbtn revise" title="Revise">Revise</a> 
-							<a href="WorkWithItemMaster1/display/${item.itemNumber}" class="rbtn display"
-								title="Display">Display</a> 
-							<a href="WorkWithItemMaster1/delete/${item.itemNumber}" class="rbtn delete"
-								title="Delete">Delete</a>
-						</td>
+						<td><a href="WorkWithItemMaster1/revise/${item.itemNumber}"
+								class="rbtn revise" title="Revise">Revise</a> <a
+								href="WorkWithItemMaster1/display/${item.itemNumber}"
+								class="rbtn display" title="Display">Display</a> <a
+								href="WorkWithItemMaster1/delete/${item.itemNumber}"
+								class="rbtn delete" title="Delete">Delete</a></td>
 						<td>${item.alphaSearch}</td>
 						<td>${item.itemDescription}</td>
 						<td>${item.itemNumber}</td>
 					</tr>
 				</c:forEach>
 			</table>
+		</div>
+		<div class="excel">
+			<a href="WorkWithItemMaster/excel">
+				<img src="images/excel.jpg" width="20px" height="20px" />
+			</a>
 		</div>
 		<div class="paging">
 			<div class="previous">
