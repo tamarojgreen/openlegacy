@@ -19,11 +19,18 @@
 					class="element">
 					<div class="links">
 						<ul>
-							<c:forEach items="${menuItem.menuItems}" var="subMenuItem">
-								<li><a
-										href="${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}">${subMenuItem.displayName}</a>
-								</li>
-							</c:forEach>
+							<li>
+								<c:forEach items="${menuItem.menuItems}" var="subMenuItem">
+									<c:choose>
+										<c:when test="${subMenuItem.targetEntity.simpleName == definitions.entityName}">
+											<a href="${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}" class="current">${subMenuItem.displayName}</a>
+										</c:when>
+										<c:otherwise>
+											<a href="${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}">${subMenuItem.displayName}</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</li>
 						</ul>
 					</div>
 				</div>

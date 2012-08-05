@@ -14,9 +14,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>OpenLegacy Toys</title>
 <link href="${pageContext.request.contextPath}/themes/tundra/tundra.css" rel="stylesheet" type="text/css" />
-
 <link href="${pageContext.request.contextPath}/template/openlegacy.css" rel="stylesheet" type="text/css" />
-<link href="${pageContext.request.contextPath}/style/tundra_override.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/themes/tundra/tundra_override.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript">var djConfig = {parseOnLoad: true, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/dojo.custom.build.js"><!-- required for FF3 and Opera --></script>
 

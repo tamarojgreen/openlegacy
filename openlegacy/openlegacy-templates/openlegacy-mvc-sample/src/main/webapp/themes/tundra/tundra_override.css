@@ -1,6 +1,6 @@
 .dijitAccordionTitle .dijitAccordionTitleFocus {
 	text-decoration: none;
-	background-image: url(../images/lp_item.png);
+	background-image: url(../../images/lp_item.png);
 	color: #fff;
 	background-repeat: no-repeat;
 	background-position: right top;
@@ -18,10 +18,10 @@
 	border: none;
 }
 .dijitAccordionInnerContainerSelected .dijitAccordionTitleFocus {
-	background-image: url(../images/lp_item_on.png) !important;
+	background-image: url(../../images/lp_item_on.png) !important;
 }
 .dijitAccordionTitle {
-	background-image: url(../images/lp_item.png) !important;
+	background-image: url(../../images/lp_item.png) !important;
 }
 .dijitTitlePaneTitle {
 	cursor: pointer;
@@ -61,7 +61,7 @@
 	border-radius: 3px;
 	padding: 0px;
 	background-color: #fff;
-	background-image: url(../images/editbox_bg.png);
+	background-image: url(../../images/editbox_bg.png);
 	background-repeat: repeat-x;
 	background-position: left top;
 	font-family: Arial, Helvetica, sans-serif;
@@ -85,7 +85,7 @@
 	border: none;
 }
 .tundra .dijitAccordionTitle {
-	background-image: url(../images/lp_item.png) !important;
+	background-image: url(../../images/lp_item.png) !important;
 	border: none;
 	padding: 0px;
 }
@@ -108,7 +108,7 @@
 	border:1px solid #90a9c1;
 }
 .tundra .dijitArrowButtonInner {
-	background: url(../themes/tundra/images/spriteArrows.png) no-repeat scroll 0 center;
+	background: url(images/spriteArrows.png) no-repeat scroll 0 center;
 	margin: 0 4px 0 5px;
 }
 .tundra .dijitSelectActive .dijitButtonNode,
@@ -128,14 +128,14 @@
 	color: #3c4955;
 }
 .tundra .dijitMenuItemHover {
-	background: url(../images/dd_menu_bg_over.png) repeat-x left top;
+	background: url(../../images/dd_menu_bg_over.png) repeat-x left top;
 }
 .tundra .dijitMenuItemSelected {
 	background-color: #333;
 	color:#fff;
 }
 .tundra .dijitCalendarMonthContainer th {
-	background:#ecf1f6 url(../images/calendar_p_hdr.png) repeat-x bottom left;
+	background:#ecf1f6 url(../../images/calendar_p_hdr.png) repeat-x bottom left;
 	padding-top:.3em;
 	padding-bottom:.2em;
 	text-align:center;
@@ -154,7 +154,7 @@
 	font-size: .8em;
 }
 .tundra .dijitCalendarDayLabelTemplate {
-	background:white url(../images/calendar_week_bg.png) repeat-x bottom left;
+	background:white url(../../images/calendar_week_bg.png) repeat-x bottom left;
 	font-weight:normal;
 	padding-top:5px;
 	padding-bottom:3px;
@@ -180,7 +180,7 @@
 	font-weight: normal;
 }
 .tundra .dijitCalendarYearContainer {
-	background:white url(../images/calendar_year_bg.png) repeat-x bottom left;
+	background:white url(../../images/calendar_year_bg.png) repeat-x bottom left;
 	border-top:1px solid #e9eef3;
 	font-size: .9em;
 }
@@ -189,7 +189,7 @@
 	color: #4b5969;
 	padding: 5px 10px;
 	border: none;
-	background: #fdfdfe url(../images/calendar_year_bg_s.png) repeat-x bottom left !important;
+	background: #fdfdfe url(../../images/calendar_year_bg_s.png) repeat-x bottom left !important;
 }
 .dijitCalendarMonthMenu .dijitCalendarMonthLabel {
 	text-align:center;
@@ -198,7 +198,7 @@
 	padding: 1px 0px;
 }
 .tundra .dijitCalendarMonthMenu .dijitCalendarMonthLabelHover {
-	background: #fdfdfe url(../images/dd_menu_bg_over.png) repeat-x bottom left;
+	background: #fdfdfe url(../../images/dd_menu_bg_over.png) repeat-x bottom left;
 	color: #333;
 }
 .tundra .dijitCalendarCurrentMonthLabel {
@@ -220,7 +220,7 @@
 	box-shadow: #555 0px 4px 6px;
 }
 .tundra .dijitDialogTitleBar {
-	background: #fafafa url(../images/popup_hdr_bg.png) repeat-x bottom left;
+	background: #fafafa url(../../images/popup_hdr_bg.png) repeat-x bottom left;
 	padding: 13px 15px;
 	outline:0; 
 	color: #333;
@@ -247,7 +247,7 @@
 .tundra .dijitButton .dijitButtonNode {
 	border: 1px solid #92b3d3;
 	padding: 5px 12px 6px 12px;
-	background: url(../themes/tundra/images/button_bg.png) repeat-x center left;
+	background: url(images/button_bg.png) repeat-x center left;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
@@ -263,7 +263,7 @@
 .tundra .dijitComboButton .dijitButtonContentsHover,
 .tundra .dijitComboButton .dijitDownArrowButtonHover {
 	border-color: #6c8eb0;
-	background: url(../themes/tundra/images/button_bg_over.png) repeat-x center left;
+	background: url(images/button_bg_over.png) repeat-x center left;
 }
 .tundra .dijitUpArrowButtonActive,
 .tundra .dijitDownArrowButtonActive,
@@ -273,7 +273,7 @@
 .tundra .dijitButtonContentsActive,
 .tundra .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
 	border-color:#6c8eb0;
-	background: url(../themes/tundra/images/button_bg_active.png) repeat-x center left;
+	background: url(images/button_bg_active.png) repeat-x center left;
 }
 .tundra .dijitTabContainerTop-tabs {
 	margin-bottom: 0;
@@ -286,13 +286,13 @@
 	margin-right:0px;	
 	padding: 0px 2px 0px 0px;
 	border: none;
-	background: url(../images/tabs_separator.png) no-repeat right bottom;
+	background: url(../../images/tabs_separator.png) no-repeat right bottom;
 }
 .tundra .dijitTab .dijitTabInnerDiv {
 	padding:10px 15px 11px 15px;
 	color: #627592;
 	text-shadow: #fff 0px 1px 0px;
-	background: url(../images/tabs_bg_link.png) repeat-x left bottom;
+	background: url(../../images/tabs_bg_link.png) repeat-x left bottom;
 }
 .tundra .dijitTabChecked {
 	border: none;
@@ -308,10 +308,10 @@
 .tundra .dijitTabHover .dijitTabInnerDiv {
 	color: #333;
 	text-shadow: #fff 0px 1px 0px;
-	background: url(../images/tabs_bg_over.png) repeat-x left bottom;
+	background: url(../../images/tabs_bg_over.png) repeat-x left bottom;
 }
 .tundra .dijitTabCheckedHover {
-	background: url(../images/tabs_separator.png) no-repeat right bottom !important;
+	background: url(../../images/tabs_separator.png) no-repeat right bottom !important;
 }
 .tundra .dijitTabCheckedHover .dijitTabInnerDiv {
 	background: #f2f6fa;
