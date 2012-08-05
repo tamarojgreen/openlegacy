@@ -98,7 +98,7 @@ public @interface ScreenField {
 	/**
 	 * Optional. A sample value for the field. Use for readability of generated code, and design-time previews
 	 * 
-	 * @return
+	 * @return field sample value
 	 */
 	String sampleValue() default "";
 

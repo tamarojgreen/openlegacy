@@ -18,7 +18,7 @@ package org.openlegacy;
  * 
  * It is possible to define more field types by implementing this interface
  * 
- * @see org.openlegacy.modules.login.UserField
+ * @see org.openlegacy.modules.login.Login.UserField
  * @see org.openlegacy.modules.SessionModule
  * 
  * @author Roi Mor

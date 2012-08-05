@@ -41,7 +41,7 @@ public @interface ScreenBooleanField {
 	/**
 	 * Determine whether to set the field to null when the mapped host field position is empty
 	 * 
-	 * @return
+	 * @return whether to treat empty as null
 	 */
 	boolean treatEmptyAsNull() default false;
 

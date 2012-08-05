@@ -47,21 +47,21 @@ public @interface ScreenNavigation {
 	/**
 	 * {@link TerminalAction} to execute to reach from the accessed screen. Default to ENTER action.
 	 * 
-	 * @return
+	 * @return terminal action for navigation
 	 */
 	Class<? extends TerminalAction> terminalAction() default TerminalActions.ENTER.class;
 
 	/**
 	 * {@link AdditionalKey} to use in addition to the terminalAction. Default to NONE
 	 * 
-	 * @return
+	 * @return additional key for navigation
 	 */
 	AdditionalKey additionalKey() default AdditionalKey.NONE;
 
 	/**
 	 * A list of static field values to send in order to reach from the source screen to this screen
 	 * 
-	 * @return
+	 * @return array of assigned fields for navigation
 	 */
 	AssignedField[] assignedFields() default {};
 
@@ -75,7 +75,7 @@ public @interface ScreenNavigation {
 	/**
 	 * {@link AdditionalKey} to use in addition to the exitAction
 	 * 
-	 * @return
+	 * @return exit additional key for navigation
 	 */
 	AdditionalKey exitAdditionalKey() default AdditionalKey.NONE;
 
@@ -83,7 +83,7 @@ public @interface ScreenNavigation {
 	 * Specify whether the screen requires dynamic parameter in order to access it. Used to determine whether this screen can
 	 * participate in {@link Menu} building.
 	 * 
-	 * @return
+	 * @return whether the screen requires parameters for navigation
 	 */
 	boolean requiresParameters() default false;
 }

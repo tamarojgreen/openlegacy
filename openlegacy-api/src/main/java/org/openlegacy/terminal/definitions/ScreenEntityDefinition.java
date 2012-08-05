@@ -40,14 +40,14 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	/**
 	 * field name -> table definition
 	 * 
-	 * @return
+	 * @return map of table definitions of the screen entity
 	 */
 	Map<String, ScreenTableDefinition> getTableDefinitions();
 
 	/**
 	 * field name -> part definition
 	 * 
-	 * @return
+	 * @return map of screen parts definitions of the screen entity
 	 */
 	Map<String, ScreenPartEntityDefinition> getPartsDefinitions();
 
@@ -56,20 +56,50 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	TerminalSnapshot getSnapshot();
 
 	/**
-	 * Holds a snapshot with analyzer manipulations
+	 * Used for design-time. Contains the original snapshot without analyzer manipulations
 	 */
 	TerminalSnapshot getOriginalSnapshot();
 
+	/**
+	 * Whether the screen entity is a window. gets higher priority in screen recognition process
+	 * 
+	 * @return is the screen entity is a window
+	 */
 	boolean isWindow();
 
+	/**
+	 * Whether the screen entity is a child entity. Used for determine the page type to generate
+	 * 
+	 * @return is the screen entity is a child entity
+	 */
 	boolean isChild();
 
+	/**
+	 * Gets the screen entity definitions which this screen is accessed from
+	 * 
+	 * @return screen entity definitions of the accessed from screen
+	 */
 	ScreenEntityDefinition getAccessedFromScreenDefinition();
 
+	/**
+	 * Gets the snapshot of the screen which this screen is accessed from. Used in design-time
+	 * 
+	 * @return snapshot of the accessed from screen
+	 */
 	TerminalSnapshot getAccessedFromSnapshot();
 
+	/**
+	 * Gets the screen size (rows, columns)
+	 * 
+	 * @return the screen size
+	 */
 	ScreenSize getScreenSize();
 
+	/**
+	 * Gets the screen field definitions sorted by their position ascending (row, column)
+	 * 
+	 * @return the screen field definition sorted by position
+	 */
 	List<ScreenFieldDefinition> getSortedFields();
 
 }

@@ -89,7 +89,7 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 	 * Returns an entity definition for the given class
 	 * 
 	 * @param entityClass
-	 * @return
+	 * @return an entity definitions for the given entity class
 	 */
 	H get(Class<?> entityClass);
 

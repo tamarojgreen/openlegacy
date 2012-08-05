@@ -24,29 +24,51 @@ import org.openlegacy.terminal.TerminalPositionContainer;
  */
 public interface ScreenFieldDefinition extends FieldDefinition, TerminalPositionContainer, Comparable<ScreenFieldDefinition> {
 
+	/**
+	 * Gets the field position (row, column)
+	 */
 	TerminalPosition getPosition();
 
+	/**
+	 * Gets the field end position (row, column)
+	 */
 	TerminalPosition getEndPosition();
 
+	/**
+	 * Gets the field leading label position (row, column)
+	 */
 	TerminalPosition getLabelPosition();
 
+	/**
+	 * Gets the field length, Typically calculated from end position and position (start)
+	 */
 	int getLength();
 
+	/**
+	 * Is the field editable on the host screen (protected)
+	 * 
+	 * @return is the field editable
+	 */
 	boolean isEditable();
 
+	/**
+	 * Is the field password. A password is always an editable field
+	 * 
+	 * @return is the field password
+	 */
 	boolean isPassword();
 
 	/**
-	 * Used mostly for designtime usage
+	 * Used mostly for design-time usage
 	 * 
-	 * @return
+	 * @return a sample terminal field
 	 */
 	TerminalField getTerminalField();
 
 	/**
-	 * Used mostly for designtime usage
+	 * Used mostly for design-time usage
 	 * 
-	 * @return
+	 * @return a sample leading label terminal field
 	 */
 	TerminalField getTerminalLabelField();
 }

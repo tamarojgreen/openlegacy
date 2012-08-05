@@ -42,7 +42,7 @@ public @interface Action {
 	/**
 	 * The action class to invoke. Typically {@link TerminalActions}.&lt;F KEY&gt;
 	 * 
-	 * @return
+	 * @return terminal action
 	 */
 	Class<? extends TerminalAction> action();
 

@@ -32,7 +32,7 @@ public interface AutoCompleteFieldTypeDefinition extends FieldTypeDefinition {
 	/**
 	 * The source entity class name, Used for design-time purposes
 	 * 
-	 * @return
+	 * @return source entity class name
 	 */
 	String getSourceEntityClassName();
 

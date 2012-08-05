@@ -47,7 +47,7 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	/**
 	 * The entity display name. If not specified default formatted display value should be supplied
 	 * 
-	 * @return
+	 * @return display name
 	 */
 	String getDisplayName();
 
@@ -61,7 +61,7 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	/**
 	 * The entity class name.
 	 * 
-	 * @return
+	 * @return entity class name
 	 */
 	String getEntityClassName();
 
@@ -78,14 +78,24 @@ public interface EntityDefinition<D extends FieldDefinition> {
 
 	D getFirstFieldDefinition(Class<? extends FieldType> fieldType);
 
+	/**
+	 * list of field definitions which are marked as keys of the entity
+	 * 
+	 * @return list of key field definitions
+	 */
 	List<? extends FieldDefinition> getKeys();
 
+	/**
+	 * List of child entities definitions if the entity has child entities
+	 * 
+	 * @return list of child entities definitions
+	 */
 	List<EntityDefinition<?>> getChildEntitiesDefinitions();
 
 	/**
 	 * Fetch all children, grand children and so. Used for generating composite page also with child with indirect connection
 	 * 
-	 * @return
+	 * @return list of recursive child entities definitions
 	 */
 	Set<EntityDefinition<?>> getAllChildEntitiesDefinitions();
 }

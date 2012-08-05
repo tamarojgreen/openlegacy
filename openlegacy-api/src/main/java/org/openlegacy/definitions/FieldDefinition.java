@@ -28,21 +28,21 @@ public interface FieldDefinition {
 	/**
 	 * Define an applicative type of the field. e.g: UserField, MenuSelectionField, ErrorField
 	 * 
-	 * @return
+	 * @return field applicative type
 	 */
 	Class<? extends FieldType> getType();
 
 	/**
 	 * Define the field UI field type: text, password, boolean (check-box), auto complete, date (calendar)
 	 * 
-	 * @return
+	 * @return field type definition
 	 */
 	FieldTypeDefinition getFieldTypeDefinition();
 
 	/**
 	 * Holds the field Java type: String, Date, Integer, etc
 	 * 
-	 * @return
+	 * @return field Java type
 	 */
 	public Class<?> getJavaType();
 

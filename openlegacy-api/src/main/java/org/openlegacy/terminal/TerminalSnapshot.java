@@ -39,6 +39,13 @@ public interface TerminalSnapshot extends Snapshot, Serializable {
 	 */
 	List<TerminalRow> getRows();
 
+	/**
+	 * Returns the specified row number on the screen
+	 * 
+	 * @param rowNumber
+	 *            the requested row number
+	 * @return terminal row
+	 */
 	TerminalRow getRow(int rowNumber);
 
 	/**

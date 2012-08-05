@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
-import org.openlegacy.terminal.TerminalField;
-
 import java.util.List;
 
 /**
@@ -24,7 +22,7 @@ public interface TerminalFieldSplitter {
 	 * Split a terminal field to multiple once. If no reason to split, return null
 	 * 
 	 * @param terminalField
-	 * @return
+	 * @return a split list of the field
 	 */
 	List<TerminalField> split(TerminalField terminalField);
 }

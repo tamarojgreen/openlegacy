@@ -216,7 +216,7 @@ public class TerminalActions {
 	 * 
 	 * @param keyboardKey
 	 * @param terminalActionMapper
-	 * @return
+	 * @return A command which to the given keyboardKey
 	 * @throws TerminalActionNotMappedException
 	 */
 	@SuppressWarnings("unchecked")

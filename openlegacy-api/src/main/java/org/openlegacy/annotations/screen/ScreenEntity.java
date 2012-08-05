@@ -82,7 +82,7 @@ public @interface ScreenEntity {
 	 * Additional <code>getSnapshot</code> method will be added, and <code>get&lt:FIELD-NAME&gt;Field</code> methods (e.g.
 	 * getOrderIdField) for each Java field.
 	 * 
-	 * @return
+	 * @return is the screen entity should support terminal data
 	 */
 	boolean supportTerminalData() default false;
 
