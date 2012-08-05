@@ -5,9 +5,9 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<ol:form model="workWithItemMaster1">
-		<div class="page_inner" data-dojo-type="dijit.TitlePane"
+		<div class="panel" data-dojo-type="dijit.TitlePane"
 			data-dojo-props="title: 'Item Details'">
-			<div class="ib_content">
+			<div class="content">
 				<ol:field name="itemNumber" type="text" />
 				<ol:field name="itemDescription" type="textarea"/>
 				<ol:field name="alphaSearch" />
@@ -27,9 +27,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="page_inner" data-dojo-type="dijit.TitlePane"
+		<div class="panel" data-dojo-type="dijit.TitlePane"
 			data-dojo-props="title: 'Item Details'">
-			<div class="ib_content">
+			<div class="content">
 				<ol:field name="manufacturersItemNo" />
 				<ol:field name="palletLabelRequired" />
 			</div>

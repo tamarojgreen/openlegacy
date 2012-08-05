@@ -5,7 +5,7 @@
 	<ul>
 		<li><a
 				href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}');">
-				<img src="${pageContext.request.contextPath}/images/icon_submit.png"
+				<img src="${pageContext.request.contextPath}/icons/submit.png"
 					width="15" height="14" alt="Submit" />Submit
 			</a></li>
 		<c:forEach items="${definitions.actions}" var="action">
@@ -13,7 +13,7 @@
 					href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}','${action.alias}');"
 					value="${action.displayName}">
 					<img
-						src="${pageContext.request.contextPath}/images/icon_${action.alias}.png"
+						src="${pageContext.request.contextPath}/icons/${action.alias}.png"
 						width="15" height="14" alt="Submit" />${action.displayName}
 				</a></li>
 		</c:forEach>
