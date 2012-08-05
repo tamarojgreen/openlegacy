@@ -34,14 +34,14 @@
 			<div class="previous">
 				<a
 					href="javascript:doAjaxPost('WorkWithItemMasterForm','container','previous','body')">
-					<img src="images/icon_previous.png" width="13" height="13"
+					<img src="icons/previous.png" width="13" height="13"
 						alt="Previous" /> <span>Previous</span>
 				</a>
 			</div>
 			<div class="next">
 				<a
 					href="javascript:doAjaxPost('WorkWithItemMasterForm','container','next','body')">
-					<span>Next</span> <img src="images/icon_next.png" width="13"
+					<span>Next</span> <img src="icons/next.png" width="13"
 						height="13" alt="Next" />
 				</a>
 			</div>
