@@ -1,0 +1,249 @@
+
+.cloud .dijitTabPaneWrapper {
+	background:#fff;
+	border:1px solid #ccc;
+	margin: 0;
+	padding: 0;
+}
+.cloud .dijitTab {
+	line-height:normal;
+	margin-right:4px;	
+	padding:0;
+	border:1px solid #ccc;
+	background:#e2e2e2 url("../images/tabEnabled.png") repeat-x;
+}
+.cloud .dijitTabInnerDiv {
+	padding:2px 8px 2px 9px;
+}
+.cloud .dijitTabSpacer {
+	display: none;
+}
+.cloud .dijitTabContainer .tabStripRBtn {
+	margin-right: 20px;
+}
+.cloud .dijitTabContainer .tabStripLBtn {
+	margin-left: 20px;
+}
+.cloud .nowrapTabStrip .dijitTab {
+	top: 2px;
+}
+.cloud .dijitTabContainerBottom .nowrapTabStrip .dijitTab {
+	top: 0;
+	bottom: 2px;
+}
+.cloud .dijitTabChecked {
+	
+	background-color:#fff;
+	border-color: #ccc;
+	background-image:none;
+}
+.cloud .dijitTabHover {
+	color: #243C5F;
+	border-top-color:#92a0b3;
+	border-left-color:#92a0b3;
+	border-right-color:#92a0b3;
+	border-bottom-color:#92a0b3;
+	background:#e2e2e2 url("../images/tabHover.gif") repeat-x;
+}
+.cloud .dijitTabContainerTop .dijitTabHover {
+	border-bottom-color:#ccc;
+}
+.cloud .dijitTabContainerBottom .dijitTabHover {
+	border-top-color:#ccc;
+}
+.cloud .dijitTabContainerLeft .dijitTabHover {
+	border-right-color:#ccc;
+}
+.cloud .dijitTabContainerRight .dijitTabHover {
+	border-left-color:#ccc;
+}
+.cloud .dijitTabContainer .dijitTabCheckedHover {
+	color: inherit;
+	border:1px solid #ccc;
+	background:#fff;
+}
+.cloud .dijitTab .tabLabel {
+	
+	min-height: 12px;
+	display: inline-block;
+}
+.cloud .dijitTabContainerNested .dijitTabListWrapper {
+	height: auto;
+}
+.cloud .dijitTabContainerNested .dijitTabContainerTop-tabs {
+	border-bottom: 1px solid #CCC;
+}
+.cloud .dijitTabContainerTabListNested .dijitTab {
+	background: none;
+	border: none;
+	top: 0;		
+}
+.cloud .dijitTabContainerTabListNested .dijitTab .dijitTabContent {
+}
+.cloud .dijitTabContainerTabListNested .dijitTabHover .dijitTabContent .tabLabel {
+	text-decoration: underline;
+}
+.cloud .dijitTabContainerTabListNested .dijitTabChecked .dijitTabContent .tabLabel {
+	text-decoration: underline;
+	font-weight: bold;
+	
+}
+.cloud .dijitTabContainer .dijitTabPaneWrapperNested {
+	border: none;	
+}
+.cloud .dijitTabCloseButton {
+	background: url("../images/tabClose.png") no-repeat right top;
+	width: 12px;
+	height: 12px;
+}
+.dj_ie6 .cloud .dijitTabCloseButton {
+	background-image : url("../images/tabClose.gif");
+}
+.cloud .dijitTabCloseButtonHover {
+	background-image : url("../images/tabCloseHover.png");
+}
+.dj_ie6 .cloud .dijitTabCloseButtonHover {
+	background-image : url("../images/tabCloseHover.gif");
+}
+.cloud .dijitTabContainerTop-tabs {
+	margin-bottom: 0;
+	border-color: #cccccc;
+	padding-left: 3px;
+	background-position: bottom;
+}
+.cloud .dijitTabContainerTop-tabs .dijitTab {
+	top: 0;
+	margin-bottom: -1px;
+}
+.cloud .dijitTabContainerTop-container {
+	border-top: none;
+}
+.cloud .dijitTabContainerTop-tabs .dijitTabChecked {
+	border-bottom-color:white;
+}
+.cloud .dijitTabContainerTop-tabs,
+.cloud .dijitTabContainerBottom-tabs {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+.cloud .dijitTabContainerTopStrip {
+	border-top: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	padding-top: 2px;
+	background: #f2f2f2;
+}
+.cloud .dijitTabContainerTopNone {
+	padding-top: 0;
+}
+.cloud .dijitTabContainerBottom-tabs {
+	margin-top: 0;
+	border-color: #cccccc;
+	background-position: top;
+	padding-left: 3px;
+}
+.cloud .dijitTabContainerBottom-tabs .dijitTab {
+	bottom: 0;
+	margin-top: -1px;
+}
+.cloud .dijitTabContainerBottom-container {
+	border-bottom: none;
+}
+.cloud .dijitTabContainerBottom-tabs .dijitTabChecked {
+	border-top-color:white;
+}
+.cloud .dijitTabContainerBottomStrip {
+	padding-bottom: 2px;
+	border: 1px solid #ccc;
+	background: #f2f2f2;
+	border-top: none;
+}
+.cloud .dijitTabContainerRight-tabs {
+	border-color: #ccc;
+	height: 100%;
+	padding-top: 3px;
+}
+.cloud .dijitTabContainerRightStrip {
+	margin-left: -1px;
+}
+.cloud .dijitTabContainerRight-container {
+	border-right: none;
+}
+.cloud .dijitTabContainerRight-tabs .dijitTabChecked {
+	border-left-color:white;
+}
+.cloud .dijitTabContainerRightStrip {
+	padding-right: 2px;
+	border: 1px solid #ccc;
+}
+.cloud .dijitTabContainerRightStrip {
+	background: #f2f2f2;
+}
+.cloud .dijitTabContainerLeft-tabs {
+	border-color: #ccc;
+	padding-top: 3px;
+	height: 100%;
+}
+.cloud .dijitTabContainerLeft-container {
+	border-left: none;
+}
+.cloud .dijitTabContainerLeft-tabs .dijitTabChecked {
+	border-right-color:white;
+}
+.cloud .dijitTabContainerLeftStrip {
+	padding-left: 2px;
+	border: 1px solid #ccc;
+	background: #f2f2f2;
+	border-right: none;
+}
+.cloud .dijitTabContainerLeft-tabs .dijitTab,
+.cloud .dijitTabContainerRight-tabs .dijitTab {
+	margin-right:0;
+	margin-bottom:4px;	
+}
+.cloud .dijitTabContainerTop-dijitContentPane .dijitTabContainerTop-tabs {
+	border-left: 0 solid #ccc;
+	border-top: 0 solid #ccc;
+	border-right: 0 solid #ccc;
+	padding-top: 0;
+	padding-left: 0;
+}
+.cloud .dijitTabContainer .tabStripButton {
+	margin-right: 0;
+	padding-top: 2px;
+	z-index: 12;
+}
+.cloud .dijitTabContainerBottom .tabStripButton {
+	padding-top: 2px;
+}
+.cloud .tabStrip-disabled .tabStripButton .dijitTabInnerDiv {
+	padding-bottom: 3px;
+	padding-top: 1px;
+}
+.cloud .tabStripButton .dijitTabInnerDiv {
+	padding: 3px 2px 4px 2px;
+}
+.dj_ie6 .cloud .tabStripButton .dijitTabInnerDiv,
+.dj_ie7 .cloud .tabStripButton .dijitTabInnerDiv,
+.dj_opera .cloud .tabStripButton .dijitTabInnerDiv {
+	padding-bottom: 5px;
+}
+.dj_ie6 .cloud .tabStrip-disabled .tabStripButton .dijitTabInnerDiv,
+.dj_ie7 .cloud .tabStrip-disabled .tabStripButton .dijitTabInnerDiv,
+.dj_opera .cloud .tabStrip-disabled .tabStripButton .dijitTabInnerDiv {
+	padding-bottom: 4px;
+}
+.cloud .dijitTabStripIcon {
+	height: 14px;
+	width: 14px;
+	background: url(../images/spriteRoundedIconsSmall.png) no-repeat left top ;
+}
+.dj_ie6 .cloud .dijitTabStripIcon {
+	background-image: url(../images/spriteRoundedIconsSmall.gif);
+}
+.cloud .dijitTabStripSlideRightIcon {
+	background-position: -30px top;
+}
+.cloud .dijitTabStripMenuIcon {
+	background-position: -15px top;
+}

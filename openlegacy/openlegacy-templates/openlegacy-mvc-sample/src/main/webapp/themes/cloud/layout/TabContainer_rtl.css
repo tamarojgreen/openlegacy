@@ -1,0 +1,38 @@
+.cloud .dijitTabRtl {
+	-moz-box-orient:horizontal;
+	text-align: right;
+}
+.cloud .dijitTabRtl .dijitTabInnerDiv {
+	padding:2px 9px 2px 8px;
+}
+.cloud .tabStrip-disabled .tabStripButtonRtl .dijitTabInnerDiv {
+	
+	padding-bottom: 3px;
+	padding-top: 1px;
+}
+.cloud .tabStripButtonRtl .dijitTabInnerDiv {
+	padding: 3px 2px 4px 2px;
+}
+.cloud .dijitTabPaneWrapper {
+	#zoom: 1;
+}
+.dj_ie-rtl .cloud .dijitTabContainerLeft-tabs {
+	margin-left: 1px !important;
+}
+.dj_ie-rtl .cloud .dijitTabContainerRight-tabs {
+	margin-right: 1px !important;
+}
+.cloud .dijitTabContainerLeft-tabs .dijitTabRtl,
+.cloud .dijitTabContainerRight-tabs .dijitTabRtl {
+	margin-left:0;
+}
+.dj_ie .cloud .dijitTabRtl .dijitTabInnerDiv {
+	
+	width : 0.1% !important;
+}
+.dj_iequirks-rtl .cloud .dijitTabContainerTopNone,
+.dj_iequirks-rtl .cloud .dijitTabContainerBottomNone {
+	
+	border-left: 1px solid #fff;
+	border-right: 1px solid #fff;
+}

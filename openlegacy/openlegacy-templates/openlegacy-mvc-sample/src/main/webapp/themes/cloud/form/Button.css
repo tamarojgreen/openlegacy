@@ -1,0 +1,118 @@
+
+.cloud .dijitButtonNode {
+	
+	border: 1px solid #c0c0c0;
+	border-bottom: 1px solid #9b9b9b;
+	padding: 0.1em 0.2em 0.2em 0.2em;
+	background: #fff url("../images/buttonEnabled.png") repeat-x bottom left;
+}
+.cloud .dijitButtonText {
+	text-align: center;
+	padding: 0 0.3em;
+}
+.cloud .dijitDisabled .dijitButtonText {
+	color: #7F7F7F;
+}
+.cloud .dijitArrowButton {
+	color: #111;
+}
+.cloud .dijitComboButton .dijitDownArrowButton {
+	padding-right:4px;
+}
+.cloud .dijitTextBoxReadOnly,
+.cloud .dijitTextBoxReadOnly .dijitButtonNode,
+.cloud .dijitButtonDisabled .dijitButtonNode,
+.cloud .dijitToggleButtonDisabled .dijitButtonNode,
+.cloud .dijitDropDownButtonDisabled .dijitButtonNode,
+.cloud .dijitComboButtonDisabled .dijitButtonNode,
+.cloud .dijitTextBoxDisabled,
+.cloud .dijitTextBoxDisabled .dijitButtonNode {
+	
+	border-color: #d5d5d5 #d5d5d5 #bdbdbd #d5d5d5;
+	background:#e4e4e4 url("../images/buttonDisabled.png") top repeat-x;
+}
+.cloud .dijitButtonHover .dijitButtonNode,
+.cloud .dijitButtonNodeHover,
+.cloud .dijitToggleButtonHover .dijitButtonNode,
+.cloud .dijitDropDownButtonHover .dijitButtonNode,
+.cloud .dijitComboButton .dijitButtonContentsHover,
+.cloud .dijitComboButton .dijitDownArrowButtonHover {
+	
+	
+	border-color: #a5beda;
+	border-bottom-color:#5c7590;
+	color:#243C5F;
+	background:#fcfdff url("../images/buttonHover.png") repeat-x bottom;
+}
+.cloud .dijitDownArrowButtonHover,
+.cloud .dijitUpArrowButtonHover {
+	
+	color:#243C5F;
+	background:#fcfdff url("../images/buttonHover.png") repeat-x bottom;
+}
+.cloud .dijitUpArrowButtonActive,
+.cloud .dijitDownArrowButtonActive,
+.cloud .dijitButtonActive .dijitButtonNode,
+.cloud .dijitToggleButtonActive .dijitButtonNode,
+.cloud .dijitDropDownButtonActive .dijitButtonNode,
+.cloud .dijitButtonContentsActive,
+.cloud .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
+	
+	border-color:#366dba;
+	background: #ededed url("../images/buttonActive.png") bottom repeat-x;
+}
+.cloud .dijitArrowButtonInner {
+	background:url("../images/spriteArrows.png") no-repeat scroll 0 center;
+	width: 7px;
+	height: 7px;
+	margin: 0 4px 0 4px;
+}
+.cloud .dijitTextBox .dijitArrowButtonInner {
+	background-position: 0 center;
+}
+.dj_ie6 .cloud .dijitArrowButtonInner {
+	background-image:url("../images/spriteArrows.gif");
+}
+.cloud .dijitLeftArrowButton .dijitArrowButtonInner {
+	background-position: -7px center;
+}
+.cloud .dijitRightArrowButton .dijitArrowButtonInner {
+	background-position: -14px center;
+}
+.cloud .dijitUpArrowButton .dijitArrowButtonInner {
+	background-position: -21px center;
+}
+.cloud .dijitDisabled .dijitArrowButtonInner {
+	background-position: -28px center;
+}
+.cloud .dijitDisabled .dijitLeftArrowButton .dijitArrowButtonInner {
+	background-position: -35px center;
+}
+.cloud .dijitDisabled .dijitRightArrowButton .dijitArrowButtonInner {
+	background-position: -42px center;
+}
+.cloud .dijitDisabled .dijitUpArrowButton .dijitArrowButtonInner {
+	background-position: -49px center;
+}
+.dj_webkit .cloud .dijitSpinner .dijitUpArrowButton .dijitArrowButtonInner {
+	margin-top: -1px; 
+}
+.dj_ie .cloud .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner {
+	margin-top: -2px; 
+}
+.dj_ie8 .cloud .dijitSpinner .dijitDownArrowButton .dijitArrowButtonInner {
+	margin-top: -1px; 
+}
+.cloud .dijitSpinnerButtonContainer {
+	width: auto;
+	padding: 0;
+}
+.cloud .dijitSpinner .dijitArrowButton {
+	width: 15px;
+}
+.cloud .dijitSpinner .dijitSpinnerButtonInner {
+	width: 15px;
+}
+.cloud .dijitSpinner .dijitArrowButtonInner .dijitInputField {
+	padding: 0;
+}

@@ -1,0 +1,13 @@
+
+.cloud .dijitTreeNodeRtl,
+.cloud .dijitTreeNodeRtl .dijitTreeExpandoLeaf {
+	
+    background-image: none;
+}
+.cloud .dijitTreeNodeRtl .dijitTreeExpandoOpened {
+	
+	background-image: url('images/treeExpand_minus_rtl.gif');
+}
+.cloud .dijitTreeNodeRtl .dijitTreeExpandoClosed {
+	background-image: url('images/treeExpand_plus_rtl.gif');
+}
