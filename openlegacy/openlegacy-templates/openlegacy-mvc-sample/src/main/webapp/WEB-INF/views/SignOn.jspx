@@ -15,35 +15,35 @@
 	<div id="loginform">
 	
 	<form id="SignOnForm" method="post">
-			<div class="row">
-				<div class="rl">
-					<label for="login_uname">Username:</label>
+			<div class="field_row">
+				<div class="label">
+					<label for="user">Username:</label>
 				</div>
-				<div class="rr">
-					<input type="text" name="user" value="${login.user}" maxlength="10" style="width: 70%;" />
-				</div>
-			</div>
-			<div class="row">
-				<div class="rl">
-					<label for="login_pass">Password:</label>
-				</div>
-				<div class="rr">
-					<input type="password" name="password" value="${login.password}" maxlength="10" style="width: 70%;" />
+				<div class="field">
+					<input type="text" name="user" value="${login.user}" maxlength="10" />
 				</div>
 			</div>
-			<div class="row">
-				<div class="rl">
+			<div class="field_row">
+				<div class="label">
+					<label for="password">Password:</label>
+				</div>
+				<div class="field">
+					<input type="password" name="password" value="${login.password}" maxlength="10" />
+				</div>
+			</div>
+			<div class="field_row">
+				<div class="label">
 					<!---->
 				</div>
-				<div class="rr">
+				<div class="field">
 					<input type="submit" name="button" id="button" value="Log in" />
 				</div>
 			</div>
-			<div class="row">
-				<div class="rl">
+			<div class="field_row">
+				<div class="label">
 					<!---->
 				</div>
-				<div class="rr">
+				<div class="field">
 					<!---->
 					${login.errorMessage}					
 				</div>

@@ -25,7 +25,7 @@
 		data-dojo-props="parseOnLoad: true, draggable:false,duration:600"></div>
 	<!-- Session viewer dialog -->
 	<div id="sessionViewerDialog" data-dojo-type="dijit.Dialog"
-		style="width: 850px; height: 460px; overflow: auto;"
+		style="width: 855px; height: 470px; overflow: auto;"
 		title="Session Viewer"
 		data-dojo-props="parseOnLoad: true, duration:600"></div>
 	<!-- Map dialog -->
