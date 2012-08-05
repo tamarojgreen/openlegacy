@@ -33,9 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails1Controller_Aspect {
 
 	@Inject
-	private TerminalSession WorkWithWarehouseDetails1Controller.terminalSession;
-
-	@Inject
 	private ScreenEntitiesRegistry WorkWithWarehouseDetails1Controller.screenEntitiesRegistry;
 
 	// handle page initial display
