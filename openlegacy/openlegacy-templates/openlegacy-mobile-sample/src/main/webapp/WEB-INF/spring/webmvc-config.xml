@@ -10,6 +10,9 @@
 	<mvc:resources cache-period="86400" location="classpath:/dj/" mapping="/dj/**"/>
 	<mvc:resources cache-period="86400" location="classpath:/openlegacy-js/" mapping="/openlegacy-js/**"/>
 
+	<!-- cloud theme in openlegacy-themes-cloud.jar -->
+	<mvc:resources cache-period="86400" location="classpath:/cloudm/" mapping="/cloudm/**"/>
+
 	<!-- The controllers are autodetected POJOs labeled with the @Controller 
 		annotation. -->
 	<context:component-scan base-package="org.openlegacy.terminal.samples.mvc.controllers"

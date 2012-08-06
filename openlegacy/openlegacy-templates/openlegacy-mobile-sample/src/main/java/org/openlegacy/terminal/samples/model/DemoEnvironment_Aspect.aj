@@ -7,7 +7,6 @@ import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect DemoEnvironment_Aspect {
-    
 
     declare parents: DemoEnvironment implements ScreenEntity;
     private String DemoEnvironment.focusField;

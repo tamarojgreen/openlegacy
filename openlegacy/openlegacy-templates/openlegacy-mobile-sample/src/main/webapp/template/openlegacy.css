@@ -122,3 +122,68 @@ button.navyBtn {
 	font-size: 13px;
 	line-height: 29px;
 }
+
+.mblButton {
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  padding: 0 8px;
+  height: 30px;
+  border: 1px outset #b5bcc7;
+  color: #131313;
+  font-size: 14px;
+  font-family: Helvetica;
+  font-weight: normal;
+  line-height: 30px;
+  background-color: #7ABD1B;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(3.3333333333333335%, rgba(255, 255, 255, 0.1)), color-stop(0.5, rgba(255, 255, 255, 0.6)), color-stop(1, rgba(255, 255, 255, 0.3)));
+  -webkit-border-radius: 2px;
+}
+
+
+.mblHeading {
+  position: relative;
+  margin: 0px;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  z-index: 1;
+  padding: 0;
+  height: 40px;
+  background-color: #000000;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(2.5%, #ffffff), color-stop(2.5%, rgba(255, 255, 255, 0.14)), color-stop(5%, rgba(255, 255, 255, 0.14)), color-stop(5%, rgba(255, 255, 255, 0.52)), color-stop(7.5%, rgba(255, 255, 255, 0.52)), color-stop(7.5%, rgba(255, 255, 255, 0.68)), color-stop(10%, rgba(255, 255, 255, 0.68)), color-stop(1, rgba(255, 255, 255, 0)));
+  border-bottom: 1px solid #769dc0;
+  color: #131313;
+  font-size: 18px;
+  font-family: Helvetica;
+  font-weight: normal;
+  text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px;
+  text-align: center;
+  line-height: 42px;
+}
+
+.mblTabPanelHeader {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding: 0;
+  height: 40px;
+  background-color: #919191;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ffffff), color-stop(2.5%, #ffffff), color-stop(2.5%, rgba(255, 255, 255, 0.14)), color-stop(5%, rgba(255, 255, 255, 0.14)), color-stop(5%, rgba(255, 255, 255, 0.52)), color-stop(7.5%, rgba(255, 255, 255, 0.52)), color-stop(7.5%, rgba(255, 255, 255, 0.68)), color-stop(10%, rgba(255, 255, 255, 0.68)), color-stop(1, rgba(255, 255, 255, 0)));
+  border-bottom: 1px solid #769dc0;
+  color: #131313;
+  font-size: 18px;
+  font-family: Helvetica;
+  font-weight: normal;
+  text-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px;
+  text-align: center;
+  line-height: 42px;
+}
+
+.logo{
+	height: 30px;
+	padding-top: 8px;
+}

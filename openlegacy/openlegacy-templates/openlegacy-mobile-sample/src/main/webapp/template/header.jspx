@@ -1,7 +1,7 @@
 <h1 xmlns:c="http://java.sun.com/jsp/jstl/core"
 	data-dojo-type="dojox.mobile.Heading" moveTo="${definitions.navigationDefinition.accessedFrom.simpleName}Panel"
 	back="${definitions != null ? 'Back' : ''}" fixed="top">
-	OpenLegacy Demo
+	<img src="images/logo.png" class="logo" />
 	<c:if test="${loggedInUser != null}">
 		<button data-dojo-type="dojox.mobile.ToolBarButton" fixed="right"
 			class="logoffBtn"

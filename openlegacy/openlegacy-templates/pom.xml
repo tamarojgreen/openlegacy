@@ -4,7 +4,7 @@
 	<groupId>org.openlegacy.templates</groupId>
 	<artifactId>openlegacy-templates</artifactId>
 	<packaging>pom</packaging>
-	<name>OpenLegacy Maven container project for all template projects</name>
+	<name>OpenLegacy Maven container for template projects</name>
 	
 	<modules>
   		<!-- <module>openlegacy-new-java-template</module> -->

@@ -7,7 +7,6 @@ import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetails_Aspect {
-    
 
     declare parents: WorkWithWarehouseDetails implements ScreenEntity;
     private String WorkWithWarehouseDetails.focusField;

@@ -7,7 +7,6 @@ import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect InventoryManagement_Aspect {
-    
 
     declare parents: InventoryManagement implements ScreenEntity;
     private String InventoryManagement.focusField;
