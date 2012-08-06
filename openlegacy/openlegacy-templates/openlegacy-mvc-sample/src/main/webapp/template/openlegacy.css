@@ -99,6 +99,10 @@ body {
 .topmenu ul li.prefs a {
 	background-image: url(../icons/prefs.png);
 }
+.topmenu ul li.mobile a {
+	background-image: url(../images/mobile.png);
+}
+
 .topmenu ul li.logout a {
 	background-image: url(../icons/logout.png);
 }
@@ -277,11 +281,11 @@ body {
 }
 
 .menu_message {
-	height: 400px;
+	height: 200px;
 	font-size: 18px;
-	color: #919191;
-	padding-top: 100px;
-	padding-left: 100px
+	color: #333;
+	padding-top: 0px;
+	padding-left: 0px;
 }
 
 
@@ -348,11 +352,16 @@ ul,li {
 .note {
  	  float: left;
       background: #FFFFBF;
-      border: 1px solid black;
-      margin-left: 10px;
-      width: 200px;
+      margin: 15px 15px 0px 0px;
+      width: 28%;
       height: 120px;
       cursor: pointer;
+	  	border: 1px solid #718ca7;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding: 10px;
+	font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 #accordion{
@@ -503,6 +512,7 @@ ul,li {
 	padding-right: 0px;
 	padding-bottom: 0px;
 	padding-left: 0px;
+	width: 100%;
 }
 .actions ul li {
 	float: left;
@@ -510,6 +520,10 @@ ul,li {
 	background-repeat: no-repeat;
 	background-position: right top;
 	padding-right: 2px;
+}
+.actions ul li.right {
+	float: right !important;
+	background-position: left top;
 }
 .actions ul li a {
 	background-repeat: no-repeat;
@@ -543,10 +557,13 @@ ul,li {
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	background: #f2f6fa;
-	padding: 1.5%;
+	padding: 1.5% !important;
 	-webkit-box-shadow: #ccc 0px 2px 4px;
 	-moz-box-shadow: #ccc 0px 2px 4px;
 	box-shadow: #ccc 0px 2px 4px;
+	min-height:400px;
+	height:auto !important;
+	height:400px;
 }
 .table {
 	float: left;
@@ -922,4 +939,8 @@ a img {
 }
 #loginform form .field_row .field input[type=submit]:focus {
 	background: #5a9408;
+}
+input[type=file] {
+	border: none !important;
+	background-image: none !important;
 }

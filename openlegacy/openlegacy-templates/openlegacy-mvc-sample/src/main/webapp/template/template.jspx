@@ -17,7 +17,7 @@
 <link href="${pageContext.request.contextPath}/cloud/cloud2.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/template/openlegacy.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">var djConfig = {parseOnLoad: true, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/dojo.custom.build.js"><!-- required for FF3 and Opera --></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/dojo.custom.build.js"><!----></script>
 
 <script type="text/javascript" language="JavaScript">
 	dojo.require("dojo.parser");
@@ -40,8 +40,8 @@
 	dojo.require("dijit.form.NumberSpinner");
 	dojo.require("dijit.form.CheckBox");
 </script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js"><!-- required for FF3 and Opera --></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/demo.js"><!-- required for FF3 and Opera --></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js"><!----></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/demo.js"><!----></script>
 
 <!-- end roi -->
 <!--[if !IE 7]>
@@ -74,5 +74,6 @@
 		</div>
 	</div>
 	<tiles:insertAttribute name="footer" />
+	<tiles:insertAttribute name="dialogs" />
 </body>
 </html>

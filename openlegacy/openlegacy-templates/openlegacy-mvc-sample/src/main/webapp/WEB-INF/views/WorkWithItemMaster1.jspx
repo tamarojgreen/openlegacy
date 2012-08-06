@@ -9,16 +9,15 @@
 			data-dojo-props="title: 'Item Details'">
 			<div class="content">
 				<ol:field name="itemNumber" type="text" />
-				<ol:field name="itemDescription" type="textarea"/>
+				<ol:field name="itemDescription" type="textarea" />
 				<ol:field name="alphaSearch" />
 				<ol:field name="supercedingItemfrom" />
-				<ol:field name="supercedingItemto"/>
-				<ol:field name="substituteItemNumber"/>
-				<ol:field name="itemWeight"/>
+				<ol:field name="supercedingItemto" />
+				<ol:field name="substituteItemNumber" />
+				<ol:field name="itemWeight" />
 				<div class="field_row">
-					<label class="label">Stock Group: </label>
-					<select
-						name="itemClass" value="${workWithItemMaster1.stockGroup}"
+					<label class="label">Stock Group: </label> <select name="itemClass"
+						value="${workWithItemMaster1.stockGroup}"
 						data-dojo-type="dijit.form.FilteringSelect">
 						<option value="">-Select-</option>
 						<option value="SG">Standard Stock Group</option>
@@ -27,12 +26,36 @@
 				</div>
 			</div>
 		</div>
-		<div class="panel" data-dojo-type="dijit.TitlePane"
-			data-dojo-props="title: 'Item Details'">
-			<div class="content">
-				<ol:field name="manufacturersItemNo" />
-				<ol:field name="palletLabelRequired" />
+		<ol:panel title="Advanced">
+			<div class="field_row">
+				<label class="label">Video URL:</label>
+				<div class="field">
+					<input name="videoUrl" value="${stockItem.videoUrl}" size="60" />
+					<c:if test="${not empty stockItem.videoUrl}">
+						<a href="javascript:showDialog('videoDialog')" class="icon">
+							<img src="${pageContext.request.contextPath}/icons/play.png"
+								width="26" height="28" alt="Play Video" />
+						</a>
+					</c:if>
+				</div>
 			</div>
+			<ol:field name="manufacturersItemNo" />
+			<ol:field name="palletLabelRequired" />
+		</ol:panel>
+		<!-- 
+		<div class="panel" data-dojo-type="dijit.TitlePane"
+			data-dojo-props="title: 'Advanced'">
+			<div class="content">
+				<input type="hidden" id="description" name="description" />
+				<div data-dojo-type="dijit.Editor"
+					onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
+			</div>
+		</div>
+		 -->
+		<div id="videoDialog" data-dojo-type="dijit.Dialog"
+			style="overflow: auto;" title="Video"
+			data-dojo-props="parseOnLoad: true, duration:600">
+			<iframe width="600" height="400" src="${stockItem.videoUrl}"></iframe>
 		</div>
 	</ol:form>
 </div>

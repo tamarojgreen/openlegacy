@@ -13,7 +13,6 @@
 
 	<div style="margin-left: ${left}; top: ${top}; width: ${width}; height: auto;" data-dojo-type="dijit.TitlePane"
 		class="panel">
-		
 		<div class="content">
 			<jsp:doBody />
 		</div>
