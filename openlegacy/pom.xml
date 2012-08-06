@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy</artifactId>
-	<version>0.7-SNAPSHOT</version>
+	<version>0.8-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>OpenLegacy</name>
 	<description>OpenLegacy is a collection of API, framework and tools designed to provide a full stack of Legacy modernization abilities which should help you expose legacy functionallity to Java, REST, SOA, Mobile and Web based applications</description>
