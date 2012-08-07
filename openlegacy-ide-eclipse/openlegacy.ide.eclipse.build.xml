@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project default="plugin_export" name="build">
-	<target name="plugin_export">
-		<pde.exportPlugins destination="${basedir}/target" exportSource="true" exportType="directory" plugins="org.openlegacy.ide.eclipse" qualifier="201201291145" useJARFormat="true"/>
-	</target>
-</project>
