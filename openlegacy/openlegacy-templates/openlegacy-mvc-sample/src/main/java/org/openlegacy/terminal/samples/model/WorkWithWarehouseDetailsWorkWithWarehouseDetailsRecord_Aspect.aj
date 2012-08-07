@@ -10,10 +10,6 @@ import org.openlegacy.terminal.samples.model.WorkWithWarehouseDetails.WorkWithWa
 
 privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetailsRecordTable_Aspect {
     
-	
-	
-	
-    
     public Integer WorkWithWarehouseDetailsRecord.getAction_(){
     	return this.action_;
     }

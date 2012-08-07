@@ -5,22 +5,21 @@ package org.openlegacy.terminal.samples.model;
 
 import org.openlegacy.terminal.samples.model.WorkWithItemMaster2.StockInfo;
 
-
 privileged @SuppressWarnings("unused") aspect StockInfoTable_Aspect {
     
-	
-	
-    
-    public String StockInfo.getCreatedDate(){
-    	return this.createdDate;
-    }
-
-    public String StockInfo.getCreatedBy(){
-    	return this.createdBy;
-    }
-
     public String StockInfo.getAmendedDate(){
     	return this.amendedDate;
     }
     
+
+    public String StockInfo.getCreatedBy(){
+    	return this.createdBy;
+    }
+    
+
+    public String StockInfo.getCreatedDate(){
+    	return this.createdDate;
+    }
+    
+
 }

@@ -7,7 +7,6 @@ import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
-    
 
     declare parents: SignOn implements ScreenEntity;
     private String SignOn.focusField;

@@ -5,15 +5,41 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.samples.model.WorkWithItemMaster2.StockInfo;
 
 privileged @SuppressWarnings("unused") aspect WorkWithItemMaster2_Aspect {
-    
 
     declare parents: WorkWithItemMaster2 implements ScreenEntity;
     private String WorkWithItemMaster2.focusField;
     
+	
 
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+    
 
     public String WorkWithItemMaster2.getField(){
     	return this.field;
@@ -122,6 +148,13 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster2_Aspect {
 
 
 
+    public StockInfo WorkWithItemMaster2.getStockInfo(){
+    	return this.stockInfo;
+    }
+    
+
+
+
     public String WorkWithItemMaster2.getStockInventoryGroup(){
     	return this.stockInventoryGroup;
     }
@@ -140,9 +173,6 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster2_Aspect {
     	this.stockValueGroup = stockValueGroup;
     }
 
-    public StockInfo WorkWithItemMaster2.getStockInfo(){
-    	return this.stockInfo;
-    }
 
 
 
@@ -152,6 +182,5 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster2_Aspect {
     public void WorkWithItemMaster2.setFocusField(String focusField){
     	this.focusField = focusField;
     }
-
     
 }

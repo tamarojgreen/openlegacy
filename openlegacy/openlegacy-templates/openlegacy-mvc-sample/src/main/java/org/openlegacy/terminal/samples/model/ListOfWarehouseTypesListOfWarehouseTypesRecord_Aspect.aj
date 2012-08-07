@@ -6,13 +6,9 @@ package org.openlegacy.terminal.samples.model;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.openlegacy.terminal.samples.model.ListOfWarehouseTypes.ListOfWarehouseTypesRecord;;
+import org.openlegacy.terminal.samples.model.ListOfWarehouseTypes.ListOfWarehouseTypesRecord;
 
 privileged @SuppressWarnings("unused") aspect ListOfWarehouseTypesRecordTable_Aspect {
-    
-	
-	
-	
     
     public Integer ListOfWarehouseTypesRecord.getAction_(){
     	return this.action_;
