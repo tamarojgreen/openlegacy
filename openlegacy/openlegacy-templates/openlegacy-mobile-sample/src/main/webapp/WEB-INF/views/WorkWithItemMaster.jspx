@@ -7,8 +7,8 @@
 				id="WorkWithItemMasterTable">
 
 				<c:forEach items="${workWithItemMaster.workWithItemMasterRecords}"
-					var="item">
-					<li data-dojo-type="dojox.mobile.ListItem" transition="slide" onclick="showLoading();"
+					var="item" varStatus="i">
+					<li data-dojo-type="dojox.mobile.ListItem" transition="slide" onclick="showLoading();" class="${i.index % 2 == 0 ? '' : 'alt'}"
 						url="WorkWithItemMaster1/revise/${item.itemNumber}">${item.itemDescription}</li>
 				</c:forEach>
 			</ul>

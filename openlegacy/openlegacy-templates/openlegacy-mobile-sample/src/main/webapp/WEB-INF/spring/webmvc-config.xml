@@ -7,8 +7,15 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources -->
 	<mvc:resources cache-period="86400" location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
+
+	<!-- DOJO library in openlegacy-web-resources.jar -->
 	<mvc:resources cache-period="86400" location="classpath:/dj/" mapping="/dj/**"/>
+
+	<!-- JS in openlegacy-web-resources.jar -->
 	<mvc:resources cache-period="86400" location="classpath:/openlegacy-js/" mapping="/openlegacy-js/**"/>
+
+	<!-- icons in openlegacy-web-resources.jar -->
+	<mvc:resources cache-period="86400" location="classpath:/icons/" mapping="/icons/**"/>
 
 	<!-- cloud theme in openlegacy-themes-cloud.jar -->
 	<mvc:resources cache-period="86400" location="classpath:/cloudm/" mapping="/cloudm/**"/>

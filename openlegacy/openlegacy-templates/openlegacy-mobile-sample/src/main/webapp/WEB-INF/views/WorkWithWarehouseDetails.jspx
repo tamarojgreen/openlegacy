@@ -8,8 +8,8 @@
 
 				<c:forEach
 					items="${workWithWarehouseDetails.workWithWarehouseDetailsRecords}"
-					var="warehouse">
-					<li data-dojo-type="dojox.mobile.ListItem" transition="slide"
+					var="warehouse" varStatus="i">
+					<li data-dojo-type="dojox.mobile.ListItem" transition="slide" class="${i.index % 2 == 0 ? '' : 'alt'}"
 						onclick="showLoading();addViewToHistory('WorkWithWarehouseDetailsPanel');"
 						data-dojo-props="parseOnLoad: true"
 						url="WorkWithWarehouseDetails1/revise/${warehouse.whse}">${warehouse.description}</li>
