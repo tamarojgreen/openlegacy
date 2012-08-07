@@ -17,7 +17,7 @@
 <link href="${pageContext.request.contextPath}/cloud/cloud2.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/template/openlegacy.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">var djConfig = {parseOnLoad: true, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/dojo.custom.build.js"><!----></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/dj/dojo.custom.build.js"><!----></script>
 
 <script type="text/javascript" language="JavaScript">
 	dojo.require("dojo.parser");
