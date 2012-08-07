@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.openlegacy.templates</groupId>
 	<artifactId>openlegacy-new-java-template</artifactId>
-	<version>0.8-SNAPSHOT</version>
+	<version>0.8.0-SNAPSHOT</version>
 	<name>OpenLegacy new Java application</name>
 	<properties>
-		<openlegacy-version>0.8-SNAPSHOT</openlegacy-version>
+		<openlegacy-version>0.8.0-SNAPSHOT</openlegacy-version>
         <aspectj.version>1.6.11</aspectj.version>
 	</properties>
 
