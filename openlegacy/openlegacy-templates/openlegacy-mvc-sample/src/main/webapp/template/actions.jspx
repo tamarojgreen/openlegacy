@@ -18,7 +18,7 @@
 		<c:if test="${fn:length(definitions.tableDefinitions) > 0}">
 			<li>
 				<a href="${definitions.entityName}/excel">
-					<img src="images/excel.png" class="excel" />
+					<img src="${pageContext.request.contextPath}/icons/excel.png" class="excel" />
 					Excel
 				</a>
 			</li>

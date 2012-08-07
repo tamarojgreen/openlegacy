@@ -6,7 +6,7 @@
 	<jsp:output omit-xml-declaration="yes" />
 	<div id="footer_left">
 		<a href="http://www.openlegacy.org" target="_new">
-			<img src="${pageContext.request.contextPath}/images/logo_footer.png"
+			<img src="${pageContext.request.contextPath}/icons/logo_footer.png"
 				width="154" height="50" alt="OpenLegacy" />
 		</a>
 	</div>
