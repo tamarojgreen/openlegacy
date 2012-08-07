@@ -31,6 +31,8 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
 			return;
 		}
 
+		modelAndView.addObject("ol_version", getClass().getPackage().getImplementationVersion());
+
 		if (!terminalSession.isConnected()) {
 			return;
 		}

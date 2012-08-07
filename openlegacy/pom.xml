@@ -8,26 +8,27 @@
 	<name>OpenLegacy</name>
 	<description>OpenLegacy is a collection of API, framework and tools designed to provide a full stack of Legacy modernization abilities which should help you expose legacy functionallity to Java, REST, SOA, Mobile and Web based applications</description>
 
-		
+
 	<modules>
 		<module>../openlegacy-api</module>
 		<module>../openlegacy-utils</module>
 		<module>../openlegacy-test-apps</module>
 		<module>../openlegacy-impl</module>
 		<module>../openlegacy-web</module>
-  		<module>openlegacy-providers</module>
-  		<module>openlegacy-templates</module>
- 		<module>../openlegacy-designtime</module>
- 		<!-- Plugin is built from eclipse until overcoming Maven/Eclipse issues (Tyco? / P2?) -->
- 		<!-- Uncomment during development phase -->
-  		<!-- <module>../openlegacy-ide-eclipse</module> -->
+		<module>openlegacy-providers</module>
+		<module>openlegacy-templates</module>
+		<module>../openlegacy-designtime</module>
+		<!-- Plugin is built from eclipse until overcoming Maven/Eclipse issues 
+			(Tyco? / P2?) -->
+		<!-- Uncomment during development phase -->
+		<!-- <module>../openlegacy-ide-eclipse</module> -->
 	</modules>
 
 	<properties>
 		<java-version>1.5</java-version>
 		<spring.framework.version>3.1.0.RELEASE</spring.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <aspectj.version>1.6.11</aspectj.version>
+		<aspectj.version>1.6.11</aspectj.version>
 		<deploy.dir>ftp://maven.openlegacy.org</deploy.dir>
 	</properties>
 
@@ -88,6 +89,19 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
@@ -103,14 +117,14 @@
 				<version>1.3.1</version>
 			</plugin>
 			<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-compiler-plugin</artifactId>          
-		        <configuration>
-		            <source>1.5</source>
-		            <target>1.5</target>
-		        </configuration>
-		    </plugin>
-			
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>
