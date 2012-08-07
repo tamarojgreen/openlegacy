@@ -11,8 +11,7 @@
 				<ol:field name="itemNumber" type="text" />
 				<ol:field name="itemDescription" type="textarea" />
 				<ol:field name="alphaSearch" />
-				<ol:field name="supercedingItemfrom" />
-				<ol:field name="supercedingItemto" />
+				<ol:field name="supercedingItemto"/>
 				<ol:field name="substituteItemNumber" />
 				<ol:field name="itemWeight" />
 				<div class="field_row">

@@ -25,11 +25,6 @@
 				</c:forEach>
 			</table>
 		</div>
-		<div class="excel">
-			<a href="WorkWithItemMaster/excel">
-				<img src="images/excel.jpg" width="20px" height="20px" />
-			</a>
-		</div>
 		<div class="paging">
 			<div class="previous">
 				<a

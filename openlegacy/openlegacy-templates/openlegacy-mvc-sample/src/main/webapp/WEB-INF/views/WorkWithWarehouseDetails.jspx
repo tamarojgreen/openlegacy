@@ -23,11 +23,6 @@
 					</tr>
 				</c:forEach>
 			</table>
-			<div class="excel">
-				<a href="WorkWithWarehouseDetails/excel">
-					<img src="images/excel.jpg" width="20px" height="20px"/>
-				</a>
-			</div>
 			<div class="paging">
 				<div class="previous">
 					<a

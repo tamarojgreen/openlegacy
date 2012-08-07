@@ -247,10 +247,6 @@ body {
 	background-position: 0px -62px;
 	border: 1px solid #7697b8;
 }
-.field label {
-	position: absolute;
-	white-space: nowrap;
-}
 
 .readonlyField, .fieldPlaceholder,.field span,.field input,.field select {
 	margin-left: 0;
@@ -735,7 +731,6 @@ ul,li {
 .panel .content .field_row .label {
 	float: left;
 	width: 30%;
-	padding-top: 6px;
 	font-size: 14px;
 }
 .panel .content .field_row .label label {

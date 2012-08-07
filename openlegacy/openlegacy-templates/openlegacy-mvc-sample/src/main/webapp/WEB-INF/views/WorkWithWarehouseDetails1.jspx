@@ -16,10 +16,18 @@
 			<ol:field name="email" />
 		</ol:panel>
 		<ol:panel title="User Details">
-			<ol:field name="amendedDate" />
-			<ol:field name="amendedBy" />
-			<ol:field name="createdDate" />
-			<ol:field name="createdBy" />
+			<div class="col_1_of_2">
+				<ol:field name="amendedBy" />
+			</div>
+			<div class="col_1_of_2">
+				<ol:field name="amendedDate" />
+			</div>
+			<div class="col_1_of_2">
+				<ol:field name="createdBy" />
+			</div>
+			<div class="col_2_of_2">
+				<ol:field name="createdDate" />
+			</div>
 		</ol:panel>
 	</ol:form>
 </div>
