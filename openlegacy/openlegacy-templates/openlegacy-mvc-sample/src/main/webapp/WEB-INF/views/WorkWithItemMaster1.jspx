@@ -8,7 +8,12 @@
 		<div class="panel" data-dojo-type="dijit.TitlePane"
 			data-dojo-props="title: 'Item Details'">
 			<div class="content">
-				<ol:field name="itemNumber" type="text" />
+				<ol:field name="itemNumber" type="text">
+					<c:if test="${imageId != null}">
+						<img class="stockImage" style="left:74%; position:absolute"
+							src="${pageContext.request.contextPath}/StockItemImages/images/${imageId}" />
+					</c:if>
+				</ol:field>
 				<ol:field name="itemDescription" type="textarea" />
 				<ol:field name="alphaSearch" />
 				<ol:field name="supercedingItemto"/>
