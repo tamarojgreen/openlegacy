@@ -1,5 +1,9 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags">	
-  
+<style>
+.container input{
+	padding:1px;
+}
+</style>  
   ${terminalHtml}
 
 </div>

@@ -12,7 +12,7 @@
 <head>
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 <title>OpenLegacy Toys</title>
-<link href="${pageContext.request.contextPath}/cloud/openlegacy.css"
+<link href="${pageContext.request.contextPath}/themes/cloud/openlegacy.css"
 	rel="stylesheet" type="text/css" />
 <!--[if !IE 7]>
 	<style type="text/css">
