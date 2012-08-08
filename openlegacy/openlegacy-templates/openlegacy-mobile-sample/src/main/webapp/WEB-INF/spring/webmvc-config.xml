@@ -17,8 +17,8 @@
 	<!-- icons in openlegacy-web-resources.jar -->
 	<mvc:resources cache-period="86400" location="classpath:/icons/" mapping="/icons/**"/>
 
-	<!-- cloud theme in openlegacy-themes-cloud.jar -->
-	<mvc:resources cache-period="86400" location="classpath:/cloudm/" mapping="/cloudm/**"/>
+	<!-- themes in from various openlegacy themes -->
+	<mvc:resources cache-period="86400" location="classpath:/themes/" mapping="/themes/**"/>
 
 	<!-- The controllers are autodetected POJOs labeled with the @Controller 
 		annotation. -->

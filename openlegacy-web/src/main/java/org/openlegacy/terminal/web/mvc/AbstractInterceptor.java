@@ -31,13 +31,13 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
 			return;
 		}
 
-		modelAndView.addObject("ol_version", getClass().getPackage().getImplementationVersion());
-
-		if (!terminalSession.isConnected()) {
+		if ((modelAndView.getViewName().startsWith("redirect"))) {
 			return;
 		}
 
-		if ((modelAndView.getViewName().startsWith("redirect"))) {
+		modelAndView.addObject("ol_version", getClass().getPackage().getImplementationVersion());
+
+		if (!terminalSession.isConnected()) {
 			return;
 		}
 

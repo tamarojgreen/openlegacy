@@ -41,7 +41,6 @@
 			<ol:field name="manufacturersItemNo" />
 			<ol:field name="palletLabelRequired" />
 		</ol:panel>
-		<!-- 
 		<div class="panel" data-dojo-type="dijit.TitlePane"
 			data-dojo-props="title: 'Advanced'">
 			<div class="content">
@@ -50,7 +49,6 @@
 					onkeyup="dojo.byId('description').value = this.getValue();">${stockItem.description}</div>
 			</div>
 		</div>
-		 -->
 		<div id="videoDialog" data-dojo-type="dijit.Dialog"
 			style="overflow: auto;" title="Video"
 			data-dojo-props="parseOnLoad: true, duration:600">
