@@ -47,7 +47,7 @@
 			<ol:field name="palletLabelRequired" />
 		</ol:panel>
 		<div class="panel" data-dojo-type="dijit.TitlePane"
-			data-dojo-props="title: 'Advanced'">
+			data-dojo-props="title: 'Full Description'">
 			<div class="content">
 				<input type="hidden" id="description" name="description" />
 				<div data-dojo-type="dijit.Editor"

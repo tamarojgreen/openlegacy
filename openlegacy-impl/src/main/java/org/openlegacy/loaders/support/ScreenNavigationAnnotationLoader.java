@@ -22,8 +22,10 @@ import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
+import java.text.MessageFormat;
 
 @Component
 public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoader {
@@ -56,6 +58,11 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 		}
 
 		SimpleScreenEntityDefinition screenEntityDefinition = (SimpleScreenEntityDefinition)screenEntitiesRegistry.get(containingClass);
+		Assert.notNull(
+				screenEntityDefinition,
+				MessageFormat.format(
+						"Screen entity definition for class {0} not found. Verify @ScreenNavigation is defined along @ScreenEntity annotation",
+						containingClass.getName()));
 		screenEntityDefinition.setNavigationDefinition(navigationDefinition);
 		logger.info("Added screen navigation information to the registry for:" + containingClass);
 	}

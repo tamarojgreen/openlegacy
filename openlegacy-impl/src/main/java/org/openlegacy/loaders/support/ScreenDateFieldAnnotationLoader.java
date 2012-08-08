@@ -19,6 +19,7 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -44,7 +45,7 @@ public class ScreenDateFieldAnnotationLoader extends AbstractFieldAnnotationLoad
 		if (screenEntityDefinition != null) {
 			SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(
 					fieldName);
-			fillTypeDefinition(fieldAnnotation, fieldDefinition);
+			fillTypeDefinition(fieldAnnotation, fieldDefinition, fieldName);
 		} else {
 			// look in screen entities parts
 			ScreenPartEntityDefinition screenPart = screenEntitiesRegistry.getPart(containingClass);
@@ -52,16 +53,22 @@ public class ScreenDateFieldAnnotationLoader extends AbstractFieldAnnotationLoad
 				fieldName = MessageFormat.format("{0}.{1}", screenPart.getPartName(), fieldName);
 				SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenPart.getFieldsDefinitions().get(
 						fieldName);
-				fillTypeDefinition(fieldAnnotation, fieldDefinition);
+				fillTypeDefinition(fieldAnnotation, fieldDefinition, fieldName);
 			}
 
 		}
 
 	}
 
-	private static void fillTypeDefinition(ScreenDateField fieldAnnotation, SimpleScreenFieldDefinition fieldDefinition) {
+	private static void fillTypeDefinition(ScreenDateField fieldAnnotation, SimpleScreenFieldDefinition fieldDefinition,
+			String fieldName) {
+		Assert.notNull(fieldDefinition, MessageFormat.format(
+				"Field definition for field {0} not found. Verify @ScreenDateField is defined along @ScreenField annotation",
+				fieldName));
+
 		if (fieldDefinition.getJavaType() != Date.class) {
-			throw (new RegistryException("A field marked with @ScreenDateField must be of type java.util.Date"));
+			throw (new RegistryException(MessageFormat.format(
+					"Field {0} marked with @ScreenDateField must be of type java.util.Date", fieldName)));
 		}
 
 		int dayColumn = fieldAnnotation.dayColumn();

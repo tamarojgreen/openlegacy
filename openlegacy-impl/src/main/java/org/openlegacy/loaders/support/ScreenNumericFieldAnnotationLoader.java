@@ -13,11 +13,13 @@ package org.openlegacy.loaders.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenNumericField;
 import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -43,7 +45,7 @@ public class ScreenNumericFieldAnnotationLoader extends AbstractFieldAnnotationL
 		if (screenEntityDefinition != null) {
 			SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(
 					fieldName);
-			fillTypeDefinition(fieldAnnotation, fieldDefinition);
+			fillTypeDefinition(fieldAnnotation, fieldDefinition, fieldName);
 		} else {
 			// look in screen entities parts
 			ScreenPartEntityDefinition screenPart = screenEntitiesRegistry.getPart(containingClass);
@@ -51,14 +53,22 @@ public class ScreenNumericFieldAnnotationLoader extends AbstractFieldAnnotationL
 				fieldName = MessageFormat.format("{0}.{1}", screenPart.getPartName(), fieldName);
 				SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenPart.getFieldsDefinitions().get(
 						fieldName);
-				fillTypeDefinition(fieldAnnotation, fieldDefinition);
+				fillTypeDefinition(fieldAnnotation, fieldDefinition, fieldName);
 			}
 
 		}
 
 	}
 
-	private static void fillTypeDefinition(ScreenNumericField fieldAnnotation, SimpleScreenFieldDefinition fieldDefinition) {
+	private static void fillTypeDefinition(ScreenNumericField fieldAnnotation, SimpleScreenFieldDefinition fieldDefinition,
+			String fieldName) {
+		Assert.notNull(fieldDefinition, MessageFormat.format(
+				"Field definition for field {0} not found. Verify @ScreenDateField is defined along @ScreenField annotation",
+				fieldName));
+
+		if (!Number.class.isAssignableFrom(fieldDefinition.getJavaType())) {
+			throw (new RegistryException("A field marked with @ScreenNumericField must be of numeric"));
+		}
 		fieldDefinition.setFieldTypeDefinition(new SimpleNumericFieldTypeDefinition(fieldAnnotation.minimumValue(),
 				fieldAnnotation.maximumValue()));
 	}

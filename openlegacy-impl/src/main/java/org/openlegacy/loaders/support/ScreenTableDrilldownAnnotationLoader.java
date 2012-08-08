@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
+import java.text.MessageFormat;
 
 @Component
 public class ScreenTableDrilldownAnnotationLoader extends AbstractClassAnnotationLoader {
@@ -34,7 +35,8 @@ public class ScreenTableDrilldownAnnotationLoader extends AbstractClassAnnotatio
 		ScreenTableDrilldown drilldownAnnotation = (ScreenTableDrilldown)annotation;
 
 		ScreenTableDefinition tableDefinition = screenEntitiesRegistry.getTable(containingClass);
-		Assert.notNull(tableDefinition, "@ScreenTableDrilldown must be define along @ScreenTable annotation");
+		Assert.notNull(tableDefinition, MessageFormat.format(
+				"@ScreenTableDrilldown for class {0} should be define along @ScreenTable annotation", containingClass));
 
 		DrilldownDefinition drilldownDefinition = tableDefinition.getDrilldownDefinition();
 
