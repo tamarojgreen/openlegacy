@@ -4,14 +4,15 @@
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:spring="http://www.springframework.org/tags">
 
-<jsp:directive.page contentType="text/html;charset=UTF-8" />
-<jsp:directive.page pageEncoding="UTF-8" />
+	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+	<jsp:directive.page pageEncoding="UTF-8" />
 	<head>
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
 		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 		<title>OpenLegacy Mobile Demo</title>
 		
-		  <script type="text/javascript">var djConfig = {parseOnLoad: true,preventBackButtonFix: false, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', mblAlwaysHideAddressBar: true};</script>
+		<script type="text/javascript">var djConfig = {parseOnLoad: true,preventBackButtonFix: false, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', mblAlwaysHideAddressBar: true};</script>
 		
 		<script src="${pageContext.request.contextPath}/dj/dojo.mobile.custom.build.js" type="text/javascript"><!-- aa --></script>
 		
