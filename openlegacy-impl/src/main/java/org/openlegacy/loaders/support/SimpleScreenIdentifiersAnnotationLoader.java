@@ -22,6 +22,7 @@ import org.openlegacy.terminal.services.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.text.MessageFormat;
@@ -45,6 +46,9 @@ public class SimpleScreenIdentifiersAnnotationLoader extends AbstractClassAnnota
 	public void processScreenEntity(ScreenIdentifiers screenIdentifiers, Class<?> screenEntityClass) {
 
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntityClass);
+		Assert.notNull(screenEntityDefinition, MessageFormat.format(
+				"@ScreenIdentifiers for class {0} should be define along @ScreenEntity annotation", screenEntityClass));
+
 		Identifier[] identifiers = screenIdentifiers.identifiers();
 		if (identifiers.length > 0) {
 			ScreenIdentification screenIdentification = screenEntityDefinition.getScreenIdentification();

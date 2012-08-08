@@ -23,6 +23,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -53,7 +54,7 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 		if (screenEntityDefinition != null) {
 			SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(
 					fieldName);
-			setfieldValuesDefinitions(fieldValuesAnnotation, fieldDefinition);
+			setfieldValuesDefinitions(fieldValuesAnnotation, fieldDefinition, fieldName);
 
 		} else {
 			// look in screen entities parts
@@ -62,16 +63,20 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 				fieldName = MessageFormat.format("{0}.{1}", screenPart.getPartName(), fieldName);
 				SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenPart.getFieldsDefinitions().get(
 						fieldName);
-				setfieldValuesDefinitions(fieldValuesAnnotation, fieldDefinition);
+				setfieldValuesDefinitions(fieldValuesAnnotation, fieldDefinition, fieldName);
 			}
 
 		}
 
 	}
 
-	private void setfieldValuesDefinitions(ScreenFieldValues fieldValuesAnnotation, SimpleScreenFieldDefinition fieldDefinition) {
+	private void setfieldValuesDefinitions(ScreenFieldValues fieldValuesAnnotation, SimpleScreenFieldDefinition fieldDefinition,
+			String fieldName) {
 		ScreenRecordsProvider screenRecordsProvider = SpringUtil.getDefaultBean(applicationContext,
 				fieldValuesAnnotation.provider());
+		Assert.notNull(fieldDefinition, MessageFormat.format(
+				"Field definition for field {0} not found. Verify @ScreenFieldValues is defined along @ScreenField annotation",
+				fieldName));
 
 		SimpleAutoCompleteFieldTypeDefinition fieldTypeDefinition = new SimpleAutoCompleteFieldTypeDefinition();
 		fieldTypeDefinition.setRecordsProvider(screenRecordsProvider);
