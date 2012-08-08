@@ -18,9 +18,9 @@
 		<script src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 		<script src="${pageContext.request.contextPath}/js/demo.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
-		<link href="${pageContext.request.contextPath}/cloudm/cloudm.css" rel="stylesheet"></link>
+		<link href="${pageContext.request.contextPath}/themes/cloudm/cloudm.css" rel="stylesheet"></link>
 		<link href="${pageContext.request.contextPath}/dj/dijit.css" rel="stylesheet" />		
-		<link href="${pageContext.request.contextPath}/cloudm/openlegacy.css" rel="stylesheet" />
+		<link href="${pageContext.request.contextPath}/themes/cloudm/openlegacy.css" rel="stylesheet" />
 		<script language="JavaScript" type="text/javascript">
 			dojo.require("dojox.mobile.parser");
 			dojo.require("dojox.mobile");
