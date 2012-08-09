@@ -30,12 +30,15 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 	// adding sequence support to tn5250j which doesn't support it
 	private int sequence = 1;
 
-	public Tn5250jTerminalConnection(Session5250 session) {
+	private boolean convertToLogical = false;
+
+	public Tn5250jTerminalConnection(Session5250 session, Boolean convertToLogical) {
 		this.session = session;
+		this.convertToLogical = convertToLogical;
 	}
 
 	public TerminalSnapshot getSnapshot() {
-		return new Tn5250jTerminalSnapshot(session.getScreen(), sequence);
+		return new Tn5250jTerminalSnapshot(session.getScreen(), sequence, convertToLogical);
 	}
 
 	public void doAction(TerminalSendAction terminalSendAction) {
@@ -44,7 +47,11 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
 		for (TerminalField terminalField : modifiedFields) {
 			TerminalField field = snapshot.getField(terminalField.getPosition());
-			field.setValue(terminalField.getValue());
+			String sendValue = terminalField.getValue();
+			if (convertToLogical) {
+				sendValue = BidiUtil.convertToVisual(sendValue);
+			}
+			field.setValue(sendValue);
 		}
 		Screen5250 screen = session.getScreen();
 		TerminalPosition cursorPosition = terminalSendAction.getCursorPosition();

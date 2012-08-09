@@ -21,6 +21,10 @@
 			<url>http://maven.openlegacy.org/maven2/snapshot</url>
 		</repository>
 		<repository>
+			<id>openlegacy-providers</id>
+			<url>http://maven.openlegacy.org/maven2/providers</url>
+		</repository>
+		<repository>
 			<id>java.net</id>
 			<name>Java net</name>
 			<url>http://download.java.net/maven/2/</url>

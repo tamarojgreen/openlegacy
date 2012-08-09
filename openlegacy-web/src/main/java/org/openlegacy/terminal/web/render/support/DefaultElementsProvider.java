@@ -69,7 +69,11 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	}
 
 	private void populateCommonAttributes(Element element, TerminalField field) {
-		int offset = StringUtil.startOfNonBlank(field.getValue());
+		String value = field.getValue();
+		int offset = 0;
+		if (!field.isEditable() && value != null) {
+			offset = StringUtil.startOfNonBlank(value);
+		}
 		int column = field.getPosition().getColumn();
 		int top = htmlProportionsHandler.toHeight(field.getPosition().getRow());
 		int left = htmlProportionsHandler.toWidth(offset + column);

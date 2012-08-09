@@ -11,7 +11,6 @@
 package org.openlegacy.providers.tn5250j;
 
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
-import org.openlegacy.utils.StringUtil;
 import org.tn5250j.framework.tn5250.ScreenField;
 
 public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
@@ -20,14 +19,10 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 
 	private ScreenField screenField;
 
-	private String value;
-
-	public Tn5250jTerminalEditableField(ScreenField screenField, int fieldAttributes) {
-		super(screenField.getString(), new SimpleTerminalPosition(screenField.startRow() + 1, screenField.startCol() + 1),
-				screenField.getLength(), fieldAttributes);
+	public Tn5250jTerminalEditableField(ScreenField screenField, int fieldAttributes, String value) {
+		super(value, new SimpleTerminalPosition(screenField.startRow() + 1, screenField.startCol() + 1),
+				screenField.getFieldLength(), fieldAttributes);
 		this.screenField = screenField;
-		// copy the field value - tn5250j implementation may re-use ScreenField in other screen
-		value = StringUtil.rightTrim(screenField.getString());
 	}
 
 	@Override
@@ -35,7 +30,7 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 		if (getModifiedValue() != null) {
 			return getModifiedValue();
 		}
-		return value;
+		return super.getValue();
 	}
 
 	@Override
@@ -54,5 +49,11 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 			return Integer.class;
 		}
 		return String.class;
+	}
+
+	@Override
+	public void setValue(String value) {
+		super.setValue(value);
+		screenField.setString(value);
 	}
 }

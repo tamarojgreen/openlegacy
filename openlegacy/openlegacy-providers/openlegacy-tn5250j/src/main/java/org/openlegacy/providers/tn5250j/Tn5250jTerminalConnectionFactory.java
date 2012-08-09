@@ -10,20 +10,26 @@
  *******************************************************************************/
 package org.openlegacy.providers.tn5250j;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.tn5250j.Session5250;
 import org.tn5250j.framework.common.SessionManager;
 
 import java.util.Properties;
 
-public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFactory {
+public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFactory, InitializingBean {
 
 	private int waitForConnect = 1000;
 	private int waitForUnlock = 300;
 
 	private Properties properties;
+	private Boolean convertToLogical;
+
+	private final static Log logger = LogFactory.getLog(Tn5250jTerminalConnectionFactory.class);
 
 	public synchronized TerminalConnection getConnection() {
 
@@ -41,7 +47,7 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 			throw (new OpenLegacyRuntimeException("Session is not connected"));
 		}
 
-		Tn5250jTerminalConnection connection = new Tn5250jTerminalConnection(session);
+		Tn5250jTerminalConnection connection = new Tn5250jTerminalConnection(session, convertToLogical);
 		connection.setWaitForUnlock(waitForUnlock);
 		return connection;
 	}
@@ -60,5 +66,21 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 	public void setProperties(Properties properties) {
 		this.properties = properties;
+	}
+
+	public void setConvertToLogical(boolean convertToLogical) {
+		this.convertToLogical = convertToLogical;
+	}
+
+	public void afterPropertiesSet() throws Exception {
+		if (convertToLogical == null) {
+			try {
+				Class.forName("com.ibm.icu.text.Bidi");
+				convertToLogical = true;
+				logger.info("Found com.ibm.icu library in the classpath. activating convert to logical. To disable define convertToLogical property to false");
+			} catch (Exception e) {
+			}
+
+		}
 	}
 }

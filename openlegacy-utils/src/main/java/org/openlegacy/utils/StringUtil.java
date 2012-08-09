@@ -13,6 +13,7 @@ package org.openlegacy.utils;
 import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.springframework.util.Assert;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -163,6 +164,7 @@ public class StringUtil {
 	}
 
 	private static int startOfNonChar(String text, char ch) {
+		Assert.notNull(text, "text must not be empty");
 		char[] chars = text.toCharArray();
 		for (int i = 0; i < chars.length; i++) {
 			if (chars[i] != ch) {

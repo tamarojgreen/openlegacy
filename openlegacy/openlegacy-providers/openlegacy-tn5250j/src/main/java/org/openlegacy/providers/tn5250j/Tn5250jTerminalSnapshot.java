@@ -17,6 +17,7 @@ import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
+import org.openlegacy.utils.StringUtil;
 import org.tn5250j.TN5250jConstants;
 import org.tn5250j.framework.tn5250.Screen5250;
 import org.tn5250j.framework.tn5250.ScreenField;
@@ -36,9 +37,12 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 
 	private int sequence;
 
-	public Tn5250jTerminalSnapshot(Screen5250 screen, int sequence) {
+	private boolean convertToLogical;
+
+	public Tn5250jTerminalSnapshot(Screen5250 screen, int sequence, boolean convertToLogical) {
 		this.screen = screen;
 		this.sequence = sequence;
+		this.convertToLogical = convertToLogical;
 	}
 
 	@Override
@@ -102,13 +106,18 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		}
 		String value = grabText(screenData.text, startAbsolutePosition, endAbsolutePosition);
 
+		if (convertToLogical == true) {
+			value = BidiUtil.convertToLogical(value);
+		}
+
 		Tn5250jTerminalField field = null;
-		if (screenData.field[startAbsolutePosition] != 0) {
+		boolean isEditable = screenData.field[startAbsolutePosition] != 0;
+		if (isEditable) {
 			int fieldAttributes = screenData.attr[startAbsolutePosition];
 			ScreenField screenField = screen.getScreenFields().findByPosition(startAbsolutePosition);
 			if (screenField != null) {
 				boolean hidden = false;
-				if ((screenData.extended[startAbsolutePosition] & TN5250jConstants.EXTENDED_5250_NON_DSP) != 0){
+				if ((screenData.extended[startAbsolutePosition] & TN5250jConstants.EXTENDED_5250_NON_DSP) != 0) {
 					hidden = true;
 				}
 				field = createEditableField(screenField, value, hidden, fieldAttributes);
@@ -133,7 +142,9 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 
 	private static Tn5250jTerminalField createEditableField(ScreenField screenField, String value, boolean hidden,
 			int fieldAttributes) {
-		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField, fieldAttributes);
+		// copy the field value - tn5250j implementation may re-use ScreenField in other screen
+		value = StringUtil.rightTrim(value);
+		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField, fieldAttributes, value);
 		field.setHidden(hidden);
 		return field;
 	}
