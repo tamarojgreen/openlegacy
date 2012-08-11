@@ -163,6 +163,10 @@ public class StringUtil {
 		return startOfNonChar(text, ' ');
 	}
 
+	public static int endOfNonBlank(String text) {
+		return endOfNonChar(text, ' ');
+	}
+
 	private static int startOfNonChar(String text, char ch) {
 		Assert.notNull(text, "text must not be empty");
 		char[] chars = text.toCharArray();
@@ -172,6 +176,18 @@ public class StringUtil {
 			}
 		}
 		return 0;
+	}
+
+	private static int endOfNonChar(String value, char ch) {
+		char[] chars = value.toCharArray();
+		int rightOffset = 0;
+		for (int i = chars.length - 1; i >= 0; i--) {
+			if (chars[i] != ch) {
+				rightOffset = chars.length - i;
+				break;
+			}
+		}
+		return rightOffset;
 	}
 
 	public static final String leftTrim(String string) {
