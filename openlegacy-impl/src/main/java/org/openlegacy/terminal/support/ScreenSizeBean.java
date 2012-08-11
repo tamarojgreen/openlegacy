@@ -48,4 +48,8 @@ public class ScreenSizeBean implements ScreenSize {
 		this.columns = columns;
 	}
 
+	public int getLength() {
+		return getRows() * getColumns();
+	}
+
 }

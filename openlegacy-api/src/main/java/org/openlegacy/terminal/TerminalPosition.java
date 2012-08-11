@@ -20,11 +20,13 @@ public interface TerminalPosition extends Comparable<TerminalPosition>, Serializ
 
 	int getRow();
 
-	public int getColumn();
+	int getColumn();
 
-	public TerminalPosition next();
+	TerminalPosition next();
 
 	TerminalPosition previous();
 
-	public TerminalPosition moveBy(int columns);
+	TerminalPosition moveBy(int columns);
+
+	int getAbsolutePosition(ScreenSize screenSize);
 }

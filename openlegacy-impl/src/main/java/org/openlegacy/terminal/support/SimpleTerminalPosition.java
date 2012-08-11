@@ -12,6 +12,7 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 
 import java.text.MessageFormat;
@@ -90,5 +91,9 @@ public class SimpleTerminalPosition implements TerminalPosition {
 			return this;
 		}
 		return SimpleTerminalPosition.newInstance(row, column + columns);
+	}
+
+	public int getAbsolutePosition(ScreenSize screenSize) {
+		return SnapshotUtils.toAbsolutePosition(this, screenSize);
 	}
 }

@@ -46,4 +46,8 @@ public class SimpleScreenSize implements ScreenSize {
 		this.columns = columns;
 	}
 
+	public int getLength() {
+		return getRows() * getColumns();
+	}
+
 }
