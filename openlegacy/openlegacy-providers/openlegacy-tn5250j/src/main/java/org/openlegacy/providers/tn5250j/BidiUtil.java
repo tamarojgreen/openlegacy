@@ -14,7 +14,9 @@ public class BidiUtil {
 	public static String convertToLogical(String value) {
 		Bidi bidi = new Bidi();
 		bidi.setPara(value, Bidi.LTR, null);
+		bidi.setReorderingMode(Bidi.REORDER_INVERSE_LIKE_DIRECT);
 		String newValue = bidi.writeReordered(Bidi.DO_MIRRORING);
+
 		if (logger.isDebugEnabled() && !value.equals(newValue)) {
 			logger.debug(MessageFormat.format("Converted to logical value:{0} to new value:{1}", value, newValue));
 		}

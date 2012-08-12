@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.web.render.support;
 
+import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.web.render.ElementsProvider;
 import org.openlegacy.terminal.web.render.HtmlProportionsHandler;
@@ -20,6 +21,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 import java.text.MessageFormat;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -27,6 +29,14 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	@Inject
 	private HtmlProportionsHandler htmlProportionsHandler;
+
+	private Map<Color, String> colorMapper = null;
+	private Map<Color, String> backcolorMapper = null;
+	private String defaultColor = "green";
+	private String defaultBackgroundColor = "white";
+
+	// usefull for RTL application
+	private boolean renderTopRight = false;
 
 	public Element createLabel(Element rootNode, TerminalField field) {
 		String value = field.getValue().trim();
@@ -70,15 +80,63 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	private void populateCommonAttributes(Element element, TerminalField field) {
 		String value = field.getValue();
-		int offset = 0;
-		if (!field.isEditable() && value != null) {
-			offset = StringUtil.startOfNonBlank(value);
-		}
-		int column = field.getPosition().getColumn();
-		int top = htmlProportionsHandler.toHeight(field.getPosition().getRow());
-		int left = htmlProportionsHandler.toWidth(offset + column);
-		element.setAttribute(HtmlConstants.STYLE, HtmlNamingUtil.toStyleTopLeft(top, left));
 
+		int top = htmlProportionsHandler.toHeight(field.getPosition().getRow());
+		int column = 0;
+		String positioningStyle = null;
+
+		int offset = 0;
+
+		// default rendering - top/left
+		if (!renderTopRight) {
+			if (!field.isEditable() && value != null) {
+				offset = StringUtil.startOfNonBlank(value);
+			}
+			column = field.getPosition().getColumn();
+			int left = htmlProportionsHandler.toWidth(offset + column);
+			positioningStyle = MessageFormat.format("top:{0}{2};left:{1}{2};", top, left, HtmlConstants.STYLE_UNIT);
+		} else {
+			int rightOffset = StringUtil.endOfNonBlank(value);
+
+			column = field.getEndPosition().getColumn();
+			int right = htmlProportionsHandler.toWidth(80 + rightOffset - column);
+			positioningStyle = MessageFormat.format("top:{0}{2};right:{1}{2};", top, right, HtmlConstants.STYLE_UNIT);
+		}
+
+		String colorsStyle = toStyleColors(field);
+		element.setAttribute(HtmlConstants.STYLE, positioningStyle + colorsStyle);
+
+	}
+
+	public String toStyleColors(TerminalField field) {
+		String color = getColor(field.getColor(), colorMapper, defaultColor);
+		String backcolor = getColor(field.getBackColor(), backcolorMapper, defaultBackgroundColor);
+
+		String colorStyle = "";
+		if (color != null) {
+			colorStyle = MessageFormat.format("color:{0};", color);
+		}
+		String backcolorStyle = "";
+		if (backcolor != null) {
+			backcolorStyle = MessageFormat.format("background-color:{0};", backcolor);
+		}
+		return colorStyle + backcolorStyle;
+	}
+
+	private static String getColor(Color color, Map<Color, String> colorMapper, String defaultColor) {
+		String colorText = null;
+		// if not color mapper is defined or color not found on mapper -> convert host color to HTML style color
+		if (colorMapper == null || colorMapper.get(color) == null) {
+			colorText = color.toString().toLowerCase();
+		} else {
+			colorText = colorMapper.get(color);
+		}
+		// don't generate color if it equals to the default page color/background color
+		if (colorText.equals(defaultColor)) {
+			return null;
+		} else {
+			return colorText;
+		}
 	}
 
 	public Element createStyleTag(Element parentTag, String styleSettings) {
@@ -115,4 +173,23 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 		return scriptTag;
 	}
 
+	public void setColorMapper(Map<Color, String> colorMapper) {
+		this.colorMapper = colorMapper;
+	}
+
+	public void setBackcolorMapper(Map<Color, String> backcolorMapper) {
+		this.backcolorMapper = backcolorMapper;
+	}
+
+	public void setDefaultBackgroundColor(String defaultBackgroundColor) {
+		this.defaultBackgroundColor = defaultBackgroundColor;
+	}
+
+	public void setDefaultColor(String defaultColor) {
+		this.defaultColor = defaultColor;
+	}
+
+	public void setRenderTopRight(boolean renderTopRight) {
+		this.renderTopRight = renderTopRight;
+	}
 }

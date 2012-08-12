@@ -33,11 +33,12 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 
 	private int fieldAttributes;
 
-	public Tn5250jTerminalField(String value, TerminalPosition position, int length, int fieldAttributes) {
+	public Tn5250jTerminalField(String value, TerminalPosition position, int length, int fieldAttributes, boolean hidden) {
 		this.value = value;
 		this.position = position;
 		this.length = length;
 		this.fieldAttributes = fieldAttributes;
+		this.hidden = hidden;
 		Tn5250jUtils.applyAttributeToField(this, fieldAttributes);
 	}
 
@@ -112,7 +113,7 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 
 	@Override
 	public TerminalField clone() {
-		Tn5250jTerminalField field = new Tn5250jTerminalField(value, position, length, fieldAttributes);
+		Tn5250jTerminalField field = new Tn5250jTerminalField(value, position, length, fieldAttributes, hidden);
 		return field;
 	}
 }

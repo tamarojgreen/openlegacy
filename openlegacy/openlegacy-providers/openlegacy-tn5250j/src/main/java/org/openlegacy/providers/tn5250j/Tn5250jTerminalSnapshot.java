@@ -25,6 +25,14 @@ import org.tn5250j.framework.tn5250.ScreenField;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Snapshot implementation for TN5250J connector
+ * 
+ * Originally based on Servlet5250 from web5250.com
+ * 
+ * @author Roi Mor
+ * 
+ */
 public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 
 	private static final long serialVersionUID = 1L;
@@ -120,11 +128,18 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 				if ((screenData.extended[startAbsolutePosition] & TN5250jConstants.EXTENDED_5250_NON_DSP) != 0) {
 					hidden = true;
 				}
-				field = createEditableField(screenField, value, hidden, fieldAttributes);
+				if (screenField.isBypassField()) {
+					if (screenData.attr[startAbsolutePosition] == 39) {
+						hidden = true;
+					}
+					field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes, hidden);
+				} else {
+					field = createEditableField(screenField, value, hidden, fieldAttributes);
+				}
 			}
 		} else {
 			int fieldAttributes = screenData.attr[startAbsolutePosition];
-			field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes);
+			field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes, false);
 		}
 		if (field != null) {
 			fields.add(field);
@@ -149,9 +164,9 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		return field;
 	}
 
-	private static Tn5250jTerminalField createReadOnlyField(String value, int row, int column, int fieldAttributes) {
+	private static Tn5250jTerminalField createReadOnlyField(String value, int row, int column, int fieldAttributes, boolean hidden) {
 		Tn5250jTerminalField field = new Tn5250jTerminalField(value, new SimpleTerminalPosition(row, column), value.length(),
-				fieldAttributes);
+				fieldAttributes, hidden);
 		return field;
 	}
 
@@ -182,7 +197,12 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 				chars[i] = ' ';
 			}
 		}
-		return new String(screenData.text);
+		String result = new String(screenData.text);
+		if (convertToLogical) {
+			result = BidiUtil.convertToLogical(result);
+		}
+
+		return result;
 	}
 
 	private void init() {
