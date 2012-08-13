@@ -40,10 +40,5 @@
 			<artifactId>osohio</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		<dependency>
-			<groupId>com.ibm.icu</groupId>
-			<artifactId>icu4j</artifactId>
-			<version>49.1</version>
-		</dependency>
 	</dependencies>
 </project>

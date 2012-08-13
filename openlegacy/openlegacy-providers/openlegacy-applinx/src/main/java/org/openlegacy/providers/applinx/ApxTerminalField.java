@@ -100,4 +100,8 @@ public class ApxTerminalField extends AbstractTerminalField {
 		return field;
 
 	}
+
+	public String getVisualValue() {
+		return apxField.getVisualContent();
+	}
 }

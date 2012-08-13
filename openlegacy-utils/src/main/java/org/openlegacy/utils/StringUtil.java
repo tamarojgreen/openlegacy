@@ -327,4 +327,19 @@ public class StringUtil {
 		sb.setLength(sb.length() - 1);
 		return sb.toString();
 	}
+
+	public static String nullsToSpaces(String value) {
+		return nullsToSpaces(value.toCharArray());
+	}
+
+	public static String nullsToSpaces(char[] chars) {
+		for (int i = 0; i < chars.length; i++) {
+			if (chars[i] == 0) {
+				chars[i] = ' ';
+			}
+		}
+		String value = new String(chars);
+		return value;
+	}
+
 }

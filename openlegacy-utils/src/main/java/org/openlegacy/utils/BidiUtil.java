@@ -1,4 +1,4 @@
-package org.openlegacy.providers.tn5250j;
+package org.openlegacy.utils;
 
 import com.ibm.icu.text.Bidi;
 
@@ -18,7 +18,7 @@ public class BidiUtil {
 		String newValue = bidi.writeReordered(Bidi.DO_MIRRORING);
 
 		if (logger.isDebugEnabled() && !value.equals(newValue)) {
-			logger.debug(MessageFormat.format("Converted to logical value:{0} to new value:{1}", value, newValue));
+			// logger.debug(MessageFormat.format("Converted to logical value:{0} to new value:{1}", value, newValue));
 		}
 		value = newValue;
 		return value;

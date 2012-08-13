@@ -15,6 +15,7 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.services.TerminalSendAction;
+import org.openlegacy.utils.BidiUtil;
 import org.tn5250j.Session5250;
 import org.tn5250j.framework.tn5250.Screen5250;
 import org.tn5250j.framework.tn5250.ScreenOIA;
@@ -49,6 +50,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 			TerminalField field = snapshot.getField(terminalField.getPosition());
 			String sendValue = terminalField.getValue();
 			if (convertToLogical) {
+				// reverse the logical value back to visual before sending to the host
 				sendValue = BidiUtil.convertToVisual(sendValue);
 			}
 			field.setValue(sendValue);

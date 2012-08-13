@@ -17,6 +17,7 @@ import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
+import org.openlegacy.utils.BidiUtil;
 import org.openlegacy.utils.StringUtil;
 import org.tn5250j.TN5250jConstants;
 import org.tn5250j.framework.tn5250.Screen5250;
@@ -113,8 +114,11 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 			endAbsolutePosition--;
 		}
 		String value = grabText(screenData.text, startAbsolutePosition, endAbsolutePosition);
+		value = StringUtil.nullsToSpaces(value);
 
+		String visualValue = null;
 		if (convertToLogical == true) {
+			visualValue = value;
 			value = BidiUtil.convertToLogical(value);
 		}
 
@@ -141,6 +145,11 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 			int fieldAttributes = screenData.attr[startAbsolutePosition];
 			field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes, false);
 		}
+
+		if (visualValue != null && !value.equals(visualValue)) {
+			field.setVisualValue(visualValue);
+		}
+
 		if (field != null) {
 			fields.add(field);
 		}
@@ -191,13 +200,14 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 	@Override
 	public String initText() {
 		init();
+
 		char[] chars = screenData.text;
 		for (int i = 0; i < chars.length; i++) {
 			if (chars[i] == 0) {
 				chars[i] = ' ';
 			}
 		}
-		String result = new String(screenData.text);
+		String result = StringUtil.nullsToSpaces(screenData.text);
 		if (convertToLogical) {
 			result = BidiUtil.convertToLogical(result);
 		}

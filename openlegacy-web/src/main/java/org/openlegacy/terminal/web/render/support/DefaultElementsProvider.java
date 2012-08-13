@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.web.render.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.web.render.ElementsProvider;
@@ -39,16 +40,16 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	private boolean renderTopRight = false;
 
 	public Element createLabel(Element rootNode, TerminalField field) {
-		String value = field.getValue().trim();
 
-		if (value.length() == 0) {
+		if (StringUtils.isWhitespace(field.getValue())) {
 			return null;
 		}
 		Element label = createTag(rootNode, HtmlConstants.SPAN);
 		populateCommonAttributes(label, field);
 
-		Text textNode = rootNode.getOwnerDocument().createTextNode(value);
+		Text textNode = rootNode.getOwnerDocument().createTextNode(field.getValue().trim());
 		label.appendChild(textNode);
+
 		rootNode.appendChild(label);
 		return label;
 	}

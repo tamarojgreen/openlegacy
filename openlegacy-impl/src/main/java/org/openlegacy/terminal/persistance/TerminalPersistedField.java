@@ -243,4 +243,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	public void setEndPosition(TerminalPosition endPosition) {
 		this.endPosition = endPosition;
 	}
+
+	public String getVisualValue() {
+		// not required for XML (for now)
+		return null;
+	}
 }

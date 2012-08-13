@@ -12,7 +12,6 @@ package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalFieldSplitter;
-import org.openlegacy.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,7 @@ public class TerminalFieldByCharSplitter implements TerminalFieldSplitter {
 						}
 						c = chars[i];
 					}
-					addSplittedField(terminalField, buffer, terminalFields, fieldStartOffset);
+					FieldSplitterUtil.addSplittedField(terminalField, buffer.toString(), terminalFields, fieldStartOffset);
 					buffer.setLength(0);
 					fieldStartOffset = i;
 
@@ -77,25 +76,10 @@ public class TerminalFieldByCharSplitter implements TerminalFieldSplitter {
 		}
 		// handle the last one
 		if (buffer.length() > 0) {
-			addSplittedField(terminalField, buffer, terminalFields, fieldStartOffset);
+			FieldSplitterUtil.addSplittedField(terminalField, buffer.toString(), terminalFields, fieldStartOffset);
 		}
 
 		return terminalFields;
-	}
-
-	private static void addSplittedField(TerminalField terminalField, StringBuilder buffer, List<TerminalField> terminalFields,
-			int fieldStartOffset) {
-		ModifiableTerminalField newTerminalField = (ModifiableTerminalField)terminalField.clone();
-		String newText = buffer.toString();
-		// don't add empty fields
-		if (StringUtil.isEmpty(newText)) {
-			return;
-		}
-		newTerminalField.setValue(newText, false);
-		newTerminalField.setPosition(newTerminalField.getPosition().moveBy(fieldStartOffset));
-		newTerminalField.setEndPosition(newTerminalField.getPosition().moveBy(newText.length() - 1));
-		newTerminalField.setLength(newText.length());
-		terminalFields.add(newTerminalField);
 	}
 
 	public void setChar(String ch) {

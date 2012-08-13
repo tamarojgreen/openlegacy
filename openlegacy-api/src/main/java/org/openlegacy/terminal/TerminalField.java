@@ -125,9 +125,17 @@ public interface TerminalField extends TerminalPositionContainer, Serializable, 
 	boolean isReversed();
 
 	/**
+	 * Holds the fields visual
+	 * 
+	 * @return visual value from the host
+	 */
+	String getVisualValue();
+
+	/**
 	 * Clones the field
 	 * 
 	 * @return a cloned copy of the field
 	 */
 	TerminalField clone();
+
 }

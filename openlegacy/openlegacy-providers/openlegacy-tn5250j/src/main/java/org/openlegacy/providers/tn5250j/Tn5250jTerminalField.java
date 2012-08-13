@@ -33,6 +33,11 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 
 	private int fieldAttributes;
 
+	/**
+	 * Used for storing the original visual value
+	 */
+	private String visualValue;
+
 	public Tn5250jTerminalField(String value, TerminalPosition position, int length, int fieldAttributes, boolean hidden) {
 		this.value = value;
 		this.position = position;
@@ -115,5 +120,13 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 	public TerminalField clone() {
 		Tn5250jTerminalField field = new Tn5250jTerminalField(value, position, length, fieldAttributes, hidden);
 		return field;
+	}
+
+	public String getVisualValue() {
+		return visualValue;
+	}
+
+	public void setVisualValue(String visualValue) {
+		this.visualValue = visualValue;
 	}
 }
