@@ -69,7 +69,8 @@ public class SnapshotUtils {
 	public static void placeContentOnBuffer(StringBuilder buffer, TerminalField terminalField, ScreenSize screenSize) {
 		int beginIndex = SnapshotUtils.toAbsolutePosition(terminalField.getPosition(), screenSize);
 
-		String value = terminalField.getValue();
+		// use the visual content for buffer if available
+		String value = terminalField.getVisualValue() != null ? terminalField.getVisualValue() : terminalField.getValue();
 		if (StringUtils.isEmpty(value)) {
 			return;
 		}
@@ -105,7 +106,7 @@ public class SnapshotUtils {
 		for (TerminalRow terminalRow : rows) {
 			List<TerminalField> rowFields = terminalRow.getFields();
 			for (TerminalField terminalField : rowFields) {
-				SnapshotUtils.placeContentOnBuffer(buffer, terminalField, screenSize);
+				placeContentOnBuffer(buffer, terminalField, screenSize);
 
 				TerminalPosition fieldPosition = terminalField.getPosition();
 				TerminalPosition beforeStartPosition = new SimpleTerminalPosition(fieldPosition.getRow(),

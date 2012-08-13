@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 
 import java.util.List;
 
-public class DefaultHebrewElementsProvider extends DefaultElementsProvider {
+public class DefaultBidiElementsProvider extends DefaultElementsProvider {
 
 	@Override
 	public Element createLabel(Element rootNode, TerminalField field) {

@@ -329,6 +329,10 @@ public class StringUtil {
 	}
 
 	public static String nullsToSpaces(String value) {
+		char[] chars = new char[] { 0 };
+		if (StringUtils.containsNone(value, chars)) {
+			return value;
+		}
 		return nullsToSpaces(value.toCharArray());
 	}
 

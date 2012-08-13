@@ -76,6 +76,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	@XmlAttribute
 	private Boolean bold = false;
 
+	@XmlAttribute
+	private String visualValue;
+
 	public TerminalPosition getPosition() {
 		if (position == null) {
 			position = SimpleTerminalPosition.newInstance(row, column);
@@ -245,7 +248,10 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	}
 
 	public String getVisualValue() {
-		// not required for XML (for now)
-		return null;
+		return visualValue;
+	}
+
+	public void setVisualValue(String visualValue) {
+		this.visualValue = visualValue;
 	}
 }

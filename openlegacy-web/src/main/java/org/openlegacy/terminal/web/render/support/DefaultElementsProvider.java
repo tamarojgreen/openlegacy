@@ -41,13 +41,18 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	public Element createLabel(Element rootNode, TerminalField field) {
 
-		if (StringUtils.isWhitespace(field.getValue())) {
+		String value = field.getValue();
+		if (StringUtils.isWhitespace(value) && field.getBackColor() == Color.BLACK) {
 			return null;
 		}
+		if (field.getBackColor() == Color.BLACK) {
+			value = value.trim();
+		}
+
 		Element label = createTag(rootNode, HtmlConstants.SPAN);
 		populateCommonAttributes(label, field);
 
-		Text textNode = rootNode.getOwnerDocument().createTextNode(field.getValue().trim());
+		Text textNode = rootNode.getOwnerDocument().createTextNode(value);
 		label.appendChild(textNode);
 
 		rootNode.appendChild(label);
