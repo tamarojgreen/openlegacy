@@ -3,6 +3,7 @@ package org.openlegacy.designtime.terminal.analyzer.support;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
@@ -39,7 +40,7 @@ public class AbstractAnalyzerTest {
 		screenEntityJavaGenerator.generate(screen, baos);
 
 		if (expectedResource == null) {
-			logger.info("\n" + new String(baos.toByteArray()));
+			logger.info("\n" + new String(baos.toByteArray(), CharEncoding.UTF_8));
 			return;
 		}
 

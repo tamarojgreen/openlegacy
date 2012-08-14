@@ -1,5 +1,6 @@
 package org.openlegacy.test.utils;
 
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
@@ -56,7 +58,11 @@ public class AssertUtils {
 	}
 
 	private static String initTestString(byte[] expectedBytes) {
-		return new String(expectedBytes).replaceAll("\r\n", "").replaceAll("\n", "").replaceAll("\t", "");
+		try {
+			return new String(expectedBytes, CharEncoding.UTF_8).replaceAll("\r\n", "").replaceAll("\n", "").replaceAll("\t", "");
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
