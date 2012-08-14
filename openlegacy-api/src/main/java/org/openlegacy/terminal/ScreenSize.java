@@ -24,6 +24,4 @@ public interface ScreenSize extends Serializable {
 	int getRows();
 
 	int getColumns();
-
-	int getLength();
 }
