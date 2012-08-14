@@ -108,4 +108,9 @@ public class H3270TerminalField extends AbstractTerminalField {
 		return field;
 
 	}
+
+	public String getVisualValue() {
+		// TODO implement visual for H3270
+		return null;
+	}
 }
