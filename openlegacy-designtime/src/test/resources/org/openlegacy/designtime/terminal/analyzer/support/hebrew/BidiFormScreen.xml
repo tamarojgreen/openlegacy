@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="10">
+    <row rowNumber="1">
+        <field value="מסך בעברית" column="40" />
+    </row>
+    <row rowNumber="4">
+        <field value="אבגד  " editable="true" column="13" />
+        <field value="שדה א:" column="23" />
+    </row>
+    <row rowNumber="5">
+        <field value="בגדה  " column="13" />
+        <field value="שדה ב:" column="20" />
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

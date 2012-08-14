@@ -85,7 +85,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-editable-fields.drl" p:ruleId="identify-editable-fields" p:enabled="true">
+				<bean parent="ruleDefinition" p:droolsFile="rules/rtl-identify-editable-fields.drl" p:ruleId="identify-editable-fields" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<bean parent="ruleParametersSet">
@@ -151,7 +151,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="ruleDefinition" p:droolsFile="rules/default-identify-readonly-fields.drl" p:ruleId="identify-readonly-fields" p:enabled="true">
+				<bean parent="ruleDefinition" p:droolsFile="rules/rtl-identify-readonly-fields.drl" p:ruleId="identify-readonly-fields" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
 							<!-- Execution read-only fields with values -->

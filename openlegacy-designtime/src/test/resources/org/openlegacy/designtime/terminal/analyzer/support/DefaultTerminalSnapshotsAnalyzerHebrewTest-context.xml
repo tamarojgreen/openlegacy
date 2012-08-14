@@ -11,7 +11,7 @@
 		http://drools.org/schema/drools-spring http://drools.org/schema/drools-spring.xsd">
 
 	<import resource="classpath*:/META-INF/openlegacy-basic-context.xml" />
-	<import resource="classpath:/openlegacy-default-designtime-context.xml" />
+	<import resource="classpath:/openlegacy-rtl-designtime-context.xml" />
 	
 	<bean id="textTranslator" class="org.openlegacy.designtime.analyzer.support.CharReplaceTranslator">
 	    <property name="charsToReplace">

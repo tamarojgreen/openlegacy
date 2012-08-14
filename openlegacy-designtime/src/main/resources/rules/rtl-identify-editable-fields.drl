@@ -1,0 +1,28 @@
+package openlegacy;
+
+
+rule "find-editable-fields"
+ruleflow-group "identify-editable-fields"
+no-loop
+when
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-editable-fields")
+	$labelRegex      : String()  from (String)$ruleParameterSet.getRuleParameters().get("labelRegex");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and an editable field within the snapshot
+	$editableField: TerminalField(editable == true) from $snapshot.getFields()
+	
+	// with a leading label before the editable field (same row, lower column)
+	$labelField: TerminalField(value matches $labelRegex,position.row == $editableField.position.row, position.column > $editableField.position.column, editable == false) from $snapshot.getFields()
+
+	// and there is no label field which is closer to the field in the format of a label field 
+	not TerminalField(editable == false, value matches $labelRegex, $editableField.position.column - position.column > $editableField.position.column - $labelField.position.column)
+then
+	ScreenFieldDefinition screenFieldDefinition = screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$labelField);
+	update($screenEntityDefinition);
+end
