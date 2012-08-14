@@ -24,14 +24,15 @@ public class DefaultTerminalSnapshotsAnalyzerBidiTest extends AbstractAnalyzerTe
 		//
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
 				getClass().getResource("/org/openlegacy/designtime/terminal/analyzer/support/bidi").getFile(),
-				"BidiFormScreen.xml");
+				"BidiFormScreen.xml", "BidiMenu.xml");
 
-		snapshotsOrganizer.setMatchingPercent(95);
+		snapshotsOrganizer.setMatchingPercent(99);
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 
-		Assert.assertEquals(1, definitions.size());
+		Assert.assertEquals(2, definitions.size());
 		// means - "Hebrew Screen" in Hebrew
-		assertScreenContent(definitions.get("MscBabrit"), "bidi/HebrewScreen.java.expected");
+		assertScreenContent(definitions.get("MscBabrit"), "bidi/BidiFormScreen.java.expected");
+		assertScreenContent(definitions.get("MscTprit"), "bidi/BidiMenu.java.expected");
 
 	}
 
