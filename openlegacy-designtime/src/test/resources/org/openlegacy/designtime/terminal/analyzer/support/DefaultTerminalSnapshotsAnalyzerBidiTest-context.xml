@@ -13,37 +13,4 @@
 	<import resource="classpath*:/META-INF/openlegacy-basic-context.xml" />
 	<import resource="classpath:/openlegacy-rtl-designtime-context.xml" />
 	
-	<bean id="textTranslator" class="org.openlegacy.designtime.analyzer.support.CharReplaceTranslator">
-	    <property name="charsToReplace">
-	        <map>
-	            <entry key="א" value="a" />
-	            <entry key="ב" value="b" />
-	            <entry key="ג" value="f" />
-  	            <entry key="ד" value="d" />
-  	            <entry key="ה" value="e" />
-  	            <entry key="ו" value="o" />
-  	            <entry key="ז" value="z" />
-  	            <entry key="ח" value="h" />
-  	            <entry key="ט" value="t" />
-  	            <entry key="י" value="i" />
-  	            <entry key="כ" value="c" />
-  	            <entry key="ך" value="c" />
-  	            <entry key="ל" value="l" />
-  	            <entry key="מ" value="m" />
-  	            <entry key="ם" value="m" />
-  	            <entry key="נ" value="n" />
-  	            <entry key="ן" value="n" />
-  	            <entry key="ס" value="s" />
-  	            <entry key="ע" value="a" />
-  	            <entry key="פ" value="p" />
-  	            <entry key="ף" value="p" />
-  	            <entry key="צ" value="c" />
-  	            <entry key="ץ" value="c" />
-  	            <entry key="ק" value="k" />
-  	            <entry key="ר" value="r" />
-  	            <entry key="ש" value="s" />
-  	            <entry key="ת" value="t" />
-     	    </map>
-	    </property>
-	</bean>
 </beans>

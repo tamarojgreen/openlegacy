@@ -1,0 +1,131 @@
+    <snapshot type="INCOMING" sequence="7">
+        <row rowNumber="1">
+            <field column="2" length="0"/>
+            <field column="2" value="SYSTEM#2" length="8"/>
+            <field column="11" value=" " length="1"/>
+            <field column="13" value=":מערכת             " length="19" visualValue=":תכרעמ             "/>
+            <field column="33" value="                " length="16"/>
+            <field column="50" value="                              " length="30"/>
+        </row>
+        <row rowNumber="4">
+            <field column="1" value="                                                " length="48"/>
+            <field column="50" value="                              " length="30"/>
+        </row>
+        <row rowNumber="5">
+            <field column="1" length="0" color="BLUE"/>
+            <field column="2" value="MMMAIN    " length="10" color="BLUE"/>
+            <field column="13" value="            " length="12"/>
+            <field column="26" value="    תפריט ראשי - מערכת תפריטים" length="30" color="WHITE" visualValue="    םיטירפת תכרעמ - ישאר טירפת"/>
+            <field column="57" value="                        " length="24"/>
+        </row>
+        <row rowNumber="6">
+            <field column="1" length="0" color="WHITE"/>
+            <field column="2" value="                              " length="30" color="WHITE"/>
+            <field column="33" value="      " length="6"/>
+            <field column="40" value="                    :בחר באחת מהאפשרויות" length="40" color="BLUE" visualValue="                    :תויורשפאהמ תחאב רחב"/>
+        </row>
+        <row rowNumber="8">
+            <field column="1" length="0"/>
+            <field column="2" value=" " length="1"/>
+            <field column="4" value="  מערכת חוזים והתקשרויות - טסט" length="30" visualValue="  טסט - תויורשקתהו םיזוח תכרעמ"/>
+            <field column="35" value=".11" length="3"/>
+            <field column="39" value="&lt;" length="1"/>
+            <field column="41" value=" " length="1"/>
+            <field column="43" value="        מערכת חוזים והתקשרויות" length="30" visualValue="        תויורשקתהו םיזוח תכרעמ"/>
+            <field column="74" value=".1 " length="3"/>
+            <field column="78" value="&lt;" length="1"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="9">
+            <field column="1" value="  " length="2"/>
+            <field column="4" value="         מערכת מלאי חדשה - טסט" length="30" visualValue="         טסט - השדח יאלמ תכרעמ"/>
+            <field column="35" value=".12" length="3"/>
+            <field column="39" value="&lt;" length="1"/>
+            <field column="41" value=" " length="1"/>
+            <field column="43" value="               מערכת מלאי חדשה" length="30" visualValue="               השדח יאלמ תכרעמ"/>
+            <field column="74" value=".2 " length="3"/>
+            <field column="78" value="&lt;" length="1"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="15">
+            <field column="1" value="  " length="2"/>
+            <field column="4" value="                              " length="30"/>
+            <field column="35" value="   " length="3"/>
+            <field column="39" value="&lt;" length="1"/>
+            <field column="41" value=" " length="1"/>
+            <field column="43" value="            מערכת ניהול החלטות" length="30" visualValue="            תוטלחה לוהינ תכרעמ"/>
+            <field column="74" value=".8 " length="3"/>
+            <field column="78" value="&lt;" length="1"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="16">
+            <field column="1" value="  " length="2"/>
+            <field column="4" value="                              " length="30"/>
+            <field column="35" value="   " length="3"/>
+            <field column="39" value="&lt;" length="1"/>
+            <field column="41" value=" " length="1"/>
+            <field column="43" value="       הדגמה מערכת קבלת החלטות" length="30" visualValue="       תוטלחה תלבק תכרעמ המגדה"/>
+            <field column="74" value=".9 " length="3"/>
+            <field column="78" value="&lt;" length="1"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="17">
+            <field column="1" value="  " length="2"/>
+            <field column="4" value="                              " length="30"/>
+            <field column="35" value="   " length="3"/>
+            <field column="39" value="&lt;" length="1"/>
+            <field column="41" value=" " length="1"/>
+            <field column="43" value="                              " length="30"/>
+            <field column="74" value="   " length="3"/>
+            <field column="78" value="&lt;" length="1"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="18">
+            <field column="1" value="  " length="2"/>
+            <field column="4" value="                              " length="30"/>
+            <field column="35" value="   " length="3"/>
+            <field column="39" value="&lt;" length="1"/>
+            <field column="41" value=" " length="1"/>
+            <field column="43" value="400/תחזוקת מערכת ניהול תפריטים" length="30" visualValue="400/םיטירפת לוהינ תכרעמ תקוזחת"/>
+            <field column="74" value=".10" length="3"/>
+            <field column="78" value="&lt;" length="1"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="19">
+            <field column="1" value="  " length="2"/>
+            <field column="4" value="                              " length="30"/>
+            <field column="35" value="   " length="3"/>
+            <field column="39" value="&lt;" length="1"/>
+            <field column="41" value=" " length="1"/>
+            <field column="43" value="                              " length="30"/>
+            <field column="74" value="   " length="3"/>
+            <field column="78" length="0" color="WHITE"/>
+            <field column="79" value="+" length="1" color="WHITE"/>
+        </row>
+        <row rowNumber="20">
+            <field column="1" length="0"/>
+            <field column="2" value="                                                               " length="63"/>
+            <field column="66" value="        בחירתך" length="14" visualValue="        ךתריחב"/>
+        </row>
+        <row rowNumber="21">
+            <field column="1" value="                                          " length="42"/>
+            <field column="44" value="/              " length="15" color="WHITE"/>
+            <field column="60" length="15" editable="true"/>
+            <field column="76" value="&lt;===" length="4"/>
+        </row>
+        <row rowNumber="22">
+            <field column="1" length="0" color="BLUE"/>
+            <field column="2" value="F1=עזרה        F3=יציאה       F4=רשימה         F12=חזרה         F16=תפריט ראשי" length="78" color="BLUE" visualValue="F1=הרזע        F3=האיצי       F4=המישר         F12=הרזח         F16=ישאר טירפת"/>
+        </row>
+        <row rowNumber="23">
+            <field column="1" length="0" color="BLUE"/>
+            <field column="2" value="F13=פקודות הפעלה כלליות   F14=תפריט שרות כללי   F24=מקשים נוספים              " length="78" color="BLUE" visualValue="F13=תויללכ הלעפה תודוקפ   F14=יללכ תורש טירפת   F24=םיפסונ םישקמ              "/>
+        </row>
+        <row rowNumber="24">
+            <field column="1" length="0"/>
+            <field column="2" value="                                                                            " length="76"/>
+            <field column="79" value=" " length="1" color="WHITE"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="21" column="60"/>
+    </snapshot>

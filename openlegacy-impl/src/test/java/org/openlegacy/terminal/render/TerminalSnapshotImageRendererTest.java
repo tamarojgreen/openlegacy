@@ -32,6 +32,12 @@ public class TerminalSnapshotImageRendererTest {
 		testInventoryImage("WarehouseTypes.xml", "WarehouseTypes.jpg");
 	}
 
+	@Ignore
+	@Test
+	public void testBidiImage() throws IOException {
+		testImage("/apps/bidi/", "BidiScreen.xml", "BidiScreen.jpg");
+	}
+
 	public void testInventoryImage(String xmlSnapshot, String expectedImageFile) throws IOException {
 		testImage("/apps/inventory/screens/", xmlSnapshot, expectedImageFile);
 	}
