@@ -35,7 +35,9 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 
 	public Tn5250jTerminalConnection(Session5250 session, Boolean convertToLogical) {
 		this.session = session;
-		this.convertToLogical = convertToLogical;
+		if (convertToLogical != null) {
+			this.convertToLogical = convertToLogical;
+		}
 	}
 
 	public TerminalSnapshot getSnapshot() {
