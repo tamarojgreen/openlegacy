@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ DefaultTerminalSnapshotsAnalyzerTest.class, DefaultTerminalSnapshotsAnalyzerHebrewTest.class,
+@SuiteClasses({ DefaultTerminalSnapshotsAnalyzerTest.class, DefaultTerminalSnapshotsAnalyzerBidiTest.class,
 		DefaultTerminalSnapshotsAnalyzerInventoryTest.class, DefaultTerminalSnapshotsMainframeTest.class })
 public class AnalyzerSuite {
 

@@ -15,22 +15,23 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@ContextConfiguration("DefaultTerminalSnapshotsAnalyzerHebrewTest-context.xml")
+@ContextConfiguration("DefaultTerminalSnapshotsAnalyzerBidiTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class DefaultTerminalSnapshotsAnalyzerHebrewTest extends AbstractAnalyzerTest {
+public class DefaultTerminalSnapshotsAnalyzerBidiTest extends AbstractAnalyzerTest {
 
 	@Test
 	public void testBidiScreens() throws TemplateException, IOException {
 		//
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(
-				getClass().getResource("/org/openlegacy/designtime/terminal/analyzer/support/hebrew").getFile(),
+				getClass().getResource("/org/openlegacy/designtime/terminal/analyzer/support/bidi").getFile(),
 				"BidiFormScreen.xml");
 
 		snapshotsOrganizer.setMatchingPercent(95);
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 
 		Assert.assertEquals(1, definitions.size());
-		assertScreenContent(definitions.get("MscBabrit"), "hebrew/HebrewScreen.java.expected");
+		// means - "Hebrew Screen" in Hebrew
+		assertScreenContent(definitions.get("MscBabrit"), "bidi/HebrewScreen.java.expected");
 
 	}
 
@@ -42,7 +43,7 @@ public class DefaultTerminalSnapshotsAnalyzerHebrewTest extends AbstractAnalyzer
 				"hebrew_as400.trail.xml"));
 
 		Assert.assertEquals(2, definitions.size());
-		assertScreenContent(definitions.get("Mdd"), "hebrew/HebrewWindowTable.java.expected");
+		assertScreenContent(definitions.get("Mdd"), "bidi/HebrewWindowTable.java.expected");
 
 	}
 
