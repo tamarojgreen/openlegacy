@@ -28,8 +28,8 @@ import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
+import org.openlegacy.designtime.mains.GenerateApiRequest;
 import org.openlegacy.designtime.mains.GeneratePageRequest;
-import org.openlegacy.designtime.mains.GenerateScreenRequest;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.ide.eclipse.Activator;
@@ -70,13 +70,10 @@ public class EclipseDesignTimeExecuter {
 
 	public void generateScreens(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
 			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction) throws GenerationException {
-		File anaylzerContextFile = new File(trailFile.getProject().getLocation().toOSString(),
-				DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
 		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
 		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
 
-		GenerateScreenRequest generateScreenRequest = new GenerateScreenRequest();
-		generateScreenRequest.setAnalyzerContextFile(anaylzerContextFile);
+		GenerateApiRequest generateScreenRequest = new GenerateApiRequest();
 		generateScreenRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
 		generateScreenRequest.setProjectPath(projectDirectory);
 		generateScreenRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
@@ -84,7 +81,7 @@ public class EclipseDesignTimeExecuter {
 		generateScreenRequest.setTrailFile(PathsUtil.toOsLocation(trailFile));
 		generateScreenRequest.setEntityUserInteraction(entityUserInteraction);
 
-		designTimeExecuter.generateScreens(generateScreenRequest);
+		designTimeExecuter.generateAPI(generateScreenRequest);
 
 		Display.getDefault().asyncExec(new Runnable() {
 
@@ -104,12 +101,12 @@ public class EclipseDesignTimeExecuter {
 		initialize(null);
 	}
 
-	public void initialize(final File analyzerFile) {
+	public void initialize(final File projectPath) {
 		Job job = new Job(Messages.message_initializing_ol_analyzer) {
 
 			@Override
 			protected IStatus run(IProgressMonitor arg0) {
-				designTimeExecuter.initialize(analyzerFile);
+				designTimeExecuter.initialize(projectPath);
 				return Status.OK_STATUS;
 			}
 
@@ -124,7 +121,6 @@ public class EclipseDesignTimeExecuter {
 				DesignTimeExecuterImpl.TEMPLATES_DIR);
 
 		GeneratePageRequest generatePageRequest = new GeneratePageRequest();
-		generatePageRequest.setProjectDir(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()));
 		generatePageRequest.setScreenEntitySourceFile(PathsUtil.toOsLocation(screenEntitySourceFile));
 		generatePageRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
 		generatePageRequest.setPackageDirectoryName(PathsUtil.packageToPath(packageDir));

@@ -19,7 +19,7 @@ public class GenerateScreensAction extends AbstractAction {
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		GenerateScreensDialog dialog = new GenerateScreensDialog(getShell(), getSelection());
+		GenerateScreensApiDialog dialog = new GenerateScreensApiDialog(getShell(), getSelection());
 		dialog.open();
 
 	}

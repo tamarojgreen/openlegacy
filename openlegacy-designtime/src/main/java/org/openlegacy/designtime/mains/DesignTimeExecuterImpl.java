@@ -87,9 +87,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String PERFERENCES_FILE = ".perferences";
 
-	private ApplicationContext applicationContext;
+	private ApplicationContext defaultDesigntimeApplicationContext;
 
-	private File designtimeContextFile;
+	// map of project path to Spring application context
+	private Map<String, ApplicationContext> projectsDesigntimeAplicationContexts = new HashMap<String, ApplicationContext>();
 
 	private Map<File, ProjectPerferences> projectsPerferences = new HashMap<File, ProjectPerferences>();
 
@@ -116,6 +117,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		savePerference(targetPath, PerfrencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
 		savePerference(targetPath, PerfrencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
+		savePerference(targetPath, PerfrencesConstants.DESIGNTIME_CONTEXT, "default");
 		targetZip.delete();
 	}
 
@@ -235,8 +237,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
 
 		if (!provider.equals(DesignTimeExecuter.MOCK_PROVIDER)) {
-			// tn5250j or impl is the default pom setting
 
+			// tn5250j or impl is the default pom setting
 			pomFileContent = pomFileContent.replaceFirst(
 					"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>",
 					MessageFormat.format(
@@ -268,27 +270,28 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return targetZip;
 	}
 
-	public void generateScreens(GenerateScreenRequest generateScreenRequest) throws GenerationException {
+	public void generateAPI(GenerateApiRequest generateApiRequest) throws GenerationException {
 		// initialize application context
-		getApplicationContext(generateScreenRequest.getAnalyzerContextFile());
 
-		getGenerateUtil().setTemplateDirectory(generateScreenRequest.getCodeGenerationTemplatesDirectory());
+		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateApiRequest.getProjectPath());
 
-		TerminalSnapshotsAnalyzer snapshotsAnalyzer = applicationContext.getBean(TerminalSnapshotsAnalyzer.class);
+		getGenerateUtil().setTemplateDirectory(generateApiRequest.getCodeGenerationTemplatesDirectory());
+
+		TerminalSnapshotsAnalyzer snapshotsAnalyzer = projectApplicationContext.getBean(TerminalSnapshotsAnalyzer.class);
 
 		FileInputStream trailInputStream;
 		try {
-			trailInputStream = new FileInputStream(generateScreenRequest.getTrailFile().getAbsolutePath());
+			trailInputStream = new FileInputStream(generateApiRequest.getTrailFile().getAbsolutePath());
 		} catch (FileNotFoundException e1) {
 			throw (new GenerationException(e1));
 		}
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trailInputStream);
 		Collection<ScreenEntityDefinition> screenDefinitions = screenEntitiesDefinitions.values();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateScreenRequest.getPackageDirectory().replaceAll(
+			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateApiRequest.getPackageDirectory().replaceAll(
 					"/", "."));
 
-			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateScreenRequest.getEntityUserInteraction();
+			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateApiRequest.getEntityUserInteraction();
 			if (entityUserInteraction != null) {
 				boolean generate = entityUserInteraction.customizeEntity(screenEntityDefinition);
 				if (!generate) {
@@ -297,8 +300,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 
 			try {
-				File packageDir = new File(generateScreenRequest.getSourceDirectory(),
-						generateScreenRequest.getPackageDirectory());
+				File packageDir = new File(generateApiRequest.getSourceDirectory(), generateApiRequest.getPackageDirectory());
 
 				String entityName = screenEntityDefinition.getEntityName();
 				File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
@@ -315,9 +317,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				screenResourcesDir.mkdir();
 				TerminalSnapshot snapshot = screenEntityDefinition.getOriginalSnapshot();
 
-				TerminalSnapshotImageRenderer imageRenderer = applicationContext.getBean(TerminalSnapshotImageRenderer.class);
-				TerminalSnapshotTextRenderer textRenderer = applicationContext.getBean(TerminalSnapshotTextRenderer.class);
-				DefaultTerminalSnapshotXmlRenderer xmlRenderer = applicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
+				TerminalSnapshotImageRenderer imageRenderer = projectApplicationContext.getBean(TerminalSnapshotImageRenderer.class);
+				TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
+				DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
 
 				// generate txt file with screen content
 				generateResource(snapshot, entityName, screenResourcesDir, textRenderer);
@@ -333,16 +335,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		generateTest(generateScreenRequest.getTrailFile(), screenDefinitions, generateScreenRequest.getProjectPath());
+		generateTest(generateApiRequest.getTrailFile(), screenDefinitions, generateApiRequest.getProjectPath());
 
 	}
 
 	private GenerateUtil getGenerateUtil() {
-		return applicationContext.getBean(GenerateUtil.class);
+		return defaultDesigntimeApplicationContext.getBean(GenerateUtil.class);
 	}
 
 	private void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File projectPath) {
-		TrailJunitGenerator generator = applicationContext.getBean(TrailJunitGenerator.class);
+		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(projectPath);
+
+		TrailJunitGenerator generator = projectApplicationContext.getBean(TrailJunitGenerator.class);
 		File testSourceDirectory = new File(projectPath, TEST_SOURCE_DIR);
 		File testsDirectory = new File(testSourceDirectory, "tests");
 		File junitFile = null;
@@ -372,7 +376,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			file.getParentFile().mkdirs();
 			fos = new FileOutputStream(file);
 
-			ScreenEntityJavaGenerator screenEntityJavaGenerator = applicationContext.getBean(ScreenEntityJavaGenerator.class);
+			ApplicationContext projectApplicationContext = getOrCreateApplicationContext(getProjectPath(file));
+			ScreenEntityJavaGenerator screenEntityJavaGenerator = projectApplicationContext.getBean(ScreenEntityJavaGenerator.class);
 
 			screenEntityJavaGenerator.generate(screenEntityDefinition, fos);
 		} finally {
@@ -398,25 +403,66 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	private synchronized ApplicationContext getApplicationContext(File designtimeContextFile) {
-		// in case the context file is not longer the default one
-		if (applicationContext == null
-				|| (designtimeContextFile != null && designtimeContextFile.exists() && this.designtimeContextFile == null)) {
-			if (designtimeContextFile != null && designtimeContextFile.exists()) {
-				this.designtimeContextFile = designtimeContextFile;
-				applicationContext = new FileSystemXmlApplicationContext(designtimeContextFile.getAbsolutePath());
-			} else {
-				applicationContext = new ClassPathXmlApplicationContext("/openlegacy-default-designtime-context.xml");
-			}
+	/**
+	 * Get or create a project Spring application context If the project has it's own designtime context (done using
+	 * copyDesigntimeContext) then use it, otherwise use default according to preferences (default/rtl for now)
+	 * 
+	 * @param projectPath
+	 *            The project file system path
+	 * @return
+	 */
+	private synchronized ApplicationContext getOrCreateApplicationContext(File projectPath) {
+
+		if (defaultDesigntimeApplicationContext == null) {
+			defaultDesigntimeApplicationContext = new ClassPathXmlApplicationContext("/openlegacy-default-designtime-context.xml");
 		}
-		return applicationContext;
+
+		// no project path specified - return default context
+		if (projectPath == null) {
+			return defaultDesigntimeApplicationContext;
+		}
+
+		ApplicationContext projectApplicationContext = projectsDesigntimeAplicationContexts.get(projectPath.getAbsolutePath());
+
+		if (projectApplicationContext == null) {
+			File designtimeContextFile = new File(projectPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
+			if (designtimeContextFile.exists()) {
+				projectApplicationContext = new FileSystemXmlApplicationContext(designtimeContextFile.getAbsolutePath());
+			} else {
+				String embeddedDesigntimeContextFile = getEmbeddedDesigntimeContextFile(projectPath);
+				String designtimeContextType = getPerferences(projectPath).get(PerfrencesConstants.DESIGNTIME_CONTEXT);
+				// don't re-initialize the default context on project level if exists on root level
+				// (defaultDesigntimeApplicationContext)
+				if (designtimeContextType.equals("default")) {
+					projectApplicationContext = defaultDesigntimeApplicationContext;
+				} else {
+					projectApplicationContext = new ClassPathXmlApplicationContext(embeddedDesigntimeContextFile);
+				}
+			}
+			projectsDesigntimeAplicationContexts.put(projectPath.getAbsolutePath(), projectApplicationContext);
+		}
+		return projectApplicationContext;
+
+	}
+
+	/*
+	 * assume Maven project structure. All files are either in src or test folder
+	 */
+	public File getProjectPath(File someProjectFile) {
+		while (!someProjectFile.getName().equals("src") && !someProjectFile.getName().equals("test")) {
+			someProjectFile = someProjectFile.getParentFile();
+		}
+
+		return someProjectFile.getParentFile();
+
 	}
 
 	public void generateAspect(File javaFile) {
 
 		OutputStream fos = null;
 		try {
-			ScreenPojosAjGenerator generator = getApplicationContext(null).getBean(ScreenPojosAjGenerator.class);
+			ScreenPojosAjGenerator generator = getOrCreateApplicationContext(getProjectPath(javaFile)).getBean(
+					ScreenPojosAjGenerator.class);
 			generator.generate(javaFile);
 		} catch (IOException e) {
 			throw (new GenerationException(e));
@@ -431,10 +477,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	public void initialize(File analyzerContextFile) {
+	public void initialize(File projectPath) {
 		// initialize application context & analyzer
-		applicationContext = null;
-		getApplicationContext(analyzerContextFile).getBean(SnapshotsAnalyzer.class);
+		projectsDesigntimeAplicationContexts.remove(projectPath.getAbsolutePath());
+		getOrCreateApplicationContext(projectPath).getBean(SnapshotsAnalyzer.class);
 	}
 
 	/**
@@ -456,7 +502,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					generatePageRequest.getScreenEntitySourceFile().getName())));
 		}
 
-		ScreenEntityWebGenerator screenEntityWebGenerator = getApplicationContext(null).getBean(ScreenEntityMvcGenerator.class);
+		File projectPath = getProjectPath(generatePageRequest.getSourceDirectory());
+		ScreenEntityWebGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
+				ScreenEntityMvcGenerator.class);
 
 		screenEntityWebGenerator.generateAll(generatePageRequest, screenEntityDefinition);
 	}
@@ -512,15 +560,23 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		FileOutputStream fos = null;
 		try {
-			InputStream defaultDesigntimeStream = getClass().getResourceAsStream(
-					DesignTimeExecuter.DEFAULT_DESIGNTIME_CONTEXT_FILE_NAME);
+			String embeddedDesigntimeContext = getEmbeddedDesigntimeContextFile(projectPath);
+			InputStream defaultDesigntimeStream = getClass().getResourceAsStream(embeddedDesigntimeContext);
 			fos = new FileOutputStream(customDesigntimeFile);
 			IOUtils.copy(defaultDesigntimeStream, fos);
 		} catch (IOException e) {
-			throw (new GenerationException("Error creating custom templates", e));
+			throw (new GenerationException("Error creating custom designtime context file", e));
 		} finally {
 			IOUtils.closeQuietly(fos);
 		}
 	}
 
+	/*
+	 * The embedded design-time context file to user by preferences. Currently default/rtl
+	 */
+	private String getEmbeddedDesigntimeContextFile(File projectPath) {
+		String designtimeContextType = getPerferences(projectPath).get(PerfrencesConstants.DESIGNTIME_CONTEXT);
+		designtimeContextType = designtimeContextType != null ? designtimeContextType : "default";
+		return MessageFormat.format("/openlegacy-{0}-designtime-context.xml", designtimeContextType);
+	}
 }

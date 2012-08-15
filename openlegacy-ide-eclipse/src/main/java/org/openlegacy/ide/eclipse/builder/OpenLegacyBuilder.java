@@ -124,9 +124,15 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
+	/**
+	 * Refresh design-time context in case project designtime context file changed
+	 * 
+	 * @param resource
+	 */
 	private void checkAnalyzerContextChange(IResource resource) {
-		if (resource instanceof IFile && resource.getFullPath().toString().contains(DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH)) {
-			EclipseDesignTimeExecuter.instance().initialize(PathsUtil.toOsLocation(resource));
+		if (resource instanceof IFile
+				&& resource.getFullPath().toString().contains(DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH)) {
+			EclipseDesignTimeExecuter.instance().initialize(PathsUtil.toOsLocation(resource.getProject().getLocation()));
 			try {
 				getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 			} catch (CoreException e) {

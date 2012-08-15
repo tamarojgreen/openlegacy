@@ -15,7 +15,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
 
-public class GenerateScreenRequest {
+public class GenerateApiRequest {
 
 	private File trailFile;
 	private File sourceDirectory;
@@ -63,14 +63,6 @@ public class GenerateScreenRequest {
 
 	public void setEntityUserInteraction(EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction) {
 		this.entityUserInteraction = entityUserInteraction;
-	}
-
-	public File getAnalyzerContextFile() {
-		return analyzerContextFile;
-	}
-
-	public void setAnalyzerContextFile(File analyzerContextFile) {
-		this.analyzerContextFile = analyzerContextFile;
 	}
 
 	public File getProjectPath() {

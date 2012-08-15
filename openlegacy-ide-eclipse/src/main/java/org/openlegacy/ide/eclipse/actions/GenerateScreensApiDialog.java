@@ -37,13 +37,13 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import java.io.File;
 import java.text.MessageFormat;
 
-public class GenerateScreensDialog extends AbstractGenerateDialog implements EntityUserInteraction<ScreenEntityDefinition> {
+public class GenerateScreensApiDialog extends AbstractGenerateDialog implements EntityUserInteraction<ScreenEntityDefinition> {
 
-	protected GenerateScreensDialog(Shell shell, ISelection selection) {
+	protected GenerateScreensApiDialog(Shell shell, ISelection selection) {
 		super(shell, selection);
 	}
 
-	private final static Logger logger = Logger.getLogger(GenerateScreensDialog.class);
+	private final static Logger logger = Logger.getLogger(GenerateScreensApiDialog.class);
 
 	@Override
 	protected void executeGenerate() {
@@ -64,7 +64,7 @@ public class GenerateScreensDialog extends AbstractGenerateDialog implements Ent
 
 				monitor.worked(2);
 				EclipseDesignTimeExecuter.instance().generateScreens(trailPath, getSourceFolder(), getPackageValue(),
-						GenerateScreensDialog.this);
+						GenerateScreensApiDialog.this);
 
 				monitor.worked(fileSize - 4);
 				Display.getDefault().syncExec(new Runnable() {

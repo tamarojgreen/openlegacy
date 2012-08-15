@@ -18,4 +18,6 @@ public class PerfrencesConstants {
 	public static final String API_PACKAGE = "API_PACKAGE";
 	public static final String WEB_PACKAGE = "WEB_PACKAGE";
 
+	// possible values: default, rtl (openlegacy-default-designtime-context.xml, openlegacy-rtl-designtime-context.xml)
+	public static final String DESIGNTIME_CONTEXT = "DESIGNTIME_CONTEXT";
 }
