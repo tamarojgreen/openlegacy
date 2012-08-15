@@ -15,6 +15,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang.CharEncoding;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -28,6 +29,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.Locale;
 
 @Component
 public class GenerateUtil {
@@ -63,6 +65,8 @@ public class GenerateUtil {
 				configuration.setClassForTemplateLoading(GenerateUtil.class, "/");
 			}
 			configuration.setWhitespaceStripping(true);
+			configuration.setEncoding(Locale.ROOT, CharEncoding.UTF_8);
+
 			Template template = null;
 			try {
 				if (isUseCustomTemplates()) {
