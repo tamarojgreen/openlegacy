@@ -19,6 +19,7 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalSnapshotsAnalyzerBidiTest extends AbstractAnalyzerTest {
 
+	@Ignore
 	@Test
 	public void testBidiScreens() throws TemplateException, IOException {
 		//
