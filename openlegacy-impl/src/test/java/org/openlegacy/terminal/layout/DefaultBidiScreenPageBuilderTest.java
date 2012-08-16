@@ -7,7 +7,7 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.definitions.page.support.SimplePagePartDefinition;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.layout.mock.ScreenForPage;
+import org.openlegacy.terminal.layout.mock_bidi.BidiScreenForPage;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,9 +17,9 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-@ContextConfiguration("DefaultScreenPageBuilderTest-context.xml")
+@ContextConfiguration("DefaultBidiScreenPageBuilderTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class DefaultScreenPageBuilderTest extends AbstractTest {
+public class DefaultBidiScreenPageBuilderTest extends AbstractTest {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
@@ -29,26 +29,19 @@ public class DefaultScreenPageBuilderTest extends AbstractTest {
 
 	@Test
 	public void testPageBuild() throws IOException {
-		ScreenEntityDefinition screen1Definition = screenEntitiesRegistry.get(ScreenForPage.class);
+		ScreenEntityDefinition screen1Definition = screenEntitiesRegistry.get(BidiScreenForPage.class);
 
 		PageDefinition pageDefinition = screenPageBuilder.build(screen1Definition);
 		Assert.assertNotNull(pageDefinition);
-		Assert.assertEquals(5, pageDefinition.getPageParts().size());
+		Assert.assertEquals(1, pageDefinition.getPageParts().size());
 
 		SimplePagePartDefinition part1 = (SimplePagePartDefinition)pageDefinition.getPageParts().get(0);
 		Assert.assertEquals(1, part1.getColumns());
-		Assert.assertEquals(3, part1.getPartRows().size());
-		// left position in % of the leading label
-		Assert.assertEquals(12, part1.getLeftMargin());
+		Assert.assertEquals(2, part1.getPartRows().size());
+		// left position in % of the first field (label is on the right)
+		Assert.assertEquals(27, part1.getLeftMargin());
 		Assert.assertEquals(20, part1.getTopMargin());
-		Assert.assertEquals(26, part1.getWidth());
-
-		SimplePagePartDefinition part2 = (SimplePagePartDefinition)pageDefinition.getPageParts().get(1);
-		Assert.assertEquals(2, part2.getColumns());
-		Assert.assertEquals(1, part2.getPartRows().size());
-		Assert.assertEquals(26, part2.getLeftMargin());
-		Assert.assertEquals(37, part2.getTopMargin());
-		Assert.assertEquals(52, part2.getWidth());
+		Assert.assertEquals(37, part1.getWidth());
 
 	}
 

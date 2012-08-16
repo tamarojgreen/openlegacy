@@ -123,8 +123,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		PagePartRowDefinition currentPagePartRow = null;
 		Set<Integer> columnValues = new HashSet<Integer>();
 		ScreenFieldDefinition firstField = fields.get(0);
-		int startColumn = calculateLabelColumn(firstField);
-		int endColumn = firstField.getEndPosition().getColumn();
+		int startColumn = calculateStartColumn(firstField);
+		int endColumn = calculateEndColumn(firstField);
 
 		// iterate through all the neighbor fields, and build row part rows upon row change, and find the end column
 		for (ScreenFieldDefinition screenFieldDefinition : fields) {
@@ -135,8 +135,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			}
 			currentPagePartRow.getFields().add(screenFieldDefinition);
 			columnValues.add(screenFieldDefinition.getPosition().getColumn());
-			int fieldEndColumn = screenFieldDefinition.getLength() > 0 ? screenFieldDefinition.getEndPosition().getColumn()
-					: screenFieldDefinition.getPosition().getColumn() + defaultFieldLength;
+			int fieldEndColumn = calculateEndColumn(screenFieldDefinition);
 			// find the most right end column
 			if (fieldEndColumn > endColumn) {
 				endColumn = fieldEndColumn;
@@ -163,20 +162,32 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		ScreenSize screenSize = entityDefinition.getScreenSize();
 		int topMarginPercentage = (100 * (firstFieldPosition.getRow() - 1)) / screenSize.getRows();
-		int topLeftColumn = calculateLabelColumn(firstField) + defaultLeftMarginOffset;
+		int topLeftColumn = calculateStartColumn(firstField) + defaultLeftMarginOffset;
 		int leftMarginPercentage = ((100 * topLeftColumn) / screenSize.getColumns()) + defaultTopMarginOffset;
 
 		pagePart.setTopMargin(topMarginPercentage);
 		pagePart.setLeftMargin(leftMarginPercentage);
 	}
 
-	private int calculateLabelColumn(ScreenFieldDefinition field) {
+	/**
+	 * Calculates the most left column of a field, consider the label position
+	 * 
+	 * @param field
+	 * @return
+	 */
+	protected int calculateStartColumn(ScreenFieldDefinition field) {
 		if (field.getLabelPosition() != null) {
 			return field.getLabelPosition().getColumn();
 		} else {
 			int column = field.getPosition().getColumn() - (field.getDisplayName().length() + labelFieldDistance);
 			return column > 0 ? column : 1;
 		}
+	}
+
+	protected int calculateEndColumn(ScreenFieldDefinition screenFieldDefinition) {
+		int fieldEndColumn = screenFieldDefinition.getLength() > 0 ? screenFieldDefinition.getEndPosition().getColumn()
+				: screenFieldDefinition.getPosition().getColumn() + defaultFieldLength;
+		return fieldEndColumn;
 	}
 
 	/**
@@ -239,6 +250,10 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		return underNeighbourByLabel;
 	}
 
+	protected int getLabelFieldDistance() {
+		return labelFieldDistance;
+	}
+
 	public void setLabelFieldDistance(int labelFieldDistance) {
 		this.labelFieldDistance = labelFieldDistance;
 	}
@@ -257,6 +272,18 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	public void setDefaultLeftMarginOffset(int defaultLeftMarginOffset) {
 		this.defaultLeftMarginOffset = defaultLeftMarginOffset;
+	}
+
+	protected int getDefaultLeftMarginOffset() {
+		return defaultLeftMarginOffset;
+	}
+
+	protected int getDefaultFieldLength() {
+		return defaultFieldLength;
+	}
+
+	protected int getDefaultTopMarginOffset() {
+		return defaultTopMarginOffset;
 	}
 
 	public void setDefaultTopMarginOffset(int defaultTopMarginOffset) {

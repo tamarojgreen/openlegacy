@@ -46,6 +46,8 @@
 	    </property>
 	</bean>
 			
+	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder" />
+	
 	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" p:trim="true">
 		<property name="removeChars" value=",:;" />	
 	</bean>

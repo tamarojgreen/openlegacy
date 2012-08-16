@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.openlegacy.recognizers.RecognizersSuite;
+import org.openlegacy.terminal.layout.DefaultBidiScreenPageBuilderTest;
 import org.openlegacy.terminal.layout.DefaultScreenPageBuilderTest;
 import org.openlegacy.terminal.mock_session.MockStateMachineTerminalConnectionTest;
 import org.openlegacy.terminal.modules.login.DefaultLoginModuleFailedTest;
@@ -30,8 +31,8 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 		DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, MockTerminalSessionTest.class,
 		ScreenEntityTablesBinderTest.class, DateFieldsBinderTest.class, BooleanFieldsBinderTest.class,
 		DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
-		MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class, DefaultScreenRecordsProviderTest.class,
-		TerminalSnapshotImageRendererTest.class })
+		MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class, DefaultBidiScreenPageBuilderTest.class,
+		DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class })
 public class OpenLegacyRuntimeSuite {
 
 }
