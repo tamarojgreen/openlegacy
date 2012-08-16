@@ -16,7 +16,7 @@ when
 	not FieldAssignDefinition(value != null) from $childNavigationDefinition.getAssignedFields()
 	   
 	// which is accessed from a parent screen entity which is not a window or menu
-	$parentScreenDefinition: ScreenEntityDesigntimeDefinition(entityName == $childNavigationDefinition.getAccessedFromEntityName(),window == false, typeName != "MenuEntity", typeName != "RecordSelectionEntity")
+	$parentScreenDefinition: ScreenEntityDesigntimeDefinition(entityName == $childNavigationDefinition.accessedFromEntityDefinition.entityName,window == false, typeName != "MenuEntity", typeName != "RecordSelectionEntity")
 
 then
 	screenEntityDefinitionsBuilder.processFact($parentScreenDefinition, new ChildScreenFact($childScreenDefinition));

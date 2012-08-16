@@ -10,17 +10,18 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.analyzer.modules.navigation;
 
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
 
 public class ScreenNavigationDesignTimeDefinition extends SimpleScreenNavigationDefinition {
 
-	private String accessedFromEntityName;
+	private ScreenEntityDefinition accessedFromEntityDefinition;
 
-	public void setAccessedFromEntityName(String accessedFromEntityName) {
-		this.accessedFromEntityName = accessedFromEntityName;
+	public void setAccessedFromEntityDefinition(ScreenEntityDefinition accessedFromEntityDefinition) {
+		this.accessedFromEntityDefinition = accessedFromEntityDefinition;
 	}
 
-	public String getAccessedFromEntityName() {
-		return accessedFromEntityName;
+	public ScreenEntityDefinition getAccessedFromEntityDefinition() {
+		return accessedFromEntityDefinition;
 	}
 }

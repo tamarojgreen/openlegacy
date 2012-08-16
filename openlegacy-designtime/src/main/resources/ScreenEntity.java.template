@@ -28,7 +28,7 @@ import ${referredClass};
 				})
 </#if>
 <#if navigationDefinition??>
-@ScreenNavigation(accessedFrom = ${navigationDefinition.accessedFromEntityName}.class 
+@ScreenNavigation(accessedFrom = ${navigationDefinition.accessedFromEntityDefinition.entityName}.class 
 					<#if navigationDefinition.terminalAction??>
 					, terminalAction=TerminalActions.${navigationDefinition.terminalAction.terminalAction.simpleName}.class <#if navigationDefinition.terminalAction.additionalKey??>, additionalKey=AdditionalKey.${navigationDefinition.terminalAction.additionalKey}</#if>
 					</#if>
@@ -87,7 +87,7 @@ public class ${entityName} {
 	@ScreenBooleanField(trueValue="${field.fieldTypeDefinition.trueValue}",falseValue="${field.fieldTypeDefinition.falseValue}")
 		     <#break>
 		  <#case "autocomplete">
-	@ScreenFieldValues(sourceScreenEntity=${field.fieldTypeDefinition.sourceEntityClassName}.class,collectAll=false)
+	@ScreenFieldValues(sourceScreenEntity=${field.fieldTypeDefinition.sourceEntityDefinition.entityName}.class,collectAll=false)
 		     <#break>
 		  <#case "date">
 	@ScreenDateField(dayColumn=${field.fieldTypeDefinition.dayColumn}, monthColumn=${field.fieldTypeDefinition.monthColumn}, yearColumn=${field.fieldTypeDefinition.yearColumn})

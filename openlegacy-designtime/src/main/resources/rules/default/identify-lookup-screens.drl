@@ -13,7 +13,7 @@ when
 	$lookupWindowScreenDefinition: ScreenEntityDesigntimeDefinition(this != $screenEntityDefinition,window == true, tableDefinitions.size == 1)
 
 	// which is accessed from the source screen entity	
-	$navigationDefinition: ScreenNavigationDesignTimeDefinition(accessedFromEntityName == $screenEntityDefinition.entityName) from $lookupWindowScreenDefinition.getNavigationDefinition()
+	$navigationDefinition: ScreenNavigationDesignTimeDefinition(accessedFromEntityDefinition.entityName == $screenEntityDefinition.entityName) from $lookupWindowScreenDefinition.getNavigationDefinition()
 	$relevantField: FieldAssignDefinition() from $navigationDefinition.getAssignedFields()   
 
 then

@@ -50,10 +50,10 @@ public class ScreenAnnotationsParserUtils {
 
 	public static void loadFieldValues(AnnotationExpr annotationExpr, Field field) {
 		String sourceScreenClassValue = getAnnotationValue(annotationExpr, AnnotationConstants.SOURCE_SCREEN_ENTITY);
-		String sourceScreenClass = StringUtil.toClassName(sourceScreenClassValue);
+		String sourceEntityClassName = StringUtil.toClassName(sourceScreenClassValue);
 
 		SimpleAutoCompleteFieldTypeDefinition fieldDefinition = new SimpleAutoCompleteFieldTypeDefinition();
-		fieldDefinition.setSourceScreenEntityClassName(sourceScreenClass);
+		fieldDefinition.setSourceEntityClassName(sourceEntityClassName);
 		field.setFieldTypeDefinition(fieldDefinition);
 		// used for aspectj code generation
 		field.setHasValues(true);

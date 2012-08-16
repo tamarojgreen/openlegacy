@@ -257,7 +257,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		Assert.assertEquals(1, windowTableScreen.getTableDefinitions().size());
 		ScreenNavigationDesignTimeDefinition navigationDefinition = (ScreenNavigationDesignTimeDefinition)windowTableScreen.getNavigationDefinition();
 		Assert.assertNotNull(navigationDefinition);
-		Assert.assertNotNull(navigationDefinition.getAccessedFromEntityName());
+		Assert.assertNotNull(navigationDefinition.getAccessedFromEntityDefinition());
 		// verify the target screen saved cursor field
 		Assert.assertEquals(1, navigationDefinition.getAssignedFields().size());
 
@@ -265,7 +265,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		SimpleScreenFieldDefinition fieldAdefinition = (SimpleScreenFieldDefinition)simpleScreenDefinition.getFieldsDefinitions().get(
 				"fieldA");
 		AutoCompleteFieldTypeDefinition fieldTypeDefinition = (AutoCompleteFieldTypeDefinition)fieldAdefinition.getFieldTypeDefinition();
-		Assert.assertEquals(windowTableScreen.getEntityName(), fieldTypeDefinition.getSourceEntityClassName());
+		Assert.assertEquals(windowTableScreen, fieldTypeDefinition.getSourceEntityDefinition());
 		assertScreenContent(simpleScreenDefinition, "SimpleScreenValues.java.expected");
 	}
 

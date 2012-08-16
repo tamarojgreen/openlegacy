@@ -479,7 +479,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	public void initialize(File projectPath) {
 		// initialize application context & analyzer
-		projectsDesigntimeAplicationContexts.remove(projectPath.getAbsolutePath());
+		if (projectPath != null) {
+			projectsDesigntimeAplicationContexts.remove(projectPath.getAbsolutePath());
+		}
+		// init the analyzer rules
 		getOrCreateApplicationContext(projectPath).getBean(SnapshotsAnalyzer.class);
 	}
 

@@ -12,8 +12,6 @@ package org.openlegacy.ide.eclipse.actions;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -21,11 +19,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.components.SnapshotComposite;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 
 import java.text.MessageFormat;
 
@@ -70,14 +68,13 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getSnapshot());
 
-		entityNameTxt.addModifyListener(new ModifyListener() {
-
-			public void modifyText(ModifyEvent paramModifyEvent) {
-				((SimpleScreenEntityDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
-			}
-		});
-
 		new Label(parent, SWT.NONE);
 		return parent;
+	}
+
+	@Override
+	protected void okPressed() {
+		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
+		super.okPressed();
 	}
 }

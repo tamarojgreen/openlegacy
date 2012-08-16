@@ -13,6 +13,7 @@ package org.openlegacy.definitions;
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 /**
  * Defines an auto complete field type registry information. An auto complete definition contains definition for auto complete
@@ -35,5 +36,12 @@ public interface AutoCompleteFieldTypeDefinition extends FieldTypeDefinition {
 	 * @return source entity class name
 	 */
 	String getSourceEntityClassName();
+
+	/**
+	 * Used for design-time purposes
+	 * 
+	 * @return
+	 */
+	ScreenEntityDefinition getSourceEntityDefinition();
 
 }

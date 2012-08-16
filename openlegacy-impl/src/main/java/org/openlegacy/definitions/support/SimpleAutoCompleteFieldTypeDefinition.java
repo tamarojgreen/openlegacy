@@ -13,12 +13,14 @@ package org.openlegacy.definitions.support;
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldTypeDefinition {
 
 	private RecordsProvider<? extends Session, Object> recordsProvider;
 	private Class<?> sourceEntityClass;
 	private boolean collectAll;
+	private ScreenEntityDefinition sourceEntityDefinition;
 	private String sourceEntityClassName;
 
 	public void setRecordsProvider(RecordsProvider<? extends Session, Object> recordsProvider) {
@@ -34,17 +36,14 @@ public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldT
 		return sourceEntityClass;
 	}
 
-	public void setSourceScreenEntityClass(Class<?> sourceScreenEntityClass) {
-		this.sourceEntityClass = sourceScreenEntityClass;
-	}
-
 	/**
 	 * Required for design-time where class doesn't exists yet
 	 * 
-	 * @param sourceScreenEntityClassName
+	 * @param sourceEntityClassName
 	 */
-	public void setSourceScreenEntityClassName(String sourceScreenEntityClassName) {
-		this.sourceEntityClassName = sourceScreenEntityClassName;
+
+	public void setSourceEntityClass(Class<?> sourceEntityClass) {
+		this.sourceEntityClass = sourceEntityClass;
 	}
 
 	/**
@@ -52,11 +51,13 @@ public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldT
 	 * 
 	 * @return
 	 */
-	public String getSourceEntityClassName() {
-		if (sourceEntityClass != null) {
-			return sourceEntityClass.getSimpleName();
-		}
-		return sourceEntityClassName;
+
+	public ScreenEntityDefinition getSourceEntityDefinition() {
+		return sourceEntityDefinition;
+	}
+
+	public void setSourceEntityDefinition(ScreenEntityDefinition sourceEntityDefinition) {
+		this.sourceEntityDefinition = sourceEntityDefinition;
 	}
 
 	public boolean isCollectAll() {
@@ -71,4 +72,11 @@ public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldT
 		return "autocomplete";
 	}
 
+	public void setSourceEntityClassName(String sourceEntityClassName) {
+		this.sourceEntityClassName = sourceEntityClassName;
+	}
+
+	public String getSourceEntityClassName() {
+		return sourceEntityClassName;
+	}
 }

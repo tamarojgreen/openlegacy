@@ -35,7 +35,8 @@ public class FieldValuesFactProcessor implements ScreenFactProcessor {
 		lookupWindowScreenDefinition.setType(LookupEntity.class);
 		lookupWindowScreenDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(LookupEntity.class));
 		// link the field type to the lookup screen class
-		fieldTypeDefinition.setSourceScreenEntityClassName(lookupWindowScreenDefinition.getEntityName());
+		fieldTypeDefinition.setSourceEntityDefinition(lookupWindowScreenDefinition);
+
 		fieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);
 
 	}

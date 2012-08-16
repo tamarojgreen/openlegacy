@@ -45,6 +45,8 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 
 	void setAccessedFromSnapshot(TerminalSnapshot accessedFromSnapshot);
 
+	ScreenEntityDefinition getAccessedFromScreenDefinition();
+
 	void setAccessedFromScreenDefinition(ScreenEntityDefinition screenEntityDefinition);
 
 }

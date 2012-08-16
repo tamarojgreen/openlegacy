@@ -80,7 +80,7 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 
 		SimpleAutoCompleteFieldTypeDefinition fieldTypeDefinition = new SimpleAutoCompleteFieldTypeDefinition();
 		fieldTypeDefinition.setRecordsProvider(screenRecordsProvider);
-		fieldTypeDefinition.setSourceScreenEntityClass(fieldValuesAnnotation.sourceScreenEntity());
+		fieldTypeDefinition.setSourceEntityClass(fieldValuesAnnotation.sourceScreenEntity());
 		fieldTypeDefinition.setCollectAllRecords(fieldValuesAnnotation.collectAll());
 
 		fieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);

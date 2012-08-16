@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.analyzer.modules.table;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
@@ -155,7 +154,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 		columnDefinition.setStartColumn(firstCellField.getPosition().getColumn());
 		columnDefinition.setEndColumn(columnDefinition.getStartColumn() + firstCellField.getLength() - 1);
 		columnDefinition.setDisplayName(StringUtil.toDisplayName(columnName));
-		columnDefinition.setSampleValue(StringUtils.trim(firstCellField.getValue()));
+		columnDefinition.setSampleValue(StringUtil.toSampleValue(firstCellField.getValue()));
 		columnDefinition.setEditable(firstCellField.isEditable());
 		columnDefinition.setJavaType(firstCellField.getType());
 

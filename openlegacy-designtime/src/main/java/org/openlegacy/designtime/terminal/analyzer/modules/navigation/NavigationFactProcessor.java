@@ -74,7 +74,7 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 		ScreenNavigationDesignTimeDefinition navigationDefinition = new ScreenNavigationDesignTimeDefinition();
 		screenEntityDefinition.setNavigationDefinition(navigationDefinition);
 
-		navigationDefinition.setAccessedFromEntityName(accessedFromScreenEntityDefinition.getEntityName());
+		navigationDefinition.setAccessedFromEntityDefinition(accessedFromScreenEntityDefinition);
 
 		TerminalAction action = terminalActionMapper.getAction(navigationFact.getAccessedFromSnapshot().getCommand());
 		if (action instanceof CombinedTerminalAction) {

@@ -122,6 +122,10 @@ public class StringUtil {
 			variableName = variableName + "_";
 		}
 
+		if (!StringUtils.isEmpty(variableName) && variableName.charAt(0) >= '0' && variableName.charAt(0) <= '9') {
+			variableName = "_" + variableName;
+		}
+
 		return variableName;
 
 	}
@@ -156,6 +160,7 @@ public class StringUtil {
 	}
 
 	public static String toSampleValue(String value) {
+		value = value.replace('\"', '\'');
 		return StringUtils.trim(value);
 	}
 

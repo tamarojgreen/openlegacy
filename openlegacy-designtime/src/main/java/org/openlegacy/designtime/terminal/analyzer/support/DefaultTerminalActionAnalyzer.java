@@ -14,6 +14,7 @@ import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.terminal.analyzer.TerminalActionAnalyzer;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
@@ -26,9 +27,14 @@ import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 
+import javax.inject.Inject;
+
 public class DefaultTerminalActionAnalyzer implements TerminalActionAnalyzer {
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalActionAnalyzer.class);
+
+	@Inject
+	private TextTranslator textTranslator;
 
 	@SuppressWarnings("unchecked")
 	public TerminalActionDefinition toTerminalActionDefinition(String action, String caption, TerminalPosition position) {
@@ -61,6 +67,8 @@ public class DefaultTerminalActionAnalyzer implements TerminalActionAnalyzer {
 			TerminalAction actionInstance = ReflectionUtil.newInstance(actionClass);
 			SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionInstance, additionalKey,
 					caption, position);
+
+			caption = textTranslator.translate(caption);
 			actionDefinition.setAlias(StringUtil.toJavaMethodName(caption));
 
 			return actionDefinition;

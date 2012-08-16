@@ -83,7 +83,8 @@ public class ScreenEntityDefinitionsBuilderUtils {
 			return null;
 		}
 
-		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), field.getValue());
+		String fieldValue = field.getVisualValue() != null ? field.getVisualValue() : field.getValue();
+		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), fieldValue);
 		return identifier;
 	}
 
@@ -128,9 +129,9 @@ public class ScreenEntityDefinitionsBuilderUtils {
 				return screenFieldDefinition;
 			}
 		}
-		label = textTranslator.translate(label);
+		String translatedLabel = textTranslator.translate(label);
 
-		String fieldName = StringUtil.toJavaFieldName(label);
+		String fieldName = StringUtil.toJavaFieldName(translatedLabel);
 		if (StringUtil.isEmpty(fieldName)) {
 			fieldName = FIELD;
 		}
