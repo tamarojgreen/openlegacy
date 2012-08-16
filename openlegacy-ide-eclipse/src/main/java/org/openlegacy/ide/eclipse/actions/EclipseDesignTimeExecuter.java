@@ -121,6 +121,7 @@ public class EclipseDesignTimeExecuter {
 				DesignTimeExecuterImpl.TEMPLATES_DIR);
 
 		GeneratePageRequest generatePageRequest = new GeneratePageRequest();
+		generatePageRequest.setProjectDir(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()));
 		generatePageRequest.setScreenEntitySourceFile(PathsUtil.toOsLocation(screenEntitySourceFile));
 		generatePageRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
 		generatePageRequest.setPackageDirectoryName(PathsUtil.packageToPath(packageDir));
