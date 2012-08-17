@@ -47,6 +47,11 @@
         <field value="/" column="28" />
         <field value="11" editable="true" length="2" column="30" />
     </row>
+    <row rowNumber="11">
+        <field value="Enum field:" column="3" />
+        <field value="" editable="true" length="2" column="20" />
+        <field value="1=One 2=Two 3=Three  " column="24" />
+    </row>
     <row rowNumber="24">
         <field value="F1=Help" column="3" />
         <field value="F2=Save data" column="12" />

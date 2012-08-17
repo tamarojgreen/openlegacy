@@ -24,6 +24,29 @@ public class ItemDetails1 {
 	@ScreenField(row = 20, column = 33, editable = true)
 	private Boolean palletLabelRequired;
 
+	@ScreenField(row = 18, column = 33, editable = true)
+	private OuterUnitOfMeasureValues outerUnitOfMeasure;
+
 	private ItemDetails2 itemDetails2;
 
+	public enum OuterUnitOfMeasureValues {
+		Kilogram("kg", "kilogram"),
+		Ton("tn", "ton");
+
+		private String value;
+		private String display;
+
+		OuterUnitOfMeasureValues(String value, String display) {
+			this.value = value;
+			this.display = display;
+		}
+
+		public String getDisplay() {
+			return display;
+		}
+
+		public String getValue() {
+			return value;
+		}
+	}
 }

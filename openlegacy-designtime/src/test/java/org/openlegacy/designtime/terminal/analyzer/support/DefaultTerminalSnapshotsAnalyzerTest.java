@@ -57,7 +57,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		ScreenEntityDefinition screen2 = screenEntitiesDefinitions.get("FormScreen");
 		Assert.assertNotNull(screen2);
 		fieldsDefinitions = screen2.getFieldsDefinitions();
-		Assert.assertEquals(11, fieldsDefinitions.size());
+		Assert.assertEquals(12, fieldsDefinitions.size());
 		fieldA = fieldsDefinitions.get("fieldA");
 		Assert.assertNotNull(fieldA);
 

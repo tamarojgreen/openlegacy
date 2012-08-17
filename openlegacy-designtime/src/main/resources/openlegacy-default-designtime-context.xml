@@ -257,6 +257,23 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default/identify-enum.drl" p:ruleId="identify-enum" p:enabled="true">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="enumRegex" value="([\w]{1,2}[=-]+[a-zA-Z ]+)+" />
+										<entry key="entrySeperators" value=", " />
+										<entry key="pairSeperators" value="=-" />
+										<entry key="maxLength" value="3" />
+										<entry key="maxDistance" value="5" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 				<bean parent="ruleDefinition" p:droolsFile="rules/default/identify-navigation.drl" p:ruleId="identify-navigation" p:enabled="true" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/default/identify-child-screens.drl" p:ruleId="identify-child-screens" p:enabled="true" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/default/identify-lookup-screens.drl" p:ruleId="identify-lookup-screens"  p:enabled="true" />

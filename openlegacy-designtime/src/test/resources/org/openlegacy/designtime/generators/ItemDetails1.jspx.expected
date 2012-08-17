@@ -7,6 +7,9 @@
 			</ol:pagePart>
 			
 		
+			<ol:field name="outerUnitOfMeasure" top="70%" left="11%" width="42%" />
+			
+		
 			<ol:field name="palletLabelRequired" top="79%" left="11%" width="42%" />
 			
 		
