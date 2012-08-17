@@ -92,6 +92,15 @@
 						test="${type == 'password'}">
 						<form:input type="password" id="${name}" size="${size}" maxlength="${size}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
+					<c:when test="${type == 'enum'}">
+						<script>dojo.require("dijit.form.FilteringSelect");</script>
+						<span class="fieldPlaceholder" />
+						<form:select id="${name}"
+							data-dojo-type="dijit.form.FilteringSelect" path="${name}" cssStyle="${style}" cssClass="${cssClass}">
+							<form:option value="" label="--- Select ---"/>
+							<form:options items="${fieldDefinition.fieldTypeDefinition.displayValues}" />
+						</form:select>
+						</c:when>
 					<c:otherwise>
 						<form:input type="text" id="${name}" size="${size}" maxlength="${size}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:otherwise>

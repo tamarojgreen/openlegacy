@@ -11,6 +11,7 @@
 package org.openlegacy.utils;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -61,5 +62,13 @@ public class ReflectionUtil {
 			// do nothing
 		}
 		return null;
+	}
+
+	public static Object invoke(Object object, String methodName, Object... args) {
+		try {
+			return object.getClass().getMethod(methodName).invoke(object, args);
+		} catch (Exception e) {
+			throw (new OpenLegacyRuntimeException(e));
+		}
 	}
 }

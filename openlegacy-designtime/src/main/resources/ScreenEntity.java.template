@@ -79,6 +79,33 @@ public class ${entityName} {
 	}    
 	</#list>	
  
+	<#list sortedFields as field>
+		<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName = "enum">
+	public enum ${field.name?cap_first} {
+		<#assign enumMap = field.fieldTypeDefinition.enums>
+		<#assign enumKeys = enumMap?keys>
+		<#list enumKeys as enumKey>
+			${enumKey?cap_first}("${enumMap[enumKey].value}","${enumMap[enumKey].display}")<#if enumKey_has_next>,</#if>
+		</#list>
+		
+		private String value;
+		private String display;
+
+		${field.name?cap_first}(String value, String display) {
+			this.value = value;
+			this.display = display;
+		}
+		
+		public String getDisplay() {
+			return display;
+		}
+
+		public String getValue() {
+			return value;
+		}
+	}
+		</#if>
+	</#list>	
 }
 <#macro fieldTypes field>
 	<#if field.fieldTypeDefinition??>

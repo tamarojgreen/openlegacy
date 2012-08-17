@@ -1,6 +1,7 @@
 package org.openlegacy.terminal;
 
 import apps.inventory.screens.ItemDetails1;
+import apps.inventory.screens.ItemDetails1.OuterUnitOfMeasure;
 import apps.inventory.screens.ItemDetails2;
 import apps.inventory.screens.ItemsList;
 import apps.inventory.screens.SignOn;
@@ -8,7 +9,9 @@ import apps.inventory.screens.SignOn;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.DisplayItem;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
+import org.openlegacy.definitions.EnumFieldTypeDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
@@ -72,6 +75,18 @@ public class RegistryTest {
 		BooleanFieldTypeDefinition booleanFieldTypeDefinition = (BooleanFieldTypeDefinition)screenFieldDefinition.getFieldTypeDefinition();
 		Assert.assertEquals("Y", booleanFieldTypeDefinition.getTrueValue());
 		Assert.assertEquals("N", booleanFieldTypeDefinition.getFalseValue());
+
+		screenFieldDefinition = screenDefinition.getFieldsDefinitions().get("outerUnitOfMeasure");
+		Assert.assertNotNull(screenFieldDefinition);
+		fieldTypeDefinition = screenFieldDefinition.getFieldTypeDefinition();
+		Assert.assertNotNull(fieldTypeDefinition);
+		Assert.assertTrue(EnumFieldTypeDefinition.class.isAssignableFrom(fieldTypeDefinition.getClass()));
+		EnumFieldTypeDefinition enumFieldTypeDefinition = (EnumFieldTypeDefinition)screenFieldDefinition.getFieldTypeDefinition();
+		Assert.assertEquals(2, enumFieldTypeDefinition.getEnums().size());
+		DisplayItem displayItem = enumFieldTypeDefinition.getEnums().get("kg");
+		Assert.assertEquals(OuterUnitOfMeasure.Kilogram, displayItem.getValue());
+		Assert.assertEquals("kilogram", displayItem.getDisplay());
+
 	}
 
 	@Test

@@ -1,0 +1,33 @@
+package openlegacy;
+
+import org.openlegacy.designtime.terminal.analyzer.support.fact_processors.EnumFieldFact;
+
+rule "identify-enum"
+ruleflow-group "identify-field-types"
+when
+	$ruleParameterSet   : RuleParametersSet(ruleId == "identify-enum")
+	$enumRegex		: String()  from (String)$ruleParameterSet.getRuleParameters().get("enumRegex");
+	$maxLength		: Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("maxLength");
+	$maxDistance	: Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("maxDistance");
+	
+	$entrySeperators: String()  from (String)$ruleParameterSet.getRuleParameters().get("entrySeperators");
+	$pairSeperators : String()  from (String)$ruleParameterSet.getRuleParameters().get("pairSeperators");
+
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// which has a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+
+	// there is an editable field
+	$editableField: ScreenFieldDefinition(editable == true, length <= $maxLength) from $screenEntityDefinition.getSortedFields() 
+
+	$enumField: TerminalField(
+				  editable == false,
+				  position.row == $editableField.position.row,
+				  position.column > $editableField.position.column,
+				  position.column <= $editableField.position.column + $maxDistance,
+				  value matches $enumRegex) from $snapshot.getFields()
+then
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new EnumFieldFact($editableField,$enumField.getValue(),$entrySeperators,$pairSeperators));
+end

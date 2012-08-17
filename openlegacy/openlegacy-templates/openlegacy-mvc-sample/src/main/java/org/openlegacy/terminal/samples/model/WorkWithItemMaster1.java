@@ -44,7 +44,7 @@ public class WorkWithItemMaster1 {
 	private String manufacturersItemNo;
 
 	@ScreenField(row = 15, column = 33, endColumn = 35, labelColumn = 2, editable = true, displayName = "Stock Group", sampleValue = "SG")
-	private String stockGroup;
+	private StockGroup stockGroup;
 
 	@ScreenField(row = 13, column = 33, endColumn = 47, labelColumn = 2, editable = true, displayName = "Item weight")
 	private Integer itemWeight;
@@ -55,4 +55,24 @@ public class WorkWithItemMaster1 {
 
 	private WorkWithItemMaster2 workWithItemMaster2;
 
+	public enum StockGroup {
+		StandardStockGroup("SG", "Standard Stock Group"),
+		CustomStockGroup("CG", "Custom Stock Group");
+
+		private String value;
+		private String display;
+
+		StockGroup(String value, String display) {
+			this.value = value;
+			this.display = display;
+		}
+
+		public String getDisplay() {
+			return display;
+		}
+
+		public String getValue() {
+			return value;
+		}
+	}
 }

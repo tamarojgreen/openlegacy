@@ -32,6 +32,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private boolean password;
 	private TerminalField terminalField;
 	private TerminalField terminalLabelfield;
+	// Used for design-time to set a class name which doesn't exists during generation
+	private String javaTypeName;
 
 	public SimpleScreenFieldDefinition(String name, Class<? extends FieldType> fieldType) {
 		super(name, fieldType);
@@ -90,11 +92,21 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	}
 
 	public String getJavaTypeName() {
+		if (javaTypeName != null) {
+			return javaTypeName;
+		}
 		return javaType.getSimpleName();
 	}
 
 	public void setJavaType(Class<?> javaType) {
 		this.javaType = javaType;
+	}
+
+	/*
+	 * Used for design-time to set a class name which doesn't exists during generation
+	 */
+	public void setJavaTypeName(String javaTypeName) {
+		this.javaTypeName = javaTypeName;
 	}
 
 	public TerminalPosition getLabelPosition() {

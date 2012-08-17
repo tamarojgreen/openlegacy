@@ -30,4 +30,8 @@ public class SimpleDisplayItem implements DisplayItem {
 		return display;
 	}
 
+	@Override
+	public String toString() {
+		return display.toString();
+	}
 }

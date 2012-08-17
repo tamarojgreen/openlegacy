@@ -95,11 +95,11 @@ privileged @SuppressWarnings("unused") aspect WorkWithItemMaster1_Aspect {
 
 
 
-    public String WorkWithItemMaster1.getStockGroup(){
+    public StockGroup WorkWithItemMaster1.getStockGroup(){
     	return this.stockGroup;
     }
     
-    public void WorkWithItemMaster1.setStockGroup(String stockGroup){
+    public void WorkWithItemMaster1.setStockGroup(StockGroup stockGroup){
     	this.stockGroup = stockGroup;
     }
 

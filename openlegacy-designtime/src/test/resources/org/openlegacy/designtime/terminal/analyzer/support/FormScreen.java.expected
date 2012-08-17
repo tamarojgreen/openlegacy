@@ -52,9 +52,33 @@ public class FormScreen {
 	@ScreenDateField(dayColumn=20, monthColumn=25, yearColumn=30)
 	@ScreenField(row = 10, column = 20, endColumn= 30 ,labelColumn= 3 ,editable= true ,displayName = "Date field", sampleValue = "09")
     private Date dateField;
+	
+	@ScreenField(row = 11, column = 20, endColumn= 21 ,labelColumn= 3 ,editable= true ,displayName = "Enum field")
+    private EnumField enumField;
 
     
 
 
  
+	public enum EnumField {
+			One("1","One"),
+			Three("3","Three"),
+			Two("2","Two")
+		
+		private String value;
+		private String display;
+
+		EnumField(String value, String display) {
+			this.value = value;
+			this.display = display;
+		}
+		
+		public String getDisplay() {
+			return display;
+		}
+
+		public String getValue() {
+			return value;
+		}
+	}
 }

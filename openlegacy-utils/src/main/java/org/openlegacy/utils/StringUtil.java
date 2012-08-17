@@ -82,7 +82,7 @@ public class StringUtil {
 		return toVariableName(text, true);
 	}
 
-	private static String toVariableName(String text, boolean capFirst) {
+	public static String toVariableName(String text, boolean capFirst) {
 
 		String variableName = null;
 

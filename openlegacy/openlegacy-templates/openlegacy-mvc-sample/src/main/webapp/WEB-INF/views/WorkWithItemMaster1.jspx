@@ -19,15 +19,7 @@
 				<ol:field name="supercedingItemto"/>
 				<ol:field name="substituteItemNumber" />
 				<ol:field name="itemWeight" />
-				<div class="field_row">
-					<label class="label">Stock Group: </label> <select name="itemClass"
-						value="${workWithItemMaster1.stockGroup}"
-						data-dojo-type="dijit.form.FilteringSelect">
-						<option value="">-Select-</option>
-						<option value="SG">Standard Stock Group</option>
-						<option value="CG">Custom Stock Group</option>
-					</select>
-				</div>
+				<ol:field name="stockGroup" />
 			</div>
 		</div>
 		<ol:panel title="Advanced">
