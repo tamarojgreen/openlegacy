@@ -41,12 +41,13 @@ public class ItemDetails1 {
 			this.display = display;
 		}
 
-		public String getDisplay() {
-			return display;
-		}
-
 		public String getValue() {
 			return value;
+		}
+
+		@Override
+		public String toString() {
+			return display;
 		}
 	}
 }

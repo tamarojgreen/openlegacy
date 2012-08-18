@@ -12,6 +12,7 @@ package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.support.SimpleDisplayItem;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -44,9 +45,14 @@ public class ScreenEnumFieldsLoader implements FieldLoader {
 		fieldDefinition.setFieldTypeDefinition(enumFieldTypeDefinition);
 		Object[] enumValues = field.getType().getEnumConstants();
 		for (Object enumValue : enumValues) {
-			// getValue & getDisplay are generated method for OpenLegacy enum's
-			String value = (String)ReflectionUtil.invoke(enumValue, "getValue");
-			String display = (String)ReflectionUtil.invoke(enumValue, "getDisplay");
+			// getValue & toString() are generated method for OpenLegacy enum's
+			String value = null;
+			try {
+				value = (String)ReflectionUtil.invoke(enumValue, "getValue");
+			} catch (Exception e) {
+				throw (new RegistryException("Enum fields should contains a getValue() method that represent the host values", e));
+			}
+			String display = enumValue.toString();
 
 			enumFieldTypeDefinition.setEnumClass((Class<? extends Enum<?>>)field.getType());
 			// use the key for display item the enum value. Binding is done to the pojo. (Spring MVC binds it this way as well).
