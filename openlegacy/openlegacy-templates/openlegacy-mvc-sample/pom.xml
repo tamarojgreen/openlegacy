@@ -158,6 +158,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-night</artifactId>
+			<version>1.0.0-RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-cloud</artifactId>
 			<version>1.0.0-RELEASE</version>
 		</dependency>

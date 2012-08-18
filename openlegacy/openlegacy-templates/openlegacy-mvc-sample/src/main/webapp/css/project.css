@@ -1,0 +1,9 @@
+#logo_header a {
+	background-image: url(../images/logo.png);
+	width: 387px;
+}
+
+.night #logo h1 a, .cloud #logo h1 a {
+	background-image: url(../images/logo_large.png);
+
+}

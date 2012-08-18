@@ -4,7 +4,7 @@
 	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
-	<h1>
+	<h1 id="logo_header">
 		<a href="">OpenLegacy Toys</a>
 	</h1>
 	<div class="topmenu_wrap">

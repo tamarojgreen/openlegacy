@@ -25,6 +25,9 @@ public class InsertMessagesInterceptor extends AbstractInterceptor {
 
 	@Override
 	protected void insertModelData(ModelAndView modelAndView) {
+		if (!getTerminalSession().isConnected()) {
+			return;
+		}
 		Messages messagesModule = getTerminalSession().getModule(Messages.class);
 		if (messagesModule == null) {
 			return;

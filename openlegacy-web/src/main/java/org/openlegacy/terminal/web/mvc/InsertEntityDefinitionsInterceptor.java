@@ -42,6 +42,9 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 
 	@Override
 	protected void insertModelData(ModelAndView modelAndView) {
+		if (!getTerminalSession().isConnected()) {
+			return;
+		}
 		TerminalSession terminalSession = getTerminalSession();
 		ScreenEntity entity = terminalSession.getEntity();
 

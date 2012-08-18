@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.web.mvc;
 
 import org.openlegacy.modules.login.Login;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -22,12 +23,22 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class InsertGlobalsInterceptor extends AbstractInterceptor {
 
+	@Value("${defaultTheme}")
+	private String defaultTheme;
+
 	@Override
 	protected void insertModelData(ModelAndView modelAndView) {
+
+		modelAndView.addObject("ol_version", getClass().getPackage().getImplementationVersion());
+		modelAndView.addObject("theme", defaultTheme);
+
+		if (!getTerminalSession().isConnected()) {
+			return;
+		}
+
 		Login loginModule = getTerminalSession().getModule(Login.class);
 		if (loginModule.isLoggedIn()) {
 			modelAndView.addObject("loggedInUser", loginModule.getLoggedInUser());
 		}
-
 	}
 }
