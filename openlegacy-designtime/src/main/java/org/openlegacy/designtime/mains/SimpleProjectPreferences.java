@@ -19,12 +19,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class SimpleProjectPerferences implements ProjectPerferences {
+public class SimpleProjectPreferences implements ProjectPreferences {
 
 	private Properties properties;
 	private File file;
 
-	public SimpleProjectPerferences(File file) {
+	public SimpleProjectPreferences(File file) {
 		this.file = file;
 		properties = new Properties();
 		load(file);

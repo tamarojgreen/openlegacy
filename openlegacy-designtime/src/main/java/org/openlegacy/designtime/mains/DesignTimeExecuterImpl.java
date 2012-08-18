@@ -85,14 +85,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String TEST_SOURCE_DIR = "test/main/java";
 
-	private static final String PERFERENCES_FILE = ".perferences";
+	private static final String PREFERENCES_FILE = ".preferences";
 
 	private ApplicationContext defaultDesigntimeApplicationContext;
 
 	// map of project path to Spring application context
 	private Map<String, ApplicationContext> projectsDesigntimeAplicationContexts = new HashMap<String, ApplicationContext>();
 
-	private Map<File, ProjectPerferences> projectsPerferences = new HashMap<File, ProjectPerferences>();
+	private Map<File, ProjectPreferences> projectsPreferences = new HashMap<File, ProjectPreferences>();
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
 		File targetZip = extractTemplate(projectCreationRequest.getTemplateName(), projectCreationRequest.getBaseDir());
@@ -115,9 +115,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		updateHostPropertiesFile(projectCreationRequest, targetPath);
 
-		savePerference(targetPath, PerfrencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
-		savePerference(targetPath, PerfrencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
-		savePerference(targetPath, PerfrencesConstants.DESIGNTIME_CONTEXT, "default");
+		savePreference(targetPath, PerfrencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
+		savePreference(targetPath, PerfrencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
+		savePreference(targetPath, PerfrencesConstants.DESIGNTIME_CONTEXT, "default");
 		targetZip.delete();
 	}
 
@@ -430,7 +430,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				projectApplicationContext = new FileSystemXmlApplicationContext(designtimeContextFile.getAbsolutePath());
 			} else {
 				String embeddedDesigntimeContextFile = getEmbeddedDesigntimeContextFile(projectPath);
-				String designtimeContextType = getPerferences(projectPath).get(PerfrencesConstants.DESIGNTIME_CONTEXT);
+				String designtimeContextType = getPreferences(projectPath).get(PerfrencesConstants.DESIGNTIME_CONTEXT);
 				// don't re-initialize the default context on project level if exists on root level
 				// (defaultDesigntimeApplicationContext)
 				if (designtimeContextType.equals("default")) {
@@ -532,27 +532,27 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	public String getPerferences(File projectPath, String key) {
-		ProjectPerferences perferences = getPerferences(projectPath);
+	public String getPreferences(File projectPath, String key) {
+		ProjectPreferences perferences = getPreferences(projectPath);
 		return perferences.get(key);
 	}
 
-	public void savePerference(File projectPath, String key, String value) {
-		ProjectPerferences perferences = getPerferences(projectPath);
+	public void savePreference(File projectPath, String key, String value) {
+		ProjectPreferences perferences = getPreferences(projectPath);
 		perferences.put(key, value);
 
 	}
 
-	private ProjectPerferences getPerferences(File projectPath) {
-		ProjectPerferences perferences = projectsPerferences.get(projectPath);
-		if (perferences != null) {
-			return perferences;
+	private ProjectPreferences getPreferences(File projectPath) {
+		ProjectPreferences preferences = projectsPreferences.get(projectPath);
+		if (preferences != null) {
+			return preferences;
 		}
 
-		File prefFile = new File(projectPath, PERFERENCES_FILE);
+		File prefFile = new File(projectPath, PREFERENCES_FILE);
 
-		ProjectPerferences perfernces = new SimpleProjectPerferences(prefFile);
-		projectsPerferences.put(prefFile, perferences);
+		ProjectPreferences perfernces = new SimpleProjectPreferences(prefFile);
+		projectsPreferences.put(prefFile, preferences);
 
 		return perfernces;
 	}
@@ -578,7 +578,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	 * The embedded design-time context file to user by preferences. Currently default/rtl
 	 */
 	private String getEmbeddedDesigntimeContextFile(File projectPath) {
-		String designtimeContextType = getPerferences(projectPath).get(PerfrencesConstants.DESIGNTIME_CONTEXT);
+		String designtimeContextType = getPreferences(projectPath).get(PerfrencesConstants.DESIGNTIME_CONTEXT);
 		designtimeContextType = designtimeContextType != null ? designtimeContextType : "default";
 		return MessageFormat.format("/openlegacy-{0}-designtime-context.xml", designtimeContextType);
 	}

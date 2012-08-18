@@ -142,13 +142,13 @@ public class EclipseDesignTimeExecuter {
 		}
 	}
 
-	public String getPerference(IProject project, String key) {
-		return designTimeExecuter.getPerferences(PathsUtil.toProjectOsLocation(project), key);
+	public String getPreference(IProject project, String key) {
+		return designTimeExecuter.getPreferences(PathsUtil.toProjectOsLocation(project), key);
 
 	}
 
-	public void savePerference(IProject project, String key, String value) {
-		designTimeExecuter.savePerference(PathsUtil.toProjectOsLocation(project), key, value);
+	public void savePreference(IProject project, String key, String value) {
+		designTimeExecuter.savePreference(PathsUtil.toProjectOsLocation(project), key, value);
 	}
 
 	public void copyDesigntimeContext(IProject project) {

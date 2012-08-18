@@ -107,14 +107,14 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
 		IProject project = selectionFile.getResource().getProject();
 
-		String prefrenceSourceFolderPath = designtimeExecuter.getPerference(project, PerfrencesConstants.API_SOURCE_FOLDER);
+		String prefrenceSourceFolderPath = designtimeExecuter.getPreference(project, PerfrencesConstants.API_SOURCE_FOLDER);
 		getSourceFolderPathText().setText(
 				MessageFormat.format("{0}{1}{2}", project.getName(), File.separator, prefrenceSourceFolderPath)); //$NON-NLS-1$
 
 		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(project);
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));
 
-		String prefrencePackage = designtimeExecuter.getPerference(project, PerfrencesConstants.WEB_PACKAGE);
+		String prefrencePackage = designtimeExecuter.getPreference(project, PerfrencesConstants.WEB_PACKAGE);
 		getPackageText().setText(prefrencePackage);
 	}
 
@@ -128,7 +128,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 		IProject project = selectionFile.getResource().getProject();
 		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
 
-		designtimeExecuter.savePerference(project, PerfrencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
-		designtimeExecuter.savePerference(project, PerfrencesConstants.WEB_PACKAGE, getPackageText().getText());
+		designtimeExecuter.savePreference(project, PerfrencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
+		designtimeExecuter.savePreference(project, PerfrencesConstants.WEB_PACKAGE, getPackageText().getText());
 	}
 }

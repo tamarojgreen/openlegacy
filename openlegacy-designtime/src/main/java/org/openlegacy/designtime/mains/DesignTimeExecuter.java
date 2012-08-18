@@ -44,9 +44,9 @@ public interface DesignTimeExecuter {
 
 	void copyCodeGenerationTemplates(File projectPath);
 
-	String getPerferences(File projectPath, String key);
+	String getPreferences(File projectPath, String key);
 
-	void savePerference(File projectPath, String key, String value);
+	void savePreference(File projectPath, String key, String value);
 
 	public void copyDesigntimeContext(File projectPath);
 }

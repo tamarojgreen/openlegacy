@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.mains;
 
-public interface ProjectPerferences {
+public interface ProjectPreferences {
 
 	String get(String key);
 
