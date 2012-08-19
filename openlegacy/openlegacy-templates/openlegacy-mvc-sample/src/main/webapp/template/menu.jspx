@@ -48,4 +48,10 @@
 			</div>
 		</div>
 	</div>
+	<!-- For demo purposes only. Should be removed in real app -->
+	<div class="demo_session">
+		<a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">
+			<img src="${pageContext.request.contextPath}/sessionViewer/image" width="240px" height="130px"/>
+		</a>
+	</div>
 </div>
