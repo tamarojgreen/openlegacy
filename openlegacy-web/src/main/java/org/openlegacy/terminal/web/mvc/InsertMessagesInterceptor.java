@@ -15,6 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Intercepter class for spring MVC. Injects messages into the page context so they can be display within the web page
  * 
@@ -24,7 +27,7 @@ import java.util.List;
 public class InsertMessagesInterceptor extends AbstractInterceptor {
 
 	@Override
-	protected void insertModelData(ModelAndView modelAndView) {
+	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 		if (!getTerminalSession().isConnected()) {
 			return;
 		}

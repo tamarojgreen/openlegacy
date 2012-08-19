@@ -12,7 +12,7 @@
 <head>
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 <title>OpenLegacy Toys</title>
-<link href="${pageContext.request.contextPath}/themes/${theme}/openlegacy.css"
+<link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}.css"
 	rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/css/project.css"
 	rel="stylesheet" type="text/css" />
@@ -22,7 +22,7 @@
 	</style>
 <![endif]-->
 </head>
-<body class="${theme}">
+<body class="${ol_theme}">
 	<div id="wrap">
 		<div id="wrap_in">
 			<tiles:insertAttribute name="body" />

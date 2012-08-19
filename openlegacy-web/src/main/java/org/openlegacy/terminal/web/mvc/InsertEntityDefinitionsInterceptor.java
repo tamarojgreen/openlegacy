@@ -25,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Intercepter class for spring MVC. Injects commonly used beans into the page context so they can be accessed via the web page
@@ -41,7 +43,7 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 	private ScreenEntityUtils screenEntityUtils;
 
 	@Override
-	protected void insertModelData(ModelAndView modelAndView) {
+	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 		if (!getTerminalSession().isConnected()) {
 			return;
 		}

@@ -12,9 +12,7 @@
 <head>
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 <title>OpenLegacy Toys</title>
-<link href="${pageContext.request.contextPath}/themes/${theme}/${theme}.css" rel="stylesheet" type="text/css" />
-<link href="${pageContext.request.contextPath}/themes/${theme}/${theme}2.css" rel="stylesheet" type="text/css" />
-<link href="${pageContext.request.contextPath}/themes/${theme}/openlegacy.css" rel="stylesheet" type="text/css" />
+<link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/css/project.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">var djConfig = {parseOnLoad: true, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/dj/dojo.custom.build.js"><!----></script>
@@ -53,7 +51,7 @@
 
 <![endif]-->
 </head>
-<body class="${theme}">
+<body class="${ol_theme}">
 	<div id="wrap" class="page_container">
 		<div id="wrap_in">
 			<div class="container">

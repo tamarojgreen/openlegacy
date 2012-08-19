@@ -13,6 +13,11 @@ package org.openlegacy.terminal.web.mvc;
 import org.openlegacy.modules.login.Login;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Intercepter class for spring MVC. Injects various globals (login info, etc) into the page context so they can be display within
@@ -26,11 +31,14 @@ public class InsertGlobalsInterceptor extends AbstractInterceptor {
 	@Value("${defaultTheme}")
 	private String defaultTheme;
 
+	private static final String OL_THEME = "ol_theme";
+
 	@Override
-	protected void insertModelData(ModelAndView modelAndView) {
+	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 
 		modelAndView.addObject("ol_version", getClass().getPackage().getImplementationVersion());
-		modelAndView.addObject("theme", defaultTheme);
+
+		handleTheme(modelAndView, request, response);
 
 		if (!getTerminalSession().isConnected()) {
 			return;
@@ -40,5 +48,23 @@ public class InsertGlobalsInterceptor extends AbstractInterceptor {
 		if (loginModule.isLoggedIn()) {
 			modelAndView.addObject("loggedInUser", loginModule.getLoggedInUser());
 		}
+	}
+
+	private void handleTheme(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
+		String theme = defaultTheme;
+		String requestTheme = request.getParameter(OL_THEME);
+
+		if (requestTheme != null) {
+			response.addCookie(new Cookie(OL_THEME, requestTheme));
+			theme = requestTheme;
+		} else {
+			Cookie cookieTheme = WebUtils.getCookie(request, OL_THEME);
+			if (cookieTheme != null) {
+				theme = cookieTheme.getValue();
+			} else {
+				response.addCookie(new Cookie(OL_THEME, theme));
+			}
+		}
+		modelAndView.addObject(OL_THEME, theme);
 	}
 }

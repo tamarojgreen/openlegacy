@@ -272,3 +272,53 @@ function hideLoading(){
 	window.setTimeout(function() {dojo.byId('loadingMessage').style.display='none';},300);
 	
 }
+
+function createMap(address){
+	var lat = '';
+    var lng = '';
+    var title = address;
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+         lat = results[0].geometry.location.lat();
+         lng = results[0].geometry.location.lng();
+      }
+	  else {
+		  lat = 1;
+		  lng = 1;
+		  title = "Unable to present location";
+      }
+
+	   	var myLatlng = new google.maps.LatLng(lat, lng);
+	    var myOptions = {
+	        zoom: 13,
+	        center: myLatlng,
+	        mapTypeId: google.maps.MapTypeId.ROADMAP
+	    }
+	    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+	
+	    var marker = new google.maps.Marker({
+	        position: myLatlng, 
+	        map: map,
+	        title:title
+	    });   
+      
+    });
+	
+}
+
+function changeTheme(themesList){
+	var currentTheme = dojo.cookie("ol_theme");
+	var themes = themesList.split(",");
+	for (var i=0;i<themes.length;i++){
+		if (themes[i] == currentTheme){
+			var newTheme = i < (themes.length-1) ? themes[i+1] : themes[0];
+			var url = location.href;
+			if (url.indexOf("?") > 0){
+				url = location.href.substring(0,url.indexOf("?"));
+			}
+			location.href = url+ "?ol_theme=" + newTheme; 
+		}
+	}
+	
+}

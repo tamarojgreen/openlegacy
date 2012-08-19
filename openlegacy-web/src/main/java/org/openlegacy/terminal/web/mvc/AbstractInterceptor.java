@@ -35,12 +35,12 @@ public abstract class AbstractInterceptor extends HandlerInterceptorAdapter {
 			return;
 		}
 
-		insertModelData(modelAndView);
+		insertModelData(modelAndView, request, response);
 	}
 
 	protected TerminalSession getTerminalSession() {
 		return terminalSession;
 	}
 
-	protected abstract void insertModelData(ModelAndView modelAndView);
+	protected abstract void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response);
 }
