@@ -11,9 +11,11 @@
 	<jsp:directive.attribute name="collapsible" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be collapsible" />
 	<jsp:directive.attribute name="open" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be opened, if defined as collapsible" />
 
-	<div style="margin-left: ${left}; top: ${top}; width: ${width}; height: auto;"
+	<div style="margin-left: ${left}; top: ${top}; width: ${width}; height: auto;" data-dojo-type="dijit.TitlePane"
 		class="panel">
-		<jsp:doBody />
+		<div class="content">
+			<jsp:doBody />
+		</div>
 	</div>
 
 </jsp:root>

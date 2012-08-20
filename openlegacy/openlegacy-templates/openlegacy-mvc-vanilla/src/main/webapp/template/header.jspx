@@ -1,15 +1,23 @@
-<div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
+<div class="header" xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	xmlns:spring="http://www.springframework.org/tags">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
-
-	<h1><div class="title">OpenLegacy Spring MVC Web Application</div></h1>
-	<c:if test="${loggedInUser != null}">
-		<div class="welcome">Hello ${loggedInUser}</div>
-		<div class="logoff">
-			<a href="${pageContext.request.contextPath}/logoff">Logoff</a>
-		</div>
-	</c:if>
+	<h1 id="logo_header">
+		<a href="">OpenLegacy</a>
+	</h1>
+	<div class="topmenu_wrap">
+		<c:if test="${loggedInUser != null}">
+			<div class="topmenu">
+				<ul>
+					<li>Welcome, ${loggedInUser}!</li>
+					<li class="prefs"><a href="javascript:changeTheme('cloud,night,red');">Theme</a></li>
+					<li class="mobile"><a href="http://demo.openlegacy.org/openlegacy-mobile-sample" title="Mobile version"><!----></a></li>
+					<li class="logout"><a
+							href="${pageContext.request.contextPath}/logoff">Logout</a></li>
+				</ul>
+			</div>
+		</c:if>
+	</div>
 </div>

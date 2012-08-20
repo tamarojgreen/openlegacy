@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<bean id="htmlRenderer" class="org.openlegacy.terminal.web.render.support.DefaultTerminalSnapshotHtmlRenderer" />
+	<bean id="htmlRenderer" class="org.openlegacy.terminal.web.render.support.DefaultTerminalSnapshotHtmlRenderer" p:style="padding:1px" />
 	<bean id="elementsProvider" class="org.openlegacy.terminal.web.render.support.DefaultElementsProvider">
 		<property name="colorMapper">
 			<map>
@@ -23,7 +23,7 @@
 			</map>
 		</property>
 	</bean>
- 	<bean id="htmlProportionsHandler" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="20" p:columnProportion="10" p:fontSize="17" p:inputHeight="20" />
+ 	<bean id="htmlProportionsHandler" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="23" p:columnProportion="10" p:fontSize="17" p:inputHeight="18" />
 	<bean id="terminalSendActionBuilder" class="org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder" />
 	<bean id="tableWriter" class="org.openlegacy.web.DefaultHtmlTableWriter" />
 	
