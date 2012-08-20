@@ -9,8 +9,8 @@
 		dojo.require("dijit.form.CheckBox");
 	</script>
 
-	<div id="tabContainer" class="tabContainer"
-		tabStrip="true" data-dojo-type="dijit.layout.TabContainer" data-dojo-props="tabPosition:'bottom'">
+	<div class="tabbed_area" data-dojo-type="dijit.layout.TabContainer"
+		style="width: 100%;" doLayout="false">
 		<div id="${entityClassName}" title="${displayName}" selected="true" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${r"${"}pageContext.request.contextPath}/${entityClassName}?partial=1'">
 			<div>Place holder</div>
 		</div>

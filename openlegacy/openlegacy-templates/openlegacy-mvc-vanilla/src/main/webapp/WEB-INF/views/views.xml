@@ -11,12 +11,19 @@
   </definition>
   Marker for code generation end -->
 
-  
   <definition name="HtmlEmulation" extends="emulation">
     <put-attribute name="body" value="/WEB-INF/views/HtmlEmulation.jspx" />
   </definition>
 
   <!-- Place holder for code generation -->
+  <definition name="WorkWithWarehouseDetails1" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/WorkWithWarehouseDetails1.jspx" />
+  </definition>
+ 
+  <definition name="WorkWithWarehouseDetails" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/WorkWithWarehouseDetails.jspx" />
+  </definition>
+ 
   <definition name="WorkWithItemMaster1Composite" extends="compositeTemplate">
     <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster1Composite.jspx" />
   </definition>
@@ -29,24 +36,8 @@
     <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster2.jspx" />
   </definition>
  
-  <definition name="WorkWithWarehouseDetails1" extends="template">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithWarehouseDetails1.jspx" />
-  </definition>
- 
-  <definition name="WorkWithWarehouseDetails" extends="template">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithWarehouseDetails.jspx" />
-  </definition>
- 
   <definition name="WorkWithItemMaster" extends="template">
     <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster.jspx" />
-  </definition>
- 
-  <definition name="SignOn" extends="public">
-    <put-attribute name="body" value="/WEB-INF/views/SignOn.jspx" />
-  </definition>
- 
-  <definition name="ListOfWarehouseTypes" extends="template">
-    <put-attribute name="body" value="/WEB-INF/views/ListOfWarehouseTypes.jspx" />
   </definition>
  
   <definition name="InventoryManagement" extends="menu">
@@ -55,6 +46,10 @@
  
   <definition name="DemoEnvironment" extends="menu">
     <put-attribute name="body" value="/WEB-INF/views/DemoEnvironment.jspx" />
+  </definition>
+ 
+  <definition name="SignOn" extends="public">
+    <put-attribute name="body" value="/WEB-INF/views/SignOn.jspx" />
   </definition>
  
   

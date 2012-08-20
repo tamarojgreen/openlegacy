@@ -9,7 +9,7 @@
 	<jsp:output omit-xml-declaration="yes" />
 	<div id="logo">
 		<h1>
-			<a href="#">OpenLegacy Toys</a>
+			<a href="#">OpenLegacy</a>
 		</h1>
 	</div>
 	<div id="loginform">
@@ -17,7 +17,7 @@
 	<form id="SignOnForm" method="post">
 			<div class="field_row">
 				<div class="label">
-					<label for="user">Username:</label>
+					<label for="user">User:</label>
 				</div>
 				<div class="field">
 					<input type="text" name="user" value="${login.user}" maxlength="10" />
