@@ -40,7 +40,7 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	private ScreenForPagePart screenForPagePart;
 
-	private List<ScreenForPageRow> screenForPageRow;
+	private List<ScreenForPageRow> screenForPageRows;
 
 	public String getFldCol12() {
 		return fldCol12;
@@ -70,8 +70,8 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 		return screenForPagePart;
 	}
 
-	public List<ScreenForPageRow> getScreenForPageRow() {
-		return screenForPageRow;
+	public List<ScreenForPageRow> getScreenForPageRows() {
+		return screenForPageRows;
 	}
 
 	public String getFocusField() {

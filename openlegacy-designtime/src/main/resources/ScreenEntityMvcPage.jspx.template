@@ -18,41 +18,7 @@
 				</#list>
 			</#list>
 			<#if pagePart.hasTable>
-				<table>
-				<#list pagePart.tableDefinition.columnDefinitions as column>
-					<th>
-					${column.displayName}
-					</th>
-				</#list>
-					<#assign fieldAssignment="${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s">
-					<c:forEach items="${r"${"}${fieldAssignment}${r"}"}" var="item">
-					<tr>
-						<#if pagePart.tableDefinition.actions?size &gt; 0 && pagePart.tableDefinition.rowSelectionField??>
-						<td>
-							<select id="${pagePart.tableDefinition.rowSelectionField}" name="${pagePart.tableDefinition.rowSelectionField}" onchange="doPost()">
-								<option value="">-Select-</option>
-							<#list pagePart.tableDefinition.actions as action>
-								<option value="${action.action.actionValue}">${action.displayName}</option>
-							</#list>
-							</select>
-						</td>
-						</#if>
-						<#list pagePart.tableDefinition.columnDefinitions as column>
-							<#if !column.selectionField>
-						<td>${r"${"}item.${column.name}${r"}"}</td>
-							</#if>
-						</#list>
-					</tr>
-					</c:forEach>
-				</table>
-				<div class="excel">
-					<a href="${entityDefinition.entityName}/excel"><img src="images/excel.jpg" /></a>
-				</div>
-				<div class="paging">
-					<a href="javascript:doAjaxPost('${entityDefinition.entityName}Form','container','previous','body')">&lt; Previous</a>
-					| 
-					<a href="javascript:doAjaxPost('${entityDefinition.entityName}Form','container','next','body')">Next &gt;</a> 
-				</div>
+				<ol:table data="${r"${"}${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s${r"}"}" property="${pagePart.tableDefinition.tableEntityName?uncap_first}s" formName="${entityDefinition.entityName?uncap_first}" />
 			</#if>
 			</ol:pagePart>
 		</#if>
