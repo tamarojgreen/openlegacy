@@ -12,3 +12,13 @@
 	position: absolute;
 	top: 500px;
 }
+
+.view_source{
+	position: absolute;
+	top: 400px;
+	font-family: Helvetica, sans-serif;
+	font-size: 1.25em;
+}
+.view_source ul li{
+	margin-bottom: 15px;
+}
