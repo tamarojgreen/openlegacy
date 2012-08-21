@@ -1,6 +1,8 @@
-<div xmlns:c="http://java.sun.com/jsp/jstl/core">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" 	
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags">
 
 	<form id="WorkWithItemMasterForm" method="post">
+		
 		<div style="margin-left: 2%; top: 87%; width: 32%;position:absolute;" >
 			<div class="field">
 	<label>Position to: </label>
@@ -8,43 +10,7 @@
 			</div>
 		</div>
 		<div style="margin-left: 5%; top: 25%; width: 73%;" class="panel">
-				<table>
-					<th>
-					Action
-					</th>
-					<th>
-					Alpha search
-					</th>
-					<th>
-					Item Description
-					</th>
-					<th>
-					Item Number
-					</th>
-					<c:forEach items="${workWithItemMaster.workWithItemMasterRecords}" var="item">
-					<tr>
-						<td>
-							<select id="action_" name="action_" onchange="doPost()">
-								<option value="">-Select-</option>
-								<option value="2">Revise</option>
-								<option value="4">Delete</option>
-								<option value="5">Display</option>
-							</select>
-						</td>
-						<td>${item.alphaSearch}</td>
-						<td>${item.itemDescription}</td>
-						<td>${item.itemNumber}</td>
-					</tr>
-					</c:forEach>
-				</table>
-				<div class="excel">
-					<a href="WorkWithItemMaster/excel"><img src="images/excel.jpg" /></a>
-				</div>
-				<div class="paging">
-					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','previous','body')">&lt; Previous</a>
-					| 
-					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','next','body')">Next &gt;</a> 
-				</div>
+			<ol:table data="${workWithItemMaster.workWithItemMasterRecords}" property="workWithItemMasterRecords" formName="WorkWithItemMasterForm" /> 
 		</div>
 		
 	</form>
