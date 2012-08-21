@@ -11,7 +11,6 @@ no-loop
 when
 	$ruleParameterSet			  : RuleParametersSet(ruleId == "identify-login")
 	$userFieldRegex  			  : String()  from (String)$ruleParameterSet.getRuleParameters().get("userFieldRegex");
-	$passwordFieldRegex  		  : String()  from (String)$ruleParameterSet.getRuleParameters().get("passwordFieldRegex");
 	$errorMessageLinesFromButtom  : String()  from (String)$ruleParameterSet.getRuleParameters().get("errorMessageLinesFromButtom");
 	$errorMessageColumn 		  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("errorMessageColumn");
 	
@@ -25,17 +24,22 @@ when
 	$userLabelField: TerminalField(position.row == $userField.position.row, position.column < $userField.position.column, 
 															editable == false,value matches $userFieldRegex) from $snapshot.getFields();
 
-	$passwordField: TerminalField(editable == true, position.row >= $userField.position.row) from $snapshot.getFields()
-	$passwordLabelField: TerminalField(position.row == $passwordField.position.row, position.column < $passwordField.position.column, 
-															editable == false,value matches $passwordFieldRegex) from $snapshot.getFields();
+	// collect all the password fields
+	$passwordFields: List(size >= 1) from collect (TerminalField(password == true, position.row >= $userField.position.row) from $snapshot.getFields())
+	
+	$passwordField: TerminalField(value not matches "[\\s]+") from $passwordFields.get(0)
+	
+	$passwordLabelFields: List() from collect (TerminalField(position.row == $passwordField.position.row, position.column < $passwordField.position.column, editable == false) from $snapshot.getFields())
 
 	$errorLine: Integer() from $snapshot.getSize().getRows() - $errorMessageLinesFromButtom  
 	
 then
 	// error message field is optional - therefore not part of when
 	TerminalField errorMessageField = $snapshot.getField(new SimpleTerminalPosition($errorLine,$errorMessageColumn));
-System.out.println(errorMessageField);
+	// grab 1st password label field is exists
+	TerminalField passwordLabelField = $passwordLabelFields.size() > 0 ? (TerminalField)$passwordLabelFields.get(0) : null;
+	
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, 
-			new LoginScreenFact($userField,$userLabelField,$passwordField,$passwordLabelField,errorMessageField));
+			new LoginScreenFact($userField,$userLabelField,$passwordField,passwordLabelField,errorMessageField));
 	
 end

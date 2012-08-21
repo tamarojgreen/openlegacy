@@ -49,4 +49,11 @@ public class LoginScreenFact implements ScreenFact {
 	public TerminalField getErrorField() {
 		return errorField;
 	}
+
+	public String getPasswordLabel() {
+		if (passwordLabelField != null) {
+			return passwordLabelField.getValue();
+		}
+		return null;
+	}
 }

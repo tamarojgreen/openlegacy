@@ -82,12 +82,12 @@ public class GenerateUtil {
 				if (resource != null) {
 					template = configuration.getTemplate(templatePrefix + templateName);
 				} else {
-					template = configuration.getTemplate("/" + templateName);
+					template = configuration.getTemplate("/" + templateName, CharEncoding.UTF_8);
 				}
 			}
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			OutputStreamWriter output = new OutputStreamWriter(baos);
+			OutputStreamWriter output = new OutputStreamWriter(baos, CharEncoding.UTF_8);
 			template.process(model, output);
 
 			// only write the file if it has content (sometimes using empty template)

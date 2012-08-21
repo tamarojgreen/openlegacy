@@ -27,6 +27,8 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 	@Inject
 	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
+	private String defaultPasswordLabel = "Password";
+
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
 		LoginScreenFact loginScreenFact = (LoginScreenFact)screenFact;
@@ -38,8 +40,16 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 				loginScreenFact.getUserField(), loginScreenFact.getUserLabelField());
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, userFieldDefinition, Login.UserField.class);
 
-		ScreenFieldDefinition passwordFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-				loginScreenFact.getPasswordField(), loginScreenFact.getPasswordLabelField());
+		TerminalField passwordLabelField = loginScreenFact.getPasswordLabelField();
+		ScreenFieldDefinition passwordFieldDefinition = null;
+		if (passwordLabelField != null) {
+			passwordFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
+					loginScreenFact.getPasswordField(), passwordLabelField);
+		} else {
+			passwordFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
+					loginScreenFact.getPasswordField(), defaultPasswordLabel);
+		}
+
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, passwordFieldDefinition,
 				Login.PasswordField.class);
 		((SimpleScreenFieldDefinition)passwordFieldDefinition).setPassword(true);
@@ -58,4 +68,7 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 		return (screenFact instanceof LoginScreenFact);
 	}
 
+	public void setDefaultPasswordLabel(String defaultPasswordLabel) {
+		this.defaultPasswordLabel = defaultPasswordLabel;
+	}
 }
