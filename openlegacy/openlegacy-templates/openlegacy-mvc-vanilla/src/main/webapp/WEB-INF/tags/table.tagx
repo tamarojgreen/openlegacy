@@ -7,7 +7,7 @@
 	<jsp:directive.attribute name="data" type="java.util.Collection" required="true" rtexprvalue="true" description="The collection to be displayed in the table" />
 	<jsp:directive.attribute name="property" type="java.lang.String" required="true" rtexprvalue="true" description="The table name" />
 	<jsp:directive.attribute name="formName" type="java.lang.String" required="true" rtexprvalue="true" description="The form name for Ajax paging" />
-	<jsp:directive.attribute name="urlBasePath" type="java.lang.String" required="true" rtexprvalue="true" description="The URL base path for navigation" />
+	<jsp:directive.attribute name="urlBasePath" type="java.lang.String" required="false" rtexprvalue="true" description="The URL base path for navigation" />
 	
 	<jsp:output omit-xml-declaration="yes" />
 
