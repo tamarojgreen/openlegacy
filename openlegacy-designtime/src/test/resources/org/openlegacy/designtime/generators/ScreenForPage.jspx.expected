@@ -37,7 +37,7 @@
 			
 		
 			<ol:pagePart left="6%" top="54%" width="31%">
-				<ol:table data="${screenForPage.screenForPageRows}" property="screenForPageRows" formName="screenForPage" />
+				<ol:table data="${screenForPage.screenForPageRows}" property="screenForPageRows" />
 			</ol:pagePart>
 			
 		

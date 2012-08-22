@@ -6,11 +6,13 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.attribute name="data" type="java.util.Collection" required="true" rtexprvalue="true" description="The collection to be displayed in the table" />
 	<jsp:directive.attribute name="property" type="java.lang.String" required="true" rtexprvalue="true" description="The table name" />
-	<jsp:directive.attribute name="formName" type="java.lang.String" required="true" rtexprvalue="true" description="The form name for Ajax paging" />
-	<jsp:directive.attribute name="urlBasePath" type="java.lang.String" required="true" rtexprvalue="true" description="The URL base path for navigation" />
 	
 	<jsp:output omit-xml-declaration="yes" />
 
+	<c:if test="${empty formName}">
+		${ol:throwException("formName not found. Probably ol:table tag is not within ol:form")}
+	</c:if>
+	
 	<c:set var="tableDefinition" value="${definitions.tableDefinitions[property]}" />
 	<table>
 		<tr>

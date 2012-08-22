@@ -34,9 +34,12 @@ public class WorkWithWarehouseDetails {
 	private List<WorkWithWarehouseDetailsRecord> workWithWarehouseDetailsRecords;
 
 	@ScreenTable(startRow = 8, endRow = 19)
-	@ScreenTableActions(actions = { @TableAction(actionValue = "2", displayName = "Revise"),
-			@TableAction(actionValue = "4", displayName = "Delete"), @TableAction(actionValue = "5", displayName = "Display"),
-			@TableAction(actionValue = "6", displayName = "Items"), @TableAction(actionValue = "7", displayName = "Locations") })
+	@ScreenTableActions(actions = {
+			@TableAction(actionValue = "2", displayName = "Revise", targetEntity = WorkWithWarehouseDetails1.class),
+			@TableAction(actionValue = "4", displayName = "Delete", targetEntity = WorkWithWarehouseDetails1.class),
+			@TableAction(actionValue = "5", displayName = "Display", targetEntity = WorkWithWarehouseDetails1.class),
+			@TableAction(actionValue = "6", displayName = "Items", targetEntity = WorkWithWarehouseDetails1.class),
+			@TableAction(actionValue = "7", displayName = "Locations", targetEntity = WorkWithWarehouseDetails1.class) })
 	public static class WorkWithWarehouseDetailsRecord {
 
 		@ScreenColumn(startColumn = 4, endColumn = 4, editable = true, selectionField = true, displayName = "Action")

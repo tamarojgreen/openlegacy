@@ -34,8 +34,10 @@ public class WorkWithItemMaster {
 	private List<WorkWithItemMasterRecord> workWithItemMasterRecords;
 
 	@ScreenTable(startRow = 8, endRow = 19)
-	@ScreenTableActions(actions = { @TableAction(actionValue = "2", displayName = "Revise"),
-			@TableAction(actionValue = "4", displayName = "Delete"), @TableAction(actionValue = "5", displayName = "Display") })
+	@ScreenTableActions(actions = {
+			@TableAction(actionValue = "2", displayName = "Revise", targetEntity = WorkWithItemMaster.class),
+			@TableAction(actionValue = "4", displayName = "Delete", targetEntity = WorkWithItemMaster.class),
+			@TableAction(actionValue = "5", displayName = "Display", targetEntity = WorkWithItemMaster.class) })
 	public static class WorkWithItemMasterRecord {
 
 		@ScreenColumn(startColumn = 4, endColumn = 4, editable = true, selectionField = true, displayName = "Action")

@@ -42,4 +42,7 @@ public class TagUtils {
 		return returnValue;
 	}
 
+	public static void throwException(String s) {
+		throw (new IllegalStateException(s));
+	}
 }

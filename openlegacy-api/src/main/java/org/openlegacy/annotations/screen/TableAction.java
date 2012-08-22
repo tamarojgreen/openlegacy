@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.EnterDrilldownAction;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 
@@ -36,4 +37,6 @@ public @interface TableAction {
 	String displayName();
 
 	String alias() default "";
+
+	Class<? extends ScreenEntity> targetEntity() default ScreenEntity.NONE.class;
 }

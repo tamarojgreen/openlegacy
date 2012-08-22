@@ -7,10 +7,13 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.attribute name="data" type="java.util.Collection" required="true" rtexprvalue="true" description="The collection to be displayed in the table" />
 	<jsp:directive.attribute name="property" type="java.lang.String" required="true" rtexprvalue="true" description="The table name" />
-	<jsp:directive.attribute name="formName" type="java.lang.String" required="true" rtexprvalue="true" description="The form name for Ajax paging" />
-	<jsp:directive.attribute name="urlBasePath" type="java.lang.String" required="true" rtexprvalue="true" description="The URL base path for navigation" />
 	
 	<jsp:output omit-xml-declaration="yes" />
+	
+	<c:if test="${empty formName}">
+		${ol:throwException("formName not found. Probably ol:table tag is not within ol:form")}
+	</c:if>
+	
 	<c:set var="tableDefinition"
 		value="${definitions.tableDefinitions[property]}" />
 	<div class="table">
@@ -29,7 +32,7 @@
 								<c:when test="${column.selectionField}">
 									<c:forEach items="${tableDefinition.actions}" var="action">
 										<a
-											href="${urlBasePath}/${action.alias}/${item[tableDefinition.keyFieldNames[0]]}"
+											href="${action.targetEntity.simpleName}/${action.alias}/${item[tableDefinition.keyFieldNames[0]]}"
 											class="rbtn ${action.alias}" title="${action.displayName}">${action.displayName}</a>
 									</c:forEach>
 								</c:when>
@@ -44,7 +47,7 @@
 		<div class="paging">
 			<div class="previous">
 				<a
-					href="javascript:doAjaxPost('${formName}Form','container','previous','body')">
+					href="javascript:doAjaxPost('${formName}','container','previous','body')">
 					<span class="arrow">
 						<!---->
 					</span> <span>Previous</span>
@@ -52,7 +55,7 @@
 			</div>
 			<div class="next">
 				<a
-					href="javascript:doAjaxPost('${formName}Form','container','next','body')">
+					href="javascript:doAjaxPost('${formName}','container','next','body')">
 					<span class="arrow">
 						<!---->
 					</span> <span>Next</span>

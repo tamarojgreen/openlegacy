@@ -7,7 +7,9 @@
 	<jsp:output omit-xml-declaration="yes" />
 	<jsp:directive.attribute name="model" type="java.lang.String" required="true" rtexprvalue="true" description="The model for this form" />
 
-    <form:form id="${ol:capFirst(model)}Form" method="post" action="${pageContext.request.contextPath}/${ol:capFirst(model)}" modelAttribute="${model}">
+	<c:set var="formName" value="${ol:capFirst(model)}Form" scope="request" />
+	
+    <form:form id="${formName}" method="post" action="${pageContext.request.contextPath}/${ol:capFirst(model)}" modelAttribute="${model}">
 		<jsp:doBody />
 	</form:form>
 

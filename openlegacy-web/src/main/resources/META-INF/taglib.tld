@@ -52,4 +52,9 @@
         <function-class>org.openlegacy.web.tags.TagUtils</function-class>
         <function-signature>String capFirst(java.lang.String)</function-signature>
     </function>
+    <function>
+        <name>throwException</name>
+        <function-class>org.openlegacy.web.tags.TagUtils</function-class>
+        <function-signature>void throwException(java.lang.String)</function-signature>
+    </function>
 </taglib>

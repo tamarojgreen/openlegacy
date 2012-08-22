@@ -1,6 +1,6 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ol="urn:jsptagdir:/WEB-INF/tags">
 	<ol:form model="workWithItemMaster">
-		<ol:table urlBasePath="WorkWithItemMaster1" data="${workWithItemMaster.workWithItemMasterRecords}" property="workWithItemMasterRecords" formName="WorkWithItemMaster" />
+		<ol:table data="${workWithItemMaster.workWithItemMasterRecords}" property="workWithItemMasterRecords" />
 	</ol:form>
 </div>

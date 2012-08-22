@@ -8,6 +8,22 @@
 
 }
 
+.table table td .revise {
+	background-image: url(../icons/edit.png);
+}
+.table table td .display {
+	background-image: url(../icons/display.png);
+}
+.table table td .delete {
+	background-image: url(../icons/delete.png);
+}
+.table table td .items {
+	background-image: url(../icons/list.png);
+}
+.table table td .locations {
+	background-image: url(../icons/location.png);
+}
+
 .demo_session{
 	position: absolute;
 	top: 500px;
