@@ -39,7 +39,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 
 public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtmlRenderer {
 
-	private static final String SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {font-family:FONT_FAMILY;font-size:FONTpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input {position:absolute;font-family:Courier New;font-size:FONTpx;height:INPUT-HEIGHTpx;}";
+	private static final String SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {font-family:FONT_FAMILY;font-size:FONTpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input {position:absolute;font-family:Courier New;font-size:FONTpx;height:INPUT-HEIGHTpx;INPUT_STYLE}";
 
 	private static final String TERMINAL_HTML = "TERMINAL_HTML";
 
@@ -47,6 +47,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	private boolean includeTemplate = true;
 
 	private String fontFamily = "Courier New";
+	private String inputStyle = "";
 
 	@Inject
 	private ElementsProvider<Element> elementsProvider;
@@ -111,6 +112,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 		styleSettings = styleSettings.replaceAll("FONT", String.valueOf(htmlProportionsHandler.getFontSize()));
 
 		styleSettings = styleSettings.replaceAll("INPUT-HEIGHT", String.valueOf(htmlProportionsHandler.getInputHeight()));
+		styleSettings = styleSettings.replace("INPUT_STYLE", inputStyle);
 		return styleSettings;
 	}
 
@@ -186,5 +188,9 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	public void setFontFamily(String fontFamily) {
 		this.fontFamily = fontFamily;
+	}
+
+	public void setInputStyle(String inputStyle) {
+		this.inputStyle = inputStyle;
 	}
 }
