@@ -301,6 +301,12 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<warName>openlegacy-mvc-sample</warName>
+					<webResources>
+		            	<resource>
+		              		<directory>${build.sourceDirectory}</directory>
+		              		<targetPath>src/main</targetPath>
+		            	</resource>
+		          	</webResources>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -308,6 +314,12 @@
 			   <artifactId>maven-deploy-plugin</artifactId>
 			   <configuration>
 			     <skip>true</skip>
+				 <webResources>
+            		<resource>
+              			<directory>${build.sourceDirectory}</directory>
+              			<targetPath>src/main/java</targetPath>
+           			</resource>
+          	   	 </webResources>			     
 			   </configuration>
 			</plugin>
 			<plugin>
