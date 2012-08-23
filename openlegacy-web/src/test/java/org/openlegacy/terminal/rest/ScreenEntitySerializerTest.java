@@ -8,6 +8,7 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
@@ -21,6 +22,7 @@ import org.springframework.oxm.castor.CastorMarshaller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
+import org.xml.sax.SAXException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -61,7 +63,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 	}
 
 	@Test
-	public void testXmlSerialization() throws IOException {
+	public void testXmlSerialization() throws IOException, SAXException {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
@@ -73,8 +75,9 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		marshaller.afterPropertiesSet();
 		marshaller.marshal(wrapper, new StreamResult(bos));
 		String result = new String(bos.toByteArray());
-		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ItemsList.xml.expected"));
-		AssertUtils.assertContent(expectedBytes, result.getBytes());
+
+		String expected = IOUtils.toString(getClass().getResourceAsStream("ItemsList.xml.expected"));
+		XMLAssert.assertXMLEqual("Unmatched XML's", expected, result);
 
 	}
 }
