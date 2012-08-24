@@ -76,6 +76,11 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		return entitiesDefinitions.get(entityClass);
 	}
 
+	public E get(String entityName) {
+		Class<?> entityClass = getEntityClass(entityName);
+		return entitiesDefinitions.get(entityClass);
+	}
+
 	public Collection<E> getEntitiesDefinitions() {
 		return entitiesDefinitions.values();
 	}

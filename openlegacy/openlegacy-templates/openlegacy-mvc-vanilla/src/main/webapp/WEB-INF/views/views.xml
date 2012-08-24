@@ -16,6 +16,10 @@
     <put-attribute name="body" value="/WEB-INF/views/HtmlEmulation.jspx" />
   </definition>
 
+  <definition name="generic" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
+  </definition>
+  
   <!-- Place holder for code generation -->
   <definition name="WorkWithItemMaster1Composite" extends="compositeTemplate">
     <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster1Composite.jspx" />

@@ -28,7 +28,7 @@
 	      		<td>
 	      		<c:choose>
 	      			<c:when test="${column.selectionField}">
-	      				<select>
+	      				<select onchange="doPost()" name="${coloumn.name}">
 	      					<option value="">-- Select --</option>
 	      					<c:forEach items="${tableDefinition.actions}" var="action">
 	      					<option value="${action.action.actionValue}">${action.displayName}</option>

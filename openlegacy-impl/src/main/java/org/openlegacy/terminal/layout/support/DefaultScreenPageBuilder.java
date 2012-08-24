@@ -77,14 +77,15 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			pageDefinition.getPageParts().add(buildPagePartFromScreenPart(screenPartEntityDefinition, entityDefinition));
 		}
 
-		Collection<ScreenTableDefinition> tables = entityDefinition.getTableDefinitions().values();
-		for (ScreenTableDefinition tableDefinition : tables) {
-			pageDefinition.getPageParts().add(buildPagePartFromTable(tableDefinition, entityDefinition));
+		Collection<String> tables = entityDefinition.getTableDefinitions().keySet();
+		for (String tableFieldName : tables) {
+			ScreenTableDefinition tableDefinition = entityDefinition.getTableDefinitions().get(tableFieldName);
+			pageDefinition.getPageParts().add(buildPagePartFromTable(tableFieldName, tableDefinition, entityDefinition));
 		}
 		return pageDefinition;
 	}
 
-	private PagePartDefinition buildPagePartFromTable(ScreenTableDefinition tableDefinition,
+	private PagePartDefinition buildPagePartFromTable(String tableFieldName, ScreenTableDefinition tableDefinition,
 			ScreenEntityDefinition entityDefinition) {
 		SimplePagePartDefinition pagePart = new SimplePagePartDefinition();
 
@@ -103,7 +104,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		pagePart.setLeftMargin(leftMarginPercentage);
 		calculateWidth(entityDefinition, pagePart, tableStartColumn, tableEndColumn);
 
-		pagePart.setTableDefinition(tableDefinition);
+		pagePart.setTableFieldName(tableFieldName);
 		return pagePart;
 	}
 
