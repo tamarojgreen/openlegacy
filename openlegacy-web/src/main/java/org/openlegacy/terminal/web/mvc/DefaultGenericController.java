@@ -64,9 +64,25 @@ public class DefaultGenericController {
 		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
 		uiModel.addAttribute(screenEntityName, screenEntity);
 		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(screenEntityName);
+		if (entityDefinition.getChildEntitiesDefinitions().size() > 0) {
+			return "composite";
+		} else {
+			PageDefinition page = pageBuilder.build(entityDefinition);
+			uiModel.addAttribute("page", page);
+			return "generic";
+		}
+
+	}
+
+	@RequestMapping(value = "/{screen}", method = RequestMethod.GET, params = "partial=1")
+	public String getChildScreenEntity(@PathVariable("screen") String screenEntityName, Model uiModel) throws IOException {
+		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
+		uiModel.addAttribute(screenEntityName, screenEntity);
+		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(screenEntityName);
 		PageDefinition page = pageBuilder.build(entityDefinition);
 		uiModel.addAttribute("page", page);
-		return "generic";
+		return "genericView";
+
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
