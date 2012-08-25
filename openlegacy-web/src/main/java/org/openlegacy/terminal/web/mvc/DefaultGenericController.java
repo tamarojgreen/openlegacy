@@ -34,8 +34,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * OpenLegacy default REST API controller. Handles GET/POST requests in the format of JSON or XML. Also handles login /logoff of
- * the host session
+ * OpenLegacy default web controller for a terminal session. Handles GET/POST requests of a web application. Works closely with
+ * generic.jspx / composite.jspx. Saves the need for a dedicated controller for each screen API.
  * 
  * @author Roi Mor
  * 
@@ -58,6 +58,12 @@ public class DefaultGenericController {
 
 	@Inject
 	private ScreenPageBuilder pageBuilder;
+
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
+	public String index() {
+		ScreenEntity screenEntity = terminalSession.getEntity();
+		return "redirect:/" + ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
+	}
 
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
 	public String getScreenEntity(@PathVariable("screen") String screenEntityName, Model uiModel) throws IOException {

@@ -20,7 +20,7 @@ public class MockTerminalConnectionFactory extends AbstractMockTerminalConnectio
 	}
 
 	public void disconnect(TerminalConnection terminalConnection) {
-		((MockTerminalConnection)terminalConnection).reset();
+		((MockTerminalConnection)terminalConnection).disconnect();
 	}
 
 }

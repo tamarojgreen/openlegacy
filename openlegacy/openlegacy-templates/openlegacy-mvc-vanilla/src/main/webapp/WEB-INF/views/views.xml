@@ -19,10 +19,6 @@
   <definition name="generic" extends="template">
     <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
   </definition>
-  
-  <definition name="generic" extends="template">
-    <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
-  </definition>
 
   <definition name="genericView" extends="view">
     <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
