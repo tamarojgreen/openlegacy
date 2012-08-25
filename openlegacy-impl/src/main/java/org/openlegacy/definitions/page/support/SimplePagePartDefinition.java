@@ -11,6 +11,7 @@
 package org.openlegacy.definitions.page.support;
 
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.layout.PagePartRowDefinition;
 import org.openlegacy.terminal.layout.PositionedPagePartDefinition;
 
@@ -25,6 +26,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 	private int leftMargin;
 	private int columns;
 	private String tableFieldName;
+	private TableDefinition<?> tableDefinition;
 
 	public int getColumns() {
 		return columns;
@@ -93,6 +95,14 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 
 	public void setTableFieldName(String tableFieldName) {
 		this.tableFieldName = tableFieldName;
+	}
+
+	public void setTableDefinition(TableDefinition<?> tableDefinition) {
+		this.tableDefinition = tableDefinition;
+	}
+
+	public TableDefinition<?> getTableDefinition() {
+		return tableDefinition;
 	}
 
 	/**

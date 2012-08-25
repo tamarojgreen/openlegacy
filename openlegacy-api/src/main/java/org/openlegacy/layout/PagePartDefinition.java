@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.layout;
 
+import org.openlegacy.definitions.TableDefinition;
+
 import java.util.List;
 
 /**
@@ -30,4 +32,8 @@ public interface PagePartDefinition {
 	int getLeftMargin();
 
 	int getTopMargin();
+
+	String getTableFieldName();
+
+	TableDefinition<?> getTableDefinition();
 }

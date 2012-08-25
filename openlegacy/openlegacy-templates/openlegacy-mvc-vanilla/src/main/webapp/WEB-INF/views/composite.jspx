@@ -9,9 +9,6 @@
 	<script>
 		dojo.require("dijit.layout.TabContainer");
 		dojo.require("dijit.layout.ContentPane");
-
-		dojo.require("dijit.form.FilteringSelect");		
-		dojo.require("dijit.TitlePane");
 	</script>
 
 	<div id="tabContainer" class="tabContainer"

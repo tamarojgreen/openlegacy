@@ -105,6 +105,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		calculateWidth(entityDefinition, pagePart, tableStartColumn, tableEndColumn);
 
 		pagePart.setTableFieldName(tableFieldName);
+		pagePart.setTableDefinition(tableDefinition);
 		return pagePart;
 	}
 
