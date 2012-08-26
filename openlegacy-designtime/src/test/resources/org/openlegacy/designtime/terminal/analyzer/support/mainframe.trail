@@ -90,7 +90,7 @@
         </row>
         <row rowNumber="15">
             <field column="2" value="Password ..........:"/>
-            <field column="23" length="8" editable="true"/>
+            <field column="23" length="8" editable="true" hidden="true"/>
             <field column="32" length="49"/>
         </row>
         <row rowNumber="16">

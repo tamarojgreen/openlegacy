@@ -25,6 +25,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 	private int topMargin;
 	private int leftMargin;
 	private int columns;
+	private String tableFieldName;
 	private TableDefinition<?> tableDefinition;
 
 	public int getColumns() {
@@ -88,13 +89,20 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 		return null;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public TableDefinition getTableDefinition() {
-		return tableDefinition;
+	public String getTableFieldName() {
+		return tableFieldName;
+	}
+
+	public void setTableFieldName(String tableFieldName) {
+		this.tableFieldName = tableFieldName;
 	}
 
 	public void setTableDefinition(TableDefinition<?> tableDefinition) {
 		this.tableDefinition = tableDefinition;
+	}
+
+	public TableDefinition<?> getTableDefinition() {
+		return tableDefinition;
 	}
 
 	/**
@@ -103,6 +111,6 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 	 * @return
 	 */
 	public boolean isHasTable() {
-		return getTableDefinition() != null;
+		return tableFieldName != null;
 	}
 }

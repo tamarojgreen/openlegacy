@@ -15,43 +15,19 @@
     <put-attribute name="body" value="/WEB-INF/views/HtmlEmulation.jspx" />
   </definition>
 
+  <definition name="generic" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
+  </definition>
+
+  <definition name="genericView" extends="view">
+    <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
+  </definition>
+  
+  <definition name="composite" extends="compositeTemplate">
+    <put-attribute name="body" value="/WEB-INF/views/composite.jspx" />
+  </definition>
+  
   <!-- Place holder for code generation -->
-  <definition name="WorkWithWarehouseDetails1" extends="template">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithWarehouseDetails1.jspx" />
-  </definition>
- 
-  <definition name="WorkWithWarehouseDetails" extends="template">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithWarehouseDetails.jspx" />
-  </definition>
- 
-  <definition name="WorkWithItemMaster1Composite" extends="compositeTemplate">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster1Composite.jspx" />
-  </definition>
- 
-  <definition name="WorkWithItemMaster1" extends="view">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster1.jspx" />
-  </definition>
- 
-  <definition name="WorkWithItemMaster2" extends="view">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster2.jspx" />
-  </definition>
- 
-  <definition name="WorkWithItemMaster" extends="template">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster.jspx" />
-  </definition>
- 
-  <definition name="InventoryManagement" extends="menu">
-    <put-attribute name="body" value="/WEB-INF/views/InventoryManagement.jspx" />
-  </definition>
- 
-  <definition name="DemoEnvironment" extends="menu">
-    <put-attribute name="body" value="/WEB-INF/views/DemoEnvironment.jspx" />
-  </definition>
- 
-  <definition name="SignOn" extends="public">
-    <put-attribute name="body" value="/WEB-INF/views/SignOn.jspx" />
-  </definition>
- 
   
   <definition name="logoff" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/logoff.jspx" />

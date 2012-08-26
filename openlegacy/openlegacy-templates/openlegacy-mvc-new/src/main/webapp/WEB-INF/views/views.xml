@@ -16,6 +16,18 @@
   </definition>
 
   <!-- Place holder for code generation -->
+
+  <definition name="generic" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
+  </definition>
+
+  <definition name="genericView" extends="view">
+    <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
+  </definition>
+  
+  <definition name="composite" extends="compositeTemplate">
+    <put-attribute name="body" value="/WEB-INF/views/composite.jspx" />
+  </definition>
   
   <definition name="logoff" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/logoff.jspx" />

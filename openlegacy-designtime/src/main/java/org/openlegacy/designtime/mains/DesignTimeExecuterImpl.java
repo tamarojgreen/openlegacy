@@ -43,6 +43,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.util.Assert;
 
 import japa.parser.JavaParser;
 import japa.parser.ParseException;
@@ -57,6 +58,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -279,13 +281,21 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		TerminalSnapshotsAnalyzer snapshotsAnalyzer = projectApplicationContext.getBean(TerminalSnapshotsAnalyzer.class);
 
-		FileInputStream trailInputStream;
-		try {
-			trailInputStream = new FileInputStream(generateApiRequest.getTrailFile().getAbsolutePath());
-		} catch (FileNotFoundException e1) {
-			throw (new GenerationException(e1));
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = null;
+		if (generateApiRequest.getTerminalSnapshots() == null || generateApiRequest.getTerminalSnapshots().length == 0) {
+			FileInputStream trailInputStream;
+			try {
+				trailInputStream = new FileInputStream(generateApiRequest.getTrailFile().getAbsolutePath());
+			} catch (FileNotFoundException e1) {
+				throw (new GenerationException(e1));
+			}
+			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trailInputStream);
+		} else {
+			Assert.notNull(generateApiRequest.getTerminalSnapshots(),
+					"Must set either trail file or terminal snapshots in generate API request");
+			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(Arrays.asList(generateApiRequest.getTerminalSnapshots()));
 		}
-		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trailInputStream);
+
 		Collection<ScreenEntityDefinition> screenDefinitions = screenEntitiesDefinitions.values();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateApiRequest.getPackageDirectory().replaceAll(

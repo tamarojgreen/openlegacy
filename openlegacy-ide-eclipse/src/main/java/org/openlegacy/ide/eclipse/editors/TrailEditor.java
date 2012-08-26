@@ -18,10 +18,14 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -37,6 +41,7 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.openlegacy.designtime.DesigntimeException;
 import org.openlegacy.ide.eclipse.Messages;
+import org.openlegacy.ide.eclipse.actions.GenerateScreensApiDialog;
 import org.openlegacy.ide.eclipse.components.SnapshotComposite;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -127,6 +132,31 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer.setInput(terminalSessionTrail.getSnapshots().toArray());
 
+		Menu menu = new Menu(tableViewer.getTable());
+		MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
+		menuItem.setText(Messages.menu_generate_api);
+		menuItem.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent event) {
+				int[] selectionIndexes = tableViewer.getTable().getSelectionIndices();
+				TerminalSnapshot[] snapshots = new TerminalSnapshot[selectionIndexes.length];
+				for (int i = 0; i < selectionIndexes.length; i++) {
+					TerminalSnapshot snapshot = terminalSessionTrail.getSnapshots().get(selectionIndexes[i]);
+					snapshots[i] = snapshot;
+				}
+				GenerateScreensApiDialog dialog = new GenerateScreensApiDialog(getEditorSite().getShell(),
+						((FileEditorInput)getEditorInput()).getFile(), snapshots);
+				dialog.open();
+
+			}
+
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				widgetSelected(arg0);
+			}
+		});
+
+		tableViewer.getTable().setMenu(menu);
+
 		GridData data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 1;
 		tableViewer.getTable().setLayoutData(data);
@@ -177,7 +207,9 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection selection = event.getSelection();
 				Object firstElement = ((StructuredSelection)selection).getFirstElement();
-				snapshotComposite.setSnapshot((TerminalSnapshot)firstElement);
+				TerminalSnapshot snapshot = (TerminalSnapshot)firstElement;
+				snapshotComposite.setSnapshot(snapshot);
+				tableViewer.getTable().getMenu().getItem(0).setEnabled(snapshot.getSnapshotType() == SnapshotType.INCOMING);
 
 			}
 		});

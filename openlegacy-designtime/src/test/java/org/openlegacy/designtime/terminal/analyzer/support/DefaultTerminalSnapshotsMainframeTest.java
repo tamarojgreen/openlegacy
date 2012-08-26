@@ -22,7 +22,7 @@ public class DefaultTerminalSnapshotsMainframeTest extends AbstractAnalyzerTest 
 	public void testMainframeAppGenerate() throws TemplateException, IOException {
 		snapshotsOrganizer.setMatchingPercent(95);
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
-				"mainframe.trail.xml"));
+				"mainframe.trail"));
 		Collection<ScreenEntityDefinition> values = definitions.values();
 		Assert.assertEquals(2, values.size());
 		assertScreenContent(definitions.get("DallasTexas"), "mainframe/DallasTexas.java.expected");

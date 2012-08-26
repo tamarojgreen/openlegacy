@@ -16,9 +16,11 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.TableAction;
-import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 import org.openlegacy.utils.ReflectionUtil;
@@ -54,12 +56,17 @@ public class ScreenTableActionsAnnotationLoader extends AbstractClassAnnotationL
 				Class<? extends TerminalDrilldownAction> theAction = action.action();
 				TerminalDrilldownAction drilldownAction = ReflectionUtil.newInstance(theAction);
 				drilldownAction.setActionValue(action.actionValue());
-				SimpleActionDefinition actionDefinition = new SimpleActionDefinition(drilldownAction, action.displayName());
+				SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(drilldownAction,
+						AdditionalKey.NONE, action.displayName(), null);
 
 				if (StringUtils.isEmpty(action.alias())) {
 					actionDefinition.setAlias(StringUtil.toJavaFieldName(action.displayName()));
 				} else {
 					actionDefinition.setAlias(action.alias());
+				}
+
+				if (action.targetEntity() != ScreenEntity.NONE.class) {
+					actionDefinition.setTargetEntity(action.targetEntity());
 				}
 
 				screenTableDefinition.getActions().add(actionDefinition);

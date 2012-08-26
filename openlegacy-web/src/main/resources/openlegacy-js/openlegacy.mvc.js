@@ -21,11 +21,9 @@ function doPost(formName, actionName) {
 	showLoading();
 	var form = getForm(formName);
 	if (actionName != null && actionName.length > 0) {
-		form.action = location.href + "?action=" + actionName;
-	} else {
-		form.action = location.href;
+		form.action = form.action + "?action=" + actionName;
 	}
-
+	
 	form.submit();
 }
 

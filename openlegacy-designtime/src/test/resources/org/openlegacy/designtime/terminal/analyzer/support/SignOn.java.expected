@@ -27,8 +27,8 @@ public class SignOn {
 	@ScreenField(row = 6, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,fieldType=UserField.class ,displayName = "User")
     private String user;
 	
-	@ScreenField(row = 7, column = 53, endColumn= 62 ,labelColumn= 17 ,password= true ,editable= true ,fieldType=PasswordField.class ,displayName = "Password")
-    private String password;
+	@ScreenField(row = 7, column = 53, endColumn= 62 ,labelColumn= 1 ,password= true ,editable= true ,fieldType=PasswordField.class)
+    private String field;
 	
 	@ScreenField(row = 8, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,displayName = "Program/procedure")
     private String programprocedure;

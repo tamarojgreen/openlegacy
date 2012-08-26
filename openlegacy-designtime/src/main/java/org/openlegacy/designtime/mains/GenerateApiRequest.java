@@ -11,18 +11,22 @@
 package org.openlegacy.designtime.mains;
 
 import org.openlegacy.designtime.EntityUserInteraction;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
 
 public class GenerateApiRequest {
 
+	// generation is either to a trail file
 	private File trailFile;
+	// or snapshot
+	private TerminalSnapshot[] terminalSnapshots;
+
 	private File sourceDirectory;
 	private String packageDirectory;
 	private File codeGenerationTemplatesDirectory;
 	private EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction;
-	private File analyzerContextFile;
 	private File projectPath;
 
 	public File getTrailFile() {
@@ -31,6 +35,14 @@ public class GenerateApiRequest {
 
 	public void setTrailFile(File trailFile) {
 		this.trailFile = trailFile;
+	}
+
+	public void setTerminalSnapshots(TerminalSnapshot... terminalSnapshots) {
+		this.terminalSnapshots = terminalSnapshots;
+	}
+
+	public TerminalSnapshot[] getTerminalSnapshots() {
+		return terminalSnapshots;
 	}
 
 	public File getSourceDirectory() {

@@ -23,6 +23,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 
 	private List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
 	private int currentIndex = 0;
+	private boolean connected = false;
 
 	public MockTerminalConnection(List<TerminalSnapshot> snapshots) {
 		for (TerminalSnapshot terminalSnapshot : snapshots) {
@@ -35,7 +36,13 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 			throw (new SessionEndedException("Mock session has been finished"));
 		}
 		TerminalSnapshot snapshot = snapshots.get(currentIndex);
+		setConnected(true);
 		return snapshot;
+	}
+
+	private void setConnected(boolean connected) {
+		this.connected = connected;
+
 	}
 
 	public void doAction(TerminalSendAction terminalSendAction) {
@@ -57,10 +64,6 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 		throw (new UnsupportedOperationException("Mock terminal session has not delegate"));
 	}
 
-	public void reset() {
-		currentIndex = 0;
-	}
-
 	public void setCurrentIndex(int currentIndex) {
 		this.currentIndex = currentIndex;
 	}
@@ -74,10 +77,12 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 	}
 
 	public boolean isConnected() {
-		return currentIndex > 0;
+		return connected;
 	}
 
 	public void disconnect() {
-		reset();
+		currentIndex = 0;
+		setConnected(false);
+
 	}
 }

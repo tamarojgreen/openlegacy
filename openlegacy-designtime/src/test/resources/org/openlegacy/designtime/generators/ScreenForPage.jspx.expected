@@ -37,38 +37,7 @@
 			
 		
 			<ol:pagePart left="6%" top="54%" width="31%">
-				<table>
-					<th>
-					Action
-					</th>
-					<th>
-					Column1
-					</th>
-					<th>
-					Column2
-					</th>
-					<c:forEach items="${screenForPage.screenForPageRows}" var="item">
-					<tr>
-						<td>
-							<select id="action" name="action" onchange="doPost()">
-								<option value="">-Select-</option>
-								<option value="1">View</option>
-								<option value="2">Revise</option>
-							</select>
-						</td>
-						<td>${item.column1}</td>
-						<td>${item.column2}</td>
-					</tr>
-					</c:forEach>
-				</table>
-				<div class="excel">
-					<a href="ScreenForPage/excel"><img src="images/excel.jpg" /></a>
-				</div>
-				<div class="paging">
-					<a href="javascript:doAjaxPost('ScreenForPageForm','container','previous','body')">&lt; Previous</a>
-					| 
-					<a href="javascript:doAjaxPost('ScreenForPageForm','container','next','body')">Next &gt;</a> 
-				</div>
+				<ol:table data="${screenForPage.screenForPageRows}" property="screenForPageRows" />
 			</ol:pagePart>
 			
 		

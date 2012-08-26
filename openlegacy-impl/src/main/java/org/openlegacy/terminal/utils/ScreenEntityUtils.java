@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.utils;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.terminal.ScreenEntity;
@@ -64,7 +65,7 @@ public class ScreenEntityUtils {
 	public void sendScreenEntity(TerminalSession terminalSession, ScreenEntity screenEntity, String actionAlias) {
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
 		TerminalAction sessionAction = null;
-		if (actionAlias == null) {
+		if (StringUtils.isEmpty(actionAlias)) {
 			sessionAction = TerminalActions.ENTER();
 		} else {
 			List<ActionDefinition> actions = entityDefinitions.getActions();

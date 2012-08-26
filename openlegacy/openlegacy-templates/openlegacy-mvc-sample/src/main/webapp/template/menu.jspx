@@ -43,15 +43,26 @@
 					<li><a href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a></li>
 					<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View Session</a></li>
 					<li><a href="${pageContext.request.contextPath}/trail/download">Download trail</a></li>
+					<li><a href="${pageContext.request.contextPath}/emulation">HTML Emulation</a></li>
 					<li><a href="javascript:location.href=location.href">Refresh</a></li>
 				</ul>
 			</div>
 		</div>
-	</div>
-	<!-- For demo purposes only. Should be removed in real app -->
-	<div class="demo_session">
-		<a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">
-			<img src="${pageContext.request.contextPath}/sessionViewer/image" width="240px" height="130px"/>
-		</a>
+		<div data-dojo-type="dijit.layout.ContentPane" title="Demo stuff"
+			class="element">
+			<div class="links">
+				<ul>
+					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/terminal/samples/model/${definitions.entityName}.java')">View Model</a></li>
+					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/views/${definitions.entityName}.jspx')">View page</a></li>
+					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/terminal/samples/mvc/controllers/${definitions.entityName}Controller.java')">View Controller</a></li>
+				</ul>
+				<div class="demo_session">
+					<a href="javascript:showSessionViewer('${pageContext.request.contextPath}');" title="Original terminal screen">
+						<img src="${pageContext.request.contextPath}/sessionViewer/image" width="325px" height="170px"/>
+					</a>
+				</div>
+			</div>
+		</div>
+
 	</div>
 </div>

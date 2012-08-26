@@ -20,18 +20,14 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PerfrencesConstants;
 import org.openlegacy.ide.eclipse.Messages;
-import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
@@ -39,8 +35,11 @@ import java.text.MessageFormat;
 
 public class GenerateScreensApiDialog extends AbstractGenerateDialog implements EntityUserInteraction<ScreenEntityDefinition> {
 
-	protected GenerateScreensApiDialog(Shell shell, ISelection selection) {
-		super(shell, selection);
+	private TerminalSnapshot[] terminalSnapshots;
+
+	public GenerateScreensApiDialog(Shell shell, IFile file, TerminalSnapshot... terminalSnapshots) {
+		super(shell, file);
+		this.terminalSnapshots = terminalSnapshots;
 	}
 
 	private final static Logger logger = Logger.getLogger(GenerateScreensApiDialog.class);
@@ -48,23 +47,18 @@ public class GenerateScreensApiDialog extends AbstractGenerateDialog implements 
 	@Override
 	protected void executeGenerate() {
 
-		Object firstElement = ((TreeSelection)getSelection()).getFirstElement();
-		if (!(firstElement instanceof IFile)) {
-			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.error_invalid_trail_file_selection);
-		}
-		final IFile trailPath = (IFile)firstElement;
-
 		Job job = new Job(Messages.job_generating_screens) {
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 
+				final IFile trailPath = getFile();
 				int fileSize = (int)(new File(trailPath.getLocation().toOSString()).length() / 1000);
 				monitor.beginTask(Messages.job_activating_analyzer, fileSize);
 
 				monitor.worked(2);
 				EclipseDesignTimeExecuter.instance().generateScreens(trailPath, getSourceFolder(), getPackageValue(),
-						GenerateScreensApiDialog.this);
+						GenerateScreensApiDialog.this, terminalSnapshots);
 
 				monitor.worked(fileSize - 4);
 				Display.getDefault().syncExec(new Runnable() {
@@ -88,10 +82,9 @@ public class GenerateScreensApiDialog extends AbstractGenerateDialog implements 
 
 	@Override
 	protected void loadPrefrences() {
-		IFile selectionFile = (IFile)((IStructuredSelection)getSelection()).getFirstElement();
 
 		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
-		IProject project = selectionFile.getProject();
+		IProject project = getProject();
 
 		String prefrenceSourceFolderPath = designtimeExecuter.getPreference(project, PerfrencesConstants.API_SOURCE_FOLDER);
 		getSourceFolderPathText().setText(
@@ -106,16 +99,13 @@ public class GenerateScreensApiDialog extends AbstractGenerateDialog implements 
 
 	@Override
 	protected void savePreferences() {
-		IFile selectionFile = (IFile)((IStructuredSelection)getSelection()).getFirstElement();
-
 		String sourceFolderOnly = getSourceFolderPathText().getText().substring(
 				getSourceFolder().getJavaProject().getProject().getName().length() + 1);
 
-		IProject project = selectionFile.getProject();
 		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
 
-		designtimeExecuter.savePreference(project, PerfrencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
-		designtimeExecuter.savePreference(project, PerfrencesConstants.API_PACKAGE, getPackageText().getText());
+		designtimeExecuter.savePreference(getProject(), PerfrencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
+		designtimeExecuter.savePreference(getProject(), PerfrencesConstants.API_PACKAGE, getPackageText().getText());
 	}
 
 	public boolean customizeEntity(final ScreenEntityDefinition screenEntityDefinition) {

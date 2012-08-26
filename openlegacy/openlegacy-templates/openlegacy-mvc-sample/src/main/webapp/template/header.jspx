@@ -8,16 +8,16 @@
 		<a href="">OpenLegacy Toys</a>
 	</h1>
 	<div class="topmenu_wrap">
-		<c:if test="${loggedInUser != null}">
-			<div class="topmenu">
-				<ul>
-					<li>Welcome, ${loggedInUser}!</li>
-					<li class="prefs"><a href="javascript:changeTheme('cloud,night,red');">Theme</a></li>
-					<li class="mobile"><a href="http://demo.openlegacy.org/openlegacy-mobile-sample" title="Mobile version"><!----></a></li>
-					<li class="logout"><a
-							href="${pageContext.request.contextPath}/logoff">Logout</a></li>
-				</ul>
-			</div>
-		</c:if>
+		<div class="topmenu">
+			<ul>
+				<c:if test="${loggedInUser != null}">
+				<li>Welcome, ${loggedInUser}!</li>
+				</c:if>
+				<li class="prefs"><a href="javascript:changeTheme('cloud,night,red');">Theme</a></li>
+				<li class="mobile"><a href="http://demo.openlegacy.org/openlegacy-mobile-sample" title="Mobile version"><!----></a></li>
+				<li class="logout"><a
+						href="${pageContext.request.contextPath}/logoff">Logout</a></li>
+			</ul>
+		</div>
 	</div>
 </div>

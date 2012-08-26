@@ -32,4 +32,7 @@
 			});
 		</script>
 	</c:if>
+	<div id="viewSourceDialog" data-dojo-type="dijit.Dialog"
+		title="Source" style="width: 80%; height: 500px; overflow: auto;"
+		data-dojo-props="parseOnLoad: true, draggable:false,duration:600"></div>
 </div>

@@ -94,6 +94,14 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 	H get(Class<?> entityClass);
 
 	/**
+	 * Returns an entity definition for the given entity name
+	 * 
+	 * @param entityName
+	 * @return an entity definitions for the given entity class
+	 */
+	H get(String entityName);
+
+	/**
 	 * Clean the registry from it's content. Called when registry is loaded/reloaded
 	 */
 	void clear();

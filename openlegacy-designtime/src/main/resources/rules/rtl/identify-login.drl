@@ -21,16 +21,16 @@ when
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
 	
 	$userField: TerminalField(editable == true) from $snapshot.getFields()
-	$userLabelField: TerminalField(position.row == $userField.position.row, position.column < $userField.position.column, 
+	$userLabelField: TerminalField(position.row == $userField.position.row, position.column > $userField.position.column, 
 															editable == false,value matches $userFieldRegex) from $snapshot.getFields();
 
 	// collect all the password fields
 	$passwordFields: List(size >= 1) from collect (TerminalField(password == true, position.row >= $userField.position.row) from $snapshot.getFields())
-
+	
 	// label is not empty	
 	$passwordField: TerminalField(value not matches "[\\s]+") from $passwordFields.get(0)
 	
-	$passwordLabelFields: List() from collect (TerminalField(position.row == $passwordField.position.row, position.column < $passwordField.position.column, editable == false) from $snapshot.getFields())
+	$passwordLabelFields: List() from collect (TerminalField(position.row == $passwordField.position.row, position.column > $passwordField.position.column, editable == false) from $snapshot.getFields())
 
 	$errorLine: Integer() from $snapshot.getSize().getRows() - $errorMessageLinesFromButtom  
 	

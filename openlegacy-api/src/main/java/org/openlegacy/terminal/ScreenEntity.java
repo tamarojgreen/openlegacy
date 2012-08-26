@@ -22,4 +22,14 @@ public interface ScreenEntity {
 	String getFocusField();
 
 	void setFocusField(String focusField);
+
+	public class NONE implements ScreenEntity {
+
+		public String getFocusField() {
+			return null;
+		}
+
+		public void setFocusField(String focusField) {}
+
+	}
 }

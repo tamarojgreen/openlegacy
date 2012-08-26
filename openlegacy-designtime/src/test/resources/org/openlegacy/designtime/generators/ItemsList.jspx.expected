@@ -2,47 +2,15 @@
 	<ol:form model="itemsList">
 		
 			<ol:field name="positionTo" top="83%" left="6%" width="30%" />
+			
 		
 			<ol:field name="errorMessage" top="95%" left="1%" width="13%" />
+			
 		
 			<ol:pagePart left="5%" top="25%" width="80%">
-				<table>
-					<th>
-					Action
-					</th>
-					<th>
-					Alpha Search
-					</th>
-					<th>
-					Item Description
-					</th>
-					<th>
-					Item Number
-					</th>
-					<c:forEach items="${itemsList.itemsListRows}" var="item">
-					<tr>
-						<td>
-							<select id="action" name="action" onchange="doPost()">
-								<option value="">-Select-</option>
-								<option value="1">View</option>
-								<option value="2">Revise</option>
-							</select>
-						</td>
-						<td>${item.alphaSearch}</td>
-						<td>${item.itemDescription}</td>
-						<td>${item.itemNumber}</td>
-					</tr>
-					</c:forEach>
-				</table>
-				<div class="excel">
-					<a href="ItemsList/excel"><img src="images/excel.jpg" /></a>
-				</div>
-				<div class="paging">
-					<a href="javascript:doAjaxPost('ItemsListForm','container','previous','body')">&lt; Previous</a>
-					| 
-					<a href="javascript:doAjaxPost('ItemsListForm','container','next','body')">Next &gt;</a> 
-				</div>
+				<ol:table data="${itemsList.itemsListRows}" property="itemsListRows" />
 			</ol:pagePart>
+			
 		
 	</ol:form>
 </div>

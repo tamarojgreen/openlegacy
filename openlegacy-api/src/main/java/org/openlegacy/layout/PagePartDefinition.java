@@ -11,7 +11,6 @@
 package org.openlegacy.layout;
 
 import org.openlegacy.definitions.TableDefinition;
-import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 
 import java.util.List;
 
@@ -30,5 +29,11 @@ public interface PagePartDefinition {
 
 	int getWidth();
 
-	TableDefinition<ColumnDefinition> getTableDefinition();
+	int getLeftMargin();
+
+	int getTopMargin();
+
+	String getTableFieldName();
+
+	TableDefinition<?> getTableDefinition();
 }

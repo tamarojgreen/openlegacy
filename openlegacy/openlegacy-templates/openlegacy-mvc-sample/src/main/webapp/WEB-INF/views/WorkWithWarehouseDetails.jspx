@@ -1,42 +1,6 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ol="urn:jsptagdir:/WEB-INF/tags">
-	<form id="WorkWithWarehouseDetailsForm" method="post">
-		<div class="table">
-			<table>
-				<th>Action</th>
-				<th>Whse</th>
-				<th>Description</th>
-				<c:forEach
-					items="${workWithWarehouseDetails.workWithWarehouseDetailsRecords}"
-					var="item" varStatus="i">
-					<tr class="${i.index % 2 == 0 ? '' : 'alt'}">
-						<td><a href="WorkWithWarehouseDetails1/revise/${item.whse}"
-								class="rbtn revise" title="Revise">Revise</a> <a
-								href="WorkWithWarehouseDetails1/display/${item.whse}"
-								class="rbtn display" title="Display">Display</a> <a
-								href="WorkWithWarehouseDetails1/delete/${item.whse}"
-								class="rbtn delete" title="Delete">Delete</a> <a href="#"
-								class="rbtn items" title="Items">Items</a> <a href="#"
-								class="rbtn locations" title="Locations">Locations</a></td>
-						<td>${item.whse}</td>
-						<td>${item.description}</td>
-					</tr>
-				</c:forEach>
-			</table>
-			<div class="paging">
-				<div class="previous">
-					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','previous','body')">
-						<span class="arrow"><!----></span>
-						<span>Previous</span>
-					</a>
-				</div>
-				<div class="next">
-					<a href="javascript:doAjaxPost('WorkWithItemMasterForm','container','next','body')">
-						<span class="arrow"><!----></span>
-						<span>Next</span>
-					</a>
-				</div>
-			</div>
-		</div>
-	</form>
+	<ol:form model="workWithWarehouseDetails">
+		<ol:table data="${workWithWarehouseDetails.workWithWarehouseDetailsRecords}" property="workWithWarehouseDetailsRecords" />
+	</ol:form>
 </div>
