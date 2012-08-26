@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -27,7 +29,6 @@ import org.eclipse.jdt.ui.StandardJavaElementContentProvider;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.window.Window;
@@ -59,13 +60,13 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 
 	private Text sourceFolderPathText;
 	private IPackageFragmentRoot sourceFolder;
-	private ISelection selection;
 	private Text packageText;
 	private String packageValue;
+	private IFile file;
 
-	protected AbstractGenerateDialog(Shell shell, ISelection selection) {
+	protected AbstractGenerateDialog(Shell shell, IFile file) {
 		super(shell);
-		this.selection = selection;
+		this.file = file;
 	}
 
 	@Override
@@ -265,10 +266,6 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 		return packageValue;
 	}
 
-	public ISelection getSelection() {
-		return selection;
-	}
-
 	public Text getSourceFolderPathText() {
 		return sourceFolderPathText;
 	}
@@ -281,4 +278,11 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 		return packageText;
 	}
 
+	public IFile getFile() {
+		return file;
+	}
+
+	public IProject getProject() {
+		return file.getProject();
+	}
 }

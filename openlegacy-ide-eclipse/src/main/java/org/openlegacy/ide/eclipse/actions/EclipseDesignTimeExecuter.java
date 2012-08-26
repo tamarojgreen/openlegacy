@@ -35,6 +35,7 @@ import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
@@ -69,7 +70,8 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateScreens(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction) throws GenerationException {
+			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction, TerminalSnapshot... terminalSnapshots)
+			throws GenerationException {
 		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
 		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
 
@@ -79,6 +81,7 @@ public class EclipseDesignTimeExecuter {
 		generateScreenRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
 		generateScreenRequest.setCodeGenerationTemplatesDirectory(templatesDirectory);
 		generateScreenRequest.setTrailFile(PathsUtil.toOsLocation(trailFile));
+		generateScreenRequest.setTerminalSnapshots(terminalSnapshots);
 		generateScreenRequest.setEntityUserInteraction(entityUserInteraction);
 
 		designTimeExecuter.generateAPI(generateScreenRequest);

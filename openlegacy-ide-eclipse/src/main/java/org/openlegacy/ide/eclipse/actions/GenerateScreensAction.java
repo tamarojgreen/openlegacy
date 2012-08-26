@@ -10,8 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IActionDelegate;
+import org.openlegacy.ide.eclipse.Messages;
+import org.openlegacy.ide.eclipse.PluginConstants;
 
 public class GenerateScreensAction extends AbstractAction {
 
@@ -19,9 +24,12 @@ public class GenerateScreensAction extends AbstractAction {
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		GenerateScreensApiDialog dialog = new GenerateScreensApiDialog(getShell(), getSelection());
+		Object firstElement = ((TreeSelection)getSelection()).getFirstElement();
+		if (!(firstElement instanceof IFile)) {
+			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.error_invalid_trail_file_selection);
+		}
+		GenerateScreensApiDialog dialog = new GenerateScreensApiDialog(getShell(), (IFile)firstElement);
 		dialog.open();
 
 	}
-
 }

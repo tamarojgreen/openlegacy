@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
@@ -42,9 +41,11 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 
 	private final static Logger logger = Logger.getLogger(GenerateWebPageDialog.class);
 	private Button generateHelpBtn;
+	private ISelection selection;
 
 	protected GenerateWebPageDialog(Shell shell, ISelection selection) {
-		super(shell, selection);
+		super(shell, (IFile)((ICompilationUnit)((TreeSelection)selection).getFirstElement()).getResource());
+		this.selection = selection;
 	}
 
 	@Override
@@ -56,7 +57,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 
-				final TreePath[] pathElements = ((TreeSelection)getSelection()).getPaths();
+				final TreePath[] pathElements = ((TreeSelection)selection).getPaths();
 
 				monitor.beginTask(Messages.task_generating, pathElements.length + 1);
 
@@ -102,10 +103,9 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 
 	@Override
 	protected void loadPrefrences() {
-		ICompilationUnit selectionFile = (ICompilationUnit)((IStructuredSelection)getSelection()).getFirstElement();
 
 		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
-		IProject project = selectionFile.getResource().getProject();
+		IProject project = getProject();
 
 		String prefrenceSourceFolderPath = designtimeExecuter.getPreference(project, PerfrencesConstants.API_SOURCE_FOLDER);
 		getSourceFolderPathText().setText(
@@ -120,15 +120,12 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 
 	@Override
 	protected void savePreferences() {
-		ICompilationUnit selectionFile = (ICompilationUnit)((IStructuredSelection)getSelection()).getFirstElement();
-
 		String sourceFolderOnly = getSourceFolderPathText().getText().substring(
 				getSourceFolder().getJavaProject().getProject().getName().length() + 1);
 
-		IProject project = selectionFile.getResource().getProject();
 		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
 
-		designtimeExecuter.savePreference(project, PerfrencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
-		designtimeExecuter.savePreference(project, PerfrencesConstants.WEB_PACKAGE, getPackageText().getText());
+		designtimeExecuter.savePreference(getProject(), PerfrencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
+		designtimeExecuter.savePreference(getProject(), PerfrencesConstants.WEB_PACKAGE, getPackageText().getText());
 	}
 }

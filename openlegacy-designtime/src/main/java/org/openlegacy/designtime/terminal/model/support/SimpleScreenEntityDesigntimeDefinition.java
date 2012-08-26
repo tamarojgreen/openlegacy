@@ -80,7 +80,7 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 
 	@Override
 	public void setSnapshot(TerminalSnapshot terminalSnapshot) {
-		this.terminalSnapshot = terminalSnapshot;
+		this.terminalSnapshot = (TerminalSnapshot)SerializationUtils.clone(terminalSnapshot);
 		this.originalSnapshot = (TerminalSnapshot)SerializationUtils.clone(terminalSnapshot);
 	}
 

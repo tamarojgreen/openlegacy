@@ -66,7 +66,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		Label label = new Label(parent, SWT.NONE);
 		label.setText(" "); //$NON-NLS-1$
 
-		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getSnapshot());
+		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getOriginalSnapshot());
 
 		new Label(parent, SWT.NONE);
 		return parent;
