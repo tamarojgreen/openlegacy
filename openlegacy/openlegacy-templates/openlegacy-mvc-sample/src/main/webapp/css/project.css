@@ -1,3 +1,12 @@
+.main{
+	position:relative;
+	min-height: 460px;
+}
+
+.actions_container{
+	min-height: 460px;
+}
+
 #logo_header a {
 	background-image: url(../images/logo.png);
 	width: 387px;

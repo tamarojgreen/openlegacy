@@ -5,7 +5,7 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<ol:form model="workWithWarehouseDetails1">
-		<ol:panel title="Item Details">
+		<ol:pagePart title="Item Details">
 			<ol:field name="warehouseNumber" />
 			<ol:field name="warehouseDescription" />
 			<ol:field name="warehouseType" />
@@ -14,12 +14,12 @@
 			<ol:field name="address" type="address" />
 			<ol:field name="phone" />
 			<ol:field name="email" />
-		</ol:panel>
-		<ol:panel title="User Details">
+		</ol:pagePart>
+		<ol:pagePart title="User Details">
 			<div class="col_1_of_2">
 				<ol:field name="amendedBy" />
 			</div>
-			<div class="col_1_of_2">
+			<div class="col_2_of_2">
 				<ol:field name="amendedDate" />
 			</div>
 			<div class="col_1_of_2">
@@ -28,6 +28,6 @@
 			<div class="col_2_of_2">
 				<ol:field name="createdDate" />
 			</div>
-		</ol:panel>
+		</ol:pagePart>
 	</ol:form>
 </div>
