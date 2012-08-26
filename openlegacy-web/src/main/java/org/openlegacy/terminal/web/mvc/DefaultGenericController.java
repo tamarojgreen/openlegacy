@@ -1,10 +1,8 @@
 package org.openlegacy.terminal.web.mvc;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
-import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -49,6 +46,14 @@ public class DefaultGenericController {
 
 	private final static Log logger = LogFactory.getLog(DefaultGenericController.class);
 
+	private static final String GENERIC_PAGE = "generic";
+
+	private static final String GENERIC_INNER_PAGE = "genericView";
+
+	private static final String PAGE = "page";
+
+	private static final String COMPOSITE_PAGE = "composite";
+
 	@Inject
 	private TerminalSession terminalSession;
 
@@ -61,36 +66,16 @@ public class DefaultGenericController {
 	@Inject
 	private ScreenPageBuilder pageBuilder;
 
-	/**
-	 * Workaround method to avoid capturing index.html page. Returns the content of index.html
-	 * 
-	 * @param request
-	 *            servlet request
-	 * @return index.html page content
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public @ResponseBody
-	String index(HttpServletRequest request) throws IOException {
-		URL resource = request.getSession().getServletContext().getResource("/index.html");
-		String result = "";
-		if (resource != null) {
-			result = IOUtils.toString(resource.openStream());
-		}
-		return result;
-	}
-
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
 	public String getScreenEntity(@PathVariable("screen") String screenEntityName, Model uiModel) throws IOException {
 		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
 		uiModel.addAttribute(screenEntityName, screenEntity);
 		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(screenEntityName);
 		if (entityDefinition.getChildEntitiesDefinitions().size() > 0) {
-			return "composite";
+			return COMPOSITE_PAGE;
 		} else {
-			PageDefinition page = pageBuilder.build(entityDefinition);
-			uiModel.addAttribute("page", page);
-			return "generic";
+			uiModel.addAttribute(PAGE, pageBuilder.build(entityDefinition));
+			return GENERIC_PAGE;
 		}
 
 	}
@@ -100,9 +85,8 @@ public class DefaultGenericController {
 		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
 		uiModel.addAttribute(screenEntityName, screenEntity);
 		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(screenEntityName);
-		PageDefinition page = pageBuilder.build(entityDefinition);
-		uiModel.addAttribute("page", page);
-		return "genericView";
+		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefinition));
+		return GENERIC_INNER_PAGE;
 
 	}
 
@@ -110,8 +94,9 @@ public class DefaultGenericController {
 	public String getScreenEntity(HttpServletResponse response, Model uiModel) throws IOException {
 
 		ScreenEntity screenEntity = terminalSession.getEntity();
-		uiModel.addAttribute("screen", screenEntity);
-		return "generic";
+		String screenEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
+		uiModel.addAttribute(screenEntityName, screenEntity);
+		return GENERIC_PAGE;
 
 	}
 
@@ -131,8 +116,21 @@ public class DefaultGenericController {
 
 		screenEntityUtils.sendScreenEntity(terminalSession, screenEntity, action);
 		screenEntity = terminalSession.getEntity();
-		// uiModel.addAttribute("screen", screenEntity);
-		return "redirect:/" + ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
+		if (request.getParameter("partial") != null) {
+			return returnPartialPage(screenEntityName, uiModel);
+		} else {
+			String resultEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
+			return "redirect:" + resultEntityName;
+		}
+	}
+
+	private String returnPartialPage(String screenEntityName, Model uiModel) {
+		ScreenEntity resultEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
+		String resultEntityName = ProxyUtil.getOriginalClass(resultEntity.getClass()).getSimpleName();
+		uiModel.addAttribute(resultEntityName, resultEntity);
+		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(resultEntityName);
+		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefinition));
+		return GENERIC_INNER_PAGE;
 	}
 
 	/**
@@ -153,7 +151,13 @@ public class DefaultGenericController {
 		return entityClass;
 	}
 
-	// handle Ajax request for auto compete fields
+	/**
+	 * handle Ajax request for auto compete fields
+	 * 
+	 * @param screenEntityName
+	 * @param fieldName
+	 * @return JSON content
+	 */
 	@RequestMapping(value = "/{screen}/{field}", method = RequestMethod.GET, headers = "X-Requested-With=XMLHttpRequest")
 	@ResponseBody
 	public ResponseEntity<String> autoCompleteJson(@PathVariable("screen") String screenEntityName,
