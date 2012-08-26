@@ -7,7 +7,7 @@ OR
 Eclipse 3.7 with "Maven Integration For Eclipse", "AspectJ Development Tools", "Egit - Git Team Provider"
 from Eclipse market place (Help -> Eclipse Marketplace...)
 
-Tested with STS 2.8.1, STS 2.9.2, and Eclipse 3.7
+Tested with STS 2.9.2, 3.0.0 and Eclipse 3.7
 
 1.
 For STS - start springsource/sts-<VERSION>/sts.exe
