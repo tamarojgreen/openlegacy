@@ -8,7 +8,7 @@
 			
 		
 			<ol:pagePart left="5%" top="25%" width="80%">
-				<ol:table data="${itemsList.itemsListRows}" property="itemsListRows" />
+				<ol:table data="${itemsList.itemsListRows}" property="itemListRows" />
 			</ol:pagePart>
 			
 		

@@ -34,7 +34,7 @@ public class SignOn {
     private String programprocedure;
 	
 	@ScreenField(row = 9, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,displayName = "Menu")
-    private String menu;
+    private String menu_;
 	
 	@ScreenField(row = 10, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,displayName = "Current library")
     private String currentLibrary;

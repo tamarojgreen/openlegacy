@@ -18,7 +18,7 @@
 				</#list>
 			</#list>
 			<#if pagePart.hasTable>
-				<ol:table data="${r"${"}${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s${r"}"}" property="${pagePart.tableDefinition.tableEntityName?uncap_first}s" formName="${entityDefinition.entityName?uncap_first}" />
+				<ol:table data="${r"${"}${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s${r"}"}" property="${pagePart.tableFieldName?uncap_first}" />
 			</#if>
 			</ol:pagePart>
 		</#if>
