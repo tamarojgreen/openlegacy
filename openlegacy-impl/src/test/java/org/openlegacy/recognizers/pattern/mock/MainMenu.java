@@ -1,7 +1,6 @@
 package org.openlegacy.recognizers.pattern.mock;
 
 import org.openlegacy.annotations.screen.ScreenEntity;
-import org.springframework.stereotype.Component;
 
 @ScreenEntity(name = "ApplinXDemoEnvironment")
 public class MainMenu implements org.openlegacy.terminal.ScreenEntity {

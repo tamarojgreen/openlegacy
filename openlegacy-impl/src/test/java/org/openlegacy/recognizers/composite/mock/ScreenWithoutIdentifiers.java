@@ -1,7 +1,6 @@
 package org.openlegacy.recognizers.composite.mock;
 
 import org.openlegacy.annotations.screen.ScreenEntity;
-import org.springframework.stereotype.Component;
 
 @ScreenEntity(name = "ApplinXDemoEnvironment")
 public class ScreenWithoutIdentifiers implements org.openlegacy.terminal.ScreenEntity {

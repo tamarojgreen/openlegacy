@@ -3,7 +3,6 @@ package org.openlegacy.terminal.layout.mock;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.modules.menu.Menu;
-import org.springframework.stereotype.Component;
 
 @ScreenEntity(screenType = Menu.MenuEntity.class)
 public class MenuScreenForPage implements org.openlegacy.terminal.ScreenEntity {
