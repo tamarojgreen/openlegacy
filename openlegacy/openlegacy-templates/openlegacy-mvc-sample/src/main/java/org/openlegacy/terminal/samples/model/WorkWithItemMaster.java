@@ -35,9 +35,9 @@ public class WorkWithItemMaster {
 
 	@ScreenTable(startRow = 8, endRow = 19)
 	@ScreenTableActions(actions = {
-			@TableAction(actionValue = "2", displayName = "Revise", targetEntity = WorkWithItemMaster.class),
-			@TableAction(actionValue = "4", displayName = "Delete", targetEntity = WorkWithItemMaster.class),
-			@TableAction(actionValue = "5", displayName = "Display", targetEntity = WorkWithItemMaster.class) })
+			@TableAction(actionValue = "2", displayName = "Revise", targetEntity = WorkWithItemMaster1.class),
+			@TableAction(actionValue = "4", displayName = "Delete", targetEntity = WorkWithItemMaster1.class),
+			@TableAction(actionValue = "5", displayName = "Display", targetEntity = WorkWithItemMaster1.class) })
 	public static class WorkWithItemMasterRecord {
 
 		@ScreenColumn(startColumn = 4, endColumn = 4, editable = true, selectionField = true, displayName = "Action")
@@ -46,10 +46,10 @@ public class WorkWithItemMaster {
 		@ScreenColumn(startColumn = 11, endColumn = 20, displayName = "Alpha search", sampleValue = "APPLE")
 		private String alphaSearch;
 
-		@ScreenColumn(startColumn = 24, endColumn = 63, mainDisplayField = true, displayName = "Item Description", sampleValue = "Red apple - FRT")
+		@ScreenColumn(startColumn = 24, endColumn = 63, mainDisplayField = true, displayName = "Item Description", sampleValue = "Water Ball - Balls")
 		private String itemDescription;
 
-		@ScreenColumn(startColumn = 65, endColumn = 79, key = true, displayName = "Item Number", sampleValue = "1007")
+		@ScreenColumn(startColumn = 65, endColumn = 79, key = true, displayName = "Item Number", sampleValue = "3002")
 		private Integer itemNumber;
 
 	}

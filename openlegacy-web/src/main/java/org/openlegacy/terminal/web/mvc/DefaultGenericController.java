@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.web.mvc;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Map;
 
@@ -35,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * OpenLegacy default web controller for a terminal session. Handles GET/POST requests of a web application. Works closely with
- * generic.jspx / composite.jspx. Saves the need for a dedicated controller for each screen API.
+ * generic.jspx / composite.jspx. Saves the need for a dedicated controller and page for each screen API, if such doesn't exists.
  * 
  * @author Roi Mor
  * 
@@ -59,10 +61,23 @@ public class DefaultGenericController {
 	@Inject
 	private ScreenPageBuilder pageBuilder;
 
+	/**
+	 * Workaround method to avoid capturing index.html page. Returns the content of index.html
+	 * 
+	 * @param request
+	 *            servlet request
+	 * @return index.html page content
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index() {
-		ScreenEntity screenEntity = terminalSession.getEntity();
-		return "redirect:/" + ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
+	public @ResponseBody
+	String index(HttpServletRequest request) throws IOException {
+		URL resource = request.getSession().getServletContext().getResource("/index.html");
+		String result = "";
+		if (resource != null) {
+			result = IOUtils.toString(resource.openStream());
+		}
+		return result;
 	}
 
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
