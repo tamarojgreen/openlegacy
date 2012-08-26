@@ -50,9 +50,6 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 					if (resource instanceof IFile && fileName.endsWith(PluginConstants.JAVA_EXTENSION)) {
 
 						String fileNoExtension = FileUtils.fileWithoutExtension(fileName);
-						if (!resource.exists()) {
-							return false;
-						}
 						IResource[] members = resource.getParent().members();
 						for (IResource iResource : members) {
 							String resourceName = iResource.getName();
