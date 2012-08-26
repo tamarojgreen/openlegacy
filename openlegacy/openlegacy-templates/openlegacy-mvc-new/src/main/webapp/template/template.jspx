@@ -39,7 +39,7 @@
 	dojo.require("dijit.form.CheckBox");
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js"><!----></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/demo.js"><!----></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/project.js"><!----></script>
 
 <!--[if !IE 7]>
 

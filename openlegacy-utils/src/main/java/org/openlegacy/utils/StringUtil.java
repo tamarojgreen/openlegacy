@@ -32,7 +32,7 @@ public class StringUtil {
 			"public", "throws", "case", "false", "return", "transient", "catch", "final", "interface", "short", "int", "float",
 			"double", "boolean", "true", "char", "long", "static", "try", "class", "native", "strictfp", "void", "const", "for",
 			"new", "super", "volatile", "continue", "goto", "null", "switch", "while", "default", "assert", "exception", "java",
-			"jsp", "context", /** java-script **/
+			"menu", "jsp", "context", /** java-script **/
 			"action" };
 
 	private static Map<String, String> RESERVERD_WORDS_DICTIONARY = new HashMap<String, String>();

@@ -17,14 +17,17 @@
 
   <!-- Place holder for code generation -->
 
+  <!-- A generic API page view -->
   <definition name="generic" extends="template">
     <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
   </definition>
 
+  <!-- A generic API partial view within a tab -->
   <definition name="genericView" extends="view">
     <put-attribute name="body" value="/WEB-INF/views/generic.jspx" />
   </definition>
   
+  <!-- A generic API composite page (tab) -->
   <definition name="composite" extends="compositeTemplate">
     <put-attribute name="body" value="/WEB-INF/views/composite.jspx" />
   </definition>

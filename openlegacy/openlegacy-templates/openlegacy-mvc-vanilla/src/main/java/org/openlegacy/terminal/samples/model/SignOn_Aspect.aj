@@ -7,7 +7,6 @@ import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
-    
 
     declare parents: SignOn implements ScreenEntity;
     private String SignOn.focusField;
@@ -56,12 +55,12 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 
 
 
-    public String SignOn.getMenu(){
-    	return this.menu;
+    public String SignOn.getMenu_(){
+    	return this.menu_;
     }
     
-    public void SignOn.setMenu(String menu){
-    	this.menu = menu;
+    public void SignOn.setMenu_(String menu_){
+    	this.menu_ = menu_;
     }
 
 
