@@ -17,7 +17,9 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDefinition implements ScreenEntityDesigntimeDefinition, Serializable {
 
@@ -61,12 +63,18 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 			}
 			temporaryTableDefinitions.clear();
 		} else {
-			Collection<ScreenTableDefinition> tablesDefintions = getTableDefinitions().values();
-			getTableDefinitions().clear();
+			if (entityName.equals(getEntityName())) {
+				return;
+			}
+			Set<String> oldTableNames = getTableDefinitions().keySet();
+			Collection<ScreenTableDefinition> tablesDefintions = Collections.unmodifiableCollection(getTableDefinitions().values());
 			int count = 0;
 			for (ScreenTableDefinition tableDefinition : tablesDefintions) {
 				setNewTableName(entityName, count, (SimpleScreenTableDefinition)tableDefinition);
 				count++;
+			}
+			for (String oldTableName : oldTableNames) {
+				getTableDefinitions().remove(oldTableName);
 			}
 		}
 	}
