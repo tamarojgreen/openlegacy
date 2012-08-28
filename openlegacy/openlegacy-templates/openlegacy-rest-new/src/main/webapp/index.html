@@ -1,0 +1,114 @@
+<html>
+<head>
+<script>
+    dojoConfig= {
+        parseOnLoad: true,
+        async: false
+    };
+
+function get(){
+	var requestType = "application/" + dojo.byId('requestType').value;
+	var url = location.href + dojo.byId('getUrl').value;
+	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType;
+	var xhrArgs = {
+			handleAs : "text",
+			headers: { "Content-Type": requestType },
+			url : url,
+			load : function(data) {
+				if (data != ""){
+					data = dojox.html.format.prettyPrint(data);
+					dojo.byId('result').innerHTML = data;
+				}
+				else{
+					dojo.byId('result').innerHTML = "OK"; 
+				}
+			},
+			error : function(e) {
+				alert(e);
+			}
+		}
+		var deferred = dojo.xhrGet(xhrArgs);
+	}
+
+function post(){
+	var requestType = "application/" + dojo.byId('postRequestType').value;
+	var data = dojo.byId("postData").value;
+	var url= location.href + dojo.byId('postUrl').value;
+	dojo.byId("postMessage").innerHTML = "POST:" + url + " ; Content-Type: " + requestType;
+	
+	var xhrArgs = {
+			handleAs : "text",
+			postData : data,
+			headers: { "Accept": requestType, "Content-Type": requestType },
+			url : url,
+			load : function(data) {
+			},
+			error : function(e) {
+				alert(e);
+			}
+		}
+		var deferred = dojo.xhrPost(xhrArgs);
+	}
+
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/dojo.js"
+	data-dojo-config="has:{'dojo-firebug': true}, parseOnLoad: true, async: 1">
+</script>
+<script>
+require(["dojo/parser", "dijit/form/FilteringSelect","dojox/html/format"]);
+
+</script>
+<link
+	href="//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dijit/themes/tundra/tundra.css"
+	rel="stylesheet" type="text/css" />
+</head>
+<body class="tundra">
+<img src="http://www.openlegacy.org/open_legacy/openlegacy_logo.png" width="150px" height="50px"/>
+<h1>
+REST API test page
+</h1>
+	<h3>HTTP Get</h3>
+	Available URL's:
+	<select id="getUrl" data-dojo-type="dijit.form.FilteringSelect">
+		<option>login?user=user1&password=pwd1</option>
+		<option>ItemsList</option>
+		<option>ItemDetails1</option>
+		<option>WarehouseDetails</option>
+		<option>WarehousesList</option>
+		<option>logoff</option>
+	</select>
+	<select id="requestType">
+		<option value="json">JSON</option>
+		<option value="xml">XML</option>
+	</select>
+	<br />
+	<button onclick="get()">HTTP Get</button>
+	<br />
+	<div id="getMessage"></div>
+	<br />
+	<textarea id="result" rows="9" cols="100"></textarea>
+	<hr/>
+	<h3>HTTP Post</h3>	
+	Content:
+	<br />
+	<textarea rows="6" cols="100" id="postData">
+<screenEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:java="http://java.sun.com" xsi:type="java:apps.inventory.screens.ItemDetails1">
+       <itemNumber>2000</itemNumber>
+       <itemDescription>New desc</itemDescription>
+       <palletLabelRequired>true</palletLabelRequired>
+       <focusField>itemDescription</focusField>
+</screenEntity>	
+		</textarea>
+	<br/>
+	To URL: <input id="postUrl" value="/ItemDetails1?action=save" size="40"/>
+	<select id="postRequestType">
+		<option value="xml">XML</option>
+		<option value="json">JSON</option>
+	</select>
+	<br/>
+	<button onclick="post()">HTTP Post</button>
+	<div id="postMessage"></div>
+	
+</body>
+</html>

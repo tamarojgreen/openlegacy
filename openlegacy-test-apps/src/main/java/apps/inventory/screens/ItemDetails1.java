@@ -1,16 +1,20 @@
 package apps.inventory.screens;
 
+import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 6, column = 2, value = "Item Number . ."),
 		@Identifier(row = 7, column = 2, value = "Item Description") })
+@ScreenActions(actions = { @Action(action = TerminalActions.F2.class, displayName = "Save", alias = "save") })
 @ScreenNavigation(accessedFrom = ItemsList.class, exitAction = TerminalActions.F12.class)
 public class ItemDetails1 {
 

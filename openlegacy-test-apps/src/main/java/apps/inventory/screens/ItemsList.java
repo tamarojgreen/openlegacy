@@ -26,7 +26,7 @@ import java.util.List;
 @ScreenNavigation(accessedFrom = InventoryManagement.class, assignedFields = { @AssignedField(field = "selection", value = "1") }, exitAction = F3.class)
 public class ItemsList {
 
-	@ScreenField(row = 21, column = 19)
+	@ScreenField(row = 21, column = 19,editable=true)
 	private String positionTo;
 
 	private List<ItemsListRow> itemListRows;
