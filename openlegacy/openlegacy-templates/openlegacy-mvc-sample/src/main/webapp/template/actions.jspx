@@ -16,7 +16,7 @@
 				</a></li>
 		</c:forEach>
 		<c:if test="${fn:length(definitions.tableDefinitions) > 0}">
-			<li>
+			<li class="right">
 				<a href="${definitions.entityName}/excel">
 					<img src="${pageContext.request.contextPath}/icons/excel.png" class="excel" />
 					Excel
