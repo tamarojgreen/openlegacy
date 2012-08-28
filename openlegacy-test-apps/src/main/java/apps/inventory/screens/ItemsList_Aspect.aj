@@ -30,6 +30,9 @@ privileged aspect ItemsList_Aspect {
     	return this.positionTo;
     }
     
+    public void ItemsList.setPositionTo(String positionTo){
+    	this.positionTo = positionTo;
+    }
 
 
     public String ItemsList.getFocusField(){
