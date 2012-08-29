@@ -22,6 +22,7 @@ function get(){
 				else{
 					dojo.byId('result').innerHTML = "OK"; 
 				}
+				dojo.byId("restImage").setAttribute("src","restImage"); 
 			},
 			error : function(e) {
 				alert(e);
@@ -42,6 +43,7 @@ function post(){
 			headers: { "Accept": requestType, "Content-Type": requestType },
 			url : url,
 			load : function(data) {
+				dojo.byId("restImage").setAttribute("src","restImage"); 
 			},
 			error : function(e) {
 				alert(e);
@@ -55,7 +57,7 @@ function post(){
 	data-dojo-config="has:{'dojo-firebug': true}, parseOnLoad: true, async: 1">
 </script>
 <script>
-require(["dojo/parser", "dijit/form/FilteringSelect","dojox/html/format"]);
+require(["dojo/parser", "dijit/form/FilteringSelect","dojox/html/format","dijit/TitlePane"]);
 
 </script>
 <link
@@ -63,52 +65,55 @@ require(["dojo/parser", "dijit/form/FilteringSelect","dojox/html/format"]);
 	rel="stylesheet" type="text/css" />
 </head>
 <body class="tundra">
-<img src="http://www.openlegacy.org/open_legacy/openlegacy_logo.png" width="150px" height="50px"/>
-<h1>
-REST API test page
-</h1>
-	<h3>HTTP Get</h3>
-	Available URL's:
-	<select id="getUrl" data-dojo-type="dijit.form.FilteringSelect">
-		<option>login?user=user1&password=pwd1</option>
-		<option>ItemsList</option>
-		<option>ItemDetails1</option>
-		<option>WarehouseDetails</option>
-		<option>WarehousesList</option>
-		<option>logoff</option>
-	</select>
-	<select id="requestType">
-		<option value="json">JSON</option>
-		<option value="xml">XML</option>
-	</select>
-	<br />
-	<button onclick="get()">HTTP Get</button>
-	<br />
-	<div id="getMessage"></div>
-	<br />
-	<textarea id="result" rows="9" cols="100"></textarea>
-	<hr/>
-	<h3>HTTP Post</h3>	
-	Content:
-	<br />
-	<textarea rows="6" cols="100" id="postData">
+	<img src="http://www.openlegacy.org/open_legacy/openlegacy_logo.png"
+		width="150px" height="50px" />
+	<div align="center" style="font-family: verdana;font-size: 1.5em;">REST API test page</div>
+	<div data-dojo-type="dijit.TitlePane"
+		data-dojo-props="title: 'HTTP Get',open:true">
+
+		Available URL's: <select id="getUrl"
+			data-dojo-type="dijit.form.FilteringSelect">
+			<option>login?user=user1&password=pwd1</option>
+			<option>ItemsList</option>
+			<option>ItemDetails1</option>
+			<option>WarehouseDetails</option>
+			<option>WarehousesList</option>
+			<option>logoff</option>
+		</select> <select id="requestType">
+			<option value="json">JSON</option>
+			<option value="xml">XML</option>
+		</select> <br />
+		<button onclick="get()">HTTP Get</button>
+		<br />
+		<div id="getMessage"></div>
+		<br />
+		<textarea id="result" rows="8" cols="100"></textarea>
+	</div>
+	<div data-dojo-type="dijit.TitlePane"
+		data-dojo-props="title: 'HTTP POST',open:false">
+		Content: <br />
+		<textarea rows="6" cols="100" id="postData">
 <screenEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:java="http://java.sun.com" xsi:type="java:apps.inventory.screens.ItemDetails1">
+				xmlns:java="http://java.sun.com"
+				xsi:type="java:apps.inventory.screens.ItemDetails1">
        <itemNumber>2000</itemNumber>
        <itemDescription>New desc</itemDescription>
        <palletLabelRequired>true</palletLabelRequired>
        <focusField>itemDescription</focusField>
 </screenEntity>	
 		</textarea>
-	<br/>
-	To URL: <input id="postUrl" value="/ItemDetails1?action=save" size="40"/>
-	<select id="postRequestType">
-		<option value="xml">XML</option>
-		<option value="json">JSON</option>
-	</select>
-	<br/>
-	<button onclick="post()">HTTP Post</button>
-	<div id="postMessage"></div>
-	
+		<br /> To URL: <input id="postUrl" value="/ItemDetails1?action=save"
+			size="40" /> <select id="postRequestType">
+			<option value="xml">XML</option>
+			<option value="json">JSON</option>
+		</select> <br />
+		<button onclick="post()">HTTP Post</button>
+		<div id="postMessage"></div>
+	</div>
+	<div data-dojo-type="dijit.TitlePane"
+		data-dojo-props="title: 'Session state',open:true">
+		<img id="restImage" width="640px" height="320px" />
+	</div>
+
 </body>
 </html>

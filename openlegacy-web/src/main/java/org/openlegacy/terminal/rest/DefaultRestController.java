@@ -16,6 +16,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.modules.trail.TrailUtil;
+import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenEntityWrapper;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
@@ -56,6 +57,9 @@ public class DefaultRestController {
 	private static final String USER = "user";
 	private static final String PASSWORD = "password";
 
+	@Inject
+	private TerminalSnapshotImageRenderer imageRenderer;
+	
 	/**
 	 * Whether to perform login on session start. Can be overridden from /application.properties
 	 * defaultRestController.requiresLogin=true
@@ -236,5 +240,11 @@ public class DefaultRestController {
 
 	public void setRequiresLogin(boolean requiresLogin) {
 		this.requiresLogin = requiresLogin;
+	}
+
+	@RequestMapping(value = "/restImage", method = RequestMethod.GET)
+	public void image(HttpServletResponse response) throws IOException {
+		response.setContentType("image/jpeg");
+		imageRenderer.render(terminalSession.getSnapshot(), response.getOutputStream());
 	}
 }
