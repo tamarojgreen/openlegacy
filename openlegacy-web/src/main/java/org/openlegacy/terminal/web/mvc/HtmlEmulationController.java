@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.terminal.web.mvc;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.services.TerminalSendAction;
+import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,6 +40,11 @@ public class HtmlEmulationController {
 	@Inject
 	private TerminalSendActionBuilder<HttpServletRequest> terminalSendActionBuilder;
 
+	@Inject
+	private ScreenEntityUtils screenEntityUtils;
+
+	private boolean emulationOnly = false;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String show(Model uiModel) {
 
@@ -51,7 +58,24 @@ public class HtmlEmulationController {
 
 		TerminalSendAction terminalSendAction = terminalSendActionBuilder.buildSendAction(terminalSession.getSnapshot(), request);
 		terminalSession.doAction(terminalSendAction);
+		if (!emulationOnly) {
+			ScreenEntity currentEntity = terminalSession.getEntity();
+			if (currentEntity != null) {
+				String currentEntityName = screenEntityUtils.getEntityName(currentEntity);
+				return "redirect:" + currentEntityName;
+
+			}
+		}
 		return show(uiModel);
 	}
 
+	/**
+	 * Define whether to show HTML emulation only and not try to navigate to identified entities
+	 * 
+	 * @param emulationOnly
+	 *            whether to show HTML emulation only
+	 */
+	public void setEmulationOnly(boolean emulationOnly) {
+		this.emulationOnly = emulationOnly;
+	}
 }

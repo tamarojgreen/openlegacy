@@ -20,6 +20,7 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -104,5 +105,10 @@ public class ScreenEntityUtils implements InitializingBean {
 			defaultActionAliasToAction.put(NEXT, TerminalActions.PAGEDOWN());
 			defaultActionAliasToAction.put(PREVIOUS, TerminalActions.PAGEUP());
 		}
+	}
+
+	public String getEntityName(ScreenEntity screenEntity) {
+		String screenEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
+		return screenEntityName;
 	}
 }
