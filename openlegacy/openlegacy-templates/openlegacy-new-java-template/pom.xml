@@ -31,7 +31,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
-			<artifactId>openlegacy-Impl</artifactId>
+			<artifactId>openlegacy-impl</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
