@@ -25,7 +25,7 @@
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/trails" />
-		<property name="trailName" value="test.trail.xml" />
+		<property name="trailName" value="demo_session.trail" />
 	</bean>
 
 		
