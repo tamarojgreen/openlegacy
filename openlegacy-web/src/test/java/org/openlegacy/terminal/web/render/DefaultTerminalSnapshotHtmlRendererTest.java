@@ -31,6 +31,7 @@ public class DefaultTerminalSnapshotHtmlRendererTest {
 		List<TerminalSnapshot> snapshots = snapshotsLoader.loadSnapshots(getClass().getResource("/inventory").getFile(),
 				"SignOn.xml");
 
+		htmlRenderer.setIncludeTemplate(true);
 		String result = htmlRenderer.render(snapshots.get(0));
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("html.expected"));
