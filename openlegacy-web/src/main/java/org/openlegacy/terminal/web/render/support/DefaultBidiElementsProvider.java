@@ -20,6 +20,7 @@ public class DefaultBidiElementsProvider extends DefaultElementsProvider {
 				return super.createLabel(rootNode, field);
 			} else {
 				Element cotainer = rootNode.getOwnerDocument().createElement("span");
+				cotainer.setAttribute("style", "position:relative");
 				for (TerminalField splitField : fields) {
 					Element node = super.createLabel(rootNode, splitField);
 					cotainer.appendChild(node);

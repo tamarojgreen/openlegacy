@@ -94,7 +94,7 @@ public class DefaultGenericController {
 	public String getScreenEntity(HttpServletResponse response, Model uiModel) throws IOException {
 
 		ScreenEntity screenEntity = terminalSession.getEntity();
-		String screenEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
+		String screenEntityName = screenEntityUtils.getEntityName(screenEntity);
 		uiModel.addAttribute(screenEntityName, screenEntity);
 		return GENERIC_PAGE;
 
@@ -119,6 +119,9 @@ public class DefaultGenericController {
 		if (request.getParameter("partial") != null) {
 			return returnPartialPage(screenEntityName, uiModel);
 		} else {
+			if (screenEntity == null) {
+				return "redirect:emulation";
+			}
 			String resultEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
 			return "redirect:" + resultEntityName;
 		}
