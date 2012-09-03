@@ -77,9 +77,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String DEFAULT_SPRING_TEST_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext-test.xml";
 	private static final String DEFAULT_SPRING_WEB_CONTEXT_FILE = "/src/main/webapp/WEB-INF/spring/webmvc-config.xml";
 
-	private static final String RUN_APPLICATION = "run-application.launch";
-	private static final String BUILD_WAR = "build-application.launch";
-
 	public static final String TEMPLATES_DIR = "templates";
 
 	private static final String DEFAULT_TEMPLATES_PATTERN = "classpath*:/*.template";
