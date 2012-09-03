@@ -50,6 +50,7 @@ import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -139,9 +140,21 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		IOUtils.write(hostPropertiesFileContent, fos);
 	}
 
-	private static void renameLaunchers(String projectName, File targetPath) throws FileNotFoundException, IOException {
-		renameLauncher(projectName, targetPath, RUN_APPLICATION);
-		renameLauncher(projectName, targetPath, BUILD_WAR);
+	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,
+			IOException {
+		targetPath.listFiles(new FileFilter() {
+
+			public boolean accept(File pathname) {
+				if (pathname.getName().endsWith(".launch")) {
+					try {
+						renameLauncher(projectName, targetPath, pathname.getName());
+					} catch (IOException e) {
+						throw (new RuntimeException(e));
+					}
+				}
+				return false;
+			}
+		});
 	}
 
 	private static void renameLauncher(String projectName, File targetPath, String fileName) throws FileNotFoundException,

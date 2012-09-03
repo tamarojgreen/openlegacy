@@ -7,7 +7,7 @@
 	<name>OpenLegacy Maven container for template projects</name>
 	
 	<modules>
-  		<!-- <module>openlegacy-new-java-template</module> -->
+  		<module>openlegacy-new-java-template</module>
 		<module>openlegacy-mvc-new</module>
 		<module>openlegacy-mvc-vanilla</module>
  		<module>openlegacy-mvc-sample</module>
