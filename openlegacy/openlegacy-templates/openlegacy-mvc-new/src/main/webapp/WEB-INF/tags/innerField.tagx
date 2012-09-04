@@ -67,7 +67,7 @@
 							<span class="fieldPlaceholder" />
 							<form:input type="${type}" id="${name}"
 								data-dojo-type="dijit.form.NumberSpinner"
-								constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:0}"
+								constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:2}"
 								path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 						</c:when>
 						<c:when test="${type == 'boolean'}">
