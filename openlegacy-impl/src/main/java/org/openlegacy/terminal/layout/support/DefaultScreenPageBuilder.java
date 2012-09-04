@@ -54,6 +54,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	private int defaultLeftMarginOffset = 0;
 	private int defaultTopMarginOffset = 0;
 
+	private int additionalPartWidth = 0;
+
 	public PageDefinition build(ScreenEntityDefinition entityDefinition) {
 		Collection<ScreenFieldDefinition> fields = entityDefinition.getFieldsDefinitions().values();
 
@@ -124,6 +126,11 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		int currentRow = -1;
 		PagePartRowDefinition currentPagePartRow = null;
 		Set<Integer> columnValues = new HashSet<Integer>();
+		if (fields.size() == 0) {
+			logger.warn("A screen/screen part with 0 fields found. Page part not created. Class:"
+					+ entityDefinition.getEntityClassName());
+			return pagePart;
+		}
 		ScreenFieldDefinition firstField = fields.get(0);
 		int startColumn = calculateStartColumn(firstField);
 		int endColumn = calculateEndColumn(firstField);
@@ -189,7 +196,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	protected int calculateEndColumn(ScreenFieldDefinition screenFieldDefinition) {
 		int fieldEndColumn = screenFieldDefinition.getLength() > 0 ? screenFieldDefinition.getEndPosition().getColumn()
 				: screenFieldDefinition.getPosition().getColumn() + defaultFieldLength;
-		return fieldEndColumn;
+		return fieldEndColumn + getAdditionalPartWidth();
 	}
 
 	/**
@@ -290,5 +297,13 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	public void setDefaultTopMarginOffset(int defaultTopMarginOffset) {
 		this.defaultTopMarginOffset = defaultTopMarginOffset;
+	}
+
+	public int getAdditionalPartWidth() {
+		return additionalPartWidth;
+	}
+
+	public void setAdditionalPartWidth(int additionalPartWidth) {
+		this.additionalPartWidth = additionalPartWidth;
 	}
 }
