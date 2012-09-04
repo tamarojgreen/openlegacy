@@ -45,7 +45,7 @@ public class ${entityName} {
 	
 	<@fieldTypes field=field />
 	@ScreenField(row = ${field.position.row}, column = ${field.position.column}, endColumn= ${field.endPosition.column}<#if field.labelPosition??> ,labelColumn= ${field.labelPosition.column}</#if><#if field.password> ,password= true</#if><#if field.editable> ,editable= true</#if><#if field.type??> ,fieldType=${field.type.simpleName}.class</#if><#if field.displayName != ""> ,displayName = "${field.displayName}"</#if><#if field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
-    private ${field.javaTypeName} ${field.name};
+    private ${field.javaTypeName} ${field.name?uncap_first};
 	</#list>	
 
  	<#list childEntitiesDefinitions as childScreen>
