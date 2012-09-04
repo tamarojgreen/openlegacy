@@ -143,6 +143,8 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	}
 
 	public void setFocusField(String fieldName) {
-		directFieldAccessor.setPropertyValue(FOCUS_FIELD, fieldName);
+		if (directFieldAccessor.isWritableProperty(FOCUS_FIELD)) {
+			directFieldAccessor.setPropertyValue(FOCUS_FIELD, fieldName);
+		}
 	}
 }
