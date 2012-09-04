@@ -12,8 +12,10 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.modules.SessionModule;
+import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
@@ -64,6 +66,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
+	private OpenLegacyProperties openLegacyProperties;
+
 	private ScreenEntityMethodInterceptor interceptor;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
@@ -71,6 +75,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass) throws EntityNotFoundException {
 
+		checkRegistryDirty();
 		// check if the entity matched the cached entity
 		if (entity == null || !ProxyUtil.isClassesMatch(entity.getClass(), screenEntityClass)) {
 			sessionNavigator.navigate(this, screenEntityClass);
@@ -78,6 +83,14 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			getEntityInner(screenEntityClass);
 		}
 		return (S)entity;
+	}
+
+	private void checkRegistryDirty() {
+		if (screenEntitiesRegistry.isDirty()) {
+			entity = null;
+			// set the registry back to clean - for designtime purposes only!
+			((AbstractEntitiesRegistry<?, ?>)screenEntitiesRegistry).setDirty(false);
+		}
 	}
 
 	private <S> void getEntityInner(Class<S> screenEntityClass) {
@@ -94,6 +107,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@SuppressWarnings("unchecked")
 	public <R extends ScreenEntity> R getEntity() {
+		checkRegistryDirty();
 		if (entity == null) {
 			TerminalSnapshot terminalSnapshot = getSnapshot();
 

@@ -112,4 +112,7 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 	 * @return a list of java packages names
 	 */
 	List<String> getPackages();
+
+	boolean isDirty();
+
 }

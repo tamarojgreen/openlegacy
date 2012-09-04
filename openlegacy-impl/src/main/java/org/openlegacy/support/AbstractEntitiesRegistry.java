@@ -42,6 +42,8 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	// map of entities by type
 	private Map<Class<? extends EntityType>, List<Class<?>>> entitiesByTypes = new HashMap<Class<? extends EntityType>, List<Class<?>>>();
 
+	private boolean dirty = false;
+
 	private void add(String entityName, Class<?> entity) {
 		entities.put(entityName, entity);
 		reversedEntities.put(entity, entityName);
@@ -116,5 +118,13 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		entities.clear();
 		reversedEntities.clear();
 		entitiesByTypes.clear();
+	}
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
 	}
 }

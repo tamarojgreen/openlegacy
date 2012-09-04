@@ -85,8 +85,13 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 	}
 
 	public void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass) {
+
 		if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass)) {
 			return;
+		}
+		if (entitiesRegistry.get(beanClass) != null) {
+			// class is reloaded - define the registry as dirty for designtime usage
+			((AbstractEntitiesRegistry<?, ?>)entitiesRegistry).setDirty(true);
 		}
 		Class<?> currentBeanClass = beanClass;
 		// scan parent classes for annotations
