@@ -4,7 +4,7 @@ import org.openlegacy.annotations.screen.*;
 import org.openlegacy.modules.menu.Menu.MenuEntity;  
 import org.openlegacy.modules.menu.Menu.MenuSelectionField;  
 
-@ScreenEntity(screenType=MenuEntity.class)
+@ScreenEntity(screenType=MenuEntity.class,displayName="מסך תפריט")
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 1, column = 40, value = "מסך תפריט") 
 				})

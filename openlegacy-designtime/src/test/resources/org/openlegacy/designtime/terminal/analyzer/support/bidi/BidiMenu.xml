@@ -11,6 +11,14 @@
         <field value="    מסך שני" column="60" />
         <field value="2." column="70" />
     </row>
+    <row rowNumber="5">
+        <field value="  מסך שלישי" column="60" />
+        <field value="3." column="70" />
+    </row>
+    <row rowNumber="6">
+        <field value="  מסך רביעי" column="60" />
+        <field value="4." column="70" />
+    </row>
     <row rowNumber="10">
         <field value="" editable="true" length="2" column="40" />
     </row>

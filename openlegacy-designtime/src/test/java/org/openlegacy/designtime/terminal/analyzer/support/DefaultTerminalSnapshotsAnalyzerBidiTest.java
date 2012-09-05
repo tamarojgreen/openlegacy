@@ -19,7 +19,6 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalSnapshotsAnalyzerBidiTest extends AbstractAnalyzerTest {
 
-	@Ignore
 	@Test
 	public void testBidiScreens() throws TemplateException, IOException {
 		//
@@ -33,6 +32,7 @@ public class DefaultTerminalSnapshotsAnalyzerBidiTest extends AbstractAnalyzerTe
 		Assert.assertEquals(2, definitions.size());
 		// means - "Hebrew Screen" in Hebrew
 		assertScreenContent(definitions.get("MscBabrit"), "bidi/BidiFormScreen.java.expected");
+		// means - "Menu Screen" in Hebrew
 		assertScreenContent(definitions.get("MscTprit"), "bidi/BidiMenu.java.expected");
 
 	}

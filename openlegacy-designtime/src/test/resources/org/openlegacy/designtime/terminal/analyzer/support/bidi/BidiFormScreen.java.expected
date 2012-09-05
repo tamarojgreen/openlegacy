@@ -2,7 +2,7 @@ package com.test;
 
 import org.openlegacy.annotations.screen.*;
 
-@ScreenEntity()
+@ScreenEntity(displayName="מסך בעברית")
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 1, column = 40, value = "מסך בעברית"), 
 				@Identifier(row = 4, column = 23, value = "שדה א:"), 
@@ -11,10 +11,10 @@ import org.openlegacy.annotations.screen.*;
 public class MscBabrit {
     
 	
-	@ScreenField(row = 4, column = 13, endColumn= 18 ,labelColumn= 23 ,editable= true ,displayName = "Sde a", sampleValue = "אבגד")
+	@ScreenField(row = 4, column = 13, endColumn= 18 ,labelColumn= 23 ,editable= true ,displayName = "שדה א", sampleValue = "אבגד")
     private String sdeA;
 	
-	@ScreenField(row = 5, column = 13, endColumn= 18 ,labelColumn= 20 ,displayName = "Sde b", sampleValue = "בגדה")
+	@ScreenField(row = 5, column = 13, endColumn= 18 ,labelColumn= 20 ,displayName = "שדה ב", sampleValue = "בגדה")
     private String sdeB;
 
     
