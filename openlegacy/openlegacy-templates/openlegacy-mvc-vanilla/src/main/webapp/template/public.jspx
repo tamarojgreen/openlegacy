@@ -12,6 +12,8 @@
 <head>
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 <title>OpenLegacy Toys</title>
+<script type="text/javascript">var dojoConfig = {async:true, parseOnLoad: true, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/dj/dojo.custom.build.js"><!----></script>
 <link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}.css"
 	rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/css/project.css"

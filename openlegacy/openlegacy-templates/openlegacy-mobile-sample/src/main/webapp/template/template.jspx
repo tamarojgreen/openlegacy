@@ -12,7 +12,7 @@
 		<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 		<title>OpenLegacy Mobile Demo</title>
 		
-		<script type="text/javascript">var djConfig = {parseOnLoad: true,preventBackButtonFix: false, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', mblAlwaysHideAddressBar: true};</script>
+		<script type="text/javascript">var dojoConfig = {parseOnLoad: true,preventBackButtonFix: false, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', mblAlwaysHideAddressBar: true};</script>
 		
 		<script src="${pageContext.request.contextPath}/dj/dojo.mobile.custom.build.js" type="text/javascript"><!-- aa --></script>
 		
