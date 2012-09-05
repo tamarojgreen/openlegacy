@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.terminal.TerminalPosition;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -20,6 +22,10 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 	private final Map<String, ScreenFieldDefinition> fieldDefinitions = new LinkedHashMap<String, ScreenFieldDefinition>();
 
 	private String partName;
+
+	private TerminalPosition partPosition;
+
+	private int width;
 
 	public SimpleScreenPartEntityDefinition(Class<?> partClass) {
 		this.partClass = partClass;
@@ -41,4 +47,19 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 		this.partName = partName;
 	}
 
+	public TerminalPosition getPartPosition() {
+		return partPosition;
+	}
+
+	public void setPartPosition(TerminalPosition partPosition) {
+		this.partPosition = partPosition;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
 }

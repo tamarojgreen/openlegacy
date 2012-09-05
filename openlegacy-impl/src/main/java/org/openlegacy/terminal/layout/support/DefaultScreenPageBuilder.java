@@ -37,7 +37,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Default screen page builder create a page which is combined from page part
+ * Default screen page builder create a page model which is combined from page parts. Looks for neighbor fields by row & column,
+ * and create page part with page part rows. Screen parts and tables are converted automatically to page parts
+ * 
+ * @author Roi Mor
  * 
  */
 public class DefaultScreenPageBuilder implements ScreenPageBuilder {
@@ -98,13 +101,13 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		int firstRow = tableDefinition.getStartRow() - 1; // -1 -> header
 
 		ScreenSize screenSize = entityDefinition.getScreenSize();
-		// -1 -> since it is consider in HTML it is consider as start of the positioning
+		// -1 -> since it is consider in HTML as start of the positioning
 		int topMarginPercentage = (100 * (firstRow - 1)) / screenSize.getRows();
 		int leftMarginPercentage = (100 * tableStartColumn) / screenSize.getColumns();
-
 		pagePart.setTopMargin(topMarginPercentage);
+
 		pagePart.setLeftMargin(leftMarginPercentage);
-		calculateWidth(entityDefinition, pagePart, tableStartColumn, tableEndColumn);
+		calculateWidth(entityDefinition, pagePart, tableEndColumn - tableStartColumn);
 
 		pagePart.setTableFieldName(tableFieldName);
 		pagePart.setTableDefinition(tableDefinition);
@@ -117,7 +120,21 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 
-		return buildPagePart(sortedFields, entityDefinition);
+		SimplePagePartDefinition pagePart = (SimplePagePartDefinition)buildPagePart(sortedFields, entityDefinition);
+		// if screen part has position (loaded from @PartPosition), override the calculated position
+		if (screenPartEntityDefinition.getPartPosition() != null) {
+			int leftMargin = calculateLeftMargin(entityDefinition.getScreenSize(),
+					screenPartEntityDefinition.getPartPosition().getColumn());
+			pagePart.setLeftMargin(leftMargin);
+			int topMargin = calculateTopMargin(entityDefinition.getScreenSize(),
+					screenPartEntityDefinition.getPartPosition().getRow());
+			pagePart.setTopMargin(topMargin);
+		}
+		if (screenPartEntityDefinition.getWidth() > 0) {
+			calculateWidth(entityDefinition, pagePart, screenPartEntityDefinition.getWidth());
+		}
+		return pagePart;
+
 	}
 
 	private PagePartDefinition buildPagePart(List<ScreenFieldDefinition> fields, ScreenEntityDefinition entityDefinition) {
@@ -153,14 +170,13 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		pagePart.setColumns(columnValues.size());
 
 		calculatePartPosition(fields, entityDefinition, pagePart);
-		calculateWidth(entityDefinition, pagePart, startColumn, endColumn);
+		calculateWidth(entityDefinition, pagePart, endColumn - startColumn);
 
 		return pagePart;
 	}
 
-	protected void calculateWidth(ScreenEntityDefinition entityDefinition, SimplePagePartDefinition pagePart, int startColumn,
-			int endColumn) {
-		int widthPercentage = 100 * (endColumn - startColumn) / entityDefinition.getScreenSize().getColumns();
+	protected void calculateWidth(ScreenEntityDefinition entityDefinition, SimplePagePartDefinition pagePart, int width) {
+		int widthPercentage = 100 * width / entityDefinition.getScreenSize().getColumns();
 		pagePart.setWidth(widthPercentage);
 	}
 
@@ -170,12 +186,20 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		TerminalPosition firstFieldPosition = firstField.getPosition();
 
 		ScreenSize screenSize = entityDefinition.getScreenSize();
-		int topMarginPercentage = (100 * (firstFieldPosition.getRow() - 1)) / screenSize.getRows();
+		int topMarginPercentage = calculateTopMargin(screenSize, firstFieldPosition.getRow());
 		int topLeftColumn = calculateStartColumn(firstField) + defaultLeftMarginOffset;
-		int leftMarginPercentage = ((100 * topLeftColumn) / screenSize.getColumns()) + defaultTopMarginOffset;
+		int leftMarginPercentage = calculateLeftMargin(screenSize, topLeftColumn);
 
 		pagePart.setTopMargin(topMarginPercentage);
 		pagePart.setLeftMargin(leftMarginPercentage);
+	}
+
+	private static int calculateTopMargin(ScreenSize screenSize, int row) {
+		return (100 * (row - 1)) / screenSize.getRows();
+	}
+
+	private int calculateLeftMargin(ScreenSize screenSize, int topLeftColumn) {
+		return ((100 * topLeftColumn) / screenSize.getColumns()) + defaultTopMarginOffset;
 	}
 
 	/**

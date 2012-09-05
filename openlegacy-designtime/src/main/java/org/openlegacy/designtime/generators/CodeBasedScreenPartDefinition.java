@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.openlegacy.designtime.generators;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.utils.StringUtil;
@@ -22,6 +24,7 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 
 	private ScreenPojoCodeModel codeModel;
 	private Map<String, ScreenFieldDefinition> fields;
+	private int width;
 
 	public CodeBasedScreenPartDefinition(ScreenPojoCodeModel codeModel) {
 		this.codeModel = codeModel;
@@ -41,6 +44,19 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 
 	public String getPartName() {
 		return codeModel.getEntityName();
+	}
+
+	private static void throwNotImplemented() throws UnsupportedOperationException {
+		throw (new NotImplementedException("Code based screen part has not implemented this method"));
+	}
+
+	public TerminalPosition getPartPosition() {
+		throwNotImplemented();
+		return null;
+	}
+
+	public int getWidth() {
+		return width;
 	}
 
 }

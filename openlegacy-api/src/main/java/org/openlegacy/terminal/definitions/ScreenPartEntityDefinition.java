@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.annotations.screen.ScreenPart;
+import org.openlegacy.terminal.TerminalPosition;
 
 import java.util.Map;
 
@@ -27,4 +28,13 @@ public interface ScreenPartEntityDefinition {
 	Map<String, ScreenFieldDefinition> getFieldsDefinitions();
 
 	String getPartName();
+
+	/**
+	 * If defined, determine the part position on the screen
+	 * 
+	 * @return part position
+	 */
+	TerminalPosition getPartPosition();
+
+	int getWidth();
 }
