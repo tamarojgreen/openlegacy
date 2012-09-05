@@ -28,7 +28,7 @@
 					<label for="password">Password:</label>
 				</div>
 				<div class="field">
-					<input type="password" name="password" value="${login.password}" maxlength="10" />
+					<input type="password" name="password" value="demo" maxlength="10" />
 				</div>
 			</div>
 			<div class="field_row">

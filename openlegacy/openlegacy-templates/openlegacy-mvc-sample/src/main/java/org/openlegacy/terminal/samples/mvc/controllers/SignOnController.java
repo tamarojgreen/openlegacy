@@ -26,6 +26,7 @@ public class SignOnController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String submit(SignOn signOn, Model uiModel, HttpServletRequest httpServletRequest) {
 		try {
+			terminalSession.getModule(Login.class).logoff();
 			terminalSession.getModule(Login.class).login(signOn);
 		} catch (LoginException e) {
 			// errorMessage is assigned within login method
