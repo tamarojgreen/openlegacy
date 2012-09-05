@@ -18,8 +18,10 @@
 						<c:choose>
 							<c:when test="${not pagePart.hasTable}">
 								<c:forEach items="${pagePart.partRows}" var="partRow">
-									<c:forEach items="${partRow.fields}" var="field">
-										<ol:field name="${field.name}" />
+									<c:forEach items="${partRow.fields}" var="field" varStatus="colCounter">
+										<div class="col_${colCounter.index+1}_of_${pagePart.columns}">
+											<ol:field name="${field.name}" />
+										</div>
 									</c:forEach>
 								</c:forEach>
 							</c:when>
