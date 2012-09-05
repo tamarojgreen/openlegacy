@@ -433,6 +433,11 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
+			    <plugin>
+			    	<groupId>org.openlegacy.tools</groupId>
+					<artifactId>openlegacy-maven-plugin</artifactId>
+					<version>1.0.0-RELEASE</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

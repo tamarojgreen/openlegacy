@@ -20,7 +20,19 @@
 	    </property>
     </bean>
 
-	<bean id="terminalSession" parent="abstractTerminalSession" />
+	<!-- Using a mock-up session application -->
+ 	<bean id="terminalConnectionFactory"
+		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
+		<property name="root" value="/trails" />
+		<property name="trailName" value="demo_session.trail" />
+	</bean>
+	
+	<bean id="terminalSession" class="org.openlegacy.terminal.support.MockupTerminalSession" parent="abstractTerminalSession">
+		<property name="terminalConnection">
+			<bean class="org.openlegacy.terminal.mock.MockTerminalConnection" factory-bean="terminalConnectionFactory" factory-method="getConnection" />
+		</property>
+	</bean>
+	<!-- End using a mock-up session application -->
 
 	<import resource="classpath:/META-INF/spring/db-context.xml"/>
 	
