@@ -13,9 +13,9 @@ package org.openlegacy.loaders.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.ScreenNavigation;
-import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
@@ -51,7 +51,7 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 		AssignedField[] assignedFields = screenNavigation.assignedFields();
 		for (AssignedField assignedField : assignedFields) {
 			String value = assignedField.value();
-			if (FieldAssignDefinition.NULL.equals(value)) {
+			if (AnnotationConstants.NULL.equals(value)) {
 				value = null;
 			}
 			navigationDefinition.getAssignedFields().add(new SimpleFieldAssignDefinition(assignedField.field(), value));

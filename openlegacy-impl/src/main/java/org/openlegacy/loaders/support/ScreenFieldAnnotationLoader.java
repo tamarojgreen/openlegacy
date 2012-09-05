@@ -12,6 +12,7 @@ package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
@@ -66,10 +67,10 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		screenFieldDefinition.setEditable(fieldAnnotation.editable());
 		screenFieldDefinition.setPassword(fieldAnnotation.password());
 
-		if (fieldAnnotation.displayName().length() > 0) {
-			screenFieldDefinition.setDisplayName(fieldAnnotation.displayName());
-		} else {
+		if (fieldAnnotation.displayName().equals(AnnotationConstants.NULL)) {
 			screenFieldDefinition.setDisplayName(StringUtil.toDisplayName(fieldName));
+		} else {
+			screenFieldDefinition.setDisplayName(fieldAnnotation.displayName());
 		}
 
 		screenFieldDefinition.setSampleValue(fieldAnnotation.sampleValue());

@@ -93,7 +93,7 @@ public @interface ScreenField {
 	 * 
 	 * @return field display name
 	 */
-	String displayName() default "";
+	String displayName() default AnnotationConstants.NULL;
 
 	/**
 	 * Optional. A sample value for the field. Use for readability of generated code, and design-time previews

@@ -55,9 +55,11 @@
 			value="${style};position:absolute;top:${top};left:${left}" />
 	</c:if>
 	<div class="field_row">
+		<c:if test="${not empty label}">
 		<div class="label">
-			<label>${label}: </label>
+			<label>${label}:</label>
 		</div>
+		</c:if>
 		<div class="field">
 			<c:choose>
 				<c:when test="${fieldDefinition.editable}">
