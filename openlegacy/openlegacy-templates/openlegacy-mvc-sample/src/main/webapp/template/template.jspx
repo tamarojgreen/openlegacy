@@ -18,25 +18,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/dj/dojo.custom.build.js"><!----></script>
 
 <script type="text/javascript" language="JavaScript">
-	dojo.require("dojo.parser");
 	dojo.require("dijit.TitlePane");
 	dojo.require("dijit.dijit"); // optimize: load dijit layer
-	dojo.require("dijit.Menu");
-	dojo.require("dijit.layout.AccordionContainer");
-	dojo.require('dijit.layout.ContentPane');
-	dojo.require("dijit.Dialog");
-	dojo.require("dijit.layout.ContentPane");
-	dojo.require("dijit.layout.TabContainer");
-	dojo.require("dijit.InlineEditBox");
-	dojo.require("dijit.form.Textarea");
-	dojo.require("dojo.dnd.Moveable");
-	dojo.require("dojo.NodeList-traverse");
-	dojo.require("dijit.Editor");
-	dojo.require("dijit.form.FilteringSelect");
-	dojo.require("dijit.form.CheckBox");
-	dojo.require("dijit.TitlePane");
-	dojo.require("dijit.form.NumberSpinner");
-	dojo.require("dijit.form.CheckBox");
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js"><!----></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/demo.js"><!----></script>

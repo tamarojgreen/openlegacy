@@ -40,7 +40,7 @@ public class WorkWithItemMaster1CompositeController {
 
 		addNotesToPage(uiModel, itemNumber);
 
-		return "/WorkWithItemMaster1Composite";
+		return "WorkWithItemMaster1Composite";
 	}
 
 	private void addNotesToPage(Model uiModel, Integer itemNumber) {
