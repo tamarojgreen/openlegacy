@@ -68,8 +68,8 @@
 							<script>dojo.require("dijit.form.NumberSpinner");</script>
 							<span class="fieldPlaceholder" />
 							<form:input type="${type}" id="${name}"
-								data-dojo-type="dijit.form.NumberSpinner"
-								constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:2}"
+								data-dojo-type="dijit.form.NumberSpinner" dir="ltr"
+								constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:0}"
 								path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 						</c:when>
 						<c:when test="${type == 'boolean'}">
