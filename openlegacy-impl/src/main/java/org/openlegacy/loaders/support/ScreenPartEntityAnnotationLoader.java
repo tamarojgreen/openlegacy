@@ -11,6 +11,7 @@
 package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.terminal.definitions.SimpleScreenPartEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -38,6 +39,14 @@ public class ScreenPartEntityAnnotationLoader extends AbstractClassAnnotationLoa
 		String name = screenPartAnnotation.name().length() > 0 ? screenPartAnnotation.name()
 				: StringUtil.toJavaFieldName(containingClass.getSimpleName());
 		screenPartEntityDefinition.setPartName(name);
+
+		String displayName = null;
+		if (screenPartAnnotation.displayName().equals(AnnotationConstants.NULL)) {
+			displayName = StringUtil.toDisplayName(name);
+		} else if (screenPartAnnotation.displayName().length() > 0) {
+			displayName = screenPartAnnotation.displayName();
+		}
+		screenPartEntityDefinition.setDisplayName(displayName);
 		screenEntitiesRegistry.addPart(screenPartEntityDefinition);
 	}
 }

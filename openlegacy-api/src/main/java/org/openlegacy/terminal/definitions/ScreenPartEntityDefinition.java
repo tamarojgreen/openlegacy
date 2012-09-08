@@ -27,6 +27,8 @@ public interface ScreenPartEntityDefinition {
 
 	Map<String, ScreenFieldDefinition> getFieldsDefinitions();
 
+	String getDisplayName();
+
 	String getPartName();
 
 	/**

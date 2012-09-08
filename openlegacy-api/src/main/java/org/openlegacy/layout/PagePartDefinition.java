@@ -27,6 +27,8 @@ public interface PagePartDefinition {
 
 	List<PagePartRowDefinition> getPartRows();
 
+	String getDisplayName();
+
 	int getWidth();
 
 	int getLeftMargin();

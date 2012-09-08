@@ -36,4 +36,6 @@ public @interface ScreenPart {
 	boolean supportTerminalData() default false;
 
 	String name() default "";
+
+	String displayName() default AnnotationConstants.NULL;
 }

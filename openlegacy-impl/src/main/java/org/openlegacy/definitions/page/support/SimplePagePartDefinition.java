@@ -27,6 +27,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 	private int columns;
 	private String tableFieldName;
 	private TableDefinition<?> tableDefinition;
+	private String displayName;
 
 	public int getColumns() {
 		return columns;
@@ -112,5 +113,13 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 	 */
 	public boolean isHasTable() {
 		return tableFieldName != null;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }

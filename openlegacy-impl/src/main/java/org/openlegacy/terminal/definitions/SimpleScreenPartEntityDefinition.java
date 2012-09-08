@@ -27,6 +27,8 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 
 	private int width;
 
+	private String displayName;
+
 	public SimpleScreenPartEntityDefinition(Class<?> partClass) {
 		this.partClass = partClass;
 	}
@@ -61,5 +63,13 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 
 	public void setWidth(int width) {
 		this.width = width;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 }

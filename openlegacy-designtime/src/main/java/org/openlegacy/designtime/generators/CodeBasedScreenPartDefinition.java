@@ -54,4 +54,9 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 		return width;
 	}
 
+	public String getDisplayName() {
+		// TODO implement
+		return null;
+	}
+
 }

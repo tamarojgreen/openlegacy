@@ -121,6 +121,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 
 		SimplePagePartDefinition pagePart = (SimplePagePartDefinition)buildPagePart(sortedFields, entityDefinition);
+		pagePart.setDisplayName(screenPartEntityDefinition.getDisplayName());
 		// if screen part has position (loaded from @PartPosition), override the calculated position
 		if (screenPartEntityDefinition.getPartPosition() != null) {
 			int leftMargin = calculateLeftMargin(entityDefinition.getScreenSize(),

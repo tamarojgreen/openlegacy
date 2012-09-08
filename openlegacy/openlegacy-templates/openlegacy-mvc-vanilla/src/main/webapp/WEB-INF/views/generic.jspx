@@ -13,7 +13,7 @@
 					<ol:field name="${pagePart.singleField.name}" top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%" width="${pagePart.width}%" />
 				</c:when>
 				<c:otherwise>
-					<ol:pagePart width="${pagePart.width}%"
+					<ol:pagePart width="${pagePart.width}%" title="${pagePart.displayName}"
 						top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%">
 						<c:choose>
 							<c:when test="${not pagePart.hasTable}">
