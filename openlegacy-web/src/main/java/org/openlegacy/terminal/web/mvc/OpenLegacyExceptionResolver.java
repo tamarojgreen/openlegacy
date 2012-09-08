@@ -26,9 +26,9 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+		TerminalSession terminalSession = (TerminalSession)request.getSession().getAttribute(
+				WebConstants.TERMINAL_SESSION_WEB_SESSION_ATTRIBUTE_NAME);
 		if (ex instanceof SessionEndedException) {
-			TerminalSession terminalSession = (TerminalSession)request.getSession().getAttribute(
-					WebConstants.TERMINAL_SESSION_WEB_SESSION_ATTRIBUTE_NAME);
 			if (terminalSession != null) {
 				try {
 					terminalSession.disconnect();
@@ -36,9 +36,15 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 					// do nothing
 				}
 			}
+		} else {
+			try {
+				logger.error("Error occoured. Current screen is:\n" + terminalSession.getSnapshot());
+			} catch (Exception e) {
+				logger.fatal("Unable to print current screen", e);
+			}
 		}
 
-		logger.fatal(ex.getMessage(),ex);
+		logger.fatal(ex.getMessage(), ex);
 
 		return super.resolveException(request, response, handler, ex);
 	}
