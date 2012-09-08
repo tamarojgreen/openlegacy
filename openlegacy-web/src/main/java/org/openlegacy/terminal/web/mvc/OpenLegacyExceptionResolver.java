@@ -17,10 +17,14 @@ import org.openlegacy.terminal.TerminalSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver {
+
+	@Inject
+	private ThemeUtil themeUtil;
 
 	private final static Log logger = LogFactory.getLog(OpenLegacyExceptionResolver.class);
 
@@ -46,6 +50,8 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 
 		logger.fatal(ex.getMessage(), ex);
 
-		return super.resolveException(request, response, handler, ex);
+		ModelAndView modelAndView = super.resolveException(request, response, handler, ex);
+		themeUtil.applyTheme(modelAndView, request, response);
+		return modelAndView;
 	}
 }
