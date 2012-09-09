@@ -33,7 +33,7 @@ public class SignOnController {
 			return "SignOn";
 		}
 
-		return "redirect:WorkWithItemMaster";
+		return "redirect:Items";
 	}
 
 }
