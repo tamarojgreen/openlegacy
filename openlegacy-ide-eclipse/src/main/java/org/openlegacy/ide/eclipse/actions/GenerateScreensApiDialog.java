@@ -94,7 +94,9 @@ public class GenerateScreensApiDialog extends AbstractGenerateDialog implements 
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));
 
 		String prefrencePackage = designtimeExecuter.getPreference(project, PerfrencesConstants.API_PACKAGE);
-		getPackageText().setText(prefrencePackage);
+		if (prefrencePackage != null) {
+			getPackageText().setText(prefrencePackage);
+		}
 	}
 
 	@Override

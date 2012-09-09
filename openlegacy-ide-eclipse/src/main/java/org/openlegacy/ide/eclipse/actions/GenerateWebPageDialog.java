@@ -115,7 +115,9 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));
 
 		String prefrencePackage = designtimeExecuter.getPreference(project, PerfrencesConstants.WEB_PACKAGE);
-		getPackageText().setText(prefrencePackage);
+		if (prefrencePackage != null) {
+			getPackageText().setText(prefrencePackage);
+		}
 	}
 
 	@Override
