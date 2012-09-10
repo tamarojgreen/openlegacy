@@ -1,6 +1,5 @@
 package org.openlegacy.terminal.web.mvc;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class ThemeUtil {
 
-	@Value("${defaultTheme}")
 	private String defaultTheme;
 
 	private static final String OL_THEME = "ol_theme";
@@ -33,5 +31,9 @@ public class ThemeUtil {
 			}
 		}
 		modelAndView.addObject(OL_THEME, theme);
+	}
+
+	public void setDefaultTheme(String defaultTheme) {
+		this.defaultTheme = defaultTheme;
 	}
 }
