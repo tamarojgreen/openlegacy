@@ -4,16 +4,10 @@ package org.openlegacy.terminal.samples.mvc.controllers;
 
 import java.util.*;
 import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.IOUtils;
 import org.openlegacy.terminal.samples.model.*;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
@@ -34,43 +28,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.WebDataBinder;
 
-import org.openlegacy.terminal.samples.model.MainMenu;
+import org.openlegacy.terminal.samples.model.ItemDetails2;
 
-privileged @SuppressWarnings("unused") aspect MainMenuController_Aspect {
-
-	@Inject
-	private TerminalSession MainMenuController.terminalSession;
+privileged @SuppressWarnings("unused") aspect ItemDetails2Controller_Aspect {
 
 	@Inject
-	private ScreenEntitiesRegistry MainMenuController.screenEntitiesRegistry;
+	private TerminalSession ItemDetails2Controller.terminalSession;
+
+	@Inject
+	private ScreenEntitiesRegistry ItemDetails2Controller.screenEntitiesRegistry;
 
 	// handle page initial display
-    @RequestMapping(method = RequestMethod.GET)
-    public String MainMenuController.show(Model uiModel) {
-    	MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
-	uiModel.addAttribute("MainMenu", mainMenu);
-	// show the resulting page for MainMenu
-        return "MainMenu";
+    @RequestMapping(method = RequestMethod.GET, params="partial=1")
+    public String ItemDetails2Controller.show(Model uiModel) {
+    	ItemDetails2 itemDetails2 = terminalSession.getEntity(ItemDetails2.class);
+	uiModel.addAttribute("itemDetails2", itemDetails2);
+	// show the resulting page for ItemDetails2
+        return "ItemDetails2";
     }
 
-    @RequestMapping(value="/help", method = RequestMethod.GET)
-    public @ResponseBody String MainMenuController.systemHelp(HttpServletRequest request) throws IOException {
-    	URL resource = request.getSession().getServletContext().getResource("/help/MainMenu.html");
-    	String result = IOUtils.toString(resource.openStream());
-    	return result;
-    }
-    
 	// handle submit action
     @RequestMapping(method = RequestMethod.POST)
-    public String MainMenuController.submit(MainMenu mainMenu, Model uiModel, HttpServletRequest httpServletRequest) {
-	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), mainMenu);
+    public String ItemDetails2Controller.submit(ItemDetails2 itemDetails2, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), itemDetails2);
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
 			if (httpServletRequest.getParameter("partial") != null){
-				mainMenu = terminalSession.getEntity(MainMenu.class);
-		    	uiModel.addAttribute("MainMenu", mainMenu);
-		        return "MainMenu";
+				itemDetails2 = terminalSession.getEntity(ItemDetails2.class);
+		    	uiModel.addAttribute("itemDetails2", itemDetails2);
+		        return "ItemDetails2";
 			}
         	return "redirect:" + screenEntityName;
 		}
@@ -80,32 +67,32 @@ privileged @SuppressWarnings("unused") aspect MainMenuController_Aspect {
     
 	// handle help action
     @RequestMapping(params="action=help", method = RequestMethod.POST)
-    public String MainMenuController.help(MainMenu mainMenu, Model uiModel, HttpServletRequest httpServletRequest) {
-	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F1(), mainMenu);
+    public String ItemDetails2Controller.help(ItemDetails2 ItemDetails2, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F1(), ItemDetails2);
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
 			if (httpServletRequest.getParameter("partial") != null){
-				mainMenu = terminalSession.getEntity(MainMenu.class);
-		    	uiModel.addAttribute("mainMenu", mainMenu);
-		        return "MainMenu";
+				ItemDetails2 = terminalSession.getEntity(ItemDetails2.class);
+		    	uiModel.addAttribute("itemDetails2", ItemDetails2);
+		        return "ItemDetails2";
 			}
         	return "redirect:" + screenEntityName;
 		}
     	return "redirect:/";
 		
     }
-	// handle exit action
-    @RequestMapping(params="action=exit", method = RequestMethod.POST)
-    public String MainMenuController.exit(MainMenu mainMenu, Model uiModel, HttpServletRequest httpServletRequest) {
-	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F3(), mainMenu);
+	// handle cancel action
+    @RequestMapping(params="action=cancel", method = RequestMethod.POST)
+    public String ItemDetails2Controller.cancel(ItemDetails2 ItemDetails2, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F3(), ItemDetails2);
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
 			if (httpServletRequest.getParameter("partial") != null){
-				mainMenu = terminalSession.getEntity(MainMenu.class);
-		    	uiModel.addAttribute("mainMenu", mainMenu);
-		        return "MainMenu";
+				ItemDetails2 = terminalSession.getEntity(ItemDetails2.class);
+		    	uiModel.addAttribute("itemDetails2", ItemDetails2);
+		        return "ItemDetails2";
 			}
         	return "redirect:" + screenEntityName;
 		}
@@ -114,49 +101,49 @@ privileged @SuppressWarnings("unused") aspect MainMenuController_Aspect {
     }
 	// handle prompt action
     @RequestMapping(params="action=prompt", method = RequestMethod.POST)
-    public String MainMenuController.prompt(MainMenu mainMenu, Model uiModel, HttpServletRequest httpServletRequest) {
-	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F4(),mainMenu);
+    public String ItemDetails2Controller.prompt(ItemDetails2 itemDetails2, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F4(), itemDetails2);
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
 			if (httpServletRequest.getParameter("partial") != null){
-				mainMenu = terminalSession.getEntity(MainMenu.class);
-		    	uiModel.addAttribute("mainMenu", mainMenu);
-		        return "MainMenu";
+				itemDetails2 = terminalSession.getEntity(ItemDetails2.class);
+		    	uiModel.addAttribute("itemDetails2", itemDetails2);
+		        return "ItemDetails2";
 			}
         	return "redirect:" + screenEntityName;
 		}
     	return "redirect:/";
 		
     }
-	// handle prev action
-    @RequestMapping(params="action=prev", method = RequestMethod.POST)
-    public String MainMenuController.prev(MainMenu mainMenu, Model uiModel, HttpServletRequest httpServletRequest) {
-	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F12(), mainMenu);
+	// handle return_ action
+    @RequestMapping(params="action=return_", method = RequestMethod.POST)
+    public String ItemDetails2Controller.return_(ItemDetails2 ItemDetails2, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F12(), ItemDetails2);
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
 			if (httpServletRequest.getParameter("partial") != null){
-				mainMenu = terminalSession.getEntity(MainMenu.class);
-		    	uiModel.addAttribute("mainMenu", mainMenu);
-		        return "MainMenu";
+				ItemDetails2 = terminalSession.getEntity(ItemDetails2.class);
+		    	uiModel.addAttribute("itemDetails2", ItemDetails2);
+		        return "ItemDetails2";
 			}
         	return "redirect:" + screenEntityName;
 		}
     	return "redirect:/";
 		
     }
-	// handle command action
-    @RequestMapping(params="action=command", method = RequestMethod.POST)
-    public String MainMenuController.command(MainMenu mainMenu, Model uiModel, HttpServletRequest httpServletRequest) {
-	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F9(), mainMenu);
+	// handle delete action
+    @RequestMapping(params="action=delete", method = RequestMethod.POST)
+    public String ItemDetails2Controller.delete(ItemDetails2 itemDetails2, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.F2(), itemDetails2);
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
 			if (httpServletRequest.getParameter("partial") != null){
-				mainMenu = terminalSession.getEntity(MainMenu.class);
-		    	uiModel.addAttribute("mainMenu", mainMenu);
-		        return "MainMenu";
+				itemDetails2 = terminalSession.getEntity(ItemDetails2.class);
+		    	uiModel.addAttribute("itemDetails2", itemDetails2);
+		        return "ItemDetails2";
 			}
         	return "redirect:" + screenEntityName;
 		}
@@ -166,7 +153,7 @@ privileged @SuppressWarnings("unused") aspect MainMenuController_Aspect {
 	
 	
 	@InitBinder
-	public void MainMenuController.initBinder(WebDataBinder binder) {
+	public void ItemDetails2Controller.initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));

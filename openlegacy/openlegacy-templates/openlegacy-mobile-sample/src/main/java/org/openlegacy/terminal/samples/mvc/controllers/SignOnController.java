@@ -22,34 +22,23 @@ public class SignOnController {
 	@Inject
 	private TerminalSession terminalSession;
 
-	// handle page initial display
-	@RequestMapping(method = RequestMethod.GET)
-	public String show(Model uiModel) {
-		if (terminalSession.getModule(Login.class).isLoggedIn()) {
-			return "DemoEnvironment";
-		}
-
-		SignOn signOn = new SignOn();
-		uiModel.addAttribute("signOn", signOn);
-		return "SignOn";
-	}
-
 	// handle submit action
 	@RequestMapping(method = RequestMethod.POST)
 	public String submit(SignOn signOn, Model uiModel, HttpServletRequest httpServletRequest) {
 		try {
+			terminalSession.getModule(Login.class).logoff();
 			terminalSession.getModule(Login.class).login(signOn);
 		} catch (LoginException e) {
-			e.printStackTrace();
 			// errorMessage is assigned within login method
 			return "SignOn";
 		}
 
 		// mobile
 		if (httpServletRequest.getParameter("partial") != null) {
-			return "DemoEnvironment";
+			return "MainMenu";
 
 		}
-		return "redirect:DemoEnvironment";
+		return "redirect:Items";
 	}
+
 }

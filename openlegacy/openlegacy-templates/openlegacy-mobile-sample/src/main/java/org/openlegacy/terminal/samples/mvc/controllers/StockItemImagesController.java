@@ -4,7 +4,7 @@ import org.openlegacy.demo.db.model.StockItem;
 import org.openlegacy.demo.db.model.StockItemImage;
 import org.openlegacy.demo.db.services.StockItemsService;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.samples.model.WorkWithItemMaster1;
+import org.openlegacy.terminal.samples.model.ItemDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +32,7 @@ public class StockItemImagesController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String show(Model uiModel) {
 		// get the item number from the host session
-		Integer itemNumber = terminalSession.getEntity(WorkWithItemMaster1.class).getItemNumber();
+		Integer itemNumber = terminalSession.getEntity(ItemDetails.class).getItemNumber();
 
 		// fetch relevant notes from the DB and pass the page
 		StockItem stockItem = stockItemsService.getOrCreateStockItem(itemNumber);
@@ -55,7 +55,6 @@ public class StockItemImagesController {
 	public void showImage(HttpServletResponse response, @PathVariable("id") Long imageId) throws IOException {
 
 		StockItemImage stockItemImage = stockItemsService.getImage(imageId);
-		// response.setContentType("image/jpeg");
 		response.getOutputStream().write(stockItemImage.getImage());
 	}
 }

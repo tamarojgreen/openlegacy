@@ -12,46 +12,46 @@
   Marker for code generation end -->
 
   <!-- Place holder for code generation -->
-  <definition name="WorkWithItemMaster1Composite" extends="compositeView">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster1Composite.jspx" />
+  <definition name="ItemDetailsComposite" extends="compositeView">
+    <put-attribute name="body" value="/WEB-INF/views/ItemDetailsComposite.jspx" />
   </definition>
  
-  <definition name="WorkWithItemMaster1" extends="innerView">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster1.jspx" />
+  <definition name="ItemDetails" extends="innerView">
+    <put-attribute name="body" value="/WEB-INF/views/ItemDetails.jspx" />
   </definition>
  
-  <definition name="WorkWithItemMaster2" extends="innerView">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster2.jspx" />
+  <definition name="ItemDetails2" extends="innerView">
+    <put-attribute name="body" value="/WEB-INF/views/ItemDetails2.jspx" />
   </definition>
  
-  <definition name="WorkWithWarehouseDetails1" extends="view">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithWarehouseDetails1.jspx" />
+  <definition name="WarehouseDetails" extends="view">
+    <put-attribute name="body" value="/WEB-INF/views/WarehouseDetails.jspx" />
   </definition>
  
-  <definition name="WorkWithWarehouseDetails" extends="view">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithWarehouseDetails.jspx" />
+  <definition name="Warehouses" extends="view">
+    <put-attribute name="body" value="/WEB-INF/views/Warehouses.jspx" />
   </definition>
  
-  <definition name="WorkWithItemMaster" extends="view">
-    <put-attribute name="body" value="/WEB-INF/views/WorkWithItemMaster.jspx" />
+  <definition name="Items" extends="view">
+    <put-attribute name="body" value="/WEB-INF/views/Items.jspx" />
   </definition>
  
   <definition name="SignOn" extends="public">
     <put-attribute name="body" value="/WEB-INF/views/SignOn.jspx" />
   </definition>
  
-  <definition name="ListOfWarehouseTypes" extends="template">
-    <put-attribute name="body" value="/WEB-INF/views/ListOfWarehouseTypes.jspx" />
+  <definition name="WarehouseTypes" extends="template">
+    <put-attribute name="body" value="/WEB-INF/views/WarehouseTypes.jspx" />
   </definition>
  
-  <definition name="InventoryManagement" extends="view">
-    <put-attribute name="body" value="/WEB-INF/views/InventoryManagement.jspx" />
+  <definition name="InventoryMenu" extends="view">
+    <put-attribute name="body" value="/WEB-INF/views/InventoryMenu.jspx" />
   </definition>
  
-  <definition name="DemoEnvironment" extends="menu">
+  <definition name="MainMenu" extends="menu">
     <put-attribute name="header" value="" />
     <put-attribute name="actions" value="" />
-    <put-attribute name="body" value="/WEB-INF/views/DemoEnvironment.jspx" />
+    <put-attribute name="body" value="/WEB-INF/views/MainMenu.jspx" />
   </definition>
  
 

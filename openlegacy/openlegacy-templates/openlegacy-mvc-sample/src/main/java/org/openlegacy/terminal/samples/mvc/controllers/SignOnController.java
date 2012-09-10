@@ -33,6 +33,11 @@ public class SignOnController {
 			return "SignOn";
 		}
 
+		// mobile
+		if (httpServletRequest.getParameter("partial") != null) {
+			return "MainMenu";
+
+		}
 		return "redirect:Items";
 	}
 

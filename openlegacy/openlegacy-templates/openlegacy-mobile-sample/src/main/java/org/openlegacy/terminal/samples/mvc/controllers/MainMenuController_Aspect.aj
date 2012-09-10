@@ -48,7 +48,7 @@ privileged @SuppressWarnings("unused") aspect MainMenuController_Aspect {
     @RequestMapping(method = RequestMethod.GET)
     public String MainMenuController.show(Model uiModel) {
     	MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
-	uiModel.addAttribute("MainMenu", mainMenu);
+	uiModel.addAttribute("mainMenu", mainMenu);
 	// show the resulting page for MainMenu
         return "MainMenu";
     }
