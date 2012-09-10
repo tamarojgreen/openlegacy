@@ -7,7 +7,6 @@ import org.openlegacy.modules.table.Table;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions;
 import org.openlegacy.terminal.samples.model.ItemDetails;
-import org.openlegacy.terminal.samples.model.Items;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,7 +70,8 @@ public class ItemDetailsCompositeController {
 	}
 
 	private String performDrillDownAction(Integer itemNumber, Model uiModel, String actionValue) {
-		terminalSession.getModule(Table.class).drillDown(Items.class, TerminalDrilldownActions.enter(actionValue), itemNumber);
+		terminalSession.getModule(Table.class).drillDown(ItemDetails.class, TerminalDrilldownActions.enter(actionValue),
+				itemNumber);
 
 		addNotesToPage(uiModel, itemNumber);
 
