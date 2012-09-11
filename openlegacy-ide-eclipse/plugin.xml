@@ -148,4 +148,19 @@
 			priority="normal">
 		 </content-type>
 	</extension> 
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Screen Preview"
+            id="org.openlegacy.ide.eclipse.preview">
+      </category>
+      <view
+            name="Screen Preview"
+            icon="icons/openlegacy.png"
+            category="org.openlegacy.ide.eclipse.preview"
+            class="org.openlegacy.ide.eclipse.preview.ScreenPreview"
+            id="org.openlegacy.ide.eclipse.preview.ScreenPreview">
+      </view>
+   </extension>
 </plugin>
