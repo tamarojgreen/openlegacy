@@ -87,6 +87,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String PREFERENCES_FILE = ".preferences";
 
+	private static final Object DEFAULT_CONTEXT = "default";
+
 	private ApplicationContext defaultDesigntimeApplicationContext;
 
 	// map of project path to Spring application context
@@ -453,7 +455,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				String designtimeContextType = getPreferences(projectPath).get(PerfrencesConstants.DESIGNTIME_CONTEXT);
 				// don't re-initialize the default context on project level if exists on root level
 				// (defaultDesigntimeApplicationContext)
-				if (designtimeContextType.equals("default")) {
+				if (designtimeContextType == null || designtimeContextType.equals(DEFAULT_CONTEXT)) {
 					projectApplicationContext = defaultDesigntimeApplicationContext;
 				} else {
 					projectApplicationContext = new ClassPathXmlApplicationContext(embeddedDesigntimeContextFile);

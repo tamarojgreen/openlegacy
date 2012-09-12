@@ -9,7 +9,11 @@
 		dojo.require("dijit.form.FilteringSelect");
 		dojo.require("dijit.form.NumberSpinner");
 		dojo.require("dijit.form.CheckBox");
-
+		dojo.require("dojo.NodeList-traverse");
+		dojo.require("dijit.InlineEditBox");
+		dojo.require("dijit.form.Textarea");
+		dojo.require("dojo.dnd.Moveable");
+		
 		function saveNote(node) {
 			dojo.xhr
 					.get({
@@ -66,7 +70,7 @@
 
 		<!-- Additional Notes Panel -->
 		<div id="ItemNotes" title="Item Notes"
-			data-dojo-type="dijit.layout.ContentPane">
+			data-dojo-type="dijit.layout.ContentPane" style="min-height: 400px;">
 			<button onclick="addNote();">+</button>
 			<div id="notesContainer">
 				<c:forEach items="${notes}" var="note" varStatus="status">

@@ -1,0 +1,5 @@
+#
+#Tue Sep 11 21:52:07 IDT 2012
+DESIGNTIME_CONTEXT=default
+API_PACKAGE=org.openlegacy.terminal.samples.model
+WEB_PACKAGE=org.openlegacy.terminal.samples.mvc.controllers

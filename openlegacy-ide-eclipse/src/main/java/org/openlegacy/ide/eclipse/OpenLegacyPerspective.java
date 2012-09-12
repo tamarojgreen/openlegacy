@@ -15,15 +15,9 @@ import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.console.IConsoleConstants;
 import org.eclipse.ui.navigator.resources.ProjectExplorer;
 
-/**
- * 
- * Sets the initial perspective for the IDE plug-in
- * 
- * @author MaayanS
- * 
- */
 public class OpenLegacyPerspective implements IPerspectiveFactory {
 
 	private static final String JAVA_PERSPECTIVE_ID = "org.eclipse.jdt.ui.JavaPerspective"; //$NON-NLS-1$
@@ -32,8 +26,9 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 	private static final String NAVIGATOR_VIEW_ID = "org.eclipse.ui.views.ResourceNavigator"; //$NON-NLS-1$
 	private static final String ERROR_LOG_VIEW_ID = "org.eclipse.pde.runtime.LogView"; //$NON-NLS-1$
 	private static final String BOTTOM = "bottom"; //$NON-NLS-1$
-	private static final String LEFT = "left"; //$NON-NLS-1$
+	private static final String SCREEN_PREVIEW_ID = "org.openlegacy.ide.eclipse.preview.ScreenPreview";
 
+	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		defineActions(layout);
 		defineLayout(layout);
@@ -42,17 +37,19 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 
 	protected void defineLayout(IPageLayout layout) {
 		// Creates a folder at the left side of the screen
-		IFolderLayout leftFolder = layout.createFolder(LEFT, IPageLayout.LEFT, 0.25f, layout.getEditorArea());
+		IFolderLayout leftFolder = layout.createFolder("topLeft", IPageLayout.LEFT, 0.37f, layout.getEditorArea());
 		leftFolder.addView(ProjectExplorer.VIEW_ID);
 		leftFolder.addView(NAVIGATOR_VIEW_ID);
+
+		// Bottom left: Outline view and Property Sheet view
+		IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, 0.50f, "topLeft");
+		bottomLeft.addView(SCREEN_PREVIEW_ID);
 
 		// Creates a folder at the bottom of the screen
 		IFolderLayout bottom = layout.createFolder(BOTTOM, IPageLayout.BOTTOM, 0.76f, layout.getEditorArea());
 		bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
 		bottom.addPlaceholder(ERROR_LOG_VIEW_ID);
-
-		// IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, 0.76f, LEFT);
-		// bottomLeft.addView(PluginConstants.OPENLEGACY_IMAGE_VIEW_ID);
+		bottom.addView(IConsoleConstants.ID_CONSOLE_VIEW);
 	}
 
 	protected void definePerspectiveShortcuts(IPageLayout layout) {
