@@ -1,5 +1,6 @@
 package org.openlegacy.terminal.web.mvc;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
@@ -24,7 +25,7 @@ public class ThemeUtil {
 			theme = requestTheme;
 		} else {
 			Cookie cookieTheme = WebUtils.getCookie(request, OL_THEME);
-			if (cookieTheme != null) {
+			if (cookieTheme != null && StringUtils.isNotEmpty(cookieTheme.getValue())) {
 				theme = cookieTheme.getValue();
 			} else {
 				response.addCookie(new Cookie(OL_THEME, theme));
