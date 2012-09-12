@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -20,14 +21,26 @@ public class ReloadContextController {
 	@Inject
 	private ApplicationContext applicationContext;
 
+	/**
+	 * allow "localhost" to reload by default
+	 */
+	private String ip = "localhost";
+
 	@RequestMapping(method = RequestMethod.GET)
-	public void reload(@RequestParam("password") String password, HttpServletResponse response) {
-		if (reloadPassword == null) {
-			throw (new RuntimeException("Reload password not configured. Reload is not supported"));
+	public void reload(@RequestParam(value="password",required=false) String password, HttpServletRequest request, HttpServletResponse response) {
+		
+		if (request.getServerName().toString().contains(ip)){
+			// OK	
 		}
-		if (!StringUtils.equals(reloadPassword, password)) {
-			throw (new RuntimeException("Password dont match reload password"));
+		else{
+			if (reloadPassword == null) {
+				throw (new RuntimeException("Reload password not configured. Reload is not supported"));
+			}
+			if (!StringUtils.equals(reloadPassword, password)) {
+				throw (new RuntimeException("Password dont match reload password"));
+			}
 		}
+		
 		((ConfigurableApplicationContext)applicationContext.getParent()).refresh();
 		((ConfigurableApplicationContext)applicationContext).refresh();
 		response.setStatus(HttpServletResponse.SC_OK);
@@ -35,5 +48,9 @@ public class ReloadContextController {
 
 	public void setReloadPassword(String reloadPassword) {
 		this.reloadPassword = reloadPassword;
+	}
+	
+	public void setEnableReloadFromIp(String ip) {
+		this.ip = ip;
 	}
 }
