@@ -38,4 +38,6 @@ public interface PagePartDefinition {
 	String getTableFieldName();
 
 	TableDefinition<?> getTableDefinition();
+	
+	boolean isRelative();
 }

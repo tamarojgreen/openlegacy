@@ -38,11 +38,12 @@ public class PartPositionAnnotationLoader extends AbstractClassAnnotationLoader 
 		ScreenEntitiesRegistry screenEntityRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 		SimpleScreenPartEntityDefinition screenPartDefinition = (SimpleScreenPartEntityDefinition)screenEntityRegistry.getPart(containingClass);
 
-		TerminalPosition position = SimpleTerminalPosition.newInstance(partPosition.row(), partPosition.column());
-
-		logger.debug(MessageFormat.format("Position {0} was loaded for screen part:{1}", position, containingClass));
 		screenPartDefinition.setWidth(partPosition.width());
 
-		screenPartDefinition.setPartPosition(position);
+		if (partPosition.row() > 0 && partPosition.column() > 0){
+			TerminalPosition position = SimpleTerminalPosition.newInstance(partPosition.row(), partPosition.column());
+			logger.debug(MessageFormat.format("Position {0} was loaded for screen part:{1}", position, containingClass));
+			screenPartDefinition.setPartPosition(position);
+		}
 	}
 }

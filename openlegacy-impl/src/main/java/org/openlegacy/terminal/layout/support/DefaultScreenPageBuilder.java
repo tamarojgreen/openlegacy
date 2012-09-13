@@ -133,6 +133,10 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		}
 		if (screenPartEntityDefinition.getWidth() > 0) {
 			calculateWidth(entityDefinition, pagePart, screenPartEntityDefinition.getWidth());
+			// if has width (set from @PartPosition) but no position - set it as relative 
+			if (screenPartEntityDefinition.getPartPosition() == null){
+				pagePart.setRelative(true);
+			}
 		}
 		return pagePart;
 

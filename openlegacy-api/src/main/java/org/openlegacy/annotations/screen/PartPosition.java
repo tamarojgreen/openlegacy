@@ -26,9 +26,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface PartPosition {
 
-	int row();
+	int row() default 0;
 
-	int column();
+	int column() default 0;
 
 	int width() default 0;
 }

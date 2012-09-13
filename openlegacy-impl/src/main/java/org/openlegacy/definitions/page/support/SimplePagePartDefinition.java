@@ -28,6 +28,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 	private String tableFieldName;
 	private TableDefinition<?> tableDefinition;
 	private String displayName;
+	private boolean relative = false;
 
 	public int getColumns() {
 		return columns;
@@ -121,5 +122,13 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
+	}
+
+	public boolean isRelative() {
+		return relative;
+	}
+	
+	public void setRelative(boolean relative) {
+		this.relative = relative;
 	}
 }
