@@ -41,7 +41,7 @@ public class DefaultBidiScreenPageBuilderTest extends AbstractTest {
 		// left position in % of the first field (label is on the right)
 		Assert.assertEquals(27, part1.getLeftMargin());
 		Assert.assertEquals(20, part1.getTopMargin());
-		Assert.assertEquals(37, part1.getWidth());
+		Assert.assertEquals(33, part1.getWidth());
 
 	}
 

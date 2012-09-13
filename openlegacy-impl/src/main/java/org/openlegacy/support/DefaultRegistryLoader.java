@@ -102,6 +102,7 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		}
 		// scan field for annotations
 		handleEntityAnnotationFields(fieldAnnotationLoaders, entitiesRegistry, beanClass);
+		handleEntityFields(fieldLoaders, entitiesRegistry, beanClass);
 	}
 
 	public void setAnnotationLoaders(Collection<ClassAnnotationsLoader> classAnnotationLoaders) {
