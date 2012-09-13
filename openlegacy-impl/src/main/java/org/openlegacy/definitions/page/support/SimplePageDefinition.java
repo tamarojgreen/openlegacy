@@ -23,6 +23,7 @@ public class SimplePageDefinition implements PageDefinition {
 	private List<PagePartDefinition> pageParts = new ArrayList<PagePartDefinition>();
 	private EntityDefinition<?> entityDefinition;
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
+	private String packageName;
 
 	public SimplePageDefinition(EntityDefinition<?> entityDefinition) {
 		this.entityDefinition = entityDefinition;
@@ -40,4 +41,11 @@ public class SimplePageDefinition implements PageDefinition {
 		return actions;
 	}
 
+	public String getPackageName() {
+		return packageName;
+	}
+
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
 }
