@@ -18,7 +18,7 @@
 	<c:set var="absoluteStyle" value=""/>
 	
 	<c:if test="${not empty left}">
-		<c:set var="leftStyle" value="margin-left: ${left};"/>
+		<c:set var="leftStyle" value="left: ${left};"/>
 	</c:if>
 	<c:if test="${not empty top}">
 		<c:set var="topStyle" value="top: ${top};"/>
