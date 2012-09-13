@@ -1,4 +1,4 @@
-package ${entityDefinition.packageName}.web;
+package <#if packageName??>${packageName}<#else>${entityDefinition.packageName}.web</#if>;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -15,6 +15,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.GeneratePageRequest;
 import org.openlegacy.exceptions.GenerationException;
@@ -142,8 +143,9 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				}
 			}
 
-			PageDefinition pageDefinition = new DefaultScreenPageBuilder().build((ScreenEntityDefinition)entityDefinition);
-
+			SimplePageDefinition pageDefinition = (SimplePageDefinition) new DefaultScreenPageBuilder().build((ScreenEntityDefinition)entityDefinition);
+			pageDefinition.setPackageName(generatePageRequest.getPackageDirectoryName().replaceAll("/", "."));
+			
 			if (generateController) {
 				contollerFile.getParentFile().mkdirs();
 				fos = new FileOutputStream(contollerFile);
@@ -188,6 +190,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				}
 			}
 			if (generateWebPage) {
+				webPageFile.getParentFile().mkdirs();
 				fos = new FileOutputStream(webPageFile);
 				generatePage(pageDefinition, fos);
 				fos.close();
