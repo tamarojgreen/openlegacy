@@ -8,7 +8,7 @@ import org.openlegacy.terminal.TerminalField;
 </#if>
 import ${packageName}.${parentClassName}.${className};
 
-privileged @SuppressWarnings("unused") aspect ${formattedClassName}Table_Aspect {
+privileged @SuppressWarnings("unused") aspect ${formattedClassName}Part_Aspect {
 	<#list fields as field>
 	<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
     private TerminalField ${className}.${field.name}Field;
