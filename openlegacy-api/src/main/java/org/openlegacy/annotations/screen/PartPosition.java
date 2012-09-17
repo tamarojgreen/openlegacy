@@ -30,5 +30,8 @@ public @interface PartPosition {
 
 	int column() default 0;
 
-	int width() default 0;
+	/**
+	 * Default page part to default screen width
+	 */
+	int width() default 80;
 }
