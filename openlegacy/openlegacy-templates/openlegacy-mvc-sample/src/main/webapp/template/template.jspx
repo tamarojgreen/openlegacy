@@ -39,10 +39,10 @@
 		<div id="wrap_in">
 			<div class="container">
 				<tiles:insertAttribute name="header" />
-				<div class="leftcontent">
+				<div class="menu_content">
 					<tiles:insertAttribute name="menu" ignore="true"/>
 				</div>
-				<div class="rightcontent">
+				<div class="main_content">
 					<tiles:insertAttribute name="breadcrumb" ignore="true"/>
 					<tiles:insertAttribute name="actions" ignore="true"/>
 					
