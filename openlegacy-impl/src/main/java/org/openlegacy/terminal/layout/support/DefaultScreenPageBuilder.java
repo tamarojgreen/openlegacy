@@ -59,6 +59,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	private int additionalPartWidth = 0;
 
+	/**
+	 * Page builder entry point. Builds a page definition from a screen entity definition
+	 */
 	public PageDefinition build(ScreenEntityDefinition entityDefinition) {
 		Collection<ScreenFieldDefinition> fields = entityDefinition.getFieldsDefinitions().values();
 
@@ -71,17 +74,21 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 
+		// create groups of neighbor fields
 		List<List<ScreenFieldDefinition>> neighourFieldsGroups = groupNeighbourFields(sortedFields);
 
+		// create a page part from each fields group
 		for (List<ScreenFieldDefinition> neighbourfields : neighourFieldsGroups) {
 			pageDefinition.getPageParts().add(buildPagePart(neighbourfields, entityDefinition));
 		}
 
+		// create page parts from screen parts
 		Collection<ScreenPartEntityDefinition> screenParts = entityDefinition.getPartsDefinitions().values();
 		for (ScreenPartEntityDefinition screenPartEntityDefinition : screenParts) {
 			pageDefinition.getPageParts().add(buildPagePartFromScreenPart(screenPartEntityDefinition, entityDefinition));
 		}
 
+		// create page parts from screen tables
 		Collection<String> tables = entityDefinition.getTableDefinitions().keySet();
 		for (String tableFieldName : tables) {
 			ScreenTableDefinition tableDefinition = entityDefinition.getTableDefinitions().get(tableFieldName);
@@ -90,6 +97,17 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		return pageDefinition;
 	}
 
+	/**
+	 * Build a page part from screen table. calculates the table top/left position and positions the page part by this position
+	 * 
+	 * @param tableFieldName
+	 *            the table field name within the entity definition
+	 * @param tableDefinition
+	 *            table definition which the page part should be based on
+	 * @param entityDefinition
+	 *            entity definition which holds the table
+	 * @return page part
+	 */
 	private PagePartDefinition buildPagePartFromTable(String tableFieldName, ScreenTableDefinition tableDefinition,
 			ScreenEntityDefinition entityDefinition) {
 		SimplePagePartDefinition pagePart = new SimplePagePartDefinition();
@@ -133,8 +151,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		}
 		if (screenPartEntityDefinition.getWidth() > 0) {
 			calculateWidth(entityDefinition, pagePart, screenPartEntityDefinition.getWidth());
-			// if has width (set from @PartPosition) but no position - set it as relative 
-			if (screenPartEntityDefinition.getPartPosition() == null){
+			// if has width (set from @PartPosition) but no position - set it as relative
+			if (screenPartEntityDefinition.getPartPosition() == null) {
 				pagePart.setRelative(true);
 			}
 		}
@@ -142,6 +160,15 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	}
 
+	/**
+	 * Builds a page part from a list of neighbor fields
+	 * 
+	 * @param fields
+	 *            the neighbor fields
+	 * @param entityDefinition
+	 *            the entity containing all the fields
+	 * @return page part
+	 */
 	private PagePartDefinition buildPagePart(List<ScreenFieldDefinition> fields, ScreenEntityDefinition entityDefinition) {
 		SimplePagePartDefinition pagePart = new SimplePagePartDefinition();
 
@@ -178,12 +205,22 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		}
 		pagePart.setColumns(columnValues.size());
 
-		calculatePartPosition(fields, entityDefinition, pagePart,startColumn);
+		calculatePartPosition(fields, entityDefinition, pagePart, startColumn);
 		calculateWidth(entityDefinition, pagePart, endColumn - startColumn);
 
 		return pagePart;
 	}
 
+	/**
+	 * Calculated the given page part width in percentages. Overridden by Bidi
+	 * 
+	 * @param entityDefinition
+	 *            the entity which contains the page part is based on
+	 * @param pagePart
+	 *            the page part
+	 * @param width
+	 *            the page part columns width
+	 */
 	protected void calculateWidth(ScreenEntityDefinition entityDefinition, SimplePagePartDefinition pagePart, int width) {
 		int widthPercentage = 100 * width / entityDefinition.getScreenSize().getColumns();
 		pagePart.setWidth(widthPercentage);
@@ -212,10 +249,10 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	}
 
 	/**
-	 * Calculates the most left column of a field, consider the label position
+	 * Calculates the most left column of a field, considering the label position
 	 * 
 	 * @param field
-	 * @return
+	 * @return start column of the field
 	 */
 	protected int calculateStartColumn(ScreenFieldDefinition field) {
 		if (field.getLabelPosition() != null) {
@@ -236,7 +273,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	 * Group all fields which are close to each other by a given row (1 - default max), or same row with max distance column (10)
 	 * 
 	 * @param sortedFields
-	 * @return
+	 * @return list of neighbor fields
 	 */
 	private List<List<ScreenFieldDefinition>> groupNeighbourFields(List<ScreenFieldDefinition> sortedFields) {
 		List<List<ScreenFieldDefinition>> neighourFieldsGroups = new ArrayList<List<ScreenFieldDefinition>>();
