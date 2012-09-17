@@ -59,7 +59,7 @@ public class DefaultRestController {
 
 	@Inject
 	private TerminalSnapshotImageRenderer imageRenderer;
-	
+
 	/**
 	 * Whether to perform login on session start. Can be overridden from /application.properties
 	 * defaultRestController.requiresLogin=true
@@ -103,11 +103,21 @@ public class DefaultRestController {
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getScreenEntity(@PathVariable("screen") String screenEntityName, HttpServletResponse response)
 			throws IOException {
+		return getEntityRequest(screenEntityName, null, response);
+	}
+
+	@RequestMapping(value = "/{screen}/{key}", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getScreenEntityWithKey(@PathVariable("screen") String screenEntityName, @PathVariable("key") String key,
+			HttpServletResponse response) throws IOException {
+		return getEntityRequest(screenEntityName, key, response);
+	}
+
+	private ModelAndView getEntityRequest(String screenEntityName, Object key, HttpServletResponse response) throws IOException {
 		if (!authenticate(response)) {
 			return null;
 		}
 		try {
-			ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
+			ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, key);
 			return getEntityInner(screenEntity);
 		} catch (EntityNotFoundException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

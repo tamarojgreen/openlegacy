@@ -14,8 +14,8 @@ import org.openlegacy.terminal.actions.TerminalActions.F3;
 @ScreenNavigation(accessedFrom = WarehousesList.class, exitAction = F3.class)
 public class WarehouseDetails {
 
-	@ScreenField(column = 34, row = 6)
-	private String warehouseNumber;
+	@ScreenField(column = 34, row = 6, key = true)
+	private Integer warehouseNumber;
 
 	@ScreenField(column = 34, row = 8, editable = true)
 	@ScreenFieldValues(sourceScreenEntity = WarehouseTypes.class, collectAll = false)

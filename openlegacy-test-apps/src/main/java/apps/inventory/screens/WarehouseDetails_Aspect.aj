@@ -19,7 +19,7 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
 	
     
 
-    public String WarehouseDetails.getWarehouseNumber(){
+    public Integer WarehouseDetails.getWarehouseNumber(){
     	return this.warehouseNumber;
     }
     

@@ -88,8 +88,7 @@ public class ScreenEntityUtils implements InitializingBean {
 
 		for (int i = 0; i < requestedEntityKeys.length; i++) {
 			Object actualEntityKeyValue = actualEntityKeysValues.get(i);
-			if (!actualEntityKeyValue.equals(requestedEntityKeys[i])) {
-
+			if (!actualEntityKeyValue.toString().equals(requestedEntityKeys[i].toString())) {
 				if (returnTrueOnDifferentKeys) {
 					logger.warn(MessageFormat.format(
 							"Request entity key:{0} doesn''t match current entity key:{1}. Skipping as screenEntityUtils.returnTrueOnDifferentKeys was set to true",

@@ -37,13 +37,17 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 		return super.getSnapshot();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
+		setupMockup(screenEntityClass);
+		return super.getEntity(screenEntityClass, keys);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <S> void setupMockup(Class<S> screenEntityClass) {
 		screenEntityClass = (Class<S>)ProxyUtil.getOriginalClass(screenEntityClass);
 		SnapshotInfo snapshotInfo = snapshotsMap.get(screenEntityClass).getCurrent();
 		getTerminalConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
-		return super.getEntity(screenEntityClass, keys);
 	}
 
 	@Override

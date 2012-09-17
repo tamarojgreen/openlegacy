@@ -307,4 +307,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return getEntity(entityClass, keys);
 	}
 
+	protected ScreenEntitiesRegistry getScreenEntitiesRegistry() {
+		return screenEntitiesRegistry;
+	}
 }
