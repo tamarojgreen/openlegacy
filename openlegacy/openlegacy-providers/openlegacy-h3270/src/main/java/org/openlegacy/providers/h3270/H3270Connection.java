@@ -4,8 +4,8 @@ import org.h3270.host.S3270;
 import org.h3270.host.S3270Screen;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.services.TerminalSendAction;
 
 import java.util.List;
 
