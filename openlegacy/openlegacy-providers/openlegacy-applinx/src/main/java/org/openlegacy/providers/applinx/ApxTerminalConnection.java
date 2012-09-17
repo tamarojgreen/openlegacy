@@ -28,8 +28,8 @@ import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.services.TerminalSendAction;
 
 import java.util.List;
 

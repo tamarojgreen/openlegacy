@@ -12,7 +12,7 @@ package org.openlegacy.terminal.exceptions;
 
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalActionMapper;
-import org.openlegacy.terminal.services.TerminalSendAction;
+import org.openlegacy.terminal.TerminalSendAction;
 
 /**
  * Thrown when a terminal action is not mapped in a {@link TerminalActionMapper}

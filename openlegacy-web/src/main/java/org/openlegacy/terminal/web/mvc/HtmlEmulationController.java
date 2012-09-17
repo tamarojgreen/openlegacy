@@ -11,9 +11,9 @@
 package org.openlegacy.terminal.web.mvc;
 
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.springframework.stereotype.Controller;

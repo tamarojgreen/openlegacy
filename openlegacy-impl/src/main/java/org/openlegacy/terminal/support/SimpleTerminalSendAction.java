@@ -15,7 +15,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
-import org.openlegacy.terminal.services.TerminalSendAction;
+import org.openlegacy.terminal.TerminalSendAction;
 
 import java.util.ArrayList;
 import java.util.List;

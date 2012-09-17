@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
-import org.openlegacy.terminal.services.TerminalSendAction;
-
 public interface TerminalSendActionBuilder<S> {
 
 	TerminalSendAction buildSendAction(TerminalSnapshot terminalSnapshot, S source);

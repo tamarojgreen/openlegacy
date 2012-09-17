@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.services;
+package org.openlegacy.terminal;
 
 import org.openlegacy.SendAction;
 import org.openlegacy.terminal.TerminalConnection;

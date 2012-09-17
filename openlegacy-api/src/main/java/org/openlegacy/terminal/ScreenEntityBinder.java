@@ -12,7 +12,6 @@ package org.openlegacy.terminal;
 
 import org.openlegacy.EntityBinder;
 import org.openlegacy.annotations.screen.ScreenField;
-import org.openlegacy.terminal.services.TerminalSendAction;
 
 /**
  * Defines a binder between a screen entity instance from a {@link TerminalSnapshot} and to a {@link TerminalSendAction},
