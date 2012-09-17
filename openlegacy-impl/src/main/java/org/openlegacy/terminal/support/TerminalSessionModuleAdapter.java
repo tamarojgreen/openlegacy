@@ -13,9 +13,9 @@ package org.openlegacy.terminal.support;
 import org.openlegacy.support.SessionModuleAdapter;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionListener;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionModule;
-import org.openlegacy.terminal.services.TerminalSendAction;
 
 import java.io.Serializable;
 

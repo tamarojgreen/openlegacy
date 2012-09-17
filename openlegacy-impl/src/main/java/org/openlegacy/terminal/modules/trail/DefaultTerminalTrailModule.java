@@ -13,8 +13,8 @@ package org.openlegacy.terminal.modules.trail;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalConnection;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.support.SimpleTerminalOutgoingSnapshot;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 

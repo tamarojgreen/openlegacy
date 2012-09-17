@@ -12,9 +12,9 @@ package org.openlegacy.terminal.mock;
 
 import org.apache.commons.lang.SerializationUtils;
 import org.openlegacy.exceptions.SessionEndedException;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
-import org.openlegacy.terminal.services.TerminalSendAction;
 
 import java.util.ArrayList;
 import java.util.List;

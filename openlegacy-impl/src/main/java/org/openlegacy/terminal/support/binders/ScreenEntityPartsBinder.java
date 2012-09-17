@@ -12,11 +12,11 @@ package org.openlegacy.terminal.support.binders;
 
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;

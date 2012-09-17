@@ -13,9 +13,9 @@ package org.openlegacy.terminal.mock;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
-import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.ModifiedFieldsCriteria;
 
