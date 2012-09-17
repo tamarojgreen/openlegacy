@@ -29,7 +29,6 @@ public class PreviewCanvas extends Canvas {
 	private void initialize() {
 		addPaintListener(new org.eclipse.swt.events.PaintListener() {
 
-			@Override
 			public void paintControl(org.eclipse.swt.events.PaintEvent e) {
 				if (isVisible()) {
 					drawImage(e.gc);
@@ -39,7 +38,6 @@ public class PreviewCanvas extends Canvas {
 		// enlarge image on mouse click
 		addListener(SWT.MouseDown, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				if (isVisible()) {
 					if (getDrawingBounds().contains(event.x, event.y)) {
@@ -111,7 +109,6 @@ public class PreviewCanvas extends Canvas {
 		shell.setBounds(x - 1, y - 1, imageBounds.width + 2, imageBounds.height + 2);
 		shell.addPaintListener(new PaintListener() {
 
-			@Override
 			public void paintControl(PaintEvent e) {
 				if (isVisible()) {
 					e.gc.drawImage(image, 1, 1);
@@ -135,7 +132,6 @@ public class PreviewCanvas extends Canvas {
 		// minimize image when mouse leaves image bounds
 		shell.addListener(SWT.MouseExit, new Listener() {
 
-			@Override
 			public void handleEvent(Event event) {
 				if (isVisible()) {
 					stayClosed = false;
