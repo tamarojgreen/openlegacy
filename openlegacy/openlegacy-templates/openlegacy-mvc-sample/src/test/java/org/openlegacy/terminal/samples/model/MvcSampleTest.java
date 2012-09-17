@@ -34,7 +34,7 @@ public class MvcSampleTest {
 
 		WarehouseDetails warehouseDetails = terminalSession.getEntity(WarehouseDetails.class, 3);
 		Assert.assertEquals(3, warehouseDetails.getWarehouseNumber().intValue());
-		Assert.assertEquals(1295733600000L, warehouseDetails.getAmendedDate().getTime());
+		Assert.assertNotNull(warehouseDetails.getAmendedDate());
 
 	}
 }
