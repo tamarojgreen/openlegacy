@@ -36,10 +36,21 @@ public class ReloadContextController {
 			// OK
 		} else {
 			if (reloadPassword == null) {
-				throw (new RuntimeException("Reload password not configured. Reload is not supported"));
+				try {
+					response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+							"Reload password not configured. Reload is not supported");
+					return;
+				} catch (IOException e) {
+					throw (new RuntimeException(e));
+				}
 			}
 			if (!StringUtils.equals(reloadPassword, password)) {
-				throw (new RuntimeException("Password dont match reload password"));
+				try {
+					response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Password dont match reload password");
+				} catch (IOException e) {
+					throw (new RuntimeException(e));
+				}
+				return;
 			}
 		}
 

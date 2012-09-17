@@ -13,6 +13,7 @@ package org.openlegacy;
 public interface OpenLegacyProperties {
 
 	public static final String TRAIL_FOLDER_PATH = "org.openlegacy.trail.path";
+	public static final String DESIGN_TIME = "org.openlegacy.designtime";
 
 	String getProperty(String propertyName);
 

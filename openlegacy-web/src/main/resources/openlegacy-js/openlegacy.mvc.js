@@ -320,3 +320,17 @@ function changeTheme(themesList){
 	}
 	
 }
+
+function reloadApplicationContext(baseUrl){
+	var xhrArgs = {
+			url : baseUrl + "/reload",
+			load : function(data) {
+				location.href = location.href;
+			},
+			error : function(e) {
+				alert(e);
+			}
+		}
+	var deferred = dojo.xhrGet(xhrArgs);
+	
+}

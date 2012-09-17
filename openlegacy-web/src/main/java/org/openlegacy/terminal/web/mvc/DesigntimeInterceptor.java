@@ -14,6 +14,8 @@ import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.modules.trail.DefaultTerminalTrail;
+import org.openlegacy.utils.StringConstants;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.inject.Inject;
@@ -44,5 +46,17 @@ public class DesigntimeInterceptor extends HandlerInterceptorAdapter {
 
 		return true;
 
+	}
+
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
+			throws Exception {
+
+		String designtime = openLegacyProperties.getProperty(OpenLegacyProperties.DESIGN_TIME);
+		if (StringConstants.TRUE.equals(designtime)) {
+			if (modelAndView != null) {
+				modelAndView.addObject("ol_designtime", true);
+			}
+		}
 	}
 }
