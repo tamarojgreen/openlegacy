@@ -57,6 +57,7 @@
 					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/terminal/samples/model/${definitions.entityName}.java')">View Model</a></li>
 					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/views/${definitions.entityName}.jspx')">View page</a></li>
 					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/terminal/samples/mvc/controllers/${definitions.entityName}Controller.java')">View Controller</a></li>
+					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/test/org/openlegacy/terminal/samples/model/MvcSampleTest.java')">View API Test</a></li>
 				</ul>
 				<div class="demo_session">
 					<a href="javascript:showSessionViewer('${pageContext.request.contextPath}');" title="Original terminal screen">

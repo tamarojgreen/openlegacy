@@ -306,6 +306,10 @@
 		              		<directory>${build.sourceDirectory}</directory>
 		              		<targetPath>src/main</targetPath>
 		            	</resource>
+		            	<resource>
+		              		<directory>${build.testSourceDirectory}</directory>
+		              		<targetPath>src/test</targetPath>
+		            	</resource>
 		          	</webResources>
 				</configuration>
 			</plugin>

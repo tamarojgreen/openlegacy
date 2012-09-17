@@ -11,6 +11,7 @@
     <context:property-placeholder location="classpath*:/*.properties"/>
 	
 	<import resource="classpath*:/META-INF/openlegacy-basic-context.xml"/>
+	<import resource="classpath*:/META-INF/openlegacy-webcomponents-context.xml"/>
 
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 	    <property name="packages">
