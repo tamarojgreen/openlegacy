@@ -23,7 +23,7 @@ import java.util.Date;
 @ScreenNavigation(accessedFrom = Warehouses.class)
 public class WarehouseDetails {
 
-	@ScreenField(row = 6, column = 34, endColumn = 36, labelColumn = 2, editable = true, displayName = "Warehouse Number", sampleValue = "003")
+	@ScreenField(row = 6, column = 34, endColumn = 36, key = true, labelColumn = 2, editable = true, displayName = "Warehouse Number", sampleValue = "003")
 	private Integer warehouseNumber;
 
 	@ScreenField(row = 7, column = 34, endColumn = 73, labelColumn = 2, editable = true, displayName = "Warehouse Description", sampleValue = "Discount warehouse")

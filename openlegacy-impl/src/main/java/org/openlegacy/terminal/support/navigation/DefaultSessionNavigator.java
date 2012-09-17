@@ -13,18 +13,20 @@ package org.openlegacy.terminal.support.navigation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.modules.navigation.Navigation;
+import org.openlegacy.modules.table.Table;
+import org.openlegacy.modules.table.drilldown.DrilldownAction;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.services.SessionNavigator;
+import org.openlegacy.terminal.table.TerminalDrilldownAction;
+import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
@@ -42,33 +44,34 @@ public class DefaultSessionNavigator implements SessionNavigator {
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Inject
-	private ScreensRecognizer screensRecognizer;
+	private NavigationMetadata navigationMetadata;
 
 	@Inject
-	private NavigationMetadata navigationMetadata;
+	private ScreenEntityUtils screenEntityUtils;
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 
-	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntityClass) throws ScreenEntityNotAccessibleException {
+	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntityClass, Object... keys)
+			throws ScreenEntityNotAccessibleException {
 
-		TerminalSnapshot snapshot = terminalSession.getSnapshot();
-		Class<?> currentEntityClass = screensRecognizer.match(snapshot);
+		ScreenEntity currentEntity = terminalSession.getEntity();
 
-		if (currentEntityClass == null) {
+		if (currentEntity == null) {
 			return;
 		}
 
-		if (ProxyUtil.isClassesMatch(currentEntityClass, targetScreenEntityClass)) {
+		if (screenEntityUtils.isEntitiesEquals(currentEntity, targetScreenEntityClass, keys)) {
 			return;
 		}
 
+		Class<?> currentEntityClass = currentEntity.getClass();
 		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntityClass);
 		ScreenEntityDefinition targetEntityDefinition = screenEntitiesRegistry.get(targetScreenEntityClass);
 
 		List<NavigationDefinition> navigationSteps = navigationMetadata.get(currentEntityDefinition, targetEntityDefinition);
 
 		while (navigationSteps == null) {
-			if (currentEntityDefinition.getEntityClass() == targetEntityDefinition.getEntityClass()) {
+			if (screenEntityUtils.isEntitiesEquals(currentEntity, targetScreenEntityClass, keys)) {
 				return;
 			}
 
@@ -89,15 +92,15 @@ public class DefaultSessionNavigator implements SessionNavigator {
 					}
 				}
 
-				ScreenEntityDefinition beforeEntityClass = currentEntityDefinition;
+				Class<?> beforeEntityClass = currentEntityClass;
 
 				exitCurrentScreen(terminalSession, currentEntityClass, exitAction);
 
-				snapshot = terminalSession.getSnapshot();
-				currentEntityClass = screensRecognizer.match(snapshot);
+				currentEntity = terminalSession.getEntity();
+				currentEntityClass = currentEntity.getClass();
 				currentEntityDefinition = screenEntitiesRegistry.get(currentEntityClass);
 
-				if (currentEntityDefinition == beforeEntityClass) {
+				if (ProxyUtil.isClassesMatch(beforeEntityClass, currentEntityClass)) {
 					logger.error(MessageFormat.format(
 							"Exiting from screen {0} using {1} was not effective. Existing navigation attempt to {2}",
 							currentEntityClass, exitAction, targetScreenEntityClass));
@@ -110,7 +113,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 
 		if (navigationSteps != null) {
 			navigationMetadata.add(currentEntityDefinition, targetEntityDefinition, navigationSteps);
-			performDirectNavigation(terminalSession, currentEntityClass, navigationSteps);
+			performDirectNavigation(terminalSession, currentEntityClass, navigationSteps, keys);
 		}
 	}
 
@@ -122,7 +125,7 @@ public class DefaultSessionNavigator implements SessionNavigator {
 	}
 
 	private static void performDirectNavigation(TerminalSession terminalSession, Class<?> currentEntityClass,
-			List<NavigationDefinition> navigationSteps) {
+			List<NavigationDefinition> navigationSteps, Object... keys) {
 		Collections.reverse(navigationSteps);
 		ScreenEntity currentEntity = terminalSession.getEntity();
 		for (NavigationDefinition navigationDefinition : navigationSteps) {
@@ -142,7 +145,13 @@ public class DefaultSessionNavigator implements SessionNavigator {
 			if (assignedFields.size() == 0) {
 				currentEntity = null;
 			}
-			terminalSession.doAction(navigationDefinition.getTerminalAction(), currentEntity);
+			TerminalAction terminalAction = navigationDefinition.getTerminalAction();
+			if (terminalAction instanceof DrilldownAction) {
+				terminalSession.getModule(Table.class).drillDown(navigationDefinition.getTargetEntity(),
+						(TerminalDrilldownAction)terminalAction, keys);
+			} else {
+				terminalSession.doAction(terminalAction, currentEntity);
+			}
 			currentEntity = terminalSession.getEntity();
 		}
 	}

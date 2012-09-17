@@ -22,6 +22,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition {
 	private TerminalAction terminalAction;
 	private TerminalAction exitAction;
 	private boolean requiresParameters;
+	private Class<?> targetEntity;
 
 	public Class<?> getAccessedFrom() {
 		return accessedFrom;
@@ -59,4 +60,11 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition {
 		this.requiresParameters = requiresParameters;
 	}
 
+	public Class<?> getTargetEntity() {
+		return targetEntity;
+	}
+
+	public void setTargetEntity(Class<?> targetEntity) {
+		this.targetEntity = targetEntity;
+	}
 }

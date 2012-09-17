@@ -17,7 +17,7 @@
 				<value>InventoryManagement.xml</value>
 				<value>ItemsList.xml</value>
 				<value>InventoryManagement.xml</value>
-				<value>WarehouseDetails.xml</value>
+				<value>WarehousesList.xml</value>
 			</list>
 		</property>
 	</bean>

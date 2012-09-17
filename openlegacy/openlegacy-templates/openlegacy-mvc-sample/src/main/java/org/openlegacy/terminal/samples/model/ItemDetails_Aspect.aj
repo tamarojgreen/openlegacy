@@ -55,6 +55,13 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
 
 
 
+    public ItemDetails2 ItemDetails.getItemDetails2(){
+    	return this.itemDetails2;
+    }
+    
+
+
+
     public Integer ItemDetails.getItemNumber(){
     	return this.itemNumber;
     }
@@ -132,13 +139,6 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     public void ItemDetails.setSupercedingItemto(String supercedingItemto){
     	this.supercedingItemto = supercedingItemto;
     }
-
-
-
-    public ItemDetails2 ItemDetails.getItemDetails2(){
-    	return this.itemDetails2;
-    }
-    
 
 
 

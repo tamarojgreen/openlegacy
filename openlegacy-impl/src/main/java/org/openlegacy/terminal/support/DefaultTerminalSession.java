@@ -12,7 +12,6 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.support.AbstractEntitiesRegistry;
@@ -31,6 +30,7 @@ import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.services.TerminalSendAction;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
+import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 
 import java.text.MessageFormat;
@@ -66,21 +66,27 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	private OpenLegacyProperties openLegacyProperties;
+	@Inject
+	private ScreenEntityUtils screenEntityUtils;
 
 	private ScreenEntityMethodInterceptor interceptor;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
 
 	@SuppressWarnings("unchecked")
-	public <S> S getEntity(Class<S> screenEntityClass) throws EntityNotFoundException {
+	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 
 		checkRegistryDirty();
-		// check if the entity matched the cached entity
-		if (entity == null || !ProxyUtil.isClassesMatch(entity.getClass(), screenEntityClass)) {
-			sessionNavigator.navigate(this, screenEntityClass);
 
-			getEntityInner(screenEntityClass);
+		if (entity == null) {
+			entity = getEntityInner();
+		}
+		if (!screenEntityUtils.isEntitiesEquals(entity, screenEntityClass, keys)) {
+			entity = null;
+		}
+		if (entity == null) {
+			sessionNavigator.navigate(this, screenEntityClass, keys);
+			entity = getEntityInner();
 		}
 		return (S)entity;
 	}
@@ -88,35 +94,34 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private void checkRegistryDirty() {
 		if (screenEntitiesRegistry.isDirty()) {
 			entity = null;
-			// set the registry back to clean - for designtime purposes only!
+			// set the registry back to clean - for design-time purposes only!
 			((AbstractEntitiesRegistry<?, ?>)screenEntitiesRegistry).setDirty(false);
 		}
 	}
 
-	private <S> void getEntityInner(Class<S> screenEntityClass) {
+	private <S> ScreenEntity getEntityInner() {
+		entity = null;
 		TerminalSnapshot terminalSnapshot = getSnapshot();
 
-		ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(screenEntityClass, ScreenEntity.class, interceptor);
+		Class<?> matchedScreenEntity = screensRecognizer.match(terminalSnapshot);
+		if (matchedScreenEntity == null) {
+			return null;
+		}
+
+		ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(matchedScreenEntity, ScreenEntity.class, interceptor);
 
 		for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
 			screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
 		}
 
-		entity = screenEntity;
+		return screenEntity;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <R extends ScreenEntity> R getEntity() {
 		checkRegistryDirty();
 		if (entity == null) {
-			TerminalSnapshot terminalSnapshot = getSnapshot();
-
-			Class<?> matchedScreenEntity = screensRecognizer.match(terminalSnapshot);
-			if (matchedScreenEntity == null) {
-				return null;
-			}
-
-			entity = (R)getEntity(matchedScreenEntity);
+			entity = getEntityInner();
 		}
 		return (R)entity;
 	}
@@ -294,12 +299,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return screensRecognizer;
 	}
 
-	public Object getEntity(String entityName) throws EntityNotFoundException {
+	public Object getEntity(String entityName, Object... keys) throws EntityNotFoundException {
 		Class<?> entityClass = screenEntitiesRegistry.getEntityClass(entityName);
 		if (entityClass == null) {
 			throw (new EntityNotFoundException(MessageFormat.format("Screen entity \"{0}\" not found", entityName)));
 		}
-		return getEntity(entityClass);
+		return getEntity(entityClass, keys);
 	}
 
 }

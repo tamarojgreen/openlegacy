@@ -21,5 +21,6 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
  */
 public interface SessionNavigator {
 
-	void navigate(TerminalSession terminalSession, Class<?> targetScreenEntityClass) throws ScreenEntityNotAccessibleException;
+	void navigate(TerminalSession terminalSession, Class<?> targetScreenEntityClass, Object... keys)
+			throws ScreenEntityNotAccessibleException;
 }

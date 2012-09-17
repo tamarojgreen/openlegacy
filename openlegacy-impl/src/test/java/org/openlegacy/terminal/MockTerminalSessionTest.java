@@ -26,7 +26,7 @@ public class MockTerminalSessionTest extends AbstractTest {
 		Assert.assertNotNull(terminalSession);
 		Assert.assertEquals(MockupTerminalSession.class, terminalSession.getClass());
 
-		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class);
+		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class, 2000);
 		Assert.assertNotNull(itemDetails1);
 
 		itemDetails1.setItemDescription("test");

@@ -83,7 +83,7 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 
 		if (rowNumber != null) {
 			rowSelector.selectRow(session, currentEntity, drilldownAction, rowNumber);
-			return session.getEntity(targetEntityClass);
+			return session.getEntity(targetEntityClass, rowKeys);
 		}
 		throw (new DrilldownException("Unable to drilldown into " + targetEntityClass + ", with key field: "
 				+ Arrays.toString(tableDefinition.getKeyFieldNames().toArray()) + " with keys values:" + Arrays.toString(rowKeys)));

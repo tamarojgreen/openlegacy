@@ -28,7 +28,8 @@ public class ApxSessionNavigator implements SessionNavigator {
 	@Inject
 	ScreenEntitiesRegistry screenEntitiesRegistry;
 
-	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntity) throws ScreenEntityNotAccessibleException {
+	public void navigate(TerminalSession terminalSession, Class<?> targetScreenEntity, Object... keys)
+			throws ScreenEntityNotAccessibleException {
 
 		String screenName = screenEntitiesRegistry.getEntityName(targetScreenEntity);
 		GXIClientBaseObject apxSession = (GXIClientBaseObject)terminalSession.getDelegate();

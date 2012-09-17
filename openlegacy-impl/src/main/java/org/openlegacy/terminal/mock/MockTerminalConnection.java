@@ -53,9 +53,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 
 		TerminalSnapshot currentSnapshot = snapshots.get(currentIndex);
 		if (currentSnapshot.getSnapshotType() == SnapshotType.OUTGOING) {
-			if (terminalSendAction.getModifiedFields().size() > 0) {
-				MockSendValidationUtils.validateSendAction(currentSnapshot, terminalSendAction);
-			}
+			MockSendValidationUtils.validateSendAction(currentSnapshot, terminalSendAction);
 			currentIndex++;
 		}
 	}

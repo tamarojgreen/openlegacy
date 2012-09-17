@@ -44,6 +44,7 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 
 		SimpleScreenNavigationDefinition navigationDefinition = new SimpleScreenNavigationDefinition();
 		navigationDefinition.setAccessedFrom(screenNavigation.accessedFrom());
+		navigationDefinition.setTargetEntity(containingClass);
 
 		navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
 		navigationDefinition.setExitAction(ReflectionUtil.newInstance(screenNavigation.exitAction()));

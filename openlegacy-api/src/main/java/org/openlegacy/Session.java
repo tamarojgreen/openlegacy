@@ -22,15 +22,57 @@ import org.openlegacy.modules.SessionModule;
  */
 public interface Session {
 
+	/**
+	 * Returns the underlying session provider implementation. Should be cast to the actual implementation. Useful if you wish to
+	 * use specific provider implementation.
+	 * 
+	 * @return provider implementation session
+	 */
 	Object getDelegate();
 
-	<T> T getEntity(Class<T> entityClass) throws EntityNotFoundException;
+	/**
+	 * Returns an entity of the given class and given keys. Keys can be empty, if no keys defined for the given entity.
+	 * 
+	 * @param entityClass
+	 *            the request entity class
+	 * @param keys
+	 *            keys of the request entity
+	 * @return an entity instance from the session which matches the request entity class and keys
+	 * @throws EntityNotFoundException
+	 *             if the entity is not found
+	 */
+	<T> T getEntity(Class<T> entityClass, Object... keys) throws EntityNotFoundException;
 
-	Object getEntity(String entityName) throws EntityNotFoundException;
-	
+	/**
+	 * Returns an entity of the given name and given keys. Entity default names are the class simple name, unless specified. Keys
+	 * can be empty, if no keys defined for the given entity.
+	 * 
+	 * @param entityName
+	 *            the request entity name keys of the request entity
+	 * @return an entity instance from the session which matches the request entity class and keys
+	 * @throws EntityNotFoundException
+	 *             if the entity is not found
+	 */
+	Object getEntity(String entityName, Object... keys) throws EntityNotFoundException;
+
+	/**
+	 * Returns a session module by the module class name.
+	 * 
+	 * @param module
+	 *            a module class
+	 * @return a session module
+	 */
 	<M extends SessionModule> M getModule(Class<M> module);
 
+	/**
+	 * Disconnect the session
+	 */
 	void disconnect();
 
+	/**
+	 * Is the session connected
+	 * 
+	 * @return
+	 */
 	boolean isConnected();
 }

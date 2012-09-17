@@ -39,11 +39,11 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <S> S getEntity(Class<S> screenEntityClass) throws EntityNotFoundException {
+	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 		screenEntityClass = (Class<S>)ProxyUtil.getOriginalClass(screenEntityClass);
 		SnapshotInfo snapshotInfo = snapshotsMap.get(screenEntityClass).getCurrent();
 		getTerminalConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
-		return super.getEntity(screenEntityClass);
+		return super.getEntity(screenEntityClass, keys);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	}
 
 	private void progressSnapshot(ScreenEntity result) {
-		if (result == null){
+		if (result == null) {
 			return;
 		}
 		Class<?> screenEntityClass = ProxyUtil.getOriginalClass(result.getClass());

@@ -67,17 +67,23 @@ public class DefaultGenericController {
 	private ScreenPageBuilder pageBuilder;
 
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
-	public String getScreenEntity(@PathVariable("screen") String screenEntityName, Model uiModel) throws IOException {
-		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
+	public String getScreenEntity(@PathVariable("screen") String screenEntityName,
+			@RequestParam(value = "key", required = false) Object[] keys, Model uiModel) throws IOException {
+
+		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, keys);
 		uiModel.addAttribute(screenEntityName, screenEntity);
 		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(screenEntityName);
+		return determineView(uiModel, entityDefinition);
+
+	}
+
+	private String determineView(Model uiModel, ScreenEntityDefinition entityDefinition) {
 		if (entityDefinition.getChildEntitiesDefinitions().size() > 0) {
 			return COMPOSITE_PAGE;
 		} else {
 			uiModel.addAttribute(PAGE, pageBuilder.build(entityDefinition));
 			return GENERIC_PAGE;
 		}
-
 	}
 
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET, params = "partial=1")

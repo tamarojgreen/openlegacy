@@ -1,0 +1,15 @@
+<snapshot type="INCOMING" sequence="6">
+    <cursor row="6" column="53" />
+    <row rowNumber="1">
+        <field value="Screen With Key" column="30" />
+    </row>
+    <row rowNumber="2">
+        <field value="Key field:" column="3" />
+        <field value="22" length="2" column="20" />
+    </row>
+    <row rowNumber="3">
+        <field value="Value field:" column="3" />
+        <field value="TwoTwo" length="2" column="20" />
+    </row>
+    <size rows="24" columns="80"/>
+</snapshot>

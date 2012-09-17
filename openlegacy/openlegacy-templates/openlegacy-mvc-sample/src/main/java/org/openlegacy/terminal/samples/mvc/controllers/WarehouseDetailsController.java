@@ -1,8 +1,6 @@
 package org.openlegacy.terminal.samples.mvc.controllers;
 
-import org.openlegacy.modules.table.Table;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.modules.table.TerminalDrilldownActions;
 import org.openlegacy.terminal.samples.model.WarehouseDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,10 +41,7 @@ public class WarehouseDetailsController {
 	}
 
 	private String performDrillDownAction(Integer itemNumber, Model uiModel, String actionValue) {
-		terminalSession.getModule(Table.class).drillDown(WarehouseDetails.class, TerminalDrilldownActions.enter(actionValue),
-				itemNumber);
-
-		WarehouseDetails WarehouseDetails = terminalSession.getEntity(WarehouseDetails.class);
+		WarehouseDetails WarehouseDetails = terminalSession.getEntity(WarehouseDetails.class, itemNumber);
 		uiModel.addAttribute("warehouseDetails", WarehouseDetails);
 
 		return "WarehouseDetails";

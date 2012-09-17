@@ -25,6 +25,8 @@ public interface NavigationDefinition {
 
 	Class<?> getAccessedFrom();
 
+	Class<?> getTargetEntity();
+
 	List<FieldAssignDefinition> getAssignedFields();
 
 	TerminalAction getTerminalAction();

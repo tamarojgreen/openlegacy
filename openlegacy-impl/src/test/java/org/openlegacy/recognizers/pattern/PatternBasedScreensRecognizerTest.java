@@ -4,10 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
-import org.openlegacy.recognizers.pattern.mock.MainMenu;
 import org.openlegacy.recognizers.pattern.mock.SignOn;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,9 +21,6 @@ public class PatternBasedScreensRecognizerTest extends AbstractTest {
 
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		Assert.assertNotNull(signOn);
-		terminalSession.doAction(TerminalActions.ENTER());
-		MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
-		Assert.assertNotNull(mainMenu);
 	}
 
 }

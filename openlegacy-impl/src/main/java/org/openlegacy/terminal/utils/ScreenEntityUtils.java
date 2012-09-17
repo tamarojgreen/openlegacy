@@ -11,6 +11,8 @@
 package org.openlegacy.terminal.utils;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.terminal.ScreenEntity;
@@ -20,9 +22,9 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
@@ -33,11 +35,17 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-@Component
 public class ScreenEntityUtils implements InitializingBean {
 
 	private static final String NEXT = "next";
 	private static final String PREVIOUS = "previous";
+
+	private final static Log logger = LogFactory.getLog(AssertUtils.class);
+
+	/**
+	 * For demo's purposes
+	 */
+	private boolean returnTrueOnDifferentKeys = false;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
@@ -62,6 +70,37 @@ public class ScreenEntityUtils implements InitializingBean {
 			keysValue.add(fieldAccessor.getFieldValue(fieldDefinition.getName()));
 		}
 		return keysValue;
+	}
+
+	public boolean isEntitiesEquals(ScreenEntity entity, Class<?> screenEntityClass, Object... requestedEntityKeys) {
+		if (entity == null) {
+			return false;
+		}
+		if (!ProxyUtil.isClassesMatch(entity.getClass(), screenEntityClass)) {
+			return false;
+		}
+
+		List<Object> actualEntityKeysValues = getKeysValues(entity);
+		// it's OK that entity is requested no keys. False only if request and no/less keys defined on screen
+		if (requestedEntityKeys.length > actualEntityKeysValues.size()) {
+			return false;
+		}
+
+		for (int i = 0; i < requestedEntityKeys.length; i++) {
+			Object actualEntityKeyValue = actualEntityKeysValues.get(i);
+			if (!actualEntityKeyValue.equals(requestedEntityKeys[i])) {
+
+				if (returnTrueOnDifferentKeys) {
+					logger.warn(MessageFormat.format(
+							"Request entity key:{0} doesn''t match current entity key:{1}. Skipping as screenEntityUtils.returnTrueOnDifferentKeys was set to true",
+							requestedEntityKeys[i], actualEntityKeyValue));
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -110,5 +149,9 @@ public class ScreenEntityUtils implements InitializingBean {
 	public String getEntityName(ScreenEntity screenEntity) {
 		String screenEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
 		return screenEntityName;
+	}
+
+	public void setReturnTrueOnDifferentKeys(boolean returnTrueOnDifferentKeys) {
+		this.returnTrueOnDifferentKeys = returnTrueOnDifferentKeys;
 	}
 }

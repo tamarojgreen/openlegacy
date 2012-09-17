@@ -9,7 +9,6 @@ import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 6, column = 2, value = "Item Number . ."),
@@ -19,7 +18,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 public class ItemDetails1 {
 
 	@ScreenField(row = 6, column = 33, key = true)
-	private String itemNumber;
+	private Integer itemNumber;
 
 	@ScreenField(row = 7, column = 33, endColumn = 40, editable = true)
 	private String itemDescription;

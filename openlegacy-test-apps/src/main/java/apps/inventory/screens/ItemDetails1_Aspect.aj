@@ -30,7 +30,7 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     }
     
 
-    public String ItemDetails1.getItemNumber(){
+    public Integer ItemDetails1.getItemNumber(){
     	return this.itemNumber;
     }
     

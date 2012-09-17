@@ -44,7 +44,7 @@ public class AbstractAS400TerminalSessionSystemTest extends AbstractTest {
 		Assert.assertNotNull(signOn.getTerminalSnapshot());
 		Assert.assertNotNull(signOn.getUserField());
 		Assert.assertFalse(signOn.getUserField().isPassword());
-		
+
 		Assert.assertNotNull(signOn.getPasswordField());
 		Assert.assertTrue(signOn.getPasswordField().isPassword());
 		Assert.assertEquals("COPYRIGHT IBM CORP", signOn.getMessage());
@@ -68,7 +68,7 @@ public class AbstractAS400TerminalSessionSystemTest extends AbstractTest {
 
 		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class);
 		Assert.assertNotNull(itemDetails1);
-		Assert.assertEquals("2000", itemDetails1.getItemNumber());
+		Assert.assertEquals(2000, itemDetails1.getItemNumber().intValue());
 
 		Assert.assertEquals("2000", itemDetails1.getItemDetails2().getItemNumber());
 
