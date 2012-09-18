@@ -52,6 +52,10 @@ public class DesigntimeInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
 			throws Exception {
 
+		if ((modelAndView != null && modelAndView.getViewName().startsWith("redirect"))) {
+			return;
+		}
+
 		String designtime = openLegacyProperties.getProperty(OpenLegacyProperties.DESIGN_TIME);
 		if (StringConstants.TRUE.equals(designtime)) {
 			if (modelAndView != null) {

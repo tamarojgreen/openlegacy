@@ -81,7 +81,12 @@ public class ScreenEntityUtils implements InitializingBean {
 		}
 
 		List<Object> actualEntityKeysValues = getKeysValues(entity);
-		// it's OK that entity is requested no keys. False only if request and no/less keys defined on screen
+		if (requestedEntityKeys == null && actualEntityKeysValues.size() == 0) {
+			return true;
+		}
+
+		// it's OK that entity is requested with no keys (sub screen for example within main screen context). False only if
+		// request and no/less keys defined on screen
 		if (requestedEntityKeys.length > actualEntityKeysValues.size()) {
 			return false;
 		}
