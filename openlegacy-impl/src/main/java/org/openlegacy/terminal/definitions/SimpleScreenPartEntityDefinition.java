@@ -10,12 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.TerminalPosition;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinition {
+public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinition, PositionedPart {
 
 	private Class<?> partClass;
 

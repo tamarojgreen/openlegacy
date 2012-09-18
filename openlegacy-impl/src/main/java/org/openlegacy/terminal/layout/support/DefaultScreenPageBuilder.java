@@ -18,6 +18,7 @@ import org.openlegacy.definitions.page.support.SimplePagePartRowDefinition;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.layout.PagePartDefinition;
 import org.openlegacy.layout.PagePartRowDefinition;
+import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -129,6 +130,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		pagePart.setTableFieldName(tableFieldName);
 		pagePart.setTableDefinition(tableDefinition);
+
+		overridePositionAndWidth((PositionedPart)tableDefinition, entityDefinition, pagePart);
 		return pagePart;
 	}
 
@@ -141,23 +144,26 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		SimplePagePartDefinition pagePart = (SimplePagePartDefinition)buildPagePart(sortedFields, entityDefinition);
 		pagePart.setDisplayName(screenPartEntityDefinition.getDisplayName());
 		// if screen part has position (loaded from @PartPosition), override the calculated position
-		if (screenPartEntityDefinition.getPartPosition() != null) {
-			int leftMargin = calculateLeftMargin(entityDefinition.getScreenSize(),
-					screenPartEntityDefinition.getPartPosition().getColumn());
+		overridePositionAndWidth((PositionedPart)screenPartEntityDefinition, entityDefinition, pagePart);
+		return pagePart;
+
+	}
+
+	private void overridePositionAndWidth(PositionedPart positionedPart, ScreenEntityDefinition entityDefinition,
+			SimplePagePartDefinition pagePart) {
+		if (positionedPart.getPartPosition() != null) {
+			int leftMargin = calculateLeftMargin(entityDefinition.getScreenSize(), positionedPart.getPartPosition().getColumn());
 			pagePart.setLeftMargin(leftMargin);
-			int topMargin = calculateTopMargin(entityDefinition.getScreenSize(),
-					screenPartEntityDefinition.getPartPosition().getRow());
+			int topMargin = calculateTopMargin(entityDefinition.getScreenSize(), positionedPart.getPartPosition().getRow());
 			pagePart.setTopMargin(topMargin);
 		}
-		if (screenPartEntityDefinition.getWidth() > 0) {
-			calculateWidth(entityDefinition, pagePart, screenPartEntityDefinition.getWidth());
+		if (positionedPart.getWidth() > 0) {
+			calculateWidth(entityDefinition, pagePart, positionedPart.getWidth());
 			// if has width (set from @PartPosition) but no position - set it as relative
-			if (screenPartEntityDefinition.getPartPosition() == null) {
+			if (positionedPart.getPartPosition() == null) {
 				pagePart.setRelative(true);
 			}
 		}
-		return pagePart;
-
 	}
 
 	/**

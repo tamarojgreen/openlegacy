@@ -18,6 +18,8 @@ import org.openlegacy.modules.table.drilldown.RowSelector;
 import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.modules.table.drilldown.TableScroller;
+import org.openlegacy.terminal.PositionedPart;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class SimpleScreenTableDefinition implements ScreenTableDefinition {
+public class SimpleScreenTableDefinition implements ScreenTableDefinition, PositionedPart {
 
 	private Class<?> rowClass;
 
@@ -47,6 +49,10 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 	private String mainDisplayField;
 
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
+
+	private TerminalPosition partPosition;
+
+	private int width;
 
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
@@ -223,4 +229,19 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition {
 		return actions;
 	}
 
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setPartPosition(TerminalPosition partPosition) {
+		this.partPosition = partPosition;
+	}
+
+	public TerminalPosition getPartPosition() {
+		return partPosition;
+	}
+
+	public int getWidth() {
+		return width;
+	}
 }

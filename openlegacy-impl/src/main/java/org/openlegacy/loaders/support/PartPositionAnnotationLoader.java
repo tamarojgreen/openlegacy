@@ -14,8 +14,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.PartPosition;
+import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.TerminalPosition;
-import org.openlegacy.terminal.definitions.SimpleScreenPartEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.stereotype.Component;
@@ -36,14 +36,19 @@ public class PartPositionAnnotationLoader extends AbstractClassAnnotationLoader 
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 		PartPosition partPosition = (PartPosition)annotation;
 		ScreenEntitiesRegistry screenEntityRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
-		SimpleScreenPartEntityDefinition screenPartDefinition = (SimpleScreenPartEntityDefinition)screenEntityRegistry.getPart(containingClass);
+		// check if the annotation is over a screen part
+		PositionedPart positionedPart = (PositionedPart)screenEntityRegistry.getPart(containingClass);
 
-		screenPartDefinition.setWidth(partPosition.width());
+		// check if the annotation is over a screen table
+		if (positionedPart == null) {
+			positionedPart = (PositionedPart)screenEntityRegistry.getTable(containingClass);
+		}
+		positionedPart.setWidth(partPosition.width());
 
-		if (partPosition.row() > 0 && partPosition.column() > 0){
+		if (partPosition.row() > 0 && partPosition.column() > 0) {
 			TerminalPosition position = SimpleTerminalPosition.newInstance(partPosition.row(), partPosition.column());
 			logger.debug(MessageFormat.format("Position {0} was loaded for screen part:{1}", position, containingClass));
-			screenPartDefinition.setPartPosition(position);
+			positionedPart.setPartPosition(position);
 		}
 	}
 }
