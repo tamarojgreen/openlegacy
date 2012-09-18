@@ -7,7 +7,6 @@ import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect DisplayProgramMessages_Aspect {
-    
 
     declare parents: DisplayProgramMessages implements ScreenEntity;
     private String DisplayProgramMessages.focusField;
@@ -20,9 +19,6 @@ privileged @SuppressWarnings("unused") aspect DisplayProgramMessages_Aspect {
     	return this.message;
     }
     
-    public void DisplayProgramMessages.setMessage(String Message){
-    	this.message = Message;
-    }
 
 
 

@@ -6,40 +6,39 @@ package org.openlegacy.terminal.samples.model;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.openlegacy.terminal.samples.model.WorkWithItemMaster.WorkWithItemMasterRecord;
+import org.openlegacy.terminal.samples.model.Items.ItemsRecord;
 
-privileged @SuppressWarnings("unused") aspect WorkWithItemMasterRecordTable_Aspect {
+privileged @SuppressWarnings("unused") aspect ItemsRecordTable_Aspect {
     
-    
-    public Integer WorkWithItemMasterRecord.getAction_(){
+    public Integer ItemsRecord.getAction_(){
     	return this.action_;
     }
     
-    public void WorkWithItemMasterRecord.setAction_(Integer action_){
+    public void ItemsRecord.setAction_(Integer action_){
     	this.action_ = action_;
     }
 
-    public String WorkWithItemMasterRecord.getAlphaSearch(){
+    public String ItemsRecord.getAlphaSearch(){
     	return this.alphaSearch;
     }
     
 
-    public String WorkWithItemMasterRecord.getItemDescription(){
+    public String ItemsRecord.getItemDescription(){
     	return this.itemDescription;
     }
     
 
-    public Integer WorkWithItemMasterRecord.getItemNumber(){
+    public Integer ItemsRecord.getItemNumber(){
     	return this.itemNumber;
     }
     
 
 
-    public int WorkWithItemMasterRecord.hashCode(){
+    public int ItemsRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }
 
-    public boolean WorkWithItemMasterRecord.equals(Object other){
+    public boolean ItemsRecord.equals(Object other){
     	// TODO exclude terminal fields
 		return EqualsBuilder.reflectionEquals(this,other);
     }

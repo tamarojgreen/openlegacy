@@ -14,22 +14,22 @@ import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.util.Date;
 
-@ScreenEntity(displayName = "Warehouse Details")
+@ScreenEntity()
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 26, value = "  Work with Warehouse Details "),
 		@Identifier(row = 4, column = 2, value = "Type choices, press Enter."),
 		@Identifier(row = 6, column = 2, value = "Warehouse Number . . . . . . .") })
 @ScreenActions(actions = { @Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"),
 		@Action(action = TerminalActions.F2.class, additionalKey = AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") })
-@ScreenNavigation(accessedFrom = WorkWithWarehouseDetails.class)
-public class WorkWithWarehouseDetails1 {
+@ScreenNavigation(accessedFrom = Warehouses.class)
+public class WarehouseDetails {
 
-	@ScreenField(row = 6, column = 34, endColumn = 36, labelColumn = 2, editable = true, displayName = "Warehouse Number", sampleValue = "003")
+	@ScreenField(row = 6, column = 34, endColumn = 36, key = true, labelColumn = 2, editable = true, displayName = "Warehouse Number", sampleValue = "003")
 	private Integer warehouseNumber;
 
 	@ScreenField(row = 7, column = 34, endColumn = 73, labelColumn = 2, editable = true, displayName = "Warehouse Description", sampleValue = "Discount warehouse")
 	private String warehouseDescription;
 
-	@ScreenFieldValues(sourceScreenEntity = ListOfWarehouseTypes.class)
+	@ScreenFieldValues(sourceScreenEntity = WarehouseTypes.class)
 	@ScreenField(row = 8, column = 34, endColumn = 35, labelColumn = 2, editable = true, displayName = "Warehouse Type", sampleValue = "GL")
 	private String warehouseType;
 

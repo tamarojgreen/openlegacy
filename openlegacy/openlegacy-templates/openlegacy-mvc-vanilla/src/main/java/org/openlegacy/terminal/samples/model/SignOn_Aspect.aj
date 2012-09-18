@@ -59,8 +59,8 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     	return this.menu_;
     }
     
-    public void SignOn.setMenu_(String menu_){
-    	this.menu_ = menu_;
+    public void SignOn.setMenu_(String menu){
+    	this.menu_ = menu;
     }
 
 

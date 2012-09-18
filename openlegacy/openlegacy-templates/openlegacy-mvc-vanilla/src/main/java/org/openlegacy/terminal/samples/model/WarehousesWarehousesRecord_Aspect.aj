@@ -6,34 +6,34 @@ package org.openlegacy.terminal.samples.model;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.openlegacy.terminal.samples.model.WorkWithWarehouseDetails.WorkWithWarehouseDetailsRecord;
+import org.openlegacy.terminal.samples.model.Warehouses.WarehousesRecord;
 
-privileged @SuppressWarnings("unused") aspect WorkWithWarehouseDetailsRecordTable_Aspect {
+privileged @SuppressWarnings("unused") aspect WarehousesRecordTable_Aspect {
     
-    public Integer WorkWithWarehouseDetailsRecord.getAction_(){
+    public Integer WarehousesRecord.getAction_(){
     	return this.action_;
     }
     
-    public void WorkWithWarehouseDetailsRecord.setAction_(Integer action_){
+    public void WarehousesRecord.setAction_(Integer action_){
     	this.action_ = action_;
     }
 
-    public String WorkWithWarehouseDetailsRecord.getDescription(){
+    public String WarehousesRecord.getDescription(){
     	return this.description;
     }
     
 
-    public Integer WorkWithWarehouseDetailsRecord.getWhse(){
+    public Integer WarehousesRecord.getWhse(){
     	return this.whse;
     }
     
 
 
-    public int WorkWithWarehouseDetailsRecord.hashCode(){
+    public int WarehousesRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
     }
 
-    public boolean WorkWithWarehouseDetailsRecord.equals(Object other){
+    public boolean WarehousesRecord.equals(Object other){
     	// TODO exclude terminal fields
 		return EqualsBuilder.reflectionEquals(this,other);
     }

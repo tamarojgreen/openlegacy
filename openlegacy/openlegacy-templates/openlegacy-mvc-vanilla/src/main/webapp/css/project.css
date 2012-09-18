@@ -8,8 +8,8 @@
 }
 
 .red .container table tr td{
-	padding-top:0px;
-	padding-bottom: 0px; 
+	padding-top:1px;
+	padding-bottom: 1px; 
 }
 .red .container input, .red .container select{
 	padding: 1px;

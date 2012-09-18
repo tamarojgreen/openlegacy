@@ -30,10 +30,12 @@
 						<spring:eval var="columnValue" expression="item[column.name]" />
 						<td><c:choose>
 								<c:when test="${column.selectionField}">
+									<select onchange="location.href='${pageContext.request.contextPath}/' + this.value;">
+										<option value="">--Select--</option>
 									<c:forEach items="${tableDefinition.actions}" var="action">
-										<a href="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}"
-											class="rbtn ${action.alias}" title="${action.displayName}">${action.displayName}</a>
+										<option value="${action.targetEntity.simpleName}?key=${item[tableDefinition.keyFieldNames[0]]}">${action.displayName}</option>
 									</c:forEach>
+									</select>
 								</c:when>
 								<c:otherwise>
 		      		${columnValue}
