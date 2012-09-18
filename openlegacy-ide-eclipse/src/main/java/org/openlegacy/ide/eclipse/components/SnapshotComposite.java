@@ -1,6 +1,10 @@
 package org.openlegacy.ide.eclipse.components;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -11,6 +15,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
@@ -21,6 +27,13 @@ import java.io.ByteArrayOutputStream;
 public class SnapshotComposite extends Canvas {
 
 	private TerminalSnapshot terminalSnapshot;
+	private int cursorRow = 1;
+	private int cursorCol = 1;
+	private int maxRowCount = 0;
+	private int maxColCount = 0;
+	private Image copyOfImage = null;
+	private PaintListener cursorPaintListener = null;
+	private Label cursorLabel = null;
 
 	public SnapshotComposite(Composite parent) {
 		super(parent, SWT.NONE);
@@ -57,9 +70,16 @@ public class SnapshotComposite extends Canvas {
 				ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
 				Image image = new Image(getShell().getDisplay(), bais);
 				e.gc.drawImage(image, 0, 0);
+				SnapshotComposite.this.copyOfImage = image;
 			}
 		});
 
+		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
+		this.maxRowCount = renderer.getMaxImageRow() - 2;
+		this.maxColCount = renderer.getMaxImageColumn();
+
+		addFocusListener(this.getFocusListener());
+		addKeyListener(this.getKeyListener());
 	}
 
 	public void setSnapshot(TerminalSnapshot terminalSnapshot) {
@@ -67,4 +87,95 @@ public class SnapshotComposite extends Canvas {
 		redraw();
 	}
 
+	public void setCursorLabel(Label label) {
+		this.cursorLabel = label;
+	}
+
+	private FocusListener getFocusListener() {
+		return new FocusListener() {
+
+			public void focusLost(FocusEvent e) {
+				SnapshotComposite.this.removePaintListener(SnapshotComposite.this.cursorPaintListener);
+				SnapshotComposite.this.cursorPaintListener = null;
+			}
+
+			public void focusGained(FocusEvent e) {
+				if (SnapshotComposite.this.cursorPaintListener == null) {
+					SnapshotComposite.this.cursorPaintListener = SnapshotComposite.this.getCursorPaintListener();
+					SnapshotComposite.this.addPaintListener(SnapshotComposite.this.cursorPaintListener);
+				}
+				SnapshotComposite.this.displayCursorPosition();
+			}
+		};
+	}
+
+	private KeyListener getKeyListener() {
+		return new KeyListener() {
+
+			public void keyReleased(KeyEvent e) {
+				return;
+			}
+
+			public void keyPressed(KeyEvent e) {
+				switch (e.keyCode) {
+					case SWT.ARROW_UP:
+						if (SnapshotComposite.this.cursorRow > 1) {
+							SnapshotComposite.this.cursorRow--;
+						}
+						break;
+					case SWT.ARROW_DOWN:
+						if (SnapshotComposite.this.cursorRow < SnapshotComposite.this.maxRowCount) {
+							SnapshotComposite.this.cursorRow++;
+						}
+						break;
+					case SWT.ARROW_LEFT:
+						if (SnapshotComposite.this.cursorCol > 1) {
+							SnapshotComposite.this.cursorCol--;
+						}
+						break;
+					case SWT.ARROW_RIGHT:
+						if (SnapshotComposite.this.cursorCol < SnapshotComposite.this.maxColCount) {
+							SnapshotComposite.this.cursorCol++;
+						}
+						break;
+					default:
+						return;
+				}
+				SnapshotComposite.this.displayCursorPosition();
+			}
+		};
+	}
+
+	private void displayCursorPosition() {
+		if (this.cursorLabel != null) {
+			this.cursorLabel.setText(Messages.label_col_row + ": " + this.cursorRow + " " + Messages.label_col_column + ": "
+					+ this.cursorCol);
+			this.cursorLabel.pack(true);
+		}
+		this.setSnapshot(null);
+	}
+
+	private PaintListener getCursorPaintListener() {
+		return new PaintListener() {
+
+			public void paintControl(PaintEvent e) {
+				if (SnapshotComposite.this.cursorPaintListener == null) {
+					return;
+				}
+				if (SnapshotComposite.this.copyOfImage != null) {
+					e.gc.drawImage(SnapshotComposite.this.copyOfImage, 0, 0);
+				}
+
+				DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
+
+				int x = renderer.toWidth(SnapshotComposite.this.cursorCol - 1 + renderer.getLeftColumnsOffset());
+				int y = renderer.toHeight(SnapshotComposite.this.cursorRow) + renderer.getTopPixelsOffset();
+				int width = renderer.toWidth(1);
+				int height = 3;
+
+				e.gc.setBackground(e.display.getSystemColor(SWT.COLOR_WHITE));
+				e.gc.fillRectangle(x, y, width, height);
+			}
+		};
+	}
 }

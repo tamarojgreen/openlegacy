@@ -23,6 +23,7 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.components.SnapshotComposite;
+import org.openlegacy.ide.eclipse.components.TablesCompositeImpl;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.text.MessageFormat;
@@ -33,6 +34,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 	private ScreenEntityDefinition screenEntityDefinition;
 	@SuppressWarnings("unused")
 	private SnapshotComposite snapshotComposite;
+	private TablesCompositeImpl tablesComposite;
 
 	protected CustomizeScreenEntityDialog(Shell parentShell, ScreenEntityDefinition screenEntityDefinition) {
 		super(parentShell);
@@ -47,34 +49,50 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		parent.getShell().setText(MessageFormat.format(Messages.title_ol_generate_screens_api, PluginConstants.TITLE));
 
 		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
+		gridLayout.numColumns = 2;
 		GridData gd = new GridData();
-		gd.widthHint = 850;
+		gd.widthHint = 1120;
 		gd.heightHint = 480;
 		parent.setLayoutData(gd);
 		parent.setLayout(gridLayout);
 
-		Label labelPackage = new Label(parent, SWT.NULL);
+		tablesComposite = new TablesCompositeImpl(parent, SWT.NONE, 240, gd.heightHint);
+		tablesComposite.fillTables(screenEntityDefinition.getSortedFields(),
+				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
+
+		Composite composite = new Composite(parent, SWT.NONE);
+		gridLayout = new GridLayout();
+		gridLayout.numColumns = 1;
+		composite.setLayout(gridLayout);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		Label labelPackage = new Label(composite, SWT.NULL);
 		labelPackage.setText(Messages.field_entity_name);
-		entityNameTxt = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		entityNameTxt = new Text(composite, SWT.SINGLE | SWT.BORDER);
+
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		entityNameTxt.setLayoutData(gd);
 
 		entityNameTxt.setText(screenEntityDefinition.getEntityName());
 
 		// space
-		Label label = new Label(parent, SWT.NONE);
+		Label label = new Label(composite, SWT.NONE);
 		label.setText(" "); //$NON-NLS-1$
 
-		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getOriginalSnapshot());
+		snapshotComposite = new SnapshotComposite(composite, screenEntityDefinition.getOriginalSnapshot());
 
-		new Label(parent, SWT.NONE);
+		tablesComposite.setPaintedControl(snapshotComposite);
+
+		Label footerLabel = new Label(composite, SWT.NONE);
+		snapshotComposite.setCursorLabel(footerLabel);
+
 		return parent;
 	}
 
 	@Override
 	protected void okPressed() {
 		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
+		this.tablesComposite.cleanupFieldsDefinitions(screenEntityDefinition.getFieldsDefinitions());
 		super.okPressed();
 	}
 }

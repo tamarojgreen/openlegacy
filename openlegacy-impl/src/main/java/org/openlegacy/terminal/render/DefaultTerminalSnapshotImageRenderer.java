@@ -141,11 +141,11 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 		graphics.setColor(imageDefaultTextColor);
 	}
 
-	private int toHeight(int row) {
+	public int toHeight(int row) {
 		return row * heightProportion;
 	}
 
-	private int toWidth(int column) {
+	public int toWidth(int column) {
 		return column * widthProportion;
 	}
 
@@ -211,5 +211,21 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 	public void setDrawFieldSeparators(boolean drawFieldSeparators) {
 		this.drawFieldSeparators = drawFieldSeparators;
+	}
+
+	public int getLeftColumnsOffset() {
+		return leftColumnsOffset;
+	}
+
+	public int getTopPixelsOffset() {
+		return topPixelsOffset;
+	}
+
+	public int getMaxImageColumn() {
+		return this.imageWidth / this.widthProportion;
+	}
+
+	public int getMaxImageRow() {
+		return this.imageHeight / this.heightProportion;
 	}
 }
