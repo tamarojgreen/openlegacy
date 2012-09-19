@@ -17,6 +17,8 @@ import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.modules.table.TableCollector;
+import org.openlegacy.terminal.PositionedPart;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
@@ -32,10 +34,12 @@ import java.util.Comparator;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class CodeBasedScreenTableDefinition implements ScreenTableDefinition {
+public class CodeBasedScreenTableDefinition implements ScreenTableDefinition , PositionedPart {
 
 	private ScreenPojoCodeModel codeModel;
 	private List<ActionDefinition> actions;
+	private int width;
+	private TerminalPosition partPosition;
 
 	public CodeBasedScreenTableDefinition(ScreenPojoCodeModel codeModel) {
 		this.codeModel = codeModel;
@@ -156,5 +160,21 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition {
 			actions = actionDefinitions;
 		}
 		return actions;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setPartPosition(TerminalPosition partPosition) {
+		this.partPosition = partPosition;
+	}
+
+	public TerminalPosition getPartPosition() {
+		return partPosition;
+	}
+
+	public int getWidth() {
+		return width;
 	}
 }
