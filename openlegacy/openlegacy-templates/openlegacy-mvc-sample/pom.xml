@@ -402,6 +402,11 @@
 					</execution>
 				</executions>
 			</plugin>
+		    <plugin>
+		    	<groupId>org.openlegacy.tools</groupId>
+				<artifactId>openlegacy-maven-plugin</artifactId>
+				<version>${openlegacy-version}</version>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>

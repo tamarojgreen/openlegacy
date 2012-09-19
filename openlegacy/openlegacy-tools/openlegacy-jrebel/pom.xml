@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>openlegacy-jrebel</artifactId>
+	<packaging>jar</packaging>
+    <name>OpenLegacy JRebel Plug-in</name>
+    
+	<parent>
+		<groupId>org.openlegacy.tools</groupId>
+		<artifactId>openlegacy-tools</artifactId>
+		<version>0.9.0-SNAPSHOT</version>
+	</parent>
+    
+    <properties>
+        <jr.version>5.0.1</jr.version>
+    </properties>
+    
+    <dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+	        <groupId>org.zeroturnaround</groupId>
+            <artifactId>jr-sdk</artifactId>
+            <version>${jr.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+        <groupId>org.zeroturnaround</groupId>
+            <artifactId>jr-utils</artifactId>
+            <version>${jr.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+        <groupId>org.zeroturnaround</groupId>
+            <artifactId>jr-javassist</artifactId>
+            <version>3.14.0-GA</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>zt-repo</id>
+            <url>http://repos.zeroturnaround.com/nexus/content/repositories/zt-public-releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>zt-repo-snapshots</id>
+            <url>http://repos.zeroturnaround.com/nexus/content/repositories/zt-public-snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>ignore</checksumPolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>ibiblio</id>
+            <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+    </repositories>
+    
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <JavaRebel-Plugin>org.openlegacy.tools.jrebel.OpenLegacyJRebelPlugin</JavaRebel-Plugin>
+                        </manifestEntries> 
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

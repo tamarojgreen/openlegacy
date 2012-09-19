@@ -7,7 +7,12 @@
 	<packaging>pom</packaging>
 	<name>OpenLegacy</name>
 	<description>OpenLegacy is a collection of API, framework and tools designed to provide a full stack of Legacy modernization abilities which should help you expose legacy functionallity to Java, REST, SOA, Mobile and Web based applications</description>
-
+    <licenses>
+        <license>
+            <name>Eclipse Public License - v 1.0</name>
+            <url>http://www.eclipse.org/legal/epl-v10.html</url>
+        </license>
+    </licenses>
 
 	<modules>
 		<module>../openlegacy-api</module>
@@ -22,6 +27,7 @@
 			(Tyco? / P2?) -->
 		<!-- Uncomment during development phase -->
 		<!-- <module>../openlegacy-ide-eclipse</module> -->
+		<module>openlegacy-tools</module>
 	</modules>
 
 	<properties>
@@ -130,4 +136,8 @@
 
 		</plugins>
 	</build>
+	<ciManagement>
+		<system>Hudson</system>
+		<url>http://build.openlegacy.org/hudson</url>
+	</ciManagement>
 </project>
