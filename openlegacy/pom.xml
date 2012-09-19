@@ -21,13 +21,13 @@
 		<module>../openlegacy-impl</module>
 		<module>../openlegacy-web</module>
 		<module>openlegacy-providers</module>
+		<module>openlegacy-tools</module>
 		<module>openlegacy-templates</module>
 		<module>../openlegacy-designtime</module>
 		<!-- Plugin is built from eclipse until overcoming Maven/Eclipse issues 
 			(Tyco? / P2?) -->
 		<!-- Uncomment during development phase -->
 		<!-- <module>../openlegacy-ide-eclipse</module> -->
-		<module>openlegacy-tools</module>
 	</modules>
 
 	<properties>

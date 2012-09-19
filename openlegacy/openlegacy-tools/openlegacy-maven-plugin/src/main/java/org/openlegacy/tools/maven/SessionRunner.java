@@ -7,8 +7,10 @@ import org.mortbay.jetty.Handler;
 import org.mortbay.jetty.Request;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.handler.AbstractHandler;
+import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.modules.trail.DefaultTerminalTrail;
 import org.openlegacy.terminal.modules.trail.TrailUtil;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder;
@@ -117,7 +119,7 @@ public class SessionRunner extends AbstractMojo {
 		}
 	}
 
-	private Object getProperty(String propertyName, Object defaultValue) {
+	private static Object getProperty(String propertyName, Object defaultValue) {
 		String propertyValue = System.getProperty(propertyName);
 		if (propertyValue != null) {
 			return propertyValue;
@@ -134,7 +136,7 @@ public class SessionRunner extends AbstractMojo {
 		((Request)request).setHandled(true);
 	}
 
-	private void handleJsFiles(HttpServletRequest request, HttpServletResponse response, String uri) throws IOException {
+	private static void handleJsFiles(HttpServletRequest request, HttpServletResponse response, String uri) throws IOException {
 		PathMatchingResourcePatternResolver pathResolver = new PathMatchingResourcePatternResolver();
 		Resource resource = pathResolver.getResource(uri);
 		if (resource == null) {
@@ -157,6 +159,9 @@ public class SessionRunner extends AbstractMojo {
 	private TerminalSession getTerminalSession() {
 		if (terminalSession == null) {
 			terminalSession = applicationContext.getBean(TerminalSession.class);
+			// set unlimited recording
+			DefaultTerminalTrail trail = (DefaultTerminalTrail)terminalSession.getModule(Trail.class).getSessionTrail();
+			trail.setHistoryCount(null);
 		}
 		return terminalSession;
 	}
