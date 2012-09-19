@@ -12,6 +12,7 @@ package org.openlegacy.designtime.generators;
 
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
+import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
@@ -19,11 +20,12 @@ import org.openlegacy.utils.StringUtil;
 
 import java.util.Map;
 
-public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition {
+public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition, PositionedPart {
 
 	private ScreenPojoCodeModel codeModel;
 	private Map<String, ScreenFieldDefinition> fields;
 	private int width;
+	private TerminalPosition partPosition;
 
 	public CodeBasedScreenPartDefinition(ScreenPojoCodeModel codeModel) {
 		this.codeModel = codeModel;
@@ -46,8 +48,7 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 	}
 
 	public TerminalPosition getPartPosition() {
-		// TODO - implement
-		return null;
+		return partPosition;
 	}
 
 	public int getWidth() {
@@ -57,6 +58,15 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 	public String getDisplayName() {
 		// TODO implement
 		return null;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+		
+	}
+
+	public void setPartPosition(TerminalPosition partPosition) {
+		this.partPosition = partPosition;
 	}
 
 }
