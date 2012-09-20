@@ -24,7 +24,7 @@ import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-public class SnapshotComposite extends Canvas {
+public class SnapshotComposite extends Composite {
 
 	private TerminalSnapshot terminalSnapshot;
 	private int cursorRow = 1;
@@ -34,6 +34,7 @@ public class SnapshotComposite extends Canvas {
 	private Image copyOfImage = null;
 	private PaintListener cursorPaintListener = null;
 	private Label cursorLabel = null;
+	private Canvas canvas;
 
 	public SnapshotComposite(Composite parent) {
 		super(parent, SWT.NONE);
@@ -48,17 +49,23 @@ public class SnapshotComposite extends Canvas {
 	}
 
 	private void initialize() {
-		setBackground(new Color(Display.getCurrent(), new RGB(0x00, 0x00, 0x00)));
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
 		gd.widthHint = 850;
-		gd.heightHint = 480;
+		gd.heightHint = 450;
+		this.setLayoutData(gd);
+
 		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 2;
+		gridLayout.numColumns = 1;
+		this.setLayout(gridLayout);
 
-		setLayoutData(gd);
-		setLayout(gridLayout);
+		gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
+		gd.widthHint = 850;
+		gd.heightHint = 425;
 
-		addPaintListener(new PaintListener() {
+		this.canvas = new Canvas(this, SWT.NONE);
+		this.canvas.setBackground(new Color(Display.getCurrent(), new RGB(0x00, 0x00, 0x00)));
+		this.canvas.setLayoutData(gd);
+		this.canvas.addPaintListener(new PaintListener() {
 
 			public void paintControl(PaintEvent e) {
 				if (terminalSnapshot == null) {
@@ -76,35 +83,42 @@ public class SnapshotComposite extends Canvas {
 
 		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
 		this.maxRowCount = renderer.getMaxImageRow() - 2;
-		this.maxColCount = renderer.getMaxImageColumn();
+		this.maxColCount = renderer.getMaxImageColumn() - renderer.getLeftColumnsOffset();
 
-		addFocusListener(this.getFocusListener());
-		addKeyListener(this.getKeyListener());
+		this.canvas.addFocusListener(this.getFocusListener());
+		this.canvas.addKeyListener(this.getKeyListener());
+
+		GridData labelGd = new GridData();
+		labelGd.verticalAlignment = GridData.BEGINNING;
+		this.cursorLabel = new Label(this, SWT.NONE);
+		this.cursorLabel.setLayoutData(labelGd);
+		this.displayCursorPosition();
 	}
 
 	public void setSnapshot(TerminalSnapshot terminalSnapshot) {
 		this.terminalSnapshot = terminalSnapshot;
-		redraw();
+		this.canvas.redraw();
 	}
 
-	public void setCursorLabel(Label label) {
-		this.cursorLabel = label;
+	public Canvas getCanvas() {
+		return this.canvas;
 	}
 
 	private FocusListener getFocusListener() {
 		return new FocusListener() {
 
 			public void focusLost(FocusEvent e) {
-				SnapshotComposite.this.removePaintListener(SnapshotComposite.this.cursorPaintListener);
+				SnapshotComposite.this.canvas.removePaintListener(SnapshotComposite.this.cursorPaintListener);
 				SnapshotComposite.this.cursorPaintListener = null;
 			}
 
 			public void focusGained(FocusEvent e) {
 				if (SnapshotComposite.this.cursorPaintListener == null) {
 					SnapshotComposite.this.cursorPaintListener = SnapshotComposite.this.getCursorPaintListener();
-					SnapshotComposite.this.addPaintListener(SnapshotComposite.this.cursorPaintListener);
+					SnapshotComposite.this.canvas.addPaintListener(SnapshotComposite.this.cursorPaintListener);
 				}
 				SnapshotComposite.this.displayCursorPosition();
+				SnapshotComposite.this.setSnapshot(null);
 			}
 		};
 	}
@@ -142,6 +156,7 @@ public class SnapshotComposite extends Canvas {
 						return;
 				}
 				SnapshotComposite.this.displayCursorPosition();
+				SnapshotComposite.this.setSnapshot(null);
 			}
 		};
 	}
@@ -152,7 +167,6 @@ public class SnapshotComposite extends Canvas {
 					+ this.cursorCol);
 			this.cursorLabel.pack(true);
 		}
-		this.setSnapshot(null);
 	}
 
 	private PaintListener getCursorPaintListener() {

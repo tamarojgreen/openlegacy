@@ -51,12 +51,12 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		GridData gd = new GridData();
-		gd.widthHint = 1120;
-		gd.heightHint = 480;
+		gd.widthHint = 1160;
+		gd.heightHint = 500;
 		parent.setLayoutData(gd);
 		parent.setLayout(gridLayout);
 
-		tablesComposite = new TablesCompositeImpl(parent, SWT.NONE, 240, gd.heightHint);
+		tablesComposite = new TablesCompositeImpl(parent, SWT.NONE, 280, gd.heightHint);
 		tablesComposite.fillTables(screenEntityDefinition.getSortedFields(),
 				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
 
@@ -81,10 +81,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 		snapshotComposite = new SnapshotComposite(composite, screenEntityDefinition.getOriginalSnapshot());
 
-		tablesComposite.setPaintedControl(snapshotComposite);
-
-		Label footerLabel = new Label(composite, SWT.NONE);
-		snapshotComposite.setCursorLabel(footerLabel);
+		tablesComposite.setPaintedControl(snapshotComposite.getCanvas());
 
 		return parent;
 	}
@@ -92,7 +89,8 @@ public class CustomizeScreenEntityDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
-		this.tablesComposite.cleanupFieldsDefinitions(screenEntityDefinition.getFieldsDefinitions());
+		this.tablesComposite.cleanupScreenentityDefinition(screenEntityDefinition.getFieldsDefinitions(),
+				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
 		super.okPressed();
 	}
 }

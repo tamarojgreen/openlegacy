@@ -10,12 +10,16 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer;
+import org.openlegacy.terminal.services.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
+
+import java.util.ArrayList;
 
 public class TablesCompositeImpl extends AbstractTablesComposite {
 
@@ -95,7 +99,7 @@ public class TablesCompositeImpl extends AbstractTablesComposite {
 
 			public void paintControl(PaintEvent e) {
 				if (TablesCompositeImpl.this.copyOfImage == null) {
-					Rectangle rect = TablesCompositeImpl.this.paintedControl.getBounds();// getClientArea();
+					Rectangle rect = TablesCompositeImpl.this.paintedControl.getBounds();
 					TablesCompositeImpl.this.copyOfImage = new Image(e.gc.getDevice(), rect);
 					e.gc.copyArea(TablesCompositeImpl.this.copyOfImage, 0, 0);
 				}
@@ -128,5 +132,29 @@ public class TablesCompositeImpl extends AbstractTablesComposite {
 
 			public void focusGained(FocusEvent arg0) {}
 		};
+	}
+
+	@Override
+	protected void handleFieldsTableDeleteButtonSelectionEvent(TableItem item, Table table) {
+		if (!(item.getData(ITEM_DATA_KEY) instanceof ScreenFieldDefinition)) {
+			return;
+		}
+		if (this.removedFieldsDefinitions == null) {
+			this.removedFieldsDefinitions = new ArrayList<ScreenFieldDefinition>();
+		}
+		this.removedFieldsDefinitions.add((ScreenFieldDefinition)item.getData(ITEM_DATA_KEY));
+		table.remove(table.indexOf(item));
+	}
+
+	@Override
+	protected void handleIdentifiersTableDeleteButtonSelectionEvent(TableItem item, Table table) {
+		if (!(item.getData(ITEM_DATA_KEY) instanceof ScreenIdentifier)) {
+			return;
+		}
+		if (this.removedScreenIdentifiers == null) {
+			this.removedScreenIdentifiers = new ArrayList<ScreenIdentifier>();
+		}
+		this.removedScreenIdentifiers.add((ScreenIdentifier)item.getData(ITEM_DATA_KEY));
+		table.remove(table.indexOf(item));
 	}
 }

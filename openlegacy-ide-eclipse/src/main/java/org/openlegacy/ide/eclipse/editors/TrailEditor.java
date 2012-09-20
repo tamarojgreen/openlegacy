@@ -156,9 +156,9 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		});
 
 		tableViewer.getTable().setMenu(menu);
-
 		GridData data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 1;
+		data.widthHint = 280;
 		tableViewer.getTable().setLayoutData(data);
 		tableViewer.getTable().addKeyListener(new KeyListener() {
 
