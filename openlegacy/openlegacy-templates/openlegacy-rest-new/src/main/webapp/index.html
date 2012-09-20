@@ -12,11 +12,11 @@ function get(){
 	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType;
 	var xhrArgs = {
 			handleAs : "text",
-			headers: { "Content-Type": requestType },
+			headers: { "Content-Type": requestType, "Accept": requestType },
 			url : url,
 			load : function(data) {
 				if (data != ""){
-					data = dojox.html.format.prettyPrint(data);
+					//data = dojox.html.format.prettyPrint(data);
 					dojo.byId('result').innerHTML = data;
 				}
 				else{
