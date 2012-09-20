@@ -66,8 +66,8 @@ public class Messages extends NLS {
 	public static String page_name_snapshots;
 	public static String page_name_source;
 	// org.openlegacy.ide.eclipse.components.TablesComposite.java
-	public static String label_col_field_name;
-	public static String label_col_identifier;
+	public static String label_col_fields;
+	public static String label_col_identifiers;
 	public static String label_col_row;
 	public static String label_col_column;
 
