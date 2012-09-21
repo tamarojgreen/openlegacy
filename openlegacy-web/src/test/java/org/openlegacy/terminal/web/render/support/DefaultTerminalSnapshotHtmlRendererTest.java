@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.web.render;
+package org.openlegacy.terminal.web.render.support;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;

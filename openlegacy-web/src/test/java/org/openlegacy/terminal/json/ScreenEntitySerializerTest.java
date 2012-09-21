@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.rest;
+package org.openlegacy.terminal.json;
 
 import apps.inventory.screens.ItemsList;
 
