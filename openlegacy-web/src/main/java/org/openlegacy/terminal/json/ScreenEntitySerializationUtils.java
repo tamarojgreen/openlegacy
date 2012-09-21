@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.rest;
+package org.openlegacy.terminal.json;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;

@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.web.mvc;
+package org.openlegacy.mvc;
 
 import org.apache.commons.io.IOUtils;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;

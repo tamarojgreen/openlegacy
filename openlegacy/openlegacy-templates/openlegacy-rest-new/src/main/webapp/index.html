@@ -22,7 +22,7 @@ function get(){
 				else{
 					dojo.byId('result').innerHTML = "OK"; 
 				}
-				dojo.byId("restImage").setAttribute("src","restImage"); 
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 
 			},
 			error : function(e) {
 				alert(e);
@@ -43,7 +43,7 @@ function post(){
 			headers: { "Accept": requestType, "Content-Type": requestType },
 			url : url,
 			load : function(data) {
-				dojo.byId("restImage").setAttribute("src","restImage"); 
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 
 			},
 			error : function(e) {
 				alert(e);
@@ -112,7 +112,7 @@ require(["dojo/parser", "dijit/form/FilteringSelect","dojox/html/format","dijit/
 	</div>
 	<div data-dojo-type="dijit.TitlePane"
 		data-dojo-props="title: 'Session state',open:true">
-		<img id="restImage" width="640px" height="320px" />
+		<img id="sessionImage" width="640px" height="320px" />
 	</div>
 
 </body>

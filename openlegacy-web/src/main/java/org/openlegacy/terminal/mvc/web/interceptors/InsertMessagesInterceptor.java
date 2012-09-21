@@ -8,42 +8,39 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.web.mvc;
+package org.openlegacy.terminal.mvc.web.interceptors;
 
-import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.messages.Messages;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.inject.Inject;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Intercepter class for spring MVC. Injects various globals (login info, etc) into the page context so they can be display within
- * the web page
+ * Intercepter class for spring MVC. Injects messages into the page context so they can be display within the web page
  * 
  * @author RoiM
  * 
  */
-public class InsertGlobalsInterceptor extends AbstractInterceptor {
-
-	@Inject
-	private ThemeUtil themeUtil;
+public class InsertMessagesInterceptor extends AbstractInterceptor {
 
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
-
-		modelAndView.addObject("ol_version", getClass().getPackage().getImplementationVersion());
-
-		themeUtil.applyTheme(modelAndView, request, response);
-
 		if (!getTerminalSession().isConnected()) {
 			return;
 		}
-
-		Login loginModule = getTerminalSession().getModule(Login.class);
-		if (loginModule.isLoggedIn()) {
-			modelAndView.addObject("loggedInUser", loginModule.getLoggedInUser());
+		Messages messagesModule = getTerminalSession().getModule(Messages.class);
+		if (messagesModule == null) {
+			return;
 		}
-	}
 
+		List<String> messages = messagesModule.getMessages();
+		if (messages.size() > 0) {
+			modelAndView.addObject("messages", messages.toArray());
+		}
+		messagesModule.resetMessages();
+
+	}
 }

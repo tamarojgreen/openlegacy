@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.web;
+package org.openlegacy.terminal.json;
 
 import flexjson.JSONSerializer;
 

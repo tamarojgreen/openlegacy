@@ -2,14 +2,21 @@
 // You may push code into the target .java compilation unit if you wish to edit any member(s).
 package org.openlegacy.terminal.samples.mvc.controllers;
 
-import java.util.*;
+import java.io.IOException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.io.IOUtils;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.json.JsonSerializationUtil;
 import org.openlegacy.terminal.samples.model.WarehouseDetails;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.web.JsonSerializationUtil;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,15 +27,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.io.IOException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
 privileged @SuppressWarnings("unused") aspect WarehouseDetailsController_Aspect {
 

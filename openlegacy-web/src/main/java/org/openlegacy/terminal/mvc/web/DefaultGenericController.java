@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.web.mvc;
+package org.openlegacy.terminal.mvc.web;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -6,10 +6,10 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.json.JsonSerializationUtil;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
-import org.openlegacy.terminal.web.JsonSerializationUtil;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.http.HttpHeaders;

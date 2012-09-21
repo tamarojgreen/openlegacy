@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.web.mvc;
+package org.openlegacy.terminal.mvc;
 
 import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;

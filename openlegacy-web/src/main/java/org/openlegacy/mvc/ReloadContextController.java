@@ -1,4 +1,4 @@
-package org.openlegacy.web.mvc;
+package org.openlegacy.mvc;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;

@@ -15,6 +15,7 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.json.ScreenEntitySerializationUtils;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.StringUtil;

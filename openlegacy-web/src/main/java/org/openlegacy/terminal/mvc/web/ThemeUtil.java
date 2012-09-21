@@ -1,4 +1,4 @@
-package org.openlegacy.terminal.web.mvc;
+package org.openlegacy.terminal.mvc.web;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;

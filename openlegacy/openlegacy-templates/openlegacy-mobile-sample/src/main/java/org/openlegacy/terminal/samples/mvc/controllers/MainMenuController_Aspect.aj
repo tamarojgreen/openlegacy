@@ -21,7 +21,6 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.web.JsonSerializationUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +47,7 @@ privileged @SuppressWarnings("unused") aspect MainMenuController_Aspect {
     @RequestMapping(method = RequestMethod.GET)
     public String MainMenuController.show(Model uiModel) {
     	MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
-	uiModel.addAttribute("mainMenu", mainMenu);
+	uiModel.addAttribute("MainMenu", mainMenu);
 	// show the resulting page for MainMenu
         return "MainMenu";
     }

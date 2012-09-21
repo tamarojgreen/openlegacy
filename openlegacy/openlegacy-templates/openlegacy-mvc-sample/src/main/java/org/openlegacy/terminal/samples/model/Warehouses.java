@@ -1,8 +1,11 @@
 package org.openlegacy.terminal.samples.model;
 
+import java.util.List;
+
 import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.PartPosition;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
@@ -14,8 +17,6 @@ import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.modules.table.RecordSelectionEntity;
 import org.openlegacy.terminal.actions.TerminalActions;
-
-import java.util.List;
 
 @ScreenEntity(screenType = RecordSelectionEntity.class)
 @ScreenIdentifiers(identifiers = {
@@ -33,6 +34,7 @@ public class Warehouses {
 
 	private List<WarehousesRecord> warehousesRecords;
 
+	@PartPosition(row=3)
 	@ScreenTable(startRow = 8, endRow = 19)
 	@ScreenTableActions(actions = {
 			@TableAction(actionValue = "2", displayName = "Revise", targetEntity = WarehouseDetails.class),

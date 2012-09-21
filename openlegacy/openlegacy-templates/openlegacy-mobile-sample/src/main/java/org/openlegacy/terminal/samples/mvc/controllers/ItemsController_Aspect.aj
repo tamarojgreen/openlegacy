@@ -4,34 +4,40 @@ package org.openlegacy.terminal.samples.mvc.controllers;
 
 import flexjson.JSONSerializer;
 
-import org.apache.commons.io.IOUtils;
-import org.openlegacy.modules.table.Table;
-import org.openlegacy.modules.table.TableWriter;
-import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.samples.model.Items;
-import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.io.IOException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import org.openlegacy.modules.table.Table;
+import org.openlegacy.modules.table.TableWriter;
+import org.openlegacy.terminal.samples.model.*;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+
+import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.WebDataBinder;
+
+import org.openlegacy.terminal.samples.model.Items;
 
 privileged @SuppressWarnings("unused") aspect ItemsController_Aspect {
 
@@ -209,7 +215,7 @@ privileged @SuppressWarnings("unused") aspect ItemsController_Aspect {
 		response.addHeader("Content-Disposition", "attachment; filename=\"ItemsRecord.xls\"");
     	tableWriter.writeTable(records, response.getOutputStream());
     }
-
+    
 	// handle ajax request for warehouseType field
 	@RequestMapping(value = "/more", method = RequestMethod.GET)
 	@ResponseBody
@@ -222,7 +228,7 @@ privileged @SuppressWarnings("unused") aspect ItemsController_Aspect {
 
 		String result = new JSONSerializer().serialize(items.getItemsRecords());
 		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
-	}
+	}	
 	
 	@InitBinder
 	public void ItemsController.initBinder(WebDataBinder binder) {
