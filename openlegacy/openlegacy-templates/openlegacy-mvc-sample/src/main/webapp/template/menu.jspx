@@ -50,7 +50,7 @@
 				</ul>
 			</div>
 		</div>
-		<div data-dojo-type="dijit.layout.ContentPane" title="Demo stuff"
+		<div data-dojo-type="dijit.layout.ContentPane" title="Demo stuff" id="demoStuff"
 			class="element">
 			<div class="links">
 				<ul>
@@ -58,14 +58,20 @@
 					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/views/${definitions.entityName}.jspx')">View page</a></li>
 					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/terminal/samples/mvc/controllers/${definitions.entityName}Controller.java')">View Controller</a></li>
 					<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/test/org/openlegacy/terminal/samples/model/MvcSampleTest.java')">View API Test</a></li>
+					<li><a href="${pageContext.request.contextPath}/emulation" title="Click to see how it worked before OpenLegacy">Emulation</a></li>
 				</ul>
 				<div class="demo_session">
-					<a href="javascript:showSessionViewer('${pageContext.request.contextPath}');" title="Original terminal screen">
+					<a href="javascript:showSessionViewer('${pageContext.request.contextPath}');" title="Original terminal screen - this is how it looked before">
 						<img src="${pageContext.request.contextPath}/sessionViewer/image" width="325px" height="170px"/>
 					</a>
 				</div>
 			</div>
 		</div>
+		<script>
+dojo.addOnLoad(function() {
+	dijit.byId('accordion').selectChild(dijit.byId('demoStuff'));
+});
+</script>
 
 	</div>
 </div>

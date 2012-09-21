@@ -40,6 +40,18 @@ public class WarehouseDetailsController {
 		return performDrillDownAction(itemNumber, uiModel, "4");
 	}
 
+	// handle page navigation with friendly URL for drill-down
+	@RequestMapping(value = "/items/{id}", method = RequestMethod.GET)
+	public String items(@PathVariable("id") Integer itemNumber, Model uiModel) {
+		return performDrillDownAction(itemNumber, uiModel, "6");
+	}
+
+	// handle page navigation with friendly URL for drill-down
+	@RequestMapping(value = "/locations/{id}", method = RequestMethod.GET)
+	public String locations(@PathVariable("id") Integer itemNumber, Model uiModel) {
+		return performDrillDownAction(itemNumber, uiModel, "7");
+	}
+	
 	private String performDrillDownAction(Integer itemNumber, Model uiModel, String actionValue) {
 		WarehouseDetails WarehouseDetails = terminalSession.getEntity(WarehouseDetails.class, itemNumber);
 		uiModel.addAttribute("warehouseDetails", WarehouseDetails);

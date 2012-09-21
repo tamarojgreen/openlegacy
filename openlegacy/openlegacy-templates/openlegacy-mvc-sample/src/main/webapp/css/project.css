@@ -47,3 +47,10 @@
 .view_source ul li{
 	margin-bottom: 15px;
 }
+
+.messages{
+	text-decoration:blink;
+}
+.messages a{
+	background-image: url(../images/messages.png);
+}

@@ -19,19 +19,6 @@
 		style="overflow: auto;" title="Map">
 		<div id="map_canvas" style="width: 500px; height: 500px"><!--  --></div>
 	</div>
-	<c:if test="${messages != null}">
-		<div id="messageDialog" data-dojo-type="dijit.Dialog"
-			style="overflow: auto;" title="System Messages">
-			<c:forEach items="${messages}" var="message">
-				<p>${message}</p>
-			</c:forEach>
-		</div>
-		<script>
-			dojo.addOnLoad(function() {
-				showDialog("messageDialog");
-			});
-		</script>
-	</c:if>
 	<div id="viewSourceDialog" data-dojo-type="dijit.Dialog"
 		title="Source" style="width: 80%; height: 500px; overflow: auto;"
 		data-dojo-props="parseOnLoad: true, draggable:false,duration:600"><!--  --></div>
