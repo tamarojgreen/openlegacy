@@ -38,7 +38,11 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition , P
 
 	private ScreenPojoCodeModel codeModel;
 	private List<ActionDefinition> actions;
+
+	// TODO should be based on codeModel
 	private int width;
+
+	// TODO should be based on codeModel
 	private TerminalPosition partPosition;
 
 	public CodeBasedScreenTableDefinition(ScreenPojoCodeModel codeModel) {

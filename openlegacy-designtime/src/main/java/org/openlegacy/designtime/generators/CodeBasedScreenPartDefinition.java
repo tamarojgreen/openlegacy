@@ -24,7 +24,10 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 
 	private ScreenPojoCodeModel codeModel;
 	private Map<String, ScreenFieldDefinition> fields;
+	
+	// TODO should be based on codeModel
 	private int width;
+	// TODO should be based on codeModel
 	private TerminalPosition partPosition;
 
 	public CodeBasedScreenPartDefinition(ScreenPojoCodeModel codeModel) {
