@@ -27,5 +27,5 @@ public class PluginConstants {
 
 	public static final String NEW_PROJECT_WIZARD_ID = "org.openlegacy.ide.eclipse.wizards.OpenLegacyNewProjectWizard"; //$NON-NLS-1$
 
-	public static final String TEMPLATES_URL = "http://templates.openlegacy.org"; //$NON-NLS-1$
+	public static final String TEMPLATES_URL = "http://templates.openlegacy.org/templates"; //$NON-NLS-1$
 }
