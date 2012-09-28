@@ -24,7 +24,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.designtime.EntityUserInteraction;
-import org.openlegacy.designtime.PerfrencesConstants;
+import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -86,14 +86,14 @@ public class GenerateScreensApiDialog extends AbstractGenerateDialog implements 
 		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
 		IProject project = getProject();
 
-		String prefrenceSourceFolderPath = designtimeExecuter.getPreference(project, PerfrencesConstants.API_SOURCE_FOLDER);
+		String prefrenceSourceFolderPath = designtimeExecuter.getPreference(project, PreferencesConstants.API_SOURCE_FOLDER);
 		getSourceFolderPathText().setText(
 				MessageFormat.format("{0}{1}{2}", project.getName(), File.separator, prefrenceSourceFolderPath)); //$NON-NLS-1$
 
 		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(project);
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));
 
-		String prefrencePackage = designtimeExecuter.getPreference(project, PerfrencesConstants.API_PACKAGE);
+		String prefrencePackage = designtimeExecuter.getPreference(project, PreferencesConstants.API_PACKAGE);
 		if (prefrencePackage != null) {
 			getPackageText().setText(prefrencePackage);
 		}
@@ -106,8 +106,8 @@ public class GenerateScreensApiDialog extends AbstractGenerateDialog implements 
 
 		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
 
-		designtimeExecuter.savePreference(getProject(), PerfrencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
-		designtimeExecuter.savePreference(getProject(), PerfrencesConstants.API_PACKAGE, getPackageText().getText());
+		designtimeExecuter.savePreference(getProject(), PreferencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
+		designtimeExecuter.savePreference(getProject(), PreferencesConstants.API_PACKAGE, getPackageText().getText());
 	}
 
 	public boolean customizeEntity(final ScreenEntityDefinition screenEntityDefinition) {

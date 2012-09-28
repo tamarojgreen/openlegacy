@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<themes>
+    <theme>
+        <name>openlegacy-theme-cloud</name>
+        <display-name>Cloud</display-name>
+        <image-file>cloud.jpg</image-file>
+    </theme>
+
+    <theme>
+        <name>openlegacy-theme-night</name>
+        <display-name>Night</display-name>
+        <image-file>night.jpg</image-file>
+    </theme>
+
+    <theme>
+        <name>openlegacy-theme-red</name>
+        <display-name>Red</display-name>
+        <image-file>red.jpg</image-file>
+    </theme>
+</themes>

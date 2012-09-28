@@ -80,9 +80,9 @@
             name="%openlegacy_project"
             icon="icons/openlegacy.png"
             category="org.openlegacy.ide.eclipse"
-            class="org.openlegacy.ide.eclipse.wizards.project.OpenLegacyeNewProjectWizard"
+            class="org.openlegacy.ide.eclipse.wizards.project.OpenLegacyNewProjectWizard"
             project="true"
-            id="org.openlegacy.ide.eclipse.wizards.OpenLegacyeNewProjectWizard">
+            id="org.openlegacy.ide.eclipse.wizards.OpenLegacyNewProjectWizard">
             
       </wizard>
    </extension>
@@ -163,4 +163,21 @@
             id="org.openlegacy.ide.eclipse.preview.ScreenPreview">
       </view>
    </extension>
+   
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.openlegacy.ide.eclipse.ui.preferences.OpenLegacyPreferencePage"
+            id="org.openlegacy.ide.eclipse.ui.preferences.OpenLegacyPreferencePage"
+            name="%openlegacy_preference_page_name">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="org.openlegacy.ide.eclipse.ui.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   
+   
 </plugin>

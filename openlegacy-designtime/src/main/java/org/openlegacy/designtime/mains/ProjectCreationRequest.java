@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime.mains;
 
+import org.openlegacy.designtime.newproject.ITemplateFetcher;
+
 import java.io.File;
 
 public class ProjectCreationRequest {
@@ -23,6 +25,12 @@ public class ProjectCreationRequest {
 	private String hostName;
 	private int hostPort;
 	private String codePage;
+
+	private boolean supportTheme;
+	private String themeName;
+	private String zipFile;
+
+	private ITemplateFetcher templateFetcher;
 
 	public String getTemplateName() {
 		return templateName;
@@ -91,4 +99,37 @@ public class ProjectCreationRequest {
 	public void setCodePage(String codePage) {
 		this.codePage = codePage;
 	}
+
+	public boolean isSupportTheme() {
+		return supportTheme;
+	}
+
+	public void setSupportTheme(boolean supportTheme) {
+		this.supportTheme = supportTheme;
+	}
+
+	public String getThemeName() {
+		return themeName;
+	}
+
+	public void setThemeName(String themeName) {
+		this.themeName = themeName;
+	}
+
+	public String getZipFile() {
+		return zipFile;
+	}
+
+	public void setZipFile(String zipFile) {
+		this.zipFile = zipFile;
+	}
+
+	public ITemplateFetcher getTemplateFetcher() {
+		return templateFetcher;
+	}
+
+	public void setTemplateFetcher(ITemplateFetcher templateFetcher) {
+		this.templateFetcher = templateFetcher;
+	}
+
 }
