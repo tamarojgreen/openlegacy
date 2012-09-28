@@ -42,15 +42,16 @@ public class HtmlNamingUtil {
 	}
 
 	public static String toStyleWidth(int width) {
-		return MessageFormat.format("width:{0}{1};", width, HtmlConstants.STYLE_UNIT);
+		return MessageFormat.format("width:{0}{1};", String.valueOf(width), HtmlConstants.STYLE_UNIT);
 	}
 
 	public static String toStyleHeight(int height) {
-		return MessageFormat.format("height:{0}{1};", height, HtmlConstants.STYLE_UNIT);
+		return MessageFormat.format("height:{0}{1};", String.valueOf(height), HtmlConstants.STYLE_UNIT);
 	}
 
 	public static String toStyleTopLeft(int top, int left) {
-		return MessageFormat.format("top:{0}{2};left:{1}{2};", top, left, HtmlConstants.STYLE_UNIT);
+		return MessageFormat.format("top:{0}{2};left:{1}{2};", String.valueOf(top), String.valueOf(left),
+				HtmlConstants.STYLE_UNIT);
 	}
 
 }

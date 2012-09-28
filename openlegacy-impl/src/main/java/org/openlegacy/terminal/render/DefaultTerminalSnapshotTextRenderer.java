@@ -162,7 +162,8 @@ public class DefaultTerminalSnapshotTextRenderer implements TerminalSnapshotText
 	}
 
 	private static int calculatePositionOnPainter(TerminalPosition position, ScreenSize screenSize) {
-		int fieldStartBufferLocation = (screenSize.getColumns() + 6) // 6- line numbers + | + NL
+		int fieldStartBufferLocation = (screenSize.getColumns() + 4 + SystemUtils.LINE_SEPARATOR.length()) // 6- line numbers + |
+																											// + NL
 				// -1 - 0 base, +3 - header
 				* (position.getRow() - 1 + 3) + position.getColumn() - 1;
 		return fieldStartBufferLocation;

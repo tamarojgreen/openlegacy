@@ -19,9 +19,9 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 
 	private ScreenField screenField;
 
-	public Tn5250jTerminalEditableField(ScreenField screenField, int fieldAttributes, String value) {
-		super(value, new SimpleTerminalPosition(screenField.startRow() + 1, screenField.startCol() + 1),
-				screenField.getFieldLength(), fieldAttributes, false);
+	public Tn5250jTerminalEditableField(ScreenField screenField, int length, int fieldAttributes, String value) {
+		super(value, new SimpleTerminalPosition(screenField.startRow() + 1, screenField.startCol() + 1), length, fieldAttributes,
+				false);
 		this.screenField = screenField;
 	}
 
@@ -31,11 +31,6 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 			return getModifiedValue();
 		}
 		return super.getValue();
-	}
-
-	@Override
-	public int getLength() {
-		return screenField.getLength();
 	}
 
 	@Override

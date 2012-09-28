@@ -76,6 +76,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		for (TerminalPosition terminalPosition : fieldSeperators) {
 			boolean previousIsAttributePosition = true;
 			boolean currentIsAttributePosition = true;
+			boolean fieldAdded = false;
 			if (currentPosition == null) {
 				currentPosition = terminalPosition;
 			} else if (terminalPosition.getRow() != previousPosition.getRow()) {
@@ -85,6 +86,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 				// add field from previous to end of line
 				if (previousPosition.getColumn() < getSize().getColumns()) {
 					addField(fields, previousPosition, currentPosition, true, false);
+					fieldAdded = true;
 				}
 
 				previousPosition = new SimpleTerminalPosition(terminalPosition.getRow(), 1);
@@ -95,7 +97,9 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 				previousPosition = currentPosition;
 				currentPosition = terminalPosition;
 			}
-			addField(fields, previousPosition, currentPosition, previousIsAttributePosition, currentIsAttributePosition);
+			if (!fieldAdded) {
+				addField(fields, previousPosition, currentPosition, previousIsAttributePosition, currentIsAttributePosition);
+			}
 		}
 
 		return fields;
@@ -164,11 +168,18 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		return sb.toString();
 	}
 
-	private static Tn5250jTerminalField createEditableField(ScreenField screenField, String value, boolean hidden,
-			int fieldAttributes) {
+	private Tn5250jTerminalField createEditableField(ScreenField screenField, String value, boolean hidden, int fieldAttributes) {
 		// copy the field value - tn5250j implementation may re-use ScreenField in other screen
 		value = StringUtil.rightTrim(value);
-		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField, fieldAttributes, value);
+		int startRow = screenField.startRow() + 1;
+		int endRow = SnapshotUtils.toRow(screenField.endPos(), getSize().getColumns());
+		int length = screenField.getFieldLength();
+		if (startRow != endRow) {
+			// if a field is longer then 1 line, cut it
+			// TODO #341 - handle multi input field
+			length = getSize().getColumns() - screenField.startCol();
+		}
+		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField, length, fieldAttributes, value);
 		field.setHidden(hidden);
 		return field;
 	}
