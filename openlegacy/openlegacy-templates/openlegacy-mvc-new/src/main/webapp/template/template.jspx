@@ -11,7 +11,7 @@
 <jsp:directive.page pageEncoding="UTF-8" />
 <head>
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
-<title>OpenLegacy Toys</title>
+<title>OpenLegacy - Legacy Modernization made open</title>
 <link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath}/css/project.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript">var dojoConfig = {parseOnLoad: true, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', isDebug: false, locale: '${fn:toLowerCase(userLocale)}'};</script>
