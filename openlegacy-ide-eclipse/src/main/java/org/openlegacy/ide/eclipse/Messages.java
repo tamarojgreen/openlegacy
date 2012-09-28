@@ -70,6 +70,8 @@ public class Messages extends NLS {
 	public static String label_col_identifiers;
 	public static String label_col_row;
 	public static String label_col_column;
+	public static String label_templates_url_preference;
+	public static String error_new_project_metadata_not_found;
 
 	static {
 		// initialize resource bundle

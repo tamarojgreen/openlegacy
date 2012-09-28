@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.mains;
 
-import org.openlegacy.designtime.PerfrencesConstants;
+import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.utils.ReflectionUtil;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class SimpleProjectPreferences implements ProjectPreferences {
 	public String get(String key) {
 		Object value = properties.get(key);
 		if (value == null) {
-			String defaultValue = (String)ReflectionUtil.getStaticFieldValue(PerfrencesConstants.class, key + "_DEFAULT");
+			String defaultValue = (String)ReflectionUtil.getStaticFieldValue(PreferencesConstants.class, key + "_DEFAULT");
 			return defaultValue;
 		}
 		return (String)value;

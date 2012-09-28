@@ -1,1 +1,4 @@
-/templates
+!/templates/
+/templates/*
+!/templates/xml/
+!/templates/theme-images/

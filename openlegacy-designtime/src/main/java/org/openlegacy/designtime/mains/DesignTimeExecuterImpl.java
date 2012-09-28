@@ -17,8 +17,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.EntityUserInteraction;
-import org.openlegacy.designtime.PerfrencesConstants;
+import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
+import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.GenerateUtil;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
@@ -37,7 +38,6 @@ import org.openlegacy.terminal.render.TerminalSnapshotRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
 import org.openlegacy.utils.FileUtils;
 import org.openlegacy.utils.StringUtil;
-import org.openlegacy.utils.ZipUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -57,7 +57,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
@@ -97,8 +96,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private Map<File, ProjectPreferences> projectsPreferences = new HashMap<File, ProjectPreferences>();
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
-		File targetZip = extractTemplate(projectCreationRequest.getTemplateName(), projectCreationRequest.getBaseDir());
-		File targetPath = unzipTemplate(projectCreationRequest.getBaseDir(), projectCreationRequest.getProjectName(), targetZip);
+		ITemplateFetcher templateFetcher = projectCreationRequest.getTemplateFetcher();
+
+		File targetPath = templateFetcher.fetchZip(projectCreationRequest.getTemplateName(),
+				projectCreationRequest.getProjectName(), projectCreationRequest.getBaseDir());
 
 		if (projectCreationRequest.isDemo()) {
 			return;
@@ -107,6 +108,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		// maven files
 		renameProjectProperties(projectCreationRequest.getProjectName(), targetPath);
 		renameProviderInPOM(projectCreationRequest.getProvider(), targetPath);
+		if (projectCreationRequest.isSupportTheme()) {
+			renameThemeInPOM(projectCreationRequest.getThemeName(), targetPath);
+		}
 
 		// spring files
 		updateSpringContextWithDefaultPackage(projectCreationRequest.getDefaultPackageName(), targetPath);
@@ -117,10 +121,11 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		updateHostPropertiesFile(projectCreationRequest, targetPath);
 
-		savePreference(targetPath, PerfrencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
-		savePreference(targetPath, PerfrencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
-		savePreference(targetPath, PerfrencesConstants.DESIGNTIME_CONTEXT, "default");
-		targetZip.delete();
+		savePreference(targetPath, PreferencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
+		savePreference(targetPath, PreferencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
+		savePreference(targetPath, PreferencesConstants.DESIGNTIME_CONTEXT, "default");
+
+		templateFetcher.deleteZip();
 	}
 
 	private static void updateHostPropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath)
@@ -268,20 +273,26 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		IOUtils.write(pomFileContent, fos);
 	}
 
-	private static File unzipTemplate(File baseDir, String projectName, File targetZip) throws IOException {
-		File targetPath = new File(baseDir, projectName);
-		ZipUtil.unzip(targetZip.getAbsolutePath(), targetPath.getAbsolutePath());
-		return targetPath;
-	}
+	private static void renameThemeInPOM(String themeName, File targetPath) throws FileNotFoundException, IOException {
+		File pomFile = new File(targetPath, "pom.xml");
 
-	private File extractTemplate(String templateName, File baseDir) throws FileNotFoundException, IOException {
-		URL zipFile = getClass().getResource(MessageFormat.format("/templates/{0}.zip", templateName));
+		if (!pomFile.exists()) {
+			logger.error(MessageFormat.format("Unable to find pom.xml within {0}", targetPath));
+			return;
+		}
 
-		File targetZip = new File(baseDir, templateName + ".zip");
-		FileOutputStream targetZipOutputStream = new FileOutputStream(targetZip);
-		IOUtils.copy(zipFile.openStream(), targetZipOutputStream);
-		targetZipOutputStream.close();
-		return targetZip;
+		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
+
+		if (themeName != null) {
+			pomFileContent = pomFileContent.replaceFirst(
+					"<groupId>org.openlegacy.web</groupId>\\s+<artifactId>openlegacy-themes-\\w+(.*?)</artifactId>",
+					MessageFormat.format(
+							"<groupId>org.openlegacy.web</groupId>\n\t\t\t<artifactId>openlegacy-themes-{0}</artifactId>",
+							themeName));
+		}
+
+		FileOutputStream fos = new FileOutputStream(pomFile);
+		IOUtils.write(pomFileContent, fos);
 	}
 
 	public void generateAPI(GenerateApiRequest generateApiRequest) throws GenerationException {
@@ -452,7 +463,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				projectApplicationContext = new FileSystemXmlApplicationContext(designtimeContextFile.getAbsolutePath());
 			} else {
 				String embeddedDesigntimeContextFile = getEmbeddedDesigntimeContextFile(projectPath);
-				String designtimeContextType = getPreferences(projectPath).get(PerfrencesConstants.DESIGNTIME_CONTEXT);
+				String designtimeContextType = getPreferences(projectPath).get(PreferencesConstants.DESIGNTIME_CONTEXT);
 				// don't re-initialize the default context on project level if exists on root level
 				// (defaultDesigntimeApplicationContext)
 				if (designtimeContextType == null || designtimeContextType.equals(DEFAULT_CONTEXT)) {
@@ -600,7 +611,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	 * The embedded design-time context file to user by preferences. Currently default/rtl
 	 */
 	private String getEmbeddedDesigntimeContextFile(File projectPath) {
-		String designtimeContextType = getPreferences(projectPath).get(PerfrencesConstants.DESIGNTIME_CONTEXT);
+		String designtimeContextType = getPreferences(projectPath).get(PreferencesConstants.DESIGNTIME_CONTEXT);
 		designtimeContextType = designtimeContextType != null ? designtimeContextType : "default";
 		return MessageFormat.format("/openlegacy-{0}-designtime-context.xml", designtimeContextType);
 	}

@@ -5,8 +5,10 @@
 /openlegacy-web/target
 /openlegacy-api/target
 /openlegacy-impl/target
-/openlegacy-designtime/src/main/resources/templates
 /openlegacy-ide-eclipse-updatesite/plugins
 /openlegacy-ide-eclipse-updatesite/features
 /openlegacy-ide-eclipse-updatesite/artifacts.jar
 /openlegacy-ide-eclipse-updatesite/content.jar
+
+!/openlegacy-designtime/src/main/resources/templates/
+/openlegacy-designtime/src/main/resources/templates/*

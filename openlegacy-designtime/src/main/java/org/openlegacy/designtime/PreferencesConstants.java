@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime;
 
-public class PerfrencesConstants {
+public class PreferencesConstants {
 
 	public static final String API_SOURCE_FOLDER = "API_SOURCE_FOLDER";
 	public static final String API_SOURCE_FOLDER_DEFAULT = "src/main/java";
@@ -20,4 +20,8 @@ public class PerfrencesConstants {
 
 	// possible values: default, rtl (openlegacy-default-designtime-context.xml, openlegacy-rtl-designtime-context.xml)
 	public static final String DESIGNTIME_CONTEXT = "DESIGNTIME_CONTEXT";
+
+	public static final String PROJECT_TYPES_FILENAME = "project-types.xml"; //$NON-NLS-1$
+	public static final String PROJECT_PROVIDERS_FILENAME = "providers.xml"; //$NON-NLS-1$
+	public static final String PROJECT_THEMES_FILENAME = "themes.xml"; //$NON-NLS-1$
 }
