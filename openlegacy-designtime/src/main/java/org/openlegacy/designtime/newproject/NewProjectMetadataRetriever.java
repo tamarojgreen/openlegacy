@@ -91,6 +91,8 @@ public class NewProjectMetadataRetriever {
 
 	private static final String RESOURCE_XML_PATH = "/templates/xml";
 	private static final String RESOURCE_THEME_IMAGES_PATH = "/templates/theme-images";
+	private static final String ONLINE_XML_FOLDER = "xml";
+	private static final String ONLINE_THEME_IMAGES_FOLDER = "theme-images";
 
 	private ProjectTypeStore projectTypeStore = null;
 	private ProjectProviderStore projectProviderStore = null;
@@ -183,7 +185,8 @@ public class NewProjectMetadataRetriever {
 	}
 
 	private <P> P fetchStoreOnline(Class<P> rootClass, String filename) throws IOException, JAXBException {
-		InputStream in = getUrlConnectionInputStream(MessageFormat.format("{0}/{1}", this.templatesUrl, filename));
+		InputStream in = getUrlConnectionInputStream(MessageFormat.format("{0}/{1}/{2}", this.templatesUrl, ONLINE_XML_FOLDER,
+				filename));
 		P store = XmlSerializationUtil.deserialize(rootClass, in);
 		in.close();
 
@@ -191,7 +194,8 @@ public class NewProjectMetadataRetriever {
 	}
 
 	private byte[] fetchImageOnline(String imageFile) throws IOException {
-		InputStream in = getUrlConnectionInputStream(MessageFormat.format("{0}/{1}", this.templatesUrl, imageFile));
+		InputStream in = getUrlConnectionInputStream(MessageFormat.format("{0}/{1}/{2}", this.templatesUrl,
+				ONLINE_THEME_IMAGES_FOLDER, imageFile));
 		return getImageData(in);
 	}
 

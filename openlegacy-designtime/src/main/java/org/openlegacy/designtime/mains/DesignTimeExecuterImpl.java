@@ -110,6 +110,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		renameProviderInPOM(projectCreationRequest.getProvider(), targetPath);
 		if (projectCreationRequest.isSupportTheme()) {
 			renameThemeInPOM(projectCreationRequest.getThemeName(), targetPath);
+			renameThemeInAppProperties(projectCreationRequest.getThemeName(), targetPath);
 		}
 
 		// spring files
@@ -289,10 +290,27 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					MessageFormat.format(
 							"<groupId>org.openlegacy.web</groupId>\n\t\t\t<artifactId>openlegacy-themes-{0}</artifactId>",
 							themeName));
+			FileOutputStream fos = new FileOutputStream(pomFile);
+			IOUtils.write(pomFileContent, fos);
+		}
+	}
+
+	private static void renameThemeInAppProperties(String themeName, File targetPath) throws FileNotFoundException, IOException {
+		File appPropertiesFile = new File(targetPath, "src/main/resources/application.properties");
+
+		if (!appPropertiesFile.exists()) {
+			logger.error(MessageFormat.format("Unable to find application.properties within {0}", targetPath));
+			return;
 		}
 
-		FileOutputStream fos = new FileOutputStream(pomFile);
-		IOUtils.write(pomFileContent, fos);
+		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
+
+		if (themeName != null) {
+			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultTheme=.*",
+					MessageFormat.format("themeUtil.defaultTheme={0}", themeName));
+			FileOutputStream fos = new FileOutputStream(appPropertiesFile);
+			IOUtils.write(appPropertiesFileContent, fos);
+		}
 	}
 
 	public void generateAPI(GenerateApiRequest generateApiRequest) throws GenerationException {

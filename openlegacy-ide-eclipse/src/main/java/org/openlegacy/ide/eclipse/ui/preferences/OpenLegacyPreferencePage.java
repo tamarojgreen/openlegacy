@@ -60,6 +60,10 @@ public class OpenLegacyPreferencePage extends FieldEditorPreferencePage implemen
 		if (!url.startsWith("http")) {//$NON-NLS-1$
 			url = MessageFormat.format("http://{0}", url);//$NON-NLS-1$
 		}
+		// remove last "/"
+		while (url.lastIndexOf("/") == (url.length() - 1)) {
+			url = url.substring(0, url.length() - 1);
+		}
 		this.urlEditor.setStringValue(url);
 		setValid(true);
 	}
