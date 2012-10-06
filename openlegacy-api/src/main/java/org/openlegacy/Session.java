@@ -19,6 +19,7 @@ import org.openlegacy.modules.SessionModule;
  * 
  * @author Roi Mor
  * 
+ * @see ApplicationConnection
  */
 public interface Session {
 
