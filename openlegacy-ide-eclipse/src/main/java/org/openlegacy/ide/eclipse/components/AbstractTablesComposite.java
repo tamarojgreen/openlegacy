@@ -1,5 +1,9 @@
 package org.openlegacy.ide.eclipse.components;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.FocusEvent;
@@ -26,9 +30,6 @@ import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 
-import java.util.List;
-import java.util.Map;
-
 public abstract class AbstractTablesComposite extends Composite {
 
 	protected final static String ITEM_DATA_KEY = "data_key";
@@ -49,8 +50,8 @@ public abstract class AbstractTablesComposite extends Composite {
 
 	private List<ScreenFieldDefinition> fieldsDefinitions = null;
 
-	protected List<ScreenFieldDefinition> removedFieldsDefinitions = null;
-	protected List<ScreenIdentifier> removedScreenIdentifiers = null;
+	protected List<ScreenFieldDefinition> removedFieldsDefinitions = new ArrayList<ScreenFieldDefinition>();
+	protected List<ScreenIdentifier> removedScreenIdentifiers = new ArrayList<ScreenIdentifier>();
 
 	public AbstractTablesComposite(Composite parent, int style, int width, int height) {
 		super(parent, style);
