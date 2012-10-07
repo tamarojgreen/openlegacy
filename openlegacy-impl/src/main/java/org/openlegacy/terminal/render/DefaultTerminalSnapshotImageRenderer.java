@@ -10,14 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal.render;
 
-import org.openlegacy.exceptions.OpenLegacyRuntimeException;
-import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalPosition;
-import org.openlegacy.terminal.TerminalRow;
-import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.support.SimpleTerminalPosition;
-import org.openlegacy.terminal.support.SnapshotUtils;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -28,8 +20,20 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.TerminalRow;
+import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.SnapshotUtils;
+
 public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotImageRenderer {
 
+	private final static Log logger = LogFactory.getLog(DefaultTerminalSnapshotImageRenderer.class);
+	
 	// default values for bean properties
 	private Color imageBackgroundColor = Color.BLACK;
 	private Color imageBoldFieldColor = Color.WHITE;
@@ -52,6 +56,10 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 		BufferedImage buffer = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
 
+		if (logger.isDebugEnabled()){
+			logger.debug("Font set to:" + fontFamily);
+		}
+		
 		Font font = new Font(fontFamily, fontType, fontSize);
 		Graphics graphics = buffer.createGraphics();
 		graphics.setFont(font);
