@@ -30,6 +30,10 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		if (getModifiedValue() != null) {
 			return getModifiedValue();
 		}
+		return getOriginalValue();
+	}
+
+	public String getOriginalValue() {
 		if (value == null) {
 			value = initValue();
 		}

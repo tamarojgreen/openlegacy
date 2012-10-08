@@ -158,6 +158,10 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	public boolean isHidden() {
 		return hidden;
 	}
+	
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
 
 	public int getRow() {
 		return row;
@@ -253,5 +257,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	public void setVisualValue(String visualValue) {
 		this.visualValue = visualValue;
+	}
+
+	public String getOriginalValue() {
+		return getValue();
 	}
 }

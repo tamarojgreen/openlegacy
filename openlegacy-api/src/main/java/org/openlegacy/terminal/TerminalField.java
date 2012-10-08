@@ -40,6 +40,13 @@ public interface TerminalField extends TerminalPositionContainer, Serializable, 
 	String getValue();
 
 	/**
+	 * The original value of the field before set by user
+	 * 
+	 * @return original value of the field
+	 */
+	String getOriginalValue();
+	
+	/**
 	 * Sets the value of the field for editable fields
 	 * 
 	 * @param value
