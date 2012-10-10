@@ -26,6 +26,7 @@ import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,8 +50,8 @@ public abstract class AbstractTablesComposite extends Composite {
 
 	private List<ScreenFieldDefinition> fieldsDefinitions = null;
 
-	protected List<ScreenFieldDefinition> removedFieldsDefinitions = null;
-	protected List<ScreenIdentifier> removedScreenIdentifiers = null;
+	protected List<ScreenFieldDefinition> removedFieldsDefinitions = new ArrayList<ScreenFieldDefinition>();
+	protected List<ScreenIdentifier> removedScreenIdentifiers = new ArrayList<ScreenIdentifier>();
 
 	public AbstractTablesComposite(Composite parent, int style, int width, int height) {
 		super(parent, style);

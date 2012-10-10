@@ -17,6 +17,13 @@ privileged @SuppressWarnings("unused") aspect Items_Aspect {
 
     
 
+    public List<ItemsRecord> Items.getItemsRecords(){
+    	return this.itemsRecords;
+    }
+    
+
+
+
     public String Items.getPositionTo(){
     	return this.positionTo;
     }
@@ -24,13 +31,6 @@ privileged @SuppressWarnings("unused") aspect Items_Aspect {
     public void Items.setPositionTo(String positionTo){
     	this.positionTo = positionTo;
     }
-
-
-
-    public List<ItemsRecord> Items.getItemsRecords(){
-    	return this.itemsRecords;
-    }
-    
 
 
 

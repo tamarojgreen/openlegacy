@@ -1,0 +1,70 @@
+<div xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web">
+
+	<ol:form model="${entityDefinition.entityName?uncap_first}">
+		<#list pageParts as pagePart>
+		
+		<#if pagePart.oneField>
+			<ol:field name="${pagePart.singleField.name}" top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%" width="${pagePart.width}%" />
+		<#else>
+			<ol:pagePart left="${pagePart.leftMargin}%" top="${pagePart.topMargin}%" width="${pagePart.width}%">
+			<#list pagePart.partRows as partRow> 
+				<#list partRow.fields as field>
+				<#if partRow.fields?size &gt; 1>
+					<div class="col_${field_index+1}_of_${partRow.fields?size}">
+				</#if> 
+				<@fieldTypesDrawer field=field entityDefinition=entityDefinition />
+				<#if partRow.fields?size &gt; 1>
+					</div>
+				</#if> 
+				</#list>
+			</#list>
+			<#if pagePart.hasTable>
+				<ol:table data="${r"${"}${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s${r"}"}" property="${pagePart.tableFieldName?uncap_first}" />
+			</#if>
+			</ol:pagePart>
+		</#if>
+			
+		</#list>	
+		
+		<#-- Uncomment to generate actions
+		
+		<#list entityDefinition.actions as action>
+			<#if action.alias??>
+		<div class="action">
+			<button onclick="doPost('${action.alias}')">${action.displayName}</button>
+		</div>
+			</#if>
+		</#list>
+			
+		-->		
+	</ol:form>
+</div>
+		
+<#macro fieldTypesDrawer field entityDefinition>
+	<#if field.fieldTypeDefinition??>
+		<#switch field.fieldTypeDefinition.typeName>
+		  <#case "boolean">
+ 			 <ol:field name="${field.name}" />
+		     <#break>
+		  <#case "date">
+			 <ol:field name="${field.name}" />
+		     <#break>
+		  <#case "autocomplete">
+		  	<div class="field">
+				<label>${field.displayName}: </label>
+				<script language="JavaScript" type="text/javascript">dojo.require("dojo.data.ItemFileReadStore");dojo.require("dijit.form.FilteringSelect");</script>
+				<span data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props="url:'${entityDefinition.entityName?cap_first}/${field.name}'" data-dojo-id="${field.name}Values"></span>
+				<input name="${field.name}" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:${field.name}Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	
+		  	</div>
+		     <#break>
+		  <#default>
+			<@fieldDrawer field=field entityDefinition=entityDefinition />
+		</#switch>  
+	<#else>
+			<@fieldDrawer field=field entityDefinition=entityDefinition />
+	</#if>
+</#macro>
+	
+<#macro fieldDrawer field entityDefinition>
+	<ol:field name="${field.name}" />
+</#macro>

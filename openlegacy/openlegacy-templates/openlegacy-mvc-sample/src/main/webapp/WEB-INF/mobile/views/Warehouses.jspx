@@ -1,0 +1,21 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile"
+	xmlns:form="http://www.springframework.org/tags/form">
+	<ol:form model="warehouses">
+		<ol:pagePart>
+			<ul data-dojo-type="dojox.mobile.RoundRectList"
+				id="WarehousesTable">
+
+				<c:forEach
+					items="${warehouses.warehousesRecords}"
+					var="warehouse" varStatus="i">
+					<li data-dojo-type="dojox.mobile.ListItem" transition="slide" class="${i.index % 2 == 0 ? '' : 'alt'}"
+						onclick="showLoading();addViewToHistory('WarehousesPanel');"
+						data-dojo-props="parseOnLoad: true"
+						url="WarehouseDetails/revise/${warehouse.whse}">${warehouse.description}</li>
+				</c:forEach>
+			</ul>
+			<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn" onclick="javascript:loadMore('WarehousesTable','${pageContext.request.contextPath}/WorkWithItemMaster/more','itemNumber','itemDescription','WarehousesDetails/revise/')" >Load More</button>
+		</ol:pagePart>
+	</ol:form>
+</div>

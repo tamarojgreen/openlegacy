@@ -1,0 +1,19 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile"
+	xmlns:form="http://www.springframework.org/tags/form">
+	<ol:form model="Items">
+		<ol:pagePart>
+			<ul data-dojo-type="dojox.mobile.RoundRectList"
+				id="ItemsTable">
+
+				<c:forEach items="${items.itemsRecords}"
+					var="item" varStatus="i">
+					<li data-dojo-type="dojox.mobile.ListItem" transition="slide" onclick="showLoading();" class="${i.index % 2 == 0 ? '' : 'alt'}"
+						url="ItemDetails/revise/${item.itemNumber}">${item.itemDescription}</li>
+				</c:forEach>
+			</ul>
+			<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn" onclick="javascript:loadMore('ItemsTable','${pageContext.request.contextPath}/Items/more','itemNumber','itemDescription','ItemDetails/revise/')" >Load More</button>
+			
+		</ol:pagePart>
+	</ol:form>
+</div>

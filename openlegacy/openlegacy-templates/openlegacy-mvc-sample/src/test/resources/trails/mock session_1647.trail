@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+    <snapshot type="INCOMING" sequence="3">
+        <row rowNumber="1">
+            <field column="2" length="0"/>
+            <field column="3" value=" " length="1"/>
+            <field column="5" value="      " length="6"/>
+            <field column="12" value=" " length="1"/>
+            <field column="14" value=" " length="1"/>
+            <field column="16" value="            Display Program Messages            " length="48" color="WHITE"/>
+            <field column="65" value="                " length="16"/>
+        </row>
+        <row rowNumber="3">
+            <field column="1" length="0" color="WHITE"/>
+            <field column="2" value="Job 02345/TESTUSER/QPADEV00RT started on 02/09/11 at 11:44:08 in subsystem " length="75" color="WHITE"/>
+            <field column="79" value="  " length="2"/>
+        </row>
+        <row rowNumber="4">
+            <field column="1" length="0" color="WHITE"/>
+            <field column="2" value="Initial program ended and *SIGNOFF specified for initial menu.              " length="76" color="WHITE"/>
+            <field column="79" value="  " length="2"/>
+        </row>
+        <row rowNumber="19">
+            <field column="1" length="0" color="BLUE"/>
+            <field column="2" value="Press Enter to continue.                   " length="43" color="BLUE"/>
+            <field column="46" value="                                   " length="35"/>
+        </row>
+        <row rowNumber="23">
+            <field column="1" length="0" color="BLUE"/>
+            <field column="2" value="F3=Exit   F12=Cancel          " length="30" color="BLUE"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="1" column="1"/>
+    </snapshot>
+    <snapshot type="OUTGOING" command="[enter]" sequence="4">
+        <row rowNumber="1">
+            <field column="2" length="0"/>
+            <field column="3" value=" " length="1"/>
+            <field column="5" value="      " length="6"/>
+            <field column="12" value=" " length="1"/>
+            <field column="14" value=" " length="1"/>
+            <field column="16" value="            Display Program Messages            " length="48" color="WHITE"/>
+            <field column="65" value="                " length="16"/>
+        </row>
+        <row rowNumber="3">
+            <field column="1" length="0" color="WHITE"/>
+            <field column="2" value="Job 02345/TESTUSER/QPADEV00RT started on 02/09/11 at 11:44:08 in subsystem " length="75" color="WHITE"/>
+            <field column="79" value="  " length="2"/>
+        </row>
+        <row rowNumber="4">
+            <field column="1" length="0" color="WHITE"/>
+            <field column="2" value="Initial program ended and *SIGNOFF specified for initial menu.              " length="76" color="WHITE"/>
+            <field column="79" value="  " length="2"/>
+        </row>
+        <row rowNumber="19">
+            <field column="1" length="0" color="BLUE"/>
+            <field column="2" value="Press Enter to continue.                   " length="43" color="BLUE"/>
+            <field column="46" value="                                   " length="35"/>
+        </row>
+        <row rowNumber="23">
+            <field column="1" length="0" color="BLUE"/>
+            <field column="2" value="F3=Exit   F12=Cancel          " length="30" color="BLUE"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="1" column="1"/>
+    </snapshot>
+    <snapshot type="INCOMING" sequence="5">
+        <row rowNumber="1">
+            <field column="2" value="TESTUSER  " length="10" color="BLUE"/>
+            <field column="13" value="            " length="12"/>
+            <field column="26" value="           Demo Environment   " length="30" color="WHITE"/>
+            <field column="57" value="                        " length="24"/>
+        </row>
+        <row rowNumber="3">
+            <field column="1" length="0" color="BLUE"/>
+            <field column="2" value="Select one of the following:" length="28" color="BLUE"/>
+            <field column="31" value="                                                  " length="50"/>
+        </row>
+        <row rowNumber="5">
+            <field column="1" length="0"/>
+            <field column="2" value="   " length="3"/>
+            <field column="6" value=" 1." length="3"/>
+            <field column="10" value="Inventory Management                              " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="6">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value=" 2." length="3"/>
+            <field column="10" value="Inventory Purchasing                              " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="7">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value=" 3." length="3"/>
+            <field column="10" value="Sales Order Processing                            " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="8">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value=" 4." length="3"/>
+            <field column="10" value="Menu Options                                      " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="9">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="10">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="11">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="12">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="13">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="14">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="15">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="16">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="17">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                    " length="20"/>
+        </row>
+        <row rowNumber="18">
+            <field column="1" value="    " length="4"/>
+            <field column="6" value="   " length="3"/>
+            <field column="10" value="                                                  " length="50"/>
+            <field column="61" value="                 " length="17"/>
+            <field column="79" value=" " length="1" color="WHITE"/>
+        </row>
+        <row rowNumber="20">
+            <field column="1" length="0"/>
+            <field column="2" value="Selection:" length="10"/>
+            <field column="13" value="                                                                    " length="68"/>
+        </row>
+        <row rowNumber="21">
+            <field column="1" length="0"/>
+            <field column="2" value="===&gt;" length="4"/>
+            <field column="7" length="0"/>
+            <field column="8" length="2" editable="true" type="java.lang.Integer"/>
+            <field column="11" value="                                         " length="41"/>
+            <field column="53" value="Company . . . . . ." length="19"/>
+            <field column="73" length="0"/>
+            <field column="74" value="101" length="3" editable="true" type="java.lang.Integer"/>
+            <field column="78" value="   " length="3"/>
+        </row>
+        <row rowNumber="23">
+            <field column="1" length="0" color="BLUE"/>
+            <field column="2" value="F1=Help" length="7" color="BLUE"/>
+            <field column="10" length="0" color="BLUE"/>
+            <field column="11" value="F3=Exit" length="7" color="BLUE"/>
+            <field column="19" length="0" color="BLUE"/>
+            <field column="20" value="F4=Prompt" length="9" color="BLUE"/>
+            <field column="30" length="0" color="BLUE"/>
+            <field column="31" value="F12=Prev" length="8" color="BLUE"/>
+            <field column="40" length="0" color="BLUE"/>
+            <field column="41" value="F21=Command" length="11" color="BLUE"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="21" column="8"/>
+    </snapshot>
+</terminal-trail>

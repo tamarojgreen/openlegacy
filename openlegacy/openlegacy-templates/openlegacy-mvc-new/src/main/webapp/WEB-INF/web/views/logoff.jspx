@@ -1,0 +1,6 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web">	
+
+	Session ended <br />
+	<a href="${pageContext.request.contextPath}/emulation">Reconnect</a>
+	
+</div>

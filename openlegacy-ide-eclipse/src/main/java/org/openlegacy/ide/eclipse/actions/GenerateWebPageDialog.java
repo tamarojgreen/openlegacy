@@ -26,6 +26,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -41,6 +43,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 
 	private final static Logger logger = Logger.getLogger(GenerateWebPageDialog.class);
 	private Button generateHelpBtn;
+	private Button generateMobilePageBtn;
 	private ISelection selection;
 
 	protected GenerateWebPageDialog(Shell shell, ISelection selection) {
@@ -52,6 +55,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 	protected void executeGenerate() {
 
 		final boolean generateHelp = generateHelpBtn.getSelection();
+		final boolean generateMobilePage = generateMobilePageBtn.getSelection();
 		Job job = new Job(Messages.job_generting_web_page) {
 
 			@Override
@@ -66,7 +70,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 						final IFile screenEntitySourceFile = (IFile)((ICompilationUnit)treePath.getLastSegment()).getResource();
 
 						EclipseDesignTimeExecuter.instance().generateWebPage(screenEntitySourceFile, getSourceFolder(),
-								getPackageValue(), GenerateWebPageDialog.this, generateHelp);
+								getPackageValue(), GenerateWebPageDialog.this, generateHelp, generateMobilePage);
 
 						monitor.worked(1);
 
@@ -96,9 +100,22 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 
 	@Override
 	protected void createDialogSpecific(Composite parent) {
-		generateHelpBtn = new Button(parent, SWT.CHECK);
+		Composite composite = new Composite(parent, SWT.NONE);
+
+		GridLayout gridLayout = new GridLayout();
+		gridLayout.numColumns = 1;
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
+		gd.horizontalSpan = 3;
+		composite.setLayoutData(gd);
+		composite.setLayout(gridLayout);
+
+		generateHelpBtn = new Button(composite, SWT.CHECK);
 		generateHelpBtn.setText(Messages.label_generate_help);
 		generateHelpBtn.setSelection(true);
+		// "Generate mobile page" option (checkbox)
+		generateMobilePageBtn = new Button(composite, SWT.CHECK);
+		generateMobilePageBtn.setText(Messages.label_generate_mobile_page);
+		generateMobilePageBtn.setSelection(true);
 	}
 
 	@Override

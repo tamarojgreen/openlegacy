@@ -1,0 +1,7 @@
+<div>
+	<form id="${entityDefinition.entityName}Form" method="post">
+		<div class="menu_message">
+			Select a page from the side menu
+		</div>
+	</form>
+</div>

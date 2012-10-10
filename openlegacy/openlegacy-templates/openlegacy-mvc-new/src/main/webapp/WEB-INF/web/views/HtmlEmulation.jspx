@@ -1,0 +1,5 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web">	
+  
+  ${terminalHtml}
+
+</div>
