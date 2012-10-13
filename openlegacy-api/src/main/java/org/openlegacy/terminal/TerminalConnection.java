@@ -17,7 +17,7 @@ import org.openlegacy.ApplicationConnection;
  */
 public interface TerminalConnection extends ApplicationConnection<TerminalSnapshot, TerminalSendAction> {
 
-	int getSequence();
+	Integer getSequence();
 
 	TerminalSnapshot getSnapshot();
 

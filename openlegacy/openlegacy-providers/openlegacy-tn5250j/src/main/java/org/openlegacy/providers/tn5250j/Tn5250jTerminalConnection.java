@@ -68,6 +68,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 		}
 
 		waitForKeyboardUnlock((String)terminalSendAction.getCommand());
+		sequence++;
 	}
 
 	private void waitForKeyboardUnlock(String aid) {
@@ -75,6 +76,9 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 		screen.sendKeys(aid);
 		while (screen.getOIA().getInputInhibited() == ScreenOIA.INPUTINHIBITED_SYSTEM_WAIT
 				&& screen.getOIA().getLevel() != ScreenOIA.OIA_LEVEL_INPUT_ERROR) {
+			if (!session.isConnected()) {
+				return;
+			}
 			try {
 				Thread.sleep(waitForUnlock);
 			} catch (InterruptedException ex) {
@@ -112,7 +116,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 		sequence++;
 	}
 
-	public int getSequence() {
+	public Integer getSequence() {
 		return sequence;
 	}
 

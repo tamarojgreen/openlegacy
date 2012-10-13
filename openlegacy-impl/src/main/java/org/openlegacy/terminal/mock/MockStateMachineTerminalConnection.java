@@ -61,6 +61,10 @@ public class MockStateMachineTerminalConnection extends AbstractMockTerminalConn
 	}
 
 	public void disconnect() {
-		// do nothing
+		// do nothing (mock)
+	}
+
+	public Integer getSequence() {
+		return currentSnapshot.getSequence();
 	}
 }

@@ -23,8 +23,8 @@ import java.util.Properties;
 
 public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFactory, InitializingBean {
 
-	private int waitForConnect = 1000;
-	private int waitForUnlock = 300;
+	private int waitPauses = 300;
+	private int waitTimeout = 30000;
 
 	private Properties properties;
 	private Boolean convertToLogical;
@@ -36,23 +36,28 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 		Session5250 sessionImpl = SessionManager.instance().openSession(properties, "", "");
 
 		Tn5250jTerminalConnection olConnection = new Tn5250jTerminalConnection(convertToLogical);
-		sessionImpl.addSessionListener(olConnection);
 
 		sessionImpl.connect();
 
 		olConnection.setSession(sessionImpl);
-		try {
-			Thread.sleep(waitForConnect);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			return null;
+
+		sessionImpl.addSessionListener(olConnection);
+
+		int totalWait = 0;
+		while (!sessionImpl.isConnected() && totalWait < waitTimeout) {
+			try {
+				Thread.sleep(waitPauses);
+				totalWait += waitPauses;
+			} catch (InterruptedException e) {
+				throw (new OpenLegacyRuntimeException("Session is not connected"));
+			}
 		}
 
-		if (!sessionImpl.isConnected()) {
+		if (!olConnection.isConnected()) {
 			throw (new OpenLegacyRuntimeException("Session is not connected"));
 		}
 
-		olConnection.setWaitForUnlock(waitForUnlock);
+		olConnection.setWaitForUnlock(waitPauses);
 		return olConnection;
 	}
 
@@ -60,12 +65,12 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 		((Session5250)terminalConnection.getDelegate()).disconnect();
 	}
 
-	public void setWaitForConnect(int waitForConnect) {
-		this.waitForConnect = waitForConnect;
+	public void setWaitPauses(int waitPauses) {
+		this.waitPauses = waitPauses;
 	}
 
-	public void setWaitForUnlock(int waitForUnlock) {
-		this.waitForUnlock = waitForUnlock;
+	public void setWaitTimeout(int waitTimeout) {
+		this.waitTimeout = waitTimeout;
 	}
 
 	public Properties getProperties() {

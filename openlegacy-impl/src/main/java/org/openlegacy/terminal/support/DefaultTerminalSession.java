@@ -311,7 +311,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return screenEntitiesRegistry;
 	}
 
-	public int getSequence() {
+	public Integer getSequence() {
 		return terminalConnection.getSequence();
 	}
 }
