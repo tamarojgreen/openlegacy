@@ -70,6 +70,6 @@ public interface TerminalSession extends StatefullSession<TerminalSnapshot> {
 
 	String getSessionId();
 
-	int getSequence();
+	Integer getSequence();
 
 }

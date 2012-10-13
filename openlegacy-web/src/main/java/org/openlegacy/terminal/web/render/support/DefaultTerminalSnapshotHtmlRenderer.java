@@ -89,10 +89,11 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 			Element formTag = createWrappingTag(doc);
 
-			String cursorFieldName = createHiddens(terminalSnapshot, formTag);
+			createHiddens(terminalSnapshot, formTag);
 
 			createFields(terminalSnapshot, formTag);
 
+			String cursorFieldName = getCursorFieldName(terminalSnapshot);
 			createScript(formTag, cursorFieldName);
 
 			calculateWidthHeight(terminalSnapshot, formTag);
@@ -107,6 +108,11 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			throw (new OpenLegacyRuntimeException(e));
 		}
 
+	}
+
+	private static String getCursorFieldName(TerminalSnapshot terminalSnapshot) {
+		TerminalPosition cursorPosition = terminalSnapshot.getCursorPosition();
+		return cursorPosition != null ? HtmlNamingUtil.getFieldName(cursorPosition) : "";
 	}
 
 	private String createStyleSettings() {
@@ -130,19 +136,28 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	}
 
 	private void createScript(Element formTag, String cursorFieldName) {
-		String script = MessageFormat.format("document.{0}.{1}.focus();", TerminalHtmlConstants.HTML_EMULATION_FORM_NAME,
-				cursorFieldName);
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("try { document.");
+		stringBuilder.append(TerminalHtmlConstants.HTML_EMULATION_FORM_NAME);
+		stringBuilder.append(".");
+		stringBuilder.append(cursorFieldName);
+		stringBuilder.append(".focus(); } catch { }");
+		String script = stringBuilder.toString();
 
 		elementsProvider.createScriptTag(formTag, script);
 	}
 
-	private String createHiddens(TerminalSnapshot terminalSnapshot, Element formTag) {
-		TerminalPosition cursorPosition = terminalSnapshot.getCursorPosition();
-		String cursorFieldName = cursorPosition != null ? HtmlNamingUtil.getFieldName(cursorPosition) : "";
+	private void createHiddens(TerminalSnapshot terminalSnapshot, Element formTag) {
+		String cursorFieldName = getCursorFieldName(terminalSnapshot);
 		Element cursorHidden = elementsProvider.createHidden(formTag, TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
 		cursorHidden.setAttribute(HtmlConstants.VALUE, cursorFieldName);
+
+		// hidden for keyboard action
 		elementsProvider.createHidden(formTag, TerminalHtmlConstants.KEYBOARD_KEY);
-		return cursorFieldName;
+
+		// hidden for session sequence
+		Element sequenceHidden = elementsProvider.createHidden(formTag, TerminalHtmlConstants.SEQUENCE);
+		sequenceHidden.setAttribute(HtmlConstants.VALUE, String.valueOf(terminalSnapshot.getSequence()));
 	}
 
 	private static String generate(String styleSettings, Document doc) throws TransformerConfigurationException,
