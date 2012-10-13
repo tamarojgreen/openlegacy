@@ -40,6 +40,12 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 	public TerminalSnapshot getSnapshot() {
 		lazyConnect();
 
+		// clear the snapshot sequence is different from the session, clear it so it will re-build
+		if (terminalSnapshot != null && terminalSnapshot.getSequence() != null
+				&& terminalConnection.getSequence() != terminalSnapshot.getSequence()) {
+			terminalSnapshot = null;
+		}
+
 		waitForNonEmptySnapshot();
 
 		if (terminalSnapshot == null) {
@@ -124,5 +130,9 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 
 	public void setMaxWaitOnEmptyScreen(int maxWaitOnEmptyScreen) {
 		this.maxWaitOnEmptyScreen = maxWaitOnEmptyScreen;
+	}
+
+	public int getSequence() {
+		return terminalConnection.getSequence();
 	}
 }

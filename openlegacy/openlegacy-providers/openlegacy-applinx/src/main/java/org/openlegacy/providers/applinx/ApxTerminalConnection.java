@@ -123,4 +123,12 @@ public class ApxTerminalConnection implements TerminalConnection {
 		return true;
 	}
 
+	public int getSequence() {
+		try {
+			return baseObject.getSeqScreenNumber();
+		} catch (GXGeneralException e) {
+			throw (new OpenLegacyProviderException(e));
+		}
+	}
+
 }

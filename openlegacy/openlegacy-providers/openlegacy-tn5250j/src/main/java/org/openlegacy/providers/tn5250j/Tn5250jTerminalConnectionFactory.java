@@ -33,9 +33,14 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 	public synchronized TerminalConnection getConnection() {
 
-		Session5250 session = SessionManager.instance().openSession(properties, "", "");
-		session.connect();
+		Session5250 sessionImpl = SessionManager.instance().openSession(properties, "", "");
 
+		Tn5250jTerminalConnection olConnection = new Tn5250jTerminalConnection(convertToLogical);
+		sessionImpl.addSessionListener(olConnection);
+
+		sessionImpl.connect();
+
+		olConnection.setSession(sessionImpl);
 		try {
 			Thread.sleep(waitForConnect);
 		} catch (InterruptedException e) {
@@ -43,13 +48,12 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 			return null;
 		}
 
-		if (!session.isConnected()) {
+		if (!sessionImpl.isConnected()) {
 			throw (new OpenLegacyRuntimeException("Session is not connected"));
 		}
 
-		Tn5250jTerminalConnection connection = new Tn5250jTerminalConnection(session, convertToLogical);
-		connection.setWaitForUnlock(waitForUnlock);
-		return connection;
+		olConnection.setWaitForUnlock(waitForUnlock);
+		return olConnection;
 	}
 
 	public void disconnect(TerminalConnection terminalConnection) {
@@ -62,6 +66,10 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 	public void setWaitForUnlock(int waitForUnlock) {
 		this.waitForUnlock = waitForUnlock;
+	}
+
+	public Properties getProperties() {
+		return properties;
 	}
 
 	public void setProperties(Properties properties) {
@@ -83,4 +91,5 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 		}
 	}
+
 }

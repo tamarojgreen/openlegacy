@@ -17,12 +17,14 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.utils.BidiUtil;
 import org.tn5250j.Session5250;
+import org.tn5250j.event.SessionChangeEvent;
+import org.tn5250j.event.SessionListener;
 import org.tn5250j.framework.tn5250.Screen5250;
 import org.tn5250j.framework.tn5250.ScreenOIA;
 
 import java.util.List;
 
-public class Tn5250jTerminalConnection implements TerminalConnection {
+public class Tn5250jTerminalConnection implements TerminalConnection, SessionListener {
 
 	private Session5250 session;
 
@@ -33,11 +35,14 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 
 	private boolean convertToLogical = false;
 
-	public Tn5250jTerminalConnection(Session5250 session, Boolean convertToLogical) {
-		this.session = session;
+	public Tn5250jTerminalConnection(Boolean convertToLogical) {
 		if (convertToLogical != null) {
 			this.convertToLogical = convertToLogical;
 		}
+	}
+
+	public void setSession(Session5250 session) {
+		this.session = session;
 	}
 
 	public TerminalSnapshot getSnapshot() {
@@ -45,7 +50,6 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 	}
 
 	public void doAction(TerminalSendAction terminalSendAction) {
-		sequence++;
 		TerminalSnapshot snapshot = getSnapshot();
 		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
 		for (TerminalField terminalField : modifiedFields) {
@@ -64,7 +68,6 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 		}
 
 		waitForKeyboardUnlock((String)terminalSendAction.getCommand());
-		sequence++;
 	}
 
 	private void waitForKeyboardUnlock(String aid) {
@@ -104,4 +107,13 @@ public class Tn5250jTerminalConnection implements TerminalConnection {
 	public void disconnect() {
 		session.disconnect();
 	}
+
+	public void onSessionChanged(SessionChangeEvent changeEvent) {
+		sequence++;
+	}
+
+	public int getSequence() {
+		return sequence;
+	}
+
 }

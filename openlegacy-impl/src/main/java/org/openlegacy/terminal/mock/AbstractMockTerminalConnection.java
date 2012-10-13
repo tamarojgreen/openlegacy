@@ -18,4 +18,8 @@ public abstract class AbstractMockTerminalConnection implements TerminalConnecti
 		return "mock session";
 	}
 
+	public int getSequence() {
+		return 0;
+	}
+
 }
