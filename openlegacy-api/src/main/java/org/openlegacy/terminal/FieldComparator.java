@@ -11,7 +11,7 @@
 package org.openlegacy.terminal;
 
 /**
- * A field comparator is responsible to determine whether a field was modified. Used to determine wether the field should be sent
+ * A field comparator is responsible to determine whether a field was modified. Used to determine whether the field should be sent
  * to the host.
  * 
  * @author Roi Mor
