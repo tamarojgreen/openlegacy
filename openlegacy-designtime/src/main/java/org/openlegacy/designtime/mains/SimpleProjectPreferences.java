@@ -46,7 +46,11 @@ public class SimpleProjectPreferences implements ProjectPreferences {
 
 	private void save() {
 		try {
-			properties.store(new FileOutputStream(file), "");
+			if (!file.exists()){
+				file.createNewFile();
+			}
+			FileOutputStream out = new FileOutputStream(file);
+			properties.store(out, "");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
