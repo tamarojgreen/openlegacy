@@ -13,6 +13,7 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalSendAction;
@@ -40,7 +41,18 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 	public TerminalSnapshot getSnapshot() {
 		lazyConnect();
 
+		// clear the snapshot sequence is different from the session, clear it so it will re-build
+		if (terminalSnapshot != null && terminalSnapshot.getSequence() != null
+				&& terminalConnection.getSequence() != terminalSnapshot.getSequence()) {
+			terminalSnapshot = null;
+		}
+
 		waitForNonEmptySnapshot();
+
+		if (!isConnected()) {
+			disconnect();
+			throw (new OpenLegacyRuntimeException("Session is not connected"));
+		}
 
 		if (terminalSnapshot == null) {
 			throw (new OpenLegacyProviderException(MessageFormat.format(
@@ -66,7 +78,7 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 				terminalSnapshot = null;
 			}
 
-		} while (terminalSnapshot == null && timer < maxWaitOnEmptyScreen);
+		} while (isConnected() && terminalSnapshot == null && timer < maxWaitOnEmptyScreen);
 		return timer;
 	}
 
@@ -103,7 +115,7 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 	}
 
 	public boolean isConnected() {
-		return terminalConnection != null;
+		return terminalConnection != null && terminalConnection.isConnected();
 	}
 
 	public TerminalSnapshot fetchSnapshot() {
@@ -124,5 +136,9 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 
 	public void setMaxWaitOnEmptyScreen(int maxWaitOnEmptyScreen) {
 		this.maxWaitOnEmptyScreen = maxWaitOnEmptyScreen;
+	}
+
+	public Integer getSequence() {
+		return terminalConnection.getSequence();
 	}
 }

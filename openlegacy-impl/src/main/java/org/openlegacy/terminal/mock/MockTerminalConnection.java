@@ -83,4 +83,8 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection {
 		setConnected(false);
 
 	}
+
+	public Integer getSequence() {
+		return getSnapshot().getSequence();
+	}
 }

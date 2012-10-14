@@ -45,7 +45,7 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 	private int imageWidth = 825;
 	private int imageHeight = 400;
 	private int fontSize = 15;
-	private String fontFamily = "Courier New";
+	private String fontFamily = "Monospaced";
 	private boolean drawLineNumbers = true;
 	private int widthProportion = 10;
 	private int heightProportion = 15;

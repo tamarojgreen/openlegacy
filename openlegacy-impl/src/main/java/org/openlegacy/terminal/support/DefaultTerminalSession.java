@@ -310,4 +310,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	protected ScreenEntitiesRegistry getScreenEntitiesRegistry() {
 		return screenEntitiesRegistry;
 	}
+
+	public Integer getSequence() {
+		return terminalConnection.getSequence();
+	}
 }

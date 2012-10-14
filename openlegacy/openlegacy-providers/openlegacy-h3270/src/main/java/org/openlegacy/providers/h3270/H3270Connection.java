@@ -61,4 +61,8 @@ public class H3270Connection implements TerminalConnection {
 		s3270Session.disconnect();
 	}
 
+	public Integer getSequence() {
+		return sequence;
+	}
+
 }
