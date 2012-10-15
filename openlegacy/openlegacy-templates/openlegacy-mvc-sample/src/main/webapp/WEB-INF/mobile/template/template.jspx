@@ -12,51 +12,66 @@
 		<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 		<title>OpenLegacy Mobile Demo</title>
 		
-		<script type="text/javascript">var dojoConfig = {parseOnLoad: true,preventBackButtonFix: false, baseUrl: '${pageContext.request.contextPath}/dj/dojo/', mblAlwaysHideAddressBar: true};</script>
+		<script type="text/javascript">
+			dojoConfig = {
+					async:true,
+					preventBackButtonFix: false,
+					parseOnLoad: true, 
+					baseUrl: '${pageContext.request.contextPath}/dj/dojo/', 
+					isDebug: false, 
+					mblAlwaysHideAddressBar: true
+					};
+		</script>
 		
-		<script src="${pageContext.request.contextPath}/dj/dojo.mobile.custom.build.js" type="text/javascript"><!-- aa --></script>
+		<script src="${pageContext.request.contextPath}/dj/dojo.custom.build.js" type="text/javascript"><!-- aa --></script>
 		
 		<script src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 		<script src="${pageContext.request.contextPath}/js/demo.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
 		<link href="${pageContext.request.contextPath}/themes/cloudm/cloudm.css" rel="stylesheet"></link>
-		<link href="${pageContext.request.contextPath}/dj/dijit.css" rel="stylesheet" />		
+		<link href="${pageContext.request.contextPath}/dj/dijit.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/themes/cloudm/openlegacy.css" rel="stylesheet" />
+		
 		<script language="JavaScript" type="text/javascript">
-			dojo.require("dojox.mobile.parser");
-			dojo.require("dojox.mobile");
-			//dojo.require("dojox.mobile.deviceTheme");
-			dojo.requireIf(!dojo.isWebKit, "dojox.mobile.compat");
-			dojo.require("dojox.mobile.ScrollableView");
-			dojo.require("dojox.mobile.TextBox");
-			dojo.require("dojox.mobile.Button");
-			dojo.require("dojox.mobile.RoundRectList");
-			dojo.require("dojox.mobile.ListItem");
-			dojo.require("dojox.mobile.RoundRectCategory");
-			dojo.require("dojox.mobile.ScrollableView");
-			dojo.require("dojox.mobile.ToolBarButton");
-			dojo.require("dojox.mobile.ContentPane");
-			dojo.require("dojox.mobile.View");
-			dojo.require("dojox.mobile.SwapView");
-			dojo.require("dojox.mobile.RoundRect");
-			dojo.require("dojox.mobile.Heading");
-			dojo.require("dojox.mobile.TextArea");
-			dojo.require("dojox.mobile.CheckBox");
-			dojo.require("dojox.mobile.TabBar");
-			dojo.require("dojox.mobile.TabBarButton");
-			dojo.require("dojo.data.ItemFileReadStore");
-			dojo.require("dojox.mobile.ComboBox");
-			dojo.require("dojox.mobile.Opener");
-			dojo.require("dojo.back");
-			dojo.require("dijit.Calendar");
-			dojo.require("dojo.store.Memory");
-			dojo.require("dojox.mobile.ComboBox");
-			dojo.back.init();
-			dojo.back.setInitialState(new HistoryState("DemoEnvironmentPanel"));			
+			require([
+					"dojox/mobile/parser",
+					"dojox/mobile",
+					"dojox/mobile/ScrollableView",
+					"dojox/mobile/TextBox",
+					"dojox/mobile/Button",
+					"dojox/mobile/RoundRectList",
+					"dojox/mobile/ListItem",
+					"dojox/mobile/RoundRectCategory",
+					"dojox/mobile/ScrollableView",
+					"dojox/mobile/ToolBarButton",
+					"dojox/mobile/ContentPane",
+					"dojox/mobile/View",
+					"dojox/mobile/SwapView",
+					"dojox/mobile/RoundRect",
+					"dojox/mobile/Heading",
+					"dojox/mobile/TextArea",
+					"dojox/mobile/CheckBox",
+					"dojox/mobile/TabBar",
+					"dojox/mobile/TabBarButton",
+					"dojox/mobile/ComboBox",
+					"dojox/mobile/Opener",
+					"dojox/mobile/ComboBox",
+					"dijit/Calendar",
+					"dojo/has!webkit?:dojox/mobile/compat",
+					"dojo/store/Memory",
+					"dojo/data/ItemFileReadStore"
+					]);
+			require(["dojo/back"], function(back){
+				back.setInitialState(new HistoryState("DemoEnvironmentPanel"));
+			});
 		</script>
 	</head>
 	<body>
-
+		<script>
+		require(["dojo/back"], function(back){
+//			back.init();
+		});
+		</script>
 		<div id="container" class="container" data-dojo-type="dojox.mobile.ContentPane">
 			<tiles:insertAttribute name="header" ignore="true"/>
 			<tiles:insertAttribute name="menu" ignore="true"/>

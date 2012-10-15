@@ -3,49 +3,53 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<script>
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dojo.dnd.Moveable");
-		dojo.require("dijit.Editor");
-		dojo.require("dijit.form.FilteringSelect");
-		dojo.require("dijit.form.NumberSpinner");
-		dojo.require("dijit.form.CheckBox");
-		dojo.require("dojo.NodeList-traverse");
-		dojo.require("dijit.InlineEditBox");
-		dojo.require("dijit.form.Textarea");
-		dojo.require("dojo.dnd.Moveable");
+		require([
+				"dijit/layout/TabContainer",
+				"dijit/form/Textarea",
+				"dojo/dnd/Moveable",
+				"dijit/Editor",
+				"dijit/form/NumberSpinner",
+				"dijit/form/CheckBox",
+				"dijit/form/FilteringSelect",
+				"dojo/NodeList-traverse"
+				]);
 		
 		function saveNote(node) {
-			dojo.xhr
-					.get({
-						// The URL to request
-						url : "${pageContext.request.contextPath}/ItemDetails/updateNote",
-						content : {
-							noteId : node.id,
-							text : node.innerText,
-							itemNumber : dojo.byId("itemNumber").value
-						},
-						load : function(result) {
-						}
-					});
+			require(["dojo/_base/xhr", "dojo/dom"], function(xhr, dom){
+				xhr.get({
+					// The URL to request
+					url : "${pageContext.request.contextPath}/ItemDetails/updateNote",
+					content : {
+						noteId : node.id,
+						text : node.innerText,
+						itemNumber : dom.byId("itemNumber").value
+					},
+					load : function(result) {
+					}
+				});
+			});
 		}
 		function addNote() {
-			var childs = dojo.query("#notesContainer").children();
-			var node = dojo.create("div", {
-				id : "note" + (childs.length + 1),
-				className : "note"
-			}, "notesContainer");
-			var note = new dojo.dnd.Moveable(node);
-			var noteNode = dojo.create("div", "", node);
-			var noteEdit = new dijit.InlineEditBox({
-				editor : "dijit.form.Textarea",
-				autoSave : true,
-				renderAsHtml : false,
-				onChange : function() {
-					saveNote(node);
-				}
-			}, noteNode);
+			require(["dojo/query", "dojo/dom-construct", "dojo/dnd/Moveable", "dijit/InlineEditBox"], 
+					function(query, domConstruct, Moveable, InlineEditBox){
+				var childs = query("#notesContainer").children();
+				var node = domConstruct.create("div", {
+					id : "note" + (childs.length + 1),
+					className : "note"
+				}, "notesContainer");
+				var note = new Moveable(node);
+				var noteNode = domConstruct.create("div", "", node);
+				var noteEdit = new InlineEditBox({
+					editor : "dijit.form.Textarea",
+					autoSave : true,
+					renderAsHtml : false,
+					onChange : function() {
+						saveNote(node);
+					}
+				}, noteNode);
 
-			noteEdit.edit();
+				noteEdit.edit();
+			});
 		}
 	</script>
 	<div class="tabbed_area" data-dojo-type="dijit.layout.TabContainer"

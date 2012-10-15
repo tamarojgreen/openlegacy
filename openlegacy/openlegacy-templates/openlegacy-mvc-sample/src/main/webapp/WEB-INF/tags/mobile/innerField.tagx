@@ -52,14 +52,16 @@
 						<form:input type="number" id="${name}" data-dojo-type="dojox.mobile.TextBox" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'boolean'}">
-						<script>dojo.require("dojox.mobile.CheckBox");</script>
+						<script>require(["dojox/mobile/CheckBox"]);</script>
 						<form:checkbox name="${name}" data-dojo-type="dojox.mobile.CheckBox" path="${name}" cssStyle="${style}" cssClass="checkbox ${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'date'}">
-						<form:input type="text" id="${name}" readOnly="true" path="${name}" onclick="dijit.byId('calPicker').show(this, ['above-centered','below-centered','after','before'])" />
+						<form:input type="text" id="${name}" readOnly="true" path="${name}" 
+							onclick="require(['dijit/registry'], function(registry){registry.byId('calPicker').show(this, ['above-centered','below-centered','after','before']);});" />
 					</c:when>
 					<c:when test="${type == 'autocomplete'}">
-						<input id="${fieldDefinition.name}" type="text" onclick="eval(dojo.byId('${fieldDefinition.name}Script').innerHTML);" />
+						<input id="${fieldDefinition.name}" type="text" 
+							onclick="require(['dojo/dom'], function(dom){eval(dom.byId('${fieldDefinition.name}Script').innerHTML);});" />
 						<div id="${fieldDefinition.name}Script" style="display: none">
 							if (dijit.byId('${fieldDefinition.name}') != null) return; 
 							var xhrArgs = { handleAs : "json", url :
