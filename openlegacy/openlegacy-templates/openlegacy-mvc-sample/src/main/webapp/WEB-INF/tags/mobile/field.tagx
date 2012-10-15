@@ -1,4 +1,4 @@
-<jsp:root xmlns:olt="uri:jsptagdir:/WEB-INF/tags/mobile"
+<jsp:root xmlns:olt="urn:jsptagdir:/WEB-INF/tags/mobile"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	xmlns:spring="http://www.springframework.org/tags"

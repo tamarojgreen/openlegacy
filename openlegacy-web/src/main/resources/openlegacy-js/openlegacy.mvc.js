@@ -1,21 +1,23 @@
 function getForm(formName) {
-	var form = null;
-	if (formName != null) {
-		form = dojo.byId(formName);
-		if (form != null)
-			return form;
-	}
-
-	if (form == null) {
-		if (document.forms.length == 0) {
-			throw "Unable to find form";
+	require(["dojo/dom"], function(dom){
+		var form = null;
+		if (formName != null) {
+			form = dom.byId(formName);
+			if (form != null)
+				return form;
 		}
-		if (document.forms.length > 1) {
-			throw "Found more then 1 form on page. Unable to detrmine main form";
-		}
-		return document.forms[0];
 
-	}
+		if (form == null) {
+			if (document.forms.length == 0) {
+				throw "Unable to find form";
+			}
+			if (document.forms.length > 1) {
+				throw "Found more then 1 form on page. Unable to detrmine main form";
+			}
+			return document.forms[0];
+
+		}
+	});
 }
 function doPost(formName, actionName) {
 	showLoading();
@@ -36,7 +38,10 @@ function doPost(formName, actionName) {
  */
 function doAjaxPost(formName, areaName, actionName,fragments) {
 	showLoading();
-	var form = dojo.byId(formName);
+	var dom = require("dojo/dom");
+	var dijit = require("dijit/registry");
+	
+	var form = dom.byId(formName);
 	var container = null;
 	var title = null;
 	if (areaName != null) {
@@ -54,27 +59,23 @@ function doAjaxPost(formName, areaName, actionName,fragments) {
 		form.action = form.action + "&action=" + actionName;
 	}
 
-	var xhrArgs = {
-		form : form,
+	var xhr = require("dojo/request/xhr");
+	xhr.post(form.action, {
 		handleAs : "text",
 		headers: { "Accept": "text/html;type=ajax" },
-		url : form.action,
-		load : function(data) {
-			if (container != null) {
-				if (title != null){
-					container.set('title', title);
-				}
-				container.set('content', data);
+	}).then(function(data){
+		if (container != null) {
+			if (title != null){
+				container.set('title', title);
 			}
-		},
-		error : function(e) {
-			alert(e);
+			container.set('content', data);
 		}
-	}
+	}, function(e){
+		alert(e);
+	});
 	if (container != null) {
 		container.set('title', 'Updating...');
 	}
-	var deferred = dojo.xhrPost(xhrArgs);
 }
 
 function showSessionViewer(baseUrl) {
@@ -82,6 +83,7 @@ function showSessionViewer(baseUrl) {
 }
 
 function showDialog(dialogTagId,url) {
+	var dijit = require("dijit/registry");
 	var dialog = dijit.byId(dialogTagId);
 	if(dialog == null){
 		alert(dialogTagId +  " tag not found");

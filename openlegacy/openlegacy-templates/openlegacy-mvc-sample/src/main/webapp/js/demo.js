@@ -1,24 +1,18 @@
-dojo.require("dojo.io.iframe");
-dojo.require("dojo.cookie");
-
 function uploadStockItemImage() {
-	var form = dojo.byId("uploadForm");
-	var container = dijit.byId("ItemImages");
-	var itemNumber = dojo.byId("itemNumber").value;
-	var td = dojo.io.iframe.send({
-		url : form.action,
-		content : {
-			itemNumber : itemNumber
-		},
-		form : form,
-		method : "post",
-		preventCache : true,
-		handleAs: "html",
-		handle : function(data, ioArgs) {
-			dijit.byId("ItemImages").refresh();
-		},
-		error : function(res, ioArgs) {
+	require(["dojo/request/iframe", "dojo/dom", "dijit/registry"], function(iframe, dom, registry){
+		var form = dom.byId("uploadForm");
+		var itemNumber = dom.byId("itemNumber").value;
+		iframe.post(form.action,{
+			data: {
+				itemNumber : itemNumber
+			}, 
+			form : form,
+			preventCache : true,
+			handleAs: "html"
+		}).then(function(data){
+			registry.byId("ItemImages").refresh();
+		}, function(res){
 			alert(res);
-		}
+		});
 	});
-}
+};

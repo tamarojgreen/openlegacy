@@ -7,8 +7,9 @@
 	<jsp:output omit-xml-declaration="yes" />
 
 	<script>
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.layout.ContentPane");
+		require([
+				"dijit/layout/TabContainer",
+				"dijit.layout.ContentPane"]);
 	</script>
 
 	<div id="tabContainer" class="tabContainer"

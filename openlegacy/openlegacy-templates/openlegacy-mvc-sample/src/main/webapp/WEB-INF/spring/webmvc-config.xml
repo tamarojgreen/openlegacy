@@ -11,8 +11,8 @@
 	<mvc:resources cache-period="86400" location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
 	
 	<!-- DOJO library in openlegacy-web-resources.jar -->
-	<mvc:resources cache-period="86400" location="classpath:/dj/" mapping="/dj/**"/>
-<!-- 	<mvc:resources cache-period="86400" location="classpath:/dj.1.8.0/" mapping="/dj/**"/> -->
+<!-- 	<mvc:resources cache-period="86400" location="classpath:/dj/" mapping="/dj/**"/> -->
+	<mvc:resources cache-period="86400" location="classpath:/dj.1.8.0/" mapping="/dj/**"/>
 	
 	<!-- JS in openlegacy-web-resources.jar -->
 	<mvc:resources cache-period="86400" location="classpath:/openlegacy-js/" mapping="/openlegacy-js/**"/>
@@ -58,6 +58,8 @@
 	<mvc:interceptors>
 		<!-- On pre-handle, resolve the device that originated the web request -->
 		<bean class="org.openlegacy.mvc.web.interceptors.OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor"/>
+		<!-- On pre-handle, manage the user's site preference -->
+		<bean class="org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor" />
 		
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertEntityDefinitionsInterceptor" />
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertMessagesInterceptor" />
@@ -65,11 +67,6 @@
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.DesigntimeInterceptor" />
 	</mvc:interceptors>
 	
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
-		up static resources -->
-	<mvc:resources location="/, classpath:/META-INF/web-resources/"
-		mapping="/resources/**" />
-
 	<!-- Allows for mapping the DispatcherServlet to "/" by forwarding static 
 		resource requests to the container's default Servlet -->
 	<mvc:default-servlet-handler />
