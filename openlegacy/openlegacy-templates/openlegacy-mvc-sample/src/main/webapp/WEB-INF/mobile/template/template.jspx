@@ -23,7 +23,8 @@
 					};
 		</script>
 		
-		<script src="${pageContext.request.contextPath}/dj/dojo.custom.build.js" type="text/javascript"><!-- aa --></script>
+		<script src="${pageContext.request.contextPath}/dj/dojo.js" type="text/javascript"><!-- aa --></script>
+		<script src="${pageContext.request.contextPath}/dj/dojo.mobile.custom.build.js" type="text/javascript"><!-- aa --></script>
 		
 		<script src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 		<script src="${pageContext.request.contextPath}/js/demo.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
@@ -69,7 +70,7 @@
 	<body>
 		<script>
 		require(["dojo/back"], function(back){
-//			back.init();
+			back.init();
 		});
 		</script>
 		<div id="container" class="container" data-dojo-type="dojox.mobile.ContentPane">

@@ -3,8 +3,10 @@
 
 	<div id="calPicker" data-dojo-type="dojox.mobile.Opener" data-dojo-props="onHide:getDateFromCalendar, onShow:setDateToCelendar">
 		<h1 data-dojo-type="dojox.mobile.Heading" label="Select a Date">
-			<div data-dojo-type="dojox.mobile.ToolBarButton" label="Done" class="mblColorBlue" style="position: absolute; width: 45px; right: 0;" onclick="dijit.byId('calPicker').hide(true)"></div>
-			<div data-dojo-type="dojox.mobile.ToolBarButton" label="Cancel" class="mblColorBlue" style="position: absolute; width: 45px; left: 0;" onclick="dijit.byId('calPicker').hide(false)"></div>
+			<div data-dojo-type="dojox.mobile.ToolBarButton" label="Done" class="mblColorBlue" style="position: absolute; width: 45px; right: 0;" 
+				onclick="require(['dijit/registry'], function(registry){registry.byId('calPicker').hide(true)});"></div>
+			<div data-dojo-type="dojox.mobile.ToolBarButton" label="Cancel" class="mblColorBlue" style="position: absolute; width: 45px; left: 0;" 
+				onclick="require(['dijit/registry'], function(registry){registry.byId('calPicker').hide(false)});"></div>
 		</h1>
 		<div id="calendarWidget" data-dojo-type='dijit.Calendar'></div>
 	</div>

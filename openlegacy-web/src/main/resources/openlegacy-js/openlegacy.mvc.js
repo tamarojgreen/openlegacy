@@ -107,27 +107,27 @@ function loadMore(tagId,jsonUrl,keyField,displayField,baseUrl){
 
 	showLoading();
 	
+	var dijit = require("dijit/registry");
 	var container = dijit.byId(tagId);
 	
-	var xhrArgs = {
-			handleAs : "json",
-			url : jsonUrl,
-			load : function(records) {
-				dojo.forEach(records, function(entry, i){
-					var key = eval("entry." + keyField);
-					var text = eval("entry." + displayField);
-					var newWidget = new dojox.mobile.ListItem({transition:"slide", url: baseUrl + key, label: text, onclick:"showLoading();"});
-					newWidget.placeAt(container.containerNode);
-					newWidget.startup();
-				});
-				hideLoading();
-			},
-			error : function(e) {
-				alert(e);
-			}
-		}
-	var deferred = dojo.xhrGet(xhrArgs);
+	var array = require("dojo/_base/array");
+	var ListItem = require("dojox/mobile/ListItem");
 	
+	var xhr = require("dojo/request/xhr");
+	xhr.get(jsonUrl, {
+		handleAs : "json"
+	}).then(function(records){
+		array.forEach(records, function(entry, i){
+			var key = eval("entry." + keyField);
+			var text = eval("entry." + displayField);
+			var newWidget = new ListItem({transition:"slide", url: baseUrl + key, label: text, onclick:"showLoading();"});
+			newWidget.placeAt(container.containerNode);
+			newWidget.startup();
+		});
+		hideLoading();
+	}, function(e){
+		alert(e);
+	});
 }
 
 function asyncLoadMobilePanel(panelTagId,url,delay){
@@ -137,27 +137,27 @@ function asyncLoadMobilePanel(panelTagId,url,delay){
 
 function loadMobilePanel(panelTagId,url){
 
-	var container = dojo.byId(panelTagId);
+	var dom = require("dojo/dom");
+	var parser = require("dojox/mobile/parser");
+	
+	var container = dom.byId(panelTagId);
 	var parent = container.parentNode; 
-	var xhrArgs = {
-			handleAs : "text",
-			headers: { "Accept": "text/html;type=ajax" },
-			url : url,
-			load : function(data) {
-				container.innerHTML = data;
-				try{
-					dojox.mobile.parser.parse(container);
-				}
-				catch(e){
-					// ignore parsing errors
-				}
-			},
-			error : function(e) {
-				alert(e);
-			}
-		}
-	var deferred = dojo.xhrGet(xhrArgs);
 
+	var xhr = require("dojo/request/xhr");
+	xhr.get(url, {
+		handleAs : "text",
+		headers: { "Accept": "text/html;type=ajax" },
+	}).then(function(data){
+		container.innerHTML = data;
+		try{
+			parser.parse(container);
+		}
+		catch(e){
+			// ignore parsing errors
+		}
+	}, function(e){
+		alert(e);
+	});
 }
 
 /**
@@ -169,11 +169,15 @@ function loadMobilePanel(panelTagId,url){
  */
 function doMobilePost(formName, areaName, actionName,fragments) {
 	showLoading();
-	var form = dojo.byId(formName);
+	var dom = require("dojo/dom");
+	var parser = require("dojox/mobile/parser");
+	var domConstruct = require("dojo/dom-construct");
+	
+	var form = dom.byId(formName);
 	var container = null;
 	var title = null;
 	if (areaName != null) {
-		container = dojo.byId(areaName);
+		container = dom.byId(areaName);
 	}
 	form.action = form.action + "?partial=1";
 	if (fragments != null){
@@ -184,27 +188,23 @@ function doMobilePost(formName, areaName, actionName,fragments) {
 		form.action = form.action + "&action=" + actionName;
 	}
 
-	var xhrArgs = {
-		form : form,
+	var xhr = require("dojo/request/xhr");
+	xhr.post(form.action, {
 		handleAs : "text",
 		headers: { "Accept": "text/html;type=ajax" },
-		url : form.action,
-		load : function(data) {
-			var container = dojo.create("div")
-			container.innerHTML = data;
-			try{
-				dojox.mobile.parser.parse(container);
-			}
-			catch(e){
-				// ignore parsing errors
-			}
-			hideLoading();
-		},
-		error : function(e) {
-			alert(e);
+	}).then(function(data){
+		var container = domConstruct.create("div")
+		container.innerHTML = data;
+		try{
+			parser.parse(container);
 		}
-	}
-	var deferred = dojo.xhrPost(xhrArgs);
+		catch(e){
+			// ignore parsing errors
+		}
+		hideLoading();
+	}, function(e){
+		alert(e);
+	});
 }
 
 
@@ -226,12 +226,16 @@ function HistoryState(state)
 
 function restoreView(viewId)
 {
-	var view = dijit.byId(viewId);
-	view.show();
+	require(["dijit/registry"], function(registry){
+		var view = registry.byId(viewId);
+		view.show();
+	});
 }
 
 function addViewToHistory(viewId){
-	dojo.back.addToHistory(new HistoryState(viewId));
+	require(["dojo/back"], function(back){
+		back.addToHistory(new HistoryState(viewId));
+	});
 }
 
 /** End Back handling **/
@@ -240,14 +244,16 @@ function addViewToHistory(viewId){
 
 function getDateFromCalendar(node, v){
 	if(v === true){ // Done clicked
-		var w = dijit.byId("calendarWidget");
+		var registry = require("dijit/registry");
+		var w = registry.byId("calendarWidget");
 		var date;
 		try {
 			date = w.get("value");
 		} catch (e) {
 			return;
 		}
-		var formattedDate = dojo.date.locale.format(date, {datePattern:"yyyy-MM-dd", selector: 'date'});
+		var locale = require("dojo/date/locale");
+		var formattedDate = locale.format(date, {datePattern:"yyyy-MM-dd", selector: 'date'});
 		node.value = formattedDate;
 		
 	}
@@ -255,21 +261,24 @@ function getDateFromCalendar(node, v){
 function setDateToCelendar(node){
 	var v = node.value.split(/-/);
 	if(v.length == 3){
-		var w = dijit.byId("calendarWidget");
+		var registry = require("dijit/registry");
+		var w = registry.byId("calendarWidget");
 		w.setValue(v);
 	}
 }
 
 function showLoading(){
-	var loading = dojo.byId('loadingMessage');
+	var dom = require("dojo/dom");
+	var loading = dom.byId('loadingMessage');
 	if (loading == null) return;
 	
-	dojo.byId('loadingMessage').style.display='';
+	dom.byId('loadingMessage').style.display='';
 	hideLoading();
 }
 
 function hideLoading(){
-	window.setTimeout(function() {dojo.byId('loadingMessage').style.display='none';},300);
+	var dom = require("dojo/dom");
+	window.setTimeout(function() {dom.byId('loadingMessage').style.display='none';},300);
 	
 }
 
@@ -308,7 +317,8 @@ function createMap(address){
 }
 
 function changeTheme(themesList){
-	var currentTheme = dojo.cookie("ol_theme");
+	var cookie = require("dojo/cookie");
+	var currentTheme = cookie("ol_theme");
 	var themes = themesList.split(",");
 	for (var i=0;i<themes.length;i++){
 		if (themes[i] == currentTheme){
@@ -324,15 +334,10 @@ function changeTheme(themesList){
 }
 
 function reloadApplicationContext(baseUrl){
-	var xhrArgs = {
-			url : baseUrl + "/reload",
-			load : function(data) {
-				location.href = location.href;
-			},
-			error : function(e) {
-				alert(e);
-			}
-		}
-	var deferred = dojo.xhrGet(xhrArgs);
-	
+	var xhr = require("dojo/request/xhr");
+	xhr.get(baseUrl + "/reload").then(function(data){
+		location.href = location.href;
+	}, function(e){
+		alert(e);
+	});
 }
