@@ -4,12 +4,10 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 	<script language="JavaScript" type="text/javascript">
-		dojo.require("dijit.dijit"); // optimize: load dijit layer
-		dojo.require("dijit.Menu");
-		dojo.require("dijit.layout.AccordionContainer");
-		dojo.require('dijit.layout.ContentPane');
-		dojo.require("dijit.Dialog");
-		dojo.require("dijit.layout.ContentPane");
+		require([
+				"dijit/layout/AccordionContainer",
+				"dijit/layout/ContentPane",
+				"dijit/Dialog"]);
 	</script>
 	<div style="height: 100%"
 		data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
@@ -68,10 +66,14 @@
 			</div>
 		</div>
 		<script>
-dojo.addOnLoad(function() {
-	dijit.byId('accordion').selectChild(dijit.byId('demoStuff'));
-});
-</script>
+			require(["dojo/ready"], function(ready){
+				ready(function(){
+					require(["dijit/registry"], function(registry){
+						registry.byId('accordion').selectChild(registry.byId('demoStuff'));
+					});
+				});
+			});
+		</script>
 
 	</div>
 </div>

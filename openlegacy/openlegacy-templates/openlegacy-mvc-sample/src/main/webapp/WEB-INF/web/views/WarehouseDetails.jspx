@@ -4,6 +4,11 @@
 	xmlns:form="http://www.springframework.org/tags/form">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
+	
+	<script>
+		require(["dijit/form/NumberSpinner"]);
+	</script>
+	
 	<ol:form model="warehouseDetails">
 		<ol:pagePart title="Warehouse Details">
 			<ol:field name="warehouseNumber" />
