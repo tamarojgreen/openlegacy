@@ -47,9 +47,6 @@
 	<body class="${ol_theme}">
 		<div id="wrap" class="page_container">
 			<div id="wrap_in">
-				<span style="float: right;">
-					<a href="${pageContext.request.contextPath}/SignOn?site_preference=mobile">mobile</a>
-				</span>
 				<div class="container">
 					<tiles:insertAttribute name="header" />
 					<div class="menu_content">

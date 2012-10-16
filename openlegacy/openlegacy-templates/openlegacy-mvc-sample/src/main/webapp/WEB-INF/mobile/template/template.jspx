@@ -1,11 +1,15 @@
-<html xmlns:jsp="http://java.sun.com/JSP/Page"
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-	xmlns:spring="http://www.springframework.org/tags">
-
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" />
 	<jsp:directive.page pageEncoding="UTF-8" />
+	
+<html>
+
 	<head>
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -29,8 +33,8 @@
 		<script src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 		<script src="${pageContext.request.contextPath}/js/demo.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
-		<link href="${pageContext.request.contextPath}/themes/cloudm/cloudm.css" rel="stylesheet"></link>
 		<link href="${pageContext.request.contextPath}/dj/dijit.css" rel="stylesheet" type="text/css" />
+		<link href="${pageContext.request.contextPath}/themes/cloudm/cloudm.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/themes/cloudm/openlegacy.css" rel="stylesheet" />
 		
 		<script language="JavaScript" type="text/javascript">
@@ -86,3 +90,4 @@
 		<tiles:insertAttribute name="footer" ignore="true"/>
 	</body>
 </html>
+</jsp:root>

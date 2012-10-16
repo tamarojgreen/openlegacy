@@ -37,9 +37,6 @@
 	<body class="${ol_theme}">
 		<div id="wrap">
 			<div id="wrap_in">
-				<span style="float: right;">
-					<a href="${pageContext.request.contextPath}/SignOn?site_preference=mobile">mobile</a>
-				</span>
 				<tiles:insertAttribute name="body" />
 			</div>
 		</div>

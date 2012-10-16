@@ -62,7 +62,7 @@ function doAjaxPost(formName, areaName, actionName,fragments) {
 	var xhr = require("dojo/request/xhr");
 	xhr.post(form.action, {
 		handleAs : "text",
-		headers: { "Accept": "text/html;type=ajax" },
+		headers: { "Accept": "text/html;type=ajax" }
 	}).then(function(data){
 		if (container != null) {
 			if (title != null){
@@ -146,7 +146,7 @@ function loadMobilePanel(panelTagId,url){
 	var xhr = require("dojo/request/xhr");
 	xhr.get(url, {
 		handleAs : "text",
-		headers: { "Accept": "text/html;type=ajax" },
+		headers: { "Accept": "text/html;type=ajax" }
 	}).then(function(data){
 		container.innerHTML = data;
 		try{
@@ -191,7 +191,7 @@ function doMobilePost(formName, areaName, actionName,fragments) {
 	var xhr = require("dojo/request/xhr");
 	xhr.post(form.action, {
 		handleAs : "text",
-		headers: { "Accept": "text/html;type=ajax" },
+		headers: { "Accept": "text/html;type=ajax" }
 	}).then(function(data){
 		var container = domConstruct.create("div")
 		container.innerHTML = data;
