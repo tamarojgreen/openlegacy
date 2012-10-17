@@ -31,7 +31,11 @@
 	
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.MockupTerminalSession" scope="session" parent="abstractTerminalSession">
 		<property name="terminalConnection">
-			<bean class="org.openlegacy.terminal.mock.MockTerminalConnection" factory-bean="terminalConnectionFactory" factory-method="getConnection" />
+			<bean class="org.openlegacy.terminal.mock.MockTerminalConnection" factory-bean="terminalConnectionFactory" factory-method="getConnection">
+				<constructor-arg>
+					<bean class="org.openlegacy.terminal.support.SimpleConnectionProperties" />
+				</constructor-arg>
+			</bean>
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
