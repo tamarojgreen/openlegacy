@@ -1,91 +1,95 @@
-<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web">
-	<jsp:directive.page contentType="text/html;charset=UTF-8" />
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" />
-	<script>
-		require([
-				"dijit/layout/TabContainer",
-				"dijit/form/Textarea",
-				"dojo/dnd/Moveable",
-				"dijit/Editor",
-				"dijit/form/NumberSpinner",
-				"dijit/form/CheckBox",
-				"dijit/form/FilteringSelect",
-				"dojo/NodeList-traverse"
-				]);
-		
-		function saveNote(node) {
-			require(["dojo/_base/xhr", "dojo/dom"], function(xhr, dom){
-				xhr.get({
-					// The URL to request
-					url : "${pageContext.request.contextPath}/ItemDetails/updateNote",
-					content : {
-						noteId : node.id,
-						text : node.innerText,
-						itemNumber : dom.byId("itemNumber").value
-					},
-					load : function(result) {
-					}
+
+	<div>
+		<script>
+			require([
+					"dijit/layout/TabContainer",
+					"dijit/form/Textarea",
+					"dojo/dnd/Moveable",
+					"dijit/Editor",
+					"dijit/form/NumberSpinner",
+					"dijit/form/CheckBox",
+					"dijit/form/FilteringSelect",
+					"dojo/NodeList-traverse"
+					]);
+			
+			function saveNote(node) {
+				require(["dojo/_base/xhr", "dojo/dom"], function(xhr, dom){
+					xhr.get({
+						// The URL to request
+						url : "${pageContext.request.contextPath}/ItemDetails/updateNote",
+						content : {
+							noteId : node.id,
+							text : node.innerText,
+							itemNumber : dom.byId("itemNumber").value
+						},
+						load : function(result) {
+						}
+					});
 				});
-			});
-		}
-		function addNote() {
-			require(["dojo/query", "dojo/dom-construct", "dojo/dnd/Moveable", "dijit/InlineEditBox"], 
-					function(query, domConstruct, Moveable, InlineEditBox){
-				var childs = query("#notesContainer").children();
-				var node = domConstruct.create("div", {
-					id : "note" + (childs.length + 1),
-					className : "note"
-				}, "notesContainer");
-				var note = new Moveable(node);
-				var noteNode = domConstruct.create("div", "", node);
-				var noteEdit = new InlineEditBox({
-					editor : "dijit.form.Textarea",
-					autoSave : true,
-					renderAsHtml : false,
-					onChange : function() {
-						saveNote(node);
-					}
-				}, noteNode);
-
-				noteEdit.edit();
-			});
-		}
-	</script>
-	<div class="tabbed_area" data-dojo-type="dijit.layout.TabContainer"
-		style="width: 100%;" doLayout="false">
-		<div id="WorkWithItemMaster1" title="Item Main Details" class="tab_container"
-			selected="true" data-dojo-type="dijit.layout.ContentPane"
-			data-dojo-props="href:'${pageContext.request.contextPath}/ItemDetails?partial=1',parseOnLoad: true">
-			<div>Place holder</div>
-		</div>
-		
-		<div id="WorkWithItemMaster2" title="Item Stock Details" class="tab_container"
-			selected="true" data-dojo-type="dijit.layout.ContentPane"
-			data-dojo-props="href:'${pageContext.request.contextPath}/ItemDetails2?partial=1',parseOnLoad: true">
-			<div>Place holder</div>
-		</div>
-		<!-- Additional Images Panel -->
-		<div id="ItemImages" title="Item Gallery"
-			data-dojo-type="dijit.layout.ContentPane"
-			data-dojo-props="href:'${pageContext.request.contextPath}/StockItemImages'">
-			<div>Place holder</div>
-		</div>
-
-		<!-- Additional Notes Panel -->
-		<div id="ItemNotes" title="Item Notes"
-			data-dojo-type="dijit.layout.ContentPane" style="min-height: 400px;">
-			<button onclick="addNote();">+</button>
-			<div id="notesContainer">
-				<c:forEach items="${notes}" var="note" varStatus="status">
-				<div class="note" data-dojo-type="dojo.dnd.Moveable">
-					<div id="note${status.count}" data-dojo-type="dijit.InlineEditBox" style="border: 1px"
-						onchange="saveNote(this);"
-						data-dojo-props="editor:'dijit.form.Textarea', renderAsHtml:false, autoSave:true, 
-			        editorParams:{extraPlugins: ['dijit._editor.plugins.AlwaysShowToolbar']}">${note.text}</div>
+			}
+			function addNote() {
+				require(["dojo/query", "dojo/dom-construct", "dojo/dnd/Moveable", "dijit/InlineEditBox"], 
+						function(query, domConstruct, Moveable, InlineEditBox){
+					var childs = query("#notesContainer").children();
+					var node = domConstruct.create("div", {
+						id : "note" + (childs.length + 1),
+						className : "note"
+					}, "notesContainer");
+					var note = new Moveable(node);
+					var noteNode = domConstruct.create("div", "", node);
+					var noteEdit = new InlineEditBox({
+						editor : "dijit.form.Textarea",
+						autoSave : true,
+						renderAsHtml : false,
+						onChange : function() {
+							saveNote(node);
+						}
+					}, noteNode);
+	
+					noteEdit.edit();
+				});
+			}
+		</script>
+		<div class="tabbed_area" data-dojo-type="dijit.layout.TabContainer"
+			style="width: 100%;" doLayout="false">
+			<div id="WorkWithItemMaster1" title="Item Main Details" class="tab_container"
+				selected="true" data-dojo-type="dijit.layout.ContentPane"
+				data-dojo-props="href:'${pageContext.request.contextPath}/ItemDetails?partial=1',parseOnLoad: true">
+				<div>Place holder</div>
+			</div>
+			
+			<div id="WorkWithItemMaster2" title="Item Stock Details" class="tab_container"
+				selected="true" data-dojo-type="dijit.layout.ContentPane"
+				data-dojo-props="href:'${pageContext.request.contextPath}/ItemDetails2?partial=1',parseOnLoad: true">
+				<div>Place holder</div>
+			</div>
+			<!-- Additional Images Panel -->
+			<div id="ItemImages" title="Item Gallery"
+				data-dojo-type="dijit.layout.ContentPane"
+				data-dojo-props="href:'${pageContext.request.contextPath}/StockItemImages'">
+				<div>Place holder</div>
+			</div>
+	
+			<!-- Additional Notes Panel -->
+			<div id="ItemNotes" title="Item Notes"
+				data-dojo-type="dijit.layout.ContentPane" style="min-height: 400px;">
+				<button onclick="addNote();">+</button>
+				<div id="notesContainer">
+					<c:forEach items="${notes}" var="note" varStatus="status">
+					<div class="note" data-dojo-type="dojo.dnd.Moveable">
+						<div id="note${status.count}" data-dojo-type="dijit.InlineEditBox" style="border: 1px"
+							onchange="saveNote(this);"
+							data-dojo-props="editor:'dijit.form.Textarea', renderAsHtml:false, autoSave:true, 
+				        editorParams:{extraPlugins: ['dijit._editor.plugins.AlwaysShowToolbar']}">${note.text}</div>
+					</div>
+					</c:forEach>
 				</div>
-				</c:forEach>
 			</div>
 		</div>
 	</div>
-</div>
+</jsp:root>
