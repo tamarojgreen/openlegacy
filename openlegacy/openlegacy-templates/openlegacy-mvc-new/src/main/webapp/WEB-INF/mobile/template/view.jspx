@@ -1,9 +1,12 @@
-<div xmlns:c="http://java.sun.com/jsp/jstl/core"
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
-	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" data-dojo-type="dojox.mobile.ScrollableView" id="${entityUniqueId}Panel">
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
 
-	<tiles:insertAttribute name="header" />
-		
-	<tiles:insertAttribute name="body" />
-	<tiles:insertAttribute name="actions" ignore="true" />
-</div>
+	<div data-dojo-type="dojox.mobile.ScrollableView" id="${entityUniqueId}Panel">
+		<tiles:insertAttribute name="header" />
+		<tiles:insertAttribute name="body" />
+		<tiles:insertAttribute name="actions" ignore="true" />
+	</div>
+</jsp:root>

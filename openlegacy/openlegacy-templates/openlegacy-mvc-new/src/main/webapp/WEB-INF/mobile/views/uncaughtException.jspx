@@ -8,7 +8,7 @@
 	<spring:message var="title" code="error_uncaughtexception_title"
 		htmlEscape="false" />
 	<script type="text/javascript">
-		dojo.require('dijit.TitlePane');
+		require('dijit/TitlePane');
 	</script>
 	<h2>${fn:escapeXml(title)}</h2>
 	<p>

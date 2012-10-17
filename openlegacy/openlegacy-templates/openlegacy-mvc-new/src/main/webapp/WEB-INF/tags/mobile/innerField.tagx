@@ -52,36 +52,46 @@
 						<form:input type="number" id="${name}" data-dojo-type="dojox.mobile.TextBox" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'boolean'}">
-						<script>dojo.require("dojox.mobile.CheckBox");</script>
+						<script>require(["dojox/mobile/CheckBox"]);</script>
 						<form:checkbox name="${name}" data-dojo-type="dojox.mobile.CheckBox" path="${name}" cssStyle="${style}" cssClass="checkbox ${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'date'}">
-						<form:input type="text" id="${name}" readOnly="true" path="${name}" onclick="dijit.byId('calPicker').show(this, ['above-centered','below-centered','after','before'])" />
+						<form:input type="text" id="${name}" readOnly="true" path="${name}" 
+							onclick="var input = this; require(['dijit/registry'], function(registry){registry.byId('calPicker').show(input, ['above-centered','below-centered','after','before']);});" />
 					</c:when>
 					<c:when test="${type == 'autocomplete'}">
-						<input id="${fieldDefinition.name}" type="text" onclick="eval(dojo.byId('${fieldDefinition.name}Script').innerHTML);" />
+						<input id="${fieldDefinition.name}" type="text" 
+							onclick="require(['dojo/dom'], function(dom){eval(dom.byId('${fieldDefinition.name}Script').innerHTML);});" />
 						<div id="${fieldDefinition.name}Script" style="display: none">
-							if (dijit.byId('${fieldDefinition.name}') != null) return; 
-							var xhrArgs = { handleAs : "json", url :
-								"${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}", 
-								load : function(records) { var store = new dojo.store.Memory({ idProperty: "name", data: records});	
-								var combo = new dojox.mobile.ComboBox({store:store},"${fieldDefinition.name}"); }, 
-								error : function(e) {alert(e);} 
-							} 
-							var deferred = dojo.xhrGet(xhrArgs);
+							require(["dijit/registry", "dojo/request/xhr", "dojo/store/Memory", "dojox/mobile/ComboBox"], function(registry, xhr, Memory, ComboBox){
+								if (registry.byId('${fieldDefinition.name}') != null) return;
+								xhr.get(${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name})
+									.then(function(records){
+										var store = new Memory({ idProperty: "name", data: records});	
+										var combo = new ComboBox({store:store},"${fieldDefinition.name}");
+									}, function(e){alert(e)});
+							);
 						</div>
 					</c:when>
 					<c:when test="${type == 'address'}">
-						<a href="javascript:location.href = 'http://maps.google.com/maps?q=' + dojo.byId('${name}').value;"><img class="map-icon" src="${pageContext.request.contextPath}/icons/map.png" /></a>
+						<a href="javascript:require(['dojo/dom'], function(dom){location.href = 'http://maps.google.com/maps?q=' + dom.byId('${name}').value;});">
+							<img class="map-icon" src="${pageContext.request.contextPath}/icons/map.png" />
+						</a>
 						<form:textarea data-dojo-type="dojox.mobile.TextArea" id="${name}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" rows="${rows}"/>
 					</c:when>
 					<c:when test="${type == 'phone'}">
-						<a href="javascript:location.href= 'tel:' + dojo.byId('${name}').value;" style="margin-right: 5px"><img src="icons/phone.png" /></a>
-						<a href="javascript:location.href= 'sms:' + dojo.byId('${name}').value;"><img src="icons/sms.png" /></a>
+						<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'tel:' + dom.byId('${name}').value;});" style="margin-right: 5px">
+							<img src="icons/phone.png" />
+						</a>
+						<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'sms:' + dom.byId('${name}').value;});">
+							<img src="icons/sms.png" />
+						</a>
 						<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'email'}">
-						<a href="javascript:location.href= 'mailto:' + dojo.byId('${name}').value;"><img src="icons/mail.png" /></a>
+						<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'mailto:' + dom.byId('${name}').value;});">
+							<img src="icons/mail.png" />
+						</a>
 						<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'password'}">
