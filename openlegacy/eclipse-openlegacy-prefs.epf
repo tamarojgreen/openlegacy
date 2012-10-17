@@ -173,7 +173,6 @@
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_constructor_declaration=do not insert
 @org.eclipse.wst.validation=1.2.302.v201107140600
 /instance/org.eclipse.wst.validation/USER_PREFERENCE=saveAutomaticallyfalseprojectsCanOverridetruedisableAllValidationfalseversion1.2.300.v201104190230
-/instance/org.eclipse.m2e.core/eclipse.m2.defaultRuntime=D\:\\devhome\\springsource-2.8.1\\apache-maven-3.0.3
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.indentation.size=4
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_opening_paren_in_method_declaration=do not insert
 \!/=
@@ -198,7 +197,6 @@
 /instance/org.eclipse.jdt.ui/sourceHoverBackgroundColor=255,255,225
 /instance/org.eclipse.jdt.ui/sp_cleanup.add_missing_nls_tags=false
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.hiddenCatchBlock=warning
-/instance/org.maven.ide.eclipse/eclipse.m2.defaultRuntime=D\:\\devhome\\springsource\\maven-2.2.1.RELEASE
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_closing_bracket_in_array_reference=do not insert
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.specialParameterHidingField=disabled
@@ -226,7 +224,6 @@
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.codeComplete.staticFieldSuffixes=
 /instance/org.eclipse.jdt.ui/sp_cleanup.format_source_code_changes_only=false
 /configuration/org.eclipse.ui.ide/RECENT_WORKSPACES_PROTOCOL=3
-/instance/org.maven.ide.eclipse/eclipse.m2.runtimes=D\:\\devhome\\springsource\\maven-2.2.1.RELEASE
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_colon_in_case=do not insert
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.comment.insert_new_line_for_parameter=insert
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_after_closing_paren_in_cast=do not insert
@@ -301,7 +298,6 @@
 /instance/org.eclipse.wst.sse.ui/useAnnotationsPrefPage=true
 @org.eclipse.m2e.discovery=1.0.100.20110804-1717
 @org.eclipse.wst.sse.ui=1.3.1.v201108191312
-/instance/org.eclipse.m2e.core/eclipse.m2.runtimes=D\:\\devhome\\springsource-2.8.1\\apache-maven-3.0.3
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.brace_position_for_method_declaration=end_of_line
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_after_colon_in_for=insert
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_closing_paren_in_switch=do not insert
@@ -471,7 +467,6 @@
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.brace_position_for_switch=end_of_line
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_new_line_before_while_in_do_statement=do not insert
 file_export_version=3.0
-/instance/org.eclipse.pde.core/platform_path=D\:\\devhome\\springsource-2.8.1\\sts-2.8.1.RELEASE
 @org.eclipse.jdt.debug.ui=3.6.1.v20111006_r372
 /instance/org.eclipse.jdt.ui/sp_cleanup.remove_trailing_whitespaces=false
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.never_indent_block_comments_on_first_column=false
@@ -490,7 +485,6 @@ file_export_version=3.0
 @org.jboss.ide.eclipse.as.ui=2.3.0.v20111213-1423-H61-M5
 /instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.keywordthis=false
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.emptyStatement=ignore
-/configuration/org.eclipse.ui.ide/RECENT_WORKSPACES=D\:\\devhome\\openlegacy10\nD\:\\devhome\\legacy10\nD\:\\devhome\\legacy5\nD\:\\devhome\\legacy-demo\nD\:\\devhome\\roo
 /instance/org.eclipse.ajdt.ui/promptForAutoOpenCrossReference=false
 /instance/org.eclipse.jdt.ui/sp_cleanup.remove_unnecessary_casts=true
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.incompatibleNonInheritedInterfaceMethod=warning
@@ -500,7 +494,6 @@ file_export_version=3.0
 /instance/org.eclipse.m2e.discovery/org.eclipse.m2e.discovery.pref.projects=
 /instance/org.eclipse.jdt.ui/org.eclipse.jdt.ui.overrideannotation=true
 /instance/org.eclipse.jdt.ui/sp_cleanup.sort_members_all=false
-/instance/org.eclipse.wst.server.core/runtimes=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<runtimes>\r\n  <runtime id\="VMware vFabric tc Server Developer Edition (Runtime) v2.5" id-set\="true" location\="D\:/devhome/springsource/vfabric-tc-server-developer-2.5.0.RELEASE" name\="VMware vFabric tc Server Developer Edition (Runtime) v2.5" runtime-type-id\="com.vmware.server.tc.runtime.70" timestamp\="0"/>\r\n</runtimes>\r\n
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.brace_position_for_block_in_case=end_of_line
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.formatter.insert_space_before_comma_in_for_increments=do not insert
 /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.compiler.problem.missingOverrideAnnotation=warning
