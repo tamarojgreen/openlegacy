@@ -40,6 +40,7 @@ function doAjaxPost(formName, areaName, actionName,fragments) {
 	showLoading();
 	var dom = require("dojo/dom");
 	var dijit = require("dijit/registry");
+	var domForm = require("dojo/dom-form");
 	
 	var form = dom.byId(formName);
 	var container = null;
@@ -61,6 +62,7 @@ function doAjaxPost(formName, areaName, actionName,fragments) {
 
 	var xhr = require("dojo/request/xhr");
 	xhr.post(form.action, {
+		data: domForm.toObject(formName),
 		handleAs : "text",
 		headers: { "Accept": "text/html;type=ajax" }
 	}).then(function(data){
