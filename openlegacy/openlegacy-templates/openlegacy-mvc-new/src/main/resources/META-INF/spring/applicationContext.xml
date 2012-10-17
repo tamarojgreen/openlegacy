@@ -17,7 +17,7 @@
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 	    <property name="packages">
 	        <list>
-	            <value>apps.inventory.screens</value>
+	            <value>com.test</value>
             </list>
 	    </property>
     </bean>
@@ -39,7 +39,19 @@
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
- -->
+-->
+
+<!-- example of set device for IP - add more
+ 	<util:map id="ipDevice">
+		<entry key="127.0.0.1" value="device1" />
+		<entry key="0:0:0:0:0:0:0:1" value="device2" />
+	</util:map>
  
+ 	<bean id="connectionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedConnectionPropertiesProvider">
+ 		<property name="ipDevice" ref="ipDevice" />
+ 		<aop:scoped-proxy/>
+ 	</bean>
+-->
+ 	
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>

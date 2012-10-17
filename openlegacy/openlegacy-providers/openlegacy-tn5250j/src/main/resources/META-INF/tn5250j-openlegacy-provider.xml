@@ -17,17 +17,4 @@
 			</props>
 	    </property>
     </bean>
-
-	<util:map id="tn520jDefaultActionMappings">
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.ENTER"
-			value="[enter]" />
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.F1"
-			value="[pf1]" />
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.F3"
-			value="[pf3]" />
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN"
-			value="[pagedown]" />
-		<entry key="org.openlegacy.terminal.actions.TerminalActions.PAGEUP"
-			value="[pageup]" />
-	</util:map>		
 </beans>

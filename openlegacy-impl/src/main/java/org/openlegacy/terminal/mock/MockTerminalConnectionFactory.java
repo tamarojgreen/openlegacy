@@ -10,11 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mock;
 
+import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.TerminalConnection;
 
 public class MockTerminalConnectionFactory extends AbstractMockTerminalConnectionFactory {
 
-	public TerminalConnection getConnection() {
+	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 
 		return new MockTerminalConnection(fetchSnapshots());
 	}

@@ -13,6 +13,7 @@ package org.openlegacy.terminal.mock;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalOutgoingSnapshot;
 import org.openlegacy.terminal.TerminalSendAction;
@@ -28,7 +29,7 @@ public class MockStateMachineTerminalConnectionFactory extends AbstractMockTermi
 	private Map<SnapshotAndSendAction, TerminalSnapshot> snapshotsGraph = new HashMap<SnapshotAndSendAction, TerminalSnapshot>();
 	private TerminalSnapshot firstSnapshot = null;
 
-	public TerminalConnection getConnection() {
+	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		initStateMachine();
 		return new MockStateMachineTerminalConnection(firstSnapshot, snapshotsGraph);
 	}

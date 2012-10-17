@@ -13,6 +13,7 @@ import org.h3270.logicalunit.LogicalUnitPool;
 import org.h3270.logicalunit.LogicalUnitPoolFactory;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.utils.FileUtils;
@@ -39,9 +40,9 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 
 	private final Log logger = LogFactory.getLog(H3270TerminalConnectionFactory.class);
 
-	public TerminalConnection getConnection() {
+	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		try {
-
+			// TODO set device
 			S3270 s3270Session = new S3270(leaseLogicalUnit(), hostName, configuration);
 			return new H3270Connection(s3270Session);
 		} catch (LogicalUnitException e) {

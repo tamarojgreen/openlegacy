@@ -15,6 +15,7 @@ import com.sabratec.applinx.baseobject.GXGeneralException;
 import com.sabratec.applinx.baseobject.GXIClientBaseObject;
 
 import org.openlegacy.exceptions.OpenLegacyProviderException;
+import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 
@@ -25,9 +26,9 @@ public class ApxTerminalConnctionFactory implements TerminalConnectionFactory {
 	@Inject
 	private ApxServerLoader apxServerLoader;
 
-	public TerminalConnection getConnection() {
+	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		try {
-			return new ApxTerminalConnection(apxServerLoader.getSession());
+			return new ApxTerminalConnection(apxServerLoader.getSession(connectionProperties));
 		} catch (GXGeneralException e) {
 			throw (new OpenLegacyProviderException(e));
 		}

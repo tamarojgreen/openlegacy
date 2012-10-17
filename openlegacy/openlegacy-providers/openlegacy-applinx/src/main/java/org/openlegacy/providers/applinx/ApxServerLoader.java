@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.providers.applinx;
 
+import com.sabratec.applinx.baseobject.GXBaseObjectConstants;
 import com.sabratec.applinx.baseobject.GXClientBaseObjectFactory;
 import com.sabratec.applinx.baseobject.GXCreateSessionRequest;
 import com.sabratec.applinx.baseobject.GXGeneralException;
@@ -24,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.terminal.ConnectionProperties;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -187,14 +189,23 @@ public class ApxServerLoader implements InitializingBean, DisposableBean {
 		return server != null;
 	}
 
-	public GXIClientBaseObject getSession() throws GXGeneralException {
+	public GXIClientBaseObject getSession(ConnectionProperties connectionProperties) throws GXGeneralException {
 		GXCreateSessionRequest sessionRequest = applicationContext.getBean(GXCreateSessionRequest.class);
 		sessionRequest.setServerContext(server.getAppServerContext());
 		GXIClientBaseObject baseObject;
 
+		setConnectionProperties(connectionProperties, sessionRequest);
 		baseObject = GXClientBaseObjectFactory.getBaseObject(sessionRequest);
 
 		return baseObject;
+	}
+
+	private void setConnectionProperties(
+			ConnectionProperties connectionProperties,
+			GXCreateSessionRequest sessionRequest) {
+		if (connectionProperties != null && connectionProperties.getDeviceName() != null){
+			sessionRequest.addVariable(GXBaseObjectConstants.GX_VAR_DEVICE_NAME, connectionProperties.getDeviceName());
+		}
 	}
 
 	public void setLicense(Resource license) {

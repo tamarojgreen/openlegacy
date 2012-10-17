@@ -13,10 +13,12 @@ package org.openlegacy.providers.tn5250j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.tn5250j.Session5250;
+import org.tn5250j.TN5250jConstants;
 import org.tn5250j.framework.common.SessionManager;
 
 import java.util.Properties;
@@ -31,9 +33,13 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 	private final static Log logger = LogFactory.getLog(Tn5250jTerminalConnectionFactory.class);
 
-	public synchronized TerminalConnection getConnection() {
+	public synchronized TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 
-		Session5250 sessionImpl = SessionManager.instance().openSession(properties, "", "");
+		Properties sessionProperties = (Properties) properties.clone();
+		
+		setSessionProperties(connectionProperties, sessionProperties);
+		
+		Session5250 sessionImpl = SessionManager.instance().openSession(sessionProperties, "", "");
 
 		Tn5250jTerminalConnection olConnection = new Tn5250jTerminalConnection(convertToLogical);
 
@@ -59,6 +65,14 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 		olConnection.setWaitForUnlock(waitPauses);
 		return olConnection;
+	}
+
+	private void setSessionProperties(
+			ConnectionProperties connectionProperties,
+			Properties sessionProperties) {
+		if (connectionProperties != null && connectionProperties.getDeviceName() != null){
+			sessionProperties.put(TN5250jConstants.SESSION_DEVICE_NAME, connectionProperties.getDeviceName());
+		}
 	}
 
 	public void disconnect(TerminalConnection terminalConnection) {

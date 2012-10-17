@@ -65,7 +65,7 @@ public class GenerateUtil {
 				configuration.setClassForTemplateLoading(GenerateUtil.class, "/");
 			}
 			configuration.setWhitespaceStripping(true);
-			configuration.setEncoding(Locale.ROOT, CharEncoding.UTF_8);
+			configuration.setEncoding(Locale.getDefault(), CharEncoding.UTF_8);
 
 			Template template = null;
 			try {

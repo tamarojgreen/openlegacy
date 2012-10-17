@@ -14,6 +14,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.terminal.ConnectionProperties;
+import org.openlegacy.terminal.ConnectionPropertiesProvider;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalSendAction;
@@ -29,6 +31,9 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 	@Inject
 	private ApplicationContext applicationContext;
 
+	@Inject
+	private ConnectionPropertiesProvider connectionPropertiesProvider;
+	
 	private TerminalConnection terminalConnection;
 
 	private TerminalSnapshot terminalSnapshot;
@@ -96,7 +101,8 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 	private void lazyConnect() {
 		if (terminalConnection == null) {
 			TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
-			terminalConnection = terminalConnectionFactory.getConnection();
+			ConnectionProperties connectionProperties = connectionPropertiesProvider.getConnectionProperties();
+			terminalConnection = terminalConnectionFactory.getConnection(connectionProperties);
 			logger.info("Opened new session");
 		}
 	}

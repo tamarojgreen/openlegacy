@@ -84,6 +84,8 @@
 	</bean>
 
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
+	<!-- Default. Should be overrides by web apps -->
+	<bean id="connectionPropertiesProvider" class="org.openlegacy.terminal.support.SimpleConnectionPropertiesProvider" />
 	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-provider.xml" /> 
