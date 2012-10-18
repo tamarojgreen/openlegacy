@@ -31,7 +31,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 	private int waitForUnlock = 300;
 
 	// adding sequence support to tn5250j which doesn't support it
-	private int sequence = 1;
+	private int sequence = 0;
 
 	private boolean convertToLogical = false;
 

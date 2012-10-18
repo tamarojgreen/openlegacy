@@ -50,7 +50,7 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 		sessionImpl.addSessionListener(olConnection);
 
 		int totalWait = 0;
-		while (!sessionImpl.isConnected() && totalWait < waitTimeout) {
+		while (olConnection.getSequence() == 0 && totalWait < waitTimeout) {
 			try {
 				Thread.sleep(waitPauses);
 				totalWait += waitPauses;
