@@ -162,6 +162,11 @@
 			<version>1.0.0-RELEASE</version>
 		</dependency>
 		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-cloudm</artifactId>
+			<version>1.0.0-RELEASE</version>
+		</dependency>
+		<dependency>
 			<groupId>org.openlegacy.providers</groupId>
 			<artifactId>openlegacy-tn5250j</artifactId>
 			<version>${openlegacy-version}</version>
