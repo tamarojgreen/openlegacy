@@ -5,48 +5,48 @@
 
 <tiles-definitions>
 
-  <definition name="template" template="/template/template.jspx">
-    <put-attribute name="header" value="/template/header.jspx" />
-    <put-attribute name="menu" value="/template/menu.jspx" />
-    <put-attribute name="footer" value="/template/footer.jspx" />
-    <put-attribute name="dialogs" value="/template/dialogs.jspx" />
-    <put-attribute name="actions" value="/template/actions.jspx" />
-    <put-attribute name="breadcrumb" value="/template/breadcrumb.jspx" />
+  <definition name="template" template="/WEB-INF/web/template/template.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="menu" value="/WEB-INF/web/template/menu.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
+    <put-attribute name="dialogs" value="/WEB-INF/web/template/dialogs.jspx" />
+    <put-attribute name="actions" value="/WEB-INF/web/template/actions.jspx" />
+    <put-attribute name="breadcrumb" value="/WEB-INF/web/template/breadcrumb.jspx" />
   </definition>
 
-  <definition name="emulation" template="/template/template.jspx">
-    <put-attribute name="header" value="/template/header.jspx" />
-    <put-attribute name="menu" value="/template/menu.jspx" />
-    <put-attribute name="footer" value="/template/footer.jspx" />
-    <put-attribute name="dialogs" value="/template/dialogs.jspx" />
+  <definition name="emulation" template="/WEB-INF/web/template/template.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="menu" value="/WEB-INF/web/template/menu.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
+    <put-attribute name="dialogs" value="/WEB-INF/web/template/dialogs.jspx" />
   </definition>
   
-  <definition name="menu" template="/template/template.jspx">
-    <put-attribute name="header" value="/template/header.jspx" />
-    <put-attribute name="menu" value="/template/menu.jspx" />
-    <put-attribute name="footer" value="/template/footer.jspx" />
-    <put-attribute name="dialogs" value="/template/dialogs.jspx" />
-    <put-attribute name="breadcrumb" value="/template/breadcrumb.jspx" />
+  <definition name="menu" template="/WEB-INF/web/template/template.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="menu" value="/WEB-INF/web/template/menu.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
+    <put-attribute name="dialogs" value="/WEB-INF/web/template/dialogs.jspx" />
+    <put-attribute name="breadcrumb" value="/WEB-INF/web/template/breadcrumb.jspx" />
   </definition>
 
-  <definition name="compositeTemplate" template="/template/template.jspx">
-    <put-attribute name="header" value="/template/header.jspx" />
-    <put-attribute name="menu" value="/template/menu.jspx" />
-    <put-attribute name="footer" value="/template/footer.jspx" />
-    <put-attribute name="dialogs" value="/template/dialogs.jspx" />
-    <put-attribute name="breadcrumb" value="/template/breadcrumb.jspx" />
+  <definition name="compositeTemplate" template="/WEB-INF/web/template/template.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="menu" value="/WEB-INF/web/template/menu.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
+    <put-attribute name="dialogs" value="/WEB-INF/web/template/dialogs.jspx" />
+    <put-attribute name="breadcrumb" value="/WEB-INF/web/template/breadcrumb.jspx" />
   </definition>
   
-  <definition name="view" template="/template/view.jspx">
-    <put-attribute name="actions" value="/template/ajaxActions.jspx" />
+  <definition name="view" template="/WEB-INF/web/template/view.jspx">
+    <put-attribute name="actions" value="/WEB-INF/web/template/ajaxActions.jspx" />
   </definition>
 
-  <definition name="flatView" template="/template/view.jspx">
+  <definition name="flatView" template="/WEB-INF/web/template/view.jspx">
   </definition>
   
-  <definition name="public" template="/template/public.jspx">
-    <put-attribute name="header" value="/template/header.jspx" />
-    <put-attribute name="footer" value="/template/footer.jspx" />
+  <definition name="public" template="/WEB-INF/web/template/public.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
   </definition>
 
 </tiles-definitions>

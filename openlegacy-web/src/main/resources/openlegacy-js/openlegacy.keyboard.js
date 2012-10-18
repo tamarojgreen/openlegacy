@@ -9,7 +9,7 @@ function sendFunctionKey(keyCode,shiftKey){
 require(["dojo/ready"], function(ready){
 	ready(function(){
 		require(["dojo/on", "dojo/_base/window", "dojo/keys"], function(on, win, keys){
-			var event = on(win.doc, "onkeydown", function(e){
+			on.once(win.doc, "keydown", function(e){
 				var handled = true;
 				switch (e.keyCode) {
 					case keys.ENTER:
@@ -37,11 +37,8 @@ require(["dojo/ready"], function(ready){
 						break;
 					default:
 						handled = false;
-
 				}
-				if (handled){
-					event.remove();
-				}
+				return handled;
 			});
 		});
 	});

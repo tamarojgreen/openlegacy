@@ -24,7 +24,7 @@ require(["dojo/ready"], function(ready){
 		    }
 		    for (var i=0;i<elements.length;i++){
 		    	var element = elements[i];
-		    	on(element, "onfocus", function(e){
+		    	on(element, "focusin", function(e){
 		    		getMainForm().TerminalCursor.value = e.target.name; 
 		    	});
 		    }
