@@ -82,7 +82,8 @@ public class GenerateUtil {
 				if (resource != null) {
 					template = configuration.getTemplate(templatePrefix + templateName);
 				} else {
-					template = configuration.getTemplate("/" + templateName, CharEncoding.UTF_8);
+					template = configuration.getTemplate(templatePrefix.substring(0, templatePrefix.lastIndexOf("/")) + "/"
+							+ templateName, CharEncoding.UTF_8);
 				}
 			}
 
