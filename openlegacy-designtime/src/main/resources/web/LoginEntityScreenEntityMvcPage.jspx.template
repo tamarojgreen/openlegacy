@@ -1,0 +1,51 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div id="login_content">
+		<div id="logo">
+			<h1>
+				<a href="#">OpenLegacy</a>
+			</h1>
+		</div>
+		<div id="loginform">
+		
+		<form id="SignOnForm" method="post">
+				<div class="field_row">
+					<div class="label">
+						<label for="user">User:</label>
+					</div>
+					<div class="field">
+						<input type="text" name="user" value="${r"${"}login.user${r"}"}" maxlength="10" />
+					</div>
+				</div>
+				<div class="field_row">
+					<div class="label">
+						<label for="password">Password:</label>
+					</div>
+					<div class="field">
+						<input type="password" name="password" value="${r"${"}login.password${r"}"}" maxlength="10" />
+					</div>
+				</div>
+				<div class="field_row">
+					<div class="label">
+						<!---->
+					</div>
+					<div class="field">
+						<input type="submit" name="button" id="button" value="Log in" />
+					</div>
+				</div>
+				<div class="field_row">
+					<div class="label">
+						<!---->
+					</div>
+					<div class="field">
+						<!---->
+						${r"${"}login.errorMessage${r"}"}
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</jsp:root>

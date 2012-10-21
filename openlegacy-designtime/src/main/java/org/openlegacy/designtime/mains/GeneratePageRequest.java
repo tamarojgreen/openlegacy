@@ -23,6 +23,7 @@ public class GeneratePageRequest {
 	private File templatesDir;
 	private boolean generateHelp;
 	private UserInteraction userInteraction;
+	private boolean generateMobilePage;
 
 	public File getProjectDir() {
 		return projectDir;
@@ -78,5 +79,13 @@ public class GeneratePageRequest {
 
 	public void setGenerateHelp(boolean generateHelp) {
 		this.generateHelp = generateHelp;
+	}
+
+	public boolean isGenerateMobilePage() {
+		return generateMobilePage;
+	}
+
+	public void setGenerateMobilePage(boolean generateMobilePage) {
+		this.generateMobilePage = generateMobilePage;
 	}
 }

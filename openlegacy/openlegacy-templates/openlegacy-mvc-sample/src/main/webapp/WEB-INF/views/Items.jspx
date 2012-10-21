@@ -1,6 +1,0 @@
-<div xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:ol="urn:jsptagdir:/WEB-INF/tags">
-	<ol:form model="items">
-		<ol:table data="${items.itemsRecords}" property="itemsRecords" />
-	</ol:form>
-</div>

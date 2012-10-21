@@ -118,7 +118,7 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateWebPage(IFile screenEntitySourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			UserInteraction userInteraction, boolean generateHelp) {
+			UserInteraction userInteraction, boolean generateHelp, boolean generateMobilePage) {
 
 		File projectPath = new File(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
 				DesignTimeExecuterImpl.TEMPLATES_DIR);
@@ -131,6 +131,7 @@ public class EclipseDesignTimeExecuter {
 		generatePageRequest.setTemplatesDir(projectPath);
 		generatePageRequest.setUserInteraction(userInteraction);
 		generatePageRequest.setGenerateHelp(generateHelp);
+		generatePageRequest.setGenerateMobilePage(generateMobilePage);
 		designTimeExecuter.generateWebPage(generatePageRequest);
 
 	}

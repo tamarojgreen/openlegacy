@@ -27,7 +27,8 @@ var TerminalUtils = new function() {
 		TerminalUtils.clearArea(canvas, snapshot.size.columns,
 				snapshot.size.rows);
 		TerminalUtils.drawCursor(canvas, snapshot);
-		dojo.forEach(snapshot.fields, function(field, i) {
+		var array = require("dojo/_base/array");
+		array.forEach(snapshot.fields, function(field, i) {
 			console.debug(field.value + ":" + field.position.row + ","
 					+ field.position.column);
 			TerminalUtils.drawField(canvas, field, false);
@@ -106,7 +107,8 @@ function TerminalSession() {
 	TerminalContext.canvas.fillStyle = "rgb(0,0,0)";
 	TerminalContext.canvas.font = '19px Courier New';
 
-	dojo.connect(document, "onkeydown", function(event) {
+	var on = require("dojo/on");
+	on(document, "keydown", function(event) {
 		TerminalUtils.clearCursor(TerminalContext.canvas,
 				TerminalContext.currentSnapshot);
 		switch (event.keyCode) {
@@ -129,7 +131,7 @@ function TerminalSession() {
 		TerminalUtils.drawCursor(TerminalContext.canvas,
 				TerminalContext.currentSnapshot);
 	});
-	dojo.connect(document, "onkeypress", function(event) {
+	on(document, "keypress", function(event) {
 		var field = TerminalUtils.getFieldByPosition(
 				TerminalContext.currentSnapshot,
 				TerminalContext.currentSnapshot.cursorPosition);
@@ -144,43 +146,39 @@ function TerminalSession() {
 	});
 
 	this.fetchSnapshot = function() {
-		dojo.xhrGet({
-			url : "Emulation.json",
-			handleAs : "json",
-			load : function(snapshot) {
-				TerminalContext.currentSnapshot = snapshot;
-				TerminalUtils.draw(TerminalContext.canvas, snapshot);
-			}
+		var xhr = require("dojo/request/xhr");
+		xhr.get("Emulation.json",{
+			handleAs : "json"
+		}).then(function(snapshot){
+			TerminalContext.currentSnapshot = snapshot;
+			TerminalUtils.draw(TerminalContext.canvas, snapshot);
 		});
 	};
 
 	this.doAction = function(command) {
 		TerminalContext.currentSnapshot.command = command;
-		var xhrArgs = {
-			url : "Emulation.json",
-			postData : dojo.toJson(TerminalContext.currentSnapshot),
+		var json = require("dojo/json");
+		var xhr = require("dojo/request/xhr");
+		xhr.post("Emulation.json",{
 			handleAs : "json",
-			headers : {
-				"Content-Type" : "application/json"
-			},
-			load : function(snapshot) {
-				TerminalContext.currentSnapshot = snapshot;
-				TerminalUtils.draw(TerminalContext.canvas, snapshot);
-			},
-			error : function(error) {
-				alert(error);
-			}
-		};
-
-		dojo.xhrPost(xhrArgs);
+			headers : {"Content-Type" : "application/json"},
+			data: json.stringify(TerminalContext.currentSnapshot)
+		}).then(function(snapshot){
+			TerminalContext.currentSnapshot = snapshot;
+			TerminalUtils.draw(TerminalContext.canvas, snapshot);
+		}, function(error){
+			alert(error);
+		});
 	};
 
 }
 
 var terminalSession;
 
-dojo.addOnLoad(function() {
-	TerminalContext.viewer = dojo.byId('terminalViewer');
-	terminalSession = new TerminalSession();
-	terminalSession.fetchSnapshot();
+require(["dojo/ready", "dojo/dom"], function(ready, dom){
+	ready(function(){
+		TerminalContext.viewer = dom.byId('terminalViewer');
+		terminalSession = new TerminalSession();
+		terminalSession.fetchSnapshot();
+	});
 });

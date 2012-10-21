@@ -55,7 +55,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
-		screenEntityMvcGenerator.generatePage(pageDefinition, baos);
+		screenEntityMvcGenerator.generatePage(pageDefinition, baos, "web/");
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("MenuScreenForPage.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
@@ -75,7 +75,7 @@ public class ScreenEntityMvcGeneratorTest {
 	public void testGenerateCompositeJspx() throws Exception {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos);
+		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos, ScreenEntityMvcGenerator.TEMPLATE_WEB_DIR_PREFIX);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageComposite.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
@@ -133,7 +133,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenEntityDefinition);
-		screenEntityMvcGenerator.generatePage(pageDefinition, baos);
+		screenEntityMvcGenerator.generatePage(pageDefinition, baos, "web/");
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedPageResultResource));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());

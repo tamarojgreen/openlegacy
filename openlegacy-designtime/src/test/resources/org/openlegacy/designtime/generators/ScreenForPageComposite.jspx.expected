@@ -1,17 +1,24 @@
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:ol="urn:jsptagdir:/WEB-INF/tags">	
-	<script>
-		dojo.require("dijit.layout.TabContainer");
-		dojo.require("dijit.layout.ContentPane");
-	</script>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
 
-	<div class="tabbed_area" data-dojo-type="dijit.layout.TabContainer"
-		style="width: 100%;" doLayout="false">
-		<div id="CompositeScreenForPage" title="Composite Screen For Page" selected="true" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${pageContext.request.contextPath}/CompositeScreenForPage?partial=1'">
-			<div><!----></div>
+	<div>	
+		<script>
+			require(["dijit/layout/TabContainer",
+					"dijit/layout/ContentPane"]);
+		</script>
+	
+		<div class="tabbed_area" data-dojo-type="dijit.layout.TabContainer"
+			style="width: 100%;" doLayout="false">
+			<div id="CompositeScreenForPage" title="Composite Screen For Page" selected="true" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${pageContext.request.contextPath}/CompositeScreenForPage?partial=1'">
+				<div><!----></div>
+			</div>
+			<div id="ScreenForPage" title="Screen For Page" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${pageContext.request.contextPath}/ScreenForPage?partial=1'">
+				<div><!----></div>
+			</div>
 		</div>
-		<div id="ScreenForPage" title="Screen For Page" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${pageContext.request.contextPath}/ScreenForPage?partial=1'">
-			<div><!----></div>
-		</div>
+	
 	</div>
-
-</div>
+</jsp:root>

@@ -1,0 +1,81 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div id="menu">
+		<script language="JavaScript" type="text/javascript">
+			require([
+					"dijit/layout/AccordionContainer",
+					"dijit/layout/ContentPane",
+					"dijit/Dialog"]);
+		</script>
+		<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
+			<c:if test="${definitions != null}">
+				<c:forEach items="${menu.menuItems}" var="menuItem">
+					<div data-dojo-type="dijit.layout.ContentPane" title="Invetory Menu"
+						class="element">
+						<div class="links">
+							<ul>
+								<li>
+									<c:forEach items="${menuItem.menuItems}" var="subMenuItem">
+										<c:choose>
+											<c:when test="${subMenuItem.targetEntity.simpleName == definitions.entityName}">
+												<a href="${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}" class="current">${subMenuItem.displayName}</a>
+											</c:when>
+											<c:otherwise>
+												<a href="${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}">${subMenuItem.displayName}</a>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</c:forEach>
+			</c:if>
+			<div data-dojo-type="dijit.layout.ContentPane" title="Tools"
+				class="element">
+				<div class="links">
+					<ul>
+						<li><a href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a></li>
+						<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View Session</a></li>
+						<li><a href="${pageContext.request.contextPath}/trail/download">Download trail</a></li>
+						<li><a href="${pageContext.request.contextPath}/emulation">HTML Emulation</a></li>
+						<c:if test="${ol_designtime}">
+							<li><a href="javascript:reloadApplicationContext('${pageContext.request.contextPath}');">Reload application</a></li>
+						</c:if>
+					</ul>
+				</div>
+			</div>
+			<div data-dojo-type="dijit.layout.ContentPane" title="Demo stuff" id="demoStuff"
+				class="element">
+				<div class="links">
+					<ul>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/terminal/samples/model/${definitions.entityName}.java')">View Model</a></li>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/web/views/${definitions.entityName}.jspx')">View page</a></li>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/terminal/samples/mvc/controllers/${definitions.entityName}Controller.java')">View Controller</a></li>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/test/org/openlegacy/terminal/samples/model/MvcSampleTest.java')">View API Test</a></li>
+						<li><a href="${pageContext.request.contextPath}/emulation" title="Click to see how it worked before OpenLegacy">Emulation</a></li>
+					</ul>
+					<div class="demo_session">
+						<a href="javascript:showSessionViewer('${pageContext.request.contextPath}');" title="Original terminal screen - this is how it looked before">
+							<img src="${pageContext.request.contextPath}/sessionViewer/image" width="325px" height="170px"/>
+						</a>
+					</div>
+				</div>
+			</div>
+			<script>
+				require(["dojo/ready"], function(ready){
+					ready(function(){
+						require(["dijit/registry"], function(registry){
+							registry.byId('accordion').selectChild(registry.byId('demoStuff'));
+						});
+					});
+				});
+			</script>
+	
+		</div>
+	</div>
+</jsp:root>

@@ -17,10 +17,14 @@ function TerminalSession() {
 
 var terminalSession = new TerminalSession();
 
-dojo.addOnLoad(function(){
-	setFocus();
-	attachFieldsFocus();
-	setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
+require(["dojo/ready"], function(ready){
+	ready(function(){
+		require(["dojo/dom", "dojo/on"], function(dom, on){
+			setFocus();
+			attachFieldsFocus();
+			setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
+		});
+	});
 });
 
 function checkSequence(){
@@ -62,7 +66,7 @@ function attachFieldsFocus(){
     var elements = getMainForm().elements;
     for (var i=0;i<elements.length;i++){
     	var element = elements[i];
-    	dojo.connect(element, "onfocus", function(e) {
+    	on(element, "focusin", function(e) {
     		getMainForm().TerminalCursor.value = e.target.name; 
     	});
     }

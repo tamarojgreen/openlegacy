@@ -5,7 +5,7 @@ package org.openlegacy.terminal.samples.model;
 
 import org.openlegacy.terminal.samples.model.ItemDetails2.StockInfo;
 
-privileged @SuppressWarnings("unused") aspect StockInfoTable_Aspect {
+privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
     
     public String StockInfo.getAmendedDate(){
     	return this.amendedDate;

@@ -16,7 +16,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.web.JsonSerializationUtil;
+import org.openlegacy.terminal.json.JsonSerializationUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,7 +60,11 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
     	MenuItem mainMenu = terminalSession.getModule(Menu.class).getMenuTree();
     	if (mainMenu != null){
     		Class<?> mainMenuEntity = mainMenu.getTargetEntity();
-           	return "redirect:" + screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
+    		String prefix = "";
+    		if (httpServletRequest.getParameter("partial") == null){
+    			prefix = "redirect:";
+    		}
+           	return prefix + screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
 		}
     	return "redirect:HtmlEmulation";
     }

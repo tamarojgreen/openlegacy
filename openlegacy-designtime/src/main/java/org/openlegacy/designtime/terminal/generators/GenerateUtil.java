@@ -58,6 +58,8 @@ public class GenerateUtil {
 	public void generate(Object model, OutputStream out, String templateName, String templatePrefix) throws GenerationException {
 
 		try {
+
+			
 			Configuration configuration = new Configuration();
 			if (isUseCustomTemplates()) {
 				configuration.setDirectoryForTemplateLoading(templatesDir);
@@ -65,7 +67,7 @@ public class GenerateUtil {
 				configuration.setClassForTemplateLoading(GenerateUtil.class, "/");
 			}
 			configuration.setWhitespaceStripping(true);
-			configuration.setEncoding(Locale.getDefault(), CharEncoding.UTF_8);
+			configuration.setEncoding(Locale.ROOT, CharEncoding.UTF_8);
 
 			Template template = null;
 			try {
@@ -82,7 +84,11 @@ public class GenerateUtil {
 				if (resource != null) {
 					template = configuration.getTemplate(templatePrefix + templateName);
 				} else {
-					template = configuration.getTemplate("/" + templateName, CharEncoding.UTF_8);
+					if (templatePrefix.contains("/")){
+						templateName = templatePrefix.substring(0, templatePrefix.lastIndexOf("/")) + "/"
+								+ templateName;
+					}
+					template = configuration.getTemplate(templateName, CharEncoding.UTF_8);
 				}
 			}
 

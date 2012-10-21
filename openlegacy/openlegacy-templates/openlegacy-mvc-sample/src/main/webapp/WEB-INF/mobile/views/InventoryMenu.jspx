@@ -1,0 +1,21 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div>
+		<h1 data-dojo-type="dojox.mobile.Heading"
+			data-dojo-props="moveTo:'MainMenuPanel',
+							back:'Back'">OpenLegacy Demo</h1>
+		<h2 data-dojo-type="dojox.mobile.RoundRectCategory">Inventory management</h2>
+		<ul data-dojo-type="dojox.mobile.RoundRectList">
+			<!-- list item with an icon containing a switch -->
+			<li data-dojo-type="dojox.mobile.ListItem"
+				data-dojo-props="transition:'slide',
+								url:'Items'">Items List</li>
+			<li data-dojo-type="dojox.mobile.ListItem"
+				data-dojo-props="transition:'slide',
+								url:'Warehouses'">Warehouses List</li>
+		</ul>
+	</div>
+</jsp:root>

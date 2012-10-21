@@ -58,6 +58,16 @@
 			<version>${spring.framework.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-js</artifactId>
+			<version>2.3.1.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.mobile</groupId>
+			<artifactId>spring-mobile-device</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
+		<dependency>
 		   <groupId>org.codehaus.jackson</groupId>
 		   <artifactId>jackson-mapper-asl</artifactId>
 		   <version>1.9.3</version>

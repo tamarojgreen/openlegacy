@@ -22,7 +22,8 @@ public interface ScreenEntityWebGenerator {
 	void generateAll(GeneratePageRequest generatePageRequest, ScreenEntityDefinition screenEntityDefinition)
 			throws GenerationException;
 
-	void generatePage(PageDefinition pageDefinition, OutputStream output) throws GenerationException;
+	void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)
+			throws GenerationException;
 
 	public void generateController(PageDefinition pageDefinition, OutputStream output) throws GenerationException;
 

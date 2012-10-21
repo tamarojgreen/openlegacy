@@ -107,15 +107,13 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard {
 
 			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
 		} catch (Exception e) {
-			logger.fatal(e.getMessage(), e);
-			retVal = false;
+ 			throw(new RuntimeException(e));
 		}
 
 		try {
 			getContainer().run(true, true, modifyOperation);
 		} catch (Exception e) {
-			logger.fatal(e.getMessage(), e);
-			retVal = false;
+ 			throw(new RuntimeException(e));
 		}
 
 		return retVal;

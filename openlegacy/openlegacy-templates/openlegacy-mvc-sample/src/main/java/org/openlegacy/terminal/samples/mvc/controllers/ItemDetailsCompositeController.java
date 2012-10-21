@@ -38,15 +38,16 @@ public class ItemDetailsCompositeController {
 		// get the item number from the host session
 		Integer itemNumber = terminalSession.getEntity(ItemDetails.class).getItemNumber();
 
-		addNotesToPage(uiModel, itemNumber);
+		addExtensionsToPage(uiModel, itemNumber);
 
 		return "ItemDetailsComposite";
 	}
 
-	private void addNotesToPage(Model uiModel, Integer itemNumber) {
+	private void addExtensionsToPage(Model uiModel, Integer itemNumber) {
 		// fetch relevant notes from the DB and pass the page
 		StockItem stockItem = stockItemsService.getOrCreateStockItem(itemNumber);
 
+		uiModel.addAttribute(stockItem);
 		Collection<StockItemNote> notes = stockItem.getNotes().values();
 		uiModel.addAttribute("notes", notes);
 	}
@@ -73,7 +74,7 @@ public class ItemDetailsCompositeController {
 		terminalSession.getModule(Table.class).drillDown(ItemDetails.class, TerminalDrilldownActions.enter(actionValue),
 				itemNumber);
 
-		addNotesToPage(uiModel, itemNumber);
+		addExtensionsToPage(uiModel, itemNumber);
 
 		return "ItemDetailsComposite";
 	}

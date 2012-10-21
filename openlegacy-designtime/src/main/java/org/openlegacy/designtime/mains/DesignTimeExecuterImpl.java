@@ -82,7 +82,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String DEFAULT_NEW_PROJECT_VERSION = "0.1";
 
-	private static final String TEST_SOURCE_DIR = "test/main/java";
+	private static final String TEST_SOURCE_DIR = "src/test/java";
 
 	private static final String PREFERENCES_FILE = ".preferences";
 
@@ -408,6 +408,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			junitFile = new File(testsDirectory, testName + ".java");
 			FileOutputStream fos = new FileOutputStream(junitFile);
 			generator.generate(screenDefinitions, testName, fos);
+			fos.close();
 		} catch (TemplateException e) {
 			throw (new GenerationException(e));
 		} catch (IOException e) {
@@ -497,10 +498,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	/*
-	 * assume Maven project structure. All files are either in src or test folder
+	 * assume Maven project structure. All files are either in src, test or target folder
 	 */
 	public File getProjectPath(File someProjectFile) {
-		while (!someProjectFile.getName().equals("src") && !someProjectFile.getName().equals("test")) {
+		while (!someProjectFile.getName().equals("src") && !someProjectFile.getName().equals("test") && !someProjectFile.getName().equals("target")) {
 			someProjectFile = someProjectFile.getParentFile();
 		}
 
