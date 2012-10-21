@@ -75,7 +75,7 @@ public class ScreenEntityMvcGeneratorTest {
 	public void testGenerateCompositeJspx() throws Exception {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos);
+		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos, ScreenEntityMvcGenerator.TEMPLATE_WEB_DIR_PREFIX);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageComposite.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());

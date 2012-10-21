@@ -1,24 +1,22 @@
 function getForm(formName) {
-	require(["dojo/dom"], function(dom){
-		var form = null;
-		if (formName != null) {
-			form = dom.byId(formName);
-			if (form != null)
-				return form;
-		}
+	var form = null;
+	if (formName != null) {
+		form = document.getElementById(formName);
+		if (form != null)
+			return form;
+	}
 
-		if (form == null) {
-			if (document.forms.length == 0) {
-				throw "Unable to find form";
-			}
-			if (document.forms.length > 1) {
-				throw "Found more then 1 form on page. Unable to detrmine main form";
-			}
-			return document.forms[0];
-
+	if (form == null) {
+		if (document.forms.length == 0) {
+			throw "Unable to find form";
 		}
-	});
+		if (document.forms.length > 1) {
+			throw "Found more then 1 form on page. Unable to detrmine main form";
+		}
+		return document.forms[0];
+	}
 }
+
 function doPost(formName, actionName) {
 	showLoading();
 	var form = getForm(formName);

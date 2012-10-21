@@ -2,6 +2,7 @@ package org.openlegacy.designtime.generators;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.SnapshotsLoader;
@@ -48,6 +49,7 @@ public class DefaultTerminalSnapshotsSorterTest {
 		Assert.assertEquals(2, iterator.next().size());
 	}
 
+	@Ignore
 	@Test
 	public void testComplexMatch() throws FileNotFoundException, JAXBException {
 		String inventoryPath = getClass().getResource("/apps/inventory/screens").getFile();

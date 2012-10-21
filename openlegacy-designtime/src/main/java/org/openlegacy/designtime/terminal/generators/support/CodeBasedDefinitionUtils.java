@@ -125,7 +125,8 @@ public class CodeBasedDefinitionUtils {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
 							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
 					CodeBasedScreenTableDefinition tableDefinition = new CodeBasedScreenTableDefinition(screenEntityCodeModel);
-					screenDefinition.getTableDefinitions().put(tableDefinition.getTableEntityName(), tableDefinition);
+					// concat "s" for table field name: Item class -> "items" field name
+					screenDefinition.getTableDefinitions().put(tableDefinition.getTableEntityName() + "s", tableDefinition);
 				}
 			}
 		}

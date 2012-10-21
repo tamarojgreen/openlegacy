@@ -58,6 +58,8 @@ public class GenerateUtil {
 	public void generate(Object model, OutputStream out, String templateName, String templatePrefix) throws GenerationException {
 
 		try {
+
+			
 			Configuration configuration = new Configuration();
 			if (isUseCustomTemplates()) {
 				configuration.setDirectoryForTemplateLoading(templatesDir);
