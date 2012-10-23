@@ -25,6 +25,8 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	private String alias;
 	private String actionName;
 
+	private boolean defaultAction;
+
 	/**
 	 * for serialization purpose only
 	 */
@@ -75,5 +77,13 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	public void setAction(SessionAction<? extends Session> action) {
 		this.action = action;
+	}
+
+	public boolean isDefaultAction() {
+		return defaultAction;
+	}
+
+	public void setDefaultAction(boolean defaultAction) {
+		this.defaultAction = defaultAction;
 	}
 }

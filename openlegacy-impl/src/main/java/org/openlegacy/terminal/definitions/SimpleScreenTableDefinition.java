@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
@@ -23,6 +24,7 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +55,8 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 	private TerminalPosition partPosition;
 
 	private int width;
+
+	private ActionDefinition defaultAction;
 
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
@@ -243,5 +247,20 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 
 	public int getWidth() {
 		return width;
+	}
+
+	public ActionDefinition getDefaultAction() {
+		if (defaultAction != null) {
+			return defaultAction;
+		}
+		for (ActionDefinition action : actions) {
+			if (action.isDefaultAction()) {
+				defaultAction = action;
+				return defaultAction;
+			}
+		}
+		throw (new RegistryException(MessageFormat.format("No default table action was defined for table: {0}",
+				getTableEntityName())));
+
 	}
 }

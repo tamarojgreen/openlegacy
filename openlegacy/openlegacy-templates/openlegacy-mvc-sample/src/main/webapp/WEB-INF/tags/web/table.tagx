@@ -30,10 +30,11 @@
 						<spring:eval var="columnValue" expression="item[column.name]" />
 						<td><c:choose>
 								<c:when test="${column.selectionField}">
-									<c:forEach items="${tableDefinition.actions}" var="action">
+									<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
 										<a
 											href="${action.targetEntity.simpleName}/${action.alias}/${item[tableDefinition.keyFieldNames[0]]}"
-											class="rbtn ${action.alias}" title="${action.displayName}">${action.displayName}</a>
+											class="${action.alias}" title="${action.displayName}">${action.displayName}</a>
+											<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions)}"> | </c:if>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>

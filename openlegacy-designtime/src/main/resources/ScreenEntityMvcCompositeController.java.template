@@ -2,6 +2,7 @@ package ${packageName}.web;
 
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ${entityClassName}CompositeController {
 
 	// handle page initial display
-    @RequestMapping(method = RequestMethod.GET)
-    public String show(Model uiModel) {
+    @RequestMapping(<#if keys?size &gt; 0>value="/{id}", </#if> method = RequestMethod.GET)
+    public String show(<#if keys?size &gt; 0>@PathVariable Object id, </#if> Model uiModel) {
         return "${entityClassName}Composite";
     }
 }

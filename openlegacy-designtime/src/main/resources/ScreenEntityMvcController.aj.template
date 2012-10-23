@@ -26,6 +26,7 @@ import org.openlegacy.terminal.json.JsonSerializationUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.HttpHeaders;
@@ -50,6 +51,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	private TableWriter ${entityDefinition.entityClassName}Controller.tableWriter;
 	</#if>
 	
+	<#if entityDefinition.keys?size == 0>
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childEntitiesDefinitions?size &gt; 0>, params="partial=1"</#if>)
     public String ${entityDefinition.entityClassName}Controller.show(Model uiModel) {
@@ -58,7 +60,19 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	// show the resulting page for ${entityDefinition.entityClassName}
         return "${entityDefinition.entityClassName}";
     }
+	</#if>
 
+	<#if entityDefinition.keys?size &gt; 0>
+	// handle page initial display
+    @RequestMapping(value="/{id}", method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childEntitiesDefinitions?size &gt; 0>, params="partial=1"</#if>)
+    public String ${entityDefinition.entityClassName}Controller.show(@PathVariable Object id, Model uiModel) {
+    	${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class,id);
+	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
+	// show the resulting page for ${entityDefinition.entityClassName}
+        return "${entityDefinition.entityClassName}";
+    }
+	</#if>
+	
     @RequestMapping(value="/help", method = RequestMethod.GET)
     public @ResponseBody String ${entityDefinition.entityClassName}Controller.systemHelp(HttpServletRequest request) throws IOException {
     	URL resource = request.getSession().getServletContext().getResource("/help/${entityDefinition.entityName}.html");

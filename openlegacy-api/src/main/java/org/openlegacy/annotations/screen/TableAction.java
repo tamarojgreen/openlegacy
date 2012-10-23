@@ -32,6 +32,8 @@ public @interface TableAction {
 
 	Class<? extends TerminalDrilldownAction> action() default EnterDrilldownAction.class;
 
+	boolean defaultAction() default false;
+
 	String actionValue();
 
 	String displayName();

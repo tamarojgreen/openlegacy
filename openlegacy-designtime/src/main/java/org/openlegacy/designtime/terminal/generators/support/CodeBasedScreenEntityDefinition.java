@@ -48,6 +48,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	private List<EntityDefinition<?>> childScreens;
 	private Set<EntityDefinition<?>> allChildScreens;
 	private File packageDir;
+	private List<ScreenFieldDefinition> keyFields;
 
 	public CodeBasedScreenEntityDefinition(ScreenPojoCodeModel codeModel, File packageDir) {
 		this.codeModel = codeModel;
@@ -183,8 +184,19 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public List<? extends FieldDefinition> getKeys() {
-		throwNotImplemented();
-		return null;
+		if (keyFields != null) {
+			return keyFields;
+		}
+		keyFields = new ArrayList<ScreenFieldDefinition>();
+
+		Collection<ScreenFieldDefinition> fieldsList = getFieldsDefinitions().values();
+		keyFields = new ArrayList<ScreenFieldDefinition>();
+		for (ScreenFieldDefinition screenFieldDefinition : fieldsList) {
+			if (screenFieldDefinition.isKey()) {
+				keyFields.add(screenFieldDefinition);
+			}
+		}
+		return keyFields;
 	}
 
 }

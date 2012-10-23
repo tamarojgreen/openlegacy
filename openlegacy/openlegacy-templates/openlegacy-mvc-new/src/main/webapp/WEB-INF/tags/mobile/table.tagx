@@ -19,17 +19,18 @@
 
 	<c:set var="tableDefinition" value="${definitions.tableDefinitions[property]}" />
 	<c:set var="columnDisplayField" value="${definitions.tableDefinitions[tableDefinition.mainDisplayField]}" />
+	<c:set var="defaultTableAction" value="${tableDefinition.defaultAction}" />
 
-	<ul data-dojo-type="dojox.mobile.RoundRectList" id="ItemsTable">
+	<ul data-dojo-type="dojox.mobile.RoundRectList" id="${definitions.entityName}Table">
 		<c:forEach items="${data}" var="item" varStatus="i">
 			<c:set var="keyValue" value="${item[tableDefinition.keyFieldNames[0]]}" />
 			<c:set var="displayValue" value="${item[tableDefinition.mainDisplayField]}" />
 			<li data-dojo-type="dojox.mobile.ListItem" transition="slide"
 				onclick="showLoading();" class="${i.index % 2 == 0 ? '' : 'alt'}"
-				url="ItemDetails/revise/${keyValue}">${displayValue}</li>
+				url="${defaultTableAction.targetEntity}/${keyValue}">${displayValue}</li>
 		</c:forEach>
 	<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn"
-		onclick="javascript:loadMore('ItemsTable','${pageContext.request.contextPath}/Items/more','itemNumber','itemDescription','ItemDetails/revise/')">Load
+		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayField}','ItemDetails/revise/')">Load
 		More</button>
 	</ul>
 

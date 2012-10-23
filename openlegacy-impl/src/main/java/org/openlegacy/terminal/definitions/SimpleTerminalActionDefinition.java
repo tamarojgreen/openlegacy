@@ -26,6 +26,8 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	private Class<? extends ScreenEntity> targetEntity;
 
+	private boolean defaultAction;
+
 	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
 			String displayName, TerminalPosition position) {
 		super(action, displayName);
@@ -47,5 +49,13 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	public void setTargetEntity(Class<? extends ScreenEntity> targetEntity) {
 		this.targetEntity = targetEntity;
+	}
+
+	public boolean isDefaultAction() {
+		return defaultAction;
+	}
+
+	public void setDefault(boolean defaultAction) {
+		this.defaultAction = defaultAction;
 	}
 }

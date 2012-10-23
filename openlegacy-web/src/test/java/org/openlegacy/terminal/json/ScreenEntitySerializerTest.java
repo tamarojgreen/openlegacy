@@ -3,6 +3,8 @@ package org.openlegacy.terminal.json;
 import apps.inventory.screens.ItemsList;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParseException;
@@ -15,7 +17,6 @@ import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.json.ScreenEntitySerializationUtils;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.StringUtil;
@@ -23,7 +24,6 @@ import org.springframework.oxm.castor.CastorMarshaller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
-import org.xml.sax.SAXException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,6 +34,8 @@ import javax.xml.transform.stream.StreamResult;
 @ContextConfiguration("/test-web-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ScreenEntitySerializerTest extends AbstractTest {
+
+	private final static Log logger = LogFactory.getLog(ScreenEntitySerializerTest.class);
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
@@ -64,7 +66,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 	}
 
 	@Test
-	public void testXmlSerialization() throws IOException, SAXException {
+	public void testXmlSerialization() throws Throwable {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
@@ -78,7 +80,14 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		String result = new String(bos.toByteArray());
 
 		String expected = IOUtils.toString(getClass().getResourceAsStream("ItemsList.xml.expected"));
-		XMLAssert.assertXMLEqual("Unmatched XML's", expected, result);
+
+		try {
+			XMLAssert.assertXMLEqual("Unmatched XML's", expected, result);
+		} catch (Throwable t) {
+			System.out.println("**** Result XML:");
+			System.out.println(result);
+			throw (t);
+		}
 
 	}
 }

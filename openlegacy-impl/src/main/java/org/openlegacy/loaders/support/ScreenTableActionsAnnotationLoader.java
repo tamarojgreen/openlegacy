@@ -21,6 +21,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 import org.openlegacy.utils.ReflectionUtil;
@@ -51,6 +52,7 @@ public class ScreenTableActionsAnnotationLoader extends AbstractClassAnnotationL
 		ScreenTableActions screenTableActions = (ScreenTableActions)annotation;
 
 		TableAction[] actions = screenTableActions.actions();
+		TerminalActionDefinition defaultAction = null;
 		if (actions.length > 0) {
 			for (TableAction action : actions) {
 				Class<? extends TerminalDrilldownAction> theAction = action.action();
@@ -67,6 +69,14 @@ public class ScreenTableActionsAnnotationLoader extends AbstractClassAnnotationL
 
 				if (action.targetEntity() != ScreenEntity.NONE.class) {
 					actionDefinition.setTargetEntity(action.targetEntity());
+				}
+
+				if (defaultAction != null && action.defaultAction()) {
+					throw (new RegistryException("Only a single table action can be defined as default action"));
+				}
+				if (action.defaultAction()) {
+					actionDefinition.setDefault(action.defaultAction());
+					defaultAction = actionDefinition;
 				}
 
 				screenTableDefinition.getActions().add(actionDefinition);

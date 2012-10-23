@@ -26,7 +26,7 @@ import java.util.List;
 @ScreenNavigation(accessedFrom = InventoryManagement.class, assignedFields = { @AssignedField(field = "selection", value = "1") }, exitAction = F3.class)
 public class ItemsList {
 
-	@ScreenField(row = 21, column = 19,editable=true)
+	@ScreenField(row = 21, column = 19, editable = true)
 	private String positionTo;
 
 	private List<ItemsListRow> itemListRows;
@@ -35,7 +35,7 @@ public class ItemsList {
 	private String errorMessage;
 
 	@ScreenTable(startRow = 8, endRow = 19)
-	@ScreenTableActions(actions = { @TableAction(actionValue = "1", displayName = "View"),
+	@ScreenTableActions(actions = { @TableAction(actionValue = "1", displayName = "View", targetEntity = ItemDetails1.class),
 			@TableAction(actionValue = "2", displayName = "Revise") })
 	@ScreenTableDrilldown
 	public static class ItemsListRow {

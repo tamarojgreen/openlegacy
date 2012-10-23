@@ -75,7 +75,8 @@ public class ScreenEntityMvcGeneratorTest {
 	public void testGenerateCompositeJspx() throws Exception {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos, ScreenEntityMvcGenerator.TEMPLATE_WEB_DIR_PREFIX);
+		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos,
+				ScreenEntityMvcGenerator.TEMPLATE_WEB_DIR_PREFIX);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageComposite.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
@@ -88,6 +89,20 @@ public class ScreenEntityMvcGeneratorTest {
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 		assertControllerAspectGeneration(screenDefinition);
+	}
+
+	@Test
+	public void testGenerateContollerAspectByCodeModelWithKey() throws Exception {
+		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPageWithKey.java.resource";
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
+
+		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
+		screenEntityMvcGenerator.generateControllerAspect(pageDefinition, baos);
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageWithKeyController.aj.expected"));
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
 	@Test

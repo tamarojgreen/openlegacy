@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simpleScreenEntityWrapper>
+    <screenEntityName>ItemsList</screenEntityName>
     <screenEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:java="http://java.sun.com" xsi:type="java:apps.inventory.screens.ItemsList">
         <positionTo></positionTo>
@@ -76,7 +77,6 @@
             <action></action>
         </itemListRows>
     </screenEntity>
-    <screenEntityName>ItemsList</screenEntityName>
     <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:java="http://java.sun.com" current="false" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
         <displayName>Main Menu</displayName>
@@ -93,7 +93,7 @@
         <entityName>ItemsList</entityName>
     </paths>
     <actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:java="http://java.sun.com" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+        xmlns:java="http://java.sun.com" defaultAction="false" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
         <additionalKey>SHIFT</additionalKey>
         <actionName>CombinedTerminalAction</actionName>
         <displayName>Number Seq</displayName>

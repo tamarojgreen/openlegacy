@@ -43,6 +43,8 @@ public interface TableDefinition<C extends ColumnDefinition> {
 
 	List<ActionDefinition> getActions();
 
+	ActionDefinition getDefaultAction();
+
 	public interface ColumnDefinition extends Comparable<ColumnDefinition> {
 
 		String getName();

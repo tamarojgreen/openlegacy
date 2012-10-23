@@ -51,4 +51,10 @@ public interface ActionDefinition {
 	 */
 	String getAlias();
 
+	/**
+	 * Whteher the action is the default action from a given list of actions
+	 * 
+	 * @return Whteher the action is the default action
+	 */
+	boolean isDefaultAction();
 }

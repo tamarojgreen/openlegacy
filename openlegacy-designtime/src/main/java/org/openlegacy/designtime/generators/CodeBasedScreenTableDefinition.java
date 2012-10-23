@@ -34,7 +34,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class CodeBasedScreenTableDefinition implements ScreenTableDefinition , PositionedPart {
+public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, PositionedPart {
 
 	private ScreenPojoCodeModel codeModel;
 	private List<ActionDefinition> actions;
@@ -180,5 +180,10 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition , P
 
 	public int getWidth() {
 		return width;
+	}
+
+	public ActionDefinition getDefaultAction() {
+		throwNotImplemented();
+		return null;
 	}
 }

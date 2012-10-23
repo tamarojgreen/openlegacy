@@ -76,6 +76,7 @@ public class CodeBasedDefinitionUtils {
 				fieldDefinition.setLength(javaFieldModel.getEndColumn() - javaFieldModel.getColumn() + 1);
 			}
 			fieldDefinition.setFieldTypeDefinition(javaFieldModel.getFieldTypeDefiniton());
+			fieldDefinition.setKey(javaFieldModel.isKey());
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;
