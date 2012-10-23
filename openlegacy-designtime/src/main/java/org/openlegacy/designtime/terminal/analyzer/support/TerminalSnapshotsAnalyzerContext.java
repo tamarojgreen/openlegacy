@@ -146,7 +146,7 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 					logger.debug("Ignoring active snapshot since it has no sequence");
 					continue;
 				}
-				if (incomingSnapshot.getSequence() == activeSnapshot.getSequence() - 1
+				if (incomingSnapshot.getSequence() - 1 == activeSnapshot.getSequence()
 						&& activeSnapshot.getSnapshotType() == SnapshotType.OUTGOING) {
 					outgoingSnapshots.add(activeSnapshot);
 				}

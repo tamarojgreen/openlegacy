@@ -2,11 +2,25 @@ package openlegacy;
 
 import org.openlegacy.designtime.terminal.analyzer.modules.navigation.NavigationFact;
 
+declare IdentifyNavigationStep
+end
+
+rule "pre-insert--accessed-from-snsapshots"
+ruleflow-group "identify-navigation"
+salience 110
+when
+then
+	// blocker for next step to avoid multiple evaluation
+	insert(new IdentifyNavigationStep());	
+end
+
+
 rule "insert-accessed-from-snsapshots"
 ruleflow-group "identify-navigation"
 no-loop
 salience 100
 when
+	IdentifyNavigationStep()
 	$snapshots: List() from accumulate ( $screenEntityDefinition: ScreenEntityDesigntimeDefinition() , collectList($screenEntityDefinition.getSnapshot()) )
 then
 	Collection<TerminalSnapshot> accessedFromsnapshots = snapshotsAnalyzerContext.getAccessedFromSnapshots($snapshots);
