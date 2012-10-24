@@ -6,7 +6,7 @@
 
 	<div>
 		<ol:form model="items">
-			<ol:table data="${items.itemsRecords}" property="itemsRecords" />
+			<ol:table data="${items.itemsRecords}" property="itemsRecords" actionsAsIcons="true"/>
 		</ol:form>
 	</div>
 </jsp:root>

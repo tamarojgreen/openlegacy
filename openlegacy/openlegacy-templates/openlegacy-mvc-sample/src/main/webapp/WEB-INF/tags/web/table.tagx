@@ -7,11 +7,17 @@
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:directive.attribute name="data" type="java.util.Collection" required="true" rtexprvalue="true" description="The collection to be displayed in the table" />
 	<jsp:directive.attribute name="property" type="java.lang.String" required="true" rtexprvalue="true" description="The table name" />
+	<jsp:directive.attribute name="actionsAsIcons" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether to show table actions as icons (using CSS which matches the action alias)" />
 	
 	<jsp:output omit-xml-declaration="yes" />
 	
 	<c:if test="${empty formName}">
 		${ol:throwException("formName not found. Probably ol:table tag is not within ol:form")}
+	</c:if>
+	
+	<c:set var="actionsCss" value="" />
+	<c:if test="${actionsAsIcons}">
+		<c:set var="actionsCss" value="rbtn" />
 	</c:if>
 	
 	<c:set var="tableDefinition"
@@ -33,8 +39,8 @@
 									<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
 										<a
 											href="${action.targetEntity.simpleName}/${action.alias}/${item[tableDefinition.keyFieldNames[0]]}"
-											class="${action.alias}" title="${action.displayName}">${action.displayName}</a>
-											<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions)}"> | </c:if>
+											class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName}</a>
+											<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
 									</c:forEach>
 								</c:when>
 								<c:otherwise>
