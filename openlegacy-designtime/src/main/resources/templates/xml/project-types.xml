@@ -11,7 +11,7 @@
     
     <project-type>
         <template-name>openlegacy-mvc-new</template-name>
-        <description>A new web application Spring MVC based for connecting to your Legacy application</description>
+        <description>A new combined web and mobile application for connecting to your Legacy application</description>
         <is-demo>false</is-demo>
         <support-theme>true</support-theme>
         <zip-file>openlegacy-mvc-new.zip</zip-file>
@@ -19,20 +19,21 @@
     
     <project-type>
         <template-name>openlegacy-mvc-sample</template-name>
-        <description>A sample web application Spring MVC for connecting to a sample AS/400 Legacy application</description>
+        <description>A sample combined web and mobile application for connecting to a sample Legacy application</description>
         <is-demo>true</is-demo>
         <support-theme>false</support-theme>
         <zip-file>openlegacy-mvc-sample.zip</zip-file>
     </project-type>
     
-    <project-type>
+<!--
+     <project-type>
         <template-name>openlegacy-mobile-sample</template-name>
         <description>A sample mobile application based on Spring MVC for connecting to a sample AS/400 Legacy application</description>
         <is-demo>true</is-demo>
         <support-theme>false</support-theme>
         <zip-file>openlegacy-mobile-sample.zip</zip-file>
     </project-type>
-    
+ -->    
     <project-type>
         <template-name>openlegacy-rest-new</template-name>
         <description>A new REST API application Spring MVC based for connecting to your Legacy application in XML/JSON format</description>

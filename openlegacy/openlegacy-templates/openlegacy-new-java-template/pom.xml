@@ -91,7 +91,7 @@
 						<configuration>
 							<target>
 								<delete file="${project.build.directory}/${project.artifactId}.zip" failonerror="false" />
-								<zip destfile="${project.build.directory}/${project.artifactId}.zip" basedir="${basedir}" excludes="target/**" />
+								<zip defaultexcludes="no" destfile="${project.build.directory}/${project.artifactId}.zip" basedir="${basedir}" excludes="target/**" />
 							</target>
 						</configuration>
 						<goals>
