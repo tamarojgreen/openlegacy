@@ -152,7 +152,7 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            name="Screen Preview"
+            name="OpenLegacy"
             id="org.openlegacy.ide.eclipse.preview">
       </category>
       <view

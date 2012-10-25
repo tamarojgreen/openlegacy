@@ -3,11 +3,13 @@ package org.openlegacy.ide.eclipse.preview;
 import org.eclipse.core.filebuffers.IFileBuffer;
 import org.eclipse.core.filebuffers.IFileBufferListener;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.swt.custom.CaretEvent;
+import org.eclipse.swt.custom.CaretListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IPartListener2;
 import org.eclipse.ui.IWorkbenchPartReference;
 
-public class EditorListener implements IFileBufferListener, IPartListener2 {
+public class EditorListener implements IFileBufferListener, IPartListener2, CaretListener {
 
 	protected ScreenPreview view;
 
@@ -164,5 +166,9 @@ public class EditorListener implements IFileBufferListener, IPartListener2 {
 	 */
 	public void partDeactivated(IWorkbenchPartReference partRef) {
 		// is not used here
+	}
+
+	public void caretMoved(CaretEvent caretEvent) {
+		view.handleCaretMoved(caretEvent);
 	}
 }

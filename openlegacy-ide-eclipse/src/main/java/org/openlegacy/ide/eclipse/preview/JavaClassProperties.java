@@ -4,23 +4,15 @@ import org.eclipse.core.resources.IFile;
 
 public class JavaClassProperties {
 
-	private IFile imagefile;
-
 	private boolean isAnnotated;
 
-	public JavaClassProperties(IFile imageFile, boolean isAnnotated) {
-		this.imagefile = imageFile;
-		this.isAnnotated = isAnnotated;
-	}
+	private IFile xmlFile;
 
 	public JavaClassProperties() {}
 
-	public IFile getImagefile() {
-		return imagefile;
-	}
-
-	public void setImagefile(IFile imagefile) {
-		this.imagefile = imagefile;
+	public JavaClassProperties(IFile xmlFile, boolean isAnnotated) {
+		this.xmlFile = xmlFile;
+		this.isAnnotated = isAnnotated;
 	}
 
 	public boolean isAnnotated() {
@@ -29,5 +21,13 @@ public class JavaClassProperties {
 
 	public void setAnnotated(boolean isAnnotated) {
 		this.isAnnotated = isAnnotated;
+	}
+
+	public IFile getXmlFile() {
+		return xmlFile;
+	}
+
+	public void setXmlFile(IFile xmlFile) {
+		this.xmlFile = xmlFile;
 	}
 }
