@@ -11,7 +11,7 @@
 		<module>openlegacy-mvc-new</module>
 		<module>openlegacy-mvc-vanilla</module>
 		<module>openlegacy-mvc-sample</module>
-		<module>openlegacy-mobile-sample</module>
+		<!-- <module>openlegacy-mobile-sample</module> -->
 		<module>openlegacy-rest-new</module>
 	</modules>
 
