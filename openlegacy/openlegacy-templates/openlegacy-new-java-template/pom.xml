@@ -11,6 +11,12 @@
         <aspectj.version>1.6.11</aspectj.version>
 	</properties>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>openlegacy-snapshots</id>
+			<url>http://maven.openlegacy.org/maven2/snapshot</url>
+		</pluginRepository>
+	</pluginRepositories>
 	<repositories>
 		<repository>
 			<id>openlegacy-snapshots</id>
