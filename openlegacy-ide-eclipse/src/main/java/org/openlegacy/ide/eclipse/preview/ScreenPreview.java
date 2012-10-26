@@ -25,8 +25,9 @@ import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.text.TextSelection;
-import org.eclipse.jface.viewers.ISelectionProvider;
+import org.eclipse.jface.text.ITextOperationTarget;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.TextViewer;
 import org.eclipse.swt.custom.CaretEvent;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Rectangle;
@@ -130,14 +131,14 @@ public class ScreenPreview extends ViewPart {
 			FileBuffers.getTextFileBufferManager().removeFileBufferListener(editorListener);
 
 			// remove Caret listeners
-			for (StyledText text : styledTextContainer.values()) {
-				text.removeCaretListener(editorListener);
+			for (StyledText styledText : styledTextContainer.values()) {
+				if (!styledText.isDisposed()) {
+					styledText.removeCaretListener(editorListener);
+				}
 			}
 			editorListener.dispose();
 			editorListener = null;
 		}
-		snapshotComposite.setSnapshot(null);
-		// disposeImage();
 	}
 
 	// **************** PUBLIC ****************
@@ -226,6 +227,10 @@ public class ScreenPreview extends ViewPart {
 		return root.getFile(new Path(path));
 	}
 
+	public void handleCaretMoved(CaretEvent caretEvent) {
+		handleCaretMoved(caretEvent.caretOffset);
+	}
+
 	// **************** PRIVATE ****************
 
 	private void showPreviewImage(IJavaElement javaInput, IFile xmlFile) throws JavaModelException {
@@ -288,13 +293,6 @@ public class ScreenPreview extends ViewPart {
 						xmlFile = getXmlFile(javaInput.getPath());
 						cacheContainer.put(key, new JavaClassProperties(xmlFile, isAccepted.get()));
 
-						if (isAccepted.get()) {
-							AbstractTextEditor editor = (AbstractTextEditor)activeEditor;
-							StyledText styledText = ((StyledText)editor.getAdapter(Control.class));
-							styledText.addCaretListener(editorListener);
-							styledTextContainer.put(key, styledText);
-						}
-
 					} else {
 						JavaClassProperties properties = cacheContainer.get(key);
 						// if cached class is annotated then check if there is the latest version of image
@@ -307,10 +305,16 @@ public class ScreenPreview extends ViewPart {
 								properties.setXmlFile(newXmlFile);
 							}
 						}
-
 					}
 
 					if (isAccepted.get()) {
+						// add caret listener
+						if (!styledTextContainer.containsKey(key) || styledTextContainer.get(key).isDisposed()) {
+							AbstractTextEditor editor = (AbstractTextEditor)activeEditor;
+							StyledText styledText = ((StyledText)editor.getAdapter(Control.class));
+							styledText.addCaretListener(editorListener);
+							styledTextContainer.put(key, styledText);
+						}
 						try {
 							// show image if it exists
 							showPreviewImage(javaInput, xmlFile);
@@ -388,7 +392,7 @@ public class ScreenPreview extends ViewPart {
 		return null;
 	}
 
-	public void handleCaretMoved(CaretEvent caretEvent) {
+	private void handleCaretMoved(int widgetCaretOffset) {
 		IEditorPart editorPart = getActiveEditor();
 		if (editorPart != null) {
 			if (!(editorPart instanceof ITextEditor)) {
@@ -398,11 +402,13 @@ public class ScreenPreview extends ViewPart {
 			// check if current document is a java file
 			if (javaInput != null && javaInput.getPath().getFileExtension().equals("java")) {
 
-				// get offset
-				final AbstractTextEditor editor = (AbstractTextEditor)editorPart;
-				ISelectionProvider sp = editor.getSelectionProvider();
-				final TextSelection selection = (TextSelection)sp.getSelection();
-				final int offset = selection.getOffset();
+				int modelOffset = 0;
+				ITextOperationTarget target = (ITextOperationTarget)editorPart.getAdapter(ITextOperationTarget.class);
+				if (target instanceof ITextViewer) {
+					TextViewer textViewer = (TextViewer)target;
+					modelOffset = textViewer.widgetOffset2ModelOffset(widgetCaretOffset);
+				}
+				final int offset = modelOffset;
 
 				// create parser
 				CompilationUnit cu = createParser((ICompilationUnit)javaInput);
@@ -437,7 +443,7 @@ public class ScreenPreview extends ViewPart {
 							return;
 						}
 						if ((offset < node.getStartPosition()) || (offset > (node.getStartPosition() + node.getLength()))) {
-							snapshotComposite.setRectangleForDrawing(null);
+							snapshotComposite.setDrawingRectangle(null);
 							return;
 						}
 						ITypeBinding binding = node.resolveTypeBinding();
@@ -476,7 +482,7 @@ public class ScreenPreview extends ViewPart {
 				val = value.toString();
 			}
 		}
-		snapshotComposite.setRectangleForDrawing(getRectangle(row, col, endCol, val));
+		snapshotComposite.setDrawingRectangle(getRectangle(row, col, endCol, val));
 		isAnnotationVisited = true;
 	}
 

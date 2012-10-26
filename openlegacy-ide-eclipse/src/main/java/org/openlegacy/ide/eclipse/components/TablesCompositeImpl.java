@@ -55,7 +55,7 @@ public class TablesCompositeImpl extends AbstractTablesComposite {
 			return;
 		}
 		if (this.paintedControl instanceof SnapshotComposite) {
-			((SnapshotComposite)this.paintedControl).setRectangleForDrawing(getRectangleForDrawing(this.field));
+			((SnapshotComposite)this.paintedControl).setDrawingRectangle(getRectangleForDrawing(this.field));
 			((SnapshotComposite)this.paintedControl).setSnapshot(null);
 		} else {
 			this.paintedControl.redraw();

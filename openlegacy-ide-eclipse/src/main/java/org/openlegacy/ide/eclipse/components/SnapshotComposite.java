@@ -76,6 +76,7 @@ public class SnapshotComposite extends Composite {
 		super(parent, SWT.NONE);
 		this.terminalSnapshot = terminalSnapshot;
 		this.terminalSnapshotCopy = terminalSnapshot;
+		this.generateDefaultImage();
 		initialize();
 	}
 
@@ -120,6 +121,7 @@ public class SnapshotComposite extends Composite {
 		this.terminalSnapshot = terminalSnapshot;
 		if ((terminalSnapshot != null) && (!terminalSnapshot.equals(this.terminalSnapshotCopy))) {
 			this.terminalSnapshotCopy = terminalSnapshot;
+			this.generateDefaultImage();
 		}
 		if (terminalSnapshot != null) {
 			this.lastRectangleDrawAction = null;
@@ -131,7 +133,7 @@ public class SnapshotComposite extends Composite {
 		return this.canvas;
 	}
 
-	public void setRectangleForDrawing(Rectangle rectangle) {
+	public void setDrawingRectangle(Rectangle rectangle) {
 		if (rectangle == null) {
 			this.lastRectangleDrawAction = null;
 			if ((this.terminalSnapshot == null) || (!this.terminalSnapshot.equals(this.terminalSnapshotCopy))) {
@@ -150,6 +152,17 @@ public class SnapshotComposite extends Composite {
 
 	public void initDoubleClickEnlargeListener() {
 		this.canvas.addListener(SWT.MouseDoubleClick, this.getEnlargeListener());
+	}
+
+	private void generateDefaultImage() {
+		if (SnapshotComposite.this.terminalSnapshot == null) {
+			return;
+		}
+		TerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		renderer.render(SnapshotComposite.this.terminalSnapshot, baos);
+		ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+		SnapshotComposite.this.defaultImage = new Image(getShell().getDisplay(), bais);
 	}
 
 	private Listener getMouseDownListener() {
@@ -268,16 +281,8 @@ public class SnapshotComposite extends Composite {
 		return new PaintListener() {
 
 			public void paintControl(PaintEvent e) {
-				if (SnapshotComposite.this.terminalSnapshot == null) {
-					return;
-				}
-				TerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
-				final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				renderer.render(SnapshotComposite.this.terminalSnapshot, baos);
-				ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-				Image image = new Image(getShell().getDisplay(), bais);
-				drawImage(image, e.gc);
-				SnapshotComposite.this.defaultImage = image;
+				drawImage(SnapshotComposite.this.defaultImage, e.gc);
+				// SnapshotComposite.this.defaultImage = image;
 			}
 		};
 	}
