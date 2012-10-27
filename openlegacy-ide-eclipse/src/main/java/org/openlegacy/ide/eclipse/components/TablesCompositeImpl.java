@@ -1,12 +1,8 @@
 package org.openlegacy.ide.eclipse.components;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -23,7 +19,6 @@ import java.util.ArrayList;
 
 public class TablesCompositeImpl extends AbstractTablesComposite {
 
-	private Image copyOfImage = null;
 	private Control paintedControl = null;
 
 	public TablesCompositeImpl(Composite parent, int style, int width, int height) {
@@ -60,6 +55,7 @@ public class TablesCompositeImpl extends AbstractTablesComposite {
 			return;
 		}
 		if (this.paintedControl instanceof SnapshotComposite) {
+			((SnapshotComposite)this.paintedControl).setDrawingRectangle(getRectangleForDrawing(this.field));
 			((SnapshotComposite)this.paintedControl).setSnapshot(null);
 		} else {
 			this.paintedControl.redraw();
@@ -94,32 +90,6 @@ public class TablesCompositeImpl extends AbstractTablesComposite {
 			return;
 		}
 		this.paintedControl = control;
-
-		this.paintedControl.addPaintListener(new PaintListener() {
-
-			public void paintControl(PaintEvent e) {
-				if (TablesCompositeImpl.this.copyOfImage == null) {
-					Rectangle rect = TablesCompositeImpl.this.paintedControl.getBounds();
-					TablesCompositeImpl.this.copyOfImage = new Image(e.gc.getDevice(), rect);
-					e.gc.copyArea(TablesCompositeImpl.this.copyOfImage, 0, 0);
-				}
-				if (TablesCompositeImpl.this.field == null) {
-					return;
-				}
-				Rectangle rect = TablesCompositeImpl.this.getRectangleForDrawing(TablesCompositeImpl.this.field);
-				if (rect == null) {
-					return;
-				}
-
-				if (TablesCompositeImpl.this.copyOfImage != null) {
-					e.gc.drawImage(TablesCompositeImpl.this.copyOfImage, 0, 0);
-				}
-
-				e.gc.setForeground(e.display.getSystemColor(SWT.COLOR_YELLOW));
-
-				e.gc.drawRectangle(rect);
-			}
-		});
 	}
 
 	@Override

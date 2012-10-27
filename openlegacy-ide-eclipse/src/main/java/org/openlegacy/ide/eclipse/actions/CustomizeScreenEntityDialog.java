@@ -32,7 +32,6 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 	private Text entityNameTxt;
 	private ScreenEntityDefinition screenEntityDefinition;
-	@SuppressWarnings("unused")
 	private SnapshotComposite snapshotComposite;
 	private TablesCompositeImpl tablesComposite;
 
@@ -81,7 +80,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 		snapshotComposite = new SnapshotComposite(composite, screenEntityDefinition.getOriginalSnapshot());
 
-		tablesComposite.setPaintedControl(snapshotComposite.getCanvas());
+		tablesComposite.setPaintedControl(snapshotComposite);
 
 		return parent;
 	}

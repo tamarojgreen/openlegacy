@@ -13,17 +13,26 @@ import org.eclipse.jdt.core.IImportContainer;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
+import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.text.ITextOperationTarget;
+import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.TextViewer;
+import org.eclipse.swt.custom.CaretEvent;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IViewSite;
@@ -33,12 +42,18 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.openlegacy.ide.eclipse.components.SnapshotComposite;
+import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer;
+import org.openlegacy.terminal.support.DefaultTerminalSnapshotsLoader;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,18 +65,23 @@ public class ScreenPreview extends ViewPart {
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "com.mif.plugin.adapter.views.ScreenPreview";
-	private final String ANNOTATION_TO_HANDLE = "org.openlegacy.annotations.screen.ScreenEntity";
-	private final String ANNOTATION_TO_HANDLE_SHORT = "ScreenEntity";
-	private final String IMAGE_EXTENSION = ".jpg";
+	private static final String SCREEN_ENTITY_ANNOTATION = "org.openlegacy.annotations.screen.ScreenEntity";
+	private static final String SCREEN_ENTITY_ANNOTATION_SHORT = "ScreenEntity";
+	private static final String IDENTIFIER_ANNOTATION = "org.openlegacy.annotations.screen.Identifier";
+	private static final String SCREEN_FIELD_ANNOTATION = "org.openlegacy.annotations.screen.ScreenField";
+	private final String XML_EXTENSION = ".xml";
 
 	private Map<String, JavaClassProperties> cacheContainer = new HashMap<String, JavaClassProperties>();
-	private PreviewCanvas viewer;
-	private Image image;
+	private SnapshotComposite snapshotComposite;
 
 	private EditorListener editorListener;
 
 	private boolean isVisible;
 	private IEditorPart lastActiveEditor;
+
+	private Map<String, StyledText> styledTextContainer = new HashMap<String, StyledText>();
+	private boolean isAnnotationVisited = false;
+	private TerminalSnapshot terminalSnapshot;
 
 	/**
 	 * The constructor.
@@ -74,7 +94,9 @@ public class ScreenPreview extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		viewer = new PreviewCanvas(parent, SWT.NONE);
+		snapshotComposite = new SnapshotComposite(parent);
+		snapshotComposite.setIsScalable(true);
+		snapshotComposite.initDoubleClickEnlargeListener();
 	}
 
 	/**
@@ -82,7 +104,7 @@ public class ScreenPreview extends ViewPart {
 	 */
 	@Override
 	public void setFocus() {
-		viewer.setFocus();
+		snapshotComposite.setFocus();
 	}
 
 	@Override
@@ -108,17 +130,21 @@ public class ScreenPreview extends ViewPart {
 			// remove FileBuffer listener
 			FileBuffers.getTextFileBufferManager().removeFileBufferListener(editorListener);
 
+			// remove Caret listeners
+			for (StyledText styledText : styledTextContainer.values()) {
+				if (!styledText.isDisposed()) {
+					styledText.removeCaretListener(editorListener);
+				}
+			}
 			editorListener.dispose();
 			editorListener = null;
 		}
-		disposeImage();
-
 	}
 
 	// **************** PUBLIC ****************
 
 	public void showMessage(String message) {
-		MessageDialog.openInformation(viewer.getShell(), "Screen Preview", message);
+		MessageDialog.openInformation(snapshotComposite.getShell(), "Screen Preview", message);
 	}
 
 	public void handlePartActivated(IWorkbenchPart part) {
@@ -128,7 +154,7 @@ public class ScreenPreview extends ViewPart {
 	public void handlePartClosed(IWorkbenchPart part) {
 		// hide image if editor with annotation closed
 		if (part == lastActiveEditor) {
-			viewer.setVisible(false);
+			snapshotComposite.setVisible(false);
 		}
 	}
 
@@ -143,7 +169,7 @@ public class ScreenPreview extends ViewPart {
 		String key = buffer.getLocation().toOSString();
 		if (cacheContainer.containsKey(key)) {
 			final AtomicBoolean isAccepted = new AtomicBoolean(false);
-			IFile imageFile = null;
+			IFile xmlFile = null;
 
 			CompilationUnit cu = createParser(((ITextFileBuffer)buffer).getDocument().get());
 
@@ -161,9 +187,9 @@ public class ScreenPreview extends ViewPart {
 				}
 			});
 			if (isAccepted.get()) {
-				imageFile = getImageFile(buffer.getLocation());
+				xmlFile = getXmlFile(buffer.getLocation());
 			}
-			cacheContainer.put(key, new JavaClassProperties(imageFile, isAccepted.get()));
+			cacheContainer.put(key, new JavaClassProperties(xmlFile, isAccepted.get()));
 		}
 		parseAnnotation();
 	}
@@ -177,11 +203,11 @@ public class ScreenPreview extends ViewPart {
 		return importList;
 	}
 
-	private List<String> prepareImports(IImportContainer importContainer) {
+	private static List<String> prepareImports(IImportContainer importContainer) {
 		List<String> importList = new ArrayList<String>();
-		if (importContainer.getImport(ANNOTATION_TO_HANDLE).exists()
-				|| importContainer.getImport(ANNOTATION_TO_HANDLE.replace(ANNOTATION_TO_HANDLE_SHORT, "*")).exists()) {
-			importList.add(ANNOTATION_TO_HANDLE);
+		if (importContainer.getImport(SCREEN_ENTITY_ANNOTATION).exists()
+				|| importContainer.getImport(SCREEN_ENTITY_ANNOTATION.replace(SCREEN_ENTITY_ANNOTATION_SHORT, "*")).exists()) {
+			importList.add(SCREEN_ENTITY_ANNOTATION);
 		}
 		return importList;
 
@@ -201,28 +227,32 @@ public class ScreenPreview extends ViewPart {
 		return root.getFile(new Path(path));
 	}
 
+	public void handleCaretMoved(CaretEvent caretEvent) {
+		handleCaretMoved(caretEvent.caretOffset);
+	}
+
 	// **************** PRIVATE ****************
 
-	private void showPreviewImage(IJavaElement javaInput, IFile imageFile) throws JavaModelException {
+	private void showPreviewImage(IJavaElement javaInput, IFile xmlFile) throws JavaModelException {
 
-		if (imageFile != null && imageFile.exists()) {
-			// show image
-			setImage(imageFile);
-			viewer.setVisible(true);
+		if (xmlFile != null && xmlFile.exists()) {
+			// show snapshot composite
+			DefaultTerminalSnapshotsLoader loader = new DefaultTerminalSnapshotsLoader();
+			terminalSnapshot = loader.load(new File(xmlFile.getLocationURI()).getAbsolutePath());
+			snapshotComposite.setSnapshot(terminalSnapshot);
+			snapshotComposite.setVisible(true);
 			return;
 		}
 		// hide image
-		viewer.setVisible(false);
+		snapshotComposite.setVisible(false);
 	}
 
-	private IFile getImageFile(IPath path) {
-		// IPath path = javaInput.getPath();
-
+	private IFile getXmlFile(IPath path) {
 		String className = path.lastSegment().replace("." + path.getFileExtension(), "");
 		StringBuilder builder = new StringBuilder(path.removeFileExtension().toOSString());
 		builder.append("-resources");
 		builder.append(File.separator);
-		builder.append(className + IMAGE_EXTENSION);
+		builder.append(className + XML_EXTENSION);
 
 		return getFile(builder.toString());
 
@@ -240,7 +270,7 @@ public class ScreenPreview extends ViewPart {
 				if (javaInput != null && javaInput.getPath().getFileExtension().equals("java")) {
 
 					final AtomicBoolean isAccepted = new AtomicBoolean(false);
-					IFile imageFile = null;
+					IFile xmlFile = null;
 
 					String key = javaInput.getPath().toOSString();
 					if (!cacheContainer.containsKey(key)) {
@@ -260,28 +290,34 @@ public class ScreenPreview extends ViewPart {
 								return true;
 							}
 						});
-						imageFile = getImageFile(javaInput.getPath());
-						cacheContainer.put(key, new JavaClassProperties(imageFile, isAccepted.get()));
+						xmlFile = getXmlFile(javaInput.getPath());
+						cacheContainer.put(key, new JavaClassProperties(xmlFile, isAccepted.get()));
 
 					} else {
 						JavaClassProperties properties = cacheContainer.get(key);
 						// if cached class is annotated then check if there is the latest version of image
 						if (properties.isAnnotated()) {
 							isAccepted.set(true);
-							imageFile = properties.getImagefile();
-							IFile newImageFile = getImageFile(javaInput.getPath());
-							if (imageFile.getModificationStamp() != newImageFile.getModificationStamp()) {
-								imageFile = newImageFile;
-								properties.setImagefile(newImageFile);
+							xmlFile = properties.getXmlFile();
+							IFile newXmlFile = getXmlFile(javaInput.getPath());
+							if (xmlFile.getModificationStamp() != newXmlFile.getModificationStamp()) {
+								xmlFile = newXmlFile;
+								properties.setXmlFile(newXmlFile);
 							}
 						}
-
 					}
 
 					if (isAccepted.get()) {
+						// add caret listener
+						if (!styledTextContainer.containsKey(key) || styledTextContainer.get(key).isDisposed()) {
+							AbstractTextEditor editor = (AbstractTextEditor)activeEditor;
+							StyledText styledText = ((StyledText)editor.getAdapter(Control.class));
+							styledText.addCaretListener(editorListener);
+							styledTextContainer.put(key, styledText);
+						}
 						try {
 							// show image if it exists
-							showPreviewImage(javaInput, imageFile);
+							showPreviewImage(javaInput, xmlFile);
 							lastActiveEditor = activeEditor;
 							return;
 						} catch (JavaModelException e) {
@@ -292,7 +328,7 @@ public class ScreenPreview extends ViewPart {
 			}
 		}
 		// hide image
-		viewer.setVisible(false);
+		snapshotComposite.setVisible(false);
 	}
 
 	private static CompilationUnit createParser(ICompilationUnit javaInput) {
@@ -313,22 +349,22 @@ public class ScreenPreview extends ViewPart {
 		return (CompilationUnit)parser.createAST(null);
 	}
 
-	private boolean inspectAnnotationNode(NormalAnnotation node, List<String> imports) {
+	private static boolean inspectAnnotationNode(NormalAnnotation node, List<String> imports) {
 		Name typeName = node.getTypeName();
 		ITypeBinding binding = typeName.resolveTypeBinding();
 		if (binding != null) {
 			String qualifiedName = binding.getQualifiedName();
 			if (qualifiedName != null) {
-				if (qualifiedName.equals(ANNOTATION_TO_HANDLE)) {
+				if (qualifiedName.equals(SCREEN_ENTITY_ANNOTATION)) {
 					return true;
 				}
 			}
 		} else {
 			// in case if binding is not resolved
 			String fullyQualifiedName = typeName.getFullyQualifiedName();
-			if (fullyQualifiedName.equals(ANNOTATION_TO_HANDLE) || fullyQualifiedName.equals(ANNOTATION_TO_HANDLE_SHORT)) {
-				if (imports.contains(ANNOTATION_TO_HANDLE)
-						|| imports.contains(ANNOTATION_TO_HANDLE.replace(ANNOTATION_TO_HANDLE_SHORT, "*"))) {
+			if (fullyQualifiedName.equals(SCREEN_ENTITY_ANNOTATION) || fullyQualifiedName.equals(SCREEN_ENTITY_ANNOTATION_SHORT)) {
+				if (imports.contains(SCREEN_ENTITY_ANNOTATION)
+						|| imports.contains(SCREEN_ENTITY_ANNOTATION.replace(SCREEN_ENTITY_ANNOTATION_SHORT, "*"))) {
 					return true;
 				}
 			}
@@ -356,34 +392,123 @@ public class ScreenPreview extends ViewPart {
 		return null;
 	}
 
-	private void disposeImage() {
-		if (image == null) {
-			return;
-		}
-		if (image.isDisposed()) {
-			return;
-		}
-		image.dispose();
-		image = null;
-	}
+	private void handleCaretMoved(int widgetCaretOffset) {
+		IEditorPart editorPart = getActiveEditor();
+		if (editorPart != null) {
+			if (!(editorPart instanceof ITextEditor)) {
+				return;
+			}
+			final IJavaElement javaInput = getJavaInput(editorPart);
+			// check if current document is a java file
+			if (javaInput != null && javaInput.getPath().getFileExtension().equals("java")) {
 
-	// set image for Screen Preview
-	private void setImage(IFile file) {
-		InputStream in = null;
-		try {
-			in = file.getContents();
-			Image newImage = new Image(Display.getDefault(), in);
-			viewer.setImage(newImage);
-			disposeImage();
-			image = newImage;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				int modelOffset = 0;
+				ITextOperationTarget target = (ITextOperationTarget)editorPart.getAdapter(ITextOperationTarget.class);
+				if (target instanceof ITextViewer) {
+					TextViewer textViewer = (TextViewer)target;
+					modelOffset = textViewer.widgetOffset2ModelOffset(widgetCaretOffset);
+				}
+				final int offset = modelOffset;
+
+				// create parser
+				CompilationUnit cu = createParser((ICompilationUnit)javaInput);
+				this.isAnnotationVisited = false;
+				cu.accept(new ASTVisitor() {
+
+					@Override
+					public void endVisit(FieldDeclaration node) {
+						super.endVisit(node);
+						if (isAnnotationVisited) {
+							return;
+						}
+						if ((offset < node.getStartPosition()) || (offset > (node.getStartPosition() + node.getLength()))) {
+							return;
+						}
+						List<ASTNode> modifiers = castList(ASTNode.class, node.modifiers());
+						for (ASTNode astNode : modifiers) {
+							if (astNode instanceof NormalAnnotation) {
+								ITypeBinding binding = ((NormalAnnotation)astNode).resolveTypeBinding();
+								if (binding.getQualifiedName().equals(SCREEN_FIELD_ANNOTATION)) {
+									// retrieve rectangle from annotation attributes
+									checkVisitedAnnotation((NormalAnnotation)astNode);
+								}
+							}
+						}
+					}
+
+					@Override
+					public void endVisit(NormalAnnotation node) {
+						super.endVisit(node);
+						if (isAnnotationVisited) {
+							return;
+						}
+						if ((offset < node.getStartPosition()) || (offset > (node.getStartPosition() + node.getLength()))) {
+							snapshotComposite.setDrawingRectangle(null);
+							return;
+						}
+						ITypeBinding binding = node.resolveTypeBinding();
+						if (binding.getQualifiedName().equals(IDENTIFIER_ANNOTATION)
+								|| binding.getQualifiedName().equals(SCREEN_FIELD_ANNOTATION)) {
+							// retrieve rectangle from annotation attributes
+							checkVisitedAnnotation(node);
+						}
+					}
+
+				});
 			}
 		}
+	}
+
+	private void checkVisitedAnnotation(NormalAnnotation annotation) {
+		int row = 0;
+		int col = 0;
+		int endCol = 0;
+		String val = "";
+
+		List<MemberValuePair> values = castList(MemberValuePair.class, annotation.values());
+		for (MemberValuePair pair : values) {
+			SimpleName key = pair.getName();
+			Expression value = pair.getValue();
+			if (key.getIdentifier().equalsIgnoreCase("row")) {
+				row = new Integer(value.toString()).intValue();
+			}
+			if (key.getIdentifier().equalsIgnoreCase("column")) {
+				col = new Integer(value.toString()).intValue();
+			}
+			if (key.getIdentifier().equalsIgnoreCase("endColumn")) {
+				endCol = new Integer(value.toString()).intValue();
+			}
+			if (key.getIdentifier().equalsIgnoreCase("value")) {
+				val = value.toString();
+			}
+		}
+		snapshotComposite.setDrawingRectangle(getRectangle(row, col, endCol, val));
+		isAnnotationVisited = true;
+	}
+
+	private static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
+		List<T> r = new ArrayList<T>(c.size());
+		for (Object o : c) {
+			r.add(clazz.cast(o));
+		}
+		return r;
+	}
+
+	private Rectangle getRectangle(int row, int column, int endColumn, String value) {
+		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
+
+		int length = 0;
+		if (endColumn == 0) {
+			SimpleTerminalPosition terminalPosition = new SimpleTerminalPosition(row, column);
+			TerminalPosition endPosition = terminalSnapshot.getField(terminalPosition).getEndPosition();
+			endColumn = endPosition.getColumn();
+		}
+		length = endColumn - column + 1;
+
+		int x = renderer.toWidth(column - 1 + renderer.getLeftColumnsOffset());
+		int y = renderer.toHeight(row - 1) + renderer.getTopPixelsOffset();
+		int width = renderer.toWidth(length);
+		int height = renderer.toHeight(1);
+		return new Rectangle(x, y, width, height);
 	}
 }
