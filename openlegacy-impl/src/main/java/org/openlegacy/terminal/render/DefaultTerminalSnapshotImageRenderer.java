@@ -10,16 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal.render;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
@@ -30,10 +20,20 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
 public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotImageRenderer {
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSnapshotImageRenderer.class);
-	
+
 	// default values for bean properties
 	private Color imageBackgroundColor = Color.BLACK;
 	private Color imageBoldFieldColor = Color.WHITE;
@@ -48,18 +48,18 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 	private String fontFamily = "Monospaced";
 	private boolean drawLineNumbers = true;
 	private int widthProportion = 10;
-	private int heightProportion = 15;
-	private int fontType = Font.PLAIN;
+	private int heightProportion = 16;
+	private int fontType = Font.BOLD;
 	private boolean drawFieldSeparators = true;
 
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream output) {
 
-		BufferedImage buffer = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
+		BufferedImage buffer = new BufferedImage(885, 450, BufferedImage.TYPE_INT_RGB);
 
-		if (logger.isDebugEnabled()){
+		if (logger.isDebugEnabled()) {
 			logger.debug("Font set to:" + fontFamily);
 		}
-		
+
 		Font font = new Font(fontFamily, fontType, fontSize);
 		Graphics graphics = buffer.createGraphics();
 		graphics.setFont(font);
