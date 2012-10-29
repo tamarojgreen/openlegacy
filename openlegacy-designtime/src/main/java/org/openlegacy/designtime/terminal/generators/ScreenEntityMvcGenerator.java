@@ -60,7 +60,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	private static final String PUBLIC_TEMPLATE = "public";
 	private static final String VIEW_ONLY_TEMPLATE = "view";
 	private static final String INNER_VIEW_MOBILE_TEMPLATE = "innerView";
-	
+
 	private static final String COMPOSITE_SUFFIX = "Composite";
 	private static final String COMPOSITE_TEMPLATE = "compositeTemplate";
 	private static final String MENU_TEMPLATE = "menu";
@@ -117,9 +117,10 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 		generateUtil.setTemplateDirectory(generatePageRequest.getTemplatesDir());
 
+		// Whether to generate a simple or composite page
 		boolean isComposite = !isChild && entityDefinition.getChildEntitiesDefinitions().size() > 0;
 
-		UserInteraction overrideConfirmer = generatePageRequest.getUserInteraction();
+		UserInteraction userInteraction = generatePageRequest.getUserInteraction();
 		FileOutputStream fos = null;
 		try {
 
@@ -130,7 +131,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				File compositeContollerFile = new File(packageDir, entityClassName + "CompositeController.java");
 				boolean generateCompositeController = true;
 				if (compositeContollerFile.exists()) {
-					boolean override = overrideConfirmer.isOverride(compositeContollerFile);
+					boolean override = userInteraction.isOverride(compositeContollerFile);
 					if (!override) {
 						generateCompositeController = false;
 					}
@@ -146,7 +147,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			File contollerFile = new File(packageDir, entityClassName + "Controller.java");
 			boolean generateController = true;
 			if (contollerFile.exists()) {
-				boolean override = overrideConfirmer.isOverride(contollerFile);
+				boolean override = userInteraction.isOverride(contollerFile);
 				if (!override) {
 					generateController = false;
 				}
@@ -168,7 +169,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				File helpFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format("{0}{1}.html", HELP_DIR,
 						entityClassName));
 				if (helpFile.exists()) {
-					boolean override = overrideConfirmer.isOverride(helpFile);
+					boolean override = userInteraction.isOverride(helpFile);
 					if (!override) {
 						generateHelp = false;
 					}
@@ -189,14 +190,14 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			}
 
 			// generate web view
-			String mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild,false);
+			String mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild, false);
 			generateView(generatePageRequest, entityDefinition, pageDefinition, WEB_VIEWS_DIR, TILES_WEB_VIEWS_FILE,
-					TEMPLATE_WEB_DIR_PREFIX, overrideConfirmer, isComposite, mvcTemplateType);
+					TEMPLATE_WEB_DIR_PREFIX, userInteraction, isComposite, mvcTemplateType);
 			// generate mobile view
 			if (generatePageRequest.isGenerateMobilePage()) {
-				mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild,true);
+				mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild, true);
 				generateView(generatePageRequest, entityDefinition, pageDefinition, MOBILE_VIEWS_DIR, TILES_MOBILE_VIEWS_FILE,
-						TEMPLATE_MOBILE_DIR_PREFIX, overrideConfirmer, isComposite, mvcTemplateType);
+						TEMPLATE_MOBILE_DIR_PREFIX, userInteraction, isComposite, mvcTemplateType);
 			}
 
 		} catch (Exception e) {
@@ -252,7 +253,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	}
 
 	public void generateCompositePage(EntityDefinition<?> entityDefinition, OutputStream output, String templateDirectoryPrefix) {
-		generateUtil.generate(entityDefinition, output, templateDirectoryPrefix+ "ScreenEntityMvcCompositePage.jspx.template");
+		generateUtil.generate(entityDefinition, output, templateDirectoryPrefix + "ScreenEntityMvcCompositePage.jspx.template");
 	}
 
 	private void generateCompositeContoller(EntityDefinition<?> entityDefinition, OutputStream output) {
@@ -289,7 +290,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				File pageCompositeFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format(
 						"{0}{1}Composite.jspx", viewsDir, entityClassName));
 				fos = new FileOutputStream(pageCompositeFile);
-				generateCompositePage(entityDefinition, fos,templateDirectoryPrefix);
+				generateCompositePage(entityDefinition, fos, templateDirectoryPrefix);
 				List<EntityDefinition<?>> childScreens = entityDefinition.getChildEntitiesDefinitions();
 				// generate page content for each of the child screens
 				for (EntityDefinition<?> childDefinition : childScreens) {
@@ -315,18 +316,17 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 		}
 	}
 
-	private String getMvcTemplateType(EntityDefinition<?> entityDefinition,
-			boolean isComposite, boolean isChild, boolean isMobile) {
+	private String getMvcTemplateType(EntityDefinition<?> entityDefinition, boolean isComposite, boolean isChild, boolean isMobile) {
 		String mvcTemplateType = null;
-		if (isMobile){
-			// in mobile - generate pages as views by default. composite (main screen) and it's child entities - generate as inner views (child of view
+		if (isMobile) {
+			// in mobile - generate pages as views by default. composite (main screen) and it's child entities - generate as inner
+			// views (child of view
 			mvcTemplateType = (isComposite || isChild) ? INNER_VIEW_MOBILE_TEMPLATE : VIEW_ONLY_TEMPLATE;
-		}
-		else{
-			// in web - generate pages as template by default. composite (main screen) and it's child entities - generate as views 
+		} else {
+			// in web - generate pages as template by default. composite (main screen) and it's child entities - generate as views
 			mvcTemplateType = (isComposite || isChild) ? VIEW_ONLY_TEMPLATE : DEFAULT_TEMPLATE;
 		}
-		
+
 		if (entityDefinition.getTypeName().equals(Login.LoginEntity.class.getSimpleName())) {
 			mvcTemplateType = PUBLIC_TEMPLATE;
 		}

@@ -117,6 +117,9 @@ public class GenerateUtil {
 			if (templateFile.exists()) {
 				template = configuration.getTemplate(templatePrefix + templateName);
 			} else {
+				if (templatePrefix.contains("/")) {
+					templateName = templatePrefix.substring(0, templatePrefix.lastIndexOf("/")) + "/" + templateName;
+				}
 				template = configuration.getTemplate(templateName);
 			}
 		} else {

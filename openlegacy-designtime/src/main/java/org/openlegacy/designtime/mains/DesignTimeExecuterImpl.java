@@ -78,7 +78,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	public static final String TEMPLATES_DIR = "templates";
 
-	private static final String DEFAULT_TEMPLATES_PATTERN = "classpath*:/*.template";
+	private static final String DEFAULT_TEMPLATES_PATTERN = "classpath*:**/*.template";
 
 	private static final String DEFAULT_NEW_PROJECT_VERSION = "0.1";
 
@@ -501,7 +501,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	 * assume Maven project structure. All files are either in src, test or target folder
 	 */
 	public File getProjectPath(File someProjectFile) {
-		while (!someProjectFile.getName().equals("src") && !someProjectFile.getName().equals("test") && !someProjectFile.getName().equals("target")) {
+		while (!someProjectFile.getName().equals("src") && !someProjectFile.getName().equals("test")
+				&& !someProjectFile.getName().equals("target")) {
 			someProjectFile = someProjectFile.getParentFile();
 		}
 
@@ -573,8 +574,11 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		try {
 			defaultTemplates = pathResolver.getResources(DEFAULT_TEMPLATES_PATTERN);
 			for (Resource resource : defaultTemplates) {
-				String filename = resource.getFilename();
-				fos = new FileOutputStream(new File(templatesDir, filename));
+				String uri = resource.getURI().toString();
+				String fileRelativePath = uri.substring(uri.indexOf("!") + 2);
+				File targetFile = new File(templatesDir, fileRelativePath);
+				targetFile.getParentFile().mkdirs();
+				fos = new FileOutputStream(targetFile);
 				IOUtils.copy(resource.getInputStream(), fos);
 			}
 		} catch (IOException e) {
