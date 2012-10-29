@@ -12,6 +12,10 @@
             <field column="17" value="Password  . . . . . . . . . . . ."/>
             <field column="53" length="10" editable="true" hidden="true" />
         </row>
+        <row rowNumber="24">
+            <field column="1" value="                                      "/>
+            <field column="40" value=" (C) COPYRIGHT IBM CORP. 1980, 1999.    " color="WHITE"/>
+        </row>
         <size rows="24" columns="80"/>
         <cursor row="6" column="53"/>
     </snapshot>
@@ -26,6 +30,10 @@
         <row rowNumber="7">
             <field column="17" value="Password  . . . . . . . . . . . ."/>
             <field column="53" length="10" value="somepwd" modified="true" editable="true" hidden="true" />
+        </row>
+        <row rowNumber="24">
+            <field column="1" value="                                      "/>
+            <field column="40" value=" (C) COPYRIGHT IBM CORP. 1980, 1999.    " color="WHITE"/>
         </row>
         <size rows="24" columns="80"/>
         <cursor row="6" column="53"/>
