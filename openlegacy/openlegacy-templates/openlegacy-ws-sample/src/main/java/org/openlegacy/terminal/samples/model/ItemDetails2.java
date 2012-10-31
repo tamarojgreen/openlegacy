@@ -75,4 +75,5 @@ public class ItemDetails2 {
 		private String amendedDate;
 
 	}
+
 }

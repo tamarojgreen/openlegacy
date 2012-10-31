@@ -6,40 +6,34 @@ package org.openlegacy.terminal.samples.model;
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
-privileged @SuppressWarnings("unused") aspect Items_Aspect {
+privileged @SuppressWarnings("unused")
+aspect Items_Aspect {
 
-    declare parents: Items implements ScreenEntity;
-    private String Items.focusField;
-    
-	
+	declare parents: Items implements ScreenEntity;
+	private String Items.focusField;
 
-	
+	public List<ItemsRecord> Items.getItemsRecords() {
+		return this.itemsRecords;
+	}
 
-    
+	public void Items.setItemsRecords(List<ItemsRecord> itemsRecords) {
+		this.itemsRecords = itemsRecords;
+	}
 
-    public List<ItemsRecord> Items.getItemsRecords(){
-    	return this.itemsRecords;
-    }
-    
+	public String Items.getPositionTo() {
+		return this.positionTo;
+	}
 
+	public void Items.setPositionTo(String positionTo) {
+		this.positionTo = positionTo;
+	}
 
+	public String Items.getFocusField() {
+		return focusField;
+	}
 
-    public String Items.getPositionTo(){
-    	return this.positionTo;
-    }
-    
-    public void Items.setPositionTo(String positionTo){
-    	this.positionTo = positionTo;
-    }
+	public void Items.setFocusField(String focusField) {
+		this.focusField = focusField;
+	}
 
-
-
-
-    public String Items.getFocusField(){
-    	return focusField;
-    }
-    public void Items.setFocusField(String focusField){
-    	this.focusField = focusField;
-    }
-    
 }
