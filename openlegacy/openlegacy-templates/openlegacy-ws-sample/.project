@@ -11,12 +11,14 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+<!-- 		
 		<buildCommand>
 			<name>org.openlegacy.ide.eclipse.builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
-		<buildCommand>
+ -->
+ 		<buildCommand>
 			<name>org.eclipse.ajdt.core.ajbuilder</name>
 			<arguments>
 			</arguments>
@@ -27,12 +29,12 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<name>org.springframework.ide.eclipse.core.springbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.springframework.ide.eclipse.core.springbuilder</name>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
