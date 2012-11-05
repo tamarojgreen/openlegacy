@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plug-in>
+	<name>HTML Emulation Plugin</name>
+	<description>Html Emulation Plugin is responsible for showing screens as HTML on-the-fly</description>
+	<creator>OpenLegacy</creator>
+	<version>0.1.0-SNAPSHOT</version>
+	
+	<!-- List of JavaScript resource files names -->
+	<javascript-list>
+		<filename></filename>
+	</javascript-list>
+	
+	<!-- List of CSS resource files names -->
+	<css-list>
+		<filename></filename>
+	</css-list>
+	
+	<!-- List of menu entries, and URL/JS each menu function invokes. Each menu entry should have category name -->
+	<menu-list>
+		<menu-entry>
+			<category></category>
+			<url></url>
+		</menu-entry>
+	</menu-list>
+	
+	<!-- Reference to view resource files (web, mobile, etc) -->
+	<views>
+		<view>
+			<category>web</category>
+			<file></file>
+		</view>
+		<view>
+			<category>mobile</category>
+			<file></file>
+		</view>
+	</views>
+	
+	<!-- Reference to to Spring web context resource file (controllers, interceptors, etc) -->
+	<spring-web-context-resources>
+	</spring-web-context-resources>
+	
+	<!-- Reference to to Spring context resource file (beans, etc) -->
+	<spring-context-resources>
+	</spring-context-resources>
+</plug-in>
