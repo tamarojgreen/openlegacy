@@ -134,9 +134,11 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		providerDescription.setText(projectProviders.get(providerName.getSelectionIndex()).getDescription());
 
 		if (isDemo()) {
-			this.providerName.setText(projectProviders.get(0).getDisplayName()); // AS/400
-			setEnabled(false);
-			updateStatus(null);
+			if (!this.providerName.getText().equals(projectProviders.get(0).getDisplayName())){
+				this.providerName.setText(projectProviders.get(0).getDisplayName()); // AS/400
+				setEnabled(false);
+				updateStatus(null);
+			}
 			return;
 		} else {
 			setEnabled(true);
