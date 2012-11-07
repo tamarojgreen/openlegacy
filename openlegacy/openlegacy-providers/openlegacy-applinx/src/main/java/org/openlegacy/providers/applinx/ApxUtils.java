@@ -10,14 +10,14 @@
  *******************************************************************************/
 package org.openlegacy.providers.applinx;
 
+import java.net.URL;
+
+import org.apache.commons.io.IOUtils;
+import org.openlegacy.terminal.Color;
+
 import com.sabratec.applinx.baseobject.GXBaseObjectConstants;
 import com.sabratec.applinx.common.designtime.message.GXImportRequest;
 import com.sabratec.applinx.common.designtime.model.GXIApplicationContext;
-
-import org.aspectj.util.FileUtil;
-import org.openlegacy.terminal.Color;
-
-import java.net.URL;
 
 public class ApxUtils {
 
@@ -25,7 +25,7 @@ public class ApxUtils {
 		GXIApplicationContext apxApplicationContext = apxServerLoader.getServer().getApplications().get(0);
 		GXImportRequest importRequest = new GXImportRequest();
 		importRequest.setApplicationName(apxApplicationContext.getName());
-		importRequest.setFileContent(FileUtil.readAsByteArray(importFile.openStream()));
+		importRequest.setFileContent(IOUtils.toByteArray(importFile.openStream()));
 		apxApplicationContext.importEntities(importRequest, null);
 	}
 
