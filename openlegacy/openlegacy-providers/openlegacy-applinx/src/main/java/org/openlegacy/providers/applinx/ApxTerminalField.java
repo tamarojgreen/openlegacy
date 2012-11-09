@@ -104,4 +104,12 @@ public class ApxTerminalField extends AbstractTerminalField {
 	public String getVisualValue() {
 		return apxField.getVisualContent();
 	}
+
+	public Object getDelegate() {
+		return apxField;
+	}
+
+	public boolean isRightToLeft() {
+		return ((GXIDataTypeSupport)apxField.getUnprotectedFieldData()).getDataType() == GXBaseObjectConstants.GX_FIELD_DATA_TYPE_REVERSED;
+	}
 }

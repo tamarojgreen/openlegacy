@@ -79,6 +79,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	@XmlAttribute
 	private String visualValue;
 
+	@XmlAttribute
+	private Boolean rightToLeft = false;
+
 	public TerminalPosition getPosition() {
 		if (position == null) {
 			position = SimpleTerminalPosition.newInstance(row, column);
@@ -158,7 +161,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	public boolean isHidden() {
 		return hidden;
 	}
-	
+
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
@@ -261,5 +264,13 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	public String getOriginalValue() {
 		return getValue();
+	}
+
+	public Object getDelegate() {
+		return null;
+	}
+
+	public boolean isRightToLeft() {
+		return rightToLeft;
 	}
 }

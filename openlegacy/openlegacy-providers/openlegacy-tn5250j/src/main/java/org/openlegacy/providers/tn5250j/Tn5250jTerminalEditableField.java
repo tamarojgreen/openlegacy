@@ -51,4 +51,13 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 		super.setValue(value);
 		screenField.setString(value);
 	}
+
+	@Override
+	public Object getDelegate() {
+		return screenField;
+	}
+
+	public boolean isRightToLeft() {
+		return screenField.isRightToLeft();
+	}
 }

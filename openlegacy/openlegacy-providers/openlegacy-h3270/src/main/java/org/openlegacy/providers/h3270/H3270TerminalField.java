@@ -113,4 +113,13 @@ public class H3270TerminalField extends AbstractTerminalField {
 		// TODO implement visual for H3270
 		return null;
 	}
+
+	public Object getDelegate() {
+		return s3270Field;
+	}
+
+	public boolean isRightToLeft() {
+		// AFAIK 3270 doesn't support reverse fields
+		return false;
+	}
 }

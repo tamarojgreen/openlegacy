@@ -65,6 +65,11 @@ public interface TerminalSnapshot extends Snapshot, Serializable {
 
 	String getText(TerminalPosition position, int length);
 
+	/**
+	 * Get access to the underlying implementation
+	 * 
+	 * @return the underlying implementation
+	 */
 	Object getDelegate();
 
 	Integer getSequence();

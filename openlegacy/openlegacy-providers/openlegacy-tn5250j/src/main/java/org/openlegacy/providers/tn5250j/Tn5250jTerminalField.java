@@ -129,4 +129,12 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 	public void setVisualValue(String visualValue) {
 		this.visualValue = visualValue;
 	}
+
+	public Object getDelegate() {
+		return null;
+	}
+
+	public boolean isRightToLeft() {
+		return false;
+	}
 }

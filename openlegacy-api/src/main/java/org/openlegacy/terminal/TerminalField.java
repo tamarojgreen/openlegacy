@@ -45,7 +45,7 @@ public interface TerminalField extends TerminalPositionContainer, Serializable, 
 	 * @return original value of the field
 	 */
 	String getOriginalValue();
-	
+
 	/**
 	 * Sets the value of the field for editable fields
 	 * 
@@ -137,6 +137,20 @@ public interface TerminalField extends TerminalPositionContainer, Serializable, 
 	 * @return visual value from the host
 	 */
 	String getVisualValue();
+
+	/**
+	 * Get access to the underlying implementation
+	 * 
+	 * @return the underlying implementation
+	 */
+	Object getDelegate();
+
+	/**
+	 * Weather the field is displayed from right to left
+	 * 
+	 * @return is the field is displayed from right to left
+	 */
+	boolean isRightToLeft();
 
 	/**
 	 * Clones the field
