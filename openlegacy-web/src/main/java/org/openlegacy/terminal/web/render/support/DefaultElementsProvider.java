@@ -73,6 +73,11 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 			input.setAttribute(HtmlConstants.STYLE,
 					MessageFormat.format("{0}{1}", input.getAttribute(HtmlConstants.STYLE), HtmlNamingUtil.toStyleWidth(width)));
+			if (field.isRightToLeft()) {
+				// align with HATS bidi-override
+				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE)
+						+ ";direction:rtl;unicode-bidi: bidi-override;");
+			}
 			String fieldName = HtmlNamingUtil.getFieldName(field);
 			input.setAttribute(HtmlConstants.NAME, fieldName);
 			input.setAttribute(HtmlConstants.ID, fieldName);

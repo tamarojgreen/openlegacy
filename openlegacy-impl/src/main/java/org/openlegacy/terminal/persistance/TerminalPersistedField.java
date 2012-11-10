@@ -273,4 +273,8 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	public boolean isRightToLeft() {
 		return rightToLeft;
 	}
+
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
+	}
 }
