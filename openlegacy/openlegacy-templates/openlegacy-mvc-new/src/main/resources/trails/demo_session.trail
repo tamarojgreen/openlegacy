@@ -496,7 +496,7 @@
             <field column="65" value="Item Name" color="WHITE"/>
         </row>
         <row rowNumber="8">
-            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+            <field column="4" length="1" editable="true" modified="true" value="2" type="java.lang.Integer"/>
             <field column="11" value="2000" />
             <field column="24" value="Domino Cubes - Board Games" length="40"/>
             <field column="65" value="Domino Cube       " length="14"/>
@@ -937,7 +937,7 @@
             <field column="65" value="Item Number" color="WHITE"/>
         </row>
         <row rowNumber="8">
-            <field column="4" length="1" editable="true" modified="true" value="2" type="java.lang.Integer"/>
+            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
             <field column="11" value="Domino Cube" length="12"/>
             <field column="24" value="Domino Cubes - Board Games" length="40"/>
             <field column="65" value="2000           " type="java.lang.Integer"/>
@@ -1358,7 +1358,7 @@
         </row>
         <row rowNumber="11">
             <field column="2" value="Address . . ."/>
-            <field column="34" length="55" value="4309 S Morgan Street, Chicago, IL, 60609, United States" editable="true"/>
+            <field column="34" length="45" value="4309 S Morgan St, Chicago, IL, 60609, US" editable="true"/>
         </row>
         <row rowNumber="12">
             <field column="2" value="Phone . . ."/>
