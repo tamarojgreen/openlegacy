@@ -117,7 +117,8 @@ public class SimplePlugin implements Plugin {
 	}
 
 	public List<Object> getMenuItems() {
-		if ((this.menuHolder != null) && (this.menuHolder.getMenuEntries().size() > 0)) {
+		if ((this.menuHolder != null) && (this.menuHolder.getMenuEntries() != null)
+				&& (this.menuHolder.getMenuEntries().size() > 0)) {
 			List<Object> list = new ArrayList<Object>();
 			for (PluginMenuEntryHolder entry : this.menuHolder.getMenuEntries()) {
 				Map<String, String> map = new HashMap<String, String>();

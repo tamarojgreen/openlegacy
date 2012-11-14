@@ -183,11 +183,13 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 	}
 
 	private static Map<String, String> generateCssHtml(Plugin plugin, String contextPath) {
+		Map<String, String> retVal = new HashMap<String, String>();
+
 		String jstlKey = plugin.getCssJstlKey();
 		String path = plugin.getCssPath();
 
-		if ((jstlKey == null) || (path == null)) {
-			return null;
+		if ((jstlKey == null) || (path == null) || (plugin.getCssItems() == null)) {
+			return retVal;
 		}
 		StringBuilder sb = new StringBuilder();
 		for (String item : plugin.getCssItems()) {
@@ -197,16 +199,17 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 			sb.append(item);
 			sb.append("\"/>\n");
 		}
-		Map<String, String> retVal = new HashMap<String, String>();
 		retVal.put(jstlKey, sb.toString());
 		return retVal;
 	}
 
 	private static Map<String, String> generateJsHtml(Plugin plugin, String contextPath) {
+		Map<String, String> retVal = new HashMap<String, String>();
+
 		String jstlKey = plugin.getJsJstlKey();
 		String path = plugin.getJsPath();
-		if ((jstlKey == null) || (path == null)) {
-			return null;
+		if ((jstlKey == null) || (path == null) || (plugin.getJsItems() == null)) {
+			return retVal;
 		}
 		StringBuilder sb = new StringBuilder();
 		for (String item : plugin.getJsItems()) {
@@ -216,17 +219,18 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 			sb.append(item);
 			sb.append("\"><!----></script>\n");
 		}
-		Map<String, String> retVal = new HashMap<String, String>();
 		retVal.put(jstlKey, sb.toString());
 		return retVal;
 	}
 
 	@SuppressWarnings("unchecked")
 	private static Map<String, String> generateMenuHtml(Plugin plugin) {
+		Map<String, String> retVal = new HashMap<String, String>();
+
 		String jstlKey = plugin.getMenuJstlKey();
 		String html = null;
-		if (jstlKey == null) {
-			return null;
+		if ((jstlKey == null) || (plugin.getMenuItems() == null)) {
+			return retVal;
 		}
 
 		Map<String, String> categories = new HashMap<String, String>();
@@ -264,7 +268,6 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 			sb.append("</ul></div></div>");
 			html = sb.toString();
 		}
-		Map<String, String> retVal = new HashMap<String, String>();
 		retVal.put(jstlKey, html);
 		return retVal;
 	}
