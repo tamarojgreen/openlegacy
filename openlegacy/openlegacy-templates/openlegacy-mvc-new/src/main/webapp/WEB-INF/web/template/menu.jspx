@@ -48,6 +48,7 @@
 					</ul>
 				</div>
 			</div>
+			${plugin_menu}
 		</div>
 	</div>
 </jsp:root>

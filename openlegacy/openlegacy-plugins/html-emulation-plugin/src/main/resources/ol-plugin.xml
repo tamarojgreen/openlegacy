@@ -1,45 +1,101 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <plug-in>
-	<name>HTML Emulation Plugin</name>
+	<name>html-emulation-plugin</name>
 	<description>Html Emulation Plugin is responsible for showing screens as HTML on-the-fly</description>
 	<creator>OpenLegacy</creator>
 	<version>0.1.0-SNAPSHOT</version>
 	
-	<!-- List of JavaScript resource files names -->
-	<javascript-list>
-		<filename></filename>
+	<!-- List of JavaScript resource files names. -->
+	<!--format:
+	<javascript-list jstlkey="" - (require) JSTL variable
+		 path="" - (require) part of URL path for extracting item (reference to mvc resource mapping)
+		 >
+		<item></item>
+		<item></item>
+		...
+	</javascript-list> 
+	 -->
+	<javascript-list jstlkey="plugin_js" path="/plugin/js/">
+		<item>openlegacy.html_emulation.js</item>
 	</javascript-list>
 	
-	<!-- List of CSS resource files names -->
-	<css-list>
-		<filename></filename>
+	<!-- List of CSS resource files names-->
+	<!--format:
+	<css-list jstlkey="" - (require) JSTL variable
+		 path="" - (require) part of URL path for extracting item (reference to mvc resource mapping)
+		 >
+		<item></item>
+		<item></item>
+		...
+	</css-list> 
+	 -->
+	<css-list jstlkey="plugin_css" path="/plugin/css/">
+		<item>openlegacy.html_emulation.css</item>
 	</css-list>
 	
 	<!-- List of menu entries, and URL/JS each menu function invokes. Each menu entry should have category name -->
-	<menu-list>
+	<!--format:
+	<menu jstlkey="">
 		<menu-entry>
 			<category></category>
-			<url></url>
+			<text></text>
+			<action></action> - action can be as URL or JS (JS should starts with javascript: )
 		</menu-entry>
-	</menu-list>
+		...
+	</menu> 
+	 -->
+	<menu jstlkey="plugin_menu">
+		<menu-entry>
+			<category>HTML emulation plugin</category>
+			<text>Test</text>
+			<action>javascript: alert('test 1');</action>
+		</menu-entry>
+		<menu-entry>
+			<category>HTML emulation plugin</category>
+			<text>Test 2</text>
+			<action>#link_to_somewhere</action>
+		</menu-entry>
+	</menu>
 	
 	<!-- Reference to view resource files (web, mobile, etc) -->
+	<!--format:
 	<views>
-		<view>
-			<category>web</category>
-			<file></file>
-		</view>
-		<view>
-			<category>mobile</category>
-			<file></file>
-		</view>
+		<xml></xml>
+		<xml></xml>
+		...
+		<view></view> - value will be used for storing view file inside /WEB-INF of parent project. Must contains a path from JAR root
+		<view></view>
+		...
+		<exclude-view-path-part></exclude-view-path-part> - contains a part of view path which will be excluded when view will be copied
+	</views> 
+	 -->
+	<views>
+		<xml>classpath:/META-INF/plugin-resources/views/web/**/views.xml</xml>
+		<view>/META-INF/plugin-resources/views/web/HtmlEmulation.jspx</view>
+		<exclude-view-path-part>/META-INF/plugin-resources/</exclude-view-path-part>
 	</views>
 	
 	<!-- Reference to to Spring web context resource file (controllers, interceptors, etc) -->
+	<!--format:
 	<spring-web-context-resources>
+		<resource></resource>
+		<resource></resource>
+		...
+	</spring-web-context-resources> 
+	 -->
+	<spring-web-context-resources>
+		<resource>classpath:/META-INF/plugin-resources/web-context/html-emulation-plugin-web-context.xml</resource>
 	</spring-web-context-resources>
 	
 	<!-- Reference to to Spring context resource file (beans, etc) -->
+	<!--format:
 	<spring-context-resources>
+		<resource></resource>
+		<resource></resource>
+		...
+	</spring-context-resources> 
+	 -->
+	<spring-context-resources>
+		<resource>classpath:/META-INF/plugin-resources/context/html-emulation-plugin-context.xml</resource>
 	</spring-context-resources>
 </plug-in>

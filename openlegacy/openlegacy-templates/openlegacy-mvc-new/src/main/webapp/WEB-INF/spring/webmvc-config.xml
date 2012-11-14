@@ -113,7 +113,7 @@
 	   <property name="viewClass" value="org.springframework.js.ajax.tiles2.AjaxTilesView"/>
 	</bean>
 	
-	<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer"
+	<bean class="org.openlegacy.web.tiles.OpenLegacyTilesConfigurer"
 		id="tilesConfigurer">
 		<property name="definitions">
 			<list>

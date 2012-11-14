@@ -11,7 +11,7 @@
 	<groupId>${parent.groupId}</groupId>
 	<artifactId>html-emulation-plugin</artifactId>
 	<version>${parent.version}</version>
-	<name>html-emulation-plugin</name>
+	<name>OpenLegacy HTML Emulation plugin</name>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -20,6 +20,32 @@
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
 			<scope>test</scope>
+		</dependency>
+		<!-- OpenLegacy -->
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-impl</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-web</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- SpringFramework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<!-- Javax -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+			<version>2.5</version>
 		</dependency>
 	</dependencies>
 </project>
