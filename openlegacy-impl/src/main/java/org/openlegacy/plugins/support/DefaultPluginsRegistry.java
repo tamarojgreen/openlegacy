@@ -39,6 +39,12 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 
 	public DefaultPluginsRegistry() {}
 
+	/**
+	 * Add plugin to registry
+	 * 
+	 * @param plugin
+	 *            - OpenLegacy plugin
+	 */
 	public void addPlugin(Plugin plugin) throws OpenLegacyException {
 		if (getCachePlugins().containsKey(plugin.getName())) {
 			throw new OpenLegacyException(MessageFormat.format(
@@ -48,10 +54,19 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 		getCachePlugins().put(plugin.getName(), plugin);
 	}
 
+	/**
+	 * Clear registry
+	 */
 	public void clear() {
 		this.cachePlugins.clear();
 	}
 
+	/**
+	 * Extract views from plugin resources to parent project.
+	 * 
+	 * @param rootPath
+	 *            - the absolute path which used like root path for storing views inside parent project
+	 */
 	public void extractViews(String rootPath) throws OpenLegacyException {
 		if ((rootPath == null) || (rootPath.isEmpty())) {
 			throw new OpenLegacyException("Plugin cannot be loaded. Cannot extract view files. RootPath is empty.");

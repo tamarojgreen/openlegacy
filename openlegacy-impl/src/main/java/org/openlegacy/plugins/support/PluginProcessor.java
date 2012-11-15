@@ -38,25 +38,28 @@ public class PluginProcessor implements BeanFactoryPostProcessor {
 		registerPluginsRegistryBean(beanFactory, pluginsRegistry);
 	}
 
+	/**
+	 * Register PluginsRegistry in Spring web application context as bean. BeanUtils.copyProperties used for filling registered
+	 * bean with <b>pluginsRegistry</b> values.
+	 * 
+	 * @param beanFactory
+	 *            - SpringFramework bean factory
+	 * @param pluginsRegistry
+	 *            - OpenLegacy plugins registry
+	 */
 	private static void registerPluginsRegistryBean(ConfigurableListableBeanFactory beanFactory, PluginsRegistry pluginsRegistry) {
 		PluginsRegistry bean = null;
 		try {
 			bean = beanFactory.getBean(PluginsRegistry.class);
-		} catch (NoSuchBeanDefinitionException e) {
-			// to do nothing
-		}
-
-		if (bean != null) {
 			BeanUtils.copyProperties(pluginsRegistry, bean);
-			return;
+		} catch (NoSuchBeanDefinitionException e) {
+			((DefaultListableBeanFactory)beanFactory).registerBeanDefinition(PluginsRegistry.PLUGINS_REGISTRY_BEAN_ID,
+					BeanDefinitionBuilder.genericBeanDefinition(DefaultPluginsRegistry.class.getName()).getBeanDefinition());
+
+			// fill plugin registry bean with values
+			bean = beanFactory.getBean(PluginsRegistry.class);
+			BeanUtils.copyProperties(pluginsRegistry, bean);
 		}
-
-		((DefaultListableBeanFactory)beanFactory).registerBeanDefinition(PluginsRegistry.PLUGINS_REGISTRY_BEAN_ID,
-				BeanDefinitionBuilder.genericBeanDefinition(DefaultPluginsRegistry.class.getName()).getBeanDefinition());
-
-		// fill plugin registry bean with values
-		bean = beanFactory.getBean(PluginsRegistry.class);
-		BeanUtils.copyProperties(pluginsRegistry, bean);
 	}
 
 }

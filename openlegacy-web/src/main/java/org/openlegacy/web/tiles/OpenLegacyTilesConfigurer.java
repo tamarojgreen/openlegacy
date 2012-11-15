@@ -63,6 +63,9 @@ public class OpenLegacyTilesConfigurer extends TilesConfigurer {
 		return viewResources.toArray(new String[] {});
 	}
 
+	/**
+	 * Extracts plugins information and sets them into ServletContext as attribute
+	 */
 	private void processPlugins() {
 		if (servletContext == null) {
 			return;
