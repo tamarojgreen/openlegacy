@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.plugins.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.plugins.Plugin;
@@ -19,6 +21,7 @@ import org.openlegacy.utils.XmlSerializationUtil;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Enumeration;
 
 import javax.xml.bind.JAXBException;
@@ -29,6 +32,8 @@ import javax.xml.bind.JAXBException;
  * @author Imivan
  */
 public class DefaultPluginsLoader implements PluginsLoader {
+
+	private static final Log logger = LogFactory.getLog(DefaultPluginsLoader.class);
 
 	private PluginsRegistry pluginsRegistry;
 
@@ -56,6 +61,13 @@ public class DefaultPluginsLoader implements PluginsLoader {
 				URL nextElement = resources.nextElement();
 				Plugin plugin = XmlSerializationUtil.deserialize(SimplePlugin.class, nextElement.openStream());
 				this.pluginsRegistry.addPlugin(plugin);
+				if (logger.isInfoEnabled()) {
+					logger.info("Plugin was loaded");
+					logger.info(MessageFormat.format("Plugin name: {0}", plugin.getName()));
+					logger.info(MessageFormat.format("Plugin version: {0}", plugin.getVersion()));
+					logger.info(MessageFormat.format("Plugin creator: {0}", plugin.getCreator()));
+					logger.info(MessageFormat.format("Plugin description: {0}", plugin.getDescription()));
+				}
 			}
 		} catch (IOException e) {
 			throw new OpenLegacyException(e);

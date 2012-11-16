@@ -24,20 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "javascript-list")
 public class PluginJsHolder {
 
-	private String jstlKey;
 	private String path;
 	private List<String> items;
 
 	public PluginJsHolder() {}
-
-	@XmlAttribute(name = "jstlkey", required = true)
-	public String getJstlKey() {
-		return jstlKey;
-	}
-
-	public void setJstlKey(String jstlKey) {
-		this.jstlKey = jstlKey;
-	}
 
 	@XmlAttribute(name = "path", required = true)
 	public String getPath() {

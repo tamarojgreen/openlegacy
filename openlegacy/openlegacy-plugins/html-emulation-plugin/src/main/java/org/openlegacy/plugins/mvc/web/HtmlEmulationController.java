@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.plugins.mvc;
+package org.openlegacy.plugins.mvc.web;
 
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;

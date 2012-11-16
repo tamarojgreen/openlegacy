@@ -47,9 +47,13 @@
 		<script type="text/javascript" src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js"><!----></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/project.js"><!----></script>
 		
-		<!-- Plugin script and css -->
-		${plugin_js}
-		${plugin_css}
+		<!-- Plugin's script and css -->
+		<c:forEach items="${plugins_js}" var="plugin_js">
+			<script type="text/javascript" src="${pageContext.request.contextPath}${plugin_js}"><!----></script>
+		</c:forEach>
+		<c:forEach items="${plugins_css}" var="plugin_css">
+			<link href="${pageContext.request.contextPath}${plugin_css}" rel="stylesheet" type="text/css" />
+		</c:forEach>
 		<!--[if !IE 7]>
 			<style type="text/css">
 				#wrap {display:table;height:100%}

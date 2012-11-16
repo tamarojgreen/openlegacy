@@ -13,7 +13,6 @@ package org.openlegacy.plugins;
 import org.openlegacy.exceptions.OpenLegacyException;
 
 import java.util.List;
-import java.util.Map;
 
 public interface PluginsRegistry {
 
@@ -27,6 +26,8 @@ public interface PluginsRegistry {
 
 	public void clear();
 
+	public List<Plugin> getPlugins();
+
 	public List<String> getSpringWebContextResources();
 
 	public List<String> getSpringContextResources();
@@ -34,12 +35,6 @@ public interface PluginsRegistry {
 	public boolean isEmpty();
 
 	public List<String> getViewDeclarations();
-
-	public Map<String, String> getJsHtml(String contextPath);
-
-	public Map<String, String> getCssHtml(String contextPath);
-
-	public Map<String, String> getMenuHtml();
 
 	public void extractViews(String rootPath) throws OpenLegacyException;
 }

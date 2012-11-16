@@ -13,7 +13,6 @@ package org.openlegacy.plugins.support.holders;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,19 +23,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "menu")
 public class PluginMenuHolder {
 
-	private String jstlKey;
 	private List<PluginMenuEntryHolder> menuEntries;
 
 	public PluginMenuHolder() {}
-
-	@XmlAttribute(name = "jstlkey", required = true)
-	public String getJstlKey() {
-		return jstlKey;
-	}
-
-	public void setJstlKey(String jstlKey) {
-		this.jstlKey = jstlKey;
-	}
 
 	@XmlElement(name = "menu-entry", type = PluginMenuEntryHolder.class)
 	public List<PluginMenuEntryHolder> getMenuEntries() {

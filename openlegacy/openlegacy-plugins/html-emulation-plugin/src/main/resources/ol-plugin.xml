@@ -7,35 +7,35 @@
 	
 	<!-- List of JavaScript resource files names. -->
 	<!--format:
-	<javascript-list jstlkey="" - (require) JSTL variable
-		 path="" - (require) part of URL path for extracting item (reference to mvc resource mapping)
+	<javascript-list 
+		 path="" - (require) part of URL path for extracting item (reference to mvc resource mapping). Must ends with slash ("/")
 		 >
-		<item></item>
+		<item></item> - Must not have a leading slash ("/")
 		<item></item>
 		...
 	</javascript-list> 
 	 -->
-	<javascript-list jstlkey="plugin_js" path="/plugin/js/">
+	<javascript-list path="/plugin/js/">
 		<item>openlegacy.html_emulation.js</item>
 	</javascript-list>
 	
 	<!-- List of CSS resource files names-->
 	<!--format:
-	<css-list jstlkey="" - (require) JSTL variable
-		 path="" - (require) part of URL path for extracting item (reference to mvc resource mapping)
+	<css-list 
+		 path="" - (require) part of URL path for extracting item (reference to mvc resource mapping). Must ends with slash ("/")
 		 >
-		<item></item>
+		<item></item> - Must not have a leading slash ("/")
 		<item></item>
 		...
 	</css-list> 
 	 -->
-	<css-list jstlkey="plugin_css" path="/plugin/css/">
+	<css-list  path="/plugin/css/">
 		<item>openlegacy.html_emulation.css</item>
 	</css-list>
 	
 	<!-- List of menu entries, and URL/JS each menu function invokes. Each menu entry should have category name -->
 	<!--format:
-	<menu jstlkey="">
+	<menu>
 		<menu-entry>
 			<category></category>
 			<text></text>
@@ -44,16 +44,11 @@
 		...
 	</menu> 
 	 -->
-	<menu jstlkey="plugin_menu">
+	<menu>
 		<menu-entry>
-			<category>HTML emulation plugin</category>
-			<text>Test</text>
-			<action>javascript: alert('test 1');</action>
-		</menu-entry>
-		<menu-entry>
-			<category>HTML emulation plugin</category>
-			<text>Test 2</text>
-			<action>#link_to_somewhere</action>
+			<category>Emulation</category>
+			<text>HTML emulation</text>
+			<action>/emulation</action>
 		</menu-entry>
 	</menu>
 	

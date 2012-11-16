@@ -11,47 +11,44 @@
 package org.openlegacy.plugins;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Plugin {
 
-	public static final String JSTL_KEY = "jstlkey";
 	public static final String PATH_KEY = "path";
 
 	public static final String MENU_CATEGORY = "category";
 	public static final String MENU_TEXT = "text";
 	public static final String MENU_ACTION = "action";
 
-	public String getName();
-
-	public String getDescription();
-
 	public String getCreator();
-
-	public String getVersion();
-
-	public List<String> getJsItems();
 
 	public List<String> getCssItems();
 
-	public List<Object> getMenuItems();
+	public String getCssPath();
+
+	public String getDescription();
+
+	public String getExcludedViewPathPart();
+
+	public List<String> getJsItems();
+
+	public String getJsPath();
+
+	public List<Map<String, String>> getMenuItems();
+
+	public String getName();
+
+	public List<String> getSpringContextResources();
 
 	public List<String> getSpringWebContextResources();
 
-	public List<String> getSpringContextResources();
+	public String getVersion();
 
 	public List<String> getViewDeclarations();
 
 	public List<String> getViews();
 
-	public String getExcludedViewPathPart();
+	public boolean isViewExtractedToParent();
 
-	public String getJsJstlKey();
-
-	public String getJsPath();
-
-	public String getCssJstlKey();
-
-	public String getCssPath();
-
-	public String getMenuJstlKey();
 }

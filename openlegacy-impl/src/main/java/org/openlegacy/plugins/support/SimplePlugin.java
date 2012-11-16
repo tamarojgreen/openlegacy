@@ -39,6 +39,7 @@ public class SimplePlugin implements Plugin {
 	private List<String> springWebContextResources;
 	private List<String> springContextResources;
 	private PluginViewsHolder viewsHolder;
+	private boolean isViewExtractedToParent = false;
 
 	public SimplePlugin() {}
 
@@ -57,13 +58,6 @@ public class SimplePlugin implements Plugin {
 			return this.cssHolder.getItems();
 		}
 		return new ArrayList<String>();
-	}
-
-	public String getCssJstlKey() {
-		if (this.cssHolder != null) {
-			return this.cssHolder.getJstlKey();
-		}
-		return null;
 	}
 
 	public String getCssPath() {
@@ -97,13 +91,6 @@ public class SimplePlugin implements Plugin {
 		return new ArrayList<String>();
 	}
 
-	public String getJsJstlKey() {
-		if (this.jsHolder != null) {
-			return this.jsHolder.getJstlKey();
-		}
-		return null;
-	}
-
 	public String getJsPath() {
 		if (this.jsHolder != null) {
 			return this.jsHolder.getPath();
@@ -116,10 +103,10 @@ public class SimplePlugin implements Plugin {
 		return menuHolder;
 	}
 
-	public List<Object> getMenuItems() {
+	public List<Map<String, String>> getMenuItems() {
 		if ((this.menuHolder != null) && (this.menuHolder.getMenuEntries() != null)
 				&& (this.menuHolder.getMenuEntries().size() > 0)) {
-			List<Object> list = new ArrayList<Object>();
+			List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 			for (PluginMenuEntryHolder entry : this.menuHolder.getMenuEntries()) {
 				Map<String, String> map = new HashMap<String, String>();
 				map.put(Plugin.MENU_CATEGORY, entry.getCategory());
@@ -129,14 +116,7 @@ public class SimplePlugin implements Plugin {
 			}
 			return list;
 		}
-		return new ArrayList<Object>();
-	}
-
-	public String getMenuJstlKey() {
-		if (this.menuHolder != null) {
-			return this.menuHolder.getJstlKey();
-		}
-		return null;
+		return new ArrayList<Map<String, String>>();
 	}
 
 	@XmlElement(required = true)
@@ -218,6 +198,14 @@ public class SimplePlugin implements Plugin {
 
 	public void setViewsHolder(PluginViewsHolder viewsHolder) {
 		this.viewsHolder = viewsHolder;
+	}
+
+	public boolean isViewExtractedToParent() {
+		return isViewExtractedToParent;
+	}
+
+	public void setViewExtractedToParent(boolean isViewExtractedToParent) {
+		this.isViewExtractedToParent = isViewExtractedToParent;
 	}
 
 }
