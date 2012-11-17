@@ -145,6 +145,7 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- OpenLegacy -->
 		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-api</artifactId>
@@ -178,6 +179,12 @@
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.plugins</groupId>
+			<artifactId>html-emulation-plugin</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

@@ -1,5 +1,6 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
 	version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" />
@@ -48,6 +49,25 @@
 					</ul>
 				</div>
 			</div>
+			<!-- Plugin's menu -->
+			<c:forEach items="${plugins_menu}" var="category">
+				<div data-dojo-type="dijit.layout.ContentPane" title="${category.key}" class="element">
+					<div class="links">
+						<ul>
+							<c:forEach items="${category.value}" var="item">
+								<c:choose>
+									<c:when test="${fn:startsWith(item['action'], fn:toLowerCase('javascript'))}">
+										<li><a href="${item['action']}">${item['text']}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="${pageContext.request.contextPath}${item['action']}">${item['text']}</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</ul>
+					</div>
+				</div>
+			</c:forEach>
 		</div>
 	</div>
 </jsp:root>
