@@ -13,7 +13,7 @@
 	</definition>
 
 	<definition name="HtmlEmulation" extends="emulation">
-		<put-attribute name="body" value="/WEB-INF/views/web/plugins/html-emulation-plugin/HtmlEmulation.jspx" />
+		<put-attribute name="body" value="/WEB-INF/web/views/plugins/html-emulation-plugin/HtmlEmulation.jspx" />
 	</definition>
 
 </tiles-definitions>

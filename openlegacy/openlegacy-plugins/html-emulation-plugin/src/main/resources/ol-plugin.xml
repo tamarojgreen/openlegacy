@@ -65,8 +65,8 @@
 	</views> 
 	 -->
 	<views>
-		<xml>classpath:/META-INF/plugin-resources/views/web/**/views.xml</xml>
-		<view>/META-INF/plugin-resources/views/web/HtmlEmulation.jspx</view>
+		<xml>classpath:/META-INF/plugin-resources/web/views/**/views.xml</xml>
+		<view>/META-INF/plugin-resources/web/views/HtmlEmulation.jspx</view>
 		<exclude-view-path-part>/META-INF/plugin-resources/</exclude-view-path-part>
 	</views>
 	

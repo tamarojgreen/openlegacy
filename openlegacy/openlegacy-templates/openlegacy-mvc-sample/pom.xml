@@ -158,6 +158,11 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.openlegacy.plugins</groupId>
+			<artifactId>html-emulation-plugin</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-web-resources</artifactId>
 			<version>1.0.0-RELEASE</version>
