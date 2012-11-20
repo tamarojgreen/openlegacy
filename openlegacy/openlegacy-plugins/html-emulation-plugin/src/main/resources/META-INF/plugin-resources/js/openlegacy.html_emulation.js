@@ -4,7 +4,10 @@ var timeouts = [1000,3000,10000];
 var currentTimeoutIndex = 0;
 
 function getMainForm() {
-	return document.openlegacyForm;
+	if (document.openlegacyForm != null){
+		return document.openlegacyForm;
+	};
+	return document.forms[0];
 }
 
 function TerminalSession() {
@@ -54,6 +57,9 @@ function checkSequence(){
 
 function setFocus(){
     var elements = getMainForm().elements;
+    if (getMainForm().TerminalCursor == null){
+    	return;
+    }
     var focusFieldName = getMainForm().TerminalCursor.value;
     
     var focusField = dojo.byId(focusFieldName);
