@@ -23,9 +23,13 @@ var terminalSession = new TerminalSession();
 require(["dojo/ready"], function(ready){
 	ready(function(){
 		require(["dojo/dom", "dojo/on"], function(dom, on){
-			setFocus();
-			attachFieldsFocus(on);
-			setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
+			if (getMainForm().TerminalCursor != null){
+				setFocus();
+				attachFieldsFocus(on);
+			}
+			if (MainForm().Sequence != null){
+				setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
+			}
 		});
 	});
 });
