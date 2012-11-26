@@ -24,7 +24,7 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 	private TerminalPosition position;
 	private AdditionalKey additionalKey;
 
-	private Class<? extends ScreenEntity> targetEntity;
+	private Class<?> targetEntity;
 
 	private boolean defaultAction;
 
@@ -43,11 +43,11 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		return additionalKey;
 	}
 
-	public Class<? extends ScreenEntity> getTargetEntity() {
+	public Class<?> getTargetEntity() {
 		return targetEntity;
 	}
 
-	public void setTargetEntity(Class<? extends ScreenEntity> targetEntity) {
+	public void setTargetEntity(Class<?> targetEntity) {
 		this.targetEntity = targetEntity;
 	}
 
