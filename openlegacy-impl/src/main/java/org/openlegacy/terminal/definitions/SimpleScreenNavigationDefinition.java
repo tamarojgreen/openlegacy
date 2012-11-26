@@ -12,10 +12,13 @@ package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.terminal.actions.TerminalAction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleScreenNavigationDefinition implements NavigationDefinition {
+public class SimpleScreenNavigationDefinition implements NavigationDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Class<?> accessedFrom;
 	private List<FieldAssignDefinition> assignedFields = new ArrayList<FieldAssignDefinition>();

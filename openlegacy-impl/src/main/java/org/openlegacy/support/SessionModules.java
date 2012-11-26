@@ -12,13 +12,16 @@ package org.openlegacy.support;
 
 import org.openlegacy.modules.SessionModule;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Container class for
  * 
  */
-public class SessionModules {
+public class SessionModules implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private List<? extends SessionModule> modules;
 

@@ -15,7 +15,11 @@ import org.openlegacy.Session;
 import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
-public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldTypeDefinition {
+import java.io.Serializable;
+
+public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldTypeDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private RecordsProvider<? extends Session, Object> recordsProvider;
 	private Class<?> sourceEntityClass;

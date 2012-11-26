@@ -16,9 +16,12 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.mock.MockStateMachineTerminalConnectionFactory.SnapshotAndSendAction;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class MockStateMachineTerminalConnection extends AbstractMockTerminalConnection {
+public class MockStateMachineTerminalConnection extends AbstractMockTerminalConnection implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Map<SnapshotAndSendAction, TerminalSnapshot> snapshotsGraph;
 

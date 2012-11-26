@@ -18,11 +18,14 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class ReferredScreenEntityProxyHandler implements ScreenEntityProxyHandler {
+public class ReferredScreenEntityProxyHandler implements ScreenEntityProxyHandler, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

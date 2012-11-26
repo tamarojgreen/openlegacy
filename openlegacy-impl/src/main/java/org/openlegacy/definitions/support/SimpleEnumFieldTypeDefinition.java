@@ -13,11 +13,14 @@ package org.openlegacy.definitions.support;
 import org.openlegacy.DisplayItem;
 import org.openlegacy.definitions.EnumFieldTypeDefinition;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class SimpleEnumFieldTypeDefinition implements EnumFieldTypeDefinition {
+public class SimpleEnumFieldTypeDefinition implements EnumFieldTypeDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Class<? extends Enum<?>> enumClass;
 	private Map<Object, DisplayItem> map = new TreeMap<Object, DisplayItem>();

@@ -32,7 +32,9 @@ import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
+import org.openlegacy.utils.ReflectionUtil;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -45,12 +47,14 @@ import javax.inject.Inject;
  * 
  * 
  */
-public class DefaultTerminalSession extends AbstractSession implements TerminalSession {
+public class DefaultTerminalSession extends AbstractSession implements TerminalSession, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private List<ScreenEntityBinder> screenEntityBinders;
 
-	private transient TerminalConnection terminalConnection;
+	private TerminalConnection terminalConnection;
 
 	private ScreenEntity entity;
 
@@ -72,6 +76,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private ScreenEntityMethodInterceptor interceptor;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
+
+	private boolean useProxyForEntities = true;
 
 	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
@@ -108,7 +114,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			return null;
 		}
 
-		ScreenEntity screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(matchedScreenEntity, ScreenEntity.class, interceptor);
+		ScreenEntity screenEntity = null;
+		if (useProxyForEntities) {
+			screenEntity = (ScreenEntity)ProxyUtil.createPojoProxy(matchedScreenEntity, ScreenEntity.class, interceptor);
+		} else {
+			screenEntity = (ScreenEntity)ReflectionUtil.newInstance(matchedScreenEntity);
+		}
 
 		for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
 			screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
@@ -313,5 +324,17 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	public Integer getSequence() {
 		return terminalConnection.getSequence();
+	}
+
+	public <R extends ScreenEntity> void setEntity(R entity) {
+		this.entity = entity;
+	}
+
+	public boolean isUseProxyForEntities() {
+		return useProxyForEntities;
+	}
+
+	public void setUseProxyForEntities(boolean useProxyForEntities) {
+		this.useProxyForEntities = useProxyForEntities;
 	}
 }

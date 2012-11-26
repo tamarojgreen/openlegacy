@@ -16,10 +16,13 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockTerminalConnection extends AbstractMockTerminalConnection {
+public class MockTerminalConnection extends AbstractMockTerminalConnection implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
 	private int currentIndex = 0;

@@ -12,7 +12,11 @@ package org.openlegacy.support;
 
 import org.openlegacy.DisplayItem;
 
-public class SimpleDisplayItem implements DisplayItem {
+import java.io.Serializable;
+
+public class SimpleDisplayItem implements DisplayItem, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Object value;
 	private Object display;

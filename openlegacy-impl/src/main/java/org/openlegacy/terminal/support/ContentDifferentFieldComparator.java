@@ -13,9 +13,13 @@ package org.openlegacy.terminal.support;
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.FieldComparator;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
-public class ContentDifferentFieldComparator implements FieldComparator {
+public class ContentDifferentFieldComparator implements FieldComparator, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private FieldFormatter fieldFormatter;

@@ -16,6 +16,7 @@ import org.openlegacy.modules.SessionModule;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -24,7 +25,9 @@ import java.util.List;
  * 
  * 
  */
-public abstract class AbstractSession implements Session, InitializingBean, DisposableBean {
+public abstract class AbstractSession implements Session, InitializingBean, DisposableBean, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private SessionModules sessionModules;
 

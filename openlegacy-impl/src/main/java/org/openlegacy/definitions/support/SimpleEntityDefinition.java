@@ -17,6 +17,7 @@ import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.ScreenEntityType;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public abstract class SimpleEntityDefinition<F extends FieldDefinition> implements EntityDefinition<F> {
+public abstract class SimpleEntityDefinition<F extends FieldDefinition> implements EntityDefinition<F>, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String entityName;
 	private Class<?> entityClass;
@@ -37,6 +40,11 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 	private ArrayList<F> keyFields;
 
 	private List<EntityDefinition<?>> childEntitiesDefinitions = new ArrayList<EntityDefinition<?>>();
+
+	/**
+	 * for serialization purpose only
+	 */
+	public SimpleEntityDefinition() {}
 
 	public SimpleEntityDefinition(String entityName, Class<?> screenEntityClass) {
 		this.entityName = entityName;

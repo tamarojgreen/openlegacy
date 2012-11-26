@@ -26,6 +26,7 @@ import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Collection;
 
@@ -37,7 +38,9 @@ import javax.inject.Inject;
  * 
  */
 @Component
-public class ScreenEntityFieldsBinder implements ScreenEntityBinder {
+public class ScreenEntityFieldsBinder implements ScreenEntityBinder, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;

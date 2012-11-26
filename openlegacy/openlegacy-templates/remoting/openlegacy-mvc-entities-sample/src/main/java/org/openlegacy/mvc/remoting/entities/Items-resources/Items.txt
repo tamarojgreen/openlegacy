@@ -1,0 +1,32 @@
+
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________
+1 |^TESTUSER  ^       ^Inventory                               ^          ^ 2/06/05|
+2 |^MITMMAST  ^            ^    Work with Item Master     ^               ^11:44:16|
+3 |^                                                                               |
+4 |^Type one or more action codes. Then Enter.                                     |
+5 |  ^2=Revise^^4=Delete^^5=Display^                                               |
+6 |                                                                                |
+7 |^Action^ ^Alpha search^Item Description^                       ^Item Number^    |
+8 |^ [ ]    ^APPLE     ^ ^Red apple - FRT                         ^1007            |
+9 |  [ ]    ^BANANA    ^ ^Banana - FRT                            ^1008            |
+10|  [ ]    ^CARROT    ^ ^Carrot - VEG                            ^1005            |
+11|  [ ]    ^CHICKEN   ^ ^Chicken breast - MEAT                   ^1006            |
+12|  [ ]    ^CUCUMBER  ^ ^Cucumber - VEG                          ^1004            |
+13|  [ ]    ^EANS      ^ ^Red beans - VEG                         ^1018            |
+14|  [ ]    ^FIG       ^ ^Fresh fig - FRT                         ^1020            |
+15|  [ ]    ^GRAPE     ^ ^White grapes - FRT                      ^1011            |
+16|  [ ]    ^HAMBURGER ^ ^Hamburger - MEAT                        ^1000            |
+17|  [ ]    ^MELON     ^ ^Yellow melon - FRT                      ^1016            |
+18|  [ ]    ^MUSHROOM  ^ ^Champignon mushrooms - VEG              ^1013            |
+19|  [ ]    ^OLIVE     ^ ^Black olive - VEG                       ^1015         ^  |
+20|                                                                                |
+21|^Position to . .^[          ]                                                   |
+22|                                                                                |
+23|^F1=Help  F3=Exit  F6=Create  F12=Cancel  F18=Number Seq^                       |
+24|                                                                                |
+___________________________________________________________________________________
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________

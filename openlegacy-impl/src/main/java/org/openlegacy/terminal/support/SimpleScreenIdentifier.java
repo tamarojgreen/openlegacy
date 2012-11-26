@@ -17,11 +17,15 @@ import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.services.ScreenIdentifier;
 
+import java.io.Serializable;
+
 /**
  * A simple implementation for a screen identifier
  * 
  */
-public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositionContainer {
+public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositionContainer, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private TerminalPosition position;
 	private String text;

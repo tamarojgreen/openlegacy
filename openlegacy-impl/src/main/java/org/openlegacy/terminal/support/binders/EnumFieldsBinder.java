@@ -30,6 +30,7 @@ import org.openlegacy.utils.StringUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -40,7 +41,9 @@ import javax.inject.Inject;
  * @author Roi Mor
  */
 @Component
-public class EnumFieldsBinder implements ScreenEntityBinder {
+public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;

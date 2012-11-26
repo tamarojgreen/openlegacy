@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<bean id="terminalSessionService" class="org.openlegacy.mvc.remoting.backend.services.OLTerminalSessionWebServiceImpl">
+		<constructor-arg name="terminalSession" ref="terminalSession"/>
+	</bean>
+
+	<bean id="terminalSessionExporter" name="/TerminalSessionService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="terminalSessionService"/>
+		<property name="serviceInterface" value="org.openlegacy.mvc.remoting.services.OLTerminalSession"/>
+	</bean>
+
+	<bean id="screenEntitiesRegistryService" class="org.openlegacy.mvc.remoting.backend.services.OLScreenEntitiesRegistryWebServiceImpl">
+		<constructor-arg name="screensRegistry" ref="screensRegistry"/>
+	</bean>
+	
+	<bean id="screenEntitiesRegistryExporter" name="/ScreenEntitiesRegistryService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="screenEntitiesRegistryService"/>
+		<property name="serviceInterface" value="org.openlegacy.mvc.remoting.services.OLScreenEntitiesRegistry"/>
+	</bean>
+	
+	<bean id="stockItemsService" class="org.openlegacy.mvc.remoting.backend.services.OLStockItemsWebServiceImpl">
+		<constructor-arg name="stockItemsDbService" ref="stockItemsDbService"/>
+	</bean>
+	
+	<bean id="stockItemsExporter" name="/StockItemsService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="stockItemsService"/>
+		<property name="serviceInterface" value="org.openlegacy.mvc.remoting.services.OLStockItems"/>
+	</bean>
+
+	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
+</beans>

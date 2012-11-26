@@ -13,8 +13,9 @@ package org.openlegacy.terminal.support.providers;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
-import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -23,10 +24,14 @@ import javax.inject.Inject;
  * A table definition provider based on open legacy @ScreenTable annotation
  * 
  */
-public class RegistryBasedTablesDefinitionProvider implements TablesDefinitionProvider {
+public class RegistryBasedTablesDefinitionProvider implements TablesDefinitionProvider, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private DefaultScreenEntitiesRegistry screenEntitiesRegistry;
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	// private DefaultScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public Map<String, ScreenTableDefinition> getTableDefinitions(Class<?> screenEntity) {
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);

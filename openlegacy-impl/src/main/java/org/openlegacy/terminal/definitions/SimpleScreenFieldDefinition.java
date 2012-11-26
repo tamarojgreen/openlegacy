@@ -17,11 +17,15 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
 
+import java.io.Serializable;
+
 /**
  * Defines a mapping between a screenEntity java field name and it's screen position and length
  * 
  */
-public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenFieldDefinition> implements ScreenFieldDefinition {
+public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenFieldDefinition> implements ScreenFieldDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private TerminalPosition position = null;
 	private int length;
@@ -34,6 +38,10 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private TerminalField terminalLabelfield;
 	// Used for design-time to set a class name which doesn't exists during generation
 	private String javaTypeName;
+
+	public SimpleScreenFieldDefinition() {
+		super();
+	}
 
 	public SimpleScreenFieldDefinition(String name, Class<? extends FieldType> fieldType) {
 		super(name, fieldType);

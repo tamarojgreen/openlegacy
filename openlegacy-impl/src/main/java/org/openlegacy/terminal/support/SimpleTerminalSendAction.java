@@ -17,10 +17,13 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSendAction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleTerminalSendAction implements TerminalSendAction {
+public class SimpleTerminalSendAction implements TerminalSendAction, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private List<TerminalField> modifiedFields = new ArrayList<TerminalField>();
 	private Object command;

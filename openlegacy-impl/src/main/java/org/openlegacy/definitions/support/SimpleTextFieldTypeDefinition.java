@@ -12,7 +12,11 @@ package org.openlegacy.definitions.support;
 
 import org.openlegacy.definitions.FieldTypeDefinition;
 
-public class SimpleTextFieldTypeDefinition implements FieldTypeDefinition {
+import java.io.Serializable;
+
+public class SimpleTextFieldTypeDefinition implements FieldTypeDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public String getTypeName() {
 		return "text";

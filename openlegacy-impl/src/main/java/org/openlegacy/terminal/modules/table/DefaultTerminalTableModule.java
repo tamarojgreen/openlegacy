@@ -26,12 +26,13 @@ import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
 
 @SuppressWarnings("unchecked")
-public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter implements Table {
+public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter implements Table, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +40,7 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
 	@Inject
-	private ApplicationContext applicationContext;
+	private transient ApplicationContext applicationContext;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

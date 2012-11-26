@@ -16,6 +16,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.services.ScreenIdentification;
 import org.openlegacy.terminal.services.ScreenIdentifier;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,9 @@ import java.util.List;
  * A simple implementation for a screen identification within a ScreenIdentifier
  * 
  */
-public class SimpleScreenIdentification implements ScreenIdentification {
+public class SimpleScreenIdentification implements ScreenIdentification, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private List<ScreenIdentifier> screenIdentifiers = new ArrayList<ScreenIdentifier>();
 

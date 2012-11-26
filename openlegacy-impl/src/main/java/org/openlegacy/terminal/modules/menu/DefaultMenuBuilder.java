@@ -21,6 +21,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.util.Assert;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +34,9 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-public class DefaultMenuBuilder implements MenuBuilder {
+public class DefaultMenuBuilder implements MenuBuilder, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

@@ -31,6 +31,7 @@ import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +39,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class DefaultSessionNavigator implements SessionNavigator {
+public class DefaultSessionNavigator implements SessionNavigator, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

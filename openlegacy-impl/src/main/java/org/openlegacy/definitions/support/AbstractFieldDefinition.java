@@ -14,13 +14,22 @@ import org.openlegacy.FieldType;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
 
-public abstract class AbstractFieldDefinition<D extends FieldDefinition> implements FieldDefinition {
+import java.io.Serializable;
+
+public abstract class AbstractFieldDefinition<D extends FieldDefinition> implements FieldDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private Class<? extends FieldType> type;
 	private String displayName;
 	private FieldTypeDefinition fieldTypeDefinition;
 	private boolean key;
+
+	/**
+	 * for serialization purpose only
+	 */
+	public AbstractFieldDefinition() {}
 
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;

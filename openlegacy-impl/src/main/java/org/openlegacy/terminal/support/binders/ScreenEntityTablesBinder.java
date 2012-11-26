@@ -29,6 +29,7 @@ import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,9 @@ import java.util.Set;
 import javax.inject.Inject;
 
 @Component
-public class ScreenEntityTablesBinder implements ScreenEntityBinder {
+public class ScreenEntityTablesBinder implements ScreenEntityBinder, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;

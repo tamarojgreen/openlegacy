@@ -13,10 +13,13 @@ package org.openlegacy.terminal.definitions;
 import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.TerminalPosition;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinition, PositionedPart {
+public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinition, PositionedPart, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Class<?> partClass;
 

@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.utils.StringUtil;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
@@ -26,7 +27,9 @@ import java.text.MessageFormat;
  * <li>Can be configure to trim content</li>
  * 
  */
-public class SimpleFieldFormatter implements FieldFormatter {
+public class SimpleFieldFormatter implements FieldFormatter, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private char[] chars = new char[0];
 

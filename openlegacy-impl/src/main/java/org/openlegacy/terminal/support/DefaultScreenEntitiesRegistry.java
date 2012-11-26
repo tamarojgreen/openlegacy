@@ -21,6 +21,7 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreenIdentification;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,7 +33,9 @@ import java.util.Map;
  * A simple implementation of a screen entities registry. Holds information collection from @ScreenEntity, @FieldMapping and more
  * 
  */
-public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<ScreenEntityDefinition, ScreenFieldDefinition> implements ScreenEntitiesRegistry {
+public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<ScreenEntityDefinition, ScreenFieldDefinition> implements ScreenEntitiesRegistry, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
 	private final Map<Class<?>, ScreenTableDefinition> tableDefinitions = new HashMap<Class<?>, ScreenTableDefinition>();

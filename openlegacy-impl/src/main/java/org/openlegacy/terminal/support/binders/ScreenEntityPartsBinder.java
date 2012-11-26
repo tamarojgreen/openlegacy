@@ -21,6 +21,7 @@ import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +29,9 @@ import java.util.Set;
 import javax.inject.Inject;
 
 @Component
-public class ScreenEntityPartsBinder implements ScreenEntityBinder {
+public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

@@ -1,0 +1,32 @@
+
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________
+1 |^TESTUSER  ^       ^Inventory                               ^          ^ 2/06/05|
+2 |^MITMMAST  ^            ^    Work with Item Master     ^               ^11:44:32|
+3 |^                                                                               |
+4 |^Type choices, press Enter.^                                                    |
+5 |                                                                                |
+6 |^Item Number/Desc :^^2000           ^Tomato - VEG                            ^  |
+7 |^N/L Cost of Sales Account^[               ]                                    |
+8 |^N/L Sales Account . . . .^[               ]                                    |
+9 |^N/L Stock Account . . . .^[               ]                                    |
+10|^               ^. . . . .^[     ]                                              |
+11|^               ^. . . . .^[     ]                                              |
+12|^               ^. . . . .^[     ]                                              |
+13|^Item Type - business area^[ ]                                        ^         |
+14|^Stock Analysis Code . . .^[ ]                                        ^         |
+15|^Stock Value Group . . . .^[ ]                                        ^         |
+16|^Stock Inventory Group . .^[  ]                                        ^        |
+17|^List Price  . . . . . . .^[             ]                                      |
+18|^Standard unit cost  . . .^[             ]             ^Audit Details^          |
+19|                                                 ^Created date . :^^17/01/2010^ |
+20|                                                 ^Created By . . :^^TESTUSER  ^ |
+21|                                                 ^Amended date . :^^ 0/00/0000^ |
+22|                                                 ^Amended By . . :^^          ^ |
+23|^F1=Help  F3=Cancel  F4=Prompt  F12=Return  F14=Delete^                         |
+24|^                                                                            ^  |
+___________________________________________________________________________________
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________

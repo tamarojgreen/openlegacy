@@ -12,7 +12,11 @@ package org.openlegacy.terminal.mock;
 
 import org.openlegacy.terminal.TerminalConnection;
 
-public abstract class AbstractMockTerminalConnection implements TerminalConnection {
+import java.io.Serializable;
+
+public abstract class AbstractMockTerminalConnection implements TerminalConnection, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public String getSessionId() {
 		return "mock session";

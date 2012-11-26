@@ -18,6 +18,7 @@ import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.utils.ProxyUtil;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +30,9 @@ import java.util.Map;
  * An abstract implementation of entities registry
  * 
  */
-public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D extends FieldDefinition> implements EntitiesRegistry<E, D> {
+public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D extends FieldDefinition> implements EntitiesRegistry<E, D>, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private final Map<Class<?>, E> entitiesDefinitions = new HashMap<Class<?>, E>();
 

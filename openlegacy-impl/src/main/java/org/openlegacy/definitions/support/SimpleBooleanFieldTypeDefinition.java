@@ -12,7 +12,11 @@ package org.openlegacy.definitions.support;
 
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 
-public class SimpleBooleanFieldTypeDefinition implements BooleanFieldTypeDefinition {
+import java.io.Serializable;
+
+public class SimpleBooleanFieldTypeDefinition implements BooleanFieldTypeDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String trueValue;
 	private String falseValue;

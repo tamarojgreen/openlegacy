@@ -27,6 +27,7 @@ import org.openlegacy.utils.ProxyUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,9 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-public class ScreenEntityUtils implements InitializingBean {
+public class ScreenEntityUtils implements InitializingBean, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final String NEXT = "next";
 	private static final String PREVIOUS = "previous";

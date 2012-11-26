@@ -24,12 +24,15 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class SimpleScreenTableDefinition implements ScreenTableDefinition, PositionedPart {
+public class SimpleScreenTableDefinition implements ScreenTableDefinition, PositionedPart, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Class<?> rowClass;
 
@@ -146,7 +149,9 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		this.tableCollectorClass = tableCollectorClass;
 	}
 
-	public static class SimpleDrilldownDefinition implements DrilldownDefinition {
+	public static class SimpleDrilldownDefinition implements DrilldownDefinition, Serializable {
+
+		private static final long serialVersionUID = 1L;
 
 		private Class<? extends RowFinder> rowFinder = RowFinder.class;
 

@@ -14,6 +14,7 @@
 		<!-- <module>openlegacy-mobile-sample</module> -->
 		<module>openlegacy-rest-new</module>
 		<module>openlegacy-ws-sample</module>
+		<module>remoting</module>
 	</modules>
 
 	<build>

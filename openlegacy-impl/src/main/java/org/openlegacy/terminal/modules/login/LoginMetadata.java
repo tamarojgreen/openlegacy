@@ -18,10 +18,14 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
 @Component
-public class LoginMetadata implements SessionModuleMetadata {
+public class LoginMetadata implements SessionModuleMetadata, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;

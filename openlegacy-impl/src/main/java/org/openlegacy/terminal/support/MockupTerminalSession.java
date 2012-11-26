@@ -17,6 +17,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.mock.MockTerminalConnection;
 import org.openlegacy.utils.ProxyUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,6 +30,8 @@ import java.util.Map;
  * 
  */
 public class MockupTerminalSession extends DefaultTerminalSession {
+
+	private static final long serialVersionUID = 1L;
 
 	private Map<Class<?>, SnapshotsList> snapshotsMap = new HashMap<Class<?>, SnapshotsList>();
 
@@ -109,7 +112,9 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	 * A mock-up helper class which manage a list of snapshots and knows always what is the current one
 	 * 
 	 */
-	private static class SnapshotsList {
+	private static class SnapshotsList implements Serializable {
+
+		private static final long serialVersionUID = 1L;
 
 		private List<SnapshotInfo> terminalSnapshots = new ArrayList<SnapshotInfo>();
 		private int current;
@@ -138,7 +143,9 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 		}
 	}
 
-	private static class SnapshotInfo {
+	private static class SnapshotInfo implements Serializable {
+
+		private static final long serialVersionUID = 1L;
 
 		private TerminalSnapshot terminalSnapshot;
 		private int indexInSession;

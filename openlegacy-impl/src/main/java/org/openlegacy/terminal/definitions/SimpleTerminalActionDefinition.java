@@ -17,7 +17,9 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
-public class SimpleTerminalActionDefinition extends SimpleActionDefinition implements TerminalActionDefinition {
+import java.io.Serializable;
+
+public class SimpleTerminalActionDefinition extends SimpleActionDefinition implements TerminalActionDefinition, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -51,6 +53,7 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.targetEntity = targetEntity;
 	}
 
+	@Override
 	public boolean isDefaultAction() {
 		return defaultAction;
 	}

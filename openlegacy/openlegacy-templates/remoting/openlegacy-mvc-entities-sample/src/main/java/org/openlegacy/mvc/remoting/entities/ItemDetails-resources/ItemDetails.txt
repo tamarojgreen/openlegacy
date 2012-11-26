@@ -1,0 +1,32 @@
+
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________
+1 |^TESTUSER  ^       ^Inventory                               ^          ^ 2/06/05|
+2 |^MITMMAST  ^            ^    Work with Item Master     ^               ^11:44:28|
+3 |^                                                                               |
+4 |^Type choices, press Enter.^                                                    |
+5 |                                                                                |
+6 |^Item Number . . . . . . . . .^[2000           ]                                |
+7 |^Item Description  . . . . . .^[Tomato - VEG                            ]       |
+8 |^Alpha Search  . . . . . . . .^[TOMATO    ]                                     |
+9 |^Superceding item 'To' . . . .^[               ]                                |
+10|^Superceding Item 'From' . . .^[               ]                                |
+11|^Substitute item number  . . .^[               ]                                |
+12|^Manufacturers Item No.  . . .^[               ]                                |
+13|^Item weight . . . . . . . . .^[               ]                                |
+14|^Item Class  . . . . . . . . .^[VEG]Vegetables                              ^   |
+15|^Stock Group . . . . . . . . .^[SG ]Generic stock group                     ^   |
+16|^Unit of Measure . . . . . . .^[     ]                                          |
+17|^Packing Multiplier  . . . . .^[      ]                                         |
+18|^Outer Unit of Measure . . . .^[     ]                                          |
+19|^Outer Quantity  . . . . . . .^[          ]                                     |
+20|^Pallet label required . . . .^[ ]                                              |
+21|^VAT Code  . . . . . . . . . .^[  ]                                        ^    |
+22|                                                                                |
+23|^F1=Help  F4=Prompt  F12=Cancel  F14=Delete^                                    |
+24|^                                                                            ^  |
+___________________________________________________________________________________
+    2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0 2 4 6 8 0
+            1 1 1 1 1 2 2 2 2 2 3 3 3 3 3 4 4 4 4 4 5 5 5 5 5 6 6 6 6 6 7 7 7 7 7 8
+___________________________________________________________________________________

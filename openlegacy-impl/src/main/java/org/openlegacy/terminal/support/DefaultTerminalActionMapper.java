@@ -16,6 +16,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.utils.ReflectionUtil;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,7 +27,9 @@ import java.util.Set;
  * provider SendKey(command) implementation type (String, Integer, Enum etc)
  * 
  */
-public class DefaultTerminalActionMapper implements TerminalActionMapper {
+public class DefaultTerminalActionMapper implements TerminalActionMapper, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Map<TerminalAction, Object> actionMappings = new HashMap<TerminalAction, Object>();
 

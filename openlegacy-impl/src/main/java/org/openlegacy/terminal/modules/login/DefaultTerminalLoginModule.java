@@ -29,11 +29,12 @@ import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter implements Login {
+public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter implements Login, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

@@ -24,11 +24,14 @@ import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.PropertyUtil;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.inject.Inject;
 
-public class RecordValuesProxyHandler implements ScreenEntityProxyHandler {
+public class RecordValuesProxyHandler implements ScreenEntityProxyHandler, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final String VALUES = "Values";
 

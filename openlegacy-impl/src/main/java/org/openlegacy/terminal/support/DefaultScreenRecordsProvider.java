@@ -25,14 +25,17 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class DefaultScreenRecordsProvider implements ScreenRecordsProvider, ApplicationContextAware {
+public class DefaultScreenRecordsProvider implements ScreenRecordsProvider, ApplicationContextAware, Serializable {
 
-	private ApplicationContext applicationContext;
+	private static final long serialVersionUID = 1L;
+
+	private transient ApplicationContext applicationContext;
 
 	public Map<Object, Object> getRecords(TerminalSession session, Class<?> entityClass, Class<Object> rowClass,
 			boolean collectAll, String searchText) {

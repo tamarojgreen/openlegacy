@@ -18,10 +18,13 @@ import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-public class ScreenEntityMethodInterceptor implements MethodInterceptor {
+public class ScreenEntityMethodInterceptor implements MethodInterceptor, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private TerminalSession terminalSession;
 

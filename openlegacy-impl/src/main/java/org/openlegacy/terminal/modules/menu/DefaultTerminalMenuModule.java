@@ -15,9 +15,11 @@ import org.openlegacy.modules.menu.MenuBuilder;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
-public class DefaultTerminalMenuModule extends TerminalSessionModuleAdapter implements Menu {
+public class DefaultTerminalMenuModule extends TerminalSessionModuleAdapter implements Menu, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

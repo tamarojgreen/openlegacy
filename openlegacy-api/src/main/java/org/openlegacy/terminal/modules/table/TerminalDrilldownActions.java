@@ -13,6 +13,8 @@ package org.openlegacy.terminal.modules.table;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 
+import java.io.Serializable;
+
 /**
  * A utility class for working with drill down actions. A drill down action is useful for performing drill down into a details
  * screen from a table.
@@ -20,7 +22,9 @@ import org.openlegacy.terminal.table.TerminalDrilldownAction;
  * @author Roi Mor
  * 
  */
-public class TerminalDrilldownActions {
+public class TerminalDrilldownActions implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	public static TerminalDrilldownAction enter(Object actionValue) {
 		EnterDrilldownAction action = new EnterDrilldownAction();
@@ -28,7 +32,7 @@ public class TerminalDrilldownActions {
 		return action;
 	}
 
-	public static class EnterDrilldownAction extends ENTER implements TerminalDrilldownAction {
+	public static class EnterDrilldownAction extends ENTER implements TerminalDrilldownAction, Serializable {
 
 		private static final long serialVersionUID = 1L;
 

@@ -13,6 +13,7 @@ package org.openlegacy.terminal.actions;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.exceptions.TerminalActionNotMappedException;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
@@ -21,7 +22,9 @@ import java.text.MessageFormat;
  * @author Roi Mor
  * 
  */
-public class CombinedTerminalAction implements TerminalAction {
+public class CombinedTerminalAction implements TerminalAction, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private AdditionalKey additionalKey;
 	private Class<? extends TerminalAction> terminalAction;

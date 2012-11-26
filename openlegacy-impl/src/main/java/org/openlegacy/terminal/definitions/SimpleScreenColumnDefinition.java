@@ -13,7 +13,11 @@ package org.openlegacy.terminal.definitions;
 import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 
-public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
+import java.io.Serializable;
+
+public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private int startColumn;

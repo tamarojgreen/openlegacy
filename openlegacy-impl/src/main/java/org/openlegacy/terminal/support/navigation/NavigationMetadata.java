@@ -17,12 +17,15 @@ import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
-public class NavigationMetadata implements SessionModuleMetadata {
+public class NavigationMetadata implements SessionModuleMetadata, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Map<SourceTarget, List<NavigationDefinition>> navigationCache = new HashMap<SourceTarget, List<NavigationDefinition>>();
 

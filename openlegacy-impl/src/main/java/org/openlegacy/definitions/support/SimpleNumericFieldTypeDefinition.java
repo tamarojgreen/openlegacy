@@ -12,7 +12,11 @@ package org.openlegacy.definitions.support;
 
 import org.openlegacy.definitions.NumericFieldTypeDefinition;
 
-public class SimpleNumericFieldTypeDefinition implements NumericFieldTypeDefinition {
+import java.io.Serializable;
+
+public class SimpleNumericFieldTypeDefinition implements NumericFieldTypeDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private double minimumValue = Double.MIN_VALUE;
 	private double maximumValue = Double.MAX_VALUE;

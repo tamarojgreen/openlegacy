@@ -12,7 +12,11 @@ package org.openlegacy.definitions.support;
 
 import org.openlegacy.definitions.DateFieldTypeDefinition;
 
-public class SimpleDateFieldTypeDefinition implements DateFieldTypeDefinition {
+import java.io.Serializable;
+
+public class SimpleDateFieldTypeDefinition implements DateFieldTypeDefinition, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Integer dayColumn;
 	private Integer monthColumn;

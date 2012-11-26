@@ -17,13 +17,17 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
 /**
  * Registry based recognizer. Based on @ScreenEntity (identifier=...) definitions
  * 
  */
-public class RegistryBasedScreensRecognizer implements ScreensRecognizer {
+public class RegistryBasedScreensRecognizer implements ScreensRecognizer, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private DefaultScreenEntitiesRegistry screensRegistry;
