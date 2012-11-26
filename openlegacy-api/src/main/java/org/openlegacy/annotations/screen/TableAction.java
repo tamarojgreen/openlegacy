@@ -40,5 +40,5 @@ public @interface TableAction {
 
 	String alias() default "";
 
-	Class<? extends ScreenEntity> targetEntity() default ScreenEntity.NONE.class;
+	Class<?> targetEntity() default ScreenEntity.NONE.class;
 }
