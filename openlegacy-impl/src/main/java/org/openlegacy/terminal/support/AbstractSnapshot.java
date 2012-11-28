@@ -15,17 +15,22 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.persistance.SnapshotPersistanceDTO;
+import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.terminal.render.DefaultTerminalSnapshotTextRenderer;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
 import org.openlegacy.utils.StringUtil;
 
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable {
+public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -150,4 +155,23 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Serializable
 	public SnapshotType getSnapshotType() {
 		return SnapshotType.INCOMING;
 	}
+
+	public void writeExternal(ObjectOutput out) throws IOException {
+		TerminalPersistedSnapshot persistedSnapshot = SnapshotPersistanceDTO.transformSnapshot(this);
+		out.writeObject(persistedSnapshot);
+	}
+
+	protected abstract void readExternal(TerminalPersistedSnapshot persistedSnapshot);
+
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		TerminalPersistedSnapshot persistedSnapshot = (TerminalPersistedSnapshot)in.readObject();
+		this.cursor = persistedSnapshot.getCursorPosition();
+		this.fields = persistedSnapshot.getFields();
+		this.fieldSeperators = persistedSnapshot.getFieldSeperators();
+		this.rows = persistedSnapshot.getRows();
+		this.screenSize = persistedSnapshot.getSize();
+		this.text = persistedSnapshot.getText();
+		readExternal(persistedSnapshot);
+	}
+
 }

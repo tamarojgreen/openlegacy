@@ -3,6 +3,7 @@ package org.openlegacy.mvc.remoting.backend.db.services;
 import org.openlegacy.mvc.remoting.db.model.StockItem;
 import org.openlegacy.mvc.remoting.db.model.StockItemImage;
 import org.openlegacy.mvc.remoting.db.model.StockItemNote;
+import org.openlegacy.mvc.remoting.services.OLStockItems;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,21 +12,24 @@ import javax.persistence.PersistenceContext;
 
 @Service(value = "stockItemsDbService")
 @Transactional
-public class StockItemsService {
+public class StockItemsService implements OLStockItems {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	@Override
 	public StockItem updateStockItem(StockItem stockItem) {
 		stockItem = entityManager.merge(stockItem);
 		entityManager.flush();
 		return stockItem;
 	}
 
+	@Override
 	public StockItem getStockItem(Integer itemId) {
 		return entityManager.find(StockItem.class, itemId);
 	}
 
+	@Override
 	public StockItem getOrCreateStockItem(Integer itemId) {
 		StockItem stockItem = entityManager.find(StockItem.class, itemId);
 		if (stockItem == null) {
@@ -36,6 +40,7 @@ public class StockItemsService {
 		return stockItem;
 	}
 
+	@Override
 	public void addOrUpdateNote(Integer itemId, String noteId, String text) {
 		StockItem stockItem = getOrCreateStockItem(itemId);
 		StockItemNote stockItemNote = new StockItemNote();
@@ -46,6 +51,7 @@ public class StockItemsService {
 
 	}
 
+	@Override
 	public void addImage(Integer itemId, byte[] bytes) {
 		StockItem stockItem = getOrCreateStockItem(itemId);
 		StockItemImage stockItemImage = new StockItemImage();
@@ -54,6 +60,7 @@ public class StockItemsService {
 		entityManager.merge(stockItem);
 	}
 
+	@Override
 	public StockItemImage getImage(Long imageId) {
 		return entityManager.find(StockItemImage.class, imageId);
 	}

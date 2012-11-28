@@ -13,14 +13,17 @@ package org.openlegacy.web;
 import org.openlegacy.plugins.PluginsRegistry;
 import org.openlegacy.plugins.support.DefaultPluginsLoader;
 import org.openlegacy.plugins.support.PluginProcessor;
+import org.openlegacy.utils.SpringUtil;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
 
 public class OpenLegacyContextLoaderListener extends ContextLoaderListener {
 
@@ -37,6 +40,12 @@ public class OpenLegacyContextLoaderListener extends ContextLoaderListener {
 			PluginProcessor processor = new PluginProcessor(pluginsRegistry);
 			applicationContext.addBeanFactoryPostProcessor(processor);
 		}
+	}
+
+	@Override
+	public void contextInitialized(ServletContextEvent event) {
+		super.contextInitialized(event);
+		SpringUtil.ApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());
 	}
 
 }

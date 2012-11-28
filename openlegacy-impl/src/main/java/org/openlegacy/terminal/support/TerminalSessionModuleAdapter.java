@@ -16,6 +16,7 @@ import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionModule;
+import org.openlegacy.utils.SpringUtil;
 
 import java.io.Serializable;
 
@@ -50,5 +51,11 @@ public abstract class TerminalSessionModuleAdapter extends SessionModuleAdapter<
 
 	public void destroy() {
 		// allow override
+	}
+
+	public Object readResolve() {
+		TerminalSession bean = SpringUtil.ApplicationContext.getBean(TerminalSession.class);
+		setSession(bean);
+		return this;
 	}
 }

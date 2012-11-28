@@ -43,16 +43,21 @@
 		
 	<bean id="terminalSession" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl" value="http://localhost:8081/openlegacy-mvc-backend-sample/TerminalSessionService"/>
-		<property name="serviceInterface" value="org.openlegacy.mvc.remoting.services.OLTerminalSession"/>
+		<property name="serviceInterface" value="org.openlegacy.terminal.TerminalSession"/>
 	</bean>
 	
 	<bean id="screenEntitiesRegistry" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl" value="http://localhost:8081/openlegacy-mvc-backend-sample/ScreenEntitiesRegistryService"/>
-		<property name="serviceInterface" value="org.openlegacy.mvc.remoting.services.OLScreenEntitiesRegistry"/>
+		<property name="serviceInterface" value="org.openlegacy.terminal.services.ScreenEntitiesRegistry"/>
 	</bean>
 	
 	<bean id="stockItemsService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
 		<property name="serviceUrl" value="http://localhost:8081/openlegacy-mvc-backend-sample/StockItemsService"/>
 		<property name="serviceInterface" value="org.openlegacy.mvc.remoting.services.OLStockItems"/>
+	</bean>
+	
+	<bean id="terminalConnectionFactory" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost:8081/openlegacy-mvc-backend-sample/TerminalConnectionFactory"/>
+		<property name="serviceInterface" value="org.openlegacy.terminal.TerminalConnectionFactory"/>
 	</bean>
  </beans>

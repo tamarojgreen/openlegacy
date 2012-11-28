@@ -20,11 +20,13 @@ import org.openlegacy.mvc.remoting.db.model.StockItemImage;
  */
 public interface OLStockItems {
 
+	public StockItem updateStockItem(StockItem stockItem);
+
+	public StockItem getStockItem(Integer itemId);
+
 	public StockItem getOrCreateStockItem(Integer itemNumber);
 
 	public void addOrUpdateNote(Integer itemNumber, String noteId, String text);
-
-	public void updateStockItem(StockItem stockItem);
 
 	public void addImage(Integer itemNumber, byte[] bytes);
 

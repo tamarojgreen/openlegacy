@@ -17,6 +17,7 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 
 import java.util.List;
 
@@ -26,6 +27,11 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 
 	private TerminalSnapshot terminalSnapshot;
 	private TerminalSendAction terminalSendAction;
+
+	/*
+	 * for serialization purpose only
+	 */
+	public SimpleTerminalOutgoingSnapshot() {}
 
 	public SimpleTerminalOutgoingSnapshot(TerminalSnapshot terminalSnapshot, TerminalSendAction terminalSendAction) {
 		this.terminalSnapshot = terminalSnapshot;
@@ -108,6 +114,16 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 	@Override
 	protected List<TerminalField> initFields() {
 		return terminalSnapshot.getFields();
+	}
+
+	/* (non-Javadoc)
+	 * @see org.openlegacy.terminal.support.AbstractSnapshot#readExternal(org.openlegacy.terminal.persistance.TerminalPersistedSnapshot)
+	 */
+	@Override
+	protected void readExternal(TerminalPersistedSnapshot persistedSnapshot) {
+		// TODO check is it implementation right
+		this.terminalSendAction = persistedSnapshot.getTerminalSendAction();
+		this.terminalSnapshot = persistedSnapshot;
 	}
 
 }

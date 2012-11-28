@@ -226,6 +226,9 @@ public class SnapshotUtils {
 	}
 
 	public static Color convertColor(org.openlegacy.terminal.Color color) {
+		if (color == null) {
+			return Color.GREEN;
+		}
 		switch (color) {
 			case BLUE:
 				return new Color(0x0586F7);

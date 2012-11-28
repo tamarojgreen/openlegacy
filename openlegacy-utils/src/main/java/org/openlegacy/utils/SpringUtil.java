@@ -14,6 +14,8 @@ import org.springframework.context.ApplicationContext;
 
 public class SpringUtil {
 
+	public static ApplicationContext ApplicationContext = null;
+
 	/**
 	 * Utility class which relies on project conventions. When the provided class is an implementation class, then return it from
 	 * spring context. If not, return bean named: "default"+className

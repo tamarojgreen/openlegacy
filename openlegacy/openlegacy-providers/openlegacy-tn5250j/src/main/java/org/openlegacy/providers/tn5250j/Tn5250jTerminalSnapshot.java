@@ -13,6 +13,7 @@ package org.openlegacy.providers.tn5250j;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
@@ -47,6 +48,11 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 	private int sequence;
 
 	private boolean convertToLogical;
+
+	/*
+	 * for serialization purpose only
+	 */
+	public Tn5250jTerminalSnapshot() {}
 
 	public Tn5250jTerminalSnapshot(Screen5250 screen, int sequence, boolean convertToLogical) {
 		this.screen = screen;
@@ -274,6 +280,15 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		public char[] extended;
 		public final char[] graphic;
 		public final char[] field;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.openlegacy.terminal.support.AbstractSnapshot#readExternal(org.openlegacy.terminal.persistance.TerminalPersistedSnapshot)
+	 */
+	@Override
+	protected void readExternal(TerminalPersistedSnapshot persistedSnapshot) {
+		this.sequence = persistedSnapshot.getSequence();
+		this.fieldSeperators = persistedSnapshot.getFieldSeperators();
 	}
 
 }

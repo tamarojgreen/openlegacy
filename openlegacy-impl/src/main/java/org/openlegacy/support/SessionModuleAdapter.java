@@ -13,15 +13,11 @@ package org.openlegacy.support;
 import org.openlegacy.Session;
 import org.openlegacy.modules.SessionModule;
 
-import java.io.Serializable;
-
 /**
  * Place holder for session module future override-able methods
  * 
  */
-public abstract class SessionModuleAdapter<S extends Session> implements SessionModule, Serializable {
-
-	private static final long serialVersionUID = 1L;
+public abstract class SessionModuleAdapter<S extends Session> implements SessionModule {
 
 	private S session;
 

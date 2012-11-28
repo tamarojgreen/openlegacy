@@ -20,20 +20,24 @@ import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class TerminalConnectionDelegator implements TerminalConnection {
+public class TerminalConnectionDelegator implements TerminalConnection, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ApplicationContext applicationContext;
+	private transient ApplicationContext applicationContext;
 
 	@Inject
 	private ConnectionPropertiesProvider connectionPropertiesProvider;
-	
+
 	private TerminalConnection terminalConnection;
 
 	private TerminalSnapshot terminalSnapshot;
@@ -146,5 +150,10 @@ public class TerminalConnectionDelegator implements TerminalConnection {
 
 	public Integer getSequence() {
 		return terminalConnection.getSequence();
+	}
+
+	public Object readResolve() {
+		this.applicationContext = SpringUtil.ApplicationContext;
+		return this;
 	}
 }

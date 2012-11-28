@@ -135,6 +135,10 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	}
 
 	private static String getColor(Color color, Map<Color, String> colorMapper, String defaultColor) {
+		// Not all fields have color
+		if (color == null) {
+			return defaultColor;
+		}
 		String colorText = null;
 		// if not color mapper is defined or color not found on mapper -> convert host color to HTML style color
 		if (colorMapper == null || colorMapper.get(color) == null) {

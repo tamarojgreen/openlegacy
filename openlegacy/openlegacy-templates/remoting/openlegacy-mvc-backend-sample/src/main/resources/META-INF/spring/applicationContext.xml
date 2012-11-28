@@ -7,9 +7,6 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-
-<!-- 	<context:component-scan base-package="org.openlegacy.mvc.remoting" /> -->
-
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
 	<context:property-placeholder location="classpath*:/*.properties" />
@@ -24,7 +21,12 @@
 		</property>
 	</bean>
 
+	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" parent="abstractTerminalSession">
+		<property name="useProxyForEntities" value="false"/>
+	</bean>
+
 	<!-- Using a mock-up session application -->
+<!-- 
 	<bean id="terminalConnectionFactory" class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/trails" />
 		<property name="trailName" value="demo_session.trail" />
@@ -43,9 +45,11 @@
 		<property name="useProxyForEntities" value="false"/>
 		<aop:scoped-proxy />
 	</bean>
+ -->
 	<!-- End using a mock-up session application -->
 
 	<import resource="classpath:/META-INF/spring/db-context.xml"/>
 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
+	
 </beans>
