@@ -6,6 +6,7 @@ import org.h3270.host.S3270Screen;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
@@ -103,6 +104,11 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 			}
 		}
 		return fields;
+	}
+
+	@Override
+	protected void readExternal(TerminalPersistedSnapshot persistedSnapshot) {
+		this.sequence = persistedSnapshot.getSequence();
 	}
 
 }

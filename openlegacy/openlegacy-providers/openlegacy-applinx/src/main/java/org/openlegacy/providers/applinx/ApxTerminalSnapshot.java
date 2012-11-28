@@ -124,4 +124,10 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 				+ apxField.getLength());
 	}
 
+	/* (non-Javadoc)
+	 * @see org.openlegacy.terminal.support.AbstractSnapshot#readExternal(org.openlegacy.terminal.persistance.TerminalPersistedSnapshot)
+	 */
+	@Override
+	protected void readExternal(TerminalPersistedSnapshot persistedSnapshot) {
+	}
 }
