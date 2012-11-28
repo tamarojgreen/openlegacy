@@ -36,6 +36,7 @@
 		<link href="${pageContext.request.contextPath}/dj/dijit.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/themes/cloudm/cloudm.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/themes/cloudm/openlegacy.css" rel="stylesheet" />
+		<link href="${pageContext.request.contextPath}/css/project_m.css" rel="stylesheet" />
 		
 		<script language="JavaScript" type="text/javascript">
 			require([

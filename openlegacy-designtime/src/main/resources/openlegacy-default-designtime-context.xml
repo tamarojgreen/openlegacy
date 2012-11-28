@@ -74,7 +74,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="titleRegex" value="[\s-]*[\w\p{L}-]+[\w\p{L}- ]*" />
+										<entry key="titleRegex" value="[\s-]*[\w\p{L}-]+[\w\p{L}-)( ]*" />
 										<entry key="titleStartRow" value="1" />
 										<entry key="titleEndRow" value="4" />
 										<entry key="titleStartColumn" value="1" />

@@ -4,7 +4,10 @@ var timeouts = [1000,3000,10000];
 var currentTimeoutIndex = 0;
 
 function getMainForm() {
-	return document.openlegacyForm;
+	if (document.openlegacyForm != null){
+		return document.openlegacyForm;
+	};
+	return document.forms[0];
 }
 
 function TerminalSession() {
@@ -20,9 +23,13 @@ var terminalSession = new TerminalSession();
 require(["dojo/ready"], function(ready){
 	ready(function(){
 		require(["dojo/dom", "dojo/on"], function(dom, on){
-			setFocus();
-			attachFieldsFocus(on);
-			setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
+			if (getMainForm().TerminalCursor != null){
+				setFocus();
+				attachFieldsFocus(on);
+			}
+			if (MainForm().Sequence != null){
+				setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
+			}
 		});
 	});
 });
@@ -54,6 +61,9 @@ function checkSequence(){
 
 function setFocus(){
     var elements = getMainForm().elements;
+    if (getMainForm().TerminalCursor == null){
+    	return;
+    }
     var focusFieldName = getMainForm().TerminalCursor.value;
     
     var focusField = dojo.byId(focusFieldName);

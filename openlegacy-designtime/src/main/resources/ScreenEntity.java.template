@@ -27,7 +27,7 @@ import ${referredClass};
 				</#list>	
 				})
 </#if>
-<#if navigationDefinition??>
+<#if navigationDefinition?? && navigationDefinition.accessedFromEntityDefinition?? && navigationDefinition.accessedFromEntityDefinition.entityName??>
 @ScreenNavigation(accessedFrom = ${navigationDefinition.accessedFromEntityDefinition.entityName}.class 
 					<#if navigationDefinition.terminalAction??>
 					, terminalAction=TerminalActions.${navigationDefinition.terminalAction.terminalAction.simpleName}.class <#if navigationDefinition.terminalAction.additionalKey??>, additionalKey=AdditionalKey.${navigationDefinition.terminalAction.additionalKey}</#if>
