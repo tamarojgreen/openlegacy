@@ -458,6 +458,10 @@ public class ScreenPreview extends ViewPart {
 				for (ASTNode astNode : modifiers) {
 					if (astNode instanceof NormalAnnotation) {
 						ITypeBinding binding = ((NormalAnnotation)astNode).resolveTypeBinding();
+						// binding can be null, for example if user copy field with annotation
+						if (binding == null) {
+							continue;
+						}
 						if (binding.getQualifiedName().equals(SCREEN_FIELD_ANNOTATION)) {
 							// retrieve rectangle from annotation attributes
 							isAnnotationVisited.set(checkVisitedAnnotation((NormalAnnotation)astNode));
@@ -477,6 +481,10 @@ public class ScreenPreview extends ViewPart {
 					return;
 				}
 				ITypeBinding binding = node.resolveTypeBinding();
+				// binding can be null, for example if user copy field with annotation
+				if (binding == null) {
+					return;
+				}
 				if (binding.getQualifiedName().equals(IDENTIFIER_ANNOTATION)
 						|| binding.getQualifiedName().equals(SCREEN_FIELD_ANNOTATION)) {
 					// retrieve rectangle from annotation attributes
