@@ -14,8 +14,16 @@ import org.springframework.context.ApplicationContext;
 
 public class SpringUtil {
 
-	public static ApplicationContext ApplicationContext = null;
+	private static ApplicationContext applicationContext = null;
 
+	public static ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+	public static void setApplicationContext(
+			ApplicationContext applicationContext) {
+		SpringUtil.applicationContext = applicationContext;
+	}
+	
 	/**
 	 * Utility class which relies on project conventions. When the provided class is an implementation class, then return it from
 	 * spring context. If not, return bean named: "default"+className
@@ -28,6 +36,10 @@ public class SpringUtil {
 	public static <T> T getDefaultBean(ApplicationContext applicationContext, Class<T> clazz) {
 		if (!clazz.isInterface()) {
 			return applicationContext.getBean(clazz);
+		}
+		// avoid NPE when no applicationContext is available. Relevant when using remoting
+		if (applicationContext == null){
+			applicationContext = getApplicationContext();
 		}
 		return (T)applicationContext.getBean("default" + clazz.getSimpleName());
 

@@ -54,7 +54,7 @@ public abstract class TerminalSessionModuleAdapter extends SessionModuleAdapter<
 	}
 
 	public Object readResolve() {
-		TerminalSession bean = SpringUtil.ApplicationContext.getBean(TerminalSession.class);
+		TerminalSession bean = SpringUtil.getApplicationContext().getBean(TerminalSession.class);
 		setSession(bean);
 		return this;
 	}

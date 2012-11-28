@@ -21,12 +21,14 @@
 		</property>
 	</bean>
 
-	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" parent="abstractTerminalSession">
+<!--
+ 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" parent="abstractTerminalSession">
 		<property name="useProxyForEntities" value="false"/>
 	</bean>
-
+ -->
 	<!-- Using a mock-up session application -->
 <!-- 
+ -->
 	<bean id="terminalConnectionFactory" class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/trails" />
 		<property name="trailName" value="demo_session.trail" />
@@ -45,7 +47,6 @@
 		<property name="useProxyForEntities" value="false"/>
 		<aop:scoped-proxy />
 	</bean>
- -->
 	<!-- End using a mock-up session application -->
 
 	<import resource="classpath:/META-INF/spring/db-context.xml"/>

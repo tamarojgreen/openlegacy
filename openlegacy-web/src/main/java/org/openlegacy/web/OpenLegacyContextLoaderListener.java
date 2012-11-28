@@ -45,7 +45,7 @@ public class OpenLegacyContextLoaderListener extends ContextLoaderListener {
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		super.contextInitialized(event);
-		SpringUtil.ApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext());
+		SpringUtil.setApplicationContext(WebApplicationContextUtils.getRequiredWebApplicationContext(event.getServletContext()));
 	}
 
 }

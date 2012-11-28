@@ -153,7 +153,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	}
 
 	public Object readResolve() {
-		this.applicationContext = SpringUtil.ApplicationContext;
+		this.applicationContext = SpringUtil.getApplicationContext();
 		return this;
 	}
 }
