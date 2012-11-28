@@ -4,7 +4,7 @@ import org.openlegacy.modules.table.Table;
 import org.openlegacy.mvc.remoting.db.model.StockItem;
 import org.openlegacy.mvc.remoting.db.model.StockItemNote;
 import org.openlegacy.mvc.remoting.entities.ItemDetails;
-import org.openlegacy.mvc.remoting.services.OLStockItems;
+import org.openlegacy.mvc.remoting.services.StockItemsService;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ import javax.inject.Inject;
 public class ItemDetailsCompositeController {
 
 	@Inject
-	private OLStockItems stockItemsService;
+	private StockItemsService stockItemsService;
 
 	@Inject
 	private TerminalSession terminalSession;

@@ -2,7 +2,7 @@ package org.openlegacy.mvc.frontend.controllers;
 
 import org.openlegacy.mvc.remoting.db.model.StockItem;
 import org.openlegacy.mvc.remoting.entities.ItemDetails;
-import org.openlegacy.mvc.remoting.services.OLStockItems;
+import org.openlegacy.mvc.remoting.services.StockItemsService;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -25,7 +25,7 @@ public class ItemDetailsController {
 	private TerminalSession terminalSession;
 
 	@Inject
-	private OLStockItems stockItemsService;
+	private StockItemsService stockItemsService;
 
 	// handle page initial display
 	@RequestMapping(method = RequestMethod.GET, params = "partial=1")

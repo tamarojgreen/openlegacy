@@ -18,7 +18,7 @@ import org.openlegacy.mvc.remoting.db.model.StockItemImage;
  * @author Imivan
  * 
  */
-public interface OLStockItems {
+public interface StockItemsService {
 
 	public StockItem updateStockItem(StockItem stockItem);
 

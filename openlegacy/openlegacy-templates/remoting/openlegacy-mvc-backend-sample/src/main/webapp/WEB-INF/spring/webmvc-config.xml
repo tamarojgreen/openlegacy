@@ -21,7 +21,7 @@
 	
 	<bean id="stockItemsExporter" name="/StockItemsService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
 		<property name="service" ref="stockItemsDbService"/>
-		<property name="serviceInterface" value="org.openlegacy.mvc.remoting.services.OLStockItems"/>
+		<property name="serviceInterface" value="org.openlegacy.mvc.remoting.services.StockItemsService"/>
 	</bean>
 
 	<bean id="terminalConnectionFactoryExporter" name="/TerminalConnectionFactory" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">

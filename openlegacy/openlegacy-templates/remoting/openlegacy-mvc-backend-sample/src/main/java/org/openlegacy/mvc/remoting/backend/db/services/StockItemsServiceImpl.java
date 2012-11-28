@@ -3,7 +3,7 @@ package org.openlegacy.mvc.remoting.backend.db.services;
 import org.openlegacy.mvc.remoting.db.model.StockItem;
 import org.openlegacy.mvc.remoting.db.model.StockItemImage;
 import org.openlegacy.mvc.remoting.db.model.StockItemNote;
-import org.openlegacy.mvc.remoting.services.OLStockItems;
+import org.openlegacy.mvc.remoting.services.StockItemsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 @Service(value = "stockItemsDbService")
 @Transactional
-public class StockItemsService implements OLStockItems {
+public class StockItemsServiceImpl implements StockItemsService {
 
 	@PersistenceContext
 	private EntityManager entityManager;
