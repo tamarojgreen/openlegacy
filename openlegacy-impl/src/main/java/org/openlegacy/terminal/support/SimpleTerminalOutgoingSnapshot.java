@@ -104,7 +104,7 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 	}
 
 	public Integer getSequence() {
-		return terminalSnapshot.getSequence();
+		return terminalSnapshot.getSequence()+1;
 	}
 
 	public String getCommand() {

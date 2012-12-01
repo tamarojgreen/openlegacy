@@ -68,7 +68,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 		}
 
 		waitForKeyboardUnlock((String)terminalSendAction.getCommand());
-		sequence++;
+		sequence+=2;
 	}
 
 	private void waitForKeyboardUnlock(String aid) {
