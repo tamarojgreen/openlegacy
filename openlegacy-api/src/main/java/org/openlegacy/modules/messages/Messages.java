@@ -23,6 +23,8 @@ import java.util.List;
  */
 public interface Messages extends SessionModule {
 
+	public static final String MESSAGE_FIELD = "message";
+
 	List<String> getMessages();
 
 	void resetMessages();

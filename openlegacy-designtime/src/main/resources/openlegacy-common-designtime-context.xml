@@ -31,6 +31,7 @@
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.table.ScreenTableFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.table.ScreenTableActionFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.login.LoginScreenFactProcessor" />
+				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.messages.MessagesScreenFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.menu.MenuScreenFactProcessor"/>
 				<bean class="org.openlegacy.designtime.terminal.analyzer.modules.navigation.NavigationFactProcessor" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.support.fact_processors.BooleanFieldFactProcessor" />

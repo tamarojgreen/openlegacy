@@ -1,0 +1,37 @@
+package openlegacy;
+
+import org.openlegacy.designtime.terminal.analyzer.modules.messages.MessagesScreenFact;
+
+rule "identify-messages"
+ruleflow-group "identify-screen-types"
+no-loop
+salience 100 
+no-loop
+when
+	$ruleParameterSet			  : RuleParametersSet(ruleId == "identify-messages")
+	$titleRegex		  			  : String()  from (String)$ruleParameterSet.getRuleParameters().get("titleRegex");
+	$titleRowStart		 		  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("titleRowStart");
+	$titleRowEnd		 		  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("titleRowEnd");
+	$messagesRowStart	 		  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("messagesRowStart");
+	$messagesRowEnd	 		  	  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("messagesRowEnd");
+	$messageRegex		  		  : String()  from (String)$ruleParameterSet.getRuleParameters().get("messageRegex");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	not TerminalField(editable == true) from $snapshot.getFields()
+	   
+	TerminalField(position.row >= $titleRowStart, position.row <= $titleRowEnd, value matches $titleRegex) from $snapshot.getFields()   
+
+	$messages: List(size > 0) from collect (TerminalField(value matches $messageRegex, 
+													 position.row >= $messagesRowStart,position.row <= $messagesRowEnd) from $snapshot.getFields())
+then
+	System.out.println("************ Message screen!" + $screenEntityDefinition.getDisplayName());
+
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, 
+			new MessagesScreenFact($messages));
+	
+end

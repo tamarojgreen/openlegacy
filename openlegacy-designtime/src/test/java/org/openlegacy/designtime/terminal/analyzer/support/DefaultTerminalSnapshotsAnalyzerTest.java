@@ -9,6 +9,7 @@ import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
+import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.actions.TerminalActions.F10;
@@ -216,6 +217,21 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		Assert.assertEquals(2, actions.size());
 		Assert.assertEquals("View", actions.get(0).getDisplayName());
 		Assert.assertEquals("Edit", actions.get(1).getDisplayName());
+
+	}
+
+	@Test
+	public void testMessagesScreen() {
+
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("MessagesScreen.xml");
+
+		Assert.assertEquals(1, screenEntitiesDefinitions.size());
+
+		ScreenEntityDefinition messagesScreen = screenEntitiesDefinitions.get("DisplayMessages");
+
+		Assert.assertNotNull(messagesScreen);
+		Assert.assertEquals("MessagesEntity", messagesScreen.getTypeName());
+		Assert.assertNotNull(messagesScreen.getFieldsDefinitions().get(Messages.MESSAGE_FIELD));
 
 	}
 

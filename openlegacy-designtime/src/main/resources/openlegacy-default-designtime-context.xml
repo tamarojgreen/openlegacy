@@ -129,6 +129,24 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default/identify-messages.drl" p:ruleId="identify-messages" p:enabled="true">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="titleRegex" value=".*(?i)message.*" />
+										<entry key="titleRowStart" value="1" />
+										<entry key="titleRowEnd" value="3" />
+										<entry key="messagesRowStart" value="5" />
+										<entry key="messagesRowEnd" value="15" />
+										<entry key="messageRegex" value=".*" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 				<bean parent="ruleDefinition" p:droolsFile="rules/default/identify-tables.drl" p:ruleId="identify-tables" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
