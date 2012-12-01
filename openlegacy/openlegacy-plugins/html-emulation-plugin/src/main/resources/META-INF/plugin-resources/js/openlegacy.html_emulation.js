@@ -27,7 +27,7 @@ require(["dojo/ready"], function(ready){
 				setFocus();
 				attachFieldsFocus(on);
 			}
-			if (MainForm().Sequence != null){
+			if (getMainForm().Sequence != null){
 				setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
 			}
 		});
