@@ -59,10 +59,22 @@ public class SnapshotPersistanceDTO {
 			TerminalPosition fieldPosition = terminalField.getPosition();
 			TerminalPersistedRow row = (TerminalPersistedRow)persistedSnapshot.getRow(fieldPosition.getRow());
 			TerminalPersistedField field = (TerminalPersistedField)row.getField(fieldPosition.getColumn());
-			field.setValue(terminalField.getValue(), false);
+			String value = terminalField.getValue();
+			if (field.isPassword()) {
+				value = convertToAsteriks(terminalField.getValue());
+			}
+			field.setValue(value, false);
 			field.setModified(true);
 		}
 		return persistedSnapshot;
+	}
+
+	private static String convertToAsteriks(String value) {
+		StringBuilder sb = new StringBuilder(value.length());
+		for (int i = 0; i < value.length(); i++) {
+			sb.append("*");
+		}
+		return sb.toString();
 	}
 
 	private static TerminalSnapshot transformCommonSnapshot(TerminalPersistedSnapshot persistedSnapshot, TerminalSnapshot snapshot) {
@@ -76,7 +88,8 @@ public class SnapshotPersistanceDTO {
 			TerminalPersistedRow persistedRow = new TerminalPersistedRow();
 			ReflectionUtil.copyProperties(persistedRow, terminalRow);
 
-			collectRowFields(fieldSeperators, terminalRow, persistedRow,persistedSnapshot.getSnapshotType() == SnapshotType.INCOMING);
+			collectRowFields(fieldSeperators, terminalRow, persistedRow,
+					persistedSnapshot.getSnapshotType() == SnapshotType.INCOMING);
 
 			// don't copy empty rows
 			if (persistedRow.getFields().size() == 0) {
@@ -114,7 +127,7 @@ public class SnapshotPersistanceDTO {
 			TerminalPersistedField persistedField = new TerminalPersistedField();
 			ReflectionUtil.copyProperties(persistedField, field);
 			persistedField.setModified(false);
-			if (isIncoming){
+			if (isIncoming) {
 				persistedField.setValue(field.getOriginalValue());
 			}
 			persistedRow.getFields().add(persistedField);

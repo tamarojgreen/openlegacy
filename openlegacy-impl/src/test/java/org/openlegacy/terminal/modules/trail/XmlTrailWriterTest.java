@@ -33,6 +33,7 @@ public class XmlTrailWriterTest extends AbstractTest {
 
 		SignOn signOn = terminalSession.getEntity(SignOn.class);
 		signOn.setUser("user");
+		signOn.setPassword("pwd");
 		terminalSession.doAction(TerminalActions.ENTER(), signOn);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
