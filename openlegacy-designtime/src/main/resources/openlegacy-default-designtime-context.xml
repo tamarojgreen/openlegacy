@@ -104,7 +104,9 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="menuOptionRegex" value="\s*\d+\.\s*([\w,\p{L}]+[\w,\p{L} ]*)" />
+										<entry key="menuOptionRegex" value="\s*\d+\.\s*([a-zA-Z,\p{L}]+[a-zA-Z,\p{L} ])*" />
+										<!-- <entry key="menuOptionRegex" value="\s*\d+\.\s*[a-zA-Z\p{L}]*" /> -->
+																				
 										<entry key="maxDistance" value="4" />
 										<entry key="minimumMenuItems" value="2" />
 										<!-- 0 - not limited -->
