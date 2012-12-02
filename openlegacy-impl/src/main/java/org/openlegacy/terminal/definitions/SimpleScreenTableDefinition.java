@@ -61,6 +61,8 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 
 	private ActionDefinition defaultAction;
 
+	private int rowGaps;
+
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
 	}
@@ -267,5 +269,13 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		throw (new RegistryException(MessageFormat.format("No default table action was defined for table: {0}",
 				getTableEntityName())));
 
+	}
+
+	public int getRowGaps() {
+		return rowGaps;
+	}
+
+	public void setRowsGap(int rowGaps) {
+		this.rowGaps = rowGaps;
 	}
 }

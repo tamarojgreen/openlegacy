@@ -13,6 +13,7 @@ import org.openlegacy.terminal.modules.menu.DefaultTerminalMenuModuleTest;
 import org.openlegacy.terminal.modules.messages.DefaultTerminalMessagesModuleTest;
 import org.openlegacy.terminal.modules.navigation.DefaultNavigationModuleTest;
 import org.openlegacy.terminal.modules.table.DefaultTableDrilldownPerformerTest;
+import org.openlegacy.terminal.modules.table.TableMultiLineTest;
 import org.openlegacy.terminal.modules.trail.XmlTrailWriterTest;
 import org.openlegacy.terminal.render.TerminalSnapshotImageRendererTest;
 import org.openlegacy.terminal.support.DefaultScreenRecordsProviderTest;
@@ -30,7 +31,7 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 		DefaultTerminalSessionKeysTest.class, RecognizersSuite.class, XmlTrailWriterTest.class, DefaultLoginModuleTest.class,
 		DefaultLoginModuleFailedTest.class, DefaultTerminalMessagesModuleTest.class, DefaultTerminalSessionTest.class,
 		WindowTest.class, DefaultSessionNavigatorTest.class, MockTerminalConnectionTest.class, MockTerminalSessionTest.class,
-		ScreenEntityTablesBinderTest.class, DateFieldsBinderTest.class, BooleanFieldsBinderTest.class,
+		ScreenEntityTablesBinderTest.class, TableMultiLineTest.class, DateFieldsBinderTest.class, BooleanFieldsBinderTest.class,
 		DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
 		MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class, DefaultBidiScreenPageBuilderTest.class,
 		DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class })

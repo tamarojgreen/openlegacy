@@ -46,4 +46,6 @@ public @interface ScreenColumn {
 	String displayName() default "";
 
 	String sampleValue() default "";
+
+	int rowsOffset() default 0;
 }

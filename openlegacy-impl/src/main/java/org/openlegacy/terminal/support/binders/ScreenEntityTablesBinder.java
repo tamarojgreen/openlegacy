@@ -29,7 +29,6 @@ import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +38,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 @Component
-public class ScreenEntityTablesBinder implements ScreenEntityBinder, Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
@@ -72,7 +69,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder, Serializabl
 			List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
 			int startRow = tableDefinition.getStartRow();
 			int endRow = tableDefinition.getEndRow();
-			for (int currentRow = startRow; currentRow <= endRow; currentRow++) {
+			for (int currentRow = startRow; currentRow <= endRow; currentRow += tableDefinition.getRowGaps()) {
 
 				Object row = ReflectionUtil.newInstance(tableDefinition.getTableClass());
 				ScreenPojoFieldAccessor rowAccessor = new SimpleScreenPojoFieldAccessor(row);
@@ -80,7 +77,8 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder, Serializabl
 				boolean keyIsEmpty = false;
 
 				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
-					TerminalPosition position = SimpleTerminalPosition.newInstance(currentRow, columnDefinition.getStartColumn());
+					TerminalPosition position = SimpleTerminalPosition.newInstance(currentRow + columnDefinition.getRowsOffset(),
+							columnDefinition.getStartColumn());
 					String cellText = getCellContent(terminalSnapshot, position, columnDefinition);
 					if (columnDefinition.isKey() && cellText.length() == 0) {
 						if (logger.isDebugEnabled()) {

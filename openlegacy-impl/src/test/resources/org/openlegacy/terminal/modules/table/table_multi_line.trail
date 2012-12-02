@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+    
+    
+    
+    
+    
+    
+    
+    
+    <snapshot type="INCOMING" sequence="9">
+        <row rowNumber="1">
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+        </row>
+        <row rowNumber="2">
+            <field column="26" value="Items     " color="WHITE"/>
+            <field column="73" value="11:44:21" color="BLUE"/>
+        </row>
+        <row rowNumber="7">
+            <field column="2" value="Action" color="WHITE"/>
+            <field column="11" value="Item Number" color="WHITE"/>
+            <field column="30" value="Item Name" color="WHITE"/>
+        </row>
+        <row rowNumber="8">
+            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+            <field column="11" value="2000" />
+            <field column="30" value="Domino Cube       " length="14"/>
+        </row>
+        <row rowNumber="9">
+            <field column="14" value="Domino Cubes - Board Games" length="40"/>
+        </row>
+        <row rowNumber="10">
+            <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+            <field column="11" value="1055" />
+            <field column="30" value="Bowling        " length="14"/>
+        </row>
+        <row rowNumber="11">
+            <field column="14" value="Baby Bowling Game - Baby Toys           " length="40"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="8" column="4"/>
+    </snapshot>
+    
+    
+    
+    
+     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</terminal-trail>

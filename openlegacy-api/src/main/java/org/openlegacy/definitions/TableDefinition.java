@@ -58,6 +58,8 @@ public interface TableDefinition<C extends ColumnDefinition> {
 		String getSampleValue();
 
 		Class<?> getJavaType();
+
+		int getRowsOffset();
 	}
 
 }

@@ -13,16 +13,13 @@ package org.openlegacy.terminal.definitions;
 import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 
-import java.io.Serializable;
-
-public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
 
 	private String name;
 	private int startColumn;
 	private int endColumn;
-
+	private int rowsOffset;
+	
 	private boolean key;
 	private boolean editable;
 	private String sampleValue;
@@ -113,5 +110,13 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 		ScreenColumnDefinition otherColumn = (ScreenColumnDefinition)other;
 
 		return getStartColumn() - otherColumn.getStartColumn();
+	}
+
+	public int getRowsOffset() {
+		return rowsOffset;
+	}
+
+	public void setRowsOffset(int rowsOffset) {
+		this.rowsOffset = rowsOffset;
 	}
 }

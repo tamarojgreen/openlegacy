@@ -47,7 +47,8 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		tableDefinition.setStartRow(screenTableAnnotation.startRow());
 		tableDefinition.setEndRow(screenTableAnnotation.endRow());
 		tableDefinition.setScrollable(screenTableAnnotation.scrollable());
-
+		tableDefinition.setRowsGap(screenTableAnnotation.rowGaps());
+		
 		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));
 		tableDefinition.setPreviousScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));
 
@@ -74,6 +75,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				SimpleScreenColumnDefinition columnDefinition = new SimpleScreenColumnDefinition(field.getName());
 				columnDefinition.setStartColumn(screenColumnAnnotation.startColumn());
 				columnDefinition.setEndColumn(screenColumnAnnotation.endColumn());
+				columnDefinition.setRowsOffset(screenColumnAnnotation.rowsOffset());
 				columnDefinition.setKey(screenColumnAnnotation.key());
 				columnDefinition.setEditable(screenColumnAnnotation.editable());
 				String displayName = screenColumnAnnotation.displayName().length() > 0 ? screenColumnAnnotation.displayName()

@@ -186,4 +186,9 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 		throwNotImplemented();
 		return null;
 	}
+
+	public int getRowGaps() {
+		throwNotImplemented();
+		return 0;
+	}
 }

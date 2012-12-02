@@ -54,4 +54,12 @@ public @interface ScreenTable {
 
 	@SuppressWarnings("rawtypes")
 	Class<? extends ScreenTableCollector> tableCollector() default ScreenTableCollector.class;
+
+	/**
+	 * Defines the gaps between each and each record on the screen. Use it a record on the screen is spread over more then 1 row.
+	 * Default to 1.
+	 * 
+	 * @return rows gap between records
+	 */
+	int rowGaps() default 1;
 }
