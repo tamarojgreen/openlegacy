@@ -42,7 +42,7 @@ public class DefaultTerminalSnapshotsAnalyzerBidiTest extends AbstractAnalyzerTe
 	public void testHebrewAS400AppGenerate() throws TemplateException, IOException {
 		snapshotsOrganizer.setMatchingPercent(95);
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
-				"hebrew_as400.trail.xml"));
+				"hebrew_as400.trail"));
 
 		Assert.assertEquals(2, definitions.size());
 		assertScreenContent(definitions.get("Mdd"), "bidi/HebrewWindowTable.java.expected");

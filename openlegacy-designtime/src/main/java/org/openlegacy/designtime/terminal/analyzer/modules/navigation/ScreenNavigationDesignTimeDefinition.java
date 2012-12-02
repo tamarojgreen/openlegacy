@@ -15,6 +15,8 @@ import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
 
 public class ScreenNavigationDesignTimeDefinition extends SimpleScreenNavigationDefinition {
 
+	private static final long serialVersionUID = 1L;
+
 	private ScreenEntityDefinition accessedFromEntityDefinition;
 
 	public void setAccessedFromEntityDefinition(ScreenEntityDefinition accessedFromEntityDefinition) {

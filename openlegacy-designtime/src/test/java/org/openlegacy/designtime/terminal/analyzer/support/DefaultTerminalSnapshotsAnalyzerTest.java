@@ -91,7 +91,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testSessionAnalyzer() throws TemplateException, IOException {
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
-				"Inventory.trail.xml"));
+				"Inventory.trail"));
 		Assert.assertEquals(6, definitions.size());
 	}
 
@@ -105,7 +105,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testSessionWithChildAnalyzer() throws TemplateException, IOException {
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
-				"ChildScreens.trail.xml"));
+				"ChildScreens.trail"));
 		ScreenEntityDefinition parent = definitions.get("WorkWithItemMaster");
 		Assert.assertNotNull(parent);
 		Assert.assertEquals(1, parent.getChildEntitiesDefinitions().size());
@@ -152,7 +152,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testChildScreenEntities() throws TemplateException, IOException {
 		Map<String, ScreenEntityDefinition> definitions = snapshotsAnalyzer.analyzeTrail(getClass().getResourceAsStream(
-				"Inventory.trail.xml"));
+				"Inventory.trail"));
 
 		ScreenEntityDefinition workWithItemMaster1 = definitions.get("WorkWithItemMaster1");
 		Assert.assertNotNull(workWithItemMaster1);

@@ -10,7 +10,7 @@
  	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/org/openlegacy/terminal/modules/messages" />
-		<property name="trailName" value="messages.trail.xml" />
+		<property name="trailName" value="messages.trail" />
 	</bean>
 	
 </beans>

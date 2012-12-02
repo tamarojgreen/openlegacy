@@ -42,7 +42,7 @@ public class TrailJunitGeneratorTest {
 	public void testGenerateJunit() throws Exception {
 
 		TerminalPersistedTrail trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class,
-				getClass().getResourceAsStream("test.trail.xml"));
+				getClass().getResourceAsStream("test.trail"));
 
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trail);
 

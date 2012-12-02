@@ -22,6 +22,7 @@ when
 	// and there is a field in a specific column (which is not a leading label) 
 	$codeField: TerminalField(value matches $menuOptionRegex) from $snapshot.getFields();
 
+	// optional
 	$captionField: TerminalField(this != $codeField, endPosition.column >= $codeField.position.column - $maxDistance,  
 								position.row == $codeField.position.row) from $snapshot.getFields();
 	
@@ -47,7 +48,7 @@ when
 	
 	$menuItems: List(size >= $minimumMenuItems) from collect ( MenuItemFact(screenEntityDefinition == $screenEntityDefinition) )
 	
-	$menuSelectionFields: List(size >= 1) from collect ( TerminalField(editable == true, length <= $maxSelectionFieldLength) from $snapshot.getFields() )
+	$menuSelectionFields: List(size >= 1) from collect ( TerminalField(editable == true, $maxSelectionFieldLength == 0 || length <= $maxSelectionFieldLength) from $snapshot.getFields() )
 	// pick the 1st matching field for menu selection
 	$menuSelectionField : TerminalField() from $menuSelectionFields.get(0)
 then
