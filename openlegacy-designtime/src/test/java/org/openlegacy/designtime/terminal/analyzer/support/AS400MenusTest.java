@@ -4,10 +4,6 @@ import freemarker.template.TemplateException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
-import org.openlegacy.modules.menu.Menu.MenuEntity;
-import org.openlegacy.modules.messages.Messages.MessageField;
-import org.openlegacy.modules.messages.Messages.MessagesEntity;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.module.TerminalSessionTrail;
@@ -22,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
-
-import junit.framework.Assert;
 
 @ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,30 +41,19 @@ public class AS400MenusTest extends AbstractAnalyzerTest {
 		// snapshot 11 - AS/400 sub menu
 		snapshots.add(trail.getSnapshots().get(10));
 
+		// snapshot 15 - form screen
+		snapshots.add(trail.getSnapshots().get(14));
+
 		Map<String, ScreenEntityDefinition> entityDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 
-		ScreenEntityDefinition messagesScreen = entityDefinitions.get("DisplayMessages");
+		assertScreenContent(entityDefinitions.get("DisplayMessages"), "as400menus/DisplayMessages.java.expected");
 
-		// assertScreenContent(messagesScreen, null);
+		assertScreenContent(entityDefinitions.get("IbmIMainMenu"), "as400menus/IbmIMainMenu.java.expected");
 
-		Assert.assertEquals(MessagesEntity.class, messagesScreen.getType());
-		Assert.assertNotNull(messagesScreen.getFirstFieldDefinition(MessageField.class));
-		Assert.assertEquals(6, messagesScreen.getActions().size());
+		assertScreenContent(entityDefinitions.get("UserTasks"), "as400menus/UserTasks.java.expected");
 
-		ScreenEntityDefinition ibmMenuScreen = entityDefinitions.get("IbmIMainMenu");
-
-		Assert.assertNotNull(ibmMenuScreen);
-		Assert.assertEquals(6, ibmMenuScreen.getActions().size());
-		Assert.assertEquals(MenuEntity.class, ibmMenuScreen.getType());
-
-		ScreenEntityDefinition ibmSubMenuScreen = entityDefinitions.get("UserTasks");
-
-		Assert.assertNotNull(ibmSubMenuScreen);
-		Assert.assertEquals(6, ibmSubMenuScreen.getActions().size());
-		Assert.assertEquals(MenuEntity.class, ibmSubMenuScreen.getType());
-		Assert.assertEquals(
-				ibmMenuScreen,
-				((ScreenNavigationDesignTimeDefinition)ibmSubMenuScreen.getNavigationDefinition()).getAccessedFromEntityDefinition());
+		assertScreenContent(entityDefinitions.get("DisplayJobStatusAttributes"),
+				"as400menus/DisplayJobStatusAttributes.java.expected");
 	}
 
 }

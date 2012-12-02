@@ -180,8 +180,8 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
-										<entry key="maximumLabelLength" value="30" />
+										<entry key="labelRegex" value="\s*[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
+										<entry key="maximumLabelLength" value="50" />
 										<entry key="maxDistance" value="6" />
 										<entry key="fieldRegex" value="\s*[\d\w\p{L}\*/]+[\d\w\p{L}\*/ ]*" />
 										<entry key="minimumFieldLength" value="1" />
@@ -194,7 +194,7 @@
 								<property name="ruleParameters">
 									<map>
 										<entry key="labelRegex" value="[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
-										<entry key="maximumLabelLength" value="30" />
+										<entry key="maximumLabelLength" value="50" />
 										<entry key="maxDistance" value="5" />
 										<entry key="fieldRegex" value="\s*" />
 										<entry key="minimumFieldLength" value="5" />
