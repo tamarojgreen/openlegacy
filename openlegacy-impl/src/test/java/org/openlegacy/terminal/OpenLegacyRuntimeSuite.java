@@ -22,6 +22,7 @@ import org.openlegacy.terminal.support.DefaultTerminalSessionKeysTest;
 import org.openlegacy.terminal.support.DefaultTerminalSessionTest;
 import org.openlegacy.terminal.support.WindowTest;
 import org.openlegacy.terminal.support.binders.BooleanFieldsBinderTest;
+import org.openlegacy.terminal.support.binders.CustomBinderTest;
 import org.openlegacy.terminal.support.binders.DateFieldsBinderTest;
 import org.openlegacy.terminal.support.binders.ScreenEntityTablesBinderTest;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
@@ -34,7 +35,7 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 		ScreenEntityTablesBinderTest.class, TableMultiLineTest.class, DateFieldsBinderTest.class, BooleanFieldsBinderTest.class,
 		DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
 		MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class, DefaultBidiScreenPageBuilderTest.class,
-		DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class })
+		DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class, CustomBinderTest.class })
 public class OpenLegacyRuntimeSuite {
 
 }

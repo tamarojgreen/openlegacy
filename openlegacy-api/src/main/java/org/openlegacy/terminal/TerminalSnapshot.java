@@ -61,6 +61,8 @@ public interface TerminalSnapshot extends Snapshot, Serializable {
 
 	TerminalField getField(TerminalPosition position);
 
+	TerminalField getField(int row, int column);
+
 	String getText();
 
 	String getText(TerminalPosition position, int length);

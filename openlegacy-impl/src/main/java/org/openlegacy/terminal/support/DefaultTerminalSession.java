@@ -25,6 +25,7 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreensRecognizer;
@@ -121,8 +122,18 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			screenEntity = (ScreenEntity)ReflectionUtil.newInstance(matchedScreenEntity);
 		}
 
-		for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
-			screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
+		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(matchedScreenEntity);
+		if (screenEntityDefinition.isPerformDefaultBinding()) {
+			for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
+				screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
+			}
+		}
+
+		List<ScreenEntityBinder> binders = screenEntityDefinition.getBinders();
+		if (binders != null) {
+			for (ScreenEntityBinder screenEntityBinder : binders) {
+				screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
+			}
 		}
 
 		return screenEntity;
@@ -170,8 +181,18 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(command);
 
 			if (screenEntity != null) {
-				for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
-					screenEntityBinder.populateSendAction(sendAction, getSnapshot(), screenEntity);
+				ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity.getClass());
+				if (screenEntityDefinition.isPerformDefaultBinding()) {
+					for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
+						screenEntityBinder.populateSendAction(sendAction, getSnapshot(), screenEntity);
+					}
+				}
+				List<ScreenEntityBinder> binders = screenEntityDefinition.getBinders();
+				if (binders != null) {
+					for (ScreenEntityBinder screenEntityBinder : binders) {
+						screenEntityBinder.populateSendAction(sendAction, getSnapshot(), screenEntity);
+
+					}
 				}
 			}
 

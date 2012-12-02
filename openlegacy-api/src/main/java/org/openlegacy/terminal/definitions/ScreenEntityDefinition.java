@@ -17,6 +17,7 @@ import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.services.ScreenIdentification;
@@ -102,4 +103,7 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	 */
 	List<ScreenFieldDefinition> getSortedFields();
 
+	List<ScreenEntityBinder> getBinders();
+
+	boolean isPerformDefaultBinding();
 }

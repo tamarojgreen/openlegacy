@@ -152,6 +152,10 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 		return field;
 	}
 
+	public TerminalField getField(int row, int column) {
+		return getField(SimpleTerminalPosition.newInstance(row, column));
+	}
+
 	public SnapshotType getSnapshotType() {
 		return SnapshotType.INCOMING;
 	}

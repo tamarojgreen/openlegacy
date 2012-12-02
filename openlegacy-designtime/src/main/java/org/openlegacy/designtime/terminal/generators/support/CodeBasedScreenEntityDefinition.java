@@ -17,6 +17,7 @@ import org.openlegacy.FieldType;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
+import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
@@ -197,6 +198,16 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 			}
 		}
 		return keyFields;
+	}
+
+	public List<ScreenEntityBinder> getBinders() {
+		throwNotImplemented();
+		return null;
+	}
+
+	public boolean isPerformDefaultBinding() {
+		throwNotImplemented();
+		return false;
 	}
 
 }

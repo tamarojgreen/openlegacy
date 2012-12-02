@@ -1,0 +1,15 @@
+<snapshot type="INCOMING">
+    <cursor row="6" column="53" />
+    <row rowNumber="1">
+        <field value="Custom bind title" column="30" />
+    </row>
+    <row rowNumber="3">
+        <field value="Field A:" column="3" />
+        <field value="AA" editable="true" column="15" />
+    </row>
+    <row rowNumber="4">
+        <field value="Field B:" column="3" />
+        <field value="BB" editable="true" column="15" />
+        </row>
+    <size rows="24" columns="80"/>
+</snapshot>

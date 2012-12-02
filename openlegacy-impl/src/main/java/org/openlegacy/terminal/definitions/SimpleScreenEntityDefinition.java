@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.support.SimpleEntityDefinition;
+import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.services.ScreenIdentification;
@@ -48,6 +49,10 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 	private TerminalSnapshot accessedFromSnapshot;
 	private ScreenEntityDefinition accessedFromScreenDefinition;
 	private ScreenSize screenSize;
+
+	private List<ScreenEntityBinder> binders;
+
+	private boolean performDefaultBinding = true;
 
 	private final static Log logger = LogFactory.getLog(SimpleScreenEntityDefinition.class);
 
@@ -164,5 +169,21 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 		return sortedFields;
+	}
+
+	public List<ScreenEntityBinder> getBinders() {
+		return binders;
+	}
+
+	public void setBinders(List<ScreenEntityBinder> binders) {
+		this.binders = binders;
+	}
+
+	public boolean isPerformDefaultBinding() {
+		return performDefaultBinding;
+	}
+
+	public void setPerformDefaultBinding(boolean performDefaultBinding) {
+		this.performDefaultBinding = performDefaultBinding;
 	}
 }

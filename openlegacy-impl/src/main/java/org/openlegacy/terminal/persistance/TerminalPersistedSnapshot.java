@@ -19,6 +19,7 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.render.DefaultTerminalSnapshotTextRenderer;
 import org.openlegacy.terminal.support.ScreenSizeBean;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalSendAction;
 import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.support.TerminalPositionBean;
@@ -214,6 +215,10 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 			return false;
 		}
 		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
+	}
+
+	public TerminalField getField(int row, int column) {
+		return getField(SimpleTerminalPosition.newInstance(row, column));
 	}
 
 }
