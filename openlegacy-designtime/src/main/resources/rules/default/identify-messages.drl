@@ -15,6 +15,7 @@ when
 	$messagesRowStart	 		  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("messagesRowStart");
 	$messagesRowEnd	 		  	  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("messagesRowEnd");
 	$messageRegex		  		  : String()  from (String)$ruleParameterSet.getRuleParameters().get("messageRegex");
+	$messageMinLength	  		  : Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("messageMinLength");
 	
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
@@ -24,13 +25,11 @@ when
 	
 	not TerminalField(editable == true) from $snapshot.getFields()
 	   
-	TerminalField(position.row >= $titleRowStart, position.row <= $titleRowEnd, value matches $titleRegex) from $snapshot.getFields()   
+	exists TerminalField(position.row >= $titleRowStart, position.row <= $titleRowEnd, value matches $titleRegex) from $snapshot.getFields()   
 
-	$messages: List(size > 0) from collect (TerminalField(value matches $messageRegex, 
+	$messages: List(size > 0) from collect (TerminalField(value matches $messageRegex, length >= $messageMinLength,
 													 position.row >= $messagesRowStart,position.row <= $messagesRowEnd) from $snapshot.getFields())
 then
-	System.out.println("************ Message screen!" + $screenEntityDefinition.getDisplayName());
-
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, 
 			new MessagesScreenFact($messages));
 	

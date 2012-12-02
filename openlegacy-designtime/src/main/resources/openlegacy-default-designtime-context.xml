@@ -141,6 +141,8 @@
 										<entry key="messagesRowStart" value="5" />
 										<entry key="messagesRowEnd" value="15" />
 										<entry key="messageRegex" value=".*" />
+										<entry key="messageMinLength" value="30" />
+																				
 									</map>
 								</property>
 							</bean>
@@ -209,7 +211,7 @@
 									<map>
 										<entry key="actionsRegex" value="([\w\p{L}]+)[=-]([\w\p{L}]+[\w\p{L} ]*)" />
 										<entry key="rowsFromEnd" value="3" />
-										<entry key="actionsSplitter" value="  " />
+										<entry key="actionsSplitter" value="\s{2,}" />
 									</map>
 								</property>
 							</bean>

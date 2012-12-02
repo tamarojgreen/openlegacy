@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ DefaultTerminalSnapshotsAnalyzerTest.class, DefaultTerminalSnapshotsAnalyzerBidiTest.class,
-		DefaultTerminalSnapshotsAnalyzerInventoryTest.class, DefaultTerminalSnapshotsMainframeTest.class })
+		DefaultTerminalSnapshotsAnalyzerInventoryTest.class, DefaultTerminalSnapshotsMainframeTest.class, AS400MenusTest.class })
 public class AnalyzerSuite {
 
 }

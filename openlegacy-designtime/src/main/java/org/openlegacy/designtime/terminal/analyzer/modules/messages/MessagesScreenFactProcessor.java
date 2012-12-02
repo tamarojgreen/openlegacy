@@ -27,7 +27,7 @@ public class MessagesScreenFactProcessor implements ScreenFactProcessor {
 
 		// TODO handle multiple field
 		ScreenFieldDefinition messageFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-				messagesScreenFact.getMessageFields().get(0), "");
+				messagesScreenFact.getMessageFields().get(0), Messages.MESSAGE_FIELD);
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, messageFieldDefinition,
 				Messages.MessageField.class);
 		screenEntityDefinition.getFieldsDefinitions().put(Messages.MESSAGE_FIELD, messageFieldDefinition);

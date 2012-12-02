@@ -479,7 +479,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (projectApplicationContext == null) {
 			File designtimeContextFile = new File(projectPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
 			if (designtimeContextFile.exists()) {
-				projectApplicationContext = new FileSystemXmlApplicationContext(designtimeContextFile.getAbsolutePath());
+				projectApplicationContext = new FileSystemXmlApplicationContext("file://"
+						+ designtimeContextFile.getAbsolutePath());
 			} else {
 				String embeddedDesigntimeContextFile = getEmbeddedDesigntimeContextFile(projectPath);
 				String designtimeContextType = getPreferences(projectPath).get(PreferencesConstants.DESIGNTIME_CONTEXT);
