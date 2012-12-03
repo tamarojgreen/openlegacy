@@ -1,0 +1,20 @@
+<snapshot type="OUTGOING">
+    <cursor row="6" column="53" />
+    <row rowNumber="1">
+        <field value="Multy line title" column="30" />
+    </row>
+    <row rowNumber="3">
+        <field value="A$ B$" modified="true" editable="true" column="15" />
+    </row>
+    <row rowNumber="4">
+        <field value="C$ D$" modified="true" editable="true" column="15" />
+    </row>
+    <row rowNumber="6">
+        <field value="This field " column="70" editable="true" modified="true" />
+    </row>
+    <row rowNumber="7">
+        <field value="was modified" editable="true" length="30" modified="true" column="1" />
+    </row>
+    
+    <size rows="24" columns="80"/>
+</snapshot>

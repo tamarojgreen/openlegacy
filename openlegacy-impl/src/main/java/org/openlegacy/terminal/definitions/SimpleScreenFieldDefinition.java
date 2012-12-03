@@ -39,6 +39,10 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	// Used for design-time to set a class name which doesn't exists during generation
 	private String javaTypeName;
 
+	private boolean rectangle;
+
+	private TerminalPosition endPosition;
+
 	public SimpleScreenFieldDefinition() {
 		super();
 	}
@@ -89,7 +93,14 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	}
 
 	public TerminalPosition getEndPosition() {
+		if (endPosition != null) {
+			return endPosition;
+		}
 		return SnapshotUtils.getEndPosition(getPosition(), getLength());
+	}
+
+	public void setEndPosition(TerminalPosition endPosition) {
+		this.endPosition = endPosition;
 	}
 
 	public Class<?> getJavaType() {
@@ -147,5 +158,13 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setTerminalLabelField(TerminalField terminalLabelfield) {
 		this.terminalLabelfield = terminalLabelfield;
+	}
+
+	public boolean isRectangle() {
+		return rectangle;
+	}
+
+	public void setRectangle(boolean rectangle) {
+		this.rectangle = rectangle;
 	}
 }

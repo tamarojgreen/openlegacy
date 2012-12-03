@@ -65,6 +65,20 @@ public @interface ScreenField {
 	int endColumn() default 0;
 
 	/**
+	 * Optional. The {@link TerminalField} end row. Used in case the endRow doesn't match the start row
+	 * 
+	 * @return the end row to grab content from the {@link TerminalSnapshot}
+	 */
+	int endRow() default 0;
+
+	/**
+	 * When the endRow doesn't match the start row, determine whether to grab a rectangle or as breaking lines
+	 * 
+	 * @return
+	 */
+	boolean rectangle() default false;
+
+	/**
 	 * Optional. Define whether the field is editable. Used to define OpenLegacy eclipse builder and designtime API's whether to
 	 * generate. Default false. setter method for this field in the containing class.
 	 * 

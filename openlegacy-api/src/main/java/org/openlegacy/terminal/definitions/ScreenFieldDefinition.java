@@ -71,4 +71,11 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	 * @return a sample leading label terminal field
 	 */
 	TerminalField getTerminalLabelField();
+
+	/**
+	 * When the endRow doesn't match the start row, determine whether to grab a rectangle or as breaking lines
+	 * 
+	 * @return
+	 */
+	boolean isRectangle();
 }
