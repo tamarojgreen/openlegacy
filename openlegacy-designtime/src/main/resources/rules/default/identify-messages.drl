@@ -32,5 +32,6 @@ when
 then
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, 
 			new MessagesScreenFact($messages));
+	update($screenEntityDefinition);
 	
 end

@@ -40,5 +40,5 @@ then
 	
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, 
 			new LoginScreenFact($userField,$userLabelField,$passwordField,passwordLabelField,new SimpleTerminalPosition($errorLine,$errorMessageColumn)));
-	
+	update($screenEntityDefinition);
 end

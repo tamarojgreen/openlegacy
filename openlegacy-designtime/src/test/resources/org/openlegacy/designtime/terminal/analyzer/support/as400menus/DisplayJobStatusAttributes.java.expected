@@ -16,6 +16,11 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"), 
 				@Action(action = TerminalActions.F4.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Job menu", alias = "jobMenu") 
 				})
+@ScreenNavigation(accessedFrom = WorkWithJob.class 
+					, assignedFields = { 
+					@AssignedField(field = "menuSelection", value = "1")
+					 }						
+					)
 public class DisplayJobStatusAttributes {
     
 	

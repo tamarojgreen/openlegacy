@@ -35,10 +35,11 @@ when
 	$errorLine: Integer() from $snapshot.getSize().getRows() - $errorMessageLinesFromButtom  
 	
 then
-	// grab 1st password label field is exists
+	// grab 1st password label field fs exists
 	TerminalField passwordLabelField = $passwordLabelFields.size() > 0 ? (TerminalField)$passwordLabelFields.get(0) : null;
 	
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, 
 			new LoginScreenFact($userField,$userLabelField,$passwordField,passwordLabelField,new SimpleTerminalPosition($errorLine,$errorMessageColumn)));
+	update($screenEntityDefinition);
 	
 end

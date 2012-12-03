@@ -12,11 +12,13 @@ package org.openlegacy.designtime.terminal.analyzer.modules.navigation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.modules.messages.Messages.MessagesEntity;
 import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -55,21 +57,15 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 		ScreenEntityDesigntimeDefinition accessedFromScreenEntityDefinition = navigationFact.getAccessedFromScreenEntityDefinition();
 		TerminalSnapshot accessedFromSnapshot = navigationFact.getAccessedFromSnapshot();
 
+		boolean abort = isAbortNavigationDefinitions(accessedFromScreenEntityDefinition, accessedFromSnapshot,
+				screenEntityDefinition);
+
+		if (abort) {
+			return;
+		}
+
 		screenEntityDefinition.setAccessedFromSnapshot(accessedFromSnapshot);
 		screenEntityDefinition.setAccessedFromScreenDefinition(accessedFromScreenEntityDefinition);
-
-		if (abortWhenHasPasswordFields(accessedFromSnapshot)) {
-			logger.info(MessageFormat.format("Not adding navigation step for {0} .Accessed from snapshot has password field",
-					screenEntityDefinition.getEntityName()));
-			return;
-		}
-
-		// do not define navigation from login screen for example
-		if (accessedFromScreenEntityDefinition.getType() == LoginEntity.class) {
-			logger.info(MessageFormat.format("Not adding navigation step for {0} .Accessed from login screen",
-					screenEntityDefinition.getEntityName()));
-			return;
-		}
 
 		ScreenNavigationDesignTimeDefinition navigationDefinition = new ScreenNavigationDesignTimeDefinition();
 		screenEntityDefinition.setNavigationDefinition(navigationDefinition);
@@ -114,6 +110,32 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 			}
 		}
 
+	}
+
+	private static boolean isAbortNavigationDefinitions(
+			EntityDefinition<ScreenFieldDefinition> accessedFromScreenEntityDefinition, TerminalSnapshot accessedFromSnapshot,
+			EntityDefinition<ScreenFieldDefinition> screenEntityDefinition) {
+
+		// do not define navigation from login screen for example
+		if (accessedFromScreenEntityDefinition.getType() == LoginEntity.class) {
+			logger.info(MessageFormat.format("Not adding navigation step for {0} .Accessed from login screen",
+					screenEntityDefinition.getEntityName()));
+			return true;
+		}
+
+		if (accessedFromScreenEntityDefinition.getType() == MessagesEntity.class) {
+			logger.info(MessageFormat.format("Not adding navigation step for {0} .Accessed from snapshot a messages screen {1}",
+					screenEntityDefinition.getEntityName(), accessedFromScreenEntityDefinition.getEntityName()));
+			return true;
+		}
+
+		if (abortWhenHasPasswordFields(accessedFromSnapshot)) {
+			logger.info(MessageFormat.format("Not adding navigation step for {0} .Accessed from snapshot has password field",
+					screenEntityDefinition.getEntityName()));
+			return true;
+		}
+
+		return false;
 	}
 
 	private static boolean abortWhenHasPasswordFields(TerminalSnapshot accessedFromSnapshot) {

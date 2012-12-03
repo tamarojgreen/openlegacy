@@ -31,21 +31,9 @@ public class AS400MenusTest extends AbstractAnalyzerTest {
 
 		List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
 
-		// snapshot 5 - messages
-		snapshots.add(trail.getSnapshots().get(0));
-
-		// snapshot 5 - messages
-		snapshots.add(trail.getSnapshots().get(4));
-
-		// snapshot 9 - AS/400 main menu (+outgoing screen)
-		snapshots.add(trail.getSnapshots().get(8));
-		snapshots.add(trail.getSnapshots().get(9));
-
-		// snapshot 11 - AS/400 sub menu
-		snapshots.add(trail.getSnapshots().get(10));
-
-		// snapshot 15 - form screen
-		snapshots.add(trail.getSnapshots().get(14));
+		for (int i = 0; i <= 14; i++) {
+			snapshots.add(trail.getSnapshots().get(i));
+		}
 
 		Map<String, ScreenEntityDefinition> entityDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
 

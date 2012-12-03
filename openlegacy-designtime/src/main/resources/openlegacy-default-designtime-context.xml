@@ -91,7 +91,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="([a-zA-Z\p{L}]|\. \.)+.*" />
+										<entry key="labelRegex" value="\s*([a-zA-Z\p{L}]|\. \.)+.*" />
 									</map>
 								</property>
 							</bean>
