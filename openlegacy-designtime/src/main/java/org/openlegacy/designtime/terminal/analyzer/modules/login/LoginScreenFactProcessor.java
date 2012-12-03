@@ -16,6 +16,7 @@ import org.openlegacy.designtime.terminal.analyzer.support.ScreenEntityDefinitio
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.utils.ClassUtils;
@@ -28,6 +29,8 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
 	private String defaultPasswordLabel = "Password";
+
+	private String defaultErrorFieldName = "errorMessage";
 
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
@@ -54,12 +57,12 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 				Login.PasswordField.class);
 		((SimpleScreenFieldDefinition)passwordFieldDefinition).setPassword(true);
 
-		TerminalField errorField = loginScreenFact.getErrorField();
-		if (errorField != null) {
-			ScreenFieldDefinition errorFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-					errorField, Login.ERROR_MESSAGE_LABEL);
-			ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, errorFieldDefinition,
+		TerminalPosition errorFieldPosition = loginScreenFact.getErrorPosition();
+		if (errorFieldPosition != null) {
+			SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition(defaultErrorFieldName,
 					Login.ErrorField.class);
+			screenFieldDefinition.setPosition(errorFieldPosition);
+			screenEntityDefinition.getFieldsDefinitions().put(defaultErrorFieldName, screenFieldDefinition);
 		}
 
 	}
@@ -70,5 +73,9 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 
 	public void setDefaultPasswordLabel(String defaultPasswordLabel) {
 		this.defaultPasswordLabel = defaultPasswordLabel;
+	}
+
+	public void setDefaultErrorFieldName(String defaultErrorFieldName) {
+		this.defaultErrorFieldName = defaultErrorFieldName;
 	}
 }

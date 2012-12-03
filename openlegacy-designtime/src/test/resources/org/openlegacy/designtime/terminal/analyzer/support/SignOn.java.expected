@@ -4,7 +4,6 @@ import org.openlegacy.annotations.screen.*;
 import org.openlegacy.modules.login.Login.LoginEntity;  
 import org.openlegacy.modules.login.Login.UserField;  
 import org.openlegacy.modules.login.Login.PasswordField;  
-import org.openlegacy.modules.login.Login.ErrorField;  
 
 @ScreenEntity(screenType=LoginEntity.class)
 @ScreenIdentifiers(identifiers = { 
@@ -39,7 +38,7 @@ public class SignOn {
 	@ScreenField(row = 10, column = 53, endColumn= 62 ,labelColumn= 17 ,editable= true ,displayName = "Current library")
     private String currentLibrary;
 	
-	@ScreenField(row = 24, column = 1, endColumn= 38 ,fieldType=ErrorField.class ,displayName = "Error Message")
+	@ScreenField(row = 24, column = 2 ,fieldType=ErrorField.class)
     private String errorMessage;
 
     

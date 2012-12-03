@@ -35,12 +35,10 @@ when
 	$errorLine: Integer() from $snapshot.getSize().getRows() - $errorMessageLinesFromButtom  
 	
 then
-	// error message field is optional - therefore not part of when
-	TerminalField errorMessageField = $snapshot.getField(new SimpleTerminalPosition($errorLine,$errorMessageColumn));
 	// grab 1st password label field is exists
 	TerminalField passwordLabelField = $passwordLabelFields.size() > 0 ? (TerminalField)$passwordLabelFields.get(0) : null;
 	
 	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, 
-			new LoginScreenFact($userField,$userLabelField,$passwordField,passwordLabelField,errorMessageField));
+			new LoginScreenFact($userField,$userLabelField,$passwordField,passwordLabelField,new SimpleTerminalPosition($errorLine,$errorMessageColumn)));
 	
 end

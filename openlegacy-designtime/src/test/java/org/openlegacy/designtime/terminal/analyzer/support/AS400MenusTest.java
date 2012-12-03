@@ -32,6 +32,9 @@ public class AS400MenusTest extends AbstractAnalyzerTest {
 		List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
 
 		// snapshot 5 - messages
+		snapshots.add(trail.getSnapshots().get(0));
+
+		// snapshot 5 - messages
 		snapshots.add(trail.getSnapshots().get(4));
 
 		// snapshot 9 - AS/400 main menu (+outgoing screen)
@@ -45,6 +48,8 @@ public class AS400MenusTest extends AbstractAnalyzerTest {
 		snapshots.add(trail.getSnapshots().get(14));
 
 		Map<String, ScreenEntityDefinition> entityDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
+
+		// assertScreenContent(entityDefinitions.get("SignOn"), null);
 
 		assertScreenContent(entityDefinitions.get("DisplayMessages"), "as400menus/DisplayMessages.java.expected");
 

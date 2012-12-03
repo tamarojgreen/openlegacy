@@ -40,6 +40,9 @@ public class SystemLogon {
 	
 	@ScreenField(row = 20, column = 23, endColumn= 23 ,labelColumn= 2 ,editable= true ,displayName = "Session reconnect", sampleValue = "X")
     private String sessionReconnect;
+	
+	@ScreenField(row = 32, column = 2 ,fieldType=ErrorField.class)
+    private String errorMessage;
 
     
 

@@ -12,6 +12,7 @@ package org.openlegacy.designtime.terminal.analyzer.modules.login;
 
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 
 public class LoginScreenFact implements ScreenFact {
 
@@ -19,15 +20,15 @@ public class LoginScreenFact implements ScreenFact {
 	private TerminalField userLabelField;
 	private TerminalField passwordField;
 	private TerminalField passwordLabelField;
-	private TerminalField errorField;
+	private TerminalPosition errorPosition;
 
 	public LoginScreenFact(TerminalField userField, TerminalField userLabelField, TerminalField passwordField,
-			TerminalField passwordLabelField, TerminalField errorField) {
+			TerminalField passwordLabelField, TerminalPosition errorPosition) {
 		this.userField = userField;
 		this.userLabelField = userLabelField;
 		this.passwordField = passwordField;
 		this.passwordLabelField = passwordLabelField;
-		this.errorField = errorField;
+		this.errorPosition = errorPosition;
 	}
 
 	public TerminalField getUserField() {
@@ -46,8 +47,8 @@ public class LoginScreenFact implements ScreenFact {
 		return passwordLabelField;
 	}
 
-	public TerminalField getErrorField() {
-		return errorField;
+	public TerminalPosition getErrorPosition() {
+		return errorPosition;
 	}
 
 	public String getPasswordLabel() {
