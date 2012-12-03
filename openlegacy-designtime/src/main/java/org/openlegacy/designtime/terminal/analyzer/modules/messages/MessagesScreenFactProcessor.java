@@ -5,8 +5,11 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.analyzer.support.ScreenEntityDefinitionsBuilderUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.messages.Messages;
-import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.utils.ClassUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,9 +28,15 @@ public class MessagesScreenFactProcessor implements ScreenFactProcessor {
 		screenEntityDefinition.setType(Messages.MessagesEntity.class);
 		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(Messages.MessagesEntity.class));
 
-		// TODO handle multiple field
-		ScreenFieldDefinition messageFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-				messagesScreenFact.getMessageFields().get(0), Messages.MESSAGE_FIELD);
+		List<TerminalField> messageFields = messagesScreenFact.getMessageFields();
+		TerminalField firstField = messageFields.get(0);
+		TerminalField lastField = messageFields.get(messageFields.size() - 1);
+
+		SimpleScreenFieldDefinition messageFieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinitionsBuilderUtils.addField(
+				screenEntityDefinition, firstField, Messages.MESSAGE_FIELD);
+		messageFieldDefinition.setEndPosition(lastField.getEndPosition());
+		messageFieldDefinition.setRectangle(true);
+
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, messageFieldDefinition,
 				Messages.MessageField.class);
 		screenEntityDefinition.getFieldsDefinitions().put(Messages.MESSAGE_FIELD, messageFieldDefinition);

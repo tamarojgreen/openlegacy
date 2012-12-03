@@ -167,4 +167,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	public void setRectangle(boolean rectangle) {
 		this.rectangle = rectangle;
 	}
+
+	public boolean isMultyLine() {
+		return getEndPosition().getRow() != getPosition().getRow();
+	}
 }

@@ -41,7 +41,7 @@ public class DisplayMessages {
 	@ScreenField(row = 5, column = 66, endColumn= 75 ,labelColumn= 46 ,displayName = "Delivery", sampleValue = "*HOLD")
     private String delivery;
 	
-	@ScreenField(row = 7, column = 2, endColumn= 79 ,fieldType=MessageField.class ,displayName = "Message", sampleValue = "Type reply (if required), press Enter.")
+	@ScreenField(row = 7, column = 2, endColumn= 77 ,endRow= 15 ,rectangle= true ,fieldType=MessageField.class ,displayName = "Message", sampleValue = "Type reply (if required), press Enter.")
     private String message;
 
     
