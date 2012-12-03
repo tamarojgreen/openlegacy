@@ -78,12 +78,12 @@
         </row>
         <row rowNumber="3">
             <field column="1" color="WHITE"/>
-            <field column="2" value="Job 02345/TESTUSER/QPADEV00RT started on 02/09/11 at 11:44:08 in subsystem " color="WHITE"/>
+            <field column="2" value="Message line 1 " length="76" color="WHITE"/>
             <field column="79" value="  "/>
         </row>
         <row rowNumber="4">
             <field column="1" color="WHITE"/>
-            <field column="2" value="Initial program ended and *SIGNOFF specified for initial menu.              " color="WHITE"/>
+            <field column="2" value="Message line 2" length="76" color="WHITE"/>
             <field column="79" value="  "/>
         </row>
         <row rowNumber="19">
@@ -98,7 +98,7 @@
         <size rows="24" columns="80"/>
         <cursor row="1" column="1"/>
     </snapshot>
-    <snapshot type="OUTGOING" command="[enter]" sequence="4">
+    <snapshot type="INCOMING" sequence="4">
         <row rowNumber="1">
             <field column="2"/>
             <field column="3" value=" "/>
@@ -110,12 +110,12 @@
         </row>
         <row rowNumber="3">
             <field column="1" color="WHITE"/>
-            <field column="2" value="Job 023007/STUDENT2/QPADEV00RT started on 02/06/05 at 11:44:08 in subsystem " color="WHITE"/>
+            <field column="2" value="Message line 3 " length="76" color="WHITE"/>
             <field column="79" value="  "/>
         </row>
         <row rowNumber="4">
             <field column="1" color="WHITE"/>
-            <field column="2" value="Initial program ended and *SIGNOFF specified for initial menu.              " color="WHITE"/>
+            <field column="2" value="Message line 4" length="76" color="WHITE"/>
             <field column="79" value="  "/>
         </row>
         <row rowNumber="19">

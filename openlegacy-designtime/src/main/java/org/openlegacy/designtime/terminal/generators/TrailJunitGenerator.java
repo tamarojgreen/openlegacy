@@ -83,7 +83,7 @@ public class TrailJunitGenerator {
 				Collection<ScreenFieldDefinition> fields = accessedFromScreenDefinition.getFieldsDefinitions().values();
 				for (ScreenFieldDefinition screenFieldDefinition : fields) {
 					TerminalField terminalField = accessedFromSnapshot.getField(screenFieldDefinition.getPosition());
-					if (terminalField.isModified()) {
+					if (terminalField != null && terminalField.isModified()) {
 						generatedApi.getApiCalls().add(
 								MessageFormat.format("{0}.{1}({2});", variableName,
 										StringUtil.toSetterMethodName(screenFieldDefinition.getName()),

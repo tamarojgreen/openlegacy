@@ -38,8 +38,9 @@ public class DefaultTerminalMessagesModuleTest extends AbstractTest {
 		// verify messages are stored
 		Messages messagesModule = terminalSession.getModule(Messages.class);
 		List<String> messages = messagesModule.getMessages();
-		Assert.assertEquals(1, messages.size());
-		Assert.assertEquals("Job 02345/TESTUSER/QPADEV00RT started on 02/09/11 at 11:44:08 in subsystem", messages.get(0));
+		Assert.assertEquals(2, messages.size());
+		Assert.assertEquals("Message line 1 Message line 2", messages.get(0));
+		Assert.assertEquals("Message line 3 Message line 4", messages.get(1));
 
 		// verify messages are reset
 		messagesModule.resetMessages();

@@ -53,26 +53,27 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 				fieldAnnotation.fieldType());
 		screenFieldDefinition.setPosition(position);
 
-		if (fieldAnnotation.endColumn() == 0) {
-			screenFieldDefinition.setLength(0);
-		} else {
-			if (fieldAnnotation.endRow() == 0) {
-				screenFieldDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
+		if (fieldAnnotation.endRow() == 0) {
+			if (fieldAnnotation.endColumn() == 0) {
+				screenFieldDefinition.setLength(0);
 			} else {
-				if (fieldAnnotation.endRow() <= fieldAnnotation.row()) {
-					throw (new RegistryException(MessageFormat.format(
-							"End row must be greater then row for field {0}. (can be removed for same row)", field.getName())));
-				}
-				if (fieldAnnotation.endColumn() == 0) {
-					throw (new RegistryException(MessageFormat.format(
-							"End column must be defined for multiple rows in field {0}. (can be removed for same row)",
-							field.getName())));
-				}
-
-				screenFieldDefinition.setEndPosition(SimpleTerminalPosition.newInstance(fieldAnnotation.endRow(),
-						fieldAnnotation.endColumn()));
-				screenFieldDefinition.setRectangle(fieldAnnotation.rectangle());
+				screenFieldDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
 			}
+		} else {
+			if (fieldAnnotation.endRow() <= fieldAnnotation.row()) {
+				throw (new RegistryException(MessageFormat.format(
+						"End row must be greater then row for field {0}. (can be removed for same row)", field.getName())));
+			}
+			if (fieldAnnotation.endColumn() == 0) {
+				throw (new RegistryException(MessageFormat.format(
+						"End column must be defined for multiple rows in field {0}. (can be removed for same row)",
+						field.getName())));
+			}
+
+			screenFieldDefinition.setEndPosition(SimpleTerminalPosition.newInstance(fieldAnnotation.endRow(),
+					fieldAnnotation.endColumn()));
+
+			screenFieldDefinition.setRectangle(fieldAnnotation.rectangle());
 		}
 
 		if (fieldAnnotation.labelColumn() > 0) {

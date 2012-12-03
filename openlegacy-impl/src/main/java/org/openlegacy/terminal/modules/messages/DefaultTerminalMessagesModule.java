@@ -44,6 +44,8 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 
 	private TerminalAction skipAction;
 
+	private int skipLimit = 5;
+
 	@Override
 	public void afterSendAction(TerminalConnection terminalConnection) {
 
@@ -56,35 +58,51 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 
 		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
 
-		// if screen is not messages screen, exit
-		if (entityDefinition.getType() != Messages.MessagesEntity.class) {
+		int skippedScreens = 0;
+
+		if (skipAction == null) {
 			return;
 		}
-		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 
-		// collect all messages field into messages
-		Collection<ScreenFieldDefinition> fieldDefinitions = entityDefinition.getFieldsDefinitions().values();
-		for (ScreenFieldDefinition screenFieldDefinition : fieldDefinitions) {
-			if (screenFieldDefinition.getType() == Messages.MessageField.class) {
-				Object fieldValue = fieldAccessor.getFieldValue(screenFieldDefinition.getName());
-				if (fieldValue instanceof String) {
-					messages.add((String)fieldValue);
+		// if screen is not messages screen, exit
+		while (entityDefinition.getType() == Messages.MessagesEntity.class && skippedScreens < skipLimit) {
+			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
+
+			// collect all messages field into messages
+			Collection<ScreenFieldDefinition> fieldDefinitions = entityDefinition.getFieldsDefinitions().values();
+			for (ScreenFieldDefinition screenFieldDefinition : fieldDefinitions) {
+				if (screenFieldDefinition.getType() == Messages.MessageField.class) {
+					Object fieldValue = fieldAccessor.getFieldValue(screenFieldDefinition.getName());
+					if (fieldValue instanceof String) {
+						messages.add((String)fieldValue);
+					}
 				}
 			}
-		}
 
-		// skip messages screen
-		if (skipAction != null) {
+			// skip messages screen
 			if (logger.isDebugEnabled()) {
 				logger.debug(MessageFormat.format("Skipping screen {0} using action {1}", entityDefinition.getEntityClassName(),
 						skipAction.getClass().getSimpleName()));
 			}
 			getSession().doAction(skipAction);
+			skippedScreens++;
+
+			currentEntity = getSession().getEntity();
+			entityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
+
 		}
 	}
 
 	public void setSkipActionClass(Class<? extends TerminalAction> terminalAction) {
 		this.skipAction = ReflectionUtil.newInstance(terminalAction);
+	}
+
+	public void setSkipLimit(int skipLimit) {
+		this.skipLimit = skipLimit;
+	}
+
+	public void setSkipAction(TerminalAction skipAction) {
+		this.skipAction = skipAction;
 	}
 
 	public List<String> getMessages() {
