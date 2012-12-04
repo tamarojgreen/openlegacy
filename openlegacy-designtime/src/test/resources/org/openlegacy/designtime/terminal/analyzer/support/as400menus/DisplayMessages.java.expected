@@ -26,7 +26,7 @@ public class DisplayMessages {
 	@ScreenField(row = 2, column = 66, endColumn= 73 ,labelColumn= 50 ,displayName = "System", sampleValue = "S1051C6E")
     private String system;
 	
-	@ScreenField(row = 3, column = 22, endColumn= 31 ,labelColumn= 2 ,displayName = "Queue", sampleValue = "NEWS")
+	@ScreenField(row = 3, column = 22, endColumn= 31 ,labelColumn= 2 ,displayName = "Queue", sampleValue = "RMR20924")
     private String queue;
 	
 	@ScreenField(row = 3, column = 66, endColumn= 75 ,labelColumn= 46 ,displayName = "Program", sampleValue = "*DSPMSG")
@@ -41,7 +41,7 @@ public class DisplayMessages {
 	@ScreenField(row = 5, column = 22, endColumn= 23 ,labelColumn= 2 ,displayName = "Severity", sampleValue = "00")
     private Integer severity;
 	
-	@ScreenField(row = 5, column = 66, endColumn= 75 ,labelColumn= 46 ,displayName = "Delivery", sampleValue = "*HOLD")
+	@ScreenField(row = 5, column = 66, endColumn= 75 ,labelColumn= 46 ,displayName = "Delivery", sampleValue = "*NOTIFY")
     private String delivery;
 	
 	@ScreenField(row = 7, column = 2, endColumn= 77 ,endRow= 15 ,rectangle= true ,fieldType=MessageField.class ,displayName = "Message", sampleValue = "Type reply (if required), press Enter.")

@@ -24,11 +24,22 @@ when
 	// and there is no field in this column in a higher row 
 	not TerminalField(this != $field, position.column == $field.position.column, length == $field.length,position.row < $field.position.row) from $snapshot.getFields();
 	
-	$columnFields: List(size >= $minimumTableRows) from collect(TerminalField(position.column == $field.position.column,length == $field.length,editable == $field.editable) from $snapshot.getFields()) 
+	$columnFields: List(size > 0,size >= $minimumTableRows) from collect(TerminalField(position.column == $field.position.column,length == $field.length,editable == $field.editable) from $snapshot.getFields()) 
 
+	$firstColumnField: TerminalField(this != null) from $columnFields
+	not TerminalField(position.row < $firstColumnField.position.row) from $columnFields
+	
+	$columnFieldsCount: Integer(intValue > 0) from $columnFields.size()
+	$lastColumnField: TerminalField(this != null) from $columnFields
+	not TerminalField(position.row > $lastColumnField.position.row) from $columnFields
+	
+	$tableGap: Integer() from ($lastColumnField.getPosition().getRow() - $firstColumnField.getPosition().getRow() + 1)
+	Boolean(booleanValue==true) from ($tableGap == $columnFields.size())
+	  	
 	// and at list one of the columns is not empty
 	exists TerminalField(editable == true || value matches $atLeastOneFieldShouldBe) from $columnFields
 then
+
 	// if the fields were removed from the snapshot, don't create a column
 	if ($snapshot.getFields().contains($columnFields.get(0))) {
 		TableColumnFact tableColumnFact = new TableColumnFact($screenEntityDefinition, $columnFields);

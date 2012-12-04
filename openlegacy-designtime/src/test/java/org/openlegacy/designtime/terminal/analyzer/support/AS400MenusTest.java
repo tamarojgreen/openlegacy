@@ -31,7 +31,7 @@ public class AS400MenusTest extends AbstractAnalyzerTest {
 
 		List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
 
-		for (int i = 0; i <= 14; i++) {
+		for (int i = 0; i < trail.getSnapshots().size(); i++) {
 			snapshots.add(trail.getSnapshots().get(i));
 		}
 
@@ -47,6 +47,11 @@ public class AS400MenusTest extends AbstractAnalyzerTest {
 
 		assertScreenContent(entityDefinitions.get("DisplayJobStatusAttributes"),
 				"as400menus/DisplayJobStatusAttributes.java.expected");
+
+		assertScreenContent(entityDefinitions.get("CopyFromPcDocumentcpyfrmpcd"),
+				"as400menus/CopyFromPcDocumentcpyfrmpcd.java.expected");
+
+		// assertScreenContent(entityDefinitions.get("WorkWithSubmittedJobs"), null);
 
 	}
 

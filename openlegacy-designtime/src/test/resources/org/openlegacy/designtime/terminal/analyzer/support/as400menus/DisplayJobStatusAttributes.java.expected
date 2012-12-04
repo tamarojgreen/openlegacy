@@ -27,13 +27,13 @@ public class DisplayJobStatusAttributes {
 	@ScreenField(row = 2, column = 72, endColumn= 79 ,labelColumn= 62 ,displayName = "System", sampleValue = "S1051C6E")
     private String system;
 	
-	@ScreenField(row = 3, column = 9, endColumn= 18 ,labelColumn= 2 ,displayName = "Job", sampleValue = "QPADEV0002")
+	@ScreenField(row = 3, column = 9, endColumn= 18 ,labelColumn= 2 ,displayName = "Job", sampleValue = "QPADEV0001")
     private String job;
 	
 	@ScreenField(row = 3, column = 32, endColumn= 41 ,labelColumn= 24 ,displayName = "User", sampleValue = "RMR20924")
     private String user;
 	
-	@ScreenField(row = 3, column = 57, endColumn= 62 ,labelColumn= 47 ,displayName = "Number", sampleValue = "674478")
+	@ScreenField(row = 3, column = 57, endColumn= 62 ,labelColumn= 47 ,displayName = "Number", sampleValue = "698775")
     private Integer number;
 	
 	@ScreenField(row = 5, column = 50, endColumn= 69 ,labelColumn= 2 ,displayName = "Status of job", sampleValue = "ACTIVE")
@@ -48,16 +48,16 @@ public class DisplayJobStatusAttributes {
 	@ScreenField(row = 8, column = 52, endColumn= 66 ,labelColumn= 4 ,displayName = "Set by", sampleValue = "*DEFAULT")
     private String setBy;
 	
-	@ScreenField(row = 10, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Date", sampleValue = "11/21/12")
+	@ScreenField(row = 10, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Date", sampleValue = "12/04/12")
     private String date1;
 	
-	@ScreenField(row = 11, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Time", sampleValue = "17:02:37")
+	@ScreenField(row = 11, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Time", sampleValue = "04:48:11")
     private String time1;
 	
-	@ScreenField(row = 13, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Date", sampleValue = "11/21/12")
+	@ScreenField(row = 13, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Date", sampleValue = "12/04/12")
     private String date;
 	
-	@ScreenField(row = 14, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Time", sampleValue = "17:02:37")
+	@ScreenField(row = 14, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Time", sampleValue = "04:48:11")
     private String time;
 	
 	@ScreenField(row = 15, column = 50, endColumn= 59 ,labelColumn= 2 ,displayName = "Subsystem", sampleValue = "QINTER")
