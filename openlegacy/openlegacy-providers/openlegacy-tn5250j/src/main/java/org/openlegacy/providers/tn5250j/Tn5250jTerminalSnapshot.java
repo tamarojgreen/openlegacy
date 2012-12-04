@@ -82,7 +82,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		for (TerminalPosition terminalPosition : fieldSeperators) {
 			boolean previousIsAttributePosition = true;
 			boolean currentIsAttributePosition = true;
-			boolean fieldAdded = false;
+			boolean lastPartAdded = false;
 			if (currentPosition == null) {
 				currentPosition = terminalPosition;
 			} else if (terminalPosition.getRow() != previousPosition.getRow()) {
@@ -92,9 +92,15 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 				// add field from previous to end of line
 				if (previousPosition.getColumn() < getSize().getColumns()) {
 					addField(fields, previousPosition, currentPosition, true, false);
-					fieldAdded = true;
+					lastPartAdded = true;
 				}
 
+				// fill empty rows
+				for (int currentRow = previousPosition.getRow() + 1; currentRow < terminalPosition.getRow(); currentRow++) {
+					addField(fields, new SimpleTerminalPosition(currentRow, 1), new SimpleTerminalPosition(currentRow,
+							getSize().getColumns()), false, false);
+					lastPartAdded = false;
+				}
 				previousPosition = new SimpleTerminalPosition(terminalPosition.getRow(), 1);
 				currentPosition = terminalPosition;
 				previousIsAttributePosition = false;
@@ -103,9 +109,14 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 				previousPosition = currentPosition;
 				currentPosition = terminalPosition;
 			}
-			if (!fieldAdded) {
+			if (!lastPartAdded) {
 				addField(fields, previousPosition, currentPosition, previousIsAttributePosition, currentIsAttributePosition);
 			}
+		}
+		// fill last empty rows
+		for (int currentRow = currentPosition.getRow() + 1; currentRow <= getSize().getRows(); currentRow++) {
+			addField(fields, new SimpleTerminalPosition(currentRow, 1), new SimpleTerminalPosition(currentRow,
+					getSize().getColumns()), false, false);
 		}
 
 		return fields;
@@ -282,8 +293,12 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		public final char[] field;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openlegacy.terminal.support.AbstractSnapshot#readExternal(org.openlegacy.terminal.persistance.TerminalPersistedSnapshot)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.openlegacy.terminal.support.AbstractSnapshot#readExternal(org.openlegacy.terminal.persistance.TerminalPersistedSnapshot
+	 * )
 	 */
 	@Override
 	protected void readExternal(TerminalPersistedSnapshot persistedSnapshot) {
