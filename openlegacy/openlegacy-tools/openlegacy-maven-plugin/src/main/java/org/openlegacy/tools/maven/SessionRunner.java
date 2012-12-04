@@ -78,6 +78,12 @@ public class SessionRunner extends AbstractMojo {
 					return;
 				}
 
+				if (uri.contains("sequence")) {
+					response.getWriter().write(getTerminalSession().getSequence().toString());
+					((Request)request).setHandled(true);
+					return;
+				}
+
 				if (uri.contains("logoff")) {
 					handleLogoff(response);
 					((Request)request).setHandled(true);
