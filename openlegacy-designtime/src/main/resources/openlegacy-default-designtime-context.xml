@@ -183,7 +183,7 @@
 										<entry key="labelRegex" value="\s*[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
 										<entry key="maximumLabelLength" value="50" />
 										<entry key="maxDistance" value="6" />
-										<entry key="fieldRegex" value="\s*[\d\w\p{L}\*/]+[\d\w\p{L}\*/ ]*" />
+										<entry key="fieldRegex" value="\s*[\w\p{L}\*/]+[\w\p{L}\*/ ]*" />
 										<entry key="minimumFieldLength" value="1" />
 										<entry key="maximumFieldLength" value="30" />
 									</map>
@@ -195,10 +195,23 @@
 									<map>
 										<entry key="labelRegex" value="[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
 										<entry key="maximumLabelLength" value="50" />
-										<entry key="maxDistance" value="5" />
+										<entry key="maxDistance" value="6" />
 										<entry key="fieldRegex" value="\s*" />
 										<entry key="minimumFieldLength" value="5" />
 										<entry key="maximumFieldLength" value="15" />
+									</map>
+								</property>
+							</bean>
+							<!-- allows ":." only as part of number: date, time, money -->
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="labelRegex" value="\s*[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
+										<entry key="maximumLabelLength" value="50" />
+										<entry key="maxDistance" value="6" />
+										<entry key="fieldRegex" value="\s*(\d+[\.:/\$]*)+\s*" />
+										<entry key="minimumFieldLength" value="1" />
+										<entry key="maximumFieldLength" value="12" />
 									</map>
 								</property>
 							</bean>

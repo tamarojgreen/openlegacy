@@ -46,4 +46,8 @@ public class SimpleMenuItem implements MenuItem {
 		return displayName;
 	}
 
+	@Override
+	public String toString() {
+		return getDisplayName();
+	}
 }

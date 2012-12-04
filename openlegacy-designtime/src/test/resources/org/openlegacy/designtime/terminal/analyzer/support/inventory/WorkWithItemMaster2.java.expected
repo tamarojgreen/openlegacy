@@ -32,13 +32,13 @@ public class WorkWithItemMaster2 {
 	@ScreenField(row = 9, column = 29, endColumn= 43 ,labelColumn= 2 ,editable= true ,displayName = "N/L Stock Account")
     private String nlStockAccount;
 	
-	@ScreenField(row = 10, column = 29, endColumn= 33 ,labelColumn= 18 ,editable= true)
+	@ScreenField(row = 10, column = 29, endColumn= 33 ,labelColumn= 18 ,editable= true ,displayName = "")
     private String field2;
 	
-	@ScreenField(row = 11, column = 29, endColumn= 33 ,labelColumn= 18 ,editable= true)
+	@ScreenField(row = 11, column = 29, endColumn= 33 ,labelColumn= 18 ,editable= true ,displayName = "")
     private String field1;
 	
-	@ScreenField(row = 12, column = 29, endColumn= 33 ,labelColumn= 18 ,editable= true)
+	@ScreenField(row = 12, column = 29, endColumn= 33 ,labelColumn= 18 ,editable= true ,displayName = "")
     private String field;
 	
 	@ScreenField(row = 13, column = 29, endColumn= 29 ,labelColumn= 2 ,editable= true ,displayName = "Item Type  business area")
@@ -67,9 +67,10 @@ public class WorkWithItemMaster2 {
 	
 	@ScreenField(row = 21, column = 69, endColumn= 78 ,labelColumn= 51 ,displayName = "Amended date", sampleValue = "0/00/0000")
     private String amendedDate;
-
+	
 	@ScreenField(row = 22, column = 69, endColumn= 78 ,labelColumn= 51 ,displayName = "Amended By")
     private String amendedBy;
+
     
 
 

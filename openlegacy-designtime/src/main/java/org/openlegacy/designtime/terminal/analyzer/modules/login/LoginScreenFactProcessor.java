@@ -59,7 +59,9 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 
 		TerminalPosition errorFieldPosition = loginScreenFact.getErrorPosition();
 		if (errorFieldPosition != null) {
-			SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition(defaultErrorFieldName,
+			SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition();
+			screenFieldDefinition.setName(defaultErrorFieldName);
+			ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, screenFieldDefinition,
 					Login.ErrorField.class);
 			screenFieldDefinition.setPosition(errorFieldPosition);
 			screenEntityDefinition.getFieldsDefinitions().put(defaultErrorFieldName, screenFieldDefinition);

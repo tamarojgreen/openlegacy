@@ -4,6 +4,7 @@ import org.openlegacy.annotations.screen.*;
 import org.openlegacy.modules.login.Login.LoginEntity;  
 import org.openlegacy.modules.login.Login.UserField;  
 import org.openlegacy.modules.login.Login.PasswordField;  
+import org.openlegacy.modules.login.Login.ErrorField;  
 
 @ScreenEntity(screenType=LoginEntity.class)
 @ScreenIdentifiers(identifiers = { 

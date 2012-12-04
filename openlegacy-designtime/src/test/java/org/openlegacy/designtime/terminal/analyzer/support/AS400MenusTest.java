@@ -47,6 +47,7 @@ public class AS400MenusTest extends AbstractAnalyzerTest {
 
 		assertScreenContent(entityDefinitions.get("DisplayJobStatusAttributes"),
 				"as400menus/DisplayJobStatusAttributes.java.expected");
+
 	}
 
 }

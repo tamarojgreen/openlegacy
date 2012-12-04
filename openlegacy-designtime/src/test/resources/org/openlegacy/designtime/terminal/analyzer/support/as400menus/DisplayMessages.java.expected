@@ -33,6 +33,9 @@ public class DisplayMessages {
     private String program;
 	
 	@ScreenField(row = 4, column = 24, endColumn= 33 ,labelColumn= 4 ,displayName = "Library", sampleValue = "QUSRSYS")
+    private String library1;
+	
+	@ScreenField(row = 4, column = 68, endColumn= 77 ,labelColumn= 48 ,displayName = "Library")
     private String library;
 	
 	@ScreenField(row = 5, column = 22, endColumn= 23 ,labelColumn= 2 ,displayName = "Severity", sampleValue = "00")

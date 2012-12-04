@@ -31,6 +31,7 @@ import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -59,6 +60,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	private int defaultTopMarginOffset = 0;
 
 	private int additionalPartWidth = 0;
+
+	private int maxNeighbourColumnsOffset = 2;
 
 	/**
 	 * Page builder entry point. Builds a page definition from a screen entity definition
@@ -209,12 +212,38 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 				startColumn = fieldStartColumn;
 			}
 		}
+
+		columnValues = calculateNumberOfColumnsForPagePage(columnValues);
+
 		pagePart.setColumns(columnValues.size());
 
 		calculatePartPosition(fields, entityDefinition, pagePart, startColumn);
 		calculateWidth(entityDefinition, pagePart, endColumn - startColumn);
 
 		return pagePart;
+	}
+
+	/**
+	 * Calculate the row part columns consider small offsets between neighbour fields. e.g: Field which starts at column 10 and
+	 * field which starts at columns 12, will be considered as 1
+	 * 
+	 * @param columnValues
+	 * @return
+	 */
+	private Set<Integer> calculateNumberOfColumnsForPagePage(Set<Integer> columnValues) {
+		Integer[] columnValuesArr = columnValues.toArray(new Integer[columnValues.size()]);
+		// make sure columns are ordered
+		Arrays.sort(columnValuesArr);
+
+		Set<Integer> newColumnValues = new HashSet<Integer>();
+		newColumnValues.add(columnValuesArr[0]);
+		for (int i = 0; i < columnValuesArr.length - 1; i++) {
+			int columnDistance = Math.abs(columnValuesArr[i] - columnValuesArr[i + 1]);
+			if (columnDistance > maxNeighbourColumnsOffset) {
+				newColumnValues.add(columnValuesArr[i + 1]);
+			}
+		}
+		return newColumnValues;
 	}
 
 	/**
@@ -288,7 +317,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			boolean found = false;
 			for (List<ScreenFieldDefinition> neighourFields : neighourFieldsGroups) {
 				for (ScreenFieldDefinition neighourField : neighourFields) {
-					if (isUnderNighbour(screenFieldDefinition, neighourField)
+					if (isBelowNighbour(screenFieldDefinition, neighourField)
 							|| isRightNeighbour(screenFieldDefinition.getPosition(), neighourField)) {
 						logger.debug(MessageFormat.format("Adding field definition {0} to neighbour fields: {1}",
 								screenFieldDefinition, neighourFields));
@@ -314,13 +343,15 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 				&& fieldPosition.getRow() == neighbourEndPosition.getRow();
 	}
 
-	private boolean isUnderNighbour(ScreenFieldDefinition screenFieldDefinition, ScreenFieldDefinition neighbourField) {
+	private boolean isBelowNighbour(ScreenFieldDefinition screenFieldDefinition, ScreenFieldDefinition neighbourField) {
 
 		TerminalPosition fieldPosition = screenFieldDefinition.getPosition();
 		TerminalPosition neighbourFieldPosition = neighbourField.getPosition();
-		boolean underNeighbourByField = fieldPosition.getColumn() == neighbourFieldPosition.getColumn()
-				&& fieldPosition.getRow() - maxRowDistanceWithinPart == neighbourFieldPosition.getRow();
-		if (underNeighbourByField) {
+		int belowColumnsDistance = Math.abs(fieldPosition.getColumn() - neighbourFieldPosition.getColumn());
+		int belowRowsDistance = Math.abs(fieldPosition.getRow() - neighbourFieldPosition.getRow());
+		boolean isBelowNeighbour = belowColumnsDistance <= maxNeighbourColumnsOffset
+				&& belowRowsDistance <= maxRowDistanceWithinPart;
+		if (isBelowNeighbour) {
 			return true;
 		}
 		TerminalPosition fieldLabelPosition = screenFieldDefinition.getLabelPosition();
@@ -349,6 +380,10 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	public void setMaxColumnDistanceWithinPart(int maxColumnDistanceWithinPart) {
 		this.maxColumnDistanceWithinPart = maxColumnDistanceWithinPart;
+	}
+
+	public void setMaxNeighbourColumnsOffset(int maxNeighbourColumnsOffset) {
+		this.maxNeighbourColumnsOffset = maxNeighbourColumnsOffset;
 	}
 
 	public void setDefaultFieldLength(int defaultFieldLength) {

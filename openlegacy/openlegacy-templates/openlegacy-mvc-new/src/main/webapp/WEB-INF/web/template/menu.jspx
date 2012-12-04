@@ -16,7 +16,7 @@
 		<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
 			<c:if test="${definitions != null}">
 				<c:forEach items="${menu.menuItems}" var="menuItem">
-					<div data-dojo-type="dijit.layout.ContentPane" title="Invetory Menu" class="element">
+					<div data-dojo-type="dijit.layout.ContentPane" title="${menuItem.displayName}" class="element">
 						<div class="links">
 							<ul>
 								<li>
@@ -30,6 +30,17 @@
 												<a href="${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}">${subMenuItem.displayName}</a>
 											</c:otherwise>
 										</c:choose>
+										<c:forEach items="${subMenuItem.menuItems}" var="subSubMenuItem">
+											<c:choose>
+												<c:when test="${subSubMenuItem.targetEntity.simpleName == definitions.entityName}">
+													<a href="${pageContext.request.contextPath}/${subSubMenuItem.targetEntity.simpleName}" 
+														class="current">${subSubMenuItem.displayName}</a>
+												</c:when>
+												<c:otherwise>
+													<a href="${pageContext.request.contextPath}/${subSubMenuItem.targetEntity.simpleName}">${subSubMenuItem.displayName}</a>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>										
 									</c:forEach>
 								</li>
 							</ul>
