@@ -39,8 +39,9 @@
 		<put-attribute name="body" value="/WEB-INF/mobile/views/Items.jspx" />
 	</definition>
 
-	<definition name="SignOn_m" extends="public_m">
-		<put-attribute name="body" value="/WEB-INF/mobile/views/SignOn.jspx" />
+	<definition name="SignOn_m" extends="signon_m">
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/SignOn.jspx" />
+		<put-attribute name="body" value=""/>
 	</definition>
 
 	<definition name="WarehouseTypes_m" extends="template_m">

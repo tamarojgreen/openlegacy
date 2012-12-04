@@ -54,4 +54,11 @@
 			value="/WEB-INF/mobile/template/footer.jspx" />
 	</definition>
 
+	<definition name="signon_m" template="/WEB-INF/mobile/template/template.jspx">
+		<put-attribute name="menuHeader"
+			value="/WEB-INF/mobile/template/header.jspx" />
+		<put-attribute name="footer"
+			value="/WEB-INF/mobile/template/footer.jspx" />
+	</definition>
+
 </tiles-definitions>

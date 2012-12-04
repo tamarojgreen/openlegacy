@@ -16,3 +16,12 @@ function uploadStockItemImage() {
 		});
 	});
 };
+
+function resizeSplitter(){
+	require(["dojo/ready", "dijit/registry"], function(ready, registry){
+		ready(function(){
+			var splitter = registry.byId("fixedSplitter");
+			splitter.resize();
+		});
+	});
+}

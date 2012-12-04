@@ -38,8 +38,9 @@
 				<div data-dojo-type="dojox.mobile.RoundRectList">
 					<c:forEach items="${menuItem2.menuItems}" var="subMenuItem">
 						<li data-dojo-type="dojox.mobile.ListItem"
-							data-dojo-props="url:'${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}'" 
-							onclick="showLoading();addViewToHistory('${subMenuItem.targetEntity.simpleName}Panel');">${subMenuItem.displayName}</li>
+							data-dojo-props="url:'${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}',
+									urlTarget:'bodyContainer'" 
+							onclick="showLoading();addViewToHistory('${subMenuItem.targetEntity.simpleName}Panel');resizeSplitter();">${subMenuItem.displayName}</li>
 					</c:forEach>
 				</div>
 			</div>
