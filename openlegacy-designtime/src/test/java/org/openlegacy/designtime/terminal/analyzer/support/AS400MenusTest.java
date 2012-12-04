@@ -51,8 +51,10 @@ public class AS400MenusTest extends AbstractAnalyzerTest {
 		assertScreenContent(entityDefinitions.get("CopyFromPcDocumentcpyfrmpcd"),
 				"as400menus/CopyFromPcDocumentcpyfrmpcd.java.expected");
 
-		// assertScreenContent(entityDefinitions.get("WorkWithSubmittedJobs"), null);
+		assertScreenContent(entityDefinitions.get("SendMessagesndmsg"), "as400menus/SendMessagesndmsg.java.expected");
+		assertScreenContent(entityDefinitions.get("EditLibraryList"), "as400menus/EditLibraryList.java.expected");
 
+		// assertScreenContent(entityDefinitions.get("WorkWithSubmittedJobs"), null);
 	}
 
 }

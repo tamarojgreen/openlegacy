@@ -27,7 +27,9 @@ import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -92,7 +94,7 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 					columnName = COLUMN + (i + 1);
 				}
 			}
-			SimpleScreenColumnDefinition columnDefinition = initColumn(i, firstCellField, columnName);
+			SimpleScreenColumnDefinition columnDefinition = initColumn(i, firstCellField, columnName, columnDefinitions);
 
 			// define the screen as record selection type if it has a selection field and it's NOT window
 			if (columnDefinition.isSelectionField() && !screenEntityDefinition.isWindow()) {
@@ -147,8 +149,33 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 		return headerField;
 	}
 
-	private SimpleScreenColumnDefinition initColumn(int coloumnIndex, TerminalField firstCellField, String columnName) {
+	private static String findFreeColumnName(String columnName, List<ScreenColumnDefinition> columnsDefinitions) {
+		Map<String, ScreenColumnDefinition> columnsMap = new HashMap<String, ScreenColumnDefinition>();
+		for (ScreenColumnDefinition screenColumnDefinition : columnsDefinitions) {
+			columnsMap.put(screenColumnDefinition.getDisplayName(), screenColumnDefinition);
+		}
+
+		int fieldNameCount = 1;
+		String tempFieldName = columnName;
+		String baseFieldName = columnName;
+		while (columnsMap.get(tempFieldName) != null) {
+			tempFieldName = baseFieldName + fieldNameCount++;
+		}
+		return tempFieldName;
+	}
+
+	private SimpleScreenColumnDefinition initColumn(int coloumnIndex, TerminalField firstCellField, String columnName,
+			List<ScreenColumnDefinition> columnDefinitions) {
 		columnName = textTranslator.translate(columnName);
+
+		columnName = findFreeColumnName(columnName, columnDefinitions);
+
+		Integer i = 1;
+		for (ScreenColumnDefinition screenColumnDefinition : columnDefinitions) {
+			if (screenColumnDefinition.getName().equals(columnName)) {
+				columnName += i.toString();
+			}
+		}
 		SimpleScreenColumnDefinition columnDefinition = new SimpleScreenColumnDefinition(StringUtil.toJavaFieldName(columnName));
 
 		columnDefinition.setStartColumn(firstCellField.getPosition().getColumn());
