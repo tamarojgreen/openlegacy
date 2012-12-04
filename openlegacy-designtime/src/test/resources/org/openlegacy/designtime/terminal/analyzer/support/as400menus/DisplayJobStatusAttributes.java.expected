@@ -51,8 +51,14 @@ public class DisplayJobStatusAttributes {
 	@ScreenField(row = 10, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Date", sampleValue = "11/21/12")
     private String date1;
 	
+	@ScreenField(row = 11, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Time", sampleValue = "17:02:37")
+    private String time1;
+	
 	@ScreenField(row = 13, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Date", sampleValue = "11/21/12")
     private String date;
+	
+	@ScreenField(row = 14, column = 50, endColumn= 57 ,labelColumn= 4 ,displayName = "Time", sampleValue = "17:02:37")
+    private String time;
 	
 	@ScreenField(row = 15, column = 50, endColumn= 59 ,labelColumn= 2 ,displayName = "Subsystem", sampleValue = "QINTER")
     private String subsystem;
