@@ -16,7 +16,7 @@
 			<ol:pagePart>
 				<ol:field name="user" label="User" editable="true" size="20" maxlength="10"/>
 				<ol:field name="password" label="Password" type="password" editable="true" size="20" maxlength="10" />
-				<input data-dojo-type="dojox.mobile.Button" type="button" onclick="doAjaxPost('SignOnForm','menuContainer',null,'body,menu')"
+				<input data-dojo-type="dojox.mobile.Button" type="button" onclick="doAjaxPost('SignOnForm','menuContainer',null,'body,menu');resizeDojoWidget('fixedSplitter');"
 					class="mblButton greyBtn baseBtn normalBtn" value="Submit" />
 				<ol:field name="errorMessage" />
 			</ol:pagePart>

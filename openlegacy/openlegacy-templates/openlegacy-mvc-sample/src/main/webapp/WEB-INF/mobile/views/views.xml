@@ -39,9 +39,9 @@
 		<put-attribute name="body" value="/WEB-INF/mobile/views/Items.jspx" />
 	</definition>
 
-	<definition name="SignOn_m" extends="signon_m">
+	<definition name="SignOn_m" extends="public_m">
 		<put-attribute name="menu" value="/WEB-INF/mobile/views/SignOn.jspx" />
-		<put-attribute name="body" value=""/>
+		<put-attribute name="body" value="/WEB-INF/mobile/template/paneheader.jspx"/>
 	</definition>
 
 	<definition name="WarehouseTypes_m" extends="template_m">
@@ -68,17 +68,21 @@
 	</definition>
 
 	<definition name="logoff_m" extends="public_m">
-		<put-attribute name="body" value="/WEB-INF/mobile/views/logoff.jspx" />
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/logoff.jspx"/>
+		<put-attribute name="header" value="" />
+		<put-attribute name="body" value="" />
 	</definition>
 
 	<definition name="uncaughtException_m" extends="public_m">
-		<put-attribute name="body"
-			value="/WEB-INF/mobile/views/uncaughtException.jspx" />
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/uncaughtException.jspx"/>
+		<put-attribute name="header" value="" />
+		<put-attribute name="body" value="" />
 	</definition>
 
 	<definition name="sessionEndedException_m" extends="public_m">
-		<put-attribute name="body"
-			value="/WEB-INF/mobile/views/sessionEndedException.jspx" />
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/sessionEndedException.jspx"/>
+		<put-attribute name="header" value="" />
+		<put-attribute name="body" value="" />
 	</definition>
 
 </tiles-definitions>

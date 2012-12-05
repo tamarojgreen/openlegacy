@@ -2,6 +2,7 @@ package org.openlegacy.mvc.web.interceptors;
 
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceResolverHandlerInterceptor;
+import org.springframework.mobile.device.DeviceType;
 import org.springframework.mobile.device.DeviceUtils;
 import org.springframework.mobile.device.site.SitePreference;
 import org.springframework.mobile.device.site.SitePreferenceUtils;
@@ -17,6 +18,8 @@ public class OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor exten
 
 	private static final String MOBILE_VIEW_SUFFIX = "_m";
 
+	private static final String DEVICE_TYPE_ATTRIBUTE = "deviceType";
+
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
 			throws Exception {
@@ -28,6 +31,8 @@ public class OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor exten
 
 		SitePreference sitePreference = SitePreferenceUtils.getCurrentSitePreference(request);
 		Device device = (Device)request.getAttribute(DeviceUtils.CURRENT_DEVICE_ATTRIBUTE);
+
+		modelAndView.addObject(DEVICE_TYPE_ATTRIBUTE, getDeviceType(device));
 
 		if (!device.isNormal() || (sitePreference == SitePreference.MOBILE)) {
 			modelAndView.setViewName(MessageFormat.format("{0}{1}", modelAndView.getViewName(), MOBILE_VIEW_SUFFIX));
@@ -48,4 +53,13 @@ public class OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor exten
 		return false;
 	}
 
+	private static DeviceType getDeviceType(Device device) {
+		if (device.isMobile()) {
+			return DeviceType.MOBILE;
+		}
+		if (device.isTablet()) {
+			return DeviceType.TABLET;
+		}
+		return DeviceType.NORMAL;
+	}
 }
