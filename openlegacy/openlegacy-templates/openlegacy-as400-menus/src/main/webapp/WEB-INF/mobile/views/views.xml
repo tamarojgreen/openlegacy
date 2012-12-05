@@ -11,7 +11,107 @@
 	</definition> 
 	Marker for code generation end -->
 
-	<!-- Place holder for code generation -->
+	<!-- Place holder for code generation --> 
+	<definition name="WorkWithSubmittedJobs_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/WorkWithSubmittedJobs.jspx" />
+	</definition> 
+ 
+	<definition name="WorkWithPrinterOutput_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/WorkWithPrinterOutput.jspx" />
+	</definition> 
+ 
+	<definition name="WorkWithMessages_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/WorkWithMessages.jspx" />
+	</definition> 
+ 
+	<definition name="WorkWithJob_m" extends="menu_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/WorkWithJob.jspx" />
+	</definition> 
+ 
+	<definition name="UserTasks_m" extends="menu_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/UserTasks.jspx" />
+	</definition> 
+ 
+	<definition name="SubmitJobsbmjob_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/SubmitJobsbmjob.jspx" />
+	</definition> 
+ 
+	<definition name="SignOn_m" extends="public_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/SignOn.jspx" />
+	</definition> 
+ 
+	<definition name="SendMessagesndmsg_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/SendMessagesndmsg.jspx" />
+	</definition> 
+ 
+	<definition name="SelectDefinitionType_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/SelectDefinitionType.jspx" />
+	</definition> 
+ 
+	<definition name="ProgrammingDevelopmentManagerpdmComposite_m" extends="compositeTemplate_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/ProgrammingDevelopmentManagerpdmComposite.jspx" />
+	</definition> 
+ 
+	<definition name="ProgrammingDevelopmentManagerpdm_m" extends="innerView_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/ProgrammingDevelopmentManagerpdm.jspx" />
+	</definition> 
+ 
+	<definition name="SpecifyLibrariesToWorkWith_m" extends="innerView_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/SpecifyLibrariesToWorkWith.jspx" />
+	</definition> 
+ 
+	<definition name="Programming_m" extends="menu_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/Programming.jspx" />
+	</definition> 
+ 
+	<definition name="ProgrammerMenu_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/ProgrammerMenu.jspx" />
+	</definition> 
+ 
+	<definition name="OfficeTasks_m" extends="menu_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/OfficeTasks.jspx" />
+	</definition> 
+ 
+	<definition name="InteractiveDataDefinitionUtility_m" extends="menu_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/InteractiveDataDefinitionUtility.jspx" />
+	</definition> 
+ 
+	<definition name="IbmIMainMenu_m" extends="menu_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/IbmIMainMenu.jspx" />
+	</definition> 
+ 
+	<definition name="IbmIAccessTasks_m" extends="menu_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/IbmIAccessTasks.jspx" />
+	</definition> 
+ 
+	<definition name="EditLibraryList_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/EditLibraryList.jspx" />
+	</definition> 
+ 
+	<definition name="DisplayMessages_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/DisplayMessages.jspx" />
+	</definition> 
+ 
+	<definition name="DisplayJobStatusAttributes_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/DisplayJobStatusAttributes.jspx" />
+	</definition> 
+ 
+	<definition name="DecisionSupport_m" extends="menu_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/DecisionSupport.jspx" />
+	</definition> 
+ 
+	<definition name="CopyFromPcDocumentcpyfrmpcd_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/CopyFromPcDocumentcpyfrmpcd.jspx" />
+	</definition> 
+ 
+	<definition name="ChangeProfilechgprf_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/ChangeProfilechgprf.jspx" />
+	</definition> 
+ 
+	<definition name="ChangePassword_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/ChangePassword.jspx" />
+	</definition> 
+
 	<definition name="logoff_m" extends="public_m">
 		<put-attribute name="body" value="/WEB-INF/mobile/views/logoff.jspx" />
 	</definition>

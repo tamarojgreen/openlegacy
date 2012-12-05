@@ -1,6 +1,6 @@
 #
 #Wed Dec 05 09:52:42 IST 2012
 DESIGNTIME_CONTEXT=default
-API_PACKAGE=com.test1
+API_PACKAGE=org.openlegacy.as400.menus
 API_SOURCE_FOLDER=src/main/java
-WEB_PACKAGE=com.test1.web
+WEB_PACKAGE=org.openlegacy.as400.menus.web

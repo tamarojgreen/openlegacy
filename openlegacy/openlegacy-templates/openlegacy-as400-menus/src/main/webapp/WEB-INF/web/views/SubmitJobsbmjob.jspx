@@ -1,0 +1,24 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div>
+		<ol:form model="submitJobsbmjob">
+					<ol:field name="commandToRun" top="16%" left="2%" width="97%" />
+					<ol:pagePart left="2%" top="45%" width="57%">
+	<ol:field name="jobName" />
+	<ol:field name="jobDescription" />
+	<ol:field name="library1" />
+	<ol:field name="jobQueue" />
+	<ol:field name="library" />
+	<ol:field name="jobPriorityonJobq" />
+	<ol:field name="outputPriorityonOutq" />
+	<ol:field name="printDevice" />
+					</ol:pagePart>
+			
+		</ol:form>
+	</div>
+</jsp:root>
+		

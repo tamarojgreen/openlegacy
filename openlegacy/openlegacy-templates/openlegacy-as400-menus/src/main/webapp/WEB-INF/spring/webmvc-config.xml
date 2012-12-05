@@ -24,7 +24,7 @@
 
 
 	<!-- Project controllers -->
-	<context:component-scan base-package="com.test1"
+	<context:component-scan base-package="org.openlegacy.as400.menus.web"
 		use-default-filters="false">
 		<context:include-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />

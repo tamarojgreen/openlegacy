@@ -1,0 +1,25 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div>
+		<ol:form model="displayMessages">
+					<ol:pagePart left="57%" top="4%" width="38%">
+	<ol:field name="system" />
+	<ol:field name="program" />
+	<ol:field name="library" />
+	<ol:field name="delivery" />
+					</ol:pagePart>
+					<ol:pagePart left="2%" top="8%" width="38%">
+	<ol:field name="queue" />
+	<ol:field name="library1" />
+	<ol:field name="severity" />
+					</ol:pagePart>
+					<ol:field name="message" top="25%" left="1%" width="95%" />
+			
+		</ol:form>
+	</div>
+</jsp:root>
+		
