@@ -111,7 +111,7 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 				}
 				// 2 - place holder for row numbers
 				char ch = text.charAt(i);
-				if (hidePasswordFields && currentField.isPassword()) {
+				if (hidePasswordFields && currentField != null && currentField.isPassword()) {
 					ch = '*';
 				}
 				graphics.drawString(String.valueOf(ch), toWidth(i + leftColumnsOffset), startY);
