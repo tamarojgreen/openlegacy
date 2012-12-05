@@ -49,6 +49,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
     @RequestMapping(method = RequestMethod.POST)
     public String ${entityDefinition.entityClassName}Controller.submit(${entityDefinition.entityClassName} ${entityDefinition.entityClassName?uncap_first}, Model uiModel, HttpServletRequest httpServletRequest) {
     	try{
+			terminalSession.getModule(Login.class).logoff();
         	terminalSession.getModule(Login.class).login(${entityDefinition.entityClassName?uncap_first});
     	}
     	catch(LoginException e){
