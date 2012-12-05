@@ -40,6 +40,17 @@
 													<a href="${pageContext.request.contextPath}/${subSubMenuItem.targetEntity.simpleName}">${subSubMenuItem.displayName}</a>
 												</c:otherwise>
 											</c:choose>
+											<c:forEach items="${subSubMenuItem.menuItems}" var="subSubSubMenuItem">
+												<c:choose>
+													<c:when test="${subSubSubMenuItem.targetEntity.simpleName == definitions.entityName}">
+														<a href="${pageContext.request.contextPath}/${subSubSubMenuItem.targetEntity.simpleName}" 
+															class="current">${subSubSubMenuItem.displayName}</a>
+													</c:when>
+													<c:otherwise>
+														<a href="${pageContext.request.contextPath}/${subSubMenuItem.targetEntity.simpleName}">${subSubSubMenuItem.displayName}</a>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>										
 										</c:forEach>										
 									</c:forEach>
 								</li>

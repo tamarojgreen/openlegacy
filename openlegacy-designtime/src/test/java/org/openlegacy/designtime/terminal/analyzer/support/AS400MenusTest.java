@@ -54,6 +54,8 @@ public class AS400MenusTest extends AbstractAnalyzerTest {
 		assertScreenContent(entityDefinitions.get("SendMessagesndmsg"), "as400menus/SendMessagesndmsg.java.expected");
 		assertScreenContent(entityDefinitions.get("EditLibraryList"), "as400menus/EditLibraryList.java.expected");
 
+		assertScreenContent(entityDefinitions.get("ChangeProfilechgprf"), "as400menus/ChangeProfilechgprf.java.expected");
+		assertScreenContent(entityDefinitions.get("SubmitJobsbmjob"), "as400menus/SubmitJobsbmjob.java.expected");
 		// assertScreenContent(entityDefinitions.get("WorkWithSubmittedJobs"), null);
 	}
 
