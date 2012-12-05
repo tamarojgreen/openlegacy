@@ -42,6 +42,8 @@
 			require([
 					"dojox/mobile/parser",
 					"dojox/mobile",
+					"dojox/mobile/ScreenSizeAware",
+					"dojox/mobile/FixedSplitter",
 					"dojox/mobile/ScrollableView",
 					"dojox/mobile/TextBox",
 					"dojox/mobile/Button",
@@ -61,7 +63,6 @@
 					"dojox/mobile/TabBarButton",
 					"dojox/mobile/ComboBox",
 					"dojox/mobile/Opener",
-					"dojox/mobile/ComboBox",
 					"dijit/Calendar",
 					"dojo/has!webkit?:dojox/mobile/compat",
 					"dojo/store/Memory",
@@ -78,10 +79,27 @@
 			back.init();
 		});
 		</script>
-		<div id="container" class="container" data-dojo-type="dojox.mobile.ContentPane">
-			<tiles:insertAttribute name="header" ignore="true"/>
-			<tiles:insertAttribute name="menu" ignore="true"/>
-			<tiles:insertAttribute name="body" />
+		
+		<span data-dojo-type="dojox.mobile.ScreenSizeAware"><!-- FF --></span>
+		<div data-dojo-type="dojox.mobile.FixedSplitter" data-dojo-props="orientation:'H'" id="fixedSplitter">
+			<div id="leftPane" data-dojo-type="dojox.mobile.Container">
+				<div id="leftView" data-dojo-type="dojox.mobile.ScrollableView" data-dojo-props="selected:true">
+					<ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
+					</ul>
+					<div id="menuContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">
+						<tiles:insertAttribute name="menuHeader" ignore="true"/>
+						<tiles:insertAttribute name="menu" ignore="true"/>
+					</div>
+				</div>
+			</div>
+			<div id="rightPane" data-dojo-type="dojox.mobile.Container">
+				<div id="rightView" data-dojo-type="dojox.mobile.View">
+					<div id="bodyContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">
+						<tiles:insertAttribute name="header" ignore="true"/>
+						<tiles:insertAttribute name="body"/>
+					</div>
+				</div>
+			</div>
 		</div>
 		
 		<div id="loadingMessage" style="position: absolute;top: 250px;left: 150px;display: none; ">

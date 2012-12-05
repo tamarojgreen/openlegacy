@@ -12,13 +12,13 @@
 		<c:set var="backVal" value="back:'Back',"/>
 	</c:if>
 	
-	<h1 data-dojo-type="dojox.mobile.Heading" 
-		data-dojo-props="fixed:'top', ${backVal} moveTo:'${definitions.navigationDefinition.accessedFrom.simpleName}Panel'">
-		<img src="images/logo.png" class="logo" />
-		<c:if test="${loggedInUser != null}">
+	<div data-dojo-type="dojox.mobile.View">
+		<h1 data-dojo-type="dojox.mobile.Heading" 
+			data-dojo-props="fixed:'top', ${backVal} moveTo:'${definitions.navigationDefinition.accessedFrom.simpleName}Panel'">
+			<img src="images/logo.png" class="logo" />
 			<button data-dojo-type="dojox.mobile.ToolBarButton" style="float:right;"
 				class="logoffBtn"
 				onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
-		</c:if>
-	</h1>
+		</h1>
+	</div>
 </jsp:root>
