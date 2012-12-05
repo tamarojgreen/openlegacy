@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<!-- Marker for code generation start 
+	<definition name="VIEW-NAME_m" extends="TEMPLATE-NAME_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/VIEW-NAME.jspx" />
+	</definition> 
+	Marker for code generation end -->
+
+	<!-- Place holder for code generation -->
+	<definition name="logoff_m" extends="public_m">
+		<put-attribute name="body" value="/WEB-INF/mobile/views/logoff.jspx" />
+	</definition>
+
+	<definition name="uncaughtException_m" extends="public_m">
+		<put-attribute name="body"
+			value="/WEB-INF/mobile/views/uncaughtException.jspx" />
+	</definition>
+
+	<definition name="sessionEndedException_m" extends="public_m">
+		<put-attribute name="body"
+			value="/WEB-INF/mobile/views/sessionEndedException.jspx" />
+	</definition>
+
+</tiles-definitions>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="83">
+    <row rowNumber="1">
+        <field column="2" length="0" color="WHITE"/>
+        <field column="2" value="                       Specify Libraries to Work With                          " length="79" color="WHITE"/>
+    </row>
+    <row rowNumber="3">
+        <field column="2" value="Type choice, press Enter.                                                      " length="79" color="BLUE"/>
+    </row>
+    <row rowNumber="5">
+        <field column="4" value="Library  . . . . . . . . . . ." length="30"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*LIBL" length="10" editable="true"/>
+        <field column="48" value=" " length="1"/>
+        <field column="50" value="*LIBL, name, *generic*, *ALL,  " length="31"/>
+    </row>
+    <row rowNumber="6">
+        <field column="2" value="                                  " length="34"/>
+        <field column="37" value="          " length="10" hidden="true"/>
+        <field column="48" value=" " length="1"/>
+        <field column="50" value="*ALLUSR, *USRLIBL, *CURLIB     " length="31"/>
+    </row>
+    <row rowNumber="7">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="ASP number . . . . . . . . . ." length="30"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*ALL" length="6" editable="true"/>
+        <field column="44" value="     " length="5"/>
+        <field column="50" value="1-32, *ALL" length="10"/>
+        <field column="61" value="                    " length="20"/>
+    </row>
+    <row rowNumber="8">
+        <field column="4" value="ASP device . . . . . . . . . ." length="30"/>
+        <field column="35" value=" " length="1"/>
+        <field column="37" value="*" length="10" editable="true"/>
+        <field column="48" value=" " length="1"/>
+        <field column="50" value="Name, *, *SYSBAS, *CURASPGRP" length="28"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="9">
+        <field column="37" value="*ALL      " length="10" hidden="true"/>
+        <field column="48" value="                                 " length="33"/>
+    </row>
+    <row rowNumber="10">
+        <field column="37" value="*ALL      " length="10" hidden="true"/>
+        <field column="48" value="                                 " length="33"/>
+    </row>
+    <row rowNumber="11">
+        <field column="37" value="*ALL      " length="10" hidden="true"/>
+        <field column="48" value="                                 " length="33"/>
+    </row>
+    <row rowNumber="23">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="F3=Exit     F5=Refresh     F12=Cancel                                        " length="77" color="BLUE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="5" column="37"/>
+</snapshot>

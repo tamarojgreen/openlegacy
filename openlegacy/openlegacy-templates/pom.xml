@@ -15,6 +15,7 @@
 		<module>openlegacy-rest-new</module>
 		<module>openlegacy-ws-sample</module>
 		<module>remoting</module>
+		<module>openlegacy-as400-menus</module>
 	</modules>
 
 	<build>

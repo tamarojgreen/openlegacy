@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="5">
+    <row rowNumber="1">
+        <field column="2" length="0"/>
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="      " length="6"/>
+        <field column="12" value=" " length="1"/>
+        <field column="14" value="          " length="10"/>
+        <field column="25" value="        Display Messages        " length="32" color="WHITE"/>
+        <field column="58" value="                       " length="23"/>
+    </row>
+    <row rowNumber="2">
+        <field column="3" value=" " length="1"/>
+        <field column="5" value="      " length="6"/>
+        <field column="12" value=" " length="1"/>
+        <field column="14" value="                                   " length="35"/>
+        <field column="50" value="      System:" length="13"/>
+        <field column="64" value=" " length="1"/>
+        <field column="66" value="S1051C6E" length="8"/>
+        <field column="75" value="      " length="6"/>
+    </row>
+    <row rowNumber="3">
+        <field column="2" value="Queue . . . . . :" length="17"/>
+        <field column="20" value=" " length="1"/>
+        <field column="22" value="RMR20924  " length="10"/>
+        <field column="33" value="            " length="12"/>
+        <field column="46" value="Program . . . . :" length="17"/>
+        <field column="64" value=" " length="1"/>
+        <field column="66" value="*DSPMSG   " length="10"/>
+        <field column="77" value="    " length="4"/>
+    </row>
+    <row rowNumber="4">
+        <field column="4" value="Library . . . :" length="15"/>
+        <field column="20" value="   " length="3"/>
+        <field column="24" value="QUSRSYS   " length="10"/>
+        <field column="35" value="            " length="12"/>
+        <field column="48" value="Library . . . :" length="15"/>
+        <field column="64" value="   " length="3"/>
+        <field column="68" value="          " length="10"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="5">
+        <field column="2" value="Severity  . . . :" length="17"/>
+        <field column="20" value=" " length="1"/>
+        <field column="22" value="00" length="2"/>
+        <field column="25" value="                    " length="20"/>
+        <field column="46" value="Delivery  . . . :" length="17"/>
+        <field column="64" value=" " length="1"/>
+        <field column="66" value="*NOTIFY   " length="10"/>
+        <field column="77" value="    " length="4"/>
+    </row>
+    <row rowNumber="7">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="Type reply (if required), press Enter.                                        " length="78" color="BLUE"/>
+    </row>
+    <row rowNumber="8">
+        <field column="1" length="0"/>
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="(No messages available)                                                   " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="9">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="10">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="11">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="12">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="13">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="14">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="15">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="16">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="17">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="18">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="19">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="20">
+        <field column="2" value=" " length="1"/>
+        <field column="4" value="                                                                          " length="74"/>
+        <field column="79" value="  " length="2"/>
+    </row>
+    <row rowNumber="21">
+        <field column="68" value="      Bottom" length="12" color="WHITE"/>
+    </row>
+    <row rowNumber="22">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="F3=Exit              F11=Remove a message                 F12=Cancel          " length="78" color="BLUE"/>
+    </row>
+    <row rowNumber="23">
+        <field column="1" length="0" color="BLUE"/>
+        <field column="2" value="F13=Remove all       F16=Remove all except unanswered     F24=More keys       " length="78" color="BLUE"/>
+    </row>
+    <row rowNumber="24">
+        <field column="1" length="0" color="WHITE"/>
+        <field column="2" value="                                                                          " length="74" color="WHITE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="8" column="1"/>
+</snapshot>

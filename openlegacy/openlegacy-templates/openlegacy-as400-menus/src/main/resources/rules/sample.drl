@@ -1,0 +1,27 @@
+package openlegacy
+
+// A sample analyzer rule.
+
+rule "sample"
+
+// define the analyzer step. possible values: identify-snapshots, identify-editable-fields,identify-tables,identify-actions,identify-readonly-fields,identify-window,find-screen-name,identify-screen-types,identify-navigation,finalize-screen-entities,identify-lookup-screens,identify-field-types,identify-child-screens  
+ruleflow-group "identify-readonly-fields"
+
+when
+	// to use parameters, define ruleParameterSets node within the rule spring XML definitions	
+	//$ruleParameterSet: RuleParametersSet(ruleId == "sample")
+	//$param1      	: String()  from (String)$ruleParameterSet.getRuleParameters().get("param1");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and a readonly field within the snapshot which matches a field regex
+	//$field: TerminalField(editable == false, value matches $fieldRegex,
+		//				length >= $minimumFieldLength, length <= $maximumFieldLength) from $snapshot.getFields()
+	
+then
+	//System.out.println("************************  IN CUSTOM RULE");
+end
