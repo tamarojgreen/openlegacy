@@ -6,36 +6,23 @@
 
 	<div>
 		<ol:form model="screenForPage">
-					<ol:pagePart left="12%" top="20%" width="26%">
-	<ol:field name="fldCol12" />
-	<ol:field name="fld2Col12" />
-	<ol:field name="fld3Col12" />
-					</ol:pagePart>
-					<ol:pagePart left="26%" top="37%" width="52%">
-								<div class="col_1_of_2">
-				<div class="field">
-					<label>Fld Row10: </label>
-					<script language="JavaScript" type="text/javascript">require(["dojo/data/ItemFileReadStore","dijit/form/FilteringSelect"]);</script>
-					<span data-dojo-type="dojo.data.ItemFileReadStore" data-dojo-props="url:'ScreenForPage/fldRow10'" data-dojo-id="fldRow10Values"></span>
-					<input name="fldRow10" data-dojo-type="dijit.form.FilteringSelect" data-dojo-props="store:fldRow10Values, searchAttr:'name', pageSize:100" style="width: 200px"></input>	
-				</div>
-								</div>
-								<div class="col_2_of_2">
-	<ol:field name="fld2Row10" />
-								</div>
-					</ol:pagePart>
-					<ol:field name="orphanFld" top="95%" left="8%" width="28%" />
-					<ol:pagePart left="1%" top="79%" width="52%">
-								<div class="col_1_of_2">
-	<ol:field name="screenForPagePart.fldRow20" />
-								</div>
-								<div class="col_2_of_2">
-	<ol:field name="screenForPagePart.fld2Row20" />
-								</div>
-					</ol:pagePart>
-					<ol:pagePart left="6%" top="54%" width="31%">
+				<ol:pagePart left="12%" top="20%" width="26%">
+	 				<ol:field name="fldCol12" cssClass="col_1_of_1"/>
+	 				<ol:field name="fld2Col12" cssClass="col_1_of_1"/>
+	 				<ol:field name="fld3Col12" cssClass="col_1_of_1"/>
+				</ol:pagePart>
+				<ol:pagePart left="26%" top="37%" width="52%">
+	 				<ol:field name="fldRow10" cssClass="col_1_of_2"/>
+	 				<ol:field name="fld2Row10" cssClass="col_2_of_2"/>
+				</ol:pagePart>
+				<ol:field name="orphanFld" top="95%" left="8%" width="28%" />
+				<ol:pagePart left="1%" top="79%" width="52%">
+	 				<ol:field name="screenForPagePart.fldRow20" cssClass="col_1_of_2"/>
+	 				<ol:field name="screenForPagePart.fld2Row20" cssClass="col_2_of_2"/>
+				</ol:pagePart>
+				<ol:pagePart left="6%" top="54%" width="31%">
 						<ol:table data="${screenForPage.screenForPageRows}" property="screenForPageRows" />
-					</ol:pagePart>
+				</ol:pagePart>
 			
 		</ol:form>
 	</div>

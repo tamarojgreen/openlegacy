@@ -50,7 +50,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	private final static Log logger = LogFactory.getLog(DefaultScreenPageBuilder.class);
 
 	private int maxRowDistanceWithinPart = 1;
-	private int maxColumnDistanceWithinPart = 12;
+	private int maxColumnDistanceWithinPart = 40;
 	private int labelFieldDistance = 3;
 
 	// used for setting default field length when none specified (@ScreenField doesn't force endColumn/length)
