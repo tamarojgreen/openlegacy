@@ -16,6 +16,7 @@ import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
@@ -53,6 +54,10 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 		if (entity != null) {
 			ScreenEntityDefinition definitions = entitiesRegistry.get(entity.getClass());
 			modelAndView.addObject("definitions", definitions);
+			NavigationDefinition navigationDefinition = definitions.getNavigationDefinition();
+			if (navigationDefinition != null) {
+				modelAndView.addObject("accessedFromDefinitions", entitiesRegistry.get(navigationDefinition.getAccessedFrom()));
+			}
 
 			List<Object> keysValues = screenEntityUtils.getKeysValues(entity);
 			String keysValuesText = StringUtil.toString(keysValues, '_');
