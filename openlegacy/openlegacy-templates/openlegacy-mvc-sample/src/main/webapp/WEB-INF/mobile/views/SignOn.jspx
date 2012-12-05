@@ -21,5 +21,8 @@
 				<ol:field name="errorMessage" />
 			</ol:pagePart>
 		</ol:form>
+		<div class="web_mobile_footer">
+		Mobile | <a href="${pageContext.request.contextPath}/SignOn?site_preference=normal">Web</a>
+		</div>
 	</div>
 </jsp:root>
