@@ -34,6 +34,8 @@ public class DefaultTerminalSnapshotTextRenderer implements TerminalSnapshotText
 
 	private static DefaultTerminalSnapshotTextRenderer instance = new DefaultTerminalSnapshotTextRenderer();
 
+	private boolean hidePasswordFields = true;
+
 	public static DefaultTerminalSnapshotTextRenderer instance() {
 		return instance;
 	}
@@ -132,7 +134,7 @@ public class DefaultTerminalSnapshotTextRenderer implements TerminalSnapshotText
 		out.append(newline);
 	}
 
-	private static void drawEditableFields(TerminalSnapshot terminalSnapshot, StringBuilder out, Collection<TerminalField> fields) {
+	private void drawEditableFields(TerminalSnapshot terminalSnapshot, StringBuilder out, Collection<TerminalField> fields) {
 		char leftMark;
 		char rightMark;
 		for (TerminalField terminalField : fields) {
@@ -153,7 +155,11 @@ public class DefaultTerminalSnapshotTextRenderer implements TerminalSnapshotText
 			for (int i = 0; i < terminalField.getLength(); i++) {
 				int inputBufferLocation = beforeInputBufferLocation + 1;
 				if (i < value.length()) {
-					out.setCharAt(inputBufferLocation + i, value.charAt(i));
+					char ch = value.charAt(i);
+					if (hidePasswordFields && terminalField.isPassword()) {
+						ch = '*';
+					}
+					out.setCharAt(inputBufferLocation + i, ch);
 				} else {
 					out.setCharAt(inputBufferLocation + i, ' ');
 				}
@@ -173,4 +179,7 @@ public class DefaultTerminalSnapshotTextRenderer implements TerminalSnapshotText
 		return "txt";
 	}
 
+	public void setHidePasswordFields(boolean hidePasswordFields) {
+		this.hidePasswordFields = hidePasswordFields;
+	}
 }

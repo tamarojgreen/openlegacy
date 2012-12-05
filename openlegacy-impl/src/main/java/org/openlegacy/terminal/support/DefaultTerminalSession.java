@@ -13,6 +13,7 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.support.AbstractSession;
@@ -32,6 +33,7 @@ import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
+import org.openlegacy.terminal.wait_conditions.WaitCondition;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 
@@ -149,8 +151,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	@SuppressWarnings("unchecked")
-	public <R extends ScreenEntity> R doAction(TerminalAction action) {
-		return (R)doAction(action, null);
+	public <R extends ScreenEntity> R doAction(TerminalAction action, WaitCondition... waitConditions) {
+		return (R)doAction(action, null, waitConditions);
 	}
 
 	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity,
@@ -166,7 +168,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	@SuppressWarnings("unchecked")
-	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity) {
+	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity,
+			WaitCondition... waitConditions) {
 
 		// verify screens are synch
 		if (screenEntity != null) {
@@ -196,7 +199,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				}
 			}
 
-			doAction(sendAction);
+			doAction(sendAction, waitConditions);
 		}
 
 		return (R)getEntity();
@@ -283,19 +286,45 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		interceptor.setTerminalSession(this);
 	}
 
-	public void doAction(TerminalSendAction sendAction) {
+	public void doAction(TerminalSendAction sendAction, WaitCondition... waitConditions) {
 		logScreenBefore(sendAction);
 		// sort the modified fields by position
 		Collections.sort(sendAction.getModifiedFields(), TerminalPositionContainerComparator.instance());
 
 		notifyModulesBeforeSend(sendAction);
 		doTerminalAction(sendAction);
+		performWait(waitConditions);
 		notifyModulesAfterSend();
 
 		logScreenAfter();
 	}
 
-	protected void doTerminalAction(TerminalSendAction sendAction) {
+	private void performWait(WaitCondition... waitConditions) {
+		if (waitConditions == null || waitConditions.length == 0) {
+			return;
+		}
+
+		int totalWait = 0;
+
+		for (WaitCondition waitCondition : waitConditions) {
+			while (waitCondition.continueWait(this) && totalWait < waitCondition.getWaitTimeout()) {
+				if (logger.isTraceEnabled()) {
+					logger.trace(MessageFormat.format("Waiting for {0}ms. Current screen is:{1}",
+							waitCondition.getWaitInterval(), fetchSnapshot()));
+				}
+				try {
+					Thread.sleep(waitCondition.getWaitInterval());
+				} catch (InterruptedException e) {
+					throw (new OpenLegacyRuntimeException(e));
+				}
+
+				totalWait += waitCondition.getWaitInterval();
+			}
+		}
+		entity = null;
+	}
+
+	protected void doTerminalAction(TerminalSendAction sendAction, WaitCondition... waitConditions) {
 		terminalConnection.doAction(sendAction);
 		entity = null;
 	}

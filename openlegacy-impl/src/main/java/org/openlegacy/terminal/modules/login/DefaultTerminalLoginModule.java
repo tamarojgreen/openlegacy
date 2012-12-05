@@ -12,6 +12,7 @@ package org.openlegacy.terminal.modules.login;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.modules.login.Login;
@@ -25,7 +26,9 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
+import org.openlegacy.terminal.support.wait_conditions.WaitForNonEmptyField;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.terminal.wait_conditions.WaitConditionFactory;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 
@@ -47,11 +50,16 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
+	@Inject
+	private WaitConditionFactory waitConditionFactory;
+
 	private TerminalAction loginAction = TerminalActions.ENTER();
 
 	private String loggedInUser = null;
 
 	private TerminalAction defaultExitAction = TerminalActions.F3();
+
+	private long loginTimeout = 0;
 
 	// the maximum number of actions allowed in order to exit back to login screen
 	private int maxActionsToLogin = 7;
@@ -106,7 +114,12 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 		String user = (String)fieldAccessor.getFieldValue(loginMetadata.getUserField().getName());
 
-		Object currentEntity = getSession().doAction(loginAction, (ScreenEntity)loginEntity);
+		// construct a wait while login error message is NOT shown (or next screen whows up)
+		String errorFieldName = loginMetadata.getErrorField().getName();
+		WaitForNonEmptyField waitForNonEmptyLoginError = waitConditionFactory.create(WaitForNonEmptyField.class,
+				registryLoginClass, errorFieldName);
+
+		Object currentEntity = getSession().doAction(loginAction, (ScreenEntity)loginEntity, waitForNonEmptyLoginError);
 
 		Class<? extends Object> currentEntityClass = null;
 		if (currentEntity != null) {
@@ -118,11 +131,18 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 			}
 		}
 
+		if (currentEntityClass != null && ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
+			try {
+				Thread.sleep(loginTimeout);
+			} catch (InterruptedException e) {
+				throw (new OpenLegacyRuntimeException(e));
+			}
+		}
 		// throw exception if after login screen is still login
 		if (currentEntityClass != null && ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
-			Object value = fieldAccessor.getFieldValue(loginMetadata.getErrorField().getName());
+			Object value = fieldAccessor.getFieldValue(errorFieldName);
 			String message = value != null ? value.toString() : LOGIN_FAILED;
-			fieldAccessor.setFieldValue(loginMetadata.getErrorField().getName(), message);
+			fieldAccessor.setFieldValue(errorFieldName, message);
 			throw (new LoginException(message));
 		} else {
 			loggedInUser = user;
@@ -146,6 +166,10 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 	}
 
 	private void logoffOnly() {
+		if (loggedInUser == null) {
+			return;
+		}
+
 		lazyMetadataInit();
 		if (loginMetadata.getLoginScreenDefinition() == null) {
 			return;
@@ -206,6 +230,10 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	public void setMaxActionsToLogin(int maxActionsToLogin) {
 		this.maxActionsToLogin = maxActionsToLogin;
+	}
+
+	public void setLoginTimeout(long loginTimeout) {
+		this.loginTimeout = loginTimeout;
 	}
 
 	public String getLoggedInUser() {

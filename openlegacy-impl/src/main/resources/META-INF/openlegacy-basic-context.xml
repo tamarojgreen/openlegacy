@@ -61,7 +61,7 @@
 						<bean class="org.openlegacy.terminal.modules.login.DefaultTerminalLoginModule"
 							p:loginActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"
 							p:defaultExitActionClass="org.openlegacy.terminal.actions.TerminalActions.F3"
-							p:maxActionsToLogin="5" />
+							p:maxActionsToLogin="5" p:loginTimeout="2000"/>
 						<bean class="org.openlegacy.terminal.modules.table.DefaultTerminalTableModule" />
 						<bean
 							class="org.openlegacy.terminal.modules.navigation.DefaultTerminalNavigationModule" p:defaultExitActionClass="org.openlegacy.terminal.actions.TerminalActions.F3"/>
@@ -85,6 +85,8 @@
 		</property>
 	</bean>
 
+	<bean id="waitConditionFactory" class="org.openlegacy.terminal.support.wait_conditions.DefaultWaitConditionFactory" p:defaultWaitInterval="250" p:defaultWaitTimeout="2000" />
+	
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
 	<!-- Default. Should be overrides by web apps -->
 	<bean id="connectionPropertiesProvider" class="org.openlegacy.terminal.support.SimpleConnectionPropertiesProvider" />

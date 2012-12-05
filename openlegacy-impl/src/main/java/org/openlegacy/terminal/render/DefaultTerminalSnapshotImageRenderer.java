@@ -52,6 +52,8 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 	private int fontType = Font.BOLD;
 	private boolean drawFieldSeparators = true;
 
+	private boolean hidePasswordFields = true;
+
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream output) {
 
 		BufferedImage buffer = new BufferedImage(885, 450, BufferedImage.TYPE_INT_RGB);
@@ -108,7 +110,11 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 					}
 				}
 				// 2 - place holder for row numbers
-				graphics.drawString(String.valueOf(text.charAt(i)), toWidth(i + leftColumnsOffset), startY);
+				char ch = text.charAt(i);
+				if (hidePasswordFields && currentField.isPassword()) {
+					ch = '*';
+				}
+				graphics.drawString(String.valueOf(ch), toWidth(i + leftColumnsOffset), startY);
 			}
 		}
 	}
@@ -219,6 +225,10 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 	public void setDrawFieldSeparators(boolean drawFieldSeparators) {
 		this.drawFieldSeparators = drawFieldSeparators;
+	}
+
+	public void setHidePasswordFields(boolean hidePasswordFields) {
+		this.hidePasswordFields = hidePasswordFields;
 	}
 
 	public int getLeftColumnsOffset() {

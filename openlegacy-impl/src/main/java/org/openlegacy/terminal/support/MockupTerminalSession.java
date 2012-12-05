@@ -15,6 +15,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.mock.MockTerminalConnection;
+import org.openlegacy.terminal.wait_conditions.WaitCondition;
 import org.openlegacy.utils.ProxyUtil;
 
 import java.io.Serializable;
@@ -54,9 +55,9 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	}
 
 	@Override
-	protected void doTerminalAction(TerminalSendAction sendAction) {
+	protected void doTerminalAction(TerminalSendAction sendAction, WaitCondition... waitConditions) {
 		ScreenEntity currentEntity = getEntity();
-		super.doTerminalAction(sendAction);
+		super.doTerminalAction(sendAction, waitConditions);
 		progressSnapshot(currentEntity);
 	}
 
