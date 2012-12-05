@@ -24,7 +24,7 @@
 						<input type="password" name="password" value="${r"${"}login.password${r"}"}" maxlength="10" />
 					</div>
 				</div>
-				<input data-dojo-type="dojox.mobile.Button" type="button" onclick="doAjaxPost('SignOnForm','container',null,'body,menu')"
+				<input data-dojo-type="dojox.mobile.Button" type="button" onclick="doAjaxPost('SignOnForm','menuContainer',null,'body,menu');resizeDojoWidget('fixedSplitter');"
 					class="mblButton greyBtn baseBtn normalBtn" value="Submit" />
 				<ol:field name="errorMessage" />
 			</ol:pagePart>
