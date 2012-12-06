@@ -7,10 +7,12 @@
 	<div id="menu">
 		<div id="${menu.targetEntity.simpleName}Panel" data-dojo-type="dojox.mobile.View" data-dojo-props="selected:true">
 			<h1 data-dojo-type="dojox.mobile.Heading" data-dojo-props="fixed:'top'">
-				<img src="images/logo.png" class="logo" />
-				<button data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="fixed:'right'"
-					class="logoffBtn"
-					onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
+				<c:if test="${deviceType eq 'MOBILE'}">
+					<img src="images/logo.png" class="logo" />
+					<button data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="fixed:'right'"
+						class="logoffBtn"
+						onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
+				</c:if>
 			</h1>
 			<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${menu.displayName}</h2>
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
@@ -29,17 +31,26 @@
 					data-dojo-props="fixed:'top',
 									back:'Back',
 									moveTo:'${menu.targetEntity.simpleName}Panel'">
-					<img src="images/logo.png" class="logo" />
-					<button data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='fixed:"right"'
-						class="logoffBtn"
-						onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
+					<c:if test="${deviceType eq 'MOBILE'}">
+						<img src="images/logo.png" class="logo" />
+						<button data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='fixed:"right"'
+							class="logoffBtn"
+							onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
+					</c:if>
 				</h1>
 				<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${menuItem2.displayName}</h2>
 				<div data-dojo-type="dojox.mobile.RoundRectList">
 					<c:forEach items="${menuItem2.menuItems}" var="subMenuItem">
 						<li data-dojo-type="dojox.mobile.ListItem"
-							data-dojo-props="url:'${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}'" 
-							onclick="showLoading();addViewToHistory('${subMenuItem.targetEntity.simpleName}Panel');">${subMenuItem.displayName}</li>
+							data-dojo-props="url:'${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}',
+									urlTarget:'bodyContainer'" 
+							onclick="showLoading();addViewToHistory('${subMenuItem.targetEntity.simpleName}Panel');resizeDojoWidget('fixedSplitter');">${subMenuItem.displayName}</li>
+						<c:forEach items="${subMenuItem.menuItems}" var="subSubMenuItem">
+							<li data-dojo-type="dojox.mobile.ListItem"
+								data-dojo-props="url:'${pageContext.request.contextPath}/${subSubMenuItem.targetEntity.simpleName}',
+										urlTarget:'bodyContainer'" 
+								onclick="showLoading();addViewToHistory('${subSubMenuItem.targetEntity.simpleName}Panel');resizeDojoWidget('fixedSplitter');">${subSubMenuItem.displayName}</li>
+						</c:forEach>
 					</c:forEach>
 				</div>
 			</div>

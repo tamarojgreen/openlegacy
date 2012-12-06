@@ -37,7 +37,8 @@
 	</definition> 
  
 	<definition name="SignOn_m" extends="public_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/SignOn.jspx" />
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/SignOn.jspx" />
+		<put-attribute name="body" value="/WEB-INF/mobile/template/paneheader.jspx"/>
 	</definition> 
  
 	<definition name="SendMessagesndmsg_m" extends="view_m"> 
@@ -77,7 +78,9 @@
 	</definition> 
  
 	<definition name="IbmIMainMenu_m" extends="menu_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/IbmIMainMenu.jspx" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="actions" value="" />
+   		<put-attribute name="body" value="/WEB-INF/mobile/views/IbmIMainMenu.jspx" />
 	</definition> 
  
 	<definition name="IbmIAccessTasks_m" extends="menu_m"> 
@@ -113,17 +116,21 @@
 	</definition> 
 
 	<definition name="logoff_m" extends="public_m">
-		<put-attribute name="body" value="/WEB-INF/mobile/views/logoff.jspx" />
-	</definition>
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/logoff.jspx" />
+    	<put-attribute name="header" value="" />
+    	<put-attribute name="body" value="" />	
+   	</definition>
 
 	<definition name="uncaughtException_m" extends="public_m">
-		<put-attribute name="body"
-			value="/WEB-INF/mobile/views/uncaughtException.jspx" />
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/uncaughtException.jspx" />
+    	<put-attribute name="header" value="" />
+    	<put-attribute name="body" value="" />	
 	</definition>
 
 	<definition name="sessionEndedException_m" extends="public_m">
-		<put-attribute name="body"
-			value="/WEB-INF/mobile/views/sessionEndedException.jspx" />
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/sessionEndedException.jspx" />
+    	<put-attribute name="header" value="" />
+    	<put-attribute name="body" value="" />	
 	</definition>
 
 </tiles-definitions>

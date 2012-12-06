@@ -20,7 +20,4 @@
 			<div id="calendarWidget" data-dojo-type='dijit.Calendar'/>
 		</div>
 	</div>
-	<div class="web_mobile_footer">
-	Mobile | <a href="${pageContext.request.contextPath}/SignOn?site_preference=normal">Web</a>
-	</div>
 </jsp:root>

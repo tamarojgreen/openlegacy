@@ -48,7 +48,7 @@
 	</definition>
 
 	<definition name="public_m" template="/WEB-INF/mobile/template/template.jspx">
-		<put-attribute name="header"
+		<put-attribute name="menuHeader"
 			value="/WEB-INF/mobile/template/header.jspx" />
 		<put-attribute name="footer"
 			value="/WEB-INF/mobile/template/footer.jspx" />
