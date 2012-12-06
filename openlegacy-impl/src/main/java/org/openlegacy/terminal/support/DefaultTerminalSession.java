@@ -91,7 +91,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			entity = getEntityInner();
 		}
 		if (!screenEntityUtils.isEntitiesEquals(entity, screenEntityClass, keys)) {
-			entity = null;
+			resetEntity();
 		}
 		if (entity == null) {
 			sessionNavigator.navigate(this, screenEntityClass, keys);
@@ -102,14 +102,14 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private void checkRegistryDirty() {
 		if (screenEntitiesRegistry.isDirty()) {
-			entity = null;
+			resetEntity();
 			// set the registry back to clean - for design-time purposes only!
 			((AbstractEntitiesRegistry<?, ?>)screenEntitiesRegistry).setDirty(false);
 		}
 	}
 
 	private <S> ScreenEntity getEntityInner() {
-		entity = null;
+		resetEntity();
 		TerminalSnapshot terminalSnapshot = getSnapshot();
 
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalSnapshot);
@@ -139,6 +139,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 
 		return screenEntity;
+	}
+
+	private void resetEntity() {
+		if (entity != null) {
+			entity = null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -176,7 +182,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			getEntity(screenEntity.getClass());
 		}
 
-		entity = null;
+		resetEntity();
 		Object command = terminalActionMapper.getCommand(terminalAction);
 		if (command == null) {
 			terminalAction.perform(this, screenEntity);
@@ -268,7 +274,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		for (SessionModule sessionModule : sessionModulesList) {
 			sessionModule.destroy();
 		}
-		entity = null;
+		resetEntity();
 		terminalConnection.disconnect();
 	}
 
@@ -307,6 +313,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		int totalWait = 0;
 
 		for (WaitCondition waitCondition : waitConditions) {
+			fetchSnapshot();
+			resetEntity();
 			while (waitCondition.continueWait(this) && totalWait < waitCondition.getWaitTimeout()) {
 				if (logger.isTraceEnabled()) {
 					logger.trace(MessageFormat.format("Waiting for {0}ms. Current screen is:{1}",
@@ -319,14 +327,15 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				}
 
 				totalWait += waitCondition.getWaitInterval();
+				fetchSnapshot();
+				resetEntity();
 			}
 		}
-		entity = null;
 	}
 
 	protected void doTerminalAction(TerminalSendAction sendAction, WaitCondition... waitConditions) {
 		terminalConnection.doAction(sendAction);
-		entity = null;
+		resetEntity();
 	}
 
 	private void logScreenBefore(TerminalSendAction sendAction) {
