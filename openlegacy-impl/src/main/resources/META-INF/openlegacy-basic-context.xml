@@ -43,6 +43,9 @@
 
 	<bean id="menuBuilder" class="org.openlegacy.terminal.modules.menu.DefaultMenuBuilder" />
 
+	<bean id="sessionsRegistry" class="org.openlegacy.support.SimpleSessionsRegistry" />
+	<bean id="sessionsManager" class="org.openlegacy.support.DefaultSessionsManager" />
+		
 	<bean id="abstractTerminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" abstract="true">
 		<property name="terminalConnection">
 			<bean class="org.openlegacy.terminal.support.TerminalConnectionDelegator" />
@@ -69,6 +72,9 @@
 							class="org.openlegacy.terminal.modules.menu.DefaultTerminalMenuModule" />
 						<bean
 							class="org.openlegacy.terminal.modules.messages.DefaultTerminalMessagesModule" p:skipActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"/>
+						<bean
+							class="org.openlegacy.terminal.modules.registry.DefaultRegistryModule" />
+												
 					</list>
 				</property>
 			</bean>
@@ -89,7 +95,7 @@
 	
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
 	<!-- Default. Should be overrides by web apps -->
-	<bean id="connectionPropertiesProvider" class="org.openlegacy.terminal.support.SimpleConnectionPropertiesProvider" />
+	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
 	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-provider.xml" /> 

@@ -12,11 +12,15 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.SessionProperties;
+import org.openlegacy.SessionPropertiesProvider;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.support.AbstractSession;
+import org.openlegacy.terminal.ConnectionProperties;
+import org.openlegacy.terminal.ConnectionPropertiesProvider;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.TerminalActionMapper;
@@ -24,6 +28,7 @@ import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.TerminalSessionPropertiesConsts;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -50,7 +55,7 @@ import javax.inject.Inject;
  * 
  * 
  */
-public class DefaultTerminalSession extends AbstractSession implements TerminalSession, Serializable {
+public class DefaultTerminalSession extends AbstractSession implements TerminalSession, Serializable, ConnectionPropertiesProvider {
 
 	private static final long serialVersionUID = 1L;
 
@@ -76,11 +81,18 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Inject
 	private ScreenEntityUtils screenEntityUtils;
 
+	@Inject
+	private SessionPropertiesProvider sessionPropertiesProvider;
+
 	private ScreenEntityMethodInterceptor interceptor;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
 
 	private boolean useProxyForEntities = true;
+
+	private ConnectionProperties connectionProperties;
+
+	private SessionProperties sessionProperties;
 
 	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
@@ -357,10 +369,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return terminalConnection.fetchSnapshot();
 	}
 
-	public String getSessionId() {
-		return terminalConnection.getSessionId();
-	}
-
 	protected TerminalConnection getTerminalConnection() {
 		return terminalConnection;
 	}
@@ -396,4 +404,29 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	public void setUseProxyForEntities(boolean useProxyForEntities) {
 		this.useProxyForEntities = useProxyForEntities;
 	}
+
+	public void setSessionPropertiesProvider(SessionPropertiesProvider sessionPropertiesProvider) {
+		this.sessionPropertiesProvider = sessionPropertiesProvider;
+	}
+
+	public SessionProperties getProperties() {
+		if (sessionProperties == null) {
+			sessionProperties = sessionPropertiesProvider.getSessionProperties();
+		}
+		return sessionProperties;
+	}
+
+	public ConnectionProperties getConnectionProperties() {
+		if (connectionProperties == null) {
+			connectionProperties = new ConnectionProperties() {
+
+				public String getDeviceName() {
+					return (String)getProperties().getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
+				}
+
+			};
+		}
+		return connectionProperties;
+	}
+
 }

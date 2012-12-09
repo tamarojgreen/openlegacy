@@ -76,4 +76,7 @@ public interface Session {
 	 * @return
 	 */
 	boolean isConnected();
+
+	SessionProperties getProperties();
+
 }

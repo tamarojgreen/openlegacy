@@ -18,8 +18,4 @@ public abstract class AbstractMockTerminalConnection implements TerminalConnecti
 
 	private static final long serialVersionUID = 1L;
 
-	public String getSessionId() {
-		return "mock session";
-	}
-
 }

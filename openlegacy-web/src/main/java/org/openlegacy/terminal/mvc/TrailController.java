@@ -54,7 +54,7 @@ public class TrailController {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		trailWriter.write(trail, baos);
 		response.setHeader("Content-Disposition",
-				MessageFormat.format("attachment; filename=\"{0}.trail\"", terminalSession.getSessionId()));
+				MessageFormat.format("attachment; filename=\"{0}.trail\"", terminalSession.getProperties().getId()));
 		response.getOutputStream().write(baos.toByteArray());
 	}
 

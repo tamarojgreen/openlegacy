@@ -18,6 +18,7 @@ import org.openlegacy.terminal.modules.trail.XmlTrailWriterTest;
 import org.openlegacy.terminal.render.TerminalSnapshotImageRendererTest;
 import org.openlegacy.terminal.support.DefaultScreenRecordsProviderTest;
 import org.openlegacy.terminal.support.DefaultSessionNavigatorTest;
+import org.openlegacy.terminal.support.DefaultSessionsManagerTest;
 import org.openlegacy.terminal.support.DefaultTerminalSessionKeysTest;
 import org.openlegacy.terminal.support.DefaultTerminalSessionTest;
 import org.openlegacy.terminal.support.MultyLineFieldTest;
@@ -37,7 +38,7 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 		DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
 		MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class, DefaultBidiScreenPageBuilderTest.class,
 		DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class, CustomBinderTest.class,
-		MultyLineFieldTest.class })
+		MultyLineFieldTest.class, DefaultSessionsManagerTest.class })
 public class OpenLegacyRuntimeSuite {
 
 }

@@ -21,8 +21,6 @@ public interface ApplicationConnection<S extends Snapshot, A extends SendAction>
 
 	Object getDelegate();
 
-	String getSessionId();
-
 	boolean isConnected();
 
 	void disconnect();

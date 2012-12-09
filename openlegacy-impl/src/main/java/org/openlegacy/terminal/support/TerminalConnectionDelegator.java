@@ -35,9 +35,6 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	@Inject
 	private transient ApplicationContext applicationContext;
 
-	@Inject
-	private ConnectionPropertiesProvider connectionPropertiesProvider;
-
 	private TerminalConnection terminalConnection;
 
 	private TerminalSnapshot terminalSnapshot;
@@ -105,6 +102,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	private void lazyConnect() {
 		if (terminalConnection == null) {
 			TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
+			ConnectionPropertiesProvider connectionPropertiesProvider = applicationContext.getBean(ConnectionPropertiesProvider.class);
 			ConnectionProperties connectionProperties = connectionPropertiesProvider.getConnectionProperties();
 			terminalConnection = terminalConnectionFactory.getConnection(connectionProperties);
 			logger.info("Opened new session");
@@ -131,13 +129,6 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	public TerminalSnapshot fetchSnapshot() {
 		terminalSnapshot = null;
 		return getSnapshot();
-	}
-
-	public String getSessionId() {
-		if (terminalConnection == null) {
-			return null;
-		}
-		return terminalConnection.getSessionId();
 	}
 
 	public void setWaitBetweenEmptyScreens(int waitBetweenEmptyScreens) {

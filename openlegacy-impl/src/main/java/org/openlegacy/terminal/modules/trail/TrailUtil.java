@@ -60,8 +60,8 @@ public class TrailUtil {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HHmm");
 		try {
-			File trailFile = new File(trailPath, MessageFormat.format("{0}_{1}.trail", terminalSession.getSessionId(),
-					dateFormat.format(cal.getTime())));
+			File trailFile = new File(trailPath, MessageFormat.format("{0}_{1}.trail",
+					terminalSession.getProperties().getId(), dateFormat.format(cal.getTime())));
 			if (!trailFile.getParentFile().exists()) {
 				trailFile.getParentFile().mkdirs();
 			}
