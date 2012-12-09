@@ -179,12 +179,16 @@
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
+ 		<dependency>
 			<groupId>org.openlegacy.plugins</groupId>
 			<artifactId>html-emulation-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.openlegacy.plugins</groupId>
+			<artifactId>management-plugin</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

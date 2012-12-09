@@ -12,6 +12,7 @@ package org.openlegacy;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Properties;
 
 /**
  * A container for all session properties. Common usage: IP, device
@@ -28,4 +29,6 @@ public interface SessionProperties extends Serializable {
 	Date getLastActivity();
 
 	Object getProperty(String propertyName);
+
+	Properties getProperties();
 }

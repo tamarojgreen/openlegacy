@@ -17,6 +17,9 @@
         <dependent-module archiveName="openlegacy-utils-0.9.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="management-plugin-0.9.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/management-plugin/management-plugin">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="openlegacy-mvc-new"/>
         <property name="java-output-path" value="/openlegacy-mvc-new/target/classes"/>
     </wb-module>

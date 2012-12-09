@@ -65,4 +65,8 @@ public class SimpleSessionProperties implements SessionProperties, Serializable,
 	public void setLastActivity(Date lastActivity) {
 		this.lastActivity = lastActivity;
 	}
+
+	public Properties getProperties() {
+		return properties;
+	}
 }

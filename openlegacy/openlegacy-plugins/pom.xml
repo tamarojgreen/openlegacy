@@ -16,5 +16,6 @@
 	
 	<modules>
 		<module>html-emulation-plugin</module>
+		<module>management-plugin</module>
 	</modules>
 </project>	

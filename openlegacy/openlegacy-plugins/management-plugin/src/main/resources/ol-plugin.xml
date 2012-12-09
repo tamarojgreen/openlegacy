@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<plug-in>
+	<name>management-plugin</name>
+	<description>Management Plugin is responsible for managing session</description>
+	<creator>OpenLegacy</creator>
+	<version>0.9.0-SNAPSHOT</version>
+	
+	<!-- List of JavaScript resource files names. -->
+	<!--format:
+	<javascript-list 
+		 path="" - (require) part of URL path for extracting item (reference to mvc resource mapping). Must ends with slash ("/")
+		 >
+		<item></item> - Must not have a leading slash ("/")
+		<item></item>
+		...
+	</javascript-list> 
+	 -->
+	
+	<!-- List of CSS resource files names-->
+	<!--format:
+	<css-list 
+		 path="" - (require) part of URL path for extracting item (reference to mvc resource mapping). Must ends with slash ("/")
+		 >
+		<item></item> - Must not have a leading slash ("/")
+		<item></item>
+		...
+	</css-list> 
+	 -->
+	
+	<!-- List of menu entries, and URL/JS each menu function invokes. Each menu entry should have category name -->
+	<!--format:
+	<menu>
+		<menu-entry>
+			<category></category>
+			<text></text>
+			<action></action> - action can be as URL or JS (JS should starts with javascript: )
+		</menu-entry>
+		...
+	</menu> 
+	 -->
+	
+	<!-- Reference to view resource files (web, mobile, etc) -->
+	<!--format:
+	<views>
+		<xml></xml>
+		<xml></xml>
+		...
+		<view></view> - value will be used for storing view file inside /WEB-INF of parent project. Must contains a path from JAR root
+		<view></view>
+		...
+		<exclude-view-path-part></exclude-view-path-part> - contains a part of view path which will be excluded when view will be copied
+	</views> 
+	 -->
+	<views>
+		<xml>classpath*:/META-INF/plugin-resources/web/views/**/views.xml</xml>
+		<view>/META-INF/plugin-resources/web/views/Management.jspx</view>
+		<exclude-view-path-part>/META-INF/plugin-resources/</exclude-view-path-part>
+	</views>
+	
+	<!-- Reference to to Spring web context resource file (controllers, interceptors, etc) -->
+	<!--format:
+	<spring-web-context-resources>
+		<resource></resource>
+		<resource></resource>
+		...
+	</spring-web-context-resources> 
+	 -->
+	<spring-web-context-resources>
+		<resource>classpath:/META-INF/plugin-resources/web-context/management-plugin-web-context.xml</resource>
+	</spring-web-context-resources>
+	
+	<!-- Reference to to Spring context resource file (beans, etc) -->
+	<!--format:
+	<spring-context-resources>
+		<resource></resource>
+		<resource></resource>
+		...
+	</spring-context-resources> 
+	 -->
+	<spring-context-resources>
+		<resource>classpath:/META-INF/plugin-resources/context/management-plugin-context.xml</resource>
+	</spring-context-resources>
+</plug-in>
