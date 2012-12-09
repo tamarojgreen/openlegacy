@@ -1,7 +1,6 @@
 package org.openlegacy.support;
 
 import org.openlegacy.SessionProperties;
-import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -36,14 +35,11 @@ public class SimpleSessionProperties implements SessionProperties, Serializable,
 
 	@Override
 	public int hashCode() {
-		Assert.notNull(id);
 		return id.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		Assert.notNull(id);
-		Assert.notNull(obj);
 		return id.equals(((SimpleSessionProperties)obj).id);
 	}
 

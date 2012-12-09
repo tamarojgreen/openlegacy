@@ -51,11 +51,22 @@
 		<entry key="0:0:0:0:0:0:0:1" value="device2" />
 	</util:map>
  
- 	<bean id="connectionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedConnectionPropertiesProvider">
+ 	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedSessionPropertiesProvider">
  		<property name="ipDevice" ref="ipDevice" />
  		<aop:scoped-proxy/>
  	</bean>
 -->
  	
+<!-- Expose sessions to jmx 
+	<bean id="jmxExporter" class="org.springframework.jmx.export.MBeanExporter">
+	    <property name="beans">
+	        <map>
+	            <entry key="bean:name=sessionsManager" value-ref="sessionsManager"/>
+	        </map>
+	    </property>
+	</bean> 	
+-->
+
+				
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>
