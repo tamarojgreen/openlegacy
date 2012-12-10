@@ -8,7 +8,6 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-
 package org.openlegacy.mvc.web.interceptors;
 
 import org.openlegacy.plugins.Plugin;
