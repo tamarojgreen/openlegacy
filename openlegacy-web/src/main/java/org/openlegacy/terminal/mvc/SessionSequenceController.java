@@ -32,7 +32,11 @@ public class SessionSequenceController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public void getSequence(HttpServletResponse response) throws IOException {
-		response.getWriter().write(terminalSession.getSequence().toString());
+		if (!terminalSession.isConnected()) {
+			response.getWriter().write("0");
+		} else {
+			response.getWriter().write(terminalSession.getSequence().toString());
+		}
 	}
 
 }

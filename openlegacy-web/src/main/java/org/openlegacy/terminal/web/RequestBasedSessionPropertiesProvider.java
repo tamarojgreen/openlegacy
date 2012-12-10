@@ -32,9 +32,10 @@ public class RequestBasedSessionPropertiesProvider implements SessionPropertiesP
 		UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();
 		UserAgent agent = parser.parse(request.getHeader("User-Agent"));
 
+		sessionProperties.setProperty("IP", request.getRemoteAddr());
 		sessionProperties.setProperty("OS", agent.getOperatingSystem().getName());
 		sessionProperties.setProperty("browser", agent.getName());
-		sessionProperties.setProperty("version", agent.getVersionNumber().toString());
+		sessionProperties.setProperty("version", agent.getVersionNumber().getMajor() + "-" + agent.getVersionNumber().getMinor());
 		return sessionProperties;
 	}
 

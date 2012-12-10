@@ -27,28 +27,49 @@ public class ManagementController {
 
 	@Inject
 	private SessionsManager<TerminalSession> sessionsManager;
+
+	@Inject
+	private ManagementPlugin managementPlugin;
+
 	@Inject
 	private TerminalSnapshotImageRenderer imageRenderer;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getSessions(Model uiModel) throws IOException {
 		uiModel.addAttribute("sessionsProperties", sessionsManager.getSessionsProperties());
+		uiModel.addAttribute(managementPlugin);
 		return "Management";
 	}
 
 	@RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
 	public @ResponseBody
 	String viewer(HttpServletRequest request, @PathVariable("id") String sessionId) throws IOException {
-		return MessageFormat.format("<html><body><img src=\"{0}/management/image/{1}\"/></body></html>",
-				request.getContextPath(), sessionId);
+		if (managementPlugin.isEnableSessionViewer()) {
+			return MessageFormat.format("<html><body><img src=\"{0}/management/image/{1}\"/></body></html>",
+					request.getContextPath(), sessionId);
+		} else {
+			return MessageFormat.format("<html><body>Not allowed</body></html>", request.getContextPath(), sessionId);
+		}
 	}
 
 	@RequestMapping(value = "/image/{id}", method = RequestMethod.GET)
 	public void viewSession(HttpServletResponse response, @PathVariable("id") String sessionId) throws IOException {
-		response.setContentType("image/jpeg");
-		SessionTrail<Snapshot> trail = sessionsManager.getTrail(sessionId);
-		List<Snapshot> snapshots = trail.getSnapshots();
-		TerminalSnapshot snapshot = (TerminalSnapshot)snapshots.get(snapshots.size() - 1);
-		imageRenderer.render(snapshot, response.getOutputStream());
+		if (managementPlugin.isEnableSessionViewer()) {
+			response.setContentType("image/jpeg");
+			SessionTrail<Snapshot> trail = sessionsManager.getTrail(sessionId);
+			List<Snapshot> snapshots = trail.getSnapshots();
+			TerminalSnapshot snapshot = (TerminalSnapshot)snapshots.get(snapshots.size() - 1);
+			imageRenderer.render(snapshot, response.getOutputStream());
+		}
+	}
+
+	@RequestMapping(value = "/disconnect/{id}", method = RequestMethod.GET)
+	public String disconnect(Model uiModel, @PathVariable("id") String sessionId) throws IOException {
+		if (managementPlugin.isEnableDisconnect()) {
+			sessionsManager.disconnect(sessionId);
+		}
+		uiModel.addAttribute("sessionsProperties", sessionsManager.getSessionsProperties());
+		uiModel.addAttribute(managementPlugin);
+		return "Management";
 	}
 }

@@ -13,6 +13,6 @@
 	</context:component-scan>
 
 	<!-- Handles HTTP GET requests for /plugin/** by efficiently serving up static resources -->
-	<mvc:resources cache-period="86400" location="classpath:/META-INF/plugin-resources/" mapping="/management/**"/>
+	<mvc:resources cache-period="86400" location="classpath:/META-INF/plugin-resources/" mapping="/management-plugin/**"/>
 	
 </beans>

@@ -11,7 +11,7 @@ import java.util.Date;
 import javax.inject.Inject;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class DefaultRegistryModule extends TerminalSessionModuleAdapter implements Registry {
+public class DefaultSessionRegistryModule extends TerminalSessionModuleAdapter implements Registry {
 
 	private static final long serialVersionUID = 1L;
 

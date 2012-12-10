@@ -54,6 +54,8 @@
 	<views>
 		<xml>classpath*:/META-INF/plugin-resources/web/views/**/views.xml</xml>
 		<view>/META-INF/plugin-resources/web/views/Management.jspx</view>
+		<view>/META-INF/plugin-resources/web/views/head.jspx</view>
+		<view>/META-INF/plugin-resources/web/views/menu.jspx</view>
 		<exclude-view-path-part>/META-INF/plugin-resources/</exclude-view-path-part>
 	</views>
 	

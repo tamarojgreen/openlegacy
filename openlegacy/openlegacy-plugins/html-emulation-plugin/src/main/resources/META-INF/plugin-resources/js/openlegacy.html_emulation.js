@@ -41,7 +41,10 @@ function checkSequence(){
 		url : "sequence",
 		load : function(data) {
 			
-			if (Number(getMainForm().Sequence.value) != Number(data)){
+			if (Number(data) == 0){
+				location.href = "logoff";
+			}
+			else if (Number(getMainForm().Sequence.value) != Number(data)){
 				location.href = location.href;
 			}
 			else{
