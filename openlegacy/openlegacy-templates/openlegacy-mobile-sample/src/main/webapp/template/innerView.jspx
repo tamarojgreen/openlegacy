@@ -1,4 +1,0 @@
-<div xmlns:tiles="http://tiles.apache.org/tags-tiles">
-	<tiles:insertAttribute name="body" />
-	<tiles:insertAttribute name="actions" ignore="true" />
-</div>

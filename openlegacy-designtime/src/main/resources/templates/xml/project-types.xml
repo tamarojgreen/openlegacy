@@ -2,11 +2,11 @@
 
 <project-types>
     <project-type>
-        <template-name>openlegacy-new-java-template</template-name>
+        <template-name>openlegacy-java-new</template-name>
         <description>A java API application for connecting to your Legacy application</description>
         <is-demo>false</is-demo>
         <support-theme>false</support-theme>
-        <zip-file>openlegacy-new-java-template.zip</zip-file>
+        <zip-file>openlegacy-java-new.zip</zip-file>
     </project-type>
     
     <project-type>
