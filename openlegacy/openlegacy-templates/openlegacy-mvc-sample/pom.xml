@@ -163,6 +163,11 @@
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.openlegacy.plugins</groupId>
+			<artifactId>management-plugin</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-web-resources</artifactId>
 			<version>1.0.0-RELEASE</version>
@@ -240,6 +245,22 @@
             <version>${org.springframework-version}</version>
             <classifier/>
         </dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+        
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>

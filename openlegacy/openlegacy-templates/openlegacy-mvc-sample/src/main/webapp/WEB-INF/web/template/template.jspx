@@ -51,6 +51,7 @@
 			</style>
 		
 		<![endif]-->
+		<tiles:insertAttribute name="head" ignore="true" />
 	</head>
 	<body class="${ol_theme}">
 		<div id="wrap" class="page_container">
