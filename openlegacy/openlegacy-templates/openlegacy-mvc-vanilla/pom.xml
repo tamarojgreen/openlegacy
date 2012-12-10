@@ -160,12 +160,12 @@
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-web-resources</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-red</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -350,7 +350,7 @@
 			    <plugin>
 			    	<groupId>org.openlegacy.tools</groupId>
 					<artifactId>openlegacy-maven-plugin</artifactId>
-					<version>1.0.0-RELEASE</version>
+					<version>${openlegacy-version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

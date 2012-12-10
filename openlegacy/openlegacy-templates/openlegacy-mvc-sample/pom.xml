@@ -163,34 +163,34 @@
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openlegacy.plugins</groupId>
+			<groupId>org.openlegacy.enterprise.plugins</groupId>
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-web-resources</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-night</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-cloud</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-red</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-cloudm</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -488,7 +488,7 @@
 			    <plugin>
 			    	<groupId>org.openlegacy.tools</groupId>
 					<artifactId>openlegacy-maven-plugin</artifactId>
-					<version>1.0.0-RELEASE</version>
+					<version>${openlegacy-version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

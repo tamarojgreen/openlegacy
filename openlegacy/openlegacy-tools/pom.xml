@@ -3,7 +3,7 @@
   <groupId>org.openlegacy.tools</groupId>
   <artifactId>openlegacy-tools</artifactId>
   <packaging>pom</packaging>
-  <name>Maven container for misc projects</name>
+  <name>Maven container for misc tool projects</name>
 
 	<parent>
 		<artifactId>openlegacy</artifactId>
