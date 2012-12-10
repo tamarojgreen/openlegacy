@@ -15,7 +15,7 @@
 		...
 	</javascript-list> 
 	 -->
-	<javascript-list path="/plugin/js/">
+	<javascript-list path="/html-emulation-plugin/js/">
 		<item>openlegacy.html_emulation.js</item>
 	</javascript-list>
 	
@@ -29,7 +29,7 @@
 		...
 	</css-list> 
 	 -->
-	<css-list  path="/plugin/css/">
+	<css-list  path="/html-emulation-plugin/css/">
 		<item>openlegacy.html_emulation.css</item>
 	</css-list>
 	
