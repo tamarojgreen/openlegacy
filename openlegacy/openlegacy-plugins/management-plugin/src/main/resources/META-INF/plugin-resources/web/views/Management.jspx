@@ -27,7 +27,7 @@
 				<td>${sessionProperties.lastActivity}</td>
 				<td><c:forEach var="entry1"
 						items="${sessionProperties.properties}">
-					${entry1} 
+					${entry1}<br/> 
 				</c:forEach></td>
 				<td><c:if test="${managementPlugin.enableDisconnect}">
 						<a

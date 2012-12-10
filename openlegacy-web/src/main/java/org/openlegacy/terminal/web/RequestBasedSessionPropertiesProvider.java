@@ -26,7 +26,9 @@ public class RequestBasedSessionPropertiesProvider implements SessionPropertiesP
 		String deviceName = ipDeviceName.get(ip);
 
 		SimpleSessionProperties sessionProperties = new SimpleSessionProperties();
-		sessionProperties.setProperty(TerminalSessionPropertiesConsts.DEVICE_NAME, deviceName);
+		if (deviceName != null) {
+			sessionProperties.setProperty(TerminalSessionPropertiesConsts.DEVICE_NAME, deviceName);
+		}
 
 		// Get an UserAgentStringParser and analyze the requesting client
 		UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();

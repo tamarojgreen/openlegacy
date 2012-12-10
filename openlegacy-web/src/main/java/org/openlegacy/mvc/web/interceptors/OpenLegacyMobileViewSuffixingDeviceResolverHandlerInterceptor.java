@@ -32,7 +32,9 @@ public class OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor exten
 		SitePreference sitePreference = SitePreferenceUtils.getCurrentSitePreference(request);
 		Device device = (Device)request.getAttribute(DeviceUtils.CURRENT_DEVICE_ATTRIBUTE);
 
-		modelAndView.addObject(DEVICE_TYPE_ATTRIBUTE, getDeviceType(device));
+		if (!(modelAndView.getViewName().startsWith("redirect"))) {
+			modelAndView.addObject(DEVICE_TYPE_ATTRIBUTE, getDeviceType(device));
+		}
 
 		if (!device.isNormal() || (sitePreference == SitePreference.MOBILE)) {
 			modelAndView.setViewName(MessageFormat.format("{0}{1}", modelAndView.getViewName(), MOBILE_VIEW_SUFFIX));
