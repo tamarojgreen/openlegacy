@@ -1,9 +1,12 @@
 .web_mobile_footer {
-	position: relative;
-	top: 90%;
-	left: 20%;
+	position: absolute;
+	top : 35em;
+	left: 2%;
 }
 
+.mbllistitem{
+	font-size: 13px;
+}
 /* FixedSplitter typically needs the following styles */
 html,body {
 	height: 100%;

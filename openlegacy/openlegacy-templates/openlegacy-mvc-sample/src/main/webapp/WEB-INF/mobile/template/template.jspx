@@ -83,7 +83,7 @@
 		<span data-dojo-type="dojox.mobile.ScreenSizeAware"><!-- FF --></span>
 		<div data-dojo-type="dojox.mobile.FixedSplitter" data-dojo-props="orientation:'H'" id="fixedSplitter">
 			<div id="leftPane" data-dojo-type="dojox.mobile.Container">
-				<div id="leftView" data-dojo-type="dojox.mobile.ScrollableView" data-dojo-props="selected:true">
+				<div id="leftView" data-dojo-type="dojox.mobile.View" data-dojo-props="selected:true">
 					<ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
 					</ul>
 					<div id="menuContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">

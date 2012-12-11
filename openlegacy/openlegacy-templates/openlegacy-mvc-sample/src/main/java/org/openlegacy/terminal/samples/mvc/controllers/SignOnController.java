@@ -22,6 +22,17 @@ public class SignOnController {
 	@Inject
 	private TerminalSession terminalSession;
 
+	// handle page initial display
+    @RequestMapping(method = RequestMethod.GET)
+    public String show(Model uiModel) {
+    	if (terminalSession.isConnected()){
+			terminalSession.getModule(Login.class).logoff();
+    	}
+    	SignOn signOn = new SignOn();
+		uiModel.addAttribute("signOn", signOn);
+        return "SignOn";
+    }
+	
 	// handle submit action
 	@RequestMapping(method = RequestMethod.POST)
 	public String submit(SignOn signOn, Model uiModel, HttpServletRequest httpServletRequest) {

@@ -46,7 +46,7 @@ public class OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor exten
 			modelAndView.addObject(DEVICE_TYPE_ATTRIBUTE, getDeviceType(device));
 		}
 
-		if (!device.isNormal() || (sitePreference == SitePreference.MOBILE)) {
+		if ((sitePreference == SitePreference.MOBILE)) {
 			modelAndView.setViewName(MessageFormat.format("{0}{1}", modelAndView.getViewName(), MOBILE_VIEW_SUFFIX));
 			super.postHandle(request, response, handler, modelAndView);
 			return;

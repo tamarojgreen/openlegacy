@@ -1,13 +1,20 @@
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
-	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:spring="http://www.springframework.org/tags" 
 	version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
-	
-	<div id="header">
-		<div id="calPicker" data-dojo-type="dojox.mobile.Opener" data-dojo-props="onHide:getDateFromCalendar, onShow:setDateToCelendar">
+<div>
+	<div class="web_mobile_footer">
+	Mobile | <a href="${pageContext.request.contextPath}/SignOn?site_preference=normal">Web</a>
+	<c:if test="${(deviceType eq 'TABLET') || (deviceType eq 'NORMAL')}">
+	<br/>
+	Copyright &#169; 2012 OpenLegacy. All rights reserved. <br />Powered
+	by OpenLegacy &#174; ${ol_version}
+	</c:if>
+	</div>
+	<div>
+		<div id="calPicker" data-dojo-type="dojox.mobile.Opener" data-dojo-props="onHide:getDateFromCalendar, onShow:setDateToCelendar"  style="display: none">
 			<h1 data-dojo-type="dojox.mobile.Heading" 
 				data-dojo-props="label:'Select a Date'">
 				<div data-dojo-type="dojox.mobile.ToolBarButton" 
@@ -20,4 +27,6 @@
 			<div id="calendarWidget" data-dojo-type='dijit.Calendar'/>
 		</div>
 	</div>
+	
+</div>
 </jsp:root>

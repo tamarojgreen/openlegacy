@@ -32,13 +32,5 @@ privileged @SuppressWarnings("unused") aspect SignOnController_Aspect {
 
 	@Inject
 	private ScreenEntitiesRegistry SignOnController.screenEntitiesRegistry;
-
-	// handle page initial display
-    @RequestMapping(method = RequestMethod.GET)
-    public String SignOnController.show(Model uiModel) {
-    	SignOn signOn = new SignOn();
-		uiModel.addAttribute("signOn", signOn);
-        return "SignOn";
-    }
 	
 }
