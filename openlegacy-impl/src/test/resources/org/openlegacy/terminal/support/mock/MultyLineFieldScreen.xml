@@ -4,10 +4,10 @@
         <field value="Multy line title" column="30" />
     </row>
     <row rowNumber="3">
-        <field value="AA BB" editable="true" column="15" />
+        <field value="AA BB " editable="true" column="15" />
     </row>
     <row rowNumber="4">
-        <field value="CC DD" editable="true" column="15" />
+        <field value="CC DD " editable="true" column="15" />
     </row>
     <row rowNumber="6">
         <field value="This field " column="70" editable="true"/>

@@ -86,7 +86,7 @@ public class ScreenBinderLogic implements Serializable {
 	 * @param terminalSnapshot
 	 * @return
 	 */
-	private static String getText(ScreenFieldDefinition fieldMappingDefinition, TerminalSnapshot terminalSnapshot) {
+	private String getText(ScreenFieldDefinition fieldMappingDefinition, TerminalSnapshot terminalSnapshot) {
 
 		int startRow = fieldMappingDefinition.getPosition().getRow();
 		int endRow = fieldMappingDefinition.getEndPosition().getRow();
@@ -104,24 +104,25 @@ public class ScreenBinderLogic implements Serializable {
 
 			// multy line
 			if (currentRow > startRow) {
+				String newLine = "\n";
 				if (fieldMappingDefinition.isRectangle()) {
 					terminalField = terminalSnapshot.getField(currentRow, startColumn);
 					if (fieldMappingDefinition.getLength() > 0 && fieldColumnLength != terminalField.getLength()) {
-						text += row.getText(startColumn, fieldColumnLength);
+						text = text + newLine + fieldFormatter.format(row.getText(startColumn, fieldColumnLength));
 					} else {
-						text += terminalField.getValue();
+						text = text + newLine + fieldFormatter.format(terminalField.getValue());
 					}
 					// breaking lines
 				} else {
 					// 1st row = grab until the end of the row
 					if (currentRow == startRow) {
-						text += row.getText(startColumn, terminalSnapshot.getSize().getColumns() - fieldColumnLength);
+						text = text + newLine + fieldFormatter.format(row.getText(startColumn, terminalSnapshot.getSize().getColumns() - fieldColumnLength));
 						// last row - grab until end column
 					} else if (currentRow == endRow) {
-						text += row.getText(1, endColumn);
+						text = text + newLine + fieldFormatter.format(row.getText(1, endColumn));
 						// middle row - grab all line
 					} else {
-						text += row.getText();
+						text = text + newLine + fieldFormatter.format(row.getText());
 					}
 				}
 				// single line
@@ -130,7 +131,7 @@ public class ScreenBinderLogic implements Serializable {
 				if (fieldMappingDefinition.getLength() > 0 && fieldColumnLength != terminalField.getLength()) {
 					text += row.getText(startColumn, fieldColumnLength);
 				} else {
-					text += terminalField.getValue();
+					text += fieldFormatter.format(terminalField.getValue());
 				}
 
 			}
@@ -205,30 +206,30 @@ public class ScreenBinderLogic implements Serializable {
 
 			int screenColumns = terminalSnapshot.getSize().getColumns();
 
-			String leftValue = initalValue;
+			String leftoverValue = initalValue;
 			// iterate through the field rows - typically 1 round (endRow = startRow)
 			for (int currentRow = startRow; currentRow <= endRow; currentRow++) {
 
-				String value = leftValue;
+				String value = leftoverValue;
 				if (endRow != startRow) {
 					if (fieldMappingDefinition.isRectangle()) {
-						value = leftValue.substring(0, endColumn - startColumn);
-						leftValue = leftValue.substring(endColumn - startColumn);
+						value = leftoverValue.substring(0, endColumn - startColumn);
+						leftoverValue = leftoverValue.substring(endColumn - startColumn);
 					} else {
 						// 1st row
 						if (currentRow == startRow) {
-							value = leftValue.substring(0, screenColumns - startColumn + 2);
-							leftValue = leftValue.substring(screenColumns - startColumn + 2);
+							value = leftoverValue.substring(0, screenColumns - startColumn + 2);
+							leftoverValue = leftoverValue.substring(screenColumns - startColumn + 2);
 						}
 						// last row
 						else if (currentRow == endRow) {
-							value = leftValue;
+							value = leftoverValue;
 							currentColumn = 1;
 						}
 						// middle row
 						else {
-							value = leftValue.substring(0, screenColumns);
-							leftValue = leftValue.substring(screenColumns);
+							value = leftoverValue.substring(0, screenColumns);
+							leftoverValue = leftoverValue.substring(screenColumns);
 							currentColumn = 1;
 						}
 					}

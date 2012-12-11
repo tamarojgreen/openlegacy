@@ -24,7 +24,7 @@
 			<div id="messageDialog" data-dojo-type="dijit.Dialog"
 				style="overflow: auto;" title="System Messages">
 				<c:forEach items="${messages}" var="message">
-					<p>${message}</p>
+					<pre>${message}</pre>
 				</c:forEach>
 			</div>
 			<script>

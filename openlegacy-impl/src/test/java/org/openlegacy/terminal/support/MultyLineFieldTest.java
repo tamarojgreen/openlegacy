@@ -21,9 +21,9 @@ public class MultyLineFieldTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 
 		MultyLineFieldScreen multyLineFieldScreen = terminalSession.getEntity(MultyLineFieldScreen.class);
-		Assert.assertEquals("AA BBCC DD", multyLineFieldScreen.getMultlyLineField());
+		Assert.assertEquals("AA BB\nCC DD", multyLineFieldScreen.getMultlyLineField());
 
-		Assert.assertEquals("This field continue in next line", multyLineFieldScreen.getMultlyLineBreakingField());
+		Assert.assertEquals("This field\ncontinue in next line", multyLineFieldScreen.getMultlyLineBreakingField());
 
 		// validated during the send
 		multyLineFieldScreen.setMultlyLineField("A$ B$C$ D$");

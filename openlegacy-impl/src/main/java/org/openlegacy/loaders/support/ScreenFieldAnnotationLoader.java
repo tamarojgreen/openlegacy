@@ -53,13 +53,13 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 				fieldAnnotation.fieldType());
 		screenFieldDefinition.setPosition(position);
 
-		if (fieldAnnotation.endRow() == 0) {
-			if (fieldAnnotation.endColumn() == 0) {
-				screenFieldDefinition.setLength(0);
-			} else {
-				screenFieldDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
-			}
+		if (fieldAnnotation.endColumn() == 0) {
+			screenFieldDefinition.setLength(0);
 		} else {
+			screenFieldDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
+		}
+
+		if (fieldAnnotation.endRow() > 0) {
 			if (fieldAnnotation.endRow() <= fieldAnnotation.row()) {
 				throw (new RegistryException(MessageFormat.format(
 						"End row must be greater then row for field {0}. (can be removed for same row)", field.getName())));
