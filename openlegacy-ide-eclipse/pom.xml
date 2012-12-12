@@ -3,20 +3,14 @@
 	<parent>
 		<groupId>org.openlegacy.ide</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0.0-RC1</version>
+		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../openlegacy-ide/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>org.openlegacy.ide.eclipse</artifactId>
-	<!--  Can't be RC1 - cause conflict with Tycho in Manifest.MF -->
-	<version>1.0.0-SNAPSHOT</version>
-		
 	<name>OpenLegacy eclipse plug-in</name>
 	<packaging>eclipse-plugin</packaging>
 
-	<properties>
-	    <openlegacy.version>${project.parent.version}</openlegacy.version>
-	</properties>
 	<repositories>
 		<repository>
 			<id>eclipse</id>

@@ -30,7 +30,8 @@
 	</repositories>
 
 	<properties>
-		<tycho.version>0.16.0</tycho.version>
+	    <openlegacy.version>1.0.0-RC1</openlegacy.version>
+   		<tycho.version>0.16.0</tycho.version>
 	</properties>
 
 	<build>
