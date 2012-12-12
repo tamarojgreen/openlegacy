@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="openlegacy.ide.eclipse.feature"
+      id="org.openlegacy.ide.eclipse.feature"
       label="OpenLegacy IDE"
       version="1.0.0.qualifier"
       provider-name="OpenLegacy">
@@ -111,7 +111,6 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <requires>
       <import plugin="org.eclipse.m2e.core"/>
-      <import plugin="org.eclipse.aspectj"/>
    </requires>
 
    <plugin

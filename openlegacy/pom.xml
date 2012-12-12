@@ -7,12 +7,12 @@
 	<packaging>pom</packaging>
 	<name>OpenLegacy</name>
 	<description>OpenLegacy is a collection of API, framework and tools designed to provide a full stack of Legacy modernization abilities which should help you expose legacy functionallity to Java, REST, SOA, Mobile and Web based applications</description>
-    <licenses>
-        <license>
-            <name>Eclipse Public License - v 1.0</name>
-            <url>http://www.eclipse.org/legal/epl-v10.html</url>
-        </license>
-    </licenses>
+	<licenses>
+		<license>
+			<name>Eclipse Public License - v 1.0</name>
+			<url>http://www.eclipse.org/legal/epl-v10.html</url>
+		</license>
+	</licenses>
 
 	<modules>
 		<module>../openlegacy-api</module>
@@ -29,6 +29,7 @@
 			(Tyco? / P2?) -->
 		<!-- Uncomment during development phase -->
 		<!-- <module>../openlegacy-ide-eclipse</module> -->
+		<module>../openlegacy-ide</module>
 	</modules>
 
 	<properties>
@@ -36,7 +37,8 @@
 		<spring.framework.version>3.1.0.RELEASE</spring.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<aspectj.version>1.6.11</aspectj.version>
-		<deploy.dir>ftp://maven.openlegacy.org</deploy.dir>
+<!-- 		<deploy.dir>ftp://maven.openlegacy.org</deploy.dir> -->
+		<deploy.dir>ftp://quartz/users/i_bort</deploy.dir>
 	</properties>
 
 	<dependencies>

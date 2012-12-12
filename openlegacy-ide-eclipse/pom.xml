@@ -1,14 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>openlegacy</artifactId>
-		<groupId>org.openlegacy</groupId>
+		<groupId>org.openlegacy.ide</groupId>
+		<artifactId>parent</artifactId>
 		<version>1.0.0-RC1</version>
-		<relativePath>../openlegacy/pom.xml</relativePath>
+		<relativePath>../openlegacy-ide/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>openlegacy-ide-eclipse</artifactId>
+	<artifactId>org.openlegacy.ide.eclipse</artifactId>
 	<name>OpenLegacy eclipse plug-in</name>
+	<packaging>eclipse-plugin</packaging>
 
 	<repositories>
 		<repository>
@@ -24,25 +25,26 @@
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
-   			<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.5.1</version>
 				<executions>
 					<execution>
 						<id>copy-dependencies</id>
-						<phase>package</phase>
+						<phase>validate</phase>
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
+							<excludeGroupIds>p2.eclipse-plugin,org.openlegacy.ide</excludeGroupIds>
 							<outputDirectory>${project.build.directory}/../lib</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>false</overWriteSnapshots>
 							<overWriteIfNewer>true</overWriteIfNewer>
-							<excludeScope>provided</excludeScope>
 						</configuration>
 					</execution>
 				</executions>

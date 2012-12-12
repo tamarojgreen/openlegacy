@@ -45,7 +45,8 @@
 						<phase>deploy</phase>
 						<configuration>
 							<target>
-								<ftp action="send" server="templates.openlegacy.org"
+<!-- 								<ftp action="send" server="templates.openlegacy.org" -->
+								<ftp action="send" server="${templates.ftp.url}"
 									remotedir="${templates.ftp.dir}" userid="${templates.ftp.user}"
 									password="${templates.ftp.password}" depends="no" verbose="yes"
 									binary="yes">
