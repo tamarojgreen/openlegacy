@@ -199,7 +199,7 @@
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openlegacy.plugins</groupId>
+			<groupId>org.openlegacy.enterprise.plugins</groupId>
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
