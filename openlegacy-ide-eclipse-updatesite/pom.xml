@@ -15,6 +15,20 @@
 
 	<profiles>
 		<profile>
+			<id>openlegacy.skip.clean</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>openlegacy.deploy</id>
 			<properties>
 				<!-- Properties relative to the 
@@ -26,13 +40,6 @@
 			</properties>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-clean-plugin</artifactId>
-						<configuration>
-							<skip>true</skip>
-						</configuration>
-					</plugin>
 					<!-- Upload the repo to the server -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
