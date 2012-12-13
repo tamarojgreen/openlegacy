@@ -28,6 +28,23 @@
 
 	<build>
 		<plugins>
+		    <!-- Create target folder for copy-dependencies (next plugin) -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>create-target</id>
+						<phase>validate</phase>
+						<configuration>
+							<target>
+								<mkdir dir="${project.build.directory}" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		    		    
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
