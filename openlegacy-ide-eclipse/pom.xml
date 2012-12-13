@@ -28,7 +28,7 @@
 
 	<profiles>
 		<profile>
-			<id>openlegacy.copy.dependencies.phase.package</id>
+			<id>openlegacy.copy.dependencies.phase.compile</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -38,7 +38,7 @@
 						<executions>
 							<execution>
 								<id>copy-dependencies</id>
-								<phase>package</phase>
+								<phase>compile</phase>
 								<goals>
 									<goal>copy-dependencies</goal>
 								</goals>
