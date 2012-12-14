@@ -37,8 +37,7 @@
 		<spring.framework.version>3.1.0.RELEASE</spring.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<aspectj.version>1.6.11</aspectj.version>
-<!-- 		<deploy.dir>ftp://maven.openlegacy.org</deploy.dir> -->
-		<deploy.dir>ftp://quartz/users/i_bort</deploy.dir>
+		<deploy.dir>ftp://maven.openlegacy.org</deploy.dir>
 	</properties>
 
 	<dependencies>
