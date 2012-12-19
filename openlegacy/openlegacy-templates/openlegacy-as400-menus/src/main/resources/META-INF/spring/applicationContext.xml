@@ -27,6 +27,7 @@
  -->
 
 <!-- Use this definition to replay a mock-up session application
+-->
  	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/trails" />
@@ -43,6 +44,7 @@
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
+<!-- 
 -->
 
 <!-- example of set device for IP - add more
