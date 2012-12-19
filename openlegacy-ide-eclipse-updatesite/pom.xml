@@ -40,6 +40,35 @@
 			</properties>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<version>1.2</version>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>verify</id>
+								<goals>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<archiveDirectory>${repo.path}</archiveDirectory>
+							<excludes>
+								<exclude>**/org.apache*.jar</exclude>
+							</excludes>
+							<keystore>openlegacy.jks</keystore>
+							<alias>openlegacy</alias>
+							<storepass>${updatesite.sign.storepass}</storepass>
+							<keypass>${updatesite.sign.keypass}</keypass>
+						</configuration>
+					</plugin>
 					<!-- Upload the repo to the server -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
