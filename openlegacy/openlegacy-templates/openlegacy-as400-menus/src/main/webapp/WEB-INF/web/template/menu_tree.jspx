@@ -69,7 +69,7 @@
 							tree.set('path', breadCrumb);
 							widget.resize();
 							domStyle.set('treeNode', 'height', '');
-						}, 500);
+						}, 1000);
 					}
 				});
 			});

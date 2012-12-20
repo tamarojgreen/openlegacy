@@ -54,3 +54,6 @@
 .messages a{
 	background-image: url(../images/messages.png);
 }
+#treeNode{
+	height: 200px;
+}
