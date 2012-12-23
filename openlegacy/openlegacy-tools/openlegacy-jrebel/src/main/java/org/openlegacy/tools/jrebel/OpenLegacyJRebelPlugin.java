@@ -46,26 +46,27 @@ public class OpenLegacyJRebelPlugin implements Plugin {
 
 				log("OpenLegacy - class event reload:" + klass.getName());
 
+				Object registry = invoke(springApplicationContext, "getBean", new String[] { "java.lang.String" },
+						"screensRegistry");
+				Object registryLoader = invoke(springApplicationContext, "getBean", new String[] { "java.lang.String" },
+						"registryLoader");
 				Class[] innerClasses = klass.getDeclaredClasses();
 				for (Class class1 : innerClasses) {
 					ReloaderFactory.getInstance().checkAndReload(class1);
-				}
-				try {
-					if (!isScreenEntity(klass)) {
-						return;
-					}
+					try {
+						if (isScreenEntity(klass)) {
+							invoke(registryLoader, "loadSingleClass", new String[] { "org.openlegacy.EntitiesRegistry",
+									"java.lang.Class" }, registry, class1);
+						}
 
-					Object registry = invoke(springApplicationContext, "getBean", new String[] { "java.lang.String" },
-							"screensRegistry");
-					Object registryLoader = invoke(springApplicationContext, "getBean", new String[] { "java.lang.String" },
-							"registryLoader");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if (isScreenEntity(klass)) {
 					invoke(registryLoader, "loadSingleClass",
 							new String[] { "org.openlegacy.EntitiesRegistry", "java.lang.Class" }, registry, klass);
-
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
-
 			}
 
 			private boolean isRequiresReload(Class<?> klass) {
@@ -92,7 +93,8 @@ public class OpenLegacyJRebelPlugin implements Plugin {
 				Annotation[] annotations = klass.getAnnotations();
 				for (Annotation annotation : annotations) {
 					if (annotation.annotationType().getName().equals("org.openlegacy.annotations.screen.ScreenEntity")
-							|| annotation.annotationType().getName().equals("org.openlegacy.annotations.screen.ScreenPart")) {
+							|| annotation.annotationType().getName().equals("org.openlegacy.annotations.screen.ScreenPart")
+							|| annotation.annotationType().getName().equals("org.openlegacy.annotations.screen.ScreenTable")) {
 						found = true;
 						break;
 					}

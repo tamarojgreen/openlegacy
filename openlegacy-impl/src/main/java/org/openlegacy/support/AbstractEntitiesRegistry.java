@@ -130,4 +130,8 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	public void setDirty(boolean dirty) {
 		this.dirty = dirty;
 	}
+
+	public boolean contains(Class<?> beanClass) {
+		return get(beanClass) != null;
+	}
 }

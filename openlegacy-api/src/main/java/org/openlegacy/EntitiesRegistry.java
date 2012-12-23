@@ -115,4 +115,6 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 
 	boolean isDirty();
 
+	public boolean contains(Class<?> beanClass);
+
 }

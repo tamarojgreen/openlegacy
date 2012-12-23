@@ -109,4 +109,9 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 
 	}
 
+	@Override
+	public boolean contains(Class<?> beanClass) {
+		return super.contains(beanClass) || getTable(beanClass) != null || getPart(beanClass) != null;
+	}
+
 }
