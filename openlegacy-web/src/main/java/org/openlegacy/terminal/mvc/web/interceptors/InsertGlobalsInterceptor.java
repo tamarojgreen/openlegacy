@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.web.interceptors;
 
+import org.openlegacy.modules.globals.Globals;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.mvc.web.ThemeUtil;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,6 +46,7 @@ public class InsertGlobalsInterceptor extends AbstractInterceptor {
 		if (loginModule.isLoggedIn()) {
 			modelAndView.addObject("loggedInUser", loginModule.getLoggedInUser());
 		}
+		modelAndView.addObject("globals", getTerminalSession().getModule(Globals.class).getGlobals());
 	}
 
 }

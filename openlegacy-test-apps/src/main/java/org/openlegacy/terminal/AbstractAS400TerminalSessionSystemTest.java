@@ -19,6 +19,7 @@ import org.junit.Assert;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.Snapshot;
 import org.openlegacy.exceptions.SessionEndedException;
+import org.openlegacy.modules.globals.Globals;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
@@ -44,6 +45,8 @@ public class AbstractAS400TerminalSessionSystemTest extends AbstractTest {
 		Assert.assertNotNull(signOn.getTerminalSnapshot());
 		Assert.assertNotNull(signOn.getUserField());
 		Assert.assertFalse(signOn.getUserField().isPassword());
+
+		Assert.assertEquals("S44R5550", terminalSession.getModule(Globals.class).getGlobal("system"));
 
 		Assert.assertNotNull(signOn.getPasswordField());
 		Assert.assertTrue(signOn.getPasswordField().isPassword());

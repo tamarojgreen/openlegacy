@@ -11,6 +11,7 @@
 		<div class="topmenu_wrap">
 			<div class="topmenu">
 				<ul>
+					<li>System: ${globals['system']}</li>
 					<c:if test="${loggedInUser != null}">
 						<li>Welcome, ${loggedInUser}!</li>
 					</c:if>

@@ -210,4 +210,9 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return false;
 	}
 
+	public List<? extends FieldDefinition> getFieldDefinitions(Class<? extends FieldType> fieldType) {
+		throwNotImplemented();
+		return null;
+	}
+
 }

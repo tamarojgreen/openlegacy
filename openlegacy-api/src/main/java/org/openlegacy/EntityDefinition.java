@@ -79,6 +79,14 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	D getFirstFieldDefinition(Class<? extends FieldType> fieldType);
 
 	/**
+	 * Return all fields of the given type
+	 * 
+	 * @param fieldType
+	 * @return
+	 */
+	List<? extends FieldDefinition> getFieldDefinitions(Class<? extends FieldType> fieldType);
+
+	/**
 	 * list of field definitions which are marked as keys of the entity
 	 * 
 	 * @return list of key field definitions

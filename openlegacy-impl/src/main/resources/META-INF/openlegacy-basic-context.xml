@@ -74,7 +74,9 @@
 							class="org.openlegacy.terminal.modules.messages.DefaultTerminalMessagesModule" p:skipActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"/>
 						<bean
 							class="org.openlegacy.terminal.modules.registry.DefaultSessionRegistryModule" />
-												
+						<bean
+							class="org.openlegacy.terminal.modules.globals.DefaultGlobalsModule" />
+																		
 					</list>
 				</property>
 			</bean>

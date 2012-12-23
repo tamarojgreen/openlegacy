@@ -102,6 +102,18 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 		return (F)matchedFieldDefinition;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<F> getFieldDefinitions(Class<? extends FieldType> fieldType) {
+		Collection<? extends FieldDefinition> fieldValues = fieldDefinitions.values();
+		List<FieldDefinition> matchedFieldsDefinitions = new ArrayList<FieldDefinition>();
+		for (FieldDefinition fieldDefinition : fieldValues) {
+			if (fieldDefinition.getType() == fieldType) {
+				matchedFieldsDefinitions.add(fieldDefinition);
+			}
+		}
+		return (List<F>)matchedFieldsDefinitions;
+	}
+
 	public String getDisplayName() {
 		return displayName;
 	}
