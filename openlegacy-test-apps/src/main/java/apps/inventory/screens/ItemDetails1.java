@@ -8,6 +8,7 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.definitions.EnumGetValue;
 import org.openlegacy.terminal.actions.TerminalActions;
 
 @ScreenEntity
@@ -32,7 +33,7 @@ public class ItemDetails1 {
 
 	private ItemDetails2 itemDetails2;
 
-	public enum OuterUnitOfMeasure {
+	public enum OuterUnitOfMeasure implements EnumGetValue {
 		Kilogram("kg", "kilogram"),
 		Ton("tn", "ton");
 
