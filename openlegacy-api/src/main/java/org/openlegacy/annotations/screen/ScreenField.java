@@ -132,4 +132,6 @@ public @interface ScreenField {
 	 * @return if the field is the key field
 	 */
 	boolean key() default false;
+
+	String helpText() default "";
 }

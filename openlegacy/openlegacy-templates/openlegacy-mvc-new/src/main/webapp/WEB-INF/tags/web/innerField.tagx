@@ -136,8 +136,13 @@
 								</form:select>
 							</c:when>
 							<c:otherwise>
-								<form:input type="text" id="${name}" size="${size}"
-									maxlength="${size}" path="${name}" cssStyle="${style}"
+								<c:set var="width" value="${size*10}" />
+								<c:set var="helpText" value="${fieldDefinition.helpText}" />
+								<c:if test="${empty helpText}">
+									<c:set var="helpText" value="Enter ${fieldDefinition.displayName}" />
+								</c:if>
+								<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
+									maxlength="${size}" path="${name}" cssStyle="width:${width}px;${style}"
 									cssClass="${cssClass}" />
 							</c:otherwise>
 						</c:choose>

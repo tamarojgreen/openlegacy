@@ -26,6 +26,8 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	private FieldTypeDefinition fieldTypeDefinition;
 	private boolean key;
 
+	private String helpText;
+
 	/**
 	 * for serialization purpose only
 	 */
@@ -81,5 +83,13 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setKey(boolean key) {
 		this.key = key;
+	}
+
+	public String getHelpText() {
+		return helpText;
+	}
+
+	public void setHelpText(String helpText) {
+		this.helpText = helpText;
 	}
 }

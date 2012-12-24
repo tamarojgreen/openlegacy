@@ -171,4 +171,5 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	public boolean isMultyLine() {
 		return getEndPosition().getRow() != getPosition().getRow();
 	}
+
 }

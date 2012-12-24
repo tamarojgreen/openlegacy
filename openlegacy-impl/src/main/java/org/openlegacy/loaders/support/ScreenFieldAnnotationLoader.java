@@ -94,6 +94,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		screenFieldDefinition.setSampleValue(fieldAnnotation.sampleValue());
 		screenFieldDefinition.setJavaType(field.getType());
 
+		screenFieldDefinition.setHelpText(fieldAnnotation.helpText());
 		screenFieldDefinition.setKey(fieldAnnotation.key());
 
 		setupFieldType(field, screenFieldDefinition);

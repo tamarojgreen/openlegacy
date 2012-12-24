@@ -44,7 +44,9 @@ public interface FieldDefinition {
 	 * 
 	 * @return field Java type
 	 */
-	public Class<?> getJavaType();
+	Class<?> getJavaType();
+
+	String getHelpText();
 
 	boolean isKey();
 }
