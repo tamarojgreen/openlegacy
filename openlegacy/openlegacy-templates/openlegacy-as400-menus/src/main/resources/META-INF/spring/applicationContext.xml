@@ -47,17 +47,17 @@
 	</bean>
 -->
 
-<!-- example of set device for IP - add more
  	<util:map id="ipDevice">
-		<entry key="127.0.0.1" value="device1" />
+		<!-- example of set device for IP - add more (ipV4 and ipV6 style)
+   		<entry key="127.0.0.1" value="device1" />
 		<entry key="0:0:0:0:0:0:0:1" value="device2" />
+		-->
 	</util:map>
  
- 	<bean id="connectionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedConnectionPropertiesProvider">
+ 	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedSessionPropertiesProvider">
  		<property name="ipDevice" ref="ipDevice" />
  		<aop:scoped-proxy/>
  	</bean>
--->
 
 	<security:http auto-config="true" use-expressions="true">
 	    <security:intercept-url pattern="/management/**" access="hasRole('ROLE_ADMIN')"/>
