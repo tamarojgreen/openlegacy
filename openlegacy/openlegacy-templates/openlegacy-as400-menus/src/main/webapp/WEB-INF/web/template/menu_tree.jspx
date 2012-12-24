@@ -65,11 +65,11 @@
 							domStyle.set('treeNode', 'height', '');
 						});
 						setTimeout(function(){
-							tree.collapseAll();
+							//tree.collapseAll();
 							tree.set('path', breadCrumb);
 							widget.resize();
 							domStyle.set('treeNode', 'height', '');
-						}, 1000);
+						}, 100);
 					}
 				});
 			});

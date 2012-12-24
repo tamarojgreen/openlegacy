@@ -65,11 +65,11 @@
 							domStyle.set('treeNode', 'height', '');
 						});
 						setTimeout(function(){
-							tree.collapseAll();
+							//tree.collapseAll();
 							tree.set('path', breadCrumb);
 							widget.resize();
 							domStyle.set('treeNode', 'height', '');
-						}, 1000);
+						}, 100);
 					}
 				});
 			});
@@ -82,46 +82,40 @@
 						</div>
 				</div>
 			</c:if>
-			<div data-dojo-type="dijit.layout.ContentPane" title="Tools"
-				class="element">
+			<div data-dojo-type="dijit.layout.ContentPane" title="Tools" class="element">
 				<div class="links">
 					<ul>
-						<li><a href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a></li>
-						<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View Session</a></li>
+						<li><a
+							href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a></li>
+						<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View
+								Session</a></li>
 						<li><a href="${pageContext.request.contextPath}/trail/download">Download trail</a></li>
-						<li><a href="${pageContext.request.contextPath}/emulation">HTML Emulation</a></li>
 						<c:if test="${ol_designtime}">
-							<li><a href="javascript:reloadApplicationContext('${pageContext.request.contextPath}');">Reload application</a></li>
+							<li><a href="javascript:reloadApplicationContext('${pageContext.request.contextPath}');">Reload
+									application</a></li>
 						</c:if>
 					</ul>
 				</div>
 			</div>
-			<div data-dojo-type="dijit.layout.ContentPane" title="Demo stuff" id="demoStuff"
-				class="element">
-				<div class="links">
-					<ul>
-						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/terminal/samples/model/${definitions.entityName}.java')">View Model</a></li>
-						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/web/views/${definitions.entityName}.jspx')">View page</a></li>
-						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/terminal/samples/mvc/controllers/${definitions.entityName}Controller.java')">View Controller</a></li>
-						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/test/org/openlegacy/terminal/samples/model/MvcSampleTest.java')">View API Test</a></li>
-						<li><a href="${pageContext.request.contextPath}/emulation" title="Click to see how it worked before OpenLegacy">Emulation</a></li>
-					</ul>
-					<div class="demo_session">
-						<a href="javascript:showSessionViewer('${pageContext.request.contextPath}');" title="Original terminal screen - this is how it looked before">
-							<img src="${pageContext.request.contextPath}/sessionViewer/image" width="325px" height="170px"/>
-						</a>
+			<!-- Plugin's menu -->
+			<c:forEach items="${plugins_menu}" var="category">
+				<div data-dojo-type="dijit.layout.ContentPane" title="${category.key}" class="element">
+					<div class="links">
+						<ul>
+							<c:forEach items="${category.value}" var="item">
+								<c:choose>
+									<c:when test="${fn:startsWith(item['action'], fn:toLowerCase('javascript'))}">
+										<li><a href="${item['action']}">${item['text']}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li><a href="${pageContext.request.contextPath}${item['action']}">${item['text']}</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</ul>
 					</div>
 				</div>
-			</div>
-			<script>
-				require(["dojo/ready"], function(ready){
-					ready(function(){
-						require(["dijit/registry"], function(registry){
-							registry.byId('accordion').selectChild(registry.byId('demoStuff'));
-						});
-					});
-				});
-			</script>
+			</c:forEach>
 		</div>
 	</div>
 </jsp:root>
