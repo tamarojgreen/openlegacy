@@ -12,6 +12,8 @@ package org.openlegacy.web.tags;
 
 import org.apache.commons.lang.StringUtils;
 
+import javax.servlet.ServletContext;
+
 public class TagUtils {
 
 	public static boolean isAssignable(Class<?> actualClass, String expectedClassName) {
@@ -44,5 +46,9 @@ public class TagUtils {
 
 	public static void throwException(String s) {
 		throw (new IllegalStateException(s));
+	}
+
+	public static boolean fileExists(ServletContext application, String file) {
+		return TagUtils.class.getResource(file) != null;
 	}
 }
