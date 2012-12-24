@@ -81,7 +81,7 @@ public class ${entityName} {
  
 	<#list sortedFields as field>
 		<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName = "enum">
-	public enum ${field.name?cap_first} {
+	public enum ${field.name?cap_first} implements EnumGetValue{
 		<#assign enumMap = field.fieldTypeDefinition.enums>
 		<#assign enumKeys = enumMap?keys>
 		<#list enumKeys as enumKey>

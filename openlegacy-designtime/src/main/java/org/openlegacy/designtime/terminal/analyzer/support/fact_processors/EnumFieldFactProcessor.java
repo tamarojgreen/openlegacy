@@ -13,6 +13,7 @@ package org.openlegacy.designtime.terminal.analyzer.support.fact_processors;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.DisplayItem;
 import org.openlegacy.definitions.EnumFieldTypeDefinition;
+import org.openlegacy.definitions.EnumGetValue;
 import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
 import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
@@ -20,6 +21,7 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.support.SimpleDisplayItem;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
+import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.StringUtil;
 
 import javax.inject.Inject;
@@ -38,6 +40,8 @@ public class EnumFieldFactProcessor implements ScreenFactProcessor {
 
 		String enumText = enumFieldFact.getEnumText();
 		String[] pairs = StringUtils.split(enumText, enumFieldFact.getEntrySeperators());
+
+		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(EnumGetValue.class));
 
 		EnumFieldTypeDefinition enumFieldTypeDefinition = new SimpleEnumFieldTypeDefinition();
 
