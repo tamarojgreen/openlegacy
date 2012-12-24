@@ -27,11 +27,11 @@ privileged @SuppressWarnings("unused") aspect SelectDefinitionType_Aspect {
 
 
 
-    public String SelectDefinitionType.getDefinitionType(){
+    public DefinitionType SelectDefinitionType.getDefinitionType(){
     	return this.definitionType;
     }
     
-    public void SelectDefinitionType.setDefinitionType(String definitionType){
+    public void SelectDefinitionType.setDefinitionType(DefinitionType definitionType){
     	this.definitionType = definitionType;
     }
 

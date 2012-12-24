@@ -1,26 +1,26 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
-	version="2.0">
-	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
-	<jsp:output omit-xml-declaration="yes" /> 
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"
+		pageEncoding="UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
 
 	<div>
 		<ol:form model="copyFromPcDocumentcpyfrmpcd">
-					<ol:pagePart left="2%" top="16%" width="97%">
-	<ol:field name="fromFolder" />
-	<ol:field name="toFile" />
-	<ol:field name="library1" />
-	<ol:field name="fromDocument" />
-	<ol:field name="toMember" />
-	<ol:field name="replaceOrAddRecords" />
-	<ol:field name="translateTable" />
-	<ol:field name="library" />
-	<ol:field name="formatOfPcData" />
-	<ol:field name="dbcsCodePage" />
-	<ol:field name="insertDbcsSosi" />
-					</ol:pagePart>
-			
+			<ol:pagePart left="2%" top="6%" width="97%">
+				<ol:field name="fromFolder" />
+				<ol:field name="toFile" />
+				<ol:field name="library1" />
+				<ol:field name="fromDocument" />
+				<ol:field name="toMember" />
+				<ol:field name="replaceOrAddRecords" />
+				<ol:field name="translateTable" />
+				<ol:field name="library" />
+				<ol:field name="formatOfPcData" />
+				<ol:field name="dbcsCodePage" />
+				<ol:field name="insertDbcsSosi" />
+			</ol:pagePart>
+
 		</ol:form>
 	</div>
 </jsp:root>
-		
+
