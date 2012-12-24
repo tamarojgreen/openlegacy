@@ -8,6 +8,7 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.definitions.EnumGetValue;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.EnterDrilldownAction;
@@ -57,7 +58,7 @@ public class ItemDetails {
 
 	private ItemDetails2 itemDetails2;
 
-	public enum StockGroup {
+	public enum StockGroup implements EnumGetValue {
 		StandardStockGroup("SG", "Standard Stock Group"),
 		CustomStockGroup("CG", "Custom Stock Group");
 
