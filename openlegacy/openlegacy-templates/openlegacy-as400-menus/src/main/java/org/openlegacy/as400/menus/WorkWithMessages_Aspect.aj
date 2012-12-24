@@ -15,16 +15,7 @@ privileged @SuppressWarnings("unused") aspect WorkWithMessages_Aspect {
 
 	
 
-	
-
     
-
-    public String WorkWithMessages.getMessage(){
-    	return this.message;
-    }
-    
-
-
 
     public String WorkWithMessages.getMessagesFor(){
     	return this.messagesFor;
@@ -33,8 +24,8 @@ privileged @SuppressWarnings("unused") aspect WorkWithMessages_Aspect {
 
 
 
-    public String WorkWithMessages.getSystem(){
-    	return this.system;
+    public List<WorkWithMessagesRecord> WorkWithMessages.getWorkWithMessagesRecords(){
+    	return this.workWithMessagesRecords;
     }
     
 

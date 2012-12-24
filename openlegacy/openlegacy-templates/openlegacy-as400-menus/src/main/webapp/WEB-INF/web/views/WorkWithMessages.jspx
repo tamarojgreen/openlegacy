@@ -6,11 +6,9 @@
 
 	<div>
 		<ol:form model="workWithMessages">
-					<ol:field name="system" top="4%" left="77%" width="21%" />
-					<ol:field name="messagesFor" top="8%" left="2%" width="31%" />
-					<ol:field name="message" top="16%" left="1%" width="97%" />
+				<ol:field name="messagesFor" top="8%" left="2%" width="31%" />
+						<ol:table data="${workWithMessages.workWithMessagesRecords}" property="workWithMessagesRecords" />
 			
 		</ol:form>
 	</div>
 </jsp:root>
-		

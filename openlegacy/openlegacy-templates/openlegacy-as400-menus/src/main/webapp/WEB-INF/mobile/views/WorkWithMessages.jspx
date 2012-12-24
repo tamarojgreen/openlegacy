@@ -8,9 +8,10 @@
 
 	<div>
 		<ol:form model="workWithMessages">
-					<ol:field name="system" />
 					<ol:field name="messagesFor" />
-					<ol:field name="message" />
+					<ol:pagePart>
+						<ol:table data="${workWithMessages.workWithMessagesRecords}" property="workWithMessagesRecords" />
+					</ol:pagePart>
 		</ol:form>
 	</div>
 </jsp:root>
