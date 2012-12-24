@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+	<extension point="org.eclipse.ui.editors">
+		<editor id="org.openlegacy.ide.eclipse.misc.editors.OpenLegacyJavaEditor"
+			name="OpenLegacy Java Editor"
+			extensions="java"
+			icon="icons/openlegacy.png"
+			class="org.openlegacy.ide.eclipse.misc.editors.OpenLegacyJavaEditor">
+<!--			<contentTypeBinding
+				contentTypeId="org.eclipse.jdt.core.javaSource"
+			/>--> 
+		</editor>
+	</extension>
+</plugin>

@@ -1,32 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: OpenLegacy eclipse plug-in
-Bundle-SymbolicName: org.openlegacy.ide.eclipse; singleton:=true
-Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.openlegacy.ide.eclipse.Activator
-Bundle-Localization: plugin
-Bundle-Vendor: OpenLegacy
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.core.resources,
- org.eclipse.ui.ide,
- org.apache.commons.io;bundle-version="1.0.0",
- org.apache.log4j;bundle-version="1.2.15",
- org.eclipse.jdt.core;bundle-version="3.6.0",
- org.eclipse.jdt.ui;bundle-version="3.6.0",
- org.eclipse.ui.navigator.resources;bundle-version="3.4.300",
- org.eclipse.debug.ui;bundle-version="3.6.0",
- org.eclipse.m2e.core;bundle-version="1.0.100",
- org.eclipse.ui.console;bundle-version="3.5.100",
- org.eclipse.ui.editors,
- org.eclipse.jface.text,
- org.eclipse.wst.sse.ui;bundle-version="1.3.1",
- org.eclipse.wst.xml.ui;bundle-version="1.1.201",
- org.eclipse.wst.sse.core;bundle-version="1.1.601",
- org.eclipse.wst.common.ui;bundle-version="1.1.500",
- org.eclipse.wst.xml.core;bundle-version="1.1.601"
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ActivationPolicy: lazy
+Bundle-Name: OpenLegacy miscellaneous plugins
+Bundle-SymbolicName: org.openlegacy.ide.eclipse.misc;singleton:=true
+Bundle-Version: 0.0.1.qualifier
 Bundle-ClassPath: .,
  target/classes/,
  lib/activation-1.1.jar,
@@ -54,7 +30,6 @@ Bundle-ClassPath: .,
  lib/jbpm-bpmn2-5.2.0.Final.jar,
  lib/jbpm-flow-5.2.0.Final.jar,
  lib/jbpm-flow-builder-5.2.0.Final.jar,
- lib/junit-4.8.2.jar,
  lib/knowledge-api-5.3.1.Final.jar,
  lib/log4j-1.2.14.jar,
  lib/mvel2-2.1.0.drools4.jar,
@@ -74,5 +49,18 @@ Bundle-ClassPath: .,
  lib/stax-api-1.0-2.jar,
  lib/stringtemplate-3.2.1.jar,
  lib/openlegacy-utils-1.0.0-RC1.jar
-Export-Package: org.openlegacy.ide.eclipse.editors.graphical,
- org.openlegacy.ide.eclipse.util
+Bundle-Activator: org.openlegacy.ide.eclipse.misc.Activator
+Bundle-Vendor: OpenLegacy
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ org.eclipse.jdt.core;bundle-version="3.6.0",
+ org.eclipse.jdt.ui;bundle-version="3.6.0",
+ org.eclipse.m2e.core;bundle-version="1.0.100",
+ org.openlegacy.ide.eclipse;bundle-version="1.0.0",
+ org.eclipse.ui.forms;bundle-version="3.5.200"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
