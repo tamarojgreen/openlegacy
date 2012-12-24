@@ -15,10 +15,11 @@
 				</a>
 			</li>
 			<c:forEach items="${definitions.actions}" var="action">
+				<c:set var="image" value="${pageContext.request.contextPath}/icons/${action.alias}.png" />
 				<li>
 					<a href="javascript:doPost('${definitions.entityName}','${action.alias}');">
-						<img src="${pageContext.request.contextPath}/icons/${action.alias}.png" width="15" height="14"
-							alt="Submit" />
+						<img src="${image}" width="15" height="14"
+							alt="${action.alias}" />
 						${action.displayName}
 					</a>
 				</li>

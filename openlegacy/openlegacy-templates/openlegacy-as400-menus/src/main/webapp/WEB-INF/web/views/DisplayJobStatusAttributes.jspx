@@ -1,32 +1,39 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
-	version="2.0">
-	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
-	<jsp:output omit-xml-declaration="yes" /> 
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8"
+		pageEncoding="UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
 
 	<div>
 		<ol:form model="displayJobStatusAttributes">
-					<ol:field name="system" top="4%" left="77%" width="21%" />
-					<ol:pagePart left="2%" top="8%" width="83%">
-	<ol:field name="job" />
-	<ol:field name="statusOfJob" />
-	<ol:field name="currentUserProfile" />
-	<ol:field name="jobUserIdentity" />
-	<ol:field name="setBy" />
-	<ol:field name="date1" />
-	<ol:field name="time1" />
-	<ol:field name="date" />
-	<ol:field name="time" />
-	<ol:field name="subsystem" />
-	<ol:field name="subsystemPoolId" />
-	<ol:field name="typeOfJob" />
-	<ol:field name="specialEnvironment" />
-	<ol:field name="programReturnCode" />
-					</ol:pagePart>
-					<ol:field name="user" top="8%" left="30%" width="21%" />
-					<ol:field name="number" top="8%" left="58%" width="18%" />
-			
+			<ol:pagePart>
+				<ol:field name="job" cssClass="col_1_of_3"/>
+				<ol:field name="user" cssClass="col_2_of_3"/>
+				<ol:field name="number" cssClass="col_3_of_3"/>
+			</ol:pagePart>
+			<ol:pagePart>
+				<ol:field name="statusOfJob" />
+				<ol:field name="currentUserProfile" />
+				<ol:field name="jobUserIdentity" />
+				<ol:field name="setBy" />
+			</ol:pagePart>
+			<ol:pagePart title="Entered System:">
+				<ol:field name="date1" />
+				<ol:field name="time1" />
+			</ol:pagePart>
+			<ol:pagePart title="Started:">
+				<ol:field name="date" />
+				<ol:field name="time" />
+			</ol:pagePart>
+			<ol:pagePart>
+				<ol:field name="subsystem" />
+				<ol:field name="subsystemPoolId" />
+				<ol:field name="typeOfJob" />
+				<ol:field name="specialEnvironment" />
+				<ol:field name="programReturnCode" />
+			</ol:pagePart>
+
 		</ol:form>
 	</div>
 </jsp:root>
-		
+
