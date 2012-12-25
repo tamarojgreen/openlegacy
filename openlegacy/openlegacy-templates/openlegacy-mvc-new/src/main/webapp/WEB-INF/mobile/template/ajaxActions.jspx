@@ -4,8 +4,7 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
-	<h1 data-dojo-type="dojox.mobile.Heading"
-		data-dojo-props="fixed:'bottom'">
+	<div class="mblHeading">
 
 		<button data-dojo-type="dojox.mobile.Button" class="mblBtn baseBtn"
 			onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel');">Submit</button>
@@ -13,5 +12,5 @@
 			<button data-dojo-type="dojox.mobile.Button" class="mblBtn baseBtn"
 				onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel','${action.alias}');">${action.displayName}</button>
 		</c:forEach>
-	</h1>
+	</div>
 </jsp:root>

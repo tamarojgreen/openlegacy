@@ -1,59 +1,11 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" 
 	xmlns:c="http://java.sun.com/jsp/jstl/core" 
 	version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	<div id="menu">
-		<div id="${menu.targetEntity.simpleName}Panel" data-dojo-type="dojox.mobile.View" data-dojo-props="selected:true">
-			<h1 data-dojo-type="dojox.mobile.Heading" data-dojo-props="fixed:'top'">
-				<c:if test="${deviceType eq 'MOBILE'}">
-					<img src="images/logo.png" class="logo" />
-					<button data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="fixed:'right'"
-						class="logoffBtn"
-						onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
-				</c:if>
-			</h1>
-			<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${menu.displayName}</h2>
-			<ul data-dojo-type="dojox.mobile.RoundRectList">
-				<c:forEach items="${menu.menuItems}" var="menuItem">
-					<li data-dojo-type="dojox.mobile.ListItem" 
-						data-dojo-props="transition:'slide',
-										moveTo:'${menuItem.targetEntity.simpleName}Panel'"
-						 onclick="addViewToHistory('${menuItem.targetEntity.simpleName}Panel');">${menuItem.displayName}</li>
-				</c:forEach>
-			</ul>
-		</div>
-	
-		<c:forEach items="${menu.menuItems}" var="menuItem2">
-			<div id="${menuItem2.targetEntity.simpleName}Panel" data-dojo-type="dojox.mobile.View">
-				<h1 data-dojo-type="dojox.mobile.Heading" 
-					data-dojo-props="fixed:'top',
-									back:'Back',
-									moveTo:'${menu.targetEntity.simpleName}Panel'">
-					<c:if test="${deviceType eq 'MOBILE'}">
-						<img src="images/logo.png" class="logo" />
-						<button data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props='fixed:"right"'
-							class="logoffBtn"
-							onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
-					</c:if>
-				</h1>
-				<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${menuItem2.displayName}</h2>
-				<div data-dojo-type="dojox.mobile.RoundRectList">
-					<c:forEach items="${menuItem2.menuItems}" var="subMenuItem">
-						<li data-dojo-type="dojox.mobile.ListItem"
-							data-dojo-props="url:'${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}',
-									urlTarget:'bodyContainer'" 
-							onclick="showLoading();addViewToHistory('${subMenuItem.targetEntity.simpleName}Panel');resizeDojoWidget('fixedSplitter');">${subMenuItem.displayName}</li>
-						<c:forEach items="${subMenuItem.menuItems}" var="subSubMenuItem">
-							<li data-dojo-type="dojox.mobile.ListItem"
-								data-dojo-props="url:'${pageContext.request.contextPath}/${subSubMenuItem.targetEntity.simpleName}',
-										urlTarget:'bodyContainer'" 
-								onclick="showLoading();addViewToHistory('${subSubMenuItem.targetEntity.simpleName}Panel');resizeDojoWidget('fixedSplitter');">${subSubMenuItem.displayName}</li>
-						</c:forEach>
-					</c:forEach>
-				</div>
-			</div>
-		</c:forEach>
+		<ol:menu menu="${menu}" />
 	</div>
 </jsp:root>
