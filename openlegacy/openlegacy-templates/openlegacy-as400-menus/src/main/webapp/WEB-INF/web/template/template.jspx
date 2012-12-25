@@ -35,6 +35,7 @@
 					"dijit/layout/TabContainer",
 					"dijit/InlineEditBox",
 					"dijit/form/Textarea",
+					"dijit/form/TextBox",
 					"dojo/dnd/Moveable",
 					"dojo/NodeList-traverse",
 					"dijit/Editor",
