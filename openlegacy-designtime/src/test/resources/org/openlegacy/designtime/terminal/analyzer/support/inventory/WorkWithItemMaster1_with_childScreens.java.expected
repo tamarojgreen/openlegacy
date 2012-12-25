@@ -45,10 +45,10 @@ public class WorkWithItemMaster1 {
 	@ScreenField(row = 13, column = 33, endColumn= 47 ,labelColumn= 2 ,editable= true ,displayName = "Item weight")
     private Integer itemWeight;
 	
-	@ScreenField(row = 14, column = 33, endColumn= 35 ,labelColumn= 2 ,editable= true ,displayName = "Item Class", sampleValue = "VEG")
+	@ScreenField(row = 14, column = 33, endColumn= 35 ,labelColumn= 2 ,editable= true ,displayName = "Item Class", sampleValue = "VEG", helpText = "Vegetables")
     private String itemClass;
 	
-	@ScreenField(row = 15, column = 33, endColumn= 35 ,labelColumn= 2 ,editable= true ,displayName = "Stock Group", sampleValue = "SG")
+	@ScreenField(row = 15, column = 33, endColumn= 35 ,labelColumn= 2 ,editable= true ,displayName = "Stock Group", sampleValue = "SG", helpText = "Generic stock group")
     private String stockGroup;
 	
 	@ScreenField(row = 16, column = 33, endColumn= 37 ,labelColumn= 2 ,editable= true ,displayName = "Unit of Measure")

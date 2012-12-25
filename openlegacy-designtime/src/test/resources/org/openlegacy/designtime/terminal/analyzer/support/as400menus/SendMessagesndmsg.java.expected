@@ -23,7 +23,7 @@ public class SendMessagesndmsg {
 	@ScreenField(row = 5, column = 37, endColumn= 80 ,labelColumn= 2 ,editable= true ,displayName = "Message text")
     private String messageText;
 	
-	@ScreenField(row = 12, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "To user profile")
+	@ScreenField(row = 12, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "To user profile", helpText = "Name, *SYSOPR, *ALLACT...")
     private String toUserProfile;
 
     

@@ -44,7 +44,7 @@ public class ${entityName} {
 	<#list sortedFields as field>
 	
 	<@fieldTypes field=field />
-	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.length &gt; 0>, endColumn= ${field.endPosition.column}</#if><#if field.labelPosition??> ,labelColumn= ${field.labelPosition.column}</#if><#if field.password> ,password= true</#if><#if field.editable> ,editable= true</#if><#if field.multyLine> ,endRow= ${field.endPosition.row}</#if><#if field.rectangle> ,rectangle= true</#if><#if field.type??> ,fieldType=${field.type.simpleName}.class</#if><#if field.displayName??> ,displayName = "${field.displayName}"</#if><#if field.sampleValue?? && field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if>)
+	@ScreenField(row = ${field.position.row}, column = ${field.position.column}<#if field.length &gt; 0>, endColumn= ${field.endPosition.column}</#if><#if field.labelPosition??> ,labelColumn= ${field.labelPosition.column}</#if><#if field.password> ,password= true</#if><#if field.editable> ,editable= true</#if><#if field.multyLine> ,endRow= ${field.endPosition.row}</#if><#if field.rectangle> ,rectangle= true</#if><#if field.type??> ,fieldType=${field.type.simpleName}.class</#if><#if field.displayName??> ,displayName = "${field.displayName}"</#if><#if field.sampleValue?? && field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if><#if field.helpText?? && field.helpText != "">, helpText = "${field.helpText}"</#if>)
     private ${field.javaTypeName} ${field.name?uncap_first};
 	</#list>	
 

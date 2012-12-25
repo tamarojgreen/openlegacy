@@ -28,28 +28,28 @@ public class CopyFromPcDocumentcpyfrmpcd {
 	@ScreenField(row = 5, column = 37, endColumn= 80 ,labelColumn= 2 ,editable= true ,displayName = "From folder")
     private String fromFolder;
 	
-	@ScreenField(row = 7, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "To file")
+	@ScreenField(row = 7, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "To file", helpText = "Name")
     private String toFile;
 	
-	@ScreenField(row = 8, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library", sampleValue = "*LIBL")
+	@ScreenField(row = 8, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library", sampleValue = "*LIBL", helpText = "Name, *LIBL, *CURLIB")
     private String library1;
 	
-	@ScreenField(row = 9, column = 37, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "From document")
+	@ScreenField(row = 9, column = 37, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "From document", helpText = "Name")
     private String fromDocument;
 	
-	@ScreenField(row = 10, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "To member", sampleValue = "*FIRST")
+	@ScreenField(row = 10, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "To member", sampleValue = "*FIRST", helpText = "Name, *FIRST, *FROMDOC")
     private String toMember;
 	
-	@ScreenField(row = 11, column = 37, endColumn= 44 ,labelColumn= 2 ,editable= true ,displayName = "Replace or add records", sampleValue = "*REPLACE")
+	@ScreenField(row = 11, column = 37, endColumn= 44 ,labelColumn= 2 ,editable= true ,displayName = "Replace or add records", sampleValue = "*REPLACE", helpText = "*REPLACE, *ADD")
     private String replaceOrAddRecords;
 	
-	@ScreenField(row = 12, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Translate table", sampleValue = "*DFT")
+	@ScreenField(row = 12, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Translate table", sampleValue = "*DFT", helpText = "Name, *DFT, *NONE")
     private String translateTable;
 	
-	@ScreenField(row = 13, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library")
+	@ScreenField(row = 13, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library", helpText = "Name, *LIBL, *CURLIB")
     private String library;
 	
-	@ScreenField(row = 14, column = 37, endColumn= 43 ,labelColumn= 2 ,editable= true ,displayName = "Format of PC data", sampleValue = "*TEXT")
+	@ScreenField(row = 14, column = 37, endColumn= 43 ,labelColumn= 2 ,editable= true ,displayName = "Format of PC data", sampleValue = "*TEXT", helpText = "*TEXT, *NOTEXT")
     private String formatOfPcData;
 	
 	@ScreenField(row = 15, column = 37, endColumn= 41 ,labelColumn= 2 ,editable= true ,displayName = "DBCS code page", sampleValue = "*DFT")
@@ -63,3 +63,4 @@ public class CopyFromPcDocumentcpyfrmpcd {
 
  
 }
+

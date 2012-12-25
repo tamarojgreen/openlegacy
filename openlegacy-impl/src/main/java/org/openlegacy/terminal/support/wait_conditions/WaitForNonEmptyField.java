@@ -32,7 +32,7 @@ public class WaitForNonEmptyField extends WaitCoditionAdapter {
 
 		ScreenEntity currentEntity = terminalSession.getEntity();
 		if (currentEntity == null) {
-			return true;
+			return false;
 		}
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 		if (ProxyUtil.isClassesMatch(currentEntity.getClass(), entityClass)) {

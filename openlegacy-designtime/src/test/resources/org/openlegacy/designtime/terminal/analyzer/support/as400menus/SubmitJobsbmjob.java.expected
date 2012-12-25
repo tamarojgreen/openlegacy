@@ -23,19 +23,19 @@ public class SubmitJobsbmjob {
 	@ScreenField(row = 5, column = 37, endColumn= 80 ,labelColumn= 2 ,editable= true ,displayName = "Command to run")
     private String commandToRun;
 	
-	@ScreenField(row = 12, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Job name", sampleValue = "*JOBD")
+	@ScreenField(row = 12, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Job name", sampleValue = "*JOBD", helpText = "Name, *JOBD")
     private String jobName;
 	
-	@ScreenField(row = 13, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Job description", sampleValue = "*USRPRF")
+	@ScreenField(row = 13, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Job description", sampleValue = "*USRPRF", helpText = "Name, *USRPRF")
     private String jobDescription;
 	
-	@ScreenField(row = 14, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library")
+	@ScreenField(row = 14, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library", helpText = "Name, *LIBL, *CURLIB")
     private String library1;
 	
-	@ScreenField(row = 15, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Job queue", sampleValue = "*JOBD")
+	@ScreenField(row = 15, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Job queue", sampleValue = "*JOBD", helpText = "Name, *JOBD")
     private String jobQueue;
 	
-	@ScreenField(row = 16, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library")
+	@ScreenField(row = 16, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library", helpText = "Name, *LIBL, *CURLIB")
     private String library;
 	
 	@ScreenField(row = 17, column = 37, endColumn= 41 ,labelColumn= 2 ,editable= true ,displayName = "Job priority on JOBQ", sampleValue = "*JOBD")
@@ -44,7 +44,7 @@ public class SubmitJobsbmjob {
 	@ScreenField(row = 18, column = 37, endColumn= 41 ,labelColumn= 2 ,editable= true ,displayName = "Output priority on OUTQ", sampleValue = "*JOBD")
     private String outputPriorityonOutq;
 	
-	@ScreenField(row = 19, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Print device", sampleValue = "*CURRENT")
+	@ScreenField(row = 19, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Print device", sampleValue = "*CURRENT", helpText = "Name, *CURRENT, *USRPRF...")
     private String printDevice;
 
     

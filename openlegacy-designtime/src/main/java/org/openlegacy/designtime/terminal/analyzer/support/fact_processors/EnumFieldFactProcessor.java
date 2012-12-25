@@ -20,6 +20,7 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.support.SimpleDisplayItem;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.utils.ClassUtils;
 import org.openlegacy.utils.StringUtil;
@@ -38,7 +39,8 @@ public class EnumFieldFactProcessor implements ScreenFactProcessor {
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		EnumFieldFact enumFieldFact = (EnumFieldFact)screenFact;
 
-		String enumText = enumFieldFact.getEnumText();
+		TerminalField enumField = enumFieldFact.getEnumField();
+		String enumText = enumField.getValue();
 		String[] pairs = StringUtils.split(enumText, enumFieldFact.getEntrySeperators());
 
 		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(EnumGetValue.class));
@@ -57,5 +59,8 @@ public class EnumFieldFactProcessor implements ScreenFactProcessor {
 		SimpleScreenFieldDefinition enumFieldDefinition = (SimpleScreenFieldDefinition)enumFieldFact.getEnumFieldDefinition();
 		enumFieldDefinition.setFieldTypeDefinition(enumFieldTypeDefinition);
 		enumFieldDefinition.setJavaTypeName(StringUtil.toClassName(enumFieldDefinition.getName()));
+
+		screenEntityDefinition.getSnapshot().getFields().remove(enumField);
+
 	}
 }

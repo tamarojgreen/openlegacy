@@ -29,5 +29,5 @@ when
 				  position.column <= $editableField.position.column + $maxDistance,
 				  value matches $enumRegex) from $snapshot.getFields()
 then
-	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new EnumFieldFact($editableField,$enumField.getValue(),$entrySeperators,$pairSeperators));
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new EnumFieldFact($editableField,$enumField,$entrySeperators,$pairSeperators));
 end

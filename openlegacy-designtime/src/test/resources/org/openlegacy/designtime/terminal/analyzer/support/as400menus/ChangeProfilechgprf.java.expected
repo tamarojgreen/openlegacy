@@ -20,22 +20,22 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 public class ChangeProfilechgprf {
     
 	
-	@ScreenField(row = 5, column = 37, endColumn= 45 ,labelColumn= 2 ,editable= true ,displayName = "Assistance level", sampleValue = "*SYSVAL")
+	@ScreenField(row = 5, column = 37, endColumn= 45 ,labelColumn= 2 ,editable= true ,displayName = "Assistance level", sampleValue = "*SYSVAL", helpText = "*SAME, *SYSVAL, *BASIC...")
     private String assistanceLevel;
 	
-	@ScreenField(row = 6, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Current library", sampleValue = "RMR2L1")
+	@ScreenField(row = 6, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Current library", sampleValue = "RMR2L1", helpText = "Name, *SAME, *CRTDFT")
     private String currentLibrary;
 	
-	@ScreenField(row = 7, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Initial program to call", sampleValue = "SIGNONCLP")
+	@ScreenField(row = 7, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Initial program to call", sampleValue = "SIGNONCLP", helpText = "Name, *SAME, *NONE")
     private String initialProgramToCall;
 	
-	@ScreenField(row = 8, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library", sampleValue = "QGPL")
+	@ScreenField(row = 8, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library", sampleValue = "QGPL", helpText = "Name, *LIBL, *CURLIB")
     private String library1;
 	
-	@ScreenField(row = 9, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Initial menu", sampleValue = "MAIN")
+	@ScreenField(row = 9, column = 37, endColumn= 46 ,labelColumn= 2 ,editable= true ,displayName = "Initial menu", sampleValue = "MAIN", helpText = "Name, *SAME, *SIGNOFF")
     private String initialMenu;
 	
-	@ScreenField(row = 10, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library", sampleValue = "*LIBL")
+	@ScreenField(row = 10, column = 39, endColumn= 48 ,labelColumn= 2 ,editable= true ,displayName = "Library", sampleValue = "*LIBL", helpText = "Name, *LIBL, *CURLIB")
     private String library;
 	
 	@ScreenField(row = 11, column = 37, endColumn= 80 ,labelColumn= 2 ,editable= true ,displayName = "Text description", sampleValue = "'ROI MOR'")

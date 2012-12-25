@@ -11,6 +11,7 @@
 package org.openlegacy.designtime.terminal.analyzer.support.fact_processors;
 
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 
 public class EnumFieldFact implements ScreenFact {
@@ -18,11 +19,12 @@ public class EnumFieldFact implements ScreenFact {
 	private ScreenFieldDefinition enumFieldDefinition;
 	private String entrySeperators;
 	private String pairSeperators;
-	private String enumText;
+	private TerminalField enumField;
 
-	public EnumFieldFact(ScreenFieldDefinition enumFieldDefinition, String enumText, String entrySeperators, String pairSeperators) {
+	public EnumFieldFact(ScreenFieldDefinition enumFieldDefinition, TerminalField enumField, String entrySeperators,
+			String pairSeperators) {
 		this.enumFieldDefinition = enumFieldDefinition;
-		this.enumText = enumText;
+		this.enumField = enumField;
 		this.entrySeperators = entrySeperators;
 		this.pairSeperators = pairSeperators;
 	}
@@ -35,8 +37,8 @@ public class EnumFieldFact implements ScreenFact {
 		return enumFieldDefinition;
 	}
 
-	public String getEnumText() {
-		return enumText;
+	public TerminalField getEnumField() {
+		return enumField;
 	}
 
 	public String getPairSeperators() {
