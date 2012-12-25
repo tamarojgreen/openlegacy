@@ -54,6 +54,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.openlegacy.ide.eclipse.components.SnapshotComposite;
+import org.openlegacy.ide.eclipse.editors.graphical.IOpenLegacyEditor;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -226,7 +227,7 @@ public class ScreenPreview extends ViewPart {
 	private static IJavaElement getJavaInput() {
 		IEditorPart activeEditor = getActiveEditor();
 		if (activeEditor != null) {
-			if (!(activeEditor instanceof ITextEditor)) {
+			if (!(activeEditor instanceof ITextEditor) && !(activeEditor instanceof IOpenLegacyEditor)) {
 				return null;
 			}
 			final IJavaElement javaInput = getJavaInput(activeEditor);
@@ -349,11 +350,14 @@ public class ScreenPreview extends ViewPart {
 				if (isAccepted.get()) {
 					// add caret listener
 					if (!cacheStyledTextContainer.containsKey(key) || cacheStyledTextContainer.get(key).isDisposed()) {
-						AbstractTextEditor editor = (AbstractTextEditor)getActiveEditor();
-						StyledText styledText = ((StyledText)editor.getAdapter(Control.class));
-						styledText.addCaretListener(editorListener);
-						styledText.addModifyListener(editorListener);
-						cacheStyledTextContainer.put(key, styledText);
+						IEditorPart activeEditor = getActiveEditor();
+						if (!(activeEditor instanceof IOpenLegacyEditor)) {
+							AbstractTextEditor editor = (AbstractTextEditor)activeEditor;
+							StyledText styledText = ((StyledText)editor.getAdapter(Control.class));
+							styledText.addCaretListener(editorListener);
+							styledText.addModifyListener(editorListener);
+							cacheStyledTextContainer.put(key, styledText);
+						}
 					}
 					try {
 						// show image if it exists
