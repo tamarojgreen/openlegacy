@@ -210,4 +210,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return false;
 	}
 
+	public boolean isSupportTerminalData() {
+		return this.codeModel.isSupportTerminalData();
+	}
 }
