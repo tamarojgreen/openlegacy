@@ -19,6 +19,8 @@ import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.definitions.NavigationDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
 import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
 
@@ -128,4 +130,22 @@ public class ScreenAnnotationsParserUtils {
 		return actions;
 	}
 
+	public static NavigationDefinition populateNavigation(AnnotationExpr annotationExpr) {
+		SimpleScreenNavigationDefinition navigationDefinition = new SimpleScreenNavigationDefinition();
+
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			List<MemberValuePair> navigationAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
+
+			for (MemberValuePair memberValuePair : navigationAttributes) {
+				String attributeValue = memberValuePair.getValue().toString();
+				if (memberValuePair.getName().equals(AnnotationConstants.ACCESSED_FROM)) {
+					navigationDefinition.setAccessedFromEntityName(StringUtil.stripQuotes(StringUtil.toClassName(attributeValue)));
+				}
+				if (memberValuePair.getName().equals(AnnotationConstants.REQUIRES_PARAMETER)) {
+					navigationDefinition.setRequiresParamaters(Boolean.valueOf(attributeValue));
+				}
+			}
+		}
+		return navigationDefinition;
+	}
 }

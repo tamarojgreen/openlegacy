@@ -18,6 +18,7 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenEntitySuperClass;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
+import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
@@ -37,6 +38,7 @@ public class AnnotationConstants {
 	public static final String SCREEN_BOOLEAN_FIELD_ANNOTATION = ScreenBooleanField.class.getSimpleName();
 	public static final String SCREEN_DATE_FIELD_ANNOTATION = ScreenDateField.class.getSimpleName();
 	public static final String SCREEN_TABLE_ACTIONS_ANNOTATION = ScreenTableActions.class.getSimpleName();
+	public static final String SCREEN_NAVIGATION_ANNOTATION = ScreenNavigation.class.getSimpleName();
 
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String EDITABLE = "editable";
@@ -74,4 +76,7 @@ public class AnnotationConstants {
 	public static final String SELECTION_FIELD = "selectionField";
 	public static final String KEY = "key";
 	public static final String MAIN_DISPLAY_FIELD = "mainDisplayField";
+	public static final Object ACCESSED_FROM = "accessedFrom";
+	public static final Object REQUIRES_PARAMETER = "requiresParameters";
+
 }
