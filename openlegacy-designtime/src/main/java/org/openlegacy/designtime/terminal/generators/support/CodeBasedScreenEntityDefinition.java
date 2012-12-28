@@ -134,8 +134,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public boolean isWindow() {
-		throwNotImplemented();
-		return false;
+		return codeModel.isWindow();
 	}
 
 	public ScreenEntityDefinition getAccessedFromScreenDefinition() {
