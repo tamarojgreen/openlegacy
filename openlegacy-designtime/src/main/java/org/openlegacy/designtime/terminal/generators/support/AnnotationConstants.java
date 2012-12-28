@@ -56,6 +56,11 @@ public class AnnotationConstants {
 	public static final String SCREEN_TYPE = "screenType";
 	public static final String CHILD = "child";
 
+	// @ScreenEntity
+	public static final String WINDOW = "window";
+	public static final String ROWS = "rows";
+	public static final String COLUMNS = "columns";
+
 	// @ScreenFieldValues
 	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";
 	public static final String COLLECT_ALL = "collectAll";

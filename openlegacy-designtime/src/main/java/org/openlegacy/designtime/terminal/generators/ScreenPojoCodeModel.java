@@ -51,4 +51,6 @@ public interface ScreenPojoCodeModel {
 	String getTypeName();
 
 	boolean isChildScreen();
+
+	boolean isWindow();
 }

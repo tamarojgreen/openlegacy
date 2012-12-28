@@ -60,6 +60,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private String typeName;
 	private boolean childScreen;
 	private NavigationDefinition navigationDefinition;
+	private boolean window;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -189,6 +190,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String childFlagFromAnnotation = null;
 		String startRowFromTableAnnotation = null;
 		String endRowFromTableAnnotation = null;
+		String windowFlagFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
@@ -202,9 +204,12 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			childFlagFromAnnotation = findAnnotationAttribute(AnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
 			startRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.START_ROW, normalAnnotationExpr.getPairs());
 			endRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.END_ROW, normalAnnotationExpr.getPairs());
+			windowFlagFromAnnotation = findAnnotationAttribute(AnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
 		}
-		displayName = displayNameFromAnnotation != null ? displayNameFromAnnotation : StringUtil.toDisplayName(getClassName());
-		entityName = entityNameFromAnnotation != null ? entityNameFromAnnotation : StringUtil.toClassName(getClassName());
+		displayName = displayNameFromAnnotation != null ? displayNameFromAnnotation.replaceAll("\"", "")
+				: StringUtil.toDisplayName(getClassName());
+		entityName = entityNameFromAnnotation != null ? entityNameFromAnnotation.replaceAll("\"", "")
+				: StringUtil.toClassName(getClassName());
 
 		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)
 				: General.class.getSimpleName();
@@ -217,6 +222,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		if (endRowFromTableAnnotation != null) {
 			endRow = Integer.parseInt(endRowFromTableAnnotation);
 		}
+		window = windowFlagFromAnnotation != null ? Boolean.valueOf(windowFlagFromAnnotation) : false;
 	}
 
 	/*
@@ -496,5 +502,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	public NavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
+	}
+
+	public boolean isWindow() {
+		return window;
 	}
 }
