@@ -40,6 +40,14 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET)
     public String ${entityDefinition.entityClassName}Controller.show(Model uiModel) {
+    	if (terminalSession.isConnected()){
+        	MenuItem mainMenu = terminalSession.getModule(Menu.class).getMenuTree();
+        	if (mainMenu != null){
+        		Class<?> mainMenuEntity = mainMenu.getTargetEntity();
+               	return screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
+    		}
+    	}
+    	
     	${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first} = new ${entityDefinition.entityClassName}();
 		uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
         return "${entityDefinition.entityClassName}";

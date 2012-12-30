@@ -40,6 +40,14 @@ privileged @SuppressWarnings("unused") aspect SignOnController_Aspect {
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET)
     public String SignOnController.show(Model uiModel) {
+    	if (terminalSession.isConnected()){
+        	MenuItem mainMenu = terminalSession.getModule(Menu.class).getMenuTree();
+        	if (mainMenu != null){
+        		Class<?> mainMenuEntity = mainMenu.getTargetEntity();
+               	return screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
+    		}
+    	}
+    	
     	SignOn signOn = new SignOn();
 		uiModel.addAttribute("signOn", signOn);
         return "SignOn";
