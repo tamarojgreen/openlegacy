@@ -24,6 +24,7 @@ public class SpanTag extends AbstractHtmlElementTag {
 		tagWriter.startTag("span");
 		writeDefaultAttributes(tagWriter);
 		tagWriter.appendValue(getDisplayString(getBoundValue()));
+		tagWriter.endTag();
 		return EVAL_BODY_INCLUDE;
 	}
 }
