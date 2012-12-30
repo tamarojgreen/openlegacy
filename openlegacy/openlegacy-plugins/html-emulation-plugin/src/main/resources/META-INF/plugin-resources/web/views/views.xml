@@ -12,8 +12,17 @@
 		<put-attribute name="dialogs" value="/WEB-INF/web/template/dialogs.jspx" />
 	</definition>
 
+	<definition name="emulation_m" template="/WEB-INF/mobile/template/template.jspx">
+		<put-attribute name="menu" value="/WEB-INF/mobile/template/menu.jspx" />
+   		<put-attribute name="header" value="/WEB-INF/mobile/template/header.jspx" />
+		<put-attribute name="footer" value="/WEB-INF/mobile/template/footer.jspx" />
+	</definition>
+		
 	<definition name="HtmlEmulation" extends="emulation">
 		<put-attribute name="body" value="/WEB-INF/web/views/plugins/html-emulation-plugin/HtmlEmulation.jspx" />
 	</definition>
 
+	<definition name="HtmlEmulation_m" extends="emulation_m">
+		<put-attribute name="body" value="/WEB-INF/web/views/plugins/html-emulation-plugin/HtmlEmulation.jspx" />
+	</definition>
 </tiles-definitions>
