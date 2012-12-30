@@ -188,9 +188,12 @@ function doMobilePost(formName, areaName, actionName,fragments) {
 		form.action = form.action + "&action=" + actionName;
 	}
 
+	var domForm = require("dojo/dom-form");
+	
 	var xhr = require("dojo/request/xhr");
 	xhr.post(form.action, {
 		handleAs : "text",
+		data: domForm.toObject(formName),
 		headers: { "Accept": "text/html;type=ajax" }
 	}).then(function(data){
 		var container = domConstruct.create("div")
