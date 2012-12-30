@@ -13,7 +13,16 @@ privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobs_Aspect {
     
 	
 
+	
+
     
+
+    public List<WorkWithSubmittedJobsRecord> WorkWithSubmittedJobs.getWorkWithSubmittedJobsRecords(){
+    	return this.WorkWithSubmittedJobsRecords;
+    }
+    
+
+
 
     public String WorkWithSubmittedJobs.getSubmittedFrom(){
     	return this.submittedFrom;

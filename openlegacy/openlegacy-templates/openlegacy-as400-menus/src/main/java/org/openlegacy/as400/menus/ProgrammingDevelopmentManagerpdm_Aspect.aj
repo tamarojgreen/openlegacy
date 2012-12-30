@@ -11,16 +11,7 @@ privileged @SuppressWarnings("unused") aspect ProgrammingDevelopmentManagerpdm_A
     declare parents: ProgrammingDevelopmentManagerpdm implements ScreenEntity;
     private String ProgrammingDevelopmentManagerpdm.focusField;
     
-	
-
     
-
-    public SpecifyLibrariesToWorkWith ProgrammingDevelopmentManagerpdm.getSpecifyLibrariesToWorkWith(){
-    	return this.specifyLibrariesToWorkWith;
-    }
-    
-
-
 
 
     public String ProgrammingDevelopmentManagerpdm.getFocusField(){

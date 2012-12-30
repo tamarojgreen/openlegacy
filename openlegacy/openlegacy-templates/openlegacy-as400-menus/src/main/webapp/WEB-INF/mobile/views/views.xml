@@ -49,15 +49,11 @@
 		<put-attribute name="body" value="/WEB-INF/mobile/views/SelectDefinitionType.jspx" />
 	</definition> 
  
-	<definition name="ProgrammingDevelopmentManagerpdmComposite_m" extends="compositeTemplate_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/ProgrammingDevelopmentManagerpdmComposite.jspx" />
-	</definition> 
- 
-	<definition name="ProgrammingDevelopmentManagerpdm_m" extends="innerView_m"> 
+	<definition name="ProgrammingDevelopmentManagerpdm_m" extends="view_m"> 
 		<put-attribute name="body" value="/WEB-INF/mobile/views/ProgrammingDevelopmentManagerpdm.jspx" />
 	</definition> 
  
-	<definition name="SpecifyLibrariesToWorkWith_m" extends="innerView_m"> 
+	<definition name="SpecifyLibrariesToWorkWith_m" extends="view_m"> 
 		<put-attribute name="body" value="/WEB-INF/mobile/views/SpecifyLibrariesToWorkWith.jspx" />
 	</definition> 
  
