@@ -21,6 +21,7 @@
 	<c:set var="columnDisplayField" value="${definitions.tableDefinitions[tableDefinition.mainDisplayField]}" />
 	<c:set var="defaultTableAction" value="${tableDefinition.defaultAction}" />
 
+	<c:if test="${fn:length(data) &gt; 0}">
 	<ul data-dojo-type="dojox.mobile.RoundRectList" id="${definitions.entityName}Table">
 		<c:forEach items="${data}" var="item" varStatus="i">
 			<c:set var="keyValue" value="${item[tableDefinition.keyFieldNames[0]]}" />
@@ -33,5 +34,6 @@
 		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayField}','ItemDetails/revise/')">Load
 		More</button>
 	</ul>
+	</c:if>
 
 </jsp:root>
