@@ -1,53 +1,38 @@
-<!-- TODO FOR TEST, DON'T FORGET REMOVE THIS LINE-->
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" 
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
 	version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
-	<jsp:output omit-xml-declaration="yes" />
+	<jsp:output omit-xml-declaration="yes" /> 
 
-	<div>
-		<ol:form model="${entityDefinition.entityName?uncap_first}">
-			<#list pageParts as pagePart>
-				<#if pagePart.oneField>
-					<ol:field name="${pagePart.singleField.name}" />
-				<#else>
-					<ol:pagePart>
-					<#list pagePart.partRows as partRow> 
-						<#list partRow.fields as field>
-							<@fieldTypesDrawer field=field entityDefinition=entityDefinition />
-						</#list>
+	<ol:form model="${entityDefinition.entityName?uncap_first}">
+		<#list pageParts as pagePart>
+			<#if pagePart.oneField>
+			<ol:field name="${pagePart.singleField.name}" />
+			<#else>
+			<ol:pagePart>
+				<#list pagePart.partRows as partRow> 
+					<#list partRow.fields as field>
+ 				<ol:field name="${field.name}" />
 					</#list>
-					<#if pagePart.hasTable>
-						<ol:table data="${r"${"}${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s${r"}"}" property="${pagePart.tableFieldName?uncap_first}" />
-					</#if>
-					</ol:pagePart>
+				</#list>
+				<#if pagePart.hasTable>
+					<ol:table data="${r"${"}${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s${r"}"}" property="${pagePart.tableFieldName?uncap_first}" />
 				</#if>
-			</#list>	
-		</ol:form>
-	</div>
+			</ol:pagePart>
+			</#if>
+		</#list>	
+		
+		<#-- Uncomment to generate actions
+		
+		<#list entityDefinition.actions as action>
+			<#if action.alias??>
+		<div class="action">
+			<button onclick="doPost('${action.alias}')">${action.displayName}</button>
+		</div>
+			</#if>
+		</#list>
+			
+		-->		
+	</ol:form>
 </jsp:root>
 		
-<#macro fieldTypesDrawer field entityDefinition>
-	<#if field.fieldTypeDefinition??>
-		<#switch field.fieldTypeDefinition.typeName>
-			<#case "boolean">
-				<@fieldDrawer field=field entityDefinition=entityDefinition />
-				<#break>
-			<#case "date">
-				<@fieldDrawer field=field entityDefinition=entityDefinition />
-				<#break>
-			<#case "autocomplete">
-				<@fieldDrawer field=field entityDefinition=entityDefinition />
-				<#break>
-			<#default>
-				<@fieldDrawer field=field entityDefinition=entityDefinition />
-		</#switch>  
-	<#else>
-		<@fieldDrawer field=field entityDefinition=entityDefinition />
-	</#if>
-</#macro>
-	
-<#macro fieldDrawer field entityDefinition>
-	<ol:field name="${field.name}" />
-</#macro>
