@@ -43,9 +43,12 @@
 											<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
 									</c:forEach>
 								</c:when>
+								<c:when test="${column.editable}">
+									<input name="${column.name}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
+								</c:when>
 								<c:otherwise>
-		      		${columnValue}
-	      			</c:otherwise>
+					      		${columnValue}
+				      			</c:otherwise>
 							</c:choose></td>
 					</c:forEach>
 				</tr>
