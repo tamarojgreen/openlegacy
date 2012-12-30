@@ -41,7 +41,7 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 	int getEndRow();
 
 	int getRowGaps();
-	
+
 	TerminalAction getNextScreenAction();
 
 	TerminalAction getPreviousScreenAction();
@@ -61,6 +61,8 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 		int getStartColumn();
 
 		int getEndColumn();
+
+		int getLength();
 
 	}
 

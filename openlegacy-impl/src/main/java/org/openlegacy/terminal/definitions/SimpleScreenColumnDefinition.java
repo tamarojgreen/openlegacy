@@ -19,7 +19,7 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
 	private int startColumn;
 	private int endColumn;
 	private int rowsOffset;
-	
+
 	private boolean key;
 	private boolean editable;
 	private String sampleValue;
@@ -101,6 +101,10 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
 
 	public void setJavaType(Class<?> javaType) {
 		this.javaType = javaType;
+	}
+
+	public int getLength() {
+		return getEndColumn() - getStartColumn() + 1;
 	}
 
 	public int compareTo(ColumnDefinition other) {
