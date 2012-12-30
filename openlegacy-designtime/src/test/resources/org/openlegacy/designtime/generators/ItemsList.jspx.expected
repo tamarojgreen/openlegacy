@@ -4,14 +4,12 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
-	<div>
-		<ol:form model="itemsList">
-					<ol:field name="positionTo" top="83%" left="6%" width="30%" />
-					<ol:field name="errorMessage" top="95%" left="1%" width="13%" />
-					<ol:pagePart left="5%" top="25%" width="80%">
-						<ol:table data="${itemsList.itemsListRows}" property="itemListRows" />
-					</ol:pagePart>
-			
-		</ol:form>
-	</div>
+	<ol:form model="itemsList">
+			<ol:field name="positionTo" top="83%" left="6%" width="30%" />
+			<ol:field name="errorMessage" top="95%" left="1%" width="13%" />
+			<ol:pagePart left="5%" top="25%" width="80%">
+					<ol:table data="${itemsList.itemsListRows}" property="itemListRows" />
+			</ol:pagePart>
+		
+	</ol:form>
 </jsp:root>
