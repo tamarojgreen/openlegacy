@@ -4,12 +4,18 @@ import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenActions;
+import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.annotations.screen.ScreenTableActions;
+import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
+
+import java.util.List;
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = {
@@ -32,5 +38,21 @@ public class WorkWithPrinterOutput {
 
 	@ScreenField(row = 3, column = 21, endColumn = 30, labelColumn = 2, displayName = "User", sampleValue = "RMR20924")
 	private String user;
+
+	private List<WorkWithPrinterOutputRecord> workWithPrinterOutputRecords;
+
+	@ScreenTable(endRow = 20, startRow = 11)
+	@ScreenTableActions(actions = { @TableAction(actionValue = "2", displayName = "Change", defaultAction = true) })
+	public static class WorkWithPrinterOutputRecord {
+
+		@ScreenColumn(endColumn = 3, startColumn = 2, key = true)
+		private String opt;
+
+		@ScreenColumn(endColumn = 18, startColumn = 7)
+		private String output;
+
+		@ScreenColumn(endColumn = 66, startColumn = 21)
+		private String status;
+	}
 
 }

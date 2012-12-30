@@ -9,6 +9,8 @@
 	<ol:form model="workWithPrinterOutput">
 		<ol:field name="system" />
 		<ol:field name="user" />
+		
+		<ol:table property="workWithPrinterOutputRecords" data="${workWithPrinterOutput.workWithPrinterOutputRecords}" />
 	</ol:form>
 </jsp:root>
 

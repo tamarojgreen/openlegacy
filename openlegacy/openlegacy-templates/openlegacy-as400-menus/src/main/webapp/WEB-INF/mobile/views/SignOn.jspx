@@ -35,9 +35,6 @@
 					class="mblButton greyBtn baseBtn normalBtn" value="Submit" />
 				<ol:field name="errorMessage" />
 			</ol:pagePart>
-			<div class="web_mobile_footer">
-			Mobile | <a href="${pageContext.request.contextPath}/SignOn?site_preference=normal">Web</a>
-			</div>
 		</ol:form>
 	</div>
 </jsp:root>

@@ -15,6 +15,8 @@ privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutput_Aspect {
 
 	
 
+	
+
     
 
     public String WorkWithPrinterOutput.getSystem(){
@@ -26,6 +28,13 @@ privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutput_Aspect {
 
     public String WorkWithPrinterOutput.getUser(){
     	return this.user;
+    }
+    
+
+
+
+    public List<WorkWithPrinterOutputRecord> WorkWithPrinterOutput.getWorkWithPrinterOutputRecords(){
+    	return this.workWithPrinterOutputRecords;
     }
     
 

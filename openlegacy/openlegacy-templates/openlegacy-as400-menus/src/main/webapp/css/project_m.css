@@ -1,7 +1,7 @@
 .web_mobile_footer {
-	position: relative;
+	position: absolute;
 	top: 90%;
-	left: 20%;
+	left: 2%;
 }
 
 /* FixedSplitter typically needs the following styles */

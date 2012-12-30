@@ -8,6 +8,8 @@
 
 	<ol:form model="workWithSubmittedJobs">
 		<ol:field name="submittedFrom" />
+
+		<ol:table property="workWithPrinterOutputRecords" data="${workWithPrinterOutput.workWithPrinterOutputRecords}" />
 	</ol:form>
 </jsp:root>
 

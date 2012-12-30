@@ -6,7 +6,15 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 	
-	<div id="header">
+	<div>
+		<div class="web_mobile_footer">
+			Mobile | <a href="${pageContext.request.contextPath}/SignOn?site_preference=normal">Web</a>
+			<c:if test="${(deviceType eq 'TABLET') || (deviceType eq 'NORMAL')}">
+			<br/>
+			Copyright &#169; 2012 OpenLegacy. All rights reserved. <br />Powered
+			by OpenLegacy &#174; ${ol_version}
+			</c:if>
+		</div>
 		<div id="calPicker" data-dojo-type="dojox.mobile.Opener" data-dojo-props="onHide:getDateFromCalendar, onShow:setDateToCelendar">
 			<h1 data-dojo-type="dojox.mobile.Heading" 
 				data-dojo-props="label:'Select a Date'">
