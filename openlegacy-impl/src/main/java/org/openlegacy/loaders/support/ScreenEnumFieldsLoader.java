@@ -78,6 +78,10 @@ public class ScreenEnumFieldsLoader implements FieldLoader {
 				display = StringUtil.toDisplayName(enumValue.toString());
 			}
 
+			if (value == null) {
+				throw (new RegistryException(
+						MessageFormat.format("Enum field {0}.getValue() cannot be null", enumClass.getName())));
+			}
 			enumFieldTypeDefinition.setEnumClass(enumClass);
 			// use the key for display item the enum value. Binding is done to the pojo. (Spring MVC binds it this way as well).
 			enumFieldTypeDefinition.getEnums().put(value, new SimpleDisplayItem(enumValue, display));
