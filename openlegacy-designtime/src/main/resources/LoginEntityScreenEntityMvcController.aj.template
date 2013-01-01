@@ -75,7 +75,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
     		}
            	return prefix + screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
 		}
-    	return "redirect:HtmlEmulation";
+    	return "redirect:emulation";
     }
 
 	

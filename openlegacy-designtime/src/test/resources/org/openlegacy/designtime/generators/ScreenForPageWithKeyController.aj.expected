@@ -81,7 +81,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPagewithKeyController_Asp
 			}
         	return "redirect:" + screenEntityName;
 		}
-    	return "redirect:/";
+    	return "redirect:/emulation";
 		
     }
     
