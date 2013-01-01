@@ -29,6 +29,10 @@
 			};
 		</script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/dj/dojo.custom.build.js"><!----></script>
+		<script type="text/javascript" language="JavaScript">
+			require(["dojo/parser",
+					"dijit/TitlePane"]);
+		</script>
 		<link href="${pageContext.request.contextPath}/css/project.css" rel="stylesheet" type="text/css" />
 		<!--[if !IE 7]>
 			<style type="text/css">
