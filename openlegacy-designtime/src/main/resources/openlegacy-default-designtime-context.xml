@@ -311,7 +311,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="enumRegex" value="([\w]{1,2}[=-]+[a-zA-Z ]+)+" />
+										<entry key="enumRegex" value="\s*[\(\[\{]*([\w]{1,2}[=-]+[a-zA-Z\p{L} ]+)+[\)\]\}]*\s*" />
 										<entry key="entrySeperators" value=", " />
 										<entry key="pairSeperators" value="=-" />
 										<entry key="maxLength" value="3" />

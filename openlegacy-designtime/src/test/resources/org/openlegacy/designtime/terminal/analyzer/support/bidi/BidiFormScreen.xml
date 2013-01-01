@@ -11,5 +11,10 @@
         <field value="בגדה  " column="13" />
         <field value="שדה ב:" column="20" />
     </row>
+    <row rowNumber="6">
+        <field value="1=כן 2=לא" visualValue="(אל=2 ןכ=1)" column="10" />
+        <field value="1" visualValue="1" column="23" editable="true"/>
+        <field value="שדה ג:" visualValue=":ג הדש" column="30" />
+    </row>
     <size rows="24" columns="80"/>
 </snapshot>
