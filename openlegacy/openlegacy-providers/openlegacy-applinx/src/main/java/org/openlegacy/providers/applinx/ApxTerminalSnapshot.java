@@ -18,6 +18,7 @@ import com.sabratec.applinx.common.runtime.screen.GXRuntimeScreen;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
@@ -124,10 +125,9 @@ public class ApxTerminalSnapshot extends AbstractSnapshot {
 				+ apxField.getLength());
 	}
 
-	/* (non-Javadoc)
-	 * @see org.openlegacy.terminal.support.AbstractSnapshot#readExternal(org.openlegacy.terminal.persistance.TerminalPersistedSnapshot)
-	 */
 	@Override
 	protected void readExternal(TerminalPersistedSnapshot persistedSnapshot) {
+		// not required
+
 	}
 }
