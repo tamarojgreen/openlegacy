@@ -25,7 +25,7 @@ public class OpenLegacyDispatcherServlet extends DispatcherServlet {
 
 	private static Log logger = LogFactory.getLog(OpenLegacyDispatcherServlet.class);
 
-	private static final long serialVersionUID = 9131827894188300344L;
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void configureAndRefreshWebApplicationContext(ConfigurableWebApplicationContext wac) {

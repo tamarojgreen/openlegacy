@@ -11,15 +11,33 @@
 package org.openlegacy.utils;
 
 import org.openlegacy.OpenLegacyProperties;
-import org.springframework.stereotype.Component;
 
-@Component
 public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 
-	public static final String TRAIL_FOLDER_PATH = "org.openlegacy.trail.path";
+	private boolean rightToLeft;
 
 	public String getProperty(String propertyName) {
 		return System.getProperty(propertyName);
+	}
+
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
+	}
+
+	public boolean isDesigntime() {
+		return StringConstants.TRUE.equals(getProperty(OpenLegacyProperties.DESIGN_TIME));
+	}
+
+	public String getTrailPath() {
+		return getProperty(OpenLegacyProperties.TRAIL_FOLDER_PATH);
+	}
+
+	public String getVersion() {
+		return getClass().getPackage().getImplementationVersion();
 	}
 
 }

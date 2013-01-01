@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.web.interceptors;
 
+import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.globals.Globals;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.mvc.web.ThemeUtil;
@@ -21,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Intercepter class for spring MVC. Injects various globals (login info, etc) into the page context so they can be display within
- * the web page
+ * the web page\
+ * 
  * 
  * @author RoiM
  * 
@@ -31,10 +33,11 @@ public class InsertGlobalsInterceptor extends AbstractInterceptor {
 	@Inject
 	private ThemeUtil themeUtil;
 
+	@Inject
+	private OpenLegacyProperties openLegacyProperties;
+
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
-
-		modelAndView.addObject("ol_version", getClass().getPackage().getImplementationVersion());
 
 		themeUtil.applyTheme(modelAndView, request, response);
 
@@ -47,6 +50,7 @@ public class InsertGlobalsInterceptor extends AbstractInterceptor {
 			modelAndView.addObject("loggedInUser", loginModule.getLoggedInUser());
 		}
 		modelAndView.addObject("globals", getTerminalSession().getModule(Globals.class).getGlobals());
+		modelAndView.addObject("openLegacyProperties", openLegacyProperties);
 	}
 
 }

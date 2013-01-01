@@ -9,7 +9,7 @@
 		</div>
 		<div id="footer_right">
 			Copyright &#169; 2012 OpenLegacy. All rights reserved. <br />Powered
-			by OpenLegacy &#174; ${ol_version}
+			by OpenLegacy &#174; ${openLegacyProperties.version}
 		</div>
 	</div>
 </jsp:root>

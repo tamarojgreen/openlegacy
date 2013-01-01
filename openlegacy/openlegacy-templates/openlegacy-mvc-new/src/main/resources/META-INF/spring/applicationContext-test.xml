@@ -38,6 +38,22 @@
 		</property>
 	</bean>
 -->
-<!-- comment when using mock-up session -->
+	<!-- comment when using mock-up session -->
 	<bean id="terminalSession" parent="abstractTerminalSession" />
+	
+	<!-- Uncomment for bidi support
+	<bean id="elementsProvider" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
+		<property name="colorMapper">
+			<map>
+				<entry key="WHITE" value="black" />
+			</map>
+		</property>
+		<property name="backcolorMapper">
+			<map>
+				<entry key="BLACK" value="white" />
+			</map>
+		</property>
+	</bean>
+	 -->
+		
 </beans>
