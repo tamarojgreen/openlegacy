@@ -12,6 +12,7 @@ package org.openlegacy.terminal.modules.messages;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -70,13 +71,20 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 
 			// collect all messages field into messages
 			Collection<ScreenFieldDefinition> fieldDefinitions = entityDefinition.getFieldsDefinitions().values();
+			ScreenFieldDefinition messagesFieldDefinition = null;
 			for (ScreenFieldDefinition screenFieldDefinition : fieldDefinitions) {
 				if (screenFieldDefinition.getType() == Messages.MessageField.class) {
 					Object fieldValue = fieldAccessor.getFieldValue(screenFieldDefinition.getName());
 					if (fieldValue instanceof String) {
+						messagesFieldDefinition = screenFieldDefinition;
 						messages.add((String)fieldValue);
 					}
 				}
+			}
+			if (messagesFieldDefinition == null) {
+				throw (new RegistryException(MessageFormat.format(
+						"Messages entity {0} doesnt contain a message field (@ScreenField(fieldType=MessagesField.class))",
+						entityDefinition.getEntityClassName())));
 			}
 
 			// skip messages screen
