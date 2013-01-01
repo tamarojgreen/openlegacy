@@ -36,7 +36,7 @@ public class DefaultBidiScreenPageBuilderTest extends AbstractTest {
 		Assert.assertEquals(1, pageDefinition.getPageParts().size());
 
 		SimplePagePartDefinition part1 = (SimplePagePartDefinition)pageDefinition.getPageParts().get(0);
-		Assert.assertEquals(1, part1.getColumns());
+		Assert.assertEquals(2, part1.getColumns());
 		Assert.assertEquals(2, part1.getPartRows().size());
 		// left position in % of the first field (label is on the right)
 		Assert.assertEquals(27, part1.getLeftMargin());
