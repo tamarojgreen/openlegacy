@@ -61,7 +61,10 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	private int additionalPartWidth = 0;
 
-	private int maxNeighbourColumnsOffset = 2;
+	/**
+	 * Determine the max distance between to fields start, to consider them in a single panel column
+	 */
+	private int maxNeighbourColumnsOffset = 5;
 
 	/**
 	 * Page builder entry point. Builds a page definition from a screen entity definition
@@ -201,9 +204,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 				currentRow = screenFieldDefinition.getPosition().getRow();
 			}
 			currentPagePartRow.getFields().add(screenFieldDefinition);
-			columnValues.add(screenFieldDefinition.getPosition().getColumn());
 			int fieldStartColumn = calculateStartColumn(screenFieldDefinition);
 			int fieldEndColumn = calculateEndColumn(screenFieldDefinition);
+			columnValues.add(getFieldLogicalStart(fieldStartColumn, fieldEndColumn));
 			// find the most right end column
 			if (fieldEndColumn > endColumn) {
 				endColumn = fieldEndColumn;
@@ -223,8 +226,12 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		return pagePart;
 	}
 
+	protected Integer getFieldLogicalStart(int fieldStartColumn, int fieldEndColumn) {
+		return fieldStartColumn;
+	}
+
 	/**
-	 * Calculate the row part columns consider small offsets between neighbour fields. e.g: Field which starts at column 10 and
+	 * Calculate the row part columns consider small offsets between neighbor fields. e.g: Field which starts at column 10 and
 	 * field which starts at columns 12, will be considered as 1
 	 * 
 	 * @param columnValues
@@ -298,6 +305,12 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		}
 	}
 
+	/**
+	 * Calculates the most right column of a field, considering the label position
+	 * 
+	 * @param field
+	 * @return start column of the field
+	 */
 	protected int calculateEndColumn(ScreenFieldDefinition screenFieldDefinition) {
 		int fieldEndColumn = screenFieldDefinition.getLength() > 0 ? screenFieldDefinition.getEndPosition().getColumn()
 				: screenFieldDefinition.getPosition().getColumn() + defaultFieldLength;

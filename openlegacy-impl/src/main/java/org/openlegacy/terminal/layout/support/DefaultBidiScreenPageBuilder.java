@@ -31,4 +31,8 @@ public class DefaultBidiScreenPageBuilder extends DefaultScreenPageBuilder {
 		}
 	}
 
+	@Override
+	protected Integer getFieldLogicalStart(int fieldStartColumn, int fieldEndColumn) {
+		return fieldEndColumn;
+	}
 }

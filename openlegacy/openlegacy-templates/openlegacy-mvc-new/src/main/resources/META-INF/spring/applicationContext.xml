@@ -72,6 +72,8 @@
 	</security:authentication-manager>
  		
 	<!-- Uncomment for bidi support
+	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder" />
+
 	<bean id="elementsProvider" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
 		<property name="colorMapper">
 			<map>
