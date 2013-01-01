@@ -41,6 +41,8 @@ public class InsertGlobalsInterceptor extends AbstractInterceptor {
 
 		themeUtil.applyTheme(modelAndView, request, response);
 
+		modelAndView.addObject("openLegacyProperties", openLegacyProperties);
+
 		if (!getTerminalSession().isConnected()) {
 			return;
 		}
@@ -50,7 +52,6 @@ public class InsertGlobalsInterceptor extends AbstractInterceptor {
 			modelAndView.addObject("loggedInUser", loginModule.getLoggedInUser());
 		}
 		modelAndView.addObject("globals", getTerminalSession().getModule(Globals.class).getGlobals());
-		modelAndView.addObject("openLegacyProperties", openLegacyProperties);
 	}
 
 }

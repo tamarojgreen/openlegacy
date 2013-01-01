@@ -182,8 +182,9 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		if (getSession().isConnected()) {
 			try {
 				backToLogin(loginClass);
-			} catch (SessionEndedException e) {
+			} catch (Exception e) {
 				// ok
+				logger.warn("Failed to return to login screen - " + e.getMessage(), e);
 			}
 		}
 		loggedInUser = null;
