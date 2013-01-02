@@ -2,8 +2,8 @@
 	version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" />
-
-	<div>	
+	 
+	<div align="center" style="padding-top: 150px;">	
 		Session ended <br />
 		<a href="${pageContext.request.contextPath}">Reconnect</a>
 	</div>
