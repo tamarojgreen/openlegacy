@@ -15,7 +15,6 @@ import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.utils.StringConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +44,8 @@ public class MenuController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public @ResponseBody
 	String getMenuId(@PathVariable("id") String id) {
-		if (menus == null || StringConstants.TRUE.equals(openLegacyProperties.getProperty(OpenLegacyProperties.DESIGN_TIME))) {
+
+		if (menus == null || openLegacyProperties.isDesigntime()) {
 			menus = terminalSession.getModule(Menu.class).getMenuTree();
 		}
 		if (menus == null) {
