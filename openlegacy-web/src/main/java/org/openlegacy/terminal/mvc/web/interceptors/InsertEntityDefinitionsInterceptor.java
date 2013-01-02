@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.mvc.web.interceptors;
 
 import org.openlegacy.EntityDescriptor;
+import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
@@ -46,6 +47,11 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 		if (!getTerminalSession().isConnected()) {
+			// insert login definitions when not connected
+			ScreenEntityDefinition definitions = entitiesRegistry.getSingleEntityDefinition(LoginEntity.class);
+			if (definitions != null) {
+				modelAndView.addObject("definitions", definitions);
+			}
 			return;
 		}
 		TerminalSession terminalSession = getTerminalSession();

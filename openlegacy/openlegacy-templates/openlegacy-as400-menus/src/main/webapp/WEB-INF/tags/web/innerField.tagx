@@ -27,6 +27,9 @@
 	<jsp:directive.attribute name="left" type="java.lang.String"
 		required="false" rtexprvalue="true"
 		description="Set field left position" />
+	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean"
+		required="false" rtexprvalue="true"
+		description="Set field direction" />
 	<c:choose>
 		<c:when test="${fn:contains(name,'.')}">
 			<c:set var="fieldNameParts" value="${fn:split(name,'.')}" />
@@ -53,6 +56,10 @@
 	<c:if test="${not empty top}">
 		<c:set var="style"
 			value="${style};position:absolute;top:${top};left:${left}" />
+	</c:if>
+	<c:if test="${rightToLeft}">
+		<c:set var="style"
+			value="${style};direction:rtl;unicode-bidi: bidi-override;" />
 	</c:if>
 	<div class="${cssClass}">
 		<div class="field_row">
@@ -136,13 +143,15 @@
 								</form:select>
 							</c:when>
 							<c:otherwise>
-								<c:set var="width" value="${size*10}" />
+								<c:if test="${not fn:contains(style,'width')}">
+									<c:set var="widthString" value="width:${size*10}px;" />
+								</c:if>
 								<c:set var="helpText" value="${fieldDefinition.helpText}" />
 								<c:if test="${empty helpText}">
 									<c:set var="helpText" value="Enter ${fieldDefinition.displayName}" />
 								</c:if>
 								<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
-									maxlength="${size}" path="${name}" cssStyle="width:${width}px;${style}"
+									maxlength="${size}" path="${name}" cssStyle="${widthString}${style}"
 									cssClass="${cssClass}" />
 							</c:otherwise>
 						</c:choose>

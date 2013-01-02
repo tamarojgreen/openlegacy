@@ -34,11 +34,11 @@
 					<c:forEach items="${tableDefinition.columnDefinitions}"
 						var="column">
 						<spring:eval var="columnValue" expression="item[column.name]" />
-						<td><c:choose>
+						<td>
+							<c:choose>
 								<c:when test="${column.selectionField}">
 									<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
-										<a
-											href="${action.targetEntity.simpleName}/${action.alias}/${item[tableDefinition.keyFieldNames[0]]}"
+										<a href="${action.targetEntity.simpleName}/${action.alias}/${item[tableDefinition.keyFieldNames[0]]}"
 											class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName}</a>
 											<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
 									</c:forEach>
@@ -47,9 +47,10 @@
 									<input name="${column.name}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
 								</c:when>
 								<c:otherwise>
-					      		${columnValue}
+						      		<span dir="ltr">${columnValue}</span>
 				      			</c:otherwise>
-							</c:choose></td>
+							</c:choose>
+						</td>
 					</c:forEach>
 				</tr>
 			</c:forEach>
