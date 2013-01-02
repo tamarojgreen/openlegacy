@@ -139,8 +139,13 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				if (generateCompositeController) {
 					compositeContollerFile.getParentFile().mkdirs();
 					fos = new FileOutputStream(compositeContollerFile);
-					generateCompositeContoller(entityDefinition, fos);
-					fos.close();
+					try {
+						generateCompositeContoller(entityDefinition, fos);
+					} finally {
+						IOUtils.closeQuietly(fos);
+						org.openlegacy.utils.FileUtils.deleteEmptyFile(compositeContollerFile);
+					}
+
 				}
 			}
 
@@ -159,9 +164,13 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			if (generateController) {
 				contollerFile.getParentFile().mkdirs();
 				fos = new FileOutputStream(contollerFile);
-				generateController(pageDefinition, fos);
-				fos.close();
-				logger.info(MessageFormat.format("Generated controller : {0}", contollerFile.getAbsoluteFile()));
+				try {
+					generateController(pageDefinition, fos);
+					logger.info(MessageFormat.format("Generated controller : {0}", contollerFile.getAbsoluteFile()));
+				} finally {
+					IOUtils.closeQuietly(fos);
+					org.openlegacy.utils.FileUtils.deleteEmptyFile(contollerFile);
+				}
 			}
 
 			if (generatePageRequest.isGenerateHelp()) {
@@ -177,16 +186,25 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				if (generateHelp) {
 					helpFile.getParentFile().mkdirs();
 					OutputStream out = new FileOutputStream(helpFile);
-					helpGenerator.generate(pageDefinition, out);
+					try {
+						helpGenerator.generate(pageDefinition, out);
+					} finally {
+						IOUtils.closeQuietly(out);
+						org.openlegacy.utils.FileUtils.deleteEmptyFile(helpFile);
+					}
 				}
 			}
 
 			if (generateController) {
 				File contollerAspectFile = new File(packageDir, entityClassName + "Controller_Aspect.aj");
 				fos = new FileOutputStream(contollerAspectFile);
-				generateControllerAspect(pageDefinition, fos);
-				fos.close();
-				logger.info(MessageFormat.format("Generated controller aspect: {0}", contollerAspectFile.getAbsoluteFile()));
+				try {
+					generateControllerAspect(pageDefinition, fos);
+					logger.info(MessageFormat.format("Generated controller aspect: {0}", contollerAspectFile.getAbsoluteFile()));
+				} finally {
+					IOUtils.closeQuietly(fos);
+					org.openlegacy.utils.FileUtils.deleteEmptyFile(contollerAspectFile);
+				}
 			}
 
 			// generate web view
@@ -281,16 +299,25 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 		if (generatePage) {
 			pageFile.getParentFile().mkdirs();
 			fos = new FileOutputStream(pageFile);
-			generatePage(pageDefinition, fos, templateDirectoryPrefix);
-			fos.close();
-			logger.info(MessageFormat.format("Generated jspx file: {0}", pageFile.getAbsoluteFile()));
+			try {
+				generatePage(pageDefinition, fos, templateDirectoryPrefix);
+				logger.info(MessageFormat.format("Generated jspx file: {0}", pageFile.getAbsoluteFile()));
+			} finally {
+				IOUtils.closeQuietly(fos);
+				org.openlegacy.utils.FileUtils.deleteEmptyFile(pageFile);
+			}
 
 			// generate a composite page (with tabs)
 			if (isComposite) {
 				File pageCompositeFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format(
 						"{0}{1}Composite.jspx", viewsDir, entityClassName));
 				fos = new FileOutputStream(pageCompositeFile);
-				generateCompositePage(entityDefinition, fos, templateDirectoryPrefix);
+				try {
+					generateCompositePage(entityDefinition, fos, templateDirectoryPrefix);
+				} finally {
+					IOUtils.closeQuietly(fos);
+					org.openlegacy.utils.FileUtils.deleteEmptyFile(pageCompositeFile);
+				}
 				List<EntityDefinition<?>> childScreens = entityDefinition.getChildEntitiesDefinitions();
 				// generate page content for each of the child screens
 				for (EntityDefinition<?> childDefinition : childScreens) {
