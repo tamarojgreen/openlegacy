@@ -79,4 +79,14 @@ public class AnnotationConstants {
 	public static final String SELECTION_FIELD = "selectionField";
 	public static final String KEY = "key";
 	public static final String MAIN_DISPLAY_FIELD = "mainDisplayField";
+
+	// @ScreenNavigation
+	public static final String ACCESSED_FROM = "accessedFrom";
+	public static final String TERMINAL_ACTION = "terminalAction";
+	public static final String ADDITIONAL_KEY = "additionalKey";
+	public static final String ASSIGNED_FIELDS = "assignedFields";
+	public static final String EXIT_ACTION = "exitAction";
+	public static final String EXIT_ADDITIONAL_KEY = "exitAdditionalKey";
+	public static final String REQUIRES_PARAMETERS = "requiresParameters";
+
 }

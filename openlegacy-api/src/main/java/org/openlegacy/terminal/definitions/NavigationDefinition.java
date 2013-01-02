@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 import java.util.List;
 
@@ -34,4 +35,9 @@ public interface NavigationDefinition {
 	TerminalAction getExitAction();
 
 	boolean isRequiresParameters();
+
+	// @author Ivan Bort, refs assembla #112
+	AdditionalKey getAdditionalKey();
+
+	AdditionalKey getExitAdditionalKey();
 }

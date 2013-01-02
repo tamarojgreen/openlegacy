@@ -58,6 +58,11 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 			navigationDefinition.getAssignedFields().add(new SimpleFieldAssignDefinition(assignedField.field(), value));
 		}
 
+		// @author Ivan Bort, refs assembla #112
+		// -----
+		navigationDefinition.setAdditionalKey(screenNavigation.additionalKey());
+		navigationDefinition.setExitAdditionalKey(screenNavigation.exitAdditionalKey());
+		// -----
 		SimpleScreenEntityDefinition screenEntityDefinition = (SimpleScreenEntityDefinition)screenEntitiesRegistry.get(containingClass);
 		Assert.notNull(
 				screenEntityDefinition,

@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 	private TerminalAction exitAction;
 	private boolean requiresParameters;
 	private Class<?> targetEntity;
+
+	// @author Ivan Bort refs assembla #112
+	private AdditionalKey additionalKey;
+	private AdditionalKey exitAdditionalKey;
 
 	public Class<?> getAccessedFrom() {
 		return accessedFrom;
@@ -69,5 +74,21 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 
 	public void setTargetEntity(Class<?> targetEntity) {
 		this.targetEntity = targetEntity;
+	}
+
+	public AdditionalKey getAdditionalKey() {
+		return additionalKey;
+	}
+
+	public void setAdditionalKey(AdditionalKey additionalKey) {
+		this.additionalKey = additionalKey;
+	}
+
+	public AdditionalKey getExitAdditionalKey() {
+		return exitAdditionalKey;
+	}
+
+	public void setExitAdditionalKey(AdditionalKey exitAdditionalKey) {
+		this.exitAdditionalKey = exitAdditionalKey;
 	}
 }
