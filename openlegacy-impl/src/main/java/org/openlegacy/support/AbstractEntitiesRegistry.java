@@ -20,11 +20,12 @@ import org.openlegacy.utils.ProxyUtil;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * An abstract implementation of entities registry
@@ -43,7 +44,7 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	private Map<Class<?>, String> reversedEntities = new HashMap<Class<?>, String>();
 
 	// map of entities by type
-	private Map<Class<? extends EntityType>, List<Class<?>>> entitiesByTypes = new HashMap<Class<? extends EntityType>, List<Class<?>>>();
+	private Map<Class<? extends EntityType>, Set<Class<?>>> entitiesByTypes = new HashMap<Class<? extends EntityType>, Set<Class<?>>>();
 
 	private boolean dirty = false;
 
@@ -53,9 +54,9 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	}
 
 	protected void addToTypes(Class<? extends EntityType> entityType, Class<?> entity) {
-		List<Class<?>> relevantEntities = entitiesByTypes.get(entityType);
+		Set<Class<?>> relevantEntities = entitiesByTypes.get(entityType);
 		if (relevantEntities == null) {
-			relevantEntities = new ArrayList<Class<?>>();
+			relevantEntities = new HashSet<Class<?>>();
 			entitiesByTypes.put(entityType, relevantEntities);
 		}
 		relevantEntities.add(entity);
@@ -90,12 +91,12 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		return entitiesDefinitions.values();
 	}
 
-	public List<Class<?>> getByType(Class<? extends EntityType> entityType) {
+	public Set<Class<?>> getByType(Class<? extends EntityType> entityType) {
 		return entitiesByTypes.get(entityType);
 	}
 
 	public E getSingleEntityDefinition(Class<? extends EntityType> entityType) throws RegistryException {
-		List<Class<?>> matchingTypes = getByType(entityType);
+		Set<Class<?>> matchingTypes = getByType(entityType);
 
 		if (matchingTypes == null || matchingTypes.size() == 0) {
 			return null;
@@ -106,7 +107,7 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 					MessageFormat.format("Found {0} matching entities in the registry", matchingTypes.size())));
 		}
 
-		return get(matchingTypes.get(0));
+		return get(matchingTypes.iterator().next());
 	}
 
 	public void setPackages(List<String> packages) {

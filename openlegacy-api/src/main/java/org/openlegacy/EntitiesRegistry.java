@@ -15,6 +15,7 @@ import org.openlegacy.exceptions.RegistryException;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A common interface for defining a registry for entities, and retrieving an entity class by name. <br/>
@@ -57,14 +58,14 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 	String getEntityName(Class<?> entity);
 
 	/**
-	 * Returns a list of entities classes which matches the given {@link EntityType}. Useful for retrieving all entities of same
+	 * Returns a set of entities classes which matches the given {@link EntityType}. Useful for retrieving all entities of same
 	 * type
 	 * 
 	 * @param entityType
 	 *            the requested entities type
 	 * @return a list of entities in the specified type
 	 */
-	List<Class<?>> getByType(Class<? extends EntityType> entityType);
+	Set<Class<?>> getByType(Class<? extends EntityType> entityType);
 
 	/**
 	 * Returns a single entity with the specified {@link EntityType}.
