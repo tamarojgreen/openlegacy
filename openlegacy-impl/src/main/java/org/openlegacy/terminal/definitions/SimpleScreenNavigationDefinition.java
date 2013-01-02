@@ -32,8 +32,21 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 	private AdditionalKey additionalKey;
 	private AdditionalKey exitAdditionalKey;
 
+	private String accessedFromEntityName;
+
+	public String getAccessedFromEntityName() {
+		if (accessedFrom != null) {
+			return accessedFrom.getSimpleName();
+		}
+		return accessedFromEntityName;
+	}
+
 	public Class<?> getAccessedFrom() {
 		return accessedFrom;
+	}
+
+	public void setAccessedFromEntityName(String accessedFromEntityName) {
+		this.accessedFromEntityName = accessedFromEntityName;
 	}
 
 	public void setAccessedFrom(Class<?> accessedFrom) {

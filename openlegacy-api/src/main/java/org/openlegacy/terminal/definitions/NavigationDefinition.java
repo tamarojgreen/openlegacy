@@ -26,6 +26,8 @@ public interface NavigationDefinition {
 
 	Class<?> getAccessedFrom();
 
+	String getAccessedFromEntityName();
+
 	Class<?> getTargetEntity();
 
 	List<FieldAssignDefinition> getAssignedFields();

@@ -104,8 +104,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public NavigationDefinition getNavigationDefinition() {
-		throwNotImplemented();
-		return null;
+		return codeModel.getNavigationDefinition();
 	}
 
 	public Map<String, ScreenTableDefinition> getTableDefinitions() {
