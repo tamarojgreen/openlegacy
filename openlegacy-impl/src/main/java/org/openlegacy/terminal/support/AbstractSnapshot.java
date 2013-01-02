@@ -178,4 +178,8 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 		readExternal(persistedSnapshot);
 	}
 
+	public String getLogicalText(TerminalPosition position, int length) {
+		return getText(position, length);
+
+	};
 }

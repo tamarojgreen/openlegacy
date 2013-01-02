@@ -221,4 +221,8 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 		return getField(SimpleTerminalPosition.newInstance(row, column));
 	}
 
+	public String getLogicalText(TerminalPosition position, int length) {
+		return getText(position, length);
+	}
+
 }

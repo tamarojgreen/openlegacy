@@ -306,4 +306,12 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		this.fieldSeperators = persistedSnapshot.getFieldSeperators();
 	}
 
+	public String getLogicalText(TerminalPosition position, int length) {
+		String text = super.getText(position, length);
+		if (convertToLogical) {
+			text = BidiUtil.convertToLogical(text);
+		}
+		return text;
+	}
+
 }

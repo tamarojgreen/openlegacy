@@ -96,6 +96,10 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 			skippedScreens++;
 
 			currentEntity = getSession().getEntity();
+			
+			if (currentEntity == null){
+				break;
+			}
 			entityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
 
 		}

@@ -104,7 +104,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 	private String getCellContent(TerminalSnapshot terminalSnapshot, TerminalPosition position,
 			ScreenColumnDefinition columnDefinition) {
 		int length = columnDefinition.getEndColumn() - columnDefinition.getStartColumn() + 1;
-		String columnText = terminalSnapshot.getText(position, length);
+		String columnText = terminalSnapshot.getLogicalText(position, length);
 		columnText = fieldFormatter.format(columnText);
 		return columnText;
 	}
