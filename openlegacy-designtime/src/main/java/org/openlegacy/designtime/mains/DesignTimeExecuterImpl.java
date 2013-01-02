@@ -138,7 +138,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				MessageFormat.format("host.name={0}", projectCreationRequest.getHostName()));
 
 		hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.port=.*",
-				MessageFormat.format("host.port={0}", projectCreationRequest.getHostPort()));
+				MessageFormat.format("host.port={0}", String.valueOf(projectCreationRequest.getHostPort())));
 		hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.codePage=.*",
 				MessageFormat.format("host.codePage={0}", projectCreationRequest.getCodePage()));
 		FileOutputStream fos = new FileOutputStream(hostPropertiesFile);
