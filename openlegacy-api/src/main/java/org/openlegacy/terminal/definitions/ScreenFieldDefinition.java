@@ -78,4 +78,6 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	 * @return
 	 */
 	boolean isRectangle();
+
+	boolean isRightToLeft();
 }

@@ -8,13 +8,6 @@
 	<spring:message var="title" code="error_uncaughtexception_title"
 		htmlEscape="false" />
 
-	<style>
-		#leftPane{
-			width:100%; 
-			border-right:0px;
-		}
-	</style>
-
 	<script type="text/javascript">
 		require('dijit/TitlePane');
 	</script>
@@ -43,6 +36,6 @@
 		</p>
 		<spring:url value="/logoff" var="logoff_url" />
 		<a href="${logoff_url}">Logoff</a>
-		
+
 	</c:if>
 </div>

@@ -84,6 +84,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 		screenFieldDefinition.setEditable(fieldAnnotation.editable());
 		screenFieldDefinition.setPassword(fieldAnnotation.password());
+		screenFieldDefinition.setRightToLeft(fieldAnnotation.rightToLeft());
 
 		if (fieldAnnotation.displayName().equals(AnnotationConstants.NULL)) {
 			screenFieldDefinition.setDisplayName(StringUtil.toDisplayName(fieldName));

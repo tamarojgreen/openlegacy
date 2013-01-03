@@ -134,4 +134,6 @@ public @interface ScreenField {
 	boolean key() default false;
 
 	String helpText() default "";
+
+	boolean rightToLeft() default false;
 }

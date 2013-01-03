@@ -6,8 +6,7 @@
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	<c:set var="backVal" value=""/>
-	<c:if test="${definitions != null 
-		&amp;&amp; ((accessedFromDefinitions.typeName != 'MenuEntity')  || (deviceType eq 'MOBILE'))}">
+	<c:if test="${definitions != null &amp;&amp; definitions.typeName != 'LoginEntity' &amp;&amp; (accessedFromDefinitions.typeName != 'MenuEntity'  || deviceType eq 'MOBILE')}">
 		<c:set var="backVal" value="back:'Back',"/>
 	</c:if>
 	

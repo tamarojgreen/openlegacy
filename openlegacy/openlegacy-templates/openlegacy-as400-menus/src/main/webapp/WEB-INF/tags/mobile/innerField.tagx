@@ -16,6 +16,7 @@
 	<jsp:directive.attribute name="top" type="java.lang.String" required="false" rtexprvalue="true" description="Set field top position" />
 	<jsp:directive.attribute name="left" type="java.lang.String" required="false" rtexprvalue="true" description="Set field left position" />
 	<jsp:directive.attribute name="editable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set if field is editable" />
+	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set if field is right to left" />
 
 	<c:choose>
 		<c:when test="${fn:contains(name,'.')}">
@@ -122,7 +123,7 @@
 								<form:textarea rows="${rows}" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 							</c:when>
 							<c:otherwise>
-								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" dir="${rightToLeft ? 'rtl' : 'ltr'}" cssStyle="${style}" cssClass="${cssClass}" />
 							</c:otherwise>
 						</c:choose>
 					</c:otherwise>

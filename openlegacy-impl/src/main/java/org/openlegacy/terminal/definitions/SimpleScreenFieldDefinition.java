@@ -43,6 +43,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	private TerminalPosition endPosition;
 
+	private boolean rightToLeft;
+
 	public SimpleScreenFieldDefinition() {
 		super();
 	}
@@ -172,4 +174,11 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		return getEndPosition().getRow() != getPosition().getRow();
 	}
 
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
+	}
 }

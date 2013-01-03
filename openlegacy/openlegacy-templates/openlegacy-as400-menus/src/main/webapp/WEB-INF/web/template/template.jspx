@@ -12,7 +12,11 @@
 	<head>
 		<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 		<title>OpenLegacy - Legacy Modernization made open</title>
-		<link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}.css" rel="stylesheet" type="text/css" />
+		<c:set var="cssRtl" value="" />
+		<c:if test="${openLegacyProperties.rightToLeft}">
+			<c:set var="cssRtl" value="_rtl" />
+		</c:if>
+		<link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}${cssRtl}.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/project.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript">
 			dojoConfig = {
@@ -62,7 +66,11 @@
 		<![endif]-->
 		<tiles:insertAttribute name="head" ignore="true" />
 	</head>
-	<body class="${ol_theme}">
+	<c:set var="bodyDir" value="" />
+	<c:if test="${openLegacyProperties.rightToLeft}">
+		<c:set var="bodyDir" value="rtl" />
+	</c:if>
+	<body class="${ol_theme}" dir="${bodyDir}">
 		<div id="wrap" class="page_container">
 			<div id="wrap_in">
 				<div class="container">

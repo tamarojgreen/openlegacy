@@ -14,6 +14,7 @@
 	<jsp:directive.attribute name="top" type="java.lang.String" required="false" rtexprvalue="true" description="Set field top position" />
 	<jsp:directive.attribute name="left" type="java.lang.String" required="false" rtexprvalue="true" description="Set field left position" />
 	<jsp:directive.attribute name="width" type="java.lang.String" required="false" rtexprvalue="true" description="Set field width" />
+	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set if field is right to left" />
 
 	<c:choose>
 		<c:when test="${fn:contains(name,'.')}">
@@ -34,14 +35,16 @@
 	<c:if test="${empty type}">
 		<c:set var="type" value="${type}" />
 	</c:if>
-	
+	<c:if test="${empty rightToLeft}">
+		<c:set var="rightToLeft" value="${fieldDefinition.rightToLeft}" />
+	</c:if>
 	<c:choose>
 		<c:when test="${empty top}">
-			<olt:innerField name="${name}" label="${label}" size="${size}" type="${type}" style="${style}" cssClass="${cssClass}" />
+			<olt:innerField name="${name}" label="${label}" size="${size}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" />
 		</c:when>
 		<c:otherwise>
 			<div style="margin-left: ${left}; top: ${top}; width:${width}; position:absolute;">
-				<olt:innerField name="${name}" label="${label}" size="${size}" type="${type}" style="${style}" cssClass="${cssClass}" />
+				<olt:innerField name="${name}" label="${label}" size="${size}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" />
 			</div>
 		</c:otherwise>
 	</c:choose>
