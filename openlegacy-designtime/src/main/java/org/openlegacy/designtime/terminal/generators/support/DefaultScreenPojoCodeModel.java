@@ -206,9 +206,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			endRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.END_ROW, normalAnnotationExpr.getPairs());
 			windowFlagFromAnnotation = findAnnotationAttribute(AnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
 		}
-		displayName = displayNameFromAnnotation != null ? displayNameFromAnnotation.replaceAll("\"", "")
+		displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation)
 				: StringUtil.toDisplayName(getClassName());
-		entityName = entityNameFromAnnotation != null ? entityNameFromAnnotation.replaceAll("\"", "")
+		entityName = entityNameFromAnnotation != null ? StringUtil.stripQuotes(entityNameFromAnnotation)
 				: StringUtil.toClassName(getClassName());
 
 		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)

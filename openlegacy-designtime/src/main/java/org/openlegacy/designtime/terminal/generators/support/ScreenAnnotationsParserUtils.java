@@ -12,6 +12,7 @@ package org.openlegacy.designtime.terminal.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
+import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
@@ -19,7 +20,12 @@ import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
+import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
 import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
@@ -141,11 +147,64 @@ public class ScreenAnnotationsParserUtils {
 				if (memberValuePair.getName().equals(AnnotationConstants.ACCESSED_FROM)) {
 					navigationDefinition.setAccessedFromEntityName(StringUtil.stripQuotes(StringUtil.toClassName(attributeValue)));
 				}
-				if (memberValuePair.getName().equals(AnnotationConstants.REQUIRES_PARAMETER)) {
+				if (memberValuePair.getName().equals(AnnotationConstants.REQUIRES_PARAMETERS)) {
 					navigationDefinition.setRequiresParamaters(Boolean.valueOf(attributeValue));
+				}
+				if (memberValuePair.getName().equals(AnnotationConstants.TERMINAL_ACTION)) {
+					navigationDefinition.setTerminalAction(getTerminalAction(attributeValue));
+				}
+				if (memberValuePair.getName().equals(AnnotationConstants.ADDITIONAL_KEY)) {
+					navigationDefinition.setAdditionalKey(AdditionalKey.valueOf(attributeValue.split("\\.")[1]));
+				}
+				if (memberValuePair.getName().equals(AnnotationConstants.EXIT_ACTION)) {
+					navigationDefinition.setExitAction(getTerminalAction(attributeValue));
+				}
+				if (memberValuePair.getName().equals(AnnotationConstants.EXIT_ADDITIONAL_KEY)) {
+					navigationDefinition.setExitAdditionalKey(AdditionalKey.valueOf(attributeValue.split("\\.")[1]));
+				}
+				if (memberValuePair.getName().equals(AnnotationConstants.ASSIGNED_FIELDS)) {
+					navigationDefinition.setAssignedFields(populateAssignedFields(memberValuePair.getValue()));
 				}
 			}
 		}
 		return navigationDefinition;
+	}
+
+	public static List<FieldAssignDefinition> populateAssignedFields(Expression expression) {
+		List<FieldAssignDefinition> list = new ArrayList<FieldAssignDefinition>();
+		if (expression instanceof ArrayInitializerExpr) {
+			List<Expression> values = ((ArrayInitializerExpr)expression).getValues();
+			for (Expression expr : values) {
+				if (expr instanceof NormalAnnotationExpr
+						&& (((NormalAnnotationExpr)expr).getName().getName().equals(AssignedField.class.getSimpleName()))) {
+					NormalAnnotationExpr annotationExpr = (NormalAnnotationExpr)expr;
+					List<MemberValuePair> pairs = annotationExpr.getPairs();
+					String name = null;
+					String value = null;
+					for (MemberValuePair pair : pairs) {
+						String attrValue = pair.getValue().toString();
+						if (pair.getName().equals(AnnotationConstants.FIELD)) {
+							name = StringUtil.stripQuotes(attrValue);
+						}
+						if (pair.getName().equals(AnnotationConstants.VALUE)) {
+							value = StringUtil.stripQuotes(attrValue);
+						}
+					}
+					list.add(new SimpleFieldAssignDefinition(name, value));
+				}
+			}
+		}
+		return list;
+	}
+
+	private static TerminalAction getTerminalAction(String attributeValue) {
+		// extract action name from attribute
+		String[] strings = attributeValue.split("\\.");
+		if (strings.length < 2) {
+			return null;
+		}
+		String actionName = strings[1];
+		// create action instance
+		return TerminalActions.newAction(actionName);
 	}
 }

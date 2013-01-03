@@ -15,9 +15,11 @@ import org.openlegacy.SessionAction;
 import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.exceptions.TerminalActionNotMappedException;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 
 /**
@@ -247,5 +249,29 @@ public class TerminalActions {
 		}
 		return command;
 
+	}
+
+	public static TerminalAction newAction(String actionName) {
+		Class<?>[] classes = TerminalActions.class.getClasses();
+		TerminalAction action = null;
+		for (Class<?> clazz : classes) {
+			Constructor<?>[] ctors = clazz.getDeclaredConstructors();
+			for (Constructor<?> ctor : ctors) {
+				if (actionName.equals(clazz.getSimpleName())) {
+					ctor.setAccessible(true);
+					try {
+						action = (TerminalAction)ctor.newInstance();
+					} catch (Exception e) {
+						throw new TerminalActionException(MessageFormat.format("Cannot instantiate an action with name {0}",
+								actionName));
+					}
+					break;
+				}
+			}
+			if (action != null) {
+				break;
+			}
+		}
+		return action;
 	}
 }

@@ -91,4 +91,7 @@ public class AnnotationConstants {
 	public static final String EXIT_ADDITIONAL_KEY = "exitAdditionalKey";
 	public static final String REQUIRES_PARAMETERS = "requiresParameters";
 
+	// @AssignedField
+	public static final String FIELD = "field";
+	public static final String VALUE = "value";
 }
