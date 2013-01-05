@@ -68,6 +68,7 @@ public class AnnotationConstants {
 	// @ScreenBooleanField
 	public static final String TRUE_VALUE = "trueValue";
 	public static final String FALSE_VALUE = "falseValue";
+	public static final String TREAT_EMPTY_AS_NULL = "treatEmptyAsNull";
 
 	// @ScreenDateField
 	public static final String YEAR_COLUMN = "yearColumn";
@@ -94,4 +95,10 @@ public class AnnotationConstants {
 	// @AssignedField
 	public static final String FIELD = "field";
 	public static final String VALUE = "value";
+
+	// @ScreenField
+	public static final String RECTANGLE = "rectangle";
+	public static final String PASSWORD = "password";
+	public static final String FIELD_TYPE = "fieldType";
+	public static final String SAMPLE_VALUE = "sampleValue";
 }

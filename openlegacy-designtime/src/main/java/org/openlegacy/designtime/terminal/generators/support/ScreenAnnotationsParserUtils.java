@@ -20,7 +20,6 @@ import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
-import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
@@ -151,13 +150,13 @@ public class ScreenAnnotationsParserUtils {
 					navigationDefinition.setRequiresParamaters(Boolean.valueOf(attributeValue));
 				}
 				if (memberValuePair.getName().equals(AnnotationConstants.TERMINAL_ACTION)) {
-					navigationDefinition.setTerminalAction(getTerminalAction(attributeValue));
+					navigationDefinition.setTerminalAction(TerminalActions.newAction(StringUtil.toClassName(attributeValue)));
 				}
 				if (memberValuePair.getName().equals(AnnotationConstants.ADDITIONAL_KEY)) {
 					navigationDefinition.setAdditionalKey(AdditionalKey.valueOf(attributeValue.split("\\.")[1]));
 				}
 				if (memberValuePair.getName().equals(AnnotationConstants.EXIT_ACTION)) {
-					navigationDefinition.setExitAction(getTerminalAction(attributeValue));
+					navigationDefinition.setExitAction(TerminalActions.newAction(StringUtil.toClassName(attributeValue)));
 				}
 				if (memberValuePair.getName().equals(AnnotationConstants.EXIT_ADDITIONAL_KEY)) {
 					navigationDefinition.setExitAdditionalKey(AdditionalKey.valueOf(attributeValue.split("\\.")[1]));
@@ -195,16 +194,5 @@ public class ScreenAnnotationsParserUtils {
 			}
 		}
 		return list;
-	}
-
-	private static TerminalAction getTerminalAction(String attributeValue) {
-		// extract action name from attribute
-		String[] strings = attributeValue.split("\\.");
-		if (strings.length < 2) {
-			return null;
-		}
-		String actionName = strings[1];
-		// create action instance
-		return TerminalActions.newAction(actionName);
 	}
 }
