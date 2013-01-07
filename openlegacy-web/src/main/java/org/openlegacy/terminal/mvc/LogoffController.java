@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.modules.trail.TrailUtil;
@@ -27,6 +29,8 @@ import javax.inject.Inject;
 @Controller
 public class LogoffController {
 
+	private final static Log logger = LogFactory.getLog(LogoffController.class);
+
 	@Inject
 	private TerminalSession terminalSession;
 
@@ -36,10 +40,14 @@ public class LogoffController {
 	@RequestMapping(value = "/logoff", method = RequestMethod.GET)
 	public String logoff() throws IOException {
 
-		trailUtil.saveTrail(terminalSession);
+		try {
+			trailUtil.saveTrail(terminalSession);
+		} catch (Exception e) {
+			logger.warn("Failed to save trail - " + e.getMessage(), e);
+		} finally {
+			terminalSession.getModule(Login.class).logoff();
+		}
 
-		terminalSession.getModule(Login.class).logoff();
-		
 		return "logoff";
 	}
 
