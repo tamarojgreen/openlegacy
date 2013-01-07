@@ -808,7 +808,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="29"/>
     </snapshot>
-     <snapshot type="INCOMING" sequence="14">
+    <snapshot type="INCOMING" sequence="14">
         <row rowNumber="1">
             <field column="21" value="Toys Inventory                          " color="WHITE"/>
         </row>
@@ -826,81 +826,82 @@
         </row>
         <row rowNumber="7">
             <field column="2" value="Action" color="WHITE"/>
-            <field column="11" value="Item Name" color="WHITE"/>
+            <field column="11" value="Item Number" color="WHITE"/>
             <field column="24" value="Item Description" color="WHITE"/>
-            <field column="65" value="Item Number" color="WHITE"/>
+            <field column="65" value="Item Name" color="WHITE"/>
         </row>
         <row rowNumber="8">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="Domino Cube" length="12"/>
+            <field column="11" value="2000" />
             <field column="24" value="Domino Cubes - Board Games" length="40"/>
-            <field column="65" value="2000           " type="java.lang.Integer"/>
+            <field column="65" value="Domino Cube       " length="14"/>
         </row>
         <row rowNumber="9">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="Bowling" length="12"/>
+            <field column="11" value="1055" />
             <field column="24" value="Baby Bowling Game - Baby Toys           " length="40"/>
-            <field column="65" value="1055           " type="java.lang.Integer"/>
+            <field column="65" value="Bowling        " length="14"/>
         </row>
         <row rowNumber="10">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    "/>
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="11">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="12">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="13">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="14">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="15">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="16">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="17">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
-            <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="11" value="    " />
+            <field column="24" value="                                        "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="18">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
-            <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="11" value="    " />
+            <field column="24" value="                                        "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="19">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
-            <field column="24" value="                                        " length="40"/>
-            <field column="65" value="             "/>
+            <field column="11" value="    " />
+            <field column="24" value="                                        "/>
+            <field column="65" value="             " length="14"/>
+            <field column="79" value=" " color="WHITE"/>
         </row>
         <row rowNumber="23">
             <field column="1" color="BLUE"/>
@@ -914,7 +915,7 @@
         <size rows="24" columns="80"/>
         <cursor row="8" column="4"/>
     </snapshot>
-    <snapshot type="OUTGOING" sequence="15" command="[enter]">
+    <snapshot type="OUTGOING" sequence="15" command="[pf3]">
         <row rowNumber="1">
             <field column="21" value="Toys Inventory                          " color="WHITE"/>
         </row>
@@ -932,81 +933,81 @@
         </row>
         <row rowNumber="7">
             <field column="2" value="Action" color="WHITE"/>
-            <field column="11" value="Item Name" color="WHITE"/>
+            <field column="11" value="Item Number" color="WHITE"/>
             <field column="24" value="Item Description" color="WHITE"/>
-            <field column="65" value="Item Number" color="WHITE"/>
+            <field column="65" value="Item Name" color="WHITE"/>
         </row>
         <row rowNumber="8">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="Domino Cube" length="12"/>
+            <field column="11" value="2000" />
             <field column="24" value="Domino Cubes - Board Games" length="40"/>
-            <field column="65" value="2000           " type="java.lang.Integer"/>
+            <field column="65" value="Domino Cube       " length="14"/>
         </row>
         <row rowNumber="9">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="Bowling" length="12"/>
+            <field column="11" value="1055" />
             <field column="24" value="Baby Bowling Game - Baby Toys           " length="40"/>
-            <field column="65" value="1055           " type="java.lang.Integer"/>
+            <field column="65" value="Bowling        " length="14"/>
         </row>
         <row rowNumber="10">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    "/>
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="11">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="12">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="13">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="14">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="15">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="16">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        " length="40"/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="17">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="18">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        "/>
-            <field column="65" value="               "/>
+            <field column="65" value="               " length="14"/>
         </row>
         <row rowNumber="19">
             <field column="4" length="1" editable="true" type="java.lang.Integer"/>
-            <field column="11" value="          " length="12"/>
+            <field column="11" value="    " />
             <field column="24" value="                                        "/>
-            <field column="65" value="             "/>
+            <field column="65" value="             " length="14"/>
             <field column="79" value=" " color="WHITE"/>
         </row>
         <row rowNumber="23">
@@ -1295,11 +1296,11 @@
             <field column="2" value="Amended date . . . . . . . . :"/>
             <field column="33"/>
             <field column="34" value="23" editable="true" type="java.lang.Integer"/>
-            <field column="46" value="/"/>
-            <field column="37" value="01" editable="true" type="java.lang.Integer"/>
-            <field column="49" value="/"/>
-            <field column="40" value="2011" editable="true" type="java.lang.Integer"/>
-            <field column="45" value="                                    "/>
+            <field column="37" value="/"/>
+            <field column="39" value="01" editable="true" type="java.lang.Integer"/>
+            <field column="42" value="/"/>
+            <field column="44" value="2011" editable="true" type="java.lang.Integer"/>
+            <field column="50" value="                                    "/>
         </row>
         <row rowNumber="15">
             <field column="1"/>
@@ -1374,11 +1375,11 @@
             <field column="2" value="Amended date . . . . . . . . :"/>
             <field column="33"/>
             <field column="34" value="23" editable="true" type="java.lang.Integer"/>
-            <field column="46" value="/"/>
-            <field column="37" value="01" editable="true" type="java.lang.Integer"/>
-            <field column="49" value="/"/>
-            <field column="40" value="2011" editable="true" type="java.lang.Integer"/>
-            <field column="45" value="                                    "/>
+            <field column="37" value="/"/>
+            <field column="39" value="01" editable="true" type="java.lang.Integer"/>
+            <field column="42" value="/"/>
+            <field column="44" value="2011" editable="true" type="java.lang.Integer"/>
+            <field column="50" value="                                    "/>
         </row>
         <row rowNumber="15">
             <field column="1"/>
