@@ -30,10 +30,10 @@
 				onclick="showLoading();" class="${i.index % 2 == 0 ? '' : 'alt'}"
 				url="${defaultTableAction.targetEntity}/${keyValue}">${displayValue}</li>
 		</c:forEach>
+	</ul>
 	<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn"
 		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayField}','ItemDetails/revise/')">Load
 		More</button>
-	</ul>
 	</c:if>
 
 </jsp:root>
