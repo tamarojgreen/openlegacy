@@ -36,6 +36,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.WebDataBinder;
 
+import flexjson.JSONSerializer;
+
 import org.openlegacy.designtime.generators.mock.ScreenForPage;
 
 privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
