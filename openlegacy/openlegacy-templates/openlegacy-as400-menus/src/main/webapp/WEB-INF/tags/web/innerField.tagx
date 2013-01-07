@@ -57,9 +57,16 @@
 		<c:set var="style"
 			value="${style};position:absolute;top:${top};left:${left}" />
 	</c:if>
+	<c:if test="${not fn:contains(style,'width')}">
+		<c:set var="style" value="width:${size*10}px;${style};" />
+	</c:if>
 	<c:if test="${rightToLeft}">
 		<c:set var="style"
 			value="${style};direction:rtl;unicode-bidi: bidi-override;" />
+	</c:if>
+	<c:set var="helpText" value="${fieldDefinition.helpText}" />
+	<c:if test="${empty helpText}">
+		<c:set var="helpText" value="Enter ${fieldDefinition.displayName}" />
 	</c:if>
 	<div class="${cssClass}">
 		<div class="field_row">
@@ -117,8 +124,7 @@
 							<c:when test="${type == 'address'}">
 								<script type="text/javascript"
 									src="http://maps.google.com/maps/api/js?sensor=false"><!----></script>
-								<form:input type="text" id="${name}" size="${size}"
-									maxlength="${size}" path="${name}" cssStyle="${style}"
+								<form:input type="text" id="${name}" maxlength="${size}" path="${name}" cssStyle="${style}"
 									cssClass="${cssClass}" />
 								<a
 									href="javascript:require(['dojo/dom'], function(dom){createMap(dom.byId('${name}').value)});showDialog('mapDialog')">
@@ -127,7 +133,7 @@
 								</a>
 							</c:when>
 							<c:when test="${type == 'password'}">
-								<form:input type="password" id="${name}" size="${size}"
+								<form:input type="password" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'" 
 									maxlength="${size}" path="${name}" cssStyle="${style}"
 									cssClass="${cssClass}" />
 							</c:when>
@@ -143,15 +149,8 @@
 								</form:select>
 							</c:when>
 							<c:otherwise>
-								<c:if test="${not fn:contains(style,'width')}">
-									<c:set var="widthString" value="width:${size*10}px;" />
-								</c:if>
-								<c:set var="helpText" value="${fieldDefinition.helpText}" />
-								<c:if test="${empty helpText}">
-									<c:set var="helpText" value="Enter ${fieldDefinition.displayName}" />
-								</c:if>
 								<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
-									maxlength="${size}" path="${name}" cssStyle="${widthString}${style}"
+									maxlength="${size}" path="${name}" cssStyle="${style}"
 									cssClass="${cssClass}" />
 							</c:otherwise>
 						</c:choose>
