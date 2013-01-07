@@ -13,11 +13,11 @@
 		<div class="topmenu_wrap">
 			<div class="topmenu">
 				<ul>
-					<c:if test="${messages != null}">
+					<c:if test="${ol_messages != null}">
 						<li class="messages"><a href="javascript:showDialog('messageDialog');" title="You have incoming message">Message</a></li>
 					</c:if>
-					<c:if test="${loggedInUser != null}">
-						<li>Welcome, ${loggedInUser}!</li>
+					<c:if test="${ol_loggedInUser != null}">
+						<li>Welcome, ${ol_loggedInUser}!</li>
 					</c:if>
 					<li class="prefs"><a href="javascript:changeTheme('cloud,night,red');">Theme</a></li>
 					<li class="mobile"><a href="${pageContext.request.contextPath}/SignOn?site_preference=mobile" title="Mobile version">Mobile</a></li>
@@ -26,10 +26,10 @@
 				</ul>
 			</div>
 		</div>
-		<c:if test="${messages != null}">
+		<c:if test="${ol_messages != null}">
 			<div id="messageDialog" data-dojo-type="dijit.Dialog"
 				style="overflow: auto;" title="System Messages">
-				<c:forEach items="${messages}" var="message">
+				<c:forEach items="${ol_messages}" var="message">
 					<pre>${message}</pre>
 				</c:forEach>
 			</div>

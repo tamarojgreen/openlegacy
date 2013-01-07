@@ -47,11 +47,13 @@ public class InsertGlobalsInterceptor extends AbstractInterceptor {
 			return;
 		}
 
+		modelAndView.addObject("ol_connected", true);
+
 		Login loginModule = getTerminalSession().getModule(Login.class);
 		if (loginModule.isLoggedIn()) {
-			modelAndView.addObject("loggedInUser", loginModule.getLoggedInUser());
+			modelAndView.addObject("ol_loggedInUser", loginModule.getLoggedInUser());
 		}
-		modelAndView.addObject("globals", getTerminalSession().getModule(Globals.class).getGlobals());
+		modelAndView.addObject("ol_globals", getTerminalSession().getModule(Globals.class).getGlobals());
 	}
 
 }

@@ -11,11 +11,11 @@
 		<div class="topmenu_wrap">
 			<div class="topmenu">
 				<ul>
-					<c:if test="${loggedInUser != null}">
-						<li>Welcome, ${loggedInUser}!</li>
+					<c:if test="${ol_loggedInUser != null}">
+						<li>Welcome, ${ol_loggedInUser}!</li>
 					</c:if>
-					<li class="mobile"><a href="${pageContext.request.contextPath}/SignOn?site_preference=mobile" title="Mobile version">Mobile</a></li>
-					<li class="prefs"><a href="javascript:changeTheme('red');">Theme</a></li>
+					<li class="mobile"><a href="${pageContext.request.contextPath}/?site_preference=mobile" title="Mobile version">Mobile</a></li>
+					<!-- <li class="prefs"><a href="javascript:changeTheme('red');">Theme</a></li> -->
 					<li class="logout"><a href="${pageContext.request.contextPath}/logoff">Logout</a></li>
 				</ul>
 			</div>

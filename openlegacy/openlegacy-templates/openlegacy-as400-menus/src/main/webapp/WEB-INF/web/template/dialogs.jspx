@@ -20,10 +20,10 @@
 			style="overflow: auto;" title="Map">
 			<div id="map_canvas" style="width: 500px; height: 500px"><!--  --></div>
 		</div>
-		<c:if test="${messages != null}">
+		<c:if test="${ol_messages != null}">
 			<div id="messageDialog" data-dojo-type="dijit.Dialog"
 				style="overflow: auto;" title="System Messages">
-				<c:forEach items="${messages}" var="message">
+				<c:forEach items="${ol_messages}" var="message">
 					<pre>${message}</pre>
 				</c:forEach>
 			</div>

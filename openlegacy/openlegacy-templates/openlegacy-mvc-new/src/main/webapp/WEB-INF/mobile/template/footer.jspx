@@ -6,7 +6,7 @@
 	<jsp:output omit-xml-declaration="yes" /> 
 <div>
 	<div class="web_mobile_footer">
-	Mobile | <a href="${pageContext.request.contextPath}/SignOn?site_preference=normal">Web</a>
+	Mobile | <a href="${pageContext.request.contextPath}/?site_preference=normal">Web</a>
 	<c:if test="${(deviceType eq 'TABLET') || (deviceType eq 'NORMAL')}">
 	<br/>
 	Copyright &#169; 2012 OpenLegacy. All rights reserved. <br />Powered

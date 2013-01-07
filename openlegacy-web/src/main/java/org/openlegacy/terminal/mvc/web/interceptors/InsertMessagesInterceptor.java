@@ -38,7 +38,7 @@ public class InsertMessagesInterceptor extends AbstractInterceptor {
 
 		List<String> messages = messagesModule.getMessages();
 		if (messages.size() > 0) {
-			modelAndView.addObject("messages", messages.toArray());
+			modelAndView.addObject("ol_messages", messages.toArray());
 		}
 		messagesModule.resetMessages();
 
