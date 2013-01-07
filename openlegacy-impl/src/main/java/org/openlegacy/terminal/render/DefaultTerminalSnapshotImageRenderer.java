@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.render;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
@@ -94,6 +95,9 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 			int rowStart = (rowNumber - 1) * columns; // row is 1 based, drawing is 0 base
 			String text = screenText.substring(rowStart, rowStart + columns);
+			if (StringUtils.isBlank(text)) {
+				continue;
+			}
 			for (int i = 0; i < text.length(); i++) {
 				// text is 0 based, columns are 1 based
 				TerminalField currentField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(rowNumber, i + 1));
@@ -112,7 +116,11 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 				// 2 - place holder for row numbers
 				char ch = text.charAt(i);
 				if (hidePasswordFields && currentField != null && currentField.isPassword()) {
-					ch = '*';
+					if (currentField.isEmpty()) {
+						ch = ' ';
+					} else {
+						ch = '*';
+					}
 				}
 				graphics.drawString(String.valueOf(ch), toWidth(i + leftColumnsOffset), startY);
 			}
