@@ -17,11 +17,13 @@
 						top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%">
 						<c:choose>
 							<c:when test="${not pagePart.hasTable}">
-								<c:forEach items="${partRow.fields}" var="field" varStatus="colCounter">
-									<c:if test="${pagePart.columns &gt; 1}">
-										<c:set var="cssClass" value="col_${colCounter.index+1}_of_${pagePart.columns}" />
-									</c:if>
-									<ol:field name="${field.name}" cssClass="${cssClass}"/>
+								<c:forEach items="${pagePart.partRows}" var="partRow">
+									<c:forEach items="${partRow.fields}" var="field" varStatus="colCounter">
+										<c:if test="${pagePart.columns &gt; 1}">
+											<c:set var="cssClass" value="col_${colCounter.index+1}_of_${pagePart.columns}" />
+										</c:if>
+										<ol:field name="${field.name}" cssClass="${cssClass}"/>
+									</c:forEach>
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
