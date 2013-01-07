@@ -50,7 +50,13 @@ privileged @SuppressWarnings("unused") aspect ScreenForPagewithKeyController_Asp
 
 	
 
-	// handle page initial display
+	// handle page with keys ajax call display
+    @RequestMapping(value="/{id}", method = RequestMethod.GET, headers = "X-Requested-With=XMLHttpRequest")
+    public String ScreenForPagewithKeyController.ajax(@PathVariable Object id, Model uiModel) {
+    	return show(id,uiModel);
+    }
+
+	// handle page with keys initial display
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public String ScreenForPagewithKeyController.show(@PathVariable Object id, Model uiModel) {
     	ScreenForPagewithKey screenForPagewithKey = terminalSession.getEntity(ScreenForPagewithKey.class,id);
@@ -58,21 +64,6 @@ privileged @SuppressWarnings("unused") aspect ScreenForPagewithKeyController_Asp
 	// show the resulting page for ScreenForPagewithKey
         return "ScreenForPagewithKey";
     }
-    
-	// handle json request for mobile "load more" 
-	@RequestMapping(value = "/more", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseEntity<String> ScreenForPagewithKeyController.more() {
-		ScreenForPagewithKey screenForPagewithKey = terminalSession.getEntity(ScreenForPagewithKey.class);
-		screenForPagewithKey = terminalSession.doAction(TerminalActions.PAGEDOWN(), items);
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "application/text; charset=utf-8");
-
-		String result = new JSONSerializer().serialize(items.getItemsRecords());
-		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
-	}	
-    
 	
     @RequestMapping(value="/help", method = RequestMethod.GET)
     public @ResponseBody String ScreenForPagewithKeyController.systemHelp(HttpServletRequest request) throws IOException {
