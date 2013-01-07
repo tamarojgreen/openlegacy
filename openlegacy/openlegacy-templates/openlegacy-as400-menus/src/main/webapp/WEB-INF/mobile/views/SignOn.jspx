@@ -8,22 +8,8 @@
 	
 		<ol:form model="signOn">
 			<ol:pagePart>
-				<div class="field_row">
-					<div class="label">
-						<label for="user">User:</label>
-					</div>
-					<div class="field">
-						<input type="text" name="user" value="${login.user}" maxlength="10" />
-					</div>
-				</div>
-				<div class="field_row">
-					<div class="label">
-						<label for="password">Password:</label>
-					</div>
-					<div class="field">
-						<input type="password" name="password" value="${login.password}" maxlength="10" />
-					</div>
-				</div>
+				<ol:field name="user" />
+				<ol:field name="password" />
 				<input data-dojo-type="dojox.mobile.Button" type="button" onclick="doAjaxPost('SignOnForm','menuContainer',null,'body,menu');resizeDojoWidget('fixedSplitter');"
 					class="mblButton greyBtn baseBtn normalBtn" value="Submit" />
 				<ol:field name="errorMessage" />
