@@ -36,7 +36,7 @@
 						<spring:eval var="columnValue" expression="item[column.name]" />
 						<td><c:choose>
 								<c:when test="${column.selectionField}">
-				      				<select onchange="doPost()" name="${coloumn.name}">
+				      				<select onchange="doPost()" name="${column.name}">
 				      					<option value="">-- Select --</option>
 				      					<c:forEach items="${tableDefinition.actions}" var="action">
 				      					<option value="${action.action.actionValue}">${action.displayName}</option>
