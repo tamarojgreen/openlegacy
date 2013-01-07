@@ -86,7 +86,16 @@ public class ScreenTableActionsAnnotationLoader extends AbstractClassAnnotationL
 				}
 
 			}
-			logger.info(MessageFormat.format("Screen identifications for \"{0}\" was added to the screen registry",
+			if (defaultAction == null && screenTableDefinition.getActions().size() > 0) {
+				SimpleTerminalActionDefinition firstAction = (SimpleTerminalActionDefinition)screenTableDefinition.getActions().get(
+						0);
+				firstAction.setDefault(true);
+				logger.warn(MessageFormat.format(
+						"First screen table action {0} was selected as default action for \"{0}\". You may want to set a different default action",
+						firstAction.getAlias(), screenTableDefinition.getTableClass()));
+			}
+
+			logger.info(MessageFormat.format("Screen table actions for \"{0}\" was added to the screen registry",
 					screenTableDefinition.getTableClass()));
 		}
 	}

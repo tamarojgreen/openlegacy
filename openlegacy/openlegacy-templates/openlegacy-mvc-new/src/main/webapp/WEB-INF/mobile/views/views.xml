@@ -18,6 +18,15 @@
 				<put-attribute name="menu" value="/WEB-INF/mobile/views/SignOn.jspx" />
 				<put-attribute name="body" value="/WEB-INF/mobile/template/paneheader.jspx"/>
 			</definition>
+			
+		Main menu class should be configured as follows (MainMenu should be replace with you app main menu class):
+
+	<definition name="MainMenu_m" extends="menu_m"> 
+		<put-attribute name="header" value="" />
+		<put-attribute name="actions" value="" />
+   		<put-attribute name="body" value="/WEB-INF/mobile/views/MainMenu.jspx" />
+	</definition> 
+		
 	 -->
 
 	<!-- Place holder for code generation -->
