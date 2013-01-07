@@ -17,7 +17,13 @@
         <dependent-module archiveName="openlegacy-utils-1.0.0-RC1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="html-emulation-plugin-1.0.0-RC1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/html-emulation-plugin/html-emulation-plugin">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="management-plugin-1.0.0-RC1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/management-plugin/management-plugin">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="openlegacy-web-resources-1.0.0-RC1.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web-resources/openlegacy-web-resources">
             <dependency-type>uses</dependency-type>
         </dependent-module>
 		<property name="java-output-path" value="target/classes"/>
