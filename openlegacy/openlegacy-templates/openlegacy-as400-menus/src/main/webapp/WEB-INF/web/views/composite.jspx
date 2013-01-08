@@ -4,14 +4,13 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
-	<div>
 		<script>
 			require(["dijit/layout/TabContainer",
 					"dijit/layout/ContentPane"]);
 		</script>
 	
 		<div id="tabContainer" class="tabContainer"
-			data-dojo-type="dijit.layout.TabContainer" data-dojo-props="tabPosition:'bottom', tabStrip:true">
+			data-dojo-type="dijit.layout.TabContainer" data-dojo-props="tabPosition:'top', tabStrip:true">
 			<div id="${definitions.entityName}" title="${definitions.displayName}" class="tab_container"
 				selected="true" data-dojo-type="dijit.layout.ContentPane"
 				data-dojo-props="href:'${pageContext.request.contextPath}/${definitions.entityName}?partial=1',parseOnLoad: true">
@@ -24,6 +23,5 @@
 					<div>Place holder</div>
 				</div>
 			</c:forEach>
-		</div>
 	</div>
 </jsp:root>
