@@ -75,4 +75,5 @@ Bundle-ClassPath: .,
  lib/stringtemplate-3.2.1.jar,
  lib/openlegacy-utils-1.0.0-RC1.jar
 Export-Package: org.openlegacy.ide.eclipse.editors.graphical,
+ org.openlegacy.ide.eclipse.preview,
  org.openlegacy.ide.eclipse.util

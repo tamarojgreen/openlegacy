@@ -101,4 +101,5 @@ public class AnnotationConstants {
 	public static final String PASSWORD = "password";
 	public static final String FIELD_TYPE = "fieldType";
 	public static final String SAMPLE_VALUE = "sampleValue";
+	public static final String FIELD_NAME = "fieldName";
 }

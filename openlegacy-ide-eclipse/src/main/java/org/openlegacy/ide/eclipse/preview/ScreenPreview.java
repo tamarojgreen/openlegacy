@@ -76,7 +76,7 @@ public class ScreenPreview extends ViewPart {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "com.mif.plugin.adapter.views.ScreenPreview";
+	public static final String ID = "org.openlegacy.ide.eclipse.preview.ScreenPreview";
 	private static final String SCREEN_ENTITY_ANNOTATION = "org.openlegacy.annotations.screen.ScreenEntity";
 	private static final String SCREEN_ENTITY_ANNOTATION_SHORT = "ScreenEntity";
 	private static final String IDENTIFIER_ANNOTATION = "org.openlegacy.annotations.screen.Identifier";
@@ -95,6 +95,8 @@ public class ScreenPreview extends ViewPart {
 	private Map<String, CompilationUnit> cacheCompilationUnitContainer = new HashMap<String, CompilationUnit>();
 
 	private TerminalSnapshot terminalSnapshot;
+	// used by IOpenLegacyEditor
+	private FieldRectangle fieldRectangle = null;
 
 	/**
 	 * The constructor.
@@ -215,6 +217,14 @@ public class ScreenPreview extends ViewPart {
 		StyledText styledText = cacheStyledTextContainer.get(key);
 		if ((styledText != null) && !styledText.isDisposed()) {
 			this.handleCaretMoved(styledText.getCaretOffset());
+		}
+	}
+
+	public void setFieldRectangle(FieldRectangle rectangle) {
+		this.fieldRectangle = rectangle;
+		if (this.fieldRectangle != null) {
+			this.snapshotComposite.setDrawingRectangle(getRectangle(this.fieldRectangle.getRow(),
+					this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(), this.fieldRectangle.getValue()));
 		}
 	}
 
@@ -357,6 +367,12 @@ public class ScreenPreview extends ViewPart {
 							styledText.addCaretListener(editorListener);
 							styledText.addModifyListener(editorListener);
 							cacheStyledTextContainer.put(key, styledText);
+							// } else {
+							// if (this.fieldRectangle != null) {
+							// this.snapshotComposite.setDrawingRectangle(getRectangle(this.fieldRectangle.getRow(),
+							// this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(),
+							// this.fieldRectangle.getValue()));
+							// }
 						}
 					}
 					try {
