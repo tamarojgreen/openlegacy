@@ -1,27 +1,26 @@
-<!-- TODO FOR TEST, DON'T FORGET REMOVE THIS LINE-->
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
 	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" 
 	version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" />
 	 
-	<div>	
-		<script>
-			require(["dijit/layout/TabContainer",
-					"dijit/layout/ContentPane"]);
-		</script>
+	<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${displayName}</h2>
+
+	<ul data-dojo-type="dojox.mobile.TabBar" data-dojo-props="barType:'segmentedControl'">
+		<li data-dojo-type="dojox.mobile.TabBarButton"
+			data-dojo-props="moveTo:'${entityClassName}_${r"${"}ol_entityId}Panel', selected:true">${displayName}</li>
+		<#list allChildEntitiesDefinitions as childScreensDefinition>
+		<li data-dojo-type="dojox.mobile.TabBarButton"
+			data-dojo-props="moveTo:'${childScreensDefinition.entityClassName}_${r"${"}ol_entityId}Panel'">${childScreensDefinition.displayName}</li>
+		</#list>
+	</ul>
 	
-		<div class="tabbed_area" data-dojo-type="dijit.layout.TabContainer"
-			style="width: 100%;" doLayout="false">
-			<div id="${entityClassName}" title="${displayName}" selected="true" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${r"${"}pageContext.request.contextPath}/${entityClassName}/${r"${"}ol_entityId}?partial=1'">
-				<div><!----></div>
-			</div>
-			<#list allChildEntitiesDefinitions as childScreensDefinition>
-				<div id="${childScreensDefinition.entityClassName}" title="${childScreensDefinition.displayName}" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="href:'${r"${"}pageContext.request.contextPath}/${childScreensDefinition.entityClassName}/${r"${"}ol_entityId}?partial=1'">
-					<div><!----></div>
-				</div>
-			</#list>
-		</div>
-	
-	</div>
+	<div id="${entityClassName}_${r"${"}ol_entityId}Panel"
+		data-dojo-type="dojox.mobile.View" selected="true"
+		data-dojo-props="onShow: asyncLoadMobilePanel('${entityClassName}_${r"${"}ol_entityId}Panel','${r"${"}pageContext.request.contextPath}/${entityClassName}/${r"${"}ol_entityId}?partial=1',0)">Loading...</div>
+	<#list allChildEntitiesDefinitions as childScreensDefinition>
+	<div id="ItemDetails2_${r"${"}ol_entityId}Panel"
+		data-dojo-type="dojox.mobile.View"
+		data-dojo-props="onShow: asyncLoadMobilePanel('${childScreensDefinition.entityClassName}_${r"${"}ol_entityId}Panel','${r"${"}pageContext.request.contextPath}/${childScreensDefinition.entityClassName}/${r"${"}ol_entityId}?partial=1',1000)">Loading...</div>
+	</#list>
 </jsp:root>
