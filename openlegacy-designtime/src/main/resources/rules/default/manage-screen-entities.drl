@@ -18,7 +18,7 @@ then
 		
 		// link the definition to the snapshot
 		screenEntityDefinition.setSnapshot(s);
-
+		screenEntityDefinition.setOutgoingSnapshot(snapshotsAnalyzerContext.getOutgoingSnapshot(s));
 		/// insert the definitions container to the session
 		insert(screenEntityDefinition);
 	} 

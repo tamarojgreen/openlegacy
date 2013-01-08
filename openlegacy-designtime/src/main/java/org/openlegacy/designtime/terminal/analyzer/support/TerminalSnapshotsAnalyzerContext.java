@@ -173,4 +173,22 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 		}
 
 	}
+
+	public TerminalSnapshot getOutgoingSnapshot(TerminalSnapshot incomingSnapshot) {
+		if (incomingSnapshot.getSequence() == null) {
+			logger.debug("Ignoring outgoing snapshot since it has no sequence");
+			return null;
+		}
+		for (TerminalSnapshot activeSnapshot : activeSnapshots) {
+			if (activeSnapshot.getSequence() == null) {
+				logger.debug("Ignoring active snapshot since it has no sequence");
+				continue;
+			}
+			if (incomingSnapshot.getSequence() + 1 == activeSnapshot.getSequence()
+					&& activeSnapshot.getSnapshotType() == SnapshotType.OUTGOING) {
+				return activeSnapshot;
+			}
+		}
+		return null;
+	}
 }

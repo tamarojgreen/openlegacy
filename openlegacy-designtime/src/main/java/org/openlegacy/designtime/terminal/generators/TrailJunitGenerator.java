@@ -13,6 +13,8 @@ package org.openlegacy.designtime.terminal.generators;
 import freemarker.template.TemplateException;
 
 import org.openlegacy.designtime.terminal.analyzer.support.TerminalSnapshotsAnalyzerContext.TerminalSnapshotSequenceComparator;
+import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
+import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -39,6 +41,9 @@ public class TrailJunitGenerator {
 	@Inject
 	private GenerateUtil generateUtil;
 
+	@Inject
+	private TerminalActionMapper terminalActionMapper;
+
 	public void generate(Collection<ScreenEntityDefinition> screenEntityDefinitions, String testName, OutputStream out)
 			throws TemplateException, IOException {
 
@@ -58,7 +63,7 @@ public class TrailJunitGenerator {
 		return sortedScreenEntityDefintions;
 	}
 
-	private static GeneratedApi generateContentApiCalls(String testName, List<ScreenEntityDefinition> screenEntityDefinitions) {
+	private GeneratedApi generateContentApiCalls(String testName, List<ScreenEntityDefinition> screenEntityDefinitions) {
 		GeneratedApi generatedApi = new GeneratedApi();
 		generatedApi.setTestName(testName);
 
@@ -72,17 +77,18 @@ public class TrailJunitGenerator {
 		generatedApi.getApiCalls().add(
 				MessageFormat.format("{0} {1} = terminalSession.getEntity({0}.class);", entityName, variableName));
 
-		for (ScreenEntityDefinition screenEntityDefinition : screenEntityDefinitions) {
+		for (int i = 0; i < screenEntityDefinitions.size(); i++) {
+
+			ScreenEntityDesigntimeDefinition screenEntityDefinition = (ScreenEntityDesigntimeDefinition)screenEntityDefinitions.get(i);
 
 			generatedApi.getRefferedClasses().add(
 					MessageFormat.format("{0}.{1}", screenEntityDefinition.getPackageName(),
 							screenEntityDefinition.getEntityName()));
-			ScreenEntityDefinition accessedFromScreenDefinition = screenEntityDefinition.getAccessedFromScreenDefinition();
-			TerminalSnapshot accessedFromSnapshot = screenEntityDefinition.getAccessedFromSnapshot();
-			if (accessedFromScreenDefinition != null && accessedFromSnapshot != null) {
-				Collection<ScreenFieldDefinition> fields = accessedFromScreenDefinition.getFieldsDefinitions().values();
+			TerminalSnapshot outgoingSnapshot = screenEntityDefinition.getOutgoingSnapshot();
+			if (outgoingSnapshot != null) {
+				Collection<ScreenFieldDefinition> fields = screenEntityDefinition.getFieldsDefinitions().values();
 				for (ScreenFieldDefinition screenFieldDefinition : fields) {
-					TerminalField terminalField = accessedFromSnapshot.getField(screenFieldDefinition.getPosition());
+					TerminalField terminalField = outgoingSnapshot.getField(screenFieldDefinition.getPosition());
 					if (terminalField != null && terminalField.isModified()) {
 						generatedApi.getApiCalls().add(
 								MessageFormat.format("{0}.{1}({2});", variableName,
@@ -92,12 +98,17 @@ public class TrailJunitGenerator {
 
 				}
 
-				String nextEntityName = screenEntityDefinition.getEntityName();
-				generatedApi.getApiCalls().add(
-						MessageFormat.format("{0} {1} = terminalSession.doAction(TerminalActions.ENTER(),{2},{0}.class);",
-								nextEntityName, StringUtil.toJavaFieldName(nextEntityName), variableName));
+				String nextEntityName = i < screenEntityDefinitions.size() ? screenEntityDefinitions.get(i + 1).getEntityName()
+						: null;
 
-				entityName = screenEntityDefinition.getEntityName();
+				if (nextEntityName != null) {
+					String action = terminalActionMapper.getAction(outgoingSnapshot.getCommand()).toString();
+					generatedApi.getApiCalls().add(
+							MessageFormat.format("{0} {1} = terminalSession.doAction(TerminalActions.{2}(),{3},{0}.class);",
+									nextEntityName, StringUtil.toJavaFieldName(nextEntityName), action, variableName));
+				}
+
+				entityName = nextEntityName;
 				variableName = StringUtil.toJavaFieldName(entityName);
 			}
 		}

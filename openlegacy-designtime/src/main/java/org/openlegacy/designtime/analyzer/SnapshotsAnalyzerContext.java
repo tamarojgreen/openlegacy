@@ -31,4 +31,6 @@ public interface SnapshotsAnalyzerContext<S extends Snapshot, D extends EntityDe
 	Map<String, D> getEntitiesDefinitions();
 
 	Collection<TerminalSnapshot> getAccessedFromSnapshots(Collection<TerminalSnapshot> incomingSnapshots);
+
+	TerminalSnapshot getOutgoingSnapshot(TerminalSnapshot incomingSnapshot);
 }

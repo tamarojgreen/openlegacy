@@ -64,4 +64,9 @@ public class CombinedTerminalAction implements TerminalAction, Serializable {
 		CombinedTerminalAction other = (CombinedTerminalAction)obj;
 		return other.getAdditionalKey().equals(additionalKey) & other.getTerminalAction().equals(getTerminalAction());
 	}
+
+	@Override
+	public String toString() {
+		return terminalAction.getSimpleName();
+	}
 }

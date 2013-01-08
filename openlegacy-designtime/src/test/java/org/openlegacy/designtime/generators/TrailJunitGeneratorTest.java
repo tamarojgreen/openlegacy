@@ -39,16 +39,25 @@ public class TrailJunitGeneratorTest {
 	private TrailJunitGenerator trailJunitGenerator;
 
 	@Test
-	public void testGenerateJunit() throws Exception {
+	public void testJunit() throws Exception {
+		assertGenerateJunit("test.trail", "TrailJunit.java.expected");
+	}
+
+	@Test
+	public void testDemoSessionJunit() throws Exception {
+		assertGenerateJunit("demo_session.trail", "TrailJunitDemoSession.java.expected");
+	}
+
+	private void assertGenerateJunit(String trailPath, String expectedResource) throws Exception {
 
 		TerminalPersistedTrail trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class,
-				getClass().getResourceAsStream("test.trail"));
+				getClass().getResourceAsStream(trailPath));
 
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trail);
 
 		ByteArrayOutputStream baos = generate(screenEntitiesDefinitions);
 
-		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("TrailJunit.java.expected"));
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedResource));
 
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 

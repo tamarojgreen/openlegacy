@@ -3,7 +3,6 @@ package org.openlegacy.designtime.terminal.model.support;
 import org.apache.commons.lang.SerializationUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.terminal.ScreenSize;
-import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRectangle;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -43,7 +42,7 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 
 	private TerminalSnapshot originalSnapshot;
 
-	private TerminalField terminalField;
+	private TerminalSnapshot outgoingSnapshot;
 
 	@Override
 	public void setEntityName(String entityName) {
@@ -143,12 +142,12 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		return imports;
 	}
 
-	public TerminalField getTerminalField() {
-		return terminalField;
+	public TerminalSnapshot getOutgoingSnapshot() {
+		return outgoingSnapshot;
 	}
 
-	public void setTerminalField(TerminalField terminalField) {
-		this.terminalField = terminalField;
+	public void setOutgoingSnapshot(TerminalSnapshot outgoingSnapshot) {
+		this.outgoingSnapshot = outgoingSnapshot;
 	}
 
 }

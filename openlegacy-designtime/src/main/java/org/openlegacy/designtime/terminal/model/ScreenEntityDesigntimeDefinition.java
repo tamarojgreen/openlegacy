@@ -22,6 +22,10 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 
 	void setSnapshot(TerminalSnapshot terminalSnapshot);
 
+	TerminalSnapshot getOutgoingSnapshot();
+
+	void setOutgoingSnapshot(TerminalSnapshot terminalSnapshot);
+
 	String getPackageName();
 
 	void setPackageName(String packageName);
