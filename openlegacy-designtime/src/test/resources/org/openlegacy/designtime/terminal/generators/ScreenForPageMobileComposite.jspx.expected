@@ -1,0 +1,22 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" />
+	 
+	<h2 data-dojo-type="dojox.mobile.RoundRectCategory">Composite Screen For Page</h2>
+
+	<ul data-dojo-type="dojox.mobile.TabBar" data-dojo-props="barType:'segmentedControl'">
+		<li data-dojo-type="dojox.mobile.TabBarButton"
+			data-dojo-props="moveTo:'CompositeScreenForPage_${ol_entityId}Panel', selected:true">Composite Screen For Page</li>
+		<li data-dojo-type="dojox.mobile.TabBarButton"
+			data-dojo-props="moveTo:'ScreenForPage_${ol_entityId}Panel'">Screen For Page</li>
+	</ul>
+	
+	<div id="CompositeScreenForPage_${ol_entityId}Panel"
+		data-dojo-type="dojox.mobile.View" selected="true"
+		data-dojo-props="onShow: asyncLoadMobilePanel('CompositeScreenForPage_${ol_entityId}Panel','${pageContext.request.contextPath}/CompositeScreenForPage/${ol_entityId}?partial=1',0)">Loading...</div>
+	<div id="ItemDetails2_${ol_entityId}Panel"
+		data-dojo-type="dojox.mobile.View"
+		data-dojo-props="onShow: asyncLoadMobilePanel('ScreenForPage_${ol_entityId}Panel','${pageContext.request.contextPath}/ScreenForPage/${ol_entityId}?partial=1',1000)">Loading...</div>
+</jsp:root>
