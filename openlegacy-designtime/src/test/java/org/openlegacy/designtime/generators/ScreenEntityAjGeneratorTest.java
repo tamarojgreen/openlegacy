@@ -25,7 +25,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@ContextConfiguration("/openlegacy-basic-designtime-context.xml")
+@ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ScreenEntityAjGeneratorTest {
 
