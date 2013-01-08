@@ -265,10 +265,11 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	private static String getViewTemplate(EntityDefinition<?> entityDefinition, File viewsFile, String viewsFileContent) {
 		// check for marker with typeName
+		int tokenLength = TILES_VIEW_PLACEHOLDER_START.length() + entityDefinition.getTypeName().length();
 		int templateMarkerStart = viewsFileContent.indexOf(TILES_VIEW_PLACEHOLDER_START + entityDefinition.getTypeName())
-				+ TILES_VIEW_PLACEHOLDER_START.length() + entityDefinition.getTypeName().length();
+				+ tokenLength;
 		// use default marker
-		if (templateMarkerStart < 0) {
+		if (templateMarkerStart < tokenLength) {
 			templateMarkerStart = viewsFileContent.indexOf(TILES_VIEW_PLACEHOLDER_START) + TILES_VIEW_PLACEHOLDER_START.length();
 		}
 		// use default marker
