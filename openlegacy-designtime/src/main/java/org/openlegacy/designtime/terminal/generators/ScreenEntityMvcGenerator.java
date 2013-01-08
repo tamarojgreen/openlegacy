@@ -46,8 +46,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	private static final String MOBILE_VIEWS_DIR = "src/main/webapp/WEB-INF/mobile/views/";
 	private static final String HELP_DIR = "src/main/webapp/help/";
 
-	private static final String TILES_WEB_VIEWS_FILE = WEB_VIEWS_DIR + "/views.xml";
-	private static final String TILES_MOBILE_VIEWS_FILE = MOBILE_VIEWS_DIR + "/views.xml";
+	private static final String VIEWS_FILE = "views.xml";
 	private static final String TILES_VIEW_PLACEHOLDER_START = "<!-- Marker for code generation start:";
 	private static final String TILES_VIEW_PLACEHOLDER_END = "Marker for code generation end -->";
 
@@ -60,6 +59,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	private static final String COMPOSITE_SUFFIX = "Composite";
 	private static final String COMPOSITE_TEMPLATE = "compositeTemplate";
+	private static final String COMPOSITE_VIEW = "compositeView";
 
 	private static final CharSequence TILES_VIEW_PLACEHOLDER = "<!-- Place holder for code generation -->";
 
@@ -205,13 +205,13 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 			// generate web view
 			String mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild, false);
-			generateView(generatePageRequest, entityDefinition, pageDefinition, WEB_VIEWS_DIR, TILES_WEB_VIEWS_FILE,
-					TEMPLATE_WEB_DIR_PREFIX, userInteraction, isComposite, mvcTemplateType);
+			generateView(generatePageRequest, entityDefinition, pageDefinition, WEB_VIEWS_DIR, TEMPLATE_WEB_DIR_PREFIX,
+					userInteraction, isComposite, mvcTemplateType, COMPOSITE_TEMPLATE);
 			// generate mobile view
 			if (generatePageRequest.isGenerateMobilePage()) {
 				mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild, true);
-				generateView(generatePageRequest, entityDefinition, pageDefinition, MOBILE_VIEWS_DIR, TILES_MOBILE_VIEWS_FILE,
-						TEMPLATE_MOBILE_DIR_PREFIX, userInteraction, isComposite, mvcTemplateType);
+				generateView(generatePageRequest, entityDefinition, pageDefinition, MOBILE_VIEWS_DIR, TEMPLATE_MOBILE_DIR_PREFIX,
+						userInteraction, isComposite, mvcTemplateType, COMPOSITE_VIEW);
 			}
 
 		} catch (Exception e) {
@@ -295,8 +295,9 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	}
 
 	private void generateView(GeneratePageRequest generatePageRequest, EntityDefinition<?> entityDefinition,
-			SimplePageDefinition pageDefinition, String viewsDir, String tilesViewsFile, String templateDirectoryPrefix,
-			UserInteraction overrideConfirmer, boolean isComposite, String mvcTemplateType) throws IOException {
+			SimplePageDefinition pageDefinition, String viewsDir, String templateDirectoryPrefix,
+			UserInteraction overrideConfirmer, boolean isComposite, String mvcTemplateType, String mvcCompositeTemplateType)
+			throws IOException {
 
 		String entityClassName = entityDefinition.getEntityClassName();
 		FileOutputStream fos = null;
@@ -346,12 +347,13 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 				String viewName = entityDefinition.getEntityClassName();
 
+				String tilesViewsFile = viewsDir + VIEWS_FILE;
 				updateViewsFile(generatePageRequest.getProjectDir(), entityDefinition, viewName, mvcTemplateType, tilesViewsFile);
 
 				if (isComposite) {
 					// add view for composite screen
 					updateViewsFile(generatePageRequest.getProjectDir(), entityDefinition, viewName + COMPOSITE_SUFFIX,
-							COMPOSITE_TEMPLATE, tilesViewsFile);
+							mvcCompositeTemplateType, tilesViewsFile);
 				}
 			}
 
