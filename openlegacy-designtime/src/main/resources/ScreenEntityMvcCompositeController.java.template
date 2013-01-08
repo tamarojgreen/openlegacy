@@ -1,10 +1,15 @@
 package ${packageName}.web;
 
+import javax.inject.Inject;
+
+import org.openlegacy.terminal.TerminalSession;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import ${packageName}.*;
 
 /**
  * Handles requests for screen ${entityClassName}Composite
@@ -13,9 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/${entityClassName}")
 public class ${entityClassName}CompositeController {
 
+	@Inject
+	private TerminalSession terminalSession;
+
 	// handle page initial display
+    @SuppressWarnings("unused")
     @RequestMapping(<#if keys?size &gt; 0>value="/{id}", </#if> method = RequestMethod.GET)
     public String show(<#if keys?size &gt; 0>@PathVariable("id") Object id, </#if> Model uiModel) {
+
+    	${entityClassName} ${entityClassName?uncap_first} = terminalSession.getEntity(${entityClassName}.class<#if keys?size &gt; 0>,id</#if>);
+    	
         return "${entityClassName}Composite";
     }
 }
