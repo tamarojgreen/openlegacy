@@ -202,7 +202,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		/*
 		 * Replace apps.inventory.screens with default package
 		 */
-		springFileContent = springFileContent.replaceFirst("<value>[a-z\\.]+</value>",
+		springFileContent = springFileContent.replaceFirst("<value>[a-z_0-9\\.]+</value>",
 				MessageFormat.format("<value>{0}</value>", defaultPackageName));
 		FileOutputStream fos = new FileOutputStream(springFile);
 		IOUtils.write(springFileContent, fos);
