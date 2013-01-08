@@ -1,4 +1,4 @@
-package org.openlegacy.designtime.generators.mock;
+package org.openlegacy.designtime.terminal.generators.mock;
 
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;

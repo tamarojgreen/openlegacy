@@ -4,12 +4,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.openlegacy.designtime.analyzer.SnapshotsSorterTest;
-import org.openlegacy.designtime.generators.DefaultTerminalSnapshotsSorterTest;
-import org.openlegacy.designtime.generators.HelpGeneratorTest;
-import org.openlegacy.designtime.generators.ScreenEntityAjGeneratorTest;
-import org.openlegacy.designtime.generators.ScreenEntityMvcGeneratorTest;
-import org.openlegacy.designtime.generators.TrailJunitGeneratorTest;
 import org.openlegacy.designtime.terminal.analyzer.support.AnalyzerSuite;
+import org.openlegacy.designtime.terminal.generators.DefaultTerminalSnapshotsSorterTest;
+import org.openlegacy.designtime.terminal.generators.HelpGeneratorTest;
+import org.openlegacy.designtime.terminal.generators.ScreenEntityAjGeneratorTest;
+import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGeneratorTest;
+import org.openlegacy.designtime.terminal.generators.TrailJunitGeneratorTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ ScreenEntityAjGeneratorTest.class, DefaultTerminalSnapshotsSorterTest.class, SnapshotsSorterTest.class,

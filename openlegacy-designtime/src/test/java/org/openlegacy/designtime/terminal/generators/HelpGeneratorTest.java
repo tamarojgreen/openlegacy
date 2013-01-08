@@ -1,9 +1,8 @@
-package org.openlegacy.designtime.generators;
+package org.openlegacy.designtime.terminal.generators;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.designtime.terminal.generators.HelpGenerator;
 import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -29,7 +28,7 @@ public class HelpGeneratorTest {
 	@Test
 	public void testGenerateHelp() throws Exception {
 
-		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPage.java.resource";
+		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 

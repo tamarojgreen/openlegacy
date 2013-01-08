@@ -1,4 +1,4 @@
-package org.openlegacy.designtime.generators;
+package org.openlegacy.designtime.terminal.generators;
 
 import freemarker.template.TemplateException;
 

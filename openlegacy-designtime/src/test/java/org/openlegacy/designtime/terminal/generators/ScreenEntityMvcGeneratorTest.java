@@ -1,4 +1,4 @@
-package org.openlegacy.designtime.generators;
+package org.openlegacy.designtime.terminal.generators;
 
 import apps.inventory.screens.ItemDetails1;
 import apps.inventory.screens.ItemsList;
@@ -8,10 +8,9 @@ import freemarker.template.TemplateException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.designtime.generators.mock.CompositeScreenForPage;
-import org.openlegacy.designtime.generators.mock.MenuScreenForPage;
-import org.openlegacy.designtime.generators.mock.ScreenForPage;
-import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
+import org.openlegacy.designtime.terminal.generators.mock.CompositeScreenForPage;
+import org.openlegacy.designtime.terminal.generators.mock.MenuScreenForPage;
+import org.openlegacy.designtime.terminal.generators.mock.ScreenForPage;
 import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -63,7 +62,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 	@Test
 	public void testGenerateJspxByCodeModel() throws Exception {
-		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPage.java.resource";
+		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
@@ -84,7 +83,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 	@Test
 	public void testGenerateContollerAspectByCodeModel() throws Exception {
-		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPage.java.resource";
+		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
@@ -93,7 +92,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 	@Test
 	public void testGenerateContollerAspectByCodeModelWithKey() throws Exception {
-		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPageWithKey.java.resource";
+		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPageWithKey.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);

@@ -10,7 +10,7 @@
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 	    <property name="packages">
 	        <list>
-	            <value>org.openlegacy.designtime.generators.mock</value>
+	            <value>org.openlegacy.designtime.terminal.generators.mock</value>
 	            <value>apps.inventory.screens</value>
 	            </list>
 	    </property>

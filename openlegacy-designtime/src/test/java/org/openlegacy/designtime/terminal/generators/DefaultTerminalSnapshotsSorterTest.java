@@ -1,4 +1,4 @@
-package org.openlegacy.designtime.generators;
+package org.openlegacy.designtime.terminal.generators;
 
 import org.junit.Assert;
 import org.junit.Before;
