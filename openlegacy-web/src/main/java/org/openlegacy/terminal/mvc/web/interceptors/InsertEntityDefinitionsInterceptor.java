@@ -67,8 +67,8 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 
 			List<Object> keysValues = screenEntityUtils.getKeysValues(entity);
 			String keysValuesText = StringUtil.toString(keysValues, '_');
-			modelAndView.addObject("entityId", keysValuesText);
-			modelAndView.addObject("entityUniqueId", definitions.getEntityName() + keysValuesText);
+			modelAndView.addObject("ol_entityId", keysValuesText);
+			modelAndView.addObject("ol_entityUniqueId", definitions.getEntityName() + keysValuesText);
 		}
 		Menu menuModule = terminalSession.getModule(Menu.class);
 		if (menuModule != null) {

@@ -8,22 +8,22 @@
 
 	<ul data-dojo-type="dojox.mobile.TabBar" data-dojo-props="barType:'segmentedControl'">
 		<li data-dojo-type="dojox.mobile.TabBarButton"
-			data-dojo-props="moveTo:'ItemDetails_${entityId}Panel',
+			data-dojo-props="moveTo:'ItemDetails_${ol_entityId}Panel',
 							selected:true">Main Details</li>
 		<li data-dojo-type="dojox.mobile.TabBarButton"
-			data-dojo-props="moveTo:'ItemDetails2_${entityId}Panel'">Stock Details</li>
+			data-dojo-props="moveTo:'ItemDetails2_${ol_entityId}Panel'">Stock Details</li>
 		<li data-dojo-type="dojox.mobile.TabBarButton"
-			data-dojo-props="moveTo:'ItemDetailsImages_${entityId}Panel'">Images</li>
+			data-dojo-props="moveTo:'ItemDetailsImages_${ol_entityId}Panel'">Images</li>
 	</ul>
 
-	<div id="ItemDetails_${entityId}Panel"
+	<div id="ItemDetails_${ol_entityId}Panel"
 		data-dojo-type="dojox.mobile.View" selected="true"
-		data-dojo-props="onShow: asyncLoadMobilePanel('ItemDetails_${entityId}Panel','${pageContext.request.contextPath}/ItemDetails?partial=1',0)">Loading...</div>
-	<div id="ItemDetails2_${entityId}Panel"
+		data-dojo-props="onShow: asyncLoadMobilePanel('ItemDetails_${ol_entityId}Panel','${pageContext.request.contextPath}/ItemDetails?partial=1',0)">Loading...</div>
+	<div id="ItemDetails2_${ol_entityId}Panel"
 		data-dojo-type="dojox.mobile.View"
-		data-dojo-props="onShow: asyncLoadMobilePanel('ItemDetails2_${entityId}Panel','${pageContext.request.contextPath}/ItemDetails2?partial=1',1000)">Loading...</div>
+		data-dojo-props="onShow: asyncLoadMobilePanel('ItemDetails2_${ol_entityId}Panel','${pageContext.request.contextPath}/ItemDetails2?partial=1',1000)">Loading...</div>
 
-	<div id="ItemDetailsImages_${entityId}Panel"
+	<div id="ItemDetailsImages_${ol_entityId}Panel"
 		data-dojo-type="dojox.mobile.View">
 		<c:forEach items="${stockItem.images}" var="image">
 			<div data-dojo-type="dojox.mobile.SwapView">
