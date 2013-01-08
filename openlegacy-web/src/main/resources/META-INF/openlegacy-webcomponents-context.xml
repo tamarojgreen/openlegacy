@@ -23,7 +23,7 @@
 			</map>
 		</property>
 	</bean>
- 	<bean id="htmlProportionsHandler" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="23" p:columnProportion="10" p:fontSize="16" p:inputHeight="16" />
+ 	<bean id="htmlProportionsHandler" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="19" p:columnProportion="10" p:fontSize="16" p:inputHeight="16" />
 	<bean id="terminalSendActionBuilder" class="org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder" />
 	<bean id="tableWriter" class="org.openlegacy.web.DefaultHtmlTableWriter" />
 	<bean id="themeUtil" class="org.openlegacy.terminal.mvc.web.ThemeUtil" />
