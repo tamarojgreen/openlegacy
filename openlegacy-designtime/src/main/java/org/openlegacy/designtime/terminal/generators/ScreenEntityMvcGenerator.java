@@ -20,8 +20,6 @@ import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.GeneratePageRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
-import org.openlegacy.modules.login.Login;
-import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 import org.springframework.stereotype.Component;
@@ -50,20 +48,18 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	private static final String TILES_WEB_VIEWS_FILE = WEB_VIEWS_DIR + "/views.xml";
 	private static final String TILES_MOBILE_VIEWS_FILE = MOBILE_VIEWS_DIR + "/views.xml";
-	private static final String TILES_VIEW_PLACEHOLDER_START = "<!-- Marker for code generation start";
+	private static final String TILES_VIEW_PLACEHOLDER_START = "<!-- Marker for code generation start:";
 	private static final String TILES_VIEW_PLACEHOLDER_END = "Marker for code generation end -->";
 
 	private static final String VIEW_TOKEN = "VIEW-NAME";
 	private static final String TEMPLATE_TOKEN = "TEMPLATE-NAME";
 
 	private static final String DEFAULT_TEMPLATE = "template";
-	private static final String PUBLIC_TEMPLATE = "public";
 	private static final String VIEW_ONLY_TEMPLATE = "view";
 	private static final String INNER_VIEW_MOBILE_TEMPLATE = "innerView";
 
 	private static final String COMPOSITE_SUFFIX = "Composite";
 	private static final String COMPOSITE_TEMPLATE = "compositeTemplate";
-	private static final String MENU_TEMPLATE = "menu";
 
 	private static final CharSequence TILES_VIEW_PLACEHOLDER = "<!-- Place holder for code generation -->";
 
@@ -245,16 +241,12 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 		try {
 			// Find a marker block within Spring MVC tiles views.xml file
 			String viewsFileContent = FileUtils.readFileToString(viewsFile);
-			int templateMarkerStart = viewsFileContent.indexOf(TILES_VIEW_PLACEHOLDER_START)
-					+ TILES_VIEW_PLACEHOLDER_START.length();
-			int templateMarkerEnd = viewsFileContent.indexOf(TILES_VIEW_PLACEHOLDER_END) - 1;
-			if (templateMarkerStart < 0 || templateMarkerEnd < 0) {
+			String definitionTemplate = getViewTemplate(entityDefinition, viewsFile, viewsFileContent);
+			if (definitionTemplate == null) {
 				logger.warn(MessageFormat.format("Could not find template markers within views file: {0}",
 						viewsFile.getAbsolutePath()));
 				return;
 			}
-			// replace tokens within the place holder tag
-			String definitionTemplate = viewsFileContent.substring(templateMarkerStart, templateMarkerEnd);
 			String newViewDefinition = definitionTemplate.replaceAll(VIEW_TOKEN, viewName);
 
 			newViewDefinition = newViewDefinition.replaceAll(TEMPLATE_TOKEN, mcvTemplateType);
@@ -266,8 +258,30 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			logger.info(MessageFormat.format("Added view {0} to {1}", viewName, viewsFile.getAbsoluteFile()));
 
 		} finally {
+
 			IOUtils.closeQuietly(fos);
 		}
+	}
+
+	private static String getViewTemplate(EntityDefinition<?> entityDefinition, File viewsFile, String viewsFileContent) {
+		// check for marker with typeName
+		int templateMarkerStart = viewsFileContent.indexOf(TILES_VIEW_PLACEHOLDER_START + entityDefinition.getTypeName())
+				+ TILES_VIEW_PLACEHOLDER_START.length() + entityDefinition.getTypeName().length();
+		// use default marker
+		if (templateMarkerStart < 0) {
+			templateMarkerStart = viewsFileContent.indexOf(TILES_VIEW_PLACEHOLDER_START) + TILES_VIEW_PLACEHOLDER_START.length();
+		}
+		// use default marker
+		int templateMarkerEnd = viewsFileContent.indexOf(entityDefinition.getTypeName() + ":" + TILES_VIEW_PLACEHOLDER_END) - 1;
+		if (templateMarkerEnd < 0) {
+			templateMarkerEnd = viewsFileContent.indexOf(TILES_VIEW_PLACEHOLDER_END) - 1;
+		}
+		if (templateMarkerStart < 0 || templateMarkerEnd < 0) {
+			return null;
+		}
+		// replace tokens within the place holder tag
+		String definitionTemplate = viewsFileContent.substring(templateMarkerStart, templateMarkerEnd);
+		return definitionTemplate;
 	}
 
 	public void generateCompositePage(EntityDefinition<?> entityDefinition, OutputStream output, String templateDirectoryPrefix) {
@@ -343,23 +357,18 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 		}
 	}
 
-	private String getMvcTemplateType(EntityDefinition<?> entityDefinition, boolean isComposite, boolean isChild, boolean isMobile) {
+	private static String getMvcTemplateType(EntityDefinition<?> entityDefinition, boolean isComposite, boolean isChild,
+			boolean isMobile) {
 		String mvcTemplateType = null;
 		if (isMobile) {
 			// in mobile - generate pages as views by default. composite (main screen) and it's child entities - generate as inner
-			// views (child of view
+			// views (child of view)
 			mvcTemplateType = (isComposite || isChild) ? INNER_VIEW_MOBILE_TEMPLATE : VIEW_ONLY_TEMPLATE;
 		} else {
 			// in web - generate pages as template by default. composite (main screen) and it's child entities - generate as views
 			mvcTemplateType = (isComposite || isChild) ? VIEW_ONLY_TEMPLATE : DEFAULT_TEMPLATE;
 		}
 
-		if (entityDefinition.getTypeName().equals(Login.LoginEntity.class.getSimpleName())) {
-			mvcTemplateType = PUBLIC_TEMPLATE;
-		}
-		if (entityDefinition.getTypeName().equals(Menu.MenuEntity.class.getSimpleName())) {
-			mvcTemplateType = MENU_TEMPLATE;
-		}
 		return mvcTemplateType;
 	}
 

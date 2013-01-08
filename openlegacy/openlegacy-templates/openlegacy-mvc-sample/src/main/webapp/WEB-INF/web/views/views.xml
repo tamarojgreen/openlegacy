@@ -5,10 +5,27 @@
 
 <tiles-definitions>
 
-	<!-- Marker for code generation start <definition name="VIEW-NAME" extends="TEMPLATE-NAME"> 
-		<put-attribute name="body" value="/WEB-INF/views/VIEW-NAME.jspx" /> </definition> 
-		Marker for code generation end -->
+    <!-- DO NOT DELETE. USED FOR CODE GENERATION -->
+    
+   	<!-- Marker for code generation start: 
+	<definition name="VIEW-NAME" extends="TEMPLATE-NAME"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/VIEW-NAME.jspx" />
+	</definition> 
+	Marker for code generation end -->
 
+	<!-- Marker for code generation start:LoginEntity 
+	<definition name="VIEW-NAME" extends="public"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/VIEW-NAME.jspx" />
+	</definition> 
+	LoginEntity:Marker for code generation end -->
+	
+	<!-- Marker for code generation start:MenuEntity 
+	<definition name="VIEW-NAME" extends="menu"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/VIEW-NAME.jspx" />
+	</definition> 
+	MenuEntity:Marker for code generation end -->
+
+	<!-- Place holder for code generation -->
 
 	<definition name="Emulation" extends="template">
 		<put-attribute name="body" value="/WEB-INF/web/views/Emulation.jspx" />

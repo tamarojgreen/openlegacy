@@ -5,17 +5,27 @@
 
 <tiles-definitions>
 
-	<!-- Marker for code generation start 
+    <!-- DO NOT DELETE. USED FOR CODE GENERATION -->
+    
+   	<!-- Marker for code generation start: 
 	<definition name="VIEW-NAME" extends="TEMPLATE-NAME"> 
 		<put-attribute name="body" value="/WEB-INF/web/views/VIEW-NAME.jspx" />
 	</definition> 
 	Marker for code generation end -->
 
-	<definition name="HtmlEmulation" extends="emulation">
-		<put-attribute name="body" value="/WEB-INF/web/views/HtmlEmulation.jspx" />
-	</definition>
+	<!-- Marker for code generation start:LoginEntity 
+	<definition name="VIEW-NAME" extends="public"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/VIEW-NAME.jspx" />
+	</definition> 
+	LoginEntity:Marker for code generation end -->
+	
+	<!-- Marker for code generation start:MenuEntity 
+	<definition name="VIEW-NAME" extends="menu"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/VIEW-NAME.jspx" />
+	</definition> 
+	MenuEntity:Marker for code generation end -->
 
-	<!-- Place holder for code generation -->
+	<!-- Place holder for code generation --> 
 
 	<!-- A generic API page view -->
 	<definition name="generic" extends="template">
@@ -37,13 +47,11 @@
 	</definition>
 
 	<definition name="uncaughtException" extends="public">
-		<put-attribute name="body"
-			value="/WEB-INF/web/views/uncaughtException.jspx" />
+		<put-attribute name="body" value="/WEB-INF/web/views/uncaughtException.jspx" />
 	</definition>
 
 	<definition name="sessionEndedException" extends="public">
-		<put-attribute name="body"
-			value="/WEB-INF/web/views/sessionEndedException.jspx" />
+		<put-attribute name="body" value="/WEB-INF/web/views/sessionEndedException.jspx" />
 	</definition>
 
 </tiles-definitions>

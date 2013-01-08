@@ -5,13 +5,31 @@
 
 <tiles-definitions>
 
-	<!-- Marker for code generation start 
+    <!-- DO NOT DELETE. USED FOR CODE GENERATION -->
+    
+	<!-- Marker for code generation start:
 	<definition name="VIEW-NAME_m" extends="TEMPLATE-NAME_m"> 
 		<put-attribute name="body" value="/WEB-INF/mobile/views/VIEW-NAME.jspx" />
 	</definition> 
 	Marker for code generation end -->
 
-	<!-- Place holder for code generation --> 
+	<!-- Marker for code generation start:LoginEntity 
+	<definition name="VIEW-NAME_m" extends="public_m"> 
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/VIEW-NAME.jspx" />
+		<put-attribute name="body" value="/WEB-INF/mobile/template/paneheader.jspx"/>
+	</definition> 
+	LoginEntity:Marker for code generation end -->
+	
+	<!-- Marker for code generation start:MenuEntity
+	<definition name="VIEW-NAME_m" extends="menu_m"> 
+		<put-attribute name="header" value="" />
+		<put-attribute name="actions" value="" />
+   		<put-attribute name="body" value="/WEB-INF/mobile/views/VIEW-NAME.jspx" />
+	</definition> 
+	MenuEntity:Marker for code generation end -->
+	
+	<!-- Place holder for code generation -->
+
 	<definition name="WorkWithSubmittedJobs_m" extends="view_m"> 
 		<put-attribute name="body" value="/WEB-INF/mobile/views/WorkWithSubmittedJobs.jspx" />
 	</definition> 
