@@ -52,13 +52,13 @@ privileged @SuppressWarnings("unused") aspect ScreenForPagewithKeyController_Asp
 
 	// handle page with keys ajax call display
     @RequestMapping(value="/{id}", method = RequestMethod.GET, headers = "X-Requested-With=XMLHttpRequest")
-    public String ScreenForPagewithKeyController.ajax(@PathVariable Object id, Model uiModel) {
+    public String ScreenForPagewithKeyController.ajax(@PathVariable("id") Object id, Model uiModel) {
     	return show(id,uiModel);
     }
 
 	// handle page with keys initial display
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public String ScreenForPagewithKeyController.show(@PathVariable Object id, Model uiModel) {
+    public String ScreenForPagewithKeyController.show(@PathVariable("id") Object id, Model uiModel) {
     	ScreenForPagewithKey screenForPagewithKey = terminalSession.getEntity(ScreenForPagewithKey.class,id);
 	uiModel.addAttribute("screenForPagewithKey", screenForPagewithKey);
 	// show the resulting page for ScreenForPagewithKey

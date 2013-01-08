@@ -15,7 +15,7 @@ public class ${entityClassName}CompositeController {
 
 	// handle page initial display
     @RequestMapping(<#if keys?size &gt; 0>value="/{id}", </#if> method = RequestMethod.GET)
-    public String show(<#if keys?size &gt; 0>@PathVariable Object id, </#if> Model uiModel) {
+    public String show(<#if keys?size &gt; 0>@PathVariable("id") Object id, </#if> Model uiModel) {
         return "${entityClassName}Composite";
     }
 }

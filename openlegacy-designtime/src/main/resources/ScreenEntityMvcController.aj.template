@@ -73,13 +73,13 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	<#if entityDefinition.keys?size &gt; 0>
 	// handle page with keys ajax call display
     @RequestMapping(value="/{id}", method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childEntitiesDefinitions?size &gt; 0>, params="partial=1"</#if>, headers = "X-Requested-With=XMLHttpRequest")
-    public String ${entityDefinition.entityClassName}Controller.ajax(@PathVariable Object id, Model uiModel) {
+    public String ${entityDefinition.entityClassName}Controller.ajax(@PathVariable("id") Object id, Model uiModel) {
     	return show(id,uiModel);
     }
 
 	// handle page with keys initial display
     @RequestMapping(value="/{id}", method = RequestMethod.GET<#if entityDefinition.child || entityDefinition.childEntitiesDefinitions?size &gt; 0>, params="partial=1"</#if>)
-    public String ${entityDefinition.entityClassName}Controller.show(@PathVariable Object id, Model uiModel) {
+    public String ${entityDefinition.entityClassName}Controller.show(@PathVariable("id") Object id, Model uiModel) {
     	${entityDefinition.entityClassName} ${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class,id);
 	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
 	// show the resulting page for ${entityDefinition.entityClassName}
