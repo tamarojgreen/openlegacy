@@ -34,7 +34,8 @@ public class Items {
 	private List<ItemsRecord> itemsRecords;
 
 	@ScreenTable(startRow = 8, endRow = 19)
-	@ScreenTableActions(actions = { @TableAction(actionValue = "2", displayName = "Revise", targetEntity = ItemDetails.class),
+	@ScreenTableActions(actions = {
+			@TableAction(actionValue = "2", displayName = "Revise", targetEntity = ItemDetails.class, defaultAction = true),
 			@TableAction(actionValue = "4", displayName = "Delete", targetEntity = ItemDetails.class),
 			@TableAction(actionValue = "5", displayName = "Display", targetEntity = ItemDetails.class) })
 	public static class ItemsRecord {

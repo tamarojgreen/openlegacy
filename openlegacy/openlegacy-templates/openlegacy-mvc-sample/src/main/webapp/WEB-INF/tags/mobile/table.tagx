@@ -28,11 +28,11 @@
 			<c:set var="displayValue" value="${item[tableDefinition.mainDisplayField]}" />
 			<li data-dojo-type="dojox.mobile.ListItem" transition="slide"
 				onclick="showLoading();" class="${i.index % 2 == 0 ? '' : 'alt'}"
-				url="${defaultTableAction.targetEntity}/${keyValue}">${displayValue}</li>
+				url="${defaultTableAction.targetEntity.simpleName}/${keyValue}">${displayValue}</li>
 		</c:forEach>
 	</ul>
 	<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn"
-		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayField}','ItemDetails/revise/')">Load
+		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayField}','${defaultTableAction.targetEntity.simpleName}/${defaultTableAction.targetEntity.alias}/')">Load
 		More</button>
 	</c:if>
 
