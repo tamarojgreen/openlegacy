@@ -756,7 +756,7 @@
         </row>
         <row rowNumber="6">
             <field column="1"/>
-            <field column="2" value="Item Number"/>
+            <field column="2" value="Item Number . . . ."/>
             <field column="22" value="2000           " type="java.lang.Integer"/>
         </row>
         <row rowNumber="7">
