@@ -67,6 +67,7 @@
 							<alias>openlegacy</alias>
 							<storepass>${updatesite.sign.storepass}</storepass>
 							<keypass>${updatesite.sign.keypass}</keypass>
+							<verify>false</verify>
 						</configuration>
 					</plugin>
 					<!-- Upload the repo to the server -->
