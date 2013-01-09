@@ -7,7 +7,7 @@
 	<jsp:output omit-xml-declaration="yes" />
 	<jsp:directive.attribute name="name" type="java.lang.String" required="true" rtexprvalue="true" description="The entity field to bind the tag to" />
 	<jsp:directive.attribute name="label" type="java.lang.String" required="false" rtexprvalue="true" description="The label for this tag. Default to field display name" />
-	<jsp:directive.attribute name="size" type="java.lang.Integer" required="false" rtexprvalue="true" description="The size of this tag. Default to field length" />
+	<jsp:directive.attribute name="maxlength" type="java.lang.Integer" required="false" rtexprvalue="true" description="The maxlength of this tag. Default to field length" />
 	<jsp:directive.attribute name="type" type="java.lang.String" required="false" rtexprvalue="true" description="Set field type (default 'text', or 'password')" />
 	<jsp:directive.attribute name="style" type="java.lang.String" required="false" rtexprvalue="true" description="Set field style" />
 	<jsp:directive.attribute name="cssClass" type="java.lang.String" required="false" rtexprvalue="true" description="Set field CSS class" />
@@ -29,8 +29,8 @@
 	<c:if test="${empty label}">
 		<c:set var="label" value="${fieldDefinition.displayName}" />
 	</c:if>
-	<c:if test="${empty size}">
-		<c:set var="size" value="${fieldDefinition.length}" />
+	<c:if test="${empty maxlength}">
+		<c:set var="maxlength" value="${fieldDefinition.length}" />
 	</c:if>
 	<c:if test="${empty type}">
 		<c:set var="type" value="${type}" />
@@ -40,11 +40,11 @@
 	</c:if>
 	<c:choose>
 		<c:when test="${empty top}">
-			<olt:innerField name="${name}" label="${label}" size="${size}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" />
+			<olt:innerField name="${name}" label="${label}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" />
 		</c:when>
 		<c:otherwise>
 			<div style="margin-left: ${left}; top: ${top}; width:${width}; position:absolute;">
-				<olt:innerField name="${name}" label="${label}" size="${size}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" />
+				<olt:innerField name="${name}" label="${label}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" />
 			</div>
 		</c:otherwise>
 	</c:choose>
