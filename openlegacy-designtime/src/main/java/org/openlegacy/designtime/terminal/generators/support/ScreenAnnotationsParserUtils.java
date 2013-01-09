@@ -77,6 +77,9 @@ public class ScreenAnnotationsParserUtils {
 		String selectionFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.SELECTION_FIELD);
 		String keyValue = getAnnotationValue(annotationExpr, AnnotationConstants.KEY);
 		String mainDisplayFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.MAIN_DISPLAY_FIELD);
+		// @author Ivan Bort refs assembla #112
+		String fieldTypeName = getAnnotationValue(annotationExpr, AnnotationConstants.FIELD_TYPE);
+		field.setFieldTypeName(StringUtil.toClassName(fieldTypeName));
 
 		if (AnnotationConstants.TRUE.equals(editableValue)) {
 			field.setEditable(true);

@@ -77,6 +77,8 @@ public class CodeBasedDefinitionUtils {
 			}
 			fieldDefinition.setFieldTypeDefinition(javaFieldModel.getFieldTypeDefiniton());
 			fieldDefinition.setKey(javaFieldModel.isKey());
+			// @author Ivan Bort, refs assembla #112
+			fieldDefinition.setFieldTypeName(javaFieldModel.getFieldTypeName());
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;

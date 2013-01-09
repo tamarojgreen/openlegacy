@@ -78,4 +78,12 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	 * @return
 	 */
 	boolean isRectangle();
+
+	// @author Ivan Bort, refs assembla #112
+	/**
+	 * Gets the FieldType name
+	 * 
+	 * @return
+	 */
+	String getFieldTypeName();
 }

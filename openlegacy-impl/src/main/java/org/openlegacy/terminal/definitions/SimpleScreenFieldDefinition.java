@@ -43,6 +43,9 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	private TerminalPosition endPosition;
 
+	// @author Ivan Bort, refs assembla #112
+	private String fieldTypeName;
+
 	public SimpleScreenFieldDefinition() {
 		super();
 	}
@@ -170,5 +173,13 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public boolean isMultyLine() {
 		return getEndPosition().getRow() != getPosition().getRow();
+	}
+
+	public String getFieldTypeName() {
+		return fieldTypeName;
+	}
+
+	public void setFieldTypeName(String fieldTypeName) {
+		this.fieldTypeName = fieldTypeName;
 	}
 }

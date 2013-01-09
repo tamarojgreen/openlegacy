@@ -318,6 +318,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean selectionField;
 		private boolean key;
 		private boolean mainDisplayField;
+		private String fieldTypeName;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -459,6 +460,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setMainDisplayField(boolean mainDisplayField) {
 			this.mainDisplayField = mainDisplayField;
+		}
+
+		public String getFieldTypeName() {
+			return fieldTypeName;
+		}
+
+		public void setFieldTypeName(String fieldTypeName) {
+			this.fieldTypeName = fieldTypeName;
 		}
 	}
 
