@@ -13,15 +13,12 @@
 			value="/WEB-INF/mobile/template/footer.jspx" />
 	</definition>
 
-	<definition name="emulation_m" template="/WEB-INF/mobile/template/template.jspx">
-		<put-attribute name="header"
-			value="/WEB-INF/mobile/template/header.jspx" />
-	</definition>
-
 	<definition name="menu_m" template="/WEB-INF/mobile/template/template.jspx">
 		<put-attribute name="header"
 			value="/WEB-INF/mobile/template/header.jspx" />
 		<put-attribute name="menu" value="/WEB-INF/mobile/template/menu.jspx" />
+		<put-attribute name="footer"
+			value="/WEB-INF/mobile/template/footer.jspx" />
 	</definition>
 
 	<definition name="compositeTemplate_m" template="/WEB-INF/mobile/template/template.jspx">
