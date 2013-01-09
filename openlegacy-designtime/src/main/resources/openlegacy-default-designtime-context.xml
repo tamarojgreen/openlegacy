@@ -183,7 +183,7 @@
 										<entry key="labelRegex" value="\s*[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
 										<entry key="maximumLabelLength" value="50" />
 										<entry key="maxDistance" value="6" />
-										<entry key="fieldRegex" value="\s*[\w\p{L}\*/]+[\w\p{L}\*/ ]*" />
+										<entry key="fieldRegex" value="\s*[\w\p{L}\*]+[\w\p{L}\*/ ]*" />
 										<entry key="minimumFieldLength" value="1" />
 										<entry key="maximumFieldLength" value="30" />
 									</map>
