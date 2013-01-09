@@ -36,20 +36,20 @@
 						<spring:eval var="columnValue" expression="item[column.name]" />
 						<td><c:choose>
 								<c:when test="${column.selectionField}">
+									<!--  								
 				      				<select onchange="doPost()" name="${column.name}">
-				      					<option value="">-- Select --</option>
+				      					<option value="">- Select -</option>
 				      					<c:forEach items="${tableDefinition.actions}" var="action">
 				      					<option value="${action.action.actionValue}">${action.displayName}</option>
 				      					</c:forEach>
 				      				</select>
-									<!--  								
+ 									 -->
 									<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
 										<a
-											href="${action.targetEntity.simpleName}/${action.alias}/${item[tableDefinition.keyFieldNames[0]]}"
+											href="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}"
 											class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName}</a>
 											<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
 									</c:forEach>
- 									 -->
 								</c:when>
 								<c:when test="${column.editable}">
 									<input name="${column.name}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
