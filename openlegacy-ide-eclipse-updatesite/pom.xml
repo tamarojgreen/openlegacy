@@ -40,6 +40,7 @@
 			</properties>
 			<build>
 				<plugins>
+					<!-- Temporary disable plugin signing (failed the build on veriry - need to check) 				
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-jarsigner-plugin</artifactId>
@@ -67,10 +68,10 @@
 							<alias>openlegacy</alias>
 							<storepass>${updatesite.sign.storepass}</storepass>
 							<keypass>${updatesite.sign.keypass}</keypass>
-							<verify>false</verify>
 						</configuration>
 					</plugin>
-					<!-- Upload the repo to the server -->
+ 					-->
+ 					<!-- Upload the repo to the server -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>wagon-maven-plugin</artifactId>
