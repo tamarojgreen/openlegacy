@@ -2,8 +2,11 @@ package org.openlegacy.terminal.samples.mvc.controllers;
 
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.samples.model.SignOn;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,17 +25,24 @@ public class SignOnController {
 	@Inject
 	private TerminalSession terminalSession;
 
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
 	// handle page initial display
-    @RequestMapping(method = RequestMethod.GET)
-    public String show(Model uiModel) {
-    	if (terminalSession.isConnected()){
-			terminalSession.getModule(Login.class).logoff();
-    	}
-    	SignOn signOn = new SignOn();
+	@RequestMapping(method = RequestMethod.GET)
+	public String show(Model uiModel) {
+		if (terminalSession.isConnected()) {
+			MenuItem mainMenu = terminalSession.getModule(Menu.class).getMenuTree();
+			if (mainMenu != null) {
+				Class<?> mainMenuEntity = mainMenu.getTargetEntity();
+				return screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
+			}
+		}
+		SignOn signOn = new SignOn();
 		uiModel.addAttribute("signOn", signOn);
-        return "SignOn";
-    }
-	
+		return "SignOn";
+	}
+
 	// handle submit action
 	@RequestMapping(method = RequestMethod.POST)
 	public String submit(SignOn signOn, Model uiModel, HttpServletRequest httpServletRequest) {
