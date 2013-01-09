@@ -16,7 +16,7 @@
 	<div id="CompositeScreenForPage_${ol_entityId}Panel"
 		data-dojo-type="dojox.mobile.View" selected="true"
 		data-dojo-props="onShow: asyncLoadMobilePanel('CompositeScreenForPage_${ol_entityId}Panel','${pageContext.request.contextPath}/CompositeScreenForPage/${ol_entityId}?partial=1',0)">Loading...</div>
-	<div id="ItemDetails2_${ol_entityId}Panel"
+	<div id="ScreenForPage_${ol_entityId}Panel"
 		data-dojo-type="dojox.mobile.View"
 		data-dojo-props="onShow: asyncLoadMobilePanel('ScreenForPage_${ol_entityId}Panel','${pageContext.request.contextPath}/ScreenForPage/${ol_entityId}?partial=1',1000)">Loading...</div>
 </jsp:root>
