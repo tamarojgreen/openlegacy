@@ -14,7 +14,7 @@
 	</c:if>
 	</div>
 	<div>
-		<div id="calPicker" data-dojo-type="dojox.mobile.Opener" data-dojo-props="onHide:getDateFromCalendar, onShow:setDateToCelendar"  style="display: none">
+		<div id="calPicker" data-dojo-type="dojox.mobile.Opener" data-dojo-props="onHide:getDateFromCalendar, onShow:setDateToCelendar">
 			<h1 data-dojo-type="dojox.mobile.Heading" 
 				data-dojo-props="label:'Select a Date'">
 				<div data-dojo-type="dojox.mobile.ToolBarButton" 
