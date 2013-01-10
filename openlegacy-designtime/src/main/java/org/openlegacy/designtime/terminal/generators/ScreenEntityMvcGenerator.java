@@ -17,7 +17,8 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.UserInteraction;
-import org.openlegacy.designtime.mains.GeneratePageRequest;
+import org.openlegacy.designtime.mains.GenerateControllerRequest;
+import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -94,7 +95,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	/**
 	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
 	 */
-	public void generateAll(GeneratePageRequest generatePageRequest, ScreenEntityDefinition screenEntityDefinition)
+	public void generateView(GenerateViewRequest generatePageRequest, ScreenEntityDefinition screenEntityDefinition)
 			throws GenerationException {
 
 		if (screenEntityDefinition.isChild()) {
@@ -102,16 +103,16 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			return;
 		}
 
-		generateAll(generatePageRequest, screenEntityDefinition, false);
+		generateView(generatePageRequest, screenEntityDefinition, false);
 	}
 
 	/**
 	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
 	 */
-	private void generateAll(GeneratePageRequest generatePageRequest, EntityDefinition<?> entityDefinition, boolean isChild)
+	private void generateView(GenerateViewRequest generatePageRequest, EntityDefinition<?> entityDefinition, boolean isChild)
 			throws GenerationException {
 
-		generateUtil.setTemplateDirectory(generatePageRequest.getTemplatesDir());
+		generateUtil.setTemplateDirectory(generatePageRequest.getTemplatesDirectory());
 
 		// Whether to generate a simple or composite page
 		boolean isComposite = !isChild && entityDefinition.getChildEntitiesDefinitions().size() > 0;
@@ -120,7 +121,82 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 		FileOutputStream fos = null;
 		try {
 
-			File packageDir = new File(generatePageRequest.getSourceDirectory(), generatePageRequest.getPackageDirectoryName());
+			String entityClassName = entityDefinition.getEntityClassName();
+
+			SimplePageDefinition pageDefinition = (SimplePageDefinition)new DefaultScreenPageBuilder().build((ScreenEntityDefinition)entityDefinition);
+
+			if (generatePageRequest.isGenerateHelp()) {
+				boolean generateHelp = true;
+				File helpFile = new File(generatePageRequest.getProjectPath(), MessageFormat.format("{0}{1}.html", HELP_DIR,
+						entityClassName));
+				if (helpFile.exists()) {
+					boolean override = userInteraction.isOverride(helpFile);
+					if (!override) {
+						generateHelp = false;
+					}
+				}
+				if (generateHelp) {
+					helpFile.getParentFile().mkdirs();
+					OutputStream out = new FileOutputStream(helpFile);
+					try {
+						helpGenerator.generate(pageDefinition, out);
+					} finally {
+						IOUtils.closeQuietly(out);
+						org.openlegacy.utils.FileUtils.deleteEmptyFile(helpFile);
+					}
+				}
+			}
+
+			// generate web view
+			String mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild, false);
+			generateView(generatePageRequest, entityDefinition, pageDefinition, WEB_VIEWS_DIR, TEMPLATE_WEB_DIR_PREFIX,
+					userInteraction, isComposite, mvcTemplateType, COMPOSITE_TEMPLATE);
+			// generate mobile view
+			if (generatePageRequest.isGenerateMobilePage()) {
+				mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild, true);
+				generateView(generatePageRequest, entityDefinition, pageDefinition, MOBILE_VIEWS_DIR, TEMPLATE_MOBILE_DIR_PREFIX,
+						userInteraction, isComposite, mvcTemplateType, COMPOSITE_VIEW);
+			}
+
+		} catch (Exception e) {
+			throw (new GenerationException(e));
+		} finally {
+			IOUtils.closeQuietly(fos);
+		}
+
+	}
+
+	/**
+	 * Generate all controller related content: controller, controller aspect file
+	 */
+	public void generateController(GenerateControllerRequest generateControllerRequest,
+			ScreenEntityDefinition screenEntityDefinition) throws GenerationException {
+
+		if (screenEntityDefinition.isChild()) {
+			logger.warn("Skipping generation of child entity" + screenEntityDefinition.getEntityClassName());
+			return;
+		}
+
+		generateController(generateControllerRequest, screenEntityDefinition, false);
+	}
+
+	/**
+	 * Generate all controller related content: controller, controller aspect file
+	 */
+	private void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition,
+			boolean isChild) throws GenerationException {
+
+		generateUtil.setTemplateDirectory(generateControllerRequest.getTemplatesDirectory());
+
+		// Whether to generate a simple or composite page
+		boolean isComposite = !isChild && entityDefinition.getChildEntitiesDefinitions().size() > 0;
+
+		UserInteraction userInteraction = generateControllerRequest.getUserInteraction();
+		FileOutputStream fos = null;
+		try {
+
+			File packageDir = new File(generateControllerRequest.getSourceDirectory(),
+					generateControllerRequest.getPackageDirectory());
 			String entityClassName = entityDefinition.getEntityClassName();
 
 			if (isComposite) {
@@ -155,7 +231,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			}
 
 			SimplePageDefinition pageDefinition = (SimplePageDefinition)new DefaultScreenPageBuilder().build((ScreenEntityDefinition)entityDefinition);
-			pageDefinition.setPackageName(generatePageRequest.getPackageDirectoryName().replaceAll("/", "."));
+			pageDefinition.setPackageName(generateControllerRequest.getPackageDirectory().replaceAll("/", "."));
 
 			if (generateController) {
 				contollerFile.getParentFile().mkdirs();
@@ -169,28 +245,6 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				}
 			}
 
-			if (generatePageRequest.isGenerateHelp()) {
-				boolean generateHelp = true;
-				File helpFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format("{0}{1}.html", HELP_DIR,
-						entityClassName));
-				if (helpFile.exists()) {
-					boolean override = userInteraction.isOverride(helpFile);
-					if (!override) {
-						generateHelp = false;
-					}
-				}
-				if (generateHelp) {
-					helpFile.getParentFile().mkdirs();
-					OutputStream out = new FileOutputStream(helpFile);
-					try {
-						helpGenerator.generate(pageDefinition, out);
-					} finally {
-						IOUtils.closeQuietly(out);
-						org.openlegacy.utils.FileUtils.deleteEmptyFile(helpFile);
-					}
-				}
-			}
-
 			if (generateController) {
 				File contollerAspectFile = new File(packageDir, entityClassName + "Controller_Aspect.aj");
 				fos = new FileOutputStream(contollerAspectFile);
@@ -201,17 +255,6 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 					IOUtils.closeQuietly(fos);
 					org.openlegacy.utils.FileUtils.deleteEmptyFile(contollerAspectFile);
 				}
-			}
-
-			// generate web view
-			String mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild, false);
-			generateView(generatePageRequest, entityDefinition, pageDefinition, WEB_VIEWS_DIR, TEMPLATE_WEB_DIR_PREFIX,
-					userInteraction, isComposite, mvcTemplateType, COMPOSITE_TEMPLATE);
-			// generate mobile view
-			if (generatePageRequest.isGenerateMobilePage()) {
-				mvcTemplateType = getMvcTemplateType(entityDefinition, isComposite, isChild, true);
-				generateView(generatePageRequest, entityDefinition, pageDefinition, MOBILE_VIEWS_DIR, TEMPLATE_MOBILE_DIR_PREFIX,
-						userInteraction, isComposite, mvcTemplateType, COMPOSITE_VIEW);
 			}
 
 		} catch (Exception e) {
@@ -294,7 +337,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 	}
 
-	private void generateView(GeneratePageRequest generatePageRequest, EntityDefinition<?> entityDefinition,
+	private void generateView(GenerateViewRequest generatePageRequest, EntityDefinition<?> entityDefinition,
 			SimplePageDefinition pageDefinition, String viewsDir, String templateDirectoryPrefix,
 			UserInteraction overrideConfirmer, boolean isComposite, String mvcTemplateType, String mvcCompositeTemplateType)
 			throws IOException {
@@ -302,7 +345,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 		String entityClassName = entityDefinition.getEntityClassName();
 		FileOutputStream fos = null;
 
-		File pageFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format("{0}{1}.jspx", viewsDir,
+		File pageFile = new File(generatePageRequest.getProjectPath(), MessageFormat.format("{0}{1}.jspx", viewsDir,
 				entityClassName));
 		boolean pageFileExists = pageFile.exists();
 		boolean generatePage = true;
@@ -325,7 +368,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 			// generate a composite page (with tabs)
 			if (isComposite) {
-				File pageCompositeFile = new File(generatePageRequest.getProjectDir(), MessageFormat.format(
+				File pageCompositeFile = new File(generatePageRequest.getProjectPath(), MessageFormat.format(
 						"{0}{1}Composite.jspx", viewsDir, entityClassName));
 				fos = new FileOutputStream(pageCompositeFile);
 				try {
@@ -337,7 +380,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				List<EntityDefinition<?>> childScreens = entityDefinition.getChildEntitiesDefinitions();
 				// generate page content for each of the child screens
 				for (EntityDefinition<?> childDefinition : childScreens) {
-					generateAll(generatePageRequest, childDefinition, true);
+					generateView(generatePageRequest, childDefinition, true);
 				}
 			}
 
@@ -348,11 +391,11 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				String viewName = entityDefinition.getEntityClassName();
 
 				String tilesViewsFile = viewsDir + VIEWS_FILE;
-				updateViewsFile(generatePageRequest.getProjectDir(), entityDefinition, viewName, mvcTemplateType, tilesViewsFile);
+				updateViewsFile(generatePageRequest.getProjectPath(), entityDefinition, viewName, mvcTemplateType, tilesViewsFile);
 
 				if (isComposite) {
 					// add view for composite screen
-					updateViewsFile(generatePageRequest.getProjectDir(), entityDefinition, viewName + COMPOSITE_SUFFIX,
+					updateViewsFile(generatePageRequest.getProjectPath(), entityDefinition, viewName + COMPOSITE_SUFFIX,
 							mvcCompositeTemplateType, tilesViewsFile);
 				}
 			}

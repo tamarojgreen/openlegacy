@@ -15,7 +15,7 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
 
 	private static final String BUNDLE_NAME = "org.openlegacy.ide.eclipse.messages"; //$NON-NLS-1$
-	public static String menu_generate_api;
+	public static String menu_generate_model;
 	public static String message_initializing_ol_analyzer;
 	public static String console_title_openlegacy;
 	public static String error_code_page_not_specified;
@@ -42,8 +42,9 @@ public class Messages extends NLS {
 	public static String info_provider_h3270;
 	public static String info_provider_tn5250j;
 	public static String job_activating_analyzer;
-	public static String job_generating_screens;
-	public static String job_generting_web_page;
+	public static String job_generating_model;
+	public static String job_generating_view;
+	public static String job_generating_controller;
 	public static String label_browse;
 	public static String label_code_page;
 	public static String label_default_project;

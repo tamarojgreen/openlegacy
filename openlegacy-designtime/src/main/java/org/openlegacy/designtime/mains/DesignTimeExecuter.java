@@ -34,13 +34,15 @@ public interface DesignTimeExecuter {
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException;
 
-	void generateAPI(GenerateApiRequest generateScreenRequest) throws GenerationException;
+	void generateModel(GenerateModelRequest generateScreenRequest) throws GenerationException;
 
 	void generateAspect(File javaFile);
 
 	void initialize(File projectPath);
 
-	void generateWebPage(GeneratePageRequest generatePageRequest) throws GenerationException;
+	void generateView(GenerateViewRequest generateViewRequest) throws GenerationException;
+
+	void generateController(GenerateControllerRequest generateControllerRequest) throws GenerationException;
 
 	void copyCodeGenerationTemplates(File projectPath);
 

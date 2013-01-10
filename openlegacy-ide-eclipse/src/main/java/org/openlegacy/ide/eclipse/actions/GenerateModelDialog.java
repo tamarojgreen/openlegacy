@@ -33,21 +33,21 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import java.io.File;
 import java.text.MessageFormat;
 
-public class GenerateScreensApiDialog extends AbstractGenerateDialog implements EntityUserInteraction<ScreenEntityDefinition> {
+public class GenerateModelDialog extends AbstractGenerateCodeDialog implements EntityUserInteraction<ScreenEntityDefinition> {
 
 	private TerminalSnapshot[] terminalSnapshots;
 
-	public GenerateScreensApiDialog(Shell shell, IFile file, TerminalSnapshot... terminalSnapshots) {
+	public GenerateModelDialog(Shell shell, IFile file, TerminalSnapshot... terminalSnapshots) {
 		super(shell, file);
 		this.terminalSnapshots = terminalSnapshots;
 	}
 
-	private final static Logger logger = Logger.getLogger(GenerateScreensApiDialog.class);
+	private final static Logger logger = Logger.getLogger(GenerateModelDialog.class);
 
 	@Override
 	protected void executeGenerate() {
 
-		Job job = new Job(Messages.job_generating_screens) {
+		Job job = new Job(Messages.job_generating_model) {
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
@@ -57,8 +57,8 @@ public class GenerateScreensApiDialog extends AbstractGenerateDialog implements 
 				monitor.beginTask(Messages.job_activating_analyzer, fileSize);
 
 				monitor.worked(2);
-				EclipseDesignTimeExecuter.instance().generateScreens(trailPath, getSourceFolder(), getPackageValue(),
-						GenerateScreensApiDialog.this, terminalSnapshots);
+				EclipseDesignTimeExecuter.instance().generateModel(trailPath, getSourceFolder(), getPackageValue(),
+						GenerateModelDialog.this, terminalSnapshots);
 
 				monitor.worked(fileSize - 4);
 				Display.getDefault().syncExec(new Runnable() {

@@ -16,18 +16,14 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
 
-public class GenerateApiRequest {
+public class GenerateModelRequest extends AbstractGenerateRequest {
 
 	// generation is either to a trail file
 	private File trailFile;
 	// or snapshot
 	private TerminalSnapshot[] terminalSnapshots;
 
-	private File sourceDirectory;
-	private String packageDirectory;
-	private File codeGenerationTemplatesDirectory;
 	private EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction;
-	private File projectPath;
 
 	public File getTrailFile() {
 		return trailFile;
@@ -45,44 +41,12 @@ public class GenerateApiRequest {
 		return terminalSnapshots;
 	}
 
-	public File getSourceDirectory() {
-		return sourceDirectory;
-	}
-
-	public void setSourceDirectory(File sourceDirectory) {
-		this.sourceDirectory = sourceDirectory;
-	}
-
-	public String getPackageDirectory() {
-		return packageDirectory;
-	}
-
-	public void setPackageDirectory(String packageDir) {
-		this.packageDirectory = packageDir;
-	}
-
-	public File getCodeGenerationTemplatesDirectory() {
-		return codeGenerationTemplatesDirectory;
-	}
-
-	public void setCodeGenerationTemplatesDirectory(File codeGenerationTemplatesDirectory) {
-		this.codeGenerationTemplatesDirectory = codeGenerationTemplatesDirectory;
-	}
-
 	public EntityUserInteraction<ScreenEntityDefinition> getEntityUserInteraction() {
 		return entityUserInteraction;
 	}
 
 	public void setEntityUserInteraction(EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction) {
 		this.entityUserInteraction = entityUserInteraction;
-	}
-
-	public File getProjectPath() {
-		return projectPath;
-	}
-
-	public void setProjectPath(File projectPath) {
-		this.projectPath = projectPath;
 	}
 
 }

@@ -28,8 +28,9 @@ import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
-import org.openlegacy.designtime.mains.GenerateApiRequest;
-import org.openlegacy.designtime.mains.GeneratePageRequest;
+import org.openlegacy.designtime.mains.GenerateControllerRequest;
+import org.openlegacy.designtime.mains.GenerateModelRequest;
+import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.ide.eclipse.Activator;
@@ -69,22 +70,22 @@ public class EclipseDesignTimeExecuter {
 		});
 	}
 
-	public void generateScreens(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
+	public void generateModel(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
 			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction, TerminalSnapshot... terminalSnapshots)
 			throws GenerationException {
 		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
 		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
 
-		GenerateApiRequest generateScreenRequest = new GenerateApiRequest();
+		GenerateModelRequest generateScreenRequest = new GenerateModelRequest();
 		generateScreenRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
 		generateScreenRequest.setProjectPath(projectDirectory);
 		generateScreenRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
-		generateScreenRequest.setCodeGenerationTemplatesDirectory(templatesDirectory);
+		generateScreenRequest.setTemplatesDirectory(templatesDirectory);
 		generateScreenRequest.setTrailFile(PathsUtil.toOsLocation(trailFile));
 		generateScreenRequest.setTerminalSnapshots(terminalSnapshots);
 		generateScreenRequest.setEntityUserInteraction(entityUserInteraction);
 
-		designTimeExecuter.generateAPI(generateScreenRequest);
+		designTimeExecuter.generateModel(generateScreenRequest);
 
 		Display.getDefault().asyncExec(new Runnable() {
 
@@ -117,22 +118,37 @@ public class EclipseDesignTimeExecuter {
 		job.schedule();
 	}
 
-	public void generateWebPage(IFile screenEntitySourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			UserInteraction userInteraction, boolean generateHelp, boolean generateMobilePage) {
+	public void generateView(IFile screenEntitySourceFile, UserInteraction userInteraction, boolean generateHelp,
+			boolean generateMobilePage) {
 
 		File projectPath = new File(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
 				DesignTimeExecuterImpl.TEMPLATES_DIR);
 
-		GeneratePageRequest generatePageRequest = new GeneratePageRequest();
-		generatePageRequest.setProjectDir(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()));
+		GenerateViewRequest generatePageRequest = new GenerateViewRequest();
+		generatePageRequest.setProjectPath(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()));
 		generatePageRequest.setScreenEntitySourceFile(PathsUtil.toOsLocation(screenEntitySourceFile));
-		generatePageRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
-		generatePageRequest.setPackageDirectoryName(PathsUtil.packageToPath(packageDir));
-		generatePageRequest.setTemplatesDir(projectPath);
+		generatePageRequest.setTemplatesDirectory(projectPath);
 		generatePageRequest.setUserInteraction(userInteraction);
 		generatePageRequest.setGenerateHelp(generateHelp);
 		generatePageRequest.setGenerateMobilePage(generateMobilePage);
-		designTimeExecuter.generateWebPage(generatePageRequest);
+		designTimeExecuter.generateView(generatePageRequest);
+
+	}
+
+	public void generateController(IFile screenEntitySourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
+			UserInteraction userInteraction) {
+
+		File projectPath = new File(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
+				DesignTimeExecuterImpl.TEMPLATES_DIR);
+
+		GenerateControllerRequest generatePageRequest = new GenerateControllerRequest();
+		generatePageRequest.setProjectPath(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()));
+		generatePageRequest.setScreenEntitySourceFile(PathsUtil.toOsLocation(screenEntitySourceFile));
+		generatePageRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
+		generatePageRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		generatePageRequest.setTemplatesDirectory(projectPath);
+		generatePageRequest.setUserInteraction(userInteraction);
+		designTimeExecuter.generateController(generatePageRequest);
 
 	}
 

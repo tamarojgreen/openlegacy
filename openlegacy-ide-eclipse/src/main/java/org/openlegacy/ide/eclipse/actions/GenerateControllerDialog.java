@@ -28,7 +28,6 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -39,14 +38,12 @@ import org.openlegacy.ide.eclipse.util.JavaUtils;
 import java.io.File;
 import java.text.MessageFormat;
 
-public class GenerateWebPageDialog extends AbstractGenerateDialog {
+public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 
-	private final static Logger logger = Logger.getLogger(GenerateWebPageDialog.class);
-	private Button generateHelpBtn;
-	private Button generateMobilePageBtn;
+	private final static Logger logger = Logger.getLogger(GenerateControllerDialog.class);
 	private ISelection selection;
 
-	protected GenerateWebPageDialog(Shell shell, ISelection selection) {
+	protected GenerateControllerDialog(Shell shell, ISelection selection) {
 		super(shell, (IFile)((ICompilationUnit)((TreeSelection)selection).getFirstElement()).getResource());
 		this.selection = selection;
 	}
@@ -54,9 +51,7 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 	@Override
 	protected void executeGenerate() {
 
-		final boolean generateHelp = generateHelpBtn.getSelection();
-		final boolean generateMobilePage = generateMobilePageBtn.getSelection();
-		Job job = new Job(Messages.job_generting_web_page) {
+		Job job = new Job(Messages.job_generating_controller) {
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
@@ -69,8 +64,8 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 					if (treePath.getLastSegment() instanceof ICompilationUnit) {
 						final IFile screenEntitySourceFile = (IFile)((ICompilationUnit)treePath.getLastSegment()).getResource();
 
-						EclipseDesignTimeExecuter.instance().generateWebPage(screenEntitySourceFile, getSourceFolder(),
-								getPackageValue(), GenerateWebPageDialog.this, generateHelp, generateMobilePage);
+						EclipseDesignTimeExecuter.instance().generateController(screenEntitySourceFile, getSourceFolder(),
+								getPackageValue(), GenerateControllerDialog.this);
 
 						monitor.worked(1);
 
@@ -109,13 +104,6 @@ public class GenerateWebPageDialog extends AbstractGenerateDialog {
 		composite.setLayoutData(gd);
 		composite.setLayout(gridLayout);
 
-		generateHelpBtn = new Button(composite, SWT.CHECK);
-		generateHelpBtn.setText(Messages.label_generate_help);
-		generateHelpBtn.setSelection(true);
-		// "Generate mobile page" option (checkbox)
-		generateMobilePageBtn = new Button(composite, SWT.CHECK);
-		generateMobilePageBtn.setText(Messages.label_generate_mobile_page);
-		generateMobilePageBtn.setSelection(true);
 	}
 
 	@Override

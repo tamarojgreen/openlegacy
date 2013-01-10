@@ -43,16 +43,16 @@
             </separator>
          </menu>
          <action
-               label="%generate_api_menu_label"
-               class="org.openlegacy.ide.eclipse.actions.GenerateScreensAction"
+               label="%generate_model_menu_label"
+               class="org.openlegacy.ide.eclipse.actions.GenerateModelAction"
                menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
                enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.generateScreens">
+               id="org.openlegacy.ide.eclipse.actions.generateModel">
          </action>
       </objectContribution>
       <objectContribution
             objectClass="org.eclipse.jdt.core.ICompilationUnit"
-            id="org.openlegacy.ide.eclipse.generate_web">
+            id="org.openlegacy.ide.eclipse.generate_view">
          <menu
                label="%openlegacy"
                path="additions"
@@ -62,10 +62,28 @@
             </separator>
          </menu>
          <action
-               label="%generate_web_page"
-               class="org.openlegacy.ide.eclipse.actions.GenerateWebPage"
+               label="%generate_view"
+               class="org.openlegacy.ide.eclipse.actions.GenerateViewAction"
                menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
-               id="org.openlegacy.ide.eclipse.actions.generateWebPage">
+               id="org.openlegacy.ide.eclipse.actions.generateView">
+         </action>
+      </objectContribution>
+      <objectContribution
+            objectClass="org.eclipse.jdt.core.ICompilationUnit"
+            id="org.openlegacy.ide.eclipse.generate_controller">
+         <menu
+               label="%openlegacy"
+               path="additions"
+               id="org.openlegacy.ide.eclipse.right_menu">
+            <separator
+                  name="generate">
+            </separator>
+         </menu>
+         <action
+               label="%generate_controller"
+               class="org.openlegacy.ide.eclipse.actions.GenerateControllerAction"
+               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+               id="org.openlegacy.ide.eclipse.actions.generateController">
          </action>
       </objectContribution>
    </extension>

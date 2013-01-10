@@ -313,12 +313,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	public void generateAPI(GenerateApiRequest generateApiRequest) throws GenerationException {
+	public void generateModel(GenerateModelRequest generateApiRequest) throws GenerationException {
 		// initialize application context
 
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateApiRequest.getProjectPath());
 
-		getGenerateUtil().setTemplateDirectory(generateApiRequest.getCodeGenerationTemplatesDirectory());
+		getGenerateUtil().setTemplateDirectory(generateApiRequest.getTemplatesDirectory());
 
 		TerminalSnapshotsAnalyzer snapshotsAnalyzer = projectApplicationContext.getBean(TerminalSnapshotsAnalyzer.class);
 
@@ -541,13 +541,39 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	/**
-	 * Generates all required file for a Spring MVC framework
+	 * Generates all required view files for a Spring MVC framework
 	 */
-	public void generateWebPage(GeneratePageRequest generatePageRequest) throws GenerationException {
+	public void generateView(GenerateViewRequest generatePageRequest) throws GenerationException {
 
+		ScreenEntityDefinition screenEntityDefinition = initEntityDefinition(generatePageRequest,
+				generatePageRequest.getScreenEntitySourceFile());
+
+		File projectPath = getProjectPath(generatePageRequest.getScreenEntitySourceFile());
+		ScreenEntityWebGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
+				ScreenEntityMvcGenerator.class);
+
+		screenEntityWebGenerator.generateView(generatePageRequest, screenEntityDefinition);
+	}
+
+	/**
+	 * Generates all required view files for a Spring MVC framework
+	 */
+	public void generateController(GenerateControllerRequest generateControllerRequest) throws GenerationException {
+
+		ScreenEntityDefinition screenEntityDefinition = initEntityDefinition(generateControllerRequest,
+				generateControllerRequest.getScreenEntitySourceFile());
+
+		File projectPath = getProjectPath(generateControllerRequest.getSourceDirectory());
+		ScreenEntityWebGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
+				ScreenEntityMvcGenerator.class);
+
+		screenEntityWebGenerator.generateController(generateControllerRequest, screenEntityDefinition);
+	}
+
+	private static ScreenEntityDefinition initEntityDefinition(AbstractGenerateRequest generatePageRequest, File sourceFile) {
 		ScreenEntityDefinition screenEntityDefinition = null;
 		try {
-			CompilationUnit compilationUnit = JavaParser.parse(generatePageRequest.getScreenEntitySourceFile());
+			CompilationUnit compilationUnit = JavaParser.parse(sourceFile);
 			File packageDir = new File(generatePageRequest.getSourceDirectory(),
 					compilationUnit.getPackage().getName().toString().replaceAll("\\.", "/"));
 			screenEntityDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
@@ -555,15 +581,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			throw (new GenerationException(e));
 		}
 		if (screenEntityDefinition == null) {
-			throw (new GenerationException(MessageFormat.format("{0} is not a screen entity",
-					generatePageRequest.getScreenEntitySourceFile().getName())));
+			throw (new GenerationException(MessageFormat.format("{0} is not a screen entity", sourceFile.getName())));
 		}
-
-		File projectPath = getProjectPath(generatePageRequest.getSourceDirectory());
-		ScreenEntityWebGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
-				ScreenEntityMvcGenerator.class);
-
-		screenEntityWebGenerator.generateAll(generatePageRequest, screenEntityDefinition);
+		return screenEntityDefinition;
 	}
 
 	public void copyCodeGenerationTemplates(File projectPath) {

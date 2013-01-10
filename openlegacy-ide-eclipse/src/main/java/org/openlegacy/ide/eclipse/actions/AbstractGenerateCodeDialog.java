@@ -56,7 +56,7 @@ import java.io.File;
 import java.text.MessageFormat;
 
 @SuppressWarnings("restriction")
-public abstract class AbstractGenerateDialog extends Dialog implements UserInteraction {
+public abstract class AbstractGenerateCodeDialog extends Dialog implements UserInteraction {
 
 	private Text sourceFolderPathText;
 	private IPackageFragmentRoot sourceFolder;
@@ -64,7 +64,7 @@ public abstract class AbstractGenerateDialog extends Dialog implements UserInter
 	private String packageValue;
 	private IFile file;
 
-	protected AbstractGenerateDialog(Shell shell, IFile file) {
+	protected AbstractGenerateCodeDialog(Shell shell, IFile file) {
 		super(shell);
 		this.file = file;
 	}

@@ -51,7 +51,7 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.openlegacy.designtime.DesigntimeException;
 import org.openlegacy.ide.eclipse.Messages;
-import org.openlegacy.ide.eclipse.actions.GenerateScreensApiDialog;
+import org.openlegacy.ide.eclipse.actions.GenerateModelDialog;
 import org.openlegacy.ide.eclipse.components.SnapshotComposite;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -144,7 +144,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 
 		Menu menu = new Menu(tableViewer.getTable());
 		MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
-		menuItem.setText(Messages.menu_generate_api);
+		menuItem.setText(Messages.menu_generate_model);
 		menuItem.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent event) {
@@ -154,7 +154,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 					TerminalSnapshot snapshot = terminalSessionTrail.getSnapshots().get(selectionIndexes[i]);
 					snapshots[i] = snapshot;
 				}
-				GenerateScreensApiDialog dialog = new GenerateScreensApiDialog(getEditorSite().getShell(),
+				GenerateModelDialog dialog = new GenerateModelDialog(getEditorSite().getShell(),
 						((FileEditorInput)getEditorInput()).getFile(), snapshots);
 				dialog.open();
 
