@@ -30,6 +30,7 @@
 								<c:set
 									value="${definitions.entityName}.${pagePart.tableFieldName}"
 									var="tableField" />
+								<c:set value="${olf:uncapFirst(tableField)}" var="tableField" />
 								<spring:eval expression="${tableField}" var="tableData"></spring:eval>
 								<ol:table property="${pagePart.tableFieldName}"
 									data="${tableData}"></ol:table>
