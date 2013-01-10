@@ -75,18 +75,7 @@ public class DefaultGenericController {
 			@RequestParam(value = "key", required = false) Object[] keys, Model uiModel) throws IOException {
 
 		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, keys);
-		uiModel.addAttribute(StringUtils.uncapitalize(screenEntityName), screenEntity);
-		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(screenEntityName);
-		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefinition));
-		return determineViewName(entityDefinition);
-
-	}
-
-	private static String determineViewName(ScreenEntityDefinition entityDefinition) {
-		if (entityDefinition.getChildEntitiesDefinitions().size() > 0) {
-			return entityDefinition.getEntityName() + MvcConstants.COMPOSITE_SUFFIX;
-		}
-		return entityDefinition.getEntityName();
+		return prepareView(screenEntity, uiModel);
 
 	}
 
@@ -134,11 +123,23 @@ public class DefaultGenericController {
 
 	private String returnPartialPage(String screenEntityName, Model uiModel) {
 		ScreenEntity resultEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
-		String resultEntityName = ProxyUtil.getOriginalClass(resultEntity.getClass()).getSimpleName();
-		uiModel.addAttribute(resultEntityName, resultEntity);
-		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(resultEntityName);
+		return prepareView(resultEntity, uiModel);
+	}
+
+	private String prepareView(ScreenEntity screenEntity, Model uiModel) {
+		String screenEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
+		uiModel.addAttribute(StringUtils.uncapitalize(screenEntityName), screenEntity);
+		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(screenEntityName);
 		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefinition));
-		return resultEntityName;
+
+		String suffix = StringUtils.EMPTY;
+		if (entityDefinition.getChildEntitiesDefinitions().size() > 0) {
+			suffix = MvcConstants.COMPOSITE_SUFFIX;
+		} else if (entityDefinition.isChild()) {
+			suffix = MvcConstants.VIEW_SUFFIX;
+		}
+		return entityDefinition.getEntityName() + suffix;
+
 	}
 
 	/**

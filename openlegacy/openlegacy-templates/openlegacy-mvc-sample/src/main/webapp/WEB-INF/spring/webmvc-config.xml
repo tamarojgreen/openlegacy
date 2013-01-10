@@ -111,7 +111,7 @@
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean"
 		id="applicationConversionService" />
 		
-	<bean class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">
+	<bean class="org.openlegacy.terminal.mvc.web.OpenLegacyViewResolver" p:webViewsPath="/WEB-INF/web/views" p:mobileViewsPath="/WEB-INF/mobile/views">
 	   <property name="viewClass" value="org.springframework.js.ajax.tiles2.AjaxTilesView"/>
 	</bean>
 	

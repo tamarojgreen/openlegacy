@@ -129,6 +129,21 @@
 		<put-attribute name="body" value="/WEB-INF/mobile/views/ChangePassword.jspx" />
 	</definition> 
 
+	<!-- A generic API page view -->
+	<definition name="generic_m" extends="view_m">
+		<put-attribute name="body" value="/WEB-INF/mobile/views/generic.jspx" />
+	</definition>
+
+	<!-- A generic API partial view within a tab -->
+	<definition name="genericView_m" extends="innerView_m">
+		<put-attribute name="body" value="/WEB-INF/mobile/views/generic.jspx" />
+	</definition>
+
+	<!-- A generic API composite page (tab) -->
+	<definition name="composite_m" extends="compositeView_m">
+		<put-attribute name="body" value="/WEB-INF/mobile/views/composite.jspx" />
+	</definition>
+		
 	<definition name="logoff_m" extends="public_m">
 		<put-attribute name="menu" value="/WEB-INF/mobile/views/logoff.jspx" />
     	<put-attribute name="header" value="" />

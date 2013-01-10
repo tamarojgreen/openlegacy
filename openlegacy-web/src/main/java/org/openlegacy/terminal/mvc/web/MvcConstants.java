@@ -8,8 +8,12 @@ public class MvcConstants {
 
 	public static final String COMPOSITE_SUFFIX = "Composite";
 
-	public static final String COMPOSITE_VIEW = "composite";
+	public static final String VIEW_SUFFIX = "View";
 
-	public static final String GENERIC_VIEW = "generic";
+	public static final String COMPOSITE = "composite";
+
+	public static final String GENERIC_VIEW = "genericView";
+
+	public static final String GENERIC = "generic";
 
 }

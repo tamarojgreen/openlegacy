@@ -35,9 +35,11 @@ public class OpenLegacyViewResolver extends AjaxUrlBasedViewResolver {
 
 		if (getServletContext().getResource(MessageFormat.format("{0}/{1}{2}", viewsPath, viewFile, viewsSuffix)) == null) {
 			if (viewName.endsWith(MvcConstants.COMPOSITE_SUFFIX)) {
-				viewName = MvcConstants.COMPOSITE_VIEW + deviceSuffix;
-			} else {
+				viewName = MvcConstants.COMPOSITE + deviceSuffix;
+			} else if (viewName.endsWith(MvcConstants.VIEW_SUFFIX)) {
 				viewName = MvcConstants.GENERIC_VIEW + deviceSuffix;
+			} else {
+				viewName = MvcConstants.GENERIC + deviceSuffix;
 			}
 		}
 
