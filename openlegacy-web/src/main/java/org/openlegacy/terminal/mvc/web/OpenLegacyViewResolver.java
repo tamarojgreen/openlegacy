@@ -26,9 +26,13 @@ public class OpenLegacyViewResolver extends AjaxUrlBasedViewResolver {
 			return super.resolveViewName(viewName, locale);
 
 		}
+
 		String viewsPath = viewName.endsWith(MvcConstants.MOBILE_VIEW_SUFFIX) ? mobileViewsPath : webViewsPath;
 		String viewFile = viewName.endsWith(MvcConstants.MOBILE_VIEW_SUFFIX) ? viewName.substring(0,
 				viewName.indexOf(MvcConstants.MOBILE_VIEW_SUFFIX)) : viewName;
+
+		viewFile = viewFile.endsWith(MvcConstants.VIEW_SUFFIX) ? viewName.substring(0, viewName.indexOf(MvcConstants.VIEW_SUFFIX))
+				: viewFile;
 
 		String deviceSuffix = viewName.endsWith(MvcConstants.MOBILE_VIEW_SUFFIX) ? MvcConstants.MOBILE_VIEW_SUFFIX
 				: StringUtils.EMPTY;
@@ -42,6 +46,9 @@ public class OpenLegacyViewResolver extends AjaxUrlBasedViewResolver {
 			} else {
 				viewName = MvcConstants.GENERIC + deviceSuffix;
 			}
+		} else {
+			// View is used only for determine the generic view type
+			viewName = viewName.replace(MvcConstants.VIEW_SUFFIX, "");
 		}
 
 		return super.resolveViewName(viewName, locale);

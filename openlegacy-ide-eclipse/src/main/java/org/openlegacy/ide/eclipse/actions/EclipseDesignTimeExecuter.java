@@ -126,7 +126,14 @@ public class EclipseDesignTimeExecuter {
 
 		GenerateViewRequest generatePageRequest = new GenerateViewRequest();
 		generatePageRequest.setProjectPath(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()));
-		generatePageRequest.setScreenEntitySourceFile(PathsUtil.toOsLocation(screenEntitySourceFile));
+		File sourceFile = PathsUtil.toOsLocation(screenEntitySourceFile);
+		generatePageRequest.setScreenEntitySourceFile(sourceFile);
+		generatePageRequest.setPackageDirectory(PathsUtil.packageToPath(sourceFile.getParent()));
+		File sourceDirectory = sourceFile.getParentFile();
+		while (!sourceDirectory.getName().equals("java")) {
+			sourceDirectory = sourceDirectory.getParentFile();
+		}
+		generatePageRequest.setSourceDirectory(sourceDirectory);
 		generatePageRequest.setTemplatesDirectory(projectPath);
 		generatePageRequest.setUserInteraction(userInteraction);
 		generatePageRequest.setGenerateHelp(generateHelp);
