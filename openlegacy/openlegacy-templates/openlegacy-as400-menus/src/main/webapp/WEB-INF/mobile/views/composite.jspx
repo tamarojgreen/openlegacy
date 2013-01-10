@@ -9,7 +9,7 @@
 	<ul data-dojo-type="dojox.mobile.TabBar" data-dojo-props="barType:'segmentedControl'">
 		<li data-dojo-type="dojox.mobile.TabBarButton"
 			data-dojo-props="moveTo:'${definitions.entityName}_${ol_entityId}Panel',
-							selected:true">definitions.displayName</li>
+							selected:true">${definitions.displayName}</li>
 		<c:forEach items="${definitions.childEntitiesDefinitions}" var="childEntityDefinition">
 		<li data-dojo-type="dojox.mobile.TabBarButton"
 			data-dojo-props="moveTo:'${childEntityDefinition.entityName}_${ol_entityId}Panel'">${childEntityDefinition.displayName}</li>
@@ -18,10 +18,10 @@
 
 	<div id="${definitions.entityName}_${ol_entityId}Panel"
 		data-dojo-type="dojox.mobile.View" selected="true"
-		data-dojo-props="onShow: asyncLoadMobilePanel('${definitions.entityName}_${ol_entityId}Panel','${pageContext.request.contextPath}/${definitions.entityName}?key=${ol_entityId}&partial=1',0)">Loading...</div>
+		data-dojo-props="onShow: asyncLoadMobilePanel('${definitions.entityName}_${ol_entityId}Panel','${pageContext.request.contextPath}/${definitions.entityName}/${ol_entityId}?partial=1',0)">Loading...</div>
 	<c:forEach items="${definitions.childEntitiesDefinitions}" var="childEntityDefinition">
 	<div id="${childEntityDefinition.entityName}_${ol_entityId}Panel"
 		data-dojo-type="dojox.mobile.View" selected="true"
-		data-dojo-props="onShow: asyncLoadMobilePanel('${childEntityDefinition.entityName}_${ol_entityId}Panel','${pageContext.request.contextPath}/${childEntityDefinition.entityName}?key=${ol_entityId}&partial=1',0)">Loading...</div>
+		data-dojo-props="onShow: asyncLoadMobilePanel('${childEntityDefinition.entityName}_${ol_entityId}Panel','${pageContext.request.contextPath}/${childEntityDefinition.entityName}/${ol_entityId}?partial=1',0)">Loading...</div>
 	</c:forEach>
 </jsp:root>

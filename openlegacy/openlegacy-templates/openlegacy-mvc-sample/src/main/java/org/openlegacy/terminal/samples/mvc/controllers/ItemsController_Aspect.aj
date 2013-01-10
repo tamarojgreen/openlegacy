@@ -216,7 +216,6 @@ privileged @SuppressWarnings("unused") aspect ItemsController_Aspect {
     	tableWriter.writeTable(records, response.getOutputStream());
     }
     
-	// handle ajax request for warehouseType field
 	@RequestMapping(value = "/more", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<String> ItemsController.more() {

@@ -135,7 +135,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 		<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.class.simpleName = "SimpleAutoCompleteFieldTypeDefinition">
 	
 	// handle ajax request for ${field.name} field
-	@RequestMapping(value="/${field.name}", method = RequestMethod.GET)
+	@RequestMapping(value="/${field.name}Values", method = RequestMethod.GET)
     @ResponseBody
 	public ResponseEntity<String> ${entityDefinition.entityClassName}Controller.${field.name?cap_first}Json() {
     	${entityDefinition.entityClassName} ${entityDefinition.entityClassName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);

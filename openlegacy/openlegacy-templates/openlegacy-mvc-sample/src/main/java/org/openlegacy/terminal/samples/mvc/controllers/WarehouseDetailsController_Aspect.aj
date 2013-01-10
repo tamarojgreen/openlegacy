@@ -141,7 +141,7 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetailsController_Aspect 
 	
 	
 	// handle ajax request for warehouseType field
-	@RequestMapping(value="/warehouseType", method = RequestMethod.GET)
+	@RequestMapping(value="/warehouseTypeValues", method = RequestMethod.GET)
     @ResponseBody
 	public ResponseEntity<String> WarehouseDetailsController.WarehouseTypeJson() {
     	WarehouseDetails warehouseDetails = terminalSession.getEntity(WarehouseDetails.class);

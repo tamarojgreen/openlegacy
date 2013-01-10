@@ -10,14 +10,19 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.web;
 
+import flexjson.JSONSerializer;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.json.JsonSerializationUtil;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
+import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
+import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
@@ -36,6 +41,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -70,18 +76,25 @@ public class DefaultGenericController {
 	@Inject
 	private ScreenPageBuilder pageBuilder;
 
+	@Inject
+	private TablesDefinitionProvider tablesDefinitionProvider;
+
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
 	public String getScreenEntity(@PathVariable("screen") String screenEntityName,
-			@RequestParam(value = "key", required = false) Object[] keys, Model uiModel) throws IOException {
+			@RequestParam(value = "partial", required = false) String partial, Model uiModel) throws IOException {
 
-		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, keys);
-		return prepareView(screenEntity, uiModel);
+		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
+		return prepareView(screenEntity, uiModel, partial != null);
 
 	}
 
-	@RequestMapping(value = "/{screen}", method = RequestMethod.GET, params = "partial=1")
-	public String getChildScreenEntity(@PathVariable("screen") String screenEntityName, Model uiModel) throws IOException {
-		return getScreenEntity(screenEntityName, null, uiModel);
+	@RequestMapping(value = "/{screen}/{key:\\d+}", method = RequestMethod.GET)
+	public String getScreenEntityWithKey(@PathVariable("screen") String screenEntityName, @PathVariable("key") String key,
+			@RequestParam(value = "partial", required = false) String partial, Model uiModel) throws IOException {
+
+		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, key);
+		return prepareView(screenEntity, uiModel, partial != null);
+
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -96,7 +109,8 @@ public class DefaultGenericController {
 
 	@RequestMapping(value = "/{screen}", method = RequestMethod.POST)
 	public String postScreenEntity(@PathVariable("screen") String screenEntityName,
-			@RequestParam(defaultValue = "", value = ACTION) String action, HttpServletRequest request,
+			@RequestParam(defaultValue = "", value = ACTION) String action,
+			@RequestParam(value = "partial", required = false) String partial, HttpServletRequest request,
 			HttpServletResponse response, Model uiModel) throws IOException {
 
 		Class<?> entityClass = findAndHandleNotFound(screenEntityName, response);
@@ -111,7 +125,7 @@ public class DefaultGenericController {
 		screenEntityUtils.sendScreenEntity(terminalSession, screenEntity, action);
 		screenEntity = terminalSession.getEntity();
 		if (request.getParameter("partial") != null) {
-			return returnPartialPage(screenEntityName, uiModel);
+			return returnPartialPage(screenEntityName, uiModel, partial);
 		} else {
 			if (screenEntity == null) {
 				return "redirect:emulation";
@@ -121,12 +135,12 @@ public class DefaultGenericController {
 		}
 	}
 
-	private String returnPartialPage(String screenEntityName, Model uiModel) {
+	private String returnPartialPage(String screenEntityName, Model uiModel, String partial) {
 		ScreenEntity resultEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
-		return prepareView(resultEntity, uiModel);
+		return prepareView(resultEntity, uiModel, true);
 	}
 
-	private String prepareView(ScreenEntity screenEntity, Model uiModel) {
+	private String prepareView(ScreenEntity screenEntity, Model uiModel, boolean partial) {
 		String screenEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
 		uiModel.addAttribute(StringUtils.uncapitalize(screenEntityName), screenEntity);
 		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(screenEntityName);
@@ -134,7 +148,11 @@ public class DefaultGenericController {
 
 		String suffix = StringUtils.EMPTY;
 		if (entityDefinition.getChildEntitiesDefinitions().size() > 0) {
-			suffix = MvcConstants.COMPOSITE_SUFFIX;
+			if (partial) {
+				suffix = MvcConstants.VIEW_SUFFIX;
+			} else {
+				suffix = MvcConstants.COMPOSITE_SUFFIX;
+			}
 		} else if (entityDefinition.isChild()) {
 			suffix = MvcConstants.VIEW_SUFFIX;
 		}
@@ -161,13 +179,31 @@ public class DefaultGenericController {
 	}
 
 	/**
+	 * handle ajax request for load more
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/{screen}/more", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<String> more(@PathVariable("screen") String entityName) {
+		ScreenEntity nextScreen = terminalSession.doAction(TerminalActions.PAGEDOWN());
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/text; charset=utf-8");
+
+		List<?> records = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, nextScreen);
+		String result = new JSONSerializer().serialize(records);
+		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
+	}
+
+	/**
 	 * handle Ajax request for auto compete fields
 	 * 
 	 * @param screenEntityName
 	 * @param fieldName
 	 * @return JSON content
 	 */
-	@RequestMapping(value = "/{screen}/{field}", method = RequestMethod.GET, headers = "X-Requested-With=XMLHttpRequest")
+	@RequestMapping(value = "/{screen}/{field}Values", method = RequestMethod.GET, headers = "X-Requested-With=XMLHttpRequest")
 	@ResponseBody
 	public ResponseEntity<String> autoCompleteJson(@PathVariable("screen") String screenEntityName,
 			@PathVariable("field") String fieldName) {

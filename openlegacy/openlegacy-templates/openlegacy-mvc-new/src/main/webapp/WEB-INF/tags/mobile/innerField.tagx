@@ -81,7 +81,7 @@
 							function(registry, xhr, Memory, ComboBox){
 								if (registry.byId('${fieldDefinition.name}') != null) return; 
 								xhr.get(
-										"${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}",
+										"${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}Values",
 									 	{handleAs: "json"}
 									 ).then(
 										function(records){

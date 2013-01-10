@@ -117,7 +117,7 @@
 									"dijit/form/FilteringSelect"]);
 						</script>
 								<span data-dojo-type="dojo.data.ItemFileReadStore"
-									data-dojo-props="url:'${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}'"
+									data-dojo-props="url:'${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}Values'"
 									data-dojo-id="${fieldDefinition.name}Values"></span>
 								<input name="${fieldDefinition.name}"
 									data-dojo-type="dijit.form.FilteringSelect"

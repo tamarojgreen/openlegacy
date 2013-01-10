@@ -189,7 +189,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	
 	
 	// handle ajax request for fldRow10 field
-	@RequestMapping(value="/fldRow10", method = RequestMethod.GET)
+	@RequestMapping(value="/fldRow10Values", method = RequestMethod.GET)
     @ResponseBody
 	public ResponseEntity<String> ScreenForPageController.FldRow10Json() {
     	ScreenForPage screenForPage = terminalSession.getEntity(ScreenForPage.class);
