@@ -30,6 +30,10 @@ public class TagUtils {
 		return StringUtils.capitalize(text);
 	}
 
+	public static String uncapFirst(String text) {
+		return StringUtils.uncapitalize(text);
+	}
+
 	public static boolean instanceOf(Object o, String className) {
 		boolean returnValue;
 

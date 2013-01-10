@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.mvc.web.interceptors;
 
+import org.openlegacy.terminal.mvc.web.MvcConstants;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceResolverHandlerInterceptor;
 import org.springframework.mobile.device.DeviceType;
@@ -26,10 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor extends DeviceResolverHandlerInterceptor {
 
-	private static final String MOBILE_VIEW_SUFFIX = "_m";
-
-	private static final String DEVICE_TYPE_ATTRIBUTE = "deviceType";
-
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
 			throws Exception {
@@ -43,11 +40,12 @@ public class OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor exten
 		Device device = (Device)request.getAttribute(DeviceUtils.CURRENT_DEVICE_ATTRIBUTE);
 
 		if (!(modelAndView.getViewName().startsWith("redirect"))) {
-			modelAndView.addObject(DEVICE_TYPE_ATTRIBUTE, getDeviceType(device));
+			modelAndView.addObject(MvcConstants.DEVICE_TYPE_ATTRIBUTE, getDeviceType(device));
 		}
 
 		if ((sitePreference == SitePreference.MOBILE)) {
-			modelAndView.setViewName(MessageFormat.format("{0}{1}", modelAndView.getViewName(), MOBILE_VIEW_SUFFIX));
+			modelAndView.setViewName(MessageFormat.format("{0}{1}", modelAndView.getViewName(),
+					MvcConstants.MOBILE_VIEW_SUFFIX));
 			super.postHandle(request, response, handler, modelAndView);
 			return;
 		}
