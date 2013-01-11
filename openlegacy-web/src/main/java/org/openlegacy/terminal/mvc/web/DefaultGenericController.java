@@ -27,6 +27,7 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,8 @@ import org.springframework.mobile.device.site.SitePreferenceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +47,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -241,6 +246,13 @@ public class DefaultGenericController {
 
 		String result = JsonSerializationUtil.toDojoFormat(fieldValues);
 		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
+	}
+
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
 	}
 
 	public void setWebViewsPath(String webViewsPath) {
