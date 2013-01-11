@@ -30,6 +30,8 @@ import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mobile.device.site.SitePreference;
+import org.springframework.mobile.device.site.SitePreferenceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -40,11 +42,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -79,21 +83,32 @@ public class DefaultGenericController {
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
+	@Inject
+	private ServletContext servletContext;
+
+	private String mobileViewsPath = "/WEB-INF/mobile/views";
+
+	private String webViewsPath = "/WEB-INF/web/views";
+
+	private String viewsSuffix = ".jspx";
+
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
 	public String getScreenEntity(@PathVariable("screen") String screenEntityName,
-			@RequestParam(value = "partial", required = false) String partial, Model uiModel) throws IOException {
+			@RequestParam(value = "partial", required = false) String partial, Model uiModel, HttpServletRequest request)
+			throws IOException {
 
 		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
-		return prepareView(screenEntity, uiModel, partial != null);
+		return prepareView(screenEntity, uiModel, partial != null, request);
 
 	}
 
 	@RequestMapping(value = "/{screen}/{key:\\d+}", method = RequestMethod.GET)
 	public String getScreenEntityWithKey(@PathVariable("screen") String screenEntityName, @PathVariable("key") String key,
-			@RequestParam(value = "partial", required = false) String partial, Model uiModel) throws IOException {
+			@RequestParam(value = "partial", required = false) String partial, Model uiModel, HttpServletRequest request)
+			throws IOException {
 
 		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, key);
-		return prepareView(screenEntity, uiModel, partial != null);
+		return prepareView(screenEntity, uiModel, partial != null, request);
 
 	}
 
@@ -125,7 +140,7 @@ public class DefaultGenericController {
 		screenEntityUtils.sendScreenEntity(terminalSession, screenEntity, action);
 		screenEntity = terminalSession.getEntity();
 		if (request.getParameter("partial") != null) {
-			return returnPartialPage(screenEntityName, uiModel, partial);
+			return returnPartialPage(screenEntityName, uiModel, partial, request);
 		} else {
 			if (screenEntity == null) {
 				return "redirect:emulation";
@@ -135,29 +150,38 @@ public class DefaultGenericController {
 		}
 	}
 
-	private String returnPartialPage(String screenEntityName, Model uiModel, String partial) {
+	private String returnPartialPage(String screenEntityName, Model uiModel, String partial, HttpServletRequest request)
+			throws MalformedURLException {
 		ScreenEntity resultEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
-		return prepareView(resultEntity, uiModel, true);
+		return prepareView(resultEntity, uiModel, true, request);
 	}
 
-	private String prepareView(ScreenEntity screenEntity, Model uiModel, boolean partial) {
+	private String prepareView(ScreenEntity screenEntity, Model uiModel, boolean partial, HttpServletRequest request)
+			throws MalformedURLException {
 		String screenEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
 		uiModel.addAttribute(StringUtils.uncapitalize(screenEntityName), screenEntity);
 		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(screenEntityName);
 		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefinition));
 
-		String suffix = StringUtils.EMPTY;
-		if (entityDefinition.getChildEntitiesDefinitions().size() > 0) {
-			if (partial) {
-				suffix = MvcConstants.VIEW_SUFFIX;
-			} else {
-				suffix = MvcConstants.COMPOSITE_SUFFIX;
-			}
-		} else if (entityDefinition.isChild()) {
-			suffix = MvcConstants.VIEW_SUFFIX;
-		}
-		return entityDefinition.getEntityName() + suffix;
+		SitePreference sitePreference = SitePreferenceUtils.getCurrentSitePreference(request);
 
+		boolean isComposite = entityDefinition.getChildEntitiesDefinitions().size() > 0 && !partial;
+		String suffix = isComposite ? MvcConstants.COMPOSITE_SUFFIX : "";
+		String viewName = entityDefinition.getEntityName() + suffix;
+
+		String viewsPath = sitePreference == SitePreference.MOBILE ? mobileViewsPath : webViewsPath;
+
+		if (servletContext.getResource(MessageFormat.format("{0}/{1}{2}", viewsPath, viewName, viewsSuffix)) == null) {
+			if (isComposite) {
+				viewName = MvcConstants.COMPOSITE;
+			} else if (partial) {
+				viewName = MvcConstants.GENERIC_VIEW;
+			} else {
+				viewName = MvcConstants.GENERIC;
+			}
+		}
+
+		return viewName;
 	}
 
 	/**
@@ -219,4 +243,15 @@ public class DefaultGenericController {
 		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
 	}
 
+	public void setWebViewsPath(String webViewsPath) {
+		this.webViewsPath = webViewsPath;
+	}
+
+	public void setMobileViewsPath(String mobileViewsPath) {
+		this.mobileViewsPath = mobileViewsPath;
+	}
+
+	public void setViewsSuffix(String viewsSuffix) {
+		this.viewsSuffix = viewsSuffix;
+	}
 }
