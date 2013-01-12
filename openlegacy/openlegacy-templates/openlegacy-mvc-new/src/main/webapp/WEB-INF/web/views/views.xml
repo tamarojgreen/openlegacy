@@ -42,6 +42,8 @@
 		<put-attribute name="body" value="/WEB-INF/web/views/composite.jspx" />
 	</definition>
 
+	<definition name="help" template="/WEB-INF/web/views/help.jspx"/> 
+		
 	<definition name="logoff" extends="public">
 		<put-attribute name="body" value="/WEB-INF/web/views/logoff.jspx" />
 	</definition>
