@@ -21,6 +21,13 @@
 	<c:set var="columnDisplayField" value="${definitions.tableDefinitions[tableDefinition.mainDisplayField]}" />
 	<c:set var="defaultTableAction" value="${tableDefinition.defaultAction}" />
 
+	<c:if test="${defaultTableAction == null}">
+		${ol:throwException("No default table action specified in table class @ScreenTableActions annotation")}
+	</c:if>
+	<c:if test="${defaultTableAction.targetEntity == null}">
+		${ol:throwException("No target entity specified for table action in table class @ScreenTableActions annotation")}
+	</c:if>
+
 	<c:if test="${fn:length(data) &gt; 0}">
 	<ul data-dojo-type="dojox.mobile.RoundRectList" id="${definitions.entityName}Table">
 		<c:forEach items="${data}" var="item" varStatus="i">
