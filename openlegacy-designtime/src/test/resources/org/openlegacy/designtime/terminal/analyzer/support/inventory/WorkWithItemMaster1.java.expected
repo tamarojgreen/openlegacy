@@ -19,7 +19,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 public class WorkWithItemMaster1 {
     
 	
-	@ScreenField(row = 6, column = 33, endColumn= 47 ,labelColumn= 2 ,displayName = "Item Number", sampleValue = "2000")
+	@ScreenField(key = true, row = 6, column = 33, endColumn= 47 ,labelColumn= 2 ,displayName = "Item Number", sampleValue = "2000")
     private Integer itemNumber;
 	
 	@ScreenField(row = 7, column = 33, endColumn= 72 ,labelColumn= 2 ,editable= true ,displayName = "Item Description", sampleValue = "Tomato - VEG")

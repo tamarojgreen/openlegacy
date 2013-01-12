@@ -152,6 +152,20 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="ruleDefinition" p:droolsFile="rules/default/identify-key.drl" p:ruleId="identify-key" p:enabled="true">
+					<property name="ruleParameterSets">
+						<list>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="minimumEditableFields" value="0" />
+										<entry key="minimumFields" value="8" />
+									</map>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
 				<bean parent="ruleDefinition" p:droolsFile="rules/default/identify-tables.drl" p:ruleId="identify-tables" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>

@@ -33,7 +33,7 @@ public class DisplayJobStatusAttributes {
 	@ScreenField(row = 3, column = 32, endColumn= 41 ,labelColumn= 24 ,displayName = "User", sampleValue = "RMR20924")
     private String user;
 	
-	@ScreenField(row = 3, column = 57, endColumn= 62 ,labelColumn= 47 ,displayName = "Number", sampleValue = "698775")
+	@ScreenField(key = true, row = 3, column = 57, endColumn= 62 ,labelColumn= 47 ,displayName = "Number", sampleValue = "698775")
     private Integer number;
 	
 	@ScreenField(row = 5, column = 50, endColumn= 69 ,labelColumn= 2 ,displayName = "Status of job", sampleValue = "ACTIVE")
