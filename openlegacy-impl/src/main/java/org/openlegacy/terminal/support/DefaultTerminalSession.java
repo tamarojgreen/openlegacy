@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.SessionProperties;
 import org.openlegacy.SessionPropertiesProvider;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
@@ -104,6 +106,14 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 		if (!screenEntityUtils.isEntitiesEquals(entity, screenEntityClass, keys)) {
 			resetEntity();
+		}
+		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(screenEntityClass);
+		if (keys.length > definitions.getKeys().size()) {
+			throw (new EntityNotAccessibleException(
+					MessageFormat.format(
+							"Requested entity {0} with keys {1} doesnt matches the defined entity keys count: {2}. Verify key is defined for {3}",
+							screenEntityClass, ArrayUtils.toString(keys), definitions.getKeys().size(),
+							screenEntityClass.getName())));
 		}
 		if (entity == null) {
 			sessionNavigator.navigate(this, screenEntityClass, keys);
