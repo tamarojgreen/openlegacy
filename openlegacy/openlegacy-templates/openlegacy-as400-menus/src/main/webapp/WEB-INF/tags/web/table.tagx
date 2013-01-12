@@ -44,9 +44,14 @@
 				      					</c:forEach>
 				      				</select>
  									 -->
+		
 									<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
+										<c:set var="target" value="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}" />
+										<c:if test="${action.targetEntity == null}">
+											<c:set var="target" value="javascript:alert('No target entity specified for table action in table class @ScreenTableActions annotation');" />
+										</c:if>
 										<a
-											href="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}"
+											href="${target}"
 											class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName}</a>
 											<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
 									</c:forEach>
