@@ -1459,35 +1459,35 @@
             <field column="3" value=" " backColor="BLUE"/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="14" value="ST"/>
-            <field column="20" value="Sports Toys warehouse                  "/>
+            <field column="20" length="41" value="Sports Toys warehouse                  "/>
             <field column="63" value=" " backColor="BLUE"/>
         </row>
         <row rowNumber="11">
             <field column="3" value=" " backColor="BLUE"/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="14" value="GL"/>
-            <field column="20" value="General warehouse                       "/>
+            <field column="20" length="41" value="General warehouse                       "/>
             <field column="63" value=" " backColor="BLUE"/>
         </row>
         <row rowNumber="12">
             <field column="3" value=" " backColor="BLUE"/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="14" value="MT"/>
-            <field column="20" value="Games warehouse                          "/>
+            <field column="20" length="41" value="Games warehouse                          "/>
             <field column="63" value=" " backColor="BLUE"/>
         </row>
         <row rowNumber="13">
             <field column="3" value=" " backColor="BLUE"/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="14" value="VF"/>
-            <field column="20" value="Baby Toys warehouse            "/>
+            <field column="20" length="41" value="Baby Toys warehouse            "/>
             <field column="63" value=" " backColor="BLUE"/>
         </row>
         <row rowNumber="14">
             <field column="3" value=" " backColor="BLUE"/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="14" value="  "/>
-            <field column="20" value="                                        "/>
+            <field column="20" length="41" value="                                        "/>
             <field column="63" value=" " backColor="BLUE"/>
         </row>
         <row rowNumber="15">
