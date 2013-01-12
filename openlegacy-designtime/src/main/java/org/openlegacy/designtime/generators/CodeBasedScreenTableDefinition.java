@@ -85,6 +85,7 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 			columnDefinitions.add(columnDefinition);
 			columnDefinition.setKey(field.isKey());
 			columnDefinition.setSelectionField(field.isSelectionField());
+			columnDefinition.setHelpText(field.getHelpText());
 		}
 		return columnDefinitions;
 	}

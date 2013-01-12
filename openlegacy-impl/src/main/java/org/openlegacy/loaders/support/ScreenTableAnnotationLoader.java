@@ -48,7 +48,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		tableDefinition.setEndRow(screenTableAnnotation.endRow());
 		tableDefinition.setScrollable(screenTableAnnotation.scrollable());
 		tableDefinition.setRowsGap(screenTableAnnotation.rowGaps());
-		
+
 		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));
 		tableDefinition.setPreviousScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));
 
@@ -84,6 +84,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				columnDefinition.setSampleValue(screenColumnAnnotation.sampleValue());
 
 				columnDefinition.setSelectionField(screenColumnAnnotation.selectionField());
+				columnDefinition.setHelpText(screenColumnAnnotation.helpText());
 
 				if (columnDefinition.isKey() && columnDefinition.isSelectionField()) {
 					throw (new RegistryException(MessageFormat.format(

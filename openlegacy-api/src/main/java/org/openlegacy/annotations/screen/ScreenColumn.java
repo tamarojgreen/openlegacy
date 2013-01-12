@@ -48,4 +48,6 @@ public @interface ScreenColumn {
 	String sampleValue() default "";
 
 	int rowsOffset() default 0;
+
+	String helpText() default "";
 }

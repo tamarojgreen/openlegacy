@@ -118,12 +118,21 @@ public class DefaultGenericController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String getScreenEntity(HttpServletResponse response, Model uiModel) throws IOException {
+	public String getScreenEntity(HttpServletResponse response, Model uiModel) {
 
 		ScreenEntity screenEntity = terminalSession.getEntity();
 		String screenEntityName = screenEntityUtils.getEntityName(screenEntity);
 		uiModel.addAttribute(screenEntityName, screenEntity);
 		return screenEntityName;
+
+	}
+
+	@RequestMapping(value = "/{screen}/help", method = RequestMethod.GET)
+	public String help(@PathVariable("screen") String screenEntityName, Model uiModel) {
+		ScreenEntityDefinition entityDefintion = screenEntitiesRegistry.get(screenEntityName);
+		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefintion));
+
+		return "help";
 
 	}
 

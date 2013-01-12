@@ -60,6 +60,9 @@ public interface TableDefinition<C extends ColumnDefinition> {
 		Class<?> getJavaType();
 
 		int getRowsOffset();
+
+		String getHelpText();
+
 	}
 
 }

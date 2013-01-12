@@ -26,6 +26,7 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
 	private String displayName;
 	private boolean selectionField;
 	private Class<?> javaType;
+	private String helpText;
 
 	public SimpleScreenColumnDefinition(String name) {
 		this.name = name;
@@ -122,5 +123,13 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
 
 	public void setRowsOffset(int rowsOffset) {
 		this.rowsOffset = rowsOffset;
+	}
+
+	public String getHelpText() {
+		return helpText;
+	}
+
+	public void setHelpText(String helpText) {
+		this.helpText = helpText;
 	}
 }
