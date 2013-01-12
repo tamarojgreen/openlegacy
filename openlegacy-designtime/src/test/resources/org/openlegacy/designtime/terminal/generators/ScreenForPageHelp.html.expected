@@ -47,13 +47,13 @@
 		</div>
 		<hr/>
 		<div>
-			<label>Action:</label><span>Description for Action</span>
+			<label>Action:</label><span>Description for Column Action</span>
 		</div>
 		<div>
-			<label>Column1:</label><span>Description for Column1</span>
+			<label>Column1:</label><span>help text for some column</span>
 		</div>
 		<div>
-			<label>Column2:</label><span>Description for Column2</span>
+			<label>Column2:</label><span>Description for Column Column2</span>
 		</div>
 	
 	</div>
