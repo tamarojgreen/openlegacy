@@ -303,6 +303,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private Integer column;
 		private Integer endColumn;
 		private Integer labelColumn;
+		private String helpText;
 		private FieldTypeDefinition fieldTypeDefiniton;
 		private boolean selectionField;
 		private boolean key;
@@ -448,6 +449,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setMainDisplayField(boolean mainDisplayField) {
 			this.mainDisplayField = mainDisplayField;
+		}
+
+		public String getHelpText() {
+			return helpText;
+		}
+
+		public void setHelpText(String helpText) {
+			this.helpText = helpText;
 		}
 	}
 

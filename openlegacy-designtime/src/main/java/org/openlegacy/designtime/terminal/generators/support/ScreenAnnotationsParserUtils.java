@@ -67,6 +67,7 @@ public class ScreenAnnotationsParserUtils {
 		String startColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.START_COLUMN);
 		String endColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_COLUMN);
 		String labelColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.LABEL_COLUMN);
+		String helpTextValue = getAnnotationValue(annotationExpr, AnnotationConstants.HELP_TEXT);
 		String selectionFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.SELECTION_FIELD);
 		String keyValue = getAnnotationValue(annotationExpr, AnnotationConstants.KEY);
 		String mainDisplayFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.MAIN_DISPLAY_FIELD);
@@ -91,6 +92,9 @@ public class ScreenAnnotationsParserUtils {
 		}
 		if (labelColumnValue != null) {
 			field.setLabelColumn(Integer.valueOf(labelColumnValue));
+		}
+		if (helpTextValue != null) {
+			field.setHelpText(StringUtil.stripQuotes(helpTextValue));
 		}
 
 		if (StringConstants.TRUE.equals(selectionFieldValue)) {

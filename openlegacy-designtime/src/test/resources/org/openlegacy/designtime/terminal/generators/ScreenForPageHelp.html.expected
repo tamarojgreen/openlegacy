@@ -19,7 +19,7 @@
 
 		<hr/>
 		<div>
-			<label>Fld Col12:</label><span>Description for Fld Col12</span>
+			<label>Fld Col12:</label><span>help text for some field</span>
 		</div>
 		<div>
 			<label>Fld2Col12:</label><span>Description for Fld2Col12</span>
@@ -55,6 +55,7 @@
 		<div>
 			<label>Column2:</label><span>Description for Column Column2</span>
 		</div>
-	</div>	
+	
+	</div>
 </body>
 </html>

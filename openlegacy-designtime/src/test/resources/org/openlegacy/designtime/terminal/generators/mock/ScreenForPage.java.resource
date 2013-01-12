@@ -19,7 +19,7 @@ import java.util.List;
 		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit") })
 public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
-	@ScreenField(row = 6, column = 22, endColumn = 31, editable = true)
+	@ScreenField(row = 6, column = 22, endColumn = 31, editable = true, helpText="help text for some field")
 	private String fldCol12;
 
 	@ScreenField(row = 7, column = 22, endColumn = 31, editable = true)

@@ -51,6 +51,7 @@ public class AnnotationConstants {
 	public static final String ACTION = "action";
 	public static final String ALIAS = "alias";
 	public static final String LABEL_COLUMN = "labelColumn";
+	public static final String HELP_TEXT = "helpText";
 	public static final String SCREEN_TYPE = "screenType";
 	public static final String CHILD = "child";
 
