@@ -65,7 +65,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPagewithKeyController_Asp
         return "ScreenForPagewithKey";
     }
 	
-    @RequestMapping(value="/help", method = RequestMethod.GET)
+    @RequestMapping(value="/online-help", method = RequestMethod.GET)
     public @ResponseBody String ScreenForPagewithKeyController.systemHelp(HttpServletRequest request) throws IOException {
     	URL resource = request.getSession().getServletContext().getResource("/help/ScreenForPagewithKey.html");
     	String result = "";

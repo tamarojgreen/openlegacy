@@ -127,7 +127,7 @@ public class DefaultGenericController {
 
 	}
 
-	@RequestMapping(value = "/{screen}/help", method = RequestMethod.GET)
+	@RequestMapping(value = "/{screen}/online-help", method = RequestMethod.GET)
 	public String help(@PathVariable("screen") String screenEntityName, Model uiModel) {
 		ScreenEntityDefinition entityDefintion = screenEntitiesRegistry.get(screenEntityName);
 		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefintion));
