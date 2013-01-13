@@ -34,4 +34,7 @@ public interface NavigationDefinition {
 	TerminalAction getExitAction();
 
 	boolean isRequiresParameters();
+
+	String getDrilldownValue();
+
 }

@@ -473,7 +473,7 @@
         <size rows="24" columns="80"/>
         <cursor row="8" column="4"/>
     </snapshot>
-    <snapshot type="OUTGOING" sequence="10" command="[pagedn]">
+    <snapshot type="OUTGOING" sequence="10" command="[enter]">
         <row rowNumber="1">
             <field column="21" value="Toys Inventory                          " color="WHITE"/>
         </row>

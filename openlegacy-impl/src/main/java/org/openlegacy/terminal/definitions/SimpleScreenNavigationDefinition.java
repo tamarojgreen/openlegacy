@@ -26,6 +26,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 	private TerminalAction exitAction;
 	private boolean requiresParameters;
 	private Class<?> targetEntity;
+	private String drilldownValue;
 
 	public Class<?> getAccessedFrom() {
 		return accessedFrom;
@@ -59,7 +60,7 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		return requiresParameters;
 	}
 
-	public void setRequiresParamaters(boolean requiresParameters) {
+	public void setRequiresParameters(boolean requiresParameters) {
 		this.requiresParameters = requiresParameters;
 	}
 
@@ -69,5 +70,13 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 
 	public void setTargetEntity(Class<?> targetEntity) {
 		this.targetEntity = targetEntity;
+	}
+
+	public String getDrilldownValue() {
+		return drilldownValue;
+	}
+
+	public void setDrilldownValue(String drilldownValue) {
+		this.drilldownValue = drilldownValue;
 	}
 }

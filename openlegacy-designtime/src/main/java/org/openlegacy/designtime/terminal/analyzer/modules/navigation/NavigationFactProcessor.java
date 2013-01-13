@@ -19,6 +19,7 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.modules.messages.Messages.MessagesEntity;
+import org.openlegacy.modules.table.RecordSelectionEntity;
 import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -32,6 +33,7 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.FieldsCriteria;
+import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -85,6 +87,17 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 		if (accessedFromScreenEntityDefinition.getType() == MenuEntity.class) {
 			buildAssignedFields(screenEntityDefinition, navigationDefinition, accessedFromScreenEntityDefinition,
 					accessedFromSnapshot);
+		} else if (accessedFromScreenEntityDefinition.getType() == RecordSelectionEntity.class) {
+			List<TerminalField> modifiedFields = FieldsQuery.queryFields(accessedFromSnapshot,
+					FieldsQuery.ModifiedFieldsCriteria.instance());
+			if (modifiedFields.size() > 0) {
+				// pick the 1st modified field value for record selection
+				String modifiedValue = modifiedFields.get(0).getValue();
+				if (!StringUtil.isEmpty(modifiedValue)) {
+					navigationDefinition.setDrilldownValue(modifiedValue);
+					navigationDefinition.setRequiresParameters(true);
+				}
+			}
 		}
 
 		// add assign fields when setting cursor is set on editable field

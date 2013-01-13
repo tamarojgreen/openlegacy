@@ -86,4 +86,6 @@ public @interface ScreenNavigation {
 	 * @return whether the screen requires parameters for navigation
 	 */
 	boolean requiresParameters() default false;
+
+	String drilldownValue() default "";
 }

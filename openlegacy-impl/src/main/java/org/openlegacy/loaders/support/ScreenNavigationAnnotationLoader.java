@@ -16,9 +16,14 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
+import org.openlegacy.terminal.modules.table.TerminalDrilldownActions;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
@@ -46,9 +51,21 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 		navigationDefinition.setAccessedFrom(screenNavigation.accessedFrom());
 		navigationDefinition.setTargetEntity(containingClass);
 
-		navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
+		if (screenNavigation.drilldownValue().length() > 0) {
+			if (screenNavigation.terminalAction() != ENTER.class) {
+				throw (new RegistryException(MessageFormat.format(
+						"@ScreenNavigation, drilldownValue is supported only with ENTER action. Entity:{0}",
+						containingClass.getName())));
+			}
+			navigationDefinition.setDrilldownValue(screenNavigation.drilldownValue());
+			TerminalDrilldownActions.enter(screenNavigation.drilldownValue());
+		} else {
+			navigationDefinition.setTerminalAction((TerminalAction)TerminalActions.combined(screenNavigation.additionalKey(),
+					screenNavigation.terminalAction()));
+		}
 		navigationDefinition.setExitAction(ReflectionUtil.newInstance(screenNavigation.exitAction()));
-		navigationDefinition.setRequiresParamaters(screenNavigation.requiresParameters());
+		navigationDefinition.setRequiresParameters(screenNavigation.requiresParameters());
+
 		AssignedField[] assignedFields = screenNavigation.assignedFields();
 		for (AssignedField assignedField : assignedFields) {
 			String value = assignedField.value();

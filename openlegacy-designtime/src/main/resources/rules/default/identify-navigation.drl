@@ -7,7 +7,7 @@ ruleflow-group "identify-navigation"
 no-loop
 when
 	// there is a screen definition
-	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition(typeName != "LoginEntity")
 	
 	// which has a snaphot
 	$snapshot: TerminalSnapshot(snapshotType == SnapshotType.INCOMING) from $screenEntityDefinition.getSnapshot()
@@ -17,7 +17,7 @@ when
 	$accessedFromSnapshot: TerminalSnapshot(snapshotType == SnapshotType.OUTGOING, sequence > 0,sequence == $previousSequence) from snapshotsAnalyzerContext.getActiveSnapshots()
 
 	// and find the previous snapshot screen definitions
-	$accessedFromScreenDefinition: ScreenEntityDesigntimeDefinition( eval(snapshotsSimilarityChecker.similarityPercent(snapshot,$accessedFromSnapshot) == 100) )
+	$accessedFromScreenDefinition: ScreenEntityDesigntimeDefinition(allSnapshots contains $accessedFromSnapshot)
 
 
 then

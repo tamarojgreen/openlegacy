@@ -12,8 +12,8 @@ import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGeneratorTes
 import org.openlegacy.designtime.terminal.generators.TrailJunitGeneratorTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ ScreenEntityAjGeneratorTest.class, DefaultTerminalSnapshotsSorterTest.class, SnapshotsSorterTest.class,
-		TrailJunitGeneratorTest.class, AnalyzerSuite.class, ScreenEntityMvcGeneratorTest.class, HelpGeneratorTest.class })
+@SuiteClasses({ AnalyzerSuite.class, ScreenEntityAjGeneratorTest.class, DefaultTerminalSnapshotsSorterTest.class,
+		SnapshotsSorterTest.class, TrailJunitGeneratorTest.class, ScreenEntityMvcGeneratorTest.class, HelpGeneratorTest.class })
 public class OpenLegacyDesigntimeSuite {
 
 }

@@ -7,7 +7,8 @@ rule "identify-child-screens"
 ruleflow-group "identify-child-screens"
 when
 	// there is a child screen which is not a menu or window
-	$childScreenDefinition: ScreenEntityDesigntimeDefinition(window == false, typeName != "MenuEntity", typeName != "RecordSelectionEntity")
+	$childScreenDefinition: ScreenEntityDesigntimeDefinition(window == false, 
+															typeName != "MenuEntity", typeName != "RecordSelectionEntity",typeName != "LoginEntity")
 
 	// with navigation definitions
 	$childNavigationDefinition: ScreenNavigationDesignTimeDefinition(this != null) from $childScreenDefinition.getNavigationDefinition()

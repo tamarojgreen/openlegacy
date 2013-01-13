@@ -11,8 +11,6 @@ import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.definitions.EnumGetValue;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.EnterDrilldownAction;
-import org.openlegacy.terminal.samples.model.ItemDetails.ItemDetailsDrilldownAction;
 
 @ScreenEntity(displayName = "Main Item Details")
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 26, value = "    Work with Item Master     "),
@@ -22,7 +20,7 @@ import org.openlegacy.terminal.samples.model.ItemDetails.ItemDetailsDrilldownAct
 		@Action(action = TerminalActions.F4.class, displayName = "Prompt", alias = "prompt"),
 		@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"),
 		@Action(action = TerminalActions.F2.class, additionalKey = AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") })
-@ScreenNavigation(accessedFrom = Items.class, requiresParameters = true, terminalAction = ItemDetailsDrilldownAction.class)
+@ScreenNavigation(accessedFrom = Items.class, requiresParameters = true, drilldownValue = "2")
 public class ItemDetails {
 
 	@ScreenField(key = true, row = 6, column = 33, endColumn = 47, labelColumn = 2, editable = true, displayName = "Item Number", sampleValue = "2000")
@@ -77,16 +75,6 @@ public class ItemDetails {
 		@Override
 		public String toString() {
 			return display;
-		}
-	}
-
-	public static class ItemDetailsDrilldownAction extends EnterDrilldownAction {
-
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public Object getActionValue() {
-			return 2;
 		}
 	}
 

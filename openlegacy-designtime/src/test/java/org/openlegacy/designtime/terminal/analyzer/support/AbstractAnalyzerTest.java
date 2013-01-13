@@ -11,6 +11,7 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.terminal.TerminalSnapshotsLoader;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.test.utils.AssertUtils;
+import org.springframework.context.ApplicationContext;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,6 +31,9 @@ public class AbstractAnalyzerTest {
 
 	@Inject
 	protected ScreenEntityJavaGenerator screenEntityJavaGenerator;
+
+	@Inject
+	protected ApplicationContext applicationContext;
 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalSnapshotsAnalyzerTest.class);
 

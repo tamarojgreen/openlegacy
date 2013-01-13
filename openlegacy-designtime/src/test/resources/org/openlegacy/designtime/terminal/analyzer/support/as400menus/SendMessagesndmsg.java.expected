@@ -17,6 +17,12 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F10.class, displayName = "Additional parameters", alias = "additionalParameters"), 
 				@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel") 
 				})
+@ScreenNavigation(accessedFrom = UserTasks.class 
+
+					, assignedFields = { 
+					@AssignedField(field = "menuSelection", value = "3")
+					 }						
+					)
 public class SendMessagesndmsg {
     
 	

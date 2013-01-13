@@ -17,6 +17,12 @@ import org.openlegacy.annotations.screen.ScreenTable;
 				@Action(action = TerminalActions.F5.class, displayName = "Refresh", alias = "refresh"), 
 				@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel") 
 				})
+@ScreenNavigation(accessedFrom = UserTasks.class 
+
+					, assignedFields = { 
+					@AssignedField(field = "menuSelection", value = "7")
+					 }						
+					)
 public class EditLibraryList {
     
 	
