@@ -8,6 +8,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition {
@@ -25,6 +26,10 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 	TerminalSnapshot getOutgoingSnapshot();
 
 	void setOutgoingSnapshot(TerminalSnapshot terminalSnapshot);
+
+	Collection<TerminalSnapshot> getAllSnapshots();
+
+	void setAllSnapshots(Collection<TerminalSnapshot> allSnapshots);
 
 	String getPackageName();
 

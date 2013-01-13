@@ -44,6 +44,8 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 
 	private TerminalSnapshot outgoingSnapshot;
 
+	private Collection<TerminalSnapshot> allSnapshots;
+
 	@Override
 	public void setEntityName(String entityName) {
 		super.setEntityName(entityName);
@@ -150,4 +152,11 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 		this.outgoingSnapshot = outgoingSnapshot;
 	}
 
+	public Collection<TerminalSnapshot> getAllSnapshots() {
+		return allSnapshots;
+	}
+
+	public void setAllSnapshots(Collection<TerminalSnapshot> allSnapshots) {
+		this.allSnapshots = allSnapshots;
+	}
 }

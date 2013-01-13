@@ -9,16 +9,19 @@ then
 	Collection<TerminalSnapshot> snapshots = snapshotsAnalyzerContext.getActiveSnapshots();
 	snapshotsOrganizer.add(snapshots);
 	
-	// pick 1 representer from each matched group
-	snapshots = snapshotsOrganizer.getGroupsRepresenters(new LowestSequenceSnapshotPickerStrategy());
-	 
-	for (TerminalSnapshot s:snapshots){
+	Collection<Set<TerminalSnapshot>> groups = snapshotsOrganizer.getGroups();
+	SnapshotPickerStrategy strategy = new LowestSequenceSnapshotPickerStrategy();
+	for (Set<TerminalSnapshot> group : groups){
 		// for snapshot, initialize an empty screen definitions container 
 		ScreenEntityDesigntimeDefinition screenEntityDefinition = new SimpleScreenEntityDesigntimeDefinition();
+		
+		// pick 1 representer from each matched group
+		TerminalSnapshot s = (TerminalSnapshot)strategy.pickRepresenter(group);
 		
 		// link the definition to the snapshot
 		screenEntityDefinition.setSnapshot(s);
 		screenEntityDefinition.setOutgoingSnapshot(snapshotsAnalyzerContext.getOutgoingSnapshot(s));
+		screenEntityDefinition.setAllSnapshots(group);
 		/// insert the definitions container to the session
 		insert(screenEntityDefinition);
 	} 

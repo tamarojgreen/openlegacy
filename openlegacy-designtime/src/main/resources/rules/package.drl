@@ -18,7 +18,7 @@ import org.openlegacy.designtime.analyzer.SnapshotsOrganizer;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzerContext;
 import org.openlegacy.designtime.analyzer.SnapshotsSimilarityChecker;
 import org.openlegacy.designtime.rules.*;
-import org.openlegacy.designtime.terminal.analyzer.ScreenEntityDefinitionsBuilder;
+import org.openlegacy.designtime.terminal.analyzer.*;
 
 global SnapshotsAnalyzerContext snapshotsAnalyzerContext;
 global SnapshotsOrganizer snapshotsOrganizer;
