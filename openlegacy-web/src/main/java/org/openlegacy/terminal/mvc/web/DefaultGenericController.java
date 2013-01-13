@@ -15,6 +15,7 @@ import flexjson.JSONSerializer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -127,15 +128,6 @@ public class DefaultGenericController {
 
 	}
 
-	@RequestMapping(value = "/{screen}/online-help", method = RequestMethod.GET)
-	public String help(@PathVariable("screen") String screenEntityName, Model uiModel) {
-		ScreenEntityDefinition entityDefintion = screenEntitiesRegistry.get(screenEntityName);
-		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefintion));
-
-		return "help";
-
-	}
-
 	@RequestMapping(value = "/{screen}", method = RequestMethod.POST)
 	public String postScreenEntity(@PathVariable("screen") String screenEntityName,
 			@RequestParam(defaultValue = "", value = ACTION) String action,
@@ -188,6 +180,8 @@ public class DefaultGenericController {
 		if (servletContext.getResource(MessageFormat.format("{0}/{1}{2}", viewsPath, viewName, viewsSuffix)) == null) {
 			if (isComposite) {
 				viewName = MvcConstants.COMPOSITE;
+			} else if (entityDefinition.getType() == MenuEntity.class && entityDefinition.getNavigationDefinition() == null) {
+				viewName = MvcConstants.ROOTMENU_VIEW;
 			} else if (partial) {
 				viewName = MvcConstants.GENERIC_VIEW;
 			} else {

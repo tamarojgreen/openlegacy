@@ -16,4 +16,6 @@ public class MvcConstants {
 
 	public static final String GENERIC = "generic";
 
+	public static final String ROOTMENU_VIEW = "rootMenu";
+
 }

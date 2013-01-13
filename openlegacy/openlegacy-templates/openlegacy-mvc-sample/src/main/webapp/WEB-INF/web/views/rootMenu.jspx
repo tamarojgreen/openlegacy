@@ -1,0 +1,14 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" />
+	 
+	<div>
+		<form id="MainMenuForm" method="post">
+			<div class="menu_message">
+				Select a page from the side menu
+			</div>
+		</form>
+	</div>
+</jsp:root>
