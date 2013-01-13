@@ -25,6 +25,7 @@ import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.table.TerminalDrilldownAction;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -60,8 +61,12 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 			navigationDefinition.setDrilldownValue(screenNavigation.drilldownValue());
 			TerminalDrilldownActions.enter(screenNavigation.drilldownValue());
 		} else {
-			navigationDefinition.setTerminalAction((TerminalAction)TerminalActions.combined(screenNavigation.additionalKey(),
-					screenNavigation.terminalAction()));
+			if (TerminalDrilldownAction.class.isAssignableFrom(screenNavigation.terminalAction())) {
+				navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
+			} else {
+				navigationDefinition.setTerminalAction((TerminalAction)TerminalActions.combined(screenNavigation.additionalKey(),
+						screenNavigation.terminalAction()));
+			}
 		}
 		navigationDefinition.setExitAction(ReflectionUtil.newInstance(screenNavigation.exitAction()));
 		navigationDefinition.setRequiresParameters(screenNavigation.requiresParameters());
