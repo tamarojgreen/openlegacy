@@ -56,7 +56,8 @@ public class OpenLegacyJRebelPlugin implements Plugin {
 					try {
 						if (isScreenEntity(klass)) {
 							invoke(registryLoader, "loadSingleClass", new String[] { "org.openlegacy.EntitiesRegistry",
-									"java.lang.Class" }, registry, class1);
+									"java.lang.Class" }, registry, class1, true);
+
 						}
 
 					} catch (Exception e) {

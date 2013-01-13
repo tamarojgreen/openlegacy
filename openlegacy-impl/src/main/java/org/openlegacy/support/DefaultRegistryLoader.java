@@ -68,7 +68,7 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 				// scan all classes with annotations
 				for (Resource resource : resources) {
 					Class<?> beanClass = getClassFromResource(packagePath, resource);
-					loadSingleClass(entitiesRegistry, beanClass);
+					loadSingleClass(entitiesRegistry, beanClass, false);
 				}
 				// another cycle on all classes for scanning fields of registered types (List<TableRowClass> for example)
 				for (Resource resource : resources) {
@@ -84,7 +84,7 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		fillEntitiesReferences(entitiesRegistry);
 	}
 
-	public void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass) {
+	public void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass, boolean loadReferences) {
 
 		if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass)) {
 			return;
@@ -103,6 +103,10 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		// scan field for annotations
 		handleEntityAnnotationFields(fieldAnnotationLoaders, entitiesRegistry, beanClass);
 		handleEntityFields(fieldLoaders, entitiesRegistry, beanClass);
+
+		if (loadReferences) {
+			fillEntityReferences(entitiesRegistry, entitiesRegistry.get(beanClass));
+		}
 	}
 
 	public void setAnnotationLoaders(Collection<ClassAnnotationsLoader> classAnnotationLoaders) {
@@ -136,23 +140,27 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		@SuppressWarnings("unchecked")
 		Collection<EntityDefinition<?>> entities = (Collection<EntityDefinition<?>>)entitiesRegistry.getEntitiesDefinitions();
 		for (final EntityDefinition<?> entityDefinition : entities) {
-
-			ReflectionUtils.doWithFields(entityDefinition.getEntityClass(), new FieldCallback() {
-
-				public void doWith(Field field) {
-					if (TypesUtil.isPrimitive(field.getType())) {
-						return;
-					}
-					if (List.class.isAssignableFrom(field.getType())) {
-						return;
-					}
-					EntityDefinition<?> childEntity = entitiesRegistry.get(field.getType());
-					if (childEntity != null) {
-						entityDefinition.getChildEntitiesDefinitions().add(childEntity);
-					}
-				}
-			});
+			fillEntityReferences(entitiesRegistry, entityDefinition);
 		}
+	}
+
+	private static void fillEntityReferences(final EntitiesRegistry<?, ?> entitiesRegistry,
+			final EntityDefinition<?> entityDefinition) {
+		ReflectionUtils.doWithFields(entityDefinition.getEntityClass(), new FieldCallback() {
+
+			public void doWith(Field field) {
+				if (TypesUtil.isPrimitive(field.getType())) {
+					return;
+				}
+				if (List.class.isAssignableFrom(field.getType())) {
+					return;
+				}
+				EntityDefinition<?> childEntity = entitiesRegistry.get(field.getType());
+				if (childEntity != null) {
+					entityDefinition.getChildEntitiesDefinitions().add(childEntity);
+				}
+			}
+		});
 	}
 
 	private static void processAnnotations(List<ClassAnnotationsLoader> annotationLoaders,
