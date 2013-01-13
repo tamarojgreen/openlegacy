@@ -380,7 +380,9 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 				List<EntityDefinition<?>> childScreens = entityDefinition.getChildEntitiesDefinitions();
 				// generate page content for each of the child screens
 				for (EntityDefinition<?> childDefinition : childScreens) {
-					generateView(generatePageRequest, childDefinition, true);
+					pageDefinition = (SimplePageDefinition)new DefaultScreenPageBuilder().build((ScreenEntityDefinition)childDefinition);
+					generateView(generatePageRequest, childDefinition, pageDefinition, viewsDir, templateDirectoryPrefix,
+							overrideConfirmer, false, mvcTemplateType, mvcCompositeTemplateType);
 				}
 			}
 
