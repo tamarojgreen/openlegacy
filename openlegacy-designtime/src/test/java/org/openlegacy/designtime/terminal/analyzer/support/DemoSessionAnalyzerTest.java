@@ -27,6 +27,7 @@ public class DemoSessionAnalyzerTest extends AbstractAnalyzerTest {
 
 		// checks for navigation generation
 		assertScreenContent(screenEntitiesDefinitions.get("ItemDetails"), "inventory/ItemDetails.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("Items"), "inventory/Items.java.expected");
 	}
 
 }

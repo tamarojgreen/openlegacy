@@ -13,6 +13,7 @@ package org.openlegacy.designtime.terminal.analyzer.modules.navigation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
@@ -30,7 +31,10 @@ import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
+import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
+import org.openlegacy.terminal.table.TerminalDrilldownAction;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.FieldsCriteria;
 import org.openlegacy.utils.StringUtil;
@@ -96,6 +100,23 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 				if (!StringUtil.isEmpty(modifiedValue)) {
 					navigationDefinition.setDrilldownValue(modifiedValue);
 					navigationDefinition.setRequiresParameters(true);
+
+					// find the table action which matches the modified value, and set current screen definition as the target
+					// entity fot the table action
+					if (accessedFromScreenEntityDefinition.getTableDefinitions().size() == 1) {
+						ScreenTableDefinition tableDefinition = accessedFromScreenEntityDefinition.getTableDefinitions().values().iterator().next();
+						List<ActionDefinition> tableActions = tableDefinition.getActions();
+						for (ActionDefinition actionDefinition : tableActions) {
+							if (actionDefinition.getAction() instanceof TerminalDrilldownAction) {
+								TerminalDrilldownAction drilldownAction = (TerminalDrilldownAction)actionDefinition.getAction();
+								if (modifiedValue.equals(drilldownAction.getActionValue())) {
+									SimpleTerminalActionDefinition terminalActionDefinition = (SimpleTerminalActionDefinition)actionDefinition;
+									terminalActionDefinition.setTargetEntityDefinition(screenEntityDefinition);
+								}
+							}
+						}
+					}
+
 				}
 			}
 		}

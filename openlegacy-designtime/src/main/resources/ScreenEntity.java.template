@@ -65,7 +65,7 @@ public class ${entityName} {
 	<#if table.actions?size &gt; 0>
 	@ScreenTableActions(actions = { 
 		<#list table.actions as action>
-			@TableAction(actionValue = "${action.action.actionValue}", displayName = "${action.displayName}")<#if action_has_next>,</#if> 
+			@TableAction(actionValue = "${action.action.actionValue}", displayName = "${action.displayName}"<#if action.targetEntityDefinition??>, targetEntity=${action.targetEntityDefinition.entityName}.class</#if><#if action_index = 0>, defaultAction = true</#if>)<#if action_has_next>,</#if> 
 		</#list>
 			})
 	</#if>

@@ -54,6 +54,7 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 	}
 
 	public void setActiveSnapshots(Collection<TerminalSnapshot> snapshots) {
+		clear();
 		activeSnapshots = snapshots;
 
 	}
@@ -190,5 +191,15 @@ public class TerminalSnapshotsAnalyzerContext implements SnapshotsAnalyzerContex
 			}
 		}
 		return null;
+	}
+
+	private void clear() {
+		entitiesDefinitions.clear();
+		if (entitiesDefinitionsResult != null) {
+			entitiesDefinitionsResult.clear();
+		}
+		if (entitiesDefinitionsResult != null) {
+			entitiesDefinitionsByIdentification.clear();
+		}
 	}
 }

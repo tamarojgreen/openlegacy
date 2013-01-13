@@ -13,7 +13,6 @@ package org.openlegacy.terminal.definitions;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
-import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
@@ -27,6 +26,9 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 	private AdditionalKey additionalKey;
 
 	private Class<?> targetEntity;
+
+	// for design-time purposes
+	private ScreenEntityDefinition targetEntityDefinition;
 
 	private boolean defaultAction;
 
@@ -60,5 +62,13 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	public void setDefault(boolean defaultAction) {
 		this.defaultAction = defaultAction;
+	}
+
+	public ScreenEntityDefinition getTargetEntityDefinition() {
+		return targetEntityDefinition;
+	}
+
+	public void setTargetEntityDefinition(ScreenEntityDefinition targetEntityDefinition) {
+		this.targetEntityDefinition = targetEntityDefinition;
 	}
 }

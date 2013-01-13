@@ -18,7 +18,7 @@ public class TableScreen {
 
 	@ScreenTable(startRow = 5, endRow = 7)
 	@ScreenTableActions(actions = { 
-			@TableAction(actionValue = "1", displayName = "View"), 
+			@TableAction(actionValue = "1", displayName = "View", defaultAction = true), 
 			@TableAction(actionValue = "2", displayName = "Edit") 
 			})
 	public static class TableScreenRecord {
