@@ -318,7 +318,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean selectionField;
 		private boolean key;
 		private boolean mainDisplayField;
+		// @author Ivan Bort refs assembla #112
 		private String fieldTypeName;
+		private boolean rectangle;
+		private boolean password;
+		private String sampleValue;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -468,6 +472,30 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setFieldTypeName(String fieldTypeName) {
 			this.fieldTypeName = fieldTypeName;
+		}
+
+		public boolean isRectangle() {
+			return rectangle;
+		}
+
+		public void setRectangle(boolean rectangle) {
+			this.rectangle = rectangle;
+		}
+
+		public boolean isPassword() {
+			return password;
+		}
+
+		public void setPassword(boolean password) {
+			this.password = password;
+		}
+
+		public String getSampleValue() {
+			return sampleValue;
+		}
+
+		public void setSampleValue(String sampleValue) {
+			this.sampleValue = sampleValue;
 		}
 	}
 

@@ -79,6 +79,10 @@ public class CodeBasedDefinitionUtils {
 			fieldDefinition.setKey(javaFieldModel.isKey());
 			// @author Ivan Bort, refs assembla #112
 			fieldDefinition.setFieldTypeName(javaFieldModel.getFieldTypeName());
+			fieldDefinition.setRectangle(javaFieldModel.isRectangle());
+			fieldDefinition.setPassword(javaFieldModel.isPassword());
+			fieldDefinition.setSampleValue(javaFieldModel.getSampleValue());
+
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;

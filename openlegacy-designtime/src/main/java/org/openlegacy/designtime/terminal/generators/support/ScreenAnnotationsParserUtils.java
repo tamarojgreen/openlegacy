@@ -21,7 +21,6 @@ import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCo
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
-import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
@@ -79,7 +78,18 @@ public class ScreenAnnotationsParserUtils {
 		String mainDisplayFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.MAIN_DISPLAY_FIELD);
 		// @author Ivan Bort refs assembla #112
 		String fieldTypeName = getAnnotationValue(annotationExpr, AnnotationConstants.FIELD_TYPE);
+		String rectangleValue = getAnnotationValue(annotationExpr, AnnotationConstants.RECTANGLE);
+		String passwordValue = getAnnotationValue(annotationExpr, AnnotationConstants.PASSWORD);
+		String sampleValue = getAnnotationValue(annotationExpr, AnnotationConstants.SAMPLE_VALUE);
+
+		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : StringUtil.stripQuotes(sampleValue));
 		field.setFieldTypeName(StringUtil.toClassName(fieldTypeName));
+		if (StringConstants.TRUE.equals(rectangleValue)) {
+			field.setRectangle(true);
+		}
+		if (StringConstants.TRUE.equals(passwordValue)) {
+			field.setPassword(true);
+		}
 
 		if (AnnotationConstants.TRUE.equals(editableValue)) {
 			field.setEditable(true);
@@ -153,13 +163,13 @@ public class ScreenAnnotationsParserUtils {
 					navigationDefinition.setRequiresParamaters(Boolean.valueOf(attributeValue));
 				}
 				if (memberValuePair.getName().equals(AnnotationConstants.TERMINAL_ACTION)) {
-					navigationDefinition.setTerminalAction(TerminalActions.newAction(StringUtil.toClassName(attributeValue)));
+					navigationDefinition.setTerminalActionName(StringUtil.toClassName(attributeValue));
 				}
 				if (memberValuePair.getName().equals(AnnotationConstants.ADDITIONAL_KEY)) {
 					navigationDefinition.setAdditionalKey(AdditionalKey.valueOf(attributeValue.split("\\.")[1]));
 				}
 				if (memberValuePair.getName().equals(AnnotationConstants.EXIT_ACTION)) {
-					navigationDefinition.setExitAction(TerminalActions.newAction(StringUtil.toClassName(attributeValue)));
+					navigationDefinition.setExitActionName(StringUtil.toClassName(attributeValue));
 				}
 				if (memberValuePair.getName().equals(AnnotationConstants.EXIT_ADDITIONAL_KEY)) {
 					navigationDefinition.setExitAdditionalKey(AdditionalKey.valueOf(attributeValue.split("\\.")[1]));

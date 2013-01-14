@@ -42,4 +42,8 @@ public interface NavigationDefinition {
 	AdditionalKey getAdditionalKey();
 
 	AdditionalKey getExitAdditionalKey();
+
+	String getTerminalActionName();
+
+	String getExitActionName();
 }

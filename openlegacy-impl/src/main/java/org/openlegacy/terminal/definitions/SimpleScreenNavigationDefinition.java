@@ -32,6 +32,8 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 	// @author Ivan Bort refs assembla #112
 	private AdditionalKey additionalKey;
 	private AdditionalKey exitAdditionalKey;
+	private String terminalActionName;
+	private String exitActionName;
 
 	private String accessedFromEntityName;
 
@@ -117,5 +119,21 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 
 	public void setExitAdditionalKey(AdditionalKey exitAdditionalKey) {
 		this.exitAdditionalKey = exitAdditionalKey;
+	}
+
+	public String getTerminalActionName() {
+		return terminalActionName;
+	}
+
+	public void setTerminalActionName(String terminalActionName) {
+		this.terminalActionName = terminalActionName;
+	}
+
+	public String getExitActionName() {
+		return exitActionName;
+	}
+
+	public void setExitActionName(String exitActionName) {
+		this.exitActionName = exitActionName;
 	}
 }
