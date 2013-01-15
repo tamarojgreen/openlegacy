@@ -40,5 +40,7 @@
 	<!-- End using a mock-up session application -->
 
 	<import resource="classpath:/META-INF/spring/db-context.xml"/>
-	
+
+	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
+			
 </beans>
