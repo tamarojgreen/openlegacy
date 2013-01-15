@@ -43,7 +43,7 @@
 				value="${definitions.fieldsDefinitions[name]}" />
 		</c:otherwise>
 	</c:choose>
-	<c:if test="${empty label}">
+	<c:if test="${label == null}">
 		<c:set var="label" value="${fieldDefinition.displayName}" />
 	</c:if>
 	<c:if test="${empty maxlength}">
@@ -72,7 +72,7 @@
 	</c:if>
 	<div class="${cssClass}">
 		<div class="field_row">
-			<c:if test="${not empty label}">
+			<c:if test="${label != null}">
 				<div class="label">
 					<label>${label}:</label>
 				</div>

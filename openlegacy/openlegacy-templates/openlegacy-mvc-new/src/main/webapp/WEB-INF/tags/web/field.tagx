@@ -26,7 +26,7 @@
 			<c:set var="fieldDefinition" value="${definitions.fieldsDefinitions[name]}" />
 		</c:otherwise>
 	</c:choose>
-	<c:if test="${empty label}">
+	<c:if test="${label == null}">
 		<c:set var="label" value="${fieldDefinition.displayName}" />
 	</c:if>
 	<c:if test="${empty maxlength}">
