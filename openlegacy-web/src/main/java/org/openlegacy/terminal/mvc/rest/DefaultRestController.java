@@ -27,7 +27,6 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.json.ScreenEntitySerializationUtils;
 import org.openlegacy.terminal.modules.trail.TrailUtil;
-import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenEntityWrapper;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
@@ -117,7 +116,12 @@ public class DefaultRestController {
 			return null;
 		}
 		try {
-			ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, key);
+			ScreenEntity screenEntity;
+			if (key == null) {
+				screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
+			} else {
+				screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, key);
+			}
 			return getEntityInner(screenEntity);
 		} catch (EntityNotFoundException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -251,5 +255,5 @@ public class DefaultRestController {
 	public void setRequiresLogin(boolean requiresLogin) {
 		this.requiresLogin = requiresLogin;
 	}
-	
+
 }
