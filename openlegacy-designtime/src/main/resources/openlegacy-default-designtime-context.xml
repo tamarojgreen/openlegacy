@@ -104,10 +104,21 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="menuOptionRegex" value="\s*\d+\.\s*([a-zA-Z,\p{L}]+[a-zA-Z,\p{L} ])*" />
-										<!-- <entry key="menuOptionRegex" value="\s*\d+\.\s*[a-zA-Z\p{L}]*" /> -->
-																				
-										<entry key="maxDistance" value="4" />
+										<entry key="singleMenuOptionRegex" value="\s*\d+\.\s*([a-zA-Z,\p{L}]+[a-zA-Z,\p{L} ])+" />
+																																								
+										<entry key="minimumMenuItems" value="2" />
+										<!-- 0 - not limited -->
+										<entry key="maxSelectionFieldLength" value="0" />
+									</map>
+								</property>
+							</bean>
+							<bean parent="ruleParametersSet">
+								<property name="ruleParameters">
+									<map>
+										<entry key="codeMenuOptionRegex" value="\s*\d+\.\s*" />
+										<entry key="captionMenuOptionRegex" value="\s*([\w\p{L}]+[, ]*)+" />
+										<entry key="maxDistance" value="6" />
+																																																		
 										<entry key="minimumMenuItems" value="2" />
 										<!-- 0 - not limited -->
 										<entry key="maxSelectionFieldLength" value="0" />

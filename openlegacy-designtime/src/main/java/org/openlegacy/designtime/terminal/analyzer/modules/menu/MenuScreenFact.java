@@ -17,16 +17,16 @@ import java.util.List;
 
 public class MenuScreenFact implements ScreenFact {
 
-	private TerminalField selectionField;
+	private List<TerminalField> selectionFields;
 	private List<MenuItemFact> menuItems;
 
-	public MenuScreenFact(TerminalField selelctionField, List<MenuItemFact> menuItems) {
-		this.selectionField = selelctionField;
+	public MenuScreenFact(List<TerminalField> selelctionFields, List<MenuItemFact> menuItems) {
+		this.selectionFields = selelctionFields;
 		this.menuItems = menuItems;
 	}
 
-	public TerminalField getSelectionField() {
-		return selectionField;
+	public List<TerminalField> getSelectionFields() {
+		return selectionFields;
 	}
 
 	public List<MenuItemFact> getMenuItems() {

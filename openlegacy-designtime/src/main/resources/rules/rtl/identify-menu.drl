@@ -4,14 +4,15 @@ import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.support.menu.SimpleMenuItem;
 import org.openlegacy.designtime.terminal.analyzer.modules.menu.*;
 
-rule "identify-menu"
+rule "identify-dobule-field-menu"
 ruleflow-group "identify-screen-types"
 no-loop
 salience 100 
 when
 	$ruleParameterSet: RuleParametersSet(ruleId == "identify-menu")
-	$menuOptionRegex  : String()  from (String)$ruleParameterSet.getRuleParameters().get("menuOptionRegex");
-	$maxDistance : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("maxDistance");
+	$codeMenuOptionRegex  		: String()  from (String)$ruleParameterSet.getRuleParameters().get("codeMenuOptionRegex");
+	$captionMenuOptionRegex  	: String()  from (String)$ruleParameterSet.getRuleParameters().get("captionMenuOptionRegex");
+	$maxDistance				: Integer() from (Integer)$ruleParameterSet.getRuleParameters().get("maxDistance");
 	
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
@@ -20,15 +21,41 @@ when
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
 	
 	// and there is a field in a specific column (which is not a leading label) 
-	$codeField: TerminalField(value matches $menuOptionRegex) from $snapshot.getFields();
+	$codeField: TerminalField(editable == false,value matches $codeMenuOptionRegex) from $snapshot.getFields();
 
-	$captionField: TerminalField(this != $codeField, endPosition.column + $maxDistance >= $codeField.position.column,  
+	// optional
+	$captionField: TerminalField(editable == false, this != $codeField, value matches $captionMenuOptionRegex,
+								position.column < $codeField.position.column, 
+								endPosition.column >= $codeField.position.column - $maxDistance,  
 								position.row == $codeField.position.row) from $snapshot.getFields();
 	
 then
 	MenuItemFact menuItemFact = new MenuItemFact($codeField,$captionField,$screenEntityDefinition);
 	insert(menuItemFact);
 end
+
+rule "identify-single-field-menu"
+ruleflow-group "identify-screen-types"
+no-loop
+salience 100 
+when
+	$ruleParameterSet: RuleParametersSet(ruleId == "identify-menu")
+	$singleMenuOptionRegex  : String()  from (String)$ruleParameterSet.getRuleParameters().get("singleMenuOptionRegex");
+	
+	// there is a screen definition
+	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
+
+	// and a snapshot from the 1st screen definition
+	$snapshot: TerminalSnapshot() from $screenEntityDefinition.getSnapshot()
+	
+	// and there is a field in a specific column (which is not a leading label) 
+	$codeField: TerminalField(editable == false,value matches $singleMenuOptionRegex) from $snapshot.getFields();
+
+then
+	MenuItemFact menuItemFact = new MenuItemFact($codeField,null,$screenEntityDefinition);
+	insert(menuItemFact);
+end
+
 
 rule "analyze-menu-items"
 ruleflow-group "identify-screen-types"
@@ -47,11 +74,11 @@ when
 	
 	$menuItems: List(size >= $minimumMenuItems) from collect ( MenuItemFact(screenEntityDefinition == $screenEntityDefinition) )
 	
-	$menuSelectionFields: List(size >= 1) from collect ( TerminalField(editable == true, length <= $maxSelectionFieldLength) from $snapshot.getFields() )
+	$menuSelectionFields: List(size >= 1) from collect ( TerminalField(editable == true, $maxSelectionFieldLength == 0 || length <= $maxSelectionFieldLength) from $snapshot.getFields() )
 	// pick the 1st matching field for menu selection
-	$menuSelectionField : TerminalField() from $menuSelectionFields.get(0)
+	//$menuSelectionField : TerminalField(this != null) from $menuSelectionFields.get(0)
 then
-	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new MenuScreenFact($menuSelectionField,$menuItems));
+	screenEntityDefinitionsBuilder.processFact($screenEntityDefinition, new MenuScreenFact($menuSelectionFields,$menuItems));
 	update($screenEntityDefinition);
 end
 

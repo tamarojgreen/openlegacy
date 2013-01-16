@@ -17,6 +17,7 @@ import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.analyzer.support.ScreenEntityDefinitionsBuilderUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.utils.ClassUtils;
@@ -34,12 +35,16 @@ public class MenuScreenFactProcessor implements ScreenFactProcessor {
 
 		MenuScreenFact menuScreenFact = (MenuScreenFact)screenFact;
 
+		if (screenEntityDefinition.getType() == MenuEntity.class) {
+			return;
+		}
+
 		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(Menu.MenuEntity.class));
 		screenEntityDefinition.setType(Menu.MenuEntity.class);
 		TerminalSnapshot snapshot = screenEntityDefinition.getSnapshot();
 
 		ScreenFieldDefinition fieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-				menuScreenFact.getSelectionField(), Menu.SELECTION_LABEL);
+				menuScreenFact.getSelectionFields().get(0), Menu.SELECTION_LABEL);
 		if (fieldDefinition == null) {
 			logger.warn("Menu selection field not added to screen entity");
 			return;
@@ -50,7 +55,9 @@ public class MenuScreenFactProcessor implements ScreenFactProcessor {
 
 		for (MenuItemFact menuItem : menuScreenFact.getMenuItems()) {
 			snapshot.getFields().remove(menuItem.getCodeField());
-			snapshot.getFields().remove(menuItem.getCaptionField());
+			if (menuItem.getCaptionField() != null) {
+				snapshot.getFields().remove(menuItem.getCaptionField());
+			}
 		}
 
 	}

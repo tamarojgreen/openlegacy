@@ -1,9 +1,23 @@
 package openlegacy;
 
+declare FindScreenNameStep
+end
+
+rule "pre-find-screen-name"
+ruleflow-group "find-screen-name"
+salience 110
+when
+then
+	// blocker for next step to avoid multiple evaluation
+	insert(new FindScreenNameStep());	
+end
+
 rule "find-screen-name"
 ruleflow-group "find-screen-name"
 no-loop
+salience 100
 when
+	FindScreenNameStep()
 	// there is a screen definition
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
 	
@@ -23,7 +37,7 @@ when
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot
 
 	// and there is a field from the snapshot in the title rows which matches a title pattern 
-	$potentialFieldsForEntityName: List() from collect(
+	$potentialFieldsForEntityName: List(size > 0) from collect(
 											TerminalField(position.row >= $titleStartRow, position.row <= $titleEndRow, 
 											// consider title column range only when there is no window boder ($borderStartRow == 1)
 											position.column >= $titleStartColumn || $borderStartRow > 1, position.column <= $titleEndColumn || $borderStartRow > 1,
