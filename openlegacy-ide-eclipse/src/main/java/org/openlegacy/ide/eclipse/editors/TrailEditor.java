@@ -117,6 +117,13 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		setPageText(0, Messages.page_name_snapshots);
 	}
 
+	private Element extractDocumentRoot() {
+		IDocument document = editor.getDocumentProvider().getDocument(getEditorInput());
+		Object model = StructuredModelManager.getModelManager().getExistingModelForRead(document);
+		Element root = ((IDOMModel)model).getDocument().getDocumentElement();
+		return root;
+	}
+
 	private TerminalPersistedTrail loadTrail() {
 		FileEditorInput input = (FileEditorInput)getEditorInput();
 
@@ -191,12 +198,6 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 				}
 			}
 
-			private Element extractDocumentRoot() {
-				IDocument document = editor.getDocumentProvider().getDocument(getEditorInput());
-				Object model = StructuredModelManager.getModelManager().getExistingModelForRead(document);
-				Element root = ((IDOMModel)model).getDocument().getDocumentElement();
-				return root;
-			}
 		});
 		TableViewerColumn column = new TableViewerColumn(tableViewer, SWT.NONE);
 		column.getColumn().setWidth(100);
@@ -253,6 +254,12 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
+
+		Element root = extractDocumentRoot();
+		List<Element> snapshots = DomUtils.getChildElementsByTagName(root, "snapshot"); //$NON-NLS-1$
+		for (int i = 0; i < snapshots.size(); i++) {
+			snapshots.get(i).setAttribute("sequence", String.valueOf(i + 1));
+		}
 
 		getEditor(getPageCount() - 1).doSave(monitor);
 		createTrailPage();
