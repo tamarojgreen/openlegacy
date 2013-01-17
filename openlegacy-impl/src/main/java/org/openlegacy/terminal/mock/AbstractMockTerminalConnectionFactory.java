@@ -17,7 +17,9 @@ import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
 import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.utils.XmlSerializationUtil;
+import org.springframework.util.Assert;
 
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +63,9 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 		TerminalPersistedTrail trail;
 		try {
 			String trailClasspath = MessageFormat.format("{0}/{1}", root, trailName);
-			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, getClass().getResourceAsStream(trailClasspath));
+			InputStream trailStream = getClass().getResourceAsStream(trailClasspath);
+			Assert.notNull(trailStream, "Trail file not found. In development, Verify it exist in a src/main/resources");
+			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, trailStream);
 		} catch (JAXBException e) {
 			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", trailName), e));
 		}
