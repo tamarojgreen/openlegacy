@@ -34,6 +34,8 @@ public class SimpleFieldFormatter implements FieldFormatter, Serializable {
 	private char[] chars = new char[0];
 
 	private boolean trim;
+	private boolean leftTrim;
+	private boolean rightTrim;
 	private boolean uppercase;
 	private boolean lowercase;
 
@@ -46,6 +48,14 @@ public class SimpleFieldFormatter implements FieldFormatter, Serializable {
 		}
 
 		String result = trim ? s.trim() : s;
+
+		if (!trim && leftTrim) {
+			result = StringUtil.leftTrim(result);
+		}
+
+		if (!trim && rightTrim) {
+			result = StringUtil.rightTrim(result);
+		}
 
 		if (result.length() == 0) {
 			return result;
@@ -82,5 +92,13 @@ public class SimpleFieldFormatter implements FieldFormatter, Serializable {
 
 	public void setUppercase(boolean uppercase) {
 		this.uppercase = uppercase;
+	}
+
+	public void setLeftTrim(boolean leftTrim) {
+		this.leftTrim = leftTrim;
+	}
+
+	public void setRightTrim(boolean rightTrim) {
+		this.rightTrim = rightTrim;
 	}
 }
