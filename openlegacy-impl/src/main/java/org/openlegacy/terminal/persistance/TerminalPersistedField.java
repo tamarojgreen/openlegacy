@@ -82,6 +82,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	@XmlAttribute
 	private Boolean rightToLeft = false;
 
+	@XmlAttribute
+	private Boolean uppercase = false;
+
 	public TerminalPosition getPosition() {
 		if (position == null) {
 			position = SimpleTerminalPosition.newInstance(row, column);
@@ -276,5 +279,13 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	public void setRightToLeft(boolean rightToLeft) {
 		this.rightToLeft = rightToLeft;
+	}
+
+	public boolean isUppercase() {
+		return uppercase;
+	}
+
+	public void setUppercase(boolean uppercase) {
+		this.uppercase = uppercase;
 	}
 }

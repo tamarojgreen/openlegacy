@@ -135,4 +135,7 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 
 	protected abstract TerminalPosition initEndPosition();
 
+	public boolean isUppercase() {
+		return false;
+	}
 }

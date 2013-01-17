@@ -78,6 +78,10 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE)
 						+ ";direction:rtl;unicode-bidi: bidi-override;");
 			}
+			if (field.isUppercase()) {
+				// align with HATS bidi-override
+				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";text-transform:uppercase;");
+			}
 			String fieldName = HtmlNamingUtil.getFieldName(field);
 			input.setAttribute(HtmlConstants.NAME, fieldName);
 			input.setAttribute(HtmlConstants.ID, fieldName);

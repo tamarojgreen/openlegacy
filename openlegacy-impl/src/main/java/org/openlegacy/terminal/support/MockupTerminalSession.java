@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.loaders.support.PartPositionAnnotationLoader;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -33,6 +36,8 @@ import java.util.Map;
 public class MockupTerminalSession extends DefaultTerminalSession {
 
 	private static final long serialVersionUID = 1L;
+
+	private final static Log logger = LogFactory.getLog(PartPositionAnnotationLoader.class);
 
 	private Map<Class<?>, SnapshotsList> snapshotsMap = new HashMap<Class<?>, SnapshotsList>();
 
@@ -86,12 +91,17 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 		int count = 0;
 		for (TerminalSnapshot terminalSnapshot : snapshots) {
 			Class<?> matchedClass = getScreensRecognizer().match(terminalSnapshot);
-			SnapshotsList snapshotsList = snapshotsMap.get(matchedClass);
-			if (snapshotsMap.get(matchedClass) == null) {
-				snapshotsList = new SnapshotsList();
-				snapshotsMap.put(matchedClass, snapshotsList);
+			if (matchedClass == null) {
+				logger.warn("An unrecognized snapshot was found in the trail:");
+				logger.warn(terminalSnapshot);
+			} else {
+				SnapshotsList snapshotsList = snapshotsMap.get(matchedClass);
+				if (snapshotsMap.get(matchedClass) == null) {
+					snapshotsList = new SnapshotsList();
+					snapshotsMap.put(matchedClass, snapshotsList);
+				}
+				snapshotsList.add(terminalSnapshot, count++);
 			}
-			snapshotsList.add(terminalSnapshot, count++);
 		}
 	}
 

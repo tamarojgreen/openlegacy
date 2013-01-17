@@ -371,8 +371,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	protected void formatSendAction(TerminalSendAction sendAction) {
 		List<TerminalField> fields = sendAction.getModifiedFields();
-		if (openLegacyProperties.isUppercaseInput()) {
-			for (TerminalField terminalField : fields) {
+		for (TerminalField terminalField : fields) {
+			if (openLegacyProperties.isUppercaseInput() || terminalField.isUppercase()) {
 				terminalField.setValue(terminalField.getValue().toUpperCase());
 			}
 		}
