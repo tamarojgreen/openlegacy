@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.web.render.support;
 
 import org.apache.commons.lang.StringUtils;
+import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.web.render.ElementsProvider;
@@ -38,6 +39,9 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	// usefull for RTL application
 	private boolean renderTopRight = false;
+
+	@Inject
+	private OpenLegacyProperties openLegacyProperties;
 
 	public Element createLabel(Element rootNode, TerminalField field) {
 
@@ -78,7 +82,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE)
 						+ ";direction:rtl;unicode-bidi: bidi-override;");
 			}
-			if (field.isUppercase()) {
+			if (field.isUppercase() || openLegacyProperties.isUppercaseInput()) {
 				// align with HATS bidi-override
 				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";text-transform:uppercase;");
 			}
