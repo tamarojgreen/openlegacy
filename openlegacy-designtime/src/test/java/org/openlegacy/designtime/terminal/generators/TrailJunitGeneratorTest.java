@@ -4,11 +4,10 @@ import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsAnalyzer;
-import org.openlegacy.designtime.terminal.generators.GenerateUtil;
-import org.openlegacy.designtime.terminal.generators.TrailJunitGenerator;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
 import org.openlegacy.test.utils.AssertUtils;
@@ -43,6 +42,7 @@ public class TrailJunitGeneratorTest {
 		assertGenerateJunit("test.trail", "TrailJunit.java.expected");
 	}
 
+	@Ignore("Need to reconfigure keyboard mapping")
 	@Test
 	public void testDemoSessionJunit() throws Exception {
 		assertGenerateJunit("demo_session.trail", "TrailJunitDemoSession.java.expected");
