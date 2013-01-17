@@ -263,9 +263,9 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="actionsRegex" value="([\w\p{L}]+)[=-]([\w\p{L}]+[\w\p{L} ]*)" />
-										<entry key="rowsFromEnd" value="3" />
-										<entry key="actionsSplitter" value="\s{2,}" />
+										<entry key="actionsRegex" value="([\w\p{L}]+)[=-]([\w\p{L}]+[\w\p{L} &gt;&lt;]*)" />
+										<entry key="rowsFromEnd" value="4" />
+										<entry key="actionsSplitter" value="[\s]{2,}" />
 									</map>
 								</property>
 							</bean>
