@@ -84,7 +84,7 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		fillEntitiesReferences(entitiesRegistry);
 	}
 
-	public void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass, boolean loadReferences) {
+	public void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass, Boolean loadReferences) {
 
 		if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass)) {
 			return;

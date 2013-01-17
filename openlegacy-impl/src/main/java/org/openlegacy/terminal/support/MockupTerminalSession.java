@@ -100,8 +100,9 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 					snapshotsList = new SnapshotsList();
 					snapshotsMap.put(matchedClass, snapshotsList);
 				}
-				snapshotsList.add(terminalSnapshot, count++);
+				snapshotsList.add(terminalSnapshot, count);
 			}
+			count++;
 		}
 	}
 

@@ -24,7 +24,7 @@ public interface RegistryLoader {
 
 	public void load(EntitiesRegistry<?, ?> entitiesRegistry);
 
-	void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass, boolean loadReferences);
+	void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass, Boolean loadReferences);
 
 	void setAnnotationLoaders(Collection<ClassAnnotationsLoader> annotationLoaders);
 
