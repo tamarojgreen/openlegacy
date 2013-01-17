@@ -84,7 +84,7 @@
 							<c:when test="${type == 'number'}">
 								<script>require("dijit/form/NumberSpinner");</script>
 								<span class="fieldPlaceholder" />
-								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width+25}px;"/></c:if>
+								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width+30}px;"/></c:if>
 								<form:input type="${type}" id="${name}"
 									data-dojo-type="dijit.form.NumberSpinner" dir="ltr"
 									constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:0}"
