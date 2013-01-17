@@ -71,11 +71,11 @@
 		</entry>
 		<entry>
 			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN" /></key>
-			<value>[pagedn]</value>
+			<value>[pgdown]</value>
 		</entry>
 		<entry>
 			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEUP" /></key>
-			<value>[pageup]</value>
+			<value>[pgup]</value>
 		</entry>
 		<entry>
 			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F1" /></key>
