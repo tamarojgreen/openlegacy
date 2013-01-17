@@ -13,6 +13,8 @@
 	<import resource="classpath*:/META-INF/openlegacy-basic-context.xml"/>
 	<import resource="classpath*:/META-INF/openlegacy-webcomponents-context.xml"/>
 
+	<import resource="classpath:/META-INF/spring/actions-mappings.xml"/>
+		
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 	    <property name="packages">
 	        <list>

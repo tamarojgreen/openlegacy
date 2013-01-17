@@ -13,6 +13,8 @@
 
 	<import resource="classpath*:/META-INF/openlegacy-basic-context.xml" />
 
+	<import resource="classpath:/META-INF/spring/actions-mappings.xml"/>
+		
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession"
 		scope="prototype" parent="abstractTerminalSession" />
 
