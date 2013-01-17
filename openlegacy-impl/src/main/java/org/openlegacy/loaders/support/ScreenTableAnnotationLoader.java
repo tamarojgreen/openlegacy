@@ -84,6 +84,10 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				columnDefinition.setSampleValue(screenColumnAnnotation.sampleValue());
 
 				columnDefinition.setSelectionField(screenColumnAnnotation.selectionField());
+				if (columnDefinition.isSelectionField()) {
+					columnDefinition.setEditable(true);
+				}
+
 				columnDefinition.setHelpText(screenColumnAnnotation.helpText());
 
 				if (columnDefinition.isKey() && columnDefinition.isSelectionField()) {
