@@ -38,6 +38,9 @@ require(["dojo/ready"], function(ready){
 					default:
 						handled = false;
 				}
+				if (handled){
+					dojo.stopEvent(e);
+				}
 				return handled;
 			});
 		});
