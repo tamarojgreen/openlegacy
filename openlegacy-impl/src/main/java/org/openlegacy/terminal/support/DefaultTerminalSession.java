@@ -13,6 +13,7 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.SessionProperties;
 import org.openlegacy.SessionPropertiesProvider;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
@@ -28,6 +29,7 @@ import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionListener;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSessionPropertiesConsts;
@@ -85,6 +87,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Inject
 	private SessionPropertiesProvider sessionPropertiesProvider;
+
+	@Inject
+	private OpenLegacyProperties openLegacyProperties;
 
 	private ScreenEntityMethodInterceptor interceptor;
 
@@ -315,16 +320,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	public void doAction(TerminalSendAction sendAction, WaitCondition... waitConditions) {
-		logScreenBefore(sendAction);
-		// sort the modified fields by position
-		Collections.sort(sendAction.getModifiedFields(), TerminalPositionContainerComparator.instance());
 
-		notifyModulesBeforeSend(sendAction);
-		doTerminalAction(sendAction);
-		performWait(waitConditions);
-		notifyModulesAfterSend();
-
-		logScreenAfter();
+		doTerminalAction(sendAction, waitConditions);
 	}
 
 	private void performWait(WaitCondition... waitConditions) {
@@ -356,8 +353,33 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	protected void doTerminalAction(TerminalSendAction sendAction, WaitCondition... waitConditions) {
+
+		formatSendAction(sendAction);
+
+		logScreenBefore(sendAction);
+
+		notifyModulesBeforeSend(sendAction);
+
 		terminalConnection.doAction(sendAction);
 		resetEntity();
+
+		performWait(waitConditions);
+		notifyModulesAfterSend();
+
+		logScreenAfter();
+	}
+
+	protected void formatSendAction(TerminalSendAction sendAction) {
+		List<TerminalField> fields = sendAction.getModifiedFields();
+		if (openLegacyProperties.isUppercaseInput()) {
+			for (TerminalField terminalField : fields) {
+				terminalField.setValue(terminalField.getValue().toUpperCase());
+			}
+		}
+
+		// sort the modified fields by position
+		Collections.sort(sendAction.getModifiedFields(), TerminalPositionContainerComparator.instance());
+
 	}
 
 	private void logScreenBefore(TerminalSendAction sendAction) {

@@ -15,6 +15,7 @@ import org.openlegacy.OpenLegacyProperties;
 public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 
 	private boolean rightToLeft;
+	private boolean uppercaseInput;
 
 	public String getProperty(String propertyName) {
 		return System.getProperty(propertyName);
@@ -38,6 +39,14 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 
 	public String getVersion() {
 		return getClass().getPackage().getImplementationVersion();
+	}
+
+	public boolean isUppercaseInput() {
+		return uppercaseInput;
+	}
+
+	public void setUppercaseInput(boolean uppercaseInput) {
+		this.uppercaseInput = uppercaseInput;
 	}
 
 }

@@ -24,4 +24,6 @@ public interface OpenLegacyProperties {
 	String getProperty(String propertyName);
 
 	String getVersion();
+
+	boolean isUppercaseInput();
 }
