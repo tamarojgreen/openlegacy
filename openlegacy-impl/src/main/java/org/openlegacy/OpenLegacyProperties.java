@@ -26,4 +26,6 @@ public interface OpenLegacyProperties {
 	String getVersion();
 
 	boolean isUppercaseInput();
+
+	String getFallbackUrl();
 }

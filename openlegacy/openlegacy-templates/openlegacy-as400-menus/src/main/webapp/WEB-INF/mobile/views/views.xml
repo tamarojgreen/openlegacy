@@ -144,6 +144,11 @@
 		<put-attribute name="body" value="/WEB-INF/mobile/views/composite.jspx" />
 	</definition>
 
+	<definition name="login_m" extends="public_m"> 
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/login.jspx" />
+		<put-attribute name="body" value="/WEB-INF/mobile/template/paneheader.jspx"/>
+	</definition> 
+		
 	<definition name="rootMenu_m" extends="menu_m"> 
 		<put-attribute name="header" value="" />
 		<put-attribute name="actions" value="" />

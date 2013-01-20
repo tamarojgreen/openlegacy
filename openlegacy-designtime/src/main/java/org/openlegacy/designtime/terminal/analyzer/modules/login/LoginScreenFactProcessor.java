@@ -17,7 +17,6 @@ import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
-import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.utils.ClassUtils;
 
@@ -28,9 +27,9 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 	@Inject
 	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
-	private String defaultPasswordLabel = "Password";
-
-	private String defaultErrorFieldName = "errorMessage";
+	private String userFieldName = Login.USER_FIELD_NAME;
+	private String passwordFieldName = Login.PASSWORD_FIELD_NAME;
+	private String errorFieldName = Login.ERROR_FIELD_NAME;
 
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
@@ -39,32 +38,36 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 		screenEntityDefinition.setType(Login.LoginEntity.class);
 		screenEntityDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(Login.LoginEntity.class));
 
-		ScreenFieldDefinition userFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-				loginScreenFact.getUserField(), loginScreenFact.getUserLabelField());
+		SimpleScreenFieldDefinition userFieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinitionsBuilderUtils.addField(
+				screenEntityDefinition, loginScreenFact.getUserField(), loginScreenFact.getUserLabelField());
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, userFieldDefinition, Login.UserField.class);
+		// set user field name to fixed name
+		userFieldDefinition.setName(userFieldName);
 
 		TerminalField passwordLabelField = loginScreenFact.getPasswordLabelField();
-		ScreenFieldDefinition passwordFieldDefinition = null;
+		SimpleScreenFieldDefinition passwordFieldDefinition = null;
 		if (passwordLabelField != null) {
-			passwordFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-					loginScreenFact.getPasswordField(), passwordLabelField);
+			passwordFieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinitionsBuilderUtils.addField(
+					screenEntityDefinition, loginScreenFact.getPasswordField(), passwordLabelField);
+			// set password field name to fixed name
+			passwordFieldDefinition.setName(passwordFieldName);
 		} else {
-			passwordFieldDefinition = screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition,
-					loginScreenFact.getPasswordField(), defaultPasswordLabel);
+			passwordFieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinitionsBuilderUtils.addField(
+					screenEntityDefinition, loginScreenFact.getPasswordField(), passwordLabelField);
 		}
 
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, passwordFieldDefinition,
 				Login.PasswordField.class);
-		((SimpleScreenFieldDefinition)passwordFieldDefinition).setPassword(true);
+		passwordFieldDefinition.setPassword(true);
 
 		TerminalPosition errorFieldPosition = loginScreenFact.getErrorPosition();
 		if (errorFieldPosition != null) {
 			SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition();
-			screenFieldDefinition.setName(defaultErrorFieldName);
+			screenFieldDefinition.setName(errorFieldName);
 			ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, screenFieldDefinition,
 					Login.ErrorField.class);
 			screenFieldDefinition.setPosition(errorFieldPosition);
-			screenEntityDefinition.getFieldsDefinitions().put(defaultErrorFieldName, screenFieldDefinition);
+			screenEntityDefinition.getFieldsDefinitions().put(errorFieldName, screenFieldDefinition);
 		}
 
 	}
@@ -73,11 +76,15 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 		return (screenFact instanceof LoginScreenFact);
 	}
 
-	public void setDefaultPasswordLabel(String defaultPasswordLabel) {
-		this.defaultPasswordLabel = defaultPasswordLabel;
+	public void setUserFieldName(String userFieldName) {
+		this.userFieldName = userFieldName;
 	}
 
-	public void setDefaultErrorFieldName(String defaultErrorFieldName) {
-		this.defaultErrorFieldName = defaultErrorFieldName;
+	public void setPasswordFieldName(String passwordFieldName) {
+		this.passwordFieldName = passwordFieldName;
+	}
+
+	public void setErrorFieldName(String errorFieldName) {
+		this.errorFieldName = errorFieldName;
 	}
 }

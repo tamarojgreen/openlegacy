@@ -44,6 +44,10 @@
 
 	<definition name="help" template="/WEB-INF/web/views/help.jspx"/> 
 
+	<definition name="login" extends="public"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/login.jspx" />
+	</definition>
+		
 	<definition name="rootMenu" extends="menu"> 
 		<put-attribute name="body" value="/WEB-INF/web/views/rootMenu.jspx" />
 	</definition>

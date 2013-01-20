@@ -15,6 +15,7 @@ import flexjson.JSONSerializer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
@@ -36,6 +37,7 @@ import org.springframework.mobile.device.site.SitePreference;
 import org.springframework.mobile.device.site.SitePreferenceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -98,6 +100,9 @@ public class DefaultGenericController {
 
 	private String viewsSuffix = ".jspx";
 
+	@Inject
+	private OpenLegacyProperties openlegacyProperties;
+
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
 	public String getScreenEntity(@PathVariable("screen") String screenEntityName,
 			@RequestParam(value = "partial", required = false) String partial, Model uiModel, HttpServletRequest request)
@@ -115,16 +120,6 @@ public class DefaultGenericController {
 
 		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, key);
 		return prepareView(screenEntity, uiModel, partial != null, request);
-
-	}
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String getScreenEntity(HttpServletResponse response, Model uiModel) {
-
-		ScreenEntity screenEntity = terminalSession.getEntity();
-		String screenEntityName = screenEntityUtils.getEntityName(screenEntity);
-		uiModel.addAttribute(screenEntityName, screenEntity);
-		return screenEntityName;
 
 	}
 
@@ -149,10 +144,11 @@ public class DefaultGenericController {
 			return returnPartialPage(screenEntityName, uiModel, partial, request);
 		} else {
 			if (screenEntity == null) {
-				return "redirect:emulation";
+				Assert.notNull(openlegacyProperties.getFallbackUrl(), "No fallback URL defined");
+				return MvcConstants.REDIRECT + openlegacyProperties.getFallbackUrl();
 			}
 			String resultEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
-			return "redirect:" + resultEntityName;
+			return MvcConstants.REDIRECT + resultEntityName;
 		}
 	}
 
@@ -269,4 +265,5 @@ public class DefaultGenericController {
 	public void setViewsSuffix(String viewsSuffix) {
 		this.viewsSuffix = viewsSuffix;
 	}
+
 }

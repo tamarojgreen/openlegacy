@@ -16,6 +16,7 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 
 	private boolean rightToLeft;
 	private boolean uppercaseInput;
+	private String fallbackUrl;
 
 	public String getProperty(String propertyName) {
 		return System.getProperty(propertyName);
@@ -47,6 +48,14 @@ public class SimpleOpenLegacyProperties implements OpenLegacyProperties {
 
 	public void setUppercaseInput(boolean uppercaseInput) {
 		this.uppercaseInput = uppercaseInput;
+	}
+
+	public String getFallbackUrl() {
+		return fallbackUrl;
+	}
+
+	public void setFallbackUrl(String fallbackUrl) {
+		this.fallbackUrl = fallbackUrl;
 	}
 
 }

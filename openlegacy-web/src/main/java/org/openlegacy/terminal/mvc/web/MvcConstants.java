@@ -1,5 +1,7 @@
 package org.openlegacy.terminal.mvc.web;
 
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
+
 public class MvcConstants {
 
 	public static final String MOBILE_VIEW_SUFFIX = "_m";
@@ -17,5 +19,11 @@ public class MvcConstants {
 	public static final String GENERIC = "generic";
 
 	public static final String ROOTMENU_VIEW = "rootMenu";
+
+	public static final String LOGIN_VIEW = "login";
+
+	public static final String LOGIN_MODEL = "login";
+
+	public static final String REDIRECT = UrlBasedViewResolver.REDIRECT_URL_PREFIX;
 
 }
