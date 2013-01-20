@@ -8,13 +8,13 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<version>1.0.0-RC1</version>
+		<version>1.0.0-RC2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
   
 	<properties>
 		<maven.version>2.2.1</maven.version>
-		<openlegacy.version>1.0.0-RC1</openlegacy.version>
+		<openlegacy.version>1.0.0-RC2</openlegacy.version>
 	</properties>
 
 	<repositories>

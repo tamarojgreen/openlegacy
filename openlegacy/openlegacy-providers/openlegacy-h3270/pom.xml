@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openlegacy-providers</artifactId>
 		<groupId>org.openlegacy.providers</groupId>
-		<version>1.0.0-RC1</version>
+		<version>1.0.0-RC2</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-h3270</artifactId>
