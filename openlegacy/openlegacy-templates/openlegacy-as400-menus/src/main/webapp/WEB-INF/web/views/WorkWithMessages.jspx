@@ -6,8 +6,8 @@
 
 	<div>
 		<ol:form model="workWithMessages">
-				<ol:field name="messagesFor" top="8%" left="2%" width="31%" />
-						<ol:table data="${workWithMessages.workWithMessagesRecords}" property="workWithMessagesRecords" />
+				<ol:field name="messagesFor" />
+				<ol:table data="${workWithMessages.workWithMessagesRecords}" property="workWithMessagesRecords" />
 			
 		</ol:form>
 	</div>

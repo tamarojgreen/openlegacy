@@ -42,21 +42,8 @@
 		<put-attribute name="body" value="/WEB-INF/mobile/views/WorkWithMessages.jspx" />
 	</definition> 
  
-	<definition name="WorkWithJob_m" extends="menu_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/WorkWithJob.jspx" />
-	</definition> 
- 
-	<definition name="UserTasks_m" extends="menu_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/UserTasks.jspx" />
-	</definition> 
- 
 	<definition name="SubmitJobsbmjob_m" extends="view_m"> 
 		<put-attribute name="body" value="/WEB-INF/mobile/views/SubmitJobsbmjob.jspx" />
-	</definition> 
- 
-	<definition name="SignOn_m" extends="public_m"> 
-		<put-attribute name="menu" value="/WEB-INF/mobile/views/SignOn.jspx" />
-		<put-attribute name="body" value="/WEB-INF/mobile/template/paneheader.jspx"/>
 	</definition> 
  
 	<definition name="SendMessagesndmsg_m" extends="view_m"> 
@@ -73,32 +60,6 @@
  
 	<definition name="SpecifyLibrariesToWorkWith_m" extends="view_m"> 
 		<put-attribute name="body" value="/WEB-INF/mobile/views/SpecifyLibrariesToWorkWith.jspx" />
-	</definition> 
- 
-	<definition name="Programming_m" extends="menu_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/Programming.jspx" />
-	</definition> 
- 
-	<definition name="ProgrammerMenu_m" extends="view_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/ProgrammerMenu.jspx" />
-	</definition> 
- 
-	<definition name="OfficeTasks_m" extends="menu_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/OfficeTasks.jspx" />
-	</definition> 
- 
-	<definition name="InteractiveDataDefinitionUtility_m" extends="menu_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/InteractiveDataDefinitionUtility.jspx" />
-	</definition> 
- 
-	<definition name="IbmIMainMenu_m" extends="menu_m"> 
-		<put-attribute name="header" value="" />
-		<put-attribute name="actions" value="" />
-   		<put-attribute name="body" value="/WEB-INF/mobile/views/IbmIMainMenu.jspx" />
-	</definition> 
- 
-	<definition name="IbmIAccessTasks_m" extends="menu_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/IbmIAccessTasks.jspx" />
 	</definition> 
  
 	<definition name="EditLibraryList_m" extends="view_m"> 

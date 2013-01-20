@@ -43,16 +43,8 @@
 		<put-attribute name="body" value="/WEB-INF/web/views/WorkWithJob.jspx" />
 	</definition> 
  
-	<definition name="UserTasks" extends="menu"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/UserTasks.jspx" />
-	</definition> 
- 
 	<definition name="SubmitJobsbmjob" extends="template"> 
 		<put-attribute name="body" value="/WEB-INF/web/views/SubmitJobsbmjob.jspx" />
-	</definition> 
- 
-	<definition name="SignOn" extends="public"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/SignOn.jspx" />
 	</definition> 
  
 	<definition name="SendMessagesndmsg" extends="template"> 
@@ -75,28 +67,8 @@
 		<put-attribute name="body" value="/WEB-INF/web/views/SpecifyLibrariesToWorkWith.jspx" />
 	</definition> 
  
-	<definition name="Programming" extends="menu"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/Programming.jspx" />
-	</definition> 
- 
 	<definition name="ProgrammerMenu" extends="template"> 
 		<put-attribute name="body" value="/WEB-INF/web/views/ProgrammerMenu.jspx" />
-	</definition> 
- 
-	<definition name="OfficeTasks" extends="menu"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/OfficeTasks.jspx" />
-	</definition> 
- 
-	<definition name="InteractiveDataDefinitionUtility" extends="menu"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/InteractiveDataDefinitionUtility.jspx" />
-	</definition> 
- 
-	<definition name="IbmIMainMenu" extends="menu"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/IbmIMainMenu.jspx" />
-	</definition> 
- 
-	<definition name="IbmIAccessTasks" extends="menu"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/IbmIAccessTasks.jspx" />
 	</definition> 
  
 	<definition name="EditLibraryList" extends="template"> 
@@ -109,10 +81,6 @@
  
 	<definition name="DisplayJobStatusAttributes" extends="template"> 
 		<put-attribute name="body" value="/WEB-INF/web/views/DisplayJobStatusAttributes.jspx" />
-	</definition> 
- 
-	<definition name="DecisionSupport" extends="menu"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/DecisionSupport.jspx" />
 	</definition> 
  
 	<definition name="CopyFromPcDocumentcpyfrmpcd" extends="template"> 
