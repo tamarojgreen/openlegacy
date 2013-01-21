@@ -14,9 +14,12 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.wait_conditions.WaitCoditionAdapter;
 import org.openlegacy.terminal.wait_conditions.WaitConditionFactory;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 
-public class DefaultWaitConditionFactory implements WaitConditionFactory {
+public class DefaultWaitConditionFactory implements WaitConditionFactory, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private long defaultWaitInterval;
 	private long defaultWaitTimeout;
