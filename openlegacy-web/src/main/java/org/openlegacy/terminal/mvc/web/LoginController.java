@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.MessageFormat;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -48,20 +50,24 @@ public class LoginController {
 		if (terminalSession.isConnected()) {
 			MenuItem mainMenu = terminalSession.getModule(Menu.class).getMenuTree();
 			if (mainMenu != null) {
+				// refer to main menu if one exists
 				Class<?> mainMenuEntity = mainMenu.getTargetEntity();
 				return MvcConstants.REDIRECT + screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
 			} else {
+				// refer to fall back URL
 				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
 				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 			}
 		}
 
+		// not connected - create empty login entity for binding
 		ScreenEntityDefinition loginEntityDefinition = screenEntitiesRegistry.getSingleEntityDefinition(LoginEntity.class);
 		if (loginEntityDefinition != null) {
 			Object loginEntity = ReflectionUtil.newInstance(loginEntityDefinition.getEntityClass());
 			uiModel.addAttribute(MvcConstants.LOGIN_MODEL, loginEntity);
 			return MvcConstants.LOGIN_VIEW;
 		}
+		Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
 		return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 	}
 
@@ -74,6 +80,8 @@ public class LoginController {
 		terminalSession.getModule(Login.class).logoff();
 
 		ScreenEntity loginEntity = (ScreenEntity)terminalSession.getEntity(loginEntityDefinition.getEntityClass());
+		Assert.notNull(loginEntity, MessageFormat.format("Login entity {0} not recognized as the 1st application screen",
+				loginEntityDefinition.getEntityClass().getName()));
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(loginEntity);
 		binder.bind(request);
 
