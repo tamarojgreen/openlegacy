@@ -1,18 +1,23 @@
 package org.openlegacy.terminal.mvc.web;
 
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.mvc.OpenLegacyWebProperties;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -46,6 +51,7 @@ public class LoginController {
 				Class<?> mainMenuEntity = mainMenu.getTargetEntity();
 				return MvcConstants.REDIRECT + screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
 			} else {
+				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
 				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 			}
 		}
@@ -65,11 +71,21 @@ public class LoginController {
 
 		ScreenEntityDefinition loginEntityDefinition = screenEntitiesRegistry.getSingleEntityDefinition(LoginEntity.class);
 
+		terminalSession.getModule(Login.class).logoff();
+
 		ScreenEntity loginEntity = (ScreenEntity)terminalSession.getEntity(loginEntityDefinition.getEntityClass());
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(loginEntity);
 		binder.bind(request);
 
-		screenEntityUtils.sendScreenEntity(terminalSession, loginEntity, null);
+		try {
+			terminalSession.getModule(Login.class).login(loginEntity);
+		} catch (LoginException e) {
+			terminalSession.getModule(Login.class).logoff();
+			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
+			fieldAccessor.setFieldValue(Login.ERROR_FIELD_NAME, e.getMessage());
+			uiModel.addAttribute(MvcConstants.LOGIN_MODEL, loginEntity);
+			return MvcConstants.LOGIN_VIEW;
+		}
 
 		ScreenEntity screenEntity = terminalSession.getEntity();
 
@@ -83,5 +99,4 @@ public class LoginController {
 		}
 		return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 	}
-
 }
