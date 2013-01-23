@@ -21,7 +21,7 @@
 	
 	<!-- Open legacy default beans -->
 
-	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" p:fallbackUrl="emulation" />
+	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" />
 	
 	<bean id="screensRecognizer" class="org.openlegacy.recognizers.RegistryBasedScreensRecognizer" />
 	<bean id="fieldMappingsProvider" class="org.openlegacy.terminal.support.providers.RegistryBasedFieldMappingsProvider" />

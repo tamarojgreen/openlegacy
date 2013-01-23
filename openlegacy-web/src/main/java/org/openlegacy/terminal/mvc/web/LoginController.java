@@ -1,9 +1,9 @@
 package org.openlegacy.terminal.mvc.web;
 
-import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
+import org.openlegacy.mvc.OpenLegacyWebProperties;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -29,7 +29,7 @@ public class LoginController {
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Inject
-	private OpenLegacyProperties openlegacyProperties;
+	private OpenLegacyWebProperties openlegacyWebProperties;
 
 	@Inject
 	private TerminalSession terminalSession;
@@ -46,7 +46,7 @@ public class LoginController {
 				Class<?> mainMenuEntity = mainMenu.getTargetEntity();
 				return MvcConstants.REDIRECT + screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
 			} else {
-				return MvcConstants.REDIRECT + openlegacyProperties.getFallbackUrl();
+				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 			}
 		}
 
@@ -56,7 +56,7 @@ public class LoginController {
 			uiModel.addAttribute(MvcConstants.LOGIN_MODEL, loginEntity);
 			return MvcConstants.LOGIN_VIEW;
 		}
-		return MvcConstants.REDIRECT + openlegacyProperties.getFallbackUrl();
+		return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 	}
 
 	@RequestMapping(value = "Login", method = RequestMethod.POST)
@@ -81,7 +81,7 @@ public class LoginController {
 				return MvcConstants.REDIRECT + resultEntityName;
 			}
 		}
-		return MvcConstants.REDIRECT + openlegacyProperties.getFallbackUrl();
+		return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 	}
 
 }

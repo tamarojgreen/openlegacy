@@ -15,8 +15,8 @@ import flexjson.JSONSerializer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.mvc.OpenLegacyWebProperties;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -101,15 +101,13 @@ public class DefaultGenericController {
 	private String viewsSuffix = ".jspx";
 
 	@Inject
-	private OpenLegacyProperties openlegacyProperties;
+	private OpenLegacyWebProperties openlegacyWebProperties;
 
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
 	public String getScreenEntity(@PathVariable("screen") String screenEntityName,
 			@RequestParam(value = "partial", required = false) String partial, Model uiModel, HttpServletRequest request)
 			throws IOException {
-
-		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
-		return prepareView(screenEntity, uiModel, partial != null, request);
+		return getScreenEntityWithKey(screenEntityName, null, partial, uiModel, request);
 
 	}
 
@@ -118,8 +116,17 @@ public class DefaultGenericController {
 			@RequestParam(value = "partial", required = false) String partial, Model uiModel, HttpServletRequest request)
 			throws IOException {
 
-		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, key);
-		return prepareView(screenEntity, uiModel, partial != null, request);
+		try {
+			ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, key);
+			return prepareView(screenEntity, uiModel, partial != null, request);
+		} catch (RuntimeException e) {
+			if (openlegacyWebProperties.isFallbackUrlOnError()) {
+				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
+				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
+			} else {
+				throw (e);
+			}
+		}
 
 	}
 
@@ -144,8 +151,8 @@ public class DefaultGenericController {
 			return returnPartialPage(screenEntityName, uiModel, partial, request);
 		} else {
 			if (screenEntity == null) {
-				Assert.notNull(openlegacyProperties.getFallbackUrl(), "No fallback URL defined");
-				return MvcConstants.REDIRECT + openlegacyProperties.getFallbackUrl();
+				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
+				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 			}
 			String resultEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
 			return MvcConstants.REDIRECT + resultEntityName;

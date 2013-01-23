@@ -104,6 +104,10 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 
+		if (keys.length == 1 && keys[0] == null) {
+			keys = new Object[0];
+		}
+
 		checkRegistryDirty();
 
 		if (entity == null) {
