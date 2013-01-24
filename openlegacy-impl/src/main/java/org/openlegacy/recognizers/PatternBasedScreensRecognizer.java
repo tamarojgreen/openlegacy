@@ -12,12 +12,14 @@ package org.openlegacy.recognizers;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreensRecognizer;
+import org.openlegacy.utils.SpringUtil;
 import org.openlegacy.utils.StringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -34,7 +36,7 @@ import javax.inject.Inject;
 public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	private List<TerminalPosition> positions;
 
@@ -43,6 +45,7 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 	private char[] ignoreChars = new char[] { ' ' };
 
 	public Class<?> match(TerminalSnapshot terminalSnapshot) {
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		if (positions == null) {
 			return null;
 		}

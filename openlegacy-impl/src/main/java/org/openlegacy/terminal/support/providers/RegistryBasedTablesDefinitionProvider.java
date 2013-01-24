@@ -14,6 +14,8 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -29,11 +31,10 @@ public class RegistryBasedTablesDefinitionProvider implements TablesDefinitionPr
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
-
-	// private DefaultScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	public Map<String, ScreenTableDefinition> getTableDefinitions(Class<?> screenEntity) {
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);
 		return screenEntityDefinition.getTableDefinitions();
 	}

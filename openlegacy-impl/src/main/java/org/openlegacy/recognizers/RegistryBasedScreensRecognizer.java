@@ -16,6 +16,8 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
 
@@ -30,11 +32,13 @@ public class RegistryBasedScreensRecognizer implements ScreensRecognizer, Serial
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private DefaultScreenEntitiesRegistry screensRegistry;
+	private transient ApplicationContext applicationContext;
 
 	private final static Log logger = LogFactory.getLog(RegistryBasedScreensRecognizer.class);
 
 	public Class<?> match(TerminalSnapshot terminalSnapshot) {
+		DefaultScreenEntitiesRegistry screensRegistry = SpringUtil.getBean(applicationContext,
+				DefaultScreenEntitiesRegistry.class);
 		ScreenEntityDefinition screenEntityDefinition = screensRegistry.match(terminalSnapshot);
 		if (screenEntityDefinition != null) {
 			if (logger.isDebugEnabled()) {

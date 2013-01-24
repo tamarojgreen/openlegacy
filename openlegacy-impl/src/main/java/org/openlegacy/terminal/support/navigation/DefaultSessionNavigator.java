@@ -30,6 +30,8 @@ import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -44,13 +46,13 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
-
-	@Inject
 	private NavigationMetadata navigationMetadata;
 
 	@Inject
 	private ScreenEntityUtils screenEntityUtils;
+
+	@Inject
+	private transient ApplicationContext applicationContext;
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 
@@ -67,6 +69,8 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			return;
 		}
 
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
+
 		Class<?> currentEntityClass = currentEntity.getClass();
 		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntityClass);
 		ScreenEntityDefinition targetEntityDefinition = screenEntitiesRegistry.get(targetScreenEntityClass);
@@ -78,7 +82,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 				return;
 			}
 
-			navigationSteps = findDirectNavigationPath(currentEntityDefinition, targetEntityDefinition);
+			navigationSteps = findDirectNavigationPath(currentEntityDefinition, targetEntityDefinition, screenEntitiesRegistry);
 
 			if (navigationSteps == null) {
 				NavigationDefinition currentScreenNavigationDefinition = currentEntityDefinition.getNavigationDefinition();
@@ -162,8 +166,8 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 	/**
 	 * Look for a direct path from the target screen back to the current screen
 	 */
-	private List<NavigationDefinition> findDirectNavigationPath(ScreenEntityDefinition sourceEntityDefinition,
-			ScreenEntityDefinition targetEntityDefinition) {
+	private static List<NavigationDefinition> findDirectNavigationPath(ScreenEntityDefinition sourceEntityDefinition,
+			ScreenEntityDefinition targetEntityDefinition, ScreenEntitiesRegistry screenEntitiesRegistry) {
 		Class<?> currentNavigationNode = targetEntityDefinition.getEntityClass();
 		NavigationDefinition navigationDefinition = targetEntityDefinition.getNavigationDefinition();
 

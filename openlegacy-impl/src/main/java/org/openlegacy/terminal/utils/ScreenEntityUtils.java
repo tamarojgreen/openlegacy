@@ -24,7 +24,9 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.ProxyUtil;
+import org.openlegacy.utils.SpringUtil;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -51,7 +53,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 	private boolean returnTrueOnDifferentKeys = false;
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	/**
 	 * A map of action alias to actual terminal action
@@ -65,6 +67,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 	 * @return
 	 */
 	public List<Object> getKeysValues(ScreenEntity entity) {
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(entity.getClass());
 		List<? extends FieldDefinition> keyFields = definitions.getKeys();
 		List<Object> keysValue = new ArrayList<Object>();
@@ -121,6 +124,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 	 *            An action alias which belongs to the screen entity
 	 */
 	public void sendScreenEntity(TerminalSession terminalSession, ScreenEntity screenEntity, String actionAlias) {
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
 		TerminalAction sessionAction = null;
 		if (StringUtils.isEmpty(actionAlias)) {

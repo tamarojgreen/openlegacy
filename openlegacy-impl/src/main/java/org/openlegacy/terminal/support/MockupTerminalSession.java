@@ -54,6 +54,9 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 
 	@SuppressWarnings("unchecked")
 	private <S> void setupMockup(Class<S> screenEntityClass) {
+		if (getScreenEntitiesRegistry().isDirty()) {
+			preserveSnapshots(getTerminalConnection());
+		}
 		screenEntityClass = (Class<S>)ProxyUtil.getOriginalClass(screenEntityClass);
 		SnapshotInfo snapshotInfo = snapshotsMap.get(screenEntityClass).getCurrent();
 		getTerminalConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
@@ -89,6 +92,7 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	private void preserveSnapshots(MockTerminalConnection terminalConnection) {
 		List<TerminalSnapshot> snapshots = terminalConnection.getSnapshots();
 		int count = 0;
+		snapshotsMap.clear();
 		for (TerminalSnapshot terminalSnapshot : snapshots) {
 			Class<?> matchedClass = getScreensRecognizer().match(terminalSnapshot);
 			if (matchedClass == null) {

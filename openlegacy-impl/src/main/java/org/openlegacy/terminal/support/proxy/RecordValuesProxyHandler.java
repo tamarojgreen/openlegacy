@@ -23,6 +23,8 @@ import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.PropertyUtil;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -36,12 +38,13 @@ public class RecordValuesProxyHandler implements ScreenEntityProxyHandler, Seria
 	private static final String VALUES = "Values";
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
 	public Object invoke(TerminalSession terminalSession, MethodInvocation invocation) throws OpenLegacyRuntimeException {
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		Object target = invocation.getThis();
 		String methodName = invocation.getMethod().getName();
 		if (methodName.endsWith(VALUES)) {

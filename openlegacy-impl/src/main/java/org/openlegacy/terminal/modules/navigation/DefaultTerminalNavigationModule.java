@@ -20,6 +20,8 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +34,7 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	private TerminalAction defaultExitAction = TerminalActions.F3();
 
@@ -44,6 +46,8 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 		if (currentEntity == null) {
 			return pathEntries;
 		}
+
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 
 		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
 

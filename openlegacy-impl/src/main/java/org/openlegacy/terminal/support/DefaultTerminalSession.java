@@ -44,6 +44,8 @@ import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.wait_conditions.WaitCondition;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -79,9 +81,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private TerminalActionMapper terminalActionMapper;
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
-
-	@Inject
 	private ScreenEntityUtils screenEntityUtils;
 
 	@Inject
@@ -89,6 +88,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Inject
 	private OpenLegacyProperties openLegacyProperties;
+
+	@Inject
+	private transient ApplicationContext applicationContext;
 
 	private ScreenEntityMethodInterceptor interceptor;
 
@@ -99,6 +101,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private ConnectionProperties connectionProperties;
 
 	private SessionProperties sessionProperties;
+
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
@@ -115,7 +119,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (!screenEntityUtils.isEntitiesEquals(entity, screenEntityClass, keys)) {
 			resetEntity();
 		}
-		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(screenEntityClass);
+		ScreenEntityDefinition definitions = getScreenEntitiesRegistry().get(screenEntityClass);
 		if (keys.length > definitions.getKeys().size()) {
 			throw (new EntityNotAccessibleException(
 					MessageFormat.format(
@@ -131,7 +135,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	private void checkRegistryDirty() {
-		if (screenEntitiesRegistry.isDirty()) {
+		if (getScreenEntitiesRegistry().isDirty()) {
 			resetEntity();
 		}
 	}
@@ -152,7 +156,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			screenEntity = (ScreenEntity)ReflectionUtil.newInstance(matchedScreenEntity);
 		}
 
-		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(matchedScreenEntity);
+		ScreenEntityDefinition screenEntityDefinition = getScreenEntitiesRegistry().get(matchedScreenEntity);
 		if (screenEntityDefinition.isPerformDefaultBinding()) {
 			for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
 				screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
@@ -218,7 +222,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(command);
 
 			if (screenEntity != null) {
-				ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity.getClass());
+				ScreenEntityDefinition screenEntityDefinition = getScreenEntitiesRegistry().get(screenEntity.getClass());
 				if (screenEntityDefinition.isPerformDefaultBinding()) {
 					for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
 						screenEntityBinder.populateSendAction(sendAction, getSnapshot(), screenEntity);
@@ -411,7 +415,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	public Object getEntity(String entityName, Object... keys) throws EntityNotFoundException {
-		Class<?> entityClass = screenEntitiesRegistry.getEntityClass(entityName);
+		Class<?> entityClass = getScreenEntitiesRegistry().getEntityClass(entityName);
 		if (entityClass == null) {
 			throw (new EntityNotFoundException(MessageFormat.format("Screen entity \"{0}\" not found", entityName)));
 		}
@@ -419,6 +423,15 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	protected ScreenEntitiesRegistry getScreenEntitiesRegistry() {
+		// Fetch registry from application context. Since session is proxied in web apps, the new registry bean is not available
+		// after refresh, and required a fresh copy to support new entity classes loading during development
+		if (openLegacyProperties.isDesigntime()) {
+			return SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
+		}
+
+		if (this.screenEntitiesRegistry == null) {
+			screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
+		}
 		return screenEntitiesRegistry;
 	}
 

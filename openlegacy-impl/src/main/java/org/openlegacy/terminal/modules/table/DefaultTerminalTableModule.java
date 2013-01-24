@@ -42,9 +42,6 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 	@Inject
 	private transient ApplicationContext applicationContext;
 
-	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
-
 	public <T> List<T> collectAll(Class<?> screenEntityClass, Class<T> rowClass) {
 		TableCollector<TerminalSession, T> tableCollector = getTableCollector(screenEntityClass);
 		return tableCollector.collectAll(getSession(), screenEntityClass, rowClass);
@@ -76,6 +73,7 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 	 * Method which should be used when using open legacy navigation definitions: <code>@ScreenNavigation</code>
 	 */
 	public <T> T drillDown(Class<T> targetClass, DrilldownAction<?> drilldownAction, Object... rowKeys) throws RegistryException {
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		NavigationDefinition navigationDefinition = screenEntitiesRegistry.get(targetClass).getNavigationDefinition();
 		if (navigationDefinition == null) {
 			throw (new RegistryException(targetClass.getName() + " has no navigation definition"));

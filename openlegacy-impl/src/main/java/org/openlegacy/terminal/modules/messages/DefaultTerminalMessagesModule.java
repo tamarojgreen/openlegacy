@@ -24,6 +24,8 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 	private final static Log logger = LogFactory.getLog(DefaultTerminalMessagesModule.class);
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	private List<String> messages = new ArrayList<String>();
 
@@ -57,6 +59,7 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 			return;
 		}
 
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
 
 		int skippedScreens = 0;
@@ -96,8 +99,8 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 			skippedScreens++;
 
 			currentEntity = getSession().getEntity();
-			
-			if (currentEntity == null){
+
+			if (currentEntity == null) {
 				break;
 			}
 			entityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());

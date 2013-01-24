@@ -16,6 +16,8 @@ import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -28,7 +30,7 @@ public class LoginMetadata implements SessionModuleMetadata, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	private ScreenFieldDefinition userField;
 	private ScreenFieldDefinition passwordField;
@@ -40,6 +42,7 @@ public class LoginMetadata implements SessionModuleMetadata, Serializable {
 		if (loginScreenDefinition != null) {
 			return;
 		}
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 
 		loginScreenDefinition = screenEntitiesRegistry.getSingleEntityDefinition(Login.LoginEntity.class);
 

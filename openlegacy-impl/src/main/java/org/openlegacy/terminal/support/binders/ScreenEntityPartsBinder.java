@@ -19,6 +19,8 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
@@ -34,12 +36,14 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	@Inject
 	private ScreenBinderLogic screenBinderLogic;
 
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {
+
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
@@ -59,6 +63,8 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 	}
 
 	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
+
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 
 		Map<String, ScreenPartEntityDefinition> partsDefinitions = screenEntitiesRegistry.get(entity.getClass()).getPartsDefinitions();
 

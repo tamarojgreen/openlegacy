@@ -17,6 +17,8 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.table.ScreenTableCollector;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ import javax.inject.Inject;
 public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	public List<T> collectAll(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass) {
 		return collectAllInner(terminalSession, screenEntityClass, rowClass, false);
@@ -43,6 +45,8 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 	@SuppressWarnings("unchecked")
 	private List<T> collectAllInner(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass,
 			boolean firstOnly) {
+
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 
 		ScreenEntityDefinition screenEntityDefintion = screenEntitiesRegistry.get(screenEntityClass);
 		Map<String, ScreenTableDefinition> tableDefinitionsMap = screenEntityDefintion.getTableDefinitions();

@@ -31,6 +31,8 @@ import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.terminal.wait_conditions.WaitConditionFactory;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -48,7 +50,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 	private ScreensRecognizer screensRecognizer;
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	@Inject
 	private WaitConditionFactory waitConditionFactory;
@@ -215,6 +217,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	private TerminalAction findCurrentEntityExitAction(Class<? extends Object> currentEntityClass, TerminalAction exitAction) {
 		if (currentEntityClass != null) {
+			ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 			ScreenEntityDefinition currentScreenDefinition = screenEntitiesRegistry.get(currentEntityClass);
 			NavigationDefinition navigationDefinition = currentScreenDefinition.getNavigationDefinition();
 			if (navigationDefinition != null && navigationDefinition.getExitAction() != null) {

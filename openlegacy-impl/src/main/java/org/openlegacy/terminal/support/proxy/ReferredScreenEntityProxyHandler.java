@@ -17,6 +17,8 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -27,12 +29,14 @@ public class ReferredScreenEntityProxyHandler implements ScreenEntityProxyHandle
 
 	private static final long serialVersionUID = 1L;
 
-	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
-
 	private final static Log logger = LogFactory.getLog(ScreenEntityMethodInterceptor.class);
 
+	@Inject
+	private transient ApplicationContext applicationContext;
+
 	public Object invoke(TerminalSession terminalSession, MethodInvocation invocation) throws OpenLegacyRuntimeException {
+
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 
 		Class<?> returnType = invocation.getMethod().getReturnType();
 

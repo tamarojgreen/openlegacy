@@ -9,6 +9,8 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +25,7 @@ public class DefaultGlobalsModule extends TerminalSessionModuleAdapter implement
 	private Map<String, Object> globals = new HashMap<String, Object>();
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private transient ApplicationContext applicationContext;
 
 	public Map<String, Object> getGlobals() {
 		return globals;
@@ -44,6 +46,7 @@ public class DefaultGlobalsModule extends TerminalSessionModuleAdapter implement
 	}
 
 	private void collectGlobals() {
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntity currentEntity = getSession().getEntity();
 		if (currentEntity == null) {
 			return;
