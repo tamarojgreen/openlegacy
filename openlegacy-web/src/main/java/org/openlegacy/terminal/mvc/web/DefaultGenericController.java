@@ -122,6 +122,7 @@ public class DefaultGenericController {
 		} catch (RuntimeException e) {
 			if (openlegacyWebProperties.isFallbackUrlOnError()) {
 				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
+				logger.fatal(e.getMessage(), e);
 				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 			} else {
 				throw (e);

@@ -3,7 +3,7 @@ package org.openlegacy.mvc;
 public class SimpleOpenLegacyWebProperties implements OpenLegacyWebProperties {
 
 	private String fallbackUrl;
-	private boolean fallbackUrlOnError = true;
+	private boolean fallbackUrlOnError;
 
 	public String getFallbackUrl() {
 		return fallbackUrl;
