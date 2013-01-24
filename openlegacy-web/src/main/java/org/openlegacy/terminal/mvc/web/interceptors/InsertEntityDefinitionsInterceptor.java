@@ -15,6 +15,7 @@ import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
+import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
@@ -43,6 +44,9 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 
 	@Inject
 	private ScreenEntityUtils screenEntityUtils;
+
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
@@ -82,6 +86,11 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 			if (breadCrumb != null) {
 				modelAndView.addObject("breadCrumb", breadCrumb);
 			}
+		}
+
+		if (screenEntitiesRegistry.isDirty()) {
+			// set the registry back to clean - for design-time purposes only!
+			((AbstractEntitiesRegistry<?, ?>)screenEntitiesRegistry).setDirty(false);
 		}
 
 	}

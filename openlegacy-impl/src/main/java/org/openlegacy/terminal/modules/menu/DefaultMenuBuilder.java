@@ -19,6 +19,7 @@ import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -39,11 +40,14 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private ApplicationContext applicationContext;
 
 	private Map<Class<?>, List<Class<?>>> allMenusOptions = null;
 
 	private MenuItemsComparator menuItemsComparator;
+
+	@Inject
+	ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public MenuItem getMenuTree(Class<?> menuEntityClass) {
 		sortToMenus();
@@ -60,7 +64,9 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 	private void sortToMenus() {
 
-		if (allMenusOptions != null) {
+		// fetch an updated bean - wierd bug
+		ScreenEntitiesRegistry screenEntitiesRegistry = applicationContext.getBean(ScreenEntitiesRegistry.class);
+		if (allMenusOptions != null && !screenEntitiesRegistry.isDirty()) {
 			return;
 		}
 

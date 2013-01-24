@@ -11,6 +11,11 @@
 package org.openlegacy.mvc;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +33,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = "/reload")
 public class ReloadContextController {
+
+	private final static Log logger = LogFactory.getLog(ReloadContextController.class);
 
 	private String reloadPassword = null;
 
@@ -66,11 +74,29 @@ public class ReloadContextController {
 
 		((ConfigurableApplicationContext)applicationContext.getParent()).refresh();
 		((ConfigurableApplicationContext)applicationContext).refresh();
+
+		refreshRegistryClasses();
 		response.setStatus(HttpServletResponse.SC_OK);
 		try {
 			response.getWriter().write("<html><body>Application context reloaded!</body></html>");
 		} catch (IOException e) {
 			// do nothing;
+		}
+	}
+
+	/**
+	 * Reload all registry class - useful when using jrebel, which force registry metadata loader for the modified classes
+	 */
+	private void refreshRegistryClasses() {
+		DefaultScreenEntitiesRegistry screenEntitiesRegistry = (DefaultScreenEntitiesRegistry)applicationContext.getBean(ScreenEntitiesRegistry.class);
+		screenEntitiesRegistry.setDirty(true);
+		Collection<ScreenEntityDefinition> definitions = screenEntitiesRegistry.getEntitiesDefinitions();
+		for (ScreenEntityDefinition screenEntityDefinition : definitions) {
+			try {
+				Class.forName(screenEntityDefinition.getEntityClassName());
+			} catch (ClassNotFoundException e) {
+				logger.warn("Failed to load class " + screenEntityDefinition.getEntityClassName() + e.getMessage());
+			}
 		}
 	}
 

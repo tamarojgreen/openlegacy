@@ -146,6 +146,9 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 
 	private static void fillEntityReferences(final EntitiesRegistry<?, ?> entitiesRegistry,
 			final EntityDefinition<?> entityDefinition) {
+		if (entityDefinition == null) {
+			return;
+		}
 		ReflectionUtils.doWithFields(entityDefinition.getEntityClass(), new FieldCallback() {
 
 			public void doWith(Field field) {

@@ -20,7 +20,6 @@ import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
-import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
@@ -134,8 +133,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private void checkRegistryDirty() {
 		if (screenEntitiesRegistry.isDirty()) {
 			resetEntity();
-			// set the registry back to clean - for design-time purposes only!
-			((AbstractEntitiesRegistry<?, ?>)screenEntitiesRegistry).setDirty(false);
 		}
 	}
 
