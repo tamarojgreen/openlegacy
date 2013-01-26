@@ -52,7 +52,7 @@ public @interface ScreenField {
 	/**
 	 * The host field column it the field mapped to
 	 * 
-	 * @return the field coloumn on the host screen
+	 * @return the field column on the host screen
 	 */
 	int column();
 

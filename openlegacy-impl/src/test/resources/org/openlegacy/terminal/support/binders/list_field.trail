@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+    <snapshot type="INCOMING" sequence="1">
+        <row rowNumber="1">
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+        </row>
+        <row rowNumber="2">
+            <field column="27" value="Items     " color="WHITE"/>
+            <field column="73" value="11:44:21" color="BLUE"/>
+        </row>
+        <row rowNumber="8">
+			<field column="25" value="Domino    " length="9" editable="true" />
+			<field column="35" value="Cube      " length="9" editable="true" />
+	 		<field column="45" value="Sevivon   " length="9" editable="true" />
+        </row>
+         <row rowNumber="9">
+			<field column="25" value="Barbi     " length="9" editable="true" />
+			<field column="35" value="Winx      " length="9" editable="true" />
+	 		<field column="45" value="Remi      " length="9" editable="true" />
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="8" column="4"/>
+    </snapshot>
+    <snapshot type="OUTGOING" sequence="2" command="[enter]">
+        <row rowNumber="1">
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+        </row>
+        <row rowNumber="2">
+            <field column="27" value="Items     " color="WHITE"/>
+            <field column="73" value="11:44:21" color="BLUE"/>
+        </row>
+        <row rowNumber="8">
+			<field column="25" value="Domino1" length="9" editable="true" modified="true" />
+			<field column="35" value="Cube2" length="9" editable="true" modified="true" />
+			<field column="45" value="Sevivon3" length="9" editable="true" modified="true" />
+        </row>
+         <row rowNumber="9">
+			<field column="25" value="Barbi1" length="9" editable="true" modified="true" />
+			<field column="35" value="Winx2" length="9" editable="true" modified="true" />
+	 		<field column="45" value="Remi3" length="9" editable="true" modified="true" />
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="8" column="4"/>
+    </snapshot>
+</terminal-trail>
