@@ -85,6 +85,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	@XmlAttribute
 	private Boolean uppercase = false;
 
+	@XmlTransient
+	private String originalValue;
+
 	public TerminalPosition getPosition() {
 		if (position == null) {
 			position = SimpleTerminalPosition.newInstance(row, column);
@@ -114,6 +117,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	}
 
 	public void setValue(String value, boolean modified) {
+		if (modified) {
+			this.originalValue = this.value;
+		}
 		this.modified = modified;
 		this.value = value;
 
@@ -266,6 +272,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	}
 
 	public String getOriginalValue() {
+		if (originalValue != null){
+			return originalValue;
+		}
 		return getValue();
 	}
 

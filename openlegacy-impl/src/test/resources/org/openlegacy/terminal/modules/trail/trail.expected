@@ -29,14 +29,14 @@
             <field column="1" value="               " length="15"/>
             <field column="17" value="User  . . . . . . . . . . . . . ." length="33"/>
             <field column="51" value=" " length="1"/>
-            <field column="53" value="user" length="10" editable="true"/>
+            <field column="53" length="10" editable="true"/>
             <field column="64" value="                 " length="17"/>
         </row>
         <row rowNumber="7">
             <field column="1" value="               " length="15"/>
             <field column="17" value="Password  . . . . . . . . . . . ." length="33"/>
             <field column="51" value=" " length="1"/>
-            <field column="53" value="pwd" length="10" editable="true" hidden="true"/>
+            <field column="53" length="10" editable="true" hidden="true"/>
             <field column="64" value="                 " length="17"/>
         </row>
         <row rowNumber="8">

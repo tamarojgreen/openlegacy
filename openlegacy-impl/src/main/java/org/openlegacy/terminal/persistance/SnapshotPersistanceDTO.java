@@ -33,11 +33,23 @@ public class SnapshotPersistanceDTO {
 
 	}
 
-	public static TerminalPersistedSnapshot transformIncomingSnapshot(TerminalSnapshot snapshot) {
+	public static TerminalPersistedSnapshot transformIncomingSnapshot(TerminalSnapshot incomingSnapshot) {
 		TerminalPersistedSnapshot persistedSnapshot = new TerminalPersistedSnapshot();
-		ReflectionUtil.copyProperties(persistedSnapshot, snapshot);
+		ReflectionUtil.copyProperties(persistedSnapshot, incomingSnapshot);
 
-		transformCommonSnapshot(persistedSnapshot, snapshot);
+		transformCommonSnapshot(persistedSnapshot, incomingSnapshot);
+
+		// When working with mock-up incoming snapshots, it gets "dirty" by changes on the outgoing snapshot - this code reset it
+		// in the output cloned incoming snapshot
+		if (incomingSnapshot instanceof TerminalPersistedSnapshot) {
+			List<TerminalField> sourceFields = incomingSnapshot.getFields();
+			for (TerminalField sourceField : sourceFields) {
+				if (sourceField.isModified()) {
+					TerminalPersistedField persistedField = (TerminalPersistedField)persistedSnapshot.getField(sourceField.getPosition());
+					persistedField.setValue(sourceField.getOriginalValue(), false);
+				}
+			}
+		}
 
 		return persistedSnapshot;
 	}
