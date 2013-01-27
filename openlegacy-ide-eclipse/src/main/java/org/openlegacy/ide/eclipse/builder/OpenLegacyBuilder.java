@@ -91,6 +91,11 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 			if (!resource.getName().endsWith(".trail")) { //$NON-NLS-1$
 				return;
 			}
+			// ignore demo session
+			if (resource.getName().startsWith("demo")) { //$NON-NLS-1$
+				logger.debug("Ignoring demo session trail from automatic analysis");
+				return;
+			}
 
 			final IFile trailFile = (IFile)resource;
 			Display.getDefault().asyncExec(new Runnable() {
