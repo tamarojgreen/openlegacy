@@ -60,6 +60,7 @@ public class Messages extends NLS {
 	public static String label_template;
 	public static String message_customize_rules;
 	public static String message_customize_templates;
+	public static String message_new_trail_found;
 	public static String question_override_file;
 	public static String task_generating;
 	public static String title_ol_generate_screens_api;
@@ -83,6 +84,9 @@ public class Messages extends NLS {
 	public static String label_templates_url_preference;
 	public static String error_new_project_metadata_not_found;
 	public static String label_generate_mobile_page;
+	public static String label_do_not_show_again;
+	public static String TrailJob_job_name;
+	public static String TrailJob_message_found_new_trail;
 
 	static {
 		// initialize resource bundle

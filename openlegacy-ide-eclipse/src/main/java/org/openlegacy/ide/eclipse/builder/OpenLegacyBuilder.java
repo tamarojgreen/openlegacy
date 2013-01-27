@@ -20,10 +20,20 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
+import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
+import org.openlegacy.ide.eclipse.actions.GenerateModelDialog;
+import org.openlegacy.ide.eclipse.util.EclipseUtils;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
+import org.openlegacy.ide.eclipse.util.PopupUtil;
 import org.openlegacy.utils.FileUtils;
 
 import java.util.Map;
@@ -44,6 +54,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 			switch (delta.getKind()) {
 				case IResourceDelta.ADDED:
 					checkAspectGenerate(resource);
+					checkNewTrail(resource);
 					break;
 				case IResourceDelta.REMOVED:
 					String fileName = resource.getName();
@@ -73,6 +84,42 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 			}
 			// return true to continue visiting children.
 			return true;
+		}
+
+		private void checkNewTrail(final IResource resource) {
+
+			if (!resource.getName().endsWith(".trail")) { //$NON-NLS-1$
+				return;
+			}
+
+			final IFile trailFile = (IFile)resource;
+			Display.getDefault().asyncExec(new Runnable() {
+
+				public void run() {
+
+					if (EclipseUtils.isEditorOpen(trailFile)) {
+						return;
+					}
+
+					boolean result = PopupUtil.question(Messages.message_new_trail_found);
+					if (result) {
+						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
+								trailFile.getName());
+						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+						try {
+
+							page.openEditor(new FileEditorInput(trailFile), editorDescriptor.getId());
+
+							GenerateModelDialog dialog = new GenerateModelDialog(Display.getDefault().getShells()[0], trailFile);
+							dialog.open();
+
+						} catch (PartInitException e) {
+							logger.fatal(e);
+						}
+					}
+				}
+
+			});
 		}
 
 	}

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse;
 
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -36,6 +37,8 @@ public class Activator extends AbstractUIPlugin {
 
 	private MessageConsole olConsole;
 
+	private Job newTrailJob;
+
 	/**
 	 * The constructor
 	 */
@@ -57,9 +60,17 @@ public class Activator extends AbstractUIPlugin {
 		ConsolePlugin.getDefault().getConsoleManager().showConsoleView(olConsole);
 
 		MessageConsoleStream stream = olConsole.newMessageStream();
-
 		System.setOut(new PrintStream(stream));
 		System.setErr(new PrintStream(stream));
+
+		// Appender appender = new EclipseAppender(getLog());
+		// appender.setLayout(new PatternLayout("%d{ISO8601} [%t] %-5p > %m (from: %l{1})%n"));
+		// // BasicConfigurator.resetConfiguration();
+		// BasicConfigurator.configure(appender);
+
+		newTrailJob = new TrailJob();
+		newTrailJob.setPriority(Job.SHORT);
+		newTrailJob.schedule(5000);
 	}
 
 	/*
