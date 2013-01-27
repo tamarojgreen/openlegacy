@@ -51,10 +51,16 @@
 			type="annotation" />
 	</context:component-scan>
 	
-		<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
-		Also registers default Formatters and Validators for use across all @Controllers -->
-	<mvc:annotation-driven conversion-service="applicationConversionService" />
-
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="useSuffixPatternMatch" value="false" />
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
+		
+	<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
+	Also registers default Formatters and Validators for use across all @Controllers -->
+<!-- 	<mvc:annotation-driven conversion-service="applicationConversionService" />
+ -->
+ 
 	<mvc:interceptors>
 		<!-- On pre-handle, resolve the device that originated the web request -->
 		<bean class="org.openlegacy.mvc.web.interceptors.OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor"/>
