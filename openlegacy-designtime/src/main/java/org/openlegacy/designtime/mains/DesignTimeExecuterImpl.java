@@ -58,9 +58,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -338,7 +342,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(Arrays.asList(generateApiRequest.getTerminalSnapshots()));
 		}
 
-		Collection<ScreenEntityDefinition> screenDefinitions = screenEntitiesDefinitions.values();
+		List<ScreenEntityDefinition> screenDefinitions = getSortedSnapshots(screenEntitiesDefinitions);
+
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateApiRequest.getPackageDirectory().replaceAll(
 					"/", "."));
@@ -389,6 +394,24 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		generateTest(generateApiRequest.getTrailFile(), screenDefinitions, generateApiRequest.getProjectPath());
 
+	}
+
+	private static List<ScreenEntityDefinition> getSortedSnapshots(Map<String, ScreenEntityDefinition> screenEntitiesDefinitions) {
+		List<ScreenEntityDefinition> screenDefinitions = new ArrayList<ScreenEntityDefinition>();
+		screenDefinitions.addAll(screenEntitiesDefinitions.values());
+		Collections.sort(screenDefinitions, new Comparator<ScreenEntityDefinition>() {
+
+			public int compare(ScreenEntityDefinition o1, ScreenEntityDefinition o2) {
+				if (o2.getSnapshot().getSequence() == null) {
+					return -1;
+				}
+				if (o1.getSnapshot().getSequence() == null) {
+					return 1;
+				}
+				return o1.getSnapshot().getSequence() - o2.getSnapshot().getSequence();
+			}
+		});
+		return screenDefinitions;
 	}
 
 	private GenerateUtil getGenerateUtil() {
