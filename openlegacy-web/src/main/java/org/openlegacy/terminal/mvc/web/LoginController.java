@@ -11,7 +11,6 @@ import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
@@ -29,7 +28,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(value = "/")
+@RequestMapping(value = { "/login", "/" })
 public class LoginController {
 
 	@Inject
@@ -40,9 +39,6 @@ public class LoginController {
 
 	@Inject
 	private TerminalSession terminalSession;
-
-	@Inject
-	private ScreenEntityUtils screenEntityUtils;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String home(Model uiModel) {

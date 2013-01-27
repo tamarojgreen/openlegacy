@@ -15,6 +15,7 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleListFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
@@ -128,8 +129,9 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			screenFieldDefinition.setFieldTypeDefinition(new SimpleDateFieldTypeDefinition());
 		} else if (screenFieldDefinition.isPassword()) {
 			screenFieldDefinition.setFieldTypeDefinition(new SimplePasswordFieldTypeDefinition());
+		} else if (java.util.List.class == field.getType()) {
+			screenFieldDefinition.setFieldTypeDefinition(new SimpleListFieldTypeDefinition());
 		} else {
-			// set a default type definition
 			screenFieldDefinition.setFieldTypeDefinition(new SimpleTextFieldTypeDefinition());
 		}
 	}
