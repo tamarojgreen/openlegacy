@@ -13,6 +13,7 @@ package org.openlegacy.terminal.definitions;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.FieldType;
 import org.openlegacy.definitions.support.AbstractFieldDefinition;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
@@ -38,7 +39,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private TerminalField terminalLabelfield;
 	// Used for design-time to set a class name which doesn't exists during generation
 	private String javaTypeName;
-
+	private FieldAttributeType attribute;
 	private boolean rectangle;
 
 	private TerminalPosition endPosition;
@@ -180,5 +181,13 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setRightToLeft(boolean rightToLeft) {
 		this.rightToLeft = rightToLeft;
+	}
+
+	public FieldAttributeType getAttribute() {
+		return attribute;
+	}
+
+	public void setAttribute(FieldAttributeType attribute) {
+		this.attribute = attribute;
 	}
 }

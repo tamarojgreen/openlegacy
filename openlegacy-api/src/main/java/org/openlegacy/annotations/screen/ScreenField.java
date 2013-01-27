@@ -14,6 +14,7 @@ import org.openlegacy.FieldType;
 import org.openlegacy.modules.SessionModule;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -136,4 +137,11 @@ public @interface ScreenField {
 	String helpText() default "";
 
 	boolean rightToLeft() default false;
+
+	/**
+	 * Defines the terminal field attributes to bind the Java field to. Default is Value
+	 * 
+	 * @return the attribute to bind to
+	 */
+	FieldAttributeType attribute() default FieldAttributeType.Value;
 }

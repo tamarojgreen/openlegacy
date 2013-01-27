@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+    <snapshot type="INCOMING" sequence="1">
+        <row rowNumber="1">
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+        </row>
+        <row rowNumber="2">
+            <field column="23" value="Attributes" color="WHITE"/>
+            <field column="73" value="11:44:21" color="BLUE"/>
+        </row>
+        <row rowNumber="8">
+        	<field column="10" value="NOT EDITABLE"  editable="false" />
+        </row>
+        <row rowNumber="9">
+			<field column="10" value="EDITABLE"  editable="true" />
+         </row>
+         <row rowNumber="10">
+			<field column="10" value="RED COLOR" color="RED" />
+         </row>
+        <size rows="24" columns="80"/>
+        <cursor row="8" column="4"/>
+    </snapshot>
+</terminal-trail>

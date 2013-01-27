@@ -27,6 +27,7 @@ import org.openlegacy.terminal.support.binders.BooleanFieldsBinderTest;
 import org.openlegacy.terminal.support.binders.CustomBinderTest;
 import org.openlegacy.terminal.support.binders.DateFieldsBinderTest;
 import org.openlegacy.terminal.support.binders.ListFieldTest;
+import org.openlegacy.terminal.support.binders.ScreenEntityFieldAttributeTest;
 import org.openlegacy.terminal.support.binders.ScreenEntityTablesBinderTest;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 
@@ -39,7 +40,7 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 		DefaultNavigationModuleTest.class, DefaultTableDrilldownPerformerTest.class, DefaultTerminalMenuModuleTest.class,
 		MockStateMachineTerminalConnectionTest.class, DefaultScreenPageBuilderTest.class, DefaultBidiScreenPageBuilderTest.class,
 		DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class, CustomBinderTest.class,
-		MultyLineFieldTest.class, DefaultSessionsManagerTest.class, ListFieldTest.class })
+		MultyLineFieldTest.class, DefaultSessionsManagerTest.class, ListFieldTest.class, ScreenEntityFieldAttributeTest.class })
 public class OpenLegacyRuntimeSuite {
 
 }

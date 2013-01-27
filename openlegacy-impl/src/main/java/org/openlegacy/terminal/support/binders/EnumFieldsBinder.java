@@ -12,6 +12,7 @@ package org.openlegacy.terminal.support.binders;
 
 import org.openlegacy.definitions.EnumFieldTypeDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -59,7 +60,8 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 				class1);
 
 		for (ScreenFieldDefinition fieldDefinition : fieldDefinitions) {
-			if (!Enum.class.isAssignableFrom(fieldDefinition.getJavaType())) {
+			if (!Enum.class.isAssignableFrom(fieldDefinition.getJavaType())
+					|| fieldDefinition.getAttribute() != FieldAttributeType.Value) {
 				continue;
 			}
 			// lazy creation - mostly not used
@@ -73,6 +75,7 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 					position.getColumn()));
 
 			if (!StringUtil.isEmpty(enumField.getValue())) {
+
 				// find the DisplayItem by host value, and return the enum object
 				fieldAccessor.setFieldValue(fieldDefinition.getName(),
 						fieldTypeDefinition.getEnums().get(enumField.getValue()).getValue());

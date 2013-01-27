@@ -12,6 +12,7 @@ package org.openlegacy.terminal.support.binders;
 
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -56,7 +57,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 				class1);
 
 		for (ScreenFieldDefinition fieldDefinition : fieldDefinitions) {
-			if (fieldDefinition.getJavaType() != Boolean.class) {
+			if (fieldDefinition.getJavaType() != Boolean.class || fieldDefinition.getAttribute() != FieldAttributeType.Value) {
 				continue;
 			}
 			// lazy creation - mostly not used

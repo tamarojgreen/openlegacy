@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.loaders.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.AnnotationConstants;
@@ -24,6 +26,7 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.binders.ScreenBinderLogic;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -37,6 +40,8 @@ import java.util.Date;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
+
+	private final static Log logger = LogFactory.getLog(ScreenBinderLogic.class);
 
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenField.class;
@@ -98,6 +103,11 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 		screenFieldDefinition.setHelpText(fieldAnnotation.helpText());
 		screenFieldDefinition.setKey(fieldAnnotation.key());
+		if (logger.isDebugEnabled()) {
+
+			logger.debug(MessageFormat.format("The annotation of the attribute attribute is {0} ", fieldAnnotation.attribute()));
+		}
+		screenFieldDefinition.setAttribute(fieldAnnotation.attribute());
 
 		setupFieldType(field, screenFieldDefinition);
 

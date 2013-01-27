@@ -12,6 +12,7 @@ package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
@@ -80,4 +81,6 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	boolean isRectangle();
 
 	boolean isRightToLeft();
+	
+	FieldAttributeType getAttribute();
 }
