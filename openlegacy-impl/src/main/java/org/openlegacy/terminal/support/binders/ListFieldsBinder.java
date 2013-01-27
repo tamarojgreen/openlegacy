@@ -13,6 +13,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Component;
@@ -62,7 +63,7 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 
 			for (int i = 0; i < fieldsInList - 1; i++) {
 				members.add(snapshot.getText(position, fieldTypeDefinition.getFieldLength()).trim());
-				position = position.moveBy(gapBetweenFields[i * skip]);
+				position = SnapshotUtils.moveBy(position, (gapBetweenFields[i * skip]), snapshot.getSize());
 			}
 			String text = snapshot.getText(position, fieldTypeDefinition.getFieldLength());
 			members.add(fieldFormatter.format(text));
@@ -125,7 +126,7 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 				sendAction.getModifiedFields().add(field);
 
 				if (i < fieldTypeDefinition.getCount() - 1) {
-					position = position.moveBy(gaps[i * skip]);
+					position = SnapshotUtils.moveBy(position, (gaps[i * skip]), snapshot.getSize());
 				}
 			}
 

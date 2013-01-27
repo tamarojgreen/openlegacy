@@ -97,7 +97,6 @@ public class TerminalPositionBean implements TerminalPosition {
 		if (columns == 0) {
 			return this;
 		}
-		// TODO handle different screen sizes #147
 		int offsetRows = columns / ScreenSize.DEFAULT_COLUMN;
 		columns = columns % ScreenSize.DEFAULT_COLUMN;
 		return SimpleTerminalPosition.newInstance(row + offsetRows, column + columns);

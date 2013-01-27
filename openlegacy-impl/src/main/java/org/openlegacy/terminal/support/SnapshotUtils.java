@@ -242,4 +242,17 @@ public class SnapshotUtils {
 		}
 	}
 
+	public static TerminalPosition moveBy(TerminalPosition terminalPosition, int columns, ScreenSize screenSize) {
+		int offsetRows = columns / screenSize.getColumns();
+		columns = columns % screenSize.getColumns();
+		int row = terminalPosition.getRow() + offsetRows;
+		int column = terminalPosition.getColumn() + columns;
+		if (row > screenSize.getRows()) {
+			throw (new IllegalStateException(MessageFormat.format("Row {0} exceeds screen size {1}", row, screenSize)));
+		}
+		if (column > screenSize.getColumns()) {
+			throw (new IllegalStateException(MessageFormat.format("Column {0} exceeds screen size {1}", column, screenSize)));
+		}
+		return SimpleTerminalPosition.newInstance(row, column);
+	}
 }

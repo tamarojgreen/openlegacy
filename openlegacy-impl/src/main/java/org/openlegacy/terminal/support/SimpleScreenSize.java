@@ -12,6 +12,8 @@ package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.ScreenSize;
 
+import java.text.MessageFormat;
+
 /**
  * A simple definition for screen size model with rows & columns properties
  * 
@@ -46,4 +48,8 @@ public class SimpleScreenSize implements ScreenSize {
 		this.columns = columns;
 	}
 
+	@Override
+	public String toString() {
+		return MessageFormat.format("{0},{1}", rows, columns);
+	}
 }

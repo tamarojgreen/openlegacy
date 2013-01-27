@@ -22,10 +22,27 @@ public interface TerminalPosition extends Comparable<TerminalPosition>, Serializ
 
 	int getColumn();
 
+	/**
+	 * Create a new terminal position in the next position on the terminal snapshot
+	 * 
+	 * @return the next terminal position
+	 */
 	TerminalPosition next();
 
+	/**
+	 * Create a new terminal position in the previous position on the terminal snapshot
+	 * 
+	 * @return the previous terminal position
+	 */
 	TerminalPosition previous();
 
+	/**
+	 * Creates a new position with offset by the given columns. Limited to {@link ScreenSize.DEFAULT_COLUMNS}. Use
+	 * <code>SnapshotUtil.moveBy</code> if screen size is known from a snapshot in the method context.
+	 * 
+	 * @param columns
+	 * @return
+	 */
 	TerminalPosition moveBy(int columns);
 
 	int getAbsolutePosition(ScreenSize screenSize);
