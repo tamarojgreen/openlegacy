@@ -282,12 +282,12 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		pagePart.setLeftMargin(leftMarginPercentage);
 	}
 
-	private static int calculateTopMargin(ScreenSize screenSize, int row) {
-		return (100 * (row - 1)) / screenSize.getRows();
+	private int calculateTopMargin(ScreenSize screenSize, int row) {
+		return (100 * (row - 1)) / screenSize.getRows() + defaultTopMarginOffset;
 	}
 
 	private int calculateLeftMargin(ScreenSize screenSize, int topLeftColumn) {
-		return ((100 * topLeftColumn) / screenSize.getColumns()) + defaultTopMarginOffset;
+		return ((100 * topLeftColumn) / screenSize.getColumns()) + defaultLeftMarginOffset;
 	}
 
 	/**
@@ -383,18 +383,38 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		return labelFieldDistance;
 	}
 
+	/**
+	 * The default label distance from it's field. Used for part width calculations
+	 * 
+	 * @param labelFieldDistance
+	 */
 	public void setLabelFieldDistance(int labelFieldDistance) {
 		this.labelFieldDistance = labelFieldDistance;
 	}
 
+	/**
+	 * The maximum row distance within a part. If higher fields will be in different parts
+	 * 
+	 * @param maxRowDistanceWithinPart
+	 */
 	public void setMaxRowDistanceWithinPart(int maxRowDistanceWithinPart) {
 		this.maxRowDistanceWithinPart = maxRowDistanceWithinPart;
 	}
 
+	/**
+	 * The maximum distance between 2 fields column's in the same part, which considers them as neighbors within the same part
+	 * 
+	 * @param maxColumnDistanceWithinPart
+	 */
 	public void setMaxColumnDistanceWithinPart(int maxColumnDistanceWithinPart) {
 		this.maxColumnDistanceWithinPart = maxColumnDistanceWithinPart;
 	}
 
+	/**
+	 * The maximum distance between 2 vertical neighbor fields which consider them as 1 column. Default to 5
+	 * 
+	 * @param maxNeighbourColumnsOffset
+	 */
 	public void setMaxNeighbourColumnsOffset(int maxNeighbourColumnsOffset) {
 		this.maxNeighbourColumnsOffset = maxNeighbourColumnsOffset;
 	}
@@ -403,6 +423,11 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		this.defaultFieldLength = defaultFieldLength;
 	}
 
+	/**
+	 * Additional pixels to add or remove (when negative) to part left location
+	 * 
+	 * @param defaultLeftMarginOffset
+	 */
 	public void setDefaultLeftMarginOffset(int defaultLeftMarginOffset) {
 		this.defaultLeftMarginOffset = defaultLeftMarginOffset;
 	}
@@ -419,6 +444,11 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		return defaultTopMarginOffset;
 	}
 
+	/**
+	 * Additional pixels to add or remove (when negative) to part top location
+	 * 
+	 * @param defaultTopMarginOffset
+	 */
 	public void setDefaultTopMarginOffset(int defaultTopMarginOffset) {
 		this.defaultTopMarginOffset = defaultTopMarginOffset;
 	}
@@ -427,6 +457,11 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		return additionalPartWidth;
 	}
 
+	/**
+	 * The additional pixels width to add to each part
+	 * 
+	 * @param additionalPartWidth
+	 */
 	public void setAdditionalPartWidth(int additionalPartWidth) {
 		this.additionalPartWidth = additionalPartWidth;
 	}
