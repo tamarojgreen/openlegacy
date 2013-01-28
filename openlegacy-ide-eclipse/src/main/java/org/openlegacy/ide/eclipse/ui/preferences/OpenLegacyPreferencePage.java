@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.ui.preferences;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.ui.IWorkbench;
@@ -33,6 +34,8 @@ public class OpenLegacyPreferencePage extends FieldEditorPreferencePage implemen
 
 	private StringFieldEditor urlEditor;
 
+	private BooleanFieldEditor analyzeNewTrails;
+
 	public OpenLegacyPreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
@@ -47,7 +50,10 @@ public class OpenLegacyPreferencePage extends FieldEditorPreferencePage implemen
 	public void createFieldEditors() {
 		this.urlEditor = new StringFieldEditor(PreferenceConstants.P_TEMPLATES_URL, Messages.label_templates_url_preference,
 				getFieldEditorParent());
+		this.analyzeNewTrails = new BooleanFieldEditor(PreferenceConstants.P_ANALYZE_NEW_TRAILS, "Analyze new trails",
+				getFieldEditorParent());
 		addField(this.urlEditor);
+		addField(this.analyzeNewTrails);
 	}
 
 	@Override
@@ -65,6 +71,7 @@ public class OpenLegacyPreferencePage extends FieldEditorPreferencePage implemen
 			url = url.substring(0, url.length() - 1);
 		}
 		this.urlEditor.setStringValue(url);
+
 		setValid(true);
 	}
 
@@ -74,7 +81,9 @@ public class OpenLegacyPreferencePage extends FieldEditorPreferencePage implemen
 		return super.performOk();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
 	public void init(IWorkbench workbench) {}

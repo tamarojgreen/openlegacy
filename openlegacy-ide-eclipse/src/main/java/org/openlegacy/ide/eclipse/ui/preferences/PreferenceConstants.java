@@ -16,5 +16,6 @@ package org.openlegacy.ide.eclipse.ui.preferences;
 public class PreferenceConstants {
 
 	public static final String P_TEMPLATES_URL = "templatesUrl";
+	public static final String P_ANALYZE_NEW_TRAILS = "analyzeNewTrails";
 
 }
