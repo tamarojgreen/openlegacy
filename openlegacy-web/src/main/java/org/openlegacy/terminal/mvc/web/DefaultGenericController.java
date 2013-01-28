@@ -38,6 +38,7 @@ import org.springframework.mobile.device.site.SitePreferenceUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -144,6 +145,7 @@ public class DefaultGenericController {
 
 		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(screenEntity);
+		registerPropertyEditors(binder);
 		binder.bind(request);
 
 		screenEntityUtils.sendScreenEntity(terminalSession, screenEntity, action);
@@ -257,6 +259,10 @@ public class DefaultGenericController {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
+		registerPropertyEditors(binder);
+	}
+
+	private static void registerPropertyEditors(DataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
