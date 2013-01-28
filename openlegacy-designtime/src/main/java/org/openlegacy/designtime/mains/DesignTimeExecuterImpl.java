@@ -318,37 +318,37 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	public void generateModel(GenerateModelRequest generateApiRequest) throws GenerationException {
+	public void generateModel(GenerateModelRequest generateModelRequest) throws GenerationException {
 		// initialize application context
 
-		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateApiRequest.getProjectPath());
+		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateModelRequest.getProjectPath());
 
-		getGenerateUtil().setTemplateDirectory(generateApiRequest.getTemplatesDirectory());
+		getGenerateUtil().setTemplateDirectory(generateModelRequest.getTemplatesDirectory());
 
 		TerminalSnapshotsAnalyzer snapshotsAnalyzer = projectApplicationContext.getBean(TerminalSnapshotsAnalyzer.class);
 
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = null;
-		if (generateApiRequest.getTerminalSnapshots() == null || generateApiRequest.getTerminalSnapshots().length == 0) {
+		if (generateModelRequest.getTerminalSnapshots() == null || generateModelRequest.getTerminalSnapshots().length == 0) {
 			FileInputStream trailInputStream;
 			try {
-				trailInputStream = new FileInputStream(generateApiRequest.getTrailFile().getAbsolutePath());
+				trailInputStream = new FileInputStream(generateModelRequest.getTrailFile().getAbsolutePath());
 			} catch (FileNotFoundException e1) {
 				throw (new GenerationException(e1));
 			}
 			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeTrail(trailInputStream);
 		} else {
-			Assert.notNull(generateApiRequest.getTerminalSnapshots(),
+			Assert.notNull(generateModelRequest.getTerminalSnapshots(),
 					"Must set either trail file or terminal snapshots in generate API request");
-			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(Arrays.asList(generateApiRequest.getTerminalSnapshots()));
+			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(Arrays.asList(generateModelRequest.getTerminalSnapshots()));
 		}
 
 		List<ScreenEntityDefinition> screenDefinitions = getSortedSnapshots(screenEntitiesDefinitions);
 
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateApiRequest.getPackageDirectory().replaceAll(
+			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateModelRequest.getPackageDirectory().replaceAll(
 					"/", "."));
 
-			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateApiRequest.getEntityUserInteraction();
+			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
 			if (entityUserInteraction != null) {
 				boolean generate = entityUserInteraction.customizeEntity(screenEntityDefinition);
 				if (!generate) {
@@ -357,7 +357,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 
 			try {
-				File packageDir = new File(generateApiRequest.getSourceDirectory(), generateApiRequest.getPackageDirectory());
+				File packageDir = new File(generateModelRequest.getSourceDirectory(), generateModelRequest.getPackageDirectory());
 
 				String entityName = screenEntityDefinition.getEntityName();
 				File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
@@ -378,12 +378,19 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
 				DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
 
-				// generate txt file with screen content
-				generateResource(snapshot, entityName, screenResourcesDir, textRenderer);
-				// generate jpg file with screen image
-				generateResource(snapshot, entityName, screenResourcesDir, imageRenderer);
-				// generate xml file with screen XML for testing purposes
-				generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer);
+				if (generateModelRequest.isGenerateSnapshotText()) {
+					// generate txt file with screen content
+					generateResource(snapshot, entityName, screenResourcesDir, textRenderer);
+				}
+				if (generateModelRequest.isGenerateSnapshotImage()) {
+					// generate jpg file with screen image
+					generateResource(snapshot, entityName, screenResourcesDir, imageRenderer);
+				}
+
+				if (generateModelRequest.isGenerateSnapshotXml()) {
+					// generate xml file with screen XML for testing purposes
+					generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer);
+				}
 
 			} catch (TemplateException e) {
 				throw (new GenerationException(e));
@@ -392,7 +399,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		generateTest(generateApiRequest.getTrailFile(), screenDefinitions, generateApiRequest.getProjectPath());
+		generateTest(generateModelRequest.getTrailFile(), screenDefinitions, generateModelRequest.getProjectPath());
 
 	}
 

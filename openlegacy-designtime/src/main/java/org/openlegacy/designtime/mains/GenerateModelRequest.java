@@ -23,6 +23,10 @@ public class GenerateModelRequest extends AbstractGenerateRequest {
 	// or snapshot
 	private TerminalSnapshot[] terminalSnapshots;
 
+	private boolean generateSnapshotXml = true;
+	private boolean generateSnapshotImage = false;
+	private boolean generateSnapshotText = false;
+
 	private EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction;
 
 	public File getTrailFile() {
@@ -47,6 +51,30 @@ public class GenerateModelRequest extends AbstractGenerateRequest {
 
 	public void setEntityUserInteraction(EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction) {
 		this.entityUserInteraction = entityUserInteraction;
+	}
+
+	public boolean isGenerateSnapshotXml() {
+		return generateSnapshotXml;
+	}
+
+	public void setGenerateSnapshotXml(boolean generateSnapshotXml) {
+		this.generateSnapshotXml = generateSnapshotXml;
+	}
+
+	public boolean isGenerateSnapshotImage() {
+		return generateSnapshotImage;
+	}
+
+	public void setGenerateSnapshotImage(boolean generateSnapshotImage) {
+		this.generateSnapshotImage = generateSnapshotImage;
+	}
+
+	public boolean isGenerateSnapshotText() {
+		return generateSnapshotText;
+	}
+
+	public void setGenerateSnapshotText(boolean generateSnapshotText) {
+		this.generateSnapshotText = generateSnapshotText;
 	}
 
 }
