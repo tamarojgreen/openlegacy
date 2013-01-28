@@ -116,7 +116,10 @@ public class ScreenBinderLogic implements Serializable {
 				} else {
 					// 1st row = grab until the end of the row
 					if (currentRow == startRow) {
-						text = text + newLine + fieldFormatter.format(row.getText(startColumn, terminalSnapshot.getSize().getColumns() - fieldColumnLength));
+						text = text
+								+ newLine
+								+ fieldFormatter.format(row.getText(startColumn, terminalSnapshot.getSize().getColumns()
+										- fieldColumnLength));
 						// last row - grab until end column
 					} else if (currentRow == endRow) {
 						text = text + newLine + fieldFormatter.format(row.getText(1, endColumn));
@@ -248,8 +251,12 @@ public class ScreenBinderLogic implements Serializable {
 				}
 
 				if (terminalField.isEditable() && value != null) {
-					boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalField.getValue(),
-							value);
+					String terminalFieldValue = terminalField.getValue();
+					// in case the field is numeric, compare the terminal field old value in as number (in case of leading spaces)
+					if (fieldMappingDefinition.getJavaType() == Integer.class) {
+						terminalFieldValue = Integer.valueOf(terminalFieldValue).toString();
+					}
+					boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalFieldValue, value);
 					if (fieldModified) {
 						if (fieldMappingDefinition.isEditable()) {
 							terminalField.setValue(value);
