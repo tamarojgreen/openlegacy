@@ -70,7 +70,8 @@ public class Activator extends AbstractUIPlugin {
 
 		newTrailJob = new TrailJob();
 		newTrailJob.setPriority(Job.SHORT);
-		newTrailJob.schedule(5000);
+		// wait 1 minute to allow eclipse build to run on eclipse start
+		newTrailJob.schedule(60000);
 	}
 
 	/*
