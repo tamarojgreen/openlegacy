@@ -33,7 +33,7 @@
 			require(["dijit/dijit", "dijit/TitlePane", "dijit/layout/ContentPane"]);
 		</script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js"><!----></script>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/js/demo.js"><!----></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/project.js"><!----></script>
 		
 		<!-- Plugin's script and css -->
 		<c:forEach items="${plugins_js}" var="plugin_js">
