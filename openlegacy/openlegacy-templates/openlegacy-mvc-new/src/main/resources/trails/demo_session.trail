@@ -627,7 +627,7 @@
             <field column="2" value="Stock Group . . . . . . . . ."/>
             <field column="32"/>
             <field column="33" value="SG" length="3" editable="true"/>
-            <field column="37" value="Standard stock group                  "/>
+            <field column="37" value="SG=Standard group CG=Custom Group"/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="12">
@@ -707,7 +707,7 @@
             <field column="2" value="Stock Group . . . . . . . . ."/>
             <field column="32"/>
             <field column="33" value="SG" length="3" editable="true"/>
-            <field column="37" value="Standard stock group                  "/>
+            <field column="37" value="SG=Standard group CG=Custom Group"/>
             <field column="78" value="   "/>
         </row>
         <row rowNumber="12">

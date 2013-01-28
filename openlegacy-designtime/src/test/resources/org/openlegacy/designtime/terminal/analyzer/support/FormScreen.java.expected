@@ -64,7 +64,7 @@ public class FormScreen {
 	public enum EnumField implements EnumGetValue{
 			One("1","One"),
 			Three("3","Three"),
-			Two("2","Two")
+			Two("2","Two");
 		
 		private String value;
 		private String display;

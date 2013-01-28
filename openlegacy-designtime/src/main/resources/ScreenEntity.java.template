@@ -84,7 +84,7 @@ public class ${entityName} {
 		<#assign enumMap = field.fieldTypeDefinition.enums>
 		<#assign enumKeys = enumMap?keys>
 		<#list enumKeys as enumKey>
-			${enumKey?cap_first}("${enumMap[enumKey].value}","${enumMap[enumKey].display}")<#if enumKey_has_next>,</#if>
+			${enumKey?cap_first}("${enumMap[enumKey].value}","${enumMap[enumKey].display}")<#if enumKey_has_next>,<#else>;</#if>
 		</#list>
 		
 		private String value;

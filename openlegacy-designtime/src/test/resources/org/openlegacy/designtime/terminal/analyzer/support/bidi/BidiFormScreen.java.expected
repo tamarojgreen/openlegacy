@@ -27,7 +27,7 @@ public class MscBabrit {
  
 	public enum SdeG implements EnumGetValue{
 			Cn("1","כן"),
-			La("2","לא")
+			La("2","לא");
 		
 		private String value;
 		private String display;
