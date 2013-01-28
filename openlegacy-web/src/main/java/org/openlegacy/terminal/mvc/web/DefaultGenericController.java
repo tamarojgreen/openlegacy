@@ -21,6 +21,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.json.JsonSerializationUtil;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
@@ -224,10 +225,18 @@ public class DefaultGenericController {
 	@RequestMapping(value = "/{screen}/more", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<String> more(@PathVariable("screen") String entityName) {
+		// sync the current entity
+		terminalSession.getEntity(entityName);
 		ScreenEntity nextScreen = terminalSession.doAction(TerminalActions.PAGEDOWN());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/text; charset=utf-8");
+
+		Map<String, ScreenTableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(nextScreen.getClass());
+		if (tableDefinitions.size() == 0) {
+			logger.error("Next screen after PAGEDOWN does not contain a table");
+			return new ResponseEntity<String>("", headers, HttpStatus.OK);
+		}
 
 		List<?> records = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, nextScreen);
 		String result = new JSONSerializer().serialize(records);
