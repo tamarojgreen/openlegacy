@@ -253,7 +253,7 @@ public class ScreenBinderLogic implements Serializable {
 				if (terminalField.isEditable() && value != null) {
 					String terminalFieldValue = terminalField.getValue();
 					// in case the field is numeric, compare the terminal field old value in as number (in case of leading spaces)
-					if (fieldMappingDefinition.getJavaType() == Integer.class) {
+					if (fieldMappingDefinition.getJavaType() == Integer.class && !terminalField.isEmpty()) {
 						terminalFieldValue = Integer.valueOf(terminalFieldValue).toString();
 					}
 					boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalFieldValue, value);
