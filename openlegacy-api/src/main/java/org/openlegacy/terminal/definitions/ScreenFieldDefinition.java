@@ -81,6 +81,20 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	boolean isRectangle();
 
 	boolean isRightToLeft();
-	
+
 	FieldAttributeType getAttribute();
+
+	/**
+	 * Used mostly for design-time usage
+	 * 
+	 * @return a regular expression used for filtering
+	 */
+	String getWhenFilter();
+
+	/**
+	 * Used mostly for design-time usage
+	 * 
+	 * @return a regular expression used for negative filtering (unless)
+	 */
+	String getUnlessFilter();
 }

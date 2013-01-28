@@ -62,7 +62,8 @@ public class ScreenBinderLogic implements Serializable {
 			String text = getText(fieldMappingDefinition, terminalSnapshot);
 
 			String fieldName = fieldMappingDefinition.getName();
-			if (fieldAccessor.isWritable(fieldName)) {
+			boolean bind = isBindText(fieldMappingDefinition, text);
+			if (bind && fieldAccessor.isWritable(fieldName)) {
 				Class<?> javaType = fieldMappingDefinition.getJavaType();
 				if (TypesUtil.isNumberOrString(javaType)) {
 					String content = fieldFormatter.format(text);
@@ -274,9 +275,27 @@ public class ScreenBinderLogic implements Serializable {
 
 						}
 					}
+
 				}
 			}
 
 		}
 	}
+
+	private static boolean isBindText(ScreenFieldDefinition screenFieldDefinition, String text) {
+		String when = screenFieldDefinition.getWhenFilter();
+		String unless = screenFieldDefinition.getUnlessFilter();
+		if (when != null) {
+			if (text.matches(when) == false) {
+				return false;
+			}
+		}
+		if (unless != null) {
+			if (text.matches(unless) == true) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

@@ -47,7 +47,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		return annotation.annotationType() == ScreenField.class;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
@@ -115,7 +115,12 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			logger.debug(MessageFormat.format("The annotation of the attribute attribute is {0} ", fieldAnnotation.attribute()));
 		}
 		screenFieldDefinition.setAttribute(fieldAnnotation.attribute());
-
+		if (!fieldAnnotation.when().equals("")) {
+			screenFieldDefinition.setWhenFilter(fieldAnnotation.when());
+		}
+		if (!fieldAnnotation.unless().equals("")) {
+			screenFieldDefinition.setUnlessFilter(fieldAnnotation.unless());
+		}
 		setupFieldType(field, screenFieldDefinition);
 
 		// look in screen entities
@@ -137,6 +142,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 	private static void setupFieldType(Field field, SimpleScreenFieldDefinition screenFieldDefinition) {
 		// set number type definition - may be overridden by ScreenNumericFieldAnnotationLoader to fill in specific numeric
 		// properties
+
 		if (Number.class.isAssignableFrom(field.getType())) {
 			screenFieldDefinition.setFieldTypeDefinition(new SimpleNumericFieldTypeDefinition());
 		}
