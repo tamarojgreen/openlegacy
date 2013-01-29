@@ -192,4 +192,9 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 		throwNotImplemented();
 		return 0;
 	}
+
+	public ScreenColumnDefinition getSelectionColumn() {
+		throwNotImplemented();
+		return null;
+	}
 }
