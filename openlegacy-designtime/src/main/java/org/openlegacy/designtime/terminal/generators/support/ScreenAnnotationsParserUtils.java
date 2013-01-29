@@ -13,6 +13,7 @@ package org.openlegacy.designtime.terminal.generators.support;
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
 import org.openlegacy.annotations.screen.AssignedField;
+import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
@@ -25,6 +26,11 @@ import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
+import org.openlegacy.terminal.services.ScreenIdentification;
+import org.openlegacy.terminal.services.ScreenIdentifier;
+import org.openlegacy.terminal.support.SimpleScreenIdentification;
+import org.openlegacy.terminal.support.SimpleScreenIdentifier;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
 
@@ -182,7 +188,7 @@ public class ScreenAnnotationsParserUtils {
 		return navigationDefinition;
 	}
 
-	public static List<FieldAssignDefinition> populateAssignedFields(Expression expression) {
+	private static List<FieldAssignDefinition> populateAssignedFields(Expression expression) {
 		List<FieldAssignDefinition> list = new ArrayList<FieldAssignDefinition>();
 		if (expression instanceof ArrayInitializerExpr) {
 			List<Expression> values = ((ArrayInitializerExpr)expression).getValues();
@@ -203,6 +209,56 @@ public class ScreenAnnotationsParserUtils {
 						}
 					}
 					list.add(new SimpleFieldAssignDefinition(name, value));
+				}
+			}
+		}
+		return list;
+	}
+
+	public static ScreenIdentification populateScreenIdentification(AnnotationExpr annotationExpr) {
+		SimpleScreenIdentification identification = new SimpleScreenIdentification();
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			List<MemberValuePair> identifiersAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			if (identifiersAttributes == null) {
+				return identification;
+			}
+			for (MemberValuePair memberValuePair : identifiersAttributes) {
+				if (memberValuePair.getName().equals(AnnotationConstants.IDENTIFIERS)) {
+					List<ScreenIdentifier> list = populateScreenIdentifiers(memberValuePair.getValue());
+					for (ScreenIdentifier screenIdentifier : list) {
+						identification.addIdentifier(screenIdentifier);
+					}
+				}
+			}
+		}
+		return identification;
+	}
+
+	private static List<ScreenIdentifier> populateScreenIdentifiers(Expression expression) {
+		List<ScreenIdentifier> list = new ArrayList<ScreenIdentifier>();
+		if (expression instanceof ArrayInitializerExpr) {
+			List<Expression> values = ((ArrayInitializerExpr)expression).getValues();
+			for (Expression expr : values) {
+				if (expr instanceof NormalAnnotationExpr
+						&& (((NormalAnnotationExpr)expr).getName().getName().equals(Identifier.class.getSimpleName()))) {
+					NormalAnnotationExpr annotationExpr = (NormalAnnotationExpr)expr;
+					List<MemberValuePair> pairs = annotationExpr.getPairs();
+					int row = 0;
+					int column = 0;
+					String value = null;
+					for (MemberValuePair pair : pairs) {
+						String attrValue = pair.getValue().toString();
+						if (pair.getName().equals(AnnotationConstants.ROW)) {
+							row = Integer.parseInt(attrValue);
+						}
+						if (pair.getName().equals(AnnotationConstants.COLUMN)) {
+							column = Integer.parseInt(attrValue);
+						}
+						if (pair.getName().equals(AnnotationConstants.VALUE)) {
+							value = StringUtil.stripQuotes(attrValue);
+						}
+					}
+					list.add(new SimpleScreenIdentifier(new SimpleTerminalPosition(row, column), value));
 				}
 			}
 		}

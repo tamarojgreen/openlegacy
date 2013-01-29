@@ -17,6 +17,7 @@ import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
+import org.openlegacy.terminal.services.ScreenIdentification;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.TypesUtil;
@@ -61,6 +62,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private boolean childScreen;
 	private NavigationDefinition navigationDefinition;
 	private boolean window;
+
+	private ScreenIdentification screenIdentification;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -179,6 +182,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			}
 			if (annotationName.equals(AnnotationConstants.SCREEN_NAVIGATION_ANNOTATION)) {
 				navigationDefinition = ScreenAnnotationsParserUtils.populateNavigation(annotationExpr);
+			}
+			if (annotationName.equals(AnnotationConstants.SCREEN_IDENTIFIERS_ANNOTATION)) {
+				screenIdentification = ScreenAnnotationsParserUtils.populateScreenIdentification(annotationExpr);
 			}
 		}
 	}
@@ -543,5 +549,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	public boolean isWindow() {
 		return window;
+	}
+
+	public ScreenIdentification getScreenIdentification() {
+		return screenIdentification;
 	}
 }

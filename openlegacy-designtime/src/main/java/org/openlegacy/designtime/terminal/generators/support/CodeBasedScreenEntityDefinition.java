@@ -99,8 +99,8 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public ScreenIdentification getScreenIdentification() {
-		throwNotImplemented();
-		return null;
+		// @author: Ivan Bort, refs assembla #112
+		return codeModel.getScreenIdentification();
 	}
 
 	public NavigationDefinition getNavigationDefinition() {
