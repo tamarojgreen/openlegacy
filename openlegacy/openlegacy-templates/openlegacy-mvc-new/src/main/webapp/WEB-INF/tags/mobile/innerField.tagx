@@ -48,10 +48,6 @@
 		<c:set var="tabletParentSpanStyle" value="display: inline-block;"/>
 		<c:set var="tabletChildSpanStyle" value="display: block; text-align: right;"/>
 	</c:if>
-	<c:set var="width" value="${maxlength*10+20}" />
-	<c:if test="${fn:contains(style,'width')}">
-		<c:set var="width" value="0" />
-	</c:if>
 	<div class="field-row">
 		<c:if test="${not empty label}">
 			<span class="label">${label}: </span>
@@ -60,8 +56,7 @@
 			<c:when test="${editable}">
 				<c:choose>
 					<c:when test="${type == 'number'}">
-						<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width+25}px;"/></c:if>
-						<form:input type="number" id="${name}" data-dojo-type="dojox.mobile.TextBox" path="${name}" cssStyle="${widthString}${style}" cssClass="${cssClass}" />
+						<form:input type="number" id="${name}" data-dojo-type="dojox.mobile.TextBox" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'boolean'}">
 						<script>require(["dojox/mobile/CheckBox"]);</script>
@@ -94,18 +89,16 @@
 						</div>
 					</c:when>
 					<c:when test="${type == 'address'}">
-						<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 						<span style="${tabletParentSpanStyle}">
 							<span style="${tabletChildSpanStyle}">
 								<a href="javascript:require(['dojo/dom'], function(dom){location.href = 'http://maps.google.com/maps?q=' + dom.byId('${name}').value;});">
 									<img class="map-icon" src="${pageContext.request.contextPath}/icons/map.png" />
 								</a>
 							</span>
-							<form:textarea data-dojo-type="dojox.mobile.TextArea" id="${name}" path="${name}" cssStyle="${widthString}${style}" cssClass="${cssClass}" rows="${rows}"/>
+							<form:textarea data-dojo-type="dojox.mobile.TextArea" id="${name}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" rows="${rows}"/>
 						</span>
 					</c:when>
 					<c:when test="${type == 'phone'}">
-						<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 						<span style="${tabletParentSpanStyle}">
 							<span style="${tabletChildSpanStyle}">
 								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'tel:' + dom.byId('${name}').value;});" style="margin-right: 5px">
@@ -115,23 +108,21 @@
 									<img src="icons/sms.png" />
 								</a>
 							</span>
-							<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" cssClass="${cssClass}" />
+							<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 						</span>
 					</c:when>
 					<c:when test="${type == 'email'}">
-						<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 						<span style="${tabletParentSpanStyle}">
 							<span style="${tabletChildSpanStyle}">
 								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'mailto:' + dom.byId('${name}').value;});">
 									<img src="icons/mail.png" />
 								</a>
 							</span>
-							<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" cssClass="${cssClass}" />
+							<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 						</span>
 					</c:when>
 					<c:when test="${type == 'password'}">
-						<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
-						<form:input type="password" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" cssClass="${cssClass}" />
+						<form:input type="password" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'enum'}">
 						<form:input id="${fieldDefinition.name}" type="text" path="${name}" 
@@ -153,12 +144,10 @@
 					<c:otherwise>
 						<c:choose>
 							<c:when test="${rows > 1}">
-								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
-								<form:textarea rows="${rows}" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" cssClass="${cssClass}" />
+								<form:textarea rows="${rows}" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
 							</c:when>
 							<c:otherwise>
-								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
-								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" dir="${rightToLeft ? 'rtl' : 'ltr'}" cssStyle="${widthString}${style}" cssClass="${cssClass}" />
+								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" dir="${rightToLeft ? 'rtl' : 'ltr'}" cssStyle="${style}" cssClass="${cssClass}" />
 							</c:otherwise>
 						</c:choose>
 					</c:otherwise>
