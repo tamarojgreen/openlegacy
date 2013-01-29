@@ -133,6 +133,23 @@
 						<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 						<form:input type="password" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" cssClass="${cssClass}" />
 					</c:when>
+					<c:when test="${type == 'enum'}">
+						<form:input id="${fieldDefinition.name}" type="text" path="${name}" 
+							onclick="require(['dojo/dom'], function(dom){eval(dom.byId('${fieldDefinition.name}Script').innerHTML);});" />
+						<div id="${fieldDefinition.name}Script" style="display: none">
+							require(["dijit/registry","dojo/store/Memory", "dojox/mobile/ComboBox"], 
+							function(registry,Memory, ComboBox){
+								if (registry.byId('${fieldDefinition.name}') != null) return;
+								
+								var enumStore = new dojo.store.Memory({ idProperty: "name", data: [
+									<c:forEach items="${fieldDefinition.fieldTypeDefinition.displayValues}" var="item" varStatus="status">
+								        { name: "${item.value}" } ${not status.last ? ',' : ''}
+									</c:forEach>
+								]});
+								var combo = new ComboBox({store:enumStore},"${fieldDefinition.name}");
+							});		
+						</div>
+					</c:when>
 					<c:otherwise>
 						<c:choose>
 							<c:when test="${rows > 1}">
