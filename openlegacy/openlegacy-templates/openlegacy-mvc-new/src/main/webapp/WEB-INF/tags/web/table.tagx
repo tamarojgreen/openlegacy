@@ -36,25 +36,29 @@
 						<spring:eval var="columnValue" expression="item[column.name]" />
 						<td><c:choose>
 								<c:when test="${column.selectionField}">
-									<!--  								
-				      				<select onchange="doPost()" name="${column.name}">
+				      				<select onchange="eval(this.value)" name="${column.name}">
 				      					<option value="">- Select -</option>
 				      					<c:forEach items="${tableDefinition.actions}" var="action">
-				      					<option value="${action.action.actionValue}">${action.displayName}</option>
+										<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
+				      					<c:if test="${action.targetEntity == null}">
+											<c:set var="target" value="alert('No target entity specified for table action in table class @ScreenTableActions annotation')" />
+				      					</c:if>
+				      					<option value="${target}">${action.displayName}</option>
 				      					</c:forEach>
 				      				</select>
- 									 -->
-		
+
+<!-- 
 									<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
 										<c:set var="target" value="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}" />
 										<c:if test="${action.targetEntity == null}">
 											<c:set var="target" value="javascript:alert('No target entity specified for table action in table class @ScreenTableActions annotation');" />
 										</c:if>
 										<a
-											href="${target}"
+											href="${pageContext.request.contextPath}/${target}"
 											class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName}</a>
 											<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
 									</c:forEach>
+ -->		
 								</c:when>
 								<c:when test="${column.editable}">
 									<input name="${column.name}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
