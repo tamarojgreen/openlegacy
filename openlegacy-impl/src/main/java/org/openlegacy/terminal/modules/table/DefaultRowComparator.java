@@ -17,6 +17,8 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.springframework.util.Assert;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,8 +38,10 @@ public class DefaultRowComparator<T> implements RowComparator<T> {
 		ScreenTableDefinition tableDefinition = screenEntitiesRegistry.getTable(tableRow.getClass());
 		List<String> keyFieldNames = tableDefinition.getKeyFieldNames();
 
-		Assert.isTrue(rowKeys.length > 0);
-		Assert.isTrue(keyFieldNames.size() == rowKeys.length);
+		Assert.isTrue(rowKeys.length > 0, "No table keys is defined for " + tableRow.getClass().getName());
+		Assert.isTrue(keyFieldNames.size() == rowKeys.length, MessageFormat.format(
+				"Table {0} keys count ({1}) doesnt match provided keys ({2}) count", tableRow.getClass().getName(),
+				keyFieldNames.size(), Arrays.toString(rowKeys)));
 
 		ScreenPojoFieldAccessor rowFieldsAccessor = new SimpleScreenPojoFieldAccessor(tableRow);
 
