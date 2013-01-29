@@ -141,6 +141,12 @@ function loadMobilePanel(panelTagId,url){
 	var parser = require("dojox/mobile/parser");
 	
 	var container = dom.byId(panelTagId);
+
+	// do not load panels twice
+	if (container.innerHTML != "Loading..."){
+	    return;
+	}
+	
 	var parent = container.parentNode; 
 
 	var xhr = require("dojo/request/xhr");

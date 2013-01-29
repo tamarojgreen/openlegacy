@@ -11,7 +11,8 @@
 			data-dojo-props="moveTo:'${definitions.entityName}_${ol_entityId}Panel',
 							selected:true">${definitions.displayName}</li>
 		<c:forEach items="${definitions.childEntitiesDefinitions}" var="childEntityDefinition">
-		<li data-dojo-type="dojox.mobile.TabBarButton"
+		<li data-dojo-type="dojox.mobile.TabBarButton" 
+		onclick="asyncLoadMobilePanel('${childEntityDefinition.entityName}_${ol_entityId}Panel','${pageContext.request.contextPath}/${childEntityDefinition.entityName}/${ol_entityId}?partial=1',0)"
 			data-dojo-props="moveTo:'${childEntityDefinition.entityName}_${ol_entityId}Panel'">${childEntityDefinition.displayName}</li>
 		</c:forEach>
 	</ul>
@@ -19,9 +20,8 @@
 	<div id="${definitions.entityName}_${ol_entityId}Panel"
 		data-dojo-type="dojox.mobile.View" selected="true"
 		data-dojo-props="onShow: asyncLoadMobilePanel('${definitions.entityName}_${ol_entityId}Panel','${pageContext.request.contextPath}/${definitions.entityName}/${ol_entityId}?partial=1',0)">Loading...</div>
-	<c:forEach items="${definitions.childEntitiesDefinitions}" var="childEntityDefinition">
+	<c:forEach items="${definitions.childEntitiesDefinitions}" var="childEntityDefinition" varStatus="counter">
 	<div id="${childEntityDefinition.entityName}_${ol_entityId}Panel"
-		data-dojo-type="dojox.mobile.View" selected="true"
-		data-dojo-props="onShow: asyncLoadMobilePanel('${childEntityDefinition.entityName}_${ol_entityId}Panel','${pageContext.request.contextPath}/${childEntityDefinition.entityName}/${ol_entityId}?partial=1',0)">Loading...</div>
+		data-dojo-type="dojox.mobile.View">Loading...</div>
 	</c:forEach>
 </jsp:root>
