@@ -106,7 +106,7 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 		@ScreenColumn(startColumn = 5, endColumn = 6, editable = true, selectionField = true)
 		private String action;
 
-		@ScreenColumn(startColumn = 10, endColumn = 20)
+		@ScreenColumn(startColumn = 10, endColumn = 20, key = true)
 		private String column1;
 
 		@ScreenColumn(startColumn = 25, endColumn = 30)
