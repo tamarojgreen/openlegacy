@@ -34,7 +34,7 @@ public class AnnotationConstants {
 	public static final String TRUE = "true";
 	public static final String FIELD_SUFFIX = "Field";
 	public static final String SCREEN_FIELD_ANNOTATION = ScreenField.class.getSimpleName();
-	public static final Object SCREEN_ACTIONS_ANNOTATION = ScreenActions.class.getSimpleName();
+	public static final String SCREEN_ACTIONS_ANNOTATION = ScreenActions.class.getSimpleName();
 	public static final String SCREEN_FIELD_VALUES_ANNOTATION = ScreenFieldValues.class.getSimpleName();
 	public static final String SCREEN_BOOLEAN_FIELD_ANNOTATION = ScreenBooleanField.class.getSimpleName();
 	public static final String SCREEN_DATE_FIELD_ANNOTATION = ScreenDateField.class.getSimpleName();
@@ -107,4 +107,7 @@ public class AnnotationConstants {
 
 	// @ScreenIdentifiers
 	public static final String IDENTIFIERS = "identifiers";
+
+	// @ScreenActions
+	public static final String ACTIONS = "actions";
 }
