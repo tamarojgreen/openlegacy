@@ -23,11 +23,13 @@ public class SimpleMenuItem implements MenuItem {
 	private List<MenuItem> menuItems = new ArrayList<MenuItem>();
 
 	private String displayName;
+	private int depth;
 
-	public SimpleMenuItem(Class<?> targetEntity, String displayName) {
+	public SimpleMenuItem(Class<?> targetEntity, String displayName, int depth) {
 		this.targetEntity = targetEntity;
 		this.targetEntityName = targetEntity.getSimpleName();
 		this.displayName = displayName;
+		this.depth = depth;
 	}
 
 	public Class<?> getTargetEntity() {
@@ -44,6 +46,10 @@ public class SimpleMenuItem implements MenuItem {
 
 	public String getDisplayName() {
 		return displayName;
+	}
+
+	public int getDepth() {
+		return depth;
 	}
 
 	@Override

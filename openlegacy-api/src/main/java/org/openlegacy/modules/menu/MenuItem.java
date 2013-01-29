@@ -27,4 +27,7 @@ public interface MenuItem {
 	String getDisplayName();
 
 	List<MenuItem> getMenuItems();
+
+	int getDepth();
+
 }

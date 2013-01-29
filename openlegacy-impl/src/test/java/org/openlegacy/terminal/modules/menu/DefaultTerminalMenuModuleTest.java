@@ -30,7 +30,9 @@ public class DefaultTerminalMenuModuleTest extends AbstractTest {
 
 		Assert.assertEquals(MainMenu.class, menuItem.getTargetEntity());
 		Assert.assertEquals(1, menuItem.getMenuItems().size());
+		Assert.assertEquals(1, menuItem.getDepth());
 		MenuItem subMenuItem = menuItem.getMenuItems().get(0);
+		Assert.assertEquals(2, subMenuItem.getDepth());
 		asserSubMenu(subMenuItem);
 	}
 
@@ -52,8 +54,10 @@ public class DefaultTerminalMenuModuleTest extends AbstractTest {
 		List<MenuItem> menuEntries = terminalSession.getModule(Menu.class).getFlatMenuEntries();
 
 		Assert.assertEquals(1, menuEntries.size());
-		List<MenuItem> menuItems = menuEntries.get(0).getMenuItems();
+		MenuItem inventoryManagementMenu = menuEntries.get(0);
+		List<MenuItem> menuItems = inventoryManagementMenu.getMenuItems();
 		Assert.assertEquals(2, menuItems.size());
+		Assert.assertEquals(2, inventoryManagementMenu.getDepth());
 
 	}
 
