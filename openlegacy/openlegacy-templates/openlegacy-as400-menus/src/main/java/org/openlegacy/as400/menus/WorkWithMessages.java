@@ -39,7 +39,7 @@ public class WorkWithMessages {
 		@ScreenColumn(endColumn = 3, startColumn = 3, selectionField = true)
 		private String opt;
 
-		@ScreenColumn(endColumn = 60, startColumn = 8, mainDisplayField = true)
+		@ScreenColumn(endColumn = 60, startColumn = 8, mainDisplayField = true, key = true)
 		private String message;
 	}
 }
