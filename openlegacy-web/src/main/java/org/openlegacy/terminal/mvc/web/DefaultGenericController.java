@@ -113,7 +113,7 @@ public class DefaultGenericController {
 
 	}
 
-	@RequestMapping(value = "/{screen}/{key:[\\w+[-_]*\\w+]+}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{screen}/{key:[\\w+[-_ ]*\\w+]+}", method = RequestMethod.GET)
 	public String getScreenEntityWithKey(@PathVariable("screen") String screenEntityName, @PathVariable("key") String key,
 			@RequestParam(value = "partial", required = false) String partial, Model uiModel, HttpServletRequest request)
 			throws IOException {
