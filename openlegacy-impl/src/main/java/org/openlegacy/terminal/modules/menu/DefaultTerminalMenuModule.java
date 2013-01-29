@@ -16,6 +16,7 @@ import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,6 +34,10 @@ public class DefaultTerminalMenuModule extends TerminalSessionModuleAdapter impl
 	public MenuItem getMenuTree(Class<?> menuEntityClass) {
 		return menuBuilder.getMenuTree(menuEntityClass);
 
+	}
+
+	public List<MenuItem> getFlatMenuEntries() {
+		return menuBuilder.getFlatMenuEntries();
 	}
 
 }

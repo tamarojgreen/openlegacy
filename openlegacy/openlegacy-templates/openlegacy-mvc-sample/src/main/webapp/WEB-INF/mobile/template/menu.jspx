@@ -15,6 +15,6 @@
 		}
 	</style>
 	<div id="menu">
-		<ol:menu menu="${menu}" />
+		<ol:menu menu="${ol_menu}" />
 	</div>
 </jsp:root>

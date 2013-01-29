@@ -12,6 +12,8 @@ package org.openlegacy.modules.menu;
 
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 
+import java.util.List;
+
 /**
  * Defines a menu builder logic. A menu builder builds a {@link MenuItem} and it's child nodes, from a given {@link MenuEntity}
  * class, or from root if not specified.
@@ -35,4 +37,6 @@ public interface MenuBuilder {
 	 * @return menu tree from root
 	 */
 	MenuItem getMenuTree();
+
+	List<MenuItem> getFlatMenuEntries();
 }

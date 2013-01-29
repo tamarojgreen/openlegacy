@@ -51,7 +51,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 	public MenuItem getMenuTree(Class<?> menuEntityClass) {
 		sortToMenus();
-		return buildMenu(menuEntityClass);
+		return buildMenu(menuEntityClass, true);
 	}
 
 	public MenuItem getMenuTree() {
@@ -59,7 +59,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		sortToMenus();
 
 		Class<?> rootClass = findRoot();
-		return buildMenu(rootClass);
+		return buildMenu(rootClass, true);
 	}
 
 	private void sortToMenus() {
@@ -114,7 +114,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		return rootMenuClass;
 	}
 
-	private MenuItem buildMenu(Class<?> rootClass) {
+	private MenuItem buildMenu(Class<?> rootClass, boolean deep) {
 		if (rootClass == null) {
 			return null;
 		}
@@ -139,8 +139,10 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 		Collections.sort(menuOptions, getMenuItemsComparator());
 		for (Class<?> menuOption : menuOptions) {
-			MenuItem childMenuItem = buildMenu(menuOption);
-			menuItem.getMenuItems().add(childMenuItem);
+			if (deep) {
+				MenuItem childMenuItem = buildMenu(menuOption, deep);
+				menuItem.getMenuItems().add(childMenuItem);
+			}
 		}
 		return menuItem;
 	}
@@ -187,6 +189,54 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 			}
 			return assignedField1Value.compareTo(assignedField2Value);
 		}
+	}
+
+	public List<MenuItem> getFlatMenuEntries() {
+
+		sortToMenus();
+
+		Set<Class<?>> subMenus = allMenusOptions.keySet();
+
+		List<MenuItem> flatMenuEntries = new ArrayList<MenuItem>();
+		for (Class<?> subMenu : subMenus) {
+			List<Class<?>> leafs = allMenusOptions.get(subMenu);
+			if (hasLeafs(leafs)) {
+				ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(subMenu);
+				MenuItem subMenuItem = new SimpleMenuItem(subMenu, screenEntityDefinition.getDisplayName());
+				for (Class<?> leaf : leafs) {
+					screenEntityDefinition = screenEntitiesRegistry.get(leaf);
+					if (screenEntityDefinition.getType() == MenuEntity.class) {
+						continue;
+					}
+					NavigationDefinition navigationDefinition = screenEntityDefinition.getNavigationDefinition();
+
+					// don't include in the menu screens which needs parameters to access them
+					if (navigationDefinition == null || navigationDefinition.isRequiresParameters()) {
+						continue;
+					}
+					MenuItem menuLeaf = new SimpleMenuItem(leaf, screenEntityDefinition.getDisplayName());
+					subMenuItem.getMenuItems().add(menuLeaf);
+				}
+				flatMenuEntries.add(subMenuItem);
+			}
+		}
+		return flatMenuEntries;
+	}
+
+	/**
+	 * Used to determine if the leafs list has a non menu entity
+	 * 
+	 * @param leafs
+	 * @return
+	 */
+	private boolean hasLeafs(List<Class<?>> leafs) {
+		for (Class<?> leaf : leafs) {
+			if (screenEntitiesRegistry.get(leaf).getType() != MenuEntity.class) {
+				return true;
+			}
+
+		}
+		return false;
 	}
 
 }

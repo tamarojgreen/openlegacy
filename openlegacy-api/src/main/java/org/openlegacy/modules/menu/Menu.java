@@ -15,6 +15,8 @@ import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
 import org.openlegacy.modules.SessionModule;
 
+import java.util.List;
+
 /**
  * A menu module is responsible for constructing hierarchy menu items from multiple {@link MenuEntity} entities defines with the
  * {@link EntitiesRegistry}
@@ -26,9 +28,26 @@ public interface Menu extends SessionModule {
 
 	public static final String SELECTION_LABEL = "Menu Selection";
 
+	/**
+	 * Gets all the menus from the root down to all leafs
+	 * 
+	 * @return root menu tree
+	 */
 	MenuItem getMenuTree();
 
+	/**
+	 * Gets all the menus from the given menu entity class as root down to all leafs
+	 * 
+	 * @return root menu tree from the given menu entity class
+	 */
 	MenuItem getMenuTree(Class<?> menuEntityClass);
+
+	/**
+	 * Gets all sub menus with leafs
+	 * 
+	 * @return
+	 */
+	List<MenuItem> getFlatMenuEntries();
 
 	public static class MenuEntity implements EntityType {
 	}

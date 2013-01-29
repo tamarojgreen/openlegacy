@@ -22,7 +22,7 @@ import java.util.List;
 public class DefaultTerminalMenuModuleTest extends AbstractTest {
 
 	@Test
-	public void testRootMenuBuilder() {
+	public void testRootMenu() {
 
 		TerminalSession terminalSession = newTerminalSession();
 
@@ -35,13 +35,26 @@ public class DefaultTerminalMenuModuleTest extends AbstractTest {
 	}
 
 	@Test
-	public void testMenuBuilder() {
+	public void testMenu() {
 
 		TerminalSession terminalSession = newTerminalSession();
 
 		MenuItem menuItem = terminalSession.getModule(Menu.class).getMenuTree(InventoryManagement.class);
 
 		asserSubMenu(menuItem);
+	}
+
+	@Test
+	public void testFlatMenu() {
+
+		TerminalSession terminalSession = newTerminalSession();
+
+		List<MenuItem> menuEntries = terminalSession.getModule(Menu.class).getFlatMenuEntries();
+
+		Assert.assertEquals(1, menuEntries.size());
+		List<MenuItem> menuItems = menuEntries.get(0).getMenuItems();
+		Assert.assertEquals(2, menuItems.size());
+
 	}
 
 	private static void asserSubMenu(MenuItem subMenuItem) {
