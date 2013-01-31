@@ -82,6 +82,7 @@ public class CodeBasedDefinitionUtils {
 			fieldDefinition.setRectangle(javaFieldModel.isRectangle());
 			fieldDefinition.setPassword(javaFieldModel.isPassword());
 			fieldDefinition.setSampleValue(javaFieldModel.getSampleValue());
+			fieldDefinition.setJavaTypeName(javaFieldModel.getType());
 
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
