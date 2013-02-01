@@ -66,6 +66,7 @@ public class AnnotationConstants {
 	// @ScreenFieldValues
 	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";
 	public static final String COLLECT_ALL = "collectAll";
+	public static final String PROVIDER = "provider";
 
 	// @ScreenBooleanField
 	public static final String TRUE_VALUE = "trueValue";
