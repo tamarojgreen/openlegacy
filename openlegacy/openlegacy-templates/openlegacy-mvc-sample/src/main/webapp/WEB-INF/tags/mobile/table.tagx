@@ -38,9 +38,11 @@
 				url="${defaultTableAction.targetEntity.simpleName}/${keyValue}">${displayValue}</li>
 		</c:forEach>
 	</ul>
+	<c:if test="${fn:length(data) &gt;= tableDefinition.maxRowsCount}">
 	<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn"
-		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayField}','${defaultTableAction.targetEntity.simpleName}/${defaultTableAction.targetEntity.alias}/')">Load
+		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayField}','${defaultTableAction.targetEntity.simpleName}/')">Load
 		More</button>
+	</c:if>
 	</c:if>
 
 </jsp:root>

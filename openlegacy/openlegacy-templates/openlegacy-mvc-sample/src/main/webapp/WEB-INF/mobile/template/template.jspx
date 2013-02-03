@@ -31,7 +31,7 @@
 		<script src="${pageContext.request.contextPath}/dj/dojo.mobile.custom.build.js" type="text/javascript"><!-- aa --></script>
 
 		<script src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
-		<script src="${pageContext.request.contextPath}/js/demo.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
+		<script src="${pageContext.request.contextPath}/js/project.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
 		<link href="${pageContext.request.contextPath}/dj/dijit.css" rel="stylesheet" type="text/css" />
 		<c:if test="${openLegacyProperties.rightToLeft}">

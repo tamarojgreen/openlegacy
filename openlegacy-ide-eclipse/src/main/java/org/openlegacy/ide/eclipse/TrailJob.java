@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.actions.GlobalBuildAction;
+import org.openlegacy.ide.eclipse.ui.preferences.PreferenceConstants;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 
 import java.io.File;
@@ -32,28 +33,32 @@ public class TrailJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (final IProject project : projects) {
-			final IFolder folder = project.getFolder("/src/test/resources/trails"); //$NON-NLS-1$
-			File[] trails = PathsUtil.toOsLocation(folder).listFiles();
 
-			File[] projectKnownTrails = currentTrails.get(project.getName());
-			if (projectKnownTrails == null) {
-				currentTrails.put(project.getName(), trails);
-			} else {
-				if (projectKnownTrails.length != trails.length) {
-					try {
-						currentTrails.put(project.getName(), trails);
-						logger.info(Messages.TrailJob_message_found_new_trail);
-						folder.refreshLocal(1, monitor);
-						Display.getDefault().asyncExec(new Runnable() {
+		if (isAnalyzeNewTrails()) {
 
-							public void run() {
-								(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(),
-										IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
-							}
-						});
-					} catch (CoreException e) {
-						e.printStackTrace();
+			for (final IProject project : projects) {
+				final IFolder folder = project.getFolder("/src/test/resources/trails"); //$NON-NLS-1$
+				File[] trails = PathsUtil.toOsLocation(folder).listFiles();
+
+				File[] projectKnownTrails = currentTrails.get(project.getName());
+				if (projectKnownTrails == null) {
+					currentTrails.put(project.getName(), trails);
+				} else {
+					if (projectKnownTrails.length != trails.length) {
+						try {
+							currentTrails.put(project.getName(), trails);
+							logger.info(Messages.TrailJob_message_found_new_trail);
+							folder.refreshLocal(1, monitor);
+							Display.getDefault().asyncExec(new Runnable() {
+
+								public void run() {
+									(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(),
+											IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
+								}
+							});
+						} catch (CoreException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -62,5 +67,9 @@ public class TrailJob extends Job {
 		monitor.done();
 		return Status.OK_STATUS;
 
+	}
+
+	private boolean isAnalyzeNewTrails() {
+		return Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_ANALYZE_NEW_TRAILS);
 	}
 }

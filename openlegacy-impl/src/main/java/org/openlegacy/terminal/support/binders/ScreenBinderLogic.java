@@ -62,7 +62,8 @@ public class ScreenBinderLogic implements Serializable {
 			String text = getText(fieldMappingDefinition, terminalSnapshot);
 
 			String fieldName = fieldMappingDefinition.getName();
-			if (fieldAccessor.isWritable(fieldName)) {
+			boolean bind = isBindText(fieldMappingDefinition, text);
+			if (bind && fieldAccessor.isWritable(fieldName)) {
 				Class<?> javaType = fieldMappingDefinition.getJavaType();
 				if (TypesUtil.isNumberOrString(javaType)) {
 					String content = fieldFormatter.format(text);
@@ -116,7 +117,10 @@ public class ScreenBinderLogic implements Serializable {
 				} else {
 					// 1st row = grab until the end of the row
 					if (currentRow == startRow) {
-						text = text + newLine + fieldFormatter.format(row.getText(startColumn, terminalSnapshot.getSize().getColumns() - fieldColumnLength));
+						text = text
+								+ newLine
+								+ fieldFormatter.format(row.getText(startColumn, terminalSnapshot.getSize().getColumns()
+										- fieldColumnLength));
 						// last row - grab until end column
 					} else if (currentRow == endRow) {
 						text = text + newLine + fieldFormatter.format(row.getText(1, endColumn));
@@ -248,8 +252,12 @@ public class ScreenBinderLogic implements Serializable {
 				}
 
 				if (terminalField.isEditable() && value != null) {
-					boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalField.getValue(),
-							value);
+					String terminalFieldValue = terminalField.getValue();
+					// in case the field is numeric, compare the terminal field old value in as number (in case of leading spaces)
+					if (fieldMappingDefinition.getJavaType() == Integer.class && !terminalField.isEmpty()) {
+						terminalFieldValue = Integer.valueOf(terminalFieldValue).toString();
+					}
+					boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalFieldValue, value);
 					if (fieldModified) {
 						if (fieldMappingDefinition.isEditable()) {
 							terminalField.setValue(value);
@@ -267,9 +275,27 @@ public class ScreenBinderLogic implements Serializable {
 
 						}
 					}
+
 				}
 			}
 
 		}
 	}
+
+	private static boolean isBindText(ScreenFieldDefinition screenFieldDefinition, String text) {
+		String when = screenFieldDefinition.getWhenFilter();
+		String unless = screenFieldDefinition.getUnlessFilter();
+		if (when != null) {
+			if (text.matches(when) == false) {
+				return false;
+			}
+		}
+		if (unless != null) {
+			if (text.matches(unless) == true) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

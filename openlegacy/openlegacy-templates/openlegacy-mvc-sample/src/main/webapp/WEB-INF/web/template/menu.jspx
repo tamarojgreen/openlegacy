@@ -13,22 +13,37 @@
 		</script>
 		<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
 			<c:if test="${definitions != null}">
+<<<<<<< HEAD
 				<c:forEach items="${ol_menu.menuItems}" var="menuItem">
 					<div data-dojo-type="dijit.layout.ContentPane" title="Inventory Menu"
 						class="element">
+=======
+				<c:forEach items="${ol_flatMenus}" var="flatMenu">
+					<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}">
+>>>>>>> branch 'master' of https://github.com/openlegacy/openlegacy.git
 						<div class="links">
 							<ul>
 								<li>
-									<c:forEach items="${menuItem.menuItems}" var="subMenuItem">
+									<c:forEach items="${flatMenu.menuItems}" var="menuLeaf">
 										<c:choose>
-											<c:when test="${subMenuItem.targetEntity.simpleName == definitions.entityName}">
-												<a href="${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}" class="current">${subMenuItem.displayName}</a>
+											<c:when test="${menuLeaf.targetEntity.simpleName == definitions.entityName}">
+												<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}" 
+													class="current">${menuLeaf.displayName}</a>
+												<script>
+													require(["dojo/ready"], function(ready){
+														ready(function(){
+															require(["dijit/registry"], function(registry){
+																registry.byId('accordion').selectChild(registry.byId('${flatMenu.targetEntityName}'));
+															});
+														});
+													});
+												</script>
 											</c:when>
 											<c:otherwise>
-												<a href="${pageContext.request.contextPath}/${subMenuItem.targetEntity.simpleName}">${subMenuItem.displayName}</a>
+												<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}">${menuLeaf.displayName}</a>
 											</c:otherwise>
 										</c:choose>
-									</c:forEach>
+									</c:forEach>										
 								</li>
 							</ul>
 						</div>

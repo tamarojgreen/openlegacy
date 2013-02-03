@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.ScreenSize;
+import org.openlegacy.terminal.TerminalPosition;
 
 import java.text.MessageFormat;
 
@@ -53,5 +54,9 @@ public class ScreenSizeBean implements ScreenSize {
 	@Override
 	public String toString() {
 		return MessageFormat.format("{0},{1}", rows, columns);
+	}
+
+	public boolean contains(TerminalPosition terminalPosition) {
+		return SnapshotUtils.contains(this, terminalPosition);
 	}
 }

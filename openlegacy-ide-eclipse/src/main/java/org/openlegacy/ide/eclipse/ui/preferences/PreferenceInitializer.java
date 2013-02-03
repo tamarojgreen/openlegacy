@@ -29,6 +29,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(PreferenceConstants.P_TEMPLATES_URL, PluginConstants.TEMPLATES_URL);
+		store.setDefault(PreferenceConstants.P_ANALYZE_NEW_TRAILS, true);
 	}
 
 }

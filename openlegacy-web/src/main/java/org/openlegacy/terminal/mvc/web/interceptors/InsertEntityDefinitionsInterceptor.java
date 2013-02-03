@@ -13,7 +13,6 @@ package org.openlegacy.terminal.mvc.web.interceptors;
 import org.openlegacy.EntityDescriptor;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu;
-import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.terminal.ScreenEntity;
@@ -76,8 +75,8 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 		}
 		Menu menuModule = terminalSession.getModule(Menu.class);
 		if (menuModule != null) {
-			MenuItem menuRoot = menuModule.getMenuTree();
-			modelAndView.addObject("menu", menuRoot);
+			modelAndView.addObject("ol_menu", menuModule.getMenuTree());
+			modelAndView.addObject("ol_flatMenus", menuModule.getFlatMenuEntries());
 		}
 
 		Navigation navigationModule = terminalSession.getModule(Navigation.class);

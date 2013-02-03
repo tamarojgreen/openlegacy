@@ -44,6 +44,12 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		ScreenTable screenTableAnnotation = (ScreenTable)annotation;
 
 		SimpleScreenTableDefinition tableDefinition = new SimpleScreenTableDefinition(containingClass);
+		if (screenTableAnnotation.startRow() < 1) {
+			throw (new RegistryException("Table " + containingClass.getSimpleName() + ", start row is outside screen bounds"));
+		}
+		if (screenTableAnnotation.endRow() < screenTableAnnotation.startRow()) {
+			throw (new RegistryException("Table " + containingClass.getSimpleName() + ", end row is small then start row"));
+		}
 		tableDefinition.setStartRow(screenTableAnnotation.startRow());
 		tableDefinition.setEndRow(screenTableAnnotation.endRow());
 		tableDefinition.setScrollable(screenTableAnnotation.scrollable());
@@ -58,6 +64,10 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 		tableDefinition.setTableCollector(screenTableAnnotation.tableCollector());
 		collectColumnsMetadata(containingClass, tableDefinition);
+
+		if (tableDefinition.getSelectionColumn() != null && tableDefinition.getKeyFieldNames().size() == 0) {
+			throw (new RegistryException("No key column/s defined for table " + containingClass.getSimpleName()));
+		}
 		screenEntitiesRegistry.addTable(tableDefinition);
 
 	}

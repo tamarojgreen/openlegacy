@@ -23,6 +23,9 @@ var terminalSession = new TerminalSession();
 require(["dojo/ready"], function(ready){
 	ready(function(){
 		require(["dojo/dom", "dojo/on"], function(dom, on){
+			if (getMainForm() == null){
+				return;
+			}
 			if (getMainForm().TerminalCursor != null){
 				setFocus();
 				attachFieldsFocus(on);
@@ -63,6 +66,9 @@ function checkSequence(){
 }
 
 function setFocus(){
+	if (getMainForm() == null){
+		return;
+	}
     var elements = getMainForm().elements;
     if (getMainForm().TerminalCursor == null){
     	return;
@@ -76,6 +82,9 @@ function setFocus(){
 }
 
 function attachFieldsFocus(on){
+	if (getMainForm() == null){
+		return;
+	}
     var elements = getMainForm().elements;
 
     for (var i=0;i<elements.length;i++){

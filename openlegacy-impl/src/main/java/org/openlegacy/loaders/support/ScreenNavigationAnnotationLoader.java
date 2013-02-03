@@ -59,7 +59,7 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 						containingClass.getName())));
 			}
 			navigationDefinition.setDrilldownValue(screenNavigation.drilldownValue());
-			TerminalDrilldownActions.enter(screenNavigation.drilldownValue());
+			navigationDefinition.setTerminalAction(TerminalDrilldownActions.enter(screenNavigation.drilldownValue()));
 		} else {
 			if (TerminalDrilldownAction.class.isAssignableFrom(screenNavigation.terminalAction())) {
 				navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));

@@ -57,7 +57,8 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 				class1);
 
 		for (ScreenFieldDefinition fieldDefinition : fieldDefinitions) {
-			if (fieldDefinition.getJavaType() != Boolean.class || fieldDefinition.getAttribute() != FieldAttributeType.Value) {
+			if (!(fieldDefinition.getFieldTypeDefinition() instanceof BooleanFieldTypeDefinition)
+					|| fieldDefinition.getAttribute() != FieldAttributeType.Value) {
 				continue;
 			}
 			// lazy creation - mostly not used

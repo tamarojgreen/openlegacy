@@ -13,7 +13,6 @@ package org.openlegacy.loaders.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
-import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
@@ -22,6 +21,7 @@ import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -47,13 +47,20 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		return annotation.annotationType() == ScreenField.class;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenField fieldAnnotation = (ScreenField)annotation;
 
+		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
+
 		SimpleTerminalPosition position = SimpleTerminalPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
+		if (screenEntityDefinition != null && !screenEntityDefinition.getScreenSize().contains(position)) {
+			throw (new RegistryException(MessageFormat.format("Field {0} is out of screen {1} bounds", field.getName(),
+					screenEntityDefinition.getEntityClassName())));
+		}
+
 		String fieldName = field.getName();
 		SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition(fieldName,
 				fieldAnnotation.fieldType());
@@ -108,10 +115,14 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			logger.debug(MessageFormat.format("The annotation of the attribute attribute is {0} ", fieldAnnotation.attribute()));
 		}
 		screenFieldDefinition.setAttribute(fieldAnnotation.attribute());
-
+		if (!fieldAnnotation.when().equals("")) {
+			screenFieldDefinition.setWhenFilter(fieldAnnotation.when());
+		}
+		if (!fieldAnnotation.unless().equals("")) {
+			screenFieldDefinition.setUnlessFilter(fieldAnnotation.unless());
+		}
 		setupFieldType(field, screenFieldDefinition);
 
-		EntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
 		// look in screen entities
 		if (screenEntityDefinition != null) {
 			screenEntityDefinition.getFieldsDefinitions().put(fieldName, screenFieldDefinition);
@@ -131,6 +142,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 	private static void setupFieldType(Field field, SimpleScreenFieldDefinition screenFieldDefinition) {
 		// set number type definition - may be overridden by ScreenNumericFieldAnnotationLoader to fill in specific numeric
 		// properties
+
 		if (Number.class.isAssignableFrom(field.getType())) {
 			screenFieldDefinition.setFieldTypeDefinition(new SimpleNumericFieldTypeDefinition());
 		}

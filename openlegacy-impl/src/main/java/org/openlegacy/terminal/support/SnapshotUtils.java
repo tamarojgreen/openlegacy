@@ -255,4 +255,21 @@ public class SnapshotUtils {
 		}
 		return SimpleTerminalPosition.newInstance(row, column);
 	}
+
+	public static boolean contains(ScreenSize screenSize, TerminalPosition terminalPosition) {
+		if (terminalPosition.getRow() < 1) {
+			return false;
+		}
+		if (terminalPosition.getColumn() < 1) {
+			return false;
+		}
+
+		if (screenSize.getRows() < terminalPosition.getRow()) {
+			return false;
+		}
+		if (screenSize.getColumns() < terminalPosition.getColumn()) {
+			return false;
+		}
+		return true;
+	}
 }

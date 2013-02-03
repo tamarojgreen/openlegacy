@@ -45,6 +45,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private TerminalPosition endPosition;
 
 	private boolean rightToLeft;
+	private String whenFilter;
+	private String unlessFilter;
 
 	public SimpleScreenFieldDefinition() {
 		super();
@@ -189,5 +191,21 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setAttribute(FieldAttributeType attribute) {
 		this.attribute = attribute;
+	}
+
+	public String getWhenFilter() {
+		return whenFilter;
+	}
+
+	public void setWhenFilter(String whenFilter) {
+		this.whenFilter = whenFilter;
+	}
+
+	public String getUnlessFilter() {
+		return unlessFilter;
+	}
+
+	public void setUnlessFilter(String unlessFilter) {
+		this.unlessFilter = unlessFilter;
 	}
 }

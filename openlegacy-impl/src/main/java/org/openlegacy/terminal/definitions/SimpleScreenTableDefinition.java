@@ -117,6 +117,15 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		return keyFields;
 	}
 
+	public ScreenColumnDefinition getSelectionColumn() {
+		for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
+			if (columnDefinition.isSelectionField()) {
+				return columnDefinition;
+			}
+		}
+		return null;
+	}
+
 	public int getMaxRowsCount() {
 		// TODO handle (future) gaps
 		return getEndRow() - getStartRow() + 1;

@@ -144,4 +144,18 @@ public @interface ScreenField {
 	 * @return the attribute to bind to
 	 */
 	FieldAttributeType attribute() default FieldAttributeType.Value;
+
+	/**
+	 * Optional. Define the field filter.
+	 * 
+	 * @return the regular expression used for filtering
+	 */
+	String when() default "";
+
+	/**
+	 * Optional. Define the field negative filter.
+	 * 
+	 * @return the regular expression used for filtering
+	 */
+	String unless() default "";
 }

@@ -24,4 +24,6 @@ public interface ScreenSize extends Serializable {
 	int getRows();
 
 	int getColumns();
+
+	boolean contains(TerminalPosition terminalPosition);
 }

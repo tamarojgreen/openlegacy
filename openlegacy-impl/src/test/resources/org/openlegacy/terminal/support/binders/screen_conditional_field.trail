@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+    <snapshot type="INCOMING" sequence="1">
+        <row rowNumber="1">
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+        </row>
+        <row rowNumber="2">
+            <field column="24" value="Attributes" color="WHITE"/>
+            <field column="73" value="11:44:21" color="BLUE"/>
+        </row>
+        <row rowNumber="8">
+        	<field column="10" value="IF MATCHED" />
+        </row>
+        <row rowNumber="9">
+			<field column="10" value="IF NOT MATCH"  />
+        </row>
+        <row rowNumber="10">
+        	<field column="10" value="UNLESSE MATCHED" />
+        </row>
+        <row rowNumber="11">
+			<field column="10" value="UNLESSE NOT MATCH"  />
+        </row>
+        <row rowNumber="12">
+        	<field column="10" value="MATCHED WHEN AND UNLESS" />
+        </row>
+        <row rowNumber="13">
+			<field column="10" value="DO NOT MATCH"  />
+        </row>
+        <row rowNumber="14">
+			<field column="10" value="NO CONDITION"  />
+        </row>
+         
+        <size rows="24" columns="80"/>
+        <cursor row="8" column="4"/>
+    </snapshot>
+</terminal-trail>

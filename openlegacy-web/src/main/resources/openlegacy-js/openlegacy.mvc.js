@@ -141,6 +141,12 @@ function loadMobilePanel(panelTagId,url){
 	var parser = require("dojox/mobile/parser");
 	
 	var container = dom.byId(panelTagId);
+
+	// do not load panels twice
+	if (container.innerHTML != "Loading..."){
+	    return;
+	}
+	
 	var parent = container.parentNode; 
 
 	var xhr = require("dojo/request/xhr");
@@ -342,5 +348,18 @@ function reloadApplicationContext(baseUrl){
 		location.href = location.href;
 	}, function(e){
 		alert(e);
+	});
+}
+
+function resizeDojoWidget(id) {
+	require([ "dijit/registry", "dojo/ready" ], function(registry, ready) {
+		ready(function(){
+			var widget = registry.byId(id);
+			if (widget) {
+				setTimeout(function(){
+					widget.resize();
+				}, 1000);
+			}
+		});
 	});
 }
