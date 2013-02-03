@@ -13,14 +13,8 @@
 		</script>
 		<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
 			<c:if test="${definitions != null}">
-<<<<<<< HEAD
-				<c:forEach items="${ol_menu.menuItems}" var="menuItem">
-					<div data-dojo-type="dijit.layout.ContentPane" title="Inventory Menu"
-						class="element">
-=======
 				<c:forEach items="${ol_flatMenus}" var="flatMenu">
 					<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}">
->>>>>>> branch 'master' of https://github.com/openlegacy/openlegacy.git
 						<div class="links">
 							<ul>
 								<li>
