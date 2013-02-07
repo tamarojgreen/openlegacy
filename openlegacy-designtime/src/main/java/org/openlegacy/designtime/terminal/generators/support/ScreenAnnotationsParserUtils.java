@@ -91,9 +91,11 @@ public class ScreenAnnotationsParserUtils {
 		String rectangleValue = getAnnotationValue(annotationExpr, AnnotationConstants.RECTANGLE);
 		String passwordValue = getAnnotationValue(annotationExpr, AnnotationConstants.PASSWORD);
 		String sampleValue = getAnnotationValue(annotationExpr, AnnotationConstants.SAMPLE_VALUE);
+		String rowsOffset = getAnnotationValue(annotationExpr, AnnotationConstants.ROWS_OFFSET);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : StringUtil.stripQuotes(sampleValue));
 		field.setFieldTypeName(StringUtil.toClassName(fieldTypeName));
+
 		if (StringConstants.TRUE.equals(rectangleValue)) {
 			field.setRectangle(true);
 		}
@@ -132,6 +134,9 @@ public class ScreenAnnotationsParserUtils {
 		if (StringConstants.TRUE.equals(mainDisplayFieldValue)) {
 			field.setMainDisplayField(true);
 		}
+		if (rowsOffset != null) {
+			field.setRowsOffset(Integer.valueOf(rowsOffset));
+		}
 	}
 
 	public static List<Action> populateScreenActions(AnnotationExpr annotationExpr) {
@@ -149,9 +154,11 @@ public class ScreenAnnotationsParserUtils {
 				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
 				// used by @TableAction only
 				String actionValue = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION_VALUE);
+				String targetEntityName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.TARGET_ENTITY);
 
 				Action action = new Action(actionAlias, actionClassName, displayName);
 				action.setActionValue(actionValue);
+				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
 				actions.add(action);
 			}
 		}

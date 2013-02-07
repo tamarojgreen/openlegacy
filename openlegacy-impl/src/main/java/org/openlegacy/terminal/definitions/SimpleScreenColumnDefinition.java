@@ -19,13 +19,14 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
 	private int startColumn;
 	private int endColumn;
 	private int rowsOffset;
-	
+
 	private boolean key;
 	private boolean editable;
 	private String sampleValue;
 	private String displayName;
 	private boolean selectionField;
 	private Class<?> javaType;
+	private boolean mainDisplayField;
 
 	public SimpleScreenColumnDefinition(String name) {
 		this.name = name;
@@ -118,5 +119,13 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition {
 
 	public void setRowsOffset(int rowsOffset) {
 		this.rowsOffset = rowsOffset;
+	}
+
+	public boolean isMainDisplayField() {
+		return mainDisplayField;
+	}
+
+	public void setMainDisplayField(boolean mainDisplayField) {
+		this.mainDisplayField = mainDisplayField;
 	}
 }

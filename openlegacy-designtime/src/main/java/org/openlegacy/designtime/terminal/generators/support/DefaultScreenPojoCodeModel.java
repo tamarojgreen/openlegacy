@@ -16,8 +16,10 @@ import org.openlegacy.FieldType.General;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.services.ScreenIdentification;
+import org.openlegacy.terminal.table.ScreenTableCollector;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.TypesUtil;
@@ -64,6 +66,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private boolean window;
 
 	private ScreenIdentification screenIdentification;
+	private String nextScreenActionName;
+	private String previousScreenActionName;
+	private String tableCollectorName;
+	private boolean scrollable;
+	private int rowGaps;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -197,6 +204,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String startRowFromTableAnnotation = null;
 		String endRowFromTableAnnotation = null;
 		String windowFlagFromAnnotation = null;
+		String nextScreenActionNameFromAnnotation = null;
+		String previousScreenActionNameFromAnnotation = null;
+		String tableCollectorNameFromAnnotation = null;
+		String scrollableFromAnnotation = null;
+		String rowGapsFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
@@ -211,6 +223,15 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			startRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.START_ROW, normalAnnotationExpr.getPairs());
 			endRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.END_ROW, normalAnnotationExpr.getPairs());
 			windowFlagFromAnnotation = findAnnotationAttribute(AnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
+
+			nextScreenActionNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NEXT_SCREEN_ACTION,
+					normalAnnotationExpr.getPairs());
+			previousScreenActionNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.PREV_SCREEN_ACTION,
+					normalAnnotationExpr.getPairs());
+			tableCollectorNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.TABLE_COLLECTOR,
+					normalAnnotationExpr.getPairs());
+			scrollableFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCROLLABLE, normalAnnotationExpr.getPairs());
+			rowGapsFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROW_GAPS, normalAnnotationExpr.getPairs());
 		}
 		displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation)
 				: StringUtil.toDisplayName(getClassName());
@@ -229,6 +250,15 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			endRow = Integer.parseInt(endRowFromTableAnnotation);
 		}
 		window = windowFlagFromAnnotation != null ? Boolean.valueOf(windowFlagFromAnnotation) : false;
+
+		nextScreenActionName = nextScreenActionNameFromAnnotation != null ? StringUtil.toClassName(nextScreenActionNameFromAnnotation)
+				: TerminalActions.PAGEDOWN().getActionName();
+		previousScreenActionName = previousScreenActionNameFromAnnotation != null ? StringUtil.toClassName(previousScreenActionNameFromAnnotation)
+				: TerminalActions.PAGEUP().getActionName();
+		tableCollectorName = tableCollectorNameFromAnnotation != null ? StringUtil.toClassName(tableCollectorNameFromAnnotation)
+				: ScreenTableCollector.class.getSimpleName();
+		scrollable = scrollableFromAnnotation != null ? Boolean.valueOf(scrollableFromAnnotation) : true;
+		rowGaps = rowGapsFromAnnotation != null ? Integer.valueOf(rowGapsFromAnnotation) : 1;
 	}
 
 	/*
@@ -329,6 +359,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean rectangle;
 		private boolean password;
 		private String sampleValue;
+		private int rowsOffset;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -503,6 +534,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public void setSampleValue(String sampleValue) {
 			this.sampleValue = sampleValue;
 		}
+
+		public int getRowsOffset() {
+			return rowsOffset;
+		}
+
+		public void setRowsOffset(int rowsOffset) {
+			this.rowsOffset = rowsOffset;
+		}
 	}
 
 	public static class Action {
@@ -511,6 +550,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private String actionName;
 		private String displayName;
 		private String actionValue;
+		private String targetEntityName;
 
 		public Action(String alias, String actionName, String displayName) {
 			this.alias = alias;
@@ -537,6 +577,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public void setActionValue(String actionValue) {
 			this.actionValue = actionValue;
 		}
+
+		public String getTargetEntityName() {
+			return targetEntityName;
+		}
+
+		public void setTargetEntityName(String targetEntityName) {
+			this.targetEntityName = targetEntityName;
+		}
 	}
 
 	public boolean isChildScreen() {
@@ -553,5 +601,34 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	public ScreenIdentification getScreenIdentification() {
 		return screenIdentification;
+	}
+
+	/**
+	 * Returns name of next screen action for @ScreenTable
+	 */
+	public String getNextScreenActionName() {
+		return nextScreenActionName;
+	}
+
+	/**
+	 * Return name of previous screen action for @ScreenTable
+	 */
+	public String getPreviousScreenActionName() {
+		return previousScreenActionName;
+	}
+
+	/**
+	 * Returns name of table collector for @ScreenTable
+	 */
+	public String getTableCollectorName() {
+		return tableCollectorName;
+	}
+
+	public boolean isScrollable() {
+		return scrollable;
+	}
+
+	public int getRowGaps() {
+		return rowGaps;
 	}
 }

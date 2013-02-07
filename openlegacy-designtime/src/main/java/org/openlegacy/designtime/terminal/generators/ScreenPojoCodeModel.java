@@ -56,4 +56,14 @@ public interface ScreenPojoCodeModel {
 	boolean isWindow();
 
 	ScreenIdentification getScreenIdentification();
+
+	String getNextScreenActionName();
+
+	String getPreviousScreenActionName();
+
+	String getTableCollectorName();
+
+	boolean isScrollable();
+
+	int getRowGaps();
 }

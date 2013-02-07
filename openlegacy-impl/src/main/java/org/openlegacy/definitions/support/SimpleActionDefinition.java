@@ -27,6 +27,8 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	private boolean defaultAction;
 
+	private String targetEntityName;
+
 	/**
 	 * for serialization purpose only
 	 */
@@ -85,5 +87,13 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	public void setDefaultAction(boolean defaultAction) {
 		this.defaultAction = defaultAction;
+	}
+
+	public String getTargetEntityName() {
+		return targetEntityName;
+	}
+
+	public void setTargetEntityName(String targetEntityName) {
+		this.targetEntityName = targetEntityName;
 	}
 }

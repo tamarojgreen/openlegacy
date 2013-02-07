@@ -80,11 +80,14 @@ public class AnnotationConstants {
 
 	// @TableAction
 	public static final String ACTION_VALUE = "actionValue";
+	public static final String DEFAULT_ACTION = "defaultAction";
+	public static final String TARGET_ENTITY = "targetEntity";
 
 	// @ScreenColumn
 	public static final String SELECTION_FIELD = "selectionField";
 	public static final String KEY = "key";
 	public static final String MAIN_DISPLAY_FIELD = "mainDisplayField";
+	public static final String ROWS_OFFSET = "rowsOffset";
 
 	// @ScreenNavigation
 	public static final String ACCESSED_FROM = "accessedFrom";
@@ -104,11 +107,17 @@ public class AnnotationConstants {
 	public static final String PASSWORD = "password";
 	public static final String FIELD_TYPE = "fieldType";
 	public static final String SAMPLE_VALUE = "sampleValue";
-	public static final String FIELD_NAME = "fieldName";
 
 	// @ScreenIdentifiers
 	public static final String IDENTIFIERS = "identifiers";
 
 	// @ScreenActions
 	public static final String ACTIONS = "actions";
+
+	// @ScreenTable
+	public static final String NEXT_SCREEN_ACTION = "nextScreenAction";
+	public static final String PREV_SCREEN_ACTION = "previousScreenAction";
+	public static final String TABLE_COLLECTOR = "tableCollector";
+	public static final String SCROLLABLE = "scrollable";
+	public static final String ROW_GAPS = "rowGaps";
 }
