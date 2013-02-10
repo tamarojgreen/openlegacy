@@ -5,7 +5,7 @@ import freemarker.template.TemplateException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
+import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
@@ -280,7 +280,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		ScreenEntityDefinition simpleScreenDefinition = screenEntitiesDefinitions.get("SimpleScreen");
 		SimpleScreenFieldDefinition fieldAdefinition = (SimpleScreenFieldDefinition)simpleScreenDefinition.getFieldsDefinitions().get(
 				"fieldA");
-		AutoCompleteFieldTypeDefinition fieldTypeDefinition = (AutoCompleteFieldTypeDefinition)fieldAdefinition.getFieldTypeDefinition();
+		FieldWithValuesTypeDefinition fieldTypeDefinition = (FieldWithValuesTypeDefinition)fieldAdefinition.getFieldTypeDefinition();
 		Assert.assertEquals(windowTableScreen, fieldTypeDefinition.getSourceEntityDefinition());
 		assertScreenContent(simpleScreenDefinition, "SimpleScreenValues.java.expected");
 	}

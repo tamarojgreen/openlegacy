@@ -13,7 +13,7 @@
 			<ol:pagePart title="Warehouse Details">
 				<ol:field name="warehouseNumber" />
 				<ol:field name="warehouseDescription" />
-				<ol:field name="warehouseType" />
+				<ol:field name="warehouseType" /> 
 				<ol:field name="costingType" />
 				<ol:field name="replenishmentCycleFlag" />
 				<ol:field name="address" type="address" />

@@ -30,11 +30,11 @@ public class WarehouseDetails {
 	private String warehouseDescription;
 
 	@ScreenFieldValues(sourceScreenEntity = WarehouseTypes.class)
-	@ScreenField(row = 8, column = 34, endColumn = 35, labelColumn = 2, editable = true, displayName = "Warehouse Type", sampleValue = "GL")
+	@ScreenField(row = 8, column = 34, labelColumn = 2, editable = true, displayName = "Warehouse Type", sampleValue = "GL")
 	private String warehouseType;
 
 	@ScreenField(row = 8, column = 37, endColumn = 76, labelColumn = 2, displayName = "Warehouse Type", sampleValue = "General warehouse")
-	private String warehouseType1;
+	private String warehouseTypeName;
 
 	@ScreenField(row = 9, column = 34, endColumn = 34, labelColumn = 2, editable = true, displayName = "Costing Type", sampleValue = "1")
 	private Integer costingType;

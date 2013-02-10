@@ -5,31 +5,16 @@
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
 	<jsp:output omit-xml-declaration="yes" />
-	<jsp:directive.attribute name="name" type="java.lang.String"
-		required="true" rtexprvalue="true"
-		description="The entity field to bind the tag to" />
-	<jsp:directive.attribute name="label" type="java.lang.String"
-		required="false" rtexprvalue="true"
-		description="The label for this tag. Default to field display name" />
-	<jsp:directive.attribute name="maxlength" type="java.lang.Integer"
-		required="false" rtexprvalue="true"
-		description="The maxlength of this tag. Default to field length" />
-	<jsp:directive.attribute name="type" type="java.lang.String"
-		required="false" rtexprvalue="true"
-		description="Set field type (default 'text', or 'password')" />
-	<jsp:directive.attribute name="style" type="java.lang.String"
-		required="false" rtexprvalue="true" description="Set field style" />
-	<jsp:directive.attribute name="cssClass" type="java.lang.String"
-		required="false" rtexprvalue="true" description="Set field CSS class" />
-	<jsp:directive.attribute name="top" type="java.lang.String"
-		required="false" rtexprvalue="true"
-		description="Set field top position" />
-	<jsp:directive.attribute name="left" type="java.lang.String"
-		required="false" rtexprvalue="true"
-		description="Set field left position" />
-	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean"
-		required="false" rtexprvalue="true"
-		description="Set field direction" />
+	<jsp:directive.attribute name="name" type="java.lang.String" required="true" rtexprvalue="true" description="The entity field to bind the tag to" />
+	<jsp:directive.attribute name="label" type="java.lang.String" required="false" rtexprvalue="true" description="The label for this tag. Default to field display name" />
+	<jsp:directive.attribute name="maxlength" type="java.lang.Integer" required="false" rtexprvalue="true" description="The maxlength of this tag. Default to field length" />
+	<jsp:directive.attribute name="type" type="java.lang.String" required="false" rtexprvalue="true" description="Set field type (default 'text')" />
+	<jsp:directive.attribute name="style" type="java.lang.String" required="false" rtexprvalue="true" description="Set field style" />
+	<jsp:directive.attribute name="cssClass" type="java.lang.String" required="false" rtexprvalue="true" description="Set field CSS class" />
+	<jsp:directive.attribute name="top" type="java.lang.String" required="false" rtexprvalue="true" description="Set field top position" />
+	<jsp:directive.attribute name="left" type="java.lang.String" required="false" rtexprvalue="true" description="Set field left position" />
+	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field direction" />
+	
 	<c:choose>
 		<c:when test="${fn:contains(name,'.')}">
 			<c:set var="fieldNameParts" value="${fn:split(name,'.')}" />
@@ -57,11 +42,11 @@
 		<c:set var="style"
 			value="${style};position:absolute;top:${top};left:${left}" />
 	</c:if>
+	
 	<c:set var="width" value="${maxlength*10+10}" />
 	<c:if test="${fn:contains(style,'width')}">
 		<c:set var="width" value="0" />
 	</c:if>
-	
 	<c:if test="${rightToLeft}">
 		<c:set var="style"
 			value="${style};direction:rtl;unicode-bidi: bidi-override;" />
@@ -70,6 +55,7 @@
 	<c:if test="${empty helpText}">
 		<c:set var="helpText" value="Enter ${fieldDefinition.displayName}" />
 	</c:if>
+
 	<div class="${cssClass}">
 		<div class="field_row">
 			<c:if test="${not empty label}">
@@ -111,18 +97,33 @@
 								});
 							</script>
 							</c:when>
-							<c:when test="${type == 'autocomplete'}">
-								<script language="JavaScript" type="text/javascript">
-							require(["dojo/data/ItemFileReadStore",
-									"dijit/form/FilteringSelect"]);
-						</script>
-								<span data-dojo-type="dojo.data.ItemFileReadStore"
-									data-dojo-props="url:'${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}Values'"
-									data-dojo-id="${fieldDefinition.name}Values"></span>
-								<input name="${fieldDefinition.name}"
-									data-dojo-type="dijit.form.FilteringSelect"
-									data-dojo-props="store:${fieldDefinition.name}Values, searchAttr:'name', pageSize:100"
-									style="width: 200px"></input>
+							<c:when test="${type == 'fieldWithValues'}">
+								<c:choose>
+									<c:when test="${fieldDefinition.fieldTypeDefinition.asWindow}">
+										<c:set var="windowUrl" value="${fieldDefinition.fieldTypeDefinition.sourceEntityClassName}" />
+										<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
+										<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
+											maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}"
+											cssClass="${cssClass}" />
+										<c:if test="${not empty fieldDefinition.fieldTypeDefinition.displayFieldName}">
+											<ol:span cssClass="readonlyField ${cssClass}" path="${fieldDefinition.fieldTypeDefinition.displayFieldName}"
+												cssStyle="${style}" />
+										</c:if>
+										<img src="${pageContext.request.contextPath}/icons/search.png" onclick="openLookupDialog('${name}','${fieldDefinition.fieldTypeDefinition.displayFieldName}','${pageContext.request.contextPath}/${windowUrl}','width:350px;height:300px')" class="search" />
+									</c:when>
+									<c:otherwise>
+										<script language="JavaScript" type="text/javascript">
+											require(["dojo/data/ItemFileReadStore","dijit/form/FilteringSelect"]);
+										</script>
+										<span data-dojo-type="dojo.data.ItemFileReadStore"
+											data-dojo-props="url:'${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}Values'"
+											data-dojo-id="${fieldDefinition.name}Values"></span>
+										<input name="${fieldDefinition.name}"
+											data-dojo-type="dijit.form.FilteringSelect"
+											data-dojo-props="store:${fieldDefinition.name}Values, searchAttr:'name', pageSize:100"
+											style="width: 200px"></input>
+									</c:otherwise>
+								</c:choose>
 							</c:when>
 							<c:when test="${type == 'address'}">
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>

@@ -9,6 +9,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
+import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalRectangle;
 
@@ -125,6 +126,9 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 	public void setSnapshotBorders(TerminalRectangle snapshotBorders) {
 		this.snapshotBorders = snapshotBorders;
 		setWindow(true);
+		int height = snapshotBorders.getButtomRightPosition().getRow() - snapshotBorders.getTopLeftPosition().getRow();
+		int width = snapshotBorders.getButtomRightPosition().getColumn() - snapshotBorders.getTopLeftPosition().getColumn();
+		setScreenSize(new SimpleScreenSize(height, width));
 	}
 
 	public void addTemporaryTable(SimpleScreenTableDefinition tableDefinition) {

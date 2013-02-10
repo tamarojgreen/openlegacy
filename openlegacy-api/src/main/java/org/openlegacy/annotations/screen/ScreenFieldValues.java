@@ -42,4 +42,19 @@ public @interface ScreenFieldValues {
 	Class<?> sourceScreenEntity();
 
 	boolean collectAll() default false;
+
+	/**
+	 * Whether to show the field as auto-complete (default) or lookup window
+	 * 
+	 * @return
+	 */
+	boolean asWindow() default false;
+
+	/**
+	 * When asWindow = true, used for displaying the mainDisplayField of the window lookup table
+	 * 
+	 * @return display field name
+	 */
+	String displayFieldName() default "";
+
 }

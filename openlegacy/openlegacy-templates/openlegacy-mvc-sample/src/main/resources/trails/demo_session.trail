@@ -855,7 +855,7 @@
         <cursor row="8" column="4"/>
     </snapshot>
     
-    <snapshot type="INCOMING" sequence="11">
+    <snapshot type="INCOMING" sequence="10">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -1018,7 +1018,7 @@
         <cursor row="8" column="4"/>
     </snapshot>
     
-    <snapshot type="INCOMING" sequence="12">
+    <snapshot type="INCOMING" sequence="11">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -1170,7 +1170,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="33"/>
     </snapshot>
-    <snapshot type="OUTGOING" command="[enter]" sequence="13">
+    <snapshot type="OUTGOING" command="[enter]" sequence="12">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -1322,7 +1322,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="33"/>
     </snapshot>
-    <snapshot type="INCOMING" sequence="14">
+    <snapshot type="INCOMING" sequence="13">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -1489,7 +1489,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="29"/>
     </snapshot>
-    <snapshot type="OUTGOING" command="[enter]" sequence="15">
+    <snapshot type="OUTGOING" command="[enter]" sequence="14">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -1656,7 +1656,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="29"/>
     </snapshot>
-    <snapshot type="INCOMING" sequence="16">
+    <snapshot type="INCOMING" sequence="15">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -1808,7 +1808,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="33"/>
     </snapshot>
-    <snapshot type="OUTGOING" command="[enter]" sequence="18">
+    <snapshot type="OUTGOING" command="[enter]" sequence="16">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -1961,7 +1961,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="33"/>
     </snapshot>
-    <snapshot type="INCOMING" sequence="19">
+    <snapshot type="INCOMING" sequence="17">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -2128,7 +2128,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="29"/>
     </snapshot>
-    <snapshot type="OUTGOING" command="[enter]" sequence="20">
+    <snapshot type="OUTGOING" command="[enter]" sequence="18">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -2295,7 +2295,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="29"/>
     </snapshot>
-    <snapshot type="INCOMING" sequence="20">
+    <snapshot type="INCOMING" sequence="19">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -2448,7 +2448,7 @@
         <size rows="24" columns="80"/>
         <cursor row="7" column="33"/>
     </snapshot>
-    <snapshot type="OUTGOING" command="[pf12]" sequence="21">
+    <snapshot type="OUTGOING" command="[pf12]" sequence="20">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -2762,7 +2762,7 @@
         <size rows="24" columns="80"/>
         <cursor row="8" column="4"/>
     </snapshot>
-    <snapshot type="INCOMING" sequence="23">
+    <snapshot type="INCOMING" sequence="22">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="  "/>
@@ -2883,7 +2883,7 @@
         <size rows="24" columns="80"/>
         <cursor row="21" column="8"/>
     </snapshot>
-    <snapshot type="OUTGOING" command="[enter]" sequence="24">
+    <snapshot type="OUTGOING" command="[enter]" sequence="23">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="  "/>
@@ -3004,7 +3004,7 @@
         <size rows="24" columns="80"/>
         <cursor row="21" column="8"/>
     </snapshot>
-    <snapshot type="INCOMING" sequence="25">
+    <snapshot type="INCOMING" sequence="24">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -3173,7 +3173,7 @@
         <size rows="24" columns="80"/>
         <cursor row="8" column="4"/>
     </snapshot>
-    <snapshot type="OUTGOING" command="[enter]" sequence="26">
+    <snapshot type="OUTGOING" command="[enter]" sequence="25">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -3342,7 +3342,7 @@
         <size rows="24" columns="80"/>
         <cursor row="8" column="4"/>
     </snapshot>
-    <snapshot type="INCOMING" sequence="31">
+    <snapshot type="INCOMING" sequence="26">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -3466,7 +3466,7 @@
         <cursor row="7" column="34"/>
     </snapshot>
     
-    <snapshot type="INCOMING" sequence="33">
+    <snapshot type="INCOMING" sequence="27">
         <row rowNumber="1">
             <field column="2" value="TESTUSER  " color="BLUE"/>
             <field column="13" value="       "/>
@@ -3556,7 +3556,7 @@
             <field column="5" value="  "/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="10" value="   "/>
-            <field column="14" value="DR"/>
+            <field column="14" value="ST"/>
             <field column="17" value="  "/>
             <field column="20" value="Sports Toys warehouse                  "/>
             <field column="61" value=" "/>
@@ -3569,7 +3569,7 @@
             <field column="5" value="  "/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="10" value="   "/>
-            <field column="14" value="GL"/>
+            <field column="14" value="GW"/>
             <field column="17" value="  "/>
             <field column="20" value="General warehouse                       "/>
             <field column="61" value=" "/>
@@ -3583,7 +3583,7 @@
             <field column="5" value="  "/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="10" value="   "/>
-            <field column="14" value="MT"/>
+            <field column="14" value="GM"/>
             <field column="17" value="  "/>
             <field column="20" value="Games warehouse                          "/>
             <field column="61" value=" "/>
@@ -3597,7 +3597,7 @@
             <field column="5" value="  "/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="10" value="   "/>
-            <field column="14" value="VF"/>
+            <field column="14" value="BT"/>
             <field column="17" value="  "/>
             <field column="20" value="Baby Toys warehouse            "/>
             <field column="61" value=" "/>
@@ -3608,13 +3608,179 @@
             <field column="1"/>
             <field column="2" backColor="BLUE"/>
             <field column="3" value=" " backColor="BLUE"/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="15">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" value="                                                         "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="16">
+            <field column="1" value=" "/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" color="BLUE"/>
+            <field column="6" value="F12=Cancel" color="BLUE"/>
+            <field column="17" value="                                             "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="17">
+            <field column="1" value=" "/>
+            <field column="3" value="                                                             " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="23">
+            <field column="1" color="BLUE"/>
+            <field column="2" value="F1=Help  F4=Prompt  F12=Cancel  F14=Delete" color="BLUE"/>
+            <field column="45" value="                                    "/>
+        </row>
+        <row rowNumber="24">
+            <field column="1" color="WHITE"/>
+            <field column="2" value="The end of the file was reached.                                            " color="WHITE"/>
+            <field column="79" value=" " color="WHITE"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="10" column="8"/>
+    </snapshot>
+    <snapshot type="INCOMING" sequence="28">
+        <row rowNumber="1">
+            <field column="2" value="TESTUSER  " color="BLUE"/>
+            <field column="13" value="       "/>
+            <field column="21" value="Toys Inventory                          " color="WHITE"/>
+            <field column="62" value="          "/>
+            <field column="73" value=" 2/06/05" color="BLUE"/>
+        </row>
+        <row rowNumber="2">
+            <field column="1" color="BLUE"/>
+            <field column="2" value="MWAREHED  " color="BLUE"/>
+            <field column="13" value="            "/>
+            <field column="26" value="  Work with Warehouse Details " color="WHITE"/>
+            <field column="57" value="               "/>
+            <field column="73" value="11:45:15" color="BLUE"/>
+        </row>
+        <row rowNumber="3">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value="                                                             " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="4">
+            <field column="1" color="BLUE"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" value="             "/>
+            <field column="19" value="    List of Warehouse Types   " color="WHITE"/>
+            <field column="50" value="            "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="5">
+            <field column="1" value=" "/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" value="                                                         "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="6">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" color="BLUE"/>
+            <field column="6" value="Type options, press Enter." color="BLUE"/>
+            <field column="33" value="                             "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="7">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" value="  "/>
+            <field column="8" value="1=Select" color="BLUE"/>
+            <field column="17" value="                                             "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="         "/>
+            <field column="75" value="      "/>
+        </row>
+        <row rowNumber="8">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" value="                                                         "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="            "/>
+            <field column="78" value="   "/>
+        </row>
+        <row rowNumber="9">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" color="WHITE"/>
+            <field column="6" value="Action" color="WHITE"/>
+            <field column="13" color="WHITE"/>
+            <field column="14" value="Type" color="WHITE"/>
+            <field column="19" color="WHITE"/>
+            <field column="20" value="Description" color="WHITE"/>
+            <field column="32" value="                              "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="10">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
             <field column="5" value="  "/>
             <field column="8" length="1" editable="true" type="java.lang.Integer"/>
             <field column="10" value="   "/>
-            <field column="14" value="  "/>
+            <field column="14" value="WT"/>
             <field column="17" value="  "/>
-            <field column="20" value="                                        "/>
+            <field column="20" value="Water Toys warehouse                  "/>
             <field column="61" value=" "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="11">
+            <field column="1" value=" "/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" value="  "/>
+            <field column="8" length="1" editable="true" type="java.lang.Integer"/>
+            <field column="10" value="   "/>
+            <field column="14" value="TT"/>
+            <field column="17" value="  "/>
+            <field column="20" value="Teens Toys warehouse                  "/>
+            <field column="61" value=" "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="12">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="5" value="  "/>
+            <field column="8" length="1" editable="true" type="java.lang.Integer"/>
+            <field column="10" value="   "/>
+            <field column="14" value="DT"/>
+            <field column="17" value="  "/>
+            <field column="20" value="Digital toys warehouse                "/>
+            <field column="61" value=" "/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="13">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
+            <field column="63" value=" " backColor="BLUE"/>
+            <field column="65" value="                "/>
+        </row>
+        <row rowNumber="14">
+            <field column="1"/>
+            <field column="2" backColor="BLUE"/>
+            <field column="3" value=" " backColor="BLUE"/>
             <field column="63" value=" " backColor="BLUE"/>
             <field column="65" value="                "/>
         </row>

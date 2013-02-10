@@ -25,7 +25,11 @@
 	</definition> 
 	MenuEntity:Marker for code generation end -->
 
-	<!-- Place holder for code generation -->
+	<!-- Place holder for code generation --> 
+	<definition name="WarehouseTypes" extends="template"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/WarehouseTypes.jspx" />
+	</definition> 
+
 
 	<definition name="Emulation" extends="template">
 		<put-attribute name="body" value="/WEB-INF/web/views/Emulation.jspx" />
@@ -36,7 +40,11 @@
 			value="/WEB-INF/web/views/HtmlEmulation.jspx" />
 	</definition>
 
-	<!-- Place holder for code generation -->
+	<!-- Place holder for code generation --> 
+	<definition name="WarehouseTypes" extends="template"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/WarehouseTypes.jspx" />
+	</definition> 
+
 
 	<definition name="ItemDetailsComposite" extends="compositeTemplate">
 		<put-attribute name="body"
@@ -70,7 +78,7 @@
 		<put-attribute name="body" value="/WEB-INF/web/views/SignOn.jspx" />
 	</definition>
 
-	<definition name="WarehouseTypes" extends="template">
+	<definition name="WarehouseTypes" extends="window">
 		<put-attribute name="body"
 			value="/WEB-INF/web/views/WarehouseTypes.jspx" />
 	</definition>

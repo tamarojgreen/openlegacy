@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.analyzer.support.fact_processors;
 
-import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleFieldWthValuesTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
@@ -30,7 +30,7 @@ public class FieldValuesFactProcessor implements ScreenFactProcessor {
 		String fieldName = fieldValuesFact.getFieldAssignDefinition().getName();
 		SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenEntityDefinition.getFieldsDefinitions().get(
 				fieldName);
-		SimpleAutoCompleteFieldTypeDefinition fieldTypeDefinition = new SimpleAutoCompleteFieldTypeDefinition();
+		SimpleFieldWthValuesTypeDefinition fieldTypeDefinition = new SimpleFieldWthValuesTypeDefinition();
 		ScreenEntityDesigntimeDefinition lookupWindowScreenDefinition = (ScreenEntityDesigntimeDefinition)fieldValuesFact.getLookupWindowScreenDefinition();
 		lookupWindowScreenDefinition.setType(LookupEntity.class);
 		lookupWindowScreenDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(LookupEntity.class));

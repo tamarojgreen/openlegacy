@@ -29,6 +29,10 @@
 	MenuEntity:Marker for code generation end -->
 	
 	<!-- Place holder for code generation -->
+	<definition name="WarehouseTypes_m" extends="view_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/WarehouseTypes.jspx" />
+	</definition> 
+
 
 	<definition name="ItemDetailsComposite_m" extends="compositeView_m">
 		<put-attribute name="body"

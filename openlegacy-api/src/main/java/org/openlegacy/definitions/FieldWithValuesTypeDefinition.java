@@ -16,13 +16,13 @@ import org.openlegacy.annotations.screen.ScreenFieldValues;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 /**
- * Defines an auto complete field type registry information. An auto complete definition contains definition for auto complete
- * field, including the records provider, collect all, and source entity, if available. Typically created from
- * {@link ScreenFieldValues} annotation
+ * Defines a field with values field type registry information. A field with values definition contains definition for field with
+ * values field, including the records provider, collect all, and source entity, if available. Typically created from
+ * {@link ScreenFieldValues} annotation. Will be typically displays as auto complete, or lookup window
  * 
  * @author Roi Mor
  */
-public interface AutoCompleteFieldTypeDefinition extends FieldTypeDefinition {
+public interface FieldWithValuesTypeDefinition extends FieldTypeDefinition {
 
 	<S extends Session, T> RecordsProvider<S, T> getRecordsProvider();
 
@@ -44,4 +44,7 @@ public interface AutoCompleteFieldTypeDefinition extends FieldTypeDefinition {
 	 */
 	ScreenEntityDefinition getSourceEntityDefinition();
 
+	String getDisplayFieldName();
+
+	boolean isAsWindow();
 }

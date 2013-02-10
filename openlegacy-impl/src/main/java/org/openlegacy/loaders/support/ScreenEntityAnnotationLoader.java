@@ -15,13 +15,16 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
+import org.openlegacy.terminal.persistance.TerminalPersistedSnapshot;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.utils.StringUtil;
+import org.openlegacy.utils.XmlSerializationUtil;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
+import java.net.URL;
 import java.text.MessageFormat;
 
 @Component
@@ -40,12 +43,12 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 		ScreenEntity screenEntity = (ScreenEntity)annotation;
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
-		String screenName = screenEntity.name().length() > 0 ? screenEntity.name() : containingClass.getSimpleName();
+		String screenEntityName = screenEntity.name().length() > 0 ? screenEntity.name() : containingClass.getSimpleName();
 		String displayName = screenEntity.displayName().length() > 0 ? screenEntity.displayName()
-				: StringUtil.toDisplayName(screenName);
+				: StringUtil.toDisplayName(screenEntityName);
 
-		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenName, containingClass);
-		screenEntityDefinition.setEntityName(screenName);
+		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenEntityName, containingClass);
+		screenEntityDefinition.setEntityName(screenEntityName);
 		screenEntityDefinition.setDisplayName(displayName);
 		screenEntityDefinition.setType(screenEntity.screenType());
 		screenEntityDefinition.setWindow(screenEntity.window());
@@ -53,9 +56,27 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 
 		screenEntityDefinition.setScreenSize(new SimpleScreenSize(screenEntity.rows(), screenEntity.columns()));
 
-		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenName,
+		loadSnapshot(containingClass, screenEntityName, screenEntityDefinition);
+
+		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenEntityName,
 				containingClass.getName()));
 
 		screenEntitiesRegistry.add(screenEntityDefinition);
+	}
+
+	private static void loadSnapshot(Class<?> containingClass, String screenEntityName,
+			SimpleScreenEntityDefinition screenEntityDefinition) {
+		String snapshotXmlResourceName = MessageFormat.format("{0}-resources/{1}.xml", screenEntityName,
+				containingClass.getSimpleName());
+		URL snapshotXmlResource = containingClass.getResource(snapshotXmlResourceName);
+		if (snapshotXmlResource != null) {
+			try {
+				TerminalPersistedSnapshot snapshot = XmlSerializationUtil.deserialize(TerminalPersistedSnapshot.class,
+						snapshotXmlResource.openStream());
+				screenEntityDefinition.setSnapshot(snapshot);
+			} catch (Exception e) {
+				logger.warn("Failed to load snapshot for " + screenEntityName);
+			}
+		}
 	}
 }

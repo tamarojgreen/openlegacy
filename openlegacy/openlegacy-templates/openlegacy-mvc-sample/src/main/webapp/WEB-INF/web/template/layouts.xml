@@ -53,4 +53,7 @@
 		<put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
 	</definition>
 
+	<definition name="window" template="/WEB-INF/web/template/window.jspx">
+	</definition>
+		
 </tiles-definitions>

@@ -2,7 +2,7 @@ package com.test;
 
 import org.openlegacy.annotations.screen.*;
 
-@ScreenEntity(window=true)
+@ScreenEntity(window=true, rows= 5, columns= 22)
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 6, column = 36, value = "Window Screen"), 
 				@Identifier(row = 7, column = 35, value = "Field A:"), 
@@ -10,9 +10,10 @@ import org.openlegacy.annotations.screen.*;
 				})
 public class WindowScreen {
     
+	
 	@ScreenField(row = 7, column = 44, endColumn= 46 ,labelColumn= 35 ,editable= true ,displayName = "Field A", sampleValue = "in1")
     private String fieldA;
-
+	
 	@ScreenField(row = 8, column = 44, endColumn= 46 ,labelColumn= 35 ,displayName = "Field B", sampleValue = "in2")
     private String fieldB;
 

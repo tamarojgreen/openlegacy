@@ -37,6 +37,10 @@
 		<put-attribute name="body" value="/WEB-INF/web/views/generic.jspx" />
 	</definition>
 
+	<definition name="genericWindow" extends="window">
+		<put-attribute name="body" value="/WEB-INF/web/views/generic.jspx" />
+	</definition>
+		
 	<!-- A generic API composite page (tab) -->
 	<definition name="composite" extends="compositeTemplate">
 		<put-attribute name="body" value="/WEB-INF/web/views/composite.jspx" />

@@ -12,12 +12,12 @@ package org.openlegacy.definitions.support;
 
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
-import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
+import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.Serializable;
 
-public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldTypeDefinition, Serializable {
+public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDefinition, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -26,6 +26,10 @@ public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldT
 	private boolean collectAll;
 	private ScreenEntityDefinition sourceEntityDefinition;
 	private String sourceEntityClassName;
+
+	private String displayFieldName;
+
+	private boolean asWindow;
 
 	public void setRecordsProvider(RecordsProvider<? extends Session, Object> recordsProvider) {
 		this.recordsProvider = recordsProvider;
@@ -73,7 +77,7 @@ public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldT
 	}
 
 	public String getTypeName() {
-		return "autocomplete";
+		return "fieldWithValues";
 	}
 
 	public void setSourceEntityClassName(String sourceEntityClassName) {
@@ -81,6 +85,25 @@ public class SimpleAutoCompleteFieldTypeDefinition implements AutoCompleteFieldT
 	}
 
 	public String getSourceEntityClassName() {
-		return sourceEntityClassName;
+		if (sourceEntityClassName != null) {
+			return sourceEntityClassName;
+		}
+		return sourceEntityClass.getSimpleName();
+	}
+
+	public String getDisplayFieldName() {
+		return displayFieldName;
+	}
+
+	public void setDisplayFieldName(String displayFieldName) {
+		this.displayFieldName = displayFieldName;
+	}
+
+	public void setAsWindow(boolean asWindow) {
+		this.asWindow = asWindow;
+	}
+
+	public boolean isAsWindow() {
+		return asWindow;
 	}
 }

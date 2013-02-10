@@ -34,7 +34,7 @@
 								<c:set value="${olf:uncapFirst(tableField)}" var="tableField" />
 								<spring:eval expression="${tableField}" var="tableData"></spring:eval>
 								<ol:table property="${pagePart.tableFieldName}"
-									data="${tableData}"></ol:table>
+									data="${tableData}" window="${definitions.window}"></ol:table>
 							</c:otherwise>
 						</c:choose>
 					</ol:pagePart>

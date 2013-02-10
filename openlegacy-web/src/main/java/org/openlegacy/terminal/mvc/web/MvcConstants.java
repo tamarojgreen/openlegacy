@@ -18,6 +18,8 @@ public class MvcConstants {
 
 	public static final String GENERIC = "generic";
 
+	public static final String GENERIC_WINDOW = "genericWindow";
+
 	public static final String ROOTMENU_VIEW = "rootMenu";
 
 	public static final String LOGIN_VIEW = "login";

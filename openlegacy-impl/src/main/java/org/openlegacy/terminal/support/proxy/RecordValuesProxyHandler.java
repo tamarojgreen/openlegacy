@@ -13,7 +13,7 @@ package org.openlegacy.terminal.support.proxy;
 import org.aopalliance.intercept.MethodInvocation;
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
-import org.openlegacy.definitions.AutoCompleteFieldTypeDefinition;
+import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -55,10 +55,10 @@ public class RecordValuesProxyHandler implements ScreenEntityProxyHandler, Seria
 		Class<?> entityClass = target.getClass();
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(entityClass);
 		ScreenFieldDefinition fieldDefinition = screenEntityDefinition.getFieldsDefinitions().get(propertyName);
-		if (!(fieldDefinition.getFieldTypeDefinition() instanceof AutoCompleteFieldTypeDefinition)) {
+		if (!(fieldDefinition.getFieldTypeDefinition() instanceof FieldWithValuesTypeDefinition)) {
 			return null;
 		}
-		AutoCompleteFieldTypeDefinition fieldTypeDefinition = (AutoCompleteFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+		FieldWithValuesTypeDefinition fieldTypeDefinition = (FieldWithValuesTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 		RecordsProvider<Session, Object> recordsProvider = fieldTypeDefinition.getRecordsProvider();
 
 		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,

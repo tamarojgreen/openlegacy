@@ -191,6 +191,8 @@ public class DefaultGenericController {
 				viewName = MvcConstants.ROOTMENU_VIEW;
 			} else if (partial) {
 				viewName = MvcConstants.GENERIC_VIEW;
+			} else if (entityDefinition.isWindow()) {
+				viewName = MvcConstants.GENERIC_WINDOW;
 			} else {
 				viewName = MvcConstants.GENERIC;
 			}

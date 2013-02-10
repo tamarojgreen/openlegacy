@@ -21,6 +21,7 @@ import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
@@ -67,7 +68,21 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		screenFieldDefinition.setPosition(position);
 
 		if (fieldAnnotation.endColumn() == 0) {
-			screenFieldDefinition.setLength(0);
+			// might be null for screen part
+			if (screenEntityDefinition == null || screenEntityDefinition.getSnapshot() == null) {
+				screenFieldDefinition.setLength(0);
+			} else {
+				if (screenEntityDefinition != null && screenEntityDefinition.getSnapshot() != null) {
+					TerminalField terminalField = screenEntityDefinition.getSnapshot().getField(position);
+					if (terminalField != null) {
+						int length = terminalField.getLength();
+						screenFieldDefinition.setLength(length);
+						logger.debug(MessageFormat.format(
+								"Applying terminal field length {0} to field {1}.{2} which has no end column defined", length,
+								screenEntityDefinition.getEntityName(), field.getName()));
+					}
+				}
+			}
 		} else {
 			screenFieldDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
 		}

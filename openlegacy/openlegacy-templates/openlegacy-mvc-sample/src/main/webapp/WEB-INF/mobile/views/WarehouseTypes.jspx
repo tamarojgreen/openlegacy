@@ -1,0 +1,13 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<ol:form model="warehouseTypes">
+			<ol:pagePart>
+					<ol:table data="${warehouseTypes.warehouseTypesRecords}" property="warehouseTypesRecords" />
+			</ol:pagePart>
+		
+	</ol:form>
+</jsp:root>

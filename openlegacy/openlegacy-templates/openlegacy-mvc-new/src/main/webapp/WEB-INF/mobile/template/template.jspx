@@ -37,6 +37,7 @@
 		<c:if test="${openLegacyProperties.rightToLeft}">
 			<c:set var="cssRtl" value="_rtl" />
 		</c:if>
+		<!--link href="${pageContext.request.contextPath}/dj/dojox/mobile/themes/iphone/iphone.css" rel="stylesheet" /-->
 		<link href="${pageContext.request.contextPath}/themes/cloudm/cloudm${cssRtl}.css" rel="stylesheet"/>
 		<link href="${pageContext.request.contextPath}/themes/cloudm/openlegacy.css" rel="stylesheet" />
 		<link href="${pageContext.request.contextPath}/css/project_m.css" rel="stylesheet" />
@@ -66,6 +67,7 @@
 					"dojox/mobile/TabBarButton",
 					"dojox/mobile/ComboBox",
 					"dojox/mobile/Opener",
+					"dojox/mobile/SimpleDialog",
 					"dijit/Calendar",
 					"dojo/has!webkit?:dojox/mobile/compat",
 					"dojo/store/Memory",
@@ -150,6 +152,10 @@
 			<img src="${pageContext.request.contextPath}/images/loading.gif" />
 		</div>		
 
+		<div id="dialogs" data-dojo-type="dojox.mobile.View">
+			<div id="lookupDialog" data-dojo-type="dojox.mobile.SimpleDialog" style="position: absolute;"><!--  --></div>
+		</div>
+		
 		<tiles:insertAttribute name="footer" ignore="true"/>
 	</body>
 </html>

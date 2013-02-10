@@ -154,8 +154,8 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     }
 
 
-    public String WarehouseDetails.getWarehouseType1(){
-    	return this.warehouseType1;
+    public String WarehouseDetails.getWarehouseTypeName(){
+    	return this.warehouseTypeName;
     }
     
 

@@ -57,3 +57,56 @@
 #treeNode{
 	height: 200px;
 }
+
+
+
+
+
+
+.window input, .window select {
+	font-size: 12px;
+	border: 1px solid #848891;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding: 3px;
+	background-color: #fff;
+	background-image: url(images/editbox_bg.png);
+	background-repeat: repeat-x;
+	background-position: left top;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.window table tr th {
+	background-image: url(images/tbl_hdr.png);
+	background-repeat: repeat-x;
+	background-position: left top;
+	color: #dadfe5;
+	text-shadow: #40444a 0px -1px 0px;
+	text-align: left;
+	padding: 9px 15px 8px 15px;
+	border-right: #acc6e0 solid 1px;
+	border-bottom: #7d99b8 solid 1px;
+}
+.window table tr td {
+	font-size: 1em;
+	font-family: Helvetica, sans-serif;
+	color: #666;
+	padding: 0;
+	border-right: #b0b7c2 solid 1px;
+	padding: 4px 15px 4px 15px;
+	background: #fff;
+}
+
+.window table {
+	border-collapse: collapse;
+	width: 100%;
+	-webkit-box-shadow: #ddd 0px 2px 4px;
+	-moz-box-shadow: #ddd 0px 2px 4px;
+	box-shadow: #ddd 0px 2px 4px;
+}
+
+.search{
+	margin-left: 5px;
+	vertical-align: middle;
+	cursor: pointer; 
+}

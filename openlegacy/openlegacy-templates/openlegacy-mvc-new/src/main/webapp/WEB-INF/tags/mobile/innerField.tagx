@@ -68,25 +68,41 @@
 									registry.byId('calPicker').show(input, ['above-centered','below-centered','after','before']);
 								});" />
 					</c:when>
-					<c:when test="${type == 'autocomplete'}">
-						<input id="${fieldDefinition.name}" type="text" 
-							onclick="require(['dojo/dom'], function(dom){eval(dom.byId('${fieldDefinition.name}Script').innerHTML);});" />
-						<div id="${fieldDefinition.name}Script" style="display: none">
-							require(["dijit/registry", "dojo/request/xhr", "dojo/store/Memory", "dojox/mobile/ComboBox"], 
-							function(registry, xhr, Memory, ComboBox){
-								if (registry.byId('${fieldDefinition.name}') != null) return; 
-								xhr.get(
-										"${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}Values",
-									 	{handleAs: "json"}
-									 ).then(
-										function(records){
-											var store = new Memory({ idProperty: "name", data: records});	
-											var combo = new ComboBox({store:store},"${fieldDefinition.name}");
-										}, 
-										function(e){alert(e);}
-								);
-							});
-						</div>
+					<c:when test="${type == 'fieldWithValues'}">
+						<c:choose>
+							<c:when test="${fieldDefinition.fieldTypeDefinition.asWindow}">
+								<c:set var="windowUrl" value="${fieldDefinition.fieldTypeDefinition.sourceEntityClassName}" />
+								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
+								<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
+									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}"
+									cssClass="${cssClass}" />
+								<c:if test="${not empty fieldDefinition.fieldTypeDefinition.displayFieldName}">
+									<ol:span cssClass="readonlyField ${cssClass}" path="${fieldDefinition.fieldTypeDefinition.displayFieldName}"
+										cssStyle="${style}" />
+								</c:if>
+								<img src="${pageContext.request.contextPath}/icons/search.png" onclick="openMobileLookupDialog('${name}','${fieldDefinition.fieldTypeDefinition.displayFieldName}','${pageContext.request.contextPath}/${windowUrl}','width:350px;height:300px')" class="search" />
+							</c:when>
+							<c:otherwise>
+								<input id="${fieldDefinition.name}" type="text" 
+									onclick="require(['dojo/dom'], function(dom){eval(dom.byId('${fieldDefinition.name}Script').innerHTML);});" />
+								<div id="${fieldDefinition.name}Script" style="display: none">
+									require(["dijit/registry", "dojo/request/xhr", "dojo/store/Memory", "dojox/mobile/ComboBox"], 
+									function(registry, xhr, Memory, ComboBox){
+										if (registry.byId('${fieldDefinition.name}') != null) return; 
+										xhr.get(
+												"${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}Values",
+											 	{handleAs: "json"}
+											 ).then(
+												function(records){
+													var store = new Memory({ idProperty: "name", data: records});	
+													var combo = new ComboBox({store:store},"${fieldDefinition.name}");
+												}, 
+												function(e){alert(e);}
+										);
+									});
+							</div>
+							</c:otherwise>
+						</c:choose>
 					</c:when>
 					<c:when test="${type == 'address'}">
 						<span style="${tabletParentSpanStyle}">

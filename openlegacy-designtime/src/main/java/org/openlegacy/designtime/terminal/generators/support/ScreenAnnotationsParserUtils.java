@@ -13,7 +13,7 @@ package org.openlegacy.designtime.terminal.generators.support;
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
 import org.openlegacy.definitions.FieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleFieldWthValuesTypeDefinition;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
@@ -52,7 +52,7 @@ public class ScreenAnnotationsParserUtils {
 		String sourceScreenClassValue = getAnnotationValue(annotationExpr, AnnotationConstants.SOURCE_SCREEN_ENTITY);
 		String sourceEntityClassName = StringUtil.toClassName(sourceScreenClassValue);
 
-		SimpleAutoCompleteFieldTypeDefinition fieldDefinition = new SimpleAutoCompleteFieldTypeDefinition();
+		SimpleFieldWthValuesTypeDefinition fieldDefinition = new SimpleFieldWthValuesTypeDefinition();
 		fieldDefinition.setSourceEntityClassName(sourceEntityClassName);
 		field.setFieldTypeDefinition(fieldDefinition);
 		// used for aspectj code generation

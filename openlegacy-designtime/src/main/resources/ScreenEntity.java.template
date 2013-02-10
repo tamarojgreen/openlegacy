@@ -14,7 +14,7 @@ import ${referredClass};
 </#list>	
 
 <#-- TODO find a nicer way to generate "," properly when 2 attributes exists -->
-@ScreenEntity(<#if window>window=true</#if><#if window && type??>,</#if><#if type??>screenType=${type.simpleName}.class</#if><#if child && (window || type??)>,</#if><#if child>child=true</#if><#if (window || type??) && displayName??>,</#if><#if displayName??>displayName="${displayName}"</#if>)
+@ScreenEntity(<#if window>window=true, rows= ${screenSize.rows}, columns= ${screenSize.columns}</#if><#if window && type??>,</#if><#if type??>screenType=${type.simpleName}.class</#if><#if child && (window || type??)>,</#if><#if child>child=true</#if><#if (window || type??) && displayName??>,</#if><#if displayName??>displayName="${displayName}"</#if>)
 @ScreenIdentifiers(identifiers = { 
 				<#list screenIdentification.screenIdentifiers as identifier> 
 				@Identifier(row = ${identifier.position.row}, column = ${identifier.position.column}, value = "${identifier.text}")<#if identifier_has_next>,</#if> 
@@ -113,7 +113,7 @@ public class ${entityName} {
 		  <#case "boolean">
 	@ScreenBooleanField(trueValue="${field.fieldTypeDefinition.trueValue}",falseValue="${field.fieldTypeDefinition.falseValue}")
 		     <#break>
-		  <#case "autocomplete">
+		  <#case "fieldWithValues">
 	@ScreenFieldValues(sourceScreenEntity=${field.fieldTypeDefinition.sourceEntityDefinition.entityName}.class,collectAll=false)
 		     <#break>
 		  <#case "date">

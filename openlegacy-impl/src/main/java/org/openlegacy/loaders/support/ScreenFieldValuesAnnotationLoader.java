@@ -12,7 +12,7 @@ package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
-import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleFieldWthValuesTypeDefinition;
 import org.openlegacy.terminal.ScreenRecordsProvider;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
@@ -78,10 +78,14 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 				"Field definition for field {0} not found. Verify @ScreenFieldValues is defined along @ScreenField annotation",
 				fieldName));
 
-		SimpleAutoCompleteFieldTypeDefinition fieldTypeDefinition = new SimpleAutoCompleteFieldTypeDefinition();
+		SimpleFieldWthValuesTypeDefinition fieldTypeDefinition = new SimpleFieldWthValuesTypeDefinition();
 		fieldTypeDefinition.setRecordsProvider(screenRecordsProvider);
 		fieldTypeDefinition.setSourceEntityClass(fieldValuesAnnotation.sourceScreenEntity());
 		fieldTypeDefinition.setCollectAllRecords(fieldValuesAnnotation.collectAll());
+		fieldTypeDefinition.setAsWindow(fieldValuesAnnotation.asWindow());
+		if (fieldValuesAnnotation.displayFieldName().length() > 0) {
+			fieldTypeDefinition.setDisplayFieldName(fieldValuesAnnotation.displayFieldName());
+		}
 
 		fieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);
 

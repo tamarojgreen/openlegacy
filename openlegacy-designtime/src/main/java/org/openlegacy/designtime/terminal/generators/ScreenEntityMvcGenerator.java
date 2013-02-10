@@ -57,6 +57,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	private static final String DEFAULT_TEMPLATE = "template";
 	private static final String VIEW_ONLY_TEMPLATE = "view";
 	private static final String INNER_VIEW_MOBILE_TEMPLATE = "innerView";
+	private static final String WINDOW_TEMPLATE = "window";
 
 	private static final String COMPOSITE_SUFFIX = "Composite";
 	private static final String COMPOSITE_TEMPLATE = "compositeTemplate";
@@ -109,7 +110,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 	/**
 	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
 	 */
-	private void generateView(GenerateViewRequest generatePageRequest, EntityDefinition<?> entityDefinition, boolean isChild)
+	private void generateView(GenerateViewRequest generatePageRequest, ScreenEntityDefinition entityDefinition, boolean isChild)
 			throws GenerationException {
 
 		generateUtil.setTemplateDirectory(generatePageRequest.getTemplatesDirectory());
@@ -123,7 +124,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 
 			String entityClassName = entityDefinition.getEntityClassName();
 
-			SimplePageDefinition pageDefinition = (SimplePageDefinition)new DefaultScreenPageBuilder().build((ScreenEntityDefinition)entityDefinition);
+			SimplePageDefinition pageDefinition = (SimplePageDefinition)new DefaultScreenPageBuilder().build(entityDefinition);
 
 			if (generatePageRequest.isGenerateHelp()) {
 				boolean generateHelp = true;
@@ -405,7 +406,7 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 		}
 	}
 
-	private static String getMvcTemplateType(EntityDefinition<?> entityDefinition, boolean isComposite, boolean isChild,
+	private static String getMvcTemplateType(ScreenEntityDefinition entityDefinition, boolean isComposite, boolean isChild,
 			boolean isMobile) {
 		String mvcTemplateType = null;
 		if (isMobile) {
@@ -413,6 +414,9 @@ public class ScreenEntityMvcGenerator implements ScreenEntityWebGenerator {
 			// views (child of view)
 			mvcTemplateType = (isComposite || isChild) ? INNER_VIEW_MOBILE_TEMPLATE : VIEW_ONLY_TEMPLATE;
 		} else {
+			if (entityDefinition.isWindow()) {
+				return WINDOW_TEMPLATE;
+			}
 			// in web - generate pages as template by default. composite (main screen) and it's child entities - generate as views
 			mvcTemplateType = (isComposite || isChild) ? VIEW_ONLY_TEMPLATE : DEFAULT_TEMPLATE;
 		}

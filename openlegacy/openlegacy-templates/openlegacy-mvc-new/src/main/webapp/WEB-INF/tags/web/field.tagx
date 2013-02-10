@@ -44,7 +44,8 @@
 		</c:when>
 		<c:otherwise>
 			<div style="margin-left: ${left}; top: ${top}; width:${width}; position:absolute;">
-				<olt:innerField name="${name}" label="${label}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" />
+				<olt:innerField name="${name}" label="${label}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" 
+					style="${style}" cssClass="${cssClass}"/>
 			</div>
 		</c:otherwise>
 	</c:choose>

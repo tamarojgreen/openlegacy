@@ -20,7 +20,7 @@
  				<ol:field name="screenForPagePart.fld2Row20" cssClass="col_2_of_2"/>
 			</ol:pagePart>
 			<ol:pagePart left="6%" top="54%" width="31%">
-					<ol:table data="${screenForPage.screenForPageRows}" property="screenForPageRows" />
+					<ol:table data="${screenForPage.screenForPageRows}" property="screenForPageRows"  />
 			</ol:pagePart>
 		
 	</ol:form>

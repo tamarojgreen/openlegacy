@@ -25,5 +25,8 @@
 		<div id="viewSourceDialog" data-dojo-type="dijit.Dialog"
 			title="Source" style="width: 80%; height: 500px; overflow: auto;"
 			data-dojo-props="parseOnLoad: true, draggable:false, duration:600"><!--  --></div>
+		<div id="lookupDialog" data-dojo-type="dijit.Dialog"
+			title="Lookup window" style="overflow: auto;"
+			data-dojo-props="parseOnLoad: true, draggable:true"><!--  --></div>
 	</div>
 </jsp:root>
