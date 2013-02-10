@@ -8,7 +8,6 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-
 package org.openlegacy.definitions.support;
 
 import org.openlegacy.definitions.ListFieldTypeDefinition;
