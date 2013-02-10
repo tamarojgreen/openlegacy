@@ -132,7 +132,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	
 	<#assign fields = entityDefinition.fieldsDefinitions?values>
 	<#list fields as field>
-		<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.class.simpleName = "SimpleAutoCompleteFieldTypeDefinition">
+		<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.class.simpleName = "SimpleFieldWthValuesTypeDefinition">
 	
 	// handle ajax request for ${field.name} field
 	@RequestMapping(value="/${field.name}Values", method = RequestMethod.GET)
