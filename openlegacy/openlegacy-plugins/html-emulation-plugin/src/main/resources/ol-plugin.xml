@@ -3,7 +3,7 @@
 	<name>html-emulation-plugin</name>
 	<description>Html Emulation Plugin is responsible for showing screens as HTML on-the-fly</description>
 	<creator>OpenLegacy</creator>
-	<version>1.0.0-RC1</version>
+	<version>1.0.0-RELEASE</version>
 	
 	<!-- List of JavaScript resource files names. -->
 	<!--format:
