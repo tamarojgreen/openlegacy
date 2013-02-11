@@ -51,6 +51,9 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 	ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	public MenuItem getMenuTree(Class<?> menuEntityClass) {
+		if (menuEntityClass == null) {
+			return null;
+		}
 		ScreenEntityDefinition menuDefinition = getScreenEntitiesRegistry().get(menuEntityClass);
 
 		Assert.notNull(menuDefinition,
