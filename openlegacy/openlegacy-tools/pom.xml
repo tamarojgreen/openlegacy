@@ -78,7 +78,8 @@
   
 	<modules>
 		<module>openlegacy-maven-plugin</module>
-		<module>openlegacy-jrebel</module>
+		<!--  Skipping due to problem with jberel Maven artifacts  -->
+<!-- 		<module>openlegacy-jrebel</module> -->
 	</modules>
   
 </project>
