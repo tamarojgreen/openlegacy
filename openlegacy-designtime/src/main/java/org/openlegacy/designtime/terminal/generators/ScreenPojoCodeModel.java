@@ -12,6 +12,7 @@ package org.openlegacy.designtime.terminal.generators;
 
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.services.ScreenIdentification;
 
@@ -66,4 +67,8 @@ public interface ScreenPojoCodeModel {
 	boolean isScrollable();
 
 	int getRowGaps();
+
+	TerminalPosition getPartPosition();
+
+	int getPartWidth();
 }

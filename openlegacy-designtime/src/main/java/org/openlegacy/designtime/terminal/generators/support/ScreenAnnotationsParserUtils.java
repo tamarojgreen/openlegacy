@@ -56,7 +56,9 @@ public class ScreenAnnotationsParserUtils {
 	public static void loadBooleanField(AnnotationExpr annotationExpr, Field field) {
 		String trueValue = getAnnotationValue(annotationExpr, AnnotationConstants.TRUE_VALUE);
 		String falseValue = getAnnotationValue(annotationExpr, AnnotationConstants.FALSE_VALUE);
-		FieldTypeDefinition booleanFieldDefiniton = new SimpleBooleanFieldTypeDefinition(trueValue, falseValue, false);
+		String treatNullAsEmpty = getAnnotationValue(annotationExpr, AnnotationConstants.TREAT_EMPTY_AS_NULL);
+		FieldTypeDefinition booleanFieldDefiniton = new SimpleBooleanFieldTypeDefinition(trueValue, falseValue,
+				StringConstants.TRUE.equals(treatNullAsEmpty));
 		field.setFieldTypeDefinition(booleanFieldDefiniton);
 	}
 

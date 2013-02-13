@@ -16,9 +16,11 @@ import org.openlegacy.FieldType.General;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.services.ScreenIdentification;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.table.ScreenTableCollector;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.StringUtil;
@@ -71,6 +73,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private String tableCollectorName;
 	private boolean scrollable;
 	private int rowGaps;
+	private PartPostition partPostition;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -193,7 +196,28 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			if (annotationName.equals(AnnotationConstants.SCREEN_IDENTIFIERS_ANNOTATION)) {
 				screenIdentification = ScreenAnnotationsParserUtils.populateScreenIdentification(annotationExpr);
 			}
+			if (annotationName.equals(AnnotationConstants.PART_POSITION_ANNOTATION)) {
+				partPostition = populatePartPositionAttributes(annotationExpr);
+			}
 		}
+	}
+
+	private static PartPostition populatePartPositionAttributes(AnnotationExpr annotationExpr) {
+		PartPostition partPostition = null;
+		String rowFromAnnotation = null;
+		String columnFromAnnotation = null;
+		String widthFromAnnotation = null;
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
+			rowFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROW, normalAnnotationExpr.getPairs());
+			columnFromAnnotation = findAnnotationAttribute(AnnotationConstants.COLUMN, normalAnnotationExpr.getPairs());
+			widthFromAnnotation = findAnnotationAttribute(AnnotationConstants.WIDTH, normalAnnotationExpr.getPairs());
+		}
+		int row = rowFromAnnotation != null ? Integer.valueOf(rowFromAnnotation) : 0;
+		int column = columnFromAnnotation != null ? Integer.valueOf(columnFromAnnotation) : 0;
+		int width = widthFromAnnotation != null ? Integer.valueOf(widthFromAnnotation) : 80;
+		partPostition = new PartPostition(row, column, width);
+		return partPostition;
 	}
 
 	private void populateEntityAttributes(AnnotationExpr annotationExpr) {
@@ -209,13 +233,13 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String tableCollectorNameFromAnnotation = null;
 		String scrollableFromAnnotation = null;
 		String rowGapsFromAnnotation = null;
+		String supportTerminalDataString = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
-			String supportTerminalDataString = findAnnotationAttribute(AnnotationConstants.SUPPORT_TERMINAL_DATA,
-					normalAnnotationExpr.getPairs());
-			supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
+			supportTerminalDataString = findAnnotationAttribute(AnnotationConstants.SUPPORT_TERMINAL_DATA,
+					normalAnnotationExpr.getPairs());
 			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, normalAnnotationExpr.getPairs());
 			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, normalAnnotationExpr.getPairs());
 			typeNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCREEN_TYPE, normalAnnotationExpr.getPairs());
@@ -233,6 +257,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			scrollableFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCROLLABLE, normalAnnotationExpr.getPairs());
 			rowGapsFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROW_GAPS, normalAnnotationExpr.getPairs());
 		}
+		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
+
 		displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation)
 				: StringUtil.toDisplayName(getClassName());
 		entityName = entityNameFromAnnotation != null ? StringUtil.stripQuotes(entityNameFromAnnotation)
@@ -630,5 +656,38 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	public int getRowGaps() {
 		return rowGaps;
+	}
+
+	private static class PartPostition {
+
+		private TerminalPosition partPosition;
+		private int width;
+
+		public PartPostition(int row, int column, int width) {
+			this.partPosition = new SimpleTerminalPosition(row, column);
+			this.width = width;
+		}
+
+		public TerminalPosition getPartPosition() {
+			return partPosition;
+		}
+
+		public int getWidth() {
+			return width;
+		}
+	}
+
+	public TerminalPosition getPartPosition() {
+		if (partPostition == null) {
+			partPostition = new PartPostition(0, 0, 80);
+		}
+		return partPostition.getPartPosition();
+	}
+
+	public int getPartWidth() {
+		if (partPostition == null) {
+			partPostition = new PartPostition(0, 0, 80);
+		}
+		return partPostition.getWidth();
 	}
 }

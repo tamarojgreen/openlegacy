@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.generators.support;
 
+import org.openlegacy.annotations.screen.PartPosition;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenColumn;
@@ -41,6 +42,7 @@ public class AnnotationConstants {
 	public static final String SCREEN_TABLE_ACTIONS_ANNOTATION = ScreenTableActions.class.getSimpleName();
 	public static final String SCREEN_NAVIGATION_ANNOTATION = ScreenNavigation.class.getSimpleName();
 	public static final String SCREEN_IDENTIFIERS_ANNOTATION = ScreenIdentifiers.class.getSimpleName();
+	public static final String PART_POSITION_ANNOTATION = PartPosition.class.getSimpleName();
 
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String EDITABLE = "editable";
@@ -120,4 +122,7 @@ public class AnnotationConstants {
 	public static final String TABLE_COLLECTOR = "tableCollector";
 	public static final String SCROLLABLE = "scrollable";
 	public static final String ROW_GAPS = "rowGaps";
+
+	// @PartPosition
+	public static final String WIDTH = "width";
 }
