@@ -147,4 +147,8 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		this.applicationContext = SpringUtil.getApplicationContext();
 		return this;
 	}
+
+	public void flip() {
+		terminalConnection.flip();
+	}
 }

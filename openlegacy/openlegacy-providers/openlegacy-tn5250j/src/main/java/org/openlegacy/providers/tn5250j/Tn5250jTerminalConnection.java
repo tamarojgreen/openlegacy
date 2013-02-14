@@ -120,4 +120,8 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 		return sequence;
 	}
 
+	public void flip() {
+		throw(new UnsupportedOperationException("Not implemented flip for H3270"));
+	}
+
 }

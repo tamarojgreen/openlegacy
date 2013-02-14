@@ -17,5 +17,9 @@ import java.io.Serializable;
 public abstract class AbstractMockTerminalConnection implements TerminalConnection, Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private boolean rightToLeft;
 
+	public void flip() {
+		rightToLeft = !rightToLeft;
+	}
 }

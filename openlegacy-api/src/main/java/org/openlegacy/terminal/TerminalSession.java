@@ -81,4 +81,5 @@ public interface TerminalSession extends StatefullSession<TerminalSnapshot> {
 
 	Integer getSequence();
 
+	void flip();
 }

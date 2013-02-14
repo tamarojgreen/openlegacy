@@ -10,6 +10,14 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,14 +54,6 @@ import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
-
-import java.io.Serializable;
-import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * A default session class exposes screenEntity building and sending
@@ -473,6 +473,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			};
 		}
 		return connectionProperties;
+	}
+
+	public void flip() {
+		terminalConnection.flip();
+		// force update
+		terminalConnection.fetchSnapshot();
 	}
 
 }
