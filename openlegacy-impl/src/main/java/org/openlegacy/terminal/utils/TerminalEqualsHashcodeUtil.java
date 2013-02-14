@@ -22,6 +22,9 @@ import java.util.List;
 public class TerminalEqualsHashcodeUtil {
 
 	public static boolean snapshotsEquals(TerminalSnapshot snapshot1, TerminalSnapshot snapshot2) {
+		if (snapshot1.getRows().size() == 0 || snapshot2.getRows().size() == 0){
+			return false;
+		}
 		return snapshot1.getRows().containsAll(snapshot2.getRows());
 	}
 
