@@ -21,6 +21,7 @@ import org.openlegacy.utils.OsUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Properties;
 
 public class H3270TerminalConnectionFactory implements TerminalConnectionFactory, InitializingBean {
 
@@ -40,10 +42,12 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 
 	private final Log logger = LogFactory.getLog(H3270TerminalConnectionFactory.class);
 
+	private Properties properties;
+
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		try {
 			// TODO set device
-			S3270 s3270Session = new S3270(leaseLogicalUnit(), hostName, configuration);
+			S3270 s3270Session = new S3270(leaseLogicalUnit(), hostName, properties);
 			return new H3270Connection(s3270Session);
 		} catch (LogicalUnitException e) {
 			throw (new OpenLegacyProviderException(e));
@@ -100,6 +104,10 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 			initResource("/cygwin1.dll");
 		}
 
+		Resource resource = new ClassPathResource("/host.properties");
+		properties = PropertiesLoaderUtils.loadProperties(resource);
+		properties.put("s3270.execPath", targetFile.getParent());
+		
 		logicalUnitPool = LogicalUnitPoolFactory.createLogicalUnitPool(configuration);
 	}
 

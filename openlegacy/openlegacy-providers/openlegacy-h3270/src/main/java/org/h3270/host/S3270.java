@@ -37,6 +37,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,7 +82,7 @@ public class S3270 implements Terminal {
 	 * @param hostname
 	 *            the name of the host to connect to
 	 * @param configuration
-	 *            the h3270 configuration, derived from h3270-config.xml
+	 *            the h3270 properties
 	 * @throws org.h3270.host.UnknownHostException
 	 *             if <code>hostname</code> cannot be resolved
 	 * @throws org.h3270.host.HostUnreachableException
@@ -89,19 +90,19 @@ public class S3270 implements Terminal {
 	 * @throws org.h3270.host.S3270Exception
 	 *             for any other error not matched by the above
 	 */
-	public S3270(String logicalUnit, String hostname, Configuration configuration) {
+	public S3270(String logicalUnit, String hostname, Properties properties) {
 
 		this.logicalUnit = logicalUnit;
 		this.hostname = hostname;
 		this.screen = new S3270Screen();
 
-		String commandLine = buildCommandLine(logicalUnit, hostname, configuration);
+		String commandLine = buildCommandLine(logicalUnit, hostname, properties);
 		try {
 			logger.info("Starting s3270: " + commandLine);
 			s3270 = Runtime.getRuntime().exec(commandLine);
 
-			out = new PrintWriter(new OutputStreamWriter(s3270.getOutputStream(), "ISO-8859-1"));
-			in = new BufferedReader(new InputStreamReader(s3270.getInputStream(), "ISO-8859-1"));
+			out = new PrintWriter(new OutputStreamWriter(s3270.getOutputStream(), "ISO-8859-8"));
+			in = new BufferedReader(new InputStreamReader(s3270.getInputStream(), "ISO-8859-8"));
 			errorReader = new ErrorReader();
 			errorReader.start();
 
@@ -120,27 +121,36 @@ public class S3270 implements Terminal {
 	 *            the configuration for h3270
 	 * @return a command line, ready to be executed by Runtime.exec()
 	 */
-	private String buildCommandLine(String logicalUnit, String hostname, Configuration configuration) {
-		String execPath = configuration.getChild("exec-path").getValue("/usr/local/bin");
-		Configuration s3270_options = configuration.getChild("s3270-options");
-		String charset = s3270_options.getChild("charset").getValue("bracket");
-		String model = s3270_options.getChild("model").getValue("3");
-		String additional = s3270_options.getChild("additional").getValue("");
+	private String buildCommandLine(String logicalUnit, String hostname, Properties properties) {
+		String execPath = getProperty(properties, "execPath","/usr/local/bin");
+		String charset = getProperty(properties, "charset",null);
+		String model = getProperty(properties, "charset","3");
+		String additional = getProperty(properties, "additional",null);
 		File s3270_binary = new File(execPath, "s3270");
 		StringBuffer cmd = new StringBuffer(s3270_binary.toString());
 		cmd.append(" -model " + model);
-		if (!charset.equals("bracket")) {
+		if (charset != null) {
 			cmd.append(" -charset " + charset);
 		}
-		if (additional.length() > 0) {
+		if (additional != null) {
 			cmd.append(" " + additional);
 		}
 		cmd.append(" ");
 		if (logicalUnit != null) {
 			cmd.append(logicalUnit).append('@');
 		}
+		
+		//TODO - add more option according to 
 		cmd.append(hostname);
 		return cmd.toString();
+	}
+
+	private String getProperty(Properties properties, String key, String defaultValue) {
+		 String value = properties.getProperty("s3270." +key);
+		 if (value != null){
+			 return value;
+		 }
+		 return defaultValue;
 	}
 
 	/**
@@ -483,9 +493,4 @@ public class S3270 implements Terminal {
 		return "s3270 " + super.toString();
 	}
 
-	public static void main(String[] args) throws Exception {
-		Configuration configuration = H3270Configuration.create("/home/spiegel/projects/h3270/cvs/webapp/WEB-INF/h3270-config.xml");
-		S3270 s3270 = new S3270(null, "locis.loc.gov", configuration);
-		System.out.println(s3270.isConnected());
-	}
 }

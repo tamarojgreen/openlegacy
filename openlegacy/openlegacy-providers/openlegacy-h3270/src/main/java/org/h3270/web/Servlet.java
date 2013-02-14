@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.*;
 import java.util.Iterator;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -187,7 +188,7 @@ public class Servlet extends AbstractServlet {
             new FileTerminal(new URL("file:" + filename)));
       } else {
         state.setTerminal(request, new S3270(leaseLogicalUnit(), hostname,
-            configuration));
+            /*TODO*/ new Properties()));
       }
       state.useKeypad(request, false);
 
