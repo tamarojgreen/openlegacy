@@ -110,6 +110,11 @@ public class ApxTerminalField extends AbstractTerminalField {
 	}
 
 	public boolean isRightToLeft() {
-		return ((GXIDataTypeSupport)apxField.getUnprotectedFieldData()).getDataType() == GXBaseObjectConstants.GX_FIELD_DATA_TYPE_REVERSED;
+		if (apxField.getUnprotectedFieldData() != null){
+			return ((GXIDataTypeSupport)apxField.getUnprotectedFieldData()).getDataType() == GXBaseObjectConstants.GX_FIELD_DATA_TYPE_REVERSED;
+		}
+		else{
+			return false;
+		}
 	}
 }
