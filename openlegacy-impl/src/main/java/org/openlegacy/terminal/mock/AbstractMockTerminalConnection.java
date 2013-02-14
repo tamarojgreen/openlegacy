@@ -18,4 +18,7 @@ public abstract class AbstractMockTerminalConnection implements TerminalConnecti
 
 	private static final long serialVersionUID = 1L;
 
+	public void flip() {
+		throw(new UnsupportedOperationException("Not implemented flip for mockup session"));
+	}
 }

@@ -36,6 +36,7 @@ import java.util.List;
 public class ApxTerminalConnection implements TerminalConnection {
 
 	private final GXIClientBaseObject baseObject;
+	private boolean rightToLeft;
 
 	public ApxTerminalConnection(GXIClientBaseObject baseObject) {
 		this.baseObject = baseObject;
@@ -57,6 +58,12 @@ public class ApxTerminalConnection implements TerminalConnection {
 	private GXIScreen fetchScreen() throws GXConnectionException, GXGeneralException {
 		GXGetScreenRequest screenRequest = new GXGetScreenRequest();
 		screenRequest.addVariable(GXBaseObjectConstants.GX_VAR_ENCODING_LOGICAL, "true");
+		if (rightToLeft){
+			screenRequest.addVariable(GXBaseObjectConstants.GX_VAR_SCREEN_DIRECTION,GXBaseObjectConstants.GX_VAR_VAL_SCREEN_DIRECTION_RTL);
+		}
+		else{
+			screenRequest.addVariable(GXBaseObjectConstants.GX_VAR_SCREEN_DIRECTION,GXBaseObjectConstants.GX_VAR_VAL_SCREEN_DIRECTION_LTR);
+		}
 		return baseObject.getScreen(screenRequest);
 	}
 
@@ -129,6 +136,10 @@ public class ApxTerminalConnection implements TerminalConnection {
 		} catch (GXGeneralException e) {
 			throw (new OpenLegacyProviderException(e));
 		}
+	}
+
+	public void flip() {
+		rightToLeft = !rightToLeft;
 	}
 
 }

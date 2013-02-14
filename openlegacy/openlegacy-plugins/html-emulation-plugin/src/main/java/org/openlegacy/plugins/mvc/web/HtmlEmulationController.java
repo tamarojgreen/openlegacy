@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -46,8 +47,12 @@ public class HtmlEmulationController {
 	private boolean emulationOnly = false;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String show(Model uiModel) {
+	public String show(Model uiModel,@RequestParam(value="flip",required=false) Object flip) {
 
+		if (flip != null){
+			terminalSession.flip();
+		}
+		
 		String result = snapshotHtmlRenderer.render(terminalSession.getSnapshot());
 		uiModel.addAttribute("terminalHtml", result);
 		return "HtmlEmulation";
@@ -66,7 +71,7 @@ public class HtmlEmulationController {
 
 			}
 		}
-		return show(uiModel);
+		return show(uiModel,null);
 	}
 
 	/**

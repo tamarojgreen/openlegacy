@@ -64,4 +64,8 @@ public class H3270Connection implements TerminalConnection {
 		return sequence;
 	}
 
+	public void flip() {
+		throw(new UnsupportedOperationException("Not implemented flip for H3270"));
+	}
+
 }

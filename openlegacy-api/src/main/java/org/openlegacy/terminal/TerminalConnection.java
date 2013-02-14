@@ -25,4 +25,6 @@ public interface TerminalConnection extends ApplicationConnection<TerminalSnapsh
 
 	void doAction(TerminalSendAction terminalSendAction);
 
+	void flip();
+
 }
