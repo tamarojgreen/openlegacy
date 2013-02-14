@@ -9,6 +9,7 @@ import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
+import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
@@ -220,6 +221,18 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 
 	}
 
+	@Test
+	public void testEntityTableRename() throws TemplateException, IOException {
+
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("TableScreen.xml");
+
+		ScreenEntityDesigntimeDefinition tableScreen = (ScreenEntityDesigntimeDefinition) screenEntitiesDefinitions.get("TableScreen");
+		tableScreen.setEntityName("TableScreen1");
+		
+		assertScreenContent(tableScreen,null);
+
+	}
+	
 	@Test
 	public void testMessagesScreen() {
 

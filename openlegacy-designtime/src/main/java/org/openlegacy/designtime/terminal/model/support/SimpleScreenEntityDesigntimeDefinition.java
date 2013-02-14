@@ -49,8 +49,8 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 
 	@Override
 	public void setEntityName(String entityName) {
-		super.setEntityName(entityName);
 		populateTableNames(entityName);
+		super.setEntityName(entityName);
 	}
 
 	/**
@@ -68,14 +68,14 @@ public class SimpleScreenEntityDesigntimeDefinition extends SimpleScreenEntityDe
 			if (entityName.equals(getEntityName())) {
 				return;
 			}
-			Set<String> oldTableNames = getTableDefinitions().keySet();
+			Object[] oldTableNames = getTableDefinitions().keySet().toArray();;
 			Collection<ScreenTableDefinition> tablesDefintions = Collections.unmodifiableCollection(getTableDefinitions().values());
 			int count = 0;
 			for (ScreenTableDefinition tableDefinition : tablesDefintions) {
 				setNewTableName(entityName, count, (SimpleScreenTableDefinition)tableDefinition);
 				count++;
 			}
-			for (String oldTableName : oldTableNames) {
+			for (Object oldTableName : oldTableNames) {
 				getTableDefinitions().remove(oldTableName);
 			}
 		}

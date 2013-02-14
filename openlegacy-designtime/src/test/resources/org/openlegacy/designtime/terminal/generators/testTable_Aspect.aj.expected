@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import com.someorg.examples.screens.TestClass.TableScreenRecord;
 
-privileged @SuppressWarnings("unused") aspect TableScreenRecordTable_Aspect {
+privileged @SuppressWarnings("unused") aspect TableScreenRecord_Aspect {
     
     public String TableScreenRecord.getColumn1(){
     	return this.column1;
@@ -30,4 +30,3 @@ privileged @SuppressWarnings("unused") aspect TableScreenRecordTable_Aspect {
 		return EqualsBuilder.reflectionEquals(this,other);
     }
 }
-
