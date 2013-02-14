@@ -9,6 +9,7 @@ package org.openlegacy.ide.eclipse.preview;
 public class FieldRectangle {
 
 	private int row;
+	private int endRow;
 	private int column;
 	private int endColumn;
 	private String value;
@@ -16,8 +17,9 @@ public class FieldRectangle {
 	/**
 	 * 
 	 */
-	public FieldRectangle(int row, int column, int endColumn, String value) {
+	public FieldRectangle(int row, int endRow, int column, int endColumn, String value) {
 		this.row = row;
+		this.endRow = endRow;
 		this.column = column;
 		this.endColumn = endColumn;
 		this.value = value;
@@ -25,6 +27,10 @@ public class FieldRectangle {
 
 	public int getRow() {
 		return row;
+	}
+
+	public int getEndRow() {
+		return endRow;
 	}
 
 	public int getColumn() {

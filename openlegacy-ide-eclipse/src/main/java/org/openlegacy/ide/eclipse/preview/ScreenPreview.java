@@ -224,7 +224,8 @@ public class ScreenPreview extends ViewPart {
 		this.fieldRectangle = rectangle;
 		if (this.fieldRectangle != null) {
 			this.snapshotComposite.setDrawingRectangle(getRectangle(this.fieldRectangle.getRow(),
-					this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(), this.fieldRectangle.getValue()));
+					this.fieldRectangle.getEndRow(), this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(),
+					this.fieldRectangle.getValue()));
 		}
 	}
 
@@ -548,7 +549,7 @@ public class ScreenPreview extends ViewPart {
 				val = value;
 			}
 		}
-		snapshotComposite.setDrawingRectangle(getRectangle(row, col, endCol, val));
+		snapshotComposite.setDrawingRectangle(getRectangle(row, row, col, endCol, val));
 		return true;
 	}
 
@@ -569,7 +570,7 @@ public class ScreenPreview extends ViewPart {
 		return r;
 	}
 
-	private Rectangle getRectangle(int row, int column, int endColumn, String value) {
+	private Rectangle getRectangle(int row, int endRow, int column, int endColumn, String value) {
 		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
 
 		int length = 0;
@@ -580,7 +581,7 @@ public class ScreenPreview extends ViewPart {
 				TerminalPosition endPosition = field.getEndPosition();
 				endColumn = endPosition.getColumn();
 			} else {
-				// if row or column attribute was changed then calculate endColumn
+				// if column attribute was changed then calculate endColumn
 				endColumn = column + value.length() - 1;
 			}
 		}
@@ -590,6 +591,9 @@ public class ScreenPreview extends ViewPart {
 		int y = renderer.toHeight(row - 1) + renderer.getTopPixelsOffset();
 		int width = renderer.toWidth(length);
 		int height = renderer.toHeight(1);
+		if (endRow >= row) {
+			height = renderer.toHeight(endRow - row + 1);
+		}
 		return new Rectangle(x, y, width, height);
 	}
 }
