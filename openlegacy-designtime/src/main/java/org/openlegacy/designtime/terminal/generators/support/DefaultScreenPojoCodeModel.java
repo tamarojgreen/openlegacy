@@ -108,6 +108,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									AnnotationConstants.SCREEN_FIELD_ANNOTATION, AnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
 								ScreenAnnotationsParserUtils.loadScreenFieldOrColumnAnnotation(annotationExpr, field);
+								if (!field.isPrimitiveType()) {
+									ScreenAnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration, field);
+								}
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									AnnotationConstants.SCREEN_FIELD_VALUES_ANNOTATION)) {

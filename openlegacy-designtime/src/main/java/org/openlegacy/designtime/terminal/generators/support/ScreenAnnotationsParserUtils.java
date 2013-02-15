@@ -18,9 +18,11 @@ import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleAutoCompleteFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.support.SimpleDisplayItem;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
@@ -34,6 +36,11 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
 
+import japa.parser.ast.body.BodyDeclaration;
+import japa.parser.ast.body.ClassOrInterfaceDeclaration;
+import japa.parser.ast.body.EnumConstantDeclaration;
+import japa.parser.ast.body.EnumDeclaration;
+import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.ArrayInitializerExpr;
 import japa.parser.ast.expr.Expression;
@@ -276,5 +283,41 @@ public class ScreenAnnotationsParserUtils {
 			}
 		}
 		return list;
+	}
+
+	/**
+	 * @param mainType
+	 * @param fieldDeclaration
+	 * @param field
+	 */
+	public static void loadEnumField(ClassOrInterfaceDeclaration mainType, FieldDeclaration fieldDeclaration, Field field) {
+		String fieldType = fieldDeclaration.getType().toString();
+
+		List<BodyDeclaration> members = mainType.getMembers();
+		for (BodyDeclaration bodyDeclaration : members) {
+			if (bodyDeclaration instanceof EnumDeclaration) {
+				EnumDeclaration enumDeclaration = (EnumDeclaration)bodyDeclaration;
+				if (enumDeclaration.getName().equals(fieldType)) {
+					SimpleEnumFieldTypeDefinition enumDefinition = new SimpleEnumFieldTypeDefinition();
+
+					List<EnumConstantDeclaration> entries = enumDeclaration.getEntries();
+					for (EnumConstantDeclaration entry : entries) {
+						String value = "";
+						String displayName = "";
+
+						List<Expression> args = entry.getArgs();
+						if (args.size() == 1) {
+							value = StringUtil.stripQuotes(args.get(0).toString());
+						} else if (args.size() >= 2) {
+							value = StringUtil.stripQuotes(args.get(0).toString());
+							displayName = StringUtil.stripQuotes(args.get(1).toString());
+						}
+						enumDefinition.getEnums().put(entry.getName(), new SimpleDisplayItem(value, displayName));
+					}
+					field.setFieldTypeDefinition(enumDefinition);
+					break;
+				}
+			}
+		}
 	}
 }
