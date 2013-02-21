@@ -12,6 +12,9 @@ require(["dojo/ready"], function(ready){
 			on(win.doc, "keydown", function(e){
 				var handled = true;
 				switch (e.keyCode) {
+					case keys.ESCAPE:
+						terminalSession.doAction("ESC");
+						break;
 					case keys.ENTER:
 						terminalSession.doAction("ENTER");
 						break;
