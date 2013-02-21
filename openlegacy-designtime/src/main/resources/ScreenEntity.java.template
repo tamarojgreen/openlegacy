@@ -30,7 +30,7 @@ import ${referredClass};
 <#if navigationDefinition?? && navigationDefinition.accessedFromEntityDefinition?? && navigationDefinition.accessedFromEntityDefinition.entityName??>
 @ScreenNavigation(accessedFrom = ${navigationDefinition.accessedFromEntityDefinition.entityName}.class 
 					<#if navigationDefinition.terminalAction??>
-					, terminalAction=TerminalActions.${navigationDefinition.terminalAction.terminalAction.simpleName}.class <#if navigationDefinition.terminalAction.additionalKey??>, additionalKey=AdditionalKey.${navigationDefinition.terminalAction.additionalKey}</#if></#if><#if navigationDefinition.drilldownValue??>, drilldownValue="${navigationDefinition.drilldownValue}"</#if><#if navigationDefinition.requiresParameters>, requiresParameters=true</#if>
+					, terminalAction=TerminalActions.${navigationDefinition.terminalAction.class.simpleName}.class <#if navigationDefinition.terminalAction.additionalKey??>, additionalKey=AdditionalKey.${navigationDefinition.terminalAction.additionalKey}</#if></#if><#if navigationDefinition.drilldownValue??>, drilldownValue="${navigationDefinition.drilldownValue}"</#if><#if navigationDefinition.requiresParameters>, requiresParameters=true</#if>
 					<#if navigationDefinition.assignedFields?size != 0>
 					, assignedFields = { 
 					<#list navigationDefinition.assignedFields as field>

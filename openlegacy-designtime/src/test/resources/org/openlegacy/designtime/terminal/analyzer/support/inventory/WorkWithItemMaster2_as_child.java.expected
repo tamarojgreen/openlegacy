@@ -18,6 +18,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F2.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") 
 				})
 @ScreenNavigation(accessedFrom = WorkWithItemMaster1.class 
+					, terminalAction=TerminalActions.ENTER.class 
 					, assignedFields = { 
 					@AssignedField(field = "itemDescription")
 					 }						
@@ -81,4 +82,3 @@ public class WorkWithItemMaster2 {
 
  
 }
-

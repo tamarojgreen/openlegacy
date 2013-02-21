@@ -20,6 +20,7 @@ import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 				@Action(action = TerminalActions.F4.class ,additionalKey= AdditionalKey.SHIFT, displayName = "System Main menu", alias = "systemMainMenu") 
 				})
 @ScreenNavigation(accessedFrom = IbmIMainMenu.class 
+					, terminalAction=TerminalActions.ENTER.class 
 					, assignedFields = { 
 					@AssignedField(field = "menuSelection", value = "1")
 					 }						
