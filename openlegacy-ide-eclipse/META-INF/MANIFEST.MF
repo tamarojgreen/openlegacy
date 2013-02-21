@@ -74,3 +74,6 @@ Bundle-ClassPath: .,
  lib/stax-api-1.0-2.jar,
  lib/stringtemplate-3.2.1.jar,
  lib/openlegacy-utils-1.0.0-RELEASE.jar
+Export-Package: org.openlegacy.ide.eclipse.editors.graphical,
+ org.openlegacy.ide.eclipse.preview,
+ org.openlegacy.ide.eclipse.util

@@ -99,13 +99,12 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public ScreenIdentification getScreenIdentification() {
-		throwNotImplemented();
-		return null;
+		// @author: Ivan Bort, refs assembla #112
+		return codeModel.getScreenIdentification();
 	}
 
 	public NavigationDefinition getNavigationDefinition() {
-		throwNotImplemented();
-		return null;
+		return codeModel.getNavigationDefinition();
 	}
 
 	public Map<String, ScreenTableDefinition> getTableDefinitions() {
@@ -134,7 +133,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public boolean isWindow() {
-		return false;
+		return codeModel.isWindow();
 	}
 
 	public ScreenEntityDefinition getAccessedFromScreenDefinition() {
@@ -214,4 +213,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return null;
 	}
 
+	public boolean isSupportTerminalData() {
+		return this.codeModel.isSupportTerminalData();
+	}
 }

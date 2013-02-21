@@ -6,6 +6,7 @@ import apps.inventory.screens.SignOn;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.generators.mock.CompositeScreenForPage;
@@ -60,13 +61,25 @@ public class ScreenEntityMvcGeneratorTest {
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
+	// TODO - move to different test class
+	@Test
+	public void testNavigationFromCodeModel() throws Exception {
+		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPage.java.resource";
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
+
+		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+
+		Assert.assertNotNull(screenDefinition);
+		Assert.assertNotNull(screenDefinition.getNavigationDefinition());
+		Assert.assertEquals("ScreenForPageWithKey", screenDefinition.getNavigationDefinition().getAccessedFromEntityName());
+	}
+
 	@Test
 	public void testGenerateJspxByCodeModel() throws Exception {
 		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
-
 		assertPageGeneration(screenDefinition, "ScreenForPage.jspx.expected");
 	}
 

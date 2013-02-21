@@ -48,6 +48,9 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private String whenFilter;
 	private String unlessFilter;
 
+	// @author Ivan Bort, refs assembla #112
+	private String fieldTypeName;
+
 	public SimpleScreenFieldDefinition() {
 		super();
 	}
@@ -207,5 +210,13 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setUnlessFilter(String unlessFilter) {
 		this.unlessFilter = unlessFilter;
+	}
+
+	public String getFieldTypeName() {
+		return fieldTypeName;
+	}
+
+	public void setFieldTypeName(String fieldTypeName) {
+		this.fieldTypeName = fieldTypeName;
 	}
 }

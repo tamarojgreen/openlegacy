@@ -17,6 +17,7 @@ import java.util.List;
 @ScreenEntity
 @ScreenActions(actions = { @Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"),
 		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit") })
+@ScreenNavigation(accessedFrom = ScreenForPageWithKey.class, exitAction = TerminalActions.F12.class)
 public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	@ScreenField(row = 6, column = 22, endColumn = 31, editable = true, helpText="help text for some field")

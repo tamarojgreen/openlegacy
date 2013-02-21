@@ -97,4 +97,12 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	 * @return a regular expression used for negative filtering (unless)
 	 */
 	String getUnlessFilter();
+
+	// @author Ivan Bort, refs assembla #112
+	/**
+	 * Gets the FieldType name
+	 * 
+	 * @return
+	 */
+	String getFieldTypeName();
 }

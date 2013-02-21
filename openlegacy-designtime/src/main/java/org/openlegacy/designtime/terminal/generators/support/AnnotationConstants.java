@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.generators.support;
 
+import org.openlegacy.annotations.screen.PartPosition;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenColumn;
@@ -18,6 +19,8 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenEntitySuperClass;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
+import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.annotations.screen.ScreenPart;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
@@ -32,11 +35,14 @@ public class AnnotationConstants {
 	public static final String TRUE = "true";
 	public static final String FIELD_SUFFIX = "Field";
 	public static final String SCREEN_FIELD_ANNOTATION = ScreenField.class.getSimpleName();
-	public static final Object SCREEN_ACTIONS_ANNOTATION = ScreenActions.class.getSimpleName();
+	public static final String SCREEN_ACTIONS_ANNOTATION = ScreenActions.class.getSimpleName();
 	public static final String SCREEN_FIELD_VALUES_ANNOTATION = ScreenFieldValues.class.getSimpleName();
 	public static final String SCREEN_BOOLEAN_FIELD_ANNOTATION = ScreenBooleanField.class.getSimpleName();
 	public static final String SCREEN_DATE_FIELD_ANNOTATION = ScreenDateField.class.getSimpleName();
 	public static final String SCREEN_TABLE_ACTIONS_ANNOTATION = ScreenTableActions.class.getSimpleName();
+	public static final String SCREEN_NAVIGATION_ANNOTATION = ScreenNavigation.class.getSimpleName();
+	public static final String SCREEN_IDENTIFIERS_ANNOTATION = ScreenIdentifiers.class.getSimpleName();
+	public static final String PART_POSITION_ANNOTATION = PartPosition.class.getSimpleName();
 
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String EDITABLE = "editable";
@@ -55,13 +61,20 @@ public class AnnotationConstants {
 	public static final String SCREEN_TYPE = "screenType";
 	public static final String CHILD = "child";
 
+	// @ScreenEntity
+	public static final String WINDOW = "window";
+	public static final String ROWS = "rows";
+	public static final String COLUMNS = "columns";
+
 	// @ScreenFieldValues
 	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";
 	public static final String COLLECT_ALL = "collectAll";
+	public static final String PROVIDER = "provider";
 
 	// @ScreenBooleanField
 	public static final String TRUE_VALUE = "trueValue";
 	public static final String FALSE_VALUE = "falseValue";
+	public static final String TREAT_EMPTY_AS_NULL = "treatEmptyAsNull";
 
 	// @ScreenDateField
 	public static final String YEAR_COLUMN = "yearColumn";
@@ -70,9 +83,47 @@ public class AnnotationConstants {
 
 	// @TableAction
 	public static final String ACTION_VALUE = "actionValue";
+	public static final String DEFAULT_ACTION = "defaultAction";
+	public static final String TARGET_ENTITY = "targetEntity";
 
 	// @ScreenColumn
 	public static final String SELECTION_FIELD = "selectionField";
 	public static final String KEY = "key";
 	public static final String MAIN_DISPLAY_FIELD = "mainDisplayField";
+	public static final String ROWS_OFFSET = "rowsOffset";
+
+	// @ScreenNavigation
+	public static final String ACCESSED_FROM = "accessedFrom";
+	public static final String TERMINAL_ACTION = "terminalAction";
+	public static final String ADDITIONAL_KEY = "additionalKey";
+	public static final String ASSIGNED_FIELDS = "assignedFields";
+	public static final String EXIT_ACTION = "exitAction";
+	public static final String EXIT_ADDITIONAL_KEY = "exitAdditionalKey";
+	public static final String REQUIRES_PARAMETERS = "requiresParameters";
+
+	// @AssignedField
+	public static final String FIELD = "field";
+	public static final String VALUE = "value";
+
+	// @ScreenField
+	public static final String RECTANGLE = "rectangle";
+	public static final String PASSWORD = "password";
+	public static final String FIELD_TYPE = "fieldType";
+	public static final String SAMPLE_VALUE = "sampleValue";
+
+	// @ScreenIdentifiers
+	public static final String IDENTIFIERS = "identifiers";
+
+	// @ScreenActions
+	public static final String ACTIONS = "actions";
+
+	// @ScreenTable
+	public static final String NEXT_SCREEN_ACTION = "nextScreenAction";
+	public static final String PREV_SCREEN_ACTION = "previousScreenAction";
+	public static final String TABLE_COLLECTOR = "tableCollector";
+	public static final String SCROLLABLE = "scrollable";
+	public static final String ROW_GAPS = "rowGaps";
+
+	// @PartPosition
+	public static final String WIDTH = "width";
 }

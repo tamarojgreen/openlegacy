@@ -16,6 +16,12 @@ import org.openlegacy.FieldType.General;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.definitions.NavigationDefinition;
+import org.openlegacy.terminal.services.ScreenIdentification;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.table.ScreenTableCollector;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.TypesUtil;
@@ -58,6 +64,16 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private String parentClassName;
 	private String typeName;
 	private boolean childScreen;
+	private NavigationDefinition navigationDefinition;
+	private boolean window;
+
+	private ScreenIdentification screenIdentification;
+	private String nextScreenActionName;
+	private String previousScreenActionName;
+	private String tableCollectorName;
+	private boolean scrollable;
+	private int rowGaps;
+	private PartPostition partPostition;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -92,6 +108,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									AnnotationConstants.SCREEN_FIELD_ANNOTATION, AnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
 								ScreenAnnotationsParserUtils.loadScreenFieldOrColumnAnnotation(annotationExpr, field);
+								if (!field.isPrimitiveType()) {
+									ScreenAnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration, field);
+								}
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									AnnotationConstants.SCREEN_FIELD_VALUES_ANNOTATION)) {
@@ -174,7 +193,34 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 					|| annotationName.equals(AnnotationConstants.SCREEN_TABLE_ACTIONS_ANNOTATION)) {
 				actions = ScreenAnnotationsParserUtils.populateScreenActions(annotationExpr);
 			}
+			if (annotationName.equals(AnnotationConstants.SCREEN_NAVIGATION_ANNOTATION)) {
+				navigationDefinition = ScreenAnnotationsParserUtils.populateNavigation(annotationExpr);
+			}
+			if (annotationName.equals(AnnotationConstants.SCREEN_IDENTIFIERS_ANNOTATION)) {
+				screenIdentification = ScreenAnnotationsParserUtils.populateScreenIdentification(annotationExpr);
+			}
+			if (annotationName.equals(AnnotationConstants.PART_POSITION_ANNOTATION)) {
+				partPostition = populatePartPositionAttributes(annotationExpr);
+			}
 		}
+	}
+
+	private static PartPostition populatePartPositionAttributes(AnnotationExpr annotationExpr) {
+		PartPostition partPostition = null;
+		String rowFromAnnotation = null;
+		String columnFromAnnotation = null;
+		String widthFromAnnotation = null;
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
+			rowFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROW, normalAnnotationExpr.getPairs());
+			columnFromAnnotation = findAnnotationAttribute(AnnotationConstants.COLUMN, normalAnnotationExpr.getPairs());
+			widthFromAnnotation = findAnnotationAttribute(AnnotationConstants.WIDTH, normalAnnotationExpr.getPairs());
+		}
+		int row = rowFromAnnotation != null ? Integer.valueOf(rowFromAnnotation) : 0;
+		int column = columnFromAnnotation != null ? Integer.valueOf(columnFromAnnotation) : 0;
+		int width = widthFromAnnotation != null ? Integer.valueOf(widthFromAnnotation) : 80;
+		partPostition = new PartPostition(row, column, width);
+		return partPostition;
 	}
 
 	private void populateEntityAttributes(AnnotationExpr annotationExpr) {
@@ -184,22 +230,42 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String childFlagFromAnnotation = null;
 		String startRowFromTableAnnotation = null;
 		String endRowFromTableAnnotation = null;
+		String windowFlagFromAnnotation = null;
+		String nextScreenActionNameFromAnnotation = null;
+		String previousScreenActionNameFromAnnotation = null;
+		String tableCollectorNameFromAnnotation = null;
+		String scrollableFromAnnotation = null;
+		String rowGapsFromAnnotation = null;
+		String supportTerminalDataString = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
-			String supportTerminalDataString = findAnnotationAttribute(AnnotationConstants.SUPPORT_TERMINAL_DATA,
-					normalAnnotationExpr.getPairs());
-			supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
+			supportTerminalDataString = findAnnotationAttribute(AnnotationConstants.SUPPORT_TERMINAL_DATA,
+					normalAnnotationExpr.getPairs());
 			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, normalAnnotationExpr.getPairs());
 			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, normalAnnotationExpr.getPairs());
 			typeNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCREEN_TYPE, normalAnnotationExpr.getPairs());
 			childFlagFromAnnotation = findAnnotationAttribute(AnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
 			startRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.START_ROW, normalAnnotationExpr.getPairs());
 			endRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.END_ROW, normalAnnotationExpr.getPairs());
+			windowFlagFromAnnotation = findAnnotationAttribute(AnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
+
+			nextScreenActionNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NEXT_SCREEN_ACTION,
+					normalAnnotationExpr.getPairs());
+			previousScreenActionNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.PREV_SCREEN_ACTION,
+					normalAnnotationExpr.getPairs());
+			tableCollectorNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.TABLE_COLLECTOR,
+					normalAnnotationExpr.getPairs());
+			scrollableFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCROLLABLE, normalAnnotationExpr.getPairs());
+			rowGapsFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROW_GAPS, normalAnnotationExpr.getPairs());
 		}
-		displayName = displayNameFromAnnotation != null ? displayNameFromAnnotation : StringUtil.toDisplayName(getClassName());
-		entityName = entityNameFromAnnotation != null ? entityNameFromAnnotation : StringUtil.toClassName(getClassName());
+		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
+
+		displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation)
+				: StringUtil.toDisplayName(getClassName());
+		entityName = entityNameFromAnnotation != null ? StringUtil.stripQuotes(entityNameFromAnnotation)
+				: StringUtil.toClassName(getClassName());
 
 		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)
 				: General.class.getSimpleName();
@@ -212,6 +278,16 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		if (endRowFromTableAnnotation != null) {
 			endRow = Integer.parseInt(endRowFromTableAnnotation);
 		}
+		window = windowFlagFromAnnotation != null ? Boolean.valueOf(windowFlagFromAnnotation) : false;
+
+		nextScreenActionName = nextScreenActionNameFromAnnotation != null ? StringUtil.toClassName(nextScreenActionNameFromAnnotation)
+				: TerminalActions.PAGEDOWN().getActionName();
+		previousScreenActionName = previousScreenActionNameFromAnnotation != null ? StringUtil.toClassName(previousScreenActionNameFromAnnotation)
+				: TerminalActions.PAGEUP().getActionName();
+		tableCollectorName = tableCollectorNameFromAnnotation != null ? StringUtil.toClassName(tableCollectorNameFromAnnotation)
+				: ScreenTableCollector.class.getSimpleName();
+		scrollable = scrollableFromAnnotation != null ? Boolean.valueOf(scrollableFromAnnotation) : true;
+		rowGaps = rowGapsFromAnnotation != null ? Integer.valueOf(rowGapsFromAnnotation) : 1;
 	}
 
 	/*
@@ -308,6 +384,12 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean selectionField;
 		private boolean key;
 		private boolean mainDisplayField;
+		// @author Ivan Bort refs assembla #112
+		private String fieldTypeName;
+		private boolean rectangle;
+		private boolean password;
+		private String sampleValue;
+		private int rowsOffset;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -458,6 +540,46 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public void setHelpText(String helpText) {
 			this.helpText = helpText;
 		}
+
+		public String getFieldTypeName() {
+			return fieldTypeName;
+		}
+
+		public void setFieldTypeName(String fieldTypeName) {
+			this.fieldTypeName = fieldTypeName;
+		}
+
+		public boolean isRectangle() {
+			return rectangle;
+		}
+
+		public void setRectangle(boolean rectangle) {
+			this.rectangle = rectangle;
+		}
+
+		public boolean isPassword() {
+			return password;
+		}
+
+		public void setPassword(boolean password) {
+			this.password = password;
+		}
+
+		public String getSampleValue() {
+			return sampleValue;
+		}
+
+		public void setSampleValue(String sampleValue) {
+			this.sampleValue = sampleValue;
+		}
+
+		public int getRowsOffset() {
+			return rowsOffset;
+		}
+
+		public void setRowsOffset(int rowsOffset) {
+			this.rowsOffset = rowsOffset;
+		}
 	}
 
 	public static class Action {
@@ -466,6 +588,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private String actionName;
 		private String displayName;
 		private String actionValue;
+		private String targetEntityName;
 
 		public Action(String alias, String actionName, String displayName) {
 			this.alias = alias;
@@ -492,9 +615,91 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public void setActionValue(String actionValue) {
 			this.actionValue = actionValue;
 		}
+
+		public String getTargetEntityName() {
+			return targetEntityName;
+		}
+
+		public void setTargetEntityName(String targetEntityName) {
+			this.targetEntityName = targetEntityName;
+		}
 	}
 
 	public boolean isChildScreen() {
 		return childScreen;
+	}
+
+	public NavigationDefinition getNavigationDefinition() {
+		return navigationDefinition;
+	}
+
+	public boolean isWindow() {
+		return window;
+	}
+
+	public ScreenIdentification getScreenIdentification() {
+		return screenIdentification;
+	}
+
+	/**
+	 * Returns name of next screen action for @ScreenTable
+	 */
+	public String getNextScreenActionName() {
+		return nextScreenActionName;
+	}
+
+	/**
+	 * Return name of previous screen action for @ScreenTable
+	 */
+	public String getPreviousScreenActionName() {
+		return previousScreenActionName;
+	}
+
+	/**
+	 * Returns name of table collector for @ScreenTable
+	 */
+	public String getTableCollectorName() {
+		return tableCollectorName;
+	}
+
+	public boolean isScrollable() {
+		return scrollable;
+	}
+
+	public int getRowGaps() {
+		return rowGaps;
+	}
+
+	private static class PartPostition {
+
+		private TerminalPosition partPosition;
+		private int width;
+
+		public PartPostition(int row, int column, int width) {
+			this.partPosition = new SimpleTerminalPosition(row, column);
+			this.width = width;
+		}
+
+		public TerminalPosition getPartPosition() {
+			return partPosition;
+		}
+
+		public int getWidth() {
+			return width;
+		}
+	}
+
+	public TerminalPosition getPartPosition() {
+		if (partPostition == null) {
+			partPostition = new PartPostition(0, 0, 80);
+		}
+		return partPostition.getPartPosition();
+	}
+
+	public int getPartWidth() {
+		if (partPostition == null) {
+			partPostition = new PartPostition(0, 0, 80);
+		}
+		return partPostition.getWidth();
 	}
 }

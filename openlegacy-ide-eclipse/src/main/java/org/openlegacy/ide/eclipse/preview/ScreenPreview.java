@@ -54,6 +54,7 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.openlegacy.ide.eclipse.components.SnapshotComposite;
+import org.openlegacy.ide.eclipse.editors.graphical.IOpenLegacyEditor;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -75,7 +76,7 @@ public class ScreenPreview extends ViewPart {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "com.mif.plugin.adapter.views.ScreenPreview";
+	public static final String ID = "org.openlegacy.ide.eclipse.preview.ScreenPreview";
 	private static final String SCREEN_ENTITY_ANNOTATION = "org.openlegacy.annotations.screen.ScreenEntity";
 	private static final String SCREEN_ENTITY_ANNOTATION_SHORT = "ScreenEntity";
 	private static final String IDENTIFIER_ANNOTATION = "org.openlegacy.annotations.screen.Identifier";
@@ -94,6 +95,8 @@ public class ScreenPreview extends ViewPart {
 	private Map<String, CompilationUnit> cacheCompilationUnitContainer = new HashMap<String, CompilationUnit>();
 
 	private TerminalSnapshot terminalSnapshot;
+	// used by IOpenLegacyEditor
+	private FieldRectangle fieldRectangle = null;
 
 	/**
 	 * The constructor.
@@ -217,6 +220,15 @@ public class ScreenPreview extends ViewPart {
 		}
 	}
 
+	public void setFieldRectangle(FieldRectangle rectangle) {
+		this.fieldRectangle = rectangle;
+		if (this.fieldRectangle != null) {
+			this.snapshotComposite.setDrawingRectangle(getRectangle(this.fieldRectangle.getRow(),
+					this.fieldRectangle.getEndRow(), this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(),
+					this.fieldRectangle.getValue()));
+		}
+	}
+
 	// **************** PRIVATE ****************
 	/**
 	 * Extract IJavaElement if current document is a java file
@@ -226,7 +238,7 @@ public class ScreenPreview extends ViewPart {
 	private static IJavaElement getJavaInput() {
 		IEditorPart activeEditor = getActiveEditor();
 		if (activeEditor != null) {
-			if (!(activeEditor instanceof ITextEditor)) {
+			if (!(activeEditor instanceof ITextEditor) && !(activeEditor instanceof IOpenLegacyEditor)) {
 				return null;
 			}
 			final IJavaElement javaInput = getJavaInput(activeEditor);
@@ -349,11 +361,20 @@ public class ScreenPreview extends ViewPart {
 				if (isAccepted.get()) {
 					// add caret listener
 					if (!cacheStyledTextContainer.containsKey(key) || cacheStyledTextContainer.get(key).isDisposed()) {
-						AbstractTextEditor editor = (AbstractTextEditor)getActiveEditor();
-						StyledText styledText = ((StyledText)editor.getAdapter(Control.class));
-						styledText.addCaretListener(editorListener);
-						styledText.addModifyListener(editorListener);
-						cacheStyledTextContainer.put(key, styledText);
+						IEditorPart activeEditor = getActiveEditor();
+						if (!(activeEditor instanceof IOpenLegacyEditor)) {
+							AbstractTextEditor editor = (AbstractTextEditor)activeEditor;
+							StyledText styledText = ((StyledText)editor.getAdapter(Control.class));
+							styledText.addCaretListener(editorListener);
+							styledText.addModifyListener(editorListener);
+							cacheStyledTextContainer.put(key, styledText);
+							// } else {
+							// if (this.fieldRectangle != null) {
+							// this.snapshotComposite.setDrawingRectangle(getRectangle(this.fieldRectangle.getRow(),
+							// this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(),
+							// this.fieldRectangle.getValue()));
+							// }
+						}
 					}
 					try {
 						// show image if it exists
@@ -528,7 +549,7 @@ public class ScreenPreview extends ViewPart {
 				val = value;
 			}
 		}
-		snapshotComposite.setDrawingRectangle(getRectangle(row, col, endCol, val));
+		snapshotComposite.setDrawingRectangle(getRectangle(row, row, col, endCol, val));
 		return true;
 	}
 
@@ -549,7 +570,7 @@ public class ScreenPreview extends ViewPart {
 		return r;
 	}
 
-	private Rectangle getRectangle(int row, int column, int endColumn, String value) {
+	private Rectangle getRectangle(int row, int endRow, int column, int endColumn, String value) {
 		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
 
 		int length = 0;
@@ -560,7 +581,7 @@ public class ScreenPreview extends ViewPart {
 				TerminalPosition endPosition = field.getEndPosition();
 				endColumn = endPosition.getColumn();
 			} else {
-				// if row or column attribute was changed then calculate endColumn
+				// if column attribute was changed then calculate endColumn
 				endColumn = column + value.length() - 1;
 			}
 		}
@@ -570,6 +591,9 @@ public class ScreenPreview extends ViewPart {
 		int y = renderer.toHeight(row - 1) + renderer.getTopPixelsOffset();
 		int width = renderer.toWidth(length);
 		int height = renderer.toHeight(1);
+		if (endRow >= row) {
+			height = renderer.toHeight(endRow - row + 1);
+		}
 		return new Rectangle(x, y, width, height);
 	}
 }

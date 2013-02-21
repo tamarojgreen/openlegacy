@@ -31,6 +31,7 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 	private boolean selectionField;
 	private Class<?> javaType;
 	private String helpText;
+	private boolean mainDisplayField;
 
 	public SimpleScreenColumnDefinition(String name) {
 		this.name = name;
@@ -135,5 +136,13 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 
 	public void setHelpText(String helpText) {
 		this.helpText = helpText;
+	}
+
+	public boolean isMainDisplayField() {
+		return mainDisplayField;
+	}
+
+	public void setMainDisplayField(boolean mainDisplayField) {
+		this.mainDisplayField = mainDisplayField;
 	}
 }

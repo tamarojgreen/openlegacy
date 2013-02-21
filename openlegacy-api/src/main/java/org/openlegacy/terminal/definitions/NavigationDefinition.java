@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public interface NavigationDefinition {
 
 	Class<?> getAccessedFrom();
 
+	String getAccessedFromEntityName();
+
 	Class<?> getTargetEntity();
 
 	List<FieldAssignDefinition> getAssignedFields();
@@ -37,4 +40,12 @@ public interface NavigationDefinition {
 
 	String getDrilldownValue();
 
+	// @author Ivan Bort, refs assembla #112
+	AdditionalKey getAdditionalKey();
+
+	AdditionalKey getExitAdditionalKey();
+
+	String getTerminalActionName();
+
+	String getExitActionName();
 }

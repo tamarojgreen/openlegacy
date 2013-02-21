@@ -11,6 +11,8 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,6 +30,22 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 	private Class<?> targetEntity;
 	private String drilldownValue;
 
+	// @author Ivan Bort refs assembla #112
+	private AdditionalKey additionalKey;
+	private AdditionalKey exitAdditionalKey;
+	private String terminalActionName;
+	private String exitActionName;
+
+	private String accessedFromEntityName;
+
+	public String getAccessedFromEntityName() {
+		return accessedFromEntityName;
+	}
+
+	public void setAccessedFromEntityName(String accessedFromEntityName) {
+		this.accessedFromEntityName = accessedFromEntityName;
+	}
+
 	public Class<?> getAccessedFrom() {
 		return accessedFrom;
 	}
@@ -40,7 +58,14 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 		return assignedFields;
 	}
 
+	public void setAssignedFields(List<FieldAssignDefinition> fields) {
+		this.assignedFields = fields;
+	}
+
 	public TerminalAction getTerminalAction() {
+		if (terminalAction == null) {
+			terminalAction = TerminalActions.ENTER();
+		}
 		return terminalAction;
 	}
 
@@ -49,6 +74,9 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 	}
 
 	public TerminalAction getExitAction() {
+		if (exitAction == null) {
+			exitAction = TerminalActions.F3();
+		}
 		return exitAction;
 	}
 
@@ -78,5 +106,43 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 
 	public void setDrilldownValue(String drilldownValue) {
 		this.drilldownValue = drilldownValue;
+	}
+
+	public AdditionalKey getAdditionalKey() {
+		if (additionalKey == null) {
+			additionalKey = AdditionalKey.NONE;
+		}
+		return additionalKey;
+	}
+
+	public void setAdditionalKey(AdditionalKey additionalKey) {
+		this.additionalKey = additionalKey;
+	}
+
+	public AdditionalKey getExitAdditionalKey() {
+		if (exitAdditionalKey == null) {
+			exitAdditionalKey = AdditionalKey.NONE;
+		}
+		return exitAdditionalKey;
+	}
+
+	public void setExitAdditionalKey(AdditionalKey exitAdditionalKey) {
+		this.exitAdditionalKey = exitAdditionalKey;
+	}
+
+	public String getTerminalActionName() {
+		return terminalActionName;
+	}
+
+	public void setTerminalActionName(String terminalActionName) {
+		this.terminalActionName = terminalActionName;
+	}
+
+	public String getExitActionName() {
+		return exitActionName;
+	}
+
+	public void setExitActionName(String exitActionName) {
+		this.exitActionName = exitActionName;
 	}
 }

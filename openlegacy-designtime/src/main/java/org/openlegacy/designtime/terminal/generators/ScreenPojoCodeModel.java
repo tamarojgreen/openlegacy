@@ -12,6 +12,9 @@ package org.openlegacy.designtime.terminal.generators;
 
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
+import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.definitions.NavigationDefinition;
+import org.openlegacy.terminal.services.ScreenIdentification;
 
 import java.util.Collection;
 import java.util.List;
@@ -45,7 +48,27 @@ public interface ScreenPojoCodeModel {
 
 	List<Action> getActions();
 
+	NavigationDefinition getNavigationDefinition();
+
 	String getTypeName();
 
 	boolean isChildScreen();
+
+	boolean isWindow();
+
+	ScreenIdentification getScreenIdentification();
+
+	String getNextScreenActionName();
+
+	String getPreviousScreenActionName();
+
+	String getTableCollectorName();
+
+	boolean isScrollable();
+
+	int getRowGaps();
+
+	TerminalPosition getPartPosition();
+
+	int getPartWidth();
 }

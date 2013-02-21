@@ -16,18 +16,21 @@ import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
+import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 import org.openlegacy.utils.StringUtil;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition, PositionedPart {
 
 	private ScreenPojoCodeModel codeModel;
 	private Map<String, ScreenFieldDefinition> fields;
-	
-	// TODO should be based on codeModel
+
 	private int width;
-	// TODO should be based on codeModel
 	private TerminalPosition partPosition;
 
 	public CodeBasedScreenPartDefinition(ScreenPojoCodeModel codeModel) {
@@ -46,30 +49,49 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 		return fields;
 	}
 
+	public List<ScreenFieldDefinition> getSortedFields() {
+		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
+		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
+		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
+		return sortedFields;
+	}
+
 	public String getPartName() {
 		return codeModel.getEntityName();
 	}
 
 	public TerminalPosition getPartPosition() {
+		if (partPosition == null) {
+			partPosition = codeModel.getPartPosition();
+		}
 		return partPosition;
 	}
 
 	public int getWidth() {
+		if (width == 0) {
+			width = codeModel.getPartWidth();
+		}
 		return width;
 	}
 
 	public String getDisplayName() {
-		// TODO implement
-		return null;
+		return codeModel.getDisplayName();
 	}
 
 	public void setWidth(int width) {
 		this.width = width;
-		
+
 	}
 
 	public void setPartPosition(TerminalPosition partPosition) {
 		this.partPosition = partPosition;
 	}
 
+	public boolean isSupportTerminalData() {
+		return codeModel.isSupportTerminalData();
+	}
+
+	public String getClassName() {
+		return codeModel.getClassName();
+	}
 }

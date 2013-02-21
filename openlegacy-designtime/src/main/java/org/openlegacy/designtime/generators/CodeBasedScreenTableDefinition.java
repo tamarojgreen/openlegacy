@@ -86,6 +86,21 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 			columnDefinition.setKey(field.isKey());
 			columnDefinition.setSelectionField(field.isSelectionField());
 			columnDefinition.setHelpText(field.getHelpText());
+
+			// @author Ivan Bort refs assembla #112
+			columnDefinition.setMainDisplayField(field.isMainDisplayField());
+			columnDefinition.setEditable(field.isEditable());
+			columnDefinition.setSampleValue(field.getSampleValue());
+			columnDefinition.setRowsOffset(field.getRowsOffset());
+			String javaTypeName = field.getType();
+			if (javaTypeName.equals(Integer.class.getSimpleName()) || javaTypeName.equals(int.class.getSimpleName())) {
+				columnDefinition.setJavaType(Integer.class);
+			} else if (javaTypeName.equals(Boolean.class.getSimpleName())) {
+				columnDefinition.setJavaType(Boolean.class);
+			} else {
+				columnDefinition.setJavaType(String.class);
+				// TODO add other types
+			}
 		}
 		return columnDefinitions;
 	}
@@ -106,8 +121,7 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 	}
 
 	public boolean isScrollable() {
-		throwNotImplemented();
-		return false;
+		return codeModel.isScrollable();
 	}
 
 	public int getStartRow() {
@@ -160,6 +174,9 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 				if (action.getAlias() != null) {
 					actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 				}
+				if (action.getTargetEntityName() != null) {
+					actionDefinition.setTargetEntityName(action.getTargetEntityName());
+				}
 				actionDefinitions.add(actionDefinition);
 			}
 			actions = actionDefinitions;
@@ -189,12 +206,31 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 	}
 
 	public int getRowGaps() {
-		throwNotImplemented();
-		return 0;
+		return codeModel.getRowGaps();
 	}
 
 	public ScreenColumnDefinition getSelectionColumn() {
 		throwNotImplemented();
 		return null;
+	}
+
+	public String getNextScreenActionName() {
+		return codeModel.getNextScreenActionName();
+	}
+
+	public String getPreviousScreenActionName() {
+		return codeModel.getPreviousScreenActionName();
+	}
+
+	public String getTableCollectorName() {
+		return codeModel.getTableCollectorName();
+	}
+
+	public boolean isSupportTerminalData() {
+		return codeModel.isSupportTerminalData();
+	}
+
+	public String getClassName() {
+		return codeModel.getClassName();
 	}
 }
