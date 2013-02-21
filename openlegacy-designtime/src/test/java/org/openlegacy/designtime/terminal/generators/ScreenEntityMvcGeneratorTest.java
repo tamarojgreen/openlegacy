@@ -64,7 +64,7 @@ public class ScreenEntityMvcGeneratorTest {
 	// TODO - move to different test class
 	@Test
 	public void testNavigationFromCodeModel() throws Exception {
-		String javaSource = "/org/openlegacy/designtime/generators/mock/ScreenForPage.java.resource";
+		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
@@ -80,7 +80,7 @@ public class ScreenEntityMvcGeneratorTest {
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
-		assertPageGeneration(screenDefinition, "ScreenForPage.jspx.expected");
+		assertPageGeneration(screenDefinition, "ScreenForPage2.jspx.expected");
 	}
 
 	@Test

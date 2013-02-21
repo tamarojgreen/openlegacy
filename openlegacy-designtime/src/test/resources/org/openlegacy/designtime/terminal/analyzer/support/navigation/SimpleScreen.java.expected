@@ -9,15 +9,17 @@ import org.openlegacy.annotations.screen.*;
 				@Identifier(row = 5, column = 3, value = "Field B:") 
 				})
 @ScreenNavigation(accessedFrom = SubMenu1.class 
+					, terminalAction=TerminalActions.ENTER.class 
 					, assignedFields = { 
 					@AssignedField(field = "menuSelection", value = "1")
 					 }						
 					)
 public class SimpleScreen {
     
+	
 	@ScreenField(row = 4, column = 13, endColumn= 21 ,labelColumn= 3 ,editable= true ,displayName = "Field A", sampleValue = "AAAA")
     private String fieldA;
-
+	
 	@ScreenField(row = 5, column = 13, endColumn= 20 ,labelColumn= 3 ,displayName = "Field B", sampleValue = "BBBB")
     private String fieldB;
 

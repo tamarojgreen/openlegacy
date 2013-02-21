@@ -18,7 +18,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel") 
 				})
 @ScreenNavigation(accessedFrom = UserTasks.class 
-
+					, terminalAction=TerminalActions.ENTER.class 
 					, assignedFields = { 
 					@AssignedField(field = "menuSelection", value = "9")
 					 }						

@@ -17,6 +17,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F2.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") 
 				})
 @ScreenNavigation(accessedFrom = WorkWithItemMaster.class 
+					, terminalAction=TerminalActions.ENTER.class 
 )
 public class WorkWithItemMaster1 {
     
