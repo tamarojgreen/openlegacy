@@ -39,6 +39,7 @@ public class H3270Connection implements TerminalConnection {
 				field.setFocus();
 			}
 		}
+		s3270Session.submitScreen();
 		s3270Session.doKey(terminalSendAction.getCommand().toString());
 		sequence+=2;
 	}

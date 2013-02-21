@@ -122,4 +122,12 @@ public class H3270TerminalField extends AbstractTerminalField {
 		// AFAIK 3270 doesn't support reverse fields
 		return false;
 	}
+	
+	@Override
+	public void setValue(String value) {
+		super.setValue(value);
+		if (s3270Field instanceof InputField){
+			((InputField)s3270Field).setValue(value);
+		}
+	}
 }
