@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.samples.model.Items.ItemsRecord;
 
-privileged @SuppressWarnings("unused") aspect ItemsRecordTable_Aspect {
+privileged @SuppressWarnings("unused") aspect ItemsRecord_Aspect {
     
     public Integer ItemsRecord.getAction_(){
     	return this.action_;
