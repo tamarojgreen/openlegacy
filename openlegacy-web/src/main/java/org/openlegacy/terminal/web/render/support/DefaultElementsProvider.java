@@ -215,4 +215,41 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	public void setRenderTopRight(boolean renderTopRight) {
 		this.renderTopRight = renderTopRight;
 	}
+
+	public Element createTextarea(Element rootTag, TerminalField field) {
+		Element textarea = createTag(rootTag, HtmlConstants.TEXTAREA);
+		if (field != null) {
+			populateCommonAttributes(textarea, field);
+			if (field.isMultyLine()) {
+				int rows = field.getEndPosition().getRow() - field.getPosition().getRow() + 1;
+				int columns = field.getEndPosition().getColumn() - field.getPosition().getColumn();
+				textarea.setAttribute(HtmlConstants.COLUMNS, String.valueOf(columns));
+				textarea.setAttribute(
+						HtmlConstants.STYLE,
+						MessageFormat.format("{0};height:{1}px", textarea.getAttribute(HtmlConstants.STYLE),
+								String.valueOf(htmlProportionsHandler.toHeight(rows) - 8))); // 8 - avoid overlap
+				;
+			} else {
+				textarea.setAttribute(HtmlConstants.ROWS, "1");
+				textarea.setAttribute(HtmlConstants.COLUMNS, String.valueOf(field.getLength()));
+			}
+			textarea.setAttribute(HtmlConstants.ONKEYUP,
+					MessageFormat.format("return (this.value.length <= {0});", field.getLength()));
+
+			if (field.isUppercase() || openLegacyProperties.isUppercaseInput()) {
+				textarea.setAttribute(HtmlConstants.STYLE, textarea.getAttribute(HtmlConstants.STYLE)
+						+ ";text-transform:uppercase;");
+			}
+			// set value
+			Text textNode = rootTag.getOwnerDocument().createTextNode(field.getValue());
+			textarea.appendChild(textNode);
+
+			String fieldName = HtmlNamingUtil.getFieldName(field);
+			textarea.setAttribute(HtmlConstants.NAME, fieldName);
+			textarea.setAttribute(HtmlConstants.ID, fieldName);
+		}
+		rootTag.appendChild(textarea);
+		return textarea;
+
+	}
 }

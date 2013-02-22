@@ -36,4 +36,8 @@ public class HtmlConstants {
 	public static final String TD = "td";
 	public static final String TH = "th";
 	public static final String PASSWORD = "password";
+	public static final String TEXTAREA = "textarea";
+	public static final String ROWS = "rows";
+	public static final String COLUMNS = "cols";
+	public static final String ONKEYUP = "onkeyup";
 }

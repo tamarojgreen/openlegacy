@@ -37,4 +37,6 @@ public interface ElementsProvider<T> {
 	T createTag(T rootTag, String tagName);
 
 	T createScriptTag(T wrapperTag, String script);
+
+	T createTextarea(T rootTag, TerminalField terminalField);
 }

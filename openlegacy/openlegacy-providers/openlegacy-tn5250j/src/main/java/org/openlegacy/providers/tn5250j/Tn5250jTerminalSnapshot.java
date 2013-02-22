@@ -159,7 +159,12 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 					}
 					field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes, hidden);
 				} else {
-					field = createEditableField(screenField, value, hidden, fieldAttributes);
+					// avoid creating duplicate fields from mylty line field
+					if (screenField.startRow() + 1 == startPosition.getRow()) {
+						// re-grab the all field text
+						value = grabText(screenData.text, startAbsolutePosition, startAbsolutePosition + screenField.getLength());
+						field = createEditableField(screenField, value, hidden, fieldAttributes);
+					}
 				}
 			}
 		} else {
@@ -188,15 +193,9 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 	private Tn5250jTerminalField createEditableField(ScreenField screenField, String value, boolean hidden, int fieldAttributes) {
 		// copy the field value - tn5250j implementation may re-use ScreenField in other screen
 		value = StringUtil.rightTrim(value);
-		int startRow = screenField.startRow() + 1;
-		int endRow = SnapshotUtils.toRow(screenField.endPos(), getSize().getColumns());
 		int length = screenField.getFieldLength();
-		if (startRow != endRow) {
-			// if a field is longer then 1 line, cut it
-			// TODO #341 - handle multi input field
-			length = getSize().getColumns() - screenField.startCol();
-		}
 		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField, length, fieldAttributes, value);
+		field.setEndPosition(SnapshotUtils.moveBy(field.getPosition(), length, getSize()));
 		field.setHidden(hidden);
 		return field;
 	}
@@ -306,6 +305,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		this.fieldSeperators = persistedSnapshot.getFieldSeperators();
 	}
 
+	@Override
 	public String getLogicalText(TerminalPosition position, int length) {
 		String text = super.getText(position, length);
 		if (convertToLogical) {

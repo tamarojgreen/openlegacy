@@ -138,4 +138,11 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 	public boolean isUppercase() {
 		return false;
 	}
+
+	public boolean isMultyLine() {
+		if (getEndPosition() == null) {
+			return false;
+		}
+		return getEndPosition().getRow() > getPosition().getRow();
+	}
 }

@@ -39,7 +39,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 
 public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtmlRenderer {
 
-	private static final String DEFAULT_SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {direction:ltr;font-family:FONT_FAMILY;font-size:FONTpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input {position:absolute;font-family:Courier New;font-size:FONTpx;height:INPUT-HEIGHTpx;INPUT_STYLE}";
+	private static final String DEFAULT_SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {direction:ltr;font-family:FONT_FAMILY;font-size:FONTpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input, #terminalSnapshot textarea {position:absolute;font-family:Courier New;font-size:FONTpx;height:INPUT-HEIGHTpx;INPUT_STYLE}";
 
 	private static final String TERMINAL_HTML = "TERMINAL_HTML";
 
@@ -181,7 +181,11 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 		Collection<TerminalField> fields = terminalSnapshot.getFields();
 		for (TerminalField terminalField : fields) {
 			if (terminalField.isEditable()) {
-				elementsProvider.createInput(formTag, terminalField);
+				if (terminalField.isMultyLine()) {
+					elementsProvider.createTextarea(formTag, terminalField);
+				} else {
+					elementsProvider.createInput(formTag, terminalField);
+				}
 			} else {
 				elementsProvider.createLabel(formTag, terminalField);
 			}
