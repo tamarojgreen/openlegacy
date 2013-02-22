@@ -272,7 +272,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	}
 
 	public String getOriginalValue() {
-		if (originalValue != null){
+		if (originalValue != null) {
 			return originalValue;
 		}
 		return getValue();
@@ -296,5 +296,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	public void setUppercase(boolean uppercase) {
 		this.uppercase = uppercase;
+	}
+
+	public boolean isMultyLine() {
+		return false;
 	}
 }
