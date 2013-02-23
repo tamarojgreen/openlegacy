@@ -240,9 +240,11 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				textarea.setAttribute(HtmlConstants.STYLE, textarea.getAttribute(HtmlConstants.STYLE)
 						+ ";text-transform:uppercase;");
 			}
-			// set value
-			Text textNode = rootTag.getOwnerDocument().createTextNode(field.getValue());
-			textarea.appendChild(textNode);
+			String value = field.getValue();
+			if (!StringUtils.isWhitespace(value)) {
+				Text textNode = rootTag.getOwnerDocument().createTextNode(value);
+				textarea.appendChild(textNode);
+			}
 
 			String fieldName = HtmlNamingUtil.getFieldName(field);
 			textarea.setAttribute(HtmlConstants.NAME, fieldName);

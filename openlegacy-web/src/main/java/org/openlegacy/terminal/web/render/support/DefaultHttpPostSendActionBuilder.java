@@ -43,6 +43,9 @@ public class DefaultHttpPostSendActionBuilder implements TerminalSendActionBuild
 				FieldsQuery.EditableFieldsCriteria.instance());
 		for (TerminalField terminalField : editableFields) {
 			String value = httpRequest.getParameter(getFieldHttpName(terminalField, columns));
+			// replace newlines in text areas (browser OS might be different then server OS)
+			value = value.replaceAll("\r\n", " ");
+			value = value.replaceAll("\n", " ");
 			if (!terminalField.getValue().equals(value)) {
 				terminalField.setValue(value);
 				sendAction.getModifiedFields().add(terminalField);

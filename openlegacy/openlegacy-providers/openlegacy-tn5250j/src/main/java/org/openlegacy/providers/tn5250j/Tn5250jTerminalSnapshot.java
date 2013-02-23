@@ -162,7 +162,8 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 					// avoid creating duplicate fields from mylty line field
 					if (screenField.startRow() + 1 == startPosition.getRow()) {
 						// re-grab the all field text
-						value = grabText(screenData.text, startAbsolutePosition, startAbsolutePosition + screenField.getLength());
+						value = grabText(screenData.text, startAbsolutePosition, startAbsolutePosition + screenField.getLength()
+								- 1);
 						field = createEditableField(screenField, value, hidden, fieldAttributes);
 					}
 				}
@@ -181,11 +182,19 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		}
 	}
 
-	private static String grabText(char[] text, int startPosition, int endPosition) {
+	private String grabText(char[] text, int startPosition, int endPosition) {
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = startPosition; i <= endPosition; i++) {
-			sb.append(text[i]);
+			char ch = text[i];
+			if (ch == 0) {
+				ch = ' ';
+			}
+			if (i > 0 && i % getSize().getColumns() == 0) {
+				sb.append('\n');
+			} else {
+				sb.append(ch);
+			}
 		}
 		return sb.toString();
 	}
@@ -195,7 +204,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		value = StringUtil.rightTrim(value);
 		int length = screenField.getFieldLength();
 		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField, length, fieldAttributes, value);
-		field.setEndPosition(SnapshotUtils.moveBy(field.getPosition(), length, getSize()));
+		field.setEndPosition(SnapshotUtils.moveBy(field.getPosition(), length - 1, getSize()));
 		field.setHidden(hidden);
 		return field;
 	}
