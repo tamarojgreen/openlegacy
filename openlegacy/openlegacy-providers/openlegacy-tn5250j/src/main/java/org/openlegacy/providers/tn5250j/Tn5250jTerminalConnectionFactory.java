@@ -71,6 +71,7 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 			throw (new OpenLegacyRuntimeException("Session is not connected"));
 		}
 
+		sessionImpl.getScreen().addScreenListener(olConnection);
 		olConnection.setWaitForUnlock(waitPauses);
 		return olConnection;
 	}

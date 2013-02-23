@@ -17,6 +17,7 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.utils.BidiUtil;
 import org.tn5250j.Session5250;
+import org.tn5250j.event.ScreenListener;
 import org.tn5250j.event.SessionChangeEvent;
 import org.tn5250j.event.SessionListener;
 import org.tn5250j.framework.tn5250.Screen5250;
@@ -24,7 +25,7 @@ import org.tn5250j.framework.tn5250.ScreenOIA;
 
 import java.util.List;
 
-public class Tn5250jTerminalConnection implements TerminalConnection, SessionListener {
+public class Tn5250jTerminalConnection implements TerminalConnection, SessionListener, ScreenListener {
 
 	private Session5250 session;
 
@@ -68,7 +69,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 		}
 
 		waitForKeyboardUnlock((String)terminalSendAction.getCommand());
-		sequence+=2;
+		sequence += 2;
 	}
 
 	private void waitForKeyboardUnlock(String aid) {
@@ -121,7 +122,15 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 	}
 
 	public void flip() {
-		throw(new UnsupportedOperationException("Not implemented flip for H3270"));
+		throw (new UnsupportedOperationException("Not implemented flip for H3270"));
+	}
+
+	public void onScreenChanged(int inUpdate, int startRow, int startCol, int endRow, int endCol) {
+		sequence++;
+	}
+
+	public void onScreenSizeChanged(int rows, int cols) {
+		// do nothing
 	}
 
 }
