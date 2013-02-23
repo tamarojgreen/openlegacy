@@ -59,7 +59,7 @@ function checkSequence(){
 			}
 		},
 		error : function(e) {
-			alert(e);
+			alert("Server not available:"  + e);
 		}
 	}
 	var deferred = dojo.xhrGet(xhrArgs);
