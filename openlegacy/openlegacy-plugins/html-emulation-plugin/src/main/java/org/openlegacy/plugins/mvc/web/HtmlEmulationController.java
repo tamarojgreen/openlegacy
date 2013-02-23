@@ -47,9 +47,13 @@ public class HtmlEmulationController {
 	private boolean emulationOnly = false;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String show(Model uiModel,@RequestParam(value="flip",required=false) Object flip) {
+	public String show(Model uiModel, @RequestParam(value = "flip", required = false) Object flip,@RequestParam(value = "fetch", required = false) Object fetch) {
 
-		if (flip != null){
+		if (fetch != null){
+			terminalSession.fetchSnapshot();
+		}
+
+		if (flip != null) {
 			terminalSession.flip();
 		}
 		
@@ -71,7 +75,7 @@ public class HtmlEmulationController {
 
 			}
 		}
-		return show(uiModel,null);
+		return show(uiModel, null,null);
 	}
 
 	/**
