@@ -74,10 +74,15 @@ public class ScreenDateFieldAnnotationLoader extends AbstractFieldAnnotationLoad
 		int dayColumn = fieldAnnotation.dayColumn();
 		int monthColumn = fieldAnnotation.monthColumn();
 		int yearColumn = fieldAnnotation.yearColumn();
+		String pattern = fieldAnnotation.pattern();
 		// set to null if default value is 0. null should be used to determine which date fields are enabled/disabled (to pick
 		// just month+year for example)
-		fieldDefinition.setFieldTypeDefinition(new SimpleDateFieldTypeDefinition(dayColumn > 0 ? dayColumn : null,
-				monthColumn > 0 ? monthColumn : null, yearColumn > 0 ? yearColumn : null));
+		if (pattern.equals("")) {
+			fieldDefinition.setFieldTypeDefinition(new SimpleDateFieldTypeDefinition(dayColumn > 0 ? dayColumn : null,
+					monthColumn > 0 ? monthColumn : null, yearColumn > 0 ? yearColumn : null));
+		} else {
+			fieldDefinition.setFieldTypeDefinition(new SimpleDateFieldTypeDefinition(pattern, fieldAnnotation.locale()));
+		}
 		fieldDefinition.setJavaType(Date.class);
 	}
 

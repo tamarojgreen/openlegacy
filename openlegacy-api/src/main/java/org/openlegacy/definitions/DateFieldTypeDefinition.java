@@ -22,4 +22,8 @@ public interface DateFieldTypeDefinition extends FieldTypeDefinition {
 	Integer getMonthColumn();
 
 	Integer getDayColumn();
+
+	String getPattern();
+
+	String getLocale();
 }

@@ -78,6 +78,9 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 			}
 			DateFieldTypeDefinition fieldTypeDefinition = (DateFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 			Assert.notNull(fieldTypeDefinition, "A field of type date is defined without @ScreenDateField annotation");
+			if (fieldTypeDefinition.getPattern() != null) {
+				continue;
+			}
 			int row = fieldDefinition.getPosition().getRow();
 
 			TerminalField dayField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(row,
@@ -148,6 +151,9 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 			DateFieldTypeDefinition fieldTypeDefinition = (DateFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 			Assert.notNull(fieldTypeDefinition, "A field of type date is defined without @ScreenDateField annotation");
 
+			if (fieldTypeDefinition.getPattern() != null) {
+				continue;
+			}
 			int row = fieldDefinition.getPosition().getRow();
 
 			TerminalField dayField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(row,

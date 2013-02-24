@@ -18,12 +18,8 @@
 	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/org/openlegacy/terminal/support/mock" />
-		<property name="files">
-			<list>
-				<value>DateScreen.xml</value>
-				<value>DateScreen-out.xml</value>
-			</list>
-		</property>
+		<property name="trailName" value="dateScreen.trail" />
+		<property name="verifySend" value="true" />
 	</bean>
 
 </beans>

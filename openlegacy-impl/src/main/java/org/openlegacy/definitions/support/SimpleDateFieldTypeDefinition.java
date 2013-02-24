@@ -21,6 +21,8 @@ public class SimpleDateFieldTypeDefinition implements DateFieldTypeDefinition, S
 	private Integer dayColumn;
 	private Integer monthColumn;
 	private Integer yearColumn;
+	private String pattern;
+	private String locale;
 
 	public SimpleDateFieldTypeDefinition() {}
 
@@ -28,6 +30,11 @@ public class SimpleDateFieldTypeDefinition implements DateFieldTypeDefinition, S
 		this.dayColumn = dayColumn;
 		this.monthColumn = monthColumn;
 		this.yearColumn = yearColumn;
+	}
+
+	public SimpleDateFieldTypeDefinition(String pattern, String locale) {
+		this.pattern = pattern;
+		this.locale = locale;
 	}
 
 	public String getTypeName() {
@@ -44,6 +51,14 @@ public class SimpleDateFieldTypeDefinition implements DateFieldTypeDefinition, S
 
 	public Integer getDayColumn() {
 		return dayColumn;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public String getLocale() {
+		return locale;
 	}
 
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+	<snapshot type="INCOMING" sequence="1">
+	    <cursor row="6" column="53" />
+	    <row rowNumber="1">
+	        <field value="The Date Screen title" column="30" />
+	    </row>
+	    <row rowNumber="2">
+	        <field value="Date field:" column="3" />
+	        <field value="09" editable="true" length="2" column="20" />
+	        <field value="/" column="23" />
+	        <field value="10" editable="true" length="2" column="25" />
+	        <field value="/" column="28" />
+	        <field value="11" editable="true" length="2" column="30" />
+        </row>
+        <row rowNumber="3">
+	        <field value="Date field:" column="3" />
+	        <field value="11" editable="true" length="2" column="20" />
+	        <field value="-" column="23" />
+	        <field value="02" editable="true" length="2" column="25" />
+	        <field value="-" column="28" />
+	        <field value="2013" editable="true" length="4" column="30" />
+        </row>
+        <row rowNumber="4">
+	        <field value="Date field:" column="3" />
+	        <field value="11 - 02 - 2013" editable="true" length="14" column="20" />
+        </row>
+        <row rowNumber="5">
+	        <field value="Date field:" column="3" />
+	        <field value="11 Feb 2013" editable="true" length="11" column="20" />
+        </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="OUTGOING" sequence="2">
+	    <cursor row="6" column="53" />
+	    <row rowNumber="1">
+	        <field value="Date Screen title" column="30" />
+	    </row>
+	    <row rowNumber="2">
+	        <field value="Date field:" column="3" />
+	        <field value="09" editable="true" length="2" column="20" />
+	        <field value="/" column="23" />
+	        <field value="08" modified="true" editable="true" length="2" column="25" />
+	        <field value="/" column="28" />
+	        <field value="11" editable="true" length="2" column="30" />
+    	</row>
+    	<row rowNumber="3">
+	        <field value="Date field:" column="3" />
+	        <field value="11" editable="true" length="2" column="20" />
+	        <field value="-" column="23" />
+	        <field value="07" modified="true"  editable="true" length="2" column="25" />
+	        <field value="-" column="28" />
+	        <field value="2013" editable="true" length="4" column="30" />
+        </row>
+        <row rowNumber="4">
+	        <field value="Date field:" column="3" />
+	        <field value="11 - 07 - 2013" editable="true" modified="true" length="14" column="20" />
+        </row>
+        <row rowNumber="5">
+	        <field value="Date field:" column="3" />
+	        <field value="11 Jul 2013" editable="true" modified="true" length="11" column="20" />
+        </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+</terminal-trail>

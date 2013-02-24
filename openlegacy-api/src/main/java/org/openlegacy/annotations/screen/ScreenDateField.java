@@ -42,4 +42,8 @@ public @interface ScreenDateField {
 
 	int dayColumn() default 0;
 
+	String pattern() default "";
+
+	String locale() default "en";
+
 }
