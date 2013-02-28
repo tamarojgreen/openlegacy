@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.as400.menus.WorkWithSubmittedJobs.WorkWithSubmittedJobsRecord;
 
-privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobsRecordTable_Aspect {
+privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobsRecord_Aspect {
     
     public String WorkWithSubmittedJobsRecord.getJob(){
     	return this.job;

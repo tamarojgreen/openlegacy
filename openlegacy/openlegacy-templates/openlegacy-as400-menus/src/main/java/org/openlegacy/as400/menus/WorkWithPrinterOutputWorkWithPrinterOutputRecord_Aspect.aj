@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.as400.menus.WorkWithPrinterOutput.WorkWithPrinterOutputRecord;
 
-privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutputRecordTable_Aspect {
+privileged @SuppressWarnings("unused") aspect WorkWithPrinterOutputRecord_Aspect {
     
     public String WorkWithPrinterOutputRecord.getOpt(){
     	return this.opt;

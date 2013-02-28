@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.as400.menus.WorkWithMessages.WorkWithMessagesRecord;
 
-privileged @SuppressWarnings("unused") aspect WorkWithMessagesRecordTable_Aspect {
+privileged @SuppressWarnings("unused") aspect WorkWithMessagesRecord_Aspect {
     
     public String WorkWithMessagesRecord.getMessage(){
     	return this.message;
