@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime;
 
+import java.io.File;
+
 import org.openlegacy.EntityDefinition;
 
 /**
@@ -22,4 +24,6 @@ import org.openlegacy.EntityDefinition;
 public interface EntityUserInteraction<E extends EntityDefinition<?>> extends UserInteraction {
 
 	boolean customizeEntity(E entityDefinition);
+	
+	void open(File file);
 }

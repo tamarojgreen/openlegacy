@@ -344,11 +344,11 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		List<ScreenEntityDefinition> screenDefinitions = getSortedSnapshots(screenEntitiesDefinitions);
 
+		EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateModelRequest.getPackageDirectory().replaceAll(
 					"/", "."));
 
-			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
 			if (entityUserInteraction != null) {
 				boolean generate = entityUserInteraction.customizeEntity(screenEntityDefinition);
 				if (!generate) {
@@ -392,6 +392,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer);
 				}
 
+				if (screenDefinitions.size() == 1){
+					entityUserInteraction.open(targetJavaFile);
+				}
+				
 			} catch (TemplateException e) {
 				throw (new GenerationException(e));
 			} catch (IOException e) {

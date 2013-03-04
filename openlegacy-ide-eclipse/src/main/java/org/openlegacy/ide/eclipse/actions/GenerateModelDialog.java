@@ -10,8 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
+import java.io.File;
+import java.text.MessageFormat;
+
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -23,15 +27,18 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
+import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-
-import java.io.File;
-import java.text.MessageFormat;
 
 public class GenerateModelDialog extends AbstractGenerateCodeDialog implements EntityUserInteraction<ScreenEntityDefinition> {
 
@@ -66,6 +73,7 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 					public void run() {
 						try {
 							monitor.worked(1);
+
 							trailPath.getProject().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 							monitor.done();
 						} catch (CoreException e) {
@@ -123,7 +131,9 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 				}
 			}
 		});
-		return generate.getBooleanValue();
+		boolean result = generate.getBooleanValue();
+		
+		return result;
 	}
 
 	private static class BooleanContainer {
@@ -138,5 +148,34 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 			return booleanValue;
 
 		}
+	}
+	public void open(final File file) {
+
+			Display.getDefault().asyncExec(new Runnable() {
+
+				public void run() {
+					final IFolder folder = getProject().getFolder(getSourceFolder().getPath() + "/" + PathsUtil.packageToPath(getPackageValue()));
+					try {
+						if (folder != null){
+							folder.refreshLocal(1, null);
+						}
+					} catch (CoreException e1) {
+						logger.fatal(e1);
+					}
+					
+					IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
+					try {
+						IFile javaFile = getProject().getFile(getSourceFolder().getPath().toPortableString() + "/" + PathsUtil.packageToPath(getPackageValue()) + "/" + file.getName());
+						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(javaFile.getName());
+
+						page.openEditor(new FileEditorInput(javaFile), editorDescriptor.getId());
+
+
+					} catch (PartInitException e) {
+						logger.fatal(e);
+					}
+				}
+			});
+		
 	}
 }
