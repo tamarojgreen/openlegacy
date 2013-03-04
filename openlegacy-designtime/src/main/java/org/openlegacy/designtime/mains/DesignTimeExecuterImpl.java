@@ -510,7 +510,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (projectApplicationContext == null) {
 			File designtimeContextFile = new File(projectPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
 			if (designtimeContextFile.exists()) {
-				projectApplicationContext = new FileSystemXmlApplicationContext("file://"
+				// in windows add / to the file path (http://www.ehour.nl/forum/viewtopic.php?t=1113)
+				String prefix = designtimeContextFile.getAbsolutePath().startsWith("/") ? "" : "/";
+				projectApplicationContext = new FileSystemXmlApplicationContext(prefix
 						+ designtimeContextFile.getAbsolutePath());
 			} else {
 				String embeddedDesigntimeContextFile = getEmbeddedDesigntimeContextFile(projectPath);
