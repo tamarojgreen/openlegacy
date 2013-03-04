@@ -69,7 +69,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 		}
 
 		waitForKeyboardUnlock((String)terminalSendAction.getCommand());
-		sequence += 2;
+		sequence++;
 	}
 
 	private void waitForKeyboardUnlock(String aid) {
@@ -126,7 +126,9 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 	}
 
 	public void onScreenChanged(int inUpdate, int startRow, int startCol, int endRow, int endCol) {
-		sequence++;
+		if (inUpdate == 1){
+			sequence++;
+		}
 	}
 
 	public void onScreenSizeChanged(int rows, int cols) {
