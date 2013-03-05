@@ -72,6 +72,9 @@ public class SnapshotPersistanceDTO {
 			TerminalPersistedRow row = (TerminalPersistedRow)persistedSnapshot.getRow(fieldPosition.getRow());
 			TerminalPersistedField field = (TerminalPersistedField)row.getField(fieldPosition.getColumn());
 			String value = terminalField.getValue();
+			if (field == null){
+				continue;
+			}
 			if (field.isPassword()) {
 				value = convertToAsteriks(terminalField.getValue());
 			}
