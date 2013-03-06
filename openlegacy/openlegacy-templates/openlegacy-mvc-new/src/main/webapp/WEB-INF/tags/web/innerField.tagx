@@ -81,11 +81,10 @@
 								<span class="fieldPlaceholder" />
 								<form:checkbox name="${name}"
 									data-dojo-type="dijit.form.CheckBox" path="${name}"
-									cssStyle="${style}" cssClass="${cssClass}" />
+									cssStyle="${style}" />
 							</c:when>
 							<c:when test="${type == 'date'}">
-								<form:input id="${name}" path="${name}" cssStyle="${style}"
-									cssClass="${cssClass}" />
+								<form:input id="${name}" path="${name}" cssStyle="${style}" />
 								<script type="text/javascript">
 								require(["dijit/form/DateTextBox", "dojo/dom"], 
 										function(DateTextBox, dom){
@@ -103,10 +102,9 @@
 										<c:set var="windowUrl" value="${fieldDefinition.fieldTypeDefinition.sourceEntityClassName}" />
 										<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 										<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
-											maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}"
-											cssClass="${cssClass}" />
+											maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" />
 										<c:if test="${not empty fieldDefinition.fieldTypeDefinition.displayFieldName}">
-											<ol:span cssClass="readonlyField ${cssClass}" path="${fieldDefinition.fieldTypeDefinition.displayFieldName}"
+											<ol:span cssClass="readonlyField" path="${fieldDefinition.fieldTypeDefinition.displayFieldName}"
 												cssStyle="${style}" />
 										</c:if>
 										<img src="${pageContext.request.contextPath}/icons/search.png" onclick="openLookupDialog('${name}','${fieldDefinition.fieldTypeDefinition.displayFieldName}','${pageContext.request.contextPath}/${windowUrl}','width:350px;height:300px')" class="search" />
@@ -129,8 +127,7 @@
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 								<script type="text/javascript"
 									src="http://maps.google.com/maps/api/js?sensor=false"><!----></script>
-								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}"
-									cssClass="${widthString}${cssClass}" />
+								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}"/>
 								<a
 									href="javascript:require(['dojo/dom'], function(dom){createMap(dom.byId('${name}').value)});showDialog('mapDialog')">
 									<img src="${pageContext.request.contextPath}/icons/map.png"
@@ -140,25 +137,26 @@
 							<c:when test="${type == 'password'}">
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 								<form:input type="password" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'" 
-									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}"
-									cssClass="${cssClass}" />
+									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" />
 							</c:when>
 							<c:when test="${type == 'enum'}">
 								<script>require("dijit/form/FilteringSelect");</script>
 								<span class="fieldPlaceholder" />
 								<form:select id="${name}"
 									data-dojo-type="dijit.form.FilteringSelect" path="${name}"
-									cssStyle="${style}" cssClass="${cssClass}">
+									cssStyle="${style}">
 									<form:option value="" label="--- Select ---" />
 									<form:options
 										items="${fieldDefinition.fieldTypeDefinition.displayValues}" />
 								</form:select>
 							</c:when>
+							<c:when test="${fieldDefinition.rectangle == true}">
+								<form:textarea type="text" id="${name}" path="${name}" rows="${fieldDefinition.endPosition.row-fieldDefinition.position.row+1}" cols="${fieldDefinition.endPosition.column-fieldDefinition.position.column+1}" cssStyle="${style}" />
+							</c:when>
 							<c:otherwise>
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 								<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
-									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}"
-									cssClass="${cssClass}" />
+									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" />
 							</c:otherwise>
 						</c:choose>
 					</c:when>
