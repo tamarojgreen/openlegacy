@@ -217,8 +217,15 @@ public class ScreenBinderLogic implements Serializable {
 				String value = leftoverValue;
 				if (endRow != startRow) {
 					if (fieldMappingDefinition.isRectangle()) {
-						value = leftoverValue.substring(0, endColumn - startColumn);
-						leftoverValue = leftoverValue.substring(endColumn - startColumn);
+						int delta = endColumn - startColumn;
+						if (leftoverValue.length() >= delta){
+							value = leftoverValue.substring(0, delta);
+							leftoverValue = leftoverValue.substring(delta);
+						}
+						else{
+							value = leftoverValue;
+							leftoverValue = "";
+						}
 					} else {
 						// 1st row
 						if (currentRow == startRow) {
