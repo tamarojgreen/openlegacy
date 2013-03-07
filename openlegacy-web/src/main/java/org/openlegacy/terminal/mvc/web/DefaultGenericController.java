@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.mvc.OpenLegacyWebProperties;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
@@ -102,6 +103,9 @@ public class DefaultGenericController {
 
 	private String viewsSuffix = ".jspx";
 
+	@Inject
+	private TableWriter tableWriter;
+	
 	@Inject
 	private OpenLegacyWebProperties openlegacyWebProperties;
 
@@ -245,6 +249,19 @@ public class DefaultGenericController {
 		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
 	}
 
+	// export to excel
+    @RequestMapping(value="/{screen}/excel", method = RequestMethod.GET)
+    public void excel(@PathVariable("screen") String entityName,HttpServletResponse response) throws IOException {
+		ScreenEntity entity = (ScreenEntity) terminalSession.getEntity(entityName);
+		if (entity == null){
+			return;
+		}
+		List<?> records = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, entity);
+		response.setContentType("application/vnd.ms-excel");
+		response.addHeader("Content-Disposition", MessageFormat.format("attachment; filename=\"{0}.xls\"", entityName));
+    	tableWriter.writeTable(records, response.getOutputStream());
+    }
+	
 	/**
 	 * handle Ajax request for auto compete fields
 	 * 
