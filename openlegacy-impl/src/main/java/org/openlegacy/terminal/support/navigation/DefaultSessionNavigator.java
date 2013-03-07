@@ -19,6 +19,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalMappedAction;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -156,8 +157,12 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			if (terminalAction instanceof DrilldownAction) {
 				terminalSession.getModule(Table.class).drillDown(navigationDefinition.getTargetEntity(),
 						(TerminalDrilldownAction)terminalAction, keys);
-			} else {
+			} else if (terminalAction instanceof TerminalMappedAction){
 				terminalSession.doAction(terminalAction, currentEntity);
+			}
+			else{
+				terminalAction.perform(terminalSession, currentEntity,keys);
+
 			}
 			currentEntity = terminalSession.getEntity();
 		}

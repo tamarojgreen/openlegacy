@@ -22,14 +22,14 @@ import java.text.MessageFormat;
  * @author Roi Mor
  * 
  */
-public class CombinedTerminalAction implements TerminalAction, Serializable {
+public class CombinedTerminalAction implements TerminalMappedAction, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private AdditionalKey additionalKey;
 	private Class<? extends TerminalAction> terminalAction;
 
-	public void perform(TerminalSession session, Object entity) {
+	public void perform(TerminalSession session, Object entity,Object... keys) {
 		// if we got here it means the actions is not mapped...
 		throw (new TerminalActionNotMappedException(MessageFormat.format(
 				"Specified action {0} is not mapped to a terminal command", getClass())));

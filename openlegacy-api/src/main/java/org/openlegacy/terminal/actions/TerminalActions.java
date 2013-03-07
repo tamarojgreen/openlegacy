@@ -31,11 +31,11 @@ import java.text.MessageFormat;
  */
 public class TerminalActions {
 
-	public static class TerminalMappedAction implements TerminalAction, Serializable {
+	public static class SimpleTerminalMappedAction implements TerminalMappedAction, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
-		public void perform(TerminalSession terminalSession, Object entity) {
+		public void perform(TerminalSession terminalSession, Object entity,Object... keys) {
 			// if we got here it means the actions is not mapped...
 			throw (new TerminalActionNotMappedException(MessageFormat.format(
 					"Specified action {0} is not mapped to a terminal command", getClass())));
@@ -68,7 +68,7 @@ public class TerminalActions {
 		return combinedAction;
 	}
 
-	public static class ENTER extends TerminalMappedAction {
+	public static class ENTER extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -77,7 +77,7 @@ public class TerminalActions {
 		return new ENTER();
 	}
 
-	public static class ESC extends TerminalMappedAction {
+	public static class ESC extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -86,7 +86,7 @@ public class TerminalActions {
 		return new ESC();
 	}
 
-	public static class F1 extends TerminalMappedAction {
+	public static class F1 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -95,7 +95,7 @@ public class TerminalActions {
 		return new F1();
 	}
 
-	public static class F2 extends TerminalMappedAction {
+	public static class F2 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -104,7 +104,7 @@ public class TerminalActions {
 		return new F2();
 	}
 
-	public static class F3 extends TerminalMappedAction {
+	public static class F3 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -113,7 +113,7 @@ public class TerminalActions {
 		return new F3();
 	}
 
-	public static class F4 extends TerminalMappedAction {
+	public static class F4 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -122,7 +122,7 @@ public class TerminalActions {
 		return new F4();
 	}
 
-	public static class F5 extends TerminalMappedAction {
+	public static class F5 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -131,7 +131,7 @@ public class TerminalActions {
 		return new F5();
 	}
 
-	public static class F6 extends TerminalMappedAction {
+	public static class F6 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -140,7 +140,7 @@ public class TerminalActions {
 		return new F6();
 	}
 
-	public static class F7 extends TerminalMappedAction {
+	public static class F7 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -149,7 +149,7 @@ public class TerminalActions {
 		return new F7();
 	}
 
-	public static class F8 extends TerminalMappedAction {
+	public static class F8 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -158,7 +158,7 @@ public class TerminalActions {
 		return new F8();
 	}
 
-	public static class F9 extends TerminalMappedAction {
+	public static class F9 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -167,7 +167,7 @@ public class TerminalActions {
 		return new F9();
 	}
 
-	public static class F10 extends TerminalMappedAction {
+	public static class F10 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -176,7 +176,7 @@ public class TerminalActions {
 		return new F10();
 	}
 
-	public static class F11 extends TerminalMappedAction {
+	public static class F11 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -185,7 +185,7 @@ public class TerminalActions {
 		return new F11();
 	}
 
-	public static class F12 extends TerminalMappedAction {
+	public static class F12 extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -194,7 +194,7 @@ public class TerminalActions {
 		return new F12();
 	}
 
-	public static class PAGEDOWN extends TerminalMappedAction {
+	public static class PAGEDOWN extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
@@ -203,7 +203,7 @@ public class TerminalActions {
 		return new PAGEDOWN();
 	}
 
-	public static class PAGEUP extends TerminalMappedAction {
+	public static class PAGEUP extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;
 	}
