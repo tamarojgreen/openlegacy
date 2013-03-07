@@ -11,11 +11,16 @@
 	<jsp:directive.attribute name="window" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table is displayed in window" />
 	<jsp:directive.attribute name="style" type="java.lang.String" required="false" rtexprvalue="true" description="The table style" />
 	<jsp:directive.attribute name="paging" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table has paging" />
+	<jsp:directive.attribute name="alternate" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Whether the table has alternate color for every 2nd row" />
 	
 	<jsp:output omit-xml-declaration="yes" />
 	
 	<c:if test="${empty formName}">
 		${ol:throwException("formName not found. Probably ol:table tag is not within ol:form")}
+	</c:if>
+
+	<c:if test="${empty alternate}">
+		<c:set var="alternate" value="true" />
 	</c:if>
 	
 	<c:set var="actionsCss" value="" />
@@ -33,53 +38,59 @@
 	<div class="table"  style="${style}">
 		<table>
 			<tr>
+				<th><!--  --></th>
 				<c:forEach items="${tableDefinition.columnDefinitions}" var="column">
 					<th>${column.displayName}</th>
 				</c:forEach>
 			</tr>
 			<c:forEach items="${data}" var="item" varStatus="i">
-				<tr class="${i.index % 2 == 0 ? '' : 'alt'}">
+				<tr class="${i.index % 2 == 0 or !alternate ? '' : 'alt'}">
+				<td>
+					<c:choose>
+						<c:when test="${fn:length(tableDefinition.actions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
+							<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayField]}');" class="${actionsCss}" title="Select ">Select</a>
+						</c:when>
+						<c:when test="${fn:length(tableDefinition.actions) &gt; 3}">
+		      				<select onchange="eval(this.value)" name="${column.name}">
+		      					<option value="">- Select -</option>
+		      					<c:forEach items="${tableDefinition.actions}" var="action">
+								<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
+		      					<c:if test="${action.targetEntity == null}">
+									<c:set var="target" value="alert('No target entity specified for table action in table class @ScreenTableActions annotation')" />
+		      					</c:if>
+		      					<option value="${target}">${action.displayName}</option>
+		      					</c:forEach>
+		      				</select>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
+								<c:set var="target" value="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}" />
+								<c:if test="${action.targetEntity == null}">
+									<c:set var="target" value="javascript:alert('No target entity specified for table action in table class @ScreenTableActions annotation');" />
+								</c:if>
+								<a href="${pageContext.request.contextPath}/${target}"
+									class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName}</a>
+								<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
+							</c:forEach>
+							</c:otherwise>
+					</c:choose>
+				</td>
 					<c:forEach items="${tableDefinition.columnDefinitions}"
 						var="column">
 						<spring:eval var="columnValue" expression="item[column.name]" />
-						<td><c:choose>
+						<td>
+							<c:choose>
 								<c:when test="${column.selectionField}">
-									<c:choose>
-										<c:when test="${fn:length(tableDefinition.actions) == 0}">
-											<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayField]}');" class="${actionsCss}" title="Select ">Select</a>
-										</c:when>
-										<c:when test="${fn:length(tableDefinition.actions) &gt; 3}">
-						      				<select onchange="eval(this.value)" name="${column.name}">
-						      					<option value="">- Select -</option>
-						      					<c:forEach items="${tableDefinition.actions}" var="action">
-												<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
-						      					<c:if test="${action.targetEntity == null}">
-													<c:set var="target" value="alert('No target entity specified for table action in table class @ScreenTableActions annotation')" />
-						      					</c:if>
-						      					<option value="${target}">${action.displayName}</option>
-						      					</c:forEach>
-						      				</select>
-										</c:when>
-										<c:otherwise>
-											<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
-												<c:set var="target" value="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}" />
-												<c:if test="${action.targetEntity == null}">
-													<c:set var="target" value="javascript:alert('No target entity specified for table action in table class @ScreenTableActions annotation');" />
-												</c:if>
-												<a href="${pageContext.request.contextPath}/${target}"
-													class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName}</a>
-												<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
-											</c:forEach>
- 										</c:otherwise>
-									</c:choose>
+									<!-- Skip -->
 								</c:when>
 								<c:when test="${column.editable}">
 									<input name="${column.name}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
 								</c:when>
 								<c:otherwise>
-						      		<span dir="ltr">${columnValue}</span>
+						      		<span style="white-space: pre;" dir="ltr">${columnValue}</span>
 				      			</c:otherwise>
-							</c:choose></td>
+							</c:choose>
+						</td>
 					</c:forEach>
 				</tr>
 			</c:forEach>
