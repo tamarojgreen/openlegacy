@@ -19,6 +19,7 @@ import org.openlegacy.annotations.screen.ScreenNavigation;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalMappedAction;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
@@ -63,9 +64,12 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 		} else {
 			if (TerminalDrilldownAction.class.isAssignableFrom(screenNavigation.terminalAction())) {
 				navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
-			} else {
+			} else if (TerminalMappedAction.class.isAssignableFrom(screenNavigation.terminalAction())){
 				navigationDefinition.setTerminalAction((TerminalAction)TerminalActions.combined(screenNavigation.additionalKey(),
 						screenNavigation.terminalAction()));
+			}
+			else{
+				navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
 			}
 		}
 		navigationDefinition.setExitAction(ReflectionUtil.newInstance(screenNavigation.exitAction()));
