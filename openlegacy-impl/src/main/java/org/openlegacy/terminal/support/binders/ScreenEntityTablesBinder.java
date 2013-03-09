@@ -130,10 +130,10 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 			int rowCount = 0;
 			for (Object row : rows) {
 				List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
-				fieldAccessor = new SimpleScreenPojoFieldAccessor(row);
+				ScreenPojoFieldAccessor rowAccessor = new SimpleScreenPojoFieldAccessor(row);
 				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
 					if (columnDefinition.isEditable()) {
-						Object value = fieldAccessor.getFieldValue(columnDefinition.getName());
+						Object value = rowAccessor.getFieldValue(columnDefinition.getName());
 						if (value == null) {
 							continue;
 						}
