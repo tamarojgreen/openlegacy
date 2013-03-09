@@ -154,15 +154,19 @@ public class DefaultGenericController {
 		binder.bind(request);
 
 		screenEntityUtils.sendScreenEntity(terminalSession, screenEntity, action);
-		screenEntity = terminalSession.getEntity();
-		if (request.getParameter("partial") != null) {
+		ScreenEntity resultEntity = terminalSession.getEntity();
+		String resultEntityName = null;
+		if (resultEntity != null){
+			resultEntityName = ProxyUtil.getOriginalClass(resultEntity.getClass()).getSimpleName();
+		}
+		
+		if (request.getParameter("partial") != null || (resultEntity != null && resultEntityName.equals(screenEntityName))) {
 			return returnPartialPage(screenEntityName, uiModel, partial, request);
 		} else {
-			if (screenEntity == null) {
+			if (resultEntity == null) {
 				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
 				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 			}
-			String resultEntityName = ProxyUtil.getOriginalClass(screenEntity.getClass()).getSimpleName();
 			return MvcConstants.REDIRECT + resultEntityName;
 		}
 	}

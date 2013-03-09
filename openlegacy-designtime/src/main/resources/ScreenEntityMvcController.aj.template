@@ -166,7 +166,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (httpServletRequest.getParameter("partial") != null){
+			if (httpServletRequest.getParameter("partial") != null || screenEntityName.equals("${entityDefinition.entityName?cap_first}")){
 				${entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${entityDefinition.entityClassName}.class);
 		    	uiModel.addAttribute("${entityDefinition.entityName?uncap_first}", ${entityDefinition.entityName?uncap_first});
 		        return "${entityDefinition.entityName?cap_first}";

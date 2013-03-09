@@ -82,7 +82,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPagewithKeyController_Asp
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
 			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
-			if (httpServletRequest.getParameter("partial") != null){
+			if (httpServletRequest.getParameter("partial") != null || screenEntityName.equals("ScreenForPagewithKey")){
 				screenForPagewithKey = terminalSession.getEntity(ScreenForPagewithKey.class);
 		    	uiModel.addAttribute("screenForPagewithKey", screenForPagewithKey);
 		        return "ScreenForPagewithKey";
