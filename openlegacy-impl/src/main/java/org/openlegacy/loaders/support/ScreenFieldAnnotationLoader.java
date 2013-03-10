@@ -84,7 +84,14 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 				}
 			}
 		} else {
-			screenFieldDefinition.setLength(fieldAnnotation.endColumn() - fieldAnnotation.column() + 1);
+			if (fieldAnnotation.rectangle()){
+				int width = fieldAnnotation.endColumn() - fieldAnnotation.column() + 1;
+				int height = fieldAnnotation.endRow() > 0 ? fieldAnnotation.endRow()-fieldAnnotation.row()+1 : 1;
+				screenFieldDefinition.setLength(width*height);
+			}
+			else{
+				// TODO calculate length for "snake" field 
+			}
 		}
 
 		if (fieldAnnotation.endRow() > 0) {
