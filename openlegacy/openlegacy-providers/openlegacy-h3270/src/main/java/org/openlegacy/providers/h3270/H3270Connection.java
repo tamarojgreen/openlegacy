@@ -4,6 +4,7 @@ import org.h3270.host.S3270;
 import org.h3270.host.S3270Screen;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 
@@ -32,14 +33,16 @@ public class H3270Connection implements TerminalConnection {
 	public void doAction(TerminalSendAction terminalSendAction) {
 		TerminalSnapshot snapshot = getSnapshot();
 		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
+		TerminalPosition cursor = terminalSendAction.getCursorPosition();
 		for (TerminalField modifiedField : modifiedFields) {
 			H3270TerminalField field = (H3270TerminalField)snapshot.getField(modifiedField.getPosition());
 			field.setValue(modifiedField.getValue());
-			if (field.getPosition().equals(terminalSendAction.getCursorPosition())) {
-				field.setFocus();
-			}
 		}
 		s3270Session.submitScreen();
+		if (cursor != null){
+			// s3270 is 0 based
+			s3270Session.setCursor(cursor.getRow()-1, cursor.getColumn()-1);
+		}
 		s3270Session.doKey(terminalSendAction.getCommand().toString());
 		sequence+=2;
 	}

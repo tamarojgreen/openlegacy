@@ -170,7 +170,7 @@ public class S3270 implements Terminal {
 	/**
 	 * Perform an s3270 command. All communication with s3270 should go via this method.
 	 */
-	private Result doCommand(String command) {
+	public Result doCommand(String command) {
 		try {
 			out.println(command);
 			out.flush();
@@ -491,6 +491,10 @@ public class S3270 implements Terminal {
 	@Override
 	public String toString() {
 		return "s3270 " + super.toString();
+	}
+
+	public void setCursor(int row, int column) {
+		 doCommand("movecursor (" + row + ", " + column + ")");		
 	}
 
 }

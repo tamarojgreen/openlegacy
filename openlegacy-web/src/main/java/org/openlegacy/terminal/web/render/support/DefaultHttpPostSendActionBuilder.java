@@ -56,8 +56,10 @@ public class DefaultHttpPostSendActionBuilder implements TerminalSendActionBuild
 
 	protected TerminalPosition getCursor(HttpServletRequest httpRequest, int columns) {
 		String terminalCursor = httpRequest.getParameter(TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
-		HtmlNamingUtil.toPosition(terminalCursor);
-		return null;
+		if (terminalCursor == null){
+			return null;
+		}
+		return HtmlNamingUtil.toPosition(terminalCursor);
 	}
 
 	protected Object getCommand(HttpServletRequest httpRequest) {
