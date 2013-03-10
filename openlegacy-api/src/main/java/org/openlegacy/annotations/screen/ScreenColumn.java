@@ -43,7 +43,7 @@ public @interface ScreenColumn {
 
 	boolean editable() default false;
 
-	String displayName() default "";
+	String displayName() default AnnotationConstants.NULL;
 
 	String sampleValue() default "";
 

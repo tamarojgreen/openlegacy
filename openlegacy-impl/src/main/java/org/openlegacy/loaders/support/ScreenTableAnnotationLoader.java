@@ -11,6 +11,7 @@
 package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.exceptions.RegistryException;
@@ -88,8 +89,8 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				columnDefinition.setRowsOffset(screenColumnAnnotation.rowsOffset());
 				columnDefinition.setKey(screenColumnAnnotation.key());
 				columnDefinition.setEditable(screenColumnAnnotation.editable());
-				String displayName = screenColumnAnnotation.displayName().length() > 0 ? screenColumnAnnotation.displayName()
-						: StringUtil.toDisplayName(field.getName());
+				String displayName = screenColumnAnnotation.displayName().equals(AnnotationConstants.NULL) ? StringUtil.toDisplayName(field.getName()) 
+						: screenColumnAnnotation.displayName();
 				columnDefinition.setDisplayName(displayName);
 				columnDefinition.setSampleValue(screenColumnAnnotation.sampleValue());
 
