@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.terminal.analyzer.support;
+package org.openlegacy.designtime.terminal.analyzer.support.comparators;
 
 import org.openlegacy.designtime.terminal.analyzer.BestEntityNameFieldComparator;
 import org.openlegacy.terminal.TerminalField;

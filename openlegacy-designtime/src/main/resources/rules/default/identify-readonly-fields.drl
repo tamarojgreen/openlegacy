@@ -29,5 +29,6 @@ when
 								editable == false,length <= $maximumLabelLength, value matches $labelRegex) from $snapshot.getFields()
 then
 	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$field,$labelField);
+	$snapshot.getFields().remove($field);
 	update($screenEntityDefinition);
 end

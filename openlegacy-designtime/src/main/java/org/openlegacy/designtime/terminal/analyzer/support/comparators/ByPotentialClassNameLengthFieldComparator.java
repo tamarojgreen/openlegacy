@@ -8,20 +8,18 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.terminal.analyzer.support;
+package org.openlegacy.designtime.terminal.analyzer.support.comparators;
 
 import org.openlegacy.designtime.terminal.analyzer.BestEntityNameFieldComparator;
-import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.utils.StringUtil;
 
-public class ByMostCenteredFieldComparator implements BestEntityNameFieldComparator {
+public class ByPotentialClassNameLengthFieldComparator implements BestEntityNameFieldComparator {
 
 	public int compare(TerminalField field1, TerminalField field2) {
+		String field1Variable = StringUtil.toClassName(field1.getValue());
+		String field2Variable = StringUtil.toClassName(field2.getValue());
 
-		int field1DistanceFromCenter = Math.abs((ScreenSize.DEFAULT_COLUMN / 2) - field1.getPosition().getColumn());
-		int field2DistanceFromCenter = Math.abs((ScreenSize.DEFAULT_COLUMN / 2) - field2.getPosition().getColumn());
-
-		// the field who is distance is smallest should be 1st
-		return field1DistanceFromCenter - field2DistanceFromCenter;
+		return field2Variable.length() - field1Variable.length();
 	}
 }

@@ -25,9 +25,6 @@ import org.openlegacy.annotations.screen.ScreenTable;
 					)
 public class EditLibraryList {
     
-	
-	@ScreenField(row = 2, column = 72, endColumn= 79 ,labelColumn= 62 ,displayName = "System", sampleValue = "S1051C6E")
-    private String system;
 
     
     private List<EditLibraryListRecord> editLibraryListRecords;

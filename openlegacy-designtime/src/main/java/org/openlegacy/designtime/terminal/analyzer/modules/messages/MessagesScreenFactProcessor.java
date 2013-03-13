@@ -50,5 +50,9 @@ public class MessagesScreenFactProcessor implements ScreenFactProcessor {
 		ScreenEntityDefinitionsBuilderUtils.defineFieldType(screenEntityDefinition, messageFieldDefinition,
 				Messages.MessageField.class);
 		screenEntityDefinition.getFieldsDefinitions().put(Messages.MESSAGE_FIELD, messageFieldDefinition);
+		
+		// remove the fields from the snapshot to avoid re-recognize by other rules
+		screenEntityDefinition.getSnapshot().getFields().removeAll(messageFields);
+		
 	}
 }

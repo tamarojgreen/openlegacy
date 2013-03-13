@@ -28,9 +28,6 @@ import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 public class UserTasks {
     
 	
-	@ScreenField(row = 2, column = 72, endColumn= 79 ,labelColumn= 62 ,displayName = "System", sampleValue = "S1051C6E")
-    private String system;
-	
 	@ScreenField(row = 20, column = 7, endColumn= 80 ,editable= true ,fieldType=MenuSelectionField.class ,displayName = "Menu Selection")
     private String menuSelection;
 

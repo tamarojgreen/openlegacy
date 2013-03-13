@@ -22,11 +22,11 @@ when
 	$screenEntityDefinition: ScreenEntityDesigntimeDefinition()
 	
 	$ruleParameterSet: RuleParametersSet(ruleId == "find-screen-name")
-	$titleRegex    : String()  from (String)$ruleParameterSet.getRuleParameters().get("titleRegex");
-	$titleStartRowParam  : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleStartRow");
-	$titleEndRowParam    : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleEndRow");
-	$titleStartColumn  : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleStartColumn");
-	$titleEndColumn    : Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleEndColumn");
+	$titleRegex    			: String()   from (String)$ruleParameterSet.getRuleParameters().get("titleRegex");
+	$titleStartRowParam  	: Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleStartRow");
+	$titleEndRowParam    	: Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleEndRow");
+	$titleStartColumn  		: Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleStartColumn");
+	$titleEndColumn    		: Integer()  from (Integer)$ruleParameterSet.getRuleParameters().get("titleEndColumn");
 
 	// considering possible window borders
 	$borderStartRow: Integer() from $screenEntityDefinition.getSnapshotBorders().getTopLeftPosition().getRow();
@@ -36,6 +36,10 @@ when
 	// which has a snaphot
 	$snapshot: TerminalSnapshot() from $screenEntityDefinition.snapshot
 
+	// there is a screen definition
+	$screenEntityDefinition2: ScreenEntityDesigntimeDefinition()
+	$snapshot2: TerminalSnapshot() from $screenEntityDefinition2.snapshot
+	
 	// and there is a field from the snapshot in the title rows which matches a title pattern 
 	$potentialFieldsForEntityName: List(size > 0) from collect(
 											TerminalField(position.row >= $titleStartRow, position.row <= $titleEndRow, 

@@ -24,7 +24,7 @@
 			<list>
 				<bean parent="ruleDefinition" p:droolsFile="rules/screen-builder.bpmn" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/package.drl" />
-				<bean parent="ruleDefinition" p:droolsFile="rules/default/manage-screen-entities.drl" />
+				<bean parent="ruleDefinition" p:droolsFile="rules/default/manage-screen-entities.drl" p:ruleId="manage-screen-entities" />
 				<bean parent="ruleDefinition" p:droolsFile="rules/default/identify-window.drl" p:ruleId="identify-window" p:enabled="true">
 					<property name="ruleParameterSets">
 						<list>
@@ -66,6 +66,20 @@
 								</property>
 							</bean>
 						</list>
+					</property>
+				</bean>
+				<!-- This rule remove same fields which exists on different screens. Helps to avoid same identifiers, and set these fields in abstract class if needed -->
+				<bean parent="ruleDefinition" p:droolsFile="rules/default/remove-repeatable-fields.drl" p:ruleId="remove-repeatable-fields" p:enabled="true">
+					<property name="ruleParameterSets">
+						<bean parent="ruleParametersSet">
+							<property name="ruleParameters">
+								<map>
+									<entry key="removeDuplicateFieldsStartRow" value="1" />
+									<entry key="removeDuplicateFieldsEndRow" value="2" />
+									<entry key="removeDuplicateFieldsRegex" value="[\w\p{L}]+[\w\p{L} \-/]*" />
+								</map>
+							</property>
+						</bean>
 					</property>
 				</bean>
 				<bean parent="ruleDefinition" p:droolsFile="rules/default/find-screen-name.drl" p:ruleId="find-screen-name" p:enabled="true">

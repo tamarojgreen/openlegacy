@@ -1,0 +1,28 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.*;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.modules.menu.Menu.MenuEntity;  
+import org.openlegacy.modules.menu.Menu.MenuSelectionField;  
+
+@ScreenEntity(screenType=MenuEntity.class,displayName="תפריט מערכות ראשי - עמינח      ")
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 3, column = 30, value = "        חנימע - ישאר תוכרעמ טירפת      "), 
+				@Identifier(row = 17, column = 2, value = "יתנש בר-רחוס יריחמב םירצוימ םירצומ") 
+				})
+@ScreenActions(actions = { 
+				@Action(action = TerminalActions.F6.class, displayName = "תפריט אישי", alias = "tpritAisi"), 
+				@Action(action = TerminalActions.F2.class, displayName = "טלפונים", alias = "tlponim") 
+				})
+public class TpritMarcotRasiAminh {
+    
+	
+	@ScreenField(row = 21, column = 61, endColumn= 62 ,editable= true ,fieldType=MenuSelectionField.class ,displayName = "Menu Selection")
+    private Integer menuSelection;
+
+    
+
+
+ 
+}

@@ -25,9 +25,6 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 public class DisplayJobStatusAttributes {
     
 	
-	@ScreenField(row = 2, column = 72, endColumn= 79 ,labelColumn= 62 ,displayName = "System", sampleValue = "S1051C6E")
-    private String system;
-	
 	@ScreenField(row = 3, column = 9, endColumn= 18 ,labelColumn= 2 ,displayName = "Job", sampleValue = "QPADEV0001")
     private String job;
 	
@@ -81,3 +78,4 @@ public class DisplayJobStatusAttributes {
 
  
 }
+

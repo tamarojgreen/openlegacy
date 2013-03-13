@@ -1,0 +1,35 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.*;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+
+@ScreenEntity(child=truedisplayName=" הקמה / תחזוק הזמנות לקוח ")
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 3, column = 28, value = " חוקל תונמזה קוזחת / המקה "), 
+				@Identifier(row = 4, column = 37, value = "יפל ןוימ)"), 
+				@Identifier(row = 7, column = 3, value = "בצמ") 
+				})
+@ScreenActions(actions = { 
+				@Action(action = TerminalActions.F3.class, displayName = "סיום", alias = "siom"), 
+				@Action(action = TerminalActions.F8.class, displayName = "פרטים נוספים ", alias = "prtimNospim"), 
+				@Action(action = TerminalActions.F10.class, displayName = "חלון", alias = "hlon"), 
+				@Action(action = TerminalActions.F1.class ,additionalKey= AdditionalKey.SHIFT, displayName = "לקוח", alias = "lkoh"), 
+				@Action(action = TerminalActions.F2.class ,additionalKey= AdditionalKey.SHIFT, displayName = "תאריך", alias = "taric"), 
+				@Action(action = TerminalActions.F3.class ,additionalKey= AdditionalKey.SHIFT, displayName = "הזמנה", alias = "ezmne"), 
+				@Action(action = TerminalActions.F4.class ,additionalKey= AdditionalKey.SHIFT, displayName = "מעבר מחנות לחנות ", alias = "mabrMhnotLhnot") 
+				})
+@ScreenNavigation(accessedFrom = CniseLmarctEzmnotLkohRstotSiook.class 
+					, terminalAction=TerminalActions.ENTER.class 
+					, assignedFields = { 
+					@AssignedField(field = "Kboce")
+					 }						
+					)
+public class EkmeThzokEzmnotLkoh {
+    
+
+    
+
+
+ 
+}

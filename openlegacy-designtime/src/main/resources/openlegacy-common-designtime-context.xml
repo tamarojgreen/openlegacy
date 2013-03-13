@@ -50,7 +50,14 @@
 	<bean id="fieldsSplitter" class="org.openlegacy.terminal.support.SimpleTerminalFieldsSplitter" />
 
 	<bean id="terminalActionAnalyzer" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalActionAnalyzer" />
-	<bean id="bestEntityNameFieldComparator" class="org.openlegacy.designtime.terminal.analyzer.support.ByMostCenteredFieldComparator" />
+	<bean id="bestEntityNameFieldComparator" class="org.openlegacy.designtime.terminal.analyzer.support.comparators.CompositeFieldsComparator">
+		<property name="comparators">
+			<list>
+				<bean class="org.openlegacy.designtime.terminal.analyzer.support.comparators.ByWordsCountFieldComparator" />
+				<bean class="org.openlegacy.designtime.terminal.analyzer.support.comparators.ByPotentialClassNameLengthFieldComparator" />
+			</list>
+		</property>
+	</bean>
 
 	<bean id="ruleDefinition" class="org.openlegacy.designtime.rules.support.RuleDefinitionBean" abstract="true"/>
 	<bean id="ruleParametersSet" class="org.openlegacy.designtime.rules.support.RuleParametersSetBean" abstract="true"/>
