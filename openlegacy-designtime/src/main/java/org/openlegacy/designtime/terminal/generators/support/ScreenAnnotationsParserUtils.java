@@ -170,7 +170,7 @@ public class ScreenAnnotationsParserUtils {
 				String targetEntityName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.TARGET_ENTITY);
 
 				Action action = new Action(actionAlias, actionClassName, displayName);
-				action.setActionValue(actionValue);
+				action.setActionValue(actionValue == null ? "" : actionValue);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
 				actions.add(action);
 			}

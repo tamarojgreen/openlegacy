@@ -571,6 +571,9 @@ public class ScreenPreview extends ViewPart {
 	}
 
 	private Rectangle getRectangle(int row, int endRow, int column, int endColumn, String value) {
+		if (terminalSnapshot == null) {
+			return new Rectangle(0, 0, 0, 0);
+		}
 		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
 
 		int length = 0;
