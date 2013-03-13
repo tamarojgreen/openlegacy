@@ -108,7 +108,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 		// default rendering - top/left
 		if (!renderTopRight) {
-			if (!field.isEditable() && value != null) {
+			if (!field.isEditable() && value != null && field.getBackColor() == Color.BLACK) {
 				offset = StringUtil.startOfNonBlank(value);
 			}
 			column = field.getPosition().getColumn();
