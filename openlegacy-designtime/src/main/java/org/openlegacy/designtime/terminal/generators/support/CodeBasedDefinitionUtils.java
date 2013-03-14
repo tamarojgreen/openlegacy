@@ -11,6 +11,7 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
 import org.apache.commons.collections.set.ListOrderedSet;
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
@@ -181,7 +182,7 @@ public class CodeBasedDefinitionUtils {
 				continue;
 			}
 			try {
-				CompilationUnit compilationUnit = JavaParser.parse(childSourceFile);
+				CompilationUnit compilationUnit = JavaParser.parse(childSourceFile, CharEncoding.UTF_8);
 				ScreenEntityDefinition childEntityDefinition = getEntityDefinition(compilationUnit, packageDir);
 				if (childEntityDefinition.isChild()) {
 					childDefinitions.add(childEntityDefinition);

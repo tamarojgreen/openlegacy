@@ -13,6 +13,7 @@ package org.openlegacy.designtime.mains;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -392,10 +393,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer);
 				}
 
-				if (screenDefinitions.size() == 1){
+				if (screenDefinitions.size() == 1) {
 					entityUserInteraction.open(targetJavaFile);
 				}
-				
+
 			} catch (TemplateException e) {
 				throw (new GenerationException(e));
 			} catch (IOException e) {
@@ -516,8 +517,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			if (designtimeContextFile.exists()) {
 				// in windows add / to the file path (http://www.ehour.nl/forum/viewtopic.php?t=1113)
 				String prefix = designtimeContextFile.getAbsolutePath().startsWith("/") ? "" : "/";
-				projectApplicationContext = new FileSystemXmlApplicationContext(prefix
-						+ designtimeContextFile.getAbsolutePath());
+				projectApplicationContext = new FileSystemXmlApplicationContext(prefix + designtimeContextFile.getAbsolutePath());
 			} else {
 				String embeddedDesigntimeContextFile = getEmbeddedDesigntimeContextFile(projectPath);
 				String designtimeContextType = getPreferences(projectPath).get(PreferencesConstants.DESIGNTIME_CONTEXT);
@@ -610,7 +610,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static ScreenEntityDefinition initEntityDefinition(AbstractGenerateRequest generatePageRequest, File sourceFile) {
 		ScreenEntityDefinition screenEntityDefinition = null;
 		try {
-			CompilationUnit compilationUnit = JavaParser.parse(sourceFile);
+			CompilationUnit compilationUnit = JavaParser.parse(sourceFile, CharEncoding.UTF_8);
 			File packageDir = new File(generatePageRequest.getSourceDirectory(),
 					compilationUnit.getPackage().getName().toString().replaceAll("\\.", "/"));
 			screenEntityDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
