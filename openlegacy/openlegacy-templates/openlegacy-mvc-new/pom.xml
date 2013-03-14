@@ -189,7 +189,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.providers</groupId>
-			<artifactId>openlegacy-tn5250j</artifactId>
+			<artifactId>openlegacy-h3270</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
@@ -350,6 +350,14 @@
 					</execution>
 				</executions>
 			</plugin>
+ 			<plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat6-maven-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <uriEncoding>UTF-8</uriEncoding>
+                </configuration>
+            </plugin>			
 		</plugins>
 		<pluginManagement>
 			<plugins>
