@@ -141,7 +141,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 		stringBuilder.append(TerminalHtmlConstants.HTML_EMULATION_FORM_NAME);
 		stringBuilder.append(".");
 		stringBuilder.append(cursorFieldName);
-		stringBuilder.append(".focus(); } catch { }");
+		stringBuilder.append(".focus(); } catch(exception) { }");
 		String script = stringBuilder.toString();
 
 		elementsProvider.createScriptTag(formTag, script);

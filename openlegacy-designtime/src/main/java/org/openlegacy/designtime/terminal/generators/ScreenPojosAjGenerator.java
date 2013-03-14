@@ -12,6 +12,7 @@ package org.openlegacy.designtime.terminal.generators;
 
 import freemarker.template.TemplateException;
 
+import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.generators.support.AnnotationConstants;
@@ -63,7 +64,7 @@ public class ScreenPojosAjGenerator {
 
 		FileInputStream input = new FileInputStream(javaFile);
 
-		CompilationUnit compilationUnit = JavaParser.parse(input);
+		CompilationUnit compilationUnit = JavaParser.parse(input, CharEncoding.UTF_8);
 
 		List<TypeDeclaration> types = compilationUnit.getTypes();
 
