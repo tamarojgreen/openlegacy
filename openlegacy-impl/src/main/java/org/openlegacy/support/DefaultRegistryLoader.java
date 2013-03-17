@@ -18,7 +18,9 @@ import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.loaders.RegistryLoader;
+import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.utils.TypesUtil;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -36,7 +38,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class DefaultRegistryLoader<T> implements RegistryLoader {
+public class DefaultRegistryLoader implements RegistryLoader {
 
 	private final static Log logger = LogFactory.getLog(DefaultRegistryLoader.class);
 
@@ -44,6 +46,8 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 	private Collection<FieldLoader> fieldLoaders;
 
 	private List<ClassAnnotationsLoader> classAnnotationLoaders;
+
+	private ConfigurableListableBeanFactory beanFactory;
 
 	public void load(EntitiesRegistry<?, ?> entitiesRegistry) {
 		entitiesRegistry.clear();
@@ -166,9 +170,12 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		});
 	}
 
-	private static void processAnnotations(List<ClassAnnotationsLoader> annotationLoaders,
-			EntitiesRegistry<?, ?> entitiesRegistry, Class<?> rootBeanClass, Annotation[] annotations) {
+	private void processAnnotations(List<ClassAnnotationsLoader> annotationLoaders, EntitiesRegistry<?, ?> entitiesRegistry,
+			Class<?> rootBeanClass, Annotation[] annotations) {
 		for (ClassAnnotationsLoader annotationsLoader : annotationLoaders) {
+			if (annotationsLoader instanceof AbstractClassAnnotationLoader) {
+				((AbstractClassAnnotationLoader)annotationsLoader).setBeanFactory(beanFactory);
+			}
 			for (Annotation annotation : annotations) {
 				if (annotationsLoader.match(annotation)) {
 					if (logger.isDebugEnabled()) {
@@ -253,4 +260,11 @@ public class DefaultRegistryLoader<T> implements RegistryLoader {
 		});
 	}
 
+	public void setBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+		this.beanFactory = beanFactory;
+	}
+
+	public ConfigurableListableBeanFactory getBeanFactory() {
+		return beanFactory;
+	}
 }

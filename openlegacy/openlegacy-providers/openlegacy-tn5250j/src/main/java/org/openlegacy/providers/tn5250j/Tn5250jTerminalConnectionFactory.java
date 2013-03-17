@@ -16,6 +16,7 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
+import org.openlegacy.utils.FeatureChecker;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -108,11 +109,9 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 	public void afterPropertiesSet() throws Exception {
 		if (convertToLogical == null) {
-			try {
-				Class.forName("com.ibm.icu.text.Bidi");
-				convertToLogical = true;
+			if (FeatureChecker.isSupportBidi()) {
 				logger.info("Found com.ibm.icu library in the classpath. activating convert to logical. To disable define convertToLogical property to false");
-			} catch (Exception e) {
+				convertToLogical = true;
 			}
 		}
 		Resource resource = new ClassPathResource("/host.properties");

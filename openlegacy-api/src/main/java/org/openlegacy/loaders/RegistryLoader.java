@@ -12,8 +12,6 @@ package org.openlegacy.loaders;
 
 import org.openlegacy.EntitiesRegistry;
 
-import java.util.Collection;
-
 /**
  * Defines a registry loader which is responsible for loading metadata from the given loaders into the {@link EntitiesRegistry}
  * 
@@ -26,9 +24,4 @@ public interface RegistryLoader {
 
 	void loadSingleClass(EntitiesRegistry<?, ?> entitiesRegistry, Class<?> beanClass, Boolean loadReferences);
 
-	void setAnnotationLoaders(Collection<ClassAnnotationsLoader> annotationLoaders);
-
-	void setFieldAnnotationLoaders(Collection<FieldAnnotationsLoader> fieldAnnotationLoaders);
-
-	void setFieldLoaders(Collection<FieldLoader> fieldLoaders);
 }

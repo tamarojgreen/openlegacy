@@ -11,11 +11,14 @@
 package org.openlegacy.loaders.support;
 
 import org.openlegacy.loaders.ClassAnnotationsLoader;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
 
 public abstract class AbstractClassAnnotationLoader implements ClassAnnotationsLoader {
+
+	private ConfigurableListableBeanFactory beanFactory;
 
 	public int compareTo(ClassAnnotationsLoader o) {
 		Order order1 = AnnotationUtils.findAnnotation(getClass(), Order.class);
@@ -25,4 +28,13 @@ public abstract class AbstractClassAnnotationLoader implements ClassAnnotationsL
 
 		return order1Value - order2Value;
 	}
+
+	public void setBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+		this.beanFactory = beanFactory;
+	}
+
+	public ConfigurableListableBeanFactory getBeanFactory() {
+		return beanFactory;
+	}
+
 }

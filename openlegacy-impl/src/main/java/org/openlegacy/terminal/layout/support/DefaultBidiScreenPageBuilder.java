@@ -11,6 +11,9 @@
 package org.openlegacy.terminal.layout.support;
 
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
+
+import java.util.List;
 
 public class DefaultBidiScreenPageBuilder extends DefaultScreenPageBuilder {
 
@@ -34,5 +37,17 @@ public class DefaultBidiScreenPageBuilder extends DefaultScreenPageBuilder {
 	@Override
 	protected Integer getFieldLogicalStart(int fieldStartColumn, int fieldEndColumn) {
 		return fieldEndColumn;
+	}
+
+	@Override
+	protected int getTableStartColumn(List<ScreenColumnDefinition> columns) {
+		// in bidi table start column is the end of the table
+		return super.getTableEndColumn(columns);
+	}
+
+	@Override
+	protected int getTableEndColumn(List<ScreenColumnDefinition> columns) {
+		// in bidi table end column is the start of the table
+		return super.getTableStartColumn(columns);
 	}
 }

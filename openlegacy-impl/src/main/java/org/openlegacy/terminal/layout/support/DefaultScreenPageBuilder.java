@@ -121,8 +121,8 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		List<ScreenColumnDefinition> columns = tableDefinition.getColumnDefinitions();
 
-		int tableStartColumn = columns.get(0).getStartColumn();
-		int tableEndColumn = columns.get(columns.size() - 1).getEndColumn();
+		int tableStartColumn = getTableStartColumn(columns);
+		int tableEndColumn = getTableEndColumn(columns);
 		int firstRow = tableDefinition.getStartRow() - 1; // -1 -> header
 
 		ScreenSize screenSize = entityDefinition.getScreenSize();
@@ -139,6 +139,14 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		overridePositionAndWidth((PositionedPart)tableDefinition, entityDefinition, pagePart);
 		return pagePart;
+	}
+
+	protected int getTableEndColumn(List<ScreenColumnDefinition> columns) {
+		return columns.get(columns.size() - 1).getEndColumn();
+	}
+
+	protected int getTableStartColumn(List<ScreenColumnDefinition> columns) {
+		return columns.get(0).getStartColumn();
 	}
 
 	private PagePartDefinition buildPagePartFromScreenPart(ScreenPartEntityDefinition screenPartEntityDefinition,

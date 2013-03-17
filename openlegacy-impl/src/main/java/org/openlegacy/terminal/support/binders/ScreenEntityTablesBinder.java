@@ -25,6 +25,8 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDef
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.utils.BidiUtil;
+import org.openlegacy.utils.FeatureChecker;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -106,6 +108,9 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 		int length = columnDefinition.getEndColumn() - columnDefinition.getStartColumn() + 1;
 		String columnText = terminalSnapshot.getLogicalText(position, length);
 		columnText = fieldFormatter.format(columnText);
+		if (FeatureChecker.isSupportBidi()) {
+			columnText = BidiUtil.convertToLogical(columnText);
+		}
 		return columnText;
 	}
 

@@ -11,10 +11,12 @@
 package org.openlegacy.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -29,6 +31,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import java.util.Collections;
+import java.util.Comparator;
 
 @Component
 @Order(3)
@@ -73,7 +76,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	}
 
-	private static void collectColumnsMetadata(final Class<?> rowClass, final SimpleScreenTableDefinition tableDefinition) {
+	private void collectColumnsMetadata(final Class<?> rowClass, final SimpleScreenTableDefinition tableDefinition) {
 		ReflectionUtils.doWithFields(rowClass, new FieldCallback() {
 
 			public void doWith(Field field) {
@@ -89,7 +92,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				columnDefinition.setRowsOffset(screenColumnAnnotation.rowsOffset());
 				columnDefinition.setKey(screenColumnAnnotation.key());
 				columnDefinition.setEditable(screenColumnAnnotation.editable());
-				String displayName = screenColumnAnnotation.displayName().equals(AnnotationConstants.NULL) ? StringUtil.toDisplayName(field.getName()) 
+				String displayName = screenColumnAnnotation.displayName().equals(AnnotationConstants.NULL) ? StringUtil.toDisplayName(field.getName())
 						: screenColumnAnnotation.displayName();
 				columnDefinition.setDisplayName(displayName);
 				columnDefinition.setSampleValue(screenColumnAnnotation.sampleValue());
@@ -119,6 +122,16 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 			}
 		});
-		Collections.sort(tableDefinition.getColumnDefinitions());
+		OpenLegacyProperties olProperties = getBeanFactory().getBean(OpenLegacyProperties.class);
+		if (olProperties.isRightToLeft()) {
+			Collections.sort(tableDefinition.getColumnDefinitions(), new Comparator<ScreenColumnDefinition>() {
+
+				public int compare(ScreenColumnDefinition c1, ScreenColumnDefinition c2) {
+					return c2.getStartColumn() - c1.getStartColumn();
+				}
+			});
+		} else {
+			Collections.sort(tableDefinition.getColumnDefinitions());
+		}
 	}
 }

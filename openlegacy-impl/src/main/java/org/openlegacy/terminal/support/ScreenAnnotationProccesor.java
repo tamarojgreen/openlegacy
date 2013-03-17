@@ -14,6 +14,7 @@ import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.loaders.RegistryLoader;
+import org.openlegacy.support.DefaultRegistryLoader;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -36,11 +37,12 @@ public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
 
-		RegistryLoader registryLoader = beanFactory.getBean(RegistryLoader.class);
+		DefaultRegistryLoader registryLoader = (DefaultRegistryLoader)beanFactory.getBean(RegistryLoader.class);
 
 		registryLoader.setAnnotationLoaders(classAnnotationsLoaders);
 		registryLoader.setFieldAnnotationLoaders(fieldAnnotationLoaders);
 		registryLoader.setFieldLoaders(fieldLoaders);
+		registryLoader.setBeanFactory(beanFactory);
 
 		registryLoader.load(screenEntitiesRegistry);
 	}

@@ -28,4 +28,5 @@ public interface ClassAnnotationsLoader extends Comparable<ClassAnnotationsLoade
 
 	@SuppressWarnings("rawtypes")
 	void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass);
+
 }
