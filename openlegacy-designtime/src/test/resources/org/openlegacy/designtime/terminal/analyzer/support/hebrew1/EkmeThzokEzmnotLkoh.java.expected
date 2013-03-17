@@ -8,7 +8,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 3, column = 28, value = " חוקל תונמזה קוזחת / המקה "), 
 				@Identifier(row = 4, column = 37, value = "יפל ןוימ)"), 
-				@Identifier(row = 7, column = 3, value = "בצמ") 
+				@Identifier(row = 6, column = 75, value = ":הלועפ") 
 				})
 @ScreenActions(actions = { 
 				@Action(action = TerminalActions.F3.class, displayName = "סיום", alias = "siom"), 
@@ -16,7 +16,6 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F10.class, displayName = "חלון", alias = "hlon"), 
 				@Action(action = TerminalActions.F1.class ,additionalKey= AdditionalKey.SHIFT, displayName = "לקוח", alias = "lkoh"), 
 				@Action(action = TerminalActions.F2.class ,additionalKey= AdditionalKey.SHIFT, displayName = "תאריך", alias = "taric"), 
-				@Action(action = TerminalActions.F3.class ,additionalKey= AdditionalKey.SHIFT, displayName = "הזמנה", alias = "ezmne"), 
 				@Action(action = TerminalActions.F4.class ,additionalKey= AdditionalKey.SHIFT, displayName = "מעבר מחנות לחנות ", alias = "mabrMhnotLhnot") 
 				})
 @ScreenNavigation(accessedFrom = CniseLmarctEzmnotLkohRstotSiook.class 
@@ -27,7 +26,11 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 					)
 public class EkmeThzokEzmnotLkoh {
     
+	
+	@ScreenField(row = 22, column = 60, endColumn= 68 ,labelColumn= 71 ,displayName = "מיון לפי", sampleValue = "F15-הזמנה")
+    private String mionLpi;
 
+    private EkmeThzokEzmnotLkoh1 ekmeThzokEzmnotLkoh1;
     
 
 

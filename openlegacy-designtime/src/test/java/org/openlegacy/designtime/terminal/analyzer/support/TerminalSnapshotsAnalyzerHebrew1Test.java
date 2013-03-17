@@ -32,16 +32,16 @@ public class TerminalSnapshotsAnalyzerHebrew1Test extends AbstractAnalyzerTest {
 
 		List<TerminalSnapshot> snapshots = new ArrayList<TerminalSnapshot>();
 
-		for (int i = 0; i < 29; i++) {
+		for (int i = 0; i < 31; i++) {
 			snapshots.add(trail.getSnapshots().get(i));
 		}
 
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(snapshots);
+		assertScreenContent(screenEntitiesDefinitions.get("TpritMarcotRasiAminh"), "hebrew1/TpritMarcotRasiAminh.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("CniseLmarctEzmnotLkohRstotSiook"),
 				"hebrew1/CniseLmarctEzmnotLkohRstotSiook.java.expected");
 		assertScreenContent(screenEntitiesDefinitions.get("EkmeThzokEzmnotLkoh"), "hebrew1/EkmeThzokEzmnotLkoh.java.expected");
-		assertScreenContent(screenEntitiesDefinitions.get("CniseLmarctEzmnotLkohRstotSiook"),
-				"hebrew1/CniseLmarctEzmnotLkohRstotSiook.java.expected");
+		assertScreenContent(screenEntitiesDefinitions.get("EkmeThzokEzmnotLkoh1"), "hebrew1/EkmeThzokEzmnotLkoh1.java.expected");
 
 	}
 }

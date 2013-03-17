@@ -21,7 +21,10 @@ when
 	$labelField: TerminalField(value matches $labelRegex,position.row == $editableField.position.row, position.column > $editableField.position.column, editable == false) from $snapshot.getFields()
 
 	// and there is no label field which is closer to the field in the format of a label field 
-	not TerminalField(editable == false, value matches $labelRegex, $editableField.position.column - position.column > $editableField.position.column - $labelField.position.column)
+	not TerminalField(this != $labelField, editable == false, value matches $labelRegex,  
+					position.row == $editableField.position.row, 
+					position.column - $editableField.position.column > 0, 
+					position.column - $editableField.position.column < $labelField.position.column - $editableField.position.column)  from $snapshot.getFields()
 then
 	ScreenFieldDefinition screenFieldDefinition = screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$editableField,$labelField);
 	update($screenEntityDefinition);

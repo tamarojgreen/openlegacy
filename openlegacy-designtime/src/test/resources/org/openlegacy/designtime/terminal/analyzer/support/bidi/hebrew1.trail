@@ -3742,68 +3742,439 @@
         <size rows="24" columns="80"/>
         <cursor row="9" column="78"/>
     </snapshot>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    <snapshot type="OUTGOING" command="[enter]" sequence="30">
+        <row rowNumber="1">
+            <field column="2" length="0"/>
+            <field column="2" value=" 4/03/13" length="8"/>
+            <field column="11" value="        " length="8"/>
+            <field column="20" value="GIAS" length="4" color="WHITE"/>
+            <field column="25" value="                         " length="25"/>
+            <field column="51" value="                    עמינח סנטר" length="30" visualValue="                    רטנס חנימע"/>
+        </row>
+        <row rowNumber="2">
+            <field column="2" value="14:54:14" length="8"/>
+            <field column="11" value="                                                           " length="59"/>
+            <field column="71" value="AMINZ   " length="8"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="3">
+            <field column="2" value="CORS10  " length="8"/>
+            <field column="11" value="                " length="16"/>
+            <field column="28" value=" הקמה / תחזוק הזמנות לקוח " length="26" backColor="GREEN" visualValue=" חוקל תונמזה קוזחת / המקה "/>
+            <field column="55" value="               " length="15"/>
+            <field column="71" value="DOV       " length="10"/>
+        </row>
+        <row rowNumber="4">
+            <field column="2" value="                           " length="27"/>
+            <field column="30" value="(הזמנה" length="6" visualValue="(הנמזה"/>
+            <field column="37" value="מיון לפי)" length="9" visualValue="יפל ןוימ)"/>
+            <field column="47" value="                                  " length="34"/>
+        </row>
+        <row rowNumber="6">
+            <field column="1" value="&#xA;     " length="6"/>
+            <field column="8" value="9=תקבולים" length="9" visualValue="םילובקת=9"/>
+            <field column="18" value="8=שורות" length="7" visualValue="תורוש=8"/>
+            <field column="26" value="7=סיכום" length="7" visualValue="םוכיס=7"/>
+            <field column="34" length="0"/>
+            <field column="35" value="1=פתיחה 2=עדכון 4=ביטול 5=הצגה  6=הדפסה" length="39" visualValue="הספדה=6  הגצה=5 לוטיב=4 ןוכדע=2 החיתפ=1"/>
+            <field column="75" value=":פעולה" length="6" visualValue=":הלועפ"/>
+        </row>
+        <row rowNumber="7">
+            <field column="2" length="0"/>
+            <field column="3" value="מצב" length="3" visualValue="בצמ"/>
+            <field column="7" value="                                                         " length="57"/>
+            <field column="65" value="חשבונית=I" length="9" visualValue="תינובשח=I"/>
+            <field column="75" value="      " length="6"/>
+        </row>
+        <row rowNumber="8">
+            <field column="2" value="הזמנה" length="5" visualValue="הנמזה"/>
+            <field column="8" value="    שם  חנות " length="13" visualValue="    תונח  םש "/>
+            <field column="22" value="חנות" length="4" visualValue="תונח"/>
+            <field column="27" value="             שם לקוח" length="20" visualValue="             חוקל םש"/>
+            <field column="48" value="    לקוח" length="8" visualValue="    חוקל"/>
+            <field column="57" value="ת. רישום" length="8" visualValue="םושיר .ת"/>
+            <field column="66" value="סגר" length="3" visualValue="רגס"/>
+            <field column="70" value=" הזמנה" length="6" visualValue=" הנמזה"/>
+            <field column="77" length="0"/>
+            <field column="78" value="‗" length="1"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="9">
+            <field column="2" length="2" editable="true" uppercase="true"/>
+            <field column="5" length="2" editable="true" uppercase="true"/>
+            <field column="8" value="                                                " length="48"/>
+            <field column="57" value=" 0/00/00" length="8" editable="true" type="java.lang.Integer"/>
+            <field column="66" value="   " length="3"/>
+            <field column="70" length="6" editable="true" uppercase="true"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="10">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="לקוחות שונים חנות ני" length="20" visualValue="ינ תונח םינוש תוחוקל"/>
+            <field column="48" value="16188888" length="8"/>
+            <field column="57" value=" 4/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="1" length="1"/>
+            <field column="69" length="0" backColor="GREEN"/>
+            <field column="70" value="046063" length="6" backColor="GREEN"/>
+            <field column="77" length="0"/>
+            <field column="78" value="5" length="1" modified="true" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="11">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="          גליקמן גיא" length="20" visualValue="          איג ןמקילג"/>
+            <field column="48" value="16134410" length="8"/>
+            <field column="57" value=" 4/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="1" length="1"/>
+            <field column="69" length="0"/>
+            <field column="70" value="046039" length="6"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="12">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="          אלעזרה שחר" length="20" visualValue="          רחש הרזעלא"/>
+            <field column="48" value="16134952" length="8"/>
+            <field column="57" value=" 4/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="1" length="1"/>
+            <field column="69" length="0"/>
+            <field column="70" value="045975" length="6"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="13">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="         גילמן פנינה" length="20" visualValue="         הנינפ ןמליג"/>
+            <field column="48" value="16134942" length="8"/>
+            <field column="57" value=" 4/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="1" length="1"/>
+            <field column="69" length="0"/>
+            <field column="70" value="045970" length="6"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="14">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="       פולישצ'וק ורד" length="20" visualValue="       דרו קו'צשילופ"/>
+            <field column="48" value="16134951" length="8"/>
+            <field column="57" value=" 4/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="1" length="1"/>
+            <field column="69" length="0"/>
+            <field column="70" value="045947" length="6"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="15">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="           גולד תמיר" length="20" visualValue="           רימת דלוג"/>
+            <field column="48" value="16134950" length="8"/>
+            <field column="57" value=" 4/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="1" length="1"/>
+            <field column="69" length="0"/>
+            <field column="70" value="045933" length="6"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="16">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="          אברהם סופי" length="20" visualValue="          יפוס םהרבא"/>
+            <field column="48" value="16134944" length="8"/>
+            <field column="57" value=" 4/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="1" length="1"/>
+            <field column="69" length="0"/>
+            <field column="70" value="045872" length="6"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="17">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="          פטרושקה חן" length="20" visualValue="          ןח הקשורטפ"/>
+            <field column="48" value="16134949" length="8"/>
+            <field column="57" value=" 4/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="1" length="1"/>
+            <field column="69" length="0"/>
+            <field column="70" value="042934" length="6"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="18">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="עמינח סנטר     ניר צ" length="20" visualValue="צ רינ     רטנס חנימע"/>
+            <field column="48" value="29999901" length="8"/>
+            <field column="57" value=" 3/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="3" length="1"/>
+            <field column="69" length="0"/>
+            <field column="70" value="045772" length="6"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="19">
+            <field column="2" value="  " length="2"/>
+            <field column="5" value="01" length="2"/>
+            <field column="8" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="24" value="01" length="2"/>
+            <field column="27" value="     מוזס-אלווס ענבל" length="20" visualValue="     לבנע סוולא-סזומ"/>
+            <field column="48" value="16134943" length="8"/>
+            <field column="57" value=" 3/03/13" length="8"/>
+            <field column="66" length="0"/>
+            <field column="67" value="1" length="1"/>
+            <field column="69" length="0"/>
+            <field column="70" value="045686" length="6"/>
+            <field column="77" length="0"/>
+            <field column="78" length="1" editable="true" uppercase="true"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="20">
+            <field column="68" value="     More..." length="12" color="WHITE"/>
+        </row>
+        <row rowNumber="21">
+            <field column="1" length="0"/>
+            <field column="2" value="                                                                              " length="78"/>
+        </row>
+        <row rowNumber="22">
+            <field column="1" length="0"/>
+            <field column="2" value="F3-סיום" length="7" visualValue="F3-םויס"/>
+            <field column="10" length="0"/>
+            <field column="11" value="F8-פרטים נוספים " length="16" visualValue="F8-םיפסונ םיטרפ "/>
+            <field column="28" value="F10-חלון" length="8" visualValue="F10-ןולח"/>
+            <field column="37" value=" " length="1"/>
+            <field column="39" value="F13-לקוח" length="8" visualValue="F13-חוקל"/>
+            <field column="48" length="0"/>
+            <field column="49" value="F14-תאריך" length="9" visualValue="F14-ךיראת"/>
+            <field column="59" length="0"/>
+            <field column="60" value="F15-הזמנה" length="9" visualValue="F15-הנמזה"/>
+            <field column="70" length="0"/>
+            <field column="71" value=":מיון לפי" length="9" visualValue=":יפל ןוימ"/>
+        </row>
+        <row rowNumber="23">
+            <field column="1" length="0"/>
+            <field column="2" value="F16-מעבר מחנות לחנות " length="21" visualValue="F16-תונחל תונחמ רבעמ "/>
+            <field column="24" value="                                                         " length="57"/>
+        </row>
+        <row rowNumber="24">
+            <field column="2" value="                                                                            " length="76" color="WHITE"/>
+            <field column="79" value=" " length="1" color="WHITE"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="9" column="78"/>
+    </snapshot>
+    <snapshot type="INCOMING" sequence="31">
+        <row rowNumber="1">
+            <field column="2" length="0"/>
+            <field column="2" value=" 4/03/13" length="8"/>
+            <field column="11" value="        " length="8"/>
+            <field column="20" value="GIAS" length="4" color="WHITE"/>
+            <field column="25" value="                         " length="25"/>
+            <field column="51" value="                    עמינח סנטר" length="30" visualValue="                    רטנס חנימע"/>
+        </row>
+        <row rowNumber="2">
+            <field column="2" value="14:54:14" length="8"/>
+            <field column="11" value="                                                           " length="59"/>
+            <field column="71" value="AMINZ   " length="8"/>
+            <field column="80" value=" " length="1"/>
+        </row>
+        <row rowNumber="3">
+            <field column="2" value="CORS10  " length="8"/>
+            <field column="11" value="                " length="16"/>
+            <field column="28" value=" הקמה / תחזוק הזמנות לקוח " length="26" backColor="GREEN" visualValue=" חוקל תונמזה קוזחת / המקה "/>
+            <field column="55" value="               " length="15"/>
+            <field column="71" value="DOV       " length="10"/>
+        </row>
+        <row rowNumber="5">
+            <field column="2" value=" 4/03/13" length="8" color="WHITE"/>
+            <field column="11" value=":תאריך תוקף " length="12" visualValue=":ףקות ךיראת "/>
+            <field column="24" value="  " length="2"/>
+            <field column="27" value="             ניר צבי" length="20" color="WHITE" visualValue="             יבצ רינ"/>
+            <field column="48" value="01" length="2" color="WHITE"/>
+            <field column="51" value=":חנות" length="5" visualValue=":תונח"/>
+            <field column="57" value="   " length="3"/>
+            <field column="61" value="046063" length="6" color="WHITE"/>
+            <field column="68" value=":..... הזמנה" length="12" visualValue=":..... הנמזה"/>
+        </row>
+        <row rowNumber="6">
+            <field column="1" value="&#xA;                                                           " length="60"/>
+            <field column="62" value="     " length="5"/>
+            <field column="68" value=":....... בול" length="12" visualValue=":....... לוב"/>
+        </row>
+        <row rowNumber="7">
+            <field column="1" value="&#xA;                                                        " length="57"/>
+            <field column="59" value="        " length="8"/>
+            <field column="68" value=":.... אסמכתא" length="12" visualValue=":.... אתכמסא"/>
+        </row>
+        <row rowNumber="8">
+            <field column="1" value="&#xA;         " length="10"/>
+            <field column="12" value="     לקוחות שונים חנות ניר-צבי" length="30" visualValue="     יבצ-רינ תונח םינוש תוחוקל"/>
+            <field column="43" value=":שם לקוח/תאור" length="13" visualValue=":רואת/חוקל םש"/>
+            <field column="57" value=" " length="1"/>
+            <field column="59" value="16188888" length="8" color="WHITE"/>
+            <field column="68" value=":...... לקוח" length="12" visualValue=":...... חוקל"/>
+        </row>
+        <row rowNumber="12">
+            <field column="1" value="&#xA;         " length="10"/>
+            <field column="12" value="     לקוחות שונים חנות ניר-צבי" length="30" visualValue="     יבצ-רינ תונח םינוש תוחוקל"/>
+            <field column="43" length="0"/>
+            <field column="44" value=":שם מקבל" length="8" visualValue=":לבקמ םש"/>
+            <field column="53" value="              " length="14"/>
+            <field column="68" value=":...... מקבל" length="12" visualValue=":...... לבקמ"/>
+        </row>
+        <row rowNumber="13">
+            <field column="1" value="&#xA;    " length="5"/>
+            <field column="7" value="     " length="5"/>
+            <field column="13" value=":דירה" length="5" visualValue=":הריד"/>
+            <field column="19" value="   " length="3"/>
+            <field column="23" value="    " length="4"/>
+            <field column="28" value=":מספר" length="5" visualValue=":רפסמ"/>
+            <field column="34" value="  " length="2"/>
+            <field column="37" value="                              " length="30"/>
+            <field column="68" value=":...... רחוב" length="12" visualValue=":...... בוחר"/>
+        </row>
+        <row rowNumber="14">
+            <field column="1" value="&#xA;           " length="12"/>
+            <field column="14" value="21C" length="3"/>
+            <field column="18" value=":אזור" length="5" visualValue=":רוזא"/>
+            <field column="24" value="תת" length="2"/>
+            <field column="27" value="   " length="3"/>
+            <field column="31" value="לא" length="2" color="WHITE" visualValue="אל"/>
+            <field column="34" value=" " length="1"/>
+            <field column="36" value=":מעלית" length="6" visualValue=":תילעמ"/>
+            <field column="43" value="     " length="5"/>
+            <field column="49" value="   " length="3"/>
+            <field column="53" value=":קומה" length="5" visualValue=":המוק"/>
+            <field column="59" value="  " length="2"/>
+            <field column="62" value="     " length="5"/>
+            <field column="68" value=":..... כניסה" length="12" visualValue=":..... הסינכ"/>
+        </row>
+        <row rowNumber="15">
+            <field column="1" value="&#xA; " length="2"/>
+            <field column="4" value="   ניר צבי" length="10" visualValue="   יבצ רינ"/>
+            <field column="15" value="33" length="2"/>
+            <field column="18" value=":אזור" length="5" visualValue=":רוזא"/>
+            <field column="24" value="72905" length="5"/>
+            <field column="30" value=":מיקוד" length="6" visualValue=":דוקימ"/>
+            <field column="37" value="        ניר צבי" length="15" visualValue="        יבצ רינ"/>
+            <field column="53" value=":עיר" length="4" visualValue=":ריע"/>
+            <field column="58" value="               " length="15"/>
+            <field column="74" value=":שכונה" length="6" visualValue=":הנוכש"/>
+        </row>
+        <row rowNumber="16">
+            <field column="1" value="&#xA; " length="2"/>
+            <field column="4" value="   " length="3"/>
+            <field column="8" value="-" length="1"/>
+            <field column="10" value="       " length="7"/>
+            <field column="18" value=":טל נייד" length="8" visualValue=":דיינ לט"/>
+            <field column="27" value="    " length="4"/>
+            <field column="32" value="   " length="3"/>
+            <field column="36" value="-" length="1"/>
+            <field column="38" value="       " length="7"/>
+            <field column="46" length="0"/>
+            <field column="47" value=":טל בעבודה" length="10" visualValue=":הדובעב לט"/>
+            <field column="58" value=" 08" length="3"/>
+            <field column="62" value="-" length="1"/>
+            <field column="64" value="9274800" length="7"/>
+            <field column="72" value=":טל בבית" length="8" visualValue=":תיבב לט"/>
+        </row>
+        <row rowNumber="17">
+            <field column="1" value="&#xA;  " length="3"/>
+            <field column="5" value="                    " length="20"/>
+            <field column="26" value="  " length="2"/>
+            <field column="29" value=":..הערות" length="8" visualValue=":..תורעה"/>
+            <field column="38" value="       " length="7"/>
+            <field column="46" value="                         " length="25"/>
+            <field column="72" value=":איש קשר" length="8" visualValue=":רשק שיא"/>
+        </row>
+        <row rowNumber="19">
+            <field column="1" length="0"/>
+            <field column="2" value="(1-כן)" length="6" visualValue="(ןכ-1)"/>
+            <field column="9" value="1" length="1"/>
+            <field column="11" value=":אספקה אחת" length="10" visualValue=":תחא הקפסא"/>
+            <field column="22" value="  " length="2"/>
+            <field column="25" value="          " length="10"/>
+            <field column="36" value="01" length="2"/>
+            <field column="39" value=":מצב הזמנה" length="10" visualValue=":הנמזה בצמ"/>
+            <field column="50" value="         פרטיים" length="15" visualValue="         םייטרפ"/>
+            <field column="66" value="1" length="1"/>
+            <field column="68" value=":..סוג הזמנה" length="12" visualValue=":..הנמזה גוס"/>
+        </row>
+        <row rowNumber="20">
+            <field column="1" length="0"/>
+            <field column="2" value="     " length="5"/>
+            <field column="8" value="  " length="2" color="WHITE"/>
+            <field column="11" value="                                          " length="42"/>
+            <field column="54" value="     לייצור" length="11" visualValue="     רוצייל"/>
+            <field column="66" value="1" length="1"/>
+            <field column="68" value=":..קוד ביצוע" length="12" visualValue=":..עוציב דוק"/>
+        </row>
+        <row rowNumber="21">
+            <field column="1" length="0"/>
+            <field column="2" value="                                                                              " length="78"/>
+        </row>
+        <row rowNumber="22">
+            <field column="1" length="0"/>
+            <field column="2" value="F3-חזור" length="7" visualValue="F3-רוזח"/>
+            <field column="10" value="         " length="9"/>
+            <field column="20" value="F11-שורות" length="9" visualValue="F11-תורוש"/>
+            <field column="30" value="  " length="2"/>
+            <field column="33" value="F16-מסך נוסף" length="12" visualValue="F16-ףסונ ךסמ"/>
+            <field column="46" value="                          " length="26"/>
+            <field column="73" value="F24/..." length="7"/>
+        </row>
+        <row rowNumber="23">
+            <field column="1" value="&#xA;        " length="9"/>
+            <field column="11" value="F10-חלון F17-.ת.ז F18-.טל F19-לקוחות לפ: שם לקוח F20-הע.לקוח  F23-LOG" length="69" visualValue="F10-ןולח F17-.ז.ת F18-.לט F19-חוקל םש :פל תוחוקל F20-חוקל.עה  F23-LOG"/>
+        </row>
+        <row rowNumber="24">
+            <field column="1" length="0" color="WHITE"/>
+            <field column="2" value="                                                                            " length="76" color="WHITE"/>
+            <field column="79" value=" " length="1" color="WHITE"/>
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="19" column="9"/>
+    </snapshot>
     
 </terminal-trail>

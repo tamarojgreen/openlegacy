@@ -254,10 +254,10 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
+										<entry key="labelRegex" value="[\.: ]*[\.:]+\s*[\p{L}]+[\p{L} /-\\']*" />
 										<entry key="maximumLabelLength" value="30" />
 										<entry key="maxDistance" value="5" />
-										<entry key="fieldRegex" value="[ ]*[\w\p{L}]+[\w\p{L}/ ]*" />
+										<entry key="fieldRegex" value="\s*[\d\p{L}]+[\d\p{L}/\- ]*" />
 										<entry key="minimumFieldLength" value="1" />
 										<entry key="maximumFieldLength" value="30" />
 									</map>
@@ -267,7 +267,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="[\w\p{L}]+[\w\p{L} /-\\']*[\.: ]*[\.:]+" />
+										<entry key="labelRegex" value="[\.: ]*[\.:]+[\w\p{L}]+[\w\p{L} /-\\']*" />
 										<entry key="maximumLabelLength" value="30" />
 										<entry key="maxDistance" value="5" />
 										<entry key="fieldRegex" value="\s*" />
@@ -316,7 +316,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="identifierRegex" value="\s*[\p{L}]+[.: ]*.*" />
+										<entry key="identifierRegex" value="\s*[.: ]*[\p{L}]+.*" />
 										<entry key="startRow" value="4" />
 										<entry key="endRow" value="20" />
 									</map>

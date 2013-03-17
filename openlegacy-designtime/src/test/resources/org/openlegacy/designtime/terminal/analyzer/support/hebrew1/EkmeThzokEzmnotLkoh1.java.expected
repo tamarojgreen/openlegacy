@@ -1,0 +1,101 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.*;
+import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+
+@ScreenEntity(child=truedisplayName=" הקמה / תחזוק הזמנות לקוח ")
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 3, column = 28, value = " חוקל תונמזה קוזחת / המקה "), 
+				@Identifier(row = 5, column = 11, value = ":ףקות ךיראת "), 
+				@Identifier(row = 5, column = 27, value = "             יבצ רינ") 
+				})
+@ScreenActions(actions = { 
+				@Action(action = TerminalActions.F3.class, displayName = "חזור", alias = "hzor"), 
+				@Action(action = TerminalActions.F11.class, displayName = "שורות", alias = "sorot"), 
+				@Action(action = TerminalActions.F4.class ,additionalKey= AdditionalKey.SHIFT, displayName = "מסך נוסף", alias = "mscNosp"), 
+				@Action(action = TerminalActions.F11.class ,additionalKey= AdditionalKey.SHIFT, displayName = "LOG", alias = "lOG") 
+				})
+@ScreenNavigation(accessedFrom = EkmeThzokEzmnotLkoh.class 
+					, terminalAction=TerminalActions.ENTER.class 
+)
+public class EkmeThzokEzmnotLkoh1 {
+    
+	
+	@ScreenField(row = 5, column = 2, endColumn= 9 ,labelColumn= 11 ,displayName = "תאריך תוקף", sampleValue = "4/03/13")
+    private String taricTokp;
+	
+	@ScreenField(row = 5, column = 48, endColumn= 49 ,labelColumn= 51 ,displayName = "חנות", sampleValue = "01")
+    private Integer hnot;
+	
+	@ScreenField(row = 5, column = 61, endColumn= 66 ,labelColumn= 68 ,displayName = "הזמנה", sampleValue = "046063")
+    private Integer ezmne;
+	
+	@ScreenField(row = 8, column = 12, endColumn= 41 ,labelColumn= 43 ,displayName = "שם לקוח/תאור", sampleValue = "לקוחות שונים חנות ניר-צבי")
+    private String smLkohtaor;
+	
+	@ScreenField(row = 8, column = 59, endColumn= 66 ,labelColumn= 68 ,displayName = "לקוח", sampleValue = "16188888")
+    private Integer lkoh;
+	
+	@ScreenField(row = 12, column = 12, endColumn= 41 ,labelColumn= 44 ,displayName = "שם מקבל", sampleValue = "לקוחות שונים חנות ניר-צבי")
+    private String smMkbl;
+	
+	@ScreenField(row = 13, column = 7, endColumn= 11 ,labelColumn= 13 ,displayName = "דירה")
+    private String dire;
+	
+	@ScreenField(row = 13, column = 23, endColumn= 26 ,labelColumn= 28 ,displayName = "מספר")
+    private String mspr;
+	
+	@ScreenField(row = 14, column = 14, endColumn= 16 ,labelColumn= 18 ,displayName = "אזור", sampleValue = "21C")
+    private String azor1;
+	
+	@ScreenField(row = 14, column = 31, endColumn= 32 ,labelColumn= 36 ,displayName = "מעלית", sampleValue = "לא")
+    private String malit;
+	
+	@ScreenField(row = 14, column = 49, endColumn= 51 ,labelColumn= 53 ,displayName = "קומה")
+    private String kome;
+	
+	@ScreenField(row = 15, column = 15, endColumn= 16 ,labelColumn= 18 ,displayName = "אזור", sampleValue = "33")
+    private Integer azor;
+	
+	@ScreenField(row = 15, column = 24, endColumn= 28 ,labelColumn= 30 ,displayName = "מיקוד", sampleValue = "72905")
+    private Integer mikod;
+	
+	@ScreenField(row = 15, column = 37, endColumn= 51 ,labelColumn= 53 ,displayName = "עיר", sampleValue = "ניר צבי")
+    private String air;
+	
+	@ScreenField(row = 15, column = 58, endColumn= 72 ,labelColumn= 74 ,displayName = "שכונה")
+    private String scone;
+	
+	@ScreenField(row = 16, column = 10, endColumn= 16 ,labelColumn= 18 ,displayName = "טל נייד")
+    private String tlNiid;
+	
+	@ScreenField(row = 16, column = 38, endColumn= 44 ,labelColumn= 47 ,displayName = "טל בעבודה")
+    private String tlBabode;
+	
+	@ScreenField(row = 16, column = 64, endColumn= 70 ,labelColumn= 72 ,displayName = "טל בבית", sampleValue = "9274800")
+    private Integer tlBbit;
+	
+	@ScreenField(row = 19, column = 9, endColumn= 9 ,labelColumn= 11 ,displayName = "אספקה אחת", sampleValue = "1")
+    private Integer aspkeAht;
+	
+	@ScreenField(row = 19, column = 36, endColumn= 37 ,labelColumn= 39 ,displayName = "מצב הזמנה", sampleValue = "01")
+    private Integer mcbEzmne;
+	
+	@ScreenField(row = 19, column = 50, endColumn= 64 ,labelColumn= 68 ,displayName = "סוג הזמנה", sampleValue = "פרטיים")
+    private String sogEzmne1;
+	
+	@ScreenField(row = 19, column = 66, endColumn= 66 ,labelColumn= 68 ,displayName = "סוג הזמנה", sampleValue = "1")
+    private Integer sogEzmne;
+	
+	@ScreenField(row = 20, column = 54, endColumn= 64 ,labelColumn= 68 ,displayName = "קוד ביצוע", sampleValue = "לייצור")
+    private String kodBicoa1;
+	
+	@ScreenField(row = 20, column = 66, endColumn= 66 ,labelColumn= 68 ,displayName = "קוד ביצוע", sampleValue = "1")
+    private Integer kodBicoa;
+
+    
+
+
+ 
+}

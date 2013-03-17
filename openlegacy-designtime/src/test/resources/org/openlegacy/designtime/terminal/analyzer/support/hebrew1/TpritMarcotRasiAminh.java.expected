@@ -6,9 +6,10 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.modules.menu.Menu.MenuEntity;  
 import org.openlegacy.modules.menu.Menu.MenuSelectionField;  
 
-@ScreenEntity(screenType=MenuEntity.class,displayName="תפריט מערכות ראשי - עמינח      ")
+@ScreenEntity(screenType=MenuEntity.class,displayName="        תפריט מערכות ראשי - עמינח      ")
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 3, column = 30, value = "        חנימע - ישאר תוכרעמ טירפת      "), 
+				@Identifier(row = 3, column = 22, value = "        חנימע - ישאר תוכרעמ טירפת      "), 
+				@Identifier(row = 13, column = 42, value = "     .ןיטינומ - ש"חהנה תכרעמ טירפת"), 
 				@Identifier(row = 17, column = 2, value = "יתנש בר-רחוס יריחמב םירצוימ םירצומ") 
 				})
 @ScreenActions(actions = { 
@@ -17,6 +18,21 @@ import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 				})
 public class TpritMarcotRasiAminh {
     
+	
+	@ScreenField(row = 1, column = 2, endColumn= 9 ,labelColumn= 11 ,displayName = "תאריך", sampleValue = "4/03/13")
+    private String taric;
+	
+	@ScreenField(row = 1, column = 63, endColumn= 72 ,labelColumn= 74 ,displayName = "תפריט", sampleValue = "AMIMENU")
+    private String tprit;
+	
+	@ScreenField(row = 2, column = 50, endColumn= 54 ,labelColumn= 56 ,displayName = "מחשב", sampleValue = "יצור")
+    private String mhsb;
+	
+	@ScreenField(row = 3, column = 2, endColumn= 9 ,labelColumn= 11 ,displayName = "מדפסת", sampleValue = "PRT775")
+    private String mdpst;
+	
+	@ScreenField(row = 3, column = 63, endColumn= 72 ,labelColumn= 74 ,displayName = "תחנה", sampleValue = "QPADEV001")
+    private String thne;
 	
 	@ScreenField(row = 21, column = 61, endColumn= 62 ,editable= true ,fieldType=MenuSelectionField.class ,displayName = "Menu Selection")
     private Integer menuSelection;

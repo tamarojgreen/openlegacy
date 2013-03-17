@@ -1,13 +1,12 @@
 package com.test;
 
 import org.openlegacy.annotations.screen.*;
-import org.openlegacy.definitions.EnumGetValue;  
 
 @ScreenEntity(displayName="מסך בעברית")
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 1, column = 40, value = "מסך בעברית"), 
-				@Identifier(row = 4, column = 23, value = "שדה א:"), 
-				@Identifier(row = 5, column = 20, value = "שדה ב:") 
+				@Identifier(row = 4, column = 23, value = ":שדה א"), 
+				@Identifier(row = 5, column = 20, value = ":שדה ב") 
 				})
 public class MscBabrit {
     
@@ -17,33 +16,9 @@ public class MscBabrit {
 	
 	@ScreenField(row = 5, column = 13, endColumn= 18 ,labelColumn= 20 ,displayName = "שדה ב", sampleValue = "בגדה")
     private String sdeB;
-	
-	@ScreenField(row = 6, column = 23, endColumn= 23 ,labelColumn= 30 ,editable= true ,displayName = "שדה ג", sampleValue = "1")
-    private SdeG sdeG;
 
     
 
 
  
-	public enum SdeG implements EnumGetValue{
-			Cn("1","כן"),
-			La("2","לא");
-		
-		private String value;
-		private String display;
-
-		SdeG(String value, String display) {
-			this.value = value;
-			this.display = display;
-		}
-
-		public String getValue() {
-			return value;
-		}
-
-		@Override
-		public String toString() {
-			return display;
-		}
-	}
 }
