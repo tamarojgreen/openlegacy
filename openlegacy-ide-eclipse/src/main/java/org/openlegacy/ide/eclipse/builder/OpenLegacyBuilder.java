@@ -27,10 +27,12 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
+import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.ide.eclipse.actions.GenerateModelDialog;
+import org.openlegacy.ide.eclipse.ui.preferences.PreferenceConstants;
 import org.openlegacy.ide.eclipse.util.EclipseUtils;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
@@ -88,6 +90,10 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 
 		private void checkNewTrail(final IResource resource) {
 
+			if (!Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_ANALYZE_NEW_TRAILS)){
+				return;
+			}
+			
 			if (!resource.getName().endsWith(".trail")) { //$NON-NLS-1$
 				return;
 			}
