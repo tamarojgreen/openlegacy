@@ -21,10 +21,8 @@ package org.h3270.host;
  * MA 02110-1301 USA
  */
 
-import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.h3270.render.H3270Configuration;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,6 +35,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -82,7 +81,7 @@ public class S3270 implements Terminal {
 	 * @param hostname
 	 *            the name of the host to connect to
 	 * @param configuration
-	 *            the h3270 properties
+	 *            the h3270 configuration, derived from h3270-config.xml
 	 * @throws org.h3270.host.UnknownHostException
 	 *             if <code>hostname</code> cannot be resolved
 	 * @throws org.h3270.host.HostUnreachableException
@@ -98,11 +97,23 @@ public class S3270 implements Terminal {
 
 		String commandLine = buildCommandLine(logicalUnit, hostname, properties);
 		try {
-			logger.info("Starting s3270: " + commandLine);
-			s3270 = Runtime.getRuntime().exec(commandLine);
+			ProcessBuilder pb = new ProcessBuilder(commandLine.split(" "));
 
-			out = new PrintWriter(new OutputStreamWriter(s3270.getOutputStream(), "ISO-8859-8"));
-			in = new BufferedReader(new InputStreamReader(s3270.getInputStream(), "ISO-8859-8"));
+			// If we are not on Windows, we can force s3270 to use UTF-8
+			// encoding for screen dumps, so we are independent from
+			// the system locale. On Windows, that doesn't work, so
+			// we have to rely on the system code page being set to a
+			// reasonable value.
+			if (!System.getProperty("os.name").startsWith("Windows")) {
+				Map<String, String> env = pb.environment();
+				env.put("LANG", "en_US.UTF-8");
+			}
+
+			logger.info("Starting s3270: " + commandLine);
+			s3270 = pb.start();
+
+			out = new PrintWriter(new OutputStreamWriter(s3270.getOutputStream(), "ISO-8859-1"));
+			in = new BufferedReader(new InputStreamReader(s3270.getInputStream(), "ISO-8859-1"));
 			errorReader = new ErrorReader();
 			errorReader.start();
 
@@ -122,10 +133,10 @@ public class S3270 implements Terminal {
 	 * @return a command line, ready to be executed by Runtime.exec()
 	 */
 	private String buildCommandLine(String logicalUnit, String hostname, Properties properties) {
-		String execPath = getProperty(properties, "execPath","/usr/local/bin");
-		String charset = getProperty(properties, "charset",null);
-		String model = getProperty(properties, "charset","3");
-		String additional = getProperty(properties, "additional",null);
+		String execPath = getProperty(properties, "execPath", "/usr/local/bin");
+		String charset = "cp" + properties.getProperty("host.codePage");
+		String model = getProperty(properties, "charset", "3");
+		String additional = getProperty(properties, "additional", null);
 		File s3270_binary = new File(execPath, "s3270");
 		StringBuffer cmd = new StringBuffer(s3270_binary.toString());
 		cmd.append(" -model " + model);
@@ -139,18 +150,18 @@ public class S3270 implements Terminal {
 		if (logicalUnit != null) {
 			cmd.append(logicalUnit).append('@');
 		}
-		
-		//TODO - add more option according to 
+
+		// TODO - add more option according to
 		cmd.append(hostname);
 		return cmd.toString();
 	}
 
 	private String getProperty(Properties properties, String key, String defaultValue) {
-		 String value = properties.getProperty("s3270." +key);
-		 if (value != null){
-			 return value;
-		 }
-		 return defaultValue;
+		String value = properties.getProperty("s3270." + key);
+		if (value != null) {
+			return value;
+		}
+		return defaultValue;
 	}
 
 	/**
@@ -170,7 +181,7 @@ public class S3270 implements Terminal {
 	/**
 	 * Perform an s3270 command. All communication with s3270 should go via this method.
 	 */
-	public Result doCommand(String command) {
+	private Result doCommand(String command) {
 		try {
 			out.println(command);
 			out.flush();
@@ -392,12 +403,20 @@ public class S3270 implements Terminal {
 					char ch = value.charAt(j);
 					if (ch == '\n') {
 						doCommand("newline");
-					} else if (!Integer.toHexString(ch).equals("0")) {
-						doCommand("key (0x" + Integer.toHexString(ch) + ")");
+					} else if (ch != 0) {
+						doCommand("key (" + encodeChar(ch) + ")");
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Encode the given character as a Unicode code point (U+xxxx). Note: We intentionally do not handle code points outside BMP,
+	 * as there is no known code page on the host side that deals with them.
+	 */
+	private String encodeChar(char ch) {
+		return "U+" + Integer.toHexString(ch);
 	}
 
 	public void submitUnformatted(String data) {
@@ -407,8 +426,8 @@ public class S3270 implements Terminal {
 				char newCh = data.charAt(index);
 				if (newCh != screen.charAt(x, y)) {
 					doCommand("movecursor (" + y + ", " + x + ")");
-					if (!Integer.toHexString(newCh).equals("0")) {
-						doCommand("key (0x" + Integer.toHexString(newCh) + ")");
+					if (newCh != 0) {
+						doCommand("key (" + encodeChar(newCh) + ")");
 					}
 				}
 				index++;
@@ -493,8 +512,14 @@ public class S3270 implements Terminal {
 		return "s3270 " + super.toString();
 	}
 
-	public void setCursor(int row, int column) {
-		 doCommand("movecursor (" + row + ", " + column + ")");		
+	public static void main(String[] args) throws Exception {
+		// Configuration configuration =
+		// H3270Configuration.create("/home/spiegel/projects/h3270/cvs/webapp/WEB-INF/h3270-config.xml");
+		// S3270 s3270 = new S3270(null, "locis.loc.gov", configuration);
+		// System.out.println(s3270.isConnected());
 	}
 
+	public void setCursor(int row, int column) {
+		doCommand("movecursor (" + row + ", " + column + ")");
+	}
 }

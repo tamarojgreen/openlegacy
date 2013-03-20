@@ -11,6 +11,7 @@ import org.h3270.host.S3270;
 import org.h3270.logicalunit.LogicalUnitException;
 import org.h3270.logicalunit.LogicalUnitPool;
 import org.h3270.logicalunit.LogicalUnitPoolFactory;
+import org.h3270.render.H3270Configuration;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ConnectionProperties;
@@ -47,7 +48,8 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		try {
 			// TODO set device
-			S3270 s3270Session = new S3270(leaseLogicalUnit(), hostName, properties);
+			String port = properties.getProperty("host.port");
+			S3270 s3270Session = new S3270(leaseLogicalUnit(), hostName + ":" + port, properties);
 			return new H3270Connection(s3270Session);
 		} catch (LogicalUnitException e) {
 			throw (new OpenLegacyProviderException(e));
@@ -107,7 +109,7 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 		Resource resource = new ClassPathResource("/host.properties");
 		properties = PropertiesLoaderUtils.loadProperties(resource);
 		properties.put("s3270.execPath", targetFile.getParent());
-		
+
 		logicalUnitPool = LogicalUnitPoolFactory.createLogicalUnitPool(configuration);
 	}
 
@@ -120,7 +122,7 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 	private void initConfiguration(File targetFile) {
 		DefaultConfigurationBuilder builder = new DefaultConfigurationBuilder();
 		try {
-			configuration = builder.build(new FileInputStream(targetFile));
+			configuration = H3270Configuration.create(new FileInputStream(targetFile));
 		} catch (Exception e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
@@ -134,7 +136,12 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 
 		logger.info(MessageFormat.format("*** Initializing H3270 configuration files in: {0}", workingDir));
 
+		String hostProperties = "/host.properties";
+		Resource hostPropertiesResource = new ClassPathResource(hostProperties);
+		Properties properties = PropertiesLoaderUtils.loadProperties(hostPropertiesResource);
+
 		keysValues.put("H3270_HOME", workingDir.getAbsolutePath().replace("\\", "\\\\"));
+		keysValues.put("CHARSET", "cp" + properties.getProperty("host.codePage"));
 		File configFile = initResource(workingDir, fileName, h3270ConfigResource, keysValues);
 		return configFile;
 	}

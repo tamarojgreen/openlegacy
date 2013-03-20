@@ -40,10 +40,10 @@ public class LogicalUnitPoolFactory {
 	}
 
 	public static String createLogicalUnitBuilderClass(Configuration config) throws ConfigurationException {
-		boolean usePool = config.getChild("logical-units").getChild("use-pool").getValueAsBoolean();
-		if (usePool) {
-			return config.getChild("lu-builder").getValue();
-		}
+		// boolean usePool = config.getChild("logical-units").getChild("use-pool").getValueAsBoolean();
+		// if (usePool) {
+		// return config.getChild("lu-builder").getValue();
+		// }
 		return null;
 	}
 }

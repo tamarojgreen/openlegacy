@@ -28,13 +28,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.h3270.render.TextRenderer;
 
 /**
@@ -42,7 +48,7 @@ import org.h3270.render.TextRenderer;
  * output of s3270.
  * 
  * @author Andre Spiegel spiegel@gnu.org
- * @version $Id: S3270Screen.java,v 1.22 2008/11/21 14:47:22 spiegel Exp $
+ * @version $Id$
  */
 public class S3270Screen extends AbstractScreen {
 
@@ -163,7 +169,7 @@ public class S3270Screen extends AbstractScreen {
   }
 
   private static final Pattern FORMATTED_CHAR_PATTERN = Pattern.compile (
-    "SF\\((..)=(..)(,(..)=(..)(,(..)=(..))?)?\\)|[0-9a-fA-F]{2}"
+    "SF\\((..)=(..)(,(..)=(..)(,(..)=(..))?)?\\)|([0-9a-fA-F]{2})+"
   );
 
   private int  fieldStartX = 0;
@@ -254,7 +260,7 @@ public class S3270Screen extends AbstractScreen {
           }
         }
       } else {
-        result.append ((char)(Integer.parseInt (code, 16)));
+        result.append (decodeChar(code));
       }
       index++;
     }
@@ -264,6 +270,44 @@ public class S3270Screen extends AbstractScreen {
       fieldStartY++;
     }  
     return result.toString().toCharArray(); 
+  }
+  
+  /**
+   * CharsetDecoder used by decodeChar() below.  Uses local code page on Windows,
+   * and UTF-8 on all other systems.
+   */
+  private CharsetDecoder charsetDecoder = 
+    System.getProperty("os.name").startsWith("Windows")
+      ? Charset.defaultCharset().newDecoder()
+      : Charset.forName("UTF-8").newDecoder();
+
+  private ByteBuffer codeBuffer = ByteBuffer.allocate(6); // max utf8 length for a single char
+  private CharBuffer charBuffer = CharBuffer.allocate(1);
+  
+  /**
+   * Given a hexadecimal representation of a character, return that character.
+   * This method assumes the character to be encoded using the local code page
+   * on Windows, and UTF-8 on all other systems. 
+   */
+  private char decodeChar (String source) {
+    codeBuffer.clear();
+    for (int i=0; i<source.length(); i+=2) {
+      int val = value(source.charAt(i)) * 16 + value(source.charAt(i+1));
+      codeBuffer.put((byte)val);
+    }
+    codeBuffer.rewind();
+    charBuffer.clear();
+    charsetDecoder.reset();
+    charsetDecoder.decode(codeBuffer, charBuffer, true);
+    charsetDecoder.flush (charBuffer);
+    return charBuffer.get(0);
+  }
+  
+  private int value (char c) {
+    if       (c >= '0' && c <= '9') return c - 48;
+    else if (c >= 'a' && c <= 'f') return c - 87;
+    else if (c >= 'A' && c <= 'F') return c - 55;
+    else throw new RuntimeException ("cannot happen");
   }
   
   private Field createField(byte startCode, int startx, int starty,
@@ -278,7 +322,7 @@ public class S3270Screen extends AbstractScreen {
                               
   public static void main (String[] args) throws IOException {
     BufferedReader in = new BufferedReader 
-                          (new FileReader ("src/org/h3270/test/screen8.dump"));
+                          (new FileReader ("test/src/org/h3270/test/hebrew.dump"));
     List lines = new ArrayList();
     while (true) {
       String line = in.readLine();
