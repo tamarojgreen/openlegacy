@@ -27,6 +27,8 @@ import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.AllFieldsCriteria;
 import org.openlegacy.terminal.utils.FieldsQuery.ModifiedFieldsCriteria;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeUtil;
+import org.openlegacy.utils.BidiUtil;
+import org.openlegacy.utils.FeatureChecker;
 import org.openlegacy.utils.StringUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -222,7 +224,11 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 	}
 
 	public String getLogicalText(TerminalPosition position, int length) {
-		return getText(position, length);
+		String text = getText(position, length);
+		if (FeatureChecker.isSupportBidi()){
+			text = BidiUtil.convertToLogical(text);
+		}
+		return text;
 	}
 
 }

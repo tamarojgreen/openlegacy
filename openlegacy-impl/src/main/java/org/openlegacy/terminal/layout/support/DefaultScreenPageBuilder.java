@@ -207,6 +207,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		// iterate through all the neighbor fields, and build row part rows upon row change, and find the end column
 		for (ScreenFieldDefinition screenFieldDefinition : fields) {
 			if (screenFieldDefinition.getPosition().getRow() != currentRow) {
+				finalizeRow(currentPagePartRow);
 				currentPagePartRow = new SimplePagePartRowDefinition();
 				pagePart.getPartRows().add(currentPagePartRow);
 				currentRow = screenFieldDefinition.getPosition().getRow();
@@ -223,6 +224,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 				startColumn = fieldStartColumn;
 			}
 		}
+		finalizeRow(currentPagePartRow);
 
 		columnValues = calculateNumberOfColumnsForPagePage(columnValues);
 
@@ -232,6 +234,10 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		calculateWidth(entityDefinition, pagePart, endColumn - startColumn);
 
 		return pagePart;
+	}
+
+	protected void finalizeRow(PagePartRowDefinition currentPagePartRow) {
+		// do nothing - used for override for Bidi
 	}
 
 	protected Integer getFieldLogicalStart(int fieldStartColumn, int fieldEndColumn) {

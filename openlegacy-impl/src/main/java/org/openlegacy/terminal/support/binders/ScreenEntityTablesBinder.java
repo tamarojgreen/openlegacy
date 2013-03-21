@@ -108,9 +108,6 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 		int length = columnDefinition.getEndColumn() - columnDefinition.getStartColumn() + 1;
 		String columnText = terminalSnapshot.getLogicalText(position, length);
 		columnText = fieldFormatter.format(columnText);
-		if (FeatureChecker.isSupportBidi()) {
-			columnText = BidiUtil.convertToLogical(columnText);
-		}
 		return columnText;
 	}
 

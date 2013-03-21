@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.terminal.layout.support;
 
+import org.openlegacy.layout.PagePartRowDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 
+import java.util.Collections;
 import java.util.List;
 
 public class DefaultBidiScreenPageBuilder extends DefaultScreenPageBuilder {
@@ -34,6 +36,13 @@ public class DefaultBidiScreenPageBuilder extends DefaultScreenPageBuilder {
 		}
 	}
 
+	@Override
+	protected void finalizeRow(PagePartRowDefinition pagePartRow) {
+		if (pagePartRow != null && pagePartRow.getFields() != null){
+			Collections.reverse(pagePartRow.getFields());
+		}
+	}
+	
 	@Override
 	protected Integer getFieldLogicalStart(int fieldStartColumn, int fieldEndColumn) {
 		return fieldEndColumn;
