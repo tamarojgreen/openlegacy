@@ -195,7 +195,7 @@ public class DefaultGenericController {
 		if (servletContext.getResource(MessageFormat.format("{0}/{1}{2}", viewsPath, viewName, viewsSuffix)) == null) {
 			if (isComposite) {
 				viewName = MvcConstants.COMPOSITE;
-			} else if (entityDefinition.getType() == MenuEntity.class && entityDefinition.getNavigationDefinition() == null) {
+			} else if (entityDefinition.getType() == MenuEntity.class) {
 				viewName = MvcConstants.ROOTMENU_VIEW;
 			} else if (partial) {
 				viewName = MvcConstants.GENERIC_VIEW;
