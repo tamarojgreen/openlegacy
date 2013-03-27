@@ -92,9 +92,9 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		}
 
 		if (fieldAnnotation.endRow() > 0) {
-			if (fieldAnnotation.endRow() <= fieldAnnotation.row()) {
+			if (fieldAnnotation.endRow() < fieldAnnotation.row()) {
 				throw (new RegistryException(MessageFormat.format(
-						"End row must be greater then row for field {0}. (can be removed for same row)", field.getName())));
+						"End row is smaller then row for field {0}. (can be removed for same row)", field.getName())));
 			}
 			if (fieldAnnotation.endColumn() == 0) {
 				throw (new RegistryException(MessageFormat.format(
