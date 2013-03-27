@@ -27,4 +27,6 @@ public interface ScreenPojoFieldAccessor extends EntityFieldAccessor {
 
 	void setTerminalSnapshot(TerminalSnapshot terminalSnapshot);
 
+	Object evaluateFieldValue(String name);
+
 }

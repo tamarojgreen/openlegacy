@@ -37,7 +37,7 @@ public abstract class SimpleEntityDefinition<F extends FieldDefinition> implemen
 	// LinkedHashMap preserve insert order
 	private final Map<String, F> fieldDefinitions = new TreeMap<String, F>();
 	private String displayName;
-	private ArrayList<F> keyFields;
+	private List<F> keyFields;
 
 	private List<EntityDefinition<?>> childEntitiesDefinitions = new ArrayList<EntityDefinition<?>>();
 

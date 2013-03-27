@@ -22,6 +22,8 @@ import org.openlegacy.utils.StringUtil;
 import org.springframework.beans.DirectFieldAccessor;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 
@@ -36,6 +38,8 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	private static final String TERMINAL_SNAPSHOT = "terminalSnapshot";
 	private static final String FOCUS_FIELD = "focusField";
 
+	private Map<String,DirectFieldAccessor> partAccessors;
+	
 	public SimpleScreenPojoFieldAccessor(Object target) {
 		target = ProxyUtil.getTargetObject(target);
 		directFieldAccessor = new DirectFieldAccessor(target);
@@ -137,7 +141,28 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	public Object getFieldValue(String fieldName) {
 		return directFieldAccessor.getPropertyValue(getFieldPojoName(fieldName));
 	}
+	public Object evaluateFieldValue(String fieldName) {
+		if (fieldName.contains(".")){
+			String partName = fieldName.substring(0, fieldName.indexOf("."));
+			fieldName = getFieldPojoName(fieldName);
+			DirectFieldAccessor partAccesor = getPartAccessor(partName);
+			return partAccesor.getPropertyValue(fieldName);
+		}
+		return getFieldValue(fieldName);
+		
+	}
 
+	public DirectFieldAccessor getPartAccessor(String partName) {
+		if (partAccessors == null){
+			partAccessors = new  HashMap<String,DirectFieldAccessor>();
+		}
+		DirectFieldAccessor partAccessor = partAccessors.get(partName);
+		if (partAccessor == null){
+			partAccessor = new DirectFieldAccessor(directFieldAccessor.getPropertyValue(partName));
+			partAccessors.put(partName, partAccessor);
+		}
+		return partAccessor;
+	}
 	private static String getFieldPojoName(String fieldName) {
 		return StringUtil.removeNamespace(fieldName);
 	}

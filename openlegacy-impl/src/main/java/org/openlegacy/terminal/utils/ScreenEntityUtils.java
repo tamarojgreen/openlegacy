@@ -73,7 +73,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		List<Object> keysValue = new ArrayList<Object>();
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(entity);
 		for (FieldDefinition fieldDefinition : keyFields) {
-			keysValue.add(fieldAccessor.getFieldValue(fieldDefinition.getName()));
+			keysValue.add(fieldAccessor.evaluateFieldValue(fieldDefinition.getName()));
 		}
 		return keysValue;
 	}
