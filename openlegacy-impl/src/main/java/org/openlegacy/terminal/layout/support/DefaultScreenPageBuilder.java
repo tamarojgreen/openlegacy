@@ -297,11 +297,13 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	}
 
 	private int calculateTopMargin(ScreenSize screenSize, int row) {
-		return (100 * (row - 1)) / screenSize.getRows() + defaultTopMarginOffset;
+		int result = (100 * (row - 1)) / screenSize.getRows() + defaultTopMarginOffset;
+		return result > 0 ? result : 0;  
 	}
 
 	private int calculateLeftMargin(ScreenSize screenSize, int topLeftColumn) {
-		return ((100 * topLeftColumn) / screenSize.getColumns()) + defaultLeftMarginOffset;
+		int result = ((100 * topLeftColumn) / screenSize.getColumns()) + defaultLeftMarginOffset;
+		return result > 0 ? result : 0;  
 	}
 
 	/**
