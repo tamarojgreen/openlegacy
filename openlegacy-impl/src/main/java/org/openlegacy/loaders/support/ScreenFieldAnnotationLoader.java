@@ -91,7 +91,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			// TODO calculate length for "snake" field 
 		}
 
-		if (fieldAnnotation.endRow() > 0) {
+		if (fieldAnnotation.endRow() > fieldAnnotation.row()) {
 			if (fieldAnnotation.endRow() < fieldAnnotation.row()) {
 				throw (new RegistryException(MessageFormat.format(
 						"End row is smaller then row for field {0}. (can be removed for same row)", field.getName())));
