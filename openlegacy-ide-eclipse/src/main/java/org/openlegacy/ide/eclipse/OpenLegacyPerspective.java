@@ -36,12 +36,12 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 
 	protected void defineLayout(IPageLayout layout) {
 		// Creates a folder at the left side of the screen
-		IFolderLayout leftFolder = layout.createFolder("topLeft", IPageLayout.LEFT, 0.37f, layout.getEditorArea());
+		IFolderLayout leftFolder = layout.createFolder("topLeft", IPageLayout.LEFT, 0.50f, layout.getEditorArea());
 		leftFolder.addView(ProjectExplorer.VIEW_ID);
 		leftFolder.addView(NAVIGATOR_VIEW_ID);
 
 		// Bottom left: Outline view and Property Sheet view
-		IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, 0.50f, "topLeft");
+		IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, 0.40f, "topLeft");
 		bottomLeft.addView(SCREEN_PREVIEW_ID);
 
 		// Creates a folder at the bottom of the screen
