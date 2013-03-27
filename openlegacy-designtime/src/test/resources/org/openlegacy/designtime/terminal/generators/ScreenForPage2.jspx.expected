@@ -15,7 +15,7 @@
  				<ol:field name="fld2Row10" cssClass="col_2_of_2"/>
 			</ol:pagePart>
 			<ol:field name="orphanFld" top="95%" left="8%" width="28%" />
-			<ol:pagePart left="0%" top="-4%" width="100%">
+			<ol:pagePart left="0%" top="0%" width="100%">
  				<ol:field name="screenForPagePart.fldRow20" cssClass="col_1_of_2"/>
  				<ol:field name="screenForPagePart.fld2Row20" cssClass="col_2_of_2"/>
 			</ol:pagePart>
