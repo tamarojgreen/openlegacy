@@ -168,7 +168,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 	}
 
 	void checkAspectGenerate(IResource resource) {
-		if (resource instanceof IFile && resource.getName().endsWith(PluginConstants.JAVA_EXTENSION)) {
+		if (resource instanceof IFile && resource.getName().endsWith(PluginConstants.JAVA_EXTENSION) && !isIgnoreFolder(resource)) {
 			EclipseDesignTimeExecuter.instance().generateAspect(resource);
 			try {
 				getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -177,6 +177,11 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 			}
 
 		}
+	}
+
+	private boolean isIgnoreFolder(IResource resource) {
+		String path = resource.getFullPath().toString();
+		return path.contains("/target") || path.contains("test/java");
 	}
 
 	/**

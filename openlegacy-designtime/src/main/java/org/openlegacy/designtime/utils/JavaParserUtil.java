@@ -23,6 +23,9 @@ public class JavaParserUtil {
 			return null;
 		}
 		List<MemberValuePair> attributes = ((NormalAnnotationExpr)annotation).getPairs();
+		if (attributes == null){
+			return null;
+		}
 		for (MemberValuePair memberValuePair : attributes) {
 			if (memberValuePair.getName().equals(attributeName)) {
 				return memberValuePair.getValue().toString();

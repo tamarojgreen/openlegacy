@@ -3,6 +3,7 @@
 
 package ${packageName};
 
+import java.util.*;
 <#if supportTerminalData>
 import org.openlegacy.terminal.TerminalField;
 </#if>
