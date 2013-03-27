@@ -12,6 +12,7 @@ package org.openlegacy.terminal.mvc.web;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.TerminalSession;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +27,9 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 	@Inject
 	private ThemeUtil themeUtil;
 
+	@Inject
+	private OpenLegacyProperties openLegacyProperties;
+	
 	private final static Log logger = LogFactory.getLog(OpenLegacyExceptionResolver.class);
 
 	@Override
@@ -51,6 +55,7 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 		logger.fatal(ex.getMessage(), ex);
 
 		ModelAndView modelAndView = super.resolveException(request, response, handler, ex);
+		modelAndView.addObject("openLegacyProperties", openLegacyProperties);
 		themeUtil.applyTheme(modelAndView, request, response);
 		return modelAndView;
 	}
