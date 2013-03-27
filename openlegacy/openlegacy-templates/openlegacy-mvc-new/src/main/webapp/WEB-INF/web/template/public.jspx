@@ -12,7 +12,7 @@
 
 	<head>
 		<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
-		<title>OpenLegacy Toys</title>
+		<title>OpenLegacy</title>
 		<c:set var="cssRtl" value="" />
 		<c:if test="${openLegacyProperties.rightToLeft}">
 			<c:set var="cssRtl" value="_rtl" />
@@ -33,7 +33,6 @@
 			require(["dojo/parser",
 					"dijit/TitlePane"]);
 		</script>
-		<link href="${pageContext.request.contextPath}/css/project.css" rel="stylesheet" type="text/css" />
 		<!--[if !IE 7]>
 			<style type="text/css">
 				#wrap {display:table;height:100%}

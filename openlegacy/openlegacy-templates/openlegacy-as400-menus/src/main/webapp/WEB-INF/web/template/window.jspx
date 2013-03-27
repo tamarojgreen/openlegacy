@@ -14,7 +14,7 @@
 	
 	<head>
 		<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
-		<title>OpenLegacy Toys</title>
+		<title>OpenLegacy</title>
 		
 		<link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/project.css" rel="stylesheet" type="text/css" />
