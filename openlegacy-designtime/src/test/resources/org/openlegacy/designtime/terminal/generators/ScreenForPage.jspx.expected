@@ -6,18 +6,28 @@
 
 	<ol:form model="screenForPage">
 			<ol:pagePart left="12%" top="20%" width="26%">
- 				<ol:field name="fldCol12" cssClass="col_1_of_1"/>
- 				<ol:field name="fld2Col12" cssClass="col_1_of_1"/>
- 				<ol:field name="fld3Col12" cssClass="col_1_of_1"/>
+				<ol:row columns="1">
+	 				<ol:field name="fldCol12" />
+				</ol:row>
+				<ol:row columns="1">
+	 				<ol:field name="fld2Col12" />
+				</ol:row>
+				<ol:row columns="1">
+	 				<ol:field name="fld3Col12" />
+				</ol:row>
 			</ol:pagePart>
 			<ol:pagePart left="26%" top="37%" width="52%">
- 				<ol:field name="fldRow10" cssClass="col_1_of_2"/>
- 				<ol:field name="fld2Row10" cssClass="col_2_of_2"/>
+				<ol:row columns="2">
+	 				<ol:field name="fldRow10" />
+	 				<ol:field name="fld2Row10" />
+				</ol:row>
 			</ol:pagePart>
 			<ol:field name="orphanFld" top="95%" left="8%" width="28%" />
 			<ol:pagePart left="1%" top="79%" width="52%">
- 				<ol:field name="screenForPagePart.fldRow20" cssClass="col_1_of_2"/>
- 				<ol:field name="screenForPagePart.fld2Row20" cssClass="col_2_of_2"/>
+				<ol:row columns="2">
+	 				<ol:field name="screenForPagePart.fldRow20" />
+	 				<ol:field name="screenForPagePart.fld2Row20" />
+				</ol:row>
 			</ol:pagePart>
 			<ol:pagePart left="6%" top="54%" width="31%">
 					<ol:table data="${screenForPage.screenForPageRows}" property="screenForPageRows"  />

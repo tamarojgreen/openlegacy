@@ -39,16 +39,26 @@
 		<c:set var="rightToLeft" value="${fieldDefinition.rightToLeft}" />
 	</c:if>
 	<c:choose>
+		<c:when test="${not empty columnWidth}">
+			<td style="width: ${columnWidth}%">
+				<olt:innerField name="${name}" label="${label}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}">
+					<jsp:doBody />
+				</olt:innerField>
+			</td>
+		</c:when>
 		<c:when test="${empty top}">
-			<olt:innerField name="${name}" label="${label}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" />
+			<olt:innerField name="${name}" label="${label}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}">
+				<jsp:doBody />
+			</olt:innerField>
 		</c:when>
 		<c:otherwise>
 			<div style="margin-left: ${left}; top: ${top}; width:${width}; position:absolute;">
 				<olt:innerField name="${name}" label="${label}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" 
-					style="${style}" cssClass="${cssClass}"/>
+					style="${style}" cssClass="${cssClass}">
+					<jsp:doBody />
+				</olt:innerField>
 			</div>
 		</c:otherwise>
 	</c:choose>
 	
-	<jsp:doBody />
 </jsp:root>

@@ -10,10 +10,12 @@
 			<ol:field name="${pagePart.singleField.name}" top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%" width="${pagePart.width}%" />
 			<#else>
 			<ol:pagePart left="${pagePart.leftMargin}%" top="${pagePart.topMargin}%" width="${pagePart.width}%">
-				<#list pagePart.partRows as partRow> 
+				<#list pagePart.partRows as partRow>
+				<ol:row columns="${partRow.fields?size}">
 					<#list partRow.fields as field>
- 				<ol:field name="${field.name}" cssClass="col_${field_index+1}_of_${partRow.fields?size}"/>
+	 				<ol:field name="${field.name}" />
 					</#list>
+				</ol:row>
 				</#list>
 				<#if pagePart.hasTable>
 					<ol:table data="${r"${"}${entityDefinition.entityName?uncap_first}.${pagePart.tableDefinition.tableEntityName?uncap_first}s${r"}"}" property="${pagePart.tableFieldName?uncap_first}" <#if entityDefinition.window>window="true"</#if> />

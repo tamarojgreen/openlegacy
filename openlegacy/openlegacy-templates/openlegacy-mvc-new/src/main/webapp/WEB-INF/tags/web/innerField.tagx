@@ -60,7 +60,7 @@
 		<div class="field_row">
 			<c:if test="${not empty label}">
 				<div class="label">
-					<label>${label}:</label>
+					<label>${label}<c:if test="${fn:length(label) &gt; 1}">:</c:if></label>
 				</div>
 			</c:if>
 			<div class="field">
