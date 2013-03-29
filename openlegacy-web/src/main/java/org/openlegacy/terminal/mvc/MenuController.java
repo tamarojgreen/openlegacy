@@ -55,7 +55,7 @@ public class MenuController {
 	}
 
 	private MenuItem findByTreeId(MenuItem menuItem, String id) {
-		if (menuItem.getDisplayName().toLowerCase().replace(" ", "").equals(id) || id.equalsIgnoreCase("root")) {
+		if (getMenuUniqueId(menuItem).equals(id) || id.equalsIgnoreCase("root")) {
 			return menuItem;
 		}
 		for (MenuItem item : menuItem.getMenuItems()) {
@@ -75,7 +75,7 @@ public class MenuController {
 			// ,children:[
 			sb.append(",children:[");
 			for (MenuItem item : menu.getMenuItems()) {
-				sb.append(generateJson(item, item.getDisplayName().toLowerCase().replace(" ", ""), id, true));
+				sb.append(generateJson(item, getMenuUniqueId(item), id, true));
 				sb.append(",");
 			}
 			sb.deleteCharAt(sb.length() - 1);
@@ -91,5 +91,9 @@ public class MenuController {
 		}
 		sb.append("}");
 		return sb.toString();
+	}
+
+	private static String getMenuUniqueId(MenuItem item) {
+		return item.getDisplayName().toLowerCase().replace(" ", "").replace("/", "");
 	}
 }
