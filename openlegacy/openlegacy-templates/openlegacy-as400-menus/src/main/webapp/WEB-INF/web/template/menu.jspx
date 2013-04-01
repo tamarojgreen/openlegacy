@@ -6,77 +6,205 @@
 	<jsp:output omit-xml-declaration="yes" />
 	 
 	<div id="menu">
-		<script language="JavaScript" type="text/javascript">
-			require(["dijit/dijit",
-					"dijit/Menu",
-					"dijit/layout/AccordionContainer",
-					"dijit/Dialog",
-					"dijit/layout/ContentPane"]);
-		</script>
-		<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
-			<c:if test="${definitions != null}">
-				<c:forEach items="${ol_flatMenus}" var="flatMenu">
-					<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}">
+		<c:choose>
+			<c:when test="${openLegacyWebProperties.treeMenu}">
+				<c:set var="width" value="350px" />
+				<c:if test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
+					<c:set var="width" value="700px" />
+				</c:if>
+				<style>
+					#leftPane{
+						width:${width}; 
+					}
+				</style>
+				<script language="JavaScript" type="text/javascript">
+					require([ "dijit/dijit",
+							"dijit/layout/AccordionContainer", "dijit/Dialog",
+							"dijit/layout/ContentPane" ]);
+					
+					require([ "dojo/store/JsonRest", "dijit/Tree",
+							"dijit/tree/ObjectStoreModel", "dojo/ready", "dijit/registry",
+							"dojo/dom-style"], function(
+							JsonRest, Tree, ObjectStoreModel, ready, registry, domStyle) {
+						var olStore = new JsonRest({
+							target : '${pageContext.request.contextPath}/menu/',
+							accepts : 'application/javascript;charset=UTF-8',
+							getChildren : function(object) {
+								return this.get(object.id).then(function(fullObject) {
+									return fullObject.children;
+								});
+							}
+						});
+						var olModel = new ObjectStoreModel({
+							store : olStore,
+							getRoot : function(onItem) {
+								this.store.get("root").then(onItem);
+							},
+							mayHaveChildren : function(object) {
+								return "children" in object;
+							}
+						});
+		
+						ready(function() {
+							var tree = new Tree({
+								model : olModel,
+								//showRoot: false,
+								openOnClick: true,
+								onClick: function(item){
+									if (item.url){
+										location.href = '${pageContext.request.contextPath}/'+item.url;
+										return true;
+									}
+									return false;
+								},
+								onOpen:function(item, node){
+									domStyle.set('treeNode', 'height', '');
+								},
+								onClose:function(item,node){
+									domStyle.set('treeNode', 'height', '');
+								}
+							}, 'treeNode');
+		
+							var breadCrumb = new Array();
+							breadCrumb[0] = 'root';
+							<c:forEach items="${breadCrumb}" var="pathItem" varStatus="status">
+									<c:if test="${!status.first}">
+										breadCrumb[${status.index}] = '${pathItem.entityName}';
+									</c:if>
+							</c:forEach>
+							
+							var widget = registry.byId('accordion');
+							if (widget) {
+								widget.watch('selectedChildWidget', function(){
+									domStyle.set('treeNode', 'height', '');
+								});
+								setTimeout(function(){
+									//tree.collapseAll();
+									tree.set('path', breadCrumb);
+									widget.resize();
+									domStyle.set('treeNode', 'height', '');
+								}, 100);
+							}
+						});
+					});
+				</script>
+				<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
+					<c:if test="${definitions != null}">
+						<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'תפריט מערכות'" class="element">
+								<div id="treeNode">
+									<!-- FF -->
+								</div>
+						</div>
+					</c:if>
+					<div data-dojo-type="dijit.layout.ContentPane" title="כלים" class="element">
 						<div class="links">
 							<ul>
-								<li>
-									<c:forEach items="${flatMenu.menuItems}" var="menuLeaf">
-										<c:choose>
-											<c:when test="${menuLeaf.targetEntity.simpleName == definitions.entityName}">
-												<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}" 
-													class="current">${menuLeaf.displayName}</a>
-												<script>
-													require(["dojo/ready"], function(ready){
-														ready(function(){
-															require(["dijit/registry"], function(registry){
-																registry.byId('accordion').selectChild(registry.byId('${flatMenu.targetEntityName}'));
-															});
-														});
-													});
-												</script>
-											</c:when>
-											<c:otherwise>
-												<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}">${menuLeaf.displayName}</a>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>										
-								</li>
+								<li><a
+									href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">עזרה</a></li>
+								<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View
+										Session</a></li>
+								<c:if test="${openLegacyProperties.designtime}">
+									<li><a href="javascript:reloadApplicationContext('${pageContext.request.contextPath}');">Reload
+											application</a></li>
+								</c:if>
 							</ul>
 						</div>
 					</div>
-				</c:forEach>
-			</c:if>
-			<div data-dojo-type="dijit.layout.ContentPane" title="Tools" class="element">
-				<div class="links">
-					<ul>
-						<li><a href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/online-help');">Help</a></li>
-						<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View Session</a></li>
-						<li><a href="${pageContext.request.contextPath}/trail/download">Download trail</a></li>
-						<c:if test="${openLegacyProperties.designtime}">
-							<li><a href="javascript:reloadApplicationContext('${pageContext.request.contextPath}');">Reload application</a></li>
-						</c:if>
-					</ul>
-				</div>
-			</div>
-			<!-- Plugin's menu -->
-			<c:forEach items="${plugins_menu}" var="category">
-				<div data-dojo-type="dijit.layout.ContentPane" title="${category.key}" class="element">
-					<div class="links">
-						<ul>
-							<c:forEach items="${category.value}" var="item">
-								<c:choose>
-									<c:when test="${fn:startsWith(item['action'], fn:toLowerCase('javascript'))}">
-										<li><a href="${item['action']}">${item['text']}</a></li>
-									</c:when>
-									<c:otherwise>
-										<li><a href="${pageContext.request.contextPath}${item['action']}">${item['text']}</a></li>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach>
-						</ul>
+					<!-- Plugin's menu -->
+					<c:forEach items="${plugins_menu}" var="category">
+						<div data-dojo-type="dijit.layout.ContentPane" title="${category.key}" class="element">
+							<div class="links">
+								<ul>
+									<c:forEach items="${category.value}" var="item">
+										<c:choose>
+											<c:when test="${fn:startsWith(item['action'], fn:toLowerCase('javascript'))}">
+												<li><a href="${item['action']}">${item['text']}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li><a href="${pageContext.request.contextPath}${item['action']}">${item['text']}</a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+					</c:forEach>
+				</div>			
+			</c:when>
+			<c:otherwise>
+				<script language="JavaScript" type="text/javascript">
+					require(["dijit/dijit",
+							"dijit/Menu",
+							"dijit/layout/AccordionContainer",
+							"dijit/Dialog",
+							"dijit/layout/ContentPane"]);
+				</script>
+				<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
+					<c:if test="${definitions != null}">
+						<c:forEach items="${ol_flatMenus}" var="flatMenu">
+							<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}">
+								<div class="links">
+									<ul>
+										<li>
+											<c:forEach items="${flatMenu.menuItems}" var="menuLeaf">
+												<c:choose>
+													<c:when test="${menuLeaf.targetEntity.simpleName == definitions.entityName}">
+														<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}" 
+															class="current">${menuLeaf.displayName}</a>
+														<script>
+															require(["dojo/ready"], function(ready){
+																ready(function(){
+																	require(["dijit/registry"], function(registry){
+																		registry.byId('accordion').selectChild(registry.byId('${flatMenu.targetEntityName}'));
+																	});
+																});
+															});
+														</script>
+													</c:when>
+													<c:otherwise>
+														<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}">${menuLeaf.displayName}</a>
+													</c:otherwise>
+												</c:choose>
+											</c:forEach>										
+										</li>
+									</ul>
+								</div>
+							</div>
+						</c:forEach>
+					</c:if>
+					<div data-dojo-type="dijit.layout.ContentPane" title="Tools" class="element">
+						<div class="links">
+							<ul>
+								<li><a href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/online-help');">Help</a></li>
+								<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View Session</a></li>
+								<li><a href="${pageContext.request.contextPath}/trail/download">Download trail</a></li>
+								<c:if test="${openLegacyProperties.designtime}">
+									<li><a href="javascript:reloadApplicationContext('${pageContext.request.contextPath}');">Reload application</a></li>
+								</c:if>
+							</ul>
+						</div>
 					</div>
-				</div>
-			</c:forEach>
-		</div>
+					<!-- Plugin's menu -->
+					<c:forEach items="${plugins_menu}" var="category">
+						<div data-dojo-type="dijit.layout.ContentPane" title="${category.key}" class="element">
+							<div class="links">
+								<ul>
+									<c:forEach items="${category.value}" var="item">
+										<c:choose>
+											<c:when test="${fn:startsWith(item['action'], fn:toLowerCase('javascript'))}">
+												<li><a href="${item['action']}">${item['text']}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li><a href="${pageContext.request.contextPath}${item['action']}">${item['text']}</a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+					</c:forEach>
+				</div>			
+			</c:otherwise>
+		</c:choose>
 	</div>
 </jsp:root>

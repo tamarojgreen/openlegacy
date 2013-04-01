@@ -13,6 +13,7 @@ package org.openlegacy.terminal.mvc.web.interceptors;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.globals.Globals;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.mvc.OpenLegacyWebProperties;
 import org.openlegacy.terminal.mvc.web.ThemeUtil;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,12 +37,16 @@ public class InsertGlobalsInterceptor extends AbstractInterceptor {
 	@Inject
 	private OpenLegacyProperties openLegacyProperties;
 
+	@Inject
+	private OpenLegacyWebProperties openLegacyWebProperties;
+	
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 
 		themeUtil.applyTheme(modelAndView, request, response);
 
 		modelAndView.addObject("openLegacyProperties", openLegacyProperties);
+		modelAndView.addObject("openLegacyWebProperties", openLegacyWebProperties);
 
 		if (!getTerminalSession().isConnected()) {
 			return;

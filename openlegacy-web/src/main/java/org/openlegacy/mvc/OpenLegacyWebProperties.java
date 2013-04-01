@@ -15,4 +15,7 @@ public interface OpenLegacyWebProperties {
 	String getFallbackUrl();
 
 	boolean isFallbackUrlOnError();
+	
+	boolean isTreeMenu();
+
 }
