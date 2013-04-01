@@ -55,14 +55,6 @@
 		<put-attribute name="body" value="/WEB-INF/web/views/SelectDefinitionType.jspx" />
 	</definition> 
  
-	<definition name="ProgrammingDevelopmentManagerpdmComposite" extends="compositeTemplate"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/ProgrammingDevelopmentManagerpdmComposite.jspx" />
-	</definition> 
- 
-	<definition name="ProgrammingDevelopmentManagerpdm" extends="view"> 
-		<put-attribute name="body" value="/WEB-INF/web/views/ProgrammingDevelopmentManagerpdm.jspx" />
-	</definition> 
- 
 	<definition name="SpecifyLibrariesToWorkWith" extends="view"> 
 		<put-attribute name="body" value="/WEB-INF/web/views/SpecifyLibrariesToWorkWith.jspx" />
 	</definition> 

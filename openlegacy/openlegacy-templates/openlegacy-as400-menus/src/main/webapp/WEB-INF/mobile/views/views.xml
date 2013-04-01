@@ -54,10 +54,6 @@
 		<put-attribute name="body" value="/WEB-INF/mobile/views/SelectDefinitionType.jspx" />
 	</definition> 
  
-	<definition name="ProgrammingDevelopmentManagerpdm_m" extends="view_m"> 
-		<put-attribute name="body" value="/WEB-INF/mobile/views/ProgrammingDevelopmentManagerpdm.jspx" />
-	</definition> 
- 
 	<definition name="SpecifyLibrariesToWorkWith_m" extends="view_m"> 
 		<put-attribute name="body" value="/WEB-INF/mobile/views/SpecifyLibrariesToWorkWith.jspx" />
 	</definition> 
