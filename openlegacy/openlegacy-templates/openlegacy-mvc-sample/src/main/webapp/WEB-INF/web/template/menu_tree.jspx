@@ -14,7 +14,7 @@
 					"dojo/dom-style"], function(
 					JsonRest, Tree, ObjectStoreModel, ready, registry, domStyle) {
 				var olStore = new JsonRest({
-					target : 'menu/',
+					target : '${pageContext.request.contextPath}/menu/',
 					accepts : 'application/javascript;charset=UTF-8',
 					getChildren : function(object) {
 						return this.get(object.id).then(function(fullObject) {
@@ -56,7 +56,7 @@
 					breadCrumb[0] = 'root';
 					<c:forEach items="${breadCrumb}" var="pathItem" varStatus="status">
 							<c:if test="${!status.first}">
-								breadCrumb[${status.index}] = '${fn:replace(fn:toLowerCase(pathItem.displayName), " ", "")}';
+								breadCrumb[${status.index}] = '${pathItem.entityName}';
 							</c:if>
 					</c:forEach>
 					
@@ -77,20 +77,19 @@
 		</script>
 		<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
 			<c:if test="${definitions != null}">
-				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'System Menu'" class="element">
+				<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'תפריט מערכות'" class="element">
 						<div id="treeNode">
 							<!-- FF -->
 						</div>
 				</div>
 			</c:if>
-			<div data-dojo-type="dijit.layout.ContentPane" title="Tools" class="element">
+			<div data-dojo-type="dijit.layout.ContentPane" title="כלים" class="element">
 				<div class="links">
 					<ul>
 						<li><a
-							href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">Help</a></li>
+							href="javascript:showDialog('helpDialog','${pageContext.request.contextPath}/${definitions.entityClassName}/help');">עזרה</a></li>
 						<li><a href="javascript:showSessionViewer('${pageContext.request.contextPath}');">View
 								Session</a></li>
-						<li><a href="${pageContext.request.contextPath}/trail/download">Download trail</a></li>
 						<c:if test="${openLegacyProperties.designtime}">
 							<li><a href="javascript:reloadApplicationContext('${pageContext.request.contextPath}');">Reload
 									application</a></li>

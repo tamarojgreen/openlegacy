@@ -94,6 +94,6 @@ public class MenuController {
 	}
 
 	private static String getMenuUniqueId(MenuItem item) {
-		return item.getDisplayName().toLowerCase().replace(" ", "").replace("/", "");
+		return item.getTargetEntityName();
 	}
 }
