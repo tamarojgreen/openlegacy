@@ -10,7 +10,18 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.web;
 
-import flexjson.JSONSerializer;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -23,6 +34,7 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.json.JsonSerializationUtil;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
@@ -50,18 +62,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import flexjson.JSONSerializer;
 
 /**
  * OpenLegacy default web controller for a terminal session. Handles GET/POST requests of a web application. Works closely with
@@ -153,28 +154,24 @@ public class DefaultGenericController {
 		registerPropertyEditors(binder);
 		binder.bind(request);
 
-		screenEntityUtils.sendScreenEntity(terminalSession, screenEntity, action);
-		ScreenEntity resultEntity = terminalSession.getEntity();
-		String resultEntityName = null;
-		if (resultEntity != null){
-			resultEntityName = ProxyUtil.getOriginalClass(resultEntity.getClass()).getSimpleName();
+		TerminalActionDefinition invokedActionDefinition = screenEntityUtils.sendScreenEntity(terminalSession, screenEntity, action);
+
+		ScreenEntity resultEntity = null;
+		if (invokedActionDefinition != null && invokedActionDefinition.getTargetEntity() != null){
+			resultEntity = (ScreenEntity) terminalSession.getEntity(invokedActionDefinition.getTargetEntity());
+		}
+		else{
+			resultEntity = terminalSession.getEntity();
 		}
 		
-		if (request.getParameter("partial") != null || (resultEntity != null && resultEntityName.equals(screenEntityName))) {
-			return returnPartialPage(screenEntityName, uiModel, partial, request);
-		} else {
-			if (resultEntity == null) {
-				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
-				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
-			}
-			return MvcConstants.REDIRECT + resultEntityName;
+		if (resultEntity == null) {
+			Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
+			return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 		}
-	}
-
-	private String returnPartialPage(String screenEntityName, Model uiModel, String partial, HttpServletRequest request)
-			throws MalformedURLException {
-		ScreenEntity resultEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
-		return prepareView(resultEntity, uiModel, true, request);
+		else{
+			boolean isPartial = request.getParameter("partial") != null;
+			return prepareView(resultEntity, uiModel, isPartial, request);
+		}
 	}
 
 	private String prepareView(ScreenEntity screenEntity, Model uiModel, boolean partial, HttpServletRequest request)
@@ -192,16 +189,22 @@ public class DefaultGenericController {
 
 		String viewsPath = sitePreference == SitePreference.MOBILE ? mobileViewsPath : webViewsPath;
 
+		// check if custom view exists, if not load generic view by characteristics 
 		if (servletContext.getResource(MessageFormat.format("{0}/{1}{2}", viewsPath, viewName, viewsSuffix)) == null) {
 			if (isComposite) {
+				// generic composite view (multi tabbed page)
 				viewName = MvcConstants.COMPOSITE;
 			} else if (entityDefinition.getType() == MenuEntity.class) {
+				// generic menu view
 				viewName = MvcConstants.ROOTMENU_VIEW;
 			} else if (partial) {
+				// generic inner page view (inner tab)
 				viewName = MvcConstants.GENERIC_VIEW;
 			} else if (entityDefinition.isWindow()) {
+				// generic window pop-pup view
 				viewName = MvcConstants.GENERIC_WINDOW;
 			} else {
+				// generic view
 				viewName = MvcConstants.GENERIC;
 			}
 		}

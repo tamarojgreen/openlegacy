@@ -21,6 +21,7 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.ProxyUtil;
@@ -122,17 +123,21 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 	 *            The screen entity to send
 	 * @param actionAlias
 	 *            An action alias which belongs to the screen entity
+	 *            
+	 * @return The invoked action definition
 	 */
-	public void sendScreenEntity(TerminalSession terminalSession, ScreenEntity screenEntity, String actionAlias) {
+	public TerminalActionDefinition sendScreenEntity(TerminalSession terminalSession, ScreenEntity screenEntity, String actionAlias) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
 		TerminalAction sessionAction = null;
+		TerminalActionDefinition invokedActionDefinition = null;
 		if (StringUtils.isEmpty(actionAlias)) {
 			sessionAction = TerminalActions.ENTER();
 		} else {
 			List<ActionDefinition> actions = entityDefinitions.getActions();
 			for (ActionDefinition actionDefinition : actions) {
 				if (actionDefinition.getAlias().equals(actionAlias)) {
+					invokedActionDefinition = (TerminalActionDefinition) actionDefinition;
 					sessionAction = (TerminalAction)actionDefinition.getAction();
 				}
 			}
@@ -142,6 +147,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		}
 		Assert.notNull(sessionAction, MessageFormat.format("Alias for session action {0} not found", actionAlias));
 		terminalSession.doAction(sessionAction, screenEntity);
+		return invokedActionDefinition;
 	}
 
 	public void setDefaultActionAliasToAction(Map<String, TerminalAction> actionAliasToAction) {

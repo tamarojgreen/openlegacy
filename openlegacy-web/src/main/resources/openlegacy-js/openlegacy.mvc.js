@@ -202,7 +202,8 @@ function doMobilePost(formName, areaName, actionName,fragments) {
 		data: domForm.toObject(formName),
 		headers: { "Accept": "text/html;type=ajax" }
 	}).then(function(data){
-		var container = domConstruct.create("div")
+		
+		var container = dom.byId("bodyContainer");
 		container.innerHTML = data;
 		try{
 			parser.parse(container);
