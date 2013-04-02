@@ -72,7 +72,7 @@
 								var breadCrumb = new Array();
 								breadCrumb[0] = 'root';
 								<c:forEach items="${breadCrumb}" var="pathItem" varStatus="status">
-										<c:if test="${!status.first}">
+										<c:if test="${!status.first and !pathItem.requiresParameters}">
 											breadCrumb[${status.index}] = '${pathItem.entityName}';
 										</c:if>
 								</c:forEach>

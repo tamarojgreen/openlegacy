@@ -30,4 +30,7 @@ public interface EntityDescriptor {
 	 * @return is the entity is the current entity in the session
 	 */
 	boolean isCurrent();
+
+	boolean isRequiresParameters();
+	
 }

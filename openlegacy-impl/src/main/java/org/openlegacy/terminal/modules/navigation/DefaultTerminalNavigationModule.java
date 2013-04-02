@@ -53,14 +53,15 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 
 		boolean first = true;
 		while (currentEntityDefinition != null) {
+			NavigationDefinition navigationDefinition = currentEntityDefinition.getNavigationDefinition();
+			boolean requiresParameters = navigationDefinition == null ? false : navigationDefinition.isRequiresParameters();
 			SimpleEntityDescriptor pathEntry = new SimpleEntityDescriptor(currentEntityDefinition.getEntityClass(),
-					currentEntityDefinition.getEntityName(), currentEntityDefinition.getDisplayName());
+					currentEntityDefinition.getEntityName(), currentEntityDefinition.getDisplayName(),requiresParameters);
 			pathEntry.setCurrent(first);
 			first = false;
 
 			pathEntries.add(pathEntry);
 
-			NavigationDefinition navigationDefinition = currentEntityDefinition.getNavigationDefinition();
 			currentEntityDefinition = navigationDefinition != null ? screenEntitiesRegistry.get(navigationDefinition.getAccessedFrom())
 					: null;
 

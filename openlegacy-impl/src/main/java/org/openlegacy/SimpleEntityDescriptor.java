@@ -21,10 +21,13 @@ public class SimpleEntityDescriptor implements EntityDescriptor, Serializable {
 	private String displayName;
 	private boolean current;
 
-	public SimpleEntityDescriptor(Class<?> entityClass, String entityName, String displayName) {
+	private boolean requiresParameters;
+
+	public SimpleEntityDescriptor(Class<?> entityClass, String entityName, String displayName, boolean requiresParameters) {
 		this.entityClass = entityClass;
 		this.entityName = entityName;
 		this.displayName = displayName;
+		this.requiresParameters = requiresParameters;
 	}
 
 	public Class<?> getEntityClass() {
@@ -45,5 +48,13 @@ public class SimpleEntityDescriptor implements EntityDescriptor, Serializable {
 
 	public void setCurrent(boolean current) {
 		this.current = current;
+	}
+
+	public boolean isRequiresParameters() {
+		return requiresParameters;
+	}
+	
+	public void setRequiresParameters(boolean requiresParameters) {
+		this.requiresParameters = requiresParameters;
 	}
 }
