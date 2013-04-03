@@ -26,6 +26,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
@@ -168,7 +169,8 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 	}
 
 	void checkAspectGenerate(IResource resource) {
-		if (resource instanceof IFile && resource.getName().endsWith(PluginConstants.JAVA_EXTENSION) && !isIgnoreFolder(resource)) {
+		String useAspect = EclipseDesignTimeExecuter.instance().getPreference(getProject(), PreferencesConstants.USE_AJ);
+		if (resource instanceof IFile && resource.getName().endsWith(PluginConstants.JAVA_EXTENSION) && !isIgnoreFolder(resource) && useAspect.equals("1")) {
 			EclipseDesignTimeExecuter.instance().generateAspect(resource);
 			try {
 				getProject().refreshLocal(IResource.DEPTH_INFINITE, null);

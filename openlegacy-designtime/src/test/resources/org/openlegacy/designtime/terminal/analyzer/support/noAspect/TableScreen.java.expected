@@ -1,0 +1,72 @@
+package com.test;
+
+import org.openlegacy.annotations.screen.*;
+import java.util.List;
+import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.modules.table.RecordSelectionEntity;  
+
+@ScreenEntity(screenType=RecordSelectionEntity.class)
+@ScreenIdentifiers(identifiers = { 
+				@Identifier(row = 1, column = 40, value = "Table Screen") 
+				})
+ public class TableScreen implements org.openlegacy.terminal.ScreenEntity {
+ 
+ private String focusField;
+
+	public String getFocusField(){
+    	return focusField;
+    }
+    public void setFocusField(String focusField){
+    	this.focusField = focusField;
+    }
+    
+    private List<TableScreenRecord> tableScreenRecords;
+    
+	public List<TableScreenRecord> getTableScreenRecords(){
+		return this.tableScreenRecords;
+	}
+
+
+	@ScreenTable(startRow = 5, endRow = 7)
+	@ScreenTableActions(actions = { 
+			@TableAction(actionValue = "1", displayName = "View", defaultAction = true), 
+			@TableAction(actionValue = "2", displayName = "Edit") 
+			})
+	public static class TableScreenRecord {
+		@ScreenColumn(startColumn = 4, endColumn = 5, editable=true, selectionField=true ,displayName = "Action")
+		private String action_;
+    
+	    public String getAction_(){
+		     return this.action_;
+	    }
+	   
+	    public void setAction_(String action_ ) {
+	    	this.action_ = action_;
+	    }
+	    
+		@ScreenColumn(startColumn = 11, endColumn = 19, key=true ,displayName = "Column A", sampleValue="Cell 1A")
+		private String columnA;
+    
+	    public String getColumnA(){
+		     return this.columnA;
+	    }
+	   
+		@ScreenColumn(startColumn = 21, endColumn = 29, mainDisplayField=true ,displayName = "Column B", sampleValue="Cell 1B")
+		private String columnB;
+    
+	    public String getColumnB(){
+		     return this.columnB;
+	    }
+	   
+		@ScreenColumn(startColumn = 31, endColumn = 39 ,displayName = "Column4", sampleValue="Cell 1C")
+		private String column4;
+    
+	    public String getColumn4(){
+		     return this.column4;
+	    }
+	   
+		
+		
+	}    
+ 
+}

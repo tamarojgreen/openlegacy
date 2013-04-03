@@ -135,6 +135,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	}
 
 	private void checkHasGetterAndSetter(List<BodyDeclaration> members) {
+		int numberOfGetters = 0;
+		int numberOfProperties = 0;
 		for (BodyDeclaration bodyDeclaration : members) {
 			if (bodyDeclaration instanceof MethodDeclaration) {
 				MethodDeclaration methodDeclaration = (MethodDeclaration)bodyDeclaration;
@@ -145,6 +147,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 					Field field = fields.get(propertyNameIfGetter);
 					if (field != null) {
 						field.setHasGetter(true);
+						numberOfGetters++;
 					}
 				}
 
@@ -168,7 +171,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 					}
 				}
 
+			} else {
+				if (bodyDeclaration instanceof FieldDeclaration) {
+					numberOfProperties++;
+				}
 			}
+		}
+		if (numberOfProperties == numberOfGetters) {
+			enabled = false;
 		}
 	}
 

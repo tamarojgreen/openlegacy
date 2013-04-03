@@ -65,7 +65,7 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 
 				monitor.worked(2);
 				EclipseDesignTimeExecuter.instance().generateModel(trailPath, getSourceFolder(), getPackageValue(),
-						GenerateModelDialog.this, terminalSnapshots);
+						GenerateModelDialog.this, isUseAj(), terminalSnapshots);
 
 				monitor.worked(fileSize - 4);
 				Display.getDefault().syncExec(new Runnable() {
@@ -105,6 +105,13 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 		if (prefrencePackage != null) {
 			getPackageText().setText(prefrencePackage);
 		}
+		String useAjStr = designtimeExecuter.getPreference(project, PreferencesConstants.USE_AJ);
+		if (useAjStr == null || useAjStr.equals("1")) {
+			this.setUseAj(true);
+		}
+		else {
+			this.setUseAj(false);
+		}
 	}
 
 	@Override
@@ -116,6 +123,7 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 
 		designtimeExecuter.savePreference(getProject(), PreferencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
 		designtimeExecuter.savePreference(getProject(), PreferencesConstants.API_PACKAGE, getPackageText().getText());
+		designtimeExecuter.savePreference(getProject(), PreferencesConstants.USE_AJ, isUseAj());
 	}
 
 	public boolean customizeEntity(final ScreenEntityDefinition screenEntityDefinition) {

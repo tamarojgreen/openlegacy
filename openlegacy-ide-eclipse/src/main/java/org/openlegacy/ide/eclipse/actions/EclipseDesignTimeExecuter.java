@@ -71,8 +71,8 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateModel(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction, TerminalSnapshot... terminalSnapshots)
-			throws GenerationException {
+			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction, boolean generateAspect,
+			TerminalSnapshot... terminalSnapshots) throws GenerationException {
 		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
 		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
 
@@ -83,6 +83,7 @@ public class EclipseDesignTimeExecuter {
 		generateScreenRequest.setTemplatesDirectory(templatesDirectory);
 		generateScreenRequest.setTrailFile(PathsUtil.toOsLocation(trailFile));
 		generateScreenRequest.setTerminalSnapshots(terminalSnapshots);
+		generateScreenRequest.setGenerateAspectJ(generateAspect);
 		generateScreenRequest.setEntityUserInteraction(entityUserInteraction);
 
 		designTimeExecuter.generateModel(generateScreenRequest);
@@ -172,6 +173,14 @@ public class EclipseDesignTimeExecuter {
 	public String getPreference(IProject project, String key) {
 		return designTimeExecuter.getPreferences(PathsUtil.toProjectOsLocation(project), key);
 
+	}
+
+	public void savePreference(IProject project, String key, Boolean value) {
+		if (value) {
+			designTimeExecuter.savePreference(PathsUtil.toProjectOsLocation(project), key, "1");
+		} else {
+			designTimeExecuter.savePreference(PathsUtil.toProjectOsLocation(project), key, "0");
+		}
 	}
 
 	public void savePreference(IProject project, String key, String value) {

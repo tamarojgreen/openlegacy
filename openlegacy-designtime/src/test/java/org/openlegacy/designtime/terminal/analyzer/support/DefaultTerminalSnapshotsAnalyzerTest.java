@@ -1,14 +1,29 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
-import freemarker.template.TemplateException;
+import japa.parser.JavaParser;
+import japa.parser.ParseException;
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.ClassOrInterfaceDeclaration;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
+import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
+import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -29,15 +44,14 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import junit.framework.Assert;
+import freemarker.template.TemplateException;
 
 @ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
+
+	@Inject
+	private ScreenPojosAjGenerator screenPojosAjGenerator;
 
 	@Test
 	public void testBasicAnalisys() {
@@ -298,4 +312,31 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		assertScreenContent(simpleScreenDefinition, "SimpleScreenValues.java.expected");
 	}
 
+
+	@Test
+	public void testNoAspectGeneration() throws TemplateException, IOException, ParseException {
+
+		List<String> tests = Arrays.asList("SimpleScreen", "TableScreen", "ToysInventory");
+		for (String test : tests) {
+			Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(test + ".xml");
+			ScreenEntityDesigntimeDefinition screenDefinition = (ScreenEntityDesigntimeDefinition)screenEntitiesDefinitions.get(test);
+			screenDefinition.setGenerateAspect(false);
+			String templateName = "noAspect/" + test + ".java.expected";
+			assertScreenContent(screenDefinition, templateName);
+
+			// part 2 check no aspect is required.
+			verifyNoAspect(templateName);
+		}
+	}
+
+	private void verifyNoAspect(String templateName) throws ParseException, IOException, TemplateException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		InputStream input = getClass().getResourceAsStream(templateName);
+
+		CompilationUnit compilationUnit = JavaParser.parse(input);
+		screenPojosAjGenerator.generateScreenEntity(compilationUnit,
+				(ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0), baos);
+		Assert.assertEquals(0, baos.toByteArray().length);
+	}
 }

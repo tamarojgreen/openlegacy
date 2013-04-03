@@ -58,6 +58,7 @@ public class Messages extends NLS {
 	public static String label_provider;
 	public static String label_source_folder;
 	public static String label_template;
+	public static String label_use_aj;
 	public static String message_customize_rules;
 	public static String message_customize_templates;
 	public static String message_new_trail_found;

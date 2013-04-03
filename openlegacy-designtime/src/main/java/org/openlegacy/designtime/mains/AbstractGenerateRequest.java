@@ -18,6 +18,7 @@ public abstract class AbstractGenerateRequest {
 	private String packageDirectory;
 	private File TemplatesDirectory;
 	private File projectPath;
+	private boolean generateAspectJ;
 
 	public File getSourceDirectory() {
 		return sourceDirectory;
@@ -49,6 +50,14 @@ public abstract class AbstractGenerateRequest {
 
 	public void setProjectPath(File projectPath) {
 		this.projectPath = projectPath;
+	}
+
+	public boolean isGenerateAspectJ() {
+		return generateAspectJ;
+	}
+
+	public void setGenerateAspectJ(boolean generateAspectJ) {
+		this.generateAspectJ = generateAspectJ;
 	}
 
 }

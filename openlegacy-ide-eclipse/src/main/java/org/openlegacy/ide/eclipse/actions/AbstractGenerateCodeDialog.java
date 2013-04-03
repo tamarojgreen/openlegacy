@@ -63,6 +63,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 	private Text packageText;
 	private String packageValue;
 	private IFile file;
+	private boolean useAj = true;
 
 	protected AbstractGenerateCodeDialog(Shell shell, IFile file) {
 		super(shell);
@@ -120,9 +121,29 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 		new Label(parent, SWT.NONE);
 
+		Button useAjButton = new Button(parent, SWT.CHECK);
+		useAjButton.setText(Messages.label_use_aj);
+
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		useAjButton.setLayoutData(gd);
+
+		useAjButton.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				setUseAj(true);
+
+			}
+
+			public void widgetSelected(SelectionEvent arg0) {
+
+				setUseAj(!isUseAj());
+				// TODO Auto-generated method stub
+
+			}
+		});
 		createDialogSpecific(parent);
 		loadPrefrences();
-
+		useAjButton.setSelection(isUseAj());
 		return parent;
 	}
 
@@ -285,4 +306,13 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 	public IProject getProject() {
 		return file.getProject();
 	}
+
+	public boolean isUseAj() {
+		return useAj;
+	}
+
+	public void setUseAj(boolean useAj) {
+		this.useAj = useAj;
+	}
+
 }

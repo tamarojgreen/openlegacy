@@ -58,4 +58,8 @@ public interface ScreenEntityDesigntimeDefinition extends ScreenEntityDefinition
 
 	void setAccessedFromScreenDefinition(ScreenEntityDefinition screenEntityDefinition);
 
+	boolean isGenerateAspect();
+
+	void setGenerateAspect(boolean generateAspect);
+
 }

@@ -130,6 +130,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		savePreference(targetPath, PreferencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
 		savePreference(targetPath, PreferencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
 		savePreference(targetPath, PreferencesConstants.DESIGNTIME_CONTEXT, "default");
+		savePreference(targetPath, PreferencesConstants.USE_AJ, "1");
 
 		templateFetcher.deleteZip();
 	}
@@ -349,7 +350,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateModelRequest.getPackageDirectory().replaceAll(
 					"/", "."));
-
+			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
 			if (entityUserInteraction != null) {
 				boolean generate = entityUserInteraction.customizeEntity(screenEntityDefinition);
 				if (!generate) {
@@ -361,6 +362,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				File packageDir = new File(generateModelRequest.getSourceDirectory(), generateModelRequest.getPackageDirectory());
 
 				String entityName = screenEntityDefinition.getEntityName();
+
 				File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
 				if (targetJavaFile.exists()) {
 					boolean override = entityUserInteraction != null && entityUserInteraction.isOverride(targetJavaFile);
