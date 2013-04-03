@@ -132,6 +132,7 @@ public class SnapshotComposite extends Composite {
 		if ((terminalSnapshot != null) && (!terminalSnapshot.equals(this.terminalSnapshotCopy))) {
 			this.terminalSnapshotCopy = terminalSnapshot;
 			this.generateDefaultImage();
+			this.clearCursorLabel();
 		}
 		if (terminalSnapshot != null) {
 			this.lastRectangleDrawAction = null;
@@ -179,6 +180,7 @@ public class SnapshotComposite extends Composite {
 		return new Listener() {
 
 			public void handleEvent(Event e) {
+				SnapshotComposite.this.setCursorPosition(e.x, e.y);
 				SnapshotComposite.this.displayCursorPosition();
 				SnapshotComposite.this.calcCursorRectangle();
 				SnapshotComposite.this.setSnapshot(null);
@@ -250,10 +252,36 @@ public class SnapshotComposite extends Composite {
 		};
 	}
 
+	private void setCursorPosition(int x, int y) {
+		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
+
+		int row = (int)(renderer.fromHeight(y) / scale) + 1; // screen start from 1
+		int col = (int)(renderer.fromWidth(x) / scale) - 1; // consider also the 2 chars from the number
+
+		if (col > 0 && col <= SnapshotComposite.this.maxColCount && row > 0 && row <= SnapshotComposite.this.maxRowCount) {
+			this.cursorRow = (row);
+			this.cursorCol = (col);
+		}
+	}
+
+	private void clearCursorLabel() {
+		this.cursorLabel.setText("");
+		this.cursorLabel.pack(true);
+	}
+
 	private void displayCursorPosition() {
 		if (this.cursorLabel != null) {
-			this.cursorLabel.setText(Messages.label_col_row + ": " + this.cursorRow + " " + Messages.label_col_column + ": "
-					+ this.cursorCol);
+
+			if (SnapshotComposite.this.terminalSnapshot == null
+					|| SnapshotComposite.this.terminalSnapshot.getSnapshotType() == TerminalSnapshot.SnapshotType.INCOMING) {
+				this.cursorLabel.setText(Messages.label_col_row + ": " + this.cursorRow + " " + Messages.label_col_column + ": "
+						+ this.cursorCol);
+			} else {
+
+				String tmp = SnapshotComposite.this.terminalSnapshot.getCommand();
+				this.cursorLabel.setText(Messages.label_col_row + ": " + this.cursorRow + " " + Messages.label_col_column + ": "
+						+ this.cursorCol + " " + Messages.label_command + ": " + tmp);
+			}
 			this.cursorLabel.pack(true);
 		}
 	}

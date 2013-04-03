@@ -254,4 +254,14 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 	public int getMaxImageRow() {
 		return this.imageHeight / this.heightProportion;
 	}
+
+	public double fromHeight(int row) {
+
+		return (double)row / heightProportion;
+	}
+
+	public double fromWidth(int col) {
+		return (double)col / widthProportion;
+	}
+
 }
