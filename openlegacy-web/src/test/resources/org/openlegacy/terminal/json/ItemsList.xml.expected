@@ -78,17 +78,20 @@
         </itemListRows>
     </screenEntity>
     <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:java="http://java.sun.com" current="false" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
+        xmlns:java="http://java.sun.com" requiresParameters="false"
+        current="false" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
         <displayName>Main Menu</displayName>
         <entityName>MainMenu</entityName>
     </paths>
     <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:java="http://java.sun.com" current="false" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
+        xmlns:java="http://java.sun.com" requiresParameters="false"
+        current="false" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
         <displayName>Inventory Management</displayName>
         <entityName>InventoryManagement</entityName>
     </paths>
     <paths xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:java="http://java.sun.com" current="true" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
+        xmlns:java="http://java.sun.com" requiresParameters="false"
+        current="true" xsi:type="java:org.openlegacy.SimpleEntityDescriptor">
         <displayName>Items List</displayName>
         <entityName>ItemsList</entityName>
     </paths>
