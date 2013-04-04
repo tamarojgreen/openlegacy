@@ -76,10 +76,10 @@ public class DefaultScreenRecordsProvider implements ScreenRecordsProvider, Appl
 		String key = names.get(0);
 		String keyValue = String.valueOf(screenPojoFieldAccessor.getFieldValue(key));
 
-		String mainDisplayField = tableDefinition.getMainDisplayField();
+		List<String> mainDisplayFields = tableDefinition.getMainDisplayFields();
 		String mainDisplayValue = record.toString();
-		if (mainDisplayField != null) {
-			mainDisplayValue = String.valueOf(screenPojoFieldAccessor.getFieldValue(mainDisplayField));
+		if (mainDisplayFields.size() > 0) {
+			mainDisplayValue = screenPojoFieldAccessor.getConcatFieldsValue(mainDisplayFields);
 		}
 		return new SimpleDisplayItem(keyValue, mainDisplayValue);
 	}

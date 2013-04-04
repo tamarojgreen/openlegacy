@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
+import java.util.List;
+
 import org.openlegacy.EntityFieldAccessor;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenPart;
@@ -28,5 +30,7 @@ public interface ScreenPojoFieldAccessor extends EntityFieldAccessor {
 	void setTerminalSnapshot(TerminalSnapshot terminalSnapshot);
 
 	Object evaluateFieldValue(String name);
+
+	String getConcatFieldsValue(List<String> mainDisplayFields);
 
 }

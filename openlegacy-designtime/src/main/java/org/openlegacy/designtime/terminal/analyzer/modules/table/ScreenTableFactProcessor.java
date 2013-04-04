@@ -108,9 +108,9 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 				columnDefinition.setKey(true);
 			}
 
-			if (tableDefinition.getKeyFieldNames().size() > 0 && tableDefinition.getMainDisplayField() == null) {
+			if (tableDefinition.getKeyFieldNames().size() > 0 && tableDefinition.getMainDisplayFields().size() == 0) {
 				// assume (in design-time) the 2nd column followed by key column in the main display column
-				tableDefinition.setMainDisplayField(columnDefinition.getName());
+				tableDefinition.getMainDisplayFields().add(columnDefinition.getName());
 			}
 
 			columnDefinitions.add(columnDefinition);
@@ -124,8 +124,8 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 		}
 
 		// set the last field as main display field if non was set - may happen if there only 2 columns - 1 action field
-		if (tableDefinition.getMainDisplayField() == null) {
-			tableDefinition.setMainDisplayField(columnDefinitions.get(columnDefinitions.size() - 1).getName());
+		if (tableDefinition.getMainDisplayFields().size() == 0) {
+			tableDefinition.getMainDisplayFields().add(columnDefinitions.get(columnDefinitions.size() - 1).getName());
 		}
 
 		tableDefinition.setStartRow(topLeftTableCell.getPosition().getRow());

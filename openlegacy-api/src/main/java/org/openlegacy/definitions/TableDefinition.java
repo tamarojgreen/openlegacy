@@ -35,7 +35,7 @@ public interface TableDefinition<C extends ColumnDefinition> {
 
 	List<String> getKeyFieldNames();
 
-	String getMainDisplayField();
+	List<String> getMainDisplayFields();
 
 	int getMaxRowsCount();
 

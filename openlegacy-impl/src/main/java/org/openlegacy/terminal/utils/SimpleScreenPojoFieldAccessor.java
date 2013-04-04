@@ -23,6 +23,7 @@ import org.springframework.beans.DirectFieldAccessor;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
@@ -39,6 +40,8 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	private static final String FOCUS_FIELD = "focusField";
 
 	private Map<String,DirectFieldAccessor> partAccessors;
+
+	private String concatSeperator = " - ";
 	
 	public SimpleScreenPojoFieldAccessor(Object target) {
 		target = ProxyUtil.getTargetObject(target);
@@ -171,5 +174,23 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 		if (directFieldAccessor.isWritableProperty(FOCUS_FIELD)) {
 			directFieldAccessor.setPropertyValue(FOCUS_FIELD, fieldName);
 		}
+	}
+
+	/**
+	 * Concatenate the given field values 
+	 */
+	public String getConcatFieldsValue(List<String> mainDisplayFields) {
+		StringBuilder result = new StringBuilder(); 
+		for (int i = 0; i < mainDisplayFields.size(); i++) {
+			result.append(getFieldValue(mainDisplayFields.get(i)));
+			if (i < mainDisplayFields.size() -1){
+				result.append(concatSeperator);
+			}
+		}
+		return result.toString();
+	}
+	
+	public void setConcatSeperator(String concatSeperator) {
+		this.concatSeperator = concatSeperator;
 	}
 }

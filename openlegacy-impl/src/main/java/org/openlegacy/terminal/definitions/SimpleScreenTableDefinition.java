@@ -51,7 +51,7 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 
 	private String tableEntityName;
 
-	private String mainDisplayField;
+	private List<String> mainDisplayFields = new ArrayList<String>();
 
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 
@@ -237,12 +237,8 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		return ScrollableTableUtil.getRowSelectionField(this);
 	}
 
-	public String getMainDisplayField() {
-		return mainDisplayField;
-	}
-
-	public void setMainDisplayField(String mainDisplayField) {
-		this.mainDisplayField = mainDisplayField;
+	public List<String> getMainDisplayFields() {
+		return mainDisplayFields;
 	}
 
 	public List<ActionDefinition> getActions() {

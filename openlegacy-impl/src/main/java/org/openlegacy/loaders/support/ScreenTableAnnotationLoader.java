@@ -113,11 +113,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				tableDefinition.getColumnDefinitions().add(columnDefinition);
 
 				if (screenColumnAnnotation.mainDisplayField()) {
-					if (tableDefinition.getMainDisplayField() != null) {
-						throw (new RegistryException(MessageFormat.format(
-								"More then one main display field defined for class:{0}", rowClass)));
-					}
-					tableDefinition.setMainDisplayField(field.getName());
+					tableDefinition.getMainDisplayFields().add(field.getName());
 				}
 
 			}

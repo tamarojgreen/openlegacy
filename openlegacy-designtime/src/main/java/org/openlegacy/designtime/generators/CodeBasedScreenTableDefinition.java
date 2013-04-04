@@ -156,7 +156,7 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 		return ScrollableTableUtil.getRowSelectionField(this);
 	}
 
-	public String getMainDisplayField() {
+	public List<String> getMainDisplayFields() {
 		throwNotImplemented();
 		return null;
 	}
