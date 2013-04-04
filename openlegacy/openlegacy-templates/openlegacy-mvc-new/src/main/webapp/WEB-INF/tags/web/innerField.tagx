@@ -53,9 +53,10 @@
 	</c:if>
 	<c:set var="helpText" value="${fieldDefinition.helpText}" />
 	<c:if test="${empty helpText}">
-		<c:set var="helpText" value="Enter ${fieldDefinition.displayName}" />
+	  	<spring:message code="tooltip_enter" var="tooltip_enter" htmlEscape="false" />
+		<c:set var="helpText" value="${tooltip_enter} ${fieldDefinition.displayName}" />
 	</c:if>
-
+	
 	<div class="${cssClass}">
 		<div class="field_row">
 			<c:if test="${not empty label}">
