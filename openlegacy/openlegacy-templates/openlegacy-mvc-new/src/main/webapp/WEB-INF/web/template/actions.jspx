@@ -2,17 +2,18 @@
 	xmlns:ol="http://www.openlegacy.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
-	version="2.0">
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	<div class="actions">
 		<ul>
 			<li>
+			  	<spring:message code="label_submit" var="label_submit" htmlEscape="false" />
 				<a href="javascript:doPost('${definitions.entityName}');">
 					<img src="${pageContext.request.contextPath}/icons/submit.png" width="15" height="14"
 						alt="Submit" />
-					Submit
+					${label_submit}
 				</a>
 			</li>
 			<c:forEach items="${definitions.actions}" var="action">
@@ -30,9 +31,10 @@
 			</c:forEach>
 			<c:if test="${fn:length(definitions.tableDefinitions) > 0}">
 				<li class="right">
+				  	<spring:message code="label_excel" var="label_excel" htmlEscape="false" />
 					<a href="${definitions.entityName}/excel">
 						<img src="${pageContext.request.contextPath}/icons/excel.png" class="excel" />
-						Excel
+						${label_excel}
 					</a>
 				</li>
 			</c:if>
