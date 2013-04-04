@@ -25,3 +25,8 @@
 .panel .content .field_row .label {
 	font-weight: bold;
 }
+
+.breadcrumbs ul li a {
+	background-image: url();
+	background-position: left center;
+}
