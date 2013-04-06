@@ -68,6 +68,7 @@
 					"dojox/mobile/ComboBox",
 					"dojox/mobile/Opener",
 					"dojox/mobile/SimpleDialog",
+					"dojox/mobile/_ContentPaneMixin",
 					"dijit/Calendar",
 					"dojo/has!webkit?:dojox/mobile/compat",
 					"dojo/store/Memory",

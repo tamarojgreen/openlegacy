@@ -12,6 +12,13 @@
 	Copyright &#169; 2012 OpenLegacy. All rights reserved. <br />Powered
 	by OpenLegacy &#174; ${openLegacyProperties.version}
 	</c:if>
+	
+	<a href="javascript:showMobileSessionViewer();">View Session</a>
+	<div id="sessionViewer" style="position: absolute;top: 10px;left: 10px;"
+     data-dojo-type="dojox.mobile.SimpleDialog"
+     data-dojo-props="closeButton:true"
+     data-dojo-mixins="dojox.mobile._ContentPaneMixin"><!--  --></div>
+     
 	</div>
 	<div>
 		<div id="calPicker" data-dojo-type="dojox.mobile.Opener" data-dojo-props="onHide:getDateFromCalendar, onShow:setDateToCelendar">

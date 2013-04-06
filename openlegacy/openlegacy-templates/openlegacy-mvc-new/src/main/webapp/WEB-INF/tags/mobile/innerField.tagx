@@ -50,7 +50,7 @@
 	</c:if>
 	<div class="field-row">
 		<c:if test="${not empty label}">
-			<span class="label">${label}: </span>
+			<span class="label">${label}<c:if test="${fn:length(label) &gt; 1}">:</c:if></span>
 		</c:if>
 		<c:choose>
 			<c:when test="${editable}">
@@ -173,5 +173,6 @@
 				<ol:span cssClass="readonlyField ${cssClass}" path="${name}" cssStyle="${style}" />
 			</c:otherwise>
 		</c:choose>
+		<jsp:doBody />
 	</div>
 </jsp:root>

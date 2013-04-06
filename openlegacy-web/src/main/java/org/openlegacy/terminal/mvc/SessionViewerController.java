@@ -40,7 +40,11 @@ public class SessionViewerController {
 	@RequestMapping(method = RequestMethod.GET)
 	public @ResponseBody
 	String viewer(HttpServletRequest request) throws IOException {
-		return MessageFormat.format("<html><body><img src=\"{0}/sessionViewer/image\"/></body></html>", request.getContextPath());
+		String style = "";
+		if (request.getParameter("small") != null){
+			style="style=\"width:300px;height;200px\";";
+		}
+		return MessageFormat.format("<html><body><img src=\"{0}/sessionViewer/image\"/ {1}></body></html>", request.getContextPath(),style);
 	}
 
 	@RequestMapping(value = "/image", method = RequestMethod.GET)
