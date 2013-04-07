@@ -29,9 +29,9 @@ public class MockTerminalSessionTest extends AbstractTest {
 		ItemDetails1 itemDetails1 = terminalSession.getEntity(ItemDetails1.class, 2000);
 		Assert.assertNotNull(itemDetails1);
 
-		Assert.assertEquals("SG",itemDetails1.getStockGroup());
-		Assert.assertEquals("Generic stock group",itemDetails1.getStockGroupDescription());
-		
+		Assert.assertEquals("SG", itemDetails1.getStockGroup());
+		Assert.assertEquals("Generic stock group", itemDetails1.getStockGroupDescription());
+
 		itemDetails1.setItemDescription("test");
 		ItemDetails2 itemDetails2 = terminalSession.doAction(TerminalActions.ENTER(), itemDetails1, ItemDetails2.class);
 
