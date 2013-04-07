@@ -3,18 +3,28 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
+import apps.inventory.screens.ItemDetails1.OuterUnitOfMeasure;
+
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
-    
+
     declare parents: ItemDetails1 implements ScreenEntity;
     private String ItemDetails1.focusField;
+    private String ItemDetails1.stockGroupDescription;
     
 	
+
 	
+
 	
+
 	
+
+	
+
+	
+
     
 
     public String ItemDetails1.getItemDescription(){
@@ -25,15 +35,31 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     	this.itemDescription = itemDescription;
     }
 
+
+
     public ItemDetails2 ItemDetails1.getItemDetails2(){
     	return this.itemDetails2;
     }
     
 
+
+
     public Integer ItemDetails1.getItemNumber(){
     	return this.itemNumber;
     }
     
+
+
+
+    public OuterUnitOfMeasure ItemDetails1.getOuterUnitOfMeasure(){
+    	return this.outerUnitOfMeasure;
+    }
+    
+    public void ItemDetails1.setOuterUnitOfMeasure(OuterUnitOfMeasure outerUnitOfMeasure){
+    	this.outerUnitOfMeasure = outerUnitOfMeasure;
+    }
+
+
 
     public Boolean ItemDetails1.getPalletLabelRequired(){
     	return this.palletLabelRequired;
@@ -42,6 +68,22 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     public void ItemDetails1.setPalletLabelRequired(Boolean palletLabelRequired){
     	this.palletLabelRequired = palletLabelRequired;
     }
+
+
+
+    public String ItemDetails1.getStockGroup(){
+    	return this.stockGroup;
+    }
+
+    
+    public void ItemDetails1.setStockGroup(String stockGroup){
+    	this.stockGroup = stockGroup;
+    }
+
+    public String ItemDetails1.getStockGroupDescription(){
+    	return this.stockGroupDescription;
+    }
+
 
 
     public String ItemDetails1.getFocusField(){

@@ -51,6 +51,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	// @author Ivan Bort, refs assembla #112
 	private String fieldTypeName;
 
+	private ScreenFieldDefinition descriptionFieldDefinition;
+
 	public SimpleScreenFieldDefinition() {
 		super();
 	}
@@ -218,5 +220,14 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setFieldTypeName(String fieldTypeName) {
 		this.fieldTypeName = fieldTypeName;
+	}
+
+	public ScreenFieldDefinition getDescriptionFieldDefinition() {
+		return descriptionFieldDefinition;
+	}
+	
+	public void setDescriptionFieldDefinition(
+			ScreenFieldDefinition descriptionFieldDefinition) {
+		this.descriptionFieldDefinition = descriptionFieldDefinition;
 	}
 }

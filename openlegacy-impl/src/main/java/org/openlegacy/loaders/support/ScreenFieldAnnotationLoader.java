@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.loaders.support;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.text.MessageFormat;
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
@@ -27,22 +32,16 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
-import org.openlegacy.terminal.support.binders.ScreenBinderLogic;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.text.MessageFormat;
-import java.util.Date;
-
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
-	private final static Log logger = LogFactory.getLog(ScreenBinderLogic.class);
+	private final static Log logger = LogFactory.getLog(ScreenFieldAnnotationLoader.class);
 
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenField.class;

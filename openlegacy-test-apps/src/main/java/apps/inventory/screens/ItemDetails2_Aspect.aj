@@ -3,17 +3,20 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
-    
+
     declare parents: ItemDetails2 implements ScreenEntity;
     private String ItemDetails2.focusField;
     
 	
+
 	
+
 	
+
     
 
     public AuditDetails ItemDetails2.getAuditDetails(){
@@ -21,15 +24,21 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     }
     
 
+
+
     public String ItemDetails2.getItemNumber(){
     	return this.itemNumber;
     }
     
 
+
+
     public StockInfo ItemDetails2.getStockInfo(){
     	return this.stockInfo;
     }
     
+
+
 
 
     public String ItemDetails2.getFocusField(){

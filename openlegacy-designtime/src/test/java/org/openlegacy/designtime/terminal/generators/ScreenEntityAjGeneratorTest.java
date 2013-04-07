@@ -6,7 +6,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -54,6 +53,11 @@ public class ScreenEntityAjGeneratorTest {
 
 	@Test
 	public void testHasValues() throws Exception {
+		testGenerate();
+	}
+
+	@Test
+	public void testDescriptionField() throws Exception {
 		testGenerate();
 	}
 

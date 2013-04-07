@@ -9,7 +9,7 @@ import org.openlegacy.modules.messages.Messages.MessageField;
 
 @ScreenEntity(screenType = Messages.MessagesEntity.class)
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 28, value = "Display Program Messages") })
-public class DisplayProgramMessages implements org.openlegacy.terminal.ScreenEntity {
+public class DisplayProgramMessages {
 
 	@ScreenField(row = 3, column = 2, endRow = 4, endColumn = 77, rectangle = true, fieldType = MessageField.class)
 	private String message;
@@ -18,9 +18,4 @@ public class DisplayProgramMessages implements org.openlegacy.terminal.ScreenEnt
 		return message;
 	}
 
-	public String getFocusField() {
-		return null;
-	}
-
-	public void setFocusField(String focusField) {}
 }

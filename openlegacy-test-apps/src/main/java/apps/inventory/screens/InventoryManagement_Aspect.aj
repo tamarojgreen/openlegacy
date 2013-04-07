@@ -3,15 +3,16 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect InventoryManagement_Aspect {
-    
+
     declare parents: InventoryManagement implements ScreenEntity;
     private String InventoryManagement.focusField;
     
 	
+
     
 
     public String InventoryManagement.getSelection(){
@@ -21,6 +22,8 @@ privileged @SuppressWarnings("unused") aspect InventoryManagement_Aspect {
     public void InventoryManagement.setSelection(String selection){
     	this.selection = selection;
     }
+
+
 
 
     public String InventoryManagement.getFocusField(){

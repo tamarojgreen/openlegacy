@@ -13,6 +13,7 @@
 	 				<ol:field name="itemDescription" />
 				</ol:row>
 			</ol:pagePart>
+			<ol:field name="stockGroup" top="58%" left="23%" width="30%" />
 			<ol:field name="outerUnitOfMeasure" top="70%" left="11%" width="42%" />
 			<ol:field name="palletLabelRequired" top="79%" left="11%" width="42%" />
 		

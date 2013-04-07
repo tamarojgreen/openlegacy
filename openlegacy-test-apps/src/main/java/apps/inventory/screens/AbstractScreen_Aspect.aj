@@ -3,20 +3,17 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.springframework.stereotype.Component;
-import org.springframework.context.annotation.Scope;
 
 privileged @SuppressWarnings("unused") aspect AbstractScreen_Aspect {
-    
-    
 
     
 	
     private TerminalField AbstractScreen.errorField;
+
     
 
     public String AbstractScreen.getError(){
@@ -24,9 +21,8 @@ privileged @SuppressWarnings("unused") aspect AbstractScreen_Aspect {
     }
     
 
-    public TerminalField AbstractScreen.getErrorField(){
-    	return errorField;
-    }
+
+
 
     
 }

@@ -105,4 +105,6 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	 * @return
 	 */
 	String getFieldTypeName();
+	
+	ScreenFieldDefinition getDescriptionFieldDefinition();
 }

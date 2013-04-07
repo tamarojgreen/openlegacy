@@ -124,6 +124,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 									AnnotationConstants.SCREEN_DATE_FIELD_ANNOTATION)) {
 								ScreenAnnotationsParserUtils.loadDateField(annotationExpr, field);
 							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									AnnotationConstants.SCREEN_DESCRIPTION_FIELD_ANNOTATION)) {
+								field.setHasDescription(true);
+							}
 						}
 					}
 					fields.put(fieldName, field);
@@ -400,6 +404,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean password;
 		private String sampleValue;
 		private int rowsOffset;
+		private boolean hasDescription;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -590,6 +595,15 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public void setRowsOffset(int rowsOffset) {
 			this.rowsOffset = rowsOffset;
 		}
+
+		public boolean isHasDescription() {
+			return hasDescription;
+		}
+
+		public void setHasDescription(boolean hasDescription) {
+			this.hasDescription = hasDescription;
+		}
+
 	}
 
 	public static class Action {

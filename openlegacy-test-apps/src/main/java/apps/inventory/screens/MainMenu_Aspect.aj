@@ -3,7 +3,7 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
@@ -12,7 +12,9 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
     private String MainMenu.focusField;
     
 	
+
 	
+
     
 
     public Integer MainMenu.getCompany(){
@@ -23,6 +25,8 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
     	this.company = company;
     }
 
+
+
     public Integer MainMenu.getSelection(){
     	return this.selection;
     }
@@ -30,6 +34,8 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
     public void MainMenu.setSelection(Integer selection){
     	this.selection = selection;
     }
+
+
 
 
     public String MainMenu.getFocusField(){

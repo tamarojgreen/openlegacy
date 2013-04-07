@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import apps.inventory.screens.WarehouseTypes.WarehouseTypeRow;
 
-privileged @SuppressWarnings("unused") aspect WarehouseTypeRowTable_Aspect {
+privileged @SuppressWarnings("unused") aspect WarehouseTypeRow_Aspect {
     
     public String WarehouseTypeRow.getAction(){
     	return this.action;

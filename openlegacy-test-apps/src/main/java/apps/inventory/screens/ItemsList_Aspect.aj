@@ -3,17 +3,20 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
-privileged aspect ItemsList_Aspect {
-    
+privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
+
     declare parents: ItemsList implements ScreenEntity;
     private String ItemsList.focusField;
     
 	
+
 	
+
 	
+
     
 
     public String ItemsList.getErrorMessage(){
@@ -21,10 +24,14 @@ privileged aspect ItemsList_Aspect {
     }
     
 
+
+
     public List<ItemsListRow> ItemsList.getItemListRows(){
     	return this.itemListRows;
     }
     
+
+
 
     public String ItemsList.getPositionTo(){
     	return this.positionTo;
@@ -33,6 +40,8 @@ privileged aspect ItemsList_Aspect {
     public void ItemsList.setPositionTo(String positionTo){
     	this.positionTo = positionTo;
     }
+
+
 
 
     public String ItemsList.getFocusField(){

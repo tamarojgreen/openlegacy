@@ -3,20 +3,19 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
-    
+
     declare parents: WarehouseDetails implements ScreenEntity;
     private String WarehouseDetails.focusField;
     
+	
+
+	
+
     private Map<Object,Object> WarehouseDetails.warehouseTypeValues;
-    
-	
-	
     
 
     public Integer WarehouseDetails.getWarehouseNumber(){
@@ -24,17 +23,20 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     }
     
 
+
+
     public String WarehouseDetails.getWarehouseType(){
     	return this.warehouseType;
-    }
-
-    public Map<Object,Object> WarehouseDetails.getWarehouseTypeValues(){
-    	return this.warehouseTypeValues;
     }
     
     public void WarehouseDetails.setWarehouseType(String warehouseType){
     	this.warehouseType = warehouseType;
     }
+
+    public Map<Object,Object> WarehouseDetails.getWarehouseTypeValues(){
+    	return warehouseTypeValues;
+    }
+
 
 
     public String WarehouseDetails.getFocusField(){

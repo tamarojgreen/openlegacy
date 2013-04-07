@@ -3,13 +3,12 @@
 
 package apps.inventory.screens;
 
+import java.util.*;
 import org.openlegacy.terminal.TerminalField;
 import apps.inventory.screens.ItemDetails2.AuditDetails;
 
-privileged aspect AuditDetailsTable_Aspect {
-    
+privileged @SuppressWarnings("unused") aspect AuditDetailsPart_Aspect {
     private TerminalField AuditDetails.createdByField;
-	
     private TerminalField AuditDetails.createdDateField;
     
     public String AuditDetails.getCreatedBy(){

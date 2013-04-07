@@ -15,6 +15,7 @@ import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenBooleanField;
 import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenDateField;
+import org.openlegacy.annotations.screen.ScreenDescriptionField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenEntitySuperClass;
 import org.openlegacy.annotations.screen.ScreenField;
@@ -39,6 +40,7 @@ public class AnnotationConstants {
 	public static final String SCREEN_FIELD_VALUES_ANNOTATION = ScreenFieldValues.class.getSimpleName();
 	public static final String SCREEN_BOOLEAN_FIELD_ANNOTATION = ScreenBooleanField.class.getSimpleName();
 	public static final String SCREEN_DATE_FIELD_ANNOTATION = ScreenDateField.class.getSimpleName();
+	public static final String SCREEN_DESCRIPTION_FIELD_ANNOTATION = ScreenDescriptionField.class.getSimpleName();
 	public static final String SCREEN_TABLE_ACTIONS_ANNOTATION = ScreenTableActions.class.getSimpleName();
 	public static final String SCREEN_NAVIGATION_ANNOTATION = ScreenNavigation.class.getSimpleName();
 	public static final String SCREEN_IDENTIFIERS_ANNOTATION = ScreenIdentifiers.class.getSimpleName();

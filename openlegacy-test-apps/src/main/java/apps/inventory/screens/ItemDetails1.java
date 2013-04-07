@@ -4,6 +4,7 @@ import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenBooleanField;
+import org.openlegacy.annotations.screen.ScreenDescriptionField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
@@ -24,10 +25,15 @@ public class ItemDetails1 {
 	@ScreenField(row = 7, column = 33, endColumn = 40, editable = true)
 	private String itemDescription;
 
+	@ScreenDescriptionField(column = 37)
+	@ScreenField(row = 15, column = 33, editable = true, sampleValue = "SG")
+	private String stockGroup;
+	
 	@ScreenBooleanField(trueValue = "Y", falseValue = "N")
 	@ScreenField(row = 20, column = 33, editable = true)
 	private Boolean palletLabelRequired;
 
+	
 	@ScreenField(row = 18, column = 33, editable = true)
 	private OuterUnitOfMeasure outerUnitOfMeasure;
 

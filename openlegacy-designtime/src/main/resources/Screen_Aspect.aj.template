@@ -29,6 +29,9 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 		<#if field.hasValues>
     private Map<Object,Object> ${className}.${field.name}Values;
 		</#if>
+		<#if field.hasDescription>
+    private String ${className}.${field.name}Description;
+		</#if>
 	</#list>	
     
 	<#if supportTerminalData  && !superClass>
@@ -53,6 +56,11 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 		<#if field.hasValues>
     public Map<Object,Object> ${className}.get${field.name?cap_first}Values(){
     	return ${field.name}Values;
+    }
+		</#if>
+		<#if field.hasDescription>
+    public String  ${className}.get${field.name?cap_first}Description(){
+    	return this.${field.name}Description;
     }
 		</#if>
 

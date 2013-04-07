@@ -46,6 +46,8 @@ public class ScreenBinderLogic implements Serializable {
 	@Inject
 	private FieldComparator fieldComparator;
 
+	private String descriptionFieldSuffix = "Description";
+
 	private final static Log logger = LogFactory.getLog(ScreenBinderLogic.class);
 
 	public void populatedFields(ScreenPojoFieldAccessor fieldAccessor, TerminalSnapshot terminalSnapshot,
@@ -69,14 +71,24 @@ public class ScreenBinderLogic implements Serializable {
 					String content = fieldFormatter.format(text);
 					fieldAccessor.setFieldValue(fieldName, content);
 				}
-
 				fieldAccessor.setTerminalField(fieldName, terminalField);
+				handleDescriptionField(fieldAccessor, terminalSnapshot, fieldMappingDefinition, fieldName);
 			}
 			TerminalPosition cursorPosition = terminalSnapshot.getCursorPosition();
 			if (cursorPosition != null && cursorPosition.equals(position)) {
 				fieldAccessor.setFocusField(fieldMappingDefinition.getName());
 			}
 
+		}
+	}
+
+	private void handleDescriptionField(ScreenPojoFieldAccessor fieldAccessor, TerminalSnapshot terminalSnapshot,
+			ScreenFieldDefinition fieldMappingDefinition, String fieldName) {
+		ScreenFieldDefinition descriptionFieldDefinition = fieldMappingDefinition.getDescriptionFieldDefinition();
+		if (descriptionFieldDefinition != null) {
+			String descriptionText = getText(descriptionFieldDefinition, terminalSnapshot);
+			String content = fieldFormatter.format(descriptionText);
+			fieldAccessor.setFieldValue(fieldName + descriptionFieldSuffix, content);
 		}
 	}
 
@@ -218,11 +230,10 @@ public class ScreenBinderLogic implements Serializable {
 				if (endRow != startRow) {
 					if (fieldMappingDefinition.isRectangle()) {
 						int delta = endColumn - startColumn;
-						if (leftoverValue.length() >= delta){
+						if (leftoverValue.length() >= delta) {
 							value = leftoverValue.substring(0, delta);
 							leftoverValue = leftoverValue.substring(delta);
-						}
-						else{
+						} else {
 							value = leftoverValue;
 							leftoverValue = "";
 						}
@@ -305,4 +316,7 @@ public class ScreenBinderLogic implements Serializable {
 		return true;
 	}
 
+	public void setDescriptionFieldSuffix(String descriptionFieldSuffix) {
+		this.descriptionFieldSuffix = descriptionFieldSuffix;
+	}
 }

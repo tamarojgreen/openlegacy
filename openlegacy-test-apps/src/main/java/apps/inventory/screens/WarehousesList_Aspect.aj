@@ -3,21 +3,24 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
-privileged aspect WarehousesList_Aspect {
-    
+privileged @SuppressWarnings("unused") aspect WarehousesList_Aspect {
+
     declare parents: WarehousesList implements ScreenEntity;
     private String WarehousesList.focusField;
     
 	
+
     
 
     public List<WarehousesListRow> WarehousesList.getWarehousesListRows(){
     	return this.warehousesListRows;
     }
     
+
+
 
 
     public String WarehousesList.getFocusField(){

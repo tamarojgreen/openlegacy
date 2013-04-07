@@ -6,10 +6,9 @@ package apps.inventory.screens;
 import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.openlegacy.terminal.TerminalField;
 import apps.inventory.screens.ItemsList.ItemsListRow;
 
-privileged @SuppressWarnings("unused") aspect ItemsListRowTable_Aspect {
+privileged @SuppressWarnings("unused") aspect ItemsListRow_Aspect {
     
     public String ItemsListRow.getAction(){
     	return this.action;

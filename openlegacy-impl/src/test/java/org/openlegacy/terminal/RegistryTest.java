@@ -46,6 +46,16 @@ public class RegistryTest {
 	}
 
 	@Test
+	public void testDescriptionField() {
+		ScreenEntityDefinition screenDefinition = assertScreenExists(ItemDetails1.class);
+		ScreenFieldDefinition fieldDefinition = screenDefinition.getFieldsDefinitions().get("stockGroup");
+		Assert.assertNotNull(fieldDefinition);
+		ScreenFieldDefinition descriptionFieldDefinition = fieldDefinition.getDescriptionFieldDefinition();
+		Assert.assertNotNull(descriptionFieldDefinition);
+		Assert.assertEquals(15, descriptionFieldDefinition.getPosition().getRow());
+	}
+
+	@Test
 	public void testScreenPart() {
 		ScreenEntityDefinition screenDefinition = assertScreenExists(ItemDetails2.class);
 		Assert.assertEquals(2, screenDefinition.getPartsDefinitions().size());
