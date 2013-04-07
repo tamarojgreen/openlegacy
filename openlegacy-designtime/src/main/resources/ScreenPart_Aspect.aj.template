@@ -14,6 +14,9 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}Part_Aspect {
 	<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
     private TerminalField ${className}.${field.name}Field;
 	</#if>
+	<#if field.hasDescription>
+    private String ${className}.${field.name}Description;
+	</#if>
 	</#list>	
     
 	<#list fields as field>
@@ -34,5 +37,11 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}Part_Aspect {
     	return ${field.name}Field;
     }
 		</#if>
+		<#if field.hasDescription>
+    public String ${className}.get${field.name?cap_first}Description(){
+    	return this.${field.name}Description;
+    }
+		</#if>
+		
 	</#list>	
 }

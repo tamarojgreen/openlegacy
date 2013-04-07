@@ -87,8 +87,8 @@
     </row>
     <row rowNumber="18">
         <field column="2" value="Standard unit cost  . . ."/>
-        <field column="29" length="13" editable="true" type="java.lang.Integer"/>
-        <field column="43" value="             "/>
+        <field column="29" length="13" value="01" editable="true" type="java.lang.Integer"/>
+        <field column="43" value="Dollar"/>
         <field column="57" value="Audit Details"/>
         <field column="71" value="          "/>
     </row>

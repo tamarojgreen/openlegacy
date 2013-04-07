@@ -1,6 +1,7 @@
 package apps.inventory.screens;
 
 import org.openlegacy.annotations.screen.Identifier;
+import org.openlegacy.annotations.screen.ScreenDescriptionField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
@@ -38,6 +39,7 @@ public class ItemDetails2 {
 		@ScreenField(row = 17, column = 29, editable = true)
 		private String listPrice;
 
+		@ScreenDescriptionField(column = 43)
 		@ScreenField(row = 18, column = 29, editable = true)
 		private String standardUnitCost;
 

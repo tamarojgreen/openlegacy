@@ -75,6 +75,19 @@ public class ScreenEntityAjGeneratorTest {
 	}
 
 	@Test
+	public void testPart() throws Exception {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream("testPart.java.resource"));
+
+		ClassOrInterfaceDeclaration mainType = getMainType(compilationUnit);
+		List<BodyDeclaration> members = mainType.getMembers();
+		BodyDeclaration lastMember = members.get(members.size() - 1);
+		screenPojosAjGenerator.generateScreenPart(compilationUnit, (ClassOrInterfaceDeclaration)lastMember, baos, "PartScreen");
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("testPart_Aspect.aj.expected"));
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
+	}
+
+	@Test
 	public void testNotScreenEntity() throws Exception {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

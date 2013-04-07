@@ -35,8 +35,10 @@ public class MockTerminalSessionTest extends AbstractTest {
 		itemDetails1.setItemDescription("test");
 		ItemDetails2 itemDetails2 = terminalSession.doAction(TerminalActions.ENTER(), itemDetails1, ItemDetails2.class);
 
+		Assert.assertEquals("01", itemDetails2.getStockInfo().getStandardUnitCost());
+		Assert.assertEquals("Dollar", itemDetails2.getStockInfo().getStandardUnitCostDescription());
+
 		itemDetails1 = terminalSession.doAction(TerminalActions.ENTER(), itemDetails2, ItemDetails1.class);
 
 	}
-
 }
