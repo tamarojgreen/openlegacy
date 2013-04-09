@@ -65,7 +65,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 		Screen5250 screen = session.getScreen();
 		TerminalPosition cursorPosition = terminalSendAction.getCursorPosition();
 		if (cursorPosition != null) {
-			screen.setCursor(cursorPosition.getColumn(), cursorPosition.getRow());
+			screen.setCursor(cursorPosition.getRow(), cursorPosition.getColumn());
 		}
 
 		waitForKeyboardUnlock((String)terminalSendAction.getCommand());
@@ -126,7 +126,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 	}
 
 	public void onScreenChanged(int inUpdate, int startRow, int startCol, int endRow, int endCol) {
-		if (inUpdate == 1){
+		if (inUpdate == 1) {
 			sequence++;
 		}
 	}

@@ -14,6 +14,7 @@
 	    		<prop key="SESSION_HOST">${host.name}</prop>
 	    		<prop key="SESSION_HOST_PORT">${host.port}</prop>
 	    		<prop key="SESSION_CODE_PAGE">${host.codePage}</prop>
+	    		<prop key="SESSION_TN_ENHANCED">true</prop>
 			</props>
 	    </property>
     </bean>
