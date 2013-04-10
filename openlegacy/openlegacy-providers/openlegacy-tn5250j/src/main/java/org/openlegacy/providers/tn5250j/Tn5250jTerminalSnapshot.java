@@ -190,7 +190,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 			if (ch == 0) {
 				ch = ' ';
 			}
-			if (i > 0 && i % getSize().getColumns() == 0) {
+			if (i > startPosition && i % getSize().getColumns() == 0) {
 				sb.append('\n');
 			} else {
 				sb.append(ch);
