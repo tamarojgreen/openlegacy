@@ -385,14 +385,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			File packageDir = new File(generateModelRequest.getSourceDirectory(), generateModelRequest.getPackageDirectory());
 			String entityName = screenEntityDefinition.getEntityName();
 			File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
+
+			boolean generate = true;
 			if (targetJavaFile.exists()) {
 				boolean override = entityUserInteraction != null && entityUserInteraction.isOverride(targetJavaFile);
 				if (!override) {
-					return false;
+					generate = false;
 				}
 			}
-			generateJava(screenEntityDefinition, targetJavaFile);
-			generateAspect(targetJavaFile);
+			if (generate) {
+				generateJava(screenEntityDefinition, targetJavaFile);
+				generateAspect(targetJavaFile);
+			}
 
 			File screenResourcesDir = new File(packageDir, entityName + "-resources");
 			screenResourcesDir.mkdir();
@@ -498,8 +502,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		try {
 			renderedScreenResourceFile = new File(screenResourcesDir, MessageFormat.format("{0}.{1}", entityName,
 					renderer.getFileFormat()));
-			fos = new FileOutputStream(renderedScreenResourceFile);
-			renderer.render(terminalSnapshot, fos);
+			if (!renderedScreenResourceFile.exists()) {
+				fos = new FileOutputStream(renderedScreenResourceFile);
+				renderer.render(terminalSnapshot, fos);
+			}
 		} catch (FileNotFoundException e) {
 			throw (new GenerationException(e));
 		} finally {
