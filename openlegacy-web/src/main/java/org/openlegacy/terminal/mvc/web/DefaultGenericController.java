@@ -10,18 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.web;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import flexjson.JSONSerializer;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -62,7 +51,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import flexjson.JSONSerializer;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * OpenLegacy default web controller for a terminal session. Handles GET/POST requests of a web application. Works closely with
@@ -106,7 +106,7 @@ public class DefaultGenericController {
 
 	@Inject
 	private TableWriter tableWriter;
-	
+
 	@Inject
 	private OpenLegacyWebProperties openlegacyWebProperties;
 
@@ -154,23 +154,27 @@ public class DefaultGenericController {
 		registerPropertyEditors(binder);
 		binder.bind(request);
 
-		TerminalActionDefinition invokedActionDefinition = screenEntityUtils.sendScreenEntity(terminalSession, screenEntity, action);
+		TerminalActionDefinition invokedActionDefinition = screenEntityUtils.sendScreenEntity(terminalSession, screenEntity,
+				action);
 
 		ScreenEntity resultEntity = null;
-		if (invokedActionDefinition != null && invokedActionDefinition.getTargetEntity() != null){
-			resultEntity = (ScreenEntity) terminalSession.getEntity(invokedActionDefinition.getTargetEntity());
-		}
-		else{
+		if (invokedActionDefinition != null && invokedActionDefinition.getTargetEntity() != null) {
+			resultEntity = (ScreenEntity)terminalSession.getEntity(invokedActionDefinition.getTargetEntity());
+		} else {
 			resultEntity = terminalSession.getEntity();
 		}
-		
+
 		if (resultEntity == null) {
 			Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
 			return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
-		}
-		else{
+		} else {
 			boolean isPartial = request.getParameter("partial") != null;
-			return prepareView(resultEntity, uiModel, isPartial, request);
+			if (isPartial) {
+				return prepareView(resultEntity, uiModel, isPartial, request);
+			} else {
+				ScreenEntityDefinition entityDefinition = screenEntitiesRegistry.get(resultEntity.getClass());
+				return MvcConstants.REDIRECT + entityDefinition.getEntityName();
+			}
 		}
 	}
 
@@ -189,7 +193,7 @@ public class DefaultGenericController {
 
 		String viewsPath = sitePreference == SitePreference.MOBILE ? mobileViewsPath : webViewsPath;
 
-		// check if custom view exists, if not load generic view by characteristics 
+		// check if custom view exists, if not load generic view by characteristics
 		if (servletContext.getResource(MessageFormat.format("{0}/{1}{2}", viewsPath, viewName, viewsSuffix)) == null) {
 			if (isComposite) {
 				// generic composite view (multi tabbed page)
@@ -257,18 +261,18 @@ public class DefaultGenericController {
 	}
 
 	// export to excel
-    @RequestMapping(value="/{screen}/excel", method = RequestMethod.GET)
-    public void excel(@PathVariable("screen") String entityName,HttpServletResponse response) throws IOException {
-		ScreenEntity entity = (ScreenEntity) terminalSession.getEntity(entityName);
-		if (entity == null){
+	@RequestMapping(value = "/{screen}/excel", method = RequestMethod.GET)
+	public void excel(@PathVariable("screen") String entityName, HttpServletResponse response) throws IOException {
+		ScreenEntity entity = (ScreenEntity)terminalSession.getEntity(entityName);
+		if (entity == null) {
 			return;
 		}
 		List<?> records = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, entity);
 		response.setContentType("application/vnd.ms-excel");
 		response.addHeader("Content-Disposition", MessageFormat.format("attachment; filename=\"{0}.xls\"", entityName));
-    	tableWriter.writeTable(records, response.getOutputStream());
-    }
-	
+		tableWriter.writeTable(records, response.getOutputStream());
+	}
+
 	/**
 	 * handle Ajax request for auto compete fields
 	 * 
