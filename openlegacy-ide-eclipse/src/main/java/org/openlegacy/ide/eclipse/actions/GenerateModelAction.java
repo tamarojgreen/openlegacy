@@ -28,7 +28,7 @@ public class GenerateModelAction extends AbstractAction {
 		if (!(firstElement instanceof IFile)) {
 			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.error_invalid_trail_file_selection);
 		}
-		GenerateModelDialog dialog = new GenerateModelDialog(getShell(), (IFile)firstElement);
+		GenerateModelDialog dialog = new GenerateModelDialog(getShell(), (IFile)firstElement, false);
 		dialog.open();
 
 	}

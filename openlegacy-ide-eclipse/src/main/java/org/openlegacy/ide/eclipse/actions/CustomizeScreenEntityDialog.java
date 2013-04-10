@@ -24,6 +24,7 @@ import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.components.SnapshotComposite;
 import org.openlegacy.ide.eclipse.components.TablesCompositeImpl;
+import org.openlegacy.ide.eclipse.util.PopupUtil;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.text.MessageFormat;
@@ -35,7 +36,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 	private SnapshotComposite snapshotComposite;
 	private TablesCompositeImpl tablesComposite;
 
-	protected CustomizeScreenEntityDialog(Shell parentShell, ScreenEntityDefinition screenEntityDefinition) {
+	public CustomizeScreenEntityDialog(Shell parentShell, ScreenEntityDefinition screenEntityDefinition) {
 		super(parentShell);
 		this.screenEntityDefinition = screenEntityDefinition;
 	}
@@ -87,6 +88,10 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 	@Override
 	protected void okPressed() {
+		if (entityNameTxt.getText().length() == 0) {
+			PopupUtil.error(Messages.error_entity_name_not_specified);
+			return;
+		}
 		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
 		this.tablesComposite.cleanupScreenentityDefinition(screenEntityDefinition.getFieldsDefinitions(),
 				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());

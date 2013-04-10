@@ -162,9 +162,27 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 					snapshots[i] = snapshot;
 				}
 				GenerateModelDialog dialog = new GenerateModelDialog(getEditorSite().getShell(),
-						((FileEditorInput)getEditorInput()).getFile(), snapshots);
+						((FileEditorInput)getEditorInput()).getFile(), false, snapshots);
 				dialog.open();
 
+			}
+
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				widgetSelected(arg0);
+			}
+		});
+
+		menuItem = new MenuItem(menu, SWT.PUSH);
+		menuItem.setText(Messages.menu_new_screen);
+		menuItem.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent event) {
+				int[] selectionIndexes = tableViewer.getTable().getSelectionIndices();
+				TerminalSnapshot snapshot = terminalSessionTrail.getSnapshots().get(selectionIndexes[0]);
+
+				GenerateModelDialog dialog = new GenerateModelDialog(getEditorSite().getShell(),
+						((FileEditorInput)getEditorInput()).getFile(), true, snapshot);
+				dialog.open();
 			}
 
 			public void widgetDefaultSelected(SelectionEvent arg0) {
@@ -221,6 +239,9 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 				TerminalSnapshot snapshot = (TerminalSnapshot)firstElement;
 				snapshotComposite.setSnapshot(snapshot);
 				tableViewer.getTable().getMenu().getItem(0).setEnabled(snapshot.getSnapshotType() == SnapshotType.INCOMING);
+				int[] selectionIndexes = tableViewer.getTable().getSelectionIndices();
+
+				tableViewer.getTable().getMenu().getItem(1).setEnabled(selectionIndexes.length == 1);
 
 			}
 		});
@@ -258,7 +279,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		Element root = extractDocumentRoot();
 		List<Element> snapshots = DomUtils.getChildElementsByTagName(root, "snapshot"); //$NON-NLS-1$
 		for (int i = 0; i < snapshots.size(); i++) {
-			snapshots.get(i).setAttribute("sequence", String.valueOf(i + 1));
+			snapshots.get(i).setAttribute("sequence", String.valueOf(i + 1)); //$NON-NLS-1$
 		}
 
 		getEditor(getPageCount() - 1).doSave(monitor);

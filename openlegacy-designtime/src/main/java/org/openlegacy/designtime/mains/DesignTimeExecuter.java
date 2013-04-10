@@ -11,6 +11,7 @@
 package org.openlegacy.designtime.mains;
 
 import org.openlegacy.exceptions.GenerationException;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,8 @@ public interface DesignTimeExecuter {
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException;
 
 	void generateModel(GenerateModelRequest generateScreenRequest) throws GenerationException;
+
+	boolean generateEntityDefinition(GenerateModelRequest generateModelRequest, ScreenEntityDefinition screenEntityDefinition);
 
 	void generateAspect(File javaFile);
 

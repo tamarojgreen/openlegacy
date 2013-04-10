@@ -97,6 +97,33 @@ public class EclipseDesignTimeExecuter {
 
 	}
 
+	public void generateEntityDefinition(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
+			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction, boolean generateAspect,
+			ScreenEntityDefinition entityDefinition) throws GenerationException {
+		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
+		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
+
+		GenerateModelRequest generateScreenRequest = new GenerateModelRequest();
+		generateScreenRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		generateScreenRequest.setProjectPath(projectDirectory);
+		generateScreenRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
+		generateScreenRequest.setTemplatesDirectory(templatesDirectory);
+		generateScreenRequest.setTrailFile(PathsUtil.toOsLocation(trailFile));
+		generateScreenRequest.setTerminalSnapshots(entityDefinition.getSnapshot());
+		generateScreenRequest.setGenerateAspectJ(generateAspect);
+		generateScreenRequest.setEntityUserInteraction(entityUserInteraction);
+
+		designTimeExecuter.generateEntityDefinition(generateScreenRequest, entityDefinition);
+
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
+			}
+		});
+
+	}
+
 	public void generateAspect(IResource resource) {
 		File javaFile = new File(resource.getLocation().toOSString());
 		designTimeExecuter.generateAspect(javaFile);

@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
-import java.io.File;
-import java.text.MessageFormat;
-
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -34,18 +31,24 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
+import org.openlegacy.designtime.terminal.model.support.SimpleScreenEntityDesigntimeDefinition;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
+import java.io.File;
+import java.text.MessageFormat;
+
 public class GenerateModelDialog extends AbstractGenerateCodeDialog implements EntityUserInteraction<ScreenEntityDefinition> {
 
 	private TerminalSnapshot[] terminalSnapshots;
+	private boolean emptyModel;
 
-	public GenerateModelDialog(Shell shell, IFile file, TerminalSnapshot... terminalSnapshots) {
+	public GenerateModelDialog(Shell shell, IFile file, boolean emptyModel, TerminalSnapshot... terminalSnapshots) {
 		super(shell, file);
+		this.emptyModel = emptyModel;
 		this.terminalSnapshots = terminalSnapshots;
 	}
 
@@ -64,8 +67,16 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 				monitor.beginTask(Messages.job_activating_analyzer, fileSize);
 
 				monitor.worked(2);
-				EclipseDesignTimeExecuter.instance().generateModel(trailPath, getSourceFolder(), getPackageValue(),
-						GenerateModelDialog.this, isUseAj(), terminalSnapshots);
+				if (emptyModel) {
+					SimpleScreenEntityDesigntimeDefinition entityDefinition = new SimpleScreenEntityDesigntimeDefinition();
+					entityDefinition.setEntityName("");
+					entityDefinition.setSnapshot(terminalSnapshots[0]);
+					EclipseDesignTimeExecuter.instance().generateEntityDefinition(trailPath, getSourceFolder(),
+							getPackageValue(), GenerateModelDialog.this, isUseAj(), entityDefinition);
+				} else {
+					EclipseDesignTimeExecuter.instance().generateModel(trailPath, getSourceFolder(), getPackageValue(),
+							GenerateModelDialog.this, isUseAj(), terminalSnapshots);
+				}
 
 				monitor.worked(fileSize - 4);
 				Display.getDefault().syncExec(new Runnable() {
@@ -108,8 +119,7 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 		String useAjStr = designtimeExecuter.getPreference(project, PreferencesConstants.USE_AJ);
 		if (useAjStr == null || useAjStr.equals("1")) {
 			this.setUseAj(true);
-		}
-		else {
+		} else {
 			this.setUseAj(false);
 		}
 	}
@@ -140,7 +150,7 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 			}
 		});
 		boolean result = generate.getBooleanValue();
-		
+
 		return result;
 	}
 
@@ -157,33 +167,37 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 
 		}
 	}
+
 	public void open(final File file) {
 
-			Display.getDefault().asyncExec(new Runnable() {
+		Display.getDefault().asyncExec(new Runnable() {
 
-				public void run() {
-					final IFolder folder = getProject().getFolder(getSourceFolder().getPath() + "/" + PathsUtil.packageToPath(getPackageValue()));
-					try {
-						if (folder != null){
-							folder.refreshLocal(1, null);
-						}
-					} catch (CoreException e1) {
-						logger.fatal(e1);
+			public void run() {
+				final IFolder folder = getProject().getFolder(
+						getSourceFolder().getPath() + "/" + PathsUtil.packageToPath(getPackageValue()));
+				try {
+					if (folder != null) {
+						folder.refreshLocal(1, null);
 					}
-					
-					IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
-					try {
-						IFile javaFile = getProject().getFile(getSourceFolder().getPath().toPortableString() + "/" + PathsUtil.packageToPath(getPackageValue()) + "/" + file.getName());
-						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(javaFile.getName());
-
-						page.openEditor(new FileEditorInput(javaFile), editorDescriptor.getId());
-
-
-					} catch (PartInitException e) {
-						logger.fatal(e);
-					}
+				} catch (CoreException e1) {
+					logger.fatal(e1);
 				}
-			});
-		
+
+				IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
+				try {
+					IFile javaFile = getProject().getFile(
+							getSourceFolder().getPath().toPortableString() + "/" + PathsUtil.packageToPath(getPackageValue())
+									+ "/" + file.getName());
+					IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
+							javaFile.getName());
+
+					page.openEditor(new FileEditorInput(javaFile), editorDescriptor.getId());
+
+				} catch (PartInitException e) {
+					logger.fatal(e);
+				}
+			}
+		});
+
 	}
 }

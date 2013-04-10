@@ -348,65 +348,80 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateModelRequest.getPackageDirectory().replaceAll(
-					"/", "."));
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
-			if (entityUserInteraction != null) {
-				boolean generate = entityUserInteraction.customizeEntity(screenEntityDefinition);
-				if (!generate) {
-					continue;
-				}
-			}
 
-			try {
+			boolean generated = generateEntityDefinition(generateModelRequest, screenEntityDefinition);
+
+			if (generated && screenDefinitions.size() == 1) {
 				File packageDir = new File(generateModelRequest.getSourceDirectory(), generateModelRequest.getPackageDirectory());
-
 				String entityName = screenEntityDefinition.getEntityName();
-
 				File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
-				if (targetJavaFile.exists()) {
-					boolean override = entityUserInteraction != null && entityUserInteraction.isOverride(targetJavaFile);
-					if (!override) {
-						continue;
-					}
-				}
-				generateJava(screenEntityDefinition, targetJavaFile);
-				generateAspect(targetJavaFile);
-
-				File screenResourcesDir = new File(packageDir, entityName + "-resources");
-				screenResourcesDir.mkdir();
-				TerminalSnapshot snapshot = screenEntityDefinition.getOriginalSnapshot();
-
-				TerminalSnapshotImageRenderer imageRenderer = projectApplicationContext.getBean(TerminalSnapshotImageRenderer.class);
-				TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
-				DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
-
-				if (generateModelRequest.isGenerateSnapshotText()) {
-					// generate txt file with screen content
-					generateResource(snapshot, entityName, screenResourcesDir, textRenderer);
-				}
-				if (generateModelRequest.isGenerateSnapshotImage()) {
-					// generate jpg file with screen image
-					generateResource(snapshot, entityName, screenResourcesDir, imageRenderer);
-				}
-
-				if (generateModelRequest.isGenerateSnapshotXml()) {
-					// generate xml file with screen XML for testing purposes
-					generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer);
-				}
-
-				if (screenDefinitions.size() == 1) {
-					entityUserInteraction.open(targetJavaFile);
-				}
-
-			} catch (TemplateException e) {
-				throw (new GenerationException(e));
-			} catch (IOException e) {
-				throw (new GenerationException(e));
+				entityUserInteraction.open(targetJavaFile);
 			}
 		}
 
 		generateTest(generateModelRequest.getTrailFile(), screenDefinitions, generateModelRequest.getProjectPath());
+
+	}
+
+	public boolean generateEntityDefinition(GenerateModelRequest generateModelRequest,
+			ScreenEntityDefinition screenEntityDefinition) {
+
+		EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
+
+		if (entityUserInteraction != null) {
+			boolean generate = entityUserInteraction.customizeEntity(screenEntityDefinition);
+			if (!generate) {
+				return false;
+			}
+		}
+
+		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateModelRequest.getPackageDirectory().replaceAll(
+				"/", "."));
+
+		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateModelRequest.getProjectPath());
+
+		try {
+			File packageDir = new File(generateModelRequest.getSourceDirectory(), generateModelRequest.getPackageDirectory());
+			String entityName = screenEntityDefinition.getEntityName();
+			File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
+			if (targetJavaFile.exists()) {
+				boolean override = entityUserInteraction != null && entityUserInteraction.isOverride(targetJavaFile);
+				if (!override) {
+					return false;
+				}
+			}
+			generateJava(screenEntityDefinition, targetJavaFile);
+			generateAspect(targetJavaFile);
+
+			File screenResourcesDir = new File(packageDir, entityName + "-resources");
+			screenResourcesDir.mkdir();
+			TerminalSnapshot snapshot = screenEntityDefinition.getOriginalSnapshot();
+
+			TerminalSnapshotImageRenderer imageRenderer = projectApplicationContext.getBean(TerminalSnapshotImageRenderer.class);
+			TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
+			DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
+
+			if (generateModelRequest.isGenerateSnapshotText()) {
+				// generate txt file with screen content
+				generateResource(snapshot, entityName, screenResourcesDir, textRenderer);
+			}
+			if (generateModelRequest.isGenerateSnapshotImage()) {
+				// generate jpg file with screen image
+				generateResource(snapshot, entityName, screenResourcesDir, imageRenderer);
+			}
+
+			if (generateModelRequest.isGenerateSnapshotXml()) {
+				// generate xml file with screen XML for testing purposes
+				generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer);
+			}
+			return true;
+
+		} catch (TemplateException e) {
+			throw (new GenerationException(e));
+		} catch (IOException e) {
+			throw (new GenerationException(e));
+		}
 
 	}
 

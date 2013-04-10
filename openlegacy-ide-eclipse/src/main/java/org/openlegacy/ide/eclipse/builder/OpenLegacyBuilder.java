@@ -91,10 +91,10 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 
 		private void checkNewTrail(final IResource resource) {
 
-			if (!Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_ANALYZE_NEW_TRAILS)){
+			if (!Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_ANALYZE_NEW_TRAILS)) {
 				return;
 			}
-			
+
 			if (!resource.getName().endsWith(".trail")) { //$NON-NLS-1$
 				return;
 			}
@@ -122,7 +122,8 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 
 							page.openEditor(new FileEditorInput(trailFile), editorDescriptor.getId());
 
-							GenerateModelDialog dialog = new GenerateModelDialog(Display.getDefault().getShells()[0], trailFile);
+							GenerateModelDialog dialog = new GenerateModelDialog(Display.getDefault().getShells()[0], trailFile,
+									false);
 							dialog.open();
 
 						} catch (PartInitException e) {
@@ -170,7 +171,8 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 
 	void checkAspectGenerate(IResource resource) {
 		String useAspect = EclipseDesignTimeExecuter.instance().getPreference(getProject(), PreferencesConstants.USE_AJ);
-		if (resource instanceof IFile && resource.getName().endsWith(PluginConstants.JAVA_EXTENSION) && !isIgnoreFolder(resource) && useAspect.equals("1")) {
+		if (resource instanceof IFile && resource.getName().endsWith(PluginConstants.JAVA_EXTENSION) && !isIgnoreFolder(resource)
+				&& useAspect.equals("1")) {
 			EclipseDesignTimeExecuter.instance().generateAspect(resource);
 			try {
 				getProject().refreshLocal(IResource.DEPTH_INFINITE, null);

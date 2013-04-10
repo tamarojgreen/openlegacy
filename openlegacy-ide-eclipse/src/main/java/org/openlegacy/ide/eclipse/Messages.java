@@ -16,6 +16,7 @@ public class Messages extends NLS {
 
 	private static final String BUNDLE_NAME = "org.openlegacy.ide.eclipse.messages"; //$NON-NLS-1$
 	public static String menu_generate_model;
+	public static String menu_new_screen;
 	public static String message_initializing_ol_analyzer;
 	public static String console_title_openlegacy;
 	public static String error_code_page_not_specified;
@@ -69,6 +70,7 @@ public class Messages extends NLS {
 	public static String title_openlegacy;
 	public static String warn_java_source_not_valid_selection;
 	public static String error_creating_text_editor;
+	public static String error_entity_name_not_specified;
 	public static String error_invalid_input_file;
 	public static String error_no_snapshots_found;
 	public static String error_unable_to_open_trail_file;
