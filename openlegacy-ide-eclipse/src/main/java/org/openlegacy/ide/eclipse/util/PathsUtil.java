@@ -12,7 +12,6 @@ package org.openlegacy.ide.eclipse.util;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 
@@ -25,8 +24,7 @@ public class PathsUtil {
 	}
 
 	public static File toProjectOsLocation(IResource resource) {
-		IPath workspacePath = ResourcesPlugin.getWorkspace().getRoot().getLocation();
-		return new File(workspacePath.toFile(), resource.getFullPath().toOSString());
+		return new File(resource.getProject().getLocation().toOSString());
 	}
 
 	public static File toOsLocation(IResource resource) {

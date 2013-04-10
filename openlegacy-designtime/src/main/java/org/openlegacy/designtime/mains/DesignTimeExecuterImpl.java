@@ -667,10 +667,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		File prefFile = new File(projectPath, PREFERENCES_FILE);
 
-		ProjectPreferences perfernces = new SimpleProjectPreferences(prefFile);
-		projectsPreferences.put(prefFile, preferences);
+		preferences = new SimpleProjectPreferences(prefFile);
+		projectsPreferences.put(projectPath, preferences);
 
-		return perfernces;
+		return preferences;
 	}
 
 	public void copyDesigntimeContext(File projectPath) {
