@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.analyzer.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldType;
@@ -84,7 +85,8 @@ public class ScreenEntityDefinitionsBuilderUtils {
 		}
 
 		String fieldValue = field.getVisualValue() != null ? field.getVisualValue() : field.getValue();
-		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), fieldValue);
+		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), StringUtils.replaceChars(fieldValue,
+				"\n\t", "  "));
 		return identifier;
 	}
 

@@ -6,7 +6,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.modules.menu.Menu.MenuEntity;  
 import org.openlegacy.modules.menu.Menu.MenuSelectionField;  
 
-@ScreenEntity(screenType=MenuEntity.class,displayName="        תפריט מערכות ראשי - עמינח      ")
+@ScreenEntity(screenType=MenuEntity.class,displayName="תפריט מערכות ראשי  עמינח")
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 3, column = 22, value = "        חנימע - ישאר תוכרעמ טירפת      "), 
 				@Identifier(row = 13, column = 42, value = "     .ןיטינומ - ש"חהנה תכרעמ טירפת"), 
@@ -36,6 +36,7 @@ public class TpritMarcotRasiAminh {
 	
 	@ScreenField(row = 21, column = 61, endColumn= 62 ,editable= true ,fieldType=MenuSelectionField.class ,displayName = "Menu Selection")
     private Integer menuSelection;
+
 
     
 

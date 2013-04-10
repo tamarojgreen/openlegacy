@@ -66,7 +66,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 			String text = bestMatchEntityField.getValue();
 			String translatedText = textTranslator.translate(text);
 			if (!translatedText.equals(text)) {
-				screenEntityDefinition.setDisplayName(text);
+				screenEntityDefinition.setDisplayName(StringUtil.toDisplayName(text));
 			}
 			bestMatchEntityName = StringUtil.toClassName(translatedText);
 		}

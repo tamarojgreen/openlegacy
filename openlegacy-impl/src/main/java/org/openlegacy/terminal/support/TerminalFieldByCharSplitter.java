@@ -31,6 +31,10 @@ public class TerminalFieldByCharSplitter implements TerminalFieldSplitter {
 			return null;
 		}
 
+		if (terminalField.getVisualValue() != null) {
+			return null;
+		}
+
 		if (terminalField.isEditable()) {
 			return null;
 		}

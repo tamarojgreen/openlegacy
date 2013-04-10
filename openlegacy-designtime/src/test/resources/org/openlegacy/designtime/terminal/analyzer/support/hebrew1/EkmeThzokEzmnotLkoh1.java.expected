@@ -4,7 +4,7 @@ import org.openlegacy.annotations.screen.*;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
-@ScreenEntity(child=truedisplayName=" הקמה / תחזוק הזמנות לקוח ")
+@ScreenEntity(child=truedisplayName="הקמה / תחזוק הזמנות לקוח")
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 3, column = 28, value = " חוקל תונמזה קוזחת / המקה "), 
 				@Identifier(row = 5, column = 11, value = ":ףקות ךיראת "), 

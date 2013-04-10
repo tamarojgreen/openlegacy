@@ -4,7 +4,7 @@ import org.openlegacy.annotations.screen.*;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
-@ScreenEntity(displayName=" כניסה למערכת הזמנות לקוח / רשתות שיווק ")
+@ScreenEntity(displayName="כניסה למערכת הזמנות לקוח / רשתות שיווק")
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 3, column = 22, value = " קוויש תותשר / חוקל תונמזה תכרעמל הסינכ "), 
 				@Identifier(row = 4, column = 71, value = "QPADEV001 "), 
@@ -34,6 +34,7 @@ public class CniseLmarctEzmnotLkohRstotSiook {
 	
 	@ScreenField(row = 13, column = 66, endColumn= 69 ,labelColumn= 71 ,editable= true ,displayName = "מוכרן", sampleValue = "7778")
     private Integer mocrn;
+
 
     private EkmeThzokEzmnotLkoh ekmeThzokEzmnotLkoh;
     
