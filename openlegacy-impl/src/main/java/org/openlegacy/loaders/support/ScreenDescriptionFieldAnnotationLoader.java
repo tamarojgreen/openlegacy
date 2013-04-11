@@ -74,7 +74,7 @@ public class ScreenDescriptionFieldAnnotationLoader extends AbstractFieldAnnotat
 		SimpleTerminalPosition position = SimpleTerminalPosition.newInstance(row, fieldAnnotation.column());
 		descriptionFieldDefinition.setPosition(position);
 
-		int width = 0;
+		int length = 0;
 		if (fieldAnnotation.endColumn() == 0) {
 			// might be null for screen part
 			if (screenEntityDefinition == null || screenEntityDefinition.getSnapshot() == null) {
@@ -83,7 +83,7 @@ public class ScreenDescriptionFieldAnnotationLoader extends AbstractFieldAnnotat
 				if (screenEntityDefinition != null && screenEntityDefinition.getSnapshot() != null) {
 					TerminalField terminalField = screenEntityDefinition.getSnapshot().getField(position);
 					if (terminalField != null) {
-						int length = terminalField.getLength();
+						length = terminalField.getLength();
 						descriptionFieldDefinition.setLength(length);
 						logger.debug(MessageFormat.format(
 								"Applying terminal field length {0} to field {1}.{2}{3} which has no end column defined", length,
@@ -92,10 +92,10 @@ public class ScreenDescriptionFieldAnnotationLoader extends AbstractFieldAnnotat
 				}
 			}
 		} else {
-			width = fieldAnnotation.endColumn() - fieldAnnotation.column() + 1;
-			descriptionFieldDefinition.setLength(width);
+			length = fieldAnnotation.endColumn() - fieldAnnotation.column() + 1;
+			descriptionFieldDefinition.setLength(length);
 		}
-		descriptionFieldDefinition.setEndPosition(position.moveBy(width));
+		descriptionFieldDefinition.setEndPosition(position.moveBy(length));
 		screenFieldDefinition.setDescriptionFieldDefinition(descriptionFieldDefinition);
 	}
 
