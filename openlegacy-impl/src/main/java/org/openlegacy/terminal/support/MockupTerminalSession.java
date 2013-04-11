@@ -58,7 +58,12 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 			preserveSnapshots(getTerminalConnection());
 		}
 		screenEntityClass = (Class<S>)ProxyUtil.getOriginalClass(screenEntityClass);
-		SnapshotInfo snapshotInfo = snapshotsMap.get(screenEntityClass).getCurrent();
+		SnapshotsList snapshotsList = snapshotsMap.get(screenEntityClass);
+		if (snapshotsList == null) {
+			throw (new EntityNotFoundException("The entity " + screenEntityClass.getSimpleName()
+					+ "was not found in the recorded trail"));
+		}
+		SnapshotInfo snapshotInfo = snapshotsList.getCurrent();
 		getTerminalConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
 	}
 
