@@ -57,7 +57,7 @@
 		<tiles:insertAttribute name="head" ignore="true" />
 	</head>
 	<body class="${ol_theme}">
-		<div data-dojo-type="dijit.layout.ContentPane" class="window" id="window_container" style="min-height: 200px;">
+		<div data-dojo-type="dijit.layout.ContentPane" class="container window" id="window_container" style="min-height: 200px;">
 			<tiles:insertAttribute name="body" />
 		</div>
 	</body>
