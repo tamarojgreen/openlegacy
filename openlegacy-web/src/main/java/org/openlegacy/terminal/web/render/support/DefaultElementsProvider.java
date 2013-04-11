@@ -86,9 +86,6 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				// align with HATS bidi-override
 				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";text-transform:uppercase;");
 			}
-			String fieldName = HtmlNamingUtil.getFieldName(field);
-			input.setAttribute(HtmlConstants.NAME, fieldName);
-			input.setAttribute(HtmlConstants.ID, fieldName);
 			if (field.isHidden()) {
 				input.setAttribute(HtmlConstants.TYPE, HtmlConstants.PASSWORD);
 			}
@@ -121,6 +118,9 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 			int right = htmlProportionsHandler.toWidth(80 + rightOffset - column);
 			positioningStyle = MessageFormat.format("top:{0}{2};right:{1}{2};", top, right, HtmlConstants.STYLE_UNIT);
 		}
+
+		String fieldName = HtmlNamingUtil.getFieldName(field);
+		element.setAttribute(HtmlConstants.ID, fieldName);
 
 		String colorsStyle = toStyleColors(field);
 		element.setAttribute(HtmlConstants.STYLE, positioningStyle + colorsStyle);
@@ -240,6 +240,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				textarea.setAttribute(HtmlConstants.STYLE, textarea.getAttribute(HtmlConstants.STYLE)
 						+ ";text-transform:uppercase;");
 			}
+
 			String value = field.getValue();
 			if (!StringUtils.isWhitespace(value)) {
 				Text textNode = rootTag.getOwnerDocument().createTextNode(value);
@@ -248,7 +249,6 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 			String fieldName = HtmlNamingUtil.getFieldName(field);
 			textarea.setAttribute(HtmlConstants.NAME, fieldName);
-			textarea.setAttribute(HtmlConstants.ID, fieldName);
 		}
 		rootTag.appendChild(textarea);
 		return textarea;

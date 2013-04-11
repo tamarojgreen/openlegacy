@@ -93,4 +93,14 @@ function attachFieldsFocus(on){
     		getMainForm().TerminalCursor.value = e.target.name; 
     	});
     }
+    require(["dojo/query"], function(query){
+    	  query("#terminalSnapshot span").forEach(function(label){
+    	    	on(label, "click", function(e){
+    	    		if (e.target.id != null){
+        	    		getMainForm().TerminalCursor.value = e.target.id; 
+    	    		}
+    	    	});
+    		  
+    	  });
+    	});    
 }
