@@ -399,10 +399,20 @@ function closeAndUpdateLookup(value,displayValue){
 		ol_lookupFieldId = null;
 		if (ol_lookupDisplayFieldId != null){
 			var resultDisplayField = dom.byId(ol_lookupDisplayFieldId);
-			resultDisplayField.innerHTML = displayValue;
+			if (resultDisplayField != null){
+				resultDisplayField.innerHTML = displayValue;
+			}
 			ol_lookupDisplayFieldId = null;
 		}
 		lookupDialog.hide();	
 	});
 }
 
+function setLanguage(language){
+	var url = location.href;
+	 var urlParts = url.split('?');
+     if (urlParts.length >= 2) {
+         url = urlParts[0];
+     }
+     location.href=url + "?lang=" + language
+}

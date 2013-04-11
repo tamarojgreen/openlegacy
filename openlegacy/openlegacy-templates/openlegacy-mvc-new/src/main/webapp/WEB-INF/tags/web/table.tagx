@@ -61,14 +61,21 @@
 			</c:forEach>
 			</tr>
 			<c:forEach items="${data}" var="item" varStatus="i">
-				<c:forEach begin="0" end="${tableDefinition.rowGaps}" var="rowGap">
+				<c:forEach begin="0" end="${tableDefinition.rowGaps-1}" var="rowGap">
 					<tr class="${i.index % 2 == 0 or !alternate ? '' : 'alt'}">
 						<td><c:choose>
 								<c:when
 									test="${fn:length(tableDefinition.actions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
-									<a
-										href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayField]}');"
-										class="${actionsCss}" title="Select ">Select</a>
+									<c:if test="${fn:length(tableDefinition.mainDisplayFields) &gt; 0}">
+										<a
+											href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayFields[0]]}');"
+											class="${actionsCss}" title="Select ">Select</a>
+									</c:if>
+									<c:if test="${fn:length(tableDefinition.mainDisplayFields) == 0}">
+										<a
+											href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}');"
+											class="${actionsCss}" title="Select ">Select</a>
+									</c:if>
 								</c:when>
 								<c:when test="${fn:length(tableDefinition.actions) &gt; 3}">
 									<select onchange="eval(this.value)" name="${column.name}">
