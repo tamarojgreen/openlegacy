@@ -137,7 +137,7 @@ public class ScreenAnnotationsParserUtils {
 		if (columnValue != null) {
 			field.setColumn(Integer.valueOf(columnValue));
 		}
-		String displayName = !StringUtil.isEmpty(displayNameValue) ? displayNameValue : StringUtil.toDisplayName(field.getName());
+		String displayName = displayNameValue != null ? displayNameValue : StringUtil.toDisplayName(field.getName());
 		field.setDisplayName(displayName);
 
 		if (startColumnValue != null) {
