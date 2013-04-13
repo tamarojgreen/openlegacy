@@ -28,10 +28,16 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     public String SignOn.getPassword(){
     	return this.password;
     }
+    public TerminalField SignOn.getPasswordField(){
+    	return this.passwordField;
+    }
     
 
 
 
+    public TerminalField SignOn.getUserField(){
+    	return this.userField;
+    }
     
 
 
