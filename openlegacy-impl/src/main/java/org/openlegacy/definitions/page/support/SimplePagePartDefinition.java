@@ -127,8 +127,16 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 	public boolean isRelative() {
 		return relative;
 	}
-	
+
 	public void setRelative(boolean relative) {
 		this.relative = relative;
+	}
+
+	public List<FieldDefinition> getFields() {
+		List<FieldDefinition> fields = new ArrayList<FieldDefinition>();
+		for (PagePartRowDefinition row : getPartRows()) {
+			fields.addAll(row.getFields());
+		}
+		return fields;
 	}
 }

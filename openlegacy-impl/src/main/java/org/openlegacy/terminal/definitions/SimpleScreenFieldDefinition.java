@@ -99,7 +99,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	}
 
 	public int compareTo(ScreenFieldDefinition o) {
-		return SnapshotUtils.comparePositions(this.getPosition(), o.getPosition());
+		return SnapshotUtils.comparePositions(this.getPosition(), o.getPosition(), false);
 	}
 
 	public TerminalPosition getEndPosition() {
@@ -225,9 +225,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	public ScreenFieldDefinition getDescriptionFieldDefinition() {
 		return descriptionFieldDefinition;
 	}
-	
-	public void setDescriptionFieldDefinition(
-			ScreenFieldDefinition descriptionFieldDefinition) {
+
+	public void setDescriptionFieldDefinition(ScreenFieldDefinition descriptionFieldDefinition) {
 		this.descriptionFieldDefinition = descriptionFieldDefinition;
 	}
 }

@@ -79,7 +79,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 		// sort fields by position
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
-		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
+		sortFields(sortedFields);
 
 		// create groups of neighbor fields
 		List<List<ScreenFieldDefinition>> neighourFieldsGroups = groupNeighbourFields(sortedFields);
@@ -102,6 +102,10 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			pageDefinition.getPageParts().add(buildPagePartFromTable(tableFieldName, tableDefinition, entityDefinition));
 		}
 		return pageDefinition;
+	}
+
+	protected void sortFields(List<ScreenFieldDefinition> sortedFields) {
+		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 	}
 
 	/**
@@ -153,7 +157,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			ScreenEntityDefinition entityDefinition) {
 		Collection<ScreenFieldDefinition> fields = screenPartEntityDefinition.getFieldsDefinitions().values();
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
-		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
+		sortFields(sortedFields);
 
 		SimplePagePartDefinition pagePart = (SimplePagePartDefinition)buildPagePart(sortedFields, entityDefinition);
 		pagePart.setDisplayName(screenPartEntityDefinition.getDisplayName());
@@ -207,7 +211,6 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		// iterate through all the neighbor fields, and build row part rows upon row change, and find the end column
 		for (ScreenFieldDefinition screenFieldDefinition : fields) {
 			if (screenFieldDefinition.getPosition().getRow() != currentRow) {
-				finalizeRow(currentPagePartRow);
 				currentPagePartRow = new SimplePagePartRowDefinition();
 				pagePart.getPartRows().add(currentPagePartRow);
 				currentRow = screenFieldDefinition.getPosition().getRow();
@@ -224,7 +227,6 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 				startColumn = fieldStartColumn;
 			}
 		}
-		finalizeRow(currentPagePartRow);
 
 		columnValues = calculateNumberOfColumnsForPagePage(columnValues);
 
@@ -234,10 +236,6 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		calculateWidth(entityDefinition, pagePart, endColumn - startColumn);
 
 		return pagePart;
-	}
-
-	protected void finalizeRow(PagePartRowDefinition currentPagePartRow) {
-		// do nothing - used for override for Bidi
 	}
 
 	protected Integer getFieldLogicalStart(int fieldStartColumn, int fieldEndColumn) {
@@ -298,12 +296,12 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 
 	private int calculateTopMargin(ScreenSize screenSize, int row) {
 		int result = (100 * (row - 1)) / screenSize.getRows() + defaultTopMarginOffset;
-		return result > 0 ? result : 0;  
+		return result > 0 ? result : 0;
 	}
 
 	private int calculateLeftMargin(ScreenSize screenSize, int topLeftColumn) {
 		int result = ((100 * topLeftColumn) / screenSize.getColumns()) + defaultLeftMarginOffset;
-		return result > 0 ? result : 0;  
+		return result > 0 ? result : 0;
 	}
 
 	/**
@@ -345,14 +343,16 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		for (ScreenFieldDefinition screenFieldDefinition : sortedFields) {
 			boolean found = false;
 			for (List<ScreenFieldDefinition> neighourFields : neighourFieldsGroups) {
-				for (ScreenFieldDefinition neighourField : neighourFields) {
-					if (isBelowNighbour(screenFieldDefinition, neighourField)
-							|| isRightNeighbour(screenFieldDefinition.getPosition(), neighourField)) {
-						logger.debug(MessageFormat.format("Adding field definition {0} to neighbour fields: {1}",
-								screenFieldDefinition, neighourFields));
-						neighourFields.add(screenFieldDefinition);
-						found = true;
-						break;
+				if (!found) {
+					for (ScreenFieldDefinition neighourField : neighourFields) {
+						if (isBelowNighbour(screenFieldDefinition, neighourField)
+								|| isRightNeighbour(screenFieldDefinition.getPosition(), neighourField)) {
+							logger.debug(MessageFormat.format("Adding field definition {0} to neighbour fields: {1}",
+									screenFieldDefinition, neighourFields));
+							neighourFields.add(screenFieldDefinition);
+							found = true;
+							break;
+						}
 					}
 				}
 

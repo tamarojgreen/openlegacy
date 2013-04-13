@@ -17,7 +17,13 @@ import java.util.Comparator;
 
 public class TerminalPositionContainerComparator implements Comparator<TerminalPositionContainer> {
 
-	private static TerminalPositionContainerComparator instance = new TerminalPositionContainerComparator();
+	private static TerminalPositionContainerComparator instance = new TerminalPositionContainerComparator(false);
+
+	private boolean rightToLeft = false;
+
+	public TerminalPositionContainerComparator(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
+	}
 
 	public static TerminalPositionContainerComparator instance() {
 		return instance;
@@ -27,7 +33,7 @@ public class TerminalPositionContainerComparator implements Comparator<TerminalP
 		TerminalPosition position1 = o1.getPosition();
 		TerminalPosition position2 = o2.getPosition();
 
-		return SnapshotUtils.comparePositions(position1, position2);
+		return SnapshotUtils.comparePositions(position1, position2, rightToLeft);
 	}
 
 }

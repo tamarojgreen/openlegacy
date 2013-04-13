@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.layout;
 
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.TableDefinition;
 
 import java.util.List;
@@ -38,6 +39,8 @@ public interface PagePartDefinition {
 	String getTableFieldName();
 
 	TableDefinition<?> getTableDefinition();
-	
+
 	boolean isRelative();
+
+	List<FieldDefinition> getFields();
 }

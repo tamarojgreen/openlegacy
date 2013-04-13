@@ -169,13 +169,17 @@ public class SnapshotUtils {
 		return MessageFormat.format("{0}:{1}", position, text);
 	}
 
-	public static int comparePositions(TerminalPosition position1, TerminalPosition position2) {
+	public static int comparePositions(TerminalPosition position1, TerminalPosition position2, boolean rightToLeft) {
 		if (position1 == null || position2 == null) {
 			return 0;
 		}
 
 		if (position1.getRow() != position2.getRow()) {
 			return position1.getRow() - position2.getRow();
+		}
+		if (rightToLeft) {
+			return position2.getColumn() - position1.getColumn();
+
 		}
 		return position1.getColumn() - position2.getColumn();
 	}

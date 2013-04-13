@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.terminal.layout.support;
 
-import org.openlegacy.layout.PagePartRowDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
+import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,13 +37,6 @@ public class DefaultBidiScreenPageBuilder extends DefaultScreenPageBuilder {
 	}
 
 	@Override
-	protected void finalizeRow(PagePartRowDefinition pagePartRow) {
-		if (pagePartRow != null && pagePartRow.getFields() != null){
-			Collections.reverse(pagePartRow.getFields());
-		}
-	}
-	
-	@Override
 	protected Integer getFieldLogicalStart(int fieldStartColumn, int fieldEndColumn) {
 		return fieldEndColumn;
 	}
@@ -58,5 +51,10 @@ public class DefaultBidiScreenPageBuilder extends DefaultScreenPageBuilder {
 	protected int getTableEndColumn(List<ScreenColumnDefinition> columns) {
 		// in bidi table end column is the start of the table
 		return super.getTableStartColumn(columns);
+	}
+
+	@Override
+	protected void sortFields(List<ScreenFieldDefinition> sortedFields) {
+		Collections.sort(sortedFields, new TerminalPositionContainerComparator(true));
 	}
 }

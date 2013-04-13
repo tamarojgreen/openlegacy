@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.definitions.page.support.SimplePagePartDefinition;
 import org.openlegacy.layout.PageDefinition;
+import org.openlegacy.layout.PagePartRowDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.mock_bidi.BidiScreenForPage;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
@@ -36,12 +37,15 @@ public class DefaultBidiScreenPageBuilderTest extends AbstractTest {
 		Assert.assertEquals(1, pageDefinition.getPageParts().size());
 
 		SimplePagePartDefinition part1 = (SimplePagePartDefinition)pageDefinition.getPageParts().get(0);
-		Assert.assertEquals(2, part1.getColumns());
+		Assert.assertEquals(3, part1.getColumns());
 		Assert.assertEquals(2, part1.getPartRows().size());
+		PagePartRowDefinition firstRow = part1.getPartRows().get(0);
+		Assert.assertEquals(2, firstRow.getFields().size());
+		Assert.assertEquals("fldCol2", firstRow.getFields().get(0).getName());
 		// left position in % of the first field (label is on the right)
 		Assert.assertEquals(27, part1.getLeftMargin());
 		Assert.assertEquals(20, part1.getTopMargin());
-		Assert.assertEquals(33, part1.getWidth());
+		Assert.assertEquals(71, part1.getWidth());
 
 	}
 
