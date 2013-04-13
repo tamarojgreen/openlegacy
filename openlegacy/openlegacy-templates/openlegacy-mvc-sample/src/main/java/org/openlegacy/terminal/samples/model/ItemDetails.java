@@ -4,6 +4,7 @@ import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenBooleanField;
+import org.openlegacy.annotations.screen.ScreenDescriptionField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
@@ -44,6 +45,7 @@ public class ItemDetails {
 	@ScreenField(row = 12, column = 33, endColumn = 47, labelColumn = 2, editable = true, displayName = "Manufacturers Item No")
 	private String manufacturersItemNo;
 
+	@ScreenDescriptionField(column = 37)
 	@ScreenField(row = 15, column = 33, endColumn = 35, labelColumn = 2, editable = true, displayName = "Stock Group", sampleValue = "SG")
 	private StockGroup stockGroup;
 
