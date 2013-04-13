@@ -171,8 +171,9 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 
 	void checkAspectGenerate(IResource resource) {
 		String useAspect = EclipseDesignTimeExecuter.instance().getPreference(getProject(), PreferencesConstants.USE_AJ);
+		boolean isUseAspect = useAspect == null || useAspect.equals("1");
 		if (resource instanceof IFile && resource.getName().endsWith(PluginConstants.JAVA_EXTENSION) && !isIgnoreFolder(resource)
-				&& useAspect.equals("1")) {
+				&& isUseAspect) {
 			EclipseDesignTimeExecuter.instance().generateAspect(resource);
 			try {
 				getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
