@@ -150,6 +150,11 @@ public class DefaultGenericController {
 		}
 
 		ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName);
+		if (screenEntity == null) {
+			ScreenEntity currentEntity = terminalSession.getEntity();
+			return handleEntity(request, uiModel, currentEntity);
+		}
+
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(screenEntity);
 		registerPropertyEditors(binder);
 		binder.bind(request);
@@ -164,6 +169,11 @@ public class DefaultGenericController {
 			resultEntity = terminalSession.getEntity();
 		}
 
+		return handleEntity(request, uiModel, resultEntity);
+	}
+
+	private String handleEntity(HttpServletRequest request, Model uiModel, ScreenEntity resultEntity)
+			throws MalformedURLException {
 		if (resultEntity == null) {
 			Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
 			return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
