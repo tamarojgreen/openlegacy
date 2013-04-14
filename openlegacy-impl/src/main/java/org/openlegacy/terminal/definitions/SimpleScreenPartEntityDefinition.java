@@ -14,6 +14,7 @@ import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.TerminalPosition;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -76,4 +77,17 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
+
+	public int getTopRow() {
+		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
+		int topRow = 999;
+		for (ScreenFieldDefinition screenFieldDefinition : fields) {
+			int fieldRow = screenFieldDefinition.getPosition().getRow();
+			if (fieldRow < topRow) {
+				topRow = fieldRow;
+			}
+		}
+		return topRow;
+	}
+
 }

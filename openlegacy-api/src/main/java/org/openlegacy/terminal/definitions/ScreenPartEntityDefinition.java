@@ -39,4 +39,7 @@ public interface ScreenPartEntityDefinition {
 	TerminalPosition getPartPosition();
 
 	int getWidth();
+
+	int getTopRow();
+
 }

@@ -94,4 +94,8 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 	public String getClassName() {
 		return codeModel.getClassName();
 	}
+
+	public int getTopRow() {
+		throw (new UnsupportedOperationException("Code based screen part does not support this method"));
+	}
 }

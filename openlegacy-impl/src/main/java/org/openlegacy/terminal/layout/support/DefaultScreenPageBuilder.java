@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -89,9 +90,10 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			pageDefinition.getPageParts().add(buildPagePart(neighbourfields, entityDefinition));
 		}
 
+		List<ScreenPartEntityDefinition> screenPartsList = sortPageParts(entityDefinition);
+
 		// create page parts from screen parts
-		Collection<ScreenPartEntityDefinition> screenParts = entityDefinition.getPartsDefinitions().values();
-		for (ScreenPartEntityDefinition screenPartEntityDefinition : screenParts) {
+		for (ScreenPartEntityDefinition screenPartEntityDefinition : screenPartsList) {
 			pageDefinition.getPageParts().add(buildPagePartFromScreenPart(screenPartEntityDefinition, entityDefinition));
 		}
 
@@ -102,6 +104,19 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			pageDefinition.getPageParts().add(buildPagePartFromTable(tableFieldName, tableDefinition, entityDefinition));
 		}
 		return pageDefinition;
+	}
+
+	private static List<ScreenPartEntityDefinition> sortPageParts(ScreenEntityDefinition entityDefinition) {
+		Collection<ScreenPartEntityDefinition> screenParts = entityDefinition.getPartsDefinitions().values();
+		List<ScreenPartEntityDefinition> screenPartsList = new ArrayList<ScreenPartEntityDefinition>();
+		screenPartsList.addAll(screenParts);
+		Collections.sort(screenPartsList, new Comparator<ScreenPartEntityDefinition>() {
+
+			public int compare(ScreenPartEntityDefinition o1, ScreenPartEntityDefinition o2) {
+				return o1.getTopRow() - o2.getTopRow();
+			}
+		});
+		return screenPartsList;
 	}
 
 	protected void sortFields(List<ScreenFieldDefinition> sortedFields) {
@@ -181,6 +196,9 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 			if (positionedPart.getPartPosition() == null) {
 				pagePart.setRelative(true);
 			}
+		}
+		if (entityDefinition.isWindow()) {
+			pagePart.setRelative(true);
 		}
 	}
 
@@ -276,7 +294,12 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	 *            the page part columns width
 	 */
 	protected void calculateWidth(ScreenEntityDefinition entityDefinition, SimplePagePartDefinition pagePart, int width) {
-		int widthPercentage = 100 * width / entityDefinition.getScreenSize().getColumns();
+		int widthPercentage = 0;
+		if (entityDefinition.isWindow()) {
+			widthPercentage = 100;
+		} else {
+			widthPercentage = 100 * width / entityDefinition.getScreenSize().getColumns();
+		}
 		pagePart.setWidth(widthPercentage);
 	}
 
