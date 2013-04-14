@@ -47,16 +47,26 @@ public class HtmlEmulationController {
 	private boolean emulationOnly = false;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String show(Model uiModel, @RequestParam(value = "flip", required = false) Object flip,@RequestParam(value = "fetch", required = false) Object fetch) {
+	public String show(Model uiModel, HttpServletRequest request, @RequestParam(value = "flip", required = false) Object flip,
+			@RequestParam(value = "fetch", required = false) Object fetch,
+			@RequestParam(value = "stick", required = false) Object stick) {
 
-		if (fetch != null){
+		if (fetch != null) {
 			terminalSession.fetchSnapshot();
 		}
 
 		if (flip != null) {
 			terminalSession.flip();
 		}
-		
+
+		if (stick != null) {
+			if (stick.equals("false")) {
+				emulationOnly = false;
+			} else {
+				emulationOnly = true;
+			}
+
+		}
 		String result = snapshotHtmlRenderer.render(terminalSession.getSnapshot());
 		uiModel.addAttribute("terminalHtml", result);
 		return "HtmlEmulation";
@@ -75,7 +85,7 @@ public class HtmlEmulationController {
 
 			}
 		}
-		return show(uiModel, null,null);
+		return show(uiModel, request, null, null, null);
 	}
 
 	/**
