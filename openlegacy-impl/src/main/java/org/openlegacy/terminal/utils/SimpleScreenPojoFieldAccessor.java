@@ -13,7 +13,6 @@ package org.openlegacy.terminal.utils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -39,10 +38,10 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	private static final String TERMINAL_SNAPSHOT = "terminalSnapshot";
 	private static final String FOCUS_FIELD = "focusField";
 
-	private Map<String,DirectFieldAccessor> partAccessors;
+	private Map<String, DirectFieldAccessor> partAccessors;
 
 	private String concatSeperator = " - ";
-	
+
 	public SimpleScreenPojoFieldAccessor(Object target) {
 		target = ProxyUtil.getTargetObject(target);
 		directFieldAccessor = new DirectFieldAccessor(target);
@@ -94,8 +93,9 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 		try {
 			directFieldAccessor.setPropertyValue(getFieldPojoName(fieldName), value);
 		} catch (Exception e) {
-			throw (new EntityNotAccessibleException(MessageFormat.format("Unable to update screen entity field: {0}.{1}",
-					target.getClass().getSimpleName(), fieldName), e));
+			logger.error(MessageFormat.format("Unable to update screen entity field: {0}.{1}", target.getClass().getSimpleName(),
+					fieldName, e));
+			return;
 		}
 		if (logger.isDebugEnabled()) {
 			if (value instanceof String) {
@@ -144,28 +144,30 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	public Object getFieldValue(String fieldName) {
 		return directFieldAccessor.getPropertyValue(getFieldPojoName(fieldName));
 	}
+
 	public Object evaluateFieldValue(String fieldName) {
-		if (fieldName.contains(".")){
+		if (fieldName.contains(".")) {
 			String partName = fieldName.substring(0, fieldName.indexOf("."));
 			fieldName = getFieldPojoName(fieldName);
 			DirectFieldAccessor partAccesor = getPartAccessor(partName);
 			return partAccesor.getPropertyValue(fieldName);
 		}
 		return getFieldValue(fieldName);
-		
+
 	}
 
 	public DirectFieldAccessor getPartAccessor(String partName) {
-		if (partAccessors == null){
-			partAccessors = new  HashMap<String,DirectFieldAccessor>();
+		if (partAccessors == null) {
+			partAccessors = new HashMap<String, DirectFieldAccessor>();
 		}
 		DirectFieldAccessor partAccessor = partAccessors.get(partName);
-		if (partAccessor == null){
+		if (partAccessor == null) {
 			partAccessor = new DirectFieldAccessor(directFieldAccessor.getPropertyValue(partName));
 			partAccessors.put(partName, partAccessor);
 		}
 		return partAccessor;
 	}
+
 	private static String getFieldPojoName(String fieldName) {
 		return StringUtil.removeNamespace(fieldName);
 	}
@@ -177,19 +179,19 @@ public class SimpleScreenPojoFieldAccessor implements ScreenPojoFieldAccessor {
 	}
 
 	/**
-	 * Concatenate the given field values 
+	 * Concatenate the given field values
 	 */
 	public String getConcatFieldsValue(List<String> mainDisplayFields) {
-		StringBuilder result = new StringBuilder(); 
+		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < mainDisplayFields.size(); i++) {
 			result.append(getFieldValue(mainDisplayFields.get(i)));
-			if (i < mainDisplayFields.size() -1){
+			if (i < mainDisplayFields.size() - 1) {
 				result.append(concatSeperator);
 			}
 		}
 		return result.toString();
 	}
-	
+
 	public void setConcatSeperator(String concatSeperator) {
 		this.concatSeperator = concatSeperator;
 	}
