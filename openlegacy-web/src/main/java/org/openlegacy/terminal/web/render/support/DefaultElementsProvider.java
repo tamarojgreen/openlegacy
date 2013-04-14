@@ -71,6 +71,8 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 		Element input = createTag(parentTag, HtmlConstants.INPUT);
 		if (field != null) {
 			populateCommonAttributes(input, field);
+			String fieldName = HtmlNamingUtil.getFieldName(field);
+			input.setAttribute(HtmlConstants.NAME, fieldName);
 			input.setAttribute(HtmlConstants.VALUE, field.getValue());
 			input.setAttribute(HtmlConstants.MAXLENGTH, String.valueOf(field.getLength()));
 			int width = htmlProportionsHandler.toWidth(field.getLength()) + htmlProportionsHandler.getInputAdditionalWidth();
@@ -79,8 +81,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 					MessageFormat.format("{0}{1}", input.getAttribute(HtmlConstants.STYLE), HtmlNamingUtil.toStyleWidth(width)));
 			if (field.isRightToLeft()) {
 				// align with HATS bidi-override
-				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE)
-						+ ";direction:rtl;unicode-bidi: bidi-override;");
+				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";unicode-bidi: bidi-override;");
 			}
 			if (field.isUppercase() || openLegacyProperties.isUppercaseInput()) {
 				// align with HATS bidi-override
