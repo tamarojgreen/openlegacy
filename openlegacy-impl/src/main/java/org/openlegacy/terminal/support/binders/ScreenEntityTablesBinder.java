@@ -25,8 +25,6 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDef
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
-import org.openlegacy.utils.BidiUtil;
-import org.openlegacy.utils.FeatureChecker;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -141,7 +139,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 						}
 						String valueString = value.toString();
 						if (StringUtils.hasLength(valueString)) {
-							int screenRow = tableDefinition.getStartRow() + rowCount;
+							int screenRow = tableDefinition.getStartRow() + (rowCount * tableDefinition.getRowGaps());
 							TerminalField terminalField = terminalScreen.getField(SimpleTerminalPosition.newInstance(screenRow,
 									columnDefinition.getStartColumn()));
 							terminalField.setValue(valueString);
