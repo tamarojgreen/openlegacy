@@ -66,6 +66,11 @@ public class SimpleScreenIdentifiersAnnotationLoader extends AbstractClassAnnota
 			}
 			logger.info(MessageFormat.format("Screen identifications for \"{0}\" was added to the screen registry",
 					screenEntityDefinition.getEntityClass()));
+		} else {
+			logger.warn(MessageFormat.format(
+					"*** A screen without identifications was found \"{0}\" Please verify its a valid screen",
+					screenEntityDefinition.getEntityClass()));
+
 		}
 	}
 }

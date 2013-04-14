@@ -12,11 +12,14 @@ package org.openlegacy.terminal.support;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.services.ScreenIdentification;
 import org.openlegacy.terminal.services.ScreenIdentifier;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +31,11 @@ public class SimpleScreenIdentification implements ScreenIdentification, Seriali
 
 	private static final long serialVersionUID = 1L;
 
+	private final static Log logger = LogFactory.getLog(SimpleScreenIdentification.class);
+
 	private List<ScreenIdentifier> screenIdentifiers = new ArrayList<ScreenIdentifier>();
+
+	private int minimumIdentifications = 0;
 
 	public List<ScreenIdentifier> getScreenIdentifiers() {
 		return screenIdentifiers;
@@ -40,6 +47,15 @@ public class SimpleScreenIdentification implements ScreenIdentification, Seriali
 
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		List<ScreenIdentifier> identifiers = screenIdentifiers;
+
+		if (identifiers.size() <= minimumIdentifications) {
+			if (logger.isDebugEnabled()) {
+				logger.debug(MessageFormat.format("A screen with {0} identifications is ignored", minimumIdentifications));
+
+			}
+			return false;
+		}
+
 		for (ScreenIdentifier screenIdentifier : identifiers) {
 			if (!screenIdentifier.match(terminalSnapshot)) {
 				return false;
@@ -60,6 +76,10 @@ public class SimpleScreenIdentification implements ScreenIdentification, Seriali
 		}
 		ScreenIdentification other = (ScreenIdentification)obj;
 		return new EqualsBuilder().append(screenIdentifiers.toArray(), other.getScreenIdentifiers().toArray()).isEquals();
+	}
+
+	public void setMinimumIdentifications(int minimumIdentifications) {
+		this.minimumIdentifications = minimumIdentifications;
 	}
 
 	@Override
