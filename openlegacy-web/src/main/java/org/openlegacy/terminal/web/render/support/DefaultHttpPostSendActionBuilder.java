@@ -44,11 +44,13 @@ public class DefaultHttpPostSendActionBuilder implements TerminalSendActionBuild
 		for (TerminalField terminalField : editableFields) {
 			String value = httpRequest.getParameter(getFieldHttpName(terminalField, columns));
 			// replace newlines in text areas (browser OS might be different then server OS)
-			value = value.replaceAll("\r", "");
-			if (!terminalField.getValue().equals(value)) {
-				value = value.replaceAll("\n", " ");
-				terminalField.setValue(value);
-				sendAction.getModifiedFields().add(terminalField);
+			if (value != null) {
+				value = value.replaceAll("\r", "");
+				if (!terminalField.getValue().equals(value)) {
+					value = value.replaceAll("\n", " ");
+					terminalField.setValue(value);
+					sendAction.getModifiedFields().add(terminalField);
+				}
 			}
 		}
 		return sendAction;
@@ -56,7 +58,7 @@ public class DefaultHttpPostSendActionBuilder implements TerminalSendActionBuild
 
 	protected TerminalPosition getCursor(HttpServletRequest httpRequest, int columns) {
 		String terminalCursor = httpRequest.getParameter(TerminalHtmlConstants.TERMINAL_CURSOR_HIDDEN);
-		if (terminalCursor == null){
+		if (terminalCursor == null) {
 			return null;
 		}
 		return HtmlNamingUtil.toPosition(terminalCursor);
