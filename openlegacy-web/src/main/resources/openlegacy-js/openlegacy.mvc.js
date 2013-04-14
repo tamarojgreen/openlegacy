@@ -391,7 +391,7 @@ function openLookupDialog(fieldId,displayFieldId,url,style){
 	});	
 }
 function closeAndUpdateLookup(value,displayValue){
-	require([ "dojo/dom" , "dijit/registry"], function(dom,registry) {
+	require([ "dojo/dom" , "dijit/registry","dojo/dom-form"], function(dom,registry,domForm) {
 		
   	var lookupDialog = registry.byId("lookupDialog");
 		var resultField= dom.byId(ol_lookupFieldId);
@@ -404,7 +404,18 @@ function closeAndUpdateLookup(value,displayValue){
 			}
 			ol_lookupDisplayFieldId = null;
 		}
-		lookupDialog.hide();	
+		lookupDialog.hide();
+		lookupDialog.set("content","");
+		
+		var xhr = require("dojo/request/xhr");
+		xhr.post(resultField.form.action, {
+			data: domForm.toObject(resultField.form),
+			handleAs : "text",
+			headers: { "Accept": "text/html;type=ajax" }
+		}).then(function(data){
+		}, function(e){
+			alert(e);
+		});
 	});
 }
 
