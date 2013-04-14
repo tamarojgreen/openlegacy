@@ -13,6 +13,10 @@
 	<!--
 	<util:map id="actionMappings">
 		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ESC" /></key>
+			<value>[reset]</value>
+		</entry>
+		<entry>
 			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ENTER" /></key>
 			<value>[enter]</value>
 		</entry>
@@ -69,7 +73,7 @@
 			<value>[pgdown]</value>
 		</entry>
 		<entry>
-			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.pgup" /></key>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEUP" /></key>
 			<value>[pgup]</value>
 		</entry>
 		<entry>
