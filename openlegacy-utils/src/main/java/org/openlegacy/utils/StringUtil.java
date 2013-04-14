@@ -326,10 +326,14 @@ public class StringUtil {
 
 		StringBuilder sb = new StringBuilder();
 		for (Object object : elements) {
-			sb.append(object.toString());
-			sb.append(seperator);
+			if (object != null) {
+				sb.append(object.toString());
+				sb.append(seperator);
+			}
 		}
-		sb.setLength(sb.length() - 1);
+		if (sb.length() > 0 && sb.charAt(sb.length() - 1) == seperator) {
+			sb.setLength(sb.length() - 1);
+		}
 		return sb.toString();
 	}
 
