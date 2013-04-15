@@ -117,7 +117,9 @@ public class ScreenAnnotationsParserUtils {
 		String passwordValue = getAnnotationValue(annotationExpr, AnnotationConstants.PASSWORD);
 		String sampleValue = getAnnotationValue(annotationExpr, AnnotationConstants.SAMPLE_VALUE);
 		String rowsOffset = getAnnotationValue(annotationExpr, AnnotationConstants.ROWS_OFFSET);
-
+		// @author Ivan Bort refs assembla #235
+		String endRowValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_ROW);
+		
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : StringUtil.stripQuotes(sampleValue));
 		field.setFieldTypeName(StringUtil.toClassName(fieldTypeName));
 
@@ -164,6 +166,9 @@ public class ScreenAnnotationsParserUtils {
 		}
 		if (rowsOffset != null) {
 			field.setRowsOffset(Integer.valueOf(rowsOffset));
+		}
+		if (endRowValue != null){
+			field.setEndRow(Integer.valueOf(endRowValue));
 		}
 	}
 

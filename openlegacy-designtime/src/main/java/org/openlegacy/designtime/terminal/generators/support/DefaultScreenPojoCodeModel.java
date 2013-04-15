@@ -405,6 +405,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private String sampleValue;
 		private int rowsOffset;
 		private boolean hasDescription;
+		//@author Ivan Bort refs assembla #235
+		private Integer endRow;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -602,6 +604,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setHasDescription(boolean hasDescription) {
 			this.hasDescription = hasDescription;
+		}
+
+		public Integer getEndRow() {
+			return endRow;
+		}
+
+		public void setEndRow(Integer endRow) {
+			this.endRow = endRow;
 		}
 
 	}

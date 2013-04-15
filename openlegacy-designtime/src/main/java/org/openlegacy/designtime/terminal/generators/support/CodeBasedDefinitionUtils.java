@@ -86,6 +86,12 @@ public class CodeBasedDefinitionUtils {
 			fieldDefinition.setPassword(javaFieldModel.isPassword());
 			fieldDefinition.setSampleValue(javaFieldModel.getSampleValue());
 			fieldDefinition.setJavaTypeName(javaFieldModel.getType());
+			// @author Ivan Bort refs assembla #235
+			fieldDefinition.setEndPosition(new SimpleTerminalPosition(
+					javaFieldModel.getEndRow() == null ? 0 : javaFieldModel
+							.getEndRow(),
+					javaFieldModel.getEndColumn() == null ? 0 : javaFieldModel
+							.getEndColumn()));
 
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
