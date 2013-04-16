@@ -196,6 +196,28 @@
             class="org.openlegacy.ide.eclipse.ui.preferences.PreferenceInitializer">
       </initializer>
    </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.openlegacy.ide.eclipse.preview.ScreenPreview">
+         <command
+               commandId="org.openlegacy.ide.eclipse.preview.ZoomIn"
+               icon="icons/zoom-in.png"
+               label="Zoom In"
+               style="push"
+               tooltip="Zoom In trail image">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.openlegacy.ide.eclipse.preview.commands.ZoomInHandler"
+            id="org.openlegacy.ide.eclipse.preview.ZoomIn"
+            name="Zoom In">
+      </command>
+   </extension>
    
    
 </plugin>

@@ -111,7 +111,6 @@ public class ScreenPreview extends ViewPart {
 	public void createPartControl(Composite parent) {
 		snapshotComposite = new SnapshotComposite(parent);
 		snapshotComposite.setIsScalable(true);
-		snapshotComposite.initDoubleClickEnlargeListener();
 	}
 
 	/**
@@ -159,6 +158,10 @@ public class ScreenPreview extends ViewPart {
 
 	// **************** PUBLIC ****************
 
+	public void showEnlargedImage(){
+		snapshotComposite.showEnlargedImage();
+	}
+	
 	public void showMessage(String message) {
 		MessageDialog.openInformation(snapshotComposite.getShell(), "Screen Preview", message);
 	}

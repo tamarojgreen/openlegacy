@@ -161,10 +161,6 @@ public class SnapshotComposite extends Composite {
 		this.isScalable = isScalable;
 	}
 
-	public void initDoubleClickEnlargeListener() {
-		this.canvas.addListener(SWT.MouseDoubleClick, this.getEnlargeListener());
-	}
-
 	private void generateDefaultImage() {
 		if (SnapshotComposite.this.terminalSnapshot == null) {
 			return;
@@ -391,19 +387,7 @@ public class SnapshotComposite extends Composite {
 		return new Rectangle(x, y, width, height);
 	}
 
-	private Listener getEnlargeListener() {
-		return new Listener() {
-
-			public void handleEvent(Event e) {
-				if (!isVisible()) {
-					return;
-				}
-				SnapshotComposite.this.showEnlargedImage();
-			}
-		};
-	}
-
-	private void showEnlargedImage() {
+	public void showEnlargedImage() {
 		if (this.defaultImage == null) {
 			return;
 		}

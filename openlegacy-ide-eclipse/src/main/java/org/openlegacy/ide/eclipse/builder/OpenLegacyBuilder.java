@@ -183,7 +183,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	private boolean isIgnoreFolder(IResource resource) {
+	private static boolean isIgnoreFolder(IResource resource) {
 		String path = resource.getFullPath().toString();
 		return path.contains("/target") || path.contains("test/java");
 	}

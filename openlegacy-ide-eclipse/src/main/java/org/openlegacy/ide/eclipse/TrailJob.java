@@ -79,7 +79,7 @@ public class TrailJob extends Job {
 
 	}
 
-	private boolean isAnalyzeNewTrails() {
+	private static boolean isAnalyzeNewTrails() {
 		return Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_ANALYZE_NEW_TRAILS);
 	}
 }
