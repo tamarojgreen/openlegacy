@@ -50,7 +50,7 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 
 		Session5250 sessionImpl = SessionManager.instance().openSession(sessionProperties, "", "");
 
-		Tn5250jTerminalConnection olConnection = new Tn5250jTerminalConnection(convertToLogical);
+		Tn5250jTerminalConnection olConnection = new Tn5250jTerminalConnection(convertToLogical, waitTimeout);
 
 		sessionImpl.connect();
 

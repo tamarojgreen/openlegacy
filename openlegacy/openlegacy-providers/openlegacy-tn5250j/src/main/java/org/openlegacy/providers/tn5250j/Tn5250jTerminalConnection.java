@@ -36,10 +36,13 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 
 	private boolean convertToLogical = false;
 
-	public Tn5250jTerminalConnection(Boolean convertToLogical) {
+	private int waitTimeout;
+
+	public Tn5250jTerminalConnection(Boolean convertToLogical, int waitTimeout) {
 		if (convertToLogical != null) {
 			this.convertToLogical = convertToLogical;
 		}
+		this.waitTimeout = waitTimeout;
 	}
 
 	public void setSession(Session5250 session) {
@@ -75,13 +78,15 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 	private void waitForKeyboardUnlock(String aid) {
 		Screen5250 screen = session.getScreen();
 		screen.sendKeys(aid);
+		int waited = 0;
 		while (screen.getOIA().getInputInhibited() == ScreenOIA.INPUTINHIBITED_SYSTEM_WAIT
-				&& screen.getOIA().getLevel() != ScreenOIA.OIA_LEVEL_INPUT_ERROR) {
+				&& screen.getOIA().getLevel() != ScreenOIA.OIA_LEVEL_INPUT_ERROR && waited < waitTimeout) {
 			if (!session.isConnected()) {
 				return;
 			}
 			try {
 				Thread.sleep(waitForUnlock);
+				waited += waitForUnlock;
 			} catch (InterruptedException ex) {
 				// do nothing
 			}
