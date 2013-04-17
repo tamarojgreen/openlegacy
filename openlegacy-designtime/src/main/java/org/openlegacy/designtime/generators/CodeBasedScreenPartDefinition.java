@@ -96,6 +96,14 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 	}
 
 	public int getTopRow() {
-		throw (new UnsupportedOperationException("Code based screen part does not support this method"));
+		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
+		int topRow = 999;
+		for (ScreenFieldDefinition screenFieldDefinition : fields) {
+			int fieldRow = screenFieldDefinition.getPosition().getRow();
+			if (fieldRow < topRow) {
+				topRow = fieldRow;
+			}
+		}
+		return topRow;
 	}
 }
