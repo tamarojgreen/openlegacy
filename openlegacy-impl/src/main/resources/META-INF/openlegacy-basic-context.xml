@@ -73,7 +73,7 @@
 						<bean
 							class="org.openlegacy.terminal.modules.menu.DefaultTerminalMenuModule" />
 						<bean
-							class="org.openlegacy.terminal.modules.messages.DefaultTerminalMessagesModule" p:skipActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"/>
+							class="org.openlegacy.terminal.modules.messages.DefaultTerminalMessagesModule" p:defaultSkipActionClass="org.openlegacy.terminal.actions.TerminalActions.ENTER"/>
 						<bean
 							class="org.openlegacy.terminal.modules.registry.DefaultSessionRegistryModule" />
 						<bean

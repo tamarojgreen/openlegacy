@@ -18,6 +18,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -45,7 +46,7 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 
 	private List<String> messages = new ArrayList<String>();
 
-	private TerminalAction skipAction;
+	private TerminalAction defaultSkipAction;
 
 	private int skipLimit = 5;
 
@@ -64,7 +65,7 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 
 		int skippedScreens = 0;
 
-		if (skipAction == null) {
+		if (defaultSkipAction == null) {
 			return;
 		}
 
@@ -93,9 +94,18 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 			// skip messages screen
 			if (logger.isDebugEnabled()) {
 				logger.debug(MessageFormat.format("Skipping screen {0} using action {1}", entityDefinition.getEntityClassName(),
-						skipAction.getClass().getSimpleName()));
+						defaultSkipAction.getClass().getSimpleName()));
 			}
-			getSession().doAction(skipAction);
+
+			TerminalAction theSkipAction = defaultSkipAction;
+			NavigationDefinition navigationDefinition = entityDefinition.getNavigationDefinition();
+			if (navigationDefinition != null) {
+				TerminalAction exitAction = navigationDefinition.getExitAction();
+				if (navigationDefinition != null && exitAction != null) {
+					theSkipAction = exitAction;
+				}
+			}
+			getSession().doAction(theSkipAction);
 			skippedScreens++;
 
 			currentEntity = getSession().getEntity();
@@ -108,16 +118,16 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 		}
 	}
 
-	public void setSkipActionClass(Class<? extends TerminalAction> terminalAction) {
-		this.skipAction = ReflectionUtil.newInstance(terminalAction);
+	public void setDefaultSkipActionClass(Class<? extends TerminalAction> terminalAction) {
+		this.defaultSkipAction = ReflectionUtil.newInstance(terminalAction);
 	}
 
 	public void setSkipLimit(int skipLimit) {
 		this.skipLimit = skipLimit;
 	}
 
-	public void setSkipAction(TerminalAction skipAction) {
-		this.skipAction = skipAction;
+	public void setDefaultSkipAction(TerminalAction defaultSkipAction) {
+		this.defaultSkipAction = defaultSkipAction;
 	}
 
 	public List<String> getMessages() {

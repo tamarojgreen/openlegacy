@@ -16,7 +16,6 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.ScreenActions;
-import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
@@ -25,6 +24,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -61,24 +61,33 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				if (action.row() > 0 && action.column() > 0) {
 					position = new SimpleTerminalPosition(action.row(), action.column());
 				}
-				SimpleActionDefinition actionDefinition = null;
+				SimpleTerminalActionDefinition actionDefinition = null;
+				String displayName = action.displayName().length() > 0 ? action.displayName()
+						: StringUtil.toDisplayName(action.action().getClass().getSimpleName());
 				if (action.additionalKey() != AdditionalKey.NONE || position != null) {
 					actionDefinition = new SimpleTerminalActionDefinition(TerminalActions.combined(action.additionalKey(),
-							theAction), action.additionalKey(), action.displayName(), position);
+							theAction), action.additionalKey(), displayName, position);
 				} else {
-					actionDefinition = new SimpleTerminalActionDefinition(ReflectionUtil.newInstance(theAction), action.additionalKey(),action.displayName(), null);
+					actionDefinition = new SimpleTerminalActionDefinition(ReflectionUtil.newInstance(theAction),
+							action.additionalKey(), displayName, null);
 				}
 
 				if (StringUtils.isEmpty(action.alias())) {
-					actionDefinition.setAlias(action.displayName());
+					actionDefinition.setAlias(displayName);
 				} else {
 					actionDefinition.setAlias(action.alias());
+				}
+
+				actionDefinition.setGlobal(action.global());
+
+				if (action.focusField().length() > 0) {
+					actionDefinition.setFocusField(action.focusField());
 				}
 
 				screenEntityDefinition.getActions().add(actionDefinition);
 				if (logger.isDebugEnabled()) {
 					logger.debug(MessageFormat.format("Action {0} - \"{1}\" was added to the registry for screen {2}",
-							theAction.getSimpleName(), action.displayName(), containingClass));
+							theAction.getSimpleName(), displayName, containingClass));
 				}
 
 			}
