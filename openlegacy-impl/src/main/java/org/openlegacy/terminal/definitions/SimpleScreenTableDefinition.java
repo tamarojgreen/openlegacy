@@ -127,8 +127,7 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 	}
 
 	public int getMaxRowsCount() {
-		// TODO handle (future) gaps
-		return getEndRow() - getStartRow() + 1;
+		return (getEndRow() - getStartRow() + 1) / getRowGaps();
 	}
 
 	public ScreenColumnDefinition getColumnDefinition(String fieldName) {
