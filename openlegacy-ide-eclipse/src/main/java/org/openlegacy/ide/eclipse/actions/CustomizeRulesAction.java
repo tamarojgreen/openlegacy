@@ -26,12 +26,8 @@ public class CustomizeRulesAction extends AbstractAction {
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		boolean cont = MessageDialog.openConfirm(
-				getShell(),
-				Messages.title_openlegacy,
-				MessageFormat.format(
-						Messages.message_customize_rules,
-						DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH));
+		boolean cont = MessageDialog.openConfirm(getShell(), Messages.getString("title_openlegacy"), MessageFormat.format(
+				Messages.getString("message_customize_rules"), DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH));
 		if (cont) {
 			IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
 			EclipseDesignTimeExecuter.instance().copyDesigntimeContext(project);

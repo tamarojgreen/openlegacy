@@ -30,7 +30,7 @@ import org.openlegacy.ide.eclipse.Messages;
 
 public class PopupUtil {
 
-	private static final String MESSAGE_DIALOG_TITLE = org.openlegacy.ide.eclipse.Messages.console_title_openlegacy;
+	private static final String MESSAGE_DIALOG_TITLE = org.openlegacy.ide.eclipse.Messages.getString("console_title_openlegacy");
 
 	private final static Log logger = LogFactory.getLog(PopupUtil.class);
 
@@ -231,7 +231,7 @@ public class PopupUtil {
 	//
 	private static class DoNotShowThisMessageAgainMessageDialog extends MessageDialog {
 
-		private static final String DO_NOT_SHOW_THIS_MESSAGE_AGAIN = Messages.label_do_not_show_again;
+		private static final String DO_NOT_SHOW_THIS_MESSAGE_AGAIN = Messages.getString("label_do_not_show_again");
 
 		public static final int DO_NOT_SHOW_AGAIN = 1;
 		public static final int CONTINUE_TO_SHOW = 0;

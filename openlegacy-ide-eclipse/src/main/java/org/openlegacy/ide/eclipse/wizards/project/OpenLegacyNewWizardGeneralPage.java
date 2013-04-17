@@ -47,8 +47,8 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 	 */
 	public OpenLegacyNewWizardGeneralPage(ISelection selection) {
 		super("wizardGeneralPage"); //$NON-NLS-1$
-		setTitle(Messages.title_ol_project_wizard);
-		setDescription(Messages.info_ol_project_wizard);
+		setTitle(Messages.getString("title_ol_project_wizard"));
+		setDescription(Messages.getString("info_ol_project_wizard"));
 	}
 
 	public void createControl(Composite parent) {
@@ -59,7 +59,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		layout.verticalSpacing = 9;
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText(Messages.label_template);
+		label.setText(Messages.getString("label_template"));
 
 		templateName = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		templateName.setItems(new String[] { "Pending..." });//$NON-NLS-1$
@@ -76,7 +76,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		templateDescription.setLayoutData(gd);
 
 		label = new Label(container, SWT.NULL);
-		label.setText(Messages.label_project_name);
+		label.setText(Messages.getString("label_project_name"));
 
 		projectNameTxt = new Text(container, SWT.BORDER | SWT.SINGLE);
 
@@ -93,7 +93,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		projectNameTxt.setFocus();
 
 		label = new Label(container, SWT.NULL);
-		label.setText(Messages.label_default_project);
+		label.setText(Messages.getString("label_default_project"));
 
 		defaultPackageTxt = new Text(container, SWT.BORDER | SWT.SINGLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -141,21 +141,21 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		IProject[] project = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject iProject : project) {
 			if (iProject.getName().equalsIgnoreCase(projectName)) {
-				updateStatus(Messages.error_project_already_exists);
+				updateStatus(Messages.getString("error_project_already_exists"));
 				return;
 			}
 		}
 
 		if (projectName.length() == 0) {
-			updateStatus(Messages.error_project_name_not_specified);
+			updateStatus(Messages.getString("error_project_name_not_specified"));
 			return;
 		}
 		if (defaultPackageTxt.getText().length() == 0) {
-			updateStatus(Messages.error_package_not_specified);
+			updateStatus(Messages.getString("error_package_not_specified"));
 			return;
 		}
 		if (projectName.replace('\\', '/').indexOf('/', 1) > 0) {
-			updateStatus(Messages.error_project_name_oinvalid);
+			updateStatus(Messages.getString("error_project_name_oinvalid"));
 			return;
 		}
 
@@ -220,7 +220,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 
 				public void run() {
 					setEnabled(false);
-					updateStatus(Messages.error_new_project_metadata_not_found);
+					updateStatus(Messages.getString("error_new_project_metadata_not_found"));
 				}
 			});
 			return;

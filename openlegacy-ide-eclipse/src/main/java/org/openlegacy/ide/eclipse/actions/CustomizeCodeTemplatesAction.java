@@ -23,10 +23,8 @@ public class CustomizeCodeTemplatesAction extends AbstractAction {
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		boolean cont = MessageDialog.openConfirm(
-				getShell(),
-				Messages.title_openlegacy,
-				Messages.message_customize_templates);
+		boolean cont = MessageDialog.openConfirm(getShell(), Messages.getString("title_openlegacy"),
+				Messages.getString("message_customize_templates"));
 		if (cont) {
 			IProject project = (IProject)((TreeSelection)getSelection()).getFirstElement();
 			EclipseDesignTimeExecuter.instance().copyCodeGenerationTemplates(project);

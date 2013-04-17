@@ -46,7 +46,8 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 		parent = new Composite(parent, SWT.NONE);
 
-		parent.getShell().setText(MessageFormat.format(Messages.title_ol_generate_screens_api, PluginConstants.TITLE));
+		parent.getShell().setText(
+				MessageFormat.format(Messages.getString("title_ol_generate_screens_api"), PluginConstants.TITLE));
 
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
@@ -57,8 +58,8 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		parent.setLayout(gridLayout);
 
 		tablesComposite = new TablesCompositeImpl(parent, SWT.NONE, 280, gd.heightHint);
-		tablesComposite.fillTables(screenEntityDefinition.getSortedFields(),
-				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
+		tablesComposite.fillTables(screenEntityDefinition.getSortedFields(), screenEntityDefinition.getScreenIdentification()
+				.getScreenIdentifiers());
 
 		Composite composite = new Composite(parent, SWT.NONE);
 		gridLayout = new GridLayout();
@@ -67,7 +68,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label labelPackage = new Label(composite, SWT.NULL);
-		labelPackage.setText(Messages.field_entity_name);
+		labelPackage.setText(Messages.getString("field_entity_name"));
 		entityNameTxt = new Text(composite, SWT.SINGLE | SWT.BORDER);
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -89,12 +90,12 @@ public class CustomizeScreenEntityDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		if (entityNameTxt.getText().length() == 0) {
-			PopupUtil.error(Messages.error_entity_name_not_specified);
+			PopupUtil.error(Messages.getString("error_entity_name_not_specified"));
 			return;
 		}
 		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
-		this.tablesComposite.cleanupScreenentityDefinition(screenEntityDefinition.getFieldsDefinitions(),
-				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
+		this.tablesComposite.cleanupScreenentityDefinition(screenEntityDefinition.getFieldsDefinitions(), screenEntityDefinition
+				.getScreenIdentification().getScreenIdentifiers());
 		super.okPressed();
 	}
 }

@@ -85,7 +85,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		parent.getShell().setText(PluginConstants.TITLE);
 
 		Label label = new Label(parent, SWT.NULL);
-		label.setText(Messages.label_source_folder);
+		label.setText(Messages.getString("label_source_folder"));
 
 		setSourceFolderPathText(new Text(parent, SWT.SINGLE | SWT.BORDER));
 
@@ -94,7 +94,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		getSourceFolderPathText().setLayoutData(gd);
 		Button sourceFolderButton = new Button(parent, SWT.NONE);
-		sourceFolderButton.setText(Messages.label_browse);
+		sourceFolderButton.setText(Messages.getString("label_browse"));
 		sourceFolderButton.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
@@ -107,7 +107,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		});
 
 		Label labelPackage = new Label(parent, SWT.NULL);
-		labelPackage.setText(Messages.label_package);
+		labelPackage.setText(Messages.getString("label_package"));
 		packageText = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		getPackageText().setLayoutData(gd);
@@ -122,7 +122,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		new Label(parent, SWT.NONE);
 
 		Button useAjButton = new Button(parent, SWT.CHECK);
-		useAjButton.setText(Messages.label_use_aj);
+		useAjButton.setText(Messages.getString("label_use_aj"));
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		useAjButton.setLayoutData(gd);
@@ -189,8 +189,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 						return (((IPackageFragmentRoot)element).getKind() == IPackageFragmentRoot.K_SOURCE);
 					}
 					return true;
-				} catch (JavaModelException e) {
-				}
+				} catch (JavaModelException e) {}
 				return false;
 			}
 		};
@@ -203,8 +202,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 				if (element instanceof IPackageFragmentRoot) {
 					try {
 						return (((IPackageFragmentRoot)element).getKind() == IPackageFragmentRoot.K_SOURCE);
-					} catch (JavaModelException e) {
-					}
+					} catch (JavaModelException e) {}
 				} else if (element instanceof IJavaProject) {
 					IJavaProject javaPr = (IJavaProject)element;
 					return javaPr.isOpen();
@@ -243,11 +241,11 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 	private boolean validate() {
 
 		if (getPackageText().getText().length() == 0) {
-			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.error_package_cannot_be_empty);
+			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.getString("error_package_cannot_be_empty"));
 			return false;
 		}
 		if (getSourceFolderPathText().getText().length() == 0) {
-			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.error_source_folder_cannot_be_empty);
+			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.getString("error_source_folder_cannot_be_empty"));
 			return false;
 		}
 		return true;
@@ -276,7 +274,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 			public void run() {
 				result[0] = MessageDialog.openQuestion(getShell(), PluginConstants.TITLE,
-						MessageFormat.format(Messages.question_override_file, file.getName()));
+						MessageFormat.format(Messages.getString("question_override_file"), file.getName()));
 			}
 		});
 

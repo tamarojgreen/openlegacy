@@ -19,7 +19,7 @@ public class PluginConstants {
 
 	public static final String OPENLEGACY_PROJECT_NATURE_ID = "org.openlegacy.ide.eclipse.nature"; //$NON-NLS-1$
 
-	public static final String TITLE = Messages.title_openlegacy;
+	public static final String TITLE = Messages.getString("title_openlegacy");
 
 	public static final String OPENLEGACY_IMAGE_VIEW_ID = null;
 

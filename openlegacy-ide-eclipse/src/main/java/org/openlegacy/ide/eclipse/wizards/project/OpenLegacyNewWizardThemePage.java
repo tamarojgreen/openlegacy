@@ -45,8 +45,8 @@ public class OpenLegacyNewWizardThemePage extends WizardPage {
 
 	protected OpenLegacyNewWizardThemePage(String pageName) {
 		super("wizardThemePage");//$NON-NLS-1$
-		setTitle(Messages.title_ol_project_wizard);
-		setDescription(Messages.info_ol_project_wizard);
+		setTitle(Messages.getString("title_ol_project_wizard"));
+		setDescription(Messages.getString("info_ol_project_wizard"));
 	}
 
 	public void createControl(Composite parent) {
@@ -91,8 +91,7 @@ public class OpenLegacyNewWizardThemePage extends WizardPage {
 				e.gc.drawImage(image, x, 0);
 				try {
 					in.close();
-				} catch (IOException e1) {
-				}
+				} catch (IOException e1) {}
 			}
 		};
 	}
@@ -134,7 +133,7 @@ public class OpenLegacyNewWizardThemePage extends WizardPage {
 			getControl().getDisplay().syncExec(new Runnable() {
 
 				public void run() {
-					updateStatus(Messages.error_new_project_metadata_not_found);
+					updateStatus(Messages.getString("error_new_project_metadata_not_found"));
 				}
 			});
 			return;

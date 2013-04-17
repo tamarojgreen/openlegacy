@@ -73,166 +73,57 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ScreenPreview extends ViewPart {
 
+	private static final String IDENTIFIER_ANNOTATION = "org.openlegacy.annotations.screen.Identifier";
+	private static final String SCREEN_ENTITY_ANNOTATION = "org.openlegacy.annotations.screen.ScreenEntity";
+	private static final String SCREEN_ENTITY_ANNOTATION_SHORT = "ScreenEntity";
+	private static final String SCREEN_FIELD_ANNOTATION = "org.openlegacy.annotations.screen.ScreenField";
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "org.openlegacy.ide.eclipse.preview.ScreenPreview";
-	private static final String SCREEN_ENTITY_ANNOTATION = "org.openlegacy.annotations.screen.ScreenEntity";
-	private static final String SCREEN_ENTITY_ANNOTATION_SHORT = "ScreenEntity";
-	private static final String IDENTIFIER_ANNOTATION = "org.openlegacy.annotations.screen.Identifier";
-	private static final String SCREEN_FIELD_ANNOTATION = "org.openlegacy.annotations.screen.ScreenField";
-	private final String XML_EXTENSION = ".xml";
 
-	private SnapshotComposite snapshotComposite;
-
-	private EditorListener editorListener;
-
-	private boolean isVisible;
-	private IEditorPart lastActiveEditor;
-
-	private Map<String, JavaClassProperties> cacheJavaClassPropertiesContainer = new HashMap<String, JavaClassProperties>();
-	private Map<String, StyledText> cacheStyledTextContainer = new HashMap<String, StyledText>();
-	private Map<String, CompilationUnit> cacheCompilationUnitContainer = new HashMap<String, CompilationUnit>();
-
-	private TerminalSnapshot terminalSnapshot;
-	// used by IOpenLegacyEditor
-	private FieldRectangle fieldRectangle = null;
-
-	/**
-	 * The constructor.
-	 */
-	public ScreenPreview() {}
-
-	// **************** OVERRIDEN ****************
-	/**
-	 * This is a callback that will allow us to create the viewer and initialize it.
-	 */
-	@Override
-	public void createPartControl(Composite parent) {
-		snapshotComposite = new SnapshotComposite(parent);
-		snapshotComposite.setIsScalable(true);
-	}
-
-	/**
-	 * Passing the focus request to the viewer's control.
-	 */
-	@Override
-	public void setFocus() {
-		snapshotComposite.setFocus();
-	}
-
-	@Override
-	public void init(IViewSite site) throws PartInitException {
-		super.init(site);
-		if (editorListener == null) {
-			editorListener = new EditorListener(this);
-			// set Part listener
-			getSite().getWorkbenchWindow().getPartService().addPartListener(editorListener);
-			// set FileBuffer listener
-			FileBuffers.getTextFileBufferManager().addFileBufferListener(editorListener);
+	private static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
+		List<T> r = new ArrayList<T>(c.size());
+		for (Object o : c) {
+			r.add(clazz.cast(o));
 		}
-
+		return r;
 	}
 
-	@Override
-	public void dispose() {
-		super.dispose();
+	private static CompilationUnit createParser(ICompilationUnit javaInput) {
+		ASTParser parser = ASTParser.newParser(AST.JLS4);
+		parser.setSource(javaInput);
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		parser.setResolveBindings(true);
 
-		if (editorListener != null) {
-			// remove Part listener
-			getSite().getWorkbenchWindow().getPartService().removePartListener(editorListener);
-			// remove FileBuffer listener
-			FileBuffers.getTextFileBufferManager().removeFileBufferListener(editorListener);
+		return (CompilationUnit)parser.createAST(null);
+	}
 
-			// remove Caret & Modify listeners
-			for (StyledText styledText : cacheStyledTextContainer.values()) {
-				if (!styledText.isDisposed()) {
-					styledText.removeCaretListener(editorListener);
-					styledText.removeModifyListener(editorListener);
-				}
+	private static CompilationUnit createParser(String input) {
+		ASTParser parser = ASTParser.newParser(AST.JLS4);
+		parser.setSource(input.toCharArray());
+		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		parser.setResolveBindings(true);
+
+		return (CompilationUnit)parser.createAST(null);
+	}
+
+	private static IEditorPart getActiveEditor() {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (window != null) {
+			IWorkbenchPage page = window.getActivePage();
+			if (page != null) {
+				return page.getActiveEditor();
 			}
-			editorListener.dispose();
-			editorListener = null;
 		}
+		return null;
 	}
 
-	// **************** PUBLIC ****************
-
-	public void showEnlargedImage(){
-		snapshotComposite.showEnlargedImage();
-	}
-	
-	public void showMessage(String message) {
-		MessageDialog.openInformation(snapshotComposite.getShell(), "Screen Preview", message);
+	private static IFile getFile(String path) {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		return root.getFile(new Path(path));
 	}
 
-	public void handlePartActivated(IWorkbenchPart part) {
-		doPartActivated();
-	}
-
-	public void handlePartClosed(IWorkbenchPart part) {
-		// hide image if editor with annotation closed
-		if (part == lastActiveEditor) {
-			snapshotComposite.setVisible(false);
-		}
-	}
-
-	public void handlePartHidden(IWorkbenchPart part) {
-		if (this == part) {
-			isVisible = false;
-		}
-	}
-
-	public void handleBufferIsDirty(IFileBuffer buffer) {
-		// parse annotation(buffer) to update in cache
-		String key = buffer.getLocation().toOSString();
-		if (cacheJavaClassPropertiesContainer.containsKey(key)) {
-			JavaClassProperties properties = getJavaClassProperties(key, buffer);
-			cacheJavaClassPropertiesContainer.put(key, properties);
-		}
-		doPartActivated();
-	}
-
-	public void handlePartVisible(IWorkbenchPart part) {
-		if (this == part) {
-			if (isVisible) {
-				return;
-			}
-			isVisible = true;
-		}
-	}
-
-	public void handleCaretMoved(CaretEvent caretEvent) {
-		handleCaretMoved(caretEvent.caretOffset);
-	}
-
-	public void handleModifyText(ModifyEvent event) {
-		IJavaElement javaInput = getJavaInput();
-		if (javaInput == null) {
-			return;
-		}
-		String key = javaInput.getPath().toOSString();
-		if (!cacheCompilationUnitContainer.containsKey(key)) {
-			return;
-		}
-		CompilationUnit cu = createParser((ICompilationUnit)javaInput);
-		cacheCompilationUnitContainer.put(key, cu);
-		StyledText styledText = cacheStyledTextContainer.get(key);
-		if ((styledText != null) && !styledText.isDisposed()) {
-			this.handleCaretMoved(styledText.getCaretOffset());
-		}
-	}
-
-	public void setFieldRectangle(FieldRectangle rectangle) {
-		this.fieldRectangle = rectangle;
-		if (this.fieldRectangle != null) {
-			this.snapshotComposite.setDrawingRectangle(getRectangle(this.fieldRectangle.getRow(),
-					this.fieldRectangle.getEndRow(), this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(),
-					this.fieldRectangle.getValue()));
-		}
-	}
-
-	// **************** PRIVATE ****************
 	/**
 	 * Extract IJavaElement if current document is a java file
 	 * 
@@ -252,48 +143,45 @@ public class ScreenPreview extends ViewPart {
 		return null;
 	}
 
-	/**
-	 * Extract JavaClassProperties if current source annotated with <b>@ScreenEntity</b>
-	 * 
-	 * @return JavaClassProperties instance or null
-	 */
-	private JavaClassProperties getJavaClassProperties(String key, Object source) {
-		final AtomicBoolean isAccepted = new AtomicBoolean(false);
-		IFile xmlFile = null;
-
-		CompilationUnit cu = cacheCompilationUnitContainer.get(key);
-		if (cu == null) {
-			// create parser
-			if (source instanceof ITextFileBuffer) {
-				cu = createParser(((ITextFileBuffer)source).getDocument().get());
-			} else {
-				cu = createParser((ICompilationUnit)source);
-			}
+	private static IJavaElement getJavaInput(IEditorPart part) {
+		IEditorInput editorInput = part.getEditorInput();
+		if (editorInput != null) {
+			IJavaElement input = (IJavaElement)editorInput.getAdapter(IJavaElement.class);
+			return input;
 		}
+		return null;
+	}
 
-		cacheCompilationUnitContainer.put(key, cu);
-
-		if (cu == null) {
-			return null;
-		}
-
-		final List<String> imports = prepareImports(cu.imports().toArray());
-
-		// run through the code and visit Annotation nodes
-		cu.accept(new ASTVisitor() {
-
-			@Override
-			public boolean visit(NormalAnnotation node) {
-				if (node != null && !isAccepted.get()) {
-					isAccepted.set(inspectAnnotationNode(node, imports));
+	private static boolean inspectAnnotationNode(NormalAnnotation node, List<String> imports) {
+		Name typeName = node.getTypeName();
+		ITypeBinding binding = typeName.resolveTypeBinding();
+		if (binding != null) {
+			String qualifiedName = binding.getQualifiedName();
+			if (qualifiedName != null) {
+				if (qualifiedName.equals(SCREEN_ENTITY_ANNOTATION)) {
+					return true;
 				}
-				return true;
 			}
-		});
-		if (isAccepted.get()) {
-			xmlFile = getXmlFile(cu.getJavaElement().getPath());
+		} else {
+			// in case if binding is not resolved
+			String fullyQualifiedName = typeName.getFullyQualifiedName();
+			if (fullyQualifiedName.equals(SCREEN_ENTITY_ANNOTATION) || fullyQualifiedName.equals(SCREEN_ENTITY_ANNOTATION_SHORT)) {
+				if (imports.contains(SCREEN_ENTITY_ANNOTATION)
+						|| imports.contains(SCREEN_ENTITY_ANNOTATION.replace(SCREEN_ENTITY_ANNOTATION_SHORT, "*"))) {
+					return true;
+				}
+			}
 		}
-		return new JavaClassProperties(xmlFile, isAccepted.get());
+		return false;
+	}
+
+	private static boolean isInteger(String value) {
+		try {
+			Integer.parseInt(value);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	private static List<String> prepareImports(Object[] imports) {
@@ -305,34 +193,56 @@ public class ScreenPreview extends ViewPart {
 		return importList;
 	}
 
-	private static IFile getFile(String path) {
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		return root.getFile(new Path(path));
-	}
+	private Map<String, CompilationUnit> cacheCompilationUnitContainer = new HashMap<String, CompilationUnit>();
 
-	private void showPreviewImage(IJavaElement javaInput, IFile xmlFile) throws JavaModelException {
+	private Map<String, JavaClassProperties> cacheJavaClassPropertiesContainer = new HashMap<String, JavaClassProperties>();
 
-		if (xmlFile != null && xmlFile.exists()) {
-			// show snapshot composite
-			DefaultTerminalSnapshotsLoader loader = new DefaultTerminalSnapshotsLoader();
-			terminalSnapshot = loader.load(new File(xmlFile.getLocationURI()).getAbsolutePath());
-			snapshotComposite.setSnapshot(terminalSnapshot);
-			snapshotComposite.setVisible(true);
-			return;
+	private Map<String, StyledText> cacheStyledTextContainer = new HashMap<String, StyledText>();
+
+	private EditorListener editorListener;
+
+	private FieldRectangle fieldRectangle = null;
+
+	private boolean isVisible;
+
+	private IEditorPart lastActiveEditor;
+
+	private SnapshotComposite snapshotComposite;
+
+	private TerminalSnapshot terminalSnapshot;
+
+	private final String XML_EXTENSION = ".xml";
+
+	/**
+	 * The constructor.
+	 */
+	public ScreenPreview() {}
+
+	private boolean checkVisitedAnnotation(NormalAnnotation annotation) {
+		int row = 0;
+		int col = 0;
+		int endCol = 0;
+		String val = "";
+
+		List<MemberValuePair> values = castList(MemberValuePair.class, annotation.values());
+		for (MemberValuePair pair : values) {
+			SimpleName key = pair.getName();
+			String value = pair.getValue().toString();
+			if (key.getIdentifier().equalsIgnoreCase("row") && isInteger(value)) {
+				row = new Integer(value).intValue();
+			}
+			if (key.getIdentifier().equalsIgnoreCase("column") && isInteger(value)) {
+				col = new Integer(value).intValue();
+			}
+			if (key.getIdentifier().equalsIgnoreCase("endColumn") && isInteger(value)) {
+				endCol = new Integer(value).intValue();
+			}
+			if (key.getIdentifier().equalsIgnoreCase("value")) {
+				val = value;
+			}
 		}
-		// hide image
-		snapshotComposite.setVisible(false);
-	}
-
-	private IFile getXmlFile(IPath path) {
-		String className = path.lastSegment().replace("." + path.getFileExtension(), "");
-		StringBuilder builder = new StringBuilder(path.removeFileExtension().toOSString());
-		builder.append("-resources");
-		builder.append(File.separator);
-		builder.append(className + XML_EXTENSION);
-
-		return getFile(builder.toString());
-
+		snapshotComposite.setDrawingRectangle(getRectangle(row, row, col, endCol, val));
+		return true;
 	}
 
 	private void doPartActivated() {
@@ -394,65 +304,89 @@ public class ScreenPreview extends ViewPart {
 		snapshotComposite.setVisible(false);
 	}
 
-	private static CompilationUnit createParser(ICompilationUnit javaInput) {
-		ASTParser parser = ASTParser.newParser(AST.JLS4);
-		parser.setSource(javaInput);
-		parser.setKind(ASTParser.K_COMPILATION_UNIT);
-		parser.setResolveBindings(true);
+	/**
+	 * Extract JavaClassProperties if current source annotated with <b>@ScreenEntity</b>
+	 * 
+	 * @return JavaClassProperties instance or null
+	 */
+	private JavaClassProperties getJavaClassProperties(String key, Object source) {
+		final AtomicBoolean isAccepted = new AtomicBoolean(false);
+		IFile xmlFile = null;
 
-		return (CompilationUnit)parser.createAST(null);
-	}
+		CompilationUnit cu = cacheCompilationUnitContainer.get(key);
+		if (cu == null) {
+			// create parser
+			if (source instanceof ITextFileBuffer) {
+				cu = createParser(((ITextFileBuffer)source).getDocument().get());
+			} else {
+				cu = createParser((ICompilationUnit)source);
+			}
+		}
 
-	private static CompilationUnit createParser(String input) {
-		ASTParser parser = ASTParser.newParser(AST.JLS4);
-		parser.setSource(input.toCharArray());
-		parser.setKind(ASTParser.K_COMPILATION_UNIT);
-		parser.setResolveBindings(true);
+		cacheCompilationUnitContainer.put(key, cu);
 
-		return (CompilationUnit)parser.createAST(null);
-	}
+		if (cu == null) {
+			return null;
+		}
 
-	private static boolean inspectAnnotationNode(NormalAnnotation node, List<String> imports) {
-		Name typeName = node.getTypeName();
-		ITypeBinding binding = typeName.resolveTypeBinding();
-		if (binding != null) {
-			String qualifiedName = binding.getQualifiedName();
-			if (qualifiedName != null) {
-				if (qualifiedName.equals(SCREEN_ENTITY_ANNOTATION)) {
-					return true;
+		final List<String> imports = prepareImports(cu.imports().toArray());
+
+		// run through the code and visit Annotation nodes
+		cu.accept(new ASTVisitor() {
+
+			@Override
+			public boolean visit(NormalAnnotation node) {
+				if (node != null && !isAccepted.get()) {
+					isAccepted.set(inspectAnnotationNode(node, imports));
 				}
+				return true;
 			}
-		} else {
-			// in case if binding is not resolved
-			String fullyQualifiedName = typeName.getFullyQualifiedName();
-			if (fullyQualifiedName.equals(SCREEN_ENTITY_ANNOTATION) || fullyQualifiedName.equals(SCREEN_ENTITY_ANNOTATION_SHORT)) {
-				if (imports.contains(SCREEN_ENTITY_ANNOTATION)
-						|| imports.contains(SCREEN_ENTITY_ANNOTATION.replace(SCREEN_ENTITY_ANNOTATION_SHORT, "*"))) {
-					return true;
-				}
-			}
+		});
+		if (isAccepted.get()) {
+			xmlFile = getXmlFile(cu.getJavaElement().getPath());
 		}
-		return false;
+		return new JavaClassProperties(xmlFile, isAccepted.get());
 	}
 
-	private static IEditorPart getActiveEditor() {
-		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		if (window != null) {
-			IWorkbenchPage page = window.getActivePage();
-			if (page != null) {
-				return page.getActiveEditor();
+	private Rectangle getRectangle(int row, int endRow, int column, int endColumn, String value) {
+		if (terminalSnapshot == null) {
+			return new Rectangle(0, 0, 0, 0);
+		}
+		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
+
+		int length = 0;
+		if (endColumn == 0) {
+			SimpleTerminalPosition terminalPosition = new SimpleTerminalPosition(row, column);
+			TerminalField field = terminalSnapshot.getField(terminalPosition);
+			if (field != null) {
+				TerminalPosition endPosition = field.getEndPosition();
+				endColumn = endPosition.getColumn();
+			} else {
+				// if column attribute was changed then calculate endColumn
+				endColumn = column + value.length() - 1;
 			}
 		}
-		return null;
+		length = endColumn - column + 1;
+
+		int x = renderer.toWidth(column - 1 + renderer.getLeftColumnsOffset());
+		int y = renderer.toHeight(row - 1) + renderer.getTopPixelsOffset();
+		int width = renderer.toWidth(length);
+		int height = renderer.toHeight(1);
+		if (endRow >= row) {
+			height = renderer.toHeight(endRow - row + 1);
+		}
+		return new Rectangle(x, y, width, height);
 	}
 
-	private static IJavaElement getJavaInput(IEditorPart part) {
-		IEditorInput editorInput = part.getEditorInput();
-		if (editorInput != null) {
-			IJavaElement input = (IJavaElement)editorInput.getAdapter(IJavaElement.class);
-			return input;
-		}
-		return null;
+	private IFile getXmlFile(IPath path) {
+		String className = path.lastSegment().replace("." + path.getFileExtension(), "");
+		StringBuilder builder = new StringBuilder(path.removeFileExtension().toOSString());
+		builder.append("-resources");
+		builder.append(File.separator);
+		builder.append(className + XML_EXTENSION);
+
+		return getFile(builder.toString());
+
 	}
 
 	private void handleCaretMoved(int widgetCaretOffset) {
@@ -529,77 +463,147 @@ public class ScreenPreview extends ViewPart {
 		});
 	}
 
-	private boolean checkVisitedAnnotation(NormalAnnotation annotation) {
-		int row = 0;
-		int col = 0;
-		int endCol = 0;
-		String val = "";
+	private void showPreviewImage(IJavaElement javaInput, IFile xmlFile) throws JavaModelException {
 
-		List<MemberValuePair> values = castList(MemberValuePair.class, annotation.values());
-		for (MemberValuePair pair : values) {
-			SimpleName key = pair.getName();
-			String value = pair.getValue().toString();
-			if (key.getIdentifier().equalsIgnoreCase("row") && isInteger(value)) {
-				row = new Integer(value).intValue();
-			}
-			if (key.getIdentifier().equalsIgnoreCase("column") && isInteger(value)) {
-				col = new Integer(value).intValue();
-			}
-			if (key.getIdentifier().equalsIgnoreCase("endColumn") && isInteger(value)) {
-				endCol = new Integer(value).intValue();
-			}
-			if (key.getIdentifier().equalsIgnoreCase("value")) {
-				val = value;
-			}
+		if (xmlFile != null && xmlFile.exists()) {
+			// show snapshot composite
+			DefaultTerminalSnapshotsLoader loader = new DefaultTerminalSnapshotsLoader();
+			terminalSnapshot = loader.load(new File(xmlFile.getLocationURI()).getAbsolutePath());
+			snapshotComposite.setSnapshot(terminalSnapshot);
+			snapshotComposite.setVisible(true);
+			return;
 		}
-		snapshotComposite.setDrawingRectangle(getRectangle(row, row, col, endCol, val));
-		return true;
+		// hide image
+		snapshotComposite.setVisible(false);
 	}
 
-	private static boolean isInteger(String value) {
-		try {
-			Integer.parseInt(value);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
+	/**
+	 * This is a callback that will allow us to create the viewer and initialize it.
+	 */
+	@Override
+	public void createPartControl(Composite parent) {
+		snapshotComposite = new SnapshotComposite(parent);
+		snapshotComposite.setIsScalable(true);
 	}
 
-	private static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
-		List<T> r = new ArrayList<T>(c.size());
-		for (Object o : c) {
-			r.add(clazz.cast(o));
-		}
-		return r;
-	}
+	@Override
+	public void dispose() {
+		super.dispose();
 
-	private Rectangle getRectangle(int row, int endRow, int column, int endColumn, String value) {
-		if (terminalSnapshot == null) {
-			return new Rectangle(0, 0, 0, 0);
-		}
-		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
+		if (editorListener != null) {
+			// remove Part listener
+			getSite().getWorkbenchWindow().getPartService().removePartListener(editorListener);
+			// remove FileBuffer listener
+			FileBuffers.getTextFileBufferManager().removeFileBufferListener(editorListener);
 
-		int length = 0;
-		if (endColumn == 0) {
-			SimpleTerminalPosition terminalPosition = new SimpleTerminalPosition(row, column);
-			TerminalField field = terminalSnapshot.getField(terminalPosition);
-			if (field != null) {
-				TerminalPosition endPosition = field.getEndPosition();
-				endColumn = endPosition.getColumn();
-			} else {
-				// if column attribute was changed then calculate endColumn
-				endColumn = column + value.length() - 1;
+			// remove Caret & Modify listeners
+			for (StyledText styledText : cacheStyledTextContainer.values()) {
+				if (!styledText.isDisposed()) {
+					styledText.removeCaretListener(editorListener);
+					styledText.removeModifyListener(editorListener);
+				}
 			}
+			editorListener.dispose();
+			editorListener = null;
 		}
-		length = endColumn - column + 1;
+	}
 
-		int x = renderer.toWidth(column - 1 + renderer.getLeftColumnsOffset());
-		int y = renderer.toHeight(row - 1) + renderer.getTopPixelsOffset();
-		int width = renderer.toWidth(length);
-		int height = renderer.toHeight(1);
-		if (endRow >= row) {
-			height = renderer.toHeight(endRow - row + 1);
+	public FieldRectangle getSelectedRectangle() {
+		return this.snapshotComposite.getSelectedRectangle();
+	}
+
+	public void handleBufferIsDirty(IFileBuffer buffer) {
+		// parse annotation(buffer) to update in cache
+		String key = buffer.getLocation().toOSString();
+		if (cacheJavaClassPropertiesContainer.containsKey(key)) {
+			JavaClassProperties properties = getJavaClassProperties(key, buffer);
+			cacheJavaClassPropertiesContainer.put(key, properties);
 		}
-		return new Rectangle(x, y, width, height);
+		doPartActivated();
+	}
+
+	public void handleCaretMoved(CaretEvent caretEvent) {
+		handleCaretMoved(caretEvent.caretOffset);
+	}
+
+	public void handleModifyText(ModifyEvent event) {
+		IJavaElement javaInput = getJavaInput();
+		if (javaInput == null) {
+			return;
+		}
+		String key = javaInput.getPath().toOSString();
+		if (!cacheCompilationUnitContainer.containsKey(key)) {
+			return;
+		}
+		CompilationUnit cu = createParser((ICompilationUnit)javaInput);
+		cacheCompilationUnitContainer.put(key, cu);
+		StyledText styledText = cacheStyledTextContainer.get(key);
+		if ((styledText != null) && !styledText.isDisposed()) {
+			this.handleCaretMoved(styledText.getCaretOffset());
+		}
+	}
+
+	public void handlePartActivated(IWorkbenchPart part) {
+		doPartActivated();
+	}
+
+	public void handlePartClosed(IWorkbenchPart part) {
+		// hide image if editor with annotation closed
+		if (part == lastActiveEditor) {
+			snapshotComposite.setVisible(false);
+		}
+	}
+
+	public void handlePartHidden(IWorkbenchPart part) {
+		if (this == part) {
+			isVisible = false;
+		}
+	}
+
+	public void handlePartVisible(IWorkbenchPart part) {
+		if (this == part) {
+			if (isVisible) {
+				return;
+			}
+			isVisible = true;
+		}
+	}
+
+	@Override
+	public void init(IViewSite site) throws PartInitException {
+		super.init(site);
+		if (editorListener == null) {
+			editorListener = new EditorListener(this);
+			// set Part listener
+			getSite().getWorkbenchWindow().getPartService().addPartListener(editorListener);
+			// set FileBuffer listener
+			FileBuffers.getTextFileBufferManager().addFileBufferListener(editorListener);
+		}
+
+	}
+
+	public void setFieldRectangle(FieldRectangle rectangle) {
+		this.fieldRectangle = rectangle;
+		if (this.fieldRectangle != null) {
+			this.snapshotComposite.setDrawingRectangle(getRectangle(this.fieldRectangle.getRow(),
+					this.fieldRectangle.getEndRow(), this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(),
+					this.fieldRectangle.getValue()));
+		}
+	}
+
+	/**
+	 * Passing the focus request to the viewer's control.
+	 */
+	@Override
+	public void setFocus() {
+		snapshotComposite.setFocus();
+	}
+
+	public void showEnlargedImage() {
+		snapshotComposite.showEnlargedImage();
+	}
+
+	public void showMessage(String message) {
+		MessageDialog.openInformation(snapshotComposite.getShell(), "Screen Preview", message);
 	}
 }
