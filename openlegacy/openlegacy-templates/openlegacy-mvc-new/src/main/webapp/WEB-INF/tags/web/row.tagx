@@ -12,7 +12,7 @@
     <table class="panelRow">
     	<tr>
 			<jsp:doBody />
-			<td><!-- place holder --></td>
+			<td class="placeHolder"><!--  --></td>
     	</tr>
 	</table>
 	<c:set var="columnWidth" value="" scope="request" />
