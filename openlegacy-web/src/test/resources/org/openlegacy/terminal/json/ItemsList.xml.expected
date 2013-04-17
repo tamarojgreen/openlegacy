@@ -96,7 +96,8 @@
         <entityName>ItemsList</entityName>
     </paths>
     <actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:java="http://java.sun.com" defaultAction="false" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+        xmlns:java="http://java.sun.com" defaultAction="false"
+        global="true" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
         <additionalKey>SHIFT</additionalKey>
         <actionName>CombinedTerminalAction</actionName>
         <displayName>Number Seq</displayName>
