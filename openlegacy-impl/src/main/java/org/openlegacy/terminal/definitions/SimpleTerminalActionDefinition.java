@@ -32,6 +32,8 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	private boolean defaultAction;
 
+	private String focusField;
+
 	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
 			String displayName, TerminalPosition position) {
 		super(action, displayName);
@@ -70,5 +72,13 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	public void setTargetEntityDefinition(ScreenEntityDefinition targetEntityDefinition) {
 		this.targetEntityDefinition = targetEntityDefinition;
+	}
+
+	public String getFocusField() {
+		return focusField;
+	}
+
+	public void setFocusField(String focusField) {
+		this.focusField = focusField;
 	}
 }

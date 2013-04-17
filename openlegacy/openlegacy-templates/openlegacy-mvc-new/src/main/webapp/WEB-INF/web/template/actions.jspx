@@ -17,22 +17,24 @@
 				</a>
 			</li>
 			<c:forEach items="${definitions.actions}" var="action">
-				<c:set var="image" value="/icons/${action.alias}.png" />
-				<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">
-					<c:set var="image" value="/icons/submit.png" />
+				<c:if test="${action.global}">
+					<c:set var="image" value="/icons/${action.alias}.png" />
+					<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">
+						<c:set var="image" value="/icons/submit.png" />
+					</c:if>
+					<li>
+						<a href="javascript:doPost('${definitions.entityName}','${action.alias}');">
+							<img src="${pageContext.request.contextPath}${image}" width="15" height="14"
+								alt="${action.alias}" />
+							${action.displayName}
+						</a>
+					</li>
 				</c:if>
-				<li>
-					<a href="javascript:doPost('${definitions.entityName}','${action.alias}');">
-						<img src="${pageContext.request.contextPath}${image}" width="15" height="14"
-							alt="${action.alias}" />
-						${action.displayName}
-					</a>
-				</li>
 			</c:forEach>
 			<c:if test="${fn:length(definitions.tableDefinitions) > 0}">
 				<li class="right">
 				  	<spring:message code="label_excel" var="label_excel" htmlEscape="false" />
-					<a href="${definitions.entityName}/excel">
+					<a href="${pageContext.request.contextPath}/${definitions.entityName}/excel">
 						<img src="${pageContext.request.contextPath}/icons/excel.png" class="excel" />
 						${label_excel}
 					</a>

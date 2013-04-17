@@ -31,4 +31,7 @@ public interface TerminalActionDefinition extends ActionDefinition, TerminalPosi
 	AdditionalKey getAdditionalKey();
 
 	Class<?> getTargetEntity();
+
+	String getFocusField();
+
 }

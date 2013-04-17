@@ -29,6 +29,8 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	private String targetEntityName;
 
+	private boolean global;
+
 	/**
 	 * for serialization purpose only
 	 */
@@ -96,4 +98,13 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	public void setTargetEntityName(String targetEntityName) {
 		this.targetEntityName = targetEntityName;
 	}
+
+	public boolean isGlobal() {
+		return global;
+	}
+
+	public void setGlobal(boolean global) {
+		this.global = global;
+	}
+
 }

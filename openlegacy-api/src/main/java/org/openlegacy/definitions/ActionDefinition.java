@@ -52,9 +52,17 @@ public interface ActionDefinition {
 	String getAlias();
 
 	/**
-	 * Whteher the action is the default action from a given list of actions
+	 * Whether the action is the default action from a given list of actions
 	 * 
-	 * @return Whteher the action is the default action
+	 * @return Whether the action is the default action
 	 */
 	boolean isDefaultAction();
+
+	/**
+	 * Whether the action is global or not
+	 * 
+	 * @return whether the action is global
+	 */
+	boolean isGlobal();
+
 }

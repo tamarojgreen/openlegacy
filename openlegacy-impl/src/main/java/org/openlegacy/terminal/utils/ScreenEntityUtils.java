@@ -123,10 +123,11 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 	 *            The screen entity to send
 	 * @param actionAlias
 	 *            An action alias which belongs to the screen entity
-	 *            
+	 * 
 	 * @return The invoked action definition
 	 */
-	public TerminalActionDefinition sendScreenEntity(TerminalSession terminalSession, ScreenEntity screenEntity, String actionAlias) {
+	public TerminalActionDefinition sendScreenEntity(TerminalSession terminalSession, ScreenEntity screenEntity,
+			String actionAlias) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
 		TerminalAction sessionAction = null;
@@ -137,13 +138,17 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 			List<ActionDefinition> actions = entityDefinitions.getActions();
 			for (ActionDefinition actionDefinition : actions) {
 				if (actionDefinition.getAlias().equals(actionAlias)) {
-					invokedActionDefinition = (TerminalActionDefinition) actionDefinition;
+					invokedActionDefinition = (TerminalActionDefinition)actionDefinition;
 					sessionAction = (TerminalAction)actionDefinition.getAction();
 				}
 			}
 			if (sessionAction == null) {
 				sessionAction = defaultActionAliasToAction.get(actionAlias);
 			}
+		}
+
+		if (invokedActionDefinition != null && invokedActionDefinition.getFocusField() != null) {
+			screenEntity.setFocusField(invokedActionDefinition.getFocusField());
 		}
 		Assert.notNull(sessionAction, MessageFormat.format("Alias for session action {0} not found", actionAlias));
 		terminalSession.doAction(sessionAction, screenEntity);

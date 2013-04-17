@@ -46,7 +46,7 @@ public @interface Action {
 	 */
 	Class<? extends TerminalAction> action();
 
-	String displayName();
+	String displayName() default "";
 
 	/**
 	 * Not mandatory
@@ -61,4 +61,18 @@ public @interface Action {
 	AdditionalKey additionalKey() default AdditionalKey.NONE;
 
 	String alias() default "";
+
+	/**
+	 * Whether the action is global or not
+	 * 
+	 * @return Whether the action is global
+	 */
+	boolean global() default true;
+
+	/**
+	 * The Java field name to set focus in this action
+	 * 
+	 * @return The Java field name to set focus in this action
+	 */
+	String focusField() default "";
 }
