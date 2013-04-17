@@ -79,7 +79,8 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder, Serializabl
 
 		screenBinderLogic.populateSendAction(sendAction, terminalSnapshot, screenEntity, fieldMappingsDefinitions);
 
-		if (!StringUtils.isEmpty(screenEntity.getFocusField()) && sendAction.getCursorPosition() == null) {
+		if (!StringUtils.isEmpty(screenEntity.getFocusField()) && !screenEntity.getFocusField().contains(".") /* cursor in part */
+				&& sendAction.getCursorPosition() == null) {
 			throw (new TerminalActionException(MessageFormat.format("Cursor field {0} was not found in screen {1}",
 					screenEntity.getFocusField(), ProxyUtil.getOriginalClass(screenEntity.getClass()))));
 		}
