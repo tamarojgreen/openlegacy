@@ -96,7 +96,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 			Class<?> accessedFrom = navigationDefintion.getAccessedFrom();
 			Assert.notNull(accessedFrom);
 			ScreenEntityDefinition accessedFromDefinition = screenEntitiesRegistry.get(accessedFrom);
-			if (accessedFromDefinition.getType() == MenuEntity.class) {
+			if (accessedFromDefinition != null && accessedFromDefinition.getType() == MenuEntity.class) {
 				addMenuOption(accessedFrom, entityDefinition.getEntityClass());
 			}
 		}
