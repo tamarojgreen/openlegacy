@@ -508,8 +508,8 @@ public class ScreenPreview extends ViewPart {
 		}
 	}
 
-	public FieldRectangle getSelectedRectangle() {
-		return this.snapshotComposite.getSelectedRectangle();
+	public SelectedObject getSelectedObject() {
+		return this.snapshotComposite.getSelectedObject();
 	}
 
 	public void handleBufferIsDirty(IFileBuffer buffer) {
