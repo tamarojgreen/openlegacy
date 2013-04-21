@@ -257,7 +257,7 @@
 										<entry key="labelRegex" value="[\.: ]*[\.:]+\s*[\p{L}]+[\p{L} /-\\']*" />
 										<entry key="maximumLabelLength" value="30" />
 										<entry key="maxDistance" value="5" />
-										<entry key="fieldRegex" value="\s*[\d\p{L}]+[\d\p{L}/\- ]*" />
+										<entry key="fieldRegex" value="\s*[\d\p{L}]+[\d,\.\-+]*[\d\p{L}/\- ]*" />
 										<entry key="minimumFieldLength" value="1" />
 										<entry key="maximumFieldLength" value="30" />
 									</map>

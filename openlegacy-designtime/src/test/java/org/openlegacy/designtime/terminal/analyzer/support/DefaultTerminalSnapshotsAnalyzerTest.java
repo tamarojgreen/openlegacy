@@ -1,20 +1,6 @@
 package org.openlegacy.designtime.terminal.analyzer.support;
 
-import japa.parser.JavaParser;
-import japa.parser.ParseException;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.body.ClassOrInterfaceDeclaration;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-
-import junit.framework.Assert;
+import freemarker.template.TemplateException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +30,21 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import freemarker.template.TemplateException;
+import japa.parser.JavaParser;
+import japa.parser.ParseException;
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.ClassOrInterfaceDeclaration;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import junit.framework.Assert;
 
 @ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -94,6 +94,25 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		Assert.assertEquals(20, dateTypeDefinition.getDayColumn().intValue());
 		Assert.assertEquals(25, dateTypeDefinition.getMonthColumn().intValue());
 		Assert.assertEquals(30, dateTypeDefinition.getYearColumn().intValue());
+	}
+
+	@Test
+	public void testNumericFieldsScreen() {
+
+		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("NumericFieldsScreen.xml");
+
+		Assert.assertEquals(1, screenEntitiesDefinitions.size());
+
+		ScreenEntityDefinition screen1 = screenEntitiesDefinitions.get("NumericFieldsScreen");
+		Assert.assertNotNull(screen1);
+		Map<String, ScreenFieldDefinition> fieldsDefinitions = screen1.getFieldsDefinitions();
+		Assert.assertEquals(3, fieldsDefinitions.size());
+		ScreenFieldDefinition fieldA = fieldsDefinitions.get("fieldA");
+		Assert.assertNotNull(fieldA);
+		Assert.assertTrue(fieldA.isEditable());
+		Assert.assertEquals("Field A", fieldA.getDisplayName());
+		Assert.assertEquals(SimpleTerminalPosition.newInstance(4, 13), fieldA.getPosition());
+
 	}
 
 	private Map<String, ScreenEntityDefinition> analyze(String... fileNames) {
@@ -240,13 +259,13 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 
 		Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze("TableScreen.xml");
 
-		ScreenEntityDesigntimeDefinition tableScreen = (ScreenEntityDesigntimeDefinition) screenEntitiesDefinitions.get("TableScreen");
+		ScreenEntityDesigntimeDefinition tableScreen = (ScreenEntityDesigntimeDefinition)screenEntitiesDefinitions.get("TableScreen");
 		tableScreen.setEntityName("TableScreen1");
-		
-		assertScreenContent(tableScreen,null);
+
+		assertScreenContent(tableScreen, null);
 
 	}
-	
+
 	@Test
 	public void testMessagesScreen() {
 
@@ -311,7 +330,6 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		Assert.assertEquals(windowTableScreen, fieldTypeDefinition.getSourceEntityDefinition());
 		assertScreenContent(simpleScreenDefinition, "SimpleScreenValues.java.expected");
 	}
-
 
 	@Test
 	public void testNoAspectGeneration() throws TemplateException, IOException, ParseException {
