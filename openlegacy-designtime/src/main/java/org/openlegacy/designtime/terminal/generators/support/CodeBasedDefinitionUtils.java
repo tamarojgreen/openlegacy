@@ -24,6 +24,7 @@ import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCo
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
@@ -69,8 +70,8 @@ public class CodeBasedDefinitionUtils {
 			fieldDefinition.setPosition(new SimpleTerminalPosition(javaFieldModel.getRow(), javaFieldModel.getColumn()));
 			fieldDefinition.setEditable(javaFieldModel.isEditable());
 			if (javaFieldModel.getLabelColumn() != null) {
-				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(javaFieldModel.getRow(),
-						javaFieldModel.getLabelColumn()));
+				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(javaFieldModel.getRow(), javaFieldModel
+						.getLabelColumn()));
 			}
 			fieldDefinition.setDisplayName(StringUtil.stripQuotes(javaFieldModel.getDisplayName()));
 			if (javaFieldModel.getEndColumn() != null) {
@@ -87,11 +88,14 @@ public class CodeBasedDefinitionUtils {
 			fieldDefinition.setSampleValue(javaFieldModel.getSampleValue());
 			fieldDefinition.setJavaTypeName(javaFieldModel.getType());
 			// @author Ivan Bort refs assembla #235
-			fieldDefinition.setEndPosition(new SimpleTerminalPosition(
-					javaFieldModel.getEndRow() == null ? 0 : javaFieldModel
-							.getEndRow(),
-					javaFieldModel.getEndColumn() == null ? 0 : javaFieldModel
-							.getEndColumn()));
+			fieldDefinition.setEndPosition(new SimpleTerminalPosition(javaFieldModel.getEndRow() == null ? 0 : javaFieldModel
+					.getEndRow(), javaFieldModel.getEndColumn() == null ? 0 : javaFieldModel.getEndColumn()));
+			fieldDefinition.setHelpText(javaFieldModel.getHelpText());
+			fieldDefinition.setRightToLeft(javaFieldModel.isRightToLeft());
+			fieldDefinition.setWhenFilter(javaFieldModel.getWhen());
+			fieldDefinition.setUnlessFilter(javaFieldModel.getUnless());
+			fieldDefinition.setAttribute(javaFieldModel.getAttributeName() != null ? FieldAttributeType.valueOf(javaFieldModel
+					.getAttributeName()) : FieldAttributeType.Value);
 
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
@@ -157,11 +161,12 @@ public class CodeBasedDefinitionUtils {
 		List<ActionDefinition> actionDefinitions = new ArrayList<ActionDefinition>();
 		for (Action action : actions) {
 			String actionName = StringUtil.toClassName(action.getActionName());
-			SimpleActionDefinition actionDefinition = new SimpleActionDefinition(actionName,
-					StringUtil.stripQuotes(action.getDisplayName()));
+			SimpleActionDefinition actionDefinition = new SimpleActionDefinition(actionName, StringUtil.stripQuotes(action
+					.getDisplayName()));
 			if (action.getAlias() != null) {
 				actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 			}
+			actionDefinition.setAdditionalKey(action.getAdditionalKey());
 			actionDefinitions.add(actionDefinition);
 		}
 

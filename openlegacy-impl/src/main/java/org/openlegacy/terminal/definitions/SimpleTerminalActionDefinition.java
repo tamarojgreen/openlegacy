@@ -23,7 +23,6 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 	private static final long serialVersionUID = 1L;
 
 	private TerminalPosition position;
-	private AdditionalKey additionalKey;
 
 	private Class<?> targetEntity;
 
@@ -34,17 +33,12 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
 			String displayName, TerminalPosition position) {
-		super(action, displayName);
+		super(action, displayName, additionalKey);
 		this.position = position;
-		this.additionalKey = additionalKey;
 	}
 
 	public TerminalPosition getPosition() {
 		return position;
-	}
-
-	public AdditionalKey getAdditionalKey() {
-		return additionalKey;
 	}
 
 	public Class<?> getTargetEntity() {

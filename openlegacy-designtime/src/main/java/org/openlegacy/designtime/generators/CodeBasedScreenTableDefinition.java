@@ -168,9 +168,10 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 			for (Action action : actionsFromCodeModel) {
 
 				// if action was set use it, if not use enter drill down action (default)
-				TerminalDrilldownAction sessionAction = TerminalDrilldownActions.enter(StringUtil.stripQuotes(action.getActionValue()));
-				SimpleActionDefinition actionDefinition = new SimpleActionDefinition(sessionAction,
-						StringUtil.stripQuotes(action.getDisplayName()));
+				TerminalDrilldownAction sessionAction = TerminalDrilldownActions.enter(StringUtil.stripQuotes(action
+						.getActionValue()));
+				SimpleActionDefinition actionDefinition = new SimpleActionDefinition(sessionAction, StringUtil.stripQuotes(action
+						.getDisplayName()), action.getAdditionalKey());
 				if (action.getAlias() != null) {
 					actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 				}

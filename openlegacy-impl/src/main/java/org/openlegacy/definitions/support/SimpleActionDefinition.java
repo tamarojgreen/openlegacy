@@ -13,6 +13,7 @@ package org.openlegacy.definitions.support;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 
 import java.io.Serializable;
 
@@ -29,6 +30,8 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	private String targetEntityName;
 
+	private AdditionalKey additionalKey;
+
 	/**
 	 * for serialization purpose only
 	 */
@@ -40,10 +43,11 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	 * @param action
 	 * @param displayName
 	 */
-	public SimpleActionDefinition(SessionAction<? extends Session> action, String displayName) {
+	public SimpleActionDefinition(SessionAction<? extends Session> action, String displayName, AdditionalKey additionalKey) {
 		this.action = action;
 		this.actionName = action.getClass().getSimpleName();
 		this.displayName = displayName;
+		this.additionalKey = additionalKey;
 	}
 
 	/**
@@ -95,5 +99,13 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	public void setTargetEntityName(String targetEntityName) {
 		this.targetEntityName = targetEntityName;
+	}
+
+	public AdditionalKey getAdditionalKey() {
+		return this.additionalKey;
+	}
+
+	public void setAdditionalKey(AdditionalKey additionalKey) {
+		this.additionalKey = additionalKey;
 	}
 }
