@@ -156,6 +156,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private String attributeName;
 		private String when;
 		private String unless;
+		private Integer descriptionRow;
+		private Integer descriptionColumn;
+		private Integer descriptionEndColumn;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -395,6 +398,30 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			this.when = when;
 		}
 
+		public Integer getDescriptionRow() {
+			return descriptionRow;
+		}
+
+		public void setDescriptionRow(Integer descriptionRow) {
+			this.descriptionRow = descriptionRow;
+		}
+
+		public Integer getDescriptionColumn() {
+			return descriptionColumn;
+		}
+
+		public void setDescriptionColumn(Integer descriptionColumn) {
+			this.descriptionColumn = descriptionColumn;
+		}
+
+		public Integer getDescriptionEndColumn() {
+			return descriptionEndColumn;
+		}
+
+		public void setDescriptionEndColumn(Integer descriptionEndColumn) {
+			this.descriptionEndColumn = descriptionEndColumn;
+		}
+
 	}
 
 	private String className;
@@ -531,6 +558,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									AnnotationConstants.SCREEN_DESCRIPTION_FIELD_ANNOTATION)) {
 								field.setHasDescription(true);
+								ScreenAnnotationsParserUtils.loadDescriptionField(annotationExpr, field);
 							}
 						}
 					}

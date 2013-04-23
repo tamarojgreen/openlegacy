@@ -368,4 +368,18 @@ public class ScreenAnnotationsParserUtils {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author Ivan Bort, refs assembla #235
+	 */
+	public static void loadDescriptionField(AnnotationExpr annotationExpr, Field field) {
+		String rowValue = getAnnotationValue(annotationExpr, AnnotationConstants.ROW);
+		String columnValue = getAnnotationValue(annotationExpr, AnnotationConstants.COLUMN);
+		String endColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_COLUMN);
+
+		field.setDescriptionRow(rowValue != null ? Integer.valueOf(rowValue) : null);
+		field.setDescriptionColumn(columnValue != null ? Integer.valueOf(columnValue) : null);
+		field.setDescriptionEndColumn(endColumnValue != null ? Integer.valueOf(endColumnValue) : null);
+	}
 }

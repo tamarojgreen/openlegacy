@@ -97,6 +97,17 @@ public class CodeBasedDefinitionUtils {
 			fieldDefinition.setAttribute(javaFieldModel.getAttributeName() != null ? FieldAttributeType.valueOf(javaFieldModel
 					.getAttributeName()) : FieldAttributeType.Value);
 
+			if ((javaFieldModel.getDescriptionRow() != null) || (javaFieldModel.getDescriptionColumn() != null)
+					|| (javaFieldModel.getDescriptionEndColumn() != null)) {
+				SimpleScreenFieldDefinition descriptionFieldDefinition = new SimpleScreenFieldDefinition();
+
+				descriptionFieldDefinition.setPosition(new SimpleTerminalPosition(javaFieldModel.getDescriptionRow() != null
+						? javaFieldModel.getDescriptionRow() : 0, javaFieldModel.getDescriptionColumn() != null ? javaFieldModel
+						.getDescriptionColumn() : 0));
+				descriptionFieldDefinition.setEndPosition(new SimpleTerminalPosition(0,
+						javaFieldModel.getDescriptionEndColumn() != null ? javaFieldModel.getDescriptionEndColumn() : 0));
+				fieldDefinition.setDescriptionFieldDefinition(descriptionFieldDefinition);
+			}
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;
