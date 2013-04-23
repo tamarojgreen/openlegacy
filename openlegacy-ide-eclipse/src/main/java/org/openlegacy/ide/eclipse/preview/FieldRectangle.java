@@ -1,5 +1,6 @@
 package org.openlegacy.ide.eclipse.preview;
 
+import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 
@@ -51,7 +52,8 @@ public class FieldRectangle {
 	}
 
 	public String toCoordsString() {
-		return MessageFormat.format("{0}, {1}, {2}, {3}", this.row, this.column, this.endRow, this.endColumn);
+		return MessageFormat.format(Messages.getString("field.rectangle.string"), this.row, this.column, this.endRow,
+				this.endColumn);
 	}
 
 	public TerminalPosition getStartPosition() {

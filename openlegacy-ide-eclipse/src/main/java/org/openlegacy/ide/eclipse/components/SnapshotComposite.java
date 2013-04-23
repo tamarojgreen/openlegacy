@@ -214,8 +214,8 @@ public class SnapshotComposite extends Composite {
 	private void displaySelectedRectangleLabel() {
 		if ((this.cursorLabel != null) && (this.selectedObject != null)) {
 			String prevText = (String)this.cursorLabel.getData(CURSOR_TEXT_ID);
-			this.cursorLabel.setText(MessageFormat.format("{0}    {1}: {2}", prevText,//$NON-NLS-1$
-					Messages.getString("label.selected.rectangle"), this.selectedObject.getFieldRectangle().toCoordsString()));//$NON-NLS-1$
+			this.cursorLabel.setText(MessageFormat.format("{0}    Selection -> {1}", prevText,//$NON-NLS-1$
+					this.selectedObject.getFieldRectangle().toCoordsString()));//$NON-NLS-1$
 			this.cursorLabel.pack(true);
 		}
 	}
