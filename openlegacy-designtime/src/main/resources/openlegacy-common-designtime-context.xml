@@ -53,8 +53,9 @@
 	<bean id="bestEntityNameFieldComparator" class="org.openlegacy.designtime.terminal.analyzer.support.comparators.CompositeFieldsComparator">
 		<property name="comparators">
 			<list>
-				<bean class="org.openlegacy.designtime.terminal.analyzer.support.comparators.ByWordsCountFieldComparator" />
+				<bean class="org.openlegacy.designtime.terminal.analyzer.support.comparators.ByMostCenteredFieldComparator" />
 				<bean class="org.openlegacy.designtime.terminal.analyzer.support.comparators.ByPotentialClassNameLengthFieldComparator" />
+				<bean class="org.openlegacy.designtime.terminal.analyzer.support.comparators.ByWordsCountFieldComparator" />
 			</list>
 		</property>
 	</bean>

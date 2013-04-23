@@ -334,7 +334,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 	@Test
 	public void testNoAspectGeneration() throws TemplateException, IOException, ParseException {
 
-		List<String> tests = Arrays.asList("SimpleScreen", "TableScreen", "ToysInventory");
+		List<String> tests = Arrays.asList("SimpleScreen", "TableScreen", "ItemDetails");
 		for (String test : tests) {
 			Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(test + ".xml");
 			ScreenEntityDesigntimeDefinition screenDefinition = (ScreenEntityDesigntimeDefinition)screenEntitiesDefinitions.get(test);

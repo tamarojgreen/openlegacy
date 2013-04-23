@@ -7,7 +7,7 @@ import org.openlegacy.definitions.EnumGetValue;
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
-				@Identifier(row = 1, column = 21, value = "Toys Inventory                          "), 
+				@Identifier(row = 2, column = 30, value = "Item Details     "), 
 				@Identifier(row = 4, column = 2, value = "Type choices, press Enter."), 
 				@Identifier(row = 6, column = 2, value = "Item Number . . . . . . . . .") 
 				})
@@ -17,7 +17,7 @@ import org.openlegacy.definitions.EnumGetValue;
 				@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel"), 
 				@Action(action = TerminalActions.F2.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Delete", alias = "delete") 
 				})
- public class ToysInventory implements org.openlegacy.terminal.ScreenEntity {
+ public class ItemDetails implements org.openlegacy.terminal.ScreenEntity {
  
  	private String focusField;
 	

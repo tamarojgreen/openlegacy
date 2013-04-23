@@ -14,7 +14,7 @@ import java.util.Map;
 
 import junit.framework.Assert;
 
-@ContextConfiguration("/test-designtime-context.xml")
+@ContextConfiguration("DefaultTerminalSnapshotsMainframeTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalSnapshotsMainframeTest extends AbstractAnalyzerTest {
 

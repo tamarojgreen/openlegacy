@@ -18,8 +18,10 @@ public class ByMostCenteredFieldComparator implements BestEntityNameFieldCompara
 
 	public int compare(TerminalField field1, TerminalField field2) {
 
-		int field1DistanceFromCenter = Math.abs((ScreenSize.DEFAULT_COLUMN / 2) - field1.getPosition().getColumn());
-		int field2DistanceFromCenter = Math.abs((ScreenSize.DEFAULT_COLUMN / 2) - field2.getPosition().getColumn());
+		int column1 = field1.getPosition().getColumn();
+		int column2 = field2.getPosition().getColumn();
+		int field1DistanceFromCenter = Math.abs((ScreenSize.DEFAULT_COLUMN / 2) - column1) + (field1.getLength() / 2);
+		int field2DistanceFromCenter = Math.abs((ScreenSize.DEFAULT_COLUMN / 2) - column2) + (field2.getLength() / 2);
 
 		// the field who is distance is smallest should be 1st
 		return field1DistanceFromCenter - field2DistanceFromCenter;
