@@ -17,7 +17,6 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F4.class ,additionalKey= AdditionalKey.SHIFT, displayName = "Job menu", alias = "jobMenu") 
 				})
 @ScreenNavigation(accessedFrom = WorkWithJob.class 
-					, terminalAction=TerminalActions.ENTER.class 
 					, assignedFields = { 
 					@AssignedField(field = "menuSelection", value = "1")
 					 }						

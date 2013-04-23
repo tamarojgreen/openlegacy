@@ -19,7 +19,6 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F4.class ,additionalKey= AdditionalKey.SHIFT, displayName = "מעבר מחנות לחנות ", alias = "mabrMhnotLhnot") 
 				})
 @ScreenNavigation(accessedFrom = CniseLmarctEzmnotLkohRstotSiook.class 
-					, terminalAction=TerminalActions.ENTER.class 
 					, assignedFields = { 
 					@AssignedField(field = "Kboce")
 					 }						

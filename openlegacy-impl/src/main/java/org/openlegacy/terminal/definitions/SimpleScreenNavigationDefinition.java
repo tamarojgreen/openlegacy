@@ -63,9 +63,6 @@ public class SimpleScreenNavigationDefinition implements NavigationDefinition, S
 	}
 
 	public TerminalAction getTerminalAction() {
-		if (terminalAction == null) {
-			terminalAction = TerminalActions.ENTER();
-		}
 		return terminalAction;
 	}
 

@@ -37,6 +37,7 @@ import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.FieldsCriteria;
+import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
@@ -83,7 +84,8 @@ public class NavigationFactProcessor implements ScreenFactProcessor {
 			CombinedTerminalAction combinedAction = (CombinedTerminalAction)action;
 			// add action definition only if it's not ENTER (ENTER is the default)
 			if (combinedAction.getTerminalAction() != ENTER.class || combinedAction.getAdditionalKey() != AdditionalKey.NONE) {
-				navigationDefinition.setTerminalAction(action);
+				navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(combinedAction.getTerminalAction()));
+				navigationDefinition.setAdditionalKey(((CombinedTerminalAction)action).getAdditionalKey());
 			}
 		}
 

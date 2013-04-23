@@ -15,7 +15,6 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 				@Action(action = TerminalActions.F10.class, displayName = "חלון", alias = "hlon") 
 				})
 @ScreenNavigation(accessedFrom = TpritHnoiotRasi.class 
-					, terminalAction=TerminalActions.ENTER.class 
 					, assignedFields = { 
 					@AssignedField(field = "menuSelection", value = "1")
 					 }						
