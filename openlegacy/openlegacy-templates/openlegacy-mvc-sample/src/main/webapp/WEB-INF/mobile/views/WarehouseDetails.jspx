@@ -6,15 +6,13 @@
 
 	<div>
 		<ol:form model="warehouseDetails">
-			<ol:pagePart>
-				<ol:field name="warehouseNumber" />
-				<ol:field name="warehouseDescription" rows="3" />
-				<ol:field name="warehouseType" />
-				<ol:field name="amendedDate" />
-				<ol:field name="address" type="address" />
-				<ol:field name="phone" type="phone" />
-				<ol:field name="email" type="email" />
-			</ol:pagePart>
+			<ol:field name="warehouseNumber" />
+			<ol:field name="warehouseDescription" rows="3" />
+			<ol:field name="warehouseType" />
+			<ol:field name="amendedDate" />
+			<ol:field name="address" type="address" />
+			<ol:field name="phone" type="phone" />
+			<ol:field name="email" type="email" />
 		</ol:form>
 	</div>
 </jsp:root>

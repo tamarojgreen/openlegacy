@@ -11,7 +11,6 @@
 	<jsp:directive.attribute name="collapsible" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be collapsible" />
 	<jsp:directive.attribute name="open" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be opened, if defined as collapsible" />
 
-	<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${definitions.displayName}</h2>
 	<div class="fieldset">
 		<jsp:doBody />
 	</div>

@@ -8,27 +8,25 @@
 
 	<div>
 		<ol:form model="itemDetails2">
-			<ol:pagePart>
-				<ol:panel title="Stock Details">
-					<ol:field name="itemNumberdesc" />
-					<ol:field name="nlCostOfSalesAccount" />
-					<ol:field name="nlSalesAccount" />
-					<ol:field name="nlStockAccount" />
-					<ol:field name="field2" />
-					<ol:field name="field1" />
-					<ol:field name="field" />
-					<ol:field name="itemTypeBusinessArea" />
-					<ol:field name="stockAnalysisCode" />
-					<ol:field name="stockValueGroup" />
-					<ol:field name="listPrice" />
-					<ol:field name="standardUnitCost" />
-				</ol:panel>
-				<ol:panel title="User Details">
-					<ol:field name="stockInfo.createdDate" />
-					<ol:field name="stockInfo.createdBy" />
-					<ol:field name="stockInfo.amendedDate" />
-				</ol:panel>
-			</ol:pagePart>
+			<ol:panel title="Stock Details">
+				<ol:field name="itemNumberdesc" />
+				<ol:field name="nlCostOfSalesAccount" />
+				<ol:field name="nlSalesAccount" />
+				<ol:field name="nlStockAccount" />
+				<ol:field name="field2" />
+				<ol:field name="field1" />
+				<ol:field name="field" />
+				<ol:field name="itemTypeBusinessArea" />
+				<ol:field name="stockAnalysisCode" />
+				<ol:field name="stockValueGroup" />
+				<ol:field name="listPrice" />
+				<ol:field name="standardUnitCost" />
+			</ol:panel>
+			<ol:panel title="User Details">
+				<ol:field name="stockInfo.createdDate" />
+				<ol:field name="stockInfo.createdBy" />
+				<ol:field name="stockInfo.amendedDate" />
+			</ol:panel>
 		</ol:form>
 	</div>
 </jsp:root>

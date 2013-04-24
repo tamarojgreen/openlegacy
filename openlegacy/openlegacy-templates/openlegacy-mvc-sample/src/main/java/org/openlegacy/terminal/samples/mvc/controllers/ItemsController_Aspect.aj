@@ -2,45 +2,43 @@
 // You may push code into the target .java compilation unit if you wish to edit any member(s).
 package org.openlegacy.terminal.samples.mvc.controllers;
 
-import flexjson.JSONSerializer;
-
-import java.util.*;
+import java.io.IOException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.modules.table.Table;
 import org.openlegacy.modules.table.TableWriter;
-import org.openlegacy.terminal.samples.model.*;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.samples.model.Items;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.openlegacy.terminal.samples.model.Items;
+import flexjson.JSONSerializer;
 
 privileged @SuppressWarnings("unused") aspect ItemsController_Aspect {
 
+	private final static Log logger = LogFactory.getLog(ItemsController.class);
+	
 	@Inject
 	private TerminalSession ItemsController.terminalSession;
 
@@ -220,13 +218,20 @@ privileged @SuppressWarnings("unused") aspect ItemsController_Aspect {
 	@ResponseBody
 	public ResponseEntity<String> ItemsController.more() {
 		Items items = terminalSession.getEntity(Items.class);
-		items = terminalSession.doAction(TerminalActions.PAGEDOWN(), items);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/text; charset=utf-8");
 
-		String result = new JSONSerializer().serialize(items.getItemsRecords());
-		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
+		try{
+			items = terminalSession.doAction(TerminalActions.PAGEDOWN(), items);
+			String result = new JSONSerializer().serialize(items.getItemsRecords());
+			return new ResponseEntity<String>(result, headers, HttpStatus.OK);
+		}
+		catch(Exception e){
+			logger.error("Next screen after PAGEDOWN is not items");
+			return new ResponseEntity<String>("", headers, HttpStatus.OK);
+		}
+
 	}	
 	
 	@InitBinder

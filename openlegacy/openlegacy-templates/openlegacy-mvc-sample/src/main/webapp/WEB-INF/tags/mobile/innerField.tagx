@@ -50,7 +50,7 @@
 	</c:if>
 	<div class="field-row">
 		<c:if test="${not empty label}">
-			<span class="label">${label}: </span>
+			<span class="label">${label}<c:if test="${fn:length(label) &gt; 1}">:</c:if></span>
 		</c:if>
 		<c:choose>
 			<c:when test="${editable}">
@@ -138,7 +138,7 @@
 						</span>
 					</c:when>
 					<c:when test="${type == 'password'}">
-						<form:input type="password" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+						<form:input type="password" id="${name}" maxlength="${maxlength}" path="${name}" dir="${rightToLeft ? 'rtl' : 'ltr'}" cssStyle="${style}" cssClass="${cssClass}" />
 					</c:when>
 					<c:when test="${type == 'enum'}">
 						<form:input id="${fieldDefinition.name}" type="text" path="${name}" 
@@ -173,5 +173,9 @@
 				<ol:span cssClass="readonlyField ${cssClass}" path="${name}" cssStyle="${style}" />
 			</c:otherwise>
 		</c:choose>
+		<c:if test="${fieldDefinition.descriptionFieldDefinition != null}">
+			- <ol:span cssClass="readonlyField" path="${name}Description" />
+		</c:if>
+		<jsp:doBody />
 	</div>
 </jsp:root>

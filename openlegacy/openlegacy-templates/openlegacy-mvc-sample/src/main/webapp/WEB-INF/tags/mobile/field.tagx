@@ -62,14 +62,16 @@
 	
 	<c:choose>
 		<c:when test="${empty top}">
-			<olt:innerField name="${name}" label="${label}" rows="${rows}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" editable="${editable}"/>
+			<olt:innerField name="${name}" label="${label}" rows="${rows}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" editable="${editable}">
+				<jsp:doBody />
+			</olt:innerField>
 		</c:when>
 		<c:otherwise>
 			<div style="margin-left: ${left}; top: ${top}; width:${width}; position:absolute;">
-				<olt:innerField name="${name}" label="${label}" rows="${rows}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" editable="${editable}"/>
+				<olt:innerField name="${name}" label="${label}" rows="${rows}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" editable="${editable}">
+					<jsp:doBody />
+				</olt:innerField>
 			</div>
 		</c:otherwise>
 	</c:choose>
-	
-	<jsp:doBody />
 </jsp:root>

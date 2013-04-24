@@ -18,7 +18,6 @@
 	</c:if>
 
 	<c:set var="tableDefinition" value="${definitions.tableDefinitions[property]}" />
-	<c:set var="columnDisplayField" value="${definitions.tableDefinitions[tableDefinition.mainDisplayField]}" />
 	<c:set var="defaultTableAction" value="${tableDefinition.defaultAction}" />
 
 	<c:if test="${defaultTableAction == null}">
@@ -32,15 +31,20 @@
 	<ul data-dojo-type="dojox.mobile.RoundRectList" id="${definitions.entityName}Table">
 		<c:forEach items="${data}" var="item" varStatus="i">
 			<c:set var="keyValue" value="${item[tableDefinition.keyFieldNames[0]]}" />
-			<c:set var="displayValue" value="${item[tableDefinition.mainDisplayField]}" />
 			<li data-dojo-type="dojox.mobile.ListItem" transition="slide"
-				onclick="showLoading();" class="${i.index % 2 == 0 ? '' : 'alt'}"
-				url="${defaultTableAction.targetEntity.simpleName}/${keyValue}">${displayValue}</li>
+				onclick="showLoading();"
+				url="${defaultTableAction.targetEntity.simpleName}/${keyValue}">
+					<c:forEach items="${tableDefinition.mainDisplayFields}" var="mainDisplayField" varStatus="ii">
+					<c:set var="displayValue" value="${item[mainDisplayField]}" />
+					${displayValue}
+					<c:if test="${!ii.last}"> - </c:if>
+					</c:forEach>
+				</li>
 		</c:forEach>
 	</ul>
 	<c:if test="${fn:length(data) &gt;= tableDefinition.maxRowsCount}">
 	<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn"
-		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayField}','${defaultTableAction.targetEntity.simpleName}/')">Load
+		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayFields[0]}','${defaultTableAction.targetEntity.simpleName}/')">Load
 		More</button>
 	</c:if>
 	</c:if>

@@ -8,17 +8,15 @@
 	 
 	<div>	
 		<ol:form model="itemDetails">
-			<ol:pagePart>
-				<ol:field name="itemNumber" type="text" />
-				<ol:field name="itemDescription" rows="4" />
-				<ol:field name="alphaSearch" />
-				<ol:field name="supercedingItemto" />
-				<ol:field name="supercedingItemfrom" />
-				<ol:field name="substituteItemNumber" />
-				<ol:field name="manufacturersItemNo" />
-				<ol:field name="itemWeight" />
-				<ol:field name="palletLabelRequired" />
-			</ol:pagePart>
+			<ol:field name="itemNumber" type="text" />
+			<ol:field name="itemDescription" rows="4" />
+			<ol:field name="alphaSearch" />
+			<ol:field name="supercedingItemto" />
+			<ol:field name="supercedingItemfrom" />
+			<ol:field name="substituteItemNumber" />
+			<ol:field name="manufacturersItemNo" />
+			<ol:field name="itemWeight" />
+			<ol:field name="palletLabelRequired" />
 		</ol:form>
 	</div>
 </jsp:root>
