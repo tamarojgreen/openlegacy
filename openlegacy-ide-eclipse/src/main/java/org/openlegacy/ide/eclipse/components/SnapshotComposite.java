@@ -13,8 +13,6 @@ package org.openlegacy.ide.eclipse.components;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DragDetectEvent;
 import org.eclipse.swt.events.DragDetectListener;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -53,6 +51,7 @@ import org.openlegacy.utils.StringUtil;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SnapshotComposite extends Composite {
@@ -92,13 +91,12 @@ public class SnapshotComposite extends Composite {
 	private Image defaultImage = null;
 	private boolean isDragging = false;
 	private boolean isScalable = false;
-	private RectangleDrawAction lastRectangleDrawAction = null;
+	private List<RectangleDrawAction> rectangleDrawActions = new ArrayList<RectangleDrawAction>();
 	private int maxColCount = 0;
 	private int maxRowCount = 0;
 	private DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
 	private double scale = 1.0d;
 	private SelectedObject selectedObject;
-	private boolean showingEnlarged = false;
 	private TerminalSnapshot terminalSnapshot;
 
 	private TerminalSnapshot terminalSnapshotCopy;
@@ -122,8 +120,9 @@ public class SnapshotComposite extends Composite {
 		int y = renderer.toHeight(cursorRow) + renderer.getTopPixelsOffset();
 		int width = renderer.toWidth(1);
 		int height = 3;
-		this.lastRectangleDrawAction = new RectangleDrawAction(RectangleDrawType.FILL, new Rectangle(x, y, width, height),
-				getDisplay().getSystemColor(SWT.COLOR_WHITE), null);
+		this.rectangleDrawActions.clear();
+		this.rectangleDrawActions.add(new RectangleDrawAction(RectangleDrawType.FILL, new Rectangle(x, y, width, height),
+				getDisplay().getSystemColor(SWT.COLOR_WHITE), null));
 	}
 
 	private void calcSelectedRectangle(int startX, int startY, int endX, int endY, int dragState) {
@@ -193,7 +192,7 @@ public class SnapshotComposite extends Composite {
 		this.cursorLabel.pack(true);
 	}
 
-	private void displayCursorPosition() {
+	private void displayCursorPositionText() {
 		if (this.cursorLabel != null) {
 
 			if (terminalSnapshot == null || terminalSnapshot.getSnapshotType() == TerminalSnapshot.SnapshotType.INCOMING) {
@@ -242,7 +241,7 @@ public class SnapshotComposite extends Composite {
 			y = renderer.toHeight(fieldRectangle.getRow()) + renderer.getTopPixelsOffset();
 			height = renderer.toHeight(fieldRectangle.getEndRow() - fieldRectangle.getRow() + LEFT_COLUMN_OFFSET);
 		}
-		this.setDrawingRectangle(new Rectangle(x, y, width, height));
+		this.addDrawingRectangle(new Rectangle(x, y, width, height), SWT.COLOR_YELLOW, true);
 		displaySelectedRectangleLabel();
 	}
 
@@ -261,7 +260,7 @@ public class SnapshotComposite extends Composite {
 			if (fieldRectangle.getEndRow() >= fieldRectangle.getRow()) {
 				height = renderer.toHeight(fieldRectangle.getEndRow() - fieldRectangle.getRow() + LEFT_START_OFFSET);
 			}
-			this.setDrawingRectangle(new Rectangle(x, y, width, height));
+			this.addDrawingRectangle(new Rectangle(x, y, width, height), SWT.COLOR_YELLOW, true);
 			displaySelectedRectangleLabel();
 		}
 	}
@@ -293,6 +292,40 @@ public class SnapshotComposite extends Composite {
 		gc.fillRectangle(drawingBounds);
 	}
 
+	private void fillSelectedObject() {
+		if ((terminalSnapshotCopy != null) && selectedObject.isEditable()) {
+			List<RowPart> rowParts = terminalSnapshotCopy.getRow(selectedObject.getFieldRectangle().getRow()).getRowParts();
+			SimpleRowPart rowPart = null;
+			for (RowPart rowPartItem : rowParts) {
+				if (!(rowPartItem instanceof SimpleRowPart)) {
+					continue;
+				}
+				int fieldColumn = selectedObject.getFieldRectangle().getColumn();
+				int rightBorder = rowPartItem.getPosition().getColumn() + ((SimpleRowPart)rowPartItem).getLength();
+				if ((fieldColumn >= rowPartItem.getPosition().getColumn()) && (fieldColumn <= rightBorder)) {
+					int index = rowParts.indexOf(rowPartItem);
+					if (index > 0) {
+						--index;
+					}
+					rowPart = (SimpleRowPart)rowParts.get(index);
+					break;
+				}
+			}
+			if (rowPart != null) {
+				List<TerminalField> fields = rowPart.getFields();
+				for (int i = fields.size() - 1; i >= 0; i--) {
+					TerminalField field = fields.get(i);
+					if ((field.getValue() != null) && !field.getValue().trim().isEmpty()) {
+						selectedObject.setLabelColumn(field.getPosition().getColumn());
+						selectedObject.setDisplayName(StringUtil.toDisplayName(field.getValue().trim()));
+						selectedObject.setFieldName(StringUtil.toJavaFieldName(field.getValue().trim()));
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	private void generateDefaultImage() {
 		if (terminalSnapshot == null) {
 			return;
@@ -307,15 +340,25 @@ public class SnapshotComposite extends Composite {
 		return new PaintListener() {
 
 			public void paintControl(PaintEvent e) {
-				if ((lastRectangleDrawAction == null) || (lastRectangleDrawAction.type.equals(RectangleDrawType.DRAW))) {
+				if (rectangleDrawActions.isEmpty()) {
+					return;
+				}
+				RectangleDrawAction drawAction = null;
+				for (RectangleDrawAction rectangleDrawAction : rectangleDrawActions) {
+					if (rectangleDrawAction.type.equals(RectangleDrawType.FILL)) {
+						drawAction = rectangleDrawAction;
+						break;
+					}
+				}
+				if (drawAction == null) {
 					return;
 				}
 				if (defaultImage != null) {
 					drawImage(defaultImage, e.gc);
 				}
 
-				e.gc.setBackground(lastRectangleDrawAction.background);
-				fillRectangle(lastRectangleDrawAction.rectangle, e.gc);
+				e.gc.setBackground(drawAction.background);
+				fillRectangle(drawAction.rectangle, e.gc);
 			}
 		};
 	}
@@ -348,19 +391,6 @@ public class SnapshotComposite extends Composite {
 		int y = (int)(rect.y * scale);
 
 		return new Rectangle(x, y, width, height);
-	}
-
-	private FocusListener getFocusListener() {
-		return new FocusListener() {
-
-			public void focusGained(FocusEvent e) {}
-
-			public void focusLost(FocusEvent e) {
-				if (!showingEnlarged) {
-					lastRectangleDrawAction = null;
-				}
-			}
-		};
 	}
 
 	private KeyListener getKeyListener() {
@@ -404,7 +434,7 @@ public class SnapshotComposite extends Composite {
 						return;
 				}
 				calcCursorRectangle();
-				displayCursorPosition();
+				displayCursorPositionText();
 				setSnapshot(null);
 			}
 
@@ -429,7 +459,7 @@ public class SnapshotComposite extends Composite {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				setCursorPosition(e.x, e.y);
-				displayCursorPosition();
+				displayCursorPositionText();
 				calcCursorRectangle();
 				setSnapshot(null);
 				selectedObject = null;
@@ -489,16 +519,26 @@ public class SnapshotComposite extends Composite {
 		return new PaintListener() {
 
 			public void paintControl(PaintEvent e) {
-				if ((lastRectangleDrawAction == null) || (lastRectangleDrawAction.type.equals(RectangleDrawType.FILL))) {
+				if (rectangleDrawActions.isEmpty()) {
+					return;
+				}
+				List<RectangleDrawAction> drawActions = new ArrayList<RectangleDrawAction>();
+				for (RectangleDrawAction rectangleDrawAction : rectangleDrawActions) {
+					if (rectangleDrawAction.type.equals(RectangleDrawType.DRAW)) {
+						drawActions.add(rectangleDrawAction);
+					}
+				}
+				if (drawActions.isEmpty()) {
 					return;
 				}
 				if (defaultImage != null) {
 					drawImage(defaultImage, e.gc);
 				}
 
-				e.gc.setForeground(lastRectangleDrawAction.foregraund);
-
-				drawRectangle(lastRectangleDrawAction.rectangle, e.gc);
+				for (RectangleDrawAction drawAction : drawActions) {
+					e.gc.setForeground(drawAction.foregraund);
+					drawRectangle(drawAction.rectangle, e.gc);
+				}
 			}
 		};
 	}
@@ -510,7 +550,6 @@ public class SnapshotComposite extends Composite {
 				if (shell.isVisible()) {
 					shell.close();
 					shell.dispose();
-					showingEnlarged = false;
 					canvas.redraw();
 				}
 			}
@@ -522,7 +561,6 @@ public class SnapshotComposite extends Composite {
 
 			public void paintControl(PaintEvent e) {
 				drawImage(defaultImage, e.gc);
-				// defaultImage = image;
 			}
 		};
 	}
@@ -550,7 +588,6 @@ public class SnapshotComposite extends Composite {
 		this.maxRowCount = renderer.getMaxImageRow() + LEFT_COLUMN_OFFSET;
 		this.maxColCount = renderer.getMaxImageColumn() - renderer.getLeftColumnsOffset();
 
-		this.canvas.addFocusListener(this.getFocusListener());
 		this.canvas.addKeyListener(this.getKeyListener());
 		// refs assembla #235
 		this.canvas.addMouseListener(this.getMouseListener());
@@ -561,7 +598,7 @@ public class SnapshotComposite extends Composite {
 		labelGd.verticalAlignment = GridData.BEGINNING;
 		this.cursorLabel = new Label(this, SWT.NONE);
 		this.cursorLabel.setLayoutData(labelGd);
-		this.displayCursorPosition();
+		this.displayCursorPositionText();
 
 		this.canvas.addPaintListener(this.getRectanglePaintListener());
 		this.canvas.addPaintListener(this.getCursorPaintListener());
@@ -577,25 +614,52 @@ public class SnapshotComposite extends Composite {
 		}
 	}
 
+	/**
+	 * Add rectangle draw action. Will draw borders only. Default color of borders is yellow. Also this method doesn't clear a
+	 * list of draw actions
+	 * 
+	 * @param rectangle
+	 */
+	public void addDrawingRectangle(Rectangle rectangle) {
+		addDrawingRectangle(rectangle, SWT.COLOR_YELLOW, false);
+	}
+
+	public void addDrawingRectangle(Rectangle rectangle, int color) {
+		addDrawingRectangle(rectangle, color, false);
+	}
+
+	/**
+	 * Add rectangle draw action. Will draw borders only.
+	 * 
+	 * @param rectangle
+	 *            - rectangle which will be draw
+	 * @param color
+	 *            - color of borders (e.g. SWT.COLOR_YELLOW)
+	 * @param clearListBeforeAdd
+	 *            - clear list of draw action of not
+	 */
+	public void addDrawingRectangle(Rectangle rectangle, int color, boolean clearListBeforeAdd) {
+		if (rectangle == null) {
+			this.rectangleDrawActions.clear();
+			if ((this.terminalSnapshot == null) || (!this.terminalSnapshot.equals(this.terminalSnapshotCopy))) {
+				this.setSnapshot(this.terminalSnapshotCopy);
+			}
+			return;
+		}
+		if (clearListBeforeAdd && !this.rectangleDrawActions.isEmpty()) {
+			this.rectangleDrawActions.clear();
+		}
+		this.rectangleDrawActions.add(new RectangleDrawAction(RectangleDrawType.DRAW, rectangle, null, getDisplay()
+				.getSystemColor(color)));
+		this.setSnapshot(null);
+	}
+
 	public Canvas getCanvas() {
 		return this.canvas;
 	}
 
 	public SelectedObject getSelectedObject() {
 		return this.selectedObject;
-	}
-
-	public void setDrawingRectangle(Rectangle rectangle) {
-		if (rectangle == null) {
-			this.lastRectangleDrawAction = null;
-			if ((this.terminalSnapshot == null) || (!this.terminalSnapshot.equals(this.terminalSnapshotCopy))) {
-				this.setSnapshot(this.terminalSnapshotCopy);
-			}
-			return;
-		}
-		this.lastRectangleDrawAction = new RectangleDrawAction(RectangleDrawType.DRAW, rectangle, null, getDisplay()
-				.getSystemColor(SWT.COLOR_YELLOW));
-		this.setSnapshot(null);
 	}
 
 	public void setIsScalable(boolean isScalable) {
@@ -610,7 +674,7 @@ public class SnapshotComposite extends Composite {
 			this.clearCursorLabel();
 		}
 		if (terminalSnapshot != null) {
-			this.lastRectangleDrawAction = null;
+			this.rectangleDrawActions.clear();
 		}
 		this.canvas.redraw();
 	}
@@ -620,7 +684,7 @@ public class SnapshotComposite extends Composite {
 			return;
 		}
 
-		this.showingEnlarged = true;
+		// this.showingEnlarged = true;
 
 		final Rectangle imageBounds = this.defaultImage.getBounds();
 		Rectangle canvasBounds = this.canvas.getBounds();
@@ -649,16 +713,18 @@ public class SnapshotComposite extends Composite {
 					e.gc.setBackground(getDisplay().getSystemColor(SWT.COLOR_BLACK));
 					e.gc.drawRectangle(0, 0, imageBounds.width + 1, imageBounds.height + 1);
 
-					if (lastRectangleDrawAction != null) {
-						switch (lastRectangleDrawAction.type) {
-							case DRAW:
-								e.gc.setForeground(lastRectangleDrawAction.foregraund);
-								e.gc.drawRectangle(lastRectangleDrawAction.rectangle);
-								break;
-							case FILL:
-								e.gc.setBackground(lastRectangleDrawAction.background);
-								e.gc.fillRectangle(lastRectangleDrawAction.rectangle);
-								break;
+					if (!rectangleDrawActions.isEmpty()) {
+						for (RectangleDrawAction rectangleDrawAction : rectangleDrawActions) {
+							switch (rectangleDrawAction.type) {
+								case DRAW:
+									e.gc.setForeground(rectangleDrawAction.foregraund);
+									e.gc.drawRectangle(rectangleDrawAction.rectangle);
+									break;
+								case FILL:
+									e.gc.setBackground(rectangleDrawAction.background);
+									e.gc.fillRectangle(rectangleDrawAction.rectangle);
+									break;
+							}
 						}
 					}
 				}
@@ -669,39 +735,5 @@ public class SnapshotComposite extends Composite {
 		// minimize image when mouse leaves image bounds
 		shell.addListener(SWT.MouseExit, getShellMouseListener(shell));
 		shell.open();
-	}
-
-	private void fillSelectedObject() {
-		if ((terminalSnapshotCopy != null) && selectedObject.isEditable()) {
-			List<RowPart> rowParts = terminalSnapshotCopy.getRow(selectedObject.getFieldRectangle().getRow()).getRowParts();
-			SimpleRowPart rowPart = null;
-			for (RowPart rowPartItem : rowParts) {
-				if (!(rowPartItem instanceof SimpleRowPart)) {
-					continue;
-				}
-				int fieldColumn = selectedObject.getFieldRectangle().getColumn();
-				int rightBorder = rowPartItem.getPosition().getColumn() + ((SimpleRowPart)rowPartItem).getLength();
-				if ((fieldColumn >= rowPartItem.getPosition().getColumn()) && (fieldColumn <= rightBorder)) {
-					int index = rowParts.indexOf(rowPartItem);
-					if (index > 0) {
-						--index;
-					}
-					rowPart = (SimpleRowPart)rowParts.get(index);
-					break;
-				}
-			}
-			if (rowPart != null) {
-				List<TerminalField> fields = rowPart.getFields();
-				for (int i = fields.size() - 1; i >= 0; i--) {
-					TerminalField field = fields.get(i);
-					if ((field.getValue() != null) && !field.getValue().trim().isEmpty()) {
-						selectedObject.setLabelColumn(field.getPosition().getColumn());
-						selectedObject.setDisplayName(StringUtil.toDisplayName(field.getValue().trim()));
-						selectedObject.setFieldName(StringUtil.toJavaFieldName(field.getValue().trim()));
-						break;
-					}
-				}
-			}
-		}
 	}
 }
