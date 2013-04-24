@@ -27,6 +27,7 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
 
 	
 
+    private String ItemDetails.stockGroupDescription;
 	
 
 	
@@ -110,6 +111,9 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     	this.stockGroup = stockGroup;
     }
 
+    public String  ItemDetails.getStockGroupDescription(){
+    	return this.stockGroupDescription;
+    }
 
 
     public String ItemDetails.getSubstituteItemNumber(){
