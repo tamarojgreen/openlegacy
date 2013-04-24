@@ -16,7 +16,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenPartDefinition;
 import org.openlegacy.designtime.generators.CodeBasedScreenTableDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
@@ -24,9 +23,11 @@ import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCo
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
+import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringUtil;
 
@@ -86,7 +87,27 @@ public class CodeBasedDefinitionUtils {
 			fieldDefinition.setPassword(javaFieldModel.isPassword());
 			fieldDefinition.setSampleValue(javaFieldModel.getSampleValue());
 			fieldDefinition.setJavaTypeName(javaFieldModel.getType());
+			// @author Ivan Bort refs assembla #235
+			fieldDefinition.setEndPosition(new SimpleTerminalPosition(javaFieldModel.getEndRow() == null ? 0
+					: javaFieldModel.getEndRow(), javaFieldModel.getEndColumn() == null ? 0 : javaFieldModel.getEndColumn()));
+			fieldDefinition.setHelpText(javaFieldModel.getHelpText());
+			fieldDefinition.setRightToLeft(javaFieldModel.isRightToLeft());
+			fieldDefinition.setWhenFilter(javaFieldModel.getWhen());
+			fieldDefinition.setUnlessFilter(javaFieldModel.getUnless());
+			fieldDefinition.setAttribute(javaFieldModel.getAttributeName() != null ? FieldAttributeType.valueOf(javaFieldModel.getAttributeName())
+					: FieldAttributeType.Value);
 
+			if ((javaFieldModel.getDescriptionRow() != null) || (javaFieldModel.getDescriptionColumn() != null)
+					|| (javaFieldModel.getDescriptionEndColumn() != null)) {
+				SimpleScreenFieldDefinition descriptionFieldDefinition = new SimpleScreenFieldDefinition();
+
+				descriptionFieldDefinition.setPosition(new SimpleTerminalPosition(
+						javaFieldModel.getDescriptionRow() != null ? javaFieldModel.getDescriptionRow() : 0,
+						javaFieldModel.getDescriptionColumn() != null ? javaFieldModel.getDescriptionColumn() : 0));
+				descriptionFieldDefinition.setEndPosition(new SimpleTerminalPosition(0,
+						javaFieldModel.getDescriptionEndColumn() != null ? javaFieldModel.getDescriptionEndColumn() : 0));
+				fieldDefinition.setDescriptionFieldDefinition(descriptionFieldDefinition);
+			}
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;
@@ -151,11 +172,12 @@ public class CodeBasedDefinitionUtils {
 		List<ActionDefinition> actionDefinitions = new ArrayList<ActionDefinition>();
 		for (Action action : actions) {
 			String actionName = StringUtil.toClassName(action.getActionName());
-			SimpleActionDefinition actionDefinition = new SimpleActionDefinition(actionName,
+			SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionName,
 					StringUtil.stripQuotes(action.getDisplayName()));
 			if (action.getAlias() != null) {
 				actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 			}
+			actionDefinition.setAdditionalKey(action.getAdditionalKey());
 			actionDefinitions.add(actionDefinition);
 		}
 

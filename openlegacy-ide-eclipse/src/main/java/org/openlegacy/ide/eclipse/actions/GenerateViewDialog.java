@@ -72,7 +72,7 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 		parent.getShell().setText(PluginConstants.TITLE);
 
 		Label label = new Label(parent, SWT.NULL);
-		label.setText(Messages.label_source_folder);
+		label.setText(Messages.getString("label_source_folder"));
 
 		Composite composite = new Composite(parent, SWT.NONE);
 
@@ -84,11 +84,11 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 		composite.setLayout(gridLayout);
 
 		generateHelpBtn = new Button(composite, SWT.CHECK);
-		generateHelpBtn.setText(Messages.label_generate_help);
+		generateHelpBtn.setText(Messages.getString("label_generate_help"));
 		generateHelpBtn.setSelection(true);
 		// "Generate mobile page" option (checkbox)
 		generateMobilePageBtn = new Button(composite, SWT.CHECK);
-		generateMobilePageBtn.setText(Messages.label_generate_mobile_page);
+		generateMobilePageBtn.setText(Messages.getString("label_generate_mobile_page"));
 		generateMobilePageBtn.setSelection(true);
 
 		loadPrefrences();
@@ -116,14 +116,14 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 
 		final boolean generateHelp = generateHelpBtn.getSelection();
 		final boolean generateMobilePage = generateMobilePageBtn.getSelection();
-		Job job = new Job(Messages.job_generating_view) {
+		Job job = new Job(Messages.getString("job_generating_view")) {
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 
 				final TreePath[] pathElements = ((TreeSelection)selection).getPaths();
 
-				monitor.beginTask(Messages.task_generating, pathElements.length + 1);
+				monitor.beginTask(Messages.getString("task_generating"), pathElements.length + 1);
 
 				for (TreePath treePath : pathElements) {
 					if (treePath.getLastSegment() instanceof ICompilationUnit) {
@@ -135,7 +135,8 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 						monitor.worked(1);
 
 					} else {
-						logger.warn(MessageFormat.format(Messages.warn_java_source_not_valid_selection, treePath.getLastSegment()));
+						logger.warn(MessageFormat.format(Messages.getString("warn_java_source_not_valid_selection"),
+								treePath.getLastSegment()));
 					}
 				}
 
@@ -186,7 +187,7 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 
 			public void run() {
 				result[0] = MessageDialog.openQuestion(getShell(), PluginConstants.TITLE,
-						MessageFormat.format(Messages.question_override_file, file.getName()));
+						MessageFormat.format(Messages.getString("question_override_file"), file.getName()));
 			}
 		});
 

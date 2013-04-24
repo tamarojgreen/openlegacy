@@ -41,6 +41,10 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.additionalKey = additionalKey;
 	}
 
+	public SimpleTerminalActionDefinition(String actionName, String displayName) {
+		super(actionName, displayName);
+	}
+
 	public TerminalPosition getPosition() {
 		return position;
 	}
@@ -80,5 +84,9 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	public void setFocusField(String focusField) {
 		this.focusField = focusField;
+	}
+
+	public void setAdditionalKey(AdditionalKey additionalKey) {
+		this.additionalKey = additionalKey;
 	}
 }

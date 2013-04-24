@@ -57,14 +57,14 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 	@Override
 	protected void executeGenerate() {
 
-		Job job = new Job(Messages.job_generating_model) {
+		Job job = new Job(Messages.getString("job_generating_model")) {
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 
 				final IFile trailPath = getFile();
 				int fileSize = (int)(new File(trailPath.getLocation().toOSString()).length() / 1000);
-				monitor.beginTask(Messages.job_activating_analyzer, fileSize);
+				monitor.beginTask(Messages.getString("job_activating_analyzer"), fileSize);
 
 				monitor.worked(2);
 				if (emptyModel) {
@@ -188,8 +188,8 @@ public class GenerateModelDialog extends AbstractGenerateCodeDialog implements E
 					IFile javaFile = getProject().getFile(
 							getSourceFolder().getPath().toPortableString() + "/" + PathsUtil.packageToPath(getPackageValue())
 									+ "/" + file.getName());
-					IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
-							javaFile.getName());
+					IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry()
+							.getDefaultEditor(javaFile.getName());
 
 					page.openEditor(new FileEditorInput(javaFile), editorDescriptor.getId());
 

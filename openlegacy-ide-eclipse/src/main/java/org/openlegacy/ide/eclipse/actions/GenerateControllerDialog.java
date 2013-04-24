@@ -51,14 +51,14 @@ public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 	@Override
 	protected void executeGenerate() {
 
-		Job job = new Job(Messages.job_generating_controller) {
+		Job job = new Job(Messages.getString("job_generating_controller")) {
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
 
 				final TreePath[] pathElements = ((TreeSelection)selection).getPaths();
 
-				monitor.beginTask(Messages.task_generating, pathElements.length + 1);
+				monitor.beginTask(Messages.getString("task_generating"), pathElements.length + 1);
 
 				for (TreePath treePath : pathElements) {
 					if (treePath.getLastSegment() instanceof ICompilationUnit) {
@@ -70,7 +70,8 @@ public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 						monitor.worked(1);
 
 					} else {
-						logger.warn(MessageFormat.format(Messages.warn_java_source_not_valid_selection, treePath.getLastSegment()));
+						logger.warn(MessageFormat.format(Messages.getString("warn_java_source_not_valid_selection"),
+								treePath.getLastSegment()));
 					}
 				}
 

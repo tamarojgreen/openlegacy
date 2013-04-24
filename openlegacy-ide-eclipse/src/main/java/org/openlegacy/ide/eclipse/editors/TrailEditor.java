@@ -85,9 +85,9 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		try {
 			editor = new StructuredTextEditor();
 			int index = addPage(editor, getEditorInput());
-			setPageText(index, Messages.page_name_source);
+			setPageText(index, Messages.getString("page_name_source"));
 		} catch (PartInitException e) {
-			ErrorDialog.openError(getSite().getShell(), Messages.error_creating_text_editor, null, e.getStatus());
+			ErrorDialog.openError(getSite().getShell(), Messages.getString("error_creating_text_editor"), null, e.getStatus());
 		}
 	}
 
@@ -114,7 +114,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 			removePage(0);
 		}
 		addPage(0, trailComposite);
-		setPageText(0, Messages.page_name_snapshots);
+		setPageText(0, Messages.getString("page_name_snapshots"));
 	}
 
 	private Element extractDocumentRoot() {
@@ -136,10 +136,10 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		try {
 			terminalSessionTrail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, new FileInputStream(file));
 		} catch (Exception e) {
-			throw (new DesigntimeException(Messages.error_unable_to_open_trail_file, e));
+			throw (new DesigntimeException(Messages.getString("error_unable_to_open_trail_file"), e));
 		}
 		if (terminalSessionTrail.getSnapshots().size() == 0) {
-			throw (new DesigntimeException(Messages.error_no_snapshots_found));
+			throw (new DesigntimeException(Messages.getString("error_no_snapshots_found")));
 		}
 		return terminalSessionTrail;
 	}
@@ -151,7 +151,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 
 		Menu menu = new Menu(tableViewer.getTable());
 		MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
-		menuItem.setText(Messages.menu_generate_model);
+		menuItem.setText(Messages.getString("menu_generate_model"));
 		menuItem.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent event) {
@@ -173,7 +173,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		});
 
 		menuItem = new MenuItem(menu, SWT.PUSH);
-		menuItem.setText(Messages.menu_new_screen);
+		menuItem.setText(Messages.getString("menu_new_screen"));
 		menuItem.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent event) {
@@ -219,15 +219,15 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		});
 		TableViewerColumn column = new TableViewerColumn(tableViewer, SWT.NONE);
 		column.getColumn().setWidth(100);
-		column.getColumn().setText(Messages.label_sequence);
+		column.getColumn().setText(Messages.getString("label_sequence"));
 		column.setLabelProvider(new ColumnLabelProvider() {
 
 			@Override
 			public String getText(Object element) {
 				TerminalSnapshot snapshot = (TerminalSnapshot)element;
-				String direction = snapshot.getSnapshotType() == SnapshotType.INCOMING ? Messages.label_screen_in
-						: Messages.label_screen_out;
-				return String.valueOf(Messages.label_screen_prefix + snapshot.getSequence() + direction);
+				String direction = snapshot.getSnapshotType() == SnapshotType.INCOMING ? Messages.getString("label_screen_in")
+						: Messages.getString("label_screen_out");
+				return String.valueOf(Messages.getString("label_screen_prefix") + snapshot.getSequence() + direction);
 			}
 
 		});
@@ -318,7 +318,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 	@Override
 	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException {
 		if (!(editorInput instanceof IFileEditorInput)) {
-			throw new PartInitException(Messages.error_invalid_input_file);
+			throw new PartInitException(Messages.getString("error_invalid_input_file"));
 		}
 		super.init(site, editorInput);
 	}

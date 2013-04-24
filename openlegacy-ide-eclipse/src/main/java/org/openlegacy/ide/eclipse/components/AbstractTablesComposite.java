@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.components;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.FocusEvent;
@@ -39,6 +35,10 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractTablesComposite extends Composite {
 
@@ -143,7 +143,8 @@ public abstract class AbstractTablesComposite extends Composite {
 
 	private void fillColumnFieldsTableHeaders() {
 		this.fieldsTable.setRedraw(false);
-		String[] titles = { Messages.label_col_fields, Messages.label_col_row, Messages.label_col_column };
+		String[] titles = { Messages.getString("label_col_fields"), Messages.getString("label_col_row"),
+				Messages.getString("label_col_column") };
 		for (int i = 0; i <= titles.length; i++) {
 			TableColumn column = new TableColumn(this.fieldsTable, SWT.NONE);
 			column.setText(i != titles.length ? titles[i] : "");
@@ -155,7 +156,8 @@ public abstract class AbstractTablesComposite extends Composite {
 
 	private void fillColumnIdentifiersTableHeaders() {
 		this.identifiersTable.setRedraw(false);
-		String[] titles = { Messages.label_col_identifiers, Messages.label_col_row, Messages.label_col_column };
+		String[] titles = { Messages.getString("label_col_identifiers"), Messages.getString("label_col_row"),
+				Messages.getString("label_col_column") };
 		for (int i = 0; i <= titles.length; i++) {
 			TableColumn column = new TableColumn(this.identifiersTable, SWT.NONE);
 			column.setText(i != titles.length ? titles[i] : "");
@@ -198,8 +200,8 @@ public abstract class AbstractTablesComposite extends Composite {
 		TableEditor editor = new TableEditor(table);
 		Button deleteBtn = new Button(table, SWT.NONE);
 		deleteBtn.setSize(table.getItemHeight(), this.smallestColWidth);
-		Image image = new Image(getShell().getDisplay(), this.getClass().getClassLoader().getResourceAsStream(
-				DELETE_BUTTON_ICON_FILENAME));
+		Image image = new Image(getShell().getDisplay(), this.getClass().getClassLoader()
+				.getResourceAsStream(DELETE_BUTTON_ICON_FILENAME));
 		deleteBtn.setImage(image);
 		deleteBtn.setData(ITEM_DATA_KEY, item);
 		deleteBtn.pack();

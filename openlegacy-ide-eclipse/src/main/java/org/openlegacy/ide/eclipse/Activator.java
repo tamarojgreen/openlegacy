@@ -55,7 +55,7 @@ public class Activator extends AbstractUIPlugin {
 		plugin = this;
 		EclipseDesignTimeExecuter.instance().initialize();
 
-		olConsole = new MessageConsole(Messages.console_title_openlegacy, null);
+		olConsole = new MessageConsole(Messages.getString("console_title_openlegacy"), null);
 		ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] { olConsole });
 		ConsolePlugin.getDefault().getConsoleManager().showConsoleView(olConsole);
 

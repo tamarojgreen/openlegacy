@@ -37,7 +37,7 @@ public class TrailJob extends Job {
 	private Map<String, File[]> currentTrails = new HashMap<String, File[]>();
 
 	public TrailJob() {
-		super(Messages.TrailJob_job_name);
+		super(Messages.getString("TrailJob_job_name"));
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class TrailJob extends Job {
 					if (projectKnownTrails.length != trails.length) {
 						try {
 							currentTrails.put(project.getName(), trails);
-							logger.info(Messages.TrailJob_message_found_new_trail);
+							logger.info(Messages.getString("TrailJob_message_found_new_trail"));
 							folder.refreshLocal(1, monitor);
 							Display.getDefault().asyncExec(new Runnable() {
 
@@ -79,7 +79,7 @@ public class TrailJob extends Job {
 
 	}
 
-	private boolean isAnalyzeNewTrails() {
+	private static boolean isAnalyzeNewTrails() {
 		return Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.P_ANALYZE_NEW_TRAILS);
 	}
 }

@@ -22,6 +22,7 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
+import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
@@ -169,8 +170,8 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 
 				// if action was set use it, if not use enter drill down action (default)
 				TerminalDrilldownAction sessionAction = TerminalDrilldownActions.enter(StringUtil.stripQuotes(action.getActionValue()));
-				SimpleActionDefinition actionDefinition = new SimpleActionDefinition(sessionAction,
-						StringUtil.stripQuotes(action.getDisplayName()));
+				SimpleActionDefinition actionDefinition = new SimpleTerminalActionDefinition(sessionAction,
+						action.getAdditionalKey(), StringUtil.stripQuotes(action.getDisplayName()), null);
 				if (action.getAlias() != null) {
 					actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 				}

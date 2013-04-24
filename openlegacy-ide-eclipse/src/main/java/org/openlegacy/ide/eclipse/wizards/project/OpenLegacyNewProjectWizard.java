@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.wizards.project;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
@@ -40,7 +39,7 @@ import org.openlegacy.ide.eclipse.util.PathsUtil;
 
 public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard {
 
-	private final static Logger logger = Logger.getLogger(OpenLegacyNewWizardGeneralPage.class);
+//	private final static Logger logger = Logger.getLogger(OpenLegacyNewWizardGeneralPage.class);
 
 	private OpenLegacyNewWizardGeneralPage generalPage;
 	private OpenLegacyNewWizardProviderPage providerPage;

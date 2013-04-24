@@ -40,8 +40,8 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 
 	protected OpenLegacyNewWizardProviderPage(String pageName) {
 		super("wizardProviderPage"); //$NON-NLS-1$
-		setTitle(Messages.title_ol_project_wizard);
-		setDescription(Messages.info_ol_project_wizard);
+		setTitle(Messages.getString("title_ol_project_wizard"));
+		setDescription(Messages.getString("info_ol_project_wizard"));
 	}
 
 	public void createControl(Composite parent) {
@@ -52,7 +52,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		layout.verticalSpacing = 9;
 
 		Label label = new Label(container, SWT.NULL);
-		label.setText(Messages.label_provider);
+		label.setText(Messages.getString("label_provider"));
 
 		providerName = new Combo(container, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
 		providerName.setItems(new String[] { "Pending..." });//$NON-NLS-1$
@@ -69,7 +69,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		providerDescription.setLayoutData(gd);
 
 		label = new Label(container, SWT.NULL);
-		label.setText(Messages.label_host_ip);
+		label.setText(Messages.getString("label_host_ip"));
 
 		hostName = new Text(container, SWT.BORDER | SWT.SINGLE);
 
@@ -86,7 +86,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		});
 
 		label = new Label(container, SWT.NULL);
-		label.setText(Messages.label_host_port);
+		label.setText(Messages.getString("label_host_port"));
 
 		hostPort = new Text(container, SWT.BORDER | SWT.SINGLE);
 
@@ -99,7 +99,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		});
 
 		label = new Label(container, SWT.NULL);
-		label.setText(Messages.label_code_page);
+		label.setText(Messages.getString("label_code_page"));
 
 		codePage = new Text(container, SWT.BORDER | SWT.SINGLE);
 
@@ -127,14 +127,14 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 	private void dialogChanged() {
 		if (projectProviders == null) {
 			setEnabled(false);
-			updateStatus(Messages.error_new_project_metadata_not_found);
+			updateStatus(Messages.getString("error_new_project_metadata_not_found"));
 			return;
 		}
 
 		providerDescription.setText(projectProviders.get(providerName.getSelectionIndex()).getDescription());
 
 		if (isDemo()) {
-			if (!this.providerName.getText().equals(projectProviders.get(0).getDisplayName())){
+			if (!this.providerName.getText().equals(projectProviders.get(0).getDisplayName())) {
 				this.providerName.setText(projectProviders.get(0).getDisplayName()); // AS/400
 				setEnabled(false);
 				updateStatus(null);
@@ -145,19 +145,19 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		}
 
 		if (hostName.getText().length() == 0) {
-			updateStatus(Messages.error_host_name_not_specified);
+			updateStatus(Messages.getString("error_host_name_not_specified"));
 			return;
 		}
 		if (hostPort.getText().length() == 0) {
-			updateStatus(Messages.errror_host_port_not_specified);
+			updateStatus(Messages.getString("errror_host_port_not_specified"));
 			return;
 		}
 		if (!NumberUtils.isNumber(hostPort.getText())) {
-			updateStatus(Messages.error_port_not_numeric);
+			updateStatus(Messages.getString("error_port_not_numeric"));
 			return;
 		}
 		if (codePage.getText().length() == 0) {
-			updateStatus(Messages.error_code_page_not_specified);
+			updateStatus(Messages.getString("error_code_page_not_specified"));
 			return;
 		}
 
@@ -216,7 +216,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 
 				public void run() {
 					setEnabled(false);
-					updateStatus(Messages.error_new_project_metadata_not_found);
+					updateStatus(Messages.getString("error_new_project_metadata_not_found"));
 				}
 			});
 			return;

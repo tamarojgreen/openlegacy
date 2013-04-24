@@ -1,5 +1,11 @@
 package org.openlegacy.ide.eclipse.preview;
 
+import org.openlegacy.ide.eclipse.Messages;
+import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.support.SimpleTerminalPosition;
+
+import java.text.MessageFormat;
+
 /**
  * Contains position information of field in terminal and field value.
  * 
@@ -45,4 +51,12 @@ public class FieldRectangle {
 		return value;
 	}
 
+	public String toCoordsString() {
+		return MessageFormat.format(Messages.getString("field.rectangle.string"), this.row, this.column, this.endRow,
+				this.endColumn);
+	}
+
+	public TerminalPosition getStartPosition() {
+		return new SimpleTerminalPosition(row, column);
+	}
 }

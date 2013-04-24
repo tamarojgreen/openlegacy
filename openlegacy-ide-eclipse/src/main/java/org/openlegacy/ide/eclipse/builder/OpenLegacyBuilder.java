@@ -68,7 +68,8 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 						for (IResource iResource : members) {
 							String resourceName = iResource.getName();
 							if (resourceName.startsWith(fileNoExtension)
-									&& (resourceName.endsWith(DesignTimeExecuter.ASPECT_SUFFIX) || resourceName.endsWith(DesignTimeExecuter.RESOURCES_FOLDER_SUFFIX))) {
+									&& (resourceName.endsWith(DesignTimeExecuter.ASPECT_SUFFIX) || resourceName
+											.endsWith(DesignTimeExecuter.RESOURCES_FOLDER_SUFFIX))) {
 								iResource.delete(false, null);
 							}
 						}
@@ -113,10 +114,10 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 						return;
 					}
 
-					boolean result = PopupUtil.question(Messages.message_new_trail_found);
+					boolean result = PopupUtil.question(Messages.getString("message_new_trail_found"));
 					if (result) {
-						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
-								trailFile.getName());
+						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry()
+								.getDefaultEditor(trailFile.getName());
 						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 						try {
 
@@ -184,7 +185,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
-	private boolean isIgnoreFolder(IResource resource) {
+	private static boolean isIgnoreFolder(IResource resource) {
 		String path = resource.getFullPath().toString();
 		return path.contains("/target") || path.contains("test/java");
 	}
@@ -211,8 +212,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
 		try {
 			getProject().accept(new OpenLegacyResourceVisitor());
-		} catch (CoreException e) {
-		}
+		} catch (CoreException e) {}
 	}
 
 	protected void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {

@@ -134,7 +134,7 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void initialize(final File projectPath) {
-		Job job = new Job(Messages.message_initializing_ol_analyzer) {
+		Job job = new Job(Messages.getString("message_initializing_ol_analyzer")) {
 
 			@Override
 			protected IStatus run(IProgressMonitor arg0) {

@@ -71,7 +71,8 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 		// Add to "show views".
 		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 		layout.addShowViewShortcut(ERROR_LOG_VIEW_ID);
-		layout.addShowViewShortcut(PluginConstants.OPENLEGACY_IMAGE_VIEW_ID);
+//		layout.addShowViewShortcut(PluginConstants.OPENLEGACY_IMAGE_VIEW_ID);
+		layout.addShowViewShortcut(SCREEN_PREVIEW_ID);
 		layout.addShowViewShortcut(ProjectExplorer.VIEW_ID);
 		layout.addShowViewShortcut(NAVIGATOR_VIEW_ID);
 

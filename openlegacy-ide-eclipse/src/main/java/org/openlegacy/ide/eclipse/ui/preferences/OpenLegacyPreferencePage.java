@@ -48,8 +48,8 @@ public class OpenLegacyPreferencePage extends FieldEditorPreferencePage implemen
 	 */
 	@Override
 	public void createFieldEditors() {
-		this.urlEditor = new StringFieldEditor(PreferenceConstants.P_TEMPLATES_URL, Messages.label_templates_url_preference,
-				getFieldEditorParent());
+		this.urlEditor = new StringFieldEditor(PreferenceConstants.P_TEMPLATES_URL,
+				Messages.getString("label_templates_url_preference"), getFieldEditorParent());
 		this.analyzeNewTrails = new BooleanFieldEditor(PreferenceConstants.P_ANALYZE_NEW_TRAILS, "Analyze new trails",
 				getFieldEditorParent());
 		addField(this.urlEditor);

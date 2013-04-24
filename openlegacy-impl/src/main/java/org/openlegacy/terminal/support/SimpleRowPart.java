@@ -68,4 +68,8 @@ public class SimpleRowPart implements RowPart {
 	public String toString() {
 		return MessageFormat.format("{0}:{1}", getPosition().toString(), getValue());
 	}
+
+	public List<TerminalField> getFields() {
+		return fields;
+	}
 }

@@ -117,6 +117,12 @@ public class ScreenAnnotationsParserUtils {
 		String passwordValue = getAnnotationValue(annotationExpr, AnnotationConstants.PASSWORD);
 		String sampleValue = getAnnotationValue(annotationExpr, AnnotationConstants.SAMPLE_VALUE);
 		String rowsOffset = getAnnotationValue(annotationExpr, AnnotationConstants.ROWS_OFFSET);
+		// @author Ivan Bort refs assembla #235
+		String endRowValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_ROW);
+		String rightToLeftValue = getAnnotationValue(annotationExpr, AnnotationConstants.RIGHT_TO_LEFT);
+		String attributeValue = getAnnotationValue(annotationExpr, AnnotationConstants.ATTRIBUTE);
+		String whenValue = getAnnotationValue(annotationExpr, AnnotationConstants.WHEN);
+		String unlessValue = getAnnotationValue(annotationExpr, AnnotationConstants.UNLESS);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : StringUtil.stripQuotes(sampleValue));
 		field.setFieldTypeName(StringUtil.toClassName(fieldTypeName));
@@ -137,7 +143,7 @@ public class ScreenAnnotationsParserUtils {
 		if (columnValue != null) {
 			field.setColumn(Integer.valueOf(columnValue));
 		}
-		String displayName = !StringUtil.isEmpty(displayNameValue) ? displayNameValue : StringUtil.toDisplayName(field.getName());
+		String displayName = displayNameValue != null ? displayNameValue : StringUtil.toDisplayName(field.getName());
 		field.setDisplayName(displayName);
 
 		if (startColumnValue != null) {
@@ -165,6 +171,21 @@ public class ScreenAnnotationsParserUtils {
 		if (rowsOffset != null) {
 			field.setRowsOffset(Integer.valueOf(rowsOffset));
 		}
+		if (endRowValue != null) {
+			field.setEndRow(Integer.valueOf(endRowValue));
+		}
+		if (StringConstants.TRUE.equals(rightToLeftValue)) {
+			field.setRightToLeft(true);
+		}
+		if (attributeValue != null) {
+			field.setAttributeName(attributeValue.split("\\.")[1]);
+		}
+		if (whenValue != null) {
+			field.setWhen(StringUtil.stripQuotes(whenValue));
+		}
+		if (unlessValue != null) {
+			field.setUnless(StringUtil.stripQuotes(unlessValue));
+		}
 	}
 
 	public static List<Action> populateScreenActions(AnnotationExpr annotationExpr) {
@@ -183,8 +204,14 @@ public class ScreenAnnotationsParserUtils {
 				// used by @TableAction only
 				String actionValue = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION_VALUE);
 				String targetEntityName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.TARGET_ENTITY);
+				// @author Ivan Bort, refs assembla #235
+				String additionalKeyValue = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ADDITIONAL_KEY);
 
-				Action action = new Action(actionAlias, actionClassName, displayName);
+				AdditionalKey additionalKey = AdditionalKey.NONE;
+				if (additionalKeyValue != null) {
+					additionalKey = AdditionalKey.valueOf(additionalKeyValue.split("\\.")[1]);
+				}
+				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey);
 				action.setActionValue(actionValue == null ? "" : actionValue);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
 				actions.add(action);
@@ -202,7 +229,8 @@ public class ScreenAnnotationsParserUtils {
 			for (MemberValuePair memberValuePair : navigationAttributes) {
 				String attributeValue = memberValuePair.getValue().toString();
 				if (memberValuePair.getName().equals(AnnotationConstants.ACCESSED_FROM)) {
-					navigationDefinition.setAccessedFromEntityName(StringUtil.stripQuotes(StringUtil.toClassName(attributeValue)));
+					navigationDefinition
+							.setAccessedFromEntityName(StringUtil.stripQuotes(StringUtil.toClassName(attributeValue)));
 				}
 				if (memberValuePair.getName().equals(AnnotationConstants.REQUIRES_PARAMETERS)) {
 					navigationDefinition.setRequiresParameters(Boolean.valueOf(attributeValue));
@@ -340,4 +368,18 @@ public class ScreenAnnotationsParserUtils {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author Ivan Bort, refs assembla #235
+	 */
+	public static void loadDescriptionField(AnnotationExpr annotationExpr, Field field) {
+		String rowValue = getAnnotationValue(annotationExpr, AnnotationConstants.ROW);
+		String columnValue = getAnnotationValue(annotationExpr, AnnotationConstants.COLUMN);
+		String endColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_COLUMN);
+
+		field.setDescriptionRow(rowValue != null ? Integer.valueOf(rowValue) : null);
+		field.setDescriptionColumn(columnValue != null ? Integer.valueOf(columnValue) : null);
+		field.setDescriptionEndColumn(endColumnValue != null ? Integer.valueOf(endColumnValue) : null);
+	}
 }
