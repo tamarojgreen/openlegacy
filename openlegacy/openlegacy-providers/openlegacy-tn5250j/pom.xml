@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openlegacy-providers</artifactId>
 		<groupId>org.openlegacy.providers</groupId>
-		<version>1.0.0-RELEASE</version>
+		<version>1.1.0-RELEASE</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-tn5250j</artifactId>

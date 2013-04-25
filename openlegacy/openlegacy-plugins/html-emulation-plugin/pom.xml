@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.openlegacy.plugins</groupId>
 		<artifactId>openlegacy-plugins</artifactId>
-		<version>1.0.0-RELEASE</version>
+		<version>1.1.0-RELEASE</version>
 	</parent>
 
 	<groupId>${parent.groupId}</groupId>
