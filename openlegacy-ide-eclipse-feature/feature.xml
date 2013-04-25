@@ -2,7 +2,7 @@
 <feature
       id="org.openlegacy.ide.eclipse.feature"
       label="OpenLegacy IDE"
-      version="1.0.0.qualifier"
+      version="1.1.0.qualifier"
       provider-name="OpenLegacy">
 
    <description url="http://www.openlegacy.org/description">
