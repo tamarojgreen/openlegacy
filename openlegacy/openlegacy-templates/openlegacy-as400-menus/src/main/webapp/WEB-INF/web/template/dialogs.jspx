@@ -28,5 +28,20 @@
 		<div id="lookupDialog" data-dojo-type="dijit.Dialog"
 			title="Lookup window" style="overflow: auto;"
 			data-dojo-props="parseOnLoad: true, draggable:true"><!--  --></div>
+		<c:if test="${ol_messages != null}">
+			<div id="messagesDialog" data-dojo-type="dijit.Dialog"
+				style="overflow: auto;" title="Messages">
+				<c:forEach items="${ol_messages}" var="message">
+					<pre>${message}</pre>
+				</c:forEach>
+			</div>
+			<script language="JavaScript" type="text/javascript">
+			require(["dojo/ready"], function(ready){
+			    ready(function(){
+			    	showDialog('messagesDialog');
+		    	});
+			});	
+			</script>
+		</c:if>
 	</div>
 </jsp:root>
