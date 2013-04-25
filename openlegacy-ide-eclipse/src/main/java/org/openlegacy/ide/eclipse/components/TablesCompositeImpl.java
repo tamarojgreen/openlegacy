@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.components;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -65,7 +66,8 @@ public class TablesCompositeImpl extends AbstractTablesComposite {
 			return;
 		}
 		if (this.paintedControl instanceof SnapshotComposite) {
-			((SnapshotComposite)this.paintedControl).setDrawingRectangle(getRectangleForDrawing(this.field));
+			((SnapshotComposite)this.paintedControl).addDrawingRectangle(getRectangleForDrawing(this.field), SWT.COLOR_YELLOW,
+					true);
 			((SnapshotComposite)this.paintedControl).setSnapshot(null);
 		} else {
 			this.paintedControl.redraw();

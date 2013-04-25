@@ -36,6 +36,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.TextViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CaretEvent;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ModifyEvent;
@@ -81,6 +82,24 @@ public class ScreenPreview extends ViewPart {
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "org.openlegacy.ide.eclipse.preview.ScreenPreview";
+
+	private Map<String, CompilationUnit> cacheCompilationUnitContainer = new HashMap<String, CompilationUnit>();
+
+	private Map<String, JavaClassProperties> cacheJavaClassPropertiesContainer = new HashMap<String, JavaClassProperties>();
+
+	private Map<String, StyledText> cacheStyledTextContainer = new HashMap<String, StyledText>();
+
+	private EditorListener editorListener;
+
+	private boolean isVisible;
+
+	private IEditorPart lastActiveEditor;
+
+	private SnapshotComposite snapshotComposite;
+
+	private TerminalSnapshot terminalSnapshot;
+
+	private final String XML_EXTENSION = ".xml";
 
 	private static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
 		List<T> r = new ArrayList<T>(c.size());
@@ -193,31 +212,6 @@ public class ScreenPreview extends ViewPart {
 		return importList;
 	}
 
-	private Map<String, CompilationUnit> cacheCompilationUnitContainer = new HashMap<String, CompilationUnit>();
-
-	private Map<String, JavaClassProperties> cacheJavaClassPropertiesContainer = new HashMap<String, JavaClassProperties>();
-
-	private Map<String, StyledText> cacheStyledTextContainer = new HashMap<String, StyledText>();
-
-	private EditorListener editorListener;
-
-	private FieldRectangle fieldRectangle = null;
-
-	private boolean isVisible;
-
-	private IEditorPart lastActiveEditor;
-
-	private SnapshotComposite snapshotComposite;
-
-	private TerminalSnapshot terminalSnapshot;
-
-	private final String XML_EXTENSION = ".xml";
-
-	/**
-	 * The constructor.
-	 */
-	public ScreenPreview() {}
-
 	private boolean checkVisitedAnnotation(NormalAnnotation annotation) {
 		int row = 0;
 		int col = 0;
@@ -241,7 +235,7 @@ public class ScreenPreview extends ViewPart {
 				val = value;
 			}
 		}
-		snapshotComposite.setDrawingRectangle(getRectangle(row, row, col, endCol, val));
+		snapshotComposite.addDrawingRectangle(getRectangle(row, row, col, endCol, val), SWT.COLOR_YELLOW, true);
 		return true;
 	}
 
@@ -281,12 +275,6 @@ public class ScreenPreview extends ViewPart {
 							styledText.addCaretListener(editorListener);
 							styledText.addModifyListener(editorListener);
 							cacheStyledTextContainer.put(key, styledText);
-							// } else {
-							// if (this.fieldRectangle != null) {
-							// this.snapshotComposite.setDrawingRectangle(getRectangle(this.fieldRectangle.getRow(),
-							// this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(),
-							// this.fieldRectangle.getValue()));
-							// }
 						}
 					}
 					try {
@@ -445,7 +433,7 @@ public class ScreenPreview extends ViewPart {
 					return;
 				}
 				if ((offset.get() < node.getStartPosition()) || (offset.get() > (node.getStartPosition() + node.getLength()))) {
-					snapshotComposite.setDrawingRectangle(null);
+					snapshotComposite.addDrawingRectangle(null);
 					return;
 				}
 				ITypeBinding binding = node.resolveTypeBinding();
@@ -475,6 +463,22 @@ public class ScreenPreview extends ViewPart {
 		}
 		// hide image
 		snapshotComposite.setVisible(false);
+	}
+
+	public void addFieldRectangle(FieldRectangle rectangle) {
+		addFieldRectangle(rectangle, SWT.COLOR_YELLOW, false);
+	}
+
+	public void addFieldRectangle(FieldRectangle rectangle, int color) {
+		addFieldRectangle(rectangle, color, false);
+	}
+
+	public void addFieldRectangle(FieldRectangle rectangle, int color, boolean clearListBeforeAdd) {
+		if (rectangle != null) {
+			this.snapshotComposite.addDrawingRectangle(
+					getRectangle(rectangle.getRow(), rectangle.getEndRow(), rectangle.getColumn(), rectangle.getEndColumn(),
+							rectangle.getValue()), color, clearListBeforeAdd);
+		}
 	}
 
 	/**
@@ -580,15 +584,6 @@ public class ScreenPreview extends ViewPart {
 			FileBuffers.getTextFileBufferManager().addFileBufferListener(editorListener);
 		}
 
-	}
-
-	public void setFieldRectangle(FieldRectangle rectangle) {
-		this.fieldRectangle = rectangle;
-		if (this.fieldRectangle != null) {
-			this.snapshotComposite.setDrawingRectangle(getRectangle(this.fieldRectangle.getRow(),
-					this.fieldRectangle.getEndRow(), this.fieldRectangle.getColumn(), this.fieldRectangle.getEndColumn(),
-					this.fieldRectangle.getValue()));
-		}
 	}
 
 	/**

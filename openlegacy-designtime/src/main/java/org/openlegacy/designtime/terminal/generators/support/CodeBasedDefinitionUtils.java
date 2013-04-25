@@ -70,8 +70,8 @@ public class CodeBasedDefinitionUtils {
 			fieldDefinition.setPosition(new SimpleTerminalPosition(javaFieldModel.getRow(), javaFieldModel.getColumn()));
 			fieldDefinition.setEditable(javaFieldModel.isEditable());
 			if (javaFieldModel.getLabelColumn() != null) {
-				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(javaFieldModel.getRow(),
-						javaFieldModel.getLabelColumn()));
+				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(javaFieldModel.getRow(), javaFieldModel
+						.getLabelColumn()));
 			}
 			fieldDefinition.setDisplayName(StringUtil.stripQuotes(javaFieldModel.getDisplayName()));
 			if (javaFieldModel.getEndColumn() != null) {
