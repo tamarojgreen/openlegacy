@@ -11,6 +11,8 @@
 package org.openlegacy.annotations.screen;
 
 import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.modules.navigation.Navigation;
+import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -70,7 +72,7 @@ public @interface ScreenNavigation {
 	 * 
 	 * @return
 	 */
-	Class<? extends TerminalAction> exitAction() default TerminalActions.F3.class;
+	Class<? extends TerminalAction> exitAction() default DefaultNavigationExitAction.class;
 
 	/**
 	 * {@link AdditionalKey} to use in addition to the exitAction
@@ -88,4 +90,18 @@ public @interface ScreenNavigation {
 	boolean requiresParameters() default false;
 
 	String drilldownValue() default "";
+
+	public static class AnyScreen {
+
+	}
+
+	public static class DefaultNavigationExitAction implements TerminalAction {
+
+		public void perform(TerminalSession session, Object entity, Object... keys) {
+			TerminalAction action = session.getModule(Navigation.class).getDefaultExitAction();
+			session.doAction(action, (org.openlegacy.terminal.ScreenEntity)entity);
+		}
+
+	}
+
 }
