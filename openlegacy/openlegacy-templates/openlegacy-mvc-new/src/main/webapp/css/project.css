@@ -40,3 +40,11 @@
 	float: left;
 	width: 65%;
 }
+
+.main .table table{
+	font-size: .75em;
+	white-space: nowrap;
+}
+.container .table table{
+	font-family: Helvetica, sans-serif;
+}
