@@ -136,19 +136,21 @@
 			<c:set var="paging" value="true" />
 		</c:if>
 		<c:if test="${paging}">
+		  	<spring:message code="label_next" var="label_next" htmlEscape="false" />
+		  	<spring:message code="label_prev" var="label_prev" htmlEscape="false" />
 			<div class="paging">
 				<div class="previous">
 					<a
 						href="javascript:doAjaxPost('${formName}','container','previous','body')">
 						<span class="arrow"> <!---->
-					</span> <span>Previous</span>
+					</span> <span>${label_prev}</span>
 					</a>
 				</div>
 				<div class="next">
 					<a
 						href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body')">
 						<span class="arrow"> <!---->
-					</span> <span>Next</span>
+					</span> <span>${label_next}</span>
 					</a>
 				</div>
 			</div>
