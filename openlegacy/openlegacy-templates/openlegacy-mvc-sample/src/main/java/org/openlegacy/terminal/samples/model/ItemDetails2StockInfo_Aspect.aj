@@ -3,6 +3,7 @@
 
 package org.openlegacy.terminal.samples.model;
 
+import java.util.*;
 import org.openlegacy.terminal.samples.model.ItemDetails2.StockInfo;
 
 privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
@@ -12,14 +13,17 @@ privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
     }
     
 
+		
     public String StockInfo.getCreatedBy(){
     	return this.createdBy;
     }
     
 
+		
     public String StockInfo.getCreatedDate(){
     	return this.createdDate;
     }
     
 
+		
 }
