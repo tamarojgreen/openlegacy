@@ -69,6 +69,21 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		tableDefinition.setTableCollector(screenTableAnnotation.tableCollector());
 		collectColumnsMetadata(containingClass, tableDefinition);
 
+		final OpenLegacyProperties olProperties = getBeanFactory().getBean(OpenLegacyProperties.class);
+
+		Collections.sort(tableDefinition.getColumnDefinitions(), new Comparator<ScreenColumnDefinition>() {
+
+			public int compare(ScreenColumnDefinition column1, ScreenColumnDefinition column2) {
+				if (column1.getRowsOffset() != column2.getRowsOffset()) {
+					return column1.getRowsOffset() - column2.getRowsOffset();
+				}
+				if (olProperties.isRightToLeft()) {
+					return column2.getStartColumn() - column1.getStartColumn();
+				}
+				return column1.getStartColumn() - column2.getStartColumn();
+			}
+		});
+
 		if (tableDefinition.getSelectionColumn() != null && tableDefinition.getKeyFieldNames().size() == 0) {
 			throw (new RegistryException("No key column/s defined for table " + containingClass.getSimpleName()));
 		}
@@ -118,16 +133,5 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 			}
 		});
-		OpenLegacyProperties olProperties = getBeanFactory().getBean(OpenLegacyProperties.class);
-		if (olProperties.isRightToLeft()) {
-			Collections.sort(tableDefinition.getColumnDefinitions(), new Comparator<ScreenColumnDefinition>() {
-
-				public int compare(ScreenColumnDefinition c1, ScreenColumnDefinition c2) {
-					return c2.getStartColumn() - c1.getStartColumn();
-				}
-			});
-		} else {
-			Collections.sort(tableDefinition.getColumnDefinitions());
-		}
 	}
 }
