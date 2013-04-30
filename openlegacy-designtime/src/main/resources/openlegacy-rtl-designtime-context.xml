@@ -254,7 +254,7 @@
 							<bean parent="ruleParametersSet">
 								<property name="ruleParameters">
 									<map>
-										<entry key="labelRegex" value="[\.: ]*[\.:]+\s*[\p{L}]+[\p{L} /-\\']*" />
+										<entry key="labelRegex" value="[\.: ]*[\.:]+\s*[\p{L}]+[\p{L} /-\\'\&quot;]*" />
 										<entry key="maximumLabelLength" value="30" />
 										<entry key="maxDistance" value="5" />
 										<entry key="fieldRegex" value="\s*[\d\p{L}]+[\d,\.\-+]*[\d\p{L}/\- ]*" />
