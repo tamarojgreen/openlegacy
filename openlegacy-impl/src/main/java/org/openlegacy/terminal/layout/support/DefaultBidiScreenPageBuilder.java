@@ -21,7 +21,11 @@ public class DefaultBidiScreenPageBuilder extends DefaultScreenPageBuilder {
 
 	@Override
 	protected int calculateStartColumn(ScreenFieldDefinition field) {
-		return field.getPosition().getColumn() - getAdditionalPartWidth();
+		int column = field.getPosition().getColumn();
+		if (field.getDescriptionFieldDefinition() != null) {
+			column = field.getDescriptionFieldDefinition().getPosition().getColumn();
+		}
+		return column - getAdditionalPartWidth();
 	}
 
 	@Override

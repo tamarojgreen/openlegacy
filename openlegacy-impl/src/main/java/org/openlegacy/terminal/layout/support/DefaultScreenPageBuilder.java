@@ -151,7 +151,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		pagePart.setTopMargin(topMarginPercentage);
 
 		pagePart.setLeftMargin(leftMarginPercentage);
-		calculateWidth(entityDefinition, pagePart, tableEndColumn - tableStartColumn);
+		calculateWidth(entityDefinition, pagePart, Math.abs(tableEndColumn - tableStartColumn));
 
 		pagePart.setTableFieldName(tableFieldName);
 		pagePart.setTableDefinition(tableDefinition);
@@ -351,6 +351,10 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	protected int calculateEndColumn(ScreenFieldDefinition screenFieldDefinition) {
 		int fieldEndColumn = screenFieldDefinition.getLength() > 0 ? screenFieldDefinition.getEndPosition().getColumn()
 				: screenFieldDefinition.getPosition().getColumn() + defaultFieldLength;
+
+		if (screenFieldDefinition.getDescriptionFieldDefinition() != null) {
+			fieldEndColumn = screenFieldDefinition.getDescriptionFieldDefinition().getEndPosition().getColumn();
+		}
 		return fieldEndColumn + getAdditionalPartWidth();
 	}
 
