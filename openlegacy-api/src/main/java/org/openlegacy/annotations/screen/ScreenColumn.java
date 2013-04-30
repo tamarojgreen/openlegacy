@@ -50,4 +50,6 @@ public @interface ScreenColumn {
 	int rowsOffset() default 0;
 
 	String helpText() default "";
+
+	int colSpan() default 1;
 }

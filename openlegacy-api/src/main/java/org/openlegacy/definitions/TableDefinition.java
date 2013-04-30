@@ -63,6 +63,8 @@ public interface TableDefinition<C extends ColumnDefinition> {
 
 		String getHelpText();
 
+		int getColSpan();
+
 	}
 
 }

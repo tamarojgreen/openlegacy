@@ -33,6 +33,8 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 	private String helpText;
 	private boolean mainDisplayField;
 
+	private int colSpan;
+
 	public SimpleScreenColumnDefinition(String name) {
 		this.name = name;
 	}
@@ -144,5 +146,13 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 
 	public void setMainDisplayField(boolean mainDisplayField) {
 		this.mainDisplayField = mainDisplayField;
+	}
+
+	public int getColSpan() {
+		return colSpan;
+	}
+
+	public void setColSpan(int colSpan) {
+		this.colSpan = colSpan;
 	}
 }

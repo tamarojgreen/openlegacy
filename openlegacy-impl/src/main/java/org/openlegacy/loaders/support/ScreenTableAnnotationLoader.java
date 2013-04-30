@@ -91,7 +91,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 	}
 
-	private void collectColumnsMetadata(final Class<?> rowClass, final SimpleScreenTableDefinition tableDefinition) {
+	private static void collectColumnsMetadata(final Class<?> rowClass, final SimpleScreenTableDefinition tableDefinition) {
 		ReflectionUtils.doWithFields(rowClass, new FieldCallback() {
 
 			public void doWith(Field field) {
@@ -107,6 +107,8 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				columnDefinition.setRowsOffset(screenColumnAnnotation.rowsOffset());
 				columnDefinition.setKey(screenColumnAnnotation.key());
 				columnDefinition.setEditable(screenColumnAnnotation.editable());
+				columnDefinition.setColSpan(screenColumnAnnotation.colSpan());
+
 				String displayName = screenColumnAnnotation.displayName().equals(AnnotationConstants.NULL) ? StringUtil.toDisplayName(field.getName())
 						: screenColumnAnnotation.displayName();
 				columnDefinition.setDisplayName(displayName);
