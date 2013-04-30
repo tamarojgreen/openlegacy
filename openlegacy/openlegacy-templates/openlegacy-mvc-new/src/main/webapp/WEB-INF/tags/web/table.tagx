@@ -66,7 +66,7 @@
 							var="column">
 							<spring:eval var="columnValue" expression="item[column.name]" />
 							<c:if test="${column.rowsOffset == rowGap}">
-							<td><c:choose>
+							<td colspan="${column.colSpan}"><c:choose>
 									<c:when test="${column.selectionField}">
 									<c:choose>
 									<c:when
