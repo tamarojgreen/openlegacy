@@ -19,6 +19,9 @@ privileged @SuppressWarnings("unused") aspect AbstractScreen_Aspect {
     public String AbstractScreen.getError(){
     	return this.error;
     }
+    public TerminalField AbstractScreen.getErrorField(){
+    	return this.errorField;
+    }
     
 
 

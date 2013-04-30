@@ -3,15 +3,13 @@
 
 package apps.inventory.screens;
 
-import apps.inventory.screens.ItemDetails1.OuterUnitOfMeasure;
-
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 
     declare parents: ItemDetails1 implements ScreenEntity;
     private String ItemDetails1.focusField;
-    private String ItemDetails1.stockGroupDescription;
     
 	
 
@@ -25,6 +23,7 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 
 	
 
+    private String ItemDetails1.stockGroupDescription;
     
 
     public String ItemDetails1.getItemDescription(){
@@ -74,13 +73,12 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     public String ItemDetails1.getStockGroup(){
     	return this.stockGroup;
     }
-
     
     public void ItemDetails1.setStockGroup(String stockGroup){
     	this.stockGroup = stockGroup;
     }
 
-    public String ItemDetails1.getStockGroupDescription(){
+    public String  ItemDetails1.getStockGroupDescription(){
     	return this.stockGroupDescription;
     }
 

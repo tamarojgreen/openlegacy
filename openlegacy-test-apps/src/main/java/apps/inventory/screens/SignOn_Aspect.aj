@@ -3,13 +3,12 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
+import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
-    
     private TerminalSnapshot SignOn.terminalSnapshot;
 
     declare parents: SignOn implements ScreenEntity;
@@ -17,14 +16,19 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     
 	
     private TerminalField SignOn.messageField;
+
 	
     private TerminalField SignOn.passwordField;
+
 	
     private TerminalField SignOn.programProcedureField;
+
 	
     private TerminalField SignOn.systemField;
+
 	
     private TerminalField SignOn.userField;
+
     
     public TerminalSnapshot SignOn.getTerminalSnapshot(){
 		return terminalSnapshot;
@@ -33,52 +37,62 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     public String SignOn.getMessage(){
     	return this.message;
     }
+    public TerminalField SignOn.getMessageField(){
+    	return this.messageField;
+    }
     
 
-    public TerminalField SignOn.getMessageField(){
-    	return messageField;
-    }
+
+
     public String SignOn.getPassword(){
     	return this.password;
+    }
+    public TerminalField SignOn.getPasswordField(){
+    	return this.passwordField;
     }
     
     public void SignOn.setPassword(String password){
     	this.password = password;
     }
 
-    public TerminalField SignOn.getPasswordField(){
-    	return passwordField;
-    }
+
+
     public String SignOn.getProgramProcedure(){
     	return this.programProcedure;
+    }
+    public TerminalField SignOn.getProgramProcedureField(){
+    	return this.programProcedureField;
     }
     
     public void SignOn.setProgramProcedure(String programProcedure){
     	this.programProcedure = programProcedure;
     }
 
-    public TerminalField SignOn.getProgramProcedureField(){
-    	return programProcedureField;
-    }
+
+
     public String SignOn.getSystem(){
     	return this.system;
     }
+    public TerminalField SignOn.getSystemField(){
+    	return this.systemField;
+    }
     
 
-    public TerminalField SignOn.getSystemField(){
-    	return systemField;
-    }
+
+
     public String SignOn.getUser(){
     	return this.user;
+    }
+    public TerminalField SignOn.getUserField(){
+    	return this.userField;
     }
     
     public void SignOn.setUser(String user){
     	this.user = user;
     }
 
-    public TerminalField SignOn.getUserField(){
-    	return userField;
-    }
+
+
 
     public String SignOn.getFocusField(){
     	return focusField;

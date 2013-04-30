@@ -7,9 +7,8 @@ import java.util.*;
 import apps.inventory.screens.ItemDetails2.StockInfo;
 
 privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
-
-	private String StockInfo.standardUnitCostDescription;
-	
+    private String StockInfo.standardUnitCostDescription;
+    
     public String StockInfo.getListPrice(){
     	return this.listPrice;
     }
@@ -18,6 +17,7 @@ privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
     	this.listPrice = listPrice;
     }
 
+		
     public String StockInfo.getStandardUnitCost(){
     	return this.standardUnitCost;
     }
@@ -29,5 +29,5 @@ privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
     public String StockInfo.getStandardUnitCostDescription(){
     	return this.standardUnitCostDescription;
     }
-    
+		
 }

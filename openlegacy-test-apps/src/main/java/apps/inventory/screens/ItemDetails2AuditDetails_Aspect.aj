@@ -19,6 +19,7 @@ privileged @SuppressWarnings("unused") aspect AuditDetailsPart_Aspect {
     public TerminalField AuditDetails.getCreatedByField(){
     	return createdByField;
     }
+		
     public String AuditDetails.getCreatedDate(){
     	return this.createdDate;
     }
@@ -27,4 +28,5 @@ privileged @SuppressWarnings("unused") aspect AuditDetailsPart_Aspect {
     public TerminalField AuditDetails.getCreatedDateField(){
     	return createdDateField;
     }
+		
 }
