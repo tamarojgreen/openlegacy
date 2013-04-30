@@ -63,4 +63,6 @@
 	<bean id="ruleDefinition" class="org.openlegacy.designtime.rules.support.RuleDefinitionBean" abstract="true"/>
 	<bean id="ruleParametersSet" class="org.openlegacy.designtime.rules.support.RuleParametersSetBean" abstract="true"/>
 
+	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
+
 </beans>
