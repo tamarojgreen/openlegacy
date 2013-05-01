@@ -34,7 +34,7 @@ function doPost(formName, actionName) {
  * @param entityName
  * @param actionName
  */
-function doAjaxPost(formName, areaName, actionName,fragments) {
+function doAjaxPost(formName, areaName, actionName,fragments,callback) {
 	showLoading();
 	var dom = require("dojo/dom");
 	var dijit = require("dijit/registry");
@@ -69,6 +69,9 @@ function doAjaxPost(formName, areaName, actionName,fragments) {
 				container.set('title', title);
 			}
 			container.set('content', data);
+			if (callback != null){
+				callback.call();
+			}
 		}
 	}, function(e){
 		alert(e);

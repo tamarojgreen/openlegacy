@@ -21,22 +21,24 @@ function TerminalSession() {
 var terminalSession = new TerminalSession();
 
 require(["dojo/ready"], function(ready){
-	ready(function(){
-		require(["dojo/dom", "dojo/on"], function(dom, on){
-			if (getMainForm() == null){
-				return;
-			}
-			if (getMainForm().TerminalCursor != null){
-				setFocus();
-				attachFieldsFocus(on);
-			}
-			if (getMainForm().Sequence != null){
-				setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
-			}
-		});
-	});
+	ready(emulationOnLoad);
 });
 
+
+function emulationOnLoad(){
+	require(["dojo/dom", "dojo/on"], function(dom, on){
+		if (getMainForm() == null){
+			return;
+		}
+		if (getMainForm().TerminalCursor != null){
+			setFocus();
+			attachFieldsFocus(on);
+		}
+		if (getMainForm().Sequence != null){
+			setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
+		}
+	});
+}
 function checkSequence(){
 	var xhrArgs = {
 		handleAs : "text",
@@ -81,6 +83,7 @@ function setFocus(){
     }
 }
 
+var ol_currentLabelId = null;
 function attachFieldsFocus(on){
 	if (getMainForm() == null){
 		return;
@@ -93,10 +96,15 @@ function attachFieldsFocus(on){
     		getMainForm().TerminalCursor.value = e.target.name; 
     	});
     }
-    require(["dojo/query"], function(query){
+    require(["dojo/query","dojo/dom-class"], function(query,domClass){
     	  query("#terminalSnapshot span").forEach(function(label){
     	    	on(label, "click", function(e){
     	    		if (e.target.id != null){
+    	    			if (ol_currentLabelId != null){
+    	    				domClass.remove(ol_currentLabelId, "label_selected");
+    	    			}
+    	    			ol_currentLabelId = e.target.id; 
+	    				domClass.add(ol_currentLabelId, "label_selected");
         	    		getMainForm().TerminalCursor.value = e.target.id; 
     	    		}
     	    	});
