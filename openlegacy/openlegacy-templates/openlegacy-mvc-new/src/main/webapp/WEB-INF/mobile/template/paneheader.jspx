@@ -6,8 +6,8 @@
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	<c:set var="backVal" value=""/>
-	<c:if test="${definitions != null 
-		&amp;&amp; (fn:contains(definitions.navigationDefinition.targetEntity.simpleName, 'Details') 
+	<c:if test="${accessedFromDefinitions != null 
+		&amp;&amp; ((accessedFromDefinitions.typeName eq 'MenuEntity') 
 					|| (deviceType eq 'MOBILE'))}">
 	  	<spring:message code="label_back" var="label_back" htmlEscape="false" />
 		<c:set var="backVal" value="back:'${label_back}',"/>
