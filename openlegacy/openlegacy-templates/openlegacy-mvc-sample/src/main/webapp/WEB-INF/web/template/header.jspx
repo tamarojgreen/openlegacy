@@ -19,10 +19,10 @@
 					<c:if test="${ol_loggedInUser != null}">
 						<li>Welcome, ${ol_loggedInUser}!</li>
 					</c:if>
-					<li class="prefs"><a href="javascript:changeTheme('cloud,night,red');">Theme</a></li>
-					<li class="mobile"><a href="${pageContext.request.contextPath}/SignOn?site_preference=mobile" title="Mobile version">Mobile</a></li>
-					<li class="prefs"><a href="http://demo.openlegacy.org/openlegacy-rest-new" title="REST API">REST</a></li>
-					<li class="logout"><a href="${pageContext.request.contextPath}/logoff">Logout</a></li>
+					<li class="prefs"><a href="javascript:changeTheme('cloud,night,red,emily');"><span class="big_icon theme"><!--  --></span>Theme</a></li>
+					<li class="mobile"><a href="${pageContext.request.contextPath}/SignOn?site_preference=mobile" title="Mobile version"><span class="big_icon mobile"><!--  --></span>Mobile</a></li>
+					<li class="prefs"><a href="http://demo.openlegacy.org/openlegacy-rest-new" title="REST API"><span class="big_icon rest"><!--  --></span>REST</a></li>
+					<li class="logout"><a href="${pageContext.request.contextPath}/logoff"><span class="big_icon logout"><!--  --></span>Logout</a></li>
 				</ul>
 			</div>
 		</div>
