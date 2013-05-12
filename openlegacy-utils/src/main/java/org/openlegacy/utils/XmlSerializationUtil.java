@@ -15,8 +15,14 @@ import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.DirectFieldAccessor;
 
 import java.beans.PropertyDescriptor;
+import java.io.BufferedReader;
+import java.io.FilterReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -48,7 +54,14 @@ public class XmlSerializationUtil {
 	public static <T> T deserialize(Class<T> rootClass, InputStream in) throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(rootClass);
 		Unmarshaller unmarshaller = context.createUnmarshaller();
-		return (T)unmarshaller.unmarshal(in);
+
+		Reader reader;
+		try {
+			reader = new InvalidXMLCharacterFilterReader(new BufferedReader(new InputStreamReader(in, "UTF-8")));
+		} catch (UnsupportedEncodingException e) {
+			throw (new RuntimeException(e));
+		}
+		return (T)unmarshaller.unmarshal(reader);
 	}
 
 	/**
@@ -77,4 +90,52 @@ public class XmlSerializationUtil {
 		}
 	}
 
+	public static class InvalidXMLCharacterFilterReader extends FilterReader {
+
+		public InvalidXMLCharacterFilterReader(Reader in) {
+			super(in);
+		}
+
+		@Override
+		public int read() throws IOException {
+			char[] buf = new char[1];
+			int result = read(buf, 0, 1);
+			if (result == -1) {
+				return -1;
+			} else {
+				return buf[0];
+			}
+		}
+
+		@Override
+		public int read(char[] buf, int from, int len) throws IOException {
+			int count = 0;
+			while (count == 0) {
+				count = in.read(buf, from, len);
+				if (count == -1) {
+					return -1;
+				}
+
+				int last = from;
+				for (int i = from; i < from + count; i++) {
+					if (!isBadXMLChar(buf[i])) {
+						buf[last++] = buf[i];
+					} else {
+						buf[last++] = ' ';
+					}
+				}
+
+				count = last - from;
+			}
+			return count;
+		}
+
+		private static boolean isBadXMLChar(char c) {
+			if ((c == 0x9) || (c == 0xA) || (c == 0xD) || ((c >= 0x20) && (c <= 0xD7FF)) || ((c >= 0xE000) && (c <= 0xFFFD))
+					|| ((c >= 0x10000) && (c <= 0x10FFFF))) {
+				return false;
+			}
+			return true;
+		}
+	}
 }
