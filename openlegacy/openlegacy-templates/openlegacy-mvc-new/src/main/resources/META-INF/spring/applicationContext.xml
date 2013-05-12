@@ -80,6 +80,7 @@
 		<property name="colorMapper">
 			<map>
 				<entry key="WHITE" value="black" />
+				<entry key="YELLOW" value="orange" />
 			</map>
 		</property>
 		<property name="backcolorMapper">
