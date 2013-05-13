@@ -7,7 +7,9 @@
 		<version>1.1.0-RELEASE</version>
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
+
 	<artifactId>openlegacy-impl</artifactId>
+
 	<name>OpenLegacy implementation</name>
 	<description>OpenLegacy implementation provides default implementations for OpenLegacy API</description>
 	<url>http://openlegacy.org</url>
@@ -36,12 +38,25 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
-		</dependency>
-		<dependency>
-			<groupId>aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>1.5.4</version>
+			<version>1.2.15</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -54,9 +69,14 @@
 			<version>${spring.framework.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>aspectj</groupId>
+			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
-			<version>1.5.4</version>
+			<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>${aspectj.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy</groupId>
@@ -88,10 +108,10 @@
 			<version>2.5</version>
 		</dependency>
 		<dependency>
-		  <groupId>javax.persistence</groupId>
-		  <artifactId>persistence-api</artifactId>
-		  <version>1.0</version>
-		  <scope>provided</scope>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>

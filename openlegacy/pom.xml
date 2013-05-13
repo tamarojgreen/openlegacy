@@ -1,12 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>org.openlegacy</groupId>
 	<artifactId>openlegacy</artifactId>
 	<version>1.1.0-RELEASE</version>
 	<packaging>pom</packaging>
+
 	<name>OpenLegacy</name>
 	<description>OpenLegacy is a collection of API, framework and tools designed to provide a full stack of Legacy modernization abilities which should help you expose legacy functionallity to Java, REST, SOA, Mobile and Web based applications</description>
+
 	<licenses>
 		<license>
 			<name>Eclipse Public License - v 1.0</name>
@@ -15,28 +18,28 @@
 	</licenses>
 
 	<profiles>
-	    <profile>
-	        <id>all</id>
-	        <activation>
-	            <activeByDefault>true</activeByDefault>
-	        </activation>
-	        <modules>
-				<module>../openlegacy-api</module>
-				<module>../openlegacy-utils</module>
-				<module>../openlegacy-test-apps</module>
-				<module>../openlegacy-impl</module>
-				<module>../openlegacy-web</module>
-				<module>openlegacy-providers</module>
-				<module>openlegacy-tools</module>
-				<module>openlegacy-templates</module>
-				<module>../openlegacy-designtime</module>
-				<module>openlegacy-plugins</module>
-				<module>../openlegacy-ide</module>
-	        </modules>
-	    </profile>
 		<profile>
-		    <id>infrastructure</id>
-	        <modules>
+			<id>all</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>../openlegacy-api</module>
+				<module>../openlegacy-utils</module>
+				<module>../openlegacy-test-apps</module>
+				<module>../openlegacy-impl</module>
+				<module>../openlegacy-web</module>
+				<module>openlegacy-providers</module>
+				<module>openlegacy-tools</module>
+				<module>openlegacy-templates</module>
+				<module>../openlegacy-designtime</module>
+				<module>openlegacy-plugins</module>
+				<module>../openlegacy-ide</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>infrastructure</id>
+			<modules>
 				<module>../openlegacy-api</module>
 				<module>../openlegacy-utils</module>
 				<module>../openlegacy-test-apps</module>
@@ -46,16 +49,16 @@
 				<module>openlegacy-tools</module>
 				<module>../openlegacy-designtime</module>
 				<module>openlegacy-plugins</module>
-	        </modules>
-		</profile>	    
-	    <profile>
-	        <id>templates-and-ide</id>
-	        <modules>
+			</modules>
+		</profile>
+		<profile>
+			<id>templates-and-ide</id>
+			<modules>
 				<module>openlegacy-templates</module>
 				<module>../openlegacy-designtime</module>
 				<module>../openlegacy-ide</module>
-	        </modules>
-	    </profile>
+			</modules>
+		</profile>
 	</profiles>
 
 	<properties>
