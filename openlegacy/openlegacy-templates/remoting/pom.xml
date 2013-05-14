@@ -42,7 +42,7 @@
 			<url>http://download.java.net/maven/2/</url>
 		</repository>
 	</repositories>
-		
+
 	<dependencies>
 		<!-- OpenLegacy -->
 		<dependency>
@@ -124,6 +124,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -134,7 +135,8 @@
 				<artifactId>aspectj-maven-plugin</artifactId>
 				<version>1.2</version> <!-- NB: do use 1.3 or 1.3.x due to MASPECTJ-90 - wait for 1.4 -->
 				<dependencies>
-					<!-- NB: You must use Maven 2.0.9 or above or these are ignored (see MNG-2972) -->
+					<!-- NB: You must use Maven 2.0.9 or above or these are ignored (see 
+						MNG-2972) -->
 					<dependency>
 						<groupId>org.aspectj</groupId>
 						<artifactId>aspectjrt</artifactId>
@@ -167,22 +169,24 @@
 				</configuration>
 			</plugin>
 			<plugin>
-			   <groupId>org.apache.maven.plugins</groupId>
-			   <artifactId>maven-deploy-plugin</artifactId>
-			   <configuration>
-			     <skip>true</skip>
-				 <webResources>
-            		<resource>
-              			<directory>${build.sourceDirectory}</directory>
-              			<targetPath>src/main/java</targetPath>
-           			</resource>
-          	   	 </webResources>			     
-			   </configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<skip>true</skip>
+					<webResources>
+						<resource>
+							<directory>${build.sourceDirectory}</directory>
+							<targetPath>src/main/java</targetPath>
+						</resource>
+					</webResources>
+				</configuration>
 			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
