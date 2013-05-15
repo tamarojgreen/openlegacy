@@ -17,6 +17,7 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
+import org.openlegacy.utils.FeatureChecker;
 import org.openlegacy.utils.FileUtils;
 import org.openlegacy.utils.OsUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -45,12 +46,14 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 
 	private Properties properties;
 
+	private Boolean convertToLogical;
+
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		try {
 			// TODO set device
 			String port = properties.getProperty("host.port");
 			S3270 s3270Session = new S3270(leaseLogicalUnit(), hostName + ":" + port, properties);
-			return new H3270Connection(s3270Session);
+			return new H3270Connection(s3270Session, convertToLogical);
 		} catch (LogicalUnitException e) {
 			throw (new OpenLegacyProviderException(e));
 		}
@@ -95,6 +98,16 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 	}
 
 	private void initialize() throws ConfigurationException, IOException {
+
+		if (convertToLogical == null) {
+			if (FeatureChecker.isSupportBidi()) {
+				logger.info("Found com.ibm.icu library in the classpath. activating convert to logical. To disable define convertToLogical property to false");
+				convertToLogical = true;
+			} else {
+				convertToLogical = false;
+			}
+		}
+
 		File targetFile = initH3270ConfigWorkingCopy();
 
 		initConfiguration(targetFile);
@@ -148,5 +161,9 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 
 	public void setHostName(String hostName) {
 		this.hostName = hostName;
+	}
+
+	public void setConvertToLogical(Boolean convertToLogical) {
+		this.convertToLogical = convertToLogical;
 	}
 }

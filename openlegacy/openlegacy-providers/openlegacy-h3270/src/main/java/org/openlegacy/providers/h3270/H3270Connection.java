@@ -17,13 +17,18 @@ public class H3270Connection implements TerminalConnection {
 	// adding sequence support to tn5250j which doesn't support it
 	private int sequence = 1;
 
-	public H3270Connection(S3270 s3270Session) {
+	private boolean rightToLeft = false;
+
+	private boolean convertToLogical;
+
+	public H3270Connection(S3270 s3270Session, boolean convertToLogical) {
 		this.s3270Session = s3270Session;
+		this.convertToLogical = convertToLogical;
 	}
 
 	public TerminalSnapshot getSnapshot() {
 		s3270Session.updateScreen();
-		return new H3270TerminalSnapshot((S3270Screen)s3270Session.getScreen(), sequence);
+		return new H3270TerminalSnapshot((S3270Screen)s3270Session.getScreen(), sequence, rightToLeft, convertToLogical);
 	}
 
 	public TerminalSnapshot fetchSnapshot() {
@@ -39,12 +44,12 @@ public class H3270Connection implements TerminalConnection {
 			field.setValue(modifiedField.getValue());
 		}
 		s3270Session.submitScreen();
-		if (cursor != null){
+		if (cursor != null) {
 			// s3270 is 0 based
-			s3270Session.setCursor(cursor.getRow()-1, cursor.getColumn()-1);
+			s3270Session.setCursor(cursor.getRow() - 1, cursor.getColumn() - 1);
 		}
 		s3270Session.doKey(terminalSendAction.getCommand().toString());
-		sequence+=2;
+		sequence += 2;
 	}
 
 	public Object getDelegate() {
@@ -69,7 +74,7 @@ public class H3270Connection implements TerminalConnection {
 	}
 
 	public void flip() {
-		throw(new UnsupportedOperationException("Not implemented flip for H3270"));
+		rightToLeft = !rightToLeft;
 	}
 
 }

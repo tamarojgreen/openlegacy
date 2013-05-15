@@ -182,4 +182,8 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 		return getText(position, length);
 
 	};
+
+	public boolean isRightToLeft() {
+		return false;
+	}
 }

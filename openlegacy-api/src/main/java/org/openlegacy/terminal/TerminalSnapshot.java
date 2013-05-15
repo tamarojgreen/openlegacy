@@ -79,4 +79,6 @@ public interface TerminalSnapshot extends Snapshot, Serializable {
 	Integer getSequence();
 
 	String getCommand();
+
+	boolean isRightToLeft();
 }

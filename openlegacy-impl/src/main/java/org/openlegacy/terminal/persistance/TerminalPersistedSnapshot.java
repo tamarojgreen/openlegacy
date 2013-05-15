@@ -77,6 +77,9 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 	@XmlAttribute
 	private Integer sequence;
 
+	@XmlAttribute
+	private Boolean rightToLeft = false;
+
 	public SnapshotType getSnapshotType() {
 		return snapshotType;
 	}
@@ -225,10 +228,20 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 
 	public String getLogicalText(TerminalPosition position, int length) {
 		String text = getText(position, length);
-		if (FeatureChecker.isSupportBidi()){
+		if (FeatureChecker.isSupportBidi()) {
 			text = BidiUtil.convertToLogical(text);
 		}
 		return text;
 	}
 
+	public boolean isRightToLeft() {
+		if (rightToLeft == null) {
+			return false;
+		}
+		return rightToLeft;
+	}
+
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
+	}
 }

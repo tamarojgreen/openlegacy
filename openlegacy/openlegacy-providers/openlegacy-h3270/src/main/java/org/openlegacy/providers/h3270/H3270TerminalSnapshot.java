@@ -1,5 +1,6 @@
 package org.openlegacy.providers.h3270;
 
+import org.apache.commons.lang.StringUtils;
 import org.h3270.host.Field;
 import org.h3270.host.InputField;
 import org.h3270.host.S3270Screen;
@@ -11,6 +12,7 @@ import org.openlegacy.terminal.support.AbstractSnapshot;
 import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
+import org.openlegacy.utils.BidiUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +21,14 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 
 	private S3270Screen screen;
 	private int sequence;
+	private boolean rightToLeft;
+	private boolean convertToLogical;
 
-	public H3270TerminalSnapshot(S3270Screen screen, int sequence) {
+	public H3270TerminalSnapshot(S3270Screen screen, int sequence, boolean rightToLeft, boolean convertToLogical) {
 		this.screen = screen;
 		this.sequence = sequence;
+		this.rightToLeft = rightToLeft;
+		this.convertToLogical = convertToLogical;
 	}
 
 	public Object getDelegate() {
@@ -61,7 +67,11 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 		if (focusedField == null) {
 			return null;
 		}
-		return new SimpleTerminalPosition(focusedField.getStartY() + 1, focusedField.getStartX() + 1);
+		int cursorColumn = focusedField.getStartX() + 1;
+		if (rightToLeft) {
+			cursorColumn = getSize().getColumns() - focusedField.getEndX();
+		}
+		return new SimpleTerminalPosition(focusedField.getStartY() + 1, cursorColumn);
 	}
 
 	@Override
@@ -95,20 +105,45 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 						// last row
 						endColumn = field.getEndX() + 1; // 0 based -> convert to 1 based
 					}
-					fields.add(new H3270TerminalField(field, i - field.getStartY(), startColumn, endColumn));
+					addField(fields, field, startColumn, endColumn, i - field.getStartY());
 				}
 			} else {
 				if (field.getEndX() >= 0) {
-					fields.add(new H3270TerminalField(field, 0, startColumn, endColumn));
+					addField(fields, field, startColumn, endColumn, 0);
 				}
 			}
 		}
 		return fields;
 	}
 
+	private void addField(List<TerminalField> fields, Field h3270field, int startColumn, int endColumn, int lineOffset) {
+		H3270TerminalField field = null;
+		if (rightToLeft) {
+			int reversedStartColumn = getSize().getColumns() - endColumn + 1;
+			int reversedEndColumn = getSize().getColumns() - startColumn + 1;
+			field = new H3270TerminalField(h3270field, lineOffset, reversedStartColumn, reversedEndColumn, rightToLeft);
+			String value = StringUtils.reverse(field.getValue());
+			field.setValue(value, false);
+			fields.add(field);
+		} else {
+			field = new H3270TerminalField(h3270field, lineOffset, startColumn, endColumn, rightToLeft);
+			fields.add(field);
+		}
+		if (convertToLogical) {
+			field.setVisualValue(field.getValue());
+			String value = BidiUtil.convertToLogical(field.getValue());
+			field.setValue(value, false);
+		}
+	}
+
 	@Override
 	protected void readExternal(TerminalPersistedSnapshot persistedSnapshot) {
 		this.sequence = persistedSnapshot.getSequence();
+	}
+
+	@Override
+	public boolean isRightToLeft() {
+		return rightToLeft;
 	}
 
 }

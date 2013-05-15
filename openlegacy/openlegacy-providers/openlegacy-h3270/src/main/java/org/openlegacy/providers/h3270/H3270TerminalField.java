@@ -15,12 +15,15 @@ public class H3270TerminalField extends AbstractTerminalField {
 	private int lineOffset;
 	private int startColumn;
 	private int endColumn;
+	private String visualValue;
+	private boolean rightToLeftScreen;
 
-	public H3270TerminalField(Field s3270Field, int lineOffset, int startColumn, int endColumn) {
+	public H3270TerminalField(Field s3270Field, int lineOffset, int startColumn, int endColumn, boolean rightToLeft) {
 		this.s3270Field = s3270Field;
 		this.lineOffset = lineOffset;
 		this.startColumn = startColumn;
 		this.endColumn = endColumn;
+		this.rightToLeftScreen = rightToLeft;
 	}
 
 	@Override
@@ -36,7 +39,13 @@ public class H3270TerminalField extends AbstractTerminalField {
 			value = value.replace('_', ' ');
 		}
 		value = value.replace((char)0, ' ');
-		value = StringUtil.rightTrim(value);
+		if (isEditable()) {
+			if (rightToLeftScreen) {
+				value = StringUtil.leftTrim(value);
+			} else {
+				value = StringUtil.rightTrim(value);
+			}
+		}
 
 		return value;
 	}
@@ -53,7 +62,7 @@ public class H3270TerminalField extends AbstractTerminalField {
 		if (lineOffset > 0) {
 			position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, 1);
 		} else {
-			position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, s3270Field.getStartX() + 1);
+			position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, startColumn);
 		}
 		return position;
 	}
@@ -104,14 +113,17 @@ public class H3270TerminalField extends AbstractTerminalField {
 
 	@Override
 	public TerminalField clone() {
-		H3270TerminalField field = new H3270TerminalField(s3270Field, lineOffset, startColumn, endColumn);
+		H3270TerminalField field = new H3270TerminalField(s3270Field, lineOffset, startColumn, endColumn, rightToLeftScreen);
 		return field;
 
 	}
 
 	public String getVisualValue() {
-		// TODO implement visual for H3270
-		return null;
+		return visualValue;
+	}
+
+	public void setVisualValue(String visualValue) {
+		this.visualValue = visualValue;
 	}
 
 	public Object getDelegate() {
@@ -119,14 +131,14 @@ public class H3270TerminalField extends AbstractTerminalField {
 	}
 
 	public boolean isRightToLeft() {
-		// AFAIK 3270 doesn't support reverse fields
+		// 3270 doesn't support reverse fields (NOT screen!)
 		return false;
 	}
-	
+
 	@Override
 	public void setValue(String value) {
 		super.setValue(value);
-		if (s3270Field instanceof InputField){
+		if (s3270Field instanceof InputField) {
 			((InputField)s3270Field).setValue(value);
 		}
 	}
