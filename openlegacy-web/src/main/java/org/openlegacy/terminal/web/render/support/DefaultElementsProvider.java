@@ -46,7 +46,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	public Element createLabel(Element rootNode, TerminalField field) {
 
 		String value = field.getValue();
-		if (StringUtils.isWhitespace(value) && field.getBackColor() == Color.BLACK) {
+		if (field.isHidden() || StringUtils.isWhitespace(value) && field.getBackColor() == Color.BLACK) {
 			return null;
 		}
 		if (field.getBackColor() == Color.BLACK) {
@@ -111,13 +111,15 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 			}
 			column = field.getPosition().getColumn();
 			int left = htmlProportionsHandler.toWidth(offset + column);
-			positioningStyle = MessageFormat.format("top:{0}{2};left:{1}{2};", top, left, HtmlConstants.STYLE_UNIT);
+			positioningStyle = MessageFormat.format("top:{0}{2};left:{1}{2};", String.valueOf(top), String.valueOf(left),
+					HtmlConstants.STYLE_UNIT);
 		} else {
 			int rightOffset = StringUtil.endOfNonBlank(value);
 
 			column = field.getEndPosition().getColumn();
 			int right = htmlProportionsHandler.toWidth(80 + rightOffset - column);
-			positioningStyle = MessageFormat.format("top:{0}{2};right:{1}{2};", top, right, HtmlConstants.STYLE_UNIT);
+			positioningStyle = MessageFormat.format("top:{0}{2};right:{1}{2};", String.valueOf(top), String.valueOf(right),
+					HtmlConstants.STYLE_UNIT);
 		}
 
 		String fieldName = HtmlNamingUtil.getFieldName(field);
