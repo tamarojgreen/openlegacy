@@ -57,7 +57,14 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream output) {
 
-		BufferedImage buffer = new BufferedImage(885, 450, BufferedImage.TYPE_INT_RGB);
+		BufferedImage buffer;
+
+		int width = 885;
+		int height = 450;
+		if (terminalSnapshot.getSize().getColumns() == 132) {
+			width = 1460;
+		}
+		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("Font set to:" + fontFamily);
