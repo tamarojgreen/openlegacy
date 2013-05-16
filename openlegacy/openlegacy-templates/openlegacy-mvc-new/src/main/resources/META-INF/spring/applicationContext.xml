@@ -81,6 +81,7 @@
 			<map>
 				<entry key="WHITE" value="black" />
 				<entry key="YELLOW" value="orange" />
+				<entry key="PINK" value="purple" />
 			</map>
 		</property>
 		<property name="backcolorMapper">
