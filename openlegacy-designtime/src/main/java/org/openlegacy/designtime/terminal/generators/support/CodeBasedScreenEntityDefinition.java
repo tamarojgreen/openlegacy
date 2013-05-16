@@ -26,7 +26,6 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.services.ScreenIdentification;
-import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
 import java.io.File;
@@ -43,7 +42,6 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	private ScreenPojoCodeModel codeModel;
 	private Map<String, ScreenPartEntityDefinition> partDefinitions = new TreeMap<String, ScreenPartEntityDefinition>();
 	private Map<String, ScreenFieldDefinition> fields;
-	private SimpleScreenSize screenSize;
 	private Map<String, ScreenTableDefinition> tableDefinitions = new TreeMap<String, ScreenTableDefinition>();
 	private List<ActionDefinition> actions;
 	private List<EntityDefinition<?>> childScreens;
@@ -147,10 +145,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public ScreenSize getScreenSize() {
-		if (screenSize == null) {
-			screenSize = new SimpleScreenSize();
-		}
-		return screenSize;
+		return codeModel.getScreenSize();
 	}
 
 	public String getTypeName() {

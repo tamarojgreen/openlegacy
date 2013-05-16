@@ -16,11 +16,13 @@ import org.openlegacy.FieldType.General;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.services.ScreenIdentification;
+import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.table.ScreenTableCollector;
 import org.openlegacy.utils.PropertyUtil;
@@ -455,6 +457,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	private PartPostition partPostition;
 
+	private SimpleScreenSize screenSize;
+
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
@@ -632,6 +636,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String scrollableFromAnnotation = null;
 		String rowGapsFromAnnotation = null;
 		String supportTerminalDataString = null;
+		String screenSizeRowsFromAnnotation = null;
+		String screenSizeColumnsFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
@@ -654,6 +660,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 					normalAnnotationExpr.getPairs());
 			scrollableFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCROLLABLE, normalAnnotationExpr.getPairs());
 			rowGapsFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROW_GAPS, normalAnnotationExpr.getPairs());
+
+			screenSizeRowsFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROWS, normalAnnotationExpr.getPairs());
+			screenSizeColumnsFromAnnotation = findAnnotationAttribute(AnnotationConstants.COLUMNS,
+					normalAnnotationExpr.getPairs());
 		}
 		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
@@ -683,6 +693,15 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 				: ScreenTableCollector.class.getSimpleName();
 		scrollable = scrollableFromAnnotation != null ? Boolean.valueOf(scrollableFromAnnotation) : true;
 		rowGaps = rowGapsFromAnnotation != null ? Integer.valueOf(rowGapsFromAnnotation) : 1;
+
+		if (screenSizeRowsFromAnnotation == null) {
+			screenSizeRowsFromAnnotation = String.valueOf(ScreenSize.DEFAULT_ROWS);
+		}
+		if (screenSizeColumnsFromAnnotation == null) {
+			screenSizeColumnsFromAnnotation = String.valueOf(ScreenSize.DEFAULT_COLUMN);
+		}
+		screenSize = new SimpleScreenSize(Integer.valueOf(screenSizeRowsFromAnnotation),
+				Integer.valueOf(screenSizeColumnsFromAnnotation));
 	}
 
 	public List<Action> getActions() {
@@ -813,5 +832,12 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	public boolean isWindow() {
 		return window;
+	}
+
+	public SimpleScreenSize getScreenSize() {
+		if (screenSize == null) {
+			screenSize = new SimpleScreenSize();
+		}
+		return screenSize;
 	}
 }

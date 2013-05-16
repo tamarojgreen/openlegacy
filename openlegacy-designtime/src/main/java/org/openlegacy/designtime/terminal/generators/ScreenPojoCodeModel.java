@@ -15,6 +15,7 @@ import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCo
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.services.ScreenIdentification;
+import org.openlegacy.terminal.support.SimpleScreenSize;
 
 import java.util.Collection;
 import java.util.List;
@@ -71,4 +72,6 @@ public interface ScreenPojoCodeModel {
 	TerminalPosition getPartPosition();
 
 	int getPartWidth();
+
+	SimpleScreenSize getScreenSize();
 }
