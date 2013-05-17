@@ -124,7 +124,9 @@ public class DefaultTerminalSnapshotTextRenderer implements TerminalSnapshotText
 				}
 			} else {
 				headerLine1.append(" ");
-				headerLine2.append(" ");
+				if ((i / 10) < 10) {
+					headerLine2.append(" ");
+				}
 			}
 
 		}
