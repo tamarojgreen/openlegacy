@@ -37,6 +37,9 @@
         <dependent-module archiveName="openlegacy-themes-cloudm-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-cloudm/openlegacy-themes-cloudm">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="openlegacy-themes-emily-1.0.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-emily/openlegacy-themes-emily">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
 		<property name="java-output-path" value="target/classes"/>
 		<property name="context-root" value="openlegacy-mvc-sample"/>
 	</wb-module>
