@@ -13,7 +13,7 @@
 	by OpenLegacy &#174; ${openLegacyProperties.version}
 	</c:if>
 	
-	<a href="javascript:showMobileSessionViewer();">View Session</a>
+	<a href="javascript:showMobileSessionViewer('${pageContext.request.contextPath}');">View Session</a>
 	<div id="sessionViewer" style="position: absolute;top: 10px;left: 10px;"
      data-dojo-type="dojox.mobile.SimpleDialog"
      data-dojo-props="closeButton:true"

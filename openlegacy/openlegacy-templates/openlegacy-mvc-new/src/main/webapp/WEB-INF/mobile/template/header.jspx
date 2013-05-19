@@ -7,7 +7,7 @@
 
 	<c:set var="backVal" value=""/>
   	<spring:message code="label_back" var="label_back" htmlEscape="false" />
-	<c:if test="${definitions != null &amp;&amp; definitions.typeName != 'LoginEntity' &amp;&amp; (accessedFromDefinitions.typeName != 'MenuEntity'  || deviceType eq 'MOBILE')}">
+	<c:if test="${definitions != null &amp;&amp; definitions.typeName != 'LoginEntity' &amp;&amp; (accessedFromDefinitions != null &amp;&amp; accessedFromDefinitions.typeName != 'MenuEntity'  || deviceType eq 'MOBILE')}">
 		<c:set var="backVal" value="back:'${label_back}',"/>
 	</c:if>
 	

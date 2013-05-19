@@ -10,7 +10,7 @@
 				<ol:field name="user" />
 				<ol:field name="password" />
 			  	<spring:message code="label_submit" var="label_submit" htmlEscape="false" />
-				<input data-dojo-type="dojox.mobile.Button" type="button" onclick="doAjaxPost('LoginForm','menuContainer',null,'body,menu');resizeDojoWidget('fixedSplitter');"
+				<input data-dojo-type="dojox.mobile.Button" type="submit" onclick="doAjaxPost('LoginForm','menuContainer',null,'body,menu');resizeDojoWidget('fixedSplitter');"
 					class="mblButton greyBtn baseBtn normalBtn" value="${label_submit}" />
 				<ol:field name="errorMessage" />
 			</ol:pagePart>

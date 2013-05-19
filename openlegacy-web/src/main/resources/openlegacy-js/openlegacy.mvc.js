@@ -85,10 +85,10 @@ function showSessionViewer(baseUrl) {
 	showDialog("sessionViewerDialog", baseUrl + "/sessionViewer");
 }
 
-function showMobileSessionViewer(){
+function showMobileSessionViewer(baseUrl){
 	var registry = require("dijit/registry"); 
 	var dialog = registry.byId("sessionViewer");
-	dialog.set("href","${pageContext.request.contextPath}/sessionViewer?small=" + Math.random());
+	dialog.set("href",baseUrl + "/sessionViewer?small=" + Math.random());
 	dialog.show();
 
 }
