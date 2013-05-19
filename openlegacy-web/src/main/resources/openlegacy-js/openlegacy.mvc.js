@@ -114,7 +114,7 @@ function showDialog(dialogTagId,url) {
  * @param displayField The display field within the json data list 
  * @param baseUrl The base URL for each list item. The key field value will be appended to it.
  */
-function loadMore(tagId,jsonUrl,keyField,displayField,baseUrl){
+function loadMore(tagId,jsonUrl,keyField,displayFieldJoined,baseUrl){
 
 	showLoading();
 	
@@ -125,12 +125,22 @@ function loadMore(tagId,jsonUrl,keyField,displayField,baseUrl){
 	var ListItem = require("dojox/mobile/ListItem");
 	
 	var xhr = require("dojo/request/xhr");
+	
+	var displayFields = displayFieldJoined.split(",");
+	
 	xhr.get(jsonUrl, {
 		handleAs : "json"
 	}).then(function(records){
 		array.forEach(records, function(entry, i){
 			var key = eval("entry." + keyField);
-			var text = eval("entry." + displayField);
+			var text = "";
+			for (var i = 0;i<displayFields.length;i++){
+				text += eval("entry." + displayFields[i]);
+				if (i<displayFields.length-1){
+					text += " - ";
+				}
+			}
+			
 			var newWidget = new ListItem({transition:"slide", url: baseUrl + key, label: text, onclick:"showLoading();"});
 			newWidget.placeAt(container.containerNode);
 			newWidget.startup();

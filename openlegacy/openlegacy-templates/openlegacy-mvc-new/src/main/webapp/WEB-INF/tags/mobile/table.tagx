@@ -43,9 +43,12 @@
 		</c:forEach>
 	</ul>
 	<c:if test="${fn:length(data) &gt;= tableDefinition.maxRowsCount}">
+  	<spring:message code="label_load_more" var="label_load_more" htmlEscape="false" />
+	<c:if test="${fn:length(tableDefinition.keyFieldNames) == 0}">
+		${ol:throwException("No key defined for table")}
+	</c:if>
 	<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn"
-		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${tableDefinition.mainDisplayFields[0]}','${defaultTableAction.targetEntity.simpleName}/')">Load
-		More</button>
+		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${ol:join(tableDefinition.mainDisplayFields)}','${defaultTableAction.targetEntity.simpleName}/')">${label_load_more}</button>
 	</c:if>
 	</c:if>
 

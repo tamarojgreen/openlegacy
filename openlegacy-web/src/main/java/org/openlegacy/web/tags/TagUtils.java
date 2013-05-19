@@ -12,6 +12,8 @@ package org.openlegacy.web.tags;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
 public class TagUtils {
@@ -55,4 +57,9 @@ public class TagUtils {
 	public static boolean fileExists(ServletContext application, String file) {
 		return TagUtils.class.getResource(file) != null;
 	}
+
+	public static String join(List<?> array) {
+		return StringUtils.join(array, ",");
+	}
+
 }
