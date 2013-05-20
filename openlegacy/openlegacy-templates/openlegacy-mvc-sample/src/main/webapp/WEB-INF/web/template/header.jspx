@@ -14,10 +14,17 @@
 			<div class="topmenu">
 				<ul>
 					<c:if test="${ol_messages != null}">
-						<li class="messages"><a href="javascript:showDialog('messageDialog');" title="You have incoming message">Message</a></li>
+						<li class="messages">
+							<a href="javascript:showDialog('messageDialog');" title="You have incoming message">
+							<span class="emily_actions_icon emily_actions_prompt"><!--  --></span><!-- 
+								This comment need to make correct margin between span and text
+					 			-->
+					 			Message
+				 			</a>
+			 			</li>
 					</c:if>
 					<c:if test="${ol_loggedInUser != null}">
-						<li>Welcome, ${ol_loggedInUser}!</li>
+						<li class="welcomeUser">Welcome, ${ol_loggedInUser}!</li>
 					</c:if>
 					<li class="prefs"><a href="javascript:changeTheme('cloud,night,red,emily');"><span class="big_icon theme"><!--  --></span>Theme</a></li>
 					<li class="mobile"><a href="${pageContext.request.contextPath}/SignOn?site_preference=mobile" title="Mobile version"><span class="big_icon mobile"><!--  --></span>Mobile</a></li>

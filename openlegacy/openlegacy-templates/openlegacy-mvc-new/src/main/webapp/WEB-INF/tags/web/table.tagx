@@ -83,7 +83,7 @@
 										</c:if>
 									</c:when>
 									<c:when test="${fn:length(tableDefinition.actions) &gt; 3}">
-										<select onchange="eval(this.value)" name="${column.name}">
+										<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect">
 											<option value="">- Select -</option>
 											<c:forEach items="${tableDefinition.actions}" var="action">
 												<c:set var="target"
@@ -107,7 +107,9 @@
 											</c:if>
 											<a href="${pageContext.request.contextPath}/${target}"
 												class="${actionsCss} ${action.alias}"
-												title="${action.displayName}">${action.displayName}</a>
+												title="${action.displayName}">${action.displayName}
+												<span><!--  --></span>
+											</a>
 											<c:if
 												test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
 										</c:forEach>

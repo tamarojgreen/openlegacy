@@ -9,7 +9,9 @@
 		<ul>
 			<li>
 				<a href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}');">
-					<img src="${pageContext.request.contextPath}/icons/submit.png"
+					<span class="emily_actions_icon emily_actions_submit"><!--  --></span><!-- 
+					This comment need to make correct margin between span and text
+					 --><img src="${pageContext.request.contextPath}/icons/submit.png"
 						width="15" height="14" alt="Submit" />
 				  	<spring:message code="label_submit" var="label_submit" htmlEscape="false" />
 					${label_submit}
@@ -23,7 +25,9 @@
 						<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">
 							<c:set var="image" value="/icons/submit.png" />
 						</c:if>
-						<img src="${pageContext.request.contextPath}/${image}"
+						<span class="emily_actions_icon emily_actions_${action.alias}"><!--  --></span><!--
+						This comment need to make correct margin between span and text 
+						 --><img src="${pageContext.request.contextPath}/${image}"
 							width="15" height="14" alt="${action.displayName}" />
 						${action.displayName}
 					</a>
