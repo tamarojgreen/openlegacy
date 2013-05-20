@@ -18,4 +18,10 @@
         <display-name>Red</display-name>
         <image-file>red.jpg</image-file>
     </theme>
+    
+    <theme>
+        <name>openlegacy-theme-emily</name>
+        <display-name>Emily</display-name>
+        <image-file>emily.jpg</image-file>
+    </theme>
 </themes>

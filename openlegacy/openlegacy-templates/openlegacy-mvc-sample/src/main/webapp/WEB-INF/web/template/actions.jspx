@@ -6,11 +6,13 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
-	<div class="actions">
+	<div class="actions emily_actions">
 		<ul>
 			<li>
 				<a href="javascript:doPost('${definitions.entityName}');">
-					<img src="${pageContext.request.contextPath}/icons/submit.png" width="15" height="14"
+					<span class="emily_actions_icon emily_actions_submit"><!--  --></span><!-- 
+					This comment need to make correct margin between span and text
+					 --><img src="${pageContext.request.contextPath}/icons/submit.png" width="15" height="14"
 						alt="Submit" />
 					Submit
 				</a>
@@ -22,7 +24,9 @@
 				</c:if>
 				<li>
 					<a href="javascript:doPost('${definitions.entityName}','${action.alias}');">
-						<img src="${pageContext.request.contextPath}${image}" width="15" height="14"
+						<span class="emily_actions_icon emily_actions_${action.alias}"><!--  --></span><!--
+						This comment need to make correct margin between span and text 
+						 --><img src="${pageContext.request.contextPath}${image}" width="15" height="14"
 							alt="${action.alias}" />
 						${action.displayName}
 					</a>
@@ -31,7 +35,9 @@
 			<c:if test="${fn:length(definitions.tableDefinitions) > 0}">
 				<li class="right">
 					<a href="${definitions.entityName}/excel">
-						<img src="${pageContext.request.contextPath}/icons/excel.png" class="excel" />
+						<span class="emily_actions_icon emily_actions_excel"><!--  --></span><!--
+						 This comment need to make correct margin between span and text
+						 --><img src="${pageContext.request.contextPath}/icons/excel.png" class="excel" />
 						Excel
 					</a>
 				</li>

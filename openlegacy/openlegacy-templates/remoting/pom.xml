@@ -176,7 +176,7 @@
 					<skip>true</skip>
 					<webResources>
 						<resource>
-							<directory>${build.sourceDirectory}</directory>
+							<directory>${project.build.sourceDirectory}</directory>
 							<targetPath>src/main/java</targetPath>
 						</resource>
 					</webResources>
