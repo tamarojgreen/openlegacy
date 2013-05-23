@@ -117,12 +117,16 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 					break;
 				}
 			}
-		}
 
+			if (navigationSteps != null) {
+				Collections.reverse(navigationSteps);
+				navigationMetadata.add(currentEntityDefinition, targetEntityDefinition, navigationSteps);
+			}
+		}
 		if (navigationSteps != null) {
-			navigationMetadata.add(currentEntityDefinition, targetEntityDefinition, navigationSteps);
 			performDirectNavigation(terminalSession, currentEntityClass, navigationSteps, keys);
 		}
+
 	}
 
 	private static void exitCurrentScreen(TerminalSession terminalSession, Class<?> currentEntityClass, TerminalAction exitAction) {
@@ -134,7 +138,6 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 
 	private static void performDirectNavigation(TerminalSession terminalSession, Class<?> currentEntityClass,
 			List<NavigationDefinition> navigationSteps, Object... keys) {
-		Collections.reverse(navigationSteps);
 		ScreenEntity currentEntity = terminalSession.getEntity();
 		for (NavigationDefinition navigationDefinition : navigationSteps) {
 			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
@@ -157,11 +160,10 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			if (terminalAction instanceof DrilldownAction) {
 				terminalSession.getModule(Table.class).drillDown(navigationDefinition.getTargetEntity(),
 						(TerminalDrilldownAction)terminalAction, keys);
-			} else if (terminalAction instanceof TerminalMappedAction){
+			} else if (terminalAction instanceof TerminalMappedAction) {
 				terminalSession.doAction(terminalAction, currentEntity);
-			}
-			else{
-				terminalAction.perform(terminalSession, currentEntity,keys);
+			} else {
+				terminalAction.perform(terminalSession, currentEntity, keys);
 
 			}
 			currentEntity = terminalSession.getEntity();
