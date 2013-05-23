@@ -4,13 +4,17 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
-	<div class="mblHeading">
+	<div class="mblHeading actionsPanel">
 
 		<button data-dojo-type="dojox.mobile.Button" class="mblBtn baseBtn"
-			onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel');">Submit</button>
+			onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel');">
+				<span class="icon submit"><!-- FF --></span>
+			Submit</button>
 		<c:forEach items="${definitions.actions}" var="action">
 			<button data-dojo-type="dojox.mobile.Button" class="mblBtn baseBtn"
-				onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel','${action.alias}');">${action.displayName}</button>
+				onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel','${action.alias}');">
+					<span class="icon ${action.alias}"><!-- FF --></span>
+				${action.displayName}</button>
 		</c:forEach>
 	</div>
 </jsp:root>

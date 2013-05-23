@@ -12,10 +12,17 @@
 		<c:set var="backVal" value="back:'Back',"/>
 	</c:if>
 	
+	<c:if test="${deviceType eq 'MOBILE'}">
+		<c:set var="logo_mobile" value="logo_mobile"/>
+	</c:if>
+	
 	<div data-dojo-type="dojox.mobile.View">
 		<h1 data-dojo-type="dojox.mobile.Heading" 
 			data-dojo-props="fixed:'top', ${backVal} moveTo:'${definitions.navigationDefinition.accessedFrom.simpleName}Panel'">
-			<img src="images/logo.png" class="logo" />
+			<a href="#" class="logo ${logo_mobile}">
+				<img src="images/logo.png" />
+				<span><!-- FF --></span>
+			</a>
 			<button data-dojo-type="dojox.mobile.ToolBarButton" style="float:right;"
 				class="logoffBtn"
 				onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
