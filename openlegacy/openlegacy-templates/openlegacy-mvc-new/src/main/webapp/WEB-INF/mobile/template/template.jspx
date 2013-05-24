@@ -37,9 +37,12 @@
 		<c:if test="${openLegacyProperties.rightToLeft}">
 			<c:set var="cssRtl" value="_rtl" />
 		</c:if>
-		<!--link href="${pageContext.request.contextPath}/dj/dojox/mobile/themes/iphone/iphone.css" rel="stylesheet" /-->
-		<link href="${pageContext.request.contextPath}/themes/cloudm/cloudm${cssRtl}.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/themes/cloudm/openlegacy.css" rel="stylesheet" />
+		<c:set var="mobile_theme" value="cloudm"/>
+		<c:if test="${fn:startsWith(ol_theme,'emily')}">
+			<c:set var="mobile_theme" value="emilym"/>
+		</c:if>
+		<link href="${pageContext.request.contextPath}/themes/${mobile_theme}/${mobile_theme}${cssRtl}.css" rel="stylesheet"/>
+		<link href="${pageContext.request.contextPath}/themes/${mobile_theme}/openlegacy.css" rel="stylesheet" />
 		<link href="${pageContext.request.contextPath}/css/project_m.css" rel="stylesheet" />
 
 		<script language="JavaScript" type="text/javascript">
@@ -114,7 +117,7 @@
 					</div>
 				</c:when>
 				<c:otherwise>
-					<div id="menuView" data-dojo-type="dojox.mobile.ScrollableView" data-dojo-props="selected:true">
+					<div id="menuView" data-dojo-type="dojox.mobile.View">
 						<ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
 						</ul>
 						<div id="menuContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">
@@ -128,7 +131,7 @@
 			<div id="rightPane" data-dojo-type="dojox.mobile.Container">
 				<c:choose>
 				<c:when test="${openLegacyProperties.rightToLeft}">
-					<div id="menuView" data-dojo-type="dojox.mobile.ScrollableView" data-dojo-props="selected:true">
+					<div id="menuView" data-dojo-type="dojox.mobile.View">
 						<ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
 						</ul>
 						<div id="menuContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">

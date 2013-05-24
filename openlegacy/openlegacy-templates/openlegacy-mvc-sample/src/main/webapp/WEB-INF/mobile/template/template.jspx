@@ -129,7 +129,7 @@
 			<div id="rightPane" data-dojo-type="dojox.mobile.Container">
 				<c:choose>
 				<c:when test="${openLegacyProperties.rightToLeft}">
-					<div id="menuView" data-dojo-type="dojox.mobile.View" data-dojo-props="selected:true">
+					<div id="menuView" data-dojo-type="dojox.mobile.View">
 						<ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
 						</ul>
 						<div id="menuContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">

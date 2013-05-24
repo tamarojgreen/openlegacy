@@ -32,5 +32,14 @@ html,body {
 	border-right:1px solid black;
 }
 
+a.logo {
+	display: inline-block;
+	margin: 0 auto;
+	width: 143px;
+	height: 30px;
+	padding-top: 5px;
+}
 
-
+a.logo img {
+	height: 100%;
+}

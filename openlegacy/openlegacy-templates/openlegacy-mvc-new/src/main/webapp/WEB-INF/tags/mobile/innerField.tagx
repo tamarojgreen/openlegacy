@@ -107,8 +107,10 @@
 					<c:when test="${type == 'address'}">
 						<span style="${tabletParentSpanStyle}">
 							<span style="${tabletChildSpanStyle}">
-								<a href="javascript:require(['dojo/dom'], function(dom){location.href = 'http://maps.google.com/maps?q=' + dom.byId('${name}').value;});">
+								<a href="javascript:require(['dojo/dom'], function(dom){location.href = 'http://maps.google.com/maps?q=' + dom.byId('${name}').value;});"
+									class="fieldAddress">
 									<img class="map-icon" src="${pageContext.request.contextPath}/icons/map.png" />
+									<span><!-- FF --></span>
 								</a>
 							</span>
 							<form:textarea data-dojo-type="dojox.mobile.TextArea" id="${name}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" rows="${rows}"/>
@@ -117,11 +119,15 @@
 					<c:when test="${type == 'phone'}">
 						<span style="${tabletParentSpanStyle}">
 							<span style="${tabletChildSpanStyle}">
-								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'tel:' + dom.byId('${name}').value;});" style="margin-right: 5px">
+								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'tel:' + dom.byId('${name}').value;});" style="margin-right: 5px"
+									class="fieldPhone">
 									<img src="icons/phone.png" />
+									<span><!-- FF --></span>
 								</a>
-								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'sms:' + dom.byId('${name}').value;});">
+								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'sms:' + dom.byId('${name}').value;});"
+									class="fieldSms">
 									<img src="icons/sms.png" />
+									<span><!-- FF --></span>
 								</a>
 							</span>
 							<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
@@ -130,8 +136,10 @@
 					<c:when test="${type == 'email'}">
 						<span style="${tabletParentSpanStyle}">
 							<span style="${tabletChildSpanStyle}">
-								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'mailto:' + dom.byId('${name}').value;});">
+								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'mailto:' + dom.byId('${name}').value;});"
+									class="fieldMail">
 									<img src="icons/mail.png" />
+									<span><!-- FF --></span>
 								</a>
 							</span>
 							<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />

@@ -5,7 +5,7 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
-	<div class="actions">
+	<div class="actions emily_actions">
 		<ul>
 			<li>
 				<a href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}');">
