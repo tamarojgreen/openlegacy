@@ -7,14 +7,20 @@
 	<jsp:directive.attribute name="menu" type="org.openlegacy.modules.menu.MenuItem" required="true" rtexprvalue="true" description="The menu model" />
 	<jsp:directive.attribute name="parentMenu" type="org.openlegacy.modules.menu.MenuItem" required="false" rtexprvalue="true" description="The menu parent" />
 
-	<div id="${menu.targetEntity.simpleName}Panel" data-dojo-type="dojox.mobile.View">
+	<div id="${menu.targetEntity.simpleName}Panel" data-dojo-type="dojox.mobile.ScrollableView">
 		<c:set var="backToParentProperties" value=""/>
 		<c:if test="${parentMenu != null}">
 			<c:set var="backToParentProperties" value=",back:'Back',moveTo:'${parentMenu.targetEntity.simpleName}Panel'"/>
 		</c:if>
 		<h1 data-dojo-type="dojox.mobile.Heading" data-dojo-props="fixed:'top'${backToParentProperties}">
 			<c:if test="${deviceType eq 'MOBILE'}">
-				<img src="images/logo.png" class="logo" />
+				<c:set var="logo_mobile" value="logo_mobile"/>
+			</c:if>
+			<c:if test="${deviceType eq 'MOBILE'}">
+				<a href="#" class="logo ${logo_mobile}">
+					<img src="images/logo.png" />
+					<span><!-- FF --></span>
+				</a>
 				<button data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="fixed:'right'"
 					class="logoffBtn"
 					onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>

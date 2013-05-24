@@ -198,6 +198,11 @@
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-emilym</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.2</version>
