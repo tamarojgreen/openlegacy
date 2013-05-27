@@ -20,14 +20,16 @@ public class ProjectTheme {
 	private String displayName;
 	private String imageFile;
 	private byte[] imageData;
+	private String mobileTheme;
 
 	public ProjectTheme() {}
 
-	public ProjectTheme(String name, String displayName, String imageFile, byte[] imageData) {
+	public ProjectTheme(String name, String displayName, String imageFile, byte[] imageData, String mobileTheme) {
 		this.name = name;
 		this.displayName = displayName;
 		this.imageFile = imageFile;
 		this.imageData = imageData;
+		this.mobileTheme = mobileTheme;
 	}
 
 	public String getName() {
@@ -62,5 +64,14 @@ public class ProjectTheme {
 
 	public void setImageData(byte[] imageData) {
 		this.imageData = imageData;
+	}
+
+	@XmlElement(name = "mobile-theme")
+	public String getMobileTheme() {
+		return this.mobileTheme;
+	}
+
+	public void setMobileTheme(String mobileTheme) {
+		this.mobileTheme = mobileTheme;
 	}
 }

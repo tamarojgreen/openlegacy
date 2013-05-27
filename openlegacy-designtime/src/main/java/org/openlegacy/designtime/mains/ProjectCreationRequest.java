@@ -11,6 +11,7 @@
 package org.openlegacy.designtime.mains;
 
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
+import org.openlegacy.designtime.newproject.model.ProjectTheme;
 
 import java.io.File;
 
@@ -27,7 +28,7 @@ public class ProjectCreationRequest {
 	private String codePage;
 
 	private boolean supportTheme;
-	private String themeName;
+	private ProjectTheme projectTheme;
 	private String zipFile;
 
 	private ITemplateFetcher templateFetcher;
@@ -108,14 +109,6 @@ public class ProjectCreationRequest {
 		this.supportTheme = supportTheme;
 	}
 
-	public String getThemeName() {
-		return themeName;
-	}
-
-	public void setThemeName(String themeName) {
-		this.themeName = themeName;
-	}
-
 	public String getZipFile() {
 		return zipFile;
 	}
@@ -130,6 +123,14 @@ public class ProjectCreationRequest {
 
 	public void setTemplateFetcher(ITemplateFetcher templateFetcher) {
 		this.templateFetcher = templateFetcher;
+	}
+
+	public ProjectTheme getProjectTheme() {
+		return projectTheme;
+	}
+
+	public void setProjectTheme(ProjectTheme projectTheme) {
+		this.projectTheme = projectTheme;
 	}
 
 }

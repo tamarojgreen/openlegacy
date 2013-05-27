@@ -2,26 +2,30 @@
 
 <themes>
     <theme>
-        <name>openlegacy-theme-cloud</name>
+        <name>openlegacy-themes-cloud</name>
         <display-name>Cloud</display-name>
         <image-file>cloud.jpg</image-file>
+        <mobile-theme>openlegacy-themes-cloudm</mobile-theme>
     </theme>
 
     <theme>
-        <name>openlegacy-theme-night</name>
+        <name>openlegacy-themes-night</name>
         <display-name>Night</display-name>
         <image-file>night.jpg</image-file>
+        <mobile-theme>openlegacy-themes-cloudm</mobile-theme>
     </theme>
 
     <theme>
-        <name>openlegacy-theme-red</name>
+        <name>openlegacy-themes-red</name>
         <display-name>Red</display-name>
         <image-file>red.jpg</image-file>
+        <mobile-theme>openlegacy-themes-cloudm</mobile-theme>
     </theme>
     
     <theme>
-        <name>openlegacy-theme-emily</name>
+        <name>openlegacy-themes-emily</name>
         <display-name>Emily</display-name>
         <image-file>emily.jpg</image-file>
+        <mobile-theme>openlegacy-themes-emilym</mobile-theme>
     </theme>
 </themes>

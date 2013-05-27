@@ -208,11 +208,6 @@
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openlegacy.web</groupId>
-			<artifactId>openlegacy-themes-emilym</artifactId>
-			<version>${openlegacy-version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.openlegacy.providers</groupId>
 			<artifactId>openlegacy-tn5250j</artifactId>
 			<version>${openlegacy-version}</version>

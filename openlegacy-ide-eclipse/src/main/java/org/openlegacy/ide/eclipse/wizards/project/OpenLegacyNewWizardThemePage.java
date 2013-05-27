@@ -158,4 +158,11 @@ public class OpenLegacyNewWizardThemePage extends WizardPage {
 			}
 		});
 	}
+
+	public ProjectTheme getProjectTheme() {
+		if (this.projectThemes != null) {
+			return this.projectThemes.get(tableViewer.getTable().getSelectionIndex());
+		}
+		return null;
+	}
 }

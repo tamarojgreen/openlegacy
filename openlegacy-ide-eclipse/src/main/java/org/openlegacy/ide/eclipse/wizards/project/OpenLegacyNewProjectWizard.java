@@ -39,7 +39,7 @@ import org.openlegacy.ide.eclipse.util.PathsUtil;
 
 public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard {
 
-//	private final static Logger logger = Logger.getLogger(OpenLegacyNewWizardGeneralPage.class);
+	// private final static Logger logger = Logger.getLogger(OpenLegacyNewWizardGeneralPage.class);
 
 	private OpenLegacyNewWizardGeneralPage generalPage;
 	private OpenLegacyNewWizardProviderPage providerPage;
@@ -100,19 +100,19 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard {
 			projectCreationRequest.setHostPort(Integer.parseInt(providerPage.getHostPort()));
 			projectCreationRequest.setCodePage(providerPage.getCodePage());
 			projectCreationRequest.setSupportTheme(generalPage.isProjectSupportTheme());
-			projectCreationRequest.setThemeName(themePage.getThemeName());
+			projectCreationRequest.setProjectTheme(themePage.getProjectTheme());
 			projectCreationRequest.setZipFile(generalPage.getZipFile());
 			projectCreationRequest.setTemplateFetcher(retriever.getTemplateFetcher());
 
 			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
 		} catch (Exception e) {
- 			throw(new RuntimeException(e));
+			throw (new RuntimeException(e));
 		}
 
 		try {
 			getContainer().run(true, true, modifyOperation);
 		} catch (Exception e) {
- 			throw(new RuntimeException(e));
+			throw (new RuntimeException(e));
 		}
 
 		return retVal;
@@ -120,7 +120,8 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard {
 
 	@Override
 	public boolean canFinish() {
-		return generalPage.isDemo() || (generalPage.isPageComplete() && providerPage.isPageComplete() && themePage.isPageComplete());
+		return generalPage.isDemo()
+				|| (generalPage.isPageComplete() && providerPage.isPageComplete() && themePage.isPageComplete());
 	}
 
 	/**
