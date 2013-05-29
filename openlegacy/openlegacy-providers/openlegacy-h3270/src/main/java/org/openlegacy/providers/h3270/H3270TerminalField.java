@@ -142,4 +142,8 @@ public class H3270TerminalField extends AbstractTerminalField {
 			((InputField)s3270Field).setValue(value);
 		}
 	}
+
+	public boolean isUnderline() {
+		return false;
+	}
 }

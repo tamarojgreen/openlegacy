@@ -115,7 +115,7 @@ public class Tn5250jUtils {
 				underline = true;
 				break;
 			case 62:
-				backColor = Color.BLUE;
+				color = Color.BLUE;
 				underline = true;
 				break;
 			case 63:

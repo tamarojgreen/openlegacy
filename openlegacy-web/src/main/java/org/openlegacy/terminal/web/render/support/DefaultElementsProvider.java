@@ -29,6 +29,8 @@ import javax.inject.Inject;
 
 public class DefaultElementsProvider implements ElementsProvider<Element> {
 
+	private static final String UNDERLINE_STYLE = "text-decoration:underline;";
+
 	@Inject
 	private HtmlProportionsHandler htmlProportionsHandler;
 
@@ -42,6 +44,8 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	@Inject
 	private OpenLegacyProperties openLegacyProperties;
+
+	private boolean supportUnderline = true;
 
 	public Element createLabel(Element rootNode, TerminalField field) {
 
@@ -142,7 +146,13 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 		if (backcolor != null) {
 			backcolorStyle = MessageFormat.format("background-color:{0};", backcolor);
 		}
-		return colorStyle + backcolorStyle;
+		StringBuilder sb = new StringBuilder(colorStyle);
+		sb.append(backcolorStyle);
+
+		if (field.isUnderline() && supportUnderline) {
+			sb.append(UNDERLINE_STYLE);
+		}
+		return sb.toString();
 	}
 
 	private static String getColor(Color color, Map<Color, String> colorMapper, String defaultColor) {
@@ -256,5 +266,9 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 		rootTag.appendChild(textarea);
 		return textarea;
 
+	}
+
+	public void setSupportUnderline(boolean supportUnderline) {
+		this.supportUnderline = supportUnderline;
 	}
 }

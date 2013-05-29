@@ -88,6 +88,8 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	@XmlTransient
 	private String originalValue;
 
+	private Boolean underline = false;
+
 	public TerminalPosition getPosition() {
 		if (position == null) {
 			position = SimpleTerminalPosition.newInstance(row, column);
@@ -300,5 +302,13 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	public boolean isMultyLine() {
 		return false;
+	}
+
+	public boolean isUnderline() {
+		return underline;
+	}
+
+	public void setUnderline(Boolean underline) {
+		this.underline = underline;
 	}
 }

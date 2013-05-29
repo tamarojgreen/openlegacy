@@ -162,4 +162,7 @@ public interface TerminalField extends TerminalPositionContainer, Serializable, 
 	boolean isUppercase();
 
 	boolean isMultyLine();
+
+	boolean isUnderline();
+
 }

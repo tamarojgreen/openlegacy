@@ -10,12 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.providers.applinx;
 
-import com.sabratec.applinx.baseobject.GXBaseObjectConstants;
-import com.sabratec.applinx.common.runtime.field.GXBlockModeCommonFieldData;
-import com.sabratec.applinx.common.runtime.field.GXCharModeCommonFieldData;
-import com.sabratec.applinx.common.runtime.field.GXIDataTypeSupport;
-import com.sabratec.applinx.common.runtime.field.GXIField;
-
 import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
@@ -110,11 +104,14 @@ public class ApxTerminalField extends AbstractTerminalField {
 	}
 
 	public boolean isRightToLeft() {
-		if (apxField.getUnprotectedFieldData() != null){
+		if (apxField.getUnprotectedFieldData() != null) {
 			return ((GXIDataTypeSupport)apxField.getUnprotectedFieldData()).getDataType() == GXBaseObjectConstants.GX_FIELD_DATA_TYPE_REVERSED;
-		}
-		else{
+		} else {
 			return false;
 		}
+	}
+
+	public boolean isUnderline() {
+		return false;
 	}
 }
