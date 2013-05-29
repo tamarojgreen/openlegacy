@@ -7,13 +7,15 @@
 
 	<c:set var="width" value="350px" />
 	<c:if test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
-		<c:set var="width" value="700px" />
+		<c:set var="width" value="70%" />
 	</c:if>
+
 	<style>
 		#leftPane{
 			width:${width}; 
 		}
 	</style>
+
 	<div id="menu">
 		<ol:menu menu="${ol_menu}" />
 	</div>
