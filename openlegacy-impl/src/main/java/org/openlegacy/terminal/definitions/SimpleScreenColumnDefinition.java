@@ -35,6 +35,8 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 
 	private int colSpan;
 
+	private int sortIndex;
+
 	public SimpleScreenColumnDefinition(String name) {
 		this.name = name;
 	}
@@ -154,5 +156,13 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 
 	public void setColSpan(int colSpan) {
 		this.colSpan = colSpan;
+	}
+
+	public int getSortIndex() {
+		return sortIndex;
+	}
+
+	public void setSortIndex(int sortIndex) {
+		this.sortIndex = sortIndex;
 	}
 }

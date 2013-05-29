@@ -234,4 +234,9 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 	public String getClassName() {
 		return codeModel.getClassName();
 	}
+
+	public List<String> getSortedByFieldNames() {
+		throwNotImplemented();
+		return null;
+	}
 }

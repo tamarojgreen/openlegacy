@@ -27,6 +27,8 @@ import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
@@ -281,5 +283,25 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 
 	public void setRowsGap(int rowGaps) {
 		this.rowGaps = rowGaps;
+	}
+
+	public List<String> getSortedByFieldNames() {
+		// copy the list for sorting
+		List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>(getColumnDefinitions());
+		Collections.sort(columns, new Comparator<ColumnDefinition>() {
+
+			public int compare(org.openlegacy.definitions.TableDefinition.ColumnDefinition column1,
+					org.openlegacy.definitions.TableDefinition.ColumnDefinition column2) {
+				return column1.getSortIndex() - column2.getSortIndex();
+			}
+		});
+
+		List<String> sortedByFieldNames = new ArrayList<String>();
+		for (ColumnDefinition columnDefinition : columns) {
+			if (columnDefinition.getSortIndex() >= 0) {
+				sortedByFieldNames.add(columnDefinition.getName());
+			}
+		}
+		return sortedByFieldNames;
 	}
 }

@@ -13,15 +13,19 @@ package org.openlegacy.terminal.modules.table;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.table.ScreenTableScroller;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.SimpleTypeComparator;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -39,15 +43,17 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 
 	private TerminalAction defaultNextAction;
 
+	private TerminalAction defaultPreviousAction;
+
 	private final static Log logger = LogFactory.getLog(DefaultTableScroller.class);
 
 	@SuppressWarnings("unchecked")
 	public T scroll(TerminalSession terminalSession, Class<T> entityClass,
 			TableScrollStopConditions<T> tableScrollStopConditions, Object... rowKeys) {
 
-		T beforeScrolllEntity = terminalSession.getEntity(entityClass);
+		T beforeScrollEntity = terminalSession.getEntity(entityClass);
 
-		if (tableScrollStopConditions.shouldStop(beforeScrolllEntity)) {
+		if (tableScrollStopConditions.shouldStop(beforeScrollEntity)) {
 			logger.debug(MessageFormat.format("Table stop condition met for {0}. stopping scroll", entityClass));
 			return null;
 		}
@@ -55,6 +61,8 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				entityClass).getValue();
 
+		TerminalAction previousAction = tableDefinition.getNextScreenAction() != null ? tableDefinition.getPreviousScreenAction()
+				: defaultPreviousAction;
 		TerminalAction nextAction = tableDefinition.getNextScreenAction() != null ? tableDefinition.getNextScreenAction()
 				: defaultNextAction;
 
@@ -63,9 +71,35 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 				MessageFormat.format("Next action not defined either as default nor at screen entity {0}",
 						tableDefinition.getTableClass()));
 
-		T afterScrolllEntity = (T)terminalSession.doAction(nextAction);
+		Assert.notNull(
+				previousAction,
+				MessageFormat.format("Previous action not defined either as default nor at screen entity {0}",
+						tableDefinition.getTableClass()));
 
-		if (tableScrollStopConditions.shouldStop(beforeScrolllEntity, afterScrolllEntity)) {
+		T afterScrolllEntity = null;
+
+		List<String> sortedByFieldNames = tableDefinition.getSortedByFieldNames();
+		if (sortedByFieldNames.size() == 0) {
+			afterScrolllEntity = (T)terminalSession.doAction(nextAction);
+		} else {
+			List<?> beforeScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, beforeScrollEntity);
+			if (beforeScrollRows.size() > 0) {
+				Object firstRow = beforeScrollRows.get(0);
+				ScreenPojoFieldAccessor firstRowAccesor = new SimpleScreenPojoFieldAccessor(firstRow);
+				Object firstRowKeyValue = firstRowAccesor.getFieldValue(sortedByFieldNames.get(0));
+				if (SimpleTypeComparator.instance().compare(firstRowKeyValue, rowKeys[0]) < 0) {
+					if (logger.isDebugEnabled()) {
+						logger.debug("Performing " + previousAction.getClass().getSimpleName() + " action, as first row key "
+								+ firstRowKeyValue + " is smaller then requested key " + rowKeys[0]);
+					}
+					afterScrolllEntity = (T)terminalSession.doAction(previousAction);
+				} else {
+					afterScrolllEntity = (T)terminalSession.doAction(nextAction);
+				}
+			}
+		}
+
+		if (tableScrollStopConditions.shouldStop(beforeScrollEntity, afterScrolllEntity)) {
 			logger.debug(MessageFormat.format("Table stop condition met for {0}. stopping scroll", entityClass));
 			return null;
 		}
@@ -76,5 +110,9 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 
 	public void setDefaultNextAction(Class<? extends TerminalAction> defaultNextAction) {
 		this.defaultNextAction = ReflectionUtil.newInstance(defaultNextAction);
+	}
+
+	public void setDefaultPreviousAction(Class<? extends TerminalAction> defaultPreviousAction) {
+		this.defaultPreviousAction = ReflectionUtil.newInstance(defaultPreviousAction);
 	}
 }

@@ -37,6 +37,8 @@ public interface TableDefinition<C extends ColumnDefinition> {
 
 	List<String> getMainDisplayFields();
 
+	public List<String> getSortedByFieldNames();
+
 	int getMaxRowsCount();
 
 	boolean isScrollable();
@@ -64,6 +66,11 @@ public interface TableDefinition<C extends ColumnDefinition> {
 		String getHelpText();
 
 		int getColSpan();
+
+		/**
+		 * Defines the default sorting the fetched data is based on
+		 */
+		int getSortIndex();
 
 	}
 

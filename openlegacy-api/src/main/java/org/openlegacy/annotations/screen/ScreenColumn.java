@@ -52,4 +52,9 @@ public @interface ScreenColumn {
 	String helpText() default "";
 
 	int colSpan() default 1;
+
+	/**
+	 * Defines the sorting index as display on the original screen
+	 */
+	int sortIndex() default -1;
 }
