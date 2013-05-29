@@ -114,7 +114,7 @@ function showDialog(dialogTagId,url) {
  * @param displayField The display field within the json data list 
  * @param baseUrl The base URL for each list item. The key field value will be appended to it.
  */
-function loadMore(tagId,jsonUrl,keyField,displayFieldJoined,baseUrl){
+function loadMore(tagId,jsonUrl,keyFieldsJoined,displayFieldJoined,baseUrl){
 
 	showLoading();
 	
@@ -128,11 +128,20 @@ function loadMore(tagId,jsonUrl,keyField,displayFieldJoined,baseUrl){
 	
 	var displayFields = displayFieldJoined.split(",");
 	
+	var keyFields = keyFieldsJoined.split(",");
 	xhr.get(jsonUrl, {
 		handleAs : "json"
 	}).then(function(records){
 		array.forEach(records, function(entry, i){
-			var key = eval("entry." + keyField);
+
+			var key = "";
+			for (var i = 0;i<keyFields.length;i++){
+				key += eval("entry." + keyFields[i]);
+				if (i<keyFields.length-1){
+					key += "+";
+				}
+			}
+			
 			var text = "";
 			for (var i = 0;i<displayFields.length;i++){
 				text += eval("entry." + displayFields[i]);

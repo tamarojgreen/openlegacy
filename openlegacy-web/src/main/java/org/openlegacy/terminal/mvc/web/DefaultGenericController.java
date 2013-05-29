@@ -124,7 +124,12 @@ public class DefaultGenericController {
 			throws IOException {
 
 		try {
-			ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, key);
+			// enable sending more then one key, concatenated with "+"
+			Object[] keys = new Object[0];
+			if (key != null) {
+				keys = key.split("\\+");
+			}
+			ScreenEntity screenEntity = (ScreenEntity)terminalSession.getEntity(screenEntityName, keys);
 			return prepareView(screenEntity, uiModel, partial != null, request);
 		} catch (RuntimeException e) {
 			if (openlegacyWebProperties.isFallbackUrlOnError()) {

@@ -99,8 +99,14 @@
 									<c:otherwise>
 										<c:forEach items="${tableDefinition.actions}" var="action"
 											varStatus="counter">
-											<c:set var="target"
-												value="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}" />
+											<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
+											<c:forEach items="${tableDefinition.keyFieldNames}" var="key" varStatus="i">
+												<c:if test="${i.index gt 0}">
+													<c:set var="keysValues" value="${keysValues}+${item[tableDefinition.keyFieldNames[i.index]]}" />
+												</c:if>
+											</c:forEach>
+											
+											<c:set var="target" value="${action.targetEntity.simpleName}/${keysValues}" />
 											<c:if test="${action.targetEntity == null}">
 												<c:set var="target"
 													value="javascript:alert('No target entity specified for table action in table class @ScreenTableActions annotation');" />

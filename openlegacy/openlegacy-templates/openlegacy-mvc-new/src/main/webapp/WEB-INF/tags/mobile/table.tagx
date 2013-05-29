@@ -30,10 +30,15 @@
 	<c:if test="${fn:length(data) &gt; 0}">
 	<ul data-dojo-type="dojox.mobile.RoundRectList" id="${definitions.entityName}Table">
 		<c:forEach items="${data}" var="item" varStatus="i">
-			<c:set var="keyValue" value="${item[tableDefinition.keyFieldNames[0]]}" />
+			<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
+			<c:forEach items="${tableDefinition.keyFieldNames}" var="key" varStatus="i">
+			<c:if test="${i.index gt 0}">
+			<c:set var="keysValues" value="${keysValues}+${item[tableDefinition.keyFieldNames[i.index]]}" />
+			</c:if>
+			</c:forEach>
 			<li data-dojo-type="dojox.mobile.ListItem" transition="slide"
 				onclick="showLoading();"
-				url="${defaultTableAction.targetEntity.simpleName}/${keyValue}">
+				url="${defaultTableAction.targetEntity.simpleName}/${keysValues}">
 					<c:forEach items="${tableDefinition.mainDisplayFields}" var="mainDisplayField" varStatus="ii">
 					<c:set var="displayValue" value="${item[mainDisplayField]}" />
 					${displayValue}
@@ -48,7 +53,7 @@
 		${ol:throwException("No key defined for table")}
 	</c:if>
 	<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn"
-		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${ol:join(tableDefinition.mainDisplayFields)}','${defaultTableAction.targetEntity.simpleName}/')">${label_load_more}</button>
+		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${ol:join(tableDefinition.keyFieldNames)}','${ol:join(tableDefinition.mainDisplayFields)}','${defaultTableAction.targetEntity.simpleName}/')">${label_load_more}</button>
 	</c:if>
 	</c:if>
 
