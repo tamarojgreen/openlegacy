@@ -16,7 +16,11 @@
 		<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 		<title>OpenLegacy Toys</title>
 		
-		<link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}.css" rel="stylesheet" type="text/css" />
+		<c:set var="cssRtl" value="" />
+		<c:if test="${openLegacyProperties.rightToLeft}">
+			<c:set var="cssRtl" value="_rtl" />
+		</c:if>
+		<link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}${cssRtl}.css" rel="stylesheet" type="text/css" />
 		<link href="${pageContext.request.contextPath}/css/project.css" rel="stylesheet" type="text/css" />
 		
 		<script type="text/javascript">
