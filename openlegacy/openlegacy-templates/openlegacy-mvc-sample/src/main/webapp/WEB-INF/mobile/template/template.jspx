@@ -87,12 +87,8 @@
 		});
 		</script>
 
-		<c:set var="device_type" value=""/>
-		<c:if test="${deviceType eq 'MOBILE'}">
-			<c:set var="device_type" value="mobileDevice"/>
-		</c:if>
 		<span data-dojo-type="dojox.mobile.ScreenSizeAware"><!-- FF --></span>
-		<div data-dojo-type="dojox.mobile.FixedSplitter" data-dojo-props="orientation:'H'" id="fixedSplitter" class="${device_type}">
+		<div data-dojo-type="dojox.mobile.FixedSplitter" data-dojo-props="orientation:'H'" id="fixedSplitter" >
 			<c:set var="leftPaneWidth" value="350px" />
 			<c:if test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
 				<c:set var="leftPaneWidth" value="70%" />

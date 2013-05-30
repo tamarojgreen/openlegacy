@@ -91,24 +91,29 @@
 
 		<span data-dojo-type="dojox.mobile.ScreenSizeAware"><!-- FF --></span>
 		<div data-dojo-type="dojox.mobile.FixedSplitter" data-dojo-props="orientation:'H'" id="fixedSplitter">
-			<c:set var="width" value="350px" />
+			<c:set var="leftPaneWidth" value="350px" />
 			<c:if test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
-				<c:set var="width" value="700px" />
+				<c:set var="leftPaneWidth" value="70%" />
 			</c:if>
+
 			<c:if test="${definitions == null || definitions.typeName == 'LoginEntity' || deviceType eq 'MOBILE'}">
 				<c:choose>
 				<c:when test="${openLegacyProperties.rightToLeft}">
-					<c:set var="width" value="0%" />
+					<c:set var="leftPaneWidth" value="0%" />
 				</c:when>
 				<c:otherwise>
-					<c:set var="width" value="100%" />
+					<c:set var="leftPaneWidth" value="100%" />
 				</c:otherwise>
 				</c:choose>
 			</c:if>
-			<style>#leftPane{width:${width};}</style>
+
+			<style>
+				#leftPane{width:${leftPaneWidth};}
+			</style>
+
 			<div id="leftPane" data-dojo-type="dojox.mobile.Container">
 				<c:choose>
-				<c:when test="${openLegacyProperties.rightToLeft}">
+				<c:when test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
 					<div id="mainView" data-dojo-type="dojox.mobile.View">
 						<div id="bodyContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">
 							<tiles:insertAttribute name="header" ignore="true"/>
@@ -130,7 +135,7 @@
 			</div>
 			<div id="rightPane" data-dojo-type="dojox.mobile.Container">
 				<c:choose>
-				<c:when test="${openLegacyProperties.rightToLeft}">
+				<c:when test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
 					<div id="menuView" data-dojo-type="dojox.mobile.View">
 						<ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
 						</ul>

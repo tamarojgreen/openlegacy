@@ -5,11 +5,11 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
-	<div class="actions emily_actions">
+	<div class="actions">
 		<ul>
 			<li>
 				<a href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}');">
-					<span class="emily_actions_icon emily_actions_submit"><!--  --></span><!-- 
+					<span class="actions_icon actions_submit"><!--  --></span><!-- 
 					This comment need to make correct margin between span and text
 					 --><img src="${pageContext.request.contextPath}/icons/submit.png"
 						width="15" height="14" alt="Submit" />
@@ -25,7 +25,7 @@
 						<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">
 							<c:set var="image" value="/icons/submit.png" />
 						</c:if>
-						<span class="emily_actions_icon emily_actions_${action.alias}"><!--  --></span><!--
+						<span class="actions_icon actions_${action.alias}"><!--  --></span><!--
 						This comment need to make correct margin between span and text 
 						 --><img src="${pageContext.request.contextPath}/${image}"
 							width="15" height="14" alt="${action.displayName}" />
