@@ -15,6 +15,11 @@
 	<c:if test="${deviceType eq 'MOBILE'}">
 		<c:set var="logo_mobile" value="logo_mobile"/>
 	</c:if>
+
+	<c:set var="logoff_float" value="float: right;"/>
+	<c:if test="${openLegacyProperties.rightToLeft}">
+		<c:set var="logoff_float" value="float: left;"/>
+	</c:if>
 	
 	<div data-dojo-type="dojox.mobile.View">
 		<h1 data-dojo-type="dojox.mobile.Heading" 
@@ -23,7 +28,7 @@
 				<img src="images/logo.png" />
 				<span><!-- FF --></span>
 			</a>
-			<button data-dojo-type="dojox.mobile.ToolBarButton" style="float:right;"
+			<button data-dojo-type="dojox.mobile.ToolBarButton" style="${logoff_float}"
 				class="logoffBtn"
 				onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
 		</h1>

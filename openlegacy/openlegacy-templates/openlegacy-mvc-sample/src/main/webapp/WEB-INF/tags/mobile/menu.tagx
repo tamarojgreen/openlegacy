@@ -21,7 +21,11 @@
 					<img src="images/logo.png" />
 					<span><!-- FF --></span>
 				</a>
-				<button data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="fixed:'right'"
+				<c:set var="logoff_float" value="float: right;"/>
+				<c:if test="${openLegacyProperties.rightToLeft}">
+					<c:set var="logoff_float" value="float: left;"/>
+				</c:if>
+				<button data-dojo-type="dojox.mobile.ToolBarButton" style="${logoff_float}"
 					class="logoffBtn"
 					onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
 			</c:if>
