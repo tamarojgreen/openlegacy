@@ -146,6 +146,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		if (currentEntityClass != null && ProxyUtil.isClassesMatch(currentEntityClass, registryLoginClass)) {
 			Object value = fieldAccessor.getFieldValue(errorFieldName);
 			String message = value != null ? value.toString() : LOGIN_FAILED;
+			fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 			fieldAccessor.setFieldValue(errorFieldName, message);
 			throw (new LoginException(message));
 		} else {

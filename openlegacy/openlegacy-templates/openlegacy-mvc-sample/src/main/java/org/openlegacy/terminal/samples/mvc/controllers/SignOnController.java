@@ -50,6 +50,7 @@ public class SignOnController {
 			terminalSession.getModule(Login.class).logoff();
 			terminalSession.getModule(Login.class).login(signOn);
 		} catch (LoginException e) {
+			uiModel.addAttribute("signOn", signOn);
 			// errorMessage is assigned within login method
 			return "SignOn";
 		}
