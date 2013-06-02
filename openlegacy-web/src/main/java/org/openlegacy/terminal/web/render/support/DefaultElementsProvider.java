@@ -149,7 +149,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 		StringBuilder sb = new StringBuilder(colorStyle);
 		sb.append(backcolorStyle);
 
-		if (field.isUnderline() && supportUnderline) {
+		if (!field.isEditable() && field.isUnderline() && supportUnderline) {
 			sb.append(UNDERLINE_STYLE);
 		}
 		return sb.toString();
