@@ -53,11 +53,6 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 
 		T beforeScrollEntity = terminalSession.getEntity(entityClass);
 
-		if (tableScrollStopConditions.shouldStop(beforeScrollEntity)) {
-			logger.debug(MessageFormat.format("Table stop condition met for {0}. stopping scroll", entityClass));
-			return null;
-		}
-
 		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				entityClass).getValue();
 
@@ -80,6 +75,12 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 
 		List<String> sortedByFieldNames = tableDefinition.getSortedByFieldNames();
 		if (sortedByFieldNames.size() == 0) {
+
+			if (tableScrollStopConditions.shouldStop(beforeScrollEntity)) {
+				logger.debug(MessageFormat.format("Table stop condition met for {0}. stopping scroll", entityClass));
+				return null;
+			}
+
 			afterScrolllEntity = (T)terminalSession.doAction(nextAction);
 		} else {
 			List<?> beforeScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, beforeScrollEntity);
@@ -87,13 +88,19 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 				Object firstRow = beforeScrollRows.get(0);
 				ScreenPojoFieldAccessor firstRowAccesor = new SimpleScreenPojoFieldAccessor(firstRow);
 				Object firstRowKeyValue = firstRowAccesor.getFieldValue(sortedByFieldNames.get(0));
-				if (SimpleTypeComparator.instance().compare(firstRowKeyValue, rowKeys[0]) < 0) {
+				if (SimpleTypeComparator.instance().compare(firstRowKeyValue, rowKeys[0]) > 0) {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Performing " + previousAction.getClass().getSimpleName() + " action, as first row key "
 								+ firstRowKeyValue + " is smaller then requested key " + rowKeys[0]);
 					}
 					afterScrolllEntity = (T)terminalSession.doAction(previousAction);
 				} else {
+
+					if (tableScrollStopConditions.shouldStop(beforeScrollEntity)) {
+						logger.debug(MessageFormat.format("Table stop condition met for {0}. stopping scroll", entityClass));
+						return null;
+					}
+
 					afterScrolllEntity = (T)terminalSession.doAction(nextAction);
 				}
 			}

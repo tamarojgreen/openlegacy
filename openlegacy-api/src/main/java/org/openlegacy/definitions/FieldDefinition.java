@@ -49,4 +49,7 @@ public interface FieldDefinition {
 	String getHelpText();
 
 	boolean isKey();
+
+	int getKeyIndex();
+
 }

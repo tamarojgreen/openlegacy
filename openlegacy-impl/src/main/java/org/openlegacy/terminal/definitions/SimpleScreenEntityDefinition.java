@@ -29,14 +29,13 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SimpleScreenEntityDefinition extends
-		SimpleEntityDefinition<ScreenFieldDefinition> implements
-		ScreenEntityDefinition, Serializable {
+public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenFieldDefinition> implements ScreenEntityDefinition, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,8 +58,7 @@ public class SimpleScreenEntityDefinition extends
 
 	private List<ScreenFieldDefinition> keyFields;
 
-	private final static Log logger = LogFactory
-			.getLog(SimpleScreenEntityDefinition.class);
+	private final static Log logger = LogFactory.getLog(SimpleScreenEntityDefinition.class);
 
 	public SimpleScreenEntityDefinition() {
 		super();
@@ -74,8 +72,7 @@ public class SimpleScreenEntityDefinition extends
 		return screenIdentification;
 	}
 
-	public void setScreenIdentification(
-			ScreenIdentification screenIdentification) {
+	public void setScreenIdentification(ScreenIdentification screenIdentification) {
 		this.screenIdentification = screenIdentification;
 	}
 
@@ -83,8 +80,7 @@ public class SimpleScreenEntityDefinition extends
 		return navigationDefinition;
 	}
 
-	public void setNavigationDefinition(
-			NavigationDefinition navigationDefinition) {
+	public void setNavigationDefinition(NavigationDefinition navigationDefinition) {
 		this.navigationDefinition = navigationDefinition;
 	}
 
@@ -136,8 +132,7 @@ public class SimpleScreenEntityDefinition extends
 		return this.accessedFromScreenDefinition;
 	}
 
-	public void setAccessedFromScreenDefinition(
-			ScreenEntityDefinition accessedFromScreenDefinition) {
+	public void setAccessedFromScreenDefinition(ScreenEntityDefinition accessedFromScreenDefinition) {
 		this.accessedFromScreenDefinition = accessedFromScreenDefinition;
 	}
 
@@ -162,12 +157,10 @@ public class SimpleScreenEntityDefinition extends
 		Set<EntityDefinition<?>> childs = new ListOrderedSet();
 		childs.addAll(getChildEntitiesDefinitions());
 		for (EntityDefinition<?> childScreenDefinition : childs) {
-			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition
-					.getAllChildEntitiesDefinitions();
+			Set<EntityDefinition<?>> childScreensDefinitions = childScreenDefinition.getAllChildEntitiesDefinitions();
 			if (childScreensDefinitions.size() > 0) {
-				logger.info(MessageFormat
-						.format("Adding child screens to list all child screens. Adding: {0}",
-								childScreensDefinitions));
+				logger.info(MessageFormat.format("Adding child screens to list all child screens. Adding: {0}",
+						childScreensDefinitions));
 				childs.addAll(childScreensDefinitions);
 			}
 		}
@@ -175,13 +168,10 @@ public class SimpleScreenEntityDefinition extends
 	}
 
 	public List<ScreenFieldDefinition> getSortedFields() {
-		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions()
-				.values();
+		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
 
-		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(
-				fields);
-		Collections.sort(sortedFields,
-				TerminalPositionContainerComparator.instance());
+		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
+		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 		return sortedFields;
 	}
 
@@ -201,15 +191,14 @@ public class SimpleScreenEntityDefinition extends
 		this.performDefaultBinding = performDefaultBinding;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<? extends FieldDefinition> getKeys() {
 		if (keyFields == null) {
-			keyFields = (List<ScreenFieldDefinition>) super.getKeys();
-			Collection<ScreenPartEntityDefinition> parts = getPartsDefinitions()
-					.values();
+			keyFields = (List<ScreenFieldDefinition>)super.getKeys();
+			Collection<ScreenPartEntityDefinition> parts = getPartsDefinitions().values();
 			for (ScreenPartEntityDefinition partDefinition : parts) {
-				Collection<ScreenFieldDefinition> fields = partDefinition
-						.getFieldsDefinitions().values();
+				Collection<ScreenFieldDefinition> fields = partDefinition.getFieldsDefinitions().values();
 				for (ScreenFieldDefinition fieldDefinition : fields) {
 					if (fieldDefinition.isKey()) {
 						keyFields.add(fieldDefinition);
@@ -217,6 +206,12 @@ public class SimpleScreenEntityDefinition extends
 				}
 			}
 		}
+		Collections.sort(keyFields, new Comparator<ScreenFieldDefinition>() {
+
+			public int compare(ScreenFieldDefinition o1, ScreenFieldDefinition o2) {
+				return o1.getKeyIndex() - o2.getKeyIndex();
+			}
+		});
 		return keyFields;
 	}
 }

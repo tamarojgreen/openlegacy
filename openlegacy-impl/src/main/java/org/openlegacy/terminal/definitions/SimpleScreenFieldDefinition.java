@@ -53,6 +53,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	private ScreenFieldDefinition descriptionFieldDefinition;
 
+	private int keyIndex;
+
 	public SimpleScreenFieldDefinition() {
 		super();
 	}
@@ -228,5 +230,13 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setDescriptionFieldDefinition(ScreenFieldDefinition descriptionFieldDefinition) {
 		this.descriptionFieldDefinition = descriptionFieldDefinition;
+	}
+
+	public int getKeyIndex() {
+		return keyIndex;
+	}
+
+	public void setKeyIndex(int keyIndex) {
+		this.keyIndex = keyIndex;
 	}
 }

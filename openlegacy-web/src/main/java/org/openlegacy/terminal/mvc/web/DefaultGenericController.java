@@ -17,6 +17,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.modules.table.TableWriter;
+import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.mvc.OpenLegacyWebProperties;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
@@ -32,7 +33,9 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.SpringUtil;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -109,6 +112,9 @@ public class DefaultGenericController {
 
 	@Inject
 	private OpenLegacyWebProperties openlegacyWebProperties;
+
+	@Inject
+	private ApplicationContext applicationContext;
 
 	@RequestMapping(value = "/{screen}", method = RequestMethod.GET)
 	public String getScreenEntity(@PathVariable("screen") String screenEntityName,
@@ -254,12 +260,16 @@ public class DefaultGenericController {
 	 * 
 	 * @return
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/{screen}/more", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<String> more(@PathVariable("screen") String entityName) {
 		// sync the current entity
-		terminalSession.getEntity(entityName);
+		ScreenEntity screenBefore = (ScreenEntity)terminalSession.getEntity(entityName);
 		ScreenEntity nextScreen = terminalSession.doAction(TerminalActions.PAGEDOWN());
+
+		TableScrollStopConditions tableScrollStopConditions = SpringUtil.getDefaultBean(applicationContext,
+				TableScrollStopConditions.class);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/text; charset=utf-8");
@@ -267,6 +277,10 @@ public class DefaultGenericController {
 		Map<String, ScreenTableDefinition> tableDefinitions = tablesDefinitionProvider.getTableDefinitions(nextScreen.getClass());
 		if (tableDefinitions.size() == 0) {
 			logger.error("Next screen after PAGEDOWN does not contain a table");
+			return new ResponseEntity<String>("", headers, HttpStatus.OK);
+		}
+
+		if (tableScrollStopConditions.shouldStop(screenBefore, nextScreen)) {
 			return new ResponseEntity<String>("", headers, HttpStatus.OK);
 		}
 

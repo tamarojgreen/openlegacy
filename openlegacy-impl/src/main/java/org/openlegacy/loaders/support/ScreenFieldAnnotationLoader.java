@@ -10,11 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.loaders.support;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.text.MessageFormat;
-import java.util.Date;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
@@ -36,6 +31,11 @@ import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.text.MessageFormat;
+import java.util.Date;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -84,10 +84,10 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			}
 		} else {
 			int width = fieldAnnotation.endColumn() - fieldAnnotation.column() + 1;
-			int endRow = fieldAnnotation.endRow() > 0 ? fieldAnnotation.endRow() : fieldAnnotation.row();  
+			int endRow = fieldAnnotation.endRow() > 0 ? fieldAnnotation.endRow() : fieldAnnotation.row();
 			int height = endRow - fieldAnnotation.row() + 1;
-			screenFieldDefinition.setLength(width*height);
-			// TODO calculate length for "snake" field 
+			screenFieldDefinition.setLength(width * height);
+			// TODO calculate length for "snake" field
 		}
 
 		if (fieldAnnotation.endRow() > fieldAnnotation.row()) {
@@ -128,6 +128,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 		screenFieldDefinition.setHelpText(fieldAnnotation.helpText());
 		screenFieldDefinition.setKey(fieldAnnotation.key());
+		screenFieldDefinition.setKeyIndex(fieldAnnotation.keyIndex());
 		if (logger.isDebugEnabled()) {
 
 			logger.debug(MessageFormat.format("The annotation of the attribute attribute is {0} ", fieldAnnotation.attribute()));
