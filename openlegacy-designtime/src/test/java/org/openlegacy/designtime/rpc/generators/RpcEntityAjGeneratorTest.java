@@ -5,6 +5,7 @@ import freemarker.template.TemplateException;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.TestUtils;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -36,7 +37,7 @@ public class RpcEntityAjGeneratorTest {
 	}
 
 	private void testGenerate() throws Exception {
-		String testMethodName = AssertUtils.getTestMethodName();
+		String testMethodName = TestUtils.getTestMethodName();
 		testGenerate(testMethodName + ".java.resource", testMethodName + "_Aspect.aj.expected");
 	}
 
