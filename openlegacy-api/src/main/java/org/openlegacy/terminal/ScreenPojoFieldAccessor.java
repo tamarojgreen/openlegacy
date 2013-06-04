@@ -10,26 +10,24 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
-import java.util.List;
-
-import org.openlegacy.EntityFieldAccessor;
+import org.openlegacy.PojoFieldAccessor;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenPart;
+
+import java.util.List;
 
 /**
  * An interface for accessing POJO's marked with {@link ScreenEntity}, {@link ScreenPart} annotations
  * 
  * @author Roi Mor
  */
-public interface ScreenPojoFieldAccessor extends EntityFieldAccessor {
+public interface ScreenPojoFieldAccessor extends PojoFieldAccessor {
 
 	void setFocusField(String fieldName);
 
 	void setTerminalField(String fieldName, TerminalField terminalField);
 
 	void setTerminalSnapshot(TerminalSnapshot terminalSnapshot);
-
-	Object evaluateFieldValue(String name);
 
 	String getConcatFieldsValue(List<String> mainDisplayFields);
 

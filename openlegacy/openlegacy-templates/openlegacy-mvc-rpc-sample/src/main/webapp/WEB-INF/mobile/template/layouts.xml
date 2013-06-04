@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+
+	<definition name="template_m" template="/WEB-INF/mobile/template/template.jspx">
+		<put-attribute name="header"
+			value="/WEB-INF/mobile/template/header.jspx" />
+		<put-attribute name="actions"
+			value="/WEB-INF/mobile/template/ajaxActions.jspx" />
+		<put-attribute name="footer"
+			value="/WEB-INF/mobile/template/footer.jspx" />
+	</definition>
+
+	<definition name="emulation_m" template="/WEB-INF/mobile/template/template.jspx">
+		<put-attribute name="header"
+			value="/WEB-INF/mobile/template/header.jspx" />
+	</definition>
+
+	<definition name="menu_m" template="/WEB-INF/mobile/template/template.jspx">
+		<put-attribute name="header"
+			value="/WEB-INF/mobile/template/header.jspx" />
+		<put-attribute name="footer"
+			value="/WEB-INF/mobile/template/footer.jspx" />
+		<put-attribute name="menu" value="/WEB-INF/mobile/template/menu.jspx" />
+	</definition>
+
+	<definition name="compositeTemplate_m" template="/WEB-INF/mobile/template/template.jspx">
+		<put-attribute name="header"
+			value="/WEB-INF/mobile/template/header.jspx" />
+	</definition>
+
+	<definition name="view_m" template="/WEB-INF/mobile/template/view.jspx">
+		<put-attribute name="header"
+			value="/WEB-INF/mobile/template/header.jspx" />
+		<put-attribute name="actions"
+			value="/WEB-INF/mobile/template/ajaxActions.jspx" />
+	</definition>
+
+	<definition name="compositeView_m"
+		template="/WEB-INF/mobile/template/compositeView.jspx">
+		<put-attribute name="header"
+			value="/WEB-INF/mobile/template/header.jspx" />
+	</definition>
+
+	<definition name="innerView_m" template="/WEB-INF/mobile/template/innerView.jspx">
+		<put-attribute name="actions"
+			value="/WEB-INF/mobile/template/ajaxActions.jspx" />
+	</definition>
+
+	<definition name="public_m" template="/WEB-INF/mobile/template/template.jspx">
+		<put-attribute name="menuHeader"
+			value="/WEB-INF/mobile/template/header.jspx" />
+		<put-attribute name="footer"
+			value="/WEB-INF/mobile/template/footer.jspx" />
+	</definition>
+
+</tiles-definitions>

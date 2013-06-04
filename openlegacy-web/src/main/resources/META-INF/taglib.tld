@@ -72,4 +72,9 @@
         <function-class>org.openlegacy.web.tags.TagUtils</function-class>
         <function-signature>java.lang.String join(java.util.List)</function-signature>
     </function>
+    <function>
+        <name>hasProperty</name>
+        <function-class>org.openlegacy.web.tags.TagUtils</function-class>
+        <function-signature>boolean hasProperty(java.lang.Object,java.lang.String)</function-signature>
+    </function>
 </taglib>

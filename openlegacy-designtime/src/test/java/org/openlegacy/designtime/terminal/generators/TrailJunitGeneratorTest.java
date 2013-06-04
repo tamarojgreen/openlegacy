@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsAnalyzer;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;

@@ -1,0 +1,1607 @@
+package com.as400samplecode.parse;
+
+import com.ibm.as400.access.AS400Bin2;
+import com.ibm.as400.access.AS400Bin4;
+import com.ibm.as400.access.AS400Bin8;
+import com.ibm.as400.access.AS400ByteArray;
+import com.ibm.as400.access.AS400DataType;
+import com.ibm.as400.access.AS400Float4;
+import com.ibm.as400.access.AS400Float8;
+import com.ibm.as400.access.AS400PackedDecimal;
+import com.ibm.as400.access.AS400Text;
+import com.ibm.as400.access.AS400ZonedDecimal;
+import com.ibm.as400.access.FieldDescription;
+import com.ibm.as400.access.RecordFormat;
+
+import org.aspectj.org.eclipse.jdt.internal.compiler.ast.Argument;
+import org.openlegacy.utils.StringUtil;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+
+public class RPGParser {
+
+	private RPC_Element m_rpc;
+	private Vector m_lines;
+	private Parameters_Element m_params;
+	private StringBuffer m_report;
+	private Hashtable m_argumentsNamesTable = new Hashtable();
+	private Hashtable m_argumentsNamesPListTable = new Hashtable();
+	private Vector m_parmNames = new Vector();
+	private int m_offset;
+	private String m_offsetSpace = "";
+	private ISourceRetriever m_retriever;
+	private int m_nestedCopyLevel = 0;
+	private static final int MAX_NESTED_COPY_LEVEL = 32; // Default in rpg compiler.
+
+	private class overlayingParameterData {
+
+		int m_position;
+		String m_name;
+
+		overlayingParameterData(int position, String name) {
+			m_position = position;
+			m_name = name;
+		}
+	}
+
+	private Hashtable m_overlayLists;
+	private Hashtable m_overlayNextPosition; // *NEXT means next position after most advanced overlay of same field.
+	private Argument m_extStructArgument = null;
+	private String m_extfieldsPrefix = null;
+	private int m_extfieldsPrefixChars = 0;
+
+	// Positions per records
+	private static final int FORMAT_TYPE_POS = 5;
+	private static final int SYMBOL_POS = 6;
+	private static final int D_RECORD_IDENT = 18;
+	private static final int D_KEYWORD_START = 43;
+	private static final int D_KEYWORD_END = 80;
+	private static final int D_NAME_START = 6;
+	private static final int D_NAME_END = 21;
+	private static final int D_DEF_TYPE = 23;
+	private static final int I_DS_NAME_START = 6;
+	private static final int I_DS_NAME_END = 12;
+	private static final int I_SUBFIELD_BLANK_START = 8;
+	private static final int I_SUBFIELD_BLANK_END = 20;
+	private static final int I_INIT_START = 20;
+	private static final int I_INIT_END = 42;
+	private static final int I_CONST_INDX = 42;
+	private static final int I_FIELD_NAME_START = 52;
+	private static final int I_FIELD_NAME_END = 58;
+	private static final int E_NAME_START = 26;
+	private static final int E_NAME_END = 32;
+	private static final int C_ENTRY_START_III = 17;
+	private static final int C_ENTRY_END_III = 27;
+	private static final int C_ENTRY_START_IV = 11;
+	private static final int C_ENTRY_END_IV = 17;
+	private static final int COPY_START = 6;
+	private static final int COPY_END = 11;
+	private static final int COPY_FILE_NAME_START = 12;
+	private static final int COPY_FILE_NAME_END = 49;
+
+	// Line length
+	private static final int LINE_LENGTH = 80;
+
+	// Format Types
+	private static final char HEADER = 'H';
+	private static final char FILE_DESCR = 'F';
+	private static final char EXTENSION = 'E';
+	private static final char LINE_CNT = 'L';
+	private static final char DEFINITION = 'D';
+	private static final char INPUT = 'I';
+	private static final char CALC = 'C';
+	private static final char OUTPUT = 'O';
+
+	// Record Types
+	private static final char D_DATA_STRUCT = 'D';
+	private static final char D_DS_SUBFIELD = 'R';
+	private static final char D_FIELD = 'S';
+	private static final char D_CONSTANT = 'C';
+	private static final char D_PARM = 'P';
+	private static final char E_EXTENSION = 'E';
+	private static final char I_DATA_STRUCT = 'I';
+	private static final char I_SUBFIELD = 'U';
+	private static final char I_CONSTANT = 'N';
+
+	private static final char BLANK = ' ';
+	private static final char COMMENT_SYMBOL = '*';
+	private static final char DIRRECTIVE_SYMBOL = '/';
+	private static final char HYPHEN = '-';
+	private static final char QUOTE = '\'';
+
+	private static final String EMPTY_STRING = "";
+	private static final String ONE_BLANK = " ";
+	private static final String THREE_DOTS = "...";
+	private static final String NEW_LINE = "\n";
+	private static final String LEFT_PAREN = "(";
+	private static final String RIGHT_PAREN = ")";
+	private static final String PLUS = "+";
+	private static final String MINUS = "-";
+	private static final String INIT_IND = "I";
+
+	private static final String ENTRY_PARM = "*ENTRY";
+	private static final String PARM_IND = "PARM";
+	private static final String OCCURS = "OCCURS";
+	private static final String CONST = "CONST";
+	private static final String DIM = "DIM";
+	private static final String LIKE = "LIKE";
+	private static final String QUALIFIED = "QUALIFIED";
+	private static final String COPY = "/COPY";
+	private static final String OVERLAY = "OVERLAY";
+	private static final String PREFIX = "PREFIX";
+	private static final String EXTNAME = "EXTNAME";
+	private static final String EXTFLD = "EXTFLD";
+
+	// Format of (D)efinition specification line for RPG-ILE
+	private static final String D_LINE_FORMAT = "^.{5}([dD])(.{15})([eE\\s])([sSuU\\s])([a-zA-Z\\s]{2})"
+			+ "(.{7})(.{7})([a-zA-Z\\*\\s])([\\d\\s]{2})(.*)";
+	// Format of (E)xtension line for RPG-III
+	private static final String E_LINE_FORMAT = "^.{5}([eE]).{20}(.{6})([\\s\\d]{3})([\\d\\s]{4})"
+			+ "([\\d\\s]{3})([PpBbLlRr\\s]{1})([\\d\\s]{1})";
+	// Format of (D)ata (S)tructure line for RPG-III
+	private static final String DS_LINE_FORMAT = "^.{5}([iI])(.{6})\\s{4}([\\seE])([\\sISU])(DS)(.{10})"
+			+ "\\s{13}([\\d\\s]{4})([\\d\\s]{4})";
+	// Format of Data Structure (Subfield) line for RPG-III
+	private static final String SUBFIELD_FORMAT = "^.{5}([iI])\\s([\\sIi])\\s{12}(.{22})"
+			+ "([\\sPpBb])([\\d\\s]{4})([\\d\\s]{4})([\\s\\d])(.{6})";
+	// Format of (C)onstant line for RPG-III
+	private static final String CONSTANT_FORMAT = "^.{5}([iI])\\s{14}(.{22})(([\\sCc])\\s{9}(.{6}))?";
+	// Format of (C)alculation line for RPG-III
+	private static final String CALC_III_FORMAT = "^.{5}([cC]).{11}(.{10})(.{5})(.{10})(.{6})([\\s\\d]{3})" + "([\\s\\d]{1})";
+	// Format of (C)alculation line for RPG-ILE
+	private static final String CALC_IV_FORMAT = "^.{5}([cC]).{5}(.{14})(.{10})(.{14})(.{14})([\\s\\d]{5})" + "([\\s\\d]{2})";
+
+	// Sub-expressions per record type
+	private static final int D_EXTERNAL_EXP = 3;
+	private static final int D_DEFINITION_TYPE_EXP = 5;
+	private static final int D_FROM_POS_EXP = 6;
+	private static final int D_TO_POS_EXP = 7;
+	private static final int D_PARM_TYPE_EXP = 8;
+	private static final int D_DECIMAL_EXP = 9;
+	private static final int D_KEYWORD_EXP = 10;
+
+	private static final int DS_INIT_EXP = 4;
+	private static final int DS_OCCURS_EXP = 7;
+	private static final int DS_LENGTH_EXP = 8;
+
+	private static final int E_OCCURS_EXP = 4;
+	private static final int E_LENGTH_EXP = 5;
+	private static final int E_PARM_TYPE_EXP = 6;
+	private static final int E_DECIMAL_EXP = 7;
+
+	private static final int C_VALUE_EXP = 2;
+
+	private static final int DS_SUB_INIT_OPT_EXP = 2;
+	private static final int DS_SUB_INIT_VAL_EXP = 3;
+	private static final int DS_SUB_PARM_TYPE_EXP = 4;
+	private static final int DS_SUB_FROM_EXP = 5;
+	private static final int DS_SUB_TO_EXP = 6;
+	private static final int DS_SUB_DECIMAL_EXP = 7;
+
+	public RPC_Element parse(BufferedReader input, String fileName, boolean useJavaFormat, ISourceRetriever retriever)
+			throws Exception {
+		m_retriever = retriever;
+		m_rpc = new RPC_Element();
+		// m_rpc.setGuid(new GuidGen().toString());
+		m_rpc.setLanguage("RPG");
+		if (fileName.lastIndexOf(File.separator) > -1) {
+			fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1,
+					fileName.indexOf(".") > 0 ? fileName.indexOf(".") : fileName.length());
+		}
+		m_rpc.setName(fileName);
+		m_rpc.setPath(fileName);
+		setReport();
+		m_lines = new Vector();
+		readLines(input);
+		if (m_parmNames.size() == 0) {
+			writeReportln("No entry line was found in this source.");
+		}
+		parseLines();
+		if (m_params == null) {
+			m_params = new Parameters_Element();
+		}
+		m_rpc.setParameters(m_params);
+		return m_rpc;
+	}
+
+	/**
+	 * The following routine does 2 actions : 1. Reads all definition specification lines to a vector. We will select for the
+	 * processing only the following types of lines: Form type 'D': Data Structure, Data Structure subfields, standalone
+	 * fields,constants. Form type 'E': All lines. Form type 'I': Data Structure, Data Structure subfields, constants. All other
+	 * types of lines will be skipped. 2. Searching the *entry plist lines and analyzing them.
+	 */
+	private void readLines(BufferedReader input) throws GeneralException {
+		String line;
+		boolean isInData = false, toContinue = true;
+		int offset = -1;
+
+		try {
+			line = input.readLine();
+
+			// Determine position of Form type indicator. In the original source the pos is 6 but if
+			// spaces were trimmed it may be at another position
+			while (line != null) {
+				line = line.toUpperCase();
+				offset = getOffset(line);
+				if (offset > -1) {
+					m_offsetSpace = fillWithChar(offset, '1');
+					break;
+				}
+				line = input.readLine();
+			}
+			// Select lines for the processing
+			while (line != null && toContinue) {
+
+				line = line.toUpperCase();
+				// Modify line so, that it will be of standard format: Form Type indicator is in position 6
+				// and the length of line is 80, so, we will be able to apply regular expressions to it.
+				line = buildLine(line, m_offsetSpace);
+
+				if (line.charAt(SYMBOL_POS) == DIRRECTIVE_SYMBOL) {
+					if (line.substring(COPY_START, COPY_END).equals(COPY)) {
+						readCopyFile(line);
+					}
+				} else if (line.charAt(SYMBOL_POS) != COMMENT_SYMBOL) { // Ignore comment lines ('*' in position 6)
+
+					switch (line.charAt(FORMAT_TYPE_POS)) {
+						case DEFINITION: // Data definition line for RPG-ILE
+							if (line.charAt(D_DEF_TYPE) == D_PARM) {
+								line = readData(input, line.charAt(D_DEF_TYPE));
+								continue;
+							}
+							m_lines.addElement(line);
+							break;
+						// Input line - may be Data Structure, Data Structure Subfield, Constant.
+						// All other types we will ignore
+						case INPUT:
+							if (line.charAt(D_RECORD_IDENT) == D_DATA_STRUCT || line.charAt(I_CONST_INDX) == D_CONSTANT) {
+								m_lines.addElement(line);
+								if (line.charAt(D_RECORD_IDENT) == D_DATA_STRUCT) {
+									line = readData(input, line.charAt(D_RECORD_IDENT));
+								} else {
+									line = readData(input, line.charAt(I_CONST_INDX));
+								}
+								continue;
+							}
+							break;
+						case CALC: // Calculation line for RPG-III && RPG-ILE
+							if (line.substring(C_ENTRY_START_IV, C_ENTRY_END_IV).trim().equals(ENTRY_PARM)
+									|| line.substring(C_ENTRY_START_III, C_ENTRY_END_III).trim().equals(ENTRY_PARM)) { // follows
+																														// is the
+																														// entry
+																														// parameter
+																														// list
+								// Find all *ENTRY PLIST parameters
+								analyzeParmList(input);
+								toContinue = false;
+								continue;
+							}
+							break;
+						case EXTENSION: // Extension line for RPG-III
+							m_lines.addElement(line);
+					}
+				}
+				line = input.readLine();
+			}
+			input.close();
+		} catch (IOException e) {
+			e.fillInStackTrace();
+			throw new GeneralException("Error in reading the source file", e);
+		}
+	}
+
+	// aar 20/Feb/2005 - read copy-files
+	private void readCopyFile(String copyLine) throws GeneralException {
+		m_nestedCopyLevel += 1;
+		if (m_nestedCopyLevel > MAX_NESTED_COPY_LEVEL) {
+			throw new GeneralException("Nested copy level exceeded " + MAX_NESTED_COPY_LEVEL + ".");
+		}
+		String copyObjectName = copyLine.substring(COPY_FILE_NAME_START, COPY_FILE_NAME_END).trim();
+		// Format of copyObjectName is lib/file,member
+		String copyLibraryName = null;
+		String copyFileName = null;
+		String copyMemberName = null;
+		if (copyObjectName.indexOf("/") > -1) {
+			copyLibraryName = copyObjectName.substring(0, copyObjectName.indexOf("/"));
+			copyObjectName = copyObjectName.substring(copyObjectName.indexOf("/") + 1);
+		}
+		if (copyObjectName.indexOf(",") > -1) {
+			copyFileName = copyObjectName.substring(0, copyObjectName.indexOf(","));
+			copyMemberName = copyObjectName.substring(copyObjectName.indexOf(",") + 1);
+		} else {
+			copyMemberName = copyObjectName;
+		}
+		if (copyMemberName == null || copyMemberName.length() == 0) {
+			throw new GeneralException("Cannot read copy member with no member name. Copy command: '" + copyLine.trim() + "'.");
+		}
+		copyObjectName = copyMemberName;
+		if (m_retriever instanceof RPGSourceRetriever && copyLibraryName != null && !copyLibraryName.equals("")) {
+			copyObjectName = ((RPGSourceRetriever)m_retriever).getSourcFilePath(copyLibraryName, copyFileName, copyMemberName);
+		}
+		try {
+			// An error might occur when retrieving the copy file (source doesn't exit) or when
+			// reading its content. We ignore copy files that we cannot retrive, because not all the
+			// copy files are relevant for the parsing. But we don't ignore error with copy files' content.
+			BufferedReader copyFileReader = null;
+			try {
+				copyFileReader = m_retriever.getAnotherSourceCode(copyObjectName);
+			} catch (GeneralException retriveCopyException) {
+				/*
+				 * @todo return warning
+				 */
+				writeReportln("Failed retrieving copy-file. Copy command: '" + copyLine + "' Message: '"
+						+ retriveCopyException.getMessage() + "'");
+			}
+			if (copyFileReader != null) {
+				readLines(copyFileReader);
+			}
+			m_nestedCopyLevel -= 1;
+		} catch (GeneralException gex) {
+			throw new GeneralException("An error occured while processing copy member. Copy command: '" + copyLine.trim()
+					+ "'.\n" + gex.getMessage());
+		}
+	}
+
+	/**
+	 * The main purpose of the routine is from all input lines select only lines that we may need for our following processing
+	 */
+	private String readData(BufferedReader input, char recType) throws GeneralException {
+		String line = null;
+		char formatType;
+		boolean toContinue = true;
+		try {
+			line = input.readLine();
+
+			while (line != null) {
+
+				line = line.toUpperCase();
+				line = buildLine(line, m_offsetSpace);
+
+				if (line.charAt(SYMBOL_POS) != COMMENT_SYMBOL) {
+
+					switch (recType) {
+					// Form Type 'I': Select only Data Structure subfields and constants.
+						case D_DATA_STRUCT:
+						case D_CONSTANT:
+							if (line.charAt(FORMAT_TYPE_POS) != INPUT
+									|| line.substring(I_SUBFIELD_BLANK_START, I_SUBFIELD_BLANK_END).trim().length() > 0) {
+								return line;
+							} else {
+								m_lines.addElement(line);
+							}
+							break;
+						// Form Type 'D': Skip all lines belong to procedure and prototype definitions
+						case D_PARM:
+							if (line.charAt(FORMAT_TYPE_POS) != DEFINITION || line.charAt(D_DEF_TYPE) != BLANK) {
+								return line;
+							}
+					}
+				}
+				line = input.readLine();
+			}
+
+		} catch (IOException e) {
+			e.fillInStackTrace();
+			throw new GeneralException("Error in reading the source file", e);
+		}
+		return line;
+	}
+
+	// Determine position of Form Type indicator for lines of the file
+	private int getOffset(String line) {
+		int offset = -1;
+		// aar 21/Feb/2005 - If the line starts with 5 blanks, than it's already formated.
+		// '*' at the 6'th position doesn't necessarily means the line is a comment (as in directive line)
+		if (line.startsWith("     ") && line.length() >= SYMBOL_POS
+				&& (isSpecType(line.charAt(FORMAT_TYPE_POS)) || line.charAt(SYMBOL_POS) == DIRRECTIVE_SYMBOL)) {
+			offset = 0; // No need to pad line.
+		} else {
+			for (int i = 0; i < line.length(); i++) {
+				if (isSpecType(line.charAt(i))) {
+					offset = FORMAT_TYPE_POS - i;
+					break;
+				} else if (line.charAt(i) == COMMENT_SYMBOL) {
+					break;
+				}
+			}
+		}
+		return offset;
+	}
+
+	// Build the line so, that the Form Type will be at position 6 and it's length will be 80.
+	private String buildLine(String line, String offsetSpace) {
+		line = offsetSpace.concat(line);
+		for (int i = line.length(); i < LINE_LENGTH; i++) {
+			line = line.concat(ONE_BLANK);
+		}
+		return line;
+	}
+
+	/**
+	*/
+	// Match string against specific regular expression format
+	private Regexp findRegExpMatch(String line, String format) {
+		Regexp regexp = new Regexp(format);
+		regexp.match(line);
+		return regexp;
+	}
+
+	// Store all *ENTRY parameters and their data - length, precision - if specified.
+	private void analyzeParmList(BufferedReader input) throws GeneralException {
+		String line, name;
+		Argument argument;
+		int type;
+		String parmLineFormat;
+		Regexp regexp;
+		final int NAME_EXP = 5;
+		final int LENGTH_EXP = 6;
+		final int DECIMAL_EXP = 7;
+		final int PARM_III_START = 27;
+		final int PARM_III_END = 31;
+		final int PARM_IV_START = 25;
+		final int PARM_IV_END = 29;
+
+		try {
+			line = input.readLine();
+			while (line != null) {
+				line = line.toUpperCase();
+				line = buildLine(line, m_offsetSpace);
+				// aar 28/Mar/2005 - ignore space and comment lines
+				if (line.trim().length() == 0 || line.charAt(SYMBOL_POS) == COMMENT_SYMBOL) {
+					line = input.readLine();
+					continue;
+				}
+
+				if (line.substring(PARM_IV_START, PARM_IV_END).equals(PARM_IND)
+						|| line.substring(PARM_III_START, PARM_III_END).equals(PARM_IND)) {
+					if (line.indexOf(PARM_IND) == PARM_III_START) {
+						regexp = findRegExpMatch(line, CALC_III_FORMAT);
+					} else {
+						regexp = findRegExpMatch(line, CALC_IV_FORMAT);
+					}
+					if (isExpMatched(regexp)) {
+						name = regexp.getSubexp(NAME_EXP).trim();
+						if (name.length() == 0) {
+							writeReportln("Missing name for parameter on line" + line);
+							line = input.readLine();
+							continue;
+						}
+						argument = new Argument();
+						// Parameter definition might be written in the parm command, or in a definition command.
+						if (regexp.getSubexp(LENGTH_EXP).trim().length() > 0) {
+							type = Parameter_Element.ATT_ParameterType_CHAR;
+							argument.setLength(StringUtil.toInt(regexp.getSubexp(LENGTH_EXP).trim()));
+							if (regexp.getSubexp(DECIMAL_EXP).trim().length() > 0) {
+								argument.setPrecision(StringUtil.toInt(regexp.getSubexp(DECIMAL_EXP).trim()));
+								type = Parameter_Element.ATT_ParameterType_PACKED; // for standalone with decimal default is
+																					// packed
+							}
+							argument.setParamType(type);
+							argument.setRecType(D_PARM);
+							argument.setOriginalDesc(line);
+							m_argumentsNamesTable.put(name, argument);
+						} else {
+							m_argumentsNamesPListTable.put(name, line); // Parameters to be analized by analyzeParams method.
+						}
+						m_parmNames.addElement(name);
+					} else {
+						writeReportln("Unknown format for PARM line");
+					}
+				} else {
+					// End of parameter lines.
+					break;
+				}
+				line = input.readLine();
+			}
+		} catch (IOException e) {
+			e.fillInStackTrace();
+			throw new GeneralException("Error in reading the source file", e);
+		}
+	}
+
+	/**
+	*/
+	private void parseLines() throws GeneralException {
+		buildArgumentsNamesTable();
+		// aar 13/Apr/2005 - if not plist was provided, use all the arguments as parameters.
+		if (m_parmNames.size() == 0) {
+			Enumeration argumentsNames = m_argumentsNamesTable.keys();
+			while (argumentsNames.hasMoreElements()) {
+				String argumentName = (String)argumentsNames.nextElement();
+				Argument argument = (Argument)m_argumentsNamesTable.get(argumentName);
+				if (argument.getRecType() == D_DATA_STRUCT || argument.getRecType() == D_FIELD) {
+					m_parmNames.addElement(argumentName);
+				}
+			}
+		}
+		analyzeParams();
+	}
+
+	/**
+	 * Routine to prepare hashtable with arguments names as the key and the Argument class as value. This table will be used to
+	 * locate definitions of parms from the entry list as well of constants used.
+	 */
+	private void buildArgumentsNamesTable() throws GeneralException {
+		String line, name = EMPTY_STRING;
+		int loc;
+		int dsCount = 0;
+		int[] index = new int[1];
+		// Vector subFields= null; // array to hold subfields names
+		int subFieldIndex = 0;
+		String dsName = EMPTY_STRING, prefix = EMPTY_STRING;
+		Regexp regexp = null;
+		Argument argument, dsField = null;
+		char recType = BLANK;
+
+		for (int i = 0; i < m_lines.size(); i++) {
+			name = EMPTY_STRING;
+			line = (String)m_lines.elementAt(i);
+			switch (line.charAt(FORMAT_TYPE_POS)) {
+				case DEFINITION:
+					loc = line.indexOf(THREE_DOTS); // / check if the name spreads over a few lines
+					if (loc > SYMBOL_POS && line.charAt(loc - 1) != BLANK) {
+						index[0] = i;
+						name = getMultipleLineName(line, index, loc);
+						i = index[0];
+						line = (String)m_lines.elementAt(i);
+					}
+					// If keyword is specified, check if it spreads over a few lines
+					if (line.substring(D_KEYWORD_START, D_KEYWORD_END).trim().length() > 0) {
+						index[0] = i;
+						line = combineLines(index);
+						i = index[0];
+					} else if (line.substring(D_NAME_END).trim().equals(EMPTY_STRING)) {
+						m_lines.removeElementAt(i);
+						i--;
+						continue;
+					}
+					name = name.equals(EMPTY_STRING) ? line.substring(D_NAME_START, D_NAME_END).trim() : name;
+					recType = line.charAt(D_DEF_TYPE) == BLANK ? D_DS_SUBFIELD : line.charAt(D_DEF_TYPE);
+					break;
+
+				case EXTENSION:
+					recType = E_EXTENSION;
+					name = line.substring(E_NAME_START, E_NAME_END).trim();
+					break;
+				case INPUT:
+					if (line.charAt(D_RECORD_IDENT) == D_DATA_STRUCT) {
+						recType = I_DATA_STRUCT;
+						name = line.substring(I_DS_NAME_START, I_DS_NAME_END).trim();
+					} else {
+						if (line.charAt(I_CONST_INDX) == D_CONSTANT) {
+							recType = I_CONSTANT;
+						} else {
+							recType = I_SUBFIELD;
+						}
+						name = line.substring(I_FIELD_NAME_START, I_FIELD_NAME_END).trim();
+					}
+					break;
+			}
+
+			index[0] = i;
+
+			switch (recType) {
+				case D_DATA_STRUCT:
+				case I_DATA_STRUCT:
+					if (!dsName.equals(EMPTY_STRING)) { // if the previous parm was the end of a ds update the subFields Hashtable
+						// dsField.setSubFields(subFields);
+						m_argumentsNamesTable.put(dsName, dsField);
+					}
+					dsCount++;
+					dsName = (name.equals(EMPTY_STRING)) ? "DS_" + dsCount : name; // data structures not necessarily have names
+																					// so assign one
+					name = dsName;
+					subFieldIndex = 0;
+					// subFields = new Vector();
+					dsField = setRecordDetails(line, name, recType, index);
+					break;
+				case E_EXTENSION:
+				case D_CONSTANT:
+				case D_FIELD:
+				case I_CONSTANT:
+					if (!dsName.equals(EMPTY_STRING)) { // if the previous parm was the end of a ds update the subFields Hashtable
+						// dsField.setSubFields(subFields);
+						m_argumentsNamesTable.put(dsName, dsField);
+						dsName = EMPTY_STRING;
+						// subFields = new Vector();
+					}
+					setRecordDetails(line, name, recType, index);
+					break;
+				case D_DS_SUBFIELD:
+				case I_SUBFIELD:
+					if (subFieldIndex == 0) {
+						if (dsField.getOriginalDesc().indexOf(QUALIFIED) > 0) { // check if names are qualified - checks it only
+																				// on the first subfield
+							prefix = dsName;
+						} else {
+							prefix = EMPTY_STRING;
+						}
+					}
+					if (!prefix.equals(EMPTY_STRING)) {
+						name = prefix + "." + name;
+					}
+					// subFields.addElement(name);
+					dsField.addSubField(name);
+					subFieldIndex++;
+					setRecordDetails(line, name, recType, index);
+					break;
+			}
+			i = index[0];
+		}
+
+		if (!dsName.equals(EMPTY_STRING)) { // if the last parm was a DS.
+			// dsField.setSubFields(subFields);
+			m_argumentsNamesTable.put(dsName, dsField);
+			dsName = EMPTY_STRING;
+			dsField = null;
+			// subFields = null;
+		}
+	}
+
+	private Argument setRecordDetails(String line, String name, char recType, int[] index) throws GeneralException {
+		Regexp regexp;
+		Argument argument = new Argument();
+		argument.setRecType(recType);
+
+		switch (recType) {
+			case D_DATA_STRUCT: // D-line details
+			case D_FIELD:
+			case D_DS_SUBFIELD:
+			case D_CONSTANT:
+				regexp = findRegExpMatch(line, D_LINE_FORMAT);
+				setDLineDetails(name, regexp, argument, recType, index);
+				break;
+			case I_DATA_STRUCT: // I-Data Structure line details
+				regexp = findRegExpMatch(line, DS_LINE_FORMAT);
+				setDSLineDetails(regexp, argument);
+				break;
+			case E_EXTENSION: // E-Extension details
+				regexp = findRegExpMatch(line, E_LINE_FORMAT);
+				setELineDetails(regexp, argument);
+				break;
+			case I_CONSTANT: // I-Constant details
+				regexp = findRegExpMatch(line, CONSTANT_FORMAT);
+				setConstDetails(regexp, argument, index);
+				break;
+			case I_SUBFIELD: // I-Subfield details
+				regexp = findRegExpMatch(line, SUBFIELD_FORMAT);
+				setDSSubFieldDetails(regexp, argument, index);
+				break;
+		}
+		argument.setOriginalDesc(line);
+		if (recType != D_DATA_STRUCT && recType != I_DATA_STRUCT) {
+			m_argumentsNamesTable.put(name, argument);
+		}
+
+		return argument;
+	}
+
+	// Set argument detailes for all records belong to 'D'efinition format (RPG-ILE)
+	private void setDLineDetails(String name, Regexp regexp, Argument argument, char recType, int[] index)
+			throws GeneralException {
+		String keyWords;
+		keyWords = regexp.getSubexp(D_KEYWORD_EXP) == null ? EMPTY_STRING : regexp.getSubexp(D_KEYWORD_EXP);
+		if (regexp.getSubexp(D_EXTERNAL_EXP).equalsIgnoreCase("E")) {
+			importExternalDefinition(name, regexp, argument, recType, keyWords);
+			if (!regexp.getSubexp(D_DEFINITION_TYPE_EXP).equals("DS")) {
+				return; // There are no specifications for external defined field.
+			}
+		}
+		if (recType == D_DATA_STRUCT && keyWords.indexOf(OCCURS) > 0) {
+			argument.setCountBy(getKeywordValue(OCCURS, keyWords));
+		}
+		if (recType == D_CONSTANT) {
+			if (keyWords.indexOf(CONST) > 0) {
+				argument.setDefaultValue(getKeywordValue(CONST, keyWords));
+			} else {
+				argument.setDefaultValue(keyWords.trim());
+			}
+		}
+		argument.setParamType(getParmType(regexp.getSubexp(D_PARM_TYPE_EXP).charAt(0), regexp.getSubexp(D_DECIMAL_EXP).trim(),
+				recType));
+		if (recType == D_FIELD || recType == D_DS_SUBFIELD) {
+			// Set number of occurences
+			if (keyWords.indexOf(DIM) > 0) {
+				argument.setCountBy(getKeywordValue(DIM, keyWords));
+			}
+			if (keyWords.indexOf(LIKE) > 0) { // appears in the keyword section
+				argument.setLikeName(getLikeName(keyWords));
+			}
+			// Set field type
+			setArgumentLength(regexp, argument, D_FROM_POS_EXP, D_TO_POS_EXP, D_DECIMAL_EXP,
+					regexp.getSubexp(D_PARM_TYPE_EXP).charAt(0));
+
+			// aar 22/Feb/2005 - Handle overlay
+			if (keyWords.indexOf(OVERLAY) > 0) {
+				handleOverlay(name, argument, getKeywordValue(OVERLAY, keyWords));
+			}
+		}
+
+		// aar 21/12/2004 - We can't support unsigend long
+		// 20 is number of digits for long type in BinarySignedLegacyTypeRpg
+		if (argument.getParamType() == Parameter_Element.ATT_ParameterType_COMP_UNSIGNED && argument.getLength() == 20) {
+			argument.setParamType(Parameter_Element.ATT_ParameterType_COMP_SIGNED);
+		}
+	}
+
+	// Set argument detailes for 'I'nput Data Structure type (RPG-III)
+	private void setDSLineDetails(Regexp regexp, Argument argument) {
+		if (isExpMatched(regexp)) {
+			if (regexp.getSubexp(DS_INIT_EXP).equals(INIT_IND)) {
+				argument.setDefaultValue(ONE_BLANK);
+			}
+			if (regexp.getSubexp(DS_OCCURS_EXP).trim().length() > 0) {
+				argument.setCountBy(regexp.getSubexp(DS_OCCURS_EXP).trim());
+			}
+			argument.setParamType(Parameter_Element.ATT_ParameterType_STRUCTURE);
+			// set Length
+			if (regexp.getSubexp(DS_LENGTH_EXP).trim().length() > 0) {
+				argument.setLength(StringUtil.toInt(regexp.getSubexp(DS_LENGTH_EXP).trim()));
+			}
+		}
+	}
+
+	// Set argument detailes for 'E'xtension type (RPG-III)
+	private void setELineDetails(Regexp regexp, Argument argument) {
+		if (isExpMatched(regexp)) {
+			// Set number of occurences
+			argument.setCountBy(regexp.getSubexp(E_OCCURS_EXP).trim());
+			argument.setLength(StringUtil.toInt(regexp.getSubexp(E_LENGTH_EXP).trim()));
+			// Set data format
+			argument.setParamType(getParmType(regexp.getSubexp(E_PARM_TYPE_EXP).charAt(0),
+					regexp.getSubexp(E_DECIMAL_EXP).trim(), E_EXTENSION));
+			// Set decimal positions
+			if (regexp.getSubexp(E_DECIMAL_EXP).trim().length() > 0) {
+				argument.setPrecision(StringUtil.toInt(regexp.getSubexp(E_DECIMAL_EXP).trim()));
+			}
+		}
+	}
+
+	// Set argument detailes for 'I'nput Constant type (RPG-III)
+	private void setConstDetails(Regexp regexp, Argument argument, int[] index) {
+		int loc = regexp.getSubexp(C_VALUE_EXP).lastIndexOf(HYPHEN);
+		argument.setDefaultValue(getMultipleLineValue(regexp.getSubexp(C_VALUE_EXP), index, loc));
+	}
+
+	// Set argument detailes for 'I'nput Data Structure subfield type (RPG-III)
+	private void setDSSubFieldDetails(Regexp regexp, Argument argument, int[] index) {
+		String value;
+		int from = 0, to = 0, loc;
+		if (isExpMatched(regexp)) {
+			// Set init value
+			if (regexp.getSubexp(DS_SUB_INIT_OPT_EXP).equals(INIT_IND)) {
+				loc = regexp.getSubexp(DS_SUB_INIT_VAL_EXP).lastIndexOf(HYPHEN);
+				argument.setDefaultValue(getMultipleLineValue(regexp.getSubexp(DS_SUB_INIT_VAL_EXP), index, loc));
+			}
+			// Set field type
+			argument.setParamType(getParmType(regexp.getSubexp(DS_SUB_PARM_TYPE_EXP).charAt(0),
+					regexp.getSubexp(DS_SUB_DECIMAL_EXP).trim(), I_SUBFIELD));
+			setArgumentLength(regexp, argument, DS_SUB_FROM_EXP, DS_SUB_TO_EXP, DS_SUB_DECIMAL_EXP,
+					regexp.getSubexp(DS_SUB_PARM_TYPE_EXP).charAt(0));
+		}
+	}
+
+	// Set argument's Length and Precision
+	private void setArgumentLength(Regexp regexp, Argument argument, int fromIndx, int toIndx, int decIndx, char parmType) {
+		int from = 0, to = 0;
+		// Set field length
+		if (regexp.getSubexp(toIndx).trim().length() > 0) {
+			from = StringUtil.toInt(regexp.getSubexp(fromIndx).trim());
+			to = StringUtil.toInt(regexp.getSubexp(toIndx).trim());
+			if (to < from) {
+				to = from;
+			}
+			argument.setLength(from > 0 ? (to - from + 1) : to);
+			to = 0;
+			if (regexp.getSubexp(decIndx).trim().length() > 0) {
+				to = StringUtil.toInt(regexp.getSubexp(decIndx).trim());
+			}
+			argument.setPrecision(to);
+		}
+
+		// aar 11/Apr/2005 - set length for unsupported data types that has no specified length.
+		if (argument.getLength() == 0 && argument.getParamType() == Parameter_Element.ATT_ParameterType_CHAR) {
+			switch (parmType) {
+				case 'N': // Indicator
+					argument.setLength(1);
+					break;
+				case 'D': // Date
+					argument.setLength(10);
+					break;
+				case 'T': // Time
+					argument.setLength(8);
+					break;
+				case 'Z': // TimeStamp
+					argument.setLength(26);
+					break;
+				case '*': // Pointer
+					argument.setLength(16);
+					break;
+			}
+		}
+	}
+
+	// aar 8/Mar/2005 - handle External descriptions.
+	// For structure - retrieve the structure definition from DDS file.
+	// For fields - replace externaly defined field's name.
+	private void importExternalDefinition(String name, Regexp regexp, Argument argument, char recType, String keyWords)
+			throws GeneralException {
+		if (!regexp.getSubexp(D_DEFINITION_TYPE_EXP).equalsIgnoreCase("DS")) {
+			// The new argument is a field - replace externally defined field.
+			String replacedFieldName = getKeywordValue(EXTFLD, keyWords).trim();
+			replacedFieldName = addPrefixToExternalFieldName(replacedFieldName);
+			// Replace argument in arguments table.
+			// (only remove old argument. new argument is added in buildArgumentsNamesTable method.
+			Argument replacedArgument = (Argument)m_argumentsNamesTable.remove(replacedFieldName);
+			if (replacedArgument != null) {
+				writeReportln("Changing external field's name from:" + replacedFieldName + " to: " + name + ".");
+				// Copy external field specifications to the new argument.
+				argument.setCountBy(replacedArgument.getCountBy());
+				argument.setDefaultValue(replacedArgument.getDefaultValue());
+				argument.setLength(replacedArgument.getLength());
+				argument.setLikeName(replacedArgument.getLikeName()); // Will always be null.
+				argument.setOriginalDesc(replacedArgument.getOriginalDesc());
+				argument.setParamType(replacedArgument.getParamType());
+				argument.setPrecision(replacedArgument.getPrecision());
+				argument.setRecType(replacedArgument.getRecType());
+				argument.setSubFields(replacedArgument.getSubFields()); // Will always be null.
+			}
+			// Remove new argument from subfields list, and replace the name of the old argument.
+			if (m_extStructArgument != null && m_extStructArgument.getSubFields() != null) {
+				int newIndex = m_extStructArgument.getSubFields().indexOf(name);
+				if (newIndex > -1) {
+					m_extStructArgument.getSubFields().remove(newIndex);
+				}
+				int oldIndex = m_extStructArgument.getSubFields().indexOf(replacedFieldName);
+				if (oldIndex > -1) {
+					m_extStructArgument.getSubFields().set(oldIndex, name);
+				}
+			}
+		} else {
+			// Argument is a structure - import subfields.
+			String extname = getKeywordValue(EXTNAME, keyWords).trim();
+			String formatName = EMPTY_STRING;
+			if (extname == null || extname.equals(EMPTY_STRING)) {
+				extname = name;
+			} else if (extname.indexOf(":") > -1) {
+				formatName = extname.substring(extname.indexOf(":") + 1).trim();
+				extname = extname.substring(0, extname.indexOf(":"));
+			}
+			// Format of prefix is PREFIX(<prefix>[:<prefix chars>])
+			m_extfieldsPrefix = getKeywordValue(PREFIX, keyWords).trim();
+			m_extfieldsPrefix = StringUtil.replaceAll(m_extfieldsPrefix, "'", "");
+			if (m_extfieldsPrefix != null && m_extfieldsPrefix.indexOf(":") > -1) {
+				m_extfieldsPrefixChars = StringUtil.toInt(m_extfieldsPrefix.substring(m_extfieldsPrefix.indexOf(":") + 1).trim());
+				m_extfieldsPrefix = m_extfieldsPrefix.substring(0, m_extfieldsPrefix.indexOf(":")).trim();
+			}
+			// Get requested record format, and create structure argument.
+			if (!(m_retriever instanceof RPGSourceRetriever)) {
+				writeReportln("Cannot read external data structure without code retriever.");
+				return;
+			}
+			RecordFormat record = ((RPGSourceRetriever)m_retriever).getExternalDataStructure(extname, formatName);
+			if (record != null) {
+				m_extStructArgument = argument;
+				argument.setParamType(Parameter_Element.ATT_ParameterType_STRUCTURE);
+				argument.setRecType(recType);
+				FieldDescription[] fields = record.getFieldDescriptions();
+				for (int i = 0; i < fields.length; ++i) {
+					Argument fieldArgument = new Argument();
+					String fieldName = addPrefixToExternalFieldName(fields[i].getFieldName());
+					// fieldArgument.setCountBy(); External fields are not arrays.
+					// fieldArgument.setLikeName(); External fields have no like definition.
+					// fieldArgument.setOriginalDesc(); We don't have the original description.
+					Object defaultValue = fields[i].getDFT();
+					if (defaultValue != null) {
+						if (defaultValue instanceof byte[]) {
+							fieldArgument.setDefaultValue(new String((byte[])defaultValue));
+						} else {
+							fieldArgument.setDefaultValue(defaultValue.toString());
+						}
+					}
+					fieldArgument.setLength(fields[i].getLength());
+					fieldArgument.setRecType((recType == I_DATA_STRUCT) ? I_SUBFIELD : D_DS_SUBFIELD);
+					// Set parameter type according to DataType class.
+					AS400DataType dataType = fields[i].getDataType();
+					if (dataType instanceof AS400ByteArray) {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_BYTE);
+					} else if (dataType instanceof AS400Text) {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_CHAR);
+					} else if (dataType instanceof AS400Float4) {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_FLOAT);
+					} else if (dataType instanceof AS400Float8) {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_FLOAT);
+						// In RPG the type is set explicitly. in Applinx we guess it by the length.
+						if (fieldArgument.getLength() <= 9) {
+							fieldArgument.setLength(10);
+						}
+					} else if (dataType instanceof AS400PackedDecimal) {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_PACKED);
+						fieldArgument.setPrecision(((AS400PackedDecimal)dataType).getNumberOfDecimalPositions());
+					} else if (dataType instanceof AS400ZonedDecimal) {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_ZONED);
+						fieldArgument.setPrecision(((AS400ZonedDecimal)dataType).getNumberOfDecimalPositions());
+					} else if (dataType instanceof AS400Bin2) {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_COMP_UNSIGNED);
+						// In RPG the length is set by hexadecimal digits number. Applinx expects decimal digits number.
+						fieldArgument.setLength(5);
+					} else if (dataType instanceof AS400Bin4) {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_COMP_UNSIGNED);
+						fieldArgument.setLength(10);
+					} else if (dataType instanceof AS400Bin8) {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_COMP_UNSIGNED);
+						fieldArgument.setLength(20);
+					} else {
+						fieldArgument.setParamType(Parameter_Element.ATT_ParameterType_CHAR);
+					}
+
+					// Finally - add argument to table and to structure.
+					m_argumentsNamesTable.put(fieldName, fieldArgument);
+					m_extStructArgument.addSubField(fieldName);
+				}
+			}
+		}
+	}
+
+	// When importing an external structure definition, a prefix can be added to the field's name.
+	// The prefix can be added before the name, or replace a specified number of characters at the
+	// beginning of the name.
+	private String addPrefixToExternalFieldName(String originalName) {
+		String prefixedName = originalName;
+		if (m_extfieldsPrefix != null && !m_extfieldsPrefix.equals("")) {
+			if (m_extfieldsPrefixChars > 0) {
+				int removedChars = Math.min(m_extfieldsPrefixChars, originalName.length());
+				if (removedChars >= originalName.length()) {
+					prefixedName = EMPTY_STRING;
+				} else {
+					prefixedName = originalName.substring(removedChars);
+				}
+			}
+			prefixedName = m_extfieldsPrefix + prefixedName;
+		}
+		return prefixedName;
+	}
+
+	// Handle overlaying parameters
+	// The overlay parameters are treated as redefinitions, but they are not gathered in a redefinition structure, so we
+	// have to create it.
+	// In the parsing stage the overlay parameters are listed in a hash table, in which the key is the overlayed parameter.
+	// After the parameters are created, the method addOverlayStructures will create overlay structures from these lists.
+	private void handleOverlay(String name, Argument argument, String overlaydata) {
+		if (name == null || name.length() == 0 || argument == null || overlaydata == null || overlaydata.length() == 0) {
+			return;
+		}
+		String overlayedParameterName;
+		String overlayPositionString = "";
+		int overlayPosition = 1; // Defult position.
+		if (overlaydata.indexOf(":") == -1) {
+			overlayedParameterName = removeIrregularChars(overlaydata.trim());
+		} else {
+			overlayedParameterName = removeIrregularChars(overlaydata.substring(0, overlaydata.indexOf(":")).trim());
+			overlayPositionString = overlaydata.substring(overlaydata.indexOf(":") + 1).trim();
+			// Position may be number, '*NEXT' or constant.
+			if (StringUtil.isIntegerNumeric(overlayPositionString)) {
+				overlayPosition = StringUtil.toInt(overlayPositionString);
+			} else if (overlayPositionString.equals("*NEXT")) {
+				// If the parameter was overlayed before - take the *NEXT position. else, position is 1
+				if (m_overlayNextPosition != null && m_overlayNextPosition.containsKey(overlayedParameterName)) {
+					overlayPosition = ((Integer)m_overlayNextPosition.get(overlayedParameterName)).intValue();
+				}
+			} else {
+				Argument posConstant = (Argument)m_argumentsNamesTable.get(overlayPositionString);
+				if (posConstant == null) {
+					writeReportln("Undefined overlay position constant: " + overlayPositionString);
+				} else {
+					overlayPosition = StringUtil.toInt(posConstant.getDefaultValue().trim());
+				}
+			}
+		}
+
+		if (m_overlayLists == null) {
+			m_overlayLists = new Hashtable();
+		}
+		Vector overlayList = (Vector)m_overlayLists.get(overlayedParameterName);
+		if (overlayList == null) {
+			overlayList = new Vector();
+			m_overlayLists.put(overlayedParameterName, overlayList);
+		}
+		overlayingParameterData newOverlayingParmData = new overlayingParameterData(overlayPosition, removeIrregularChars(name));
+		// Order overlay data by position.
+		for (int i = 0; i < overlayList.size(); ++i) {
+			overlayingParameterData currOverlayParmData = (overlayingParameterData)overlayList.elementAt(i);
+			if (currOverlayParmData.m_position > newOverlayingParmData.m_position) {
+				overlayList.setElementAt(newOverlayingParmData, i);
+				newOverlayingParmData = currOverlayParmData;
+			}
+		}
+		overlayList.add(newOverlayingParmData);
+
+		// Set *NEXT position
+		if (m_overlayNextPosition == null) {
+			m_overlayNextPosition = new Hashtable();
+		}
+		int newNextPosition;
+		int parameterCountby = 1; // Default countby
+		if (StringUtil.isIntegerNumeric(argument.getCountBy())) {
+			parameterCountby = StringUtil.toInt(argument.getCountBy());
+		} else {
+			Argument countbyConst = (Argument)m_argumentsNamesTable.get(argument.getCountBy());
+			if (countbyConst != null) {
+				parameterCountby = StringUtil.toInt(countbyConst.getDefaultValue().trim());
+			}
+		}
+		if (parameterCountby <= 0) {
+			parameterCountby = 1;
+		}
+		int parameterLength = argument.getLength() * parameterCountby;
+		// If the overlayed parameter has no *NEXT position, or the *NEXT position is less then
+		// current parameter's position + length, insert the new *NEXT position to the table.
+		if (!m_overlayNextPosition.containsKey(overlayedParameterName)
+				|| ((Integer)m_overlayNextPosition.get(overlayedParameterName)).intValue() < overlayPosition + parameterLength) {
+			m_overlayNextPosition.put(overlayedParameterName, new Integer(overlayPosition + parameterLength));
+		}
+	}
+
+	// Loop through all *ENTRY parameters saved before in the Hashtable and create Parameter
+	// Element with it's details for each such parameter
+	private void analyzeParams() {
+		m_params = new Parameters_Element();
+		Parameter_Element parm;
+		String name, line;
+		char recType;
+		int parentIndex;
+		int[] parmIndex = new int[1];
+
+		for (int i = 0; i < m_parmNames.size(); i++) {
+			name = (String)m_parmNames.elementAt(i);
+			parm = ElementHandler.getNewParameterElement();
+			parm.setName(removeIrregularChars(name));
+			parm.setOriginalName(name);
+			parmIndex[0]++;
+			parm.setId(parmIndex[0]);
+			parm.setSequence(i + 1);
+			m_params.addParameter(parm);
+			Argument argument = (Argument)m_argumentsNamesTable.get(name);
+			if (argument == null) {
+				line = (String)m_argumentsNamesPListTable.get(name);
+				if (line == null) {
+					line = "        ";
+				}
+				parm.setParameterType(Parameter_Element.ATT_ParameterType_CHAR);
+				parm.setOriginalDescription(line.substring(m_offset));
+				// parm.setUsage(Parameter_Element.ATT_Usage_NOT_SELECTABLE);
+				writeReportln("Missing data for parameter " + name);
+				continue;
+			}
+			parm.setOriginalDescription(argument.getOriginalDesc().substring(m_offset));
+			recType = argument.getRecType();
+			setParamDetails(parm, argument);
+			if (recType == D_DATA_STRUCT || recType == I_DATA_STRUCT) {
+				analyzeSubFields(m_params, parm, parmIndex, argument);
+			}
+		}
+		addOverlayStructures(m_params, parmIndex);
+		ElementHandler.sortParameters(m_params); // The wizard expects a sorted parameters element.
+	}
+
+	// Set parameter details
+	private void setParamDetails(Parameter_Element parm, Argument argument) {
+		Argument tmpArgument = argument;
+		if (argument.getLikeName().trim().length() > 0) {
+			argument = (Argument)m_argumentsNamesTable.get(argument.getLikeName().trim());
+		}
+		if (argument == null) {
+			writeReportln("Missing data for parameter");
+			parm.setParameterType(Parameter_Element.ATT_ParameterType_CHAR);
+			// parm.setUsage(Parameter_Element.ATT_Usage_NOT_SELECTABLE);
+			return;
+		} else {
+			if (argument.getLength() > 0) {
+				parm.setLength(new Integer(argument.getLength()).toString());
+			}
+			parm.setPrecision(argument.getPrecision());
+			parm.setParameterType(argument.getParamType());
+			// aar 9/Mar/2005 - Count by is set by current argument, and not like-argument.
+			setCountBy(parm, tmpArgument, tmpArgument.getCountBy());
+			if (StringUtil.isStringEmpty(tmpArgument.getDefaultValue())) {
+				setDefaultValue(parm, argument);
+			} else {
+				setDefaultValue(parm, tmpArgument);
+			}
+			// aar 9/Mar/2005 - LIKE argument might be a structure.
+			tmpArgument.setSubFields(argument.getSubFields());
+		}
+		argument = tmpArgument;
+	}
+
+	// Set array size (Count By) value
+	private void setCountBy(Parameter_Element parm, Argument argument, String countBy) {
+		// aar 27/Mar/2005 - trim count-by whether it's name or value.
+		countBy = countBy.trim();
+		if (countBy.length() == 0) {
+			parm.setCountBy(countBy);
+			return;
+		}
+		if (isName(countBy)) {
+			argument = (Argument)m_argumentsNamesTable.get(countBy);
+			if (argument == null) {
+				writeReportln("Count by value for parm" + parm.getName() + "cannot be set");
+				parm.setCountBy(countBy);
+			} else {
+				if (argument.getRecType() == D_CONSTANT || argument.getRecType() == I_CONSTANT) {
+					setCountBy(parm, argument, argument.getDefaultValue());
+				} else {
+					parm.setCountBy(countBy);
+				}
+			}
+		} else {
+			parm.setCountBy(countBy);
+		}
+	}
+
+	// Set Default Value
+	private void setDefaultValue(Parameter_Element parm, Argument argument) {
+		String defaultValue = argument.getDefaultValue();
+		if (defaultValue.trim().length() == 0) {
+			parm.setDefaultValue(defaultValue);
+			return;
+		}
+		if (isName(defaultValue)) {
+			argument = (Argument)m_argumentsNamesTable.get(defaultValue.trim());
+			if (argument == null) {
+				writeReportln("Default value for parm" + parm.getName() + "cannot be set");
+				parm.setDefaultValue(defaultValue);
+			} else {
+				setDefaultValue(parm, argument);
+			}
+		} else {
+			parm.setDefaultValue(defaultValue);
+		}
+	}
+
+	// Check if the value is a named constant
+	private boolean isName(String value) {
+		char firstChar = value.charAt(0);
+		if (CodeParserUtil.isDigit(firstChar) || firstChar == QUOTE || firstChar == '+' || firstChar == '-') {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	*/
+	// Create Parameter Element details for all subfields of the Data Structure
+	private void analyzeSubFields(Parameters_Element params, Parameter_Element parentParm, int[] parmIndex, Argument argument) {
+		int parentIndex = parentParm.getId();
+		String name;
+		Parameter_Element parm;
+		Argument subField;
+		if (argument.getSubFields() == null) {
+			writeReportln("Data Structure" + parentParm.getName() + "does not have subfields");
+			return;
+		}
+		Vector subFieldsNames = argument.getSubFields();
+		for (int i = 0; i < subFieldsNames.size(); i++) {
+			name = (String)subFieldsNames.elementAt(i);
+			if (name == null || name.length() == 0) {
+				break;
+			}
+			parm = ElementHandler.getNewParameterElement();
+			params.addParameter(parm);
+			parm.setName(removeIrregularChars(name));
+			parm.setOriginalName(name);
+			parm.setId(++parmIndex[0]);
+			parm.setSequence(i + 1);
+			parm.setParentStructureIndex(parentIndex);
+			subField = (Argument)m_argumentsNamesTable.get(name);
+			setParamDetails(parm, subField);
+			if (parentParm.getDefaultValue().equals(ONE_BLANK) && parm.getDefaultValue().trim().length() == 0) {
+				if (parm.getParameterType() == Parameter_Element.ATT_ParameterType_CHAR) {
+					parm.setDefaultValue(fillWithChar(Integer.parseInt(parm.getLength()), BLANK));
+				} else {
+					parm.setDefaultValue(fillWithChar(Integer.parseInt(parm.getLength()), '0'));
+				}
+			}
+			parm.setOriginalDescription(subField.getOriginalDesc().substring(m_offset));
+			// aar 9/Mar/2005 - Subfield might also be a struct, by using LIKE keyword.
+			if (subField.getSubFields() != null && subField.getSubFields().size() > 0) {
+				analyzeSubFields(params, parm, parmIndex, subField);
+			}
+		}
+	}
+
+	// aar 22/Feb/2005 - create overlay structures.
+	private void addOverlayStructures(Parameters_Element parms, int[] parmIndex) {
+		if (parms == null || m_overlayLists == null) {
+			return;
+		}
+		Hashtable overlayStructuresLists = new Hashtable();
+		Enumeration overlayedParametersNames = m_overlayLists.keys();
+		while (overlayedParametersNames.hasMoreElements()) {
+			String overlayedParameterName = (String)overlayedParametersNames.nextElement();
+			Vector overlayList = (Vector)m_overlayLists.get(overlayedParameterName);
+			Vector overlayStructuresList = new Vector();
+			if (overlayList != null) {
+				// Create overlay structure, and insert the overlaying parameters under it.
+				Parameter_Element overlayedParm = parms.getParameterByName(overlayedParameterName);
+				if (overlayedParm == null) {
+					continue;
+				}
+				// Length of overlay structure should be the same as the overlayed parameter.
+				int overlayedLength = getParameterByteLength(overlayedParm);
+				Parameter_Element overlayStruct = createOverlayStructure(overlayedParm, parmIndex);
+				ElementHandler.insertParameterIntoParametersElement(parms, overlayStruct, overlayedParm, true);
+				overlayStructuresList.add(overlayStruct);
+				int sequence = 0;
+				int position = 1;
+				for (int i = 0; i < overlayList.size(); ++i) {
+					overlayingParameterData overlayingParmData = (overlayingParameterData)overlayList.elementAt(i);
+					String overlayinParameterName = overlayingParmData.m_name;
+					Parameter_Element overlayingParameter = parms.getParameterByName(overlayinParameterName);
+					if (overlayingParameter != null) {
+						// Check position - if doesn't overlap previous overlay - add to structure, else - create a new struct.
+						// if position not immediate after previous parameter - add filler.
+						if (overlayingParmData.m_position < position) {
+							writeReportln("Overlay position: " + overlayingParmData.m_position + " overlap last position: "
+									+ position + " in overlay of parameter " + overlayedParameterName
+									+ ". Adding a new overlay structure.");
+							// Add filler from position to end of overlayed parameter.
+							if (position <= overlayedLength) {
+								Parameter_Element filler = createOverlayFiller(position, overlayedLength, overlayStruct.getId(),
+										parmIndex);
+								filler.setSequence(++sequence);
+								parms.addParameter(filler);
+							}
+							Parameter_Element newOverlayStruct = createOverlayStructure(overlayedParm, parmIndex);
+							ElementHandler.insertParameterIntoParametersElement(parms, newOverlayStruct, overlayStruct, true);
+							overlayStructuresList.add(newOverlayStruct);
+							overlayStruct = newOverlayStruct;
+							sequence = 0;
+							position = 1;
+						}
+						if (overlayingParmData.m_position > position) {
+							Parameter_Element filler = createOverlayFiller(position, overlayingParmData.m_position - 1,
+									overlayStruct.getId(), parmIndex);
+							filler.setSequence(++sequence);
+							parms.addParameter(filler);
+							position = overlayingParmData.m_position;
+						}
+						overlayingParameter.setParentStructureIndex(overlayStruct.getId());
+						overlayingParameter.setSequence(++sequence);
+						int countBy = StringUtil.toInt(overlayingParameter.getCountBy());
+						if (countBy <= 0) {
+							countBy = 1;
+						}
+						int length = getParameterByteLength(overlayingParameter);
+						position += length * countBy;
+						// If the overlaying parameter is overlayed itself, it's overlay structure should also be moved.
+						Vector movedOverlayStructList = (Vector)overlayStructuresLists.get(overlayinParameterName);
+						if (movedOverlayStructList != null) {
+							for (int j = 0; j < movedOverlayStructList.size(); ++j) {
+								Parameter_Element movedOverlayStruct = (Parameter_Element)movedOverlayStructList.elementAt(j);
+								movedOverlayStruct.setParentStructureIndex(overlayStruct.getId());
+								movedOverlayStruct.setSequence(++sequence);
+							}
+						}
+					}
+				}
+				// Add filler from position to end of overlayed parameter.
+				if (position <= overlayedLength) {
+					Parameter_Element filler = createOverlayFiller(position, overlayedLength, overlayStruct.getId(), parmIndex);
+					filler.setSequence(++sequence);
+					parms.addParameter(filler);
+				}
+				// Store list of overlay structures.
+				overlayStructuresLists.put(overlayedParameterName, overlayStructuresList);
+			}
+		}
+	}
+
+	private Parameter_Element createOverlayStructure(Parameter_Element overlayedParm, int[] parmIndex) {
+		Parameter_Element overlayStruct = ElementHandler.getNewParameterElement();
+		overlayStruct.setId(++parmIndex[0]);
+		overlayStruct.setName("Overlay" + overlayedParm.getName());
+		overlayStruct.setParentStructureIndex(overlayedParm.getParentStructureIndex());
+		overlayStruct.setInputRedefineIndex(overlayedParm.getId());
+		overlayStruct.setOutputRedefineIndex(overlayedParm.getId());
+		overlayStruct.setParameterType(Parameter_Element.ATT_ParameterType_STRUCTURE);
+		overlayStruct.setCountBy(overlayedParm.getCountBy());
+		return overlayStruct;
+	}
+
+	private Parameter_Element createOverlayFiller(int startPosition, int endPosition, int parentId, int[] parmIndex) {
+		Parameter_Element filler = null;
+		if (startPosition <= endPosition) {
+			filler = ElementHandler.getNewParameterElement();
+			filler.setId(++parmIndex[0]);
+			filler.setName("Filler");
+			filler.setParentStructureIndex(parentId);
+			filler.setParameterType(Parameter_Element.ATT_ParameterType_BYTE);
+			filler.setLength(String.valueOf(endPosition - startPosition + 1));
+		}
+		return filler;
+	}
+
+	// Numeric parameter's length is in digits and not real buffer length
+	private int getParameterByteLength(Parameter_Element parm) {
+		int length = 0;
+		if (parm != null) {
+			length = StringUtil.toInt(parm.getLength());
+			if (length <= 0) {
+				length = 1;
+			}
+			switch (parm.getParameterType()) {
+				case Parameter_Element.ATT_ParameterType_COMP_SIGNED:
+				case Parameter_Element.ATT_ParameterType_COMP_UNSIGNED:
+					if (length == 3) {
+						return 1;
+					}
+					if (length == 5) {
+						return 2;
+					}
+					if (length == 10) {
+						return 4;
+					}
+					if (length == 20) {
+						return 8;
+					}
+				case Parameter_Element.ATT_ParameterType_FLOAT:
+					if (length < 9) {
+						return 4;
+					} else {
+						return 8;
+					}
+				case Parameter_Element.ATT_ParameterType_PACKED:
+					return length / 2 + 1;
+				default:
+					return length;
+			}
+		}
+		return length;
+	}
+
+	// If keyword definition spreads over a few lines, combine all the lines to one completed line
+	private String combineLines(int[] lineIndex) {
+		int end;
+		String line = (String)m_lines.elementAt(lineIndex[0]);
+		String prev = line.substring(0, D_KEYWORD_START);
+		do {
+			line = line.substring(D_KEYWORD_START, D_KEYWORD_END).trim();
+			end = line.length();
+			if (line.indexOf(QUOTE) > -1 && (line.endsWith(MINUS) || line.endsWith(PLUS))) { // within a string literal -/+ are
+																								// continuation signs
+				end = end - 1;
+			}
+			prev = prev + line;
+			lineIndex[0]++;
+			if (lineIndex[0] < m_lines.size()) {
+				line = (String)m_lines.elementAt(lineIndex[0]);
+			}
+		} while (lineIndex[0] < m_lines.size() && line.charAt(FORMAT_TYPE_POS) == DEFINITION
+				&& line.substring(SYMBOL_POS, D_KEYWORD_START).trim().length() == 0
+				&& line.substring(D_KEYWORD_START, D_KEYWORD_END).trim().length() > 0);
+
+		lineIndex[0]--;
+		return prev;
+	}
+
+	/**
+	 * Routine to retrieve parm name from a 'LIKE' clause
+	 */
+	private String getLikeName(String line) {
+		int start;
+		String name;
+		start = line.indexOf(LIKE);
+		start = line.indexOf(LEFT_PAREN, start);
+		name = line.substring(start + 1, line.indexOf(RIGHT_PAREN, start));
+		return name;
+	}
+
+	private int getParmType(char type, String decimal, char recType) {
+		int parmType;
+		switch (type) {
+			case BLANK:
+				if (recType == D_DATA_STRUCT || recType == I_DATA_STRUCT) {
+					parmType = Parameter_Element.ATT_ParameterType_STRUCTURE;
+				} else if (decimal.equals(EMPTY_STRING)) { // char is the default type when decimal is blank
+					parmType = Parameter_Element.ATT_ParameterType_CHAR;
+				} else if (recType == D_DS_SUBFIELD || recType == I_SUBFIELD) {
+					parmType = Parameter_Element.ATT_ParameterType_ZONED; // for subfield with decimal default is zoned
+				} else {
+					parmType = Parameter_Element.ATT_ParameterType_PACKED; // for standalone with decimal default is packed
+				}
+				break;
+			case 'A':
+				parmType = Parameter_Element.ATT_ParameterType_CHAR;
+				break;
+			case 'B': // need to be checked
+				parmType = Parameter_Element.ATT_ParameterType_BYTE;
+				break;
+			case 'F':
+				parmType = Parameter_Element.ATT_ParameterType_FLOAT;
+				break;
+			case 'I':
+				parmType = Parameter_Element.ATT_ParameterType_COMP_SIGNED;
+				break;
+			case 'U':
+				parmType = Parameter_Element.ATT_ParameterType_COMP_UNSIGNED;
+				break;
+			case 'P':
+				parmType = Parameter_Element.ATT_ParameterType_PACKED;
+				break;
+			case 'S':
+				parmType = Parameter_Element.ATT_ParameterType_ZONED;
+				break;
+			default:
+				String strType = getTypeString(type);
+				writeReportln("type " + strType + " is not supported - type 'char' is used instead");
+				parmType = Parameter_Element.ATT_ParameterType_CHAR;
+		}
+		return parmType;
+	}
+
+	private String getTypeString(int type) {
+		String typeStr = EMPTY_STRING;
+		switch (type) {
+			case 'O':
+				typeStr = "Object";
+				break;
+			case 'C':
+				typeStr = "UCS-2";
+				break;
+			case 'G':
+				typeStr = "Graphic";
+				break;
+			case 'N':
+				typeStr = "Indicator";
+				break;
+			case 'D':
+				typeStr = "Date";
+				break;
+			case 'T':
+				typeStr = "Time";
+				break;
+			case 'Z':
+				typeStr = "Timestamp";
+				break;
+			case '*':
+				typeStr = "Pointer";
+				break;
+		}
+		return typeStr;
+	}
+
+	// If argument Name spreads over few lines (RPG-ILE), combine it
+	private String getMultipleLineName(String line, int[] lineIndex, int loc) {
+		StringBuffer name = new StringBuffer();
+		boolean toContinue = true;
+		int endLocation = loc;
+		while (toContinue) {
+			if (endLocation > 1 && line.charAt(endLocation - 1) != BLANK) {
+				name.append(line.substring(D_NAME_START, endLocation).trim());
+				line = (String)m_lines.elementAt(++(lineIndex[0]));
+				endLocation = line.indexOf(THREE_DOTS);
+			} else {
+				name.append(line.substring(D_NAME_START, D_NAME_END).trim());
+				toContinue = false;
+			}
+		}
+		return name.toString();
+	}
+
+	private boolean isSpecType(char character) {
+		switch (character) {
+			case HEADER:
+			case FILE_DESCR:
+			case LINE_CNT:
+			case EXTENSION:
+			case DEFINITION:
+			case INPUT:
+			case CALC:
+			case OUTPUT:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	// Returns String of the specified char in the specified length
+
+	private String fillWithChar(int len, char fillChar) {
+
+		char[] charArray = new char[len];
+		for (int i = 0; i < len; i++) {
+			charArray[i] = fillChar;
+		}
+		String returnString = new String(charArray);
+
+		return returnString;
+
+	}
+
+	// Remove from string irregular characters
+	private String removeIrregularChars(String inputString) {
+		String outputString = StringUtil.replaceAll(inputString, "@", "_");
+		outputString = StringUtil.replaceAll(outputString, "#", "_");
+		outputString = StringUtil.replaceAll(outputString, "$", "_");
+		outputString = StringUtil.replaceAll(outputString, ".", "_");
+		return outputString;
+	}
+
+	// Determine value of specific keyword
+	private String getKeywordValue(String keyword, String line) {
+		String value = EMPTY_STRING;
+
+		int loc = line.indexOf(keyword);
+		if (loc > -1) {
+			value = line.substring(line.indexOf(LEFT_PAREN, loc) + 1, line.indexOf(RIGHT_PAREN, loc));
+		}
+
+		return value;
+	}
+
+	// If Init value spreads over few lines, combine it
+	private String getMultipleLineValue(String line, int[] lineIndex, int loc) {
+		StringBuffer value = new StringBuffer();
+		boolean toContinue = true, charValue = false;
+		int endLocation = loc;
+		if (line.trim().charAt(0) == QUOTE) {
+			charValue = true;
+		}
+		while (toContinue) {
+			if (endLocation > 1) {
+				value.append(line.substring(0, endLocation).replace(QUOTE, BLANK).trim());
+				line = (String)m_lines.elementAt(++(lineIndex[0]));
+				line = line.substring(I_INIT_START, I_INIT_END);
+				endLocation = line.lastIndexOf(HYPHEN);
+			} else {
+				value.append(line.replace(QUOTE, BLANK).trim());
+				toContinue = false;
+			}
+		}
+		if (charValue) {
+			value.insert(0, QUOTE).append(QUOTE);
+		}
+
+		return value.toString();
+	}
+
+	// Check if Regular Expression has been matched
+	private boolean isExpMatched(Regexp regexp) {
+		if (regexp.getSubexpCount() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * The following routines handle stringBuffer that servs as the report of the parser.
+	 */
+	public String getReport() {
+		String strReport = m_report == null ? EMPTY_STRING : m_report.toString();
+		return strReport;
+	}
+
+	private void setReport() {
+		m_report = new StringBuffer();
+	}
+
+	/**
+	 * writes a string to the report
+	 */
+	private void writeReport(String str) {
+		m_report.append(str);
+	}
+
+	/**
+	 * write a string to the report and terminates the line
+	 */
+	private void writeReportln(String str) {
+		m_report.append(str + NEW_LINE);
+	}
+}

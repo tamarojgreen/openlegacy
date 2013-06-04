@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<import resource="classpath*:/META-INF/openlegacy-basic-context.xml" />
+	<import resource="classpath*:/META-INF/openlegacy-terminal-basic-context.xml" />
 
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="prototype" parent="abstractTerminalSession" />
 

@@ -80,8 +80,6 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	 */
 	boolean isRectangle();
 
-	boolean isRightToLeft();
-
 	FieldAttributeType getAttribute();
 
 	/**
@@ -105,6 +103,6 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	 * @return
 	 */
 	String getFieldTypeName();
-	
+
 	ScreenFieldDefinition getDescriptionFieldDefinition();
 }

@@ -21,13 +21,11 @@ import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
 import javax.inject.Inject;
 
-@Component
 public class FieldAttributeBinder implements ScreenEntityBinder {
 
 	@Inject

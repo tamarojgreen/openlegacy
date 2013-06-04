@@ -26,7 +26,6 @@ import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -38,7 +37,6 @@ import javax.inject.Inject;
  * Boolean binder implementation for binding boolean fields to a screenEntity based on {@link ScreenBooleanField) annotation
  * settings
  */
-@Component
 public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 
 	private static final long serialVersionUID = 1L;

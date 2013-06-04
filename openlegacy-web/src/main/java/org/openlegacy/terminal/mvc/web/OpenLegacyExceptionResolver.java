@@ -12,8 +12,8 @@ package org.openlegacy.terminal.mvc.web;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.exceptions.SessionEndedException;
+import org.openlegacy.mvc.MvcUtils;
 import org.openlegacy.terminal.TerminalSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
@@ -24,18 +24,17 @@ import javax.servlet.http.HttpServletResponse;
 
 public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver {
 
-	@Inject
-	private ThemeUtil themeUtil;
+	public static final String TERMINAL_SESSION_WEB_SESSION_ATTRIBUTE_NAME = "scopedTarget.terminalSession";
 
 	@Inject
-	private OpenLegacyProperties openLegacyProperties;
-	
+	private MvcUtils mvcUtils;
+
 	private final static Log logger = LogFactory.getLog(OpenLegacyExceptionResolver.class);
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		TerminalSession terminalSession = (TerminalSession)request.getSession().getAttribute(
-				WebConstants.TERMINAL_SESSION_WEB_SESSION_ATTRIBUTE_NAME);
+				TERMINAL_SESSION_WEB_SESSION_ATTRIBUTE_NAME);
 		if (ex instanceof SessionEndedException) {
 			if (terminalSession != null) {
 				try {
@@ -55,8 +54,7 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 		logger.fatal(ex.getMessage(), ex);
 
 		ModelAndView modelAndView = super.resolveException(request, response, handler, ex);
-		modelAndView.addObject("openLegacyProperties", openLegacyProperties);
-		themeUtil.applyTheme(modelAndView, request, response);
+		mvcUtils.insertGlobalData(modelAndView, request, response, terminalSession);
 		return modelAndView;
 	}
 }

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy;
 
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
@@ -106,4 +107,8 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	 * @return list of recursive child entities definitions
 	 */
 	Set<EntityDefinition<?>> getAllChildEntitiesDefinitions();
+
+	List<ActionDefinition> getActions();
+
+	ActionDefinition getAction(Class<?> actionClass);
 }

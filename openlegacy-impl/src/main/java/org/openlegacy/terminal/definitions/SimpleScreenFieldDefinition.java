@@ -30,21 +30,15 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	private TerminalPosition position = null;
 	private int length;
-	private boolean editable;
-	private String sampleValue;
-	private Class<?> javaType;
 	private TerminalPosition labelPosition;
-	private boolean password;
 	private TerminalField terminalField;
 	private TerminalField terminalLabelfield;
 	// Used for design-time to set a class name which doesn't exists during generation
-	private String javaTypeName;
 	private FieldAttributeType attribute;
 	private boolean rectangle;
 
 	private TerminalPosition endPosition;
 
-	private boolean rightToLeft;
 	private String whenFilter;
 	private String unlessFilter;
 
@@ -79,22 +73,6 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		return length;
 	}
 
-	public boolean isEditable() {
-		return editable;
-	}
-
-	public void setEditable(boolean editable) {
-		this.editable = editable;
-	}
-
-	public String getSampleValue() {
-		return sampleValue;
-	}
-
-	public void setSampleValue(String sampleValue) {
-		this.sampleValue = sampleValue;
-	}
-
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
@@ -115,45 +93,12 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.endPosition = endPosition;
 	}
 
-	public Class<?> getJavaType() {
-		if (javaType == null) {
-			javaType = String.class;
-		}
-		return javaType;
-	}
-
-	public String getJavaTypeName() {
-		if (javaTypeName != null) {
-			return javaTypeName;
-		}
-		return getJavaType().getSimpleName();
-	}
-
-	public void setJavaType(Class<?> javaType) {
-		this.javaType = javaType;
-	}
-
-	/*
-	 * Used for design-time to set a class name which doesn't exists during generation
-	 */
-	public void setJavaTypeName(String javaTypeName) {
-		this.javaTypeName = javaTypeName;
-	}
-
 	public TerminalPosition getLabelPosition() {
 		return labelPosition;
 	}
 
 	public void setLabelPosition(TerminalPosition labelPosition) {
 		this.labelPosition = labelPosition;
-	}
-
-	public boolean isPassword() {
-		return password;
-	}
-
-	public void setPassword(boolean password) {
-		this.password = password;
 	}
 
 	public void setTerminalField(TerminalField terminalField) {
@@ -182,14 +127,6 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public boolean isMultyLine() {
 		return getEndPosition().getRow() != getPosition().getRow();
-	}
-
-	public boolean isRightToLeft() {
-		return rightToLeft;
-	}
-
-	public void setRightToLeft(boolean rightToLeft) {
-		this.rightToLeft = rightToLeft;
 	}
 
 	public FieldAttributeType getAttribute() {

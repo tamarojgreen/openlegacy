@@ -14,9 +14,8 @@ import org.apache.commons.collections.set.ListOrderedSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
-import org.openlegacy.definitions.support.SimpleEntityDefinition;
+import org.openlegacy.definitions.support.AbstractEntityDefinition;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -35,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenFieldDefinition> implements ScreenEntityDefinition, Serializable {
+public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<ScreenFieldDefinition> implements ScreenEntityDefinition, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +43,6 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 	private Map<String, ScreenTableDefinition> tableDefinitions = new HashMap<String, ScreenTableDefinition>();
 	private Map<String, ScreenPartEntityDefinition> partDefinitions = new HashMap<String, ScreenPartEntityDefinition>();
 	private TerminalSnapshot snapshot;
-	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 	private boolean window;
 	private boolean child;
 
@@ -61,6 +59,7 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 	private final static Log logger = LogFactory.getLog(SimpleScreenEntityDefinition.class);
 
 	public SimpleScreenEntityDefinition() {
+		// for serialization purposes
 		super();
 	}
 
@@ -98,14 +97,6 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 
 	public void setSnapshot(TerminalSnapshot snapshot) {
 		this.snapshot = snapshot;
-	}
-
-	public String getPackageName() {
-		return getEntityClass().getPackage().getName();
-	}
-
-	public List<ActionDefinition> getActions() {
-		return actions;
 	}
 
 	public boolean isWindow() {
@@ -152,6 +143,7 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 		return child;
 	}
 
+	@Override
 	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
 		@SuppressWarnings("unchecked")
 		Set<EntityDefinition<?>> childs = new ListOrderedSet();
@@ -214,4 +206,10 @@ public class SimpleScreenEntityDefinition extends SimpleEntityDefinition<ScreenF
 		});
 		return keyFields;
 	}
+
+	@Override
+	public String getPackageName() {
+		return getEntityClass().getPackage().getName();
+	}
+
 }

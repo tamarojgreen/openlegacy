@@ -1,0 +1,19 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
+	xmlns:form="http://www.springframework.org/tags/form"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" />
+	 
+	<div>	
+		<ol:form model="itemDetails">
+			<ol:pagePart>
+				<ol:field name="itemNumber" />
+				<ol:field name="itemName" />
+				<ol:field name="itemDescription" />
+				<ol:field name="itemWeight" />
+			</ol:pagePart>
+		</ol:form>
+	</div>
+</jsp:root>

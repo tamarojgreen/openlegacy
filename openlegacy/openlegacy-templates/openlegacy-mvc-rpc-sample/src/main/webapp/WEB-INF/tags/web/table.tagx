@@ -1,0 +1,161 @@
+<jsp:root xmlns:ol="http://www.openlegacy.org/tags"
+	xmlns:olt="urn:jsptagdir:/WEB-INF/tags/web"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.attribute name="data" type="java.util.Collection"
+		required="true" rtexprvalue="true"
+		description="The collection to be displayed in the table" />
+	<jsp:directive.attribute name="property" type="java.lang.String"
+		required="true" rtexprvalue="true" description="The table name" />
+	<jsp:directive.attribute name="actionsAsIcons" type="java.lang.Boolean"
+		required="false" rtexprvalue="true"
+		description="Whether to show table actions as icons (using CSS which matches the action alias)" />
+	<jsp:directive.attribute name="window" type="java.lang.Boolean"
+		required="false" rtexprvalue="true"
+		description="Whether the table is displayed in window" />
+	<jsp:directive.attribute name="style" type="java.lang.String"
+		required="false" rtexprvalue="true" description="The table style" />
+	<jsp:directive.attribute name="paging" type="java.lang.Boolean"
+		required="false" rtexprvalue="true"
+		description="Whether the table has paging" />
+	<jsp:directive.attribute name="alternate" type="java.lang.Boolean"
+		required="false" rtexprvalue="true"
+		description="Whether the table has alternate color for every 2nd row" />
+	<jsp:directive.attribute name="fixedFont" type="java.lang.Boolean"
+		required="false" rtexprvalue="true"
+		description="Whether the table should use fixed font" />
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:if test="${empty formName}">
+		${ol:throwException("formName not found. Probably ol:table tag is not within ol:form")}
+	</c:if>
+
+	<c:if test="${empty alternate}">
+		<c:set var="alternate" value="true" />
+	</c:if>
+
+	<c:set var="actionsCss" value="" />
+	<c:if test="${actionsAsIcons}">
+		<c:set var="actionsCss" value="rbtn" />
+	</c:if>
+
+	<c:set var="contentPaneId" value="container" />
+	<c:if test="${window == true}">
+		<c:set var="contentPaneId" value="window_container" />
+	</c:if>
+
+	<c:set var="tableDefinition"
+		value="${definitions.tableDefinitions[property]}" />
+	<div class="table" style="${style}">
+		<table>
+			<tr>
+			<c:forEach items="${tableDefinition.columnDefinitions}" var="column">
+				<c:if test="${column.rowsOffset == 0}">
+				<th>${column.displayName}</th>
+				</c:if>
+			</c:forEach>
+			</tr>
+			<c:forEach items="${data}" var="item" varStatus="i">
+				<c:forEach begin="0" end="${tableDefinition.rowGaps-1}" var="rowGap">
+					<tr class="${i.index % 2 == 0 or !alternate ? '' : 'alt'}">
+						<c:forEach items="${tableDefinition.columnDefinitions}"
+							var="column">
+							<spring:eval var="columnValue" expression="item[column.name]" />
+							<c:if test="${column.rowsOffset == rowGap}">
+							<td colspan="${column.colSpan}"><c:choose>
+									<c:when test="${column.selectionField}">
+									<c:choose>
+									<c:when
+										test="${fn:length(tableDefinition.actions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
+										<c:if test="${fn:length(tableDefinition.mainDisplayFields) &gt; 0}">
+											<a
+												href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayFields[0]]}');"
+												class="${actionsCss}" title="Select ">Select</a>
+										</c:if>
+										<c:if test="${fn:length(tableDefinition.mainDisplayFields) == 0}">
+											<a
+												href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}');"
+												class="${actionsCss}" title="Select ">Select</a>
+										</c:if>
+									</c:when>
+									<c:when test="${fn:length(tableDefinition.actions) &gt; 3}">
+										<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect">
+											<option value="">- Select -</option>
+											<c:forEach items="${tableDefinition.actions}" var="action">
+												<c:set var="target"
+													value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
+												<c:if test="${action.targetEntity == null}">
+													<c:set var="target"
+														value="alert('No target entity specified for table action in table class @ScreenTableActions annotation')" />
+												</c:if>
+												<option value="${target}">${action.displayName}</option>
+											</c:forEach>
+										</select>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${tableDefinition.actions}" var="action"
+											varStatus="counter">
+											<c:set var="target"
+												value="${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}" />
+											<c:if test="${action.targetEntity == null}">
+												<c:set var="target"
+													value="javascript:alert('No target entity specified for table action in table class @ScreenTableActions annotation');" />
+											</c:if>
+											<a href="${pageContext.request.contextPath}/${target}"
+												class="${actionsCss} ${action.alias}"
+												title="${action.displayName}">${action.displayName}
+												<span><!--  --></span>
+											</a>
+											<c:if
+												test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
+										</c:forEach>
+									</c:otherwise>
+									</c:choose>									
+									</c:when>
+									<c:when test="${column.editable}">
+										<input name="${column.name}" maxlength="${column.length}"
+											size="${column.length}" value="${columnValue}" />
+									</c:when>
+									<c:otherwise>
+										<c:if test="${fixedFont}">
+											<c:set var="style"
+												value="white-space: pre;font-family: Courier New;" />
+										</c:if>
+										<span style="${style}" dir="ltr">${columnValue}</span>
+									</c:otherwise>
+								</c:choose></td>
+							</c:if>								
+						</c:forEach>
+					</tr>
+				</c:forEach>
+			</c:forEach>
+		</table>
+		<c:if test="${paging == null}">
+			<c:set var="paging" value="true" />
+		</c:if>
+		<c:if test="${paging}">
+		  	<spring:message code="label_next" var="label_next" htmlEscape="false" />
+		  	<spring:message code="label_prev" var="label_prev" htmlEscape="false" />
+			<div class="paging">
+				<div class="previous">
+					<a
+						href="javascript:doAjaxPost('${formName}','container','previous','body')">
+						<span class="arrow"> <!---->
+					</span> <span>${label_prev}</span>
+					</a>
+				</div>
+				<div class="next">
+					<a
+						href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body')">
+						<span class="arrow"> <!---->
+					</span> <span>${label_next}</span>
+					</a>
+				</div>
+			</div>
+		</c:if>
+	</div>
+</jsp:root>

@@ -13,9 +13,9 @@ package org.openlegacy.mvc;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry;
+import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
+import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -87,15 +87,19 @@ public class ReloadContextController {
 	/**
 	 * Reload all registry class - useful when using jrebel, which force registry metadata loader for the modified classes
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void refreshRegistryClasses() {
-		DefaultScreenEntitiesRegistry screenEntitiesRegistry = (DefaultScreenEntitiesRegistry)applicationContext.getBean(ScreenEntitiesRegistry.class);
-		screenEntitiesRegistry.setDirty(true);
-		Collection<ScreenEntityDefinition> definitions = screenEntitiesRegistry.getEntitiesDefinitions();
-		for (ScreenEntityDefinition screenEntityDefinition : definitions) {
-			try {
-				Class.forName(screenEntityDefinition.getEntityClassName());
-			} catch (ClassNotFoundException e) {
-				logger.warn("Failed to load class " + screenEntityDefinition.getEntityClassName() + e.getMessage());
+		Collection<EntitiesRegistry> registries = applicationContext.getBeansOfType(EntitiesRegistry.class).values();
+
+		for (EntitiesRegistry entitiesRegistry : registries) {
+			((AbstractEntitiesRegistry)entitiesRegistry).setDirty(true);
+			Collection<EntityDefinition> definitions = entitiesRegistry.getEntitiesDefinitions();
+			for (EntityDefinition entityDefinition : definitions) {
+				try {
+					Class.forName(entityDefinition.getEntityClassName());
+				} catch (ClassNotFoundException e) {
+					logger.warn("Failed to load class " + entityDefinition.getEntityClassName() + e.getMessage());
+				}
 			}
 		}
 	}

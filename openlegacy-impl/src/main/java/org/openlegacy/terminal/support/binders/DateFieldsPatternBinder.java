@@ -16,7 +16,6 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -30,7 +29,6 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-@Component
 public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable {
 
 	private static final long serialVersionUID = 1L;

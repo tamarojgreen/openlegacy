@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+    <!-- DO NOT DELETE. USED FOR CODE GENERATION -->
+    
+   	<!-- Marker for code generation start: 
+	<definition name="VIEW-NAME" extends="TEMPLATE-NAME"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/VIEW-NAME.jspx" />
+	</definition> 
+	Marker for code generation end -->
+
+	<!-- Marker for code generation start:LoginEntity 
+	<definition name="VIEW-NAME" extends="public"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/VIEW-NAME.jspx" />
+	</definition> 
+	LoginEntity:Marker for code generation end -->
+	
+	<!-- Marker for code generation start:MenuEntity 
+	<definition name="VIEW-NAME" extends="menu"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/VIEW-NAME.jspx" />
+	</definition> 
+	MenuEntity:Marker for code generation end -->
+
+	<!-- Place holder for code generation --> 
+
+	<definition name="ItemDetails" extends="template"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/ItemDetails.jspx" />
+	</definition> 
+
+	<!-- A generic API page view -->
+	<definition name="generic" extends="template">
+		<put-attribute name="body" value="/WEB-INF/web/views/generic.jspx" />
+	</definition>
+
+	<!-- A generic API partial view within a tab -->
+	<definition name="genericView" extends="view">
+		<put-attribute name="body" value="/WEB-INF/web/views/generic.jspx" />
+	</definition>
+
+	<definition name="genericWindow" extends="window">
+		<put-attribute name="body" value="/WEB-INF/web/views/generic.jspx" />
+	</definition>
+		
+	<!-- A generic API composite page (tab) -->
+	<definition name="composite" extends="compositeTemplate">
+		<put-attribute name="body" value="/WEB-INF/web/views/composite.jspx" />
+	</definition>
+
+	<definition name="help" template="/WEB-INF/web/views/help.jspx"/> 
+
+	<definition name="login" extends="public"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/login.jspx" />
+	</definition>
+		
+	<definition name="rootMenu" extends="menu"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/rootMenu.jspx" />
+	</definition>
+				
+	<definition name="logoff" extends="public">
+		<put-attribute name="body" value="/WEB-INF/web/views/logoff.jspx" />
+	</definition>
+
+	<definition name="uncaughtException" extends="public">
+		<put-attribute name="body" value="/WEB-INF/web/views/uncaughtException.jspx" />
+	</definition>
+
+	<definition name="sessionEndedException" extends="public">
+		<put-attribute name="body" value="/WEB-INF/web/views/sessionEndedException.jspx" />
+	</definition>
+
+</tiles-definitions>

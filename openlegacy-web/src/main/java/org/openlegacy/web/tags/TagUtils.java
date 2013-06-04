@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.web.tags;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
@@ -62,4 +63,14 @@ public class TagUtils {
 		return StringUtils.join(array, ",");
 	}
 
+	public static boolean hasProperty(Object o, String propertyName) {
+		if (o == null || propertyName == null) {
+			return false;
+		}
+		try {
+			return PropertyUtils.getPropertyDescriptor(o, propertyName) != null;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

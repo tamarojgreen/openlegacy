@@ -181,7 +181,7 @@
 				<ol:span cssClass="readonlyField ${cssClass}" path="${name}" cssStyle="${style}" />
 			</c:otherwise>
 		</c:choose>
-		<c:if test="${fieldDefinition.descriptionFieldDefinition != null}">
+		<c:if test="${ol:hasProperty(fieldDefinition,'descriptionFieldDefinition') and fieldDefinition.descriptionFieldDefinition != null}">
 			- <ol:span cssClass="readonlyField" path="${name}Description" />
 		</c:if>
 		<jsp:doBody />

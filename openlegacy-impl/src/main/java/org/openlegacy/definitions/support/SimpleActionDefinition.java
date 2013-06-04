@@ -13,6 +13,7 @@ package org.openlegacy.definitions.support;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.Serializable;
 
@@ -30,6 +31,11 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	private String targetEntityName;
 
 	private boolean global;
+
+	private Class<?> targetEntity;
+
+	// for design-time purposes
+	private ScreenEntityDefinition targetEntityDefinition;
 
 	/**
 	 * for serialization purpose only
@@ -105,6 +111,22 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 
 	public void setGlobal(boolean global) {
 		this.global = global;
+	}
+
+	public void setTargetEntity(Class<?> targetEntity) {
+		this.targetEntity = targetEntity;
+	}
+
+	public ScreenEntityDefinition getTargetEntityDefinition() {
+		return targetEntityDefinition;
+	}
+
+	public void setTargetEntityDefinition(ScreenEntityDefinition targetEntityDefinition) {
+		this.targetEntityDefinition = targetEntityDefinition;
+	}
+
+	public Class<?> getTargetEntity() {
+		return targetEntity;
 	}
 
 }

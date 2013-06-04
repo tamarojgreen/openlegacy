@@ -17,6 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.UserInteraction;
+import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;

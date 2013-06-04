@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.terminal.modules.trail;
 
+import org.openlegacy.ApplicationConnection;
+import org.openlegacy.RemoteAction;
+import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
-import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.support.SimpleTerminalOutgoingSnapshot;
@@ -29,23 +31,24 @@ public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter imp
 	}
 
 	@Override
-	public void beforeConnect(TerminalConnection terminalConnection) {
+	public void beforeConnect(ApplicationConnection<?, ?> terminalConnection) {
 		sessionTrail.clear();
 	}
 
 	@Override
-	public void afterConnect(TerminalConnection terminalConnection) {
-		sessionTrail.appendSnapshot(terminalConnection.getSnapshot());
+	public void afterConnect(ApplicationConnection<?, ?> terminalConnection) {
+		sessionTrail.appendSnapshot((TerminalSnapshot)terminalConnection.getSnapshot());
 	}
 
 	@Override
-	public void beforeSendAction(TerminalConnection terminalConnection, TerminalSendAction terminalSendAction) {
-		sessionTrail.appendSnapshot(new SimpleTerminalOutgoingSnapshot(terminalConnection.getSnapshot(), terminalSendAction));
+	public void beforeAction(ApplicationConnection<?, ?> terminalConnection, RemoteAction terminalSendAction) {
+		sessionTrail.appendSnapshot(new SimpleTerminalOutgoingSnapshot((TerminalSnapshot)terminalConnection.getSnapshot(),
+				(TerminalSendAction)terminalSendAction));
 	}
 
 	@Override
-	public void afterSendAction(TerminalConnection terminalConnection) {
-		sessionTrail.appendSnapshot(terminalConnection.getSnapshot());
+	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
+		sessionTrail.appendSnapshot((TerminalSnapshot)connection.getSnapshot());
 	}
 
 	public void setSessionTrail(SessionTrail<TerminalSnapshot> sessionTrail) {

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
-import org.openlegacy.SendAction;
+import org.openlegacy.RemoteAction;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
@@ -24,7 +24,7 @@ import java.util.List;
  * @author Roi Mor
  * 
  */
-public interface TerminalSendAction extends SendAction {
+public interface TerminalSendAction extends RemoteAction {
 
 	List<TerminalField> getModifiedFields();
 

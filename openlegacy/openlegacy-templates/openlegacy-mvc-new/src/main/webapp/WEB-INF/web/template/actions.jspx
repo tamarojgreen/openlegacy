@@ -34,7 +34,7 @@
 					</li>
 				</c:if>
 			</c:forEach>
-			<c:if test="${fn:length(definitions.tableDefinitions) > 0}">
+			<c:if test="${ol:hasProperty(definitions,'tableDefinitions') and fn:length(definitions.tableDefinitions) > 0}">
 				<li class="right">
 					<spring:message code="label_excel" var="label_excel" htmlEscape="false" />
 					<a href="${pageContext.request.contextPath}/${definitions.entityName}/excel">

@@ -141,19 +141,19 @@ public class CodeBasedDefinitionUtils {
 			}
 			for (AnnotationExpr annotationExpr : annotations) {
 				ScreenPojoCodeModel screenEntityCodeModel = null;
-				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_ANNOTATION)
-						|| JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
+				if (JavaParserUtil.hasAnnotation(annotationExpr, ScreenAnnotationConstants.SCREEN_ENTITY_ANNOTATION)
+						|| JavaParserUtil.hasAnnotation(annotationExpr, ScreenAnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
 							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
 					screenDefinition = new CodeBasedScreenEntityDefinition(screenEntityCodeModel, packageDir);
 				}
-				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_PART_ANNOTATION)) {
+				if (JavaParserUtil.hasAnnotation(annotationExpr, ScreenAnnotationConstants.SCREEN_PART_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
 							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
 					CodeBasedScreenPartDefinition partDefinition = new CodeBasedScreenPartDefinition(screenEntityCodeModel);
 					screenDefinition.getPartsDefinitions().put(partDefinition.getPartName(), partDefinition);
 				}
-				if (JavaParserUtil.hasAnnotation(annotationExpr, AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
+				if (JavaParserUtil.hasAnnotation(annotationExpr, ScreenAnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
 							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
 					CodeBasedScreenTableDefinition tableDefinition = new CodeBasedScreenTableDefinition(screenEntityCodeModel);

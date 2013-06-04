@@ -24,8 +24,8 @@ import org.openlegacy.modules.SessionModule;
 public interface Session {
 
 	/**
-	 * Returns the underlying session provider implementation. Should be cast to the actual implementation. Useful if you wish to
-	 * use specific provider implementation.
+	 * Returns the underlying connection provider implementation. Should be cast to the actual implementation. Useful if you wish
+	 * to use specific provider implementation.
 	 * 
 	 * @return provider implementation session
 	 */

@@ -28,7 +28,6 @@ import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.StringUtil;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -41,7 +40,6 @@ import javax.inject.Inject;
  * 
  * @author Roi Mor
  */
-@Component
 public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 
 	private static final long serialVersionUID = 1L;

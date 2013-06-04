@@ -1,0 +1,65 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0">
+	<jsp:output doctype-root-element="html"
+		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+		doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	
+	<head>
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
+		<title>OpenLegacy</title>
+		<c:set var="cssRtl" value="" />
+		<c:if test="${openLegacyProperties.rightToLeft}">
+			<c:set var="cssRtl" value="_rtl" />
+		</c:if>
+		<link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}${cssRtl}.css" rel="stylesheet" type="text/css" />
+		<link href="${pageContext.request.contextPath}/css/project.css" rel="stylesheet" type="text/css" />
+		
+		<script type="text/javascript">
+			dojoConfig = {
+					async:true, 
+					parseOnLoad: true, 
+					baseUrl: '${pageContext.request.contextPath}/dj/dojo/', 
+					isDebug: false, 
+					locale: '${fn:toLowerCase(userLocale)}'};
+		</script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/dj/dojo.custom.build.js"><!----></script>
+		
+		<script type="text/javascript" language="JavaScript">
+			require(["dijit/dijit", "dijit/TitlePane", "dijit/layout/ContentPane"]);
+		</script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js"><!----></script>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/project.js"><!----></script>
+		
+		<!-- Plugin's script and css -->
+		<c:forEach items="${plugins_js}" var="plugin_js">
+			<script type="text/javascript" src="${pageContext.request.contextPath}${plugin_js}"><!----></script>
+		</c:forEach>
+		<c:forEach items="${plugins_css}" var="plugin_css">
+			<link href="${pageContext.request.contextPath}${plugin_css}" rel="stylesheet" type="text/css" />
+		</c:forEach>
+		<!--[if !IE 7]>
+		
+			<style type="text/css">
+		
+				#wrap {display:table;height:100%}
+		
+			</style>
+		
+		<![endif]-->
+		<tiles:insertAttribute name="head" ignore="true" />
+	</head>
+	<body class="${ol_theme}">
+		<div data-dojo-type="dijit.layout.ContentPane" class="container window" id="window_container" style="min-height: 200px;">
+			<tiles:insertAttribute name="body" />
+		</div>
+	</body>
+</html>
+</jsp:root>

@@ -14,14 +14,13 @@ import org.openlegacy.EntityDescriptor;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.navigation.Navigation;
+import org.openlegacy.mvc.MvcUtils;
 import org.openlegacy.support.AbstractEntitiesRegistry;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.terminal.utils.ScreenEntityUtils;
-import org.openlegacy.utils.StringUtil;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -36,20 +35,17 @@ import javax.servlet.http.HttpServletResponse;
  * @author RoiM
  * 
  */
-public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
+public class InsertEntityDefinitionsInterceptor extends AbstractScreensInterceptor {
 
 	@Inject
 	private ScreenEntitiesRegistry entitiesRegistry;
 
 	@Inject
-	private ScreenEntityUtils screenEntityUtils;
-
-	@Inject
-	private ScreenEntitiesRegistry screenEntitiesRegistry;
+	private MvcUtils mvcUtils;
 
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
-		if (!getTerminalSession().isConnected()) {
+		if (!getSession().isConnected()) {
 			// insert login definitions when not connected
 			ScreenEntityDefinition definitions = entitiesRegistry.getSingleEntityDefinition(LoginEntity.class);
 			if (definitions != null) {
@@ -57,21 +53,19 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 			}
 			return;
 		}
-		TerminalSession terminalSession = getTerminalSession();
+		TerminalSession terminalSession = getSession();
 		ScreenEntity entity = terminalSession.getEntity();
 
 		if (entity != null) {
 			ScreenEntityDefinition definitions = entitiesRegistry.get(entity.getClass());
-			modelAndView.addObject("definitions", definitions);
+
+			mvcUtils.insertModelObjects(modelAndView, entity, entitiesRegistry);
+
 			NavigationDefinition navigationDefinition = definitions.getNavigationDefinition();
 			if (navigationDefinition != null) {
 				modelAndView.addObject("accessedFromDefinitions", entitiesRegistry.get(navigationDefinition.getAccessedFrom()));
 			}
 
-			List<Object> keysValues = screenEntityUtils.getKeysValues(entity);
-			String keysValuesText = StringUtil.toString(keysValues, '_');
-			modelAndView.addObject("ol_entityId", keysValuesText);
-			modelAndView.addObject("ol_entityUniqueId", definitions.getEntityName() + keysValuesText);
 		}
 		Menu menuModule = terminalSession.getModule(Menu.class);
 		if (menuModule != null) {
@@ -87,9 +81,9 @@ public class InsertEntityDefinitionsInterceptor extends AbstractInterceptor {
 			}
 		}
 
-		if (screenEntitiesRegistry.isDirty()) {
+		if (entitiesRegistry.isDirty()) {
 			// set the registry back to clean - for design-time purposes only!
-			((AbstractEntitiesRegistry<?, ?>)screenEntitiesRegistry).setDirty(false);
+			((AbstractEntitiesRegistry<?, ?>)entitiesRegistry).setDirty(false);
 		}
 
 	}

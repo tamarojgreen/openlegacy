@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+    <!-- DO NOT DELETE. USED FOR CODE GENERATION -->
+    
+	<!-- Marker for code generation start:
+	<definition name="VIEW-NAME_m" extends="TEMPLATE-NAME_m"> 
+		<put-attribute name="body" value="/WEB-INF/mobile/views/VIEW-NAME.jspx" />
+	</definition> 
+	Marker for code generation end -->
+
+	<!-- Marker for code generation start:LoginEntity 
+	<definition name="VIEW-NAME_m" extends="public_m"> 
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/VIEW-NAME.jspx" />
+		<put-attribute name="body" value="/WEB-INF/mobile/template/paneheader.jspx"/>
+	</definition> 
+	LoginEntity:Marker for code generation end -->
+	
+	<!-- Marker for code generation start:MenuEntity
+	<definition name="VIEW-NAME_m" extends="menu_m"> 
+		<put-attribute name="header" value="" />
+		<put-attribute name="actions" value="" />
+   		<put-attribute name="body" value="/WEB-INF/mobile/views/VIEW-NAME.jspx" />
+	</definition> 
+	MenuEntity:Marker for code generation end -->
+	
+	<!-- Place holder for code generation -->
+
+	<!-- A generic API page view -->
+	<definition name="generic_m" extends="view_m">
+		<put-attribute name="body" value="/WEB-INF/mobile/views/generic.jspx" />
+	</definition>
+
+	<!-- A generic API partial view within a tab -->
+	<definition name="genericView_m" extends="innerView_m">
+		<put-attribute name="body" value="/WEB-INF/mobile/views/generic.jspx" />
+	</definition>
+
+	<!-- A generic API composite page (tab) -->
+	<definition name="composite_m" extends="compositeView_m">
+		<put-attribute name="body" value="/WEB-INF/mobile/views/composite.jspx" />
+	</definition>
+
+	<definition name="login_m" extends="public_m"> 
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/login.jspx" />
+		<put-attribute name="body" value="/WEB-INF/mobile/template/paneheader.jspx"/>
+	</definition> 
+		
+	<definition name="rootMenu_m" extends="menu_m"> 
+		<put-attribute name="header" value="" />
+		<put-attribute name="actions" value="" />
+   		<put-attribute name="body" value="/WEB-INF/mobile/views/rootMenu.jspx" />
+	</definition>
+		
+	<definition name="logoff_m" extends="public_m">
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/logoff.jspx"/>
+		<put-attribute name="header" value="" />
+		<put-attribute name="body" value="" />
+	</definition>
+
+	<definition name="uncaughtException_m" extends="public_m">
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/uncaughtException.jspx"/>
+		<put-attribute name="header" value="" />
+		<put-attribute name="body" value="" />
+	</definition>
+
+	<definition name="sessionEndedException_m" extends="public_m">
+		<put-attribute name="menu" value="/WEB-INF/mobile/views/sessionEndedException.jspx"/>
+		<put-attribute name="header" value="" />
+		<put-attribute name="body" value="" />
+	</definition>
+
+</tiles-definitions>

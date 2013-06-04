@@ -26,7 +26,6 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@Component
 public class ListFieldsBinder implements ScreenEntityBinder {
 
 	@Inject

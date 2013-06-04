@@ -130,7 +130,7 @@
 									src="http://maps.google.com/maps/api/js?sensor=false"><!----></script>
 
 								<c:choose>
-								<c:when test="${fieldDefinition.rectangle == true}">
+								<c:when test="${ol:hasProperty(fieldDefinition,'rectangle') and fieldDefinition.rectangle == true}">
 									<c:set var="width" value="${(fieldDefinition.endPosition.column-fieldDefinition.position.column+1)*10}" />
 									<c:set var="widthString" value="width:${width}px" />
 									<form:textarea type="text" id="${name}" path="${name}" rows="${fieldDefinition.endPosition.row-fieldDefinition.position.row+1}" onkeyup="return (this.value.length &gt;= ${fieldDefinition.length});" cssStyle="${widthString};${style}" />
@@ -192,7 +192,7 @@
 							cssStyle="${style}" />
 					</c:otherwise>
 				</c:choose>
-				<c:if test="${fieldDefinition.descriptionFieldDefinition != null}">
+				<c:if test="${ol:hasProperty(fieldDefinition,'descriptionFieldDefinition') and fieldDefinition.descriptionFieldDefinition != null}">
 					- <ol:span cssClass="readonlyField" path="${name}Description" />
 				</c:if>
 				<jsp:doBody />

@@ -1,0 +1,20 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<c:set var="width" value="350px" />
+	<c:if test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
+		<c:set var="width" value="700px" />
+	</c:if>
+	<style>
+		#leftPane{
+			width:${width}; 
+		}
+	</style>
+	<div id="menu">
+		<ol:menu menu="${ol_menu}" />
+	</div>
+</jsp:root>

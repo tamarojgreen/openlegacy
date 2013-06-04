@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime.utils;
 
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.MemberValuePair;
 import japa.parser.ast.expr.NormalAnnotationExpr;
@@ -23,7 +25,7 @@ public class JavaParserUtil {
 			return null;
 		}
 		List<MemberValuePair> attributes = ((NormalAnnotationExpr)annotation).getPairs();
-		if (attributes == null){
+		if (attributes == null) {
 			return null;
 		}
 		for (MemberValuePair memberValuePair : attributes) {
@@ -60,4 +62,22 @@ public class JavaParserUtil {
 		return null;
 	}
 
+	public static boolean hasAnnotation(CompilationUnit compilationUnit, String... annotations) {
+		List<TypeDeclaration> types = compilationUnit.getTypes();
+		if (types == null || types.size() == 0) {
+			return false;
+		}
+		List<AnnotationExpr> annotationExpressions = types.get(0).getAnnotations();
+		if (annotationExpressions != null) {
+			for (AnnotationExpr annotationExpr : annotationExpressions) {
+				for (String annotation : annotations) {
+					if (JavaParserUtil.hasAnnotation(annotationExpr, annotation)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+
+	}
 }

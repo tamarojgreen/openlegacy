@@ -21,10 +21,14 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+	private String sampleValue;
 	private Class<? extends FieldType> type;
 	private String displayName;
 	private FieldTypeDefinition fieldTypeDefinition;
 	private boolean key;
+
+	private boolean password;
+	private boolean editable;
 
 	private String helpText;
 
@@ -32,6 +36,11 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	 * for serialization purpose only
 	 */
 	public AbstractFieldDefinition() {}
+
+	private Class<?> javaType;
+	private String javaTypeName;
+
+	private boolean rightToLeft;
 
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
@@ -92,4 +101,62 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	public void setHelpText(String helpText) {
 		this.helpText = helpText;
 	}
+
+	public String getSampleValue() {
+		return sampleValue;
+	}
+
+	public void setSampleValue(String sampleValue) {
+		this.sampleValue = sampleValue;
+	}
+
+	public Class<?> getJavaType() {
+		if (javaType == null) {
+			javaType = String.class;
+		}
+		return javaType;
+	}
+
+	public String getJavaTypeName() {
+		if (javaTypeName != null) {
+			return javaTypeName;
+		}
+		return getJavaType().getSimpleName();
+	}
+
+	public void setJavaType(Class<?> javaType) {
+		this.javaType = javaType;
+	}
+
+	/*
+	 * Used for design-time to set a class name which doesn't exists during generation
+	 */
+	public void setJavaTypeName(String javaTypeName) {
+		this.javaTypeName = javaTypeName;
+	}
+
+	public boolean isPassword() {
+		return password;
+	}
+
+	public void setPassword(boolean password) {
+		this.password = password;
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
+	}
+
 }

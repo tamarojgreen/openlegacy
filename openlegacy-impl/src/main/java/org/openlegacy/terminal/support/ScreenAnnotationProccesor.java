@@ -10,17 +10,10 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
-import org.openlegacy.loaders.ClassAnnotationsLoader;
-import org.openlegacy.loaders.FieldAnnotationsLoader;
-import org.openlegacy.loaders.FieldLoader;
-import org.openlegacy.loaders.RegistryLoader;
-import org.openlegacy.support.DefaultRegistryLoader;
+import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.support.AbstractAnnotationProccesor;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-
-import java.util.Collection;
+import org.springframework.beans.factory.BeanFactory;
 
 /**
  * Open legacy integration point with spring component-scan. The classes are scanned for @ScreenEntity annotation and all the
@@ -28,23 +21,11 @@ import java.util.Collection;
  * 
  * @param <T>
  */
-public class ScreenAnnotationProccesor<T> implements BeanFactoryPostProcessor {
+public class ScreenAnnotationProccesor extends AbstractAnnotationProccesor {
 
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		Collection<ClassAnnotationsLoader> classAnnotationsLoaders = beanFactory.getBeansOfType(ClassAnnotationsLoader.class).values();
-		Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(FieldAnnotationsLoader.class).values();
-		Collection<FieldLoader> fieldLoaders = beanFactory.getBeansOfType(FieldLoader.class).values();
-
-		ScreenEntitiesRegistry screenEntitiesRegistry = beanFactory.getBean(ScreenEntitiesRegistry.class);
-
-		DefaultRegistryLoader registryLoader = (DefaultRegistryLoader)beanFactory.getBean(RegistryLoader.class);
-
-		registryLoader.setAnnotationLoaders(classAnnotationsLoaders);
-		registryLoader.setFieldAnnotationLoaders(fieldAnnotationLoaders);
-		registryLoader.setFieldLoaders(fieldLoaders);
-		registryLoader.setBeanFactory(beanFactory);
-
-		registryLoader.load(screenEntitiesRegistry);
+	@Override
+	protected EntitiesRegistry<?, ?> getEntitiesRegistry(BeanFactory beanFactory) {
+		return beanFactory.getBean(ScreenEntitiesRegistry.class);
 	}
 
 }

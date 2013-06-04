@@ -26,7 +26,6 @@ import org.openlegacy.terminal.exceptions.TerminalActionException;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.TypesUtil;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -35,7 +34,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@Component
 public class ScreenBinderLogic implements Serializable {
 
 	private static final long serialVersionUID = 1L;

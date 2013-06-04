@@ -10,7 +10,7 @@
 	
     <context:property-placeholder location="classpath*:/*.properties"/>
 	
-	<import resource="classpath*:/META-INF/openlegacy-basic-context.xml"/>
+	<import resource="classpath*:/META-INF/openlegacy-terminal-basic-context.xml"/>
 
 	<import resource="classpath:/META-INF/spring/actions-mappings.xml"/>
 		

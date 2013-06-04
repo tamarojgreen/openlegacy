@@ -48,6 +48,7 @@
 	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" />
 	<bean id="fieldSplitter" class="org.openlegacy.terminal.support.TerminalFieldByCharSplitter" p:char=" " p:charCount="2" />
 	<bean id="fieldsSplitter" class="org.openlegacy.terminal.support.SimpleTerminalFieldsSplitter" />
+	<bean id="trailJunitGenerator" class="org.openlegacy.designtime.terminal.generators.TrailJunitGenerator" />
 
 	<bean id="terminalActionAnalyzer" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalActionAnalyzer" />
 	<bean id="bestEntityNameFieldComparator" class="org.openlegacy.designtime.terminal.analyzer.support.comparators.CompositeFieldsComparator">

@@ -1,0 +1,181 @@
+<jsp:root xmlns:ol="http://www.openlegacy.org/tags" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form" 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.attribute name="name" type="java.lang.String" required="true" rtexprvalue="true" description="The entity field to bind the tag to" />
+	<jsp:directive.attribute name="label" type="java.lang.String" required="false" rtexprvalue="true" description="The label for this tag. Default to field display name" />
+	<jsp:directive.attribute name="maxlength" type="java.lang.Integer" required="false" rtexprvalue="true" description="The maxlength of this tag. Default to field length" />
+	<jsp:directive.attribute name="rows" type="java.lang.Integer" required="false" rtexprvalue="true" description="The number of rows of this tag. If more then 1, it rendered as textarea" />
+	<jsp:directive.attribute name="type" type="java.lang.String" required="false" rtexprvalue="true" description="Set field type (default 'text', or 'password')" />
+	<jsp:directive.attribute name="style" type="java.lang.String" required="false" rtexprvalue="true" description="Set field style" />
+	<jsp:directive.attribute name="cssClass" type="java.lang.String" required="false" rtexprvalue="true" description="Set field CSS class" />
+	<jsp:directive.attribute name="top" type="java.lang.String" required="false" rtexprvalue="true" description="Set field top position" />
+	<jsp:directive.attribute name="left" type="java.lang.String" required="false" rtexprvalue="true" description="Set field left position" />
+	<jsp:directive.attribute name="editable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set if field is editable" />
+	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set if field is right to left" />
+
+	<c:choose>
+		<c:when test="${fn:contains(name,'.')}">
+			<c:set var="fieldNameParts" value="${fn:split(name,'.')}" />
+			<c:set var="fieldPart" value="${definitions.partsDefinitions[fieldNameParts[0]]}" />
+			<c:set var="fieldDefinition" value="${fieldPart.fieldsDefinitions[name]}" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="fieldDefinition" value="${definitions.fieldsDefinitions[name]}" />
+		</c:otherwise>
+	</c:choose>
+
+	<c:if test="${empty label}">
+		<c:set var="label" value="${fieldDefinition.displayName}" />
+	</c:if>
+	<c:if test="${empty type}">
+		<c:set var="type" value="${fieldDefinition.fieldTypeDefinition.typeName}" />
+	</c:if>
+	<c:if test="${not empty top}">
+		<c:set var="style" value="${style};position:absolute;top:${top};left:${left}" />
+	</c:if>
+	<c:if test="${empty rows}">
+		<c:set var="rows" value="1" />
+	</c:if>
+
+	<c:set var="tabletParentSpanStyle" value=""/>
+	<c:set var="tabletChildSpanStyle" value=""/>
+	<c:if test="${deviceType eq 'TABLET'}">
+		<c:set var="tabletParentSpanStyle" value="display: inline-block;"/>
+		<c:set var="tabletChildSpanStyle" value="display: block; text-align: right;"/>
+	</c:if>
+	<div class="field-row">
+		<c:if test="${not empty label}">
+			<span class="label">${label}<c:if test="${fn:length(label) &gt; 1}">:</c:if></span>
+		</c:if>
+		<c:choose>
+			<c:when test="${editable}">
+				<c:choose>
+					<c:when test="${type == 'number'}">
+						<form:input type="number" id="${name}" data-dojo-type="dojox.mobile.TextBox" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+					</c:when>
+					<c:when test="${type == 'boolean'}">
+						<script>require(["dojox/mobile/CheckBox"]);</script>
+						<form:checkbox name="${name}" data-dojo-type="dojox.mobile.CheckBox" path="${name}" cssStyle="${style}" cssClass="checkbox ${cssClass}" />
+					</c:when>
+					<c:when test="${type == 'date'}">
+						<form:input type="text" id="${name}" readOnly="true" path="${name}" 
+							onclick="var input = this; require(['dijit/registry'], function(registry){
+									registry.byId('calPicker').show(input, ['above-centered','below-centered','after','before']);
+								});" />
+					</c:when>
+					<c:when test="${type == 'fieldWithValues'}">
+						<c:choose>
+							<c:when test="${fieldDefinition.fieldTypeDefinition.asWindow}">
+								<c:set var="windowUrl" value="${fieldDefinition.fieldTypeDefinition.sourceEntityClassName}" />
+								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
+								<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
+									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}"
+									cssClass="${cssClass}" />
+								<c:if test="${not empty fieldDefinition.fieldTypeDefinition.displayFieldName}">
+									<ol:span cssClass="readonlyField ${cssClass}" path="${fieldDefinition.fieldTypeDefinition.displayFieldName}"
+										cssStyle="${style}" />
+								</c:if>
+								<img src="${pageContext.request.contextPath}/icons/search.png" onclick="openMobileLookupDialog('${name}','${fieldDefinition.fieldTypeDefinition.displayFieldName}','${pageContext.request.contextPath}/${windowUrl}','width:350px;height:300px')" class="search" />
+							</c:when>
+							<c:otherwise>
+								<input id="${fieldDefinition.name}" type="text" 
+									onclick="require(['dojo/dom'], function(dom){eval(dom.byId('${fieldDefinition.name}Script').innerHTML);});" />
+								<div id="${fieldDefinition.name}Script" style="display: none">
+									require(["dijit/registry", "dojo/request/xhr", "dojo/store/Memory", "dojox/mobile/ComboBox"], 
+									function(registry, xhr, Memory, ComboBox){
+										if (registry.byId('${fieldDefinition.name}') != null) return; 
+										xhr.get(
+												"${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}Values",
+											 	{handleAs: "json"}
+											 ).then(
+												function(records){
+													var store = new Memory({ idProperty: "name", data: records});	
+													var combo = new ComboBox({store:store},"${fieldDefinition.name}");
+												}, 
+												function(e){alert(e);}
+										);
+									});
+							</div>
+							</c:otherwise>
+						</c:choose>
+					</c:when>
+					<c:when test="${type == 'address'}">
+						<span style="${tabletParentSpanStyle}">
+							<span style="${tabletChildSpanStyle}">
+								<a href="javascript:require(['dojo/dom'], function(dom){location.href = 'http://maps.google.com/maps?q=' + dom.byId('${name}').value;});">
+									<img class="map-icon" src="${pageContext.request.contextPath}/icons/map.png" />
+								</a>
+							</span>
+							<form:textarea data-dojo-type="dojox.mobile.TextArea" id="${name}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" rows="${rows}"/>
+						</span>
+					</c:when>
+					<c:when test="${type == 'phone'}">
+						<span style="${tabletParentSpanStyle}">
+							<span style="${tabletChildSpanStyle}">
+								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'tel:' + dom.byId('${name}').value;});" style="margin-right: 5px">
+									<img src="icons/phone.png" />
+								</a>
+								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'sms:' + dom.byId('${name}').value;});">
+									<img src="icons/sms.png" />
+								</a>
+							</span>
+							<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+						</span>
+					</c:when>
+					<c:when test="${type == 'email'}">
+						<span style="${tabletParentSpanStyle}">
+							<span style="${tabletChildSpanStyle}">
+								<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'mailto:' + dom.byId('${name}').value;});">
+									<img src="icons/mail.png" />
+								</a>
+							</span>
+							<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+						</span>
+					</c:when>
+					<c:when test="${type == 'password'}">
+						<form:input type="password" id="${name}" maxlength="${maxlength}" path="${name}" dir="${rightToLeft ? 'rtl' : 'ltr'}" cssStyle="${style}" cssClass="${cssClass}" />
+					</c:when>
+					<c:when test="${type == 'enum'}">
+						<form:input id="${fieldDefinition.name}" type="text" path="${name}" 
+							onclick="require(['dojo/dom'], function(dom){eval(dom.byId('${fieldDefinition.name}Script').innerHTML);});" />
+						<div id="${fieldDefinition.name}Script" style="display: none">
+							require(["dijit/registry","dojo/store/Memory", "dojox/mobile/ComboBox"], 
+							function(registry,Memory, ComboBox){
+								if (registry.byId('${fieldDefinition.name}') != null) return;
+								
+								var enumStore = new dojo.store.Memory({ idProperty: "name", data: [
+									<c:forEach items="${fieldDefinition.fieldTypeDefinition.displayValues}" var="item" varStatus="status">
+								        { name: "${item.value}" } ${not status.last ? ',' : ''}
+									</c:forEach>
+								]});
+								var combo = new ComboBox({store:enumStore},"${fieldDefinition.name}");
+							});		
+						</div>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${rows > 1}">
+								<form:textarea rows="${rows}" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${style}" cssClass="${cssClass}" />
+							</c:when>
+							<c:otherwise>
+								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" dir="${rightToLeft ? 'rtl' : 'ltr'}" cssStyle="${style}" cssClass="${cssClass}" />
+							</c:otherwise>
+						</c:choose>
+					</c:otherwise>
+				</c:choose>
+			</c:when>
+			<c:otherwise>
+				<ol:span cssClass="readonlyField ${cssClass}" path="${name}" cssStyle="${style}" />
+			</c:otherwise>
+		</c:choose>
+		<c:if test="${ol:hasProperty(fieldDefinition,'descriptionFieldDefinition') and fieldDefinition.descriptionFieldDefinition != null}">
+			- <ol:span cssClass="readonlyField" path="${name}Description" />
+		</c:if>
+		<jsp:doBody />
+	</div>
+</jsp:root>

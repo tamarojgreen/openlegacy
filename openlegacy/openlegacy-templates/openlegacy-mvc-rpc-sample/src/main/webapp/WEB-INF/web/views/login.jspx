@@ -1,0 +1,30 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" />
+
+	<div id="login_content">
+		<div id="logo">
+			<h1>
+				<a href="#">OpenLegacy</a>
+			</h1>
+		</div>
+		<div id="loginform">
+			<ol:form model="login">
+				<ol:field name="user" style="width:350px"/>
+				<ol:field name="password" style="width:350px" />
+				<div class="field_row">
+					<div class="label">
+						<!---->
+					</div>
+					<div class="field">
+					  	<spring:message code="label_login" var="label_login" htmlEscape="false" />
+						<input type="submit" name="button" id="button" value="${label_login}" />
+					</div>
+				</div>
+				<ol:field name="errorMessage" label=""/>
+			</ol:form>
+		</div>
+	</div>
+</jsp:root>

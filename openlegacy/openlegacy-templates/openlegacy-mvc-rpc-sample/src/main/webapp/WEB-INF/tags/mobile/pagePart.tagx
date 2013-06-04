@@ -1,0 +1,18 @@
+<jsp:root xmlns:ol="http://www.openlegacy.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.attribute name="top" type="java.lang.String" required="false" rtexprvalue="true" description="The top position of this panel" />
+	<jsp:directive.attribute name="left" type="java.lang.String" required="false" rtexprvalue="true" description="The left position of this panel" />
+	<jsp:directive.attribute name="width" type="java.lang.String" required="false" rtexprvalue="true" description="The width of this panel" />
+	<jsp:directive.attribute name="collapsible" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be collapsible" />
+	<jsp:directive.attribute name="open" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be opened, if defined as collapsible" />
+
+	<div class="fieldset">
+		<jsp:doBody />
+	</div>
+
+</jsp:root>

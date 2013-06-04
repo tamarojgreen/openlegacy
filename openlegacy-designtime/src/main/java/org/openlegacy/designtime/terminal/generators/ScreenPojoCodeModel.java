@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.generators;
 
+import org.openlegacy.designtime.generators.PojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.terminal.TerminalPosition;
@@ -25,23 +26,11 @@ import java.util.List;
  * 
  * 
  */
-public interface ScreenPojoCodeModel {
-
-	boolean isRelevant();
+public interface ScreenPojoCodeModel extends PojoCodeModel {
 
 	boolean isSupportTerminalData();
 
-	String getClassName();
-
-	String getEntityName();
-
-	String getFormattedClassName();
-
 	Collection<Field> getFields();
-
-	String getPackageName();
-
-	String getDisplayName();
 
 	int getStartRow();
 
@@ -50,8 +39,6 @@ public interface ScreenPojoCodeModel {
 	List<Action> getActions();
 
 	NavigationDefinition getNavigationDefinition();
-
-	String getTypeName();
 
 	boolean isChildScreen();
 

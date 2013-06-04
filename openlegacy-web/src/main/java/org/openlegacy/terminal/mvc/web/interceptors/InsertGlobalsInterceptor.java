@@ -10,11 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.web.interceptors;
 
-import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.globals.Globals;
 import org.openlegacy.modules.login.Login;
-import org.openlegacy.mvc.OpenLegacyWebProperties;
-import org.openlegacy.terminal.mvc.web.ThemeUtil;
+import org.openlegacy.mvc.MvcUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
@@ -29,36 +27,21 @@ import javax.servlet.http.HttpServletResponse;
  * @author RoiM
  * 
  */
-public class InsertGlobalsInterceptor extends AbstractInterceptor {
+public class InsertGlobalsInterceptor extends AbstractScreensInterceptor {
 
 	@Inject
-	private ThemeUtil themeUtil;
+	private MvcUtils mvcUtils;
 
-	@Inject
-	private OpenLegacyProperties openLegacyProperties;
-
-	@Inject
-	private OpenLegacyWebProperties openLegacyWebProperties;
-	
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 
-		themeUtil.applyTheme(modelAndView, request, response);
+		mvcUtils.insertGlobalData(modelAndView, request, response, getSession());
 
-		modelAndView.addObject("openLegacyProperties", openLegacyProperties);
-		modelAndView.addObject("openLegacyWebProperties", openLegacyWebProperties);
-
-		if (!getTerminalSession().isConnected()) {
-			return;
-		}
-
-		modelAndView.addObject("ol_connected", true);
-
-		Login loginModule = getTerminalSession().getModule(Login.class);
+		Login loginModule = getSession().getModule(Login.class);
 		if (loginModule.isLoggedIn()) {
 			modelAndView.addObject("ol_loggedInUser", loginModule.getLoggedInUser());
 		}
-		modelAndView.addObject("ol_globals", getTerminalSession().getModule(Globals.class).getGlobals());
+		modelAndView.addObject("ol_globals", getSession().getModule(Globals.class).getGlobals());
 	}
 
 }

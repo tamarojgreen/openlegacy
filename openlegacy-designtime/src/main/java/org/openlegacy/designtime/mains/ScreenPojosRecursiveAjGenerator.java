@@ -12,9 +12,8 @@ package org.openlegacy.designtime.mains;
 
 import freemarker.template.TemplateException;
 
+import org.openlegacy.designtime.generators.PojosAjGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
-import org.openlegacy.utils.FileCommand;
-import org.openlegacy.utils.FileCommandExecuter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
@@ -24,13 +23,8 @@ import japa.parser.ParseException;
 import java.io.File;
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 @Component
-public class ScreenPojosRecursiveAjGenerator {
-
-	@Inject
-	private ApplicationContext applicationContext;
+public class ScreenPojosRecursiveAjGenerator extends AbstractPojosRecursiveAjGenerator {
 
 	public static void main(String[] args) throws ParseException, IOException, TemplateException {
 		if (args.length == 0) {
@@ -46,39 +40,8 @@ public class ScreenPojosRecursiveAjGenerator {
 		generator.generateAll(new File(root));
 	}
 
-	public void generateAll(File root) throws IOException, TemplateException {
-		FileCommandExecuter.execute(root, applicationContext.getBean(AspectGeneratorCommand.class));
+	@Override
+	protected PojosAjGenerator getGenerator() {
+		return applicationContext.getBean(ScreenPojosAjGenerator.class);
 	}
-
-	@Component
-	public static class AspectGeneratorCommand implements FileCommand {
-
-		@Inject
-		private ScreenPojosAjGenerator screenPojosAjGenerator;
-
-		public boolean accept(File file) {
-			if (file.getName().endsWith("aj")) {
-				return false;
-			}
-			if (file.isDirectory()) {
-				return true;
-			}
-			if (file.getName().endsWith("java")) {
-				return true;
-			}
-
-			return false;
-		}
-
-		public void doCommand(File file) {
-			try {
-				screenPojosAjGenerator.generate(file);
-			} catch (Exception e) {
-				throw (new RuntimeException(e));
-			}
-
-		}
-
-	}
-
 }

@@ -1,0 +1,47 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div>
+		<!-- Help dialog -->
+		<div id="helpDialog" data-dojo-type="dijit.Dialog"
+			style="margin-left: 39%; width: 270px; height: 500px; overflow: auto;"
+			title="System Help"
+			data-dojo-props="parseOnLoad: true, draggable:false, duration:600"><!--  --></div>
+		<!-- Session viewer dialog -->
+		<div id="sessionViewerDialog" data-dojo-type="dijit.Dialog"
+			style="width: 855px; height: 470px; overflow: auto;"
+			title="Session Viewer"
+			data-dojo-props="parseOnLoad: true, duration:600"><!--  --></div>
+		<!-- Map dialog -->
+		<div id="mapDialog" data-dojo-type="dijit.Dialog"
+			style="overflow: auto;" title="Map">
+			<div id="map_canvas" style="width: 500px; height: 500px"><!--  --></div>
+		</div>
+		<div id="viewSourceDialog" data-dojo-type="dijit.Dialog"
+			title="Source" style="width: 80%; height: 500px; overflow: auto;"
+			data-dojo-props="parseOnLoad: true, draggable:false, duration:600"><!--  --></div>
+		<div id="lookupDialog" data-dojo-type="dijit.Dialog"
+			title="Lookup window" style="overflow: auto;"
+			data-dojo-props="parseOnLoad: true, draggable:true"><!--  --></div>
+		<c:if test="${ol_messages != null}">
+			<div id="messagesDialog" data-dojo-type="dijit.Dialog"
+				style="overflow: auto;" title="Messages">
+				<c:forEach items="${ol_messages}" var="message">
+					<pre>${message}</pre>
+				</c:forEach>
+			</div>
+			<script language="JavaScript" type="text/javascript">
+			require(["dojo/ready"], function(ready){
+			    ready(function(){
+			    	showDialog('messagesDialog');
+		    	});
+			});	
+			</script>
+		</c:if>
+	</div>
+</jsp:root>

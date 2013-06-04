@@ -1,0 +1,163 @@
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
+		<title>OpenLegacy - Legacy Modernization made open</title>
+
+		<script type="text/javascript">
+			dojoConfig = {
+					async:true,
+					preventBackButtonFix: false,
+					parseOnLoad: true, 
+					baseUrl: '${pageContext.request.contextPath}/dj/dojo/', 
+					isDebug: false, 
+					mblAlwaysHideAddressBar: true
+					};
+		</script>
+
+		<script src="${pageContext.request.contextPath}/dj/dojo.js" type="text/javascript"><!-- aa --></script>
+		<script src="${pageContext.request.contextPath}/dj/dojo.mobile.custom.build.js" type="text/javascript"><!-- aa --></script>
+
+		<script src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
+		<script src="${pageContext.request.contextPath}/js/project.js" type="text/javascript"><!-- required for FF3 and Opera --></script>
+
+		<link href="${pageContext.request.contextPath}/dj/dijit.css" rel="stylesheet" type="text/css" />
+		<c:if test="${openLegacyProperties.rightToLeft}">
+			<c:set var="cssRtl" value="_rtl" />
+		</c:if>
+		<!--link href="${pageContext.request.contextPath}/dj/dojox/mobile/themes/iphone/iphone.css" rel="stylesheet" /-->
+		<link href="${pageContext.request.contextPath}/themes/cloudm/cloudm${cssRtl}.css" rel="stylesheet"/>
+		<link href="${pageContext.request.contextPath}/themes/cloudm/openlegacy.css" rel="stylesheet" />
+		<link href="${pageContext.request.contextPath}/css/project_m.css" rel="stylesheet" />
+
+		<script language="JavaScript" type="text/javascript">
+			require([
+					"dojox/mobile/parser",
+					"dojox/mobile",
+					"dojox/mobile/ScreenSizeAware",
+					"dojox/mobile/FixedSplitter",
+					"dojox/mobile/ScrollableView",
+					"dojox/mobile/TextBox",
+					"dojox/mobile/Button",
+					"dojox/mobile/RoundRectList",
+					"dojox/mobile/ListItem",
+					"dojox/mobile/RoundRectCategory",
+					"dojox/mobile/ScrollableView",
+					"dojox/mobile/ToolBarButton",
+					"dojox/mobile/ContentPane",
+					"dojox/mobile/View",
+					"dojox/mobile/SwapView",
+					"dojox/mobile/RoundRect",
+					"dojox/mobile/Heading",
+					"dojox/mobile/TextArea",
+					"dojox/mobile/CheckBox",
+					"dojox/mobile/TabBar",
+					"dojox/mobile/TabBarButton",
+					"dojox/mobile/ComboBox",
+					"dojox/mobile/Opener",
+					"dojox/mobile/SimpleDialog",
+					"dojox/mobile/_ContentPaneMixin",
+					"dijit/Calendar",
+					"dojo/has!webkit?:dojox/mobile/compat",
+					"dojo/store/Memory",
+					"dojo/data/ItemFileReadStore"
+					]);
+			require(["dojo/back"], function(back){
+				back.setInitialState(new HistoryState("DemoEnvironmentPanel"));
+			});
+		</script>
+	</head>
+	<body>
+		<script>
+		require(["dojo/back"], function(back){
+			back.init();
+		});
+		</script>
+
+		<span data-dojo-type="dojox.mobile.ScreenSizeAware"><!-- FF --></span>
+		<div data-dojo-type="dojox.mobile.FixedSplitter" data-dojo-props="orientation:'H'" id="fixedSplitter">
+			<c:set var="width" value="350px" />
+			<c:if test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
+				<c:set var="width" value="700px" />
+			</c:if>
+			<c:if test="${definitions == null || definitions.typeName == 'LoginEntity' || deviceType eq 'MOBILE'}">
+				<c:choose>
+				<c:when test="${openLegacyProperties.rightToLeft}">
+					<c:set var="width" value="0%" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="width" value="100%" />
+				</c:otherwise>
+				</c:choose>
+			</c:if>
+			<style>#leftPane{width:${width};}</style>
+			<div id="leftPane" data-dojo-type="dojox.mobile.Container">
+				<c:choose>
+				<c:when test="${openLegacyProperties.rightToLeft}">
+					<div id="mainView" data-dojo-type="dojox.mobile.View">
+						<div id="bodyContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">
+							<tiles:insertAttribute name="header" ignore="true"/>
+							<tiles:insertAttribute name="body"/>
+						</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div id="menuView" data-dojo-type="dojox.mobile.ScrollableView" data-dojo-props="selected:true">
+						<ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
+						</ul>
+						<div id="menuContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">
+							<tiles:insertAttribute name="menuHeader" ignore="true"/>
+							<tiles:insertAttribute name="menu" ignore="true"/>
+						</div>
+					</div>
+				</c:otherwise>
+				</c:choose>
+			</div>
+			<div id="rightPane" data-dojo-type="dojox.mobile.Container">
+				<c:choose>
+				<c:when test="${openLegacyProperties.rightToLeft}">
+					<div id="menuView" data-dojo-type="dojox.mobile.ScrollableView" data-dojo-props="selected:true">
+						<ul data-dojo-type="dojox.mobile.EdgeToEdgeList">
+						</ul>
+						<div id="menuContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">
+							<tiles:insertAttribute name="menuHeader" ignore="true"/>
+							<tiles:insertAttribute name="menu" ignore="true"/>
+						</div>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div id="mainView" data-dojo-type="dojox.mobile.View">
+						<div id="bodyContainer" class="container" data-dojo-type="dojox.mobile.ContentPane">
+							<tiles:insertAttribute name="header" ignore="true"/>
+							<tiles:insertAttribute name="body"/>
+						</div>
+					</div>
+				</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
+
+		<div id="loadingMessage" style="position: absolute;top: 250px;left: 150px;display: none; ">
+			<img src="${pageContext.request.contextPath}/images/loading.gif" />
+		</div>		
+
+		<div id="dialogs" data-dojo-type="dojox.mobile.View">
+			<div id="lookupDialog" data-dojo-type="dojox.mobile.SimpleDialog" style="position: absolute;"><!--  --></div>
+		</div>
+		
+		<tiles:insertAttribute name="footer" ignore="true"/>
+	</body>
+</html>
+</jsp:root>

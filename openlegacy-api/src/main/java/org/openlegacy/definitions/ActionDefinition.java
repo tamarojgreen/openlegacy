@@ -65,4 +65,5 @@ public interface ActionDefinition {
 	 */
 	boolean isGlobal();
 
+	Class<?> getTargetEntity();
 }

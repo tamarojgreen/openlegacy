@@ -13,10 +13,10 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.EntityNotFoundException;
-import org.openlegacy.loaders.support.PartPositionAnnotationLoader;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.loaders.support.PartPositionAnnotationLoader;
 import org.openlegacy.terminal.mock.MockTerminalConnection;
 import org.openlegacy.terminal.wait_conditions.WaitCondition;
 import org.openlegacy.utils.ProxyUtil;
@@ -55,7 +55,7 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	@SuppressWarnings("unchecked")
 	private <S> void setupMockup(Class<S> screenEntityClass) {
 		if (getScreenEntitiesRegistry().isDirty()) {
-			preserveSnapshots(getTerminalConnection());
+			preserveSnapshots(getConnection());
 		}
 		screenEntityClass = (Class<S>)ProxyUtil.getOriginalClass(screenEntityClass);
 		SnapshotsList snapshotsList = snapshotsMap.get(screenEntityClass);
@@ -64,7 +64,7 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 					+ "was not found in the recorded trail"));
 		}
 		SnapshotInfo snapshotInfo = snapshotsList.getCurrent();
-		getTerminalConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
+		getConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
 	}
 
 	@Override
@@ -83,13 +83,8 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 		snapshotsList.next();
 	}
 
-	@Override
-	protected void notifyModulesAfterSend() {
-		super.notifyModulesAfterSend();
-	}
-
 	public void setTerminalConnection(MockTerminalConnection terminalConnection) {
-		super.setTerminalConnection(terminalConnection);
+		super.setConnection(terminalConnection);
 
 		preserveSnapshots(terminalConnection);
 	}
@@ -125,8 +120,8 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	}
 
 	@Override
-	protected MockTerminalConnection getTerminalConnection() {
-		return (MockTerminalConnection)super.getTerminalConnection();
+	protected MockTerminalConnection getConnection() {
+		return (MockTerminalConnection)super.getConnection();
 	}
 
 	/**

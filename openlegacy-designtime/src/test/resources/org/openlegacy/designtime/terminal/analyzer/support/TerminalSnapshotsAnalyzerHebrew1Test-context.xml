@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://drools.org/schema/drools-spring http://drools.org/schema/drools-spring.xsd">
 
-	<import resource="classpath*:/META-INF/openlegacy-basic-context.xml" />
+	<import resource="classpath*:/META-INF/openlegacy-terminal-basic-context.xml" />
 	<import resource="classpath:/openlegacy-rtl-designtime-context.xml" />
 
 	<bean id="bestEntityNameFieldComparator" class="org.openlegacy.designtime.terminal.analyzer.support.comparators.CompositeFieldsComparator">

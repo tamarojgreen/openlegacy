@@ -1,0 +1,39 @@
+<jsp:root
+	xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+<div>
+	<div class="web_mobile_footer">
+	Mobile | <a href="${pageContext.request.contextPath}/?site_preference=normal">Web</a>
+	<c:if test="${(deviceType eq 'TABLET') || (deviceType eq 'NORMAL')}">
+	<br/>
+	Copyright &#169; 2012 OpenLegacy. All rights reserved. <br />Powered
+	by OpenLegacy &#174; ${openLegacyProperties.version}
+	</c:if>
+	
+	<a href="javascript:showMobileSessionViewer('${pageContext.request.contextPath}');">View Session</a>
+	<div id="sessionViewer" style="position: absolute;top: 10px;left: 10px;"
+     data-dojo-type="dojox.mobile.SimpleDialog"
+     data-dojo-props="closeButton:true"
+     data-dojo-mixins="dojox.mobile._ContentPaneMixin"><!--  --></div>
+     
+	</div>
+	<div>
+		<div id="calPicker" data-dojo-type="dojox.mobile.Opener" data-dojo-props="onHide:getDateFromCalendar, onShow:setDateToCelendar">
+			<h1 data-dojo-type="dojox.mobile.Heading" 
+				data-dojo-props="label:'Select a Date'">
+				<div data-dojo-type="dojox.mobile.ToolBarButton" 
+					data-dojo-props="label:'Done'" class="mblColorBlue" style="position: absolute; width: 45px; right: 0;" 
+					onclick="require(['dijit/registry'], function(registry){registry.byId('calPicker').hide(true)});"></div>
+				<div data-dojo-type="dojox.mobile.ToolBarButton" 
+					data-dojo-props="label:'Cancel'" class="mblColorBlue" style="position: absolute; width: 45px; left: 0;" 
+					onclick="require(['dijit/registry'], function(registry){registry.byId('calPicker').hide(false)});"></div>
+			</h1>
+			<div id="calendarWidget" data-dojo-type='dijit.Calendar'/>
+		</div>
+	</div>
+	
+</div>
+</jsp:root>

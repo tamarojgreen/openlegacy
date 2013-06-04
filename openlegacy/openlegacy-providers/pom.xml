@@ -17,6 +17,7 @@
 		<module>openlegacy-h3270</module>
 		<!-- Uncomment applinx provider as can't publish it's JAR's in a public maven - need provider approval (depends on license file) -->
 		<!-- <module>openlegacy-applinx</module> -->
+		<module>openlegacy-jt400</module>
 	</modules>
 	
 	 <build>

@@ -1,0 +1,33 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div class="header">
+		<h1 id="logo_header">
+			<a href="">OpenLegacy</a>
+		</h1>
+		<div class="topmenu_wrap">
+			<div class="topmenu">
+				<ul>
+					<li>
+						<img src="${pageContext.request.contextPath}/images/english.gif" onclick="setLanguage('en');" class="lang" />
+						|
+						<img src="${pageContext.request.contextPath}/images/hebrew.gif" onclick="setLanguage('he');" class="lang" />
+						
+					</li>
+				  	<spring:message code="label_welcome" var="label_welcome" htmlEscape="false" />
+					<c:if test="${ol_loggedInUser != null}">
+						<li class="welcomeUser">${label_welcome} , ${ol_loggedInUser}!</li>
+					</c:if>
+				  	<spring:message code="label_mobile" var="label_mobile" htmlEscape="false" />
+					<li class="mobile"><a href="${pageContext.request.contextPath}/?site_preference=mobile" title="Mobile version">${label_mobile}</a></li>
+					<!-- <li class="prefs"><a href="javascript:changeTheme('red');">Theme</a></li> -->
+				  	<spring:message code="label_logout" var="label_logout" htmlEscape="false" />
+					<li class="logout"><a href="${pageContext.request.contextPath}/logoff">${label_logout}</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</jsp:root>

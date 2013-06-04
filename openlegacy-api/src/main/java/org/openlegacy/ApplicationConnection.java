@@ -23,7 +23,7 @@ package org.openlegacy;
  * @param <A>
  *            The type of send action used
  */
-public interface ApplicationConnection<S extends Snapshot, A extends SendAction> {
+public interface ApplicationConnection<S extends Snapshot, A extends RemoteAction> {
 
 	S getSnapshot();
 
@@ -36,4 +36,6 @@ public interface ApplicationConnection<S extends Snapshot, A extends SendAction>
 	void disconnect();
 
 	void doAction(A sendAction);
+
+	Integer getSequence();
 }

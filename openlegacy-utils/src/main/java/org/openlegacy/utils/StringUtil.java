@@ -131,6 +131,9 @@ public class StringUtil {
 	}
 
 	public static String toDisplayName(String text) {
+		if (StringUtils.isAllUpperCase(text)) {
+			text = text.toLowerCase();
+		}
 		char[] chars = text.toCharArray();
 		StringBuilder sb = new StringBuilder(text.length());
 		for (int i = 0; i < chars.length; i++) {

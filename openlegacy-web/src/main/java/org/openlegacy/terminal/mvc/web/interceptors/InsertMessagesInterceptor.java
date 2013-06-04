@@ -24,14 +24,14 @@ import javax.servlet.http.HttpServletResponse;
  * @author RoiM
  * 
  */
-public class InsertMessagesInterceptor extends AbstractInterceptor {
+public class InsertMessagesInterceptor extends AbstractScreensInterceptor {
 
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
-		if (!getTerminalSession().isConnected()) {
+		if (!getSession().isConnected()) {
 			return;
 		}
-		Messages messagesModule = getTerminalSession().getModule(Messages.class);
+		Messages messagesModule = getSession().getModule(Messages.class);
 		if (messagesModule == null) {
 			return;
 		}

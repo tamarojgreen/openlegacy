@@ -27,9 +27,9 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.table.TerminalDrilldownAction;
-import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.utils.ScreenNavigationUtil;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.utils.EntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
@@ -50,10 +50,13 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 	private NavigationMetadata navigationMetadata;
 
 	@Inject
-	private ScreenEntityUtils screenEntityUtils;
+	private transient ApplicationContext applicationContext;
 
 	@Inject
-	private transient ApplicationContext applicationContext;
+	private EntityUtils entityUtils;
+
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 
@@ -66,7 +69,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			return;
 		}
 
-		if (screenEntityUtils.isEntitiesEquals(currentEntity, targetScreenEntityClass, keys)) {
+		if (entityUtils.isEntitiesEquals(screenEntitiesRegistry, currentEntity, targetScreenEntityClass, keys)) {
 			return;
 		}
 
@@ -79,7 +82,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 		List<NavigationDefinition> navigationSteps = navigationMetadata.get(currentEntityDefinition, targetEntityDefinition);
 
 		while (navigationSteps == null) {
-			if (screenEntityUtils.isEntitiesEquals(currentEntity, targetScreenEntityClass, keys)) {
+			if (entityUtils.isEntitiesEquals(screenEntitiesRegistry, currentEntity, targetScreenEntityClass, keys)) {
 				return;
 			}
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot>
+        <invoke rpcPath="rpctest">
+            <field value="hello" length="10" modified="true"/>
+            <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+        </invoke>
+        <result>
+            <field value="hello" length="10" modified="true"/>
+            <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+        </result>
+    </snapshot>
+</rpc-trail>
+

@@ -1,0 +1,18 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div class="mblHeading">
+	  	<spring:message code="label_submit" var="label_submit" htmlEscape="false" />
+		<button data-dojo-type="dojox.mobile.Button" class="mblBtn baseBtn"
+			onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel');">
+			${label_submit}
+			</button>
+		<c:forEach items="${definitions.actions}" var="action">
+			<button data-dojo-type="dojox.mobile.Button" class="mblBtn baseBtn"
+				onclick="doMobilePost('${definitions.entityName}Form','${definitions.entityName}Panel','${action.alias}');">${action.displayName}</button>
+		</c:forEach>
+	</div>
+</jsp:root>

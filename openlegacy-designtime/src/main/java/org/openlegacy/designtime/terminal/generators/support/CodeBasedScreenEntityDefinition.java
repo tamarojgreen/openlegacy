@@ -211,4 +211,9 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	public boolean isSupportTerminalData() {
 		return this.codeModel.isSupportTerminalData();
 	}
+
+	public ActionDefinition getAction(Class<?> actionClass) {
+		throwNotImplemented();
+		return null;
+	}
 }

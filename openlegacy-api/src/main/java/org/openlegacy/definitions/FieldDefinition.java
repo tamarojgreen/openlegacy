@@ -51,5 +51,7 @@ public interface FieldDefinition {
 	boolean isKey();
 
 	int getKeyIndex();
+	
+	boolean isRightToLeft();
 
 }

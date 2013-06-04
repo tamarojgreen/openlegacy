@@ -36,6 +36,10 @@ public class InsertPluginsDataInterceptor extends HandlerInterceptorAdapter {
 	@Inject
 	private PluginsRegistry pluginsRegistry;
 
+	public InsertPluginsDataInterceptor() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
 			throws Exception {

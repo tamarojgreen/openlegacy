@@ -26,7 +26,6 @@ import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
@@ -37,7 +36,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-@Component
 public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 
 	@Inject

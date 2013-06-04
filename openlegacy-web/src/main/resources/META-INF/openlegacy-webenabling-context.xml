@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<import resource="classpath:/META-INF/openlegacy-webcomponents-context.xml" /> 
-	<import resource="classpath:/META-INF/openlegacy-basic-context.xml" /> 
+	<import resource="classpath:/META-INF/openlegacy-terminal-basic-context.xml" /> 
 	
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" scope="session" parent="abstractTerminalSession">
         <aop:scoped-proxy/>

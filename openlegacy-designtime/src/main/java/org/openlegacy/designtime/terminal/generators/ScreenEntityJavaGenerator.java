@@ -12,6 +12,7 @@ package org.openlegacy.designtime.terminal.generators;
 
 import freemarker.template.TemplateException;
 
+import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.springframework.stereotype.Component;
 

@@ -13,9 +13,8 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.ApplicationConnectionListener;
 import org.openlegacy.OpenLegacyProperties;
-import org.openlegacy.SessionProperties;
-import org.openlegacy.SessionPropertiesProvider;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
@@ -27,7 +26,6 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalConnection;
-import org.openlegacy.terminal.TerminalConnectionListener;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSession;
@@ -40,8 +38,8 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
-import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.wait_conditions.WaitCondition;
+import org.openlegacy.utils.EntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.SpringUtil;
@@ -81,10 +79,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private TerminalActionMapper terminalActionMapper;
 
 	@Inject
-	private ScreenEntityUtils screenEntityUtils;
-
-	@Inject
-	private SessionPropertiesProvider sessionPropertiesProvider;
+	private EntityUtils entityUtils;
 
 	@Inject
 	private OpenLegacyProperties openLegacyProperties;
@@ -100,8 +95,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private ConnectionProperties connectionProperties;
 
-	private SessionProperties sessionProperties;
-
+	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@SuppressWarnings("unchecked")
@@ -116,7 +110,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (entity == null) {
 			entity = getEntityInner();
 		}
-		if (!screenEntityUtils.isEntitiesEquals(entity, screenEntityClass, keys)) {
+		if (!entityUtils.isEntitiesEquals(screenEntitiesRegistry, entity, screenEntityClass, keys)) {
 			resetEntity();
 		}
 		ScreenEntityDefinition definitions = getScreenEntitiesRegistry().get(screenEntityClass);
@@ -243,38 +237,20 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return (R)getEntity();
 	}
 
-	private void notifyModulesBeforeConnect() {
-		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
-		for (SessionModule sessionModule : modulesList) {
-			if (sessionModule instanceof TerminalConnectionListener) {
-				((TerminalConnectionListener)sessionModule).beforeConnect(terminalConnection);
-			}
-		}
-	}
-
-	private void notifyModulesAfterConnect() {
-		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
-		for (SessionModule sessionModule : modulesList) {
-			if (sessionModule instanceof TerminalConnectionListener) {
-				((TerminalConnectionListener)sessionModule).afterConnect(terminalConnection);
-			}
-		}
-	}
-
 	protected void notifyModulesBeforeSend(TerminalSendAction terminalSendAction) {
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
-			if (sessionModule instanceof TerminalConnectionListener) {
-				((TerminalConnectionListener)sessionModule).beforeSendAction(terminalConnection, terminalSendAction);
+			if (sessionModule instanceof ApplicationConnectionListener) {
+				((ApplicationConnectionListener)sessionModule).beforeAction(terminalConnection, terminalSendAction);
 			}
 		}
 	}
 
-	protected void notifyModulesAfterSend() {
+	protected void notifyModulesAfterAction(TerminalSendAction sendAction) {
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
-			if (sessionModule instanceof TerminalConnectionListener) {
-				((TerminalConnectionListener)sessionModule).afterSendAction(terminalConnection);
+			if (sessionModule instanceof ApplicationConnectionListener) {
+				((ApplicationConnectionListener)sessionModule).afterAction(terminalConnection, sendAction, getSnapshot());
 			}
 		}
 	}
@@ -297,7 +273,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return terminalConnection.getDelegate();
 	}
 
-	public void setTerminalConnection(TerminalConnection terminalConnection) {
+	public void setConnection(TerminalConnection terminalConnection) {
 		this.terminalConnection = terminalConnection;
 	}
 
@@ -369,9 +345,10 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		resetEntity();
 
 		performWait(waitConditions);
-		notifyModulesAfterSend();
 
 		logScreenAfter();
+
+		notifyModulesAfterAction(sendAction);
 	}
 
 	protected void formatSendAction(TerminalSendAction sendAction) {
@@ -406,7 +383,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return terminalConnection.fetchSnapshot();
 	}
 
-	protected TerminalConnection getTerminalConnection() {
+	@Override
+	protected TerminalConnection getConnection() {
 		return terminalConnection;
 	}
 
@@ -451,17 +429,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		this.useProxyForEntities = useProxyForEntities;
 	}
 
-	public void setSessionPropertiesProvider(SessionPropertiesProvider sessionPropertiesProvider) {
-		this.sessionPropertiesProvider = sessionPropertiesProvider;
-	}
-
-	public SessionProperties getProperties() {
-		if (sessionProperties == null) {
-			sessionProperties = sessionPropertiesProvider.getSessionProperties();
-		}
-		return sessionProperties;
-	}
-
 	public ConnectionProperties getConnectionProperties() {
 		if (connectionProperties == null) {
 			connectionProperties = new ConnectionProperties() {
@@ -479,7 +446,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		terminalConnection.flip();
 		// force update
 		terminalConnection.fetchSnapshot();
-		notifyModulesAfterSend();
+		notifyModulesAfterAction(null);
 	}
 
 }

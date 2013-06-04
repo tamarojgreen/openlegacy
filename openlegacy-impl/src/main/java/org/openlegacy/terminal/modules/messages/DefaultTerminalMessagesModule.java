@@ -12,11 +12,13 @@ package org.openlegacy.terminal.modules.messages;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.ApplicationConnection;
+import org.openlegacy.RemoteAction;
+import org.openlegacy.Snapshot;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -51,7 +53,7 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 	private int skipLimit = 5;
 
 	@Override
-	public void afterSendAction(TerminalConnection terminalConnection) {
+	public void afterAction(ApplicationConnection<?, ?> terminalConnection, RemoteAction action, Snapshot result) {
 
 		ScreenEntity currentEntity = getSession().getEntity();
 

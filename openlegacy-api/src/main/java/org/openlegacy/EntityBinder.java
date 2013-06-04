@@ -16,7 +16,7 @@ package org.openlegacy;
  * 
  * @author Roi Mor
  */
-public interface EntityBinder<S extends Snapshot, A extends SendAction> {
+public interface EntityBinder<S extends Snapshot, A extends RemoteAction> {
 
 	/**
 	 * populates the given entity with values from the given snapshot. Typically using metadata on {@link EntityDefinition} from

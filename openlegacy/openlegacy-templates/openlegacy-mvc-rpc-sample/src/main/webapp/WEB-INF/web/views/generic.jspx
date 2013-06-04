@@ -1,0 +1,45 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
+	xmlns:olf="http://www.openlegacy.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<ol:form model="${olf:uncapFirst(definitions.entityName)}">
+		<c:forEach items="${page.pageParts}" var="pagePart">
+			<c:choose>
+				<c:when test="${pagePart.oneField}">
+					<ol:field name="${pagePart.singleField.name}" top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%" width="${pagePart.width}%" />
+				</c:when>
+				<c:otherwise>
+					<ol:pagePart width="${pagePart.width}%" title="${pagePart.displayName}" relative="${pagePart.relative}"
+						top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%">
+						<c:choose>
+							<c:when test="${not pagePart.hasTable}">
+								<c:forEach items="${pagePart.partRows}" var="partRow">
+									<ol:row columns="${fn:length(partRow.fields)}">
+										<c:forEach items="${partRow.fields}" var="field" varStatus="colCounter">
+											<ol:field name="${field.name}" />
+										</c:forEach>
+									</ol:row>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<c:set
+									value="${definitions.entityName}.${pagePart.tableFieldName}"
+									var="tableField" />
+								<c:set value="${olf:uncapFirst(tableField)}" var="tableField" />
+								<spring:eval expression="${tableField}" var="tableData"></spring:eval>
+								<ol:table property="${pagePart.tableFieldName}"
+									data="${tableData}" window="${definitions.window}"></ol:table>
+							</c:otherwise>
+						</c:choose>
+					</ol:pagePart>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	</ol:form>
+</jsp:root>

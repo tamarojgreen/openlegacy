@@ -15,14 +15,11 @@ import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.definitions.FieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleFieldWthValuesTypeDefinition;
+import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
-import org.openlegacy.support.SimpleDisplayItem;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
@@ -36,11 +33,6 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
 
-import japa.parser.ast.body.BodyDeclaration;
-import japa.parser.ast.body.ClassOrInterfaceDeclaration;
-import japa.parser.ast.body.EnumConstantDeclaration;
-import japa.parser.ast.body.EnumDeclaration;
-import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.ArrayInitializerExpr;
 import japa.parser.ast.expr.Expression;
@@ -52,77 +44,43 @@ import java.util.List;
 
 public class ScreenAnnotationsParserUtils {
 
-	public static void loadDateField(AnnotationExpr annotationExpr, Field field) {
-		Integer yearColumn = null;
-		Integer monthColumn = null;
-		Integer dayColumn = null;
-		String annotationValue = getAnnotationValue(annotationExpr, AnnotationConstants.YEAR_COLUMN);
-
-		if (annotationValue != null) {
-			yearColumn = Integer.valueOf(annotationValue);
-		}
-		annotationValue = getAnnotationValue(annotationExpr, AnnotationConstants.MONTH_COLUMN);
-		if (annotationValue != null) {
-			monthColumn = Integer.valueOf(annotationValue);
-		}
-		annotationValue = getAnnotationValue(annotationExpr, AnnotationConstants.DAY_COLUMN);
-		if (annotationValue != null) {
-			dayColumn = Integer.valueOf(annotationValue);
-		}
-
-		FieldTypeDefinition dateFieldDefiniton = new SimpleDateFieldTypeDefinition(dayColumn, monthColumn, yearColumn);
-		field.setFieldTypeDefinition(dateFieldDefiniton);
-
-	}
-
-	public static void loadBooleanField(AnnotationExpr annotationExpr, Field field) {
-		String trueValue = getAnnotationValue(annotationExpr, AnnotationConstants.TRUE_VALUE);
-		String falseValue = getAnnotationValue(annotationExpr, AnnotationConstants.FALSE_VALUE);
-		String treatNullAsEmpty = getAnnotationValue(annotationExpr, AnnotationConstants.TREAT_EMPTY_AS_NULL);
-		FieldTypeDefinition booleanFieldDefiniton = new SimpleBooleanFieldTypeDefinition(trueValue, falseValue,
-				StringConstants.TRUE.equals(treatNullAsEmpty));
-		field.setFieldTypeDefinition(booleanFieldDefiniton);
-	}
-
-	public static void loadFieldValues(AnnotationExpr annotationExpr, Field field) {
-		String sourceScreenClassValue = getAnnotationValue(annotationExpr, AnnotationConstants.SOURCE_SCREEN_ENTITY);
+	public static FieldTypeDefinition loadFieldValues(AnnotationExpr annotationExpr) {
+		String sourceScreenClassValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.SOURCE_SCREEN_ENTITY);
 		String sourceEntityClassName = StringUtil.toClassName(sourceScreenClassValue);
-		String collectAll = getAnnotationValue(annotationExpr, AnnotationConstants.COLLECT_ALL);
+		String collectAll = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.COLLECT_ALL);
 
 		SimpleFieldWthValuesTypeDefinition fieldDefinition = new SimpleFieldWthValuesTypeDefinition();
 		fieldDefinition.setSourceEntityClassName(sourceEntityClassName);
 		if (StringConstants.TRUE.equals(collectAll)) {
 			fieldDefinition.setCollectAllRecords(true);
 		}
-		field.setFieldTypeDefinition(fieldDefinition);
-		// used for aspectj code generation
-		field.setHasValues(true);
+		return fieldDefinition;
 	}
 
 	public static void loadScreenFieldOrColumnAnnotation(AnnotationExpr annotationExpr, Field field) {
 		String editableValue = getAnnotationValue(annotationExpr, AnnotationConstants.EDITABLE);
-		String rowValue = getAnnotationValue(annotationExpr, AnnotationConstants.ROW);
-		String columnValue = getAnnotationValue(annotationExpr, AnnotationConstants.COLUMN);
+		String rowValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.ROW);
+		String columnValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.COLUMN);
 		String displayNameValue = getAnnotationValue(annotationExpr, AnnotationConstants.DISPLAY_NAME);
-		String startColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.START_COLUMN);
-		String endColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_COLUMN);
-		String labelColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.LABEL_COLUMN);
+		String startColumnValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.START_COLUMN);
+		String endColumnValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.END_COLUMN);
+		String labelColumnValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.LABEL_COLUMN);
 		String helpTextValue = getAnnotationValue(annotationExpr, AnnotationConstants.HELP_TEXT);
-		String selectionFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.SELECTION_FIELD);
+		String selectionFieldValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.SELECTION_FIELD);
 		String keyValue = getAnnotationValue(annotationExpr, AnnotationConstants.KEY);
-		String mainDisplayFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.MAIN_DISPLAY_FIELD);
+		String mainDisplayFieldValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.MAIN_DISPLAY_FIELD);
 		// @author Ivan Bort refs assembla #112
 		String fieldTypeName = getAnnotationValue(annotationExpr, AnnotationConstants.FIELD_TYPE);
-		String rectangleValue = getAnnotationValue(annotationExpr, AnnotationConstants.RECTANGLE);
+		String rectangleValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.RECTANGLE);
 		String passwordValue = getAnnotationValue(annotationExpr, AnnotationConstants.PASSWORD);
 		String sampleValue = getAnnotationValue(annotationExpr, AnnotationConstants.SAMPLE_VALUE);
-		String rowsOffset = getAnnotationValue(annotationExpr, AnnotationConstants.ROWS_OFFSET);
+		String rowsOffset = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.ROWS_OFFSET);
 		// @author Ivan Bort refs assembla #235
-		String endRowValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_ROW);
+		String endRowValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.END_ROW);
 		String rightToLeftValue = getAnnotationValue(annotationExpr, AnnotationConstants.RIGHT_TO_LEFT);
-		String attributeValue = getAnnotationValue(annotationExpr, AnnotationConstants.ATTRIBUTE);
-		String whenValue = getAnnotationValue(annotationExpr, AnnotationConstants.WHEN);
-		String unlessValue = getAnnotationValue(annotationExpr, AnnotationConstants.UNLESS);
+		String attributeValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.ATTRIBUTE);
+		String whenValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.WHEN);
+		String unlessValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.UNLESS);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : StringUtil.stripQuotes(sampleValue));
 		field.setFieldTypeName(StringUtil.toClassName(fieldTypeName));
@@ -198,14 +156,15 @@ public class ScreenAnnotationsParserUtils {
 			List<Expression> actionsAnnotations = actionsPairs.getValues();
 			for (Expression expression : actionsAnnotations) {
 				NormalAnnotationExpr singleAction = (NormalAnnotationExpr)expression;
-				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION);
+				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.ACTION);
 				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
 				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
 				// used by @TableAction only
-				String actionValue = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION_VALUE);
-				String targetEntityName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.TARGET_ENTITY);
+				String actionValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.ACTION_VALUE);
+				String targetEntityName = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.TARGET_ENTITY);
 				// @author Ivan Bort, refs assembla #235
-				String additionalKeyValue = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ADDITIONAL_KEY);
+				String additionalKeyValue = JavaParserUtil.getAnnotationValue(singleAction,
+						ScreenAnnotationConstants.ADDITIONAL_KEY);
 
 				AdditionalKey additionalKey = AdditionalKey.NONE;
 				if (additionalKeyValue != null) {
@@ -228,26 +187,25 @@ public class ScreenAnnotationsParserUtils {
 
 			for (MemberValuePair memberValuePair : navigationAttributes) {
 				String attributeValue = memberValuePair.getValue().toString();
-				if (memberValuePair.getName().equals(AnnotationConstants.ACCESSED_FROM)) {
-					navigationDefinition
-							.setAccessedFromEntityName(StringUtil.stripQuotes(StringUtil.toClassName(attributeValue)));
+				if (memberValuePair.getName().equals(ScreenAnnotationConstants.ACCESSED_FROM)) {
+					navigationDefinition.setAccessedFromEntityName(StringUtil.stripQuotes(StringUtil.toClassName(attributeValue)));
 				}
-				if (memberValuePair.getName().equals(AnnotationConstants.REQUIRES_PARAMETERS)) {
+				if (memberValuePair.getName().equals(ScreenAnnotationConstants.REQUIRES_PARAMETERS)) {
 					navigationDefinition.setRequiresParameters(Boolean.valueOf(attributeValue));
 				}
-				if (memberValuePair.getName().equals(AnnotationConstants.TERMINAL_ACTION)) {
+				if (memberValuePair.getName().equals(ScreenAnnotationConstants.TERMINAL_ACTION)) {
 					navigationDefinition.setTerminalActionName(StringUtil.toClassName(attributeValue));
 				}
-				if (memberValuePair.getName().equals(AnnotationConstants.ADDITIONAL_KEY)) {
+				if (memberValuePair.getName().equals(ScreenAnnotationConstants.ADDITIONAL_KEY)) {
 					navigationDefinition.setAdditionalKey(AdditionalKey.valueOf(attributeValue.split("\\.")[1]));
 				}
-				if (memberValuePair.getName().equals(AnnotationConstants.EXIT_ACTION)) {
+				if (memberValuePair.getName().equals(ScreenAnnotationConstants.EXIT_ACTION)) {
 					navigationDefinition.setExitActionName(StringUtil.toClassName(attributeValue));
 				}
-				if (memberValuePair.getName().equals(AnnotationConstants.EXIT_ADDITIONAL_KEY)) {
+				if (memberValuePair.getName().equals(ScreenAnnotationConstants.EXIT_ADDITIONAL_KEY)) {
 					navigationDefinition.setExitAdditionalKey(AdditionalKey.valueOf(attributeValue.split("\\.")[1]));
 				}
-				if (memberValuePair.getName().equals(AnnotationConstants.ASSIGNED_FIELDS)) {
+				if (memberValuePair.getName().equals(ScreenAnnotationConstants.ASSIGNED_FIELDS)) {
 					navigationDefinition.setAssignedFields(populateAssignedFields(memberValuePair.getValue()));
 				}
 			}
@@ -268,10 +226,10 @@ public class ScreenAnnotationsParserUtils {
 					String value = null;
 					for (MemberValuePair pair : pairs) {
 						String attrValue = pair.getValue().toString();
-						if (pair.getName().equals(AnnotationConstants.FIELD)) {
+						if (pair.getName().equals(ScreenAnnotationConstants.FIELD)) {
 							name = StringUtil.stripQuotes(attrValue);
 						}
-						if (pair.getName().equals(AnnotationConstants.VALUE)) {
+						if (pair.getName().equals(ScreenAnnotationConstants.VALUE)) {
 							value = StringUtil.stripQuotes(attrValue);
 						}
 					}
@@ -290,7 +248,7 @@ public class ScreenAnnotationsParserUtils {
 				return identification;
 			}
 			for (MemberValuePair memberValuePair : identifiersAttributes) {
-				if (memberValuePair.getName().equals(AnnotationConstants.IDENTIFIERS)) {
+				if (memberValuePair.getName().equals(ScreenAnnotationConstants.IDENTIFIERS)) {
 					List<ScreenIdentifier> list = populateScreenIdentifiers(memberValuePair.getValue());
 					for (ScreenIdentifier screenIdentifier : list) {
 						identification.addIdentifier(screenIdentifier);
@@ -315,13 +273,13 @@ public class ScreenAnnotationsParserUtils {
 					String value = null;
 					for (MemberValuePair pair : pairs) {
 						String attrValue = pair.getValue().toString();
-						if (pair.getName().equals(AnnotationConstants.ROW)) {
+						if (pair.getName().equals(ScreenAnnotationConstants.ROW)) {
 							row = Integer.parseInt(attrValue);
 						}
-						if (pair.getName().equals(AnnotationConstants.COLUMN)) {
+						if (pair.getName().equals(ScreenAnnotationConstants.COLUMN)) {
 							column = Integer.parseInt(attrValue);
 						}
-						if (pair.getName().equals(AnnotationConstants.VALUE)) {
+						if (pair.getName().equals(ScreenAnnotationConstants.VALUE)) {
 							value = StringUtil.stripQuotes(attrValue);
 						}
 					}
@@ -332,51 +290,15 @@ public class ScreenAnnotationsParserUtils {
 		return list;
 	}
 
-	/**
-	 * @param mainType
-	 * @param fieldDeclaration
-	 * @param field
-	 */
-	public static void loadEnumField(ClassOrInterfaceDeclaration mainType, FieldDeclaration fieldDeclaration, Field field) {
-		String fieldType = fieldDeclaration.getType().toString();
-
-		List<BodyDeclaration> members = mainType.getMembers();
-		for (BodyDeclaration bodyDeclaration : members) {
-			if (bodyDeclaration instanceof EnumDeclaration) {
-				EnumDeclaration enumDeclaration = (EnumDeclaration)bodyDeclaration;
-				if (enumDeclaration.getName().equals(fieldType)) {
-					SimpleEnumFieldTypeDefinition enumDefinition = new SimpleEnumFieldTypeDefinition();
-
-					List<EnumConstantDeclaration> entries = enumDeclaration.getEntries();
-					for (EnumConstantDeclaration entry : entries) {
-						String value = "";
-						String displayName = "";
-
-						List<Expression> args = entry.getArgs();
-						if (args.size() == 1) {
-							value = StringUtil.stripQuotes(args.get(0).toString());
-						} else if (args.size() >= 2) {
-							value = StringUtil.stripQuotes(args.get(0).toString());
-							displayName = StringUtil.stripQuotes(args.get(1).toString());
-						}
-						enumDefinition.getEnums().put(entry.getName(), new SimpleDisplayItem(value, displayName));
-					}
-					field.setFieldTypeDefinition(enumDefinition);
-					break;
-				}
-			}
-		}
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @author Ivan Bort, refs assembla #235
 	 */
 	public static void loadDescriptionField(AnnotationExpr annotationExpr, Field field) {
-		String rowValue = getAnnotationValue(annotationExpr, AnnotationConstants.ROW);
-		String columnValue = getAnnotationValue(annotationExpr, AnnotationConstants.COLUMN);
-		String endColumnValue = getAnnotationValue(annotationExpr, AnnotationConstants.END_COLUMN);
+		String rowValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.ROW);
+		String columnValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.COLUMN);
+		String endColumnValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.END_COLUMN);
 
 		field.setDescriptionRow(rowValue != null ? Integer.valueOf(rowValue) : null);
 		field.setDescriptionColumn(columnValue != null ? Integer.valueOf(columnValue) : null);

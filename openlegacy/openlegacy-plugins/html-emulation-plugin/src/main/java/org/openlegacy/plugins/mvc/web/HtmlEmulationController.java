@@ -14,8 +14,8 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
+import org.openlegacy.utils.EntityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +42,7 @@ public class HtmlEmulationController {
 	private TerminalSendActionBuilder<HttpServletRequest> terminalSendActionBuilder;
 
 	@Inject
-	private ScreenEntityUtils screenEntityUtils;
+	private EntityUtils entityUtils;
 
 	private boolean emulationOnly = false;
 
@@ -80,7 +80,7 @@ public class HtmlEmulationController {
 		if (!emulationOnly) {
 			ScreenEntity currentEntity = terminalSession.getEntity();
 			if (currentEntity != null) {
-				String currentEntityName = screenEntityUtils.getEntityName(currentEntity);
+				String currentEntityName = entityUtils.getEntityName(currentEntity);
 				return "redirect:" + currentEntityName;
 
 			}

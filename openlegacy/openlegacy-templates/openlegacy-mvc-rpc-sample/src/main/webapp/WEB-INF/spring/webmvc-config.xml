@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources -->
+	<mvc:resources cache-period="86400" location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
+	
+	<!-- DOJO library in openlegacy-web-resources.jar -->
+	<mvc:resources cache-period="86400" location="classpath:/dj.1.8.0/" mapping="/dj/**"/>
+	
+	<!-- JS in openlegacy-web-resources.jar -->
+	<mvc:resources cache-period="86400" location="classpath:/openlegacy-js/" mapping="/openlegacy-js/**"/>
+	
+	<!-- icons in openlegacy-web-resources.jar -->
+	<mvc:resources cache-period="86400" location="classpath:/icons/" mapping="/icons/**"/>
+	
+	<!-- themes in from various openlegacy themes -->
+	<mvc:resources cache-period="86400" location="classpath:/themes/" mapping="/themes/**"/>
+
+
+	<!-- Project controllers -->
+	<context:component-scan base-package="org.openlegacy.rpc.samples.model.web"
+		use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+
+	<!-- Common controllers for rpc sessions -->
+	<context:component-scan base-package="org.openlegacy.rpc.mvc"
+		use-default-filters="false" resource-pattern="*.class">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+
+	<!-- Common web controllers for rpc sessions -->
+	<context:component-scan base-package="org.openlegacy.rpc.mvc.web"
+		use-default-filters="false" resource-pattern="*.class">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+	
+	<!-- Common controllers -->
+	<context:component-scan base-package="org.openlegacy.mvc"
+		use-default-filters="false" resource-pattern="*.class">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+	
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="useSuffixPatternMatch" value="false" />
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
+		
+	<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
+	Also registers default Formatters and Validators for use across all @Controllers -->
+<!-- 	<mvc:annotation-driven conversion-service="applicationConversionService" />
+ -->
+ 
+	<mvc:interceptors>
+		<!-- On pre-handle, resolve the device that originated the web request -->
+		<bean class="org.openlegacy.mvc.web.interceptors.OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor"/>
+		<!-- On pre-handle, manage the user's site preference -->
+		<bean class="org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor" />
+
+		<bean class="org.openlegacy.rpc.mvc.web.interceptors.InsertEntityDefinitionsInterceptor" />
+		<bean class="org.openlegacy.rpc.mvc.web.interceptors.InsertGlobalsInterceptor" />
+		<bean class="org.openlegacy.rpc.mvc.web.interceptors.DesigntimeInterceptor" />
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
+	</mvc:interceptors>
+	
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources -->
+	<mvc:resources location="/, classpath:/META-INF/web-resources/"
+		mapping="/resources/**" />
+
+	<!-- Allows for mapping the DispatcherServlet to "/" by forwarding static 
+		resource requests to the container's default Servlet -->
+	<mvc:default-servlet-handler />
+
+	<!-- Resolves localized messages*.properties -->
+	<bean
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+		id="messageSource" p:basenames="WEB-INF/i18n/messages" p:defaultEncoding="UTF-8" 
+		p:fallbackToSystemLocale="false" />
+
+    <!-- Store preferred language configuration in a cookie -->
+    <bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver" p:cookieName="locale"/>
+
+	<!-- This bean resolves specific types of exceptions to corresponding logical 
+		- view names for error views. The default behaviour of DispatcherServlet 
+		- is to propagate all exceptions to the servlet container: this will happen 
+		- here with all other types of exceptions. -->
+	<bean
+		class="org.openlegacy.rpc.mvc.web.OpenLegacyExceptionResolver" p:defaultErrorView="uncaughtException">
+		<property name="exceptionMappings">
+			<props>
+				<prop key=".TypeMismatchException">resourceNotFound</prop>
+				<prop key=".SessionEndedException">sessionEndedException</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- allows for integration of file upload functionality -->
+	<bean
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+		id="multipartResolver" />
+
+	<bean
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean"
+		id="applicationConversionService" />
+		
+	<bean class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">
+	   <property name="viewClass" value="org.springframework.js.ajax.tiles2.AjaxTilesView"/>
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer"
+		id="tilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>/WEB-INF/mobile/template/layouts.xml</value>
+				<value>/WEB-INF/web/template/layouts.xml</value>
+				<!-- Scan views directory for Tiles configurations -->
+				<value>/WEB-INF/mobile/views/**/views.xml</value>
+				<value>/WEB-INF/web/views/**/views.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
+</beans>

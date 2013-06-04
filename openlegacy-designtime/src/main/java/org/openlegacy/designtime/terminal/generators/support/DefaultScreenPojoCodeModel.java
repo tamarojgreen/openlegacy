@@ -14,6 +14,8 @@ import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttri
 
 import org.openlegacy.FieldType.General;
 import org.openlegacy.definitions.FieldTypeDefinition;
+import org.openlegacy.designtime.generators.AnnotationConstants;
+import org.openlegacy.designtime.generators.AnnotationsParserUtils;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.terminal.ScreenSize;
@@ -483,9 +485,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String widthFromAnnotation = null;
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
-			rowFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROW, normalAnnotationExpr.getPairs());
-			columnFromAnnotation = findAnnotationAttribute(AnnotationConstants.COLUMN, normalAnnotationExpr.getPairs());
-			widthFromAnnotation = findAnnotationAttribute(AnnotationConstants.WIDTH, normalAnnotationExpr.getPairs());
+			rowFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROW, normalAnnotationExpr.getPairs());
+			columnFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.COLUMN, normalAnnotationExpr.getPairs());
+			widthFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.WIDTH, normalAnnotationExpr.getPairs());
 		}
 		int row = rowFromAnnotation != null ? Integer.valueOf(rowFromAnnotation) : 0;
 		int column = columnFromAnnotation != null ? Integer.valueOf(columnFromAnnotation) : 0;
@@ -501,27 +503,27 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
-			if (annotationName.equals(AnnotationConstants.SCREEN_ENTITY_ANNOTATION)
-					|| annotationName.equals(AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)
-					|| annotationName.equals(AnnotationConstants.SCREEN_PART_ANNOTATION)
-					|| annotationName.equals(AnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
+			if (annotationName.equals(ScreenAnnotationConstants.SCREEN_ENTITY_ANNOTATION)
+					|| annotationName.equals(ScreenAnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)
+					|| annotationName.equals(ScreenAnnotationConstants.SCREEN_PART_ANNOTATION)
+					|| annotationName.equals(ScreenAnnotationConstants.SCREEN_TABLE_ANNOTATION)) {
 				enabled = true;
 				populateEntityAttributes(annotationExpr);
-				if (annotationName.equals(AnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
+				if (annotationName.equals(ScreenAnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					superClass = true;
 				}
 			}
-			if (annotationName.equals(AnnotationConstants.SCREEN_ACTIONS_ANNOTATION)
-					|| annotationName.equals(AnnotationConstants.SCREEN_TABLE_ACTIONS_ANNOTATION)) {
+			if (annotationName.equals(ScreenAnnotationConstants.SCREEN_ACTIONS_ANNOTATION)
+					|| annotationName.equals(ScreenAnnotationConstants.SCREEN_TABLE_ACTIONS_ANNOTATION)) {
 				actions = ScreenAnnotationsParserUtils.populateScreenActions(annotationExpr);
 			}
-			if (annotationName.equals(AnnotationConstants.SCREEN_NAVIGATION_ANNOTATION)) {
+			if (annotationName.equals(ScreenAnnotationConstants.SCREEN_NAVIGATION_ANNOTATION)) {
 				navigationDefinition = ScreenAnnotationsParserUtils.populateNavigation(annotationExpr);
 			}
-			if (annotationName.equals(AnnotationConstants.SCREEN_IDENTIFIERS_ANNOTATION)) {
+			if (annotationName.equals(ScreenAnnotationConstants.SCREEN_IDENTIFIERS_ANNOTATION)) {
 				screenIdentification = ScreenAnnotationsParserUtils.populateScreenIdentification(annotationExpr);
 			}
-			if (annotationName.equals(AnnotationConstants.PART_POSITION_ANNOTATION)) {
+			if (annotationName.equals(ScreenAnnotationConstants.PART_POSITION_ANNOTATION)) {
 				partPostition = populatePartPositionAttributes(annotationExpr);
 			}
 		}
@@ -541,26 +543,28 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 					if (fieldAnnotations != null && fieldAnnotations.size() > 0) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									AnnotationConstants.SCREEN_FIELD_ANNOTATION, AnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
+									ScreenAnnotationConstants.SCREEN_FIELD_ANNOTATION,
+									ScreenAnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
 								ScreenAnnotationsParserUtils.loadScreenFieldOrColumnAnnotation(annotationExpr, field);
 								if (!field.isPrimitiveType()) {
-									ScreenAnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration, field);
+									field.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration));
 								}
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									AnnotationConstants.SCREEN_FIELD_VALUES_ANNOTATION)) {
-								ScreenAnnotationsParserUtils.loadFieldValues(annotationExpr, field);
+									ScreenAnnotationConstants.SCREEN_FIELD_VALUES_ANNOTATION)) {
+								field.setFieldTypeDefinition(ScreenAnnotationsParserUtils.loadFieldValues(annotationExpr));
+								field.setHasValues(true);
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									AnnotationConstants.SCREEN_BOOLEAN_FIELD_ANNOTATION)) {
-								ScreenAnnotationsParserUtils.loadBooleanField(annotationExpr, field);
+									ScreenAnnotationConstants.SCREEN_BOOLEAN_FIELD_ANNOTATION)) {
+								field.setFieldTypeDefinition(AnnotationsParserUtils.loadBooleanField(annotationExpr));
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									AnnotationConstants.SCREEN_DATE_FIELD_ANNOTATION)) {
-								ScreenAnnotationsParserUtils.loadDateField(annotationExpr, field);
+									ScreenAnnotationConstants.SCREEN_DATE_FIELD_ANNOTATION)) {
+								field.setFieldTypeDefinition(AnnotationsParserUtils.loadDateField(annotationExpr));
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									AnnotationConstants.SCREEN_DESCRIPTION_FIELD_ANNOTATION)) {
+									ScreenAnnotationConstants.SCREEN_DESCRIPTION_FIELD_ANNOTATION)) {
 								field.setHasDescription(true);
 								ScreenAnnotationsParserUtils.loadDescriptionField(annotationExpr, field);
 							}
@@ -642,38 +646,43 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
 
-			supportTerminalDataString = findAnnotationAttribute(AnnotationConstants.SUPPORT_TERMINAL_DATA,
+			supportTerminalDataString = findAnnotationAttribute(ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA,
 					normalAnnotationExpr.getPairs());
 			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, normalAnnotationExpr.getPairs());
 			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, normalAnnotationExpr.getPairs());
-			typeNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCREEN_TYPE, normalAnnotationExpr.getPairs());
-			childFlagFromAnnotation = findAnnotationAttribute(AnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
-			startRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.START_ROW, normalAnnotationExpr.getPairs());
-			endRowFromTableAnnotation = findAnnotationAttribute(AnnotationConstants.END_ROW, normalAnnotationExpr.getPairs());
-			windowFlagFromAnnotation = findAnnotationAttribute(AnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
+			typeNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCREEN_TYPE,
+					normalAnnotationExpr.getPairs());
+			childFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
+			startRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.START_ROW,
+					normalAnnotationExpr.getPairs());
+			endRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.END_ROW,
+					normalAnnotationExpr.getPairs());
+			windowFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
 
-			nextScreenActionNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NEXT_SCREEN_ACTION,
+			nextScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.NEXT_SCREEN_ACTION,
 					normalAnnotationExpr.getPairs());
-			previousScreenActionNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.PREV_SCREEN_ACTION,
+			previousScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.PREV_SCREEN_ACTION,
 					normalAnnotationExpr.getPairs());
-			tableCollectorNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.TABLE_COLLECTOR,
+			tableCollectorNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.TABLE_COLLECTOR,
 					normalAnnotationExpr.getPairs());
-			scrollableFromAnnotation = findAnnotationAttribute(AnnotationConstants.SCROLLABLE, normalAnnotationExpr.getPairs());
-			rowGapsFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROW_GAPS, normalAnnotationExpr.getPairs());
+			scrollableFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCROLLABLE,
+					normalAnnotationExpr.getPairs());
+			rowGapsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROW_GAPS, normalAnnotationExpr.getPairs());
 
-			screenSizeRowsFromAnnotation = findAnnotationAttribute(AnnotationConstants.ROWS, normalAnnotationExpr.getPairs());
-			screenSizeColumnsFromAnnotation = findAnnotationAttribute(AnnotationConstants.COLUMNS,
+			screenSizeRowsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROWS,
+					normalAnnotationExpr.getPairs());
+			screenSizeColumnsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.COLUMNS,
 					normalAnnotationExpr.getPairs());
 		}
 		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
-		displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation) : StringUtil
-				.toDisplayName(getClassName());
-		entityName = entityNameFromAnnotation != null ? StringUtil.stripQuotes(entityNameFromAnnotation) : StringUtil
-				.toClassName(getClassName());
+		displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation)
+				: StringUtil.toDisplayName(getClassName());
+		entityName = entityNameFromAnnotation != null ? StringUtil.stripQuotes(entityNameFromAnnotation)
+				: StringUtil.toClassName(getClassName());
 
-		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation) : General.class
-				.getSimpleName();
+		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)
+				: General.class.getSimpleName();
 
 		childScreen = childFlagFromAnnotation != null ? Boolean.valueOf(childFlagFromAnnotation) : false;
 
@@ -685,10 +694,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 		window = windowFlagFromAnnotation != null ? Boolean.valueOf(windowFlagFromAnnotation) : false;
 
-		nextScreenActionName = nextScreenActionNameFromAnnotation != null ? StringUtil
-				.toClassName(nextScreenActionNameFromAnnotation) : TerminalActions.PAGEDOWN().getActionName();
-		previousScreenActionName = previousScreenActionNameFromAnnotation != null ? StringUtil
-				.toClassName(previousScreenActionNameFromAnnotation) : TerminalActions.PAGEUP().getActionName();
+		nextScreenActionName = nextScreenActionNameFromAnnotation != null ? StringUtil.toClassName(nextScreenActionNameFromAnnotation)
+				: TerminalActions.PAGEDOWN().getActionName();
+		previousScreenActionName = previousScreenActionNameFromAnnotation != null ? StringUtil.toClassName(previousScreenActionNameFromAnnotation)
+				: TerminalActions.PAGEUP().getActionName();
 		tableCollectorName = tableCollectorNameFromAnnotation != null ? StringUtil.toClassName(tableCollectorNameFromAnnotation)
 				: ScreenTableCollector.class.getSimpleName();
 		scrollable = scrollableFromAnnotation != null ? Boolean.valueOf(scrollableFromAnnotation) : true;

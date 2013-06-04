@@ -353,7 +353,7 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		InputStream input = getClass().getResourceAsStream(templateName);
 
 		CompilationUnit compilationUnit = JavaParser.parse(input);
-		screenPojosAjGenerator.generateScreenEntity(compilationUnit,
+		screenPojosAjGenerator.generateEntity(compilationUnit,
 				(ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0), baos);
 		Assert.assertEquals(0, baos.toByteArray().length);
 	}

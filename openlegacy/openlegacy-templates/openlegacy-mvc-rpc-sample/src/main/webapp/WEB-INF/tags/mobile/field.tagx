@@ -1,0 +1,77 @@
+<jsp:root xmlns:olt="urn:jsptagdir:/WEB-INF/tags/mobile"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.attribute name="name" type="java.lang.String" required="true" rtexprvalue="true" description="The entity field to bind the tag to" />
+	<jsp:directive.attribute name="label" type="java.lang.String" required="false" rtexprvalue="true" description="The label for this tag. Default to field display name" />
+	<jsp:directive.attribute name="size" type="java.lang.Integer" required="false" rtexprvalue="true" description="The size of this tag. Default to field length" />
+	<jsp:directive.attribute name="maxlength" type="java.lang.Integer" required="false" rtexprvalue="true" description="The maxlength of this tag. Default to field length" />
+	<jsp:directive.attribute name="rows" type="java.lang.Integer" required="false" rtexprvalue="true" description="The number of rows of this tag. If more then 1, it rendered as textarea" />
+	<jsp:directive.attribute name="type" type="java.lang.String" required="false" rtexprvalue="true" description="Set field type (default 'text', or 'password')" />
+	<jsp:directive.attribute name="style" type="java.lang.String" required="false" rtexprvalue="true" description="Set field style" />
+	<jsp:directive.attribute name="cssClass" type="java.lang.String" required="false" rtexprvalue="true" description="Set field CSS class" />
+	<jsp:directive.attribute name="top" type="java.lang.String" required="false" rtexprvalue="true" description="Set field top position" />
+	<jsp:directive.attribute name="left" type="java.lang.String" required="false" rtexprvalue="true" description="Set field left position" />
+	<jsp:directive.attribute name="width" type="java.lang.String" required="false" rtexprvalue="true" description="Set field width" />
+	<jsp:directive.attribute name="editable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set if field is editable" />
+	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set if field is right to left" />
+
+	<c:choose>
+		<c:when test="${fn:contains(name,'.')}">
+			<c:set var="fieldNameParts" value="${fn:split(name,'.')}" />
+			<c:set var="fieldPart" value="${definitions.partsDefinitions[fieldNameParts[0]]}" />
+			<c:set var="fieldDefinition" value="${fieldPart.fieldsDefinitions[name]}" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="fieldDefinition" value="${definitions.fieldsDefinitions[name]}" />
+		</c:otherwise>
+	</c:choose>
+	<c:if test="${empty label}">
+		<c:set var="label" value="${fieldDefinition.displayName}" />
+	</c:if>
+	<c:if test="${empty size}">
+		<c:set var="size" value="${fieldDefinition.length}" />
+	</c:if>
+	<c:if test="${empty editable}">
+		<c:set var="editable" value="${fieldDefinition.editable}" />
+	</c:if>
+	<c:if test="${empty maxlength}">
+		<c:set var="maxlength" value="${size}" />
+	</c:if>
+	<c:if test="${empty type}">
+		<c:set var="type" value="${fieldDefinition.fieldTypeDefinition.typeName}" />
+	</c:if>
+	<c:if test="${empty rightToLeft}">
+		<c:set var="rightToLeft" value="${fieldDefinition.rightToLeft}" />
+	</c:if>
+	<c:if test="${empty rows}">
+		<c:set var="rows" value="1" />
+		<c:if test="${type == 'address'}">
+			<c:set var="rows" value="3" />
+		</c:if>
+	</c:if>
+	<c:if test="${empty type and rows == 1}">
+		<c:set var="type" value="text" />
+	</c:if>
+	<c:if test="${empty cssClass and editable and rows == 1 and (type == 'text' or type == 'password')}">
+		<c:set var="cssClass" value="mbltextbox" />
+	</c:if>
+	
+	<c:choose>
+		<c:when test="${empty top}">
+			<olt:innerField name="${name}" label="${label}" rows="${rows}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" editable="${editable}">
+				<jsp:doBody />
+			</olt:innerField>
+		</c:when>
+		<c:otherwise>
+			<div style="margin-left: ${left}; top: ${top}; width:${width}; position:absolute;">
+				<olt:innerField name="${name}" label="${label}" rows="${rows}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" editable="${editable}">
+					<jsp:doBody />
+				</olt:innerField>
+			</div>
+		</c:otherwise>
+	</c:choose>
+</jsp:root>

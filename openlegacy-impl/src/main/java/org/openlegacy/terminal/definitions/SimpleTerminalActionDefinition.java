@@ -25,13 +25,6 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 	private TerminalPosition position;
 	private AdditionalKey additionalKey;
 
-	private Class<?> targetEntity;
-
-	// for design-time purposes
-	private ScreenEntityDefinition targetEntityDefinition;
-
-	private boolean defaultAction;
-
 	private String focusField;
 
 	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
@@ -51,31 +44,6 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	public AdditionalKey getAdditionalKey() {
 		return additionalKey;
-	}
-
-	public Class<?> getTargetEntity() {
-		return targetEntity;
-	}
-
-	public void setTargetEntity(Class<?> targetEntity) {
-		this.targetEntity = targetEntity;
-	}
-
-	@Override
-	public boolean isDefaultAction() {
-		return defaultAction;
-	}
-
-	public void setDefault(boolean defaultAction) {
-		this.defaultAction = defaultAction;
-	}
-
-	public ScreenEntityDefinition getTargetEntityDefinition() {
-		return targetEntityDefinition;
-	}
-
-	public void setTargetEntityDefinition(ScreenEntityDefinition targetEntityDefinition) {
-		this.targetEntityDefinition = targetEntityDefinition;
 	}
 
 	public String getFocusField() {

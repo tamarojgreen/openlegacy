@@ -16,7 +16,6 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
-import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -51,8 +50,6 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	 * @return map of screen parts definitions of the screen entity
 	 */
 	Map<String, ScreenPartEntityDefinition> getPartsDefinitions();
-
-	List<ActionDefinition> getActions();
 
 	TerminalSnapshot getSnapshot();
 
