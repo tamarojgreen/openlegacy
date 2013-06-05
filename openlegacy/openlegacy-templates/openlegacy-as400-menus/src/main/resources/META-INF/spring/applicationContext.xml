@@ -56,7 +56,7 @@
 		-->
 	</util:map>
  
- 	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedSessionPropertiesProvider">
+ 	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedTerminalSessionPropertiesProvider">
  		<property name="ipDevice" ref="ipDevice" />
  		<aop:scoped-proxy/>
  	</bean>
