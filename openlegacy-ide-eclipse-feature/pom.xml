@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.openlegacy.ide</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.1.0-SNAPSHOT</version>
+		<version>1.2.0-SNAPSHOT</version>
 		<relativePath>../openlegacy-ide/pom.xml</relativePath>
 	</parent>
 
