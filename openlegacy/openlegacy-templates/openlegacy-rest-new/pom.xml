@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>org.openlegacy.templates</groupId>
-	<artifactId>openlegacy-mvc-new</artifactId>
+	<artifactId>openlegacy-rest-new</artifactId>
 	
 	<name>rest-new</name>
 	<packaging>war</packaging>
