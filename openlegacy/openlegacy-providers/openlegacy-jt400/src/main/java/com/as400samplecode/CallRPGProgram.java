@@ -20,8 +20,18 @@ import com.ibm.as400.access.Trace;
 public class CallRPGProgram {
 
 	public static void main(String[] args) {
-		String firstName = args[0].trim();
-		String lastName = args[1].trim();
+
+		if (args.length < 3) {
+			System.out.println("Usage:" + CallCobolProgramPcml.class.getSimpleName() + " host user password");
+			return;
+		}
+
+		String host = args[0];
+		String user = args[1];
+		String password = args[2];
+
+		String firstName = "John";
+		String lastName = "Doe";
 		String message = "";
 
 		// Connect to the iSeries using hostname, userid and password
@@ -35,7 +45,7 @@ public class CallRPGProgram {
 		Trace.setTraceThreadOn(true);
 		Trace.setTraceJDBCOn(true);
 
-		AS400 as400System = new AS400("as400.openlegacy.org", "RMR20924", "roi045");
+		AS400 as400System = new AS400(host, user, password);
 
 		// The ProgramCall class allows a user to call an iSeries server program,
 		// pass parameters to it (input and output), and access data returned in the

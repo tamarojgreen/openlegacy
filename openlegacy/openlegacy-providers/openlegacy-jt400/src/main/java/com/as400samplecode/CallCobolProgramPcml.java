@@ -19,6 +19,14 @@ public class CallCobolProgramPcml {
 
 	public static void main(String[] args) throws PcmlException {
 
+		if (args.length < 3) {
+			System.out.println("Usage:" + CallCobolProgramPcml.class.getSimpleName() + " host user password");
+			return;
+		}
+
+		String host = args[0];
+		String user = args[1];
+		String password = args[2];
 		// Connect to the iSeries using hostname, userid and password
 
 		Trace.setTraceOn(true);
@@ -30,14 +38,14 @@ public class CallCobolProgramPcml {
 		Trace.setTraceThreadOn(true);
 		Trace.setTraceJDBCOn(true);
 
-		AS400 as400System = new AS400("as400.openlegacy.org", "RMR20924", "roi045");
+		AS400 as400System = new AS400(host, user, password);
 
-		ProgramCallDocument newPcml = new ProgramCallDocument(as400System, "com.as400samplecode.program1");
-		newPcml.setValue("program1.FIRSTNAME", "Roi");
-		newPcml.setValue("program1.LASTNAME", "Mor");
-		boolean result = newPcml.callProgram("program1");
+		ProgramCallDocument newPcml = new ProgramCallDocument(as400System, "com.as400samplecode.rpg_program");
+		newPcml.setValue("rpg_program.FIRSTNAME", "Roi");
+		newPcml.setValue("rpg_program.LASTNAME", "Mor");
+		boolean result = newPcml.callProgram("rpg_program");
 
-		System.out.println(newPcml.getValue("program1.MESSAGE"));
+		System.out.println("***********" + newPcml.getValue("rpg_program.MESSAGE"));
 		// The ProgramCall class allows a user to call an iSeries server program,
 		// pass parameters to it (input and output), and access data returned in the
 		// output parameters after the program runs. Use ProgramCall to call programs.

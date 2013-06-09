@@ -21,8 +21,18 @@ import com.ibm.as400.access.SequentialFile;
 public class FetchSource {
 
 	public static void main(String[] args) {
+
+		if (args.length < 3) {
+			System.out.println("Usage:" + CallCobolProgramPcml.class.getSimpleName() + " host user password");
+			return;
+		}
+
+		String host = args[0];
+		String user = args[1];
+		String password = args[2];
+
 		try {
-			AS400 as400 = new AS400("as400.openlegacy.org", "RMR20924", "roi045");
+			AS400 as400 = new AS400(host, user, password);
 			as400.connectService(AS400.RECORDACCESS);
 			QSYSObjectPathName filename = new QSYSObjectPathName("/QSYS.LIB/RMR2L1.LIB/QRPGLESRC.FILE/RPGROICH.MBR");
 			SequentialFile file = new SequentialFile(as400, filename.getPath());

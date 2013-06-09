@@ -110,7 +110,8 @@ public class Jt400RpcConnection implements RpcConnection {
 				return rpcResult;
 			}
 		} catch (Exception e) {
-			throw (new RpcInvocationException(e));
+			throw (new RpcInvocationException(e.getMessage()
+					+ " - Make sure connection settings are well defined in rpc.properties", e));
 		}
 	}
 

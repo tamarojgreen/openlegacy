@@ -30,4 +30,8 @@ public class RpcInvocationException extends EntityNotAccessibleException {
 		super(s);
 	}
 
+	public RpcInvocationException(String s, Exception e) {
+		super(s, e);
+	}
+
 }

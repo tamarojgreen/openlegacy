@@ -19,6 +19,15 @@ public class CallCobolProgramStructurePcml {
 
 	public static void main(String[] args) throws PcmlException {
 
+		if (args.length < 3) {
+			System.out.println("Usage:" + CallCobolProgramPcml.class.getSimpleName() + " host user password");
+			return;
+		}
+
+		String host = args[0];
+		String user = args[1];
+		String password = args[2];
+
 		// Connect to the iSeries using hostname, userid and password
 
 		Trace.setTraceOn(true);
@@ -30,7 +39,7 @@ public class CallCobolProgramStructurePcml {
 		Trace.setTraceThreadOn(true);
 		Trace.setTraceJDBCOn(true);
 
-		AS400 as400System = new AS400("as400.openlegacy.org", "RMR20924", "roi045");
+		AS400 as400System = new AS400(host, user, password);
 
 		ProgramCallDocument newPcml = new ProgramCallDocument(as400System, "com.as400samplecode.cobol_structure");
 		newPcml.setValue("cobol_structure.str1.child1", 10);
