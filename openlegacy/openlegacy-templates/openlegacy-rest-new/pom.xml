@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<groupId>rest-new</groupId>
-	<artifactId>rest-new</artifactId>
+	<groupId>org.openlegacy.templates</groupId>
+	<artifactId>openlegacy-mvc-new</artifactId>
 	
 	<name>rest-new</name>
 	<packaging>war</packaging>
@@ -209,7 +209,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<warName>rest-new</warName>
+					<warName>openlegacy-rest-new</warName>
 				</configuration>
 			</plugin>
 			<plugin>
