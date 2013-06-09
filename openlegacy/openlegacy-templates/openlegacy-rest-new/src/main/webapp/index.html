@@ -17,7 +17,7 @@ function get(){
 			load : function(data) {
 				if (data != ""){
 					//data = dojox.html.format.prettyPrint(data);
-					dojo.byId('result').innerHTML = data;
+					dojo.byId('result').value = data;
 				}
 				else{
 					dojo.byId('result').innerHTML = "OK"; 
@@ -57,7 +57,7 @@ function post(){
 	data-dojo-config="has:{'dojo-firebug': true}, parseOnLoad: true, async: 1">
 </script>
 <script>
-require(["dojo/parser", "dijit/form/FilteringSelect","dojox/html/format","dijit/TitlePane"]);
+require(["dojo/parser", "dijit/form/ComboBox","dojox/html/format","dijit/TitlePane"]);
 
 </script>
 <link
@@ -72,7 +72,7 @@ require(["dojo/parser", "dijit/form/FilteringSelect","dojox/html/format","dijit/
 		data-dojo-props="title: 'HTTP Get',open:true">
 
 		Available URL's: <select id="getUrl"
-			data-dojo-type="dijit.form.FilteringSelect">
+			data-dojo-type="dijit.form.ComboBox">
 			<option>login?user=user1&password=pwd1</option>
 			<option>ItemsList</option>
 			<option>ItemDetails1/2000</option>

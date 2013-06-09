@@ -42,4 +42,6 @@
 	</bean>
 	<!-- End using a mock-up session application -->
 
+	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
+
 </beans>
