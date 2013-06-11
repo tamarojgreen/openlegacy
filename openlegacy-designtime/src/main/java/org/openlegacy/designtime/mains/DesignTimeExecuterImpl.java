@@ -86,6 +86,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String DEFAULT_SPRING_TEST_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext-test.xml";
 	private static final String DEFAULT_SPRING_WEB_CONTEXT_FILE = "/src/main/webapp/WEB-INF/spring/webmvc-config.xml";
 
+	private static final String mockupSessionCommentStart = "<!-- Use this definition to replay a mock-up session application";
+	private static final String mockupSessionCommentEnd = "End use this definition to replay a mock-up session application -->";
+
 	public static final String TEMPLATES_DIR = "templates";
 
 	private static final String DEFAULT_TEMPLATES_PATTERN = "classpath*:**/*.template";
@@ -97,6 +100,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String PREFERENCES_FILE = ".preferences";
 
 	private static final Object DEFAULT_CONTEXT = "default";
+
+	private static final String dependencyCommentStart = "<!-- commented dependency start";
+	private static final String dependencyCommentEnd = "commented dependency end -->";
 
 	private ApplicationContext defaultDesigntimeApplicationContext;
 
@@ -118,6 +124,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		// maven files
 		renameProjectProperties(projectCreationRequest.getProjectName(), targetPath);
 		renameProviderInPOM(projectCreationRequest.getProvider(), targetPath);
+		uncommentDependencies(targetPath);
+
 		if (projectCreationRequest.isSupportTheme()) {
 			renameThemeInPOM(projectCreationRequest.getProjectTheme(), targetPath);
 			renameThemeInAppProperties(projectCreationRequest.getProjectTheme().getDisplayName().toLowerCase(), targetPath);
@@ -125,6 +133,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		// spring files
 		updateSpringContextWithDefaultPackage(projectCreationRequest.getDefaultPackageName(), targetPath);
+		uncommentMockConnection(projectCreationRequest.getProvider(), targetPath);
 
 		// eclipse files
 		renameProject(projectCreationRequest.getProjectName(), targetPath);
@@ -138,6 +147,32 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		savePreference(targetPath, PreferencesConstants.USE_AJ, "1");
 
 		templateFetcher.deleteZip();
+	}
+
+	private static void uncommentDependencies(File targetPath) throws IOException {
+		File pomFile = new File(targetPath, "pom.xml");
+		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
+
+		pomFileContent = pomFileContent.replaceAll(dependencyCommentStart, "");
+		pomFileContent = pomFileContent.replaceAll(dependencyCommentEnd, "");
+
+		FileOutputStream fos = new FileOutputStream(pomFile);
+		IOUtils.write(pomFileContent, fos);
+	}
+
+	private static void uncommentMockConnection(String provider, File targetPath) throws IOException {
+		if (!provider.equals("mock-up")) {
+			return;
+		}
+		File springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext.xml");
+		String springContextFileContent = IOUtils.toString(new FileInputStream(springContextFile));
+
+		springContextFileContent = springContextFileContent.replace(mockupSessionCommentStart, "");
+		springContextFileContent = springContextFileContent.replace(mockupSessionCommentEnd, "");
+
+		FileOutputStream fos = new FileOutputStream(springContextFile);
+		IOUtils.write(springContextFileContent, fos);
+
 	}
 
 	private static void updateHostPropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath)
@@ -268,7 +303,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
 
-		if (!provider.equals(DesignTimeExecuter.MOCK_PROVIDER)) {
+		if (!provider.equals("mock-up")) {
 
 			// tn5250j or impl is the default pom setting
 			pomFileContent = pomFileContent.replaceFirst(

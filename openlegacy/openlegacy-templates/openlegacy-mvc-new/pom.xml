@@ -18,13 +18,17 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>openlegacy-snapshots</id>
-			<url>http://maven.openlegacy.org/maven2/release</url>
+			<url>http://maven.openlegacy.org/maven2/snapshot</url>
 		</pluginRepository>
 	</pluginRepositories>
 	<repositories>
 		<repository>
 			<id>openlegacy-release</id>
 			<url>http://maven.openlegacy.org/maven2/release</url>
+		</repository>
+		<repository>
+			<id>openlegacy-snapshots</id>
+			<url>http://maven.openlegacy.org/maven2/snapshot</url>
 		</repository>
 		<repository>
 			<id>openlegacy-providers</id>
@@ -223,14 +227,15 @@
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-<!--
+<!-- commented dependency start
 		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-designtime</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>test</scope>
 		</dependency>
--->
+commented dependency end -->
+	
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

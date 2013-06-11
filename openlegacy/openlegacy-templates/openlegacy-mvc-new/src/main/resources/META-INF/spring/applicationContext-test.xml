@@ -30,6 +30,7 @@
 		<property name="trailName" value="demo_session.trail" />
 	</bean>
 	
+    <!-- Use this definition to replay a mock-up session application
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.MockupTerminalSession" parent="abstractTerminalSession">
 		<property name="terminalConnection">
 			<bean class="org.openlegacy.terminal.mock.MockTerminalConnection" factory-bean="terminalConnectionFactory" factory-method="getConnection">
@@ -39,7 +40,8 @@
 			</bean>
 		</property>
 	</bean>
--->
+    End use this definition to replay a mock-up session application -->
+    
 	<!-- comment when using mock-up session -->
 	<bean id="terminalSession" parent="abstractTerminalSession" />
 	

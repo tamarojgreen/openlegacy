@@ -47,7 +47,7 @@
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
--->
+End use this definition to replay a mock-up session application -->
 
  	<util:map id="ipDevice">
 		<!-- example of set device for IP - add more (ipV4 and ipV6 style)

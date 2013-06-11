@@ -144,21 +144,28 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 			setEnabled(true);
 		}
 
-		if (hostName.getText().length() == 0) {
-			updateStatus(Messages.getString("error_host_name_not_specified"));
-			return;
-		}
-		if (hostPort.getText().length() == 0) {
-			updateStatus(Messages.getString("errror_host_port_not_specified"));
-			return;
-		}
-		if (!NumberUtils.isNumber(hostPort.getText())) {
-			updateStatus(Messages.getString("error_port_not_numeric"));
-			return;
-		}
-		if (codePage.getText().length() == 0) {
-			updateStatus(Messages.getString("error_code_page_not_specified"));
-			return;
+		boolean isMock = projectProviders.get(providerName.getSelectionIndex()).getDisplayName().equals("mock-up");
+		hostName.setEnabled(!isMock);
+		codePage.setEnabled(!isMock);
+		hostPort.setEnabled(!isMock);
+
+		if (!isMock) {
+			if (hostName.getText().length() == 0) {
+				updateStatus(Messages.getString("error_host_name_not_specified"));
+				return;
+			}
+			if (hostPort.getText().length() == 0) {
+				updateStatus(Messages.getString("errror_host_port_not_specified"));
+				return;
+			}
+			if (!NumberUtils.isNumber(hostPort.getText())) {
+				updateStatus(Messages.getString("error_port_not_numeric"));
+				return;
+			}
+			if (codePage.getText().length() == 0) {
+				updateStatus(Messages.getString("error_code_page_not_specified"));
+				return;
+			}
 		}
 
 		this.updateStatus(null);

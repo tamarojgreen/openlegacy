@@ -18,4 +18,10 @@
         <display-name>applinx</display-name>
         <description>Commercial provider for many terminal protocols. http://www.softwareag.com/us/products/az/applinx.asp</description>
     </provider>
+
+    <provider>
+        <name>openlegacy-impl</name>
+        <display-name>mock-up</display-name>
+        <description>An OpenLegacy mock-up provider which works with a recording file (.trail file)</description>
+    </provider>
 </providers>
