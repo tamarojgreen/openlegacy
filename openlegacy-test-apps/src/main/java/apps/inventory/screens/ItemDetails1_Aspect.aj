@@ -13,6 +13,11 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     
 	
 
+    private String ItemDetails1.itemClassDescription;
+	
+
+	
+
 	
 
 	
@@ -24,7 +29,24 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 	
 
     private String ItemDetails1.stockGroupDescription;
+	
+
+	
+
     
+
+    public String ItemDetails1.getItemClass(){
+    	return this.itemClass;
+    }
+    
+    public void ItemDetails1.setItemClass(String itemClass){
+    	this.itemClass = itemClass;
+    }
+
+    public String  ItemDetails1.getItemClassDescription(){
+    	return this.itemClassDescription;
+    }
+
 
     public String ItemDetails1.getItemDescription(){
     	return this.itemDescription;
@@ -47,6 +69,16 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     	return this.itemNumber;
     }
     
+
+
+
+    public Integer ItemDetails1.getItemWeight(){
+    	return this.itemWeight;
+    }
+    
+    public void ItemDetails1.setItemWeight(Integer itemWeight){
+    	this.itemWeight = itemWeight;
+    }
 
 
 
@@ -81,6 +113,26 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     public String  ItemDetails1.getStockGroupDescription(){
     	return this.stockGroupDescription;
     }
+
+
+    public String ItemDetails1.getSupercedingItemFrom(){
+    	return this.supercedingItemFrom;
+    }
+    
+    public void ItemDetails1.setSupercedingItemFrom(String supercedingItemFrom){
+    	this.supercedingItemFrom = supercedingItemFrom;
+    }
+
+
+
+    public String ItemDetails1.getSupercedingItemTo(){
+    	return this.supercedingItemTo;
+    }
+    
+    public void ItemDetails1.setSupercedingItemTo(String supercedingItemTo){
+    	this.supercedingItemTo = supercedingItemTo;
+    }
+
 
 
 

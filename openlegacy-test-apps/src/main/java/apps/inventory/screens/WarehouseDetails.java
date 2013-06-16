@@ -17,6 +17,27 @@ public class WarehouseDetails {
 	@ScreenField(column = 34, row = 6, key = true)
 	private Integer warehouseNumber;
 
+	@ScreenField(column = 34, row = 7, editable = true)
+	private String warehouseDescription;
+
+	@ScreenField(column = 34, row = 9, editable = true)
+	private Integer costingType;
+
+	@ScreenField(column = 20, row = 11, editable = true)
+	private String address;
+
+	@ScreenField(column = 20, row = 12, editable = true)
+	private String phone;
+
+	@ScreenField(column = 20, row = 13, editable = true)
+	private String email;
+
+	@ScreenField(column = 34, row = 15, editable = true)
+	private String amendedBy;
+
+	@ScreenField(column = 34, row = 17, editable = true)
+	private String createdBy;
+
 	@ScreenField(column = 34, row = 8, editable = true)
 	@ScreenFieldValues(sourceScreenEntity = WarehouseTypes.class, collectAll = false)
 	private String warehouseType;

@@ -22,18 +22,30 @@ public class ItemDetails1 {
 	@ScreenField(row = 6, column = 33, key = true)
 	private Integer itemNumber;
 
-	@ScreenField(row = 7, column = 33, endColumn = 40, editable = true)
+	@ScreenField(row = 7, column = 33, endColumn = 72, editable = true)
 	private String itemDescription;
+
+	@ScreenField(row = 9, column = 33, editable = true)
+	private String supercedingItemTo;
+
+	@ScreenField(row = 10, column = 33, editable = true)
+	private String supercedingItemFrom;
+
+	@ScreenField(row = 13, column = 33, editable = true)
+	private Integer itemWeight;
+
+	@ScreenDescriptionField(column = 37)
+	@ScreenField(row = 14, column = 33, editable = true)
+	private String itemClass;
 
 	@ScreenDescriptionField(column = 37)
 	@ScreenField(row = 15, column = 33, editable = true, sampleValue = "SG")
 	private String stockGroup;
-	
+
 	@ScreenBooleanField(trueValue = "Y", falseValue = "N")
 	@ScreenField(row = 20, column = 33, editable = true)
 	private Boolean palletLabelRequired;
 
-	
 	@ScreenField(row = 18, column = 33, editable = true)
 	private OuterUnitOfMeasure outerUnitOfMeasure;
 

@@ -15,8 +15,92 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
 
 	
 
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
     private Map<Object,Object> WarehouseDetails.warehouseTypeValues;
     
+
+    public String WarehouseDetails.getAddress(){
+    	return this.address;
+    }
+    
+    public void WarehouseDetails.setAddress(String address){
+    	this.address = address;
+    }
+
+
+
+    public String WarehouseDetails.getAmendedBy(){
+    	return this.amendedBy;
+    }
+    
+    public void WarehouseDetails.setAmendedBy(String amendedBy){
+    	this.amendedBy = amendedBy;
+    }
+
+
+
+    public Integer WarehouseDetails.getCostingType(){
+    	return this.costingType;
+    }
+    
+    public void WarehouseDetails.setCostingType(Integer costingType){
+    	this.costingType = costingType;
+    }
+
+
+
+    public String WarehouseDetails.getCreatedBy(){
+    	return this.createdBy;
+    }
+    
+    public void WarehouseDetails.setCreatedBy(String createdBy){
+    	this.createdBy = createdBy;
+    }
+
+
+
+    public String WarehouseDetails.getEmail(){
+    	return this.email;
+    }
+    
+    public void WarehouseDetails.setEmail(String email){
+    	this.email = email;
+    }
+
+
+
+    public String WarehouseDetails.getPhone(){
+    	return this.phone;
+    }
+    
+    public void WarehouseDetails.setPhone(String phone){
+    	this.phone = phone;
+    }
+
+
+
+    public String WarehouseDetails.getWarehouseDescription(){
+    	return this.warehouseDescription;
+    }
+    
+    public void WarehouseDetails.setWarehouseDescription(String warehouseDescription){
+    	this.warehouseDescription = warehouseDescription;
+    }
+
+
 
     public Integer WarehouseDetails.getWarehouseNumber(){
     	return this.warehouseNumber;
