@@ -18,14 +18,6 @@
 	height: 200px;
 }
 
-.container .panelRow tr td{
-	border: solid white 1px;	
-}
-
-.panel .content .field_row .label {
-	font-weight: bold;
-}
-
 .breadcrumbs ul li a {
 	background-image: url();
 	background-position: left center;
@@ -34,11 +26,6 @@
 
 .container table tr .placeHolder{
 	padding: 0px 0px 0px 0px;
-}
-
-.panel .content .field_row .field {
-	float: left;
-	width: 65%;
 }
 
 .main .table table{

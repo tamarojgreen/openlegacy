@@ -5,9 +5,9 @@
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	
-	<c:set var="seperator" value="&lt;" />
+	<c:set var="seperator" value="&gt;" />
 	<c:if test="${openLegacyProperties.rightToLeft}">
-		<c:set var="seperator" value="&gt;" />
+		<c:set var="seperator" value="&lt;" />
 	</c:if>
 	<div class="breadcrumbs">
 		<ul>
