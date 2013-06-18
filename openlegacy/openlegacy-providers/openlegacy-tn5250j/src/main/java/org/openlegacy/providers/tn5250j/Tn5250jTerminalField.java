@@ -11,6 +11,7 @@
 package org.openlegacy.providers.tn5250j;
 
 import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.RightAdjust;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
@@ -136,5 +137,9 @@ public class Tn5250jTerminalField extends AbstractTerminalField {
 
 	public boolean isRightToLeft() {
 		return false;
+	}
+
+	public RightAdjust getRightAdjust() {
+		return RightAdjust.NONE;
 	}
 }

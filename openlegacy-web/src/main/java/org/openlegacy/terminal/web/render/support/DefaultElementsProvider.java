@@ -13,6 +13,7 @@ package org.openlegacy.terminal.web.render.support;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.RightAdjust;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.web.render.ElementsProvider;
 import org.openlegacy.terminal.web.render.HtmlProportionsHandler;
@@ -93,6 +94,9 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 			}
 			if (field.isHidden()) {
 				input.setAttribute(HtmlConstants.TYPE, HtmlConstants.PASSWORD);
+			}
+			if (field.getRightAdjust() != RightAdjust.NONE) {
+				input.setAttribute(HtmlConstants.DATA_RIGHT_ADJUST, field.getRightAdjust().toString());
 			}
 		}
 		parentTag.appendChild(input);

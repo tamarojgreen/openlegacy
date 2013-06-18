@@ -12,6 +12,7 @@ package org.openlegacy.terminal.persistance;
 
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.RightAdjust;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.ModifiableTerminalField;
@@ -89,6 +90,9 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	private String originalValue;
 
 	private Boolean underline = false;
+
+	@XmlAttribute
+	private RightAdjust rightAdjust = RightAdjust.NONE;
 
 	public TerminalPosition getPosition() {
 		if (position == null) {
@@ -310,5 +314,13 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	public void setUnderline(Boolean underline) {
 		this.underline = underline;
+	}
+
+	public RightAdjust getRightAdjust() {
+		return rightAdjust;
+	}
+
+	public void setRightAdjust(RightAdjust rightAdjust) {
+		this.rightAdjust = rightAdjust;
 	}
 }

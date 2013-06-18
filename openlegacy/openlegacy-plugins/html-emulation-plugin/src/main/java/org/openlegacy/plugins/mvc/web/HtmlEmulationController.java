@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Handles requests for the application home page.
  */
-@Controller
+@Controller("htmlEmulationController")
 @RequestMapping(value = "/emulation")
 public class HtmlEmulationController {
 
@@ -44,7 +44,7 @@ public class HtmlEmulationController {
 	@Inject
 	private EntityUtils entityUtils;
 
-	private boolean emulationOnly = false;
+	boolean emulationOnly = false;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String show(Model uiModel, HttpServletRequest request, @RequestParam(value = "flip", required = false) Object flip,

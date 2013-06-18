@@ -37,6 +37,8 @@ function emulationOnLoad(){
 		if (getMainForm().Sequence != null){
 			setTimeout(checkSequence,timeouts[currentTimeoutIndex]);
 		}
+		captureOnChange(on);
+		setLabelDoubleClick();
 	});
 }
 function checkSequence(){
@@ -111,4 +113,158 @@ function attachFieldsFocus(on){
     		  
     	  });
     	});    
+}
+
+function setTabIndexRtl(){
+	
+	var inputs = document.getElementsByTagName("input");
+	
+	var inputsRow = new Array();
+	var currentTabIndex = 1;
+	
+	for (var i=0;i<inputs.length;i++){
+		var input = inputs[i];
+		if (input.type == "hidden"){
+			continue;
+		}
+		if (inputsRow.length == 0){
+			inputsRow[inputsRow.length] = input;
+		}
+		else {
+			var lastInput = inputsRow[inputsRow.length-1]; 
+			if (input.offsetTop == lastInput.offsetTop){
+				inputsRow[inputsRow.length] = input;
+			}
+			else{
+				for (var j=inputsRow.length-1;j>=0;j--){
+					inputsRow[j].tabIndex = currentTabIndex;
+					currentTabIndex++;
+				}
+				inputsRow = new Array();
+				inputsRow[0] = input;
+			}
+		}
+	}
+	if (inputsRow.length > 0){
+		for (var j=inputsRow.length-1;j>=0;j--){
+			inputsRow[j].tabIndex = currentTabIndex;
+			currentTabIndex++;
+		}
+	}
+}
+
+function setLabelDoubleClick(){
+    require(["dojo/dom", "dojo/on","dojo/query","dojo/dom-class"], function(dom,on,query,domClass){
+  	  query("#terminalSnapshot span").forEach(function(label){
+  	    	on(label, "dblclick", function(e){
+  	    		if (e.target.id != null){
+  	    			if (ol_currentLabelId != null){
+  	    				domClass.remove(ol_currentLabelId, "label_selected");
+  	    			}
+  	    			ol_currentLabelId = e.target.id; 
+	    				domClass.add(ol_currentLabelId, "label_selected");
+      	    		getMainForm().TerminalCursor.value = e.target.id;
+					terminalSession.doAction("ENTER");
+  	    		}
+  	    	});
+  		  
+  	  });
+  	});    
+
+}
+
+function captureOnChange(on){
+	
+	var inputs = document.getElementsByTagName("input");
+	
+	for (var i=0;i<inputs.length;i++){
+		var input = inputs[i];
+		if (!isValidInput(input)){
+			continue;
+		}
+		on(input,"change",function(e){
+			handleRightAdjust(e.target);			
+		});
+	}
+}
+
+
+function handleRightAdjust(inputElement){
+	if (!isValidInput(inputElement)){
+		return;
+	}
+	var val = inputElement.value;
+	var spacesToAdd = inputElement.maxLength - val.length;
+	var rightAdjust = inputElement.getAttribute("data-ra");
+	
+	var charToAdd = null;
+	switch (rightAdjust)
+	{
+		case "ZERO_FILL":
+			charToAdd = "0";
+			break;
+		case "BLANKS_FILL":
+			charToAdd = " ";
+			break;
+	}
+	if (charToAdd != null){
+		for (var i=0;i<spacesToAdd;i++){
+			inputElement.value = charToAdd + inputElement.value ;			
+		}
+	}
+	
+}
+
+
+
+
+////////////////////// Helper functions
+
+function isValidInput(inputElement) {
+	if (inputElement == null){
+		return false;
+	}
+	if (!isInputElement(inputElement)){
+		return false;
+	}
+	if (inputElement.readonly != null || inputElement.style.visibility=="hidden" || inputElement.style.display == "none") {
+		return false;
+	}
+	if (equalsIgnoreCase(inputElement.tagName,"select") || equalsIgnoreCase(inputElement.tagName,"textarea")){
+		return true;
+	}
+
+	var result = false;
+	switch (inputElement.type) {
+		case "text":
+		case "password":
+		case "radio":
+		case "checkbox":
+			result = true;
+			break;
+	}
+	return result;
+}
+
+function equalsIgnoreCase(txt1,txt2){
+
+	if (txt1 == null || txt2 == null){
+		return false;
+	}
+
+	if (txt1 == txt2){
+		return true;
+	}
+	if (txt1.toUpperCase() == txt2.toUpperCase()){
+		return true;
+	}
+	
+	return false;
+}
+
+function isInputElement(element){
+	if (equalsIgnoreCase(element.tagName,"input") || equalsIgnoreCase(element.tagName,"select") || equalsIgnoreCase(element.tagName,"textarea")){
+		return true;
+	}
+	return false;
 }

@@ -40,4 +40,6 @@ public class HtmlConstants {
 	public static final String ROWS = "rows";
 	public static final String COLUMNS = "cols";
 	public static final String ONKEYUP = "onkeyup";
+
+	public static final String DATA_RIGHT_ADJUST = "data-ra";
 }

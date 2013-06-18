@@ -165,4 +165,11 @@ public interface TerminalField extends TerminalPositionContainer, Serializable, 
 
 	boolean isUnderline();
 
+	/**
+	 * Weather the field is adjusted to the right
+	 * 
+	 * @return is the field is adjusted to the right
+	 */
+	RightAdjust getRightAdjust();
+
 }

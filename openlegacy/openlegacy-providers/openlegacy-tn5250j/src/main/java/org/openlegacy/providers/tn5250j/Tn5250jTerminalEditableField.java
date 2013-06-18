@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.providers.tn5250j;
 
+import org.openlegacy.terminal.RightAdjust;
+import org.openlegacy.terminal.support.ModifiableTerminalField;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.tn5250j.framework.tn5250.ScreenField;
 
-public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
+public class Tn5250jTerminalEditableField extends Tn5250jTerminalField implements ModifiableTerminalField {
 
 	private static final long serialVersionUID = 1L;
 
@@ -65,5 +67,17 @@ public class Tn5250jTerminalEditableField extends Tn5250jTerminalField {
 	@Override
 	public boolean isUppercase() {
 		return screenField.isToUpper();
+	}
+
+	@Override
+	public RightAdjust getRightAdjust() {
+		if (screenField.getAdjustment() == 5) {
+			return RightAdjust.ZERO_FILL;
+		}
+		if (screenField.getAdjustment() == 6) {
+			return RightAdjust.BLANKS_FILL;
+		}
+		return RightAdjust.NONE;
+
 	}
 }

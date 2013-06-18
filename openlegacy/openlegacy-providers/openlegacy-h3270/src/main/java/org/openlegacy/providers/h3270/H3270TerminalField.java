@@ -3,6 +3,7 @@ package org.openlegacy.providers.h3270;
 import org.h3270.host.Field;
 import org.h3270.host.InputField;
 import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.RightAdjust;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.support.AbstractTerminalField;
@@ -145,5 +146,9 @@ public class H3270TerminalField extends AbstractTerminalField {
 
 	public boolean isUnderline() {
 		return false;
+	}
+
+	public RightAdjust getRightAdjust() {
+		return RightAdjust.NONE;
 	}
 }
