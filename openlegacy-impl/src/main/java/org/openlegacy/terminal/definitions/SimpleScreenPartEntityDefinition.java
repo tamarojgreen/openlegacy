@@ -10,23 +10,16 @@
  *******************************************************************************/
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.definitions.AbstractPartEntityDefinition;
 import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.TerminalPosition;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinition, PositionedPart, Serializable {
+public class SimpleScreenPartEntityDefinition extends AbstractPartEntityDefinition<ScreenFieldDefinition> implements ScreenPartEntityDefinition, PositionedPart, Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private Class<?> partClass;
-
-	private final Map<String, ScreenFieldDefinition> fieldDefinitions = new LinkedHashMap<String, ScreenFieldDefinition>();
-
-	private String partName;
 
 	private TerminalPosition partPosition;
 
@@ -35,23 +28,7 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 	private String displayName;
 
 	public SimpleScreenPartEntityDefinition(Class<?> partClass) {
-		this.partClass = partClass;
-	}
-
-	public Class<?> getPartClass() {
-		return partClass;
-	}
-
-	public Map<String, ScreenFieldDefinition> getFieldsDefinitions() {
-		return fieldDefinitions;
-	}
-
-	public String getPartName() {
-		return partName;
-	}
-
-	public void setPartName(String partName) {
-		this.partName = partName;
+		super(partClass);
 	}
 
 	public TerminalPosition getPartPosition() {
@@ -70,10 +47,12 @@ public class SimpleScreenPartEntityDefinition implements ScreenPartEntityDefinit
 		this.width = width;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	@Override
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}

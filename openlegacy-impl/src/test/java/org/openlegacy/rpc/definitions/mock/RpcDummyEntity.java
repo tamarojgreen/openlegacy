@@ -5,6 +5,7 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.rpc.RpcActions.READ;
 
 @RpcEntity()
@@ -22,6 +23,8 @@ public class RpcDummyEntity implements org.openlegacy.rpc.RpcEntity {
 
 	@RpcField(direction = Direction.OUTPUT, length = 100)
 	String message;
+
+	DummyPart dummyPart;
 
 	public String getFirstName() {
 		return firstName;
@@ -55,4 +58,8 @@ public class RpcDummyEntity implements org.openlegacy.rpc.RpcEntity {
 		this.message = message;
 	}
 
+	@RpcPart
+	public static class DummyPart {
+
+	}
 }

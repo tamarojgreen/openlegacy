@@ -34,7 +34,7 @@ public abstract class AbstractAnnotationProccesor implements BeanFactoryPostProc
 		Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(FieldAnnotationsLoader.class).values();
 		Collection<FieldLoader> fieldLoaders = beanFactory.getBeansOfType(FieldLoader.class).values();
 
-		EntitiesRegistry<?, ?> entitiesRegistry = getEntitiesRegistry(beanFactory);
+		EntitiesRegistry<?, ?, ?> entitiesRegistry = getEntitiesRegistry(beanFactory);
 
 		filterByPackage(classAnnotationsLoaders);
 		filterByPackage(fieldAnnotationLoaders);
@@ -60,7 +60,7 @@ public abstract class AbstractAnnotationProccesor implements BeanFactoryPostProc
 
 	}
 
-	protected abstract EntitiesRegistry<?, ?> getEntitiesRegistry(BeanFactory beanFactory);
+	protected abstract EntitiesRegistry<?, ?, ?> getEntitiesRegistry(BeanFactory beanFactory);
 
 	public void setLoadersPackages(List<String> loadersPackages) {
 		this.loadersPackages = loadersPackages;

@@ -27,7 +27,7 @@ public @interface RpcField {
 
 	boolean key() default false;
 
-	Direction direction();
+	Direction direction() default Direction.INPUT_OUTPUT;
 
 	double length();
 
@@ -41,4 +41,5 @@ public @interface RpcField {
 
 	boolean editable() default true;
 
+	String defaultValue() default "";
 }

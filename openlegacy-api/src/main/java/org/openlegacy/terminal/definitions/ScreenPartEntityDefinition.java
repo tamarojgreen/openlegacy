@@ -11,9 +11,8 @@
 package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.annotations.screen.ScreenPart;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.terminal.TerminalPosition;
-
-import java.util.Map;
 
 /**
  * A screen part definition defines a repeatable class with mappings which can belongs to a 1 or more screen entities. Typically
@@ -21,15 +20,7 @@ import java.util.Map;
  * 
  * @author Roi Mor
  */
-public interface ScreenPartEntityDefinition {
-
-	Class<?> getPartClass();
-
-	Map<String, ScreenFieldDefinition> getFieldsDefinitions();
-
-	String getDisplayName();
-
-	String getPartName();
+public interface ScreenPartEntityDefinition extends PartEntityDefinition<ScreenFieldDefinition> {
 
 	/**
 	 * If defined, determine the part position on the screen

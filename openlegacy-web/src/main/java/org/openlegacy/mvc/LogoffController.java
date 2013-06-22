@@ -8,18 +8,19 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.mvc;
+package org.openlegacy.mvc;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.Session;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.trail.TrailUtil;
-import org.openlegacy.terminal.TerminalSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -32,7 +33,7 @@ public class LogoffController {
 	private final static Log logger = LogFactory.getLog(LogoffController.class);
 
 	@Inject
-	private TerminalSession terminalSession;
+	private List<Session> sessions;
 
 	@Inject
 	private TrailUtil trailUtil;
@@ -40,12 +41,20 @@ public class LogoffController {
 	@RequestMapping(value = "/logoff", method = RequestMethod.GET)
 	public String logoff() throws IOException {
 
-		try {
-			trailUtil.saveTrail(terminalSession);
-		} catch (Exception e) {
-			logger.warn("Failed to save trail - " + e.getMessage(), e);
-		} finally {
-			terminalSession.getModule(Login.class).logoff();
+		for (Session session : sessions) {
+			try {
+				trailUtil.saveTrail(session);
+			} catch (Exception e) {
+				logger.warn("Failed to save trail - " + e.getMessage(), e);
+			} finally {
+				Login loginModule = session.getModule(Login.class);
+				if (loginModule != null) {
+					loginModule.logoff();
+				} else {
+					session.disconnect();
+				}
+			}
+
 		}
 
 		return "logoff";

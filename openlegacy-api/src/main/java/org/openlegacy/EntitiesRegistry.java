@@ -11,6 +11,7 @@
 package org.openlegacy;
 
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.exceptions.RegistryException;
 
 import java.util.Collection;
@@ -30,7 +31,7 @@ import java.util.Set;
  * 
  * @see EntityDefinition
  */
-public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends FieldDefinition> {
+public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends FieldDefinition, P extends PartEntityDefinition<D>> {
 
 	/**
 	 * Gets all entities within the registry
@@ -117,5 +118,9 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 	boolean isDirty();
 
 	public boolean contains(Class<?> beanClass);
+
+	void addPart(P partEntityDefinition);
+
+	P getPart(Class<?> containingClass);
 
 }

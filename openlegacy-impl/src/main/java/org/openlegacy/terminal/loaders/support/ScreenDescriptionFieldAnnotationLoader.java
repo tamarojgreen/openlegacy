@@ -54,7 +54,7 @@ public class ScreenDescriptionFieldAnnotationLoader extends AbstractFieldAnnotat
 			fillDescriptionDefinition(fieldAnnotation, screenEntityDefinition, fieldDefinition);
 		} else {
 			// look in screen entities parts
-			ScreenPartEntityDefinition screenPart = screenEntitiesRegistry.getPart(containingClass);
+			ScreenPartEntityDefinition screenPart = (ScreenPartEntityDefinition)screenEntitiesRegistry.getPart(containingClass);
 			if (screenPart != null) {
 				fieldName = MessageFormat.format("{0}.{1}", screenPart.getPartName(), fieldName);
 				SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenPart.getFieldsDefinitions().get(

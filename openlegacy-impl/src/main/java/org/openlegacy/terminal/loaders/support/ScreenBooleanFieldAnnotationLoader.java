@@ -49,7 +49,7 @@ public class ScreenBooleanFieldAnnotationLoader extends AbstractFieldAnnotationL
 			fillTypeDefinition(fieldAnnotation, fieldDefinition, fieldName);
 		} else {
 			// look in screen entities parts
-			ScreenPartEntityDefinition screenPart = screenEntitiesRegistry.getPart(containingClass);
+			ScreenPartEntityDefinition screenPart = (ScreenPartEntityDefinition)screenEntitiesRegistry.getPart(containingClass);
 			if (screenPart != null) {
 				fieldName = MessageFormat.format("{0}.{1}", screenPart.getPartName(), fieldName);
 				SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenPart.getFieldsDefinitions().get(

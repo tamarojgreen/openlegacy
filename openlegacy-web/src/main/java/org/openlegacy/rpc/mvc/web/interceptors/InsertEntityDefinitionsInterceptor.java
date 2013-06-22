@@ -44,7 +44,7 @@ public class InsertEntityDefinitionsInterceptor extends AbstractRpcInterceptor {
 
 		if (entitiesRegistry.isDirty()) {
 			// set the registry back to clean - for design-time purposes only!
-			((AbstractEntitiesRegistry<?, ?>)entitiesRegistry).setDirty(false);
+			((AbstractEntitiesRegistry<?, ?, ?>)entitiesRegistry).setDirty(false);
 		}
 
 	}

@@ -8,16 +8,18 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.rpc.support;
+package org.openlegacy.rpc.definitions;
 
-import org.openlegacy.rpc.definitions.RpcEntityDefinition;
-import org.openlegacy.rpc.definitions.RpcFieldDefinition;
-import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
-import org.openlegacy.rpc.services.RpcEntitiesRegistry;
-import org.openlegacy.support.AbstractEntitiesRegistry;
+import org.openlegacy.definitions.AbstractPartEntityDefinition;
 
-public class DefaultRpcEntitiesRegistry extends AbstractEntitiesRegistry<RpcEntityDefinition, RpcFieldDefinition, RpcPartEntityDefinition> implements RpcEntitiesRegistry {
+import java.io.Serializable;
+
+public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<RpcFieldDefinition> implements RpcPartEntityDefinition, Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	public SimpleRpcPartEntityDefinition(Class<?> partClass) {
+		super(partClass);
+	}
 
 }

@@ -8,20 +8,23 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.loaders;
+package org.openlegacy.definitions;
 
-import org.openlegacy.EntitiesRegistry;
+import java.util.Map;
 
 /**
- * Defines a registry loader which is responsible for loading metadata from the given loaders into the {@link EntitiesRegistry}
+ * An entity part definition defines a repeatable class with mappings which can belongs to a 1 or more entities.
  * 
  * @author Roi Mor
- * 
  */
-public interface RegistryLoader {
+public interface PartEntityDefinition<F extends FieldDefinition> {
 
-	public void load(EntitiesRegistry<?, ?, ?> entitiesRegistry);
+	Class<?> getPartClass();
 
-	void loadSingleClass(EntitiesRegistry<?, ?, ?> entitiesRegistry, Class<?> beanClass, Boolean loadReferences);
+	Map<String, F> getFieldsDefinitions();
+
+	String getDisplayName();
+
+	String getPartName();
 
 }

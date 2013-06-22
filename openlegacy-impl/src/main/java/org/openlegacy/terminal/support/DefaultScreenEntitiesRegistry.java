@@ -33,11 +33,10 @@ import java.util.Map;
  * A simple implementation of a screen entities registry. Holds information collection from @ScreenEntity, @FieldMapping and more
  * 
  */
-public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<ScreenEntityDefinition, ScreenFieldDefinition> implements ScreenEntitiesRegistry, Serializable {
+public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<ScreenEntityDefinition, ScreenFieldDefinition, ScreenPartEntityDefinition> implements ScreenEntitiesRegistry, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Map<Class<?>, ScreenPartEntityDefinition> screenPartDefinitions = new HashMap<Class<?>, ScreenPartEntityDefinition>();
 	private final Map<Class<?>, ScreenTableDefinition> tableDefinitions = new HashMap<Class<?>, ScreenTableDefinition>();
 	private ArrayList<ScreenEntityDefinition> sortedScreenDefinitions;
 
@@ -80,14 +79,6 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 		});
 	}
 
-	public void addPart(ScreenPartEntityDefinition screenPartEntityDefinition) {
-		screenPartDefinitions.put(screenPartEntityDefinition.getPartClass(), screenPartEntityDefinition);
-	}
-
-	public ScreenPartEntityDefinition getPart(Class<?> containingClass) {
-		return screenPartDefinitions.get(containingClass);
-	}
-
 	public void addTable(ScreenTableDefinition tableDefinition) {
 		tableDefinitions.put(tableDefinition.getTableClass(), tableDefinition);
 	}
@@ -100,7 +91,6 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 	public void clear() {
 		super.clear();
 
-		screenPartDefinitions.clear();
 		tableDefinitions.clear();
 
 		if (logger.isDebugEnabled()) {

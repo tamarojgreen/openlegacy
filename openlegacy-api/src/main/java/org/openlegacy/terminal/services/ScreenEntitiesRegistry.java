@@ -24,11 +24,7 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition;
  * @author Roi Mor
  * 
  */
-public interface ScreenEntitiesRegistry extends EntitiesRegistry<ScreenEntityDefinition, ScreenFieldDefinition> {
-
-	void addPart(ScreenPartEntityDefinition screenPartEntityDefinition);
-
-	ScreenPartEntityDefinition getPart(Class<?> containingClass);
+public interface ScreenEntitiesRegistry extends EntitiesRegistry<ScreenEntityDefinition, ScreenFieldDefinition, ScreenPartEntityDefinition> {
 
 	void addTable(ScreenTableDefinition tableDefinition);
 

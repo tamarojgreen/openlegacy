@@ -15,6 +15,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.EntityType;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.utils.ProxyUtil;
 
@@ -31,7 +32,7 @@ import java.util.Set;
  * An abstract implementation of entities registry
  * 
  */
-public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D extends FieldDefinition> implements EntitiesRegistry<E, D>, Serializable {
+public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D extends FieldDefinition, P extends PartEntityDefinition<D>> implements EntitiesRegistry<E, D, P>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,6 +43,8 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	@SuppressWarnings("unchecked")
 	private Map<String, Class<?>> entities = new CaseInsensitiveMap();
 	private Map<Class<?>, String> reversedEntities = new HashMap<Class<?>, String>();
+
+	private final Map<Class<?>, P> partDefinitions = new HashMap<Class<?>, P>();
 
 	// map of entities by type
 	private Map<Class<? extends EntityType>, Set<Class<?>>> entitiesByTypes = new HashMap<Class<? extends EntityType>, Set<Class<?>>>();
@@ -122,6 +125,7 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		entities.clear();
 		reversedEntities.clear();
 		entitiesByTypes.clear();
+		partDefinitions.clear();
 	}
 
 	public boolean isDirty() {
@@ -135,4 +139,13 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	public boolean contains(Class<?> beanClass) {
 		return get(beanClass) != null;
 	}
+
+	public void addPart(P partEntityDefinition) {
+		partDefinitions.put(partEntityDefinition.getPartClass(), partEntityDefinition);
+	}
+
+	public P getPart(Class<?> containingClass) {
+		return partDefinitions.get(containingClass);
+	}
+
 }

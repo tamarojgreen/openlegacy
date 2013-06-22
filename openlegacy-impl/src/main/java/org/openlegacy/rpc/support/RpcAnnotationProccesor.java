@@ -24,7 +24,7 @@ import org.springframework.beans.factory.BeanFactory;
 public class RpcAnnotationProccesor extends AbstractAnnotationProccesor {
 
 	@Override
-	protected EntitiesRegistry<?, ?> getEntitiesRegistry(BeanFactory beanFactory) {
+	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry(BeanFactory beanFactory) {
 		return beanFactory.getBean(RpcEntitiesRegistry.class);
 	}
 

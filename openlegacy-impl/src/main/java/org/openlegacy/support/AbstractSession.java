@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.support;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ApplicationConnection;
 import org.openlegacy.ApplicationConnectionListener;
 import org.openlegacy.Session;
@@ -36,6 +38,8 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 
 	private static final long serialVersionUID = 1L;
 
+	private final static Log logger = LogFactory.getLog(AbstractSession.class);
+
 	private SessionModules sessionModules;
 
 	@Inject
@@ -54,7 +58,8 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 				return (M)registeredModule;
 			}
 		}
-		throw (new OpenLegacyRuntimeException(MessageFormat.format("No module {0} defined for session", module)));
+		logger.error(MessageFormat.format("No module {0} defined for session", module));
+		return null;
 	}
 
 	public void setSessionModules(SessionModules sessionModules) {
