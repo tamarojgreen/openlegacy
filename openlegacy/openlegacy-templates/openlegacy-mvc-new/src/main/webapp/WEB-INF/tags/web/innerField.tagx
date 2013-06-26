@@ -142,7 +142,7 @@
 								<a
 									href="javascript:require(['dojo/dom'], function(dom){createFormattedMap(dom.byId('${name}').value)});showDialog('mapDialog')">
 									<img src="${pageContext.request.contextPath}/icons/map.png"
-									width="26" height="28" alt="Map" style="vertical-align: top;margin-left: ${width+10}px" />
+									width="26" height="28" alt="Map" style="vertical-align: top;" />
 								</a>
 							</c:when>
 							<c:when test="${type == 'password'}">

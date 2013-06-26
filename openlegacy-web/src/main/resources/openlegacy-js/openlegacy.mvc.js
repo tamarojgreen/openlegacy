@@ -356,6 +356,15 @@ function createMap(address){
 	
 }
 
+function createFormattedMap(address){
+	address = address.replace('\r\n',',');
+	address = address.replace('\n',',');
+	address = address.replace('\r',',');
+	address = address.toLowerCase();
+	createMap(address);
+	
+}
+
 function changeTheme(themesList){
 	var cookie = require("dojo/cookie");
 	var currentTheme = cookie("ol_theme");
