@@ -6,8 +6,8 @@
 
 	<div>
 		<ol:form model="itemDetails2">
-			<ol:pagePart left="2%" top="20%" width="51%;">
-				<ol:field name="itemNumberdesc" />
+			<ol:pagePart>
+				<ol:field name="itemNumberdesc"/>
 				<ol:field name="nlCostOfSalesAccount" />
 				<ol:field name="nlSalesAccount" />
 				<ol:field name="nlStockAccount" />
@@ -20,7 +20,7 @@
 				<ol:field name="listPrice" />
 				<ol:field name="standardUnitCost" />
 			</ol:pagePart>
-			<ol:pagePart left="63%" top="75%" width="33%;">
+			<ol:pagePart>
 				<ol:field name="stockInfo.createdDate" />
 				<ol:field name="stockInfo.createdBy" />
 				<ol:field name="stockInfo.amendedDate" />

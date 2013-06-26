@@ -119,3 +119,8 @@
 .field_row{
 	white-space: nowrap;
 }
+
+.graphTitle{
+	font-size: 17px;
+	font-weight: bold;
+}
