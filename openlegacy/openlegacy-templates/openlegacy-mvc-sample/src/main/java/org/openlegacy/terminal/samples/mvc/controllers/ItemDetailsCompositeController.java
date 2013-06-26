@@ -23,7 +23,7 @@ import javax.inject.Inject;
  * Handles requests for screen ItemDetailsComposite
  */
 @Controller
-@RequestMapping("/ItemDetails")
+@RequestMapping("/ItemDetails/{id}")
 public class ItemDetailsCompositeController {
 
 	@Inject
@@ -47,9 +47,11 @@ public class ItemDetailsCompositeController {
 		// fetch relevant notes from the DB and pass the page
 		StockItem stockItem = stockItemsService.getOrCreateStockItem(itemNumber);
 
+		System.out.println("********************** shippings");
 		uiModel.addAttribute(stockItem);
 		Collection<StockItemNote> notes = stockItem.getNotes().values();
 		uiModel.addAttribute("notes", notes);
+
 	}
 
 	// handle page navigation with friendly URL for drill-down

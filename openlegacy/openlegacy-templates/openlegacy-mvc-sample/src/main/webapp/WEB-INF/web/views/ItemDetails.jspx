@@ -21,6 +21,24 @@
 					<ol:field name="itemWeight" />
 					<ol:field name="stockGroup" />
 			</ol:pagePart>
+			<ol:pagePart title="Shippings">
+				<div class="table">
+				<table>
+					<th>Name</th>
+					<th>Address</th>
+					<th>Phone</th>
+					<th>Date</th>
+					<c:forEach items="${shippings}" var="shipping" varStatus="status">
+					<tr>
+						<td>${shipping.name}</td>
+						<td>${shipping.address}</td>
+						<td>${shipping.phone}</td>
+						<td>${shipping.date}</td>
+					</tr>
+					</c:forEach>
+				</table>
+				</div>
+			</ol:pagePart>
 			<ol:pagePart title="Advanced">
 				<div class="field_row">
 					<label class="label">Video URL:</label>
