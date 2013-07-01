@@ -23,12 +23,16 @@ import javax.servlet.http.HttpServletResponse;
 public class ThemeUtil {
 
 	private String defaultTheme;
+	private String defaultMobileTheme;
 
 	private static final String OL_THEME = "ol_theme";
+	private static final String OL_MOBILE_THEME = "ol_mobile_theme";
 
 	public void applyTheme(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 		String theme = defaultTheme;
+		String mobileTheme = defaultMobileTheme;
 		String requestTheme = request.getParameter(OL_THEME);
+		String requestMobileTheme = request.getParameter(OL_MOBILE_THEME);
 
 		if (requestTheme != null) {
 			response.addCookie(new Cookie(OL_THEME, requestTheme));
@@ -41,10 +45,27 @@ public class ThemeUtil {
 				response.addCookie(new Cookie(OL_THEME, theme));
 			}
 		}
+		if (requestMobileTheme != null) {
+			response.addCookie(new Cookie(OL_MOBILE_THEME, requestMobileTheme));
+			mobileTheme = requestMobileTheme;
+		} else {
+			Cookie cookieTheme = WebUtils.getCookie(request, OL_MOBILE_THEME);
+			if (cookieTheme != null && StringUtils.isNotEmpty(cookieTheme.getValue())) {
+				mobileTheme = cookieTheme.getValue();
+			} else {
+				response.addCookie(new Cookie(OL_MOBILE_THEME, mobileTheme));
+			}
+		}
 		modelAndView.addObject(OL_THEME, theme);
+		modelAndView.addObject(OL_MOBILE_THEME, mobileTheme);
 	}
 
 	public void setDefaultTheme(String defaultTheme) {
 		this.defaultTheme = defaultTheme;
 	}
+
+	public void setDefaultMobileTheme(String defaultMobileTheme) {
+		this.defaultMobileTheme = defaultMobileTheme;
+	}
+
 }

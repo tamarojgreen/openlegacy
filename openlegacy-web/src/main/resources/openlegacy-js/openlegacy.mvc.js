@@ -368,7 +368,7 @@ function createFormattedMap(address){
 function changeTheme(themesList){
 	var cookie = require("dojo/cookie");
 	var currentTheme = cookie("ol_theme");
-	var themes = themesList.split(",");
+	var themes = Object.keys(themesList);
 	for (var i=0;i<themes.length;i++){
 		if (themes[i] == currentTheme){
 			var newTheme = i < (themes.length-1) ? themes[i+1] : themes[0];
@@ -376,6 +376,7 @@ function changeTheme(themesList){
 			if (url.indexOf("?") > 0){
 				url = location.href.substring(0,url.indexOf("?"));
 			}
+			cookie("ol_mobile_theme", themesList[newTheme], {});
 			location.href = url+ "?ol_theme=" + newTheme; 
 		}
 	}
