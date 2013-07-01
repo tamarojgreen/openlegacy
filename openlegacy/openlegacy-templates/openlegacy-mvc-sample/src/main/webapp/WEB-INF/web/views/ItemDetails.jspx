@@ -10,9 +10,10 @@
 			<ol:pagePart open="true" title="Item Details">
 					<ol:field name="itemNumber" type="text">
 						<c:if test="${imageId != null}">
-							<img class="stockImage" style="left:74%; position:absolute"
+							<img class="stockImage"
 								src="${pageContext.request.contextPath}/StockItemImages/images/${imageId}" />
 						</c:if>
+						<iframe id="innerGraph" width="310" height="150" src="${pageContext.request.contextPath}/graph.html"><!--  --></iframe>
 					</ol:field>
 					<ol:field name="itemDescription" type="textarea" />
 					<ol:field name="alphaSearch" />

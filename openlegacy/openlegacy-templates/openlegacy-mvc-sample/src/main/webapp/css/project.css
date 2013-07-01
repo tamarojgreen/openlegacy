@@ -124,3 +124,29 @@
 	font-size: 17px;
 	font-weight: bold;
 }
+
+.cloud .stockImage, .night .stockImage, .red .stockImage{
+	left:74%;
+	top:8%;
+	position:absolute;		
+}
+
+.cloud #innerGraph, .night #innerGraph, .red #innerGraph{
+	position: absolute;
+	left: 70%;
+	top: 18%;
+	border: 0px;
+}
+
+.emily .stockImage{
+	left:74%;
+	top:12%;
+	position:absolute;		
+}
+
+.emily #innerGraph{
+	position: absolute;
+	left: 65%;
+	top: 58%;
+	border: 0px;
+}

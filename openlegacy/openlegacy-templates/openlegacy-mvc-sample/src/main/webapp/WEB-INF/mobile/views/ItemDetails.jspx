@@ -17,6 +17,9 @@
 			<ol:field name="manufacturersItemNo" />
 			<ol:field name="itemWeight" />
 			<ol:field name="palletLabelRequired" />
+			
+			<iframe width="380" height="250" style="border: 0px" src="${pageContext.request.contextPath}/graph.html"><!--  --></iframe>
+			
 		</ol:form>
 	</div>
 </jsp:root>
