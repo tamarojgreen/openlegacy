@@ -4,37 +4,13 @@
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <dependent-module archiveName="openlegacy-api-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-api/openlegacy-api">
+        <dependent-module archiveName="openlegacy-web-resources-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web-resources/openlegacy-web-resources">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-web-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web/openlegacy-web">
+        <dependent-module archiveName="openlegacy-themes-cloud-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-cloud/openlegacy-themes-cloud">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-impl-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-impl/openlegacy-impl">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-utils-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-web-resources-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web-resources/openlegacy-web-resources">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-themes-cloud-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-cloud/openlegacy-themes-cloud">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-themes-cloudm-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-cloudm/openlegacy-themes-cloudm">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="openlegacy-tn5250j-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-tn5250j/openlegacy-tn5250j">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="tn5250j-0.6.3.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/tn5250j/tn5250j">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="html-emulation-plugin-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/html-emulation-plugin/html-emulation-plugin">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="management-plugin-1.1.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/management-plugin/management-plugin">
+        <dependent-module archiveName="openlegacy-themes-cloudm-1.2.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-themes-cloudm/openlegacy-themes-cloudm">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/openlegacy-as400-menus/target/classes"/>
