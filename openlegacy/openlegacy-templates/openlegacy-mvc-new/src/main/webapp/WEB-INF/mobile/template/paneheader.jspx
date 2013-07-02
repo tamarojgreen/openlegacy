@@ -22,19 +22,16 @@
 		<c:set var="logoff_float" value="float: left;"/>
 	</c:if>
 	
-	<c:if test="${deviceType != 'MOBILE'}">
-	<h1 data-dojo-type="dojox.mobile.Heading" 
-		data-dojo-props="fixed:'top', ${backVal} moveTo:'${definitions.navigationDefinition.accessedFrom.simpleName}Panel'">
-		<a href="#" class="logo ${logo_mobile}">
-			<img src="images/logo.png" class="logo" />
-			<span><!-- FF --></span>
-		</a>
-		<c:if test="${ol_connected}">
-	  	<spring:message code="label_logout" var="label_logout" htmlEscape="false" />
-		<button data-dojo-type="dojox.mobile.ToolBarButton" style="${logoff_float}"
-			class="logoffBtn"
-			onclick="location.href='${pageContext.request.contextPath}/logoff'">${label_logout}</button>
-		</c:if>
-	</h1>
-	</c:if>
+	<div data-dojo-type="dojox.mobile.View">
+		<h1 data-dojo-type="dojox.mobile.Heading" 
+			data-dojo-props="fixed:'top', ${backVal} moveTo:'${definitions.navigationDefinition.accessedFrom.simpleName}Panel'">
+			<a href="#" class="logo ${logo_mobile}">
+				<img src="images/logo.png" />
+				<span><!-- FF --></span>
+			</a>
+			<button data-dojo-type="dojox.mobile.ToolBarButton" style="${logoff_float}"
+				class="logoffBtn"
+				onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
+		</h1>
+	</div>
 </jsp:root>

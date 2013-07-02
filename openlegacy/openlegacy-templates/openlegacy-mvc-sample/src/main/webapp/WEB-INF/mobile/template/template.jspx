@@ -37,12 +37,8 @@
 		<c:if test="${openLegacyProperties.rightToLeft}">
 			<c:set var="cssRtl" value="_rtl" />
 		</c:if>
-		<c:set var="mobile_theme" value="cloudm"/>
-		<c:if test="${fn:startsWith(ol_theme,'emily')}">
-			<c:set var="mobile_theme" value="emilym"/>
-		</c:if>
-		<link href="${pageContext.request.contextPath}/themes/${mobile_theme}/${mobile_theme}${cssRtl}.css" rel="stylesheet"/>
-		<link href="${pageContext.request.contextPath}/themes/${mobile_theme}/openlegacy.css" rel="stylesheet" />
+		<link href="${pageContext.request.contextPath}/themes/${ol_mobile_theme}/${ol_mobile_theme}${cssRtl}.css" rel="stylesheet"/>
+		<link href="${pageContext.request.contextPath}/themes/${ol_mobile_theme}/openlegacy.css" rel="stylesheet" />
 		<link href="${pageContext.request.contextPath}/css/project_m.css" rel="stylesheet" />
 
 		<script language="JavaScript" type="text/javascript">

@@ -74,7 +74,9 @@
 									</c:if>
 									<a href="${pageContext.request.contextPath}/${target}"
 										class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName}</a>
-									<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}"> | </c:if>
+									<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}">
+										<span class="actions_separator"> | </span>
+									</c:if>
 								</c:forEach>
 								</c:otherwise>
 						</c:choose>

@@ -128,7 +128,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		if (projectCreationRequest.isSupportTheme()) {
 			renameThemeInPOM(projectCreationRequest.getProjectTheme(), targetPath);
-			renameThemeInAppProperties(projectCreationRequest.getProjectTheme().getDisplayName().toLowerCase(), targetPath);
+			renameThemeInAppProperties(projectCreationRequest.getProjectTheme(), targetPath);
 		}
 
 		// spring files
@@ -289,7 +289,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static String replaceFirstAttribute(String attributeName, String attributeValue, String pomFileContent) {
 		String stringToReplace = MessageFormat.format("<{0}>.*</{0}>", attributeName);
-		return pomFileContent.replaceFirst(stringToReplace, MessageFormat.format("<{0}>{1}</{0}>", attributeName, attributeValue));
+		return pomFileContent
+				.replaceFirst(stringToReplace, MessageFormat.format("<{0}>{1}</{0}>", attributeName, attributeValue));
 
 	}
 
@@ -307,10 +308,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 			// tn5250j or impl is the default pom setting
 			pomFileContent = pomFileContent.replaceFirst(
-					"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>",
-					MessageFormat.format(
-							"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
-							provider));
+					"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>", MessageFormat
+							.format("<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
+									provider));
 			pomFileContent = pomFileContent.replaceFirst(
 					"<groupId>org.openlegacy</groupId>\\s+<artifactId>openlegacy-impl</artifactId>", MessageFormat.format(
 							"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
@@ -348,7 +348,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	private static void renameThemeInAppProperties(String themeName, File targetPath) throws FileNotFoundException, IOException {
+	private static void renameThemeInAppProperties(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
+			IOException {
 		File appPropertiesFile = new File(targetPath, "src/main/resources/application.properties");
 
 		if (!appPropertiesFile.exists()) {
@@ -358,9 +359,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
 
-		if (themeName != null) {
+		if (projectTheme != null) {
 			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultTheme=.*",
-					MessageFormat.format("themeUtil.defaultTheme={0}", themeName));
+					MessageFormat.format("themeUtil.defaultTheme={0}", projectTheme.getDisplayName().toLowerCase()));
+			// get mobile theme name
+			String[] split = projectTheme.getMobileTheme().split("-");
+			// suppose, that last element of String array is mobile theme name
+			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultMobileTheme=.*",
+					MessageFormat.format("themeUtil.defaultMobileTheme={0}", split[split.length - 1].toLowerCase()));
 			FileOutputStream fos = new FileOutputStream(appPropertiesFile);
 			IOUtils.write(appPropertiesFileContent, fos);
 		}
@@ -387,14 +393,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		} else {
 			Assert.notNull(generateModelRequest.getTerminalSnapshots(),
 					"Must set either trail file or terminal snapshots in generate API request");
-			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(Arrays.asList(generateModelRequest.getTerminalSnapshots()));
+			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(Arrays.asList(generateModelRequest
+					.getTerminalSnapshots()));
 		}
 
 		List<ScreenEntityDefinition> screenDefinitions = getSortedSnapshots(screenEntitiesDefinitions);
 
 		EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
+			((ScreenEntityDesigntimeDefinition)screenEntityDefinition)
+					.setGenerateAspect(generateModelRequest.isGenerateAspectJ());
 
 			boolean generated = generateEntityDefinition(generateModelRequest, screenEntityDefinition);
 
@@ -422,8 +430,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateModelRequest.getPackageDirectory().replaceAll(
-				"/", "."));
+		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateModelRequest.getPackageDirectory()
+				.replaceAll("/", "."));
 
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateModelRequest.getProjectPath());
 
@@ -450,7 +458,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 			TerminalSnapshotImageRenderer imageRenderer = projectApplicationContext.getBean(TerminalSnapshotImageRenderer.class);
 			TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
-			DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
+			DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext
+					.getBean(DefaultTerminalSnapshotXmlRenderer.class);
 
 			if (generateModelRequest.isGenerateSnapshotText()) {
 				// generate txt file with screen content
@@ -532,7 +541,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			fos = new FileOutputStream(file);
 
 			ApplicationContext projectApplicationContext = getOrCreateApplicationContext(getProjectPath(file));
-			ScreenEntityJavaGenerator screenEntityJavaGenerator = projectApplicationContext.getBean(ScreenEntityJavaGenerator.class);
+			ScreenEntityJavaGenerator screenEntityJavaGenerator = projectApplicationContext
+					.getBean(ScreenEntityJavaGenerator.class);
 
 			screenEntityJavaGenerator.generate(screenEntityDefinition, fos);
 		} finally {
@@ -690,8 +700,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		ScreenEntityDefinition screenEntityDefinition = null;
 		try {
 			CompilationUnit compilationUnit = JavaParser.parse(sourceFile, CharEncoding.UTF_8);
-			File packageDir = new File(generatePageRequest.getSourceDirectory(),
-					compilationUnit.getPackage().getName().toString().replaceAll("\\.", "/"));
+			File packageDir = new File(generatePageRequest.getSourceDirectory(), compilationUnit.getPackage().getName()
+					.toString().replaceAll("\\.", "/"));
 			screenEntityDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
 		} catch (Exception e) {
 			throw (new GenerationException(e));
