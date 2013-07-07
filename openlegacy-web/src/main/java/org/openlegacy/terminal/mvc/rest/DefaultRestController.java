@@ -101,12 +101,21 @@ public class DefaultRestController {
 		return getEntityRequest(screenEntityName, null, response);
 	}
 
+	
 	@RequestMapping(value = "/{screen}/{key}", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getScreenEntityWithKey(@PathVariable("screen") String screenEntityName, @PathVariable("key") String key,
 			HttpServletResponse response) throws IOException {
 		return getEntityRequest(screenEntityName, key, response);
 	}
 
+	@RequestMapping(value = "/{screen}/definitions", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getScreenEntityDefinitions(@PathVariable("screen") String screenEntityName, HttpServletResponse response)
+			throws IOException {
+		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntityName);
+		return new ModelAndView("definitions", "definitions", entityDefinitions);
+
+	}
+	
 	private ModelAndView getEntityRequest(String screenEntityName, Object key, HttpServletResponse response) throws IOException {
 		if (!authenticate(response)) {
 			return null;

@@ -106,6 +106,9 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 	}
 
 	public String getJavaTypeName() {
+		if (javaType == null){
+			return String.class.getSimpleName();
+		}
 		return javaType.getSimpleName();
 	}
 
