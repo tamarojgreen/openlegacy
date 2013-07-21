@@ -17,6 +17,7 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
 
+import java.io.Serializable;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -95,13 +96,17 @@ public @interface ScreenNavigation {
 
 	}
 
-	public static class DefaultNavigationExitAction implements TerminalAction {
+	public static class DefaultNavigationExitAction implements TerminalAction, Serializable {
 
 		public void perform(TerminalSession session, Object entity, Object... keys) {
 			TerminalAction action = session.getModule(Navigation.class).getDefaultExitAction();
 			session.doAction(action, (org.openlegacy.terminal.ScreenEntity)entity);
 		}
 
+		public String getName() {
+			// dummy method to avoid json serialization error
+			return getClass().getSimpleName();
+		}
 	}
 
 }

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="25">
+    <row rowNumber="1">
+        <field column="2" value="TESTUSER  " color="BLUE"/>
+        <field column="13" value="       "/>
+        <field column="21" value="Inventory                               " color="WHITE"/>
+        <field column="62" value="          "/>
+        <field column="73" value=" 2/06/05" color="BLUE"/>
+    </row>
+    <row rowNumber="2">
+        <field column="1" color="BLUE"/>
+        <field column="2" value="MWAREHED  " color="BLUE"/>
+        <field column="13" value="            "/>
+        <field column="26" value="  Work with Warehouse Details " color="WHITE"/>
+        <field column="57" value="               "/>
+        <field column="73" value="11:44:53" color="BLUE"/>
+    </row>
+    <row rowNumber="3">
+        <field column="1"/>
+        <field column="2" value="                                                                               "/>
+    </row>
+    <row rowNumber="4">
+        <field column="1" color="BLUE"/>
+        <field column="2" value="Type one or more action codes. Then Enter.                                    " color="BLUE"/>
+    </row>
+    <row rowNumber="5">
+        <field column="1" value="  "/>
+        <field column="4" value="2=Revise" color="BLUE"/>
+        <field column="13" color="BLUE"/>
+        <field column="14" value="4=Delete" color="BLUE"/>
+        <field column="23" color="BLUE"/>
+        <field column="24" value="5=Display" color="BLUE"/>
+        <field column="34" color="BLUE"/>
+        <field column="35" value="6=Items" color="BLUE"/>
+        <field column="43" color="BLUE"/>
+        <field column="44" value="7=Locations" color="BLUE"/>
+        <field column="56" value="                         "/>
+    </row>
+    <row rowNumber="7">
+        <field column="1" color="WHITE"/>
+        <field column="2" value="Action" color="WHITE"/>
+        <field column="9" color="WHITE"/>
+        <field column="10" value="Whse" color="WHITE"/>
+        <field column="15" color="WHITE"/>
+        <field column="16" value="Description" color="WHITE"/>
+        <field column="28" value="                                                     "/>
+    </row>
+    <row rowNumber="8">
+        <field column="1"/>
+        <field column="2" value=" "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="001" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Big meat warehouse                      "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="9">
+        <field column="1" value="  "/>
+        <field column="4" value="2" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="002" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Small fruit and vegetables warehouse    "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="10">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="003" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Discount warehouse                      "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="11">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="004" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Beef only warehouse                     "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="12">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="005" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Northern warehouse                      "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="13">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="006" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Exotic fruits                           "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="14">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="007" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Exclusive products warehouse            "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="15">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="009" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Eastern warehouse                       "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="16">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="010" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Western warehouse                       "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="17">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="011" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Vegetables warehouse                    "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="18">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="012" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Center dairy warehouse                  "/>
+        <field column="57" value="                        "/>
+    </row>
+    <row rowNumber="19">
+        <field column="1" value="  "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="6" value="   "/>
+        <field column="10" value="013" type="java.lang.Integer"/>
+        <field column="14" value=" "/>
+        <field column="16" value="Drinks warehouse                        "/>
+        <field column="57" value="                     "/>
+        <field column="79" value=" " color="WHITE"/>
+    </row>
+    <row rowNumber="21">
+        <field column="1"/>
+        <field column="2" value="Position to . ."/>
+        <field column="18" length="3" editable="true"/>
+        <field column="22" value="                                                           "/>
+    </row>
+    <row rowNumber="23">
+        <field column="1" color="BLUE"/>
+        <field column="2" value="F1=Help  F3=Exit  F6=Create  F12=Cancel" color="BLUE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="8" column="4"/>
+</snapshot>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--
+	<util:map id="actionMappings">
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.ENTER" /></key>
+			<value>[enter]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F1" /></key>
+			<value>[pf1]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F2" /></key>
+			<value>[pf2]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F3" /></key>
+			<value>[pf3]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F4" /></key>
+			<value>[pf4]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F5" /></key>
+			<value>[pf5]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F6" /></key>
+			<value>[pf6]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F7" /></key>
+			<value>[pf7]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F8" /></key>
+			<value>[pf8]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F9" /></key>
+			<value>[pf9]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F10" /></key>
+			<value>[pf10]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F11" /></key>
+			<value>[pf11]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F12" /></key>
+			<value>[pf12]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.PAGEDOWN" /></key>
+			<value>[pgdown]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="NONE" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.pgup" /></key>
+			<value>[pgup]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F1" /></key>
+			<value>[pf13]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F2" /></key>
+			<value>[pf14]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F3" /></key>
+			<value>[pf15]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F4" /></key>
+			<value>[pf16]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F5" /></key>
+			<value>[pf17]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F6" /></key>
+			<value>[pf18]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F7" /></key>
+			<value>[pf19]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F8" /></key>
+			<value>[pf20]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F9" /></key>
+			<value>[pf21]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F10" /></key>
+			<value>[pf22]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F11" /></key>
+			<value>[pf23]</value>
+		</entry>
+		<entry>
+			<key><bean parent="combinedAction" p:additionalKey="SHIFT" p:terminalAction="org.openlegacy.terminal.actions.TerminalActions.F12" /></key>
+			<value>[pf24]</value>
+		</entry>
+	</util:map>
+	-->		
+</beans>

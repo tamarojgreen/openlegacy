@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simpleMenuItem>
+    <displayName>Main Menu</displayName>
+    <menuItems xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:java="http://java.sun.com" xsi:type="java:org.openlegacy.modules.support.menu.SimpleMenuItem">
+        <displayName>Inventory Management</displayName>
+        <menuItems xsi:type="java:org.openlegacy.modules.support.menu.SimpleMenuItem">
+            <displayName>Items List</displayName>
+            <targetEntityName>ItemsList</targetEntityName>
+        </menuItems>
+        <menuItems xsi:type="java:org.openlegacy.modules.support.menu.SimpleMenuItem">
+            <displayName>Warehouses List</displayName>
+            <targetEntityName>WarehousesList</targetEntityName>
+        </menuItems>
+        <targetEntityName>InventoryManagement</targetEntityName>
+    </menuItems>
+    <targetEntityName>MainMenu</targetEntityName>
+</simpleMenuItem>

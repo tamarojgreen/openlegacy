@@ -1,0 +1,112 @@
+<html>
+<head>
+<script>
+    dojoConfig= {
+        parseOnLoad: true,
+        async: false
+    };
+
+function get(){
+	var requestType = "application/" + dojo.byId('requestType').value;
+	var url = location.href + dojo.byId('getUrl').value;
+	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType;
+	var xhrArgs = {
+			handleAs : "text",
+			headers: { "Content-Type": requestType, "Accept": requestType },
+			url : url,
+			load : function(data) {
+				if (data != ""){
+					//data = dojox.html.format.prettyPrint(data);
+					dojo.byId('result').value = data;
+				}
+				else{
+					dojo.byId('result').innerHTML = "OK"; 
+				}
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 
+			},
+			error : function(e) {
+				alert(e);
+			}
+		}
+		var deferred = dojo.xhrGet(xhrArgs);
+	}
+
+function post(){
+	var requestType = "application/" + dojo.byId('postRequestType').value;
+	var data = dojo.byId("postData").value;
+	var url= location.href + dojo.byId('postUrl').value;
+	dojo.byId("postMessage").innerHTML = "POST:" + url + " ; Content-Type: " + requestType;
+	
+	var xhrArgs = {
+			handleAs : "text",
+			postData : data,
+			headers: { "Accept": requestType, "Content-Type": requestType },
+			url : url,
+			load : function(data) {
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 
+			},
+			error : function(e) {
+				alert(e);
+			}
+		}
+		var deferred = dojo.xhrPost(xhrArgs);
+	}
+
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/dojo.js"
+	data-dojo-config="has:{'dojo-firebug': true}, parseOnLoad: true, async: 1">
+</script>
+<script>
+require(["dojo/parser", "dijit/form/ComboBox","dojox/html/format","dijit/TitlePane"]);
+
+</script>
+<link
+	href="//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dijit/themes/tundra/tundra.css"
+	rel="stylesheet" type="text/css" />
+</head>
+<body class="tundra">
+	<img src="http://www.openlegacy.org/open_legacy/openlegacy_logo.png"
+		width="150px" height="50px" />
+	<div align="center" style="font-family: verdana;font-size: 1.5em;">REST API test page</div>
+	<div data-dojo-type="dijit.TitlePane"
+		data-dojo-props="title: 'HTTP Get',open:true">
+
+		Available URL's: <select id="getUrl"
+			data-dojo-type="dijit.form.ComboBox">
+			<option>login?user=user1&password=pwd1</option>
+			<option>Items</option>
+			<option>ItemDetails/2000</option>
+			<option>WarehouseDetails/3</option>
+			<option>Warehouses</option>
+			<option>logoff</option>
+		</select> <select id="requestType">
+			<option value="json">JSON</option>
+			<option value="xml">XML</option>
+		</select> <br />
+		<button onclick="get()">HTTP Get</button>
+		<br />
+		<div id="getMessage"></div>
+		<br />
+		<textarea id="result" rows="8" cols="100"></textarea>
+	</div>
+	<div data-dojo-type="dijit.TitlePane"
+		data-dojo-props="title: 'HTTP POST',open:false">
+		Content: <br />
+		<textarea rows="6" cols="100" id="postData">
+{"itemNumber":2000,"itemDescription":"Domino Cubes - Board Games2","alphaSearch":"Domino Cub2","supercedingItemfrom":"2210","supercedingItemto":"2215","substituteItemNumber":"","manufacturersItemNo":"","stockGroup":"StandardStockGroup","itemWeight":850,"palletLabelRequired":false,"focusField":"itemDescription","stockGroupDescription":"Standard stock group"}
+		</textarea>
+		<br /> To URL: <input id="postUrl" value="/ItemDetails?action=prompt"
+			size="40" /> <select id="postRequestType">
+			<option value="json">JSON</option>
+			<option value="xml">XML</option>
+		</select> <br />
+		<button onclick="post()">HTTP Post</button>
+		<div id="postMessage"></div>
+	</div>
+	<div data-dojo-type="dijit.TitlePane"
+		data-dojo-props="title: 'Session state',open:true">
+		<img id="sessionImage" width="640px" height="320px" />
+	</div>
+
+</body>
+</html>

@@ -21,7 +21,7 @@
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 	    <property name="packages">
 	        <list>
-	            <value>apps.inventory.screens</value>
+	            <value>com.test1</value>
             </list>
 	    </property>
     </bean>
