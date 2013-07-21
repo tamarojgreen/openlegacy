@@ -33,6 +33,7 @@ import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.Assert;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -118,10 +119,16 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 		String user = (String)fieldAccessor.getFieldValue(loginMetadata.getUserField().getName());
 
+		loggedInUser = user;
+
 		// construct a wait while login error message is NOT shown (or next screen whows up)
 		String errorFieldName = loginMetadata.getErrorField().getName();
 		WaitForNonEmptyField waitForNonEmptyLoginError = waitConditionFactory.create(WaitForNonEmptyField.class,
 				registryLoginClass, errorFieldName);
+
+		ScreenEntity firstScreenEntity = (ScreenEntity)getSession().getEntity(
+				loginMetadata.getLoginScreenDefinition().getEntityClass());
+		Assert.notNull(firstScreenEntity, "Login entity not recognized as the 1st application screen");
 
 		Object currentEntity = getSession().doAction(loginAction, (ScreenEntity)loginEntity, waitForNonEmptyLoginError);
 
@@ -148,6 +155,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 			String message = value != null ? value.toString() : LOGIN_FAILED;
 			fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 			fieldAccessor.setFieldValue(errorFieldName, message);
+			loggedInUser = null;
 			throw (new LoginException(message));
 		} else {
 			loggedInUser = user;

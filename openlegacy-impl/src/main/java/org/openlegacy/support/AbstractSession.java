@@ -101,6 +101,10 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 		return sessionProperties;
 	}
 
+	public void setProperties(SessionProperties sessionProperties) {
+		this.sessionProperties = sessionProperties;
+	}
+
 	/**
 	 * Pass the session to all the modules
 	 */

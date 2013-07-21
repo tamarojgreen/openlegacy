@@ -282,6 +282,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		for (SessionModule sessionModule : sessionModulesList) {
 			sessionModule.destroy();
 		}
+		setProperties(null);
 		resetEntity();
 		terminalConnection.disconnect();
 	}
@@ -434,7 +435,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			connectionProperties = new ConnectionProperties() {
 
 				public String getDeviceName() {
-					return (String)getProperties().getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
+					String device = (String)getProperties().getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
+					return device;
 				}
 
 			};
