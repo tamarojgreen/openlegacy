@@ -46,7 +46,7 @@ public class ItemsList {
 		@ScreenColumn(startColumn = 65, endColumn = 68, key = true)
 		private Integer itemNumber;
 
-		@ScreenColumn(startColumn = 11, endColumn = 22)
+		@ScreenColumn(startColumn = 11, endColumn = 22, mainDisplayField = true)
 		private String alphaSearch;
 
 		@ScreenColumn(startColumn = 24, endColumn = 60)
