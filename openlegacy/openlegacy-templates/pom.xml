@@ -11,6 +11,8 @@
 		<module>openlegacy-mvc-new</module>
 		<module>openlegacy-mvc-sample</module>
 		<module>openlegacy-rest-new</module>
+		<module>openlegacy-rest-sample</module>
+		<module>openlegacy-angular-sample</module>
 		<module>openlegacy-ws-sample</module>
 		<module>remoting</module>
 		<module>openlegacy-as400-menus</module>

@@ -213,7 +213,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.3</version>
 				<configuration>
-					<warName>openlegacy-rest-new</warName>
+					<warName>openlegacy-rest-sample</warName>
 				</configuration>
 			</plugin>
 			<plugin>
