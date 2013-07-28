@@ -26,6 +26,11 @@
 } )();
 
 function appOnLoad($cookies,$rootScope,$location,$olHttp){
+	// fix relative URL's
+	if (BASE_URL.indexOf("http" < 0)){
+		BASE_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port() + BASE_URL;
+	}
+	
 	if ($cookies.loggedInUser != null){
 		$rootScope.loggedInUser = $cookies.loggedInUser;
 		$location.path("/items");
