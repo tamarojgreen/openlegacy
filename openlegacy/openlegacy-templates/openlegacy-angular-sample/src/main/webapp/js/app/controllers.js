@@ -1,4 +1,4 @@
-var BASE_URL = "http://localhost:8080/openlegacy-rest-sample/";
+var BASE_URL = "/openlegacy-rest-sample/";
 
 (function() {
 
