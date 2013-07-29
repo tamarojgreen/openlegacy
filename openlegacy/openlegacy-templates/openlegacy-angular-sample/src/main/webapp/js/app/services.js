@@ -24,7 +24,7 @@
 						{
 							method : 'GET',
 							data : '',
-							url : BASE_URL + url,
+							url : olConfig.baseUrl + url,
 							headers : {
 								'Content-Type' : 'application/json',
 								'Accept' : 'application/json'
@@ -43,7 +43,7 @@
 						{
 							method : 'POST',
 							data : JSON.stringify(model),
-							url : BASE_URL + url,
+							url : olConfig.baseUrl + url,
 							headers : {
 								'Content-Type' : 'application/json',
 								'Accept' : 'application/json'

@@ -27,8 +27,8 @@
 
 function appOnLoad($cookies,$rootScope,$location,$olHttp){
 	// fix relative URL's
-	if (BASE_URL.indexOf("http" < 0)){
-		BASE_URL = $location.protocol() + "://" + $location.host() + ":" + $location.port() + BASE_URL;
+	if (olConfig.baseUrl.indexOf("http" < 0)){
+		olConfig.baseUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + olConfig.baseUrl;
 	}
 	
 	if ($cookies.loggedInUser != null){

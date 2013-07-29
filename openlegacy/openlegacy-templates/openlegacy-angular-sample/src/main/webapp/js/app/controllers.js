@@ -1,5 +1,3 @@
-var BASE_URL = "/openlegacy-rest-sample/";
-
 (function() {
 
 	'use strict';
