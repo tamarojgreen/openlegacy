@@ -1,0 +1,18 @@
+<h4>Credit</h4>
+{{model.CUST_ID}}
+<br />
+Name:{{model.CUST_NAME}}
+<br />
+Phone:{{model.CUST_PHONE}}
+
+<br />
+Address:{{model.CUST_ADDRESS}}
+
+<table class="table">
+	<tr ng-repeat="card in model.CARDS">
+		<td>{{card.CARD_IND}}</td>
+		<td>{{card.CARD_NUMBER}}</td>
+		<td>{{card.CARD_PREFIX}}</td>
+		<td>{{card.CARD_SUG_SHERUT}}</td>
+	</tr>
+</table>

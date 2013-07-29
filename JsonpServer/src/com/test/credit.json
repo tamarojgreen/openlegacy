@@ -1,0 +1,58 @@
+JSON_CALLBACK({
+	"CUST_IND" : "Y",
+	"CUST_ID" : "058301706",
+	"CUST_NAME" : " השמ ןהכ",
+	"CUST_ADDRESS" : "קרב ינב 27 ץיבונורהא",
+	"CUST_PHONE" : "003-5704714 ",
+	"CARDS" : [ , {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "00000",
+		"CARD_SUG_SHERUT" : "005"
+	}, {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "00000",
+		"CARD_SUG_SHERUT" : "008"
+	}, {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "00000",
+		"CARD_SUG_SHERUT" : "008"
+	}, {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "53261",
+		"CARD_SUG_SHERUT" : "030"
+	}, {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "53261",
+		"CARD_SUG_SHERUT" : "033"
+	}, {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "53261",
+		"CARD_SUG_SHERUT" : "034"
+	}, {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "00000",
+		"CARD_SUG_SHERUT" : "072"
+	}, {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "53261",
+		"CARD_SUG_SHERUT" : "109"
+	}, {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "37551",
+		"CARD_SUG_SHERUT" : "290"
+	}, {
+		"CARD_IND" : "Y",
+		"CARD_NUMBER" : "01234567890",
+		"CARD_PREFIX" : "37551",
+		"CARD_SUG_SHERUT" : "290"
+	} ]
+})

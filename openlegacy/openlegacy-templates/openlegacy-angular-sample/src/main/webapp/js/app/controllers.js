@@ -32,12 +32,18 @@
 			);
 		})
 	.controller('itemsController',
-		function($scope, $location, $olHttp) {
-			$olHttp.get('Items', 
-					function(data) {
-						$scope.items = data.screenModel.screenEntity.itemsRecords;
-					}
-				);
+		function($scope, $location, $http,$templateCache) {
+
+		$scope.fetch = function(){
+		    $http({method: 'JSONP', url: olConfig.baseUrl + 'dummy?callback=JSON_CALLBACK1', cache: $templateCache}).
+		      success(function(data, status) {
+				//$scope.items = data.screenModel.screenEntity.itemsRecords;
+		      }).
+		      error(function(data, status) {
+		    	  //alert(data);
+		    });			
+			
+		};
 			
 		})
 	.controller('itemDetailsController',
@@ -55,5 +61,18 @@
 						);
 					
 				};
+			})
+
+	.controller('creditController',
+			function($scope, $location, $http,$routeParams,$templateCache) {
+		
+			    $http({method: 'JSONP', url: 'http://localhost:8081/JsonpServer/credit?callback=JSON_CALLBACK', cache: $templateCache}).
+			      success(function(data, status) {
+						$scope.model = data;
+			      }).
+			      error(function(data, status) {
+			    	  alert("failed");
+			    });
 			});
+
 })();

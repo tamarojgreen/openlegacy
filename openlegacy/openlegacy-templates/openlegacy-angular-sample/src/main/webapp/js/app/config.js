@@ -1,1 +1,1 @@
-var olConfig = {baseUrl:"/openlegacy-rest-sample/"};
+var olConfig = {baseUrl:"http://localhost:8081/JsonpServer/jsonp"};

@@ -14,20 +14,17 @@
 		$routeProvider = $routeProvider.when( '/items', {templateUrl: 'views/items.html', controller: 'itemsController'} );
 
 		$routeProvider = $routeProvider.when( '/itemDetails/:itemNumber', {templateUrl: 'views/itemDetails.html',controller: 'itemDetailsController'});
+
+		$routeProvider = $routeProvider.when( '/credit/:customerId', {templateUrl: 'views/credit.html',controller: 'creditController'});
 		
 		$routeProvider = $routeProvider.otherwise( {redirectTo: '/login'} );
 		
-		olApp.directive('myfield', function(){
-			  return {
-			    template: '<div>ROI</div>'
-			  };
-		});
 	} ] );
 } )();
 
 function appOnLoad($cookies,$rootScope,$location,$olHttp){
 	// fix relative URL's
-	if (olConfig.baseUrl.indexOf("http" < 0)){
+	if (olConfig.baseUrl.indexOf("http") < 0){
 		olConfig.baseUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + olConfig.baseUrl;
 	}
 	
@@ -35,8 +32,7 @@ function appOnLoad($cookies,$rootScope,$location,$olHttp){
 		$rootScope.loggedInUser = $cookies.loggedInUser;
 		$location.path("/items");
 	}
-	$olHttp.get("menu",function(data){
-		$rootScope.menus = data.simpleMenuItem.menuItems;
-	});
+//	$olHttp.get("menu",function(data){
+	//	$rootScope.menus = data.simpleMenuItem.menuItems;
+	//});
 }
-
