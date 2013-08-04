@@ -8,17 +8,6 @@
 	<name>OpenLegacy Angular REST RPC demo</name>
 	<description>OpenLegacy Angular REST RPC demo</description>
 
-	<repositories>
-		<repository>
-			<id>openlegacy-release</id>
-			<url>http://maven.openlegacy.org/maven2/release</url>
-		</repository>
-		<repository>
-			<id>openlegacy-snapshots</id>
-			<url>http://maven.openlegacy.org/maven2/snapshot</url>
-		</repository>
-	</repositories>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -36,6 +25,25 @@
 				<version>2.3</version>
 				<configuration>
 					<warName>openlegacy-angular-rpc-sample</warName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
 		</plugins>
