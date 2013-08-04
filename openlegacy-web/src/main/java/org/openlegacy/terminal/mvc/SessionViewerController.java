@@ -41,16 +41,19 @@ public class SessionViewerController {
 	public @ResponseBody
 	String viewer(HttpServletRequest request) throws IOException {
 		String style = "";
-		if (request.getParameter("small") != null){
-			style="style=\"width:300px;height;200px\";";
+		if (request.getParameter("small") != null) {
+			style = "style=\"width:300px;height;200px\";";
 		}
-		return MessageFormat.format("<html><body><img src=\"{0}/sessionViewer/image\"/ {1}></body></html>", request.getContextPath(),style);
+		return MessageFormat.format("<html><body><img src=\"{0}/sessionViewer/image\"/ {1}></body></html>",
+				request.getContextPath(), style);
 	}
 
 	@RequestMapping(value = "/image", method = RequestMethod.GET)
 	public void image(HttpServletResponse response) throws IOException {
 		response.setContentType("image/jpeg");
-		imageRenderer.render(terminalSession.getSnapshot(), response.getOutputStream());
+		if (terminalSession.isConnected()) {
+			imageRenderer.render(terminalSession.getSnapshot(), response.getOutputStream());
+		}
 	}
 
 }
