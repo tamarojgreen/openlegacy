@@ -8,36 +8,36 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.json;
+package org.openlegacy.json;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.openlegacy.EntityWrapper;
 import org.openlegacy.modules.navigation.Navigation;
+import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenEntityWrapper;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.support.SimpleScreenEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 
 import java.io.IOException;
 
-public class ScreenEntitySerializationUtils {
+public class EntitySerializationUtils {
 
 	/**
 	 * Serialize a screen entity into a screen entity wrapper which contains the entity, it's actions and paths within the
 	 * session.
 	 * 
-	 * @param screenEntity
-	 * @param terminalSession
+	 * @param entity
+	 * @param session
 	 * @return a wrapper for the screen entity with additional meta-data
 	 */
-	public static ScreenEntityWrapper createSerializationContainer(ScreenEntity screenEntity, TerminalSession terminalSession,
+	public static EntityWrapper createSerializationContainer(ScreenEntity entity, TerminalSession session,
 			ScreenEntityDefinition entityDefinitions) {
-		screenEntity = ProxyUtil.getTargetObject(screenEntity);
-		return new SimpleScreenEntityWrapper(screenEntity, terminalSession.getModule(Navigation.class).getPaths(),
-				entityDefinitions.getActions());
+		entity = ProxyUtil.getTargetObject(entity);
+		Navigation navigation = session.getModule(Navigation.class);
+		return new SimpleEntityWrapper(entity, navigation != null ? navigation.getPaths() : null, entityDefinitions.getActions());
 
 	}
 

@@ -18,6 +18,10 @@ public class RpcActions {
 
 	public static class RpcActionAdapter implements RpcAction {
 
+		public String getActionName() {
+			return getClass().getSimpleName();
+		}
+
 		public void perform(RpcSession rpcSession, Object entity, Object... keys) {
 			// if we got here it means the actions is not mapped...
 			throw (new RpcActionNotMappedException(MessageFormat.format("Specified action {0} is not mapped to a program",

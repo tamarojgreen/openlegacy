@@ -58,7 +58,7 @@ public abstract class AbstractSession implements Session, InitializingBean, Disp
 				return (M)registeredModule;
 			}
 		}
-		logger.error(MessageFormat.format("No module {0} defined for session", module));
+		logger.warn(MessageFormat.format("No module {0} defined for session", module));
 		return null;
 	}
 

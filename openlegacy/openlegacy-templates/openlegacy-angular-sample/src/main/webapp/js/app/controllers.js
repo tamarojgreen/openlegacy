@@ -35,7 +35,7 @@
 		function($scope, $location, $olHttp) {
 			$olHttp.get('Items', 
 					function(data) {
-						$scope.items = data.screenModel.screenEntity.itemsRecords;
+						$scope.items = data.model.entity.itemsRecords;
 					}
 				);
 			
@@ -44,13 +44,13 @@
 			function($scope, $location, $olHttp,$routeParams) {
 				$olHttp.get('ItemDetails/' + $routeParams.itemNumber, 
 						function(data) {
-							$scope.model = data.screenModel.screenEntity;
+							$scope.model = data.model.entity;
 						}
 					);
 				$scope.save = function(){
 					$olHttp.post('ItemDetails?action=prompt',$scope.model, 
 							function(data) {
-								$scope.model = data.screenModel.screenEntity;
+								$scope.model = data.model.entity;
 							}
 						);
 					

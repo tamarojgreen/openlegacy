@@ -3,8 +3,6 @@ package org.openlegacy.terminal.json;
 import apps.inventory.screens.ItemsList;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParseException;
@@ -14,6 +12,7 @@ import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
+import org.openlegacy.json.EntitySerializationUtils;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -35,8 +34,6 @@ import javax.xml.transform.stream.StreamResult;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ScreenEntitySerializerTest extends AbstractTest {
 
-	private final static Log logger = LogFactory.getLog(ScreenEntitySerializerTest.class);
-
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
@@ -45,7 +42,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
-		Object result = ScreenEntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
+		Object result = EntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
 				definitions);
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -60,7 +57,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 
 	@Test
 	public void testJsonDesiralization() throws JsonParseException, JsonMappingException, IOException {
-		ItemsList itemsList = ScreenEntitySerializationUtils.deserialize("{\"positionTo\":\"5\",\"focusField\":\"positionTo\"}",
+		ItemsList itemsList = EntitySerializationUtils.deserialize("{\"positionTo\":\"5\",\"focusField\":\"positionTo\"}",
 				ItemsList.class);
 		Assert.notNull(itemsList);
 	}
@@ -70,7 +67,7 @@ public class ScreenEntitySerializerTest extends AbstractTest {
 		TerminalSession terminalSession = newTerminalSession();
 		ItemsList itemList = terminalSession.getEntity(ItemsList.class);
 		ScreenEntityDefinition definitions = screenEntitiesRegistry.get(ItemsList.class);
-		Object wrapper = ScreenEntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
+		Object wrapper = EntitySerializationUtils.createSerializationContainer((ScreenEntity)itemList, terminalSession,
 				definitions);
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(2048);

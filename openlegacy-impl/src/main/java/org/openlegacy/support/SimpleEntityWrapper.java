@@ -8,43 +8,42 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.support;
+package org.openlegacy.support;
 
 import org.openlegacy.EntityDescriptor;
+import org.openlegacy.EntityWrapper;
 import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenEntityWrapper;
 
 import java.util.List;
 
-public class SimpleScreenEntityWrapper implements ScreenEntityWrapper {
+public class SimpleEntityWrapper implements EntityWrapper {
 
-	private ScreenEntity screenEntity;
+	private Object entity;
 
-	private String screenEntityName;
+	private String entityName;
 
 	private List<EntityDescriptor> paths;
 
 	private List<ActionDefinition> actions;
 
-	public SimpleScreenEntityWrapper() {
+	public SimpleEntityWrapper() {
 		// for de-serialization
 	}
 
-	public SimpleScreenEntityWrapper(ScreenEntity screenEntity, List<EntityDescriptor> paths, List<ActionDefinition> actions) {
-		this.screenEntity = screenEntity;
+	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths, List<ActionDefinition> actions) {
+		this.entity = entity;
 
-		this.screenEntityName = screenEntity.getClass().getSimpleName();
+		this.entityName = entity.getClass().getSimpleName();
 		this.actions = actions;
 		this.paths = paths;
 	}
 
-	public ScreenEntity getScreenEntity() {
-		return screenEntity;
+	public Object getEntity() {
+		return entity;
 	}
 
-	public String getScreenEntityName() {
-		return screenEntityName;
+	public String getEntityName() {
+		return entityName;
 	}
 
 	public List<EntityDescriptor> getPaths() {

@@ -13,7 +13,6 @@ package org.openlegacy.terminal.utils;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -59,19 +58,18 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 	 * 
 	 * @return The invoked action definition
 	 */
-	public TerminalActionDefinition sendScreenEntity(TerminalSession terminalSession, ScreenEntity screenEntity,
-			String actionAlias) {
+	public TerminalActionDefinition findAction(ScreenEntity screenEntity, String actionAlias) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
 		TerminalAction sessionAction = null;
-		TerminalActionDefinition invokedActionDefinition = null;
+		TerminalActionDefinition matchedActionDefinition = null;
 		if (StringUtils.isEmpty(actionAlias)) {
 			sessionAction = TerminalActions.ENTER();
 		} else {
 			List<ActionDefinition> actions = entityDefinitions.getActions();
 			for (ActionDefinition actionDefinition : actions) {
 				if (actionDefinition.getAlias().equals(actionAlias)) {
-					invokedActionDefinition = (TerminalActionDefinition)actionDefinition;
+					matchedActionDefinition = (TerminalActionDefinition)actionDefinition;
 					sessionAction = (TerminalAction)actionDefinition.getAction();
 				}
 			}
@@ -80,12 +78,11 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 			}
 		}
 
-		if (invokedActionDefinition != null && invokedActionDefinition.getFocusField() != null) {
-			screenEntity.setFocusField(invokedActionDefinition.getFocusField());
+		if (matchedActionDefinition != null && matchedActionDefinition.getFocusField() != null) {
+			screenEntity.setFocusField(matchedActionDefinition.getFocusField());
 		}
 		Assert.notNull(sessionAction, MessageFormat.format("Alias for session action {0} not found", actionAlias));
-		terminalSession.doAction(sessionAction, screenEntity);
-		return invokedActionDefinition;
+		return matchedActionDefinition;
 	}
 
 	public void setDefaultActionAliasToAction(Map<String, TerminalAction> actionAliasToAction) {

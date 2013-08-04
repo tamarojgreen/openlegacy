@@ -21,6 +21,7 @@ import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.mvc.OpenLegacyWebProperties;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
@@ -170,14 +171,10 @@ public class DefaultGenericController {
 		registerPropertyEditors(binder);
 		binder.bind(request);
 
-		TerminalActionDefinition invokedActionDefinition = screenEntityUtils.sendScreenEntity(terminalSession, screenEntity,
-				action);
-
-		ScreenEntity resultEntity = null;
-		if (invokedActionDefinition != null && invokedActionDefinition.getTargetEntity() != null) {
-			resultEntity = (ScreenEntity)terminalSession.getEntity(invokedActionDefinition.getTargetEntity());
-		} else {
-			resultEntity = terminalSession.getEntity();
+		TerminalActionDefinition matchedActionDefinition = screenEntityUtils.findAction(screenEntity, action);
+		ScreenEntity resultEntity = terminalSession.doAction((TerminalAction)matchedActionDefinition.getAction(), screenEntity);
+		if (matchedActionDefinition != null && matchedActionDefinition.getTargetEntity() != null) {
+			resultEntity = (ScreenEntity)terminalSession.getEntity(matchedActionDefinition.getTargetEntity());
 		}
 
 		return handleEntity(request, uiModel, resultEntity);

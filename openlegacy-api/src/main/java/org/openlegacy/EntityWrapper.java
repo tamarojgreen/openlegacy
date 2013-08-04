@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal;
+package org.openlegacy;
 
 import org.openlegacy.EntityDescriptor;
 import org.openlegacy.definitions.ActionDefinition;
@@ -16,14 +16,14 @@ import org.openlegacy.definitions.ActionDefinition;
 import java.util.List;
 
 /**
- * A container class for screen entity which includes additional elements
+ * A container class for entity which includes additional elements
  * 
  * @author Roi Mor
  * 
  */
-public interface ScreenEntityWrapper {
+public interface EntityWrapper {
 
-	ScreenEntity getScreenEntity();
+	Object getEntity();
 
 	List<EntityDescriptor> getPaths();
 

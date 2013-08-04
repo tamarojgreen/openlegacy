@@ -38,7 +38,7 @@
 	    <aop:scoped-proxy/>
 	</bean>
 
- 	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedSessionPropertiesProvider">
+ 	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.web.RequestBasedSessionPropertiesProvider">
  		<aop:scoped-proxy/>
  	</bean>
 		

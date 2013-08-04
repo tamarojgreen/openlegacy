@@ -1,0 +1,12 @@
+.header {
+	margin-left: 80%;
+	margin-top: 10px;
+}
+
+.ng-invalid input {
+	border-color: red;
+}
+
+.row {
+	margin-top: 10px;
+}
