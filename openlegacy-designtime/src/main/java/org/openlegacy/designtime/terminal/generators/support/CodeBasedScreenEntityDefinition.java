@@ -16,7 +16,6 @@ import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
-import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenSize;
@@ -37,52 +36,54 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
+public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefinition<ScreenFieldDefinition, ScreenPojoCodeModel> implements ScreenEntityDefinition {
 
-	private ScreenPojoCodeModel codeModel;
-	private Map<String, PartEntityDefinition<ScreenFieldDefinition>> partDefinitions = new TreeMap<String, PartEntityDefinition<ScreenFieldDefinition>>();
-	private Map<String, ScreenFieldDefinition> fields;
 	private Map<String, ScreenTableDefinition> tableDefinitions = new TreeMap<String, ScreenTableDefinition>();
-	private List<ActionDefinition> actions;
 	private List<EntityDefinition<?>> childScreens;
 	private Set<EntityDefinition<?>> allChildScreens;
-	private File packageDir;
-	private List<ScreenFieldDefinition> keyFields;
+	private Map<String, ScreenFieldDefinition> fields;
+	private List<ActionDefinition> actions;
 
 	public CodeBasedScreenEntityDefinition(ScreenPojoCodeModel codeModel, File packageDir) {
-		this.codeModel = codeModel;
-		this.packageDir = packageDir;
+		super(codeModel, packageDir);
 	}
 
+	@Override
 	public String getEntityName() {
-		return codeModel.getEntityName();
+		return getCodeModel().getEntityName();
 	}
 
+	@Override
 	public String getPackageName() {
-		return codeModel.getPackageName();
+		return getCodeModel().getPackageName();
 	}
 
+	@Override
 	public String getDisplayName() {
-		return codeModel.getDisplayName();
+		return getCodeModel().getDisplayName();
 	}
 
+	@Override
 	public Class<?> getEntityClass() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public String getEntityClassName() {
-		return codeModel.getClassName();
+		return getCodeModel().getClassName();
 	}
 
+	@Override
 	public Class<? extends EntityType> getType() {
 		throwNotImplemented();
 		return null;
 	}
 
+	@Override
 	public Map<String, ScreenFieldDefinition> getFieldsDefinitions() {
 		if (fields == null) {
-			fields = CodeBasedDefinitionUtils.getFieldsFromCodeModel(codeModel, null);
+			fields = CodeBasedDefinitionUtils.getFieldsFromCodeModel(getCodeModel(), null);
 		}
 		return fields;
 	}
@@ -91,31 +92,23 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		throw (new NotImplementedException("Code based screen entity has not implemented this method"));
 	}
 
-	public ScreenFieldDefinition getFirstFieldDefinition(Class<? extends FieldType> fieldType) {
-		throwNotImplemented();
-		return null;
-	}
-
 	public ScreenIdentification getScreenIdentification() {
 		// @author: Ivan Bort, refs assembla #112
-		return codeModel.getScreenIdentification();
+		return (getCodeModel()).getScreenIdentification();
 	}
 
 	public NavigationDefinition getNavigationDefinition() {
-		return codeModel.getNavigationDefinition();
+		return (getCodeModel()).getNavigationDefinition();
 	}
 
 	public Map<String, ScreenTableDefinition> getTableDefinitions() {
 		return tableDefinitions;
 	}
 
-	public Map<String, PartEntityDefinition<ScreenFieldDefinition>> getPartsDefinitions() {
-		return partDefinitions;
-	}
-
+	@Override
 	public List<ActionDefinition> getActions() {
 		if (actions == null) {
-			actions = CodeBasedDefinitionUtils.getActionsFromCodeModel(codeModel);
+			actions = CodeBasedDefinitionUtils.getActionsFromCodeModel(getCodeModel());
 		}
 		return actions;
 	}
@@ -131,7 +124,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public boolean isWindow() {
-		return codeModel.isWindow();
+		return (getCodeModel()).isWindow();
 	}
 
 	public ScreenEntityDefinition getAccessedFromScreenDefinition() {
@@ -145,27 +138,29 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 	}
 
 	public ScreenSize getScreenSize() {
-		return codeModel.getScreenSize();
+		return (getCodeModel()).getScreenSize();
 	}
 
+	@Override
 	public String getTypeName() {
-		return codeModel.getTypeName();
+		return getCodeModel().getTypeName();
 	}
 
+	@Override
 	public List<EntityDefinition<?>> getChildEntitiesDefinitions() {
 		if (childScreens == null) {
-			childScreens = CodeBasedDefinitionUtils.getChildScreensDefinitions(codeModel, packageDir);
+			childScreens = CodeBasedDefinitionUtils.getChildScreensDefinitions(getCodeModel(), getPackageDir());
 		}
 		return childScreens;
 	}
 
 	public boolean isChild() {
-		return codeModel.isChildScreen();
+		return (getCodeModel()).isChildScreen();
 	}
 
 	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
 		if (allChildScreens == null) {
-			allChildScreens = CodeBasedDefinitionUtils.getAllChildScreensDefinitions(codeModel, packageDir);
+			allChildScreens = CodeBasedDefinitionUtils.getAllChildScreensDefinitions(getCodeModel(), getPackageDir());
 		}
 		return allChildScreens;
 	}
@@ -175,22 +170,6 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		List<ScreenFieldDefinition> sortedFields = new ArrayList<ScreenFieldDefinition>(fields);
 		Collections.sort(sortedFields, TerminalPositionContainerComparator.instance());
 		return sortedFields;
-	}
-
-	public List<? extends FieldDefinition> getKeys() {
-		if (keyFields != null) {
-			return keyFields;
-		}
-		keyFields = new ArrayList<ScreenFieldDefinition>();
-
-		Collection<ScreenFieldDefinition> fieldsList = getFieldsDefinitions().values();
-		keyFields = new ArrayList<ScreenFieldDefinition>();
-		for (ScreenFieldDefinition screenFieldDefinition : fieldsList) {
-			if (screenFieldDefinition.isKey()) {
-				keyFields.add(screenFieldDefinition);
-			}
-		}
-		return keyFields;
 	}
 
 	public List<ScreenEntityBinder> getBinders() {
@@ -203,17 +182,14 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return false;
 	}
 
+	@Override
 	public List<? extends FieldDefinition> getFieldDefinitions(Class<? extends FieldType> fieldType) {
 		throwNotImplemented();
 		return null;
 	}
 
 	public boolean isSupportTerminalData() {
-		return this.codeModel.isSupportTerminalData();
+		return this.getCodeModel().isSupportTerminalData();
 	}
 
-	public ActionDefinition getAction(Class<?> actionClass) {
-		throwNotImplemented();
-		return null;
-	}
 }

@@ -11,9 +11,11 @@
 package org.openlegacy.designtime.rpc.generators;
 
 import org.openlegacy.designtime.generators.PojoCodeModel;
+import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Action;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Field;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * An interface which model the code model of screen classes annotation with @ScreenEntity, @ScreenPart, @ScreenTable
@@ -23,4 +25,6 @@ import java.util.Collection;
 public interface RpcPojoCodeModel extends PojoCodeModel {
 
 	Collection<Field> getFields();
+
+	List<Action> getActions();
 }

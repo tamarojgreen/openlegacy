@@ -29,6 +29,12 @@ public class TypesUtil {
 		if (typeName.equals("String")) {
 			return true;
 		}
+		if (typeName.equals("BigInteger")) {
+			return true;
+		}
+		if (typeName.equals("Integer")) {
+			return true;
+		}
 		return false;
 	}
 

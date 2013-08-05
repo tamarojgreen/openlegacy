@@ -1,0 +1,23 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<ol:form model="xxolakkrParms">
+	  	
+		<ol:pagePart>
+			<ol:field name="lkCustomer.lkCustAddress" />
+			<ol:field name="lkCustomer.lkCustId" />
+			<ol:field name="lkCustomer.lkCustInd" />
+			<ol:field name="lkCustomer.lkCustName" />
+			<ol:field name="lkCustomer.lkCustPhone" />
+		</ol:pagePart>
+		<ol:pagePart>
+			<ol:field name="lkCards.lkCardInd" />
+			<ol:field name="lkCards.lkCardNumber" />
+			<ol:field name="lkCards.lkCardPrefix" />
+			<ol:field name="lkCards.lkCardSugSherut" />
+		</ol:pagePart>
+	</ol:form>
+</jsp:root>

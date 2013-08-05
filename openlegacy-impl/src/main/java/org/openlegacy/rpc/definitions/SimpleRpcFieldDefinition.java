@@ -13,6 +13,7 @@ package org.openlegacy.rpc.definitions;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.FieldType;
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.RpcNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.AbstractFieldDefinition;
@@ -92,5 +93,9 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 			result = ((RpcNumericFieldTypeDefinition)fieldTypeDefinition).getDecimalPlaces();
 		}
 		return result;
+	}
+
+	public int compareTo(FieldDefinition o) {
+		return 0;
 	}
 }

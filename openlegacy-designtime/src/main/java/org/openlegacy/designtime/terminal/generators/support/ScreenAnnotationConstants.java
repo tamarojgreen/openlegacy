@@ -72,7 +72,6 @@ public class ScreenAnnotationConstants {
 
 	// @ScreenColumn
 	public static final String SELECTION_FIELD = "selectionField";
-	public static final String MAIN_DISPLAY_FIELD = "mainDisplayField";
 	public static final String ROWS_OFFSET = "rowsOffset";
 
 	// @ScreenNavigation

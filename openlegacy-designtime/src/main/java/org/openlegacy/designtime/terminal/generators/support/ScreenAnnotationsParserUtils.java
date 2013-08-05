@@ -68,7 +68,7 @@ public class ScreenAnnotationsParserUtils {
 		String helpTextValue = getAnnotationValue(annotationExpr, AnnotationConstants.HELP_TEXT);
 		String selectionFieldValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.SELECTION_FIELD);
 		String keyValue = getAnnotationValue(annotationExpr, AnnotationConstants.KEY);
-		String mainDisplayFieldValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.MAIN_DISPLAY_FIELD);
+		String mainDisplayFieldValue = getAnnotationValue(annotationExpr, AnnotationConstants.MAIN_DISPLAY_FIELD);
 		// @author Ivan Bort refs assembla #112
 		String fieldTypeName = getAnnotationValue(annotationExpr, AnnotationConstants.FIELD_TYPE);
 		String rectangleValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.RECTANGLE);

@@ -6,12 +6,13 @@ import java.util.List;
 import org.openlegacy.annotations.rpc.*;
 import org.openlegacy.FieldType.*;
 
-   @RpcPart(partName="XxolakkrParms")
-   public static class XxolakkrParms {
+@RpcPart(name="XxolakkrParms")
+public static class XxolakkrParms {
 
    private LkCustomer lkCustomer;
-   @RpcPart(partName="LkCustomer")
-   public static class LkCustomer {
+}
+@RpcPart(name="LkCustomer")
+public static class LkCustomer {
 
    @RpcField(length =1, originalName="LK-CUST-IND")
    private String lkCustInd;
@@ -31,8 +32,9 @@ import org.openlegacy.FieldType.*;
 
    @RpcPartList(count=10)
    private List<LkCards> lkCards;
-   @RpcPart(partName="LkCards")
-   public static class LkCards {
+}
+@RpcPart(name="LkCards")
+public static class LkCards {
 
    @RpcField(length =1, originalName="LK-CARD-IND")
    private String lkCardInd;
@@ -49,6 +51,4 @@ import org.openlegacy.FieldType.*;
    @RpcField(length =3, originalName="LK-CARD-SUG-SHERUT")
    private Integer lkCardSugSherut;
 
-  }
-  }
-  }
+}

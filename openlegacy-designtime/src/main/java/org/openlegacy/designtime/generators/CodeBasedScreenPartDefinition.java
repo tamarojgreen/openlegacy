@@ -25,26 +25,22 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition, PositionedPart {
+public class CodeBasedScreenPartDefinition extends AbstractCodeBasedPartDefinition<ScreenFieldDefinition, ScreenPojoCodeModel> implements ScreenPartEntityDefinition, PositionedPart {
 
-	private ScreenPojoCodeModel codeModel;
 	private Map<String, ScreenFieldDefinition> fields;
 
 	private int width;
 	private TerminalPosition partPosition;
 
 	public CodeBasedScreenPartDefinition(ScreenPojoCodeModel codeModel) {
-		this.codeModel = codeModel;
+		super(codeModel);
 	}
 
-	public Class<?> getPartClass() {
-		throw (new UnsupportedOperationException("Code based screen part does not support this method"));
-	}
-
+	@Override
 	public Map<String, ScreenFieldDefinition> getFieldsDefinitions() {
 		if (fields == null) {
-			String fieldName = StringUtil.toJavaFieldName(codeModel.getEntityName());
-			fields = CodeBasedDefinitionUtils.getFieldsFromCodeModel(codeModel, fieldName);
+			String fieldName = StringUtil.toJavaFieldName(getCodeModel().getEntityName());
+			fields = CodeBasedDefinitionUtils.getFieldsFromCodeModel(getCodeModel(), fieldName);
 		}
 		return fields;
 	}
@@ -56,26 +52,28 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 		return sortedFields;
 	}
 
+	@Override
 	public String getPartName() {
-		return codeModel.getEntityName();
+		return getCodeModel().getEntityName();
 	}
 
 	public TerminalPosition getPartPosition() {
 		if (partPosition == null) {
-			partPosition = codeModel.getPartPosition();
+			partPosition = getCodeModel().getPartPosition();
 		}
 		return partPosition;
 	}
 
 	public int getWidth() {
 		if (width == 0) {
-			width = codeModel.getPartWidth();
+			width = getCodeModel().getPartWidth();
 		}
 		return width;
 	}
 
+	@Override
 	public String getDisplayName() {
-		return codeModel.getDisplayName();
+		return getCodeModel().getDisplayName();
 	}
 
 	public void setWidth(int width) {
@@ -88,11 +86,12 @@ public class CodeBasedScreenPartDefinition implements ScreenPartEntityDefinition
 	}
 
 	public boolean isSupportTerminalData() {
-		return codeModel.isSupportTerminalData();
+		return getCodeModel().isSupportTerminalData();
 	}
 
+	@Override
 	public String getClassName() {
-		return codeModel.getClassName();
+		return getCodeModel().getClassName();
 	}
 
 	public int getTopRow() {

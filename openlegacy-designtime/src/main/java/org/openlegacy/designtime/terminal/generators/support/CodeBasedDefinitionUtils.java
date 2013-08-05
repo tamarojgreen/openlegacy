@@ -70,8 +70,8 @@ public class CodeBasedDefinitionUtils {
 			fieldDefinition.setPosition(new SimpleTerminalPosition(javaFieldModel.getRow(), javaFieldModel.getColumn()));
 			fieldDefinition.setEditable(javaFieldModel.isEditable());
 			if (javaFieldModel.getLabelColumn() != null) {
-				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(javaFieldModel.getRow(), javaFieldModel
-						.getLabelColumn()));
+				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(javaFieldModel.getRow(),
+						javaFieldModel.getLabelColumn()));
 			}
 			fieldDefinition.setDisplayName(StringUtil.stripQuotes(javaFieldModel.getDisplayName()));
 			if (javaFieldModel.getEndColumn() != null) {
@@ -142,7 +142,8 @@ public class CodeBasedDefinitionUtils {
 			for (AnnotationExpr annotationExpr : annotations) {
 				ScreenPojoCodeModel screenEntityCodeModel = null;
 				if (JavaParserUtil.hasAnnotation(annotationExpr, ScreenAnnotationConstants.SCREEN_ENTITY_ANNOTATION)
-						|| JavaParserUtil.hasAnnotation(annotationExpr, ScreenAnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
+						|| JavaParserUtil.hasAnnotation(annotationExpr,
+								ScreenAnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
 							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
 					screenDefinition = new CodeBasedScreenEntityDefinition(screenEntityCodeModel, packageDir);

@@ -17,7 +17,7 @@ import org.openlegacy.FieldType;
  * 
  * @author Roi Mor
  */
-public interface FieldDefinition {
+public interface FieldDefinition extends Comparable<FieldDefinition> {
 
 	String getName();
 
@@ -51,7 +51,7 @@ public interface FieldDefinition {
 	boolean isKey();
 
 	int getKeyIndex();
-	
+
 	boolean isRightToLeft();
 
 }

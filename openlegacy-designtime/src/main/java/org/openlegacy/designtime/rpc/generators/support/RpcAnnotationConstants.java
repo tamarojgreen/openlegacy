@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.rpc.generators.support;
 
+import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcEntitySuperClass;
 import org.openlegacy.annotations.rpc.RpcField;
@@ -20,6 +21,7 @@ public class RpcAnnotationConstants {
 	public static final String RPC_ENTITY_ANNOTATION = RpcEntity.class.getSimpleName();
 	public static final String RPC_ENTITY_SUPER_CLASS_ANNOTATION = RpcEntitySuperClass.class.getSimpleName();
 	public static final String RPC_PART_ANNOTATION = RpcPart.class.getSimpleName();
+	public static final String RPC_ACTIONS_ANNOTATION = RpcActions.class.getSimpleName();
 	public static final String DISPLAY_NAME = "displayName";
 	public static final String NAME = "name";
 	public static final String RPC_TYPE = "rpcType";

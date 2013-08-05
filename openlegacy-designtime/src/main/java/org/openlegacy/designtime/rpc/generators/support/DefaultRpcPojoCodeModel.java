@@ -19,7 +19,6 @@ import org.openlegacy.designtime.generators.AnnotationsParserUtils;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 import org.openlegacy.designtime.utils.JavaParserUtil;
-import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.TypesUtil;
@@ -33,6 +32,7 @@ import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
 import japa.parser.ast.expr.NormalAnnotationExpr;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +51,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private String displayName;
 		private String targetEntityName;
 
-		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey) {
+		public Action(String alias, String actionName, String displayName) {
 			this.alias = alias;
 			this.actionName = actionName;
 			this.displayName = displayName;
@@ -103,6 +103,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private boolean hasDescription;
 		// @author Ivan Bort refs assembla #235
 		private boolean rightToLeft;
+		private int length;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -237,6 +238,18 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			this.sampleValue = sampleValue;
 		}
 
+		public int getLength() {
+			return length;
+		}
+
+		public void setLength(int length) {
+			this.length = length;
+		}
+
+		public boolean isRpcField() {
+			return length > 0;
+		}
+
 	}
 
 	private String className;
@@ -251,6 +264,8 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 	private String entityName;
 	private String parentClassName;
 	private String typeName;
+
+	private List<Action> actions = new ArrayList<Action>();
 
 	public DefaultRpcPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -276,13 +291,18 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		}
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
-			if (annotationName.equals(RpcAnnotationConstants.RPC_ENTITY_ANNOTATION)) {
+			if (annotationName.equals(RpcAnnotationConstants.RPC_ENTITY_ANNOTATION)
+					|| annotationName.equals(RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
 				enabled = true;
 				populateEntityAttributes(annotationExpr);
 				if (annotationName.equals(RpcAnnotationConstants.RPC_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					superClass = true;
 				}
 			}
+			if (annotationName.equals(RpcAnnotationConstants.RPC_ACTIONS_ANNOTATION)) {
+				actions = RpcAnnotationsParserUtils.populateRpcActions(annotationExpr);
+			}
+
 		}
 	}
 
@@ -449,6 +469,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 	public boolean isSuperClass() {
 		return superClass;
+	}
+
+	public List<Action> getActions() {
+		return actions;
 	}
 
 }

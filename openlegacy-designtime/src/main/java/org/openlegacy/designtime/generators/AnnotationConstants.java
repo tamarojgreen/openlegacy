@@ -47,5 +47,6 @@ public class AnnotationConstants {
 	public static final String SAMPLE_VALUE = "sampleValue";
 	public static final String RIGHT_TO_LEFT = "rightToLeft";
 	public static final String ATTRIBUTE = "attribute";
+	public static final String LENGTH = "length";
 
 }

@@ -7,16 +7,17 @@ import org.openlegacy.annotations.rpc.*;
 import org.openlegacy.FieldType.*;
 
 @RpcEntity(name="SampprogExpand")
-
 public class SampprogExpand {
 
    private Dfhcommarea dfhcommarea;
-   @RpcPart(partName="Dfhcommarea")
-   public static class Dfhcommarea {
+}
+@RpcPart(name="Dfhcommarea")
+public static class Dfhcommarea {
 
    private CmVars cmVars;
-   @RpcPart(partName="CmVars")
-   public static class CmVars {
+}
+@RpcPart(name="CmVars")
+public static class CmVars {
 
    @RpcField(length =20, originalName="CM-MYVAR")
    private String cmMyvar;
@@ -28,6 +29,4 @@ public class SampprogExpand {
    @RpcField(length =1, originalName="CM-ANOTHER-VAR")
    private String cmAnotherVar;
 
-  }
-  }
 }

@@ -15,16 +15,18 @@ public class ${entityName?cap_first} {
    <@rpcField field=field />
 </#list>
 <#list partsDefinitions?values as part>
-<@rpcPartDeclar part=part/>
-<@rpcPartClass part=part/>
+<@rpcPartDeclare part=part/>
 </#list>
 }
+<#list partsDefinitions?values as part>
+<@rpcPartClass part=part/>
+</#list>
 <#else>
 <#list partsDefinitions?values as part>
 <@rpcPartClass part=part/>
 </#list>
 </#if>
-<#macro rpcPartDeclar part>
+<#macro rpcPartDeclare part>
 <#if part.occur = 1 >
    private ${part.partName} ${part.partName?uncap_first};
 <#else>
@@ -33,17 +35,19 @@ public class ${entityName?cap_first} {
 </#if>
 </#macro>
 <#macro rpcPartClass part>
-   @RpcPart(partName="${part.partName}")
-   public static class ${part.partName} {
+@RpcPart(name="${part.partName}")
+public static class ${part.partName} {
 
   <#list part.fieldsDefinitions?values as partField>
     <@rpcField field=partField />
   </#list>
   <#list part.innerPartsDefinitions?values as innerPart>
-    <@rpcPartDeclar part=innerPart />
+    <@rpcPartDeclare part=innerPart />
+  </#list>
+}
+  <#list part.innerPartsDefinitions?values as innerPart>
     <@rpcPartClass part=innerPart />
   </#list>
-  }
 </#macro>
 <#macro rpcField field>
    <@fieldTypes field=field />

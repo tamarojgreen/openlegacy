@@ -23,7 +23,7 @@ import org.openlegacy.terminal.TerminalPositionContainer;
  * 
  * @author Roi Mor
  */
-public interface ScreenFieldDefinition extends FieldDefinition, TerminalPositionContainer, Comparable<ScreenFieldDefinition> {
+public interface ScreenFieldDefinition extends FieldDefinition, TerminalPositionContainer {
 
 	/**
 	 * Gets the field position (row, column)

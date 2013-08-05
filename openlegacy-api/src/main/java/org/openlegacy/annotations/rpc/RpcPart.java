@@ -23,7 +23,7 @@ public @interface RpcPart {
 
 	String displayName() default AnnotationConstants.NULL;
 
-	String partName() default AnnotationConstants.NULL;
+	String name() default AnnotationConstants.NULL;
 
 	int occur() default 1;
 }

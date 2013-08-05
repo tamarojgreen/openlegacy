@@ -15,9 +15,9 @@ public class ArraySample {
 
    @RpcPartList(count=3)
    private List<Part> part;
-
-   @RpcPart(partName="Part")
-   public static class Part {
+}
+@RpcPart(name="Part")
+public static class Part {
 
    @RpcField(length =10, originalName="CHILD1")
    private String child1;
@@ -27,5 +27,4 @@ public class ArraySample {
    @RpcNumericItem(minimumValue=-99, maximumValue=99, decimalPlaces=0)
    private List<Integer> child2;
 
-  }
 }

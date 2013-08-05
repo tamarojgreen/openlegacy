@@ -12,6 +12,7 @@ package org.openlegacy.terminal.definitions;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.FieldType;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.support.AbstractFieldDefinition;
 import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalField;
@@ -41,9 +42,6 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	private String whenFilter;
 	private String unlessFilter;
-
-	// @author Ivan Bort, refs assembla #112
-	private String fieldTypeName;
 
 	private ScreenFieldDefinition descriptionFieldDefinition;
 
@@ -153,14 +151,6 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.unlessFilter = unlessFilter;
 	}
 
-	public String getFieldTypeName() {
-		return fieldTypeName;
-	}
-
-	public void setFieldTypeName(String fieldTypeName) {
-		this.fieldTypeName = fieldTypeName;
-	}
-
 	public ScreenFieldDefinition getDescriptionFieldDefinition() {
 		return descriptionFieldDefinition;
 	}
@@ -175,5 +165,9 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setKeyIndex(int keyIndex) {
 		this.keyIndex = keyIndex;
+	}
+
+	public int compareTo(FieldDefinition o) {
+		return 0;
 	}
 }

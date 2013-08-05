@@ -32,6 +32,9 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	private String helpText;
 
+	// @author Ivan Bort, refs assembla #112
+	private String fieldTypeName;
+
 	/**
 	 * for serialization purpose only
 	 */
@@ -159,4 +162,11 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.rightToLeft = rightToLeft;
 	}
 
+	public String getFieldTypeName() {
+		return fieldTypeName;
+	}
+
+	public void setFieldTypeName(String fieldTypeName) {
+		this.fieldTypeName = fieldTypeName;
+	}
 }
