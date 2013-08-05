@@ -30,7 +30,7 @@ public class MockSendValidationUtils {
 			throws TerminalActionException {
 		List<TerminalField> expectedModifiedFields = FieldsQuery.queryFields(expectedOutgoingSnapshot,
 				ModifiedFieldsCriteria.instance());
-		List<TerminalField> actualModifiedFields = terminalSendAction.getModifiedFields();
+		List<TerminalField> actualModifiedFields = terminalSendAction.getFields();
 
 		validateFieldsMatch(expectedModifiedFields, actualModifiedFields);
 

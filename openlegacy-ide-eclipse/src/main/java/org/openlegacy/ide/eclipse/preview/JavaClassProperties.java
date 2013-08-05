@@ -16,12 +16,12 @@ public class JavaClassProperties {
 
 	private boolean isAnnotated;
 
-	private IFile xmlFile;
+	private IFile sourceFile;
 
 	public JavaClassProperties() {}
 
-	public JavaClassProperties(IFile xmlFile, boolean isAnnotated) {
-		this.xmlFile = xmlFile;
+	public JavaClassProperties(IFile sourceFile, boolean isAnnotated) {
+		this.sourceFile = sourceFile;
 		this.isAnnotated = isAnnotated;
 	}
 
@@ -33,11 +33,11 @@ public class JavaClassProperties {
 		this.isAnnotated = isAnnotated;
 	}
 
-	public IFile getXmlFile() {
-		return xmlFile;
+	public IFile getSourceFile() {
+		return sourceFile;
 	}
 
-	public void setXmlFile(IFile xmlFile) {
-		this.xmlFile = xmlFile;
+	public void setSourceFile(IFile sourceFile) {
+		this.sourceFile = sourceFile;
 	}
 }

@@ -11,8 +11,8 @@
 package org.openlegacy.terminal.support.binders;
 
 import org.openlegacy.FieldFormatter;
-import org.openlegacy.definitions.ListFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleListFieldTypeDefinition;
+import org.openlegacy.definitions.ScreenListFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleScreenListFieldTypeDefinition;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -60,7 +60,7 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
 
-			SimpleListFieldTypeDefinition fieldTypeDefinition = (SimpleListFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+			SimpleScreenListFieldTypeDefinition fieldTypeDefinition = (SimpleScreenListFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 			Assert.notNull(fieldTypeDefinition, "A field of type List is defined without @ScreenListField annotation");
 			int fieldsInList = fieldTypeDefinition.getCount();
 			int[] gapBetweenFields = fieldTypeDefinition.getGaps();
@@ -86,7 +86,7 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot snapshot, Object entity) {
+	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot snapshot, Object entity) {
 		if (entity == null) {
 			return;
 		}
@@ -112,7 +112,7 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 			if (fieldDefinition.getJavaType() != List.class && fieldDefinition.getJavaType() != String[].class) {
 				continue;
 			}
-			ListFieldTypeDefinition fieldTypeDefinition = (ListFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+			ScreenListFieldTypeDefinition fieldTypeDefinition = (ScreenListFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 			Assert.notNull(fieldTypeDefinition, "A field of type List is defined without @ScreenListField annotation");
 			TerminalPosition position = fieldDefinition.getPosition();
 
@@ -131,7 +131,7 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 						position.getColumn()));
 
 				field.setValue(fieldFormatter.format(fieldValue.get(i)));
-				sendAction.getModifiedFields().add(field);
+				sendAction.getFields().add(field);
 
 				if (i < fieldTypeDefinition.getCount() - 1) {
 					position = SnapshotUtils.moveBy(position, (gaps[i * skip]), snapshot.getSize());

@@ -79,7 +79,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 		}
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
+	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		if (entity == null) {
 			return;
@@ -125,7 +125,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 					booleanField.setValue(fieldTypeDefinition.getFalseValue());
 				}
 			}
-			sendAction.getModifiedFields().add(booleanField);
+			sendAction.getFields().add(booleanField);
 		}
 	}
 

@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.terminal.loaders.support;
 
-import java.lang.reflect.Field;
-
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.stereotype.Component;
+
+import java.lang.reflect.Field;
 
 @Component
 public class ScreenPartFieldsLoader implements FieldLoader {
@@ -28,7 +28,7 @@ public class ScreenPartFieldsLoader implements FieldLoader {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass) {
+	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenPartEntityDefinition partDefinition = screenEntitiesRegistry.getPart(field.getType());

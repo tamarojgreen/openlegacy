@@ -19,6 +19,8 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType
@@ -27,7 +29,9 @@ public class SimpleRpcResult implements RpcResult, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement(name = "field", type = SimpleRpcField.class)
+	@XmlElementWrapper
+	@XmlElements({ @XmlElement(name = "field", type = SimpleRpcFlatField.class),
+			@XmlElement(name = "structure", type = SimpleRpcStructureField.class) })
 	private List<RpcField> rpcFields;
 
 	public List<RpcField> getRpcFields() {

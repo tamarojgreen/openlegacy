@@ -167,7 +167,7 @@ public class ScreenBinderLogic implements Serializable {
 			Collection<ScreenFieldDefinition> fieldMappingsDefinitions) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenPojo);
 
-		List<TerminalField> modifiedfields = sendAction.getModifiedFields();
+		List<TerminalField> modifiedfields = sendAction.getFields();
 
 		for (ScreenFieldDefinition fieldMappingDefinition : fieldMappingsDefinitions) {
 

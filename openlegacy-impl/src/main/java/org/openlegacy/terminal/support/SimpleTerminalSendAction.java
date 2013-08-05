@@ -33,7 +33,7 @@ public class SimpleTerminalSendAction implements TerminalSendAction, Serializabl
 		this.command = command;
 	}
 
-	public List<TerminalField> getModifiedFields() {
+	public List<TerminalField> getFields() {
 		return modifiedFields;
 	}
 

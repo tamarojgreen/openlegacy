@@ -28,5 +28,5 @@ public interface FieldAnnotationsLoader extends Comparable<FieldAnnotationsLoade
 	boolean match(Annotation annotation);
 
 	@SuppressWarnings("rawtypes")
-	void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass);
+	void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass, int fieldOrder);
 }

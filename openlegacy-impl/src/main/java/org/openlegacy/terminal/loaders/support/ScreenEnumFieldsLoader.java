@@ -39,7 +39,7 @@ public class ScreenEnumFieldsLoader implements FieldLoader {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass) {
+	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenEntityDefinition entityDefintion = screenEntitiesRegistry.get(containingClass);

@@ -55,7 +55,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 
 	public void doAction(TerminalSendAction terminalSendAction) {
 		TerminalSnapshot snapshot = getSnapshot();
-		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
+		List<TerminalField> modifiedFields = terminalSendAction.getFields();
 		for (TerminalField terminalField : modifiedFields) {
 			TerminalField field = snapshot.getField(terminalField.getPosition());
 			String sendValue = terminalField.getValue();

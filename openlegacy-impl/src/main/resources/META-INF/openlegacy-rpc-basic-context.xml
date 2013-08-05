@@ -56,6 +56,10 @@
 		</property>
 	</bean>
 
+	<!-- Binders -->
+	<bean class="org.openlegacy.rpc.support.binders.RpcFieldsBinder" />
+	<bean class="org.openlegacy.rpc.support.binders.RpcPartsBinder" />
+
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-rpc-provider.xml" /> 
 

@@ -23,9 +23,9 @@ import org.eclipse.ui.IWorkbenchPartReference;
 
 public class EditorListener implements IFileBufferListener, IPartListener2, CaretListener, ModifyListener {
 
-	protected ScreenPreview view;
+	protected AbstractEntityPreview view;
 
-	EditorListener(ScreenPreview view) {
+	EditorListener(AbstractEntityPreview view) {
 		this.view = view;
 	}
 

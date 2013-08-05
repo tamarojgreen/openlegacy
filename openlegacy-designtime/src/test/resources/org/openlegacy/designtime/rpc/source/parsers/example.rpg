@@ -1,0 +1,15 @@
+1.00 130523      d $first_name     s             20                                                             
+2.00 130523      d $last_name      s             20                                                             
+3.00 130523      d $my_age         s              3s 0                                                          
+4.00 130523      d $message        s            100                                                             
+5.00 130523      c     *entry        plist                                                                      
+6.00 130523      c                   parm                    $first_name                                        
+7.00 130523      c                   parm                    $last_name                                         
+8.00 130523      c                   parm                    $my_age                                            
+9.00 130523      c                   parm                    $message                                           
+10.00 130523       /free                                                                                         
+11.00 130523         $message = 'My name is ' + %trim($first_name) + ' ' +                                       
+12.00 130523          %trim($last_name) + ' age ' +                                                              
+13.00 130523          %trim(%editc($my_age:'Z')) + ' years !';                                                   
+14.00 130523          *inlr = *on;                                                                               
+15.00 130523       /end-free                                                                                     

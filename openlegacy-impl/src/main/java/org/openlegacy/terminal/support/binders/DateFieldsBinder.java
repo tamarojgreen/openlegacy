@@ -117,7 +117,7 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 		}
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
+	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		if (entity == null) {
 			return;
@@ -166,7 +166,7 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 			Calendar calender = Calendar.getInstance();
 			calender.setTime(dateFieldValue);
 
-			List<TerminalField> modifiedFields = sendAction.getModifiedFields();
+			List<TerminalField> modifiedFields = sendAction.getFields();
 			if (dayField != null) {
 				String value = StringUtil.appendLeftZeros(calender.get(Calendar.DAY_OF_MONTH), dayField.getLength());
 				setValue(dayField, modifiedFields, value);

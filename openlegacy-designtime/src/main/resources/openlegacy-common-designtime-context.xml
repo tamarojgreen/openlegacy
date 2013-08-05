@@ -66,4 +66,28 @@
 
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
 
+	<!-- RPC beans -->
+	<bean id="OpenlegacyCobolParser"
+		class="org.openlegacy.designtime.rpc.source.parsers.OpenlegacyCobolParser" scope="prototype">
+		<property name="mainProcedureName" value="BEGIN"/>
+		<property name="cobolParser">
+			<bean class="koopa.parsers.cobol.CobolParser">
+				<property name="buildTrees"   value="true"/>
+				<property name="preprocessing"   value="false"/>
+				<property name="format" value="FREE"/>
+			</bean>
+		</property>
+		<property name="rpcEntityDefinitionBuilder">
+			<bean class="org.openlegacy.designtime.rpc.source.parsers.RpcEntityDefinitionBuilderImp" >
+				<property name="fieldInformationFactory" >
+					<bean class="org.openlegacy.designtime.rpc.source.parsers.CobolFieldInformationFactory"/>
+				</property>
+				<property name="entityDefinition" >
+					<bean class="org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition" />
+				</property>
+			</bean>
+		</property>
+		
+	</bean>
+	<bean id ="cobolParserUtils" class="org.openlegacy.designtime.rpc.source.parsers.CobolParserUtils" />
 </beans>

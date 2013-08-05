@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSendAction;
@@ -45,10 +46,11 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
-		Map<String, ScreenPartEntityDefinition> partsDefinitions = screenEntitiesRegistry.get(screenEntity.getClass()).getPartsDefinitions();
+		Map<String, PartEntityDefinition<ScreenFieldDefinition>> partsDefinitions = screenEntitiesRegistry.get(
+				screenEntity.getClass()).getPartsDefinitions();
 		Set<String> fieldPartNames = partsDefinitions.keySet();
 		for (String fieldPartName : fieldPartNames) {
-			ScreenPartEntityDefinition screenPartEntityDefinition = partsDefinitions.get(fieldPartName);
+			ScreenPartEntityDefinition screenPartEntityDefinition = (ScreenPartEntityDefinition)partsDefinitions.get(fieldPartName);
 			Object partObject = ReflectionUtil.newInstance(screenPartEntityDefinition.getPartClass());
 			fieldAccessor.setFieldValue(fieldPartName, partObject);
 
@@ -60,17 +62,17 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
+	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 
-		Map<String, ScreenPartEntityDefinition> partsDefinitions = screenEntitiesRegistry.get(entity.getClass()).getPartsDefinitions();
+		Map<String, PartEntityDefinition<ScreenFieldDefinition>> partsDefinitions = screenEntitiesRegistry.get(entity.getClass()).getPartsDefinitions();
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(entity);
 
 		Set<String> fieldPartNames = partsDefinitions.keySet();
 		for (String fieldPartName : fieldPartNames) {
-			ScreenPartEntityDefinition screenPartEntityDefinition = partsDefinitions.get(fieldPartName);
+			PartEntityDefinition<ScreenFieldDefinition> screenPartEntityDefinition = partsDefinitions.get(fieldPartName);
 			Object screenPart = fieldAccessor.getFieldValue(fieldPartName);
 			screenBinderLogic.populateSendAction(sendAction, terminalSnapshot, screenPart,
 					screenPartEntityDefinition.getFieldsDefinitions().values());

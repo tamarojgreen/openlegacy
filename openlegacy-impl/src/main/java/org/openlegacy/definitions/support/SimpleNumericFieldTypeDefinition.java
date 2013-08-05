@@ -39,4 +39,16 @@ public class SimpleNumericFieldTypeDefinition implements NumericFieldTypeDefinit
 	public String getTypeName() {
 		return "number";
 	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (object instanceof SimpleNumericFieldTypeDefinition) {
+
+			SimpleNumericFieldTypeDefinition convertedObject = (SimpleNumericFieldTypeDefinition)object;
+			if (convertedObject.maximumValue == maximumValue && convertedObject.minimumValue == minimumValue) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

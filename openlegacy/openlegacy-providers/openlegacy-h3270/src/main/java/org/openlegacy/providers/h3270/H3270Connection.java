@@ -37,7 +37,7 @@ public class H3270Connection implements TerminalConnection {
 
 	public void doAction(TerminalSendAction terminalSendAction) {
 		TerminalSnapshot snapshot = getSnapshot();
-		List<TerminalField> modifiedFields = terminalSendAction.getModifiedFields();
+		List<TerminalField> modifiedFields = terminalSendAction.getFields();
 		TerminalPosition cursor = terminalSendAction.getCursorPosition();
 		for (TerminalField modifiedField : modifiedFields) {
 			H3270TerminalField field = (H3270TerminalField)snapshot.getField(modifiedField.getPosition());

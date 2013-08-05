@@ -51,8 +51,8 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.openlegacy.designtime.DesigntimeException;
 import org.openlegacy.ide.eclipse.Messages;
-import org.openlegacy.ide.eclipse.actions.GenerateModelDialog;
-import org.openlegacy.ide.eclipse.components.SnapshotComposite;
+import org.openlegacy.ide.eclipse.actions.screen.GenerateScreenModelDialog;
+import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
@@ -161,7 +161,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 					TerminalSnapshot snapshot = terminalSessionTrail.getSnapshots().get(selectionIndexes[i]);
 					snapshots[i] = snapshot;
 				}
-				GenerateModelDialog dialog = new GenerateModelDialog(getEditorSite().getShell(),
+				GenerateScreenModelDialog dialog = new GenerateScreenModelDialog(getEditorSite().getShell(),
 						((FileEditorInput)getEditorInput()).getFile(), false, snapshots);
 				dialog.open();
 
@@ -180,7 +180,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 				int[] selectionIndexes = tableViewer.getTable().getSelectionIndices();
 				TerminalSnapshot snapshot = terminalSessionTrail.getSnapshots().get(selectionIndexes[0]);
 
-				GenerateModelDialog dialog = new GenerateModelDialog(getEditorSite().getShell(),
+				GenerateScreenModelDialog dialog = new GenerateScreenModelDialog(getEditorSite().getShell(),
 						((FileEditorInput)getEditorInput()).getFile(), true, snapshot);
 				dialog.open();
 			}

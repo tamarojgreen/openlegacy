@@ -10,27 +10,32 @@
  *******************************************************************************/
 package org.openlegacy.rpc.definitions;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.FieldType;
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.definitions.FieldTypeDefinition;
+import org.openlegacy.definitions.RpcNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.AbstractFieldDefinition;
 
 public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDefinition> implements RpcFieldDefinition {
 
 	private static final long serialVersionUID = 1L;
-	private double length;
+	private Integer length;
 	private Direction direction;
 	private String originalName;
 	private int keyIndex;
+	private int order;
+	private String defaultValue;
 
 	public SimpleRpcFieldDefinition(String name, Class<? extends FieldType> type) {
 		super(name, type);
 	}
 
-	public double getLength() {
+	public Integer getLength() {
 		return length;
 	}
 
-	public void setLength(double length) {
+	public void setLength(Integer length) {
 		this.length = length;
 	}
 
@@ -56,5 +61,36 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 
 	public void setKeyIndex(int keyIndex) {
 		this.keyIndex = keyIndex;
+	}
+
+	public int getOrder() {
+		return order;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public Integer getDecimalPlaces() {
+
+		Integer result = new Integer(0);
+		FieldTypeDefinition fieldTypeDefinition = getFieldTypeDefinition();
+		if (fieldTypeDefinition instanceof RpcNumericFieldTypeDefinition) {
+			result = ((RpcNumericFieldTypeDefinition)fieldTypeDefinition).getDecimalPlaces();
+		}
+		return result;
 	}
 }

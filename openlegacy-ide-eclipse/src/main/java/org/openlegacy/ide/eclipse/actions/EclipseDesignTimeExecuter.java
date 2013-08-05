@@ -24,14 +24,16 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.actions.GlobalBuildAction;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
-import org.openlegacy.designtime.mains.GenerateModelRequest;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
+import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
+import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
@@ -70,13 +72,13 @@ public class EclipseDesignTimeExecuter {
 		});
 	}
 
-	public void generateModel(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction, boolean generateAspect,
+	public void generateScreenModel(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
+			EntityUserInteraction<EntityDefinition<?>> entityUserInteraction, boolean generateAspect,
 			TerminalSnapshot... terminalSnapshots) throws GenerationException {
 		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
 		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
 
-		GenerateModelRequest generateScreenRequest = new GenerateModelRequest();
+		GenerateScreenModelRequest generateScreenRequest = new GenerateScreenModelRequest();
 		generateScreenRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
 		generateScreenRequest.setProjectPath(projectDirectory);
 		generateScreenRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
@@ -86,7 +88,7 @@ public class EclipseDesignTimeExecuter {
 		generateScreenRequest.setGenerateAspectJ(generateAspect);
 		generateScreenRequest.setEntityUserInteraction(entityUserInteraction);
 
-		designTimeExecuter.generateModel(generateScreenRequest);
+		designTimeExecuter.generateScreenModel(generateScreenRequest);
 
 		Display.getDefault().asyncExec(new Runnable() {
 
@@ -97,13 +99,13 @@ public class EclipseDesignTimeExecuter {
 
 	}
 
-	public void generateEntityDefinition(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction, boolean generateAspect,
+	public void generateScreenEntityDefinition(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
+			EntityUserInteraction<EntityDefinition<?>> entityUserInteraction, boolean generateAspect,
 			ScreenEntityDefinition entityDefinition) throws GenerationException {
 		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
 		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
 
-		GenerateModelRequest generateScreenRequest = new GenerateModelRequest();
+		GenerateScreenModelRequest generateScreenRequest = new GenerateScreenModelRequest();
 		generateScreenRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
 		generateScreenRequest.setProjectPath(projectDirectory);
 		generateScreenRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
@@ -113,7 +115,7 @@ public class EclipseDesignTimeExecuter {
 		generateScreenRequest.setGenerateAspectJ(generateAspect);
 		generateScreenRequest.setEntityUserInteraction(entityUserInteraction);
 
-		designTimeExecuter.generateEntityDefinition(generateScreenRequest, entityDefinition);
+		designTimeExecuter.generateScreenEntityDefinition(generateScreenRequest, entityDefinition);
 
 		Display.getDefault().asyncExec(new Runnable() {
 
@@ -222,5 +224,30 @@ public class EclipseDesignTimeExecuter {
 		} catch (CoreException e) {
 			logger.fatal(e);
 		}
+	}
+
+	public void generateRpcModel(final IFile sourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
+			EntityUserInteraction<EntityDefinition<?>> entityUserInteraction, boolean generateAspect) throws GenerationException {
+		File projectDirectory = PathsUtil.toOsLocation(sourceFile.getProject());
+		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
+
+		GenerateRpcModelRequest generateRpcRequest = new GenerateRpcModelRequest();
+		generateRpcRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		generateRpcRequest.setProjectPath(projectDirectory);
+		generateRpcRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
+		generateRpcRequest.setTemplatesDirectory(templatesDirectory);
+		generateRpcRequest.setSourceFile(PathsUtil.toOsLocation(sourceFile));
+		generateRpcRequest.setGenerateAspectJ(generateAspect);
+		generateRpcRequest.setEntityUserInteraction(entityUserInteraction);
+
+		designTimeExecuter.generateRpcModel(generateRpcRequest);
+
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
+			}
+		});
+
 	}
 }

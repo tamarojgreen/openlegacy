@@ -60,7 +60,7 @@ public class FieldAttributeBinder implements ScreenEntityBinder {
 		}
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot snapshot, Object entity) {
+	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot snapshot, Object entity) {
 
 	}
 }

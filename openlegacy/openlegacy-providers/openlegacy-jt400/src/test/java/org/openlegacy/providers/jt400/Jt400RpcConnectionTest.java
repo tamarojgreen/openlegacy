@@ -6,8 +6,9 @@ import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcConnectionFactory;
+import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcResult;
-import org.openlegacy.rpc.support.SimpleRpcField;
+import org.openlegacy.rpc.support.SimpleRpcFlatField;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,28 +27,28 @@ public class Jt400RpcConnectionTest {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 
-		SimpleRpcField rpcField = new SimpleRpcField();
+		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		rpcField.setValue("roi");
-		rpcField.setLength(20.0);
+		rpcField.setLength(20);
 		rpcField.setDirection(Direction.INPUT);
-		rpcInvokeAction.getRpcFields().add(rpcField);
+		rpcInvokeAction.getFields().add(rpcField);
 
-		rpcField = new SimpleRpcField();
+		rpcField = new SimpleRpcFlatField();
 		rpcField.setValue("mor");
-		rpcField.setLength(20.0);
+		rpcField.setLength(20);
 		rpcField.setDirection(Direction.INPUT);
-		rpcInvokeAction.getRpcFields().add(rpcField);
+		rpcInvokeAction.getFields().add(rpcField);
 
-		rpcField = new SimpleRpcField();
-		rpcField.setLength(30.0);
+		rpcField = new SimpleRpcFlatField();
+		rpcField.setLength(30);
 		rpcField.setDirection(Direction.OUTPUT);
-		rpcInvokeAction.getRpcFields().add(rpcField);
+		rpcInvokeAction.getFields().add(rpcField);
 
 		rpcInvokeAction.setRpcPath("/QSYS.LIB/RMR2L1.LIB/RPGROICH.PGM");
 
 		RpcResult rpcResult = rpcConnection.invoke(rpcInvokeAction);
 
-		Assert.assertEquals("My name is roi mor age", rpcResult.getRpcFields().get(2).getValue());
+		Assert.assertEquals("My name is roi mor age", ((RpcFlatField)rpcResult.getRpcFields().get(2)).getValue());
 	}
 
 	@Test
@@ -55,34 +56,34 @@ public class Jt400RpcConnectionTest {
 		RpcConnection rpcConnection = rpcConnectionFactory.getConnection();
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction();
 
-		SimpleRpcField rpcField = new SimpleRpcField();
+		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		rpcField.setValue("roi");
-		rpcField.setLength(20.0);
+		rpcField.setLength(20);
 		rpcField.setDirection(Direction.INPUT);
-		rpcInvokeAction.getRpcFields().add(rpcField);
+		rpcInvokeAction.getFields().add(rpcField);
 
-		rpcField = new SimpleRpcField();
+		rpcField = new SimpleRpcFlatField();
 		rpcField.setValue("mor");
-		rpcField.setLength(20.0);
+		rpcField.setLength(20);
 		rpcField.setDirection(Direction.INPUT);
-		rpcInvokeAction.getRpcFields().add(rpcField);
+		rpcInvokeAction.getFields().add(rpcField);
 
-		rpcField = new SimpleRpcField();
+		rpcField = new SimpleRpcFlatField();
 		rpcField.setValue(37);
-		rpcField.setLength(3.0);
+		rpcField.setLength(3);
 		rpcField.setDirection(Direction.INPUT);
-		rpcInvokeAction.getRpcFields().add(rpcField);
+		rpcInvokeAction.getFields().add(rpcField);
 
-		rpcField = new SimpleRpcField();
-		rpcField.setLength(100.0);
+		rpcField = new SimpleRpcFlatField();
+		rpcField.setLength(100);
 		rpcField.setDirection(Direction.OUTPUT);
-		rpcInvokeAction.getRpcFields().add(rpcField);
+		rpcInvokeAction.getFields().add(rpcField);
 
 		rpcInvokeAction.setRpcPath("/QSYS.LIB/RMR2L1.LIB/RPGROI.PGM");
 
 		RpcResult rpcResult = rpcConnection.invoke(rpcInvokeAction);
 
-		System.out.println(rpcResult.getRpcFields().get(3).getValue());
-		Assert.assertEquals("My name is roi mor age 37 years !", rpcResult.getRpcFields().get(3).getValue());
+		System.out.println(((RpcFlatField)rpcResult.getRpcFields().get(3)).getValue());
+		Assert.assertEquals("My name is roi mor age 37 years !", ((RpcFlatField)rpcResult.getRpcFields().get(3)).getValue());
 	}
 }

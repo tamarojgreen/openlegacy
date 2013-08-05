@@ -29,7 +29,7 @@ public @interface RpcField {
 
 	Direction direction() default Direction.INPUT_OUTPUT;
 
-	double length();
+	int length();
 
 	Class<? extends FieldType> fieldType() default RpcFieldTypes.General.class;
 

@@ -15,15 +15,15 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.openlegacy.ide.eclipse.preview.ScreenPreview;
+import org.openlegacy.ide.eclipse.preview.AbstractEntityPreview;
 
 public class ZoomInHandler extends AbstractHandler {
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchPart activePart = HandlerUtil.getActivePart(event);
-		if (activePart instanceof ScreenPreview){
-			ScreenPreview screenPreview = (ScreenPreview) activePart;
-			screenPreview.showEnlargedImage();
+		if (activePart instanceof AbstractEntityPreview) {
+			AbstractEntityPreview entityPreview = (AbstractEntityPreview)activePart;
+			entityPreview.showEnlargedImage();
 		}
 		return null;
 	}

@@ -44,13 +44,6 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	 */
 	Map<String, ScreenTableDefinition> getTableDefinitions();
 
-	/**
-	 * field name -> part definition
-	 * 
-	 * @return map of screen parts definitions of the screen entity
-	 */
-	Map<String, ScreenPartEntityDefinition> getPartsDefinitions();
-
 	TerminalSnapshot getSnapshot();
 
 	/**

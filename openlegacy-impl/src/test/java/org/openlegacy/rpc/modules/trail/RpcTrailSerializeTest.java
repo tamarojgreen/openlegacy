@@ -3,7 +3,7 @@ package org.openlegacy.rpc.modules.trail;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.openlegacy.rpc.persistance.RpcPersistedSnapshot;
-import org.openlegacy.rpc.support.SimpleRpcField;
+import org.openlegacy.rpc.support.SimpleRpcFlatField;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.openlegacy.rpc.support.SimpleRpcResult;
 import org.openlegacy.test.utils.AssertUtils;
@@ -23,22 +23,22 @@ public class RpcTrailSerializeTest {
 
 		SimpleRpcInvokeAction rpcInvokeAction = new SimpleRpcInvokeAction("test");
 
-		SimpleRpcField rpcField = new SimpleRpcField();
-		rpcField.setLength(10.0);
+		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
+		rpcField.setLength(10);
 		rpcField.setValue("hello");
-		rpcInvokeAction.getRpcFields().add(rpcField);
+		rpcInvokeAction.getFields().add(rpcField);
 
-		rpcField = new SimpleRpcField();
-		rpcField.setLength(5.0);
+		rpcField = new SimpleRpcFlatField();
+		rpcField.setLength(5);
 		rpcField.setValue(1234);
-		rpcInvokeAction.getRpcFields().add(rpcField);
+		rpcInvokeAction.getFields().add(rpcField);
 
 		rpcInvokeAction.setRpcPath("rpctest");
 
 		rpcSnapshot.setRpcInvokeAction(rpcInvokeAction);
 
 		SimpleRpcResult result = new SimpleRpcResult();
-		result.setRpcFields(rpcInvokeAction.getRpcFields());
+		result.setRpcFields(rpcInvokeAction.getFields());
 
 		rpcSnapshot.setRpcResult(result);
 		rpcTrail.getSnapshots().add(rpcSnapshot);

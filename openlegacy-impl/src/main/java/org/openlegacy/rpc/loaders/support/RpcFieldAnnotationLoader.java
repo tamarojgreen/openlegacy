@@ -14,13 +14,14 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleListFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleRpcNumericFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleScreenListFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractFieldAnnotationLoader;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.utils.StringUtil;
@@ -42,7 +43,8 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass) {
+	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
+			int fieldOrder) {
 		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;
 
 		RpcField fieldAnnotation = (RpcField)annotation;
@@ -51,6 +53,8 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 		String fieldName = field.getName();
 		SimpleRpcFieldDefinition rpcFieldDefinition = new SimpleRpcFieldDefinition(fieldName, fieldAnnotation.fieldType());
+
+		rpcFieldDefinition.setOrder(fieldOrder);
 
 		if (fieldAnnotation.displayName().equals(AnnotationConstants.NULL)) {
 			rpcFieldDefinition.setDisplayName(StringUtil.toDisplayName(fieldName));
@@ -70,12 +74,24 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		rpcFieldDefinition.setSampleValue(fieldAnnotation.sampleValue());
 		rpcFieldDefinition.setJavaType(field.getType());
 		rpcFieldDefinition.setEditable(fieldAnnotation.editable());
+		rpcFieldDefinition.setDefaultValue(fieldAnnotation.defaultValue());
 
 		rpcFieldDefinition.setHelpText(fieldAnnotation.helpText());
 
 		setupFieldType(field, rpcFieldDefinition);
 
-		rpcEntityDefinition.getFieldsDefinitions().put(fieldName, rpcFieldDefinition);
+		if (rpcEntityDefinition != null) {
+			rpcEntityDefinition.getFieldsDefinitions().put(fieldName, rpcFieldDefinition);
+		} else {
+			// look in screen entities parts
+			RpcPartEntityDefinition rpcPart = rpcEntitiesRegistry.getPart(containingClass);
+			if (rpcPart != null) {
+				fieldName = MessageFormat.format("{0}.{1}", rpcPart.getPartName(), fieldName);
+				rpcFieldDefinition.setName(fieldName);
+				rpcPart.getFieldsDefinitions().put(fieldName, rpcFieldDefinition);
+			}
+
+		}
 	}
 
 	private static void setupFieldType(Field field, SimpleRpcFieldDefinition rpcFieldDefinition) {
@@ -83,7 +99,7 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		// properties
 
 		if (Number.class.isAssignableFrom(field.getType())) {
-			rpcFieldDefinition.setFieldTypeDefinition(new SimpleNumericFieldTypeDefinition());
+			rpcFieldDefinition.setFieldTypeDefinition(new SimpleRpcNumericFieldTypeDefinition());
 		}
 		// set date type definition - may be overridden by ScreenDateFieldAnnotationLoader to fill in specific date properties
 		else if (Date.class.isAssignableFrom(field.getType())) {
@@ -91,7 +107,7 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		} else if (rpcFieldDefinition.isPassword()) {
 			rpcFieldDefinition.setFieldTypeDefinition(new SimplePasswordFieldTypeDefinition());
 		} else if (java.util.List.class == field.getType()) {
-			rpcFieldDefinition.setFieldTypeDefinition(new SimpleListFieldTypeDefinition());
+			rpcFieldDefinition.setFieldTypeDefinition(new SimpleScreenListFieldTypeDefinition());
 		} else {
 			rpcFieldDefinition.setFieldTypeDefinition(new SimpleTextFieldTypeDefinition());
 		}

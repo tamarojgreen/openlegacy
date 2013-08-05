@@ -12,6 +12,7 @@ package org.openlegacy;
 
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 
@@ -111,4 +112,11 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	List<ActionDefinition> getActions();
 
 	ActionDefinition getAction(Class<?> actionClass);
+
+	/**
+	 * field name -> part definition
+	 * 
+	 * @return map of screen parts definitions of the screen entity
+	 */
+	Map<String, PartEntityDefinition<D>> getPartsDefinitions();
 }

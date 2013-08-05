@@ -22,4 +22,8 @@ import java.lang.annotation.Target;
 public @interface RpcPart {
 
 	String displayName() default AnnotationConstants.NULL;
+
+	String partName() default AnnotationConstants.NULL;
+
+	int occur() default 1;
 }

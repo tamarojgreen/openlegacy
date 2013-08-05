@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
-import org.openlegacy.EntityBinder;
+import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.screen.ScreenField;
 
 /**
@@ -20,6 +21,27 @@ import org.openlegacy.annotations.screen.ScreenField;
  * @author Roi Mor
  * 
  */
-public interface ScreenEntityBinder extends EntityBinder<TerminalSnapshot, TerminalSendAction> {
+public interface ScreenEntityBinder {
+
+	/**
+	 * populates the given entity with values from the given snapshot. Typically using metadata on {@link EntityDefinition} from
+	 * the {@link EntitiesRegistry}
+	 * 
+	 * @param entity
+	 * @param snapshot
+	 */
+	void populateEntity(Object entity, TerminalSnapshot snapshot);
+
+	/**
+	 * Populates the given send action with values from the entity
+	 * 
+	 * @param remoteAction
+	 *            The send action to populate
+	 * @param snapshot
+	 *            used for comparing current values of fields to new values from the entity
+	 * @param entity
+	 *            the entity from which new values are taken
+	 */
+	void populateAction(TerminalSendAction remoteAction, TerminalSnapshot snapshot, Object entity);
 
 }

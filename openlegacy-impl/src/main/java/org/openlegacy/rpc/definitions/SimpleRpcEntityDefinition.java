@@ -17,6 +17,10 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 
 	private Languages language;
 
+	public SimpleRpcEntityDefinition() {
+		super(null, null);
+	}
+
 	public SimpleRpcEntityDefinition(String entityName, Class<?> entityClass) {
 		super(entityName, entityClass);
 	}

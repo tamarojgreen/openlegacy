@@ -44,7 +44,7 @@
          </menu>
          <action
                label="%generate_model_menu_label"
-               class="org.openlegacy.ide.eclipse.actions.GenerateModelAction"
+               class="org.openlegacy.ide.eclipse.actions.screen.GenerateScreenModelAction"
                menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
                enablesFor="1"
                id="org.openlegacy.ide.eclipse.actions.generateModel">
@@ -84,6 +84,46 @@
                class="org.openlegacy.ide.eclipse.actions.GenerateControllerAction"
                menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
                id="org.openlegacy.ide.eclipse.actions.generateController">
+         </action>
+      </objectContribution>
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.cbl" 
+            id="org.openlegacy.ide.eclipse.generate_cobol_contribution">
+         <menu
+               label="%openlegacy_menu_label"
+               path="additions"
+               id="org.openlegacy.ide.eclipse.right_menu">
+            <separator
+                  name="generate">
+            </separator>
+         </menu>
+         <action
+               label="%generate_model_menu_label"
+               class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
+               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+               enablesFor="1"
+               id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
+         </action>
+      </objectContribution>
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.cpy" 
+            id="org.openlegacy.ide.eclipse.generate_copybook_contribution">
+         <menu
+               label="%openlegacy_menu_label"
+               path="additions"
+               id="org.openlegacy.ide.eclipse.right_menu">
+            <separator
+                  name="generate">
+            </separator>
+         </menu>
+         <action
+               label="%generate_model_menu_label"
+               class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
+               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+               enablesFor="1"
+               id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
          </action>
       </objectContribution>
    </extension>
@@ -177,8 +217,15 @@
             name="Screen Preview"
             icon="icons/openlegacy.png"
             category="org.openlegacy.ide.eclipse.preview"
-            class="org.openlegacy.ide.eclipse.preview.ScreenPreview"
+            class="org.openlegacy.ide.eclipse.preview.screen.ScreenPreview"
             id="org.openlegacy.ide.eclipse.preview.ScreenPreview">
+      </view>
+      <view
+            name="RPC Preview"
+            icon="icons/openlegacy.png"
+            category="org.openlegacy.ide.eclipse.preview"
+            class="org.openlegacy.ide.eclipse.preview.rpc.RpcPreview"
+            id="org.openlegacy.ide.eclipse.preview.RpcPreview">
       </view>
    </extension>
    
@@ -201,6 +248,17 @@
       <menuContribution
             allPopups="false"
             locationURI="menu:org.openlegacy.ide.eclipse.preview.ScreenPreview">
+         <command
+               commandId="org.openlegacy.ide.eclipse.preview.ZoomIn"
+               icon="icons/zoom-in.png"
+               label="Zoom In"
+               style="push"
+               tooltip="Zoom In trail image">
+         </command>
+      </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.openlegacy.ide.eclipse.preview.RpcPreview">
          <command
                commandId="org.openlegacy.ide.eclipse.preview.ZoomIn"
                icon="icons/zoom-in.png"

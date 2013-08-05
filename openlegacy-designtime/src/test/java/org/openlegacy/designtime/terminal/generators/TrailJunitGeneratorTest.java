@@ -43,7 +43,7 @@ public class TrailJunitGeneratorTest {
 		assertGenerateJunit("test.trail", "TrailJunit.java.expected");
 	}
 
-	@Ignore("TODO fails when executed with all OpenLegacyDesigntimeSuite ")
+	@Ignore("TODO fails when executed with all OpenLegacyScreenDesigntimeSuite ")
 	@Test
 	public void testDemoSessionJunit() throws Exception {
 		assertGenerateJunit("demo_session.trail", "TrailJunitDemoSession.java.expected");

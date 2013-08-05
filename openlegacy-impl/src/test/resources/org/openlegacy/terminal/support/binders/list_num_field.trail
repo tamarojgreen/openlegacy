@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<terminal-trail>
+    <snapshot type="INCOMING" sequence="1">
+        <row rowNumber="1">
+            <field column="21" value="integer Inventory                          " color="WHITE"/>
+        </row>
+        <row rowNumber="2">
+            <field column="28" value="Items     " color="WHITE"/>
+            <field column="73" value="11:44:21" color="BLUE"/>
+        </row>
+        <row rowNumber="8">
+			<field column="25" value="  1" length="3" editable="true" />
+			<field column="35" value="2" length="3" editable="true" />
+	 		<field column="45" value="123" length="3" editable="true" />
+        </row>
+        <size rows="24" columns="80"/>
+        <cursor row="8" column="4"/>
+    </snapshot>
+</terminal-trail>

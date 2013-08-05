@@ -2,6 +2,7 @@ package com.as400samplecode;
 
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400Message;
+import com.ibm.as400.access.Trace;
 import com.ibm.as400.data.PcmlException;
 import com.ibm.as400.data.ProgramCallDocument;
 
@@ -11,6 +12,16 @@ public class qsyrusri {
 	public qsyrusri() {}
 
 	public static void main(String[] argv) {
+
+		Trace.setTraceOn(true);
+		Trace.setTraceDiagnosticOn(true);
+		Trace.setTraceInformationOn(true);
+		Trace.setTraceWarningOn(true);
+		Trace.setTraceErrorOn(true);
+		Trace.setTraceDatastreamOn(true);
+		Trace.setTraceThreadOn(true);
+		Trace.setTraceJDBCOn(true);
+
 		AS400 as400System; // com.ibm.as400.access.AS400
 		ProgramCallDocument pcml; // com.ibm.as400.data.ProgramCallDocument
 		boolean rc = false; // Return code from ProgramCallDocument.callProgram()

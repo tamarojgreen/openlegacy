@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.support.AbstractEntityDefinition;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenSize;
@@ -41,7 +42,6 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 	private ScreenIdentification screenIdentification = new SimpleScreenIdentification();
 	private NavigationDefinition navigationDefinition;
 	private Map<String, ScreenTableDefinition> tableDefinitions = new HashMap<String, ScreenTableDefinition>();
-	private Map<String, ScreenPartEntityDefinition> partDefinitions = new HashMap<String, ScreenPartEntityDefinition>();
 	private TerminalSnapshot snapshot;
 	private boolean window;
 	private boolean child;
@@ -85,10 +85,6 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 
 	public Map<String, ScreenTableDefinition> getTableDefinitions() {
 		return tableDefinitions;
-	}
-
-	public Map<String, ScreenPartEntityDefinition> getPartsDefinitions() {
-		return partDefinitions;
 	}
 
 	public TerminalSnapshot getSnapshot() {
@@ -188,8 +184,8 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 	public List<? extends FieldDefinition> getKeys() {
 		if (keyFields == null) {
 			keyFields = (List<ScreenFieldDefinition>)super.getKeys();
-			Collection<ScreenPartEntityDefinition> parts = getPartsDefinitions().values();
-			for (ScreenPartEntityDefinition partDefinition : parts) {
+			Collection<PartEntityDefinition<ScreenFieldDefinition>> parts = getPartsDefinitions().values();
+			for (PartEntityDefinition<ScreenFieldDefinition> partDefinition : parts) {
 				Collection<ScreenFieldDefinition> fields = partDefinition.getFieldsDefinitions().values();
 				for (ScreenFieldDefinition fieldDefinition : fields) {
 					if (fieldDefinition.isKey()) {

@@ -3,11 +3,6 @@ package org.openlegacy.rpc;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.rpc.RpcConnection;
-import org.openlegacy.rpc.RpcConnectionFactory;
-import org.openlegacy.rpc.RpcField;
-import org.openlegacy.rpc.RpcInvokeAction;
-import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,11 +24,11 @@ public class RpcMockConnectionTest {
 		RpcResult rpcResult = rpcConnection.invoke(rpcAction);
 
 		Assert.assertNotNull(rpcResult);
-		RpcField rpcField = rpcResult.getRpcFields().get(0);
+		RpcFlatField rpcField = (RpcFlatField)rpcResult.getRpcFields().get(0);
 		Assert.assertNotNull(rpcField);
 		Assert.assertEquals("hello", rpcField.getValue());
 
-		rpcField = rpcResult.getRpcFields().get(1);
+		rpcField = (RpcFlatField)rpcResult.getRpcFields().get(1);
 		Assert.assertNotNull(rpcField);
 		Assert.assertEquals(1234, rpcField.getValue());
 	}

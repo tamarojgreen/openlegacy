@@ -207,10 +207,13 @@ public class DefaultRegistryLoader implements RegistryLoader {
 			final EntitiesRegistry<?, ?, ?> entitiesRegistry, final Class<?> beanClass) {
 		final List<FieldAnnotationsLoader> fieldAnnotationLoaders = sortFieldAnnoationLoaders(fieldAnnotationLoadersCollection);
 
+		final CounterContainer counterContainer = new CounterContainer();
+
 		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
 
 			public void doWith(Field field) {
 				loadDefinitionFromAnnotations(entitiesRegistry, beanClass, fieldAnnotationLoaders, field);
+				counterContainer.counter++;
 			}
 
 			private void loadDefinitionFromAnnotations(final EntitiesRegistry<?, ?, ?> entitiesRegistry,
@@ -224,7 +227,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 										"Loading annotation {0} for field {1} in entity {2} into registry",
 										annotation.annotationType().getSimpleName(), field.getName(), beanClass));
 							}
-							fieldAnnotationsLoader.load(entitiesRegistry, field, annotation, beanClass);
+							fieldAnnotationsLoader.load(entitiesRegistry, field, annotation, beanClass, counterContainer.counter);
 						}
 					}
 				}
@@ -237,11 +240,13 @@ public class DefaultRegistryLoader implements RegistryLoader {
 	private static void handleEntityFields(final Collection<FieldLoader> fieldLoaders,
 			final EntitiesRegistry<?, ?, ?> entitiesRegistry, final Class<?> beanClass) {
 
+		final CounterContainer counterContainer = new CounterContainer();
+
 		ReflectionUtils.doWithFields(beanClass, new FieldCallback() {
 
 			public void doWith(Field field) {
-
 				loadDefinition(entitiesRegistry, beanClass, fieldLoaders, field);
+				counterContainer.counter++;
 			}
 
 			private void loadDefinition(final EntitiesRegistry<?, ?, ?> entitiesRegistry, final Class<?> beanClass,
@@ -252,7 +257,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 							logger.debug(MessageFormat.format("Loading field {0} setting for entity {1} into registry",
 									field.getName(), beanClass));
 						}
-						fieldLoader.load(entitiesRegistry, field, beanClass);
+						fieldLoader.load(entitiesRegistry, field, beanClass, counterContainer.counter);
 					}
 				}
 			}
@@ -266,5 +271,10 @@ public class DefaultRegistryLoader implements RegistryLoader {
 
 	public ConfigurableListableBeanFactory getBeanFactory() {
 		return beanFactory;
+	}
+
+	private static class CounterContainer {
+
+		public int counter = 0;
 	}
 }

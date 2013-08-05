@@ -82,11 +82,12 @@ public class StringUtil {
 		return toVariableName(text, true);
 	}
 
+	
 	public static String toVariableName(String text, boolean capFirst) {
 
 		String variableName = null;
 
-		if (!text.contains(" ")) {
+		if (!text.contains(" ") && !text.contains("_") && !text.contains("-") ) {
 			text = text.replaceAll("\\W", "");
 			if (!capFirst) {
 				variableName = StringUtils.uncapitalize(text);
@@ -110,7 +111,7 @@ public class StringUtil {
 				if (Character.isLetter(c) || Character.isDigit(c)) {
 					sb.append(c);
 				}
-				if (c == ' ') {
+				if (c == ' ' || c == '_' ||  c =='-') {
 					capFirst = true;
 				}
 

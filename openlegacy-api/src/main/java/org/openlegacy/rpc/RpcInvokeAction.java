@@ -12,17 +12,13 @@ package org.openlegacy.rpc;
 
 import org.openlegacy.RemoteAction;
 
-import java.util.List;
-
 /**
  * Defines a low level rpc send action on a {@link RpcConnection}. Contains rpc name and input fields.
  * 
  * @author Roi Mor
  * 
  */
-public interface RpcInvokeAction extends RemoteAction {
-
-	List<RpcField> getRpcFields();
+public interface RpcInvokeAction extends RemoteAction<RpcField> {
 
 	String getAction();
 

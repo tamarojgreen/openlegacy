@@ -198,7 +198,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 
 		SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(getCommand());
 		sendAction.setCursorPosition(getCursorPosition());
-		sendAction.getModifiedFields().addAll(modifiedFields);
+		sendAction.getFields().addAll(modifiedFields);
 		return sendAction;
 	}
 

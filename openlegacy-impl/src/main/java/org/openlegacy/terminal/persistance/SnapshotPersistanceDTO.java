@@ -66,13 +66,13 @@ public class SnapshotPersistanceDTO {
 
 		persistedSnapshot.setCommand(sendAction.getCommand().toString());
 
-		List<TerminalField> fields = sendAction.getModifiedFields();
+		List<TerminalField> fields = sendAction.getFields();
 		for (TerminalField terminalField : fields) {
 			TerminalPosition fieldPosition = terminalField.getPosition();
 			TerminalPersistedRow row = (TerminalPersistedRow)persistedSnapshot.getRow(fieldPosition.getRow());
 			TerminalPersistedField field = (TerminalPersistedField)row.getField(fieldPosition.getColumn());
 			String value = terminalField.getValue();
-			if (field == null){
+			if (field == null) {
 				continue;
 			}
 			if (field.isPassword()) {

@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
+import org.openlegacy.providers.jt400.mockup.Qsyrusri;
 import org.openlegacy.providers.jt400.mockup.RpgStrNum;
 import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.RpcSession;
@@ -33,5 +34,15 @@ public class Jt400RpcSessionTest {
 
 		SessionTrail<? extends Snapshot> trail = rpcSession.getModule(Trail.class).getSessionTrail();
 		Assert.assertEquals("My name is John Doe age 40 years !", rpcStrNum.getMessage());
+	}
+
+	@Test
+	public void testJt400RpcStructure() {
+		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
+		Qsyrusri qsyrusri = new Qsyrusri();
+
+		qsyrusri = rpcSession.doAction(RpcActions.READ(), qsyrusri);
+
+		Assert.assertEquals("RMR20924", qsyrusri.getProfileName());
 	}
 }

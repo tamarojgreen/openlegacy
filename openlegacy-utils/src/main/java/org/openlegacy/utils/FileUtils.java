@@ -69,13 +69,27 @@ public class FileUtils {
 	}
 
 	public static String fileWithoutExtension(String filename) {
+		if (!filename.contains(".")) {
+			return filename;
+		}
 		filename = new File(filename).getName();
 		return filename.substring(0, filename.lastIndexOf("."));
 	}
 
 	public static String fileWithoutAnyExtension(String filename) {
+		if (!filename.contains(".")) {
+			return filename;
+		}
 		filename = new File(filename).getName();
 		return filename.substring(0, filename.indexOf("."));
+	}
+	
+	public static String fileExtension(String filename) {
+		if (!filename.contains(".")) {
+			return "";
+		}
+		filename = new File(filename).getName();
+		return filename.substring(filename.lastIndexOf("."), filename.length());
 	}
 
 	public static File extractToTempDir(URL resource, String fileName) throws IOException {

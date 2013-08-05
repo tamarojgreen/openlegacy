@@ -1,5 +1,7 @@
 package org.openlegacy.providers.jt400.mockup;
 
+import org.openlegacy.annotations.rpc.Action;
+import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcBooleanField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
@@ -8,9 +10,10 @@ import org.openlegacy.annotations.rpc.RpcPart;
 import java.util.Date;
 
 @RpcEntity
-public class Qsyrusri {
+@RpcActions(actions = { @Action(action = org.openlegacy.rpc.RpcActions.READ.class, path = "/QSYS.lib/QSYRUSRI.pgm") })
+public class Qsyrusri implements org.openlegacy.rpc.RpcEntity {
 
-	private UserInformation userInformation;
+	private UserInformation userInformation = new UserInformation();
 
 	@RpcField(length = 4)
 	private int recieverLength;

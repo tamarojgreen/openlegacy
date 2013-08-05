@@ -28,68 +28,11 @@ public interface RpcField extends Serializable, Cloneable {
 	String getName();
 
 	/**
-	 * The value of the field
-	 * 
-	 * @return value of the field
-	 */
-	Object getValue();
-
-	/**
-	 * The original value of the field before set by user
-	 * 
-	 * @return original value of the field
-	 */
-	Object getOriginalValue();
-
-	/**
-	 * Sets the value of the field for editable fields
-	 * 
-	 * @param value
-	 *            the new value
-	 */
-	void setValue(Object value);
-
-	/**
 	 * The length of the field. Double as it Can contain
 	 * 
 	 * @return the length of the field
 	 */
-	Double getLength();
-
-	/**
-	 * Is the field editable on the host screen (protected)
-	 * 
-	 * @return is the field editable
-	 */
-	boolean isEditable();
-
-	/**
-	 * Is the field modified. Used to determine whether to send the value to the host
-	 * 
-	 * @return is the field modified
-	 */
-	boolean isModified();
-
-	/**
-	 * Is the field password. A password is always an editable field
-	 * 
-	 * @return is the field password
-	 */
-	boolean isPassword();
-
-	/**
-	 * The field matching Java type. Used mostly to generate Java class field code from the field type
-	 * 
-	 * @return the field Java type
-	 */
-	Class<?> getType();
-
-	/**
-	 * Holds the fields visual
-	 * 
-	 * @return visual value from the host
-	 */
-	String getVisualValue();
+	Integer getLength();
 
 	/**
 	 * Get access to the underlying implementation
@@ -99,13 +42,6 @@ public interface RpcField extends Serializable, Cloneable {
 	Object getDelegate();
 
 	/**
-	 * Weather the field is displayed from right to left
-	 * 
-	 * @return is the field is displayed from right to left
-	 */
-	boolean isRightToLeft();
-
-	/**
 	 * Clones the field
 	 * 
 	 * @return a cloned copy of the field
@@ -113,4 +49,6 @@ public interface RpcField extends Serializable, Cloneable {
 	RpcField clone();
 
 	Direction getDirection();
+
+	int getOrder();
 }

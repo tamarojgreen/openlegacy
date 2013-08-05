@@ -17,16 +17,21 @@ import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
+import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
 import org.openlegacy.designtime.rpc.generators.RpcPojosAjGenerator;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
+import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
+import org.openlegacy.designtime.rpc.source.CodeParser;
+import org.openlegacy.designtime.rpc.source.parsers.ParseResults;
+import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
-import org.openlegacy.designtime.terminal.generators.ScreenEntityJavaGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityWebGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
@@ -36,6 +41,8 @@ import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationCon
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.exceptions.GenerationException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.render.DefaultTerminalSnapshotXmlRenderer;
@@ -289,8 +296,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static String replaceFirstAttribute(String attributeName, String attributeValue, String pomFileContent) {
 		String stringToReplace = MessageFormat.format("<{0}>.*</{0}>", attributeName);
-		return pomFileContent
-				.replaceFirst(stringToReplace, MessageFormat.format("<{0}>{1}</{0}>", attributeName, attributeValue));
+		return pomFileContent.replaceFirst(stringToReplace, MessageFormat.format("<{0}>{1}</{0}>", attributeName, attributeValue));
 
 	}
 
@@ -308,9 +314,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 			// tn5250j or impl is the default pom setting
 			pomFileContent = pomFileContent.replaceFirst(
-					"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>", MessageFormat
-							.format("<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
-									provider));
+					"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>",
+					MessageFormat.format(
+							"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
+							provider));
 			pomFileContent = pomFileContent.replaceFirst(
 					"<groupId>org.openlegacy</groupId>\\s+<artifactId>openlegacy-impl</artifactId>", MessageFormat.format(
 							"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
@@ -372,7 +379,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	public void generateModel(GenerateModelRequest generateModelRequest) throws GenerationException {
+	public void generateScreenModel(GenerateScreenModelRequest generateModelRequest) throws GenerationException {
 		// initialize application context
 
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateModelRequest.getProjectPath());
@@ -393,18 +400,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		} else {
 			Assert.notNull(generateModelRequest.getTerminalSnapshots(),
 					"Must set either trail file or terminal snapshots in generate API request");
-			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(Arrays.asList(generateModelRequest
-					.getTerminalSnapshots()));
+			screenEntitiesDefinitions = snapshotsAnalyzer.analyzeSnapshots(Arrays.asList(generateModelRequest.getTerminalSnapshots()));
 		}
 
 		List<ScreenEntityDefinition> screenDefinitions = getSortedSnapshots(screenEntitiesDefinitions);
 
-		EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
+		EntityUserInteraction<EntityDefinition<?>> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
-			((ScreenEntityDesigntimeDefinition)screenEntityDefinition)
-					.setGenerateAspect(generateModelRequest.isGenerateAspectJ());
+			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
 
-			boolean generated = generateEntityDefinition(generateModelRequest, screenEntityDefinition);
+			boolean generated = generateScreenEntityDefinition(generateModelRequest, screenEntityDefinition);
 
 			if (generated && screenDefinitions.size() == 1) {
 				File packageDir = new File(generateModelRequest.getSourceDirectory(), generateModelRequest.getPackageDirectory());
@@ -418,26 +423,27 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	public boolean generateEntityDefinition(GenerateModelRequest generateModelRequest,
-			ScreenEntityDefinition screenEntityDefinition) {
+	public boolean generateScreenEntityDefinition(GenerateScreenModelRequest generateScreenModelRequest,
+			ScreenEntityDefinition entityDefinition) {
 
-		EntityUserInteraction<ScreenEntityDefinition> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
+		EntityUserInteraction<EntityDefinition<?>> entityUserInteraction = generateScreenModelRequest.getEntityUserInteraction();
 
 		if (entityUserInteraction != null) {
-			boolean generate = entityUserInteraction.customizeEntity(screenEntityDefinition);
+			boolean generate = entityUserInteraction.customizeEntity(entityDefinition);
 			if (!generate) {
 				return false;
 			}
 		}
 
-		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setPackageName(generateModelRequest.getPackageDirectory()
-				.replaceAll("/", "."));
+		((ScreenEntityDesigntimeDefinition)entityDefinition).setPackageName(generateScreenModelRequest.getPackageDirectory().replaceAll(
+				"/", "."));
 
-		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateModelRequest.getProjectPath());
+		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateScreenModelRequest.getProjectPath());
 
 		try {
-			File packageDir = new File(generateModelRequest.getSourceDirectory(), generateModelRequest.getPackageDirectory());
-			String entityName = screenEntityDefinition.getEntityName();
+			File packageDir = new File(generateScreenModelRequest.getSourceDirectory(),
+					generateScreenModelRequest.getPackageDirectory());
+			String entityName = entityDefinition.getEntityName();
 			File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
 
 			boolean generate = true;
@@ -448,32 +454,83 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				}
 			}
 			if (generate) {
-				generateJava(screenEntityDefinition, targetJavaFile);
+				generateJava(entityDefinition, targetJavaFile, "ScreenEntity.java.template");
 				generateAspect(targetJavaFile);
 			}
 
 			File screenResourcesDir = new File(packageDir, entityName + "-resources");
 			screenResourcesDir.mkdir();
-			TerminalSnapshot snapshot = screenEntityDefinition.getOriginalSnapshot();
+			TerminalSnapshot snapshot = entityDefinition.getOriginalSnapshot();
 
 			TerminalSnapshotImageRenderer imageRenderer = projectApplicationContext.getBean(TerminalSnapshotImageRenderer.class);
 			TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
-			DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext
-					.getBean(DefaultTerminalSnapshotXmlRenderer.class);
+			DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
 
-			if (generateModelRequest.isGenerateSnapshotText()) {
+			if (generateScreenModelRequest.isGenerateSnapshotText()) {
 				// generate txt file with screen content
 				generateResource(snapshot, entityName, screenResourcesDir, textRenderer);
 			}
-			if (generateModelRequest.isGenerateSnapshotImage()) {
+			if (generateScreenModelRequest.isGenerateSnapshotImage()) {
 				// generate jpg file with screen image
 				generateResource(snapshot, entityName, screenResourcesDir, imageRenderer);
 			}
 
-			if (generateModelRequest.isGenerateSnapshotXml()) {
+			if (generateScreenModelRequest.isGenerateSnapshotXml()) {
 				// generate xml file with screen XML for testing purposes
 				generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer);
 			}
+			return true;
+
+		} catch (TemplateException e) {
+			throw (new GenerationException(e));
+		} catch (IOException e) {
+			throw (new GenerationException(e));
+		}
+
+	}
+
+	public boolean generateRpcEntityDefinition(GenerateRpcModelRequest generateRpcModelRequest,
+			RpcEntityDefinition entityDefinition) {
+
+		EntityUserInteraction<EntityDefinition<?>> entityUserInteraction = generateRpcModelRequest.getEntityUserInteraction();
+
+		if (entityUserInteraction != null) {
+			boolean generate = entityUserInteraction.customizeEntity(entityDefinition);
+			if (!generate) {
+				return false;
+			}
+		}
+
+		((SimpleRpcEntityDesigntimeDefinition)entityDefinition).setPackageName(generateRpcModelRequest.getPackageDirectory().replaceAll(
+				"/", "."));
+
+		try {
+			File packageDir = new File(generateRpcModelRequest.getSourceDirectory(),
+					generateRpcModelRequest.getPackageDirectory());
+			String entityName = entityDefinition.getEntityName();
+			File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
+
+			boolean generate = true;
+			if (targetJavaFile.exists()) {
+				boolean override = entityUserInteraction != null && entityUserInteraction.isOverride(targetJavaFile);
+				if (!override) {
+					generate = false;
+				}
+			}
+			if (generate) {
+				generateJava(entityDefinition, targetJavaFile, "RpcEntity.java.template");
+				generateAspect(targetJavaFile);
+			}
+
+			File screenResourcesDir = new File(packageDir, entityName + "-resources");
+			screenResourcesDir.mkdir();
+
+			if (generateRpcModelRequest.isGenerateSource()) {
+				// generate src file with source content
+				FileInputStream fis = new FileInputStream(generateRpcModelRequest.getSourceFile());
+				IOUtils.copy(fis, new FileOutputStream(new File(screenResourcesDir, entityDefinition.getEntityName() + ".src")));
+			}
+
 			return true;
 
 		} catch (TemplateException e) {
@@ -532,19 +589,17 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	private void generateJava(ScreenEntityDefinition screenEntityDefinition, File file) throws FileNotFoundException,
-			TemplateException, IOException {
+	private void generateJava(EntityDefinition<?> screenEntityDefinition, File file, String templateName)
+			throws FileNotFoundException, TemplateException, IOException {
 
 		FileOutputStream fos = null;
 		try {
 			file.getParentFile().mkdirs();
 			fos = new FileOutputStream(file);
 
-			ApplicationContext projectApplicationContext = getOrCreateApplicationContext(getProjectPath(file));
-			ScreenEntityJavaGenerator screenEntityJavaGenerator = projectApplicationContext
-					.getBean(ScreenEntityJavaGenerator.class);
+			String typeName = screenEntityDefinition.getTypeName();
+			getGenerateUtil().generate(screenEntityDefinition, fos, templateName, typeName);
 
-			screenEntityJavaGenerator.generate(screenEntityDefinition, fos);
 		} finally {
 			IOUtils.closeQuietly(fos);
 			FileUtils.deleteEmptyFile(file);
@@ -629,7 +684,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	public void generateAspect(File javaFile) {
 
-		OutputStream fos = null;
 		try {
 			FileInputStream input = new FileInputStream(javaFile);
 			CompilationUnit compilationUnit = JavaParser.parse(input, CharEncoding.UTF_8);
@@ -651,8 +705,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		} catch (ParseException e) {
 			logger.warn("Failed parsing java file:" + e.getMessage());
 			// non compiled java class. Ignore it
-		} finally {
-			IOUtils.closeQuietly(fos);
 		}
 
 	}
@@ -700,8 +752,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		ScreenEntityDefinition screenEntityDefinition = null;
 		try {
 			CompilationUnit compilationUnit = JavaParser.parse(sourceFile, CharEncoding.UTF_8);
-			File packageDir = new File(generatePageRequest.getSourceDirectory(), compilationUnit.getPackage().getName()
-					.toString().replaceAll("\\.", "/"));
+			File packageDir = new File(generatePageRequest.getSourceDirectory(),
+					compilationUnit.getPackage().getName().toString().replaceAll("\\.", "/"));
 			screenEntityDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
 		} catch (Exception e) {
 			throw (new GenerationException(e));
@@ -784,5 +836,41 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String designtimeContextType = getPreferences(projectPath).get(PreferencesConstants.DESIGNTIME_CONTEXT);
 		designtimeContextType = designtimeContextType != null ? designtimeContextType : "default";
 		return MessageFormat.format("/openlegacy-{0}-designtime-context.xml", designtimeContextType);
+	}
+
+	public void generateRpcModel(GenerateRpcModelRequest generateRpcModelRequest) {
+		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateRpcModelRequest.getProjectPath());
+
+		getGenerateUtil().setTemplateDirectory(generateRpcModelRequest.getTemplatesDirectory());
+
+		EntityUserInteraction<EntityDefinition<?>> entityUserInteraction = generateRpcModelRequest.getEntityUserInteraction();
+
+		CodeParser codeParser = projectApplicationContext.getBean(CodeParser.class);
+
+		String fileContent;
+		RpcEntityDefinition rpcEntityDefinition = null;
+		try {
+			File sourceFile = generateRpcModelRequest.getSourceFile();
+			fileContent = IOUtils.toString(new FileInputStream(sourceFile));
+			ParseResults parseResults = codeParser.parse(fileContent, sourceFile.getName());
+
+			rpcEntityDefinition = parseResults.getEntityDefinition();
+
+			String name = FileUtils.fileWithoutAnyExtension(sourceFile.getName());
+			((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setEntityName(name);
+		} catch (IOException e) {
+			throw (new OpenLegacyRuntimeException(e));
+		}
+		((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setGenerateAspect(generateRpcModelRequest.isGenerateAspectJ());
+
+		boolean generated = generateRpcEntityDefinition(generateRpcModelRequest, rpcEntityDefinition);
+
+		if (generated) {
+			File packageDir = new File(generateRpcModelRequest.getSourceDirectory(),
+					generateRpcModelRequest.getPackageDirectory());
+			String entityName = rpcEntityDefinition.getEntityName();
+			File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
+			entityUserInteraction.open(targetJavaFile);
+		}
 	}
 }

@@ -35,7 +35,7 @@ public class H3270TerminalSessionSystemTest extends AbstractTest {
 		TerminalField desiredTarget = snapshot.getField(SimpleTerminalPosition.newInstance(21, 17));
 		desiredTarget.setValue("a");
 		SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction("enter");
-		sendAction.getModifiedFields().add(desiredTarget);
+		sendAction.getFields().add(desiredTarget);
 		terminalSession.doAction(sendAction);
 
 		terminalSession.doAction(TerminalActions.ENTER());

@@ -18,8 +18,10 @@ import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.ScreenEntityType;
+import org.openlegacy.utils.StringUtil;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -39,12 +41,14 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 	private Class<? extends EntityType> entityType;
 
 	// LinkedHashMap preserve insert order
-	private final Map<String, F> fieldDefinitions = new LinkedHashMap<String, F>();
+	private final Map<String, F> fieldsDefinitions = new LinkedHashMap<String, F>();
 	private String displayName;
 	private List<F> keyFields;
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 
 	private List<EntityDefinition<?>> childEntitiesDefinitions = new ArrayList<EntityDefinition<?>>();
+
+	private Map<String, PartEntityDefinition<F>> partDefinitions = new LinkedHashMap<String, PartEntityDefinition<F>>();
 
 	public AbstractEntityDefinition() {
 		// for serialization purposes
@@ -68,7 +72,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 	}
 
 	public Map<String, F> getFieldsDefinitions() {
-		return fieldDefinitions;
+		return fieldsDefinitions;
 	}
 
 	public void setEntityClass(Class<?> entityClass) {
@@ -92,7 +96,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 
 	@SuppressWarnings("unchecked")
 	public F getFirstFieldDefinition(Class<? extends FieldType> fieldType) {
-		Collection<? extends FieldDefinition> fieldValues = fieldDefinitions.values();
+		Collection<? extends FieldDefinition> fieldValues = fieldsDefinitions.values();
 		FieldDefinition matchedFieldDefinition = null;
 		for (FieldDefinition fieldDefinition : fieldValues) {
 			if (fieldDefinition.getType() == fieldType) {
@@ -115,13 +119,14 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 	}
 
 	public void setEntityName(String entityName) {
-		this.entityName = entityName;
+
+		this.entityName = StringUtil.toClassName(entityName);
 
 	}
 
 	public List<? extends FieldDefinition> getKeys() {
 		if (keyFields == null) {
-			Collection<F> allFields = fieldDefinitions.values();
+			Collection<F> allFields = fieldsDefinitions.values();
 			keyFields = new ArrayList<F>();
 			for (F field : allFields) {
 				if (field.isKey()) {
@@ -170,7 +175,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 
 	@SuppressWarnings("unchecked")
 	public List<F> getFieldDefinitions(Class<? extends FieldType> fieldType) {
-		Collection<? extends FieldDefinition> fieldValues = fieldDefinitions.values();
+		Collection<? extends FieldDefinition> fieldValues = fieldsDefinitions.values();
 		List<FieldDefinition> matchedFieldsDefinitions = new ArrayList<FieldDefinition>();
 		for (FieldDefinition fieldDefinition : fieldValues) {
 			if (fieldDefinition.getType() == fieldType) {
@@ -179,4 +184,9 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		}
 		return (List<F>)matchedFieldsDefinitions;
 	}
+
+	public Map<String, PartEntityDefinition<F>> getPartsDefinitions() {
+		return partDefinitions;
+	}
+
 }

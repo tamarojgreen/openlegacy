@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.openlegacy.designtime.mains;
 
+import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
+import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.exceptions.GenerationException;
+import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
@@ -35,9 +38,12 @@ public interface DesignTimeExecuter {
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException;
 
-	void generateModel(GenerateModelRequest generateScreenRequest) throws GenerationException;
+	void generateScreenModel(GenerateScreenModelRequest generateScreenRequest) throws GenerationException;
 
-	boolean generateEntityDefinition(GenerateModelRequest generateModelRequest, ScreenEntityDefinition screenEntityDefinition);
+	boolean generateScreenEntityDefinition(GenerateScreenModelRequest generateModelRequest,
+			ScreenEntityDefinition screenEntityDefinition);
+
+	boolean generateRpcEntityDefinition(GenerateRpcModelRequest generateModelRequest, RpcEntityDefinition screenEntityDefinition);
 
 	void generateAspect(File javaFile);
 
@@ -54,4 +60,6 @@ public interface DesignTimeExecuter {
 	void savePreference(File projectPath, String key, String value);
 
 	public void copyDesigntimeContext(File projectPath);
+
+	public void generateRpcModel(GenerateRpcModelRequest generateRpcRequest);
 }

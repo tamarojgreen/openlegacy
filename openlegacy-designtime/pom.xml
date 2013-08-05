@@ -28,6 +28,10 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>openlegacy-providers</id>
+			<url>http://maven.openlegacy.org/maven2/providers</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -97,6 +101,11 @@
 			<groupId>org.jbpm</groupId>
 			<artifactId>jbpm-bpmn2</artifactId>
 			<version>5.2.0.Final</version>
+		</dependency>
+				<dependency>
+			<groupId>koopa</groupId>
+			<artifactId>koopa</artifactId>
+			<version>105</version>
 		</dependency>
 	</dependencies>
 </project>

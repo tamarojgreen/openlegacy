@@ -22,8 +22,8 @@ import org.eclipse.swt.widgets.Text;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
-import org.openlegacy.ide.eclipse.components.SnapshotComposite;
 import org.openlegacy.ide.eclipse.components.TablesCompositeImpl;
+import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
@@ -58,8 +58,8 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		parent.setLayout(gridLayout);
 
 		tablesComposite = new TablesCompositeImpl(parent, SWT.NONE, 280, gd.heightHint);
-		tablesComposite.fillTables(screenEntityDefinition.getSortedFields(), screenEntityDefinition.getScreenIdentification()
-				.getScreenIdentifiers());
+		tablesComposite.fillTables(screenEntityDefinition.getSortedFields(),
+				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
 
 		Composite composite = new Composite(parent, SWT.NONE);
 		gridLayout = new GridLayout();
@@ -94,8 +94,8 @@ public class CustomizeScreenEntityDialog extends Dialog {
 			return;
 		}
 		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
-		this.tablesComposite.cleanupScreenentityDefinition(screenEntityDefinition.getFieldsDefinitions(), screenEntityDefinition
-				.getScreenIdentification().getScreenIdentifiers());
+		this.tablesComposite.cleanupScreenentityDefinition(screenEntityDefinition.getFieldsDefinitions(),
+				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
 		super.okPressed();
 	}
 }

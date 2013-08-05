@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy;
 
+import java.util.List;
+
 /**
  * Defines an generic remote action on an application connection. An action is invoking application logic on the application
  * connection.
@@ -17,6 +19,7 @@ package org.openlegacy;
  * @author Roi Mor
  * 
  */
-public interface RemoteAction {
+public interface RemoteAction<F> {
 
+	List<F> getFields();
 }

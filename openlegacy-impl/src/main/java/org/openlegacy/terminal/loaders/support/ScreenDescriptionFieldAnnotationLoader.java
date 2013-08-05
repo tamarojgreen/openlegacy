@@ -39,7 +39,8 @@ public class ScreenDescriptionFieldAnnotationLoader extends AbstractFieldAnnotat
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass) {
+	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
+			int fieldOrder) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		ScreenDescriptionField fieldAnnotation = (ScreenDescriptionField)annotation;
@@ -54,7 +55,7 @@ public class ScreenDescriptionFieldAnnotationLoader extends AbstractFieldAnnotat
 			fillDescriptionDefinition(fieldAnnotation, screenEntityDefinition, fieldDefinition);
 		} else {
 			// look in screen entities parts
-			ScreenPartEntityDefinition screenPart = (ScreenPartEntityDefinition)screenEntitiesRegistry.getPart(containingClass);
+			ScreenPartEntityDefinition screenPart = screenEntitiesRegistry.getPart(containingClass);
 			if (screenPart != null) {
 				fieldName = MessageFormat.format("{0}.{1}", screenPart.getPartName(), fieldName);
 				SimpleScreenFieldDefinition fieldDefinition = (SimpleScreenFieldDefinition)screenPart.getFieldsDefinitions().get(

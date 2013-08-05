@@ -38,15 +38,15 @@ public class CustomBindScreen implements org.openlegacy.terminal.ScreenEntity {
 			customBindScreen.setFieldAandB(snapshot.getField(3, 15).getValue() + snapshot.getField(4, 15).getValue());
 		}
 
-		public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot snapshot, Object entity) {
+		public void populateAction(TerminalSendAction sendAction, TerminalSnapshot snapshot, Object entity) {
 			CustomBindScreen customBindScreen = (CustomBindScreen)entity;
 			String fielAandB = customBindScreen.getFieldAandB();
 			TerminalField fieldA = snapshot.getField(3, 15);
 			fieldA.setValue(fielAandB.substring(0, 2));
 			TerminalField fieldB = snapshot.getField(4, 15);
 			fieldB.setValue(fielAandB.substring(2));
-			sendAction.getModifiedFields().add(fieldA);
-			sendAction.getModifiedFields().add(fieldB);
+			sendAction.getFields().add(fieldA);
+			sendAction.getFields().add(fieldB);
 		}
 	}
 }

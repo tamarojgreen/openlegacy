@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--
+   <import resource="/test-designtime-context.xml"/>
+   -->
+   
+   <bean id="OpenlegacyCobolParser"
+		class="org.openlegacy.designtime.rpc.source.parsers.OpenlegacyCobolParser" scope="prototype">
+		<property name="cobolParser">
+			<bean class="koopa.parsers.cobol.CobolParser">
+				<property name="buildTrees"   value="true"/>
+				<property name="preprocessing"   value="true"/>
+				<property name="format" value="FREE"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="RpcJavaGenerator" class="org.openlegacy.designtime.rpc.generators.RpcJavaGenerator"/>
+	
+	<bean id="GenerateUtil" class="org.openlegacy.designtime.generators.GenerateUtil"/>
+
+</beans>

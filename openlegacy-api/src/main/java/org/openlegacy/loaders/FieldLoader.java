@@ -29,6 +29,6 @@ public interface FieldLoader {
 	boolean match(EntitiesRegistry entitiesRegistry, Field field);
 
 	@SuppressWarnings("rawtypes")
-	void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass);
+	void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder);
 
 }

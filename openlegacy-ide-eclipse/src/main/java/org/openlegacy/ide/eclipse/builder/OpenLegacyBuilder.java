@@ -32,7 +32,7 @@ import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
-import org.openlegacy.ide.eclipse.actions.GenerateModelDialog;
+import org.openlegacy.ide.eclipse.actions.screen.GenerateScreenModelDialog;
 import org.openlegacy.ide.eclipse.ui.preferences.PreferenceConstants;
 import org.openlegacy.ide.eclipse.util.EclipseUtils;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
@@ -68,8 +68,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 						for (IResource iResource : members) {
 							String resourceName = iResource.getName();
 							if (resourceName.startsWith(fileNoExtension)
-									&& (resourceName.endsWith(DesignTimeExecuter.ASPECT_SUFFIX) || resourceName
-											.endsWith(DesignTimeExecuter.RESOURCES_FOLDER_SUFFIX))) {
+									&& (resourceName.endsWith(DesignTimeExecuter.ASPECT_SUFFIX) || resourceName.endsWith(DesignTimeExecuter.RESOURCES_FOLDER_SUFFIX))) {
 								iResource.delete(false, null);
 							}
 						}
@@ -116,15 +115,15 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 
 					boolean result = PopupUtil.question(Messages.getString("message_new_trail_found"));
 					if (result) {
-						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry()
-								.getDefaultEditor(trailFile.getName());
+						IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
+								trailFile.getName());
 						IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 						try {
 
 							page.openEditor(new FileEditorInput(trailFile), editorDescriptor.getId());
 
-							GenerateModelDialog dialog = new GenerateModelDialog(Display.getDefault().getShells()[0], trailFile,
-									false);
+							GenerateScreenModelDialog dialog = new GenerateScreenModelDialog(Display.getDefault().getShells()[0],
+									trailFile, false);
 							dialog.open();
 
 						} catch (PartInitException e) {
@@ -212,7 +211,8 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
 		try {
 			getProject().accept(new OpenLegacyResourceVisitor());
-		} catch (CoreException e) {}
+		} catch (CoreException e) {
+		}
 	}
 
 	protected void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {

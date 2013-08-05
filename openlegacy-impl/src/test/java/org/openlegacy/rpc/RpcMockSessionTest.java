@@ -48,8 +48,6 @@ public class RpcMockSessionTest {
 		trailWriter.write(rpcSession.getModule(Trail.class).getSessionTrail(), baos);
 		String result = StringUtil.toString(baos);
 
-		System.out.println(result);
-
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("trail.expected"));
 		AssertUtils.assertContent(expectedBytes, result.getBytes());
 	}

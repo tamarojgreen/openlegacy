@@ -1,0 +1,31 @@
+package test.com;
+
+import java.math.BigInteger;
+import java.util.List;
+
+import org.openlegacy.annotations.rpc.*;
+import org.openlegacy.FieldType.*;
+
+@RpcEntity(name="ArraySample")
+public class ArraySample {
+
+   @RpcListField(count=5)
+   @RpcField(length =10, originalName="FIELD")
+   private List<String> field;
+
+   @RpcPartList(count=3)
+   private List<Part> part;
+
+   @RpcPart(partName="Part")
+   public static class Part {
+
+   @RpcField(length =10, originalName="CHILD1")
+   private String child1;
+
+   @RpcListField(count=6)
+   @RpcField(length =2, originalName="CHILD2")
+   @RpcNumericItem(minimumValue=-99, maximumValue=99, decimalPlaces=0)
+   private List<Integer> child2;
+
+  }
+}

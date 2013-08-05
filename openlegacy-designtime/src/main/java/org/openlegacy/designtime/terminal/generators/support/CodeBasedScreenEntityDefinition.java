@@ -16,6 +16,7 @@ import org.openlegacy.EntityType;
 import org.openlegacy.FieldType;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenSize;
@@ -23,7 +24,6 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
-import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.services.ScreenIdentification;
 import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
@@ -40,7 +40,7 @@ import java.util.TreeMap;
 public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 
 	private ScreenPojoCodeModel codeModel;
-	private Map<String, ScreenPartEntityDefinition> partDefinitions = new TreeMap<String, ScreenPartEntityDefinition>();
+	private Map<String, PartEntityDefinition<ScreenFieldDefinition>> partDefinitions = new TreeMap<String, PartEntityDefinition<ScreenFieldDefinition>>();
 	private Map<String, ScreenFieldDefinition> fields;
 	private Map<String, ScreenTableDefinition> tableDefinitions = new TreeMap<String, ScreenTableDefinition>();
 	private List<ActionDefinition> actions;
@@ -109,7 +109,7 @@ public class CodeBasedScreenEntityDefinition implements ScreenEntityDefinition {
 		return tableDefinitions;
 	}
 
-	public Map<String, ScreenPartEntityDefinition> getPartsDefinitions() {
+	public Map<String, PartEntityDefinition<ScreenFieldDefinition>> getPartsDefinitions() {
 		return partDefinitions;
 	}
 

@@ -276,8 +276,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		}
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
-			if (annotationName.equals(RpcAnnotationConstants.RPC_ENTITY_ANNOTATION)
-					|| annotationName.equals(RpcAnnotationConstants.RPC_ENTITY_ANNOTATION)) {
+			if (annotationName.equals(RpcAnnotationConstants.RPC_ENTITY_ANNOTATION)) {
 				enabled = true;
 				populateEntityAttributes(annotationExpr);
 				if (annotationName.equals(RpcAnnotationConstants.RPC_ENTITY_SUPER_CLASS_ANNOTATION)) {

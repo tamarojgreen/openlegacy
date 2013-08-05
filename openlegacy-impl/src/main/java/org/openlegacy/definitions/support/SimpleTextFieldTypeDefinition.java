@@ -19,7 +19,7 @@ public class SimpleTextFieldTypeDefinition implements FieldTypeDefinition, Seria
 	private static final long serialVersionUID = 1L;
 
 	public String getTypeName() {
-		return "text";
+		return "String";
 	}
 
 }

@@ -1,0 +1,54 @@
+package test.com;
+
+import java.math.BigInteger;
+import java.util.List;
+
+import org.openlegacy.annotations.rpc.*;
+import org.openlegacy.FieldType.*;
+
+   @RpcPart(partName="XxolakkrParms")
+   public static class XxolakkrParms {
+
+   private LkCustomer lkCustomer;
+   @RpcPart(partName="LkCustomer")
+   public static class LkCustomer {
+
+   @RpcField(length =1, originalName="LK-CUST-IND")
+   private String lkCustInd;
+
+   @RpcNumericField(minimumValue=-999999999, maximumValue=999999999, decimalPlaces=0)
+   @RpcField(length =9, originalName="LK-CUST-ID")
+   private Integer lkCustId;
+
+   @RpcField(length =25, originalName="LK-CUST-NAME")
+   private String lkCustName;
+
+   @RpcField(length =25, originalName="LK-CUST-ADDRESS")
+   private String lkCustAddress;
+
+   @RpcField(length =20, originalName="LK-CUST-PHONE")
+   private String lkCustPhone;
+
+   @RpcPartList(count=10)
+   private List<LkCards> lkCards;
+   @RpcPart(partName="LkCards")
+   public static class LkCards {
+
+   @RpcField(length =1, originalName="LK-CARD-IND")
+   private String lkCardInd;
+
+   @RpcNumericField(minimumValue=-99999999999L, maximumValue=99999999999L, decimalPlaces=0)
+   @RpcField(length =11, originalName="LK-CARD-NUMBER")
+   private BigInteger lkCardNumber;
+
+   @RpcNumericField(minimumValue=-99999, maximumValue=99999, decimalPlaces=0)
+   @RpcField(length =5, originalName="LK-CARD-PREFIX")
+   private Integer lkCardPrefix;
+
+   @RpcNumericField(minimumValue=-999, maximumValue=999, decimalPlaces=0)
+   @RpcField(length =3, originalName="LK-CARD-SUG-SHERUT")
+   private Integer lkCardSugSherut;
+
+  }
+  }
+  }

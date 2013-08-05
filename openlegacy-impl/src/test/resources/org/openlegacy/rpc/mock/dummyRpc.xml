@@ -2,12 +2,16 @@
 <rpc-trail>
     <snapshot>
         <invoke rpcPath="rpctest">
-            <field value="hello" length="10" modified="true"/>
-            <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+            <rpcFields>
+	            <field value="hello" length="10" modified="true"/>
+    	        <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+   	        </rpcFields>
         </invoke>
         <result>
-            <field value="hello" length="10" modified="true"/>
-            <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+            <rpcFields>
+	            <field value="hello" length="10" modified="true"/>
+	            <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+            </rpcFields>
         </result>
     </snapshot>
 </rpc-trail>

@@ -90,7 +90,7 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 		}
 	}
 
-	public void populateSendAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
+	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		if (entity == null) {
 			return;
@@ -141,7 +141,7 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 
 				if (!dateStr.equals(dateField.getValue())) {
 					dateField.setValue(dateStr);
-					sendAction.getModifiedFields().add(dateField);
+					sendAction.getFields().add(dateField);
 				}
 			}
 

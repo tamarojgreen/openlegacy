@@ -38,7 +38,7 @@ public class TableFieldsLoader implements FieldLoader {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass) {
+	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 
 		Class<?> listType = ReflectionUtil.getListType(field);

@@ -49,7 +49,7 @@ public class DefaultHttpPostSendActionBuilder implements TerminalSendActionBuild
 				if (!terminalField.getValue().equals(value)) {
 					value = value.replaceAll("\n", " ");
 					terminalField.setValue(value);
-					sendAction.getModifiedFields().add(terminalField);
+					sendAction.getFields().add(terminalField);
 				}
 			}
 		}
