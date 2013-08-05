@@ -45,7 +45,7 @@ function checkSequence(){
 	var xhrArgs = {
 		handleAs : "text",
 		headers: { "Accept": "text/html;type=ajax" },
-		url : "sequence",
+		url : "sequence?r=" + Math.random(),
 		load : function(data) {
 			
 			if (Number(data) == 0){
@@ -81,7 +81,9 @@ function setFocus(){
     
     var focusField = dojo.byId(focusFieldName);
     if (focusField != null){
-    	if (focusField.focus != null) focusField.focus();
+    	if (focusField.focus != null) {
+    		setTimeout(function() { focusField.focus(); }, 10);
+    	}
     }
 }
 

@@ -35,7 +35,7 @@ public class SessionSequenceController {
 		if (!terminalSession.isConnected()) {
 			response.getWriter().write("0");
 		} else {
-			response.getWriter().write(terminalSession.getSequence().toString());
+			response.getWriter().write(terminalSession.getSnapshot().getSequence().toString());
 		}
 	}
 
