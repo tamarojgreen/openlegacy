@@ -12,7 +12,6 @@ package org.openlegacy.terminal.layout.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.definitions.page.support.SimplePagePartDefinition;
 import org.openlegacy.definitions.page.support.SimplePagePartRowDefinition;
@@ -107,11 +106,11 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		return pageDefinition;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static List<ScreenPartEntityDefinition> sortPageParts(ScreenEntityDefinition entityDefinition) {
-		Collection<PartEntityDefinition<ScreenFieldDefinition>> screenParts = entityDefinition.getPartsDefinitions().values();
+		Collection screenParts = entityDefinition.getPartsDefinitions().values();
 		List<ScreenPartEntityDefinition> screenPartsList = new ArrayList<ScreenPartEntityDefinition>();
-		screenPartsList.addAll((Collection<? extends ScreenPartEntityDefinition>)screenParts);
+		screenPartsList.addAll(screenParts);
 		Collections.sort(screenPartsList, new Comparator<ScreenPartEntityDefinition>() {
 
 			public int compare(ScreenPartEntityDefinition o1, ScreenPartEntityDefinition o2) {
