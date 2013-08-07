@@ -25,7 +25,7 @@ public class GenerateViewRequest extends AbstractGenerateRequest {
 		return screenEntitySourceFile;
 	}
 
-	public void setScreenEntitySourceFile(File screenEntitySourceFile) {
+	public void setEntitySourceFile(File screenEntitySourceFile) {
 		this.screenEntitySourceFile = screenEntitySourceFile;
 	}
 

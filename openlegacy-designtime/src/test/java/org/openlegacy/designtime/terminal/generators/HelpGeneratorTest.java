@@ -3,7 +3,7 @@ package org.openlegacy.designtime.terminal.generators;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
+import org.openlegacy.designtime.terminal.generators.support.ScreenCodeBasedDefinitionUtils;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
@@ -30,7 +30,7 @@ public class HelpGeneratorTest {
 
 		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
-		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+		ScreenEntityDefinition screenDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = new DefaultScreenPageBuilder().build(screenDefinition);

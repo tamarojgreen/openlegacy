@@ -8,22 +8,22 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.terminal.generators;
+package org.openlegacy.designtime.generators;
 
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.OutputStream;
 
-public interface ScreenEntityWebGenerator {
+public interface EntityWebGenerator {
 
-	void generateView(GenerateViewRequest generateViewRequest, ScreenEntityDefinition screenEntityDefinition)
+	void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException;
 
-	void generateController(GenerateControllerRequest generateControllerRequest, ScreenEntityDefinition screenEntityDefinition)
+	void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException;
 
 	void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)

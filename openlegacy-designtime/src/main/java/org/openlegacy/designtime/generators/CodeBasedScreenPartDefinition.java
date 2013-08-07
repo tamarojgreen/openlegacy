@@ -11,7 +11,7 @@
 package org.openlegacy.designtime.generators;
 
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
-import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
+import org.openlegacy.designtime.terminal.generators.support.ScreenCodeBasedDefinitionUtils;
 import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
@@ -40,7 +40,7 @@ public class CodeBasedScreenPartDefinition extends AbstractCodeBasedPartDefiniti
 	public Map<String, ScreenFieldDefinition> getFieldsDefinitions() {
 		if (fields == null) {
 			String fieldName = StringUtil.toJavaFieldName(getCodeModel().getEntityName());
-			fields = CodeBasedDefinitionUtils.getFieldsFromCodeModel(getCodeModel(), fieldName);
+			fields = ScreenCodeBasedDefinitionUtils.getFieldsFromCodeModel(getCodeModel(), fieldName);
 		}
 		return fields;
 	}

@@ -83,7 +83,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 	@Override
 	public Map<String, ScreenFieldDefinition> getFieldsDefinitions() {
 		if (fields == null) {
-			fields = CodeBasedDefinitionUtils.getFieldsFromCodeModel(getCodeModel(), null);
+			fields = ScreenCodeBasedDefinitionUtils.getFieldsFromCodeModel(getCodeModel(), null);
 		}
 		return fields;
 	}
@@ -108,7 +108,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 	@Override
 	public List<ActionDefinition> getActions() {
 		if (actions == null) {
-			actions = CodeBasedDefinitionUtils.getActionsFromCodeModel(getCodeModel());
+			actions = ScreenCodeBasedDefinitionUtils.getActionsFromCodeModel(getCodeModel());
 		}
 		return actions;
 	}
@@ -149,7 +149,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 	@Override
 	public List<EntityDefinition<?>> getChildEntitiesDefinitions() {
 		if (childScreens == null) {
-			childScreens = CodeBasedDefinitionUtils.getChildScreensDefinitions(getCodeModel(), getPackageDir());
+			childScreens = ScreenCodeBasedDefinitionUtils.getChildScreensDefinitions(getCodeModel(), getPackageDir());
 		}
 		return childScreens;
 	}
@@ -160,7 +160,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 
 	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
 		if (allChildScreens == null) {
-			allChildScreens = CodeBasedDefinitionUtils.getAllChildScreensDefinitions(getCodeModel(), getPackageDir());
+			allChildScreens = ScreenCodeBasedDefinitionUtils.getAllChildScreensDefinitions(getCodeModel(), getPackageDir());
 		}
 		return allChildScreens;
 	}

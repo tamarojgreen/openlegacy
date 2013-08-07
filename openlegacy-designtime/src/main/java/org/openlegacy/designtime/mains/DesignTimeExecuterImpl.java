@@ -18,26 +18,28 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
+import org.openlegacy.designtime.generators.EntityWebGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
 import org.openlegacy.designtime.rpc.generators.RpcPojosAjGenerator;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
+import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
 import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
 import org.openlegacy.designtime.rpc.source.CodeParser;
 import org.openlegacy.designtime.rpc.source.parsers.ParseResults;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
-import org.openlegacy.designtime.terminal.generators.ScreenEntityWebGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.designtime.terminal.generators.TrailJunitGenerator;
-import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
+import org.openlegacy.designtime.terminal.generators.support.ScreenCodeBasedDefinitionUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.exceptions.GenerationException;
@@ -721,16 +723,20 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	/**
 	 * Generates all required view files for a Spring MVC framework
 	 */
-	public void generateView(GenerateViewRequest generatePageRequest) throws GenerationException {
+	public void generateView(GenerateViewRequest generateViewRequest) throws GenerationException {
 
-		ScreenEntityDefinition screenEntityDefinition = initEntityDefinition(generatePageRequest,
-				generatePageRequest.getScreenEntitySourceFile());
+		EntityDefinition<?> entityDefinition = initEntityDefinition(generateViewRequest,
+				generateViewRequest.getScreenEntitySourceFile());
 
-		File projectPath = getProjectPath(generatePageRequest.getScreenEntitySourceFile());
-		ScreenEntityWebGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
-				ScreenEntityMvcGenerator.class);
+		File projectPath = getProjectPath(generateViewRequest.getScreenEntitySourceFile());
+		EntityWebGenerator entityWebGenerator = null;
+		if (entityDefinition instanceof ScreenEntityDefinition) {
+			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityMvcGenerator.class);
+		} else {
+			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityMvcGenerator.class);
+		}
+		entityWebGenerator.generateView(generateViewRequest, entityDefinition);
 
-		screenEntityWebGenerator.generateView(generatePageRequest, screenEntityDefinition);
 	}
 
 	/**
@@ -738,30 +744,37 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	 */
 	public void generateController(GenerateControllerRequest generateControllerRequest) throws GenerationException {
 
-		ScreenEntityDefinition screenEntityDefinition = initEntityDefinition(generateControllerRequest,
+		EntityDefinition<?> entityDefinition = initEntityDefinition(generateControllerRequest,
 				generateControllerRequest.getScreenEntitySourceFile());
 
 		File projectPath = getProjectPath(generateControllerRequest.getSourceDirectory());
-		ScreenEntityWebGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
+		EntityWebGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
 				ScreenEntityMvcGenerator.class);
 
-		screenEntityWebGenerator.generateController(generateControllerRequest, screenEntityDefinition);
+		screenEntityWebGenerator.generateController(generateControllerRequest, entityDefinition);
 	}
 
-	private static ScreenEntityDefinition initEntityDefinition(AbstractGenerateRequest generatePageRequest, File sourceFile) {
-		ScreenEntityDefinition screenEntityDefinition = null;
+	private static EntityDefinition<?> initEntityDefinition(AbstractGenerateRequest generatePageRequest, File sourceFile) {
+		EntityDefinition<?> entityDefinition = null;
 		try {
+			FileInputStream fis = new FileInputStream(sourceFile);
+			String fileContent = IOUtils.toString(fis);
 			CompilationUnit compilationUnit = JavaParser.parse(sourceFile, CharEncoding.UTF_8);
 			File packageDir = new File(generatePageRequest.getSourceDirectory(),
 					compilationUnit.getPackage().getName().toString().replaceAll("\\.", "/"));
-			screenEntityDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
+			if (fileContent.contains(ScreenEntity.class.getSimpleName())) {
+				entityDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
+			} else {
+				entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
+
+			}
 		} catch (Exception e) {
 			throw (new GenerationException(e));
 		}
-		if (screenEntityDefinition == null) {
+		if (entityDefinition == null) {
 			throw (new GenerationException(MessageFormat.format("{0} is not a screen entity", sourceFile.getName())));
 		}
-		return screenEntityDefinition;
+		return entityDefinition;
 	}
 
 	public void copyCodeGenerationTemplates(File projectPath) {

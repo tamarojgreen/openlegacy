@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.designtime.terminal.generators.mock.CompositeScreenForPage;
 import org.openlegacy.designtime.terminal.generators.mock.MenuScreenForPage;
 import org.openlegacy.designtime.terminal.generators.mock.ScreenForPage;
-import org.openlegacy.designtime.terminal.generators.support.CodeBasedDefinitionUtils;
+import org.openlegacy.designtime.terminal.generators.support.ScreenCodeBasedDefinitionUtils;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
@@ -67,7 +67,7 @@ public class ScreenEntityMvcGeneratorTest {
 		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
-		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+		ScreenEntityDefinition screenDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 
 		Assert.assertNotNull(screenDefinition);
 		Assert.assertNotNull(screenDefinition.getNavigationDefinition());
@@ -79,7 +79,7 @@ public class ScreenEntityMvcGeneratorTest {
 		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
-		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+		ScreenEntityDefinition screenDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 		assertPageGeneration(screenDefinition, "ScreenForPage2.jspx.expected");
 	}
 
@@ -110,7 +110,7 @@ public class ScreenEntityMvcGeneratorTest {
 		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
-		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+		ScreenEntityDefinition screenDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 		assertControllerAspectGeneration(screenDefinition);
 	}
 
@@ -119,7 +119,7 @@ public class ScreenEntityMvcGeneratorTest {
 		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPageWithKey.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
-		ScreenEntityDefinition screenDefinition = CodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+		ScreenEntityDefinition screenDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);

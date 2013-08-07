@@ -49,9 +49,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class CodeBasedDefinitionUtils {
+public class ScreenCodeBasedDefinitionUtils {
 
-	private final static Log logger = LogFactory.getLog(CodeBasedDefinitionUtils.class);
+	private final static Log logger = LogFactory.getLog(ScreenCodeBasedDefinitionUtils.class);
 
 	public static Map<String, ScreenFieldDefinition> getFieldsFromCodeModel(ScreenPojoCodeModel codeModel, String containerPrefix) {
 
