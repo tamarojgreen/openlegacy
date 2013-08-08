@@ -9,17 +9,18 @@ import org.openlegacy.FieldType.*;
 @RpcEntity(name="As400sample")
 public class As400sample {
 
-   private Param1 param1;
-}
-@RpcPart(name="Param1")
-public static class Param1 {
+		private Param1 param1;
 
-   @RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
-   @RpcField(length =2, originalName="CHILD1")
-   private Integer child1;
+	@RpcPart(name="Param1")
+	public static class Param1 {
 
-   @RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
-   @RpcField(length =2, originalName="CHILD2")
-   private Integer child2;
+		@RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
+		@RpcField(length =2, originalName="CHILD1")
+		private Integer child1;
 
+		@RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
+		@RpcField(length =2, originalName="CHILD2")
+		private Integer child2;
+
+	}
 }

@@ -9,24 +9,25 @@ import org.openlegacy.FieldType.*;
 @RpcEntity(name="SampprogExpand")
 public class SampprogExpand {
 
-   private Dfhcommarea dfhcommarea;
-}
-@RpcPart(name="Dfhcommarea")
-public static class Dfhcommarea {
+		private Dfhcommarea dfhcommarea;
 
-   private CmVars cmVars;
-}
-@RpcPart(name="CmVars")
-public static class CmVars {
+	@RpcPart(name="Dfhcommarea")
+	public static class Dfhcommarea {
 
-   @RpcField(length =20, originalName="CM-MYVAR")
-   private String cmMyvar;
+		private CmVars cmVars;
+	}
+	@RpcPart(name="CmVars")
+	public static class CmVars {
 
-   @RpcNumericField(minimumValue=-999999999, maximumValue=999999999, decimalPlaces=0)
-   @RpcField(length =9, originalName="CM-OTHER-VAR")
-   private Integer cmOtherVar;
+		@RpcField(length =20, originalName="CM-MYVAR")
+		private String cmMyvar;
 
-   @RpcField(length =1, originalName="CM-ANOTHER-VAR")
-   private String cmAnotherVar;
+		@RpcNumericField(minimumValue=-999999999, maximumValue=999999999, decimalPlaces=0)
+		@RpcField(length =9, originalName="CM-OTHER-VAR")
+		private Integer cmOtherVar;
 
+		@RpcField(length =1, originalName="CM-ANOTHER-VAR")
+		private String cmAnotherVar;
+
+	}
 }
