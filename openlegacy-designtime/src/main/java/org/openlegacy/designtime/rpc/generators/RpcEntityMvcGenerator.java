@@ -11,6 +11,7 @@
 package org.openlegacy.designtime.rpc.generators;
 
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.generators.AbstractEntityMvcGenerator;
 import org.openlegacy.designtime.generators.EntityWebGenerator;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
@@ -19,7 +20,6 @@ import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.springframework.stereotype.Component;
 
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 
@@ -32,6 +32,7 @@ import java.text.MessageFormat;
 @Component
 public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements EntityWebGenerator {
 
+	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix) {
 		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
 				pageDefinition.getEntityDefinition().getTypeName());
@@ -49,28 +50,25 @@ public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements
 	/**
 	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
 	 */
-	public void generateView(GenerateViewRequest generatePageRequest, EntityDefinition<?> screenEntityDefinition)
+	public void generateView(GenerateViewRequest generatePageRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException {
-
-		generateView(generatePageRequest, screenEntityDefinition, false);
+		generateView(generatePageRequest, entityDefinition, false);
 	}
 
 	@Override
 	public void generateCompositePage(EntityDefinition<?> entityDefinition, OutputStream output, String templateDirectoryPrefix) {
-		getGenerateUtil().generate(entityDefinition, output,
-				templateDirectoryPrefix + "ScreenEntityMvcCompositePage.jspx.template");
+		// TODO implement
 	}
 
 	public void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException {
-		// TODO Auto-generated method stub
+		// TODO implement
 
 	}
 
 	@Override
-	protected void generatePage(PageDefinition pageDefinition, FileOutputStream fos, String templateDirectoryPrefix) {
-		// TODO Auto-generated method stub
-
+	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
+		return new SimplePageDefinition(entityDefinition);
 	}
 
 }

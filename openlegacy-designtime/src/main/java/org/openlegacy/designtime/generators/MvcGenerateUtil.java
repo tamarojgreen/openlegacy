@@ -5,7 +5,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -72,7 +71,7 @@ public class MvcGenerateUtil {
 			// views (child of view)
 			mvcTemplateType = (isComposite || isChild) ? INNER_VIEW_MOBILE_TEMPLATE : VIEW_ONLY_TEMPLATE;
 		} else {
-			if (((ScreenEntityDefinition)entityDefinition).isWindow()) {
+			if (entityDefinition.isWindow()) {
 				return WINDOW_TEMPLATE;
 			}
 			// in web - generate pages as template by default. composite (main screen) and it's child entities - generate as views

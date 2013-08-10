@@ -18,7 +18,6 @@ import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.designtime.terminal.generators.HelpGenerator;
 import org.openlegacy.exceptions.GenerationException;
-import org.openlegacy.layout.PageBuilder;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
@@ -42,14 +41,9 @@ public abstract class AbstractEntityMvcGenerator {
 	@Inject
 	private HelpGenerator helpGenerator;
 
-	@SuppressWarnings("rawtypes")
-	@Inject
-	private PageBuilder pageBuilder;
-
 	/**
 	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
 	 */
-	@SuppressWarnings("unchecked")
 	protected void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition, boolean isChild)
 			throws GenerationException {
 
@@ -64,7 +58,7 @@ public abstract class AbstractEntityMvcGenerator {
 
 			String entityClassName = entityDefinition.getEntityClassName();
 
-			PageDefinition pageDefinition = pageBuilder.build(entityDefinition);
+			PageDefinition pageDefinition = buildPage(entityDefinition);
 
 			if (generateViewRequest.isGenerateHelp()) {
 				boolean generateHelp = true;
@@ -106,6 +100,8 @@ public abstract class AbstractEntityMvcGenerator {
 		}
 
 	}
+
+	protected abstract PageDefinition buildPage(EntityDefinition<?> entityDefinition);
 
 	private void generateView(GenerateViewRequest generatePageRequest, EntityDefinition<?> entityDefinition,
 			PageDefinition pageDefinition, String viewsDir, String templateDirectoryPrefix, UserInteraction overrideConfirmer,
@@ -175,7 +171,7 @@ public abstract class AbstractEntityMvcGenerator {
 		}
 	}
 
-	protected abstract void generatePage(PageDefinition pageDefinition, FileOutputStream fos, String templateDirectoryPrefix);
+	protected abstract void generatePage(PageDefinition pageDefinition, OutputStream out, String typeName);
 
 	/**
 	 * Updates sprint views.xml file which contains all web page views definitions

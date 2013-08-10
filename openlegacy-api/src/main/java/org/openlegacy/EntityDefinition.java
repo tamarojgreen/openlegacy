@@ -119,4 +119,11 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	 * @return map of screen parts definitions of the screen entity
 	 */
 	Map<String, PartEntityDefinition<D>> getPartsDefinitions();
+
+	/**
+	 * Whether the entity is a window. For screens, gets higher priority in screen recognition process.
+	 * 
+	 * @return is the entity is a window
+	 */
+	boolean isWindow();
 }

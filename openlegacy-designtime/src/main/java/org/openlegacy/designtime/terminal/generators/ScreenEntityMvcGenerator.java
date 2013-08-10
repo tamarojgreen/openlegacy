@@ -23,6 +23,7 @@ import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.layout.ScreenPageBuilder;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+
+import javax.inject.Inject;
 
 /**
  * Generates all Spring MVC web related content
@@ -42,6 +45,10 @@ public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator impleme
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityMvcGenerator.class);
 
+	@Inject
+	private ScreenPageBuilder pageBuilder;
+
+	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix) {
 		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
 				pageDefinition.getEntityDefinition().getTypeName());
@@ -180,6 +187,11 @@ public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator impleme
 	private void generateCompositeContoller(EntityDefinition<?> entityDefinition, OutputStream output) {
 		getGenerateUtil().generate(entityDefinition, output, "ScreenEntityMvcCompositeController.java.template");
 
+	}
+
+	@Override
+	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
+		return pageBuilder.build((ScreenEntityDefinition)entityDefinition);
 	}
 
 }

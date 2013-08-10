@@ -27,6 +27,7 @@ import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
+import org.openlegacy.designtime.rpc.generators.RpcEntityMvcGenerator;
 import org.openlegacy.designtime.rpc.generators.RpcPojosAjGenerator;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
@@ -174,6 +175,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			return;
 		}
 		File springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext.xml");
+		if (!springContextFile.exists()) {
+			return;
+		}
 		String springContextFileContent = IOUtils.toString(new FileInputStream(springContextFile));
 
 		springContextFileContent = springContextFileContent.replace(mockupSessionCommentStart, "");
@@ -187,6 +191,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static void updateHostPropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath)
 			throws IOException, FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
+		if (!hostPropertiesFile.exists()) {
+			return;
+		}
 		String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
 
 		hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.name=.*",

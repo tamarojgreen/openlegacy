@@ -48,4 +48,8 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 		return fields;
 	}
 
+	public boolean isWindow() {
+		return false;
+	}
+
 }

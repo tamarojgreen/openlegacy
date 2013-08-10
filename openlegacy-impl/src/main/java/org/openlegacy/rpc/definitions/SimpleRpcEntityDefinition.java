@@ -33,4 +33,8 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 		this.language = language;
 	}
 
+	public boolean isWindow() {
+		return false;
+	}
+
 }

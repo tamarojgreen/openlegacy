@@ -4,6 +4,7 @@ import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
@@ -33,7 +34,7 @@ public class RpcEntityMvcGeneratorTest {
 
 		GenerateUtil generateUtil = new GenerateUtil();
 
-		generateUtil.generate(entityDefinition, baos, "web/RpcEntityMvcPage.jspx.template");
+		generateUtil.generate(new SimplePageDefinition(entityDefinition), baos, "web/RpcEntityMvcPage.jspx.template");
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedPageResultResource));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}

@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.designtime.generators.MvcGenerateUtil;
 import org.openlegacy.designtime.terminal.generators.mock.CompositeScreenForPage;
 import org.openlegacy.designtime.terminal.generators.mock.MenuScreenForPage;
 import org.openlegacy.designtime.terminal.generators.mock.ScreenForPage;
@@ -88,7 +89,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos,
-				ScreenEntityMvcGenerator.TEMPLATE_WEB_DIR_PREFIX);
+				MvcGenerateUtil.TEMPLATE_WEB_DIR_PREFIX);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageComposite.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
@@ -99,7 +100,7 @@ public class ScreenEntityMvcGeneratorTest {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos,
-				ScreenEntityMvcGenerator.TEMPLATE_MOBILE_DIR_PREFIX);
+				MvcGenerateUtil.TEMPLATE_MOBILE_DIR_PREFIX);
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageMobileComposite.jspx.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());

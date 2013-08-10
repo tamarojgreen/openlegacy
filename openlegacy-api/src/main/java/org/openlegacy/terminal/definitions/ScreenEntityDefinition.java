@@ -52,13 +52,6 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	TerminalSnapshot getOriginalSnapshot();
 
 	/**
-	 * Whether the screen entity is a window. gets higher priority in screen recognition process
-	 * 
-	 * @return is the screen entity is a window
-	 */
-	boolean isWindow();
-
-	/**
 	 * Whether the screen entity is a child entity. Used for determine the page type to generate
 	 * 
 	 * @return is the screen entity is a child entity
