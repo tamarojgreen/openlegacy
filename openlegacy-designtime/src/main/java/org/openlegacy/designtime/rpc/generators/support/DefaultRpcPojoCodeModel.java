@@ -34,9 +34,9 @@ import japa.parser.ast.expr.NormalAnnotationExpr;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * 
@@ -256,7 +256,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 	private String packageName;
 	private ClassOrInterfaceDeclaration mainType;
-	private Map<String, Field> fields = new TreeMap<String, Field>();
+	private Map<String, Field> fields = new LinkedHashMap<String, Field>();
 	private boolean enabled;
 	private boolean superClass = false;
 	private String displayName;
