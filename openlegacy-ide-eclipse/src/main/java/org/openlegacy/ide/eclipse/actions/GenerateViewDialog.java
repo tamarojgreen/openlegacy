@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -30,12 +31,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.designtime.UserInteraction;
+import org.openlegacy.ide.eclipse.EclipseUtil;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 
@@ -45,6 +48,9 @@ import java.text.MessageFormat;
 public class GenerateViewDialog extends Dialog implements UserInteraction {
 
 	private final static Logger logger = Logger.getLogger(GenerateViewDialog.class);
+
+	private Combo projectName;
+
 	private Button generateHelpBtn;
 	private Button generateMobilePageBtn;
 	private ISelection selection;
@@ -72,7 +78,7 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 		parent.getShell().setText(PluginConstants.TITLE);
 
 		Label label = new Label(parent, SWT.NULL);
-		label.setText(Messages.getString("label_source_folder"));
+		label.setText(Messages.getString("label_project_name"));
 
 		Composite composite = new Composite(parent, SWT.NONE);
 
@@ -82,6 +88,11 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 		gd.horizontalSpan = 3;
 		composite.setLayoutData(gd);
 		composite.setLayout(gridLayout);
+
+		projectName = new Combo(composite, SWT.BORDER | SWT.SINGLE | SWT.READ_ONLY);
+		String[] projectNames = EclipseUtil.getProjectNames();
+		projectName.setItems(projectNames);
+		projectName.select(ArrayUtils.indexOf(projectNames, getProject().getName()));
 
 		generateHelpBtn = new Button(composite, SWT.CHECK);
 		generateHelpBtn.setText(Messages.getString("label_generate_help"));
@@ -116,6 +127,7 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 
 		final boolean generateHelp = generateHelpBtn.getSelection();
 		final boolean generateMobilePage = generateMobilePageBtn.getSelection();
+		final String projectNameText = projectName.getText();
 		Job job = new Job(Messages.getString("job_generating_view")) {
 
 			@Override
@@ -128,9 +140,9 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 				for (TreePath treePath : pathElements) {
 					if (treePath.getLastSegment() instanceof ICompilationUnit) {
 						final IFile screenEntitySourceFile = (IFile)((ICompilationUnit)treePath.getLastSegment()).getResource();
-
-						EclipseDesignTimeExecuter.instance().generateView(screenEntitySourceFile, GenerateViewDialog.this,
-								generateHelp, generateMobilePage);
+						IProject project = EclipseUtil.getProject(projectNameText);
+						EclipseDesignTimeExecuter.instance().generateView(screenEntitySourceFile, project,
+								GenerateViewDialog.this, generateHelp, generateMobilePage);
 
 						monitor.worked(1);
 

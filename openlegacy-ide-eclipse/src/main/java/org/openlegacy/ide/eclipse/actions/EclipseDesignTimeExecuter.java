@@ -148,15 +148,14 @@ public class EclipseDesignTimeExecuter {
 		job.schedule();
 	}
 
-	public void generateView(IFile screenEntitySourceFile, UserInteraction userInteraction, boolean generateHelp,
+	public void generateView(IFile entitySourceFile, IProject project, UserInteraction userInteraction, boolean generateHelp,
 			boolean generateMobilePage) {
 
-		File projectPath = new File(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()),
-				DesignTimeExecuterImpl.TEMPLATES_DIR);
+		File projectPath = new File(PathsUtil.toOsLocation(entitySourceFile.getProject()), DesignTimeExecuterImpl.TEMPLATES_DIR);
 
 		GenerateViewRequest generatePageRequest = new GenerateViewRequest();
-		generatePageRequest.setProjectPath(PathsUtil.toOsLocation(screenEntitySourceFile.getProject()));
-		File sourceFile = PathsUtil.toOsLocation(screenEntitySourceFile);
+		generatePageRequest.setProjectPath(PathsUtil.toOsLocation(project));
+		File sourceFile = PathsUtil.toOsLocation(entitySourceFile);
 		generatePageRequest.setEntitySourceFile(sourceFile);
 		generatePageRequest.setPackageDirectory(PathsUtil.packageToPath(sourceFile.getParent()));
 		File sourceDirectory = sourceFile.getParentFile();
