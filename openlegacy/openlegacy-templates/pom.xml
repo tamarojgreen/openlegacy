@@ -10,11 +10,13 @@
 		<module>openlegacy-java-new</module>
 		<module>openlegacy-mvc-new</module>
 		<module>openlegacy-mvc-sample</module>
+		<module>openlegacy-mvc-rpc-sample</module>
 		<module>openlegacy-rest-new</module>
 		<module>openlegacy-rest-sample</module>
 		<module>openlegacy-rest-rpc-sample</module>
-<!-- 		<module>openlegacy-angular-sample</module>
-		<module>openlegacy-angular-rpc-sample</module>-->
+		<module>openlegacy-angular-sample</module>
+		<module>openlegacy-angular-rpc-sample</module>
+		<module>openlegacy-angular-rpc-new</module>
  		<module>openlegacy-ws-sample</module>
 		<module>remoting</module>
 		<module>openlegacy-as400-menus</module>

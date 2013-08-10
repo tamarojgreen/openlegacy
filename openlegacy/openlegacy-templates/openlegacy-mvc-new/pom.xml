@@ -278,8 +278,9 @@ commented dependency end -->
 			<version>1.0</version>
 			<scope>compile</scope>
 		</dependency>
-		<!-- Uncomment for bidi support <dependency> <groupId>com.ibm.icu</groupId> 
-			<artifactId>icu4j</artifactId> <version>49.1</version> </dependency> -->
+		<dependency> <groupId>com.ibm.icu</groupId> 
+			<artifactId>icu4j</artifactId> <version>49.1</version> 
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
