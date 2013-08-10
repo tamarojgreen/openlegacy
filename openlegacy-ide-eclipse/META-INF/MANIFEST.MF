@@ -93,3 +93,8 @@ Export-Package: org.openlegacy.ide.eclipse.editors.graphical;uses:="org.eclipse.
  org.openlegacy.ide.eclipse.preview.rpc,
  org.openlegacy.ide.eclipse.preview.screen,
  org.openlegacy.ide.eclipse.util;uses:="org.eclipse.core.runtime,org.eclipse.jdt.core,org.eclipse.core.resources"
+Export-Package: org.openlegacy.ide.eclipse.editors.graphical,
+ org.openlegacy.ide.eclipse.preview,
+ org.openlegacy.ide.eclipse.preview.rpc,
+ org.openlegacy.ide.eclipse.preview.screen,
+ org.openlegacy.ide.eclipse.util
