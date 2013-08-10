@@ -80,4 +80,6 @@ Bundle-ClassPath: .,
  lib/koopa-105.jar
 Export-Package: org.openlegacy.ide.eclipse.editors.graphical,
  org.openlegacy.ide.eclipse.preview,
+ org.openlegacy.ide.eclipse.preview.rpc,
+ org.openlegacy.ide.eclipse.preview.screen,
  org.openlegacy.ide.eclipse.util
