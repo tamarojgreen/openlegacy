@@ -37,5 +37,15 @@
 			);
 		});
 	
-	// Controller code place-holder
+	/* Controller code place-holder start
+	module = module.controller('VIEW-NAMEController',
+		function($scope, $location, $olHttp) {
+			$olHttp.get('VIEW-NAME', 
+					function(data) {
+						$scope.model = data.model.entity;
+					}
+				);
+			
+		});
+	Controller code place-holder end */
 })();

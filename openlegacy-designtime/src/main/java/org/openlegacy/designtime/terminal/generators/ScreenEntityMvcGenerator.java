@@ -17,7 +17,6 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.generators.AbstractEntityMvcGenerator;
-import org.openlegacy.designtime.generators.EntityWebGenerator;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;
@@ -25,7 +24,6 @@ import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,11 +35,10 @@ import javax.inject.Inject;
 /**
  * Generates all Spring MVC web related content
  * 
- * @author RoiM
+ * @author Roi Mor
  * 
  */
-@Component
-public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator implements EntityWebGenerator {
+public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator implements ScreenEntityPageGenerator {
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityMvcGenerator.class);
 

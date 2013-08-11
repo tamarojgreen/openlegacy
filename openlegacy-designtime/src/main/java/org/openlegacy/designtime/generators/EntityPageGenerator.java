@@ -18,10 +18,9 @@ import org.openlegacy.layout.PageDefinition;
 
 import java.io.OutputStream;
 
-public interface EntityWebGenerator {
+public interface EntityPageGenerator {
 
-	void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition)
-			throws GenerationException;
+	void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition) throws GenerationException;
 
 	void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException;
@@ -29,5 +28,4 @@ public interface EntityWebGenerator {
 	void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)
 			throws GenerationException;
 
-	public void generateControllerAspect(PageDefinition pageDefinition, OutputStream output) throws GenerationException;
 }

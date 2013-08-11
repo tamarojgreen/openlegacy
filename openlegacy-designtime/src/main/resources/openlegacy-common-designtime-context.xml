@@ -66,6 +66,13 @@
 
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
 
+	<bean id="screenPageGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator" />
+	<bean id="rpcPageGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntityMvcGenerator" />
+	<!-- SPA generators
+		<bean id="screenPageGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntitySpaGenerator" />
+		<bean id="rpcPageGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntitySpaGenerator" />
+	 -->
+	 
 	<!-- RPC beans -->
 	<bean id="OpenlegacyCobolParser"
 		class="org.openlegacy.designtime.rpc.source.parsers.OpenlegacyCobolParser">

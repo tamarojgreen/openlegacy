@@ -16,15 +16,15 @@ import java.io.File;
 
 public class GenerateControllerRequest extends AbstractGenerateRequest {
 
-	private File screenEntitySourceFile;
+	private File entitySourceFile;
 	private UserInteraction userInteraction;
 
-	public File getScreenEntitySourceFile() {
-		return screenEntitySourceFile;
+	public File getEntitySourceFile() {
+		return entitySourceFile;
 	}
 
-	public void setScreenEntitySourceFile(File screenEntitySourceFile) {
-		this.screenEntitySourceFile = screenEntitySourceFile;
+	public void setEntitySourceFile(File entitySourceFile) {
+		this.entitySourceFile = entitySourceFile;
 	}
 
 	public UserInteraction getUserInteraction() {

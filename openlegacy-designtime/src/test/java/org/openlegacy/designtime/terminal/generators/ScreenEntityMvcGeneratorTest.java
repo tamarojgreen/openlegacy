@@ -41,7 +41,7 @@ public class ScreenEntityMvcGeneratorTest {
 	private ScreenPageBuilder screenPageBuilder;
 
 	@Inject
-	ScreenEntityMvcGenerator screenEntityMvcGenerator;
+	private ScreenEntityMvcGenerator screenEntityMvcGenerator;
 
 	@Test
 	public void testGenerateJspx() throws Exception {

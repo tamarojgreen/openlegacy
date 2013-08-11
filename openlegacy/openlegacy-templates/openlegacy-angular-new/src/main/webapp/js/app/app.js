@@ -12,7 +12,9 @@
 		$routeProvider = $routeProvider.when( '/logoff', {templateUrl: 'views/logoff.html', controller: 'logoffController'} );
 		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html', controller: 'menuController'} );
 
-		// Register controller place-holder
+		/* Register controller place-holder start
+		$routeProvider = $routeProvider.when( '/VIEW-NAME', {templateUrl: 'views/VIEW-NAME.html', controller: 'VIEW-NAMEController'} );
+		Register controller place-holder end */
 		
 		$routeProvider = $routeProvider.otherwise( {redirectTo: '/login'} );
 		

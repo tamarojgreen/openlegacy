@@ -7,10 +7,10 @@
 	<ol:form model="xxolakkrParms">
 	  	
 		<ol:pagePart>
-			<ol:field name="lkCustomer.lkCustAddress" />
-			<ol:field name="lkCustomer.lkCustId" />
 			<ol:field name="lkCustomer.lkCustInd" />
+			<ol:field name="lkCustomer.lkCustId" />
 			<ol:field name="lkCustomer.lkCustName" />
+			<ol:field name="lkCustomer.lkCustAddress" />
 			<ol:field name="lkCustomer.lkCustPhone" />
 		</ol:pagePart>
 		<ol:pagePart>

@@ -23,11 +23,11 @@
                id="org.openlegacy.ide.eclipse.actions.customizeCodeTemplate">
          </action>
          <action
-               label="%customize_analyzer_rules"
-               class="org.openlegacy.ide.eclipse.actions.CustomizeRulesAction"
+               label="%customize_designtime_context"
+               class="org.openlegacy.ide.eclipse.actions.CustomizeDesigntimeContextAction"
                menubarPath="org.openlegacy.ide.eclipse.right_menu/customize"
                enablesFor="1"
-               id="org.openlegacy.ide.eclipse.actions.customizeRules">
+               id="org.openlegacy.ide.eclipse.actions.customizeContext">
          </action>
       </objectContribution>
       <objectContribution

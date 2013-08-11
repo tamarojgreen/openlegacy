@@ -371,4 +371,18 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- MVC generators
+	<bean id="screenPageGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator" />
+	<bean id="rpcPageGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntityMvcGenerator" />
+	-->	
+	<!-- SPA generators
+		<bean id="screenPageGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntitySpaGenerator" />
+		<bean id="rpcPageGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntitySpaGenerator" />
+	 -->
+	
+	<!-- SPA generators
+		<bean id="screenWebGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntitySpaGenerator" />
+		<bean id="rpcWebGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntitySpaGenerator" />
+	 -->
 </beans>

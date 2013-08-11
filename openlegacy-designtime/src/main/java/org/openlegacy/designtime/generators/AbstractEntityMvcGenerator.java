@@ -84,13 +84,13 @@ public abstract class AbstractEntityMvcGenerator {
 
 			// generate web view
 			String mvcTemplateType = MvcGenerateUtil.getMvcTemplateType(entityDefinition, isComposite, isChild, false);
-			generateView(generateViewRequest, entityDefinition, pageDefinition, WEB_VIEWS_DIR, TEMPLATE_WEB_DIR_PREFIX,
-					userInteraction, isComposite, mvcTemplateType, COMPOSITE_TEMPLATE);
+			generateView(generateViewRequest, pageDefinition, WEB_VIEWS_DIR, TEMPLATE_WEB_DIR_PREFIX, userInteraction,
+					isComposite, mvcTemplateType, COMPOSITE_TEMPLATE);
 			// generate mobile view
 			if (generateViewRequest.isGenerateMobilePage()) {
 				mvcTemplateType = MvcGenerateUtil.getMvcTemplateType(entityDefinition, isComposite, isChild, true);
-				generateView(generateViewRequest, entityDefinition, pageDefinition, MOBILE_VIEWS_DIR, TEMPLATE_MOBILE_DIR_PREFIX,
-						userInteraction, isComposite, mvcTemplateType, COMPOSITE_VIEW);
+				generateView(generateViewRequest, pageDefinition, MOBILE_VIEWS_DIR, TEMPLATE_MOBILE_DIR_PREFIX, userInteraction,
+						isComposite, mvcTemplateType, COMPOSITE_VIEW);
 			}
 
 		} catch (Exception e) {
@@ -103,10 +103,11 @@ public abstract class AbstractEntityMvcGenerator {
 
 	protected abstract PageDefinition buildPage(EntityDefinition<?> entityDefinition);
 
-	private void generateView(GenerateViewRequest generatePageRequest, EntityDefinition<?> entityDefinition,
-			PageDefinition pageDefinition, String viewsDir, String templateDirectoryPrefix, UserInteraction overrideConfirmer,
-			boolean isComposite, String mvcTemplateType, String mvcCompositeTemplateType) throws IOException {
+	private void generateView(GenerateViewRequest generatePageRequest, PageDefinition pageDefinition, String viewsDir,
+			String templateDirectoryPrefix, UserInteraction overrideConfirmer, boolean isComposite, String mvcTemplateType,
+			String mvcCompositeTemplateType) throws IOException {
 
+		EntityDefinition<?> entityDefinition = pageDefinition.getEntityDefinition();
 		String entityClassName = entityDefinition.getEntityClassName();
 		FileOutputStream fos = null;
 
@@ -146,8 +147,8 @@ public abstract class AbstractEntityMvcGenerator {
 				// generate page content for each of the child screens
 				for (EntityDefinition<?> childDefinition : childScreens) {
 					pageDefinition = new DefaultScreenPageBuilder().build((ScreenEntityDefinition)childDefinition);
-					generateView(generatePageRequest, childDefinition, pageDefinition, viewsDir, templateDirectoryPrefix,
-							overrideConfirmer, false, mvcTemplateType, mvcCompositeTemplateType);
+					generateView(generatePageRequest, pageDefinition, viewsDir, templateDirectoryPrefix, overrideConfirmer,
+							false, mvcTemplateType, mvcCompositeTemplateType);
 				}
 			}
 

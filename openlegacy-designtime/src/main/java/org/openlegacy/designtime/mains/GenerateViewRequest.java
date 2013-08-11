@@ -16,17 +16,17 @@ import java.io.File;
 
 public class GenerateViewRequest extends AbstractGenerateRequest {
 
-	private File screenEntitySourceFile;
+	private File entitySourceFile;
 	private boolean generateHelp;
 	private UserInteraction userInteraction;
 	private boolean generateMobilePage;
 
-	public File getScreenEntitySourceFile() {
-		return screenEntitySourceFile;
+	public File getEntitySourceFile() {
+		return entitySourceFile;
 	}
 
-	public void setEntitySourceFile(File screenEntitySourceFile) {
-		this.screenEntitySourceFile = screenEntitySourceFile;
+	public void setEntitySourceFile(File entitySourceFile) {
+		this.entitySourceFile = entitySourceFile;
 	}
 
 	public UserInteraction getUserInteraction() {

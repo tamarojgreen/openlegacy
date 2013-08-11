@@ -22,12 +22,12 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
-import org.openlegacy.designtime.generators.EntityWebGenerator;
+import org.openlegacy.designtime.generators.EntityPageGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
-import org.openlegacy.designtime.rpc.generators.RpcEntityMvcGenerator;
+import org.openlegacy.designtime.rpc.generators.RpcEntityPageGenerator;
 import org.openlegacy.designtime.rpc.generators.RpcPojosAjGenerator;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
@@ -37,6 +37,7 @@ import org.openlegacy.designtime.rpc.source.parsers.ParseResults;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
+import org.openlegacy.designtime.terminal.generators.ScreenEntityPageGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.designtime.terminal.generators.TrailJunitGenerator;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
@@ -188,8 +189,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath)
-			throws IOException, FileNotFoundException {
+	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
+			FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
 		if (hostPropertiesFile.exists()) {
 			String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
@@ -743,14 +744,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	public void generateView(GenerateViewRequest generateViewRequest) throws GenerationException {
 
 		EntityDefinition<?> entityDefinition = initEntityDefinition(generateViewRequest,
-				generateViewRequest.getScreenEntitySourceFile());
+				generateViewRequest.getEntitySourceFile());
 
-		File projectPath = getProjectPath(generateViewRequest.getScreenEntitySourceFile());
-		EntityWebGenerator entityWebGenerator = null;
+		File projectPath = getProjectPath(generateViewRequest.getEntitySourceFile());
+		EntityPageGenerator entityWebGenerator = null;
 		if (entityDefinition instanceof ScreenEntityDefinition) {
-			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityMvcGenerator.class);
+			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityPageGenerator.class);
 		} else {
-			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityMvcGenerator.class);
+			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
 		}
 		entityWebGenerator.generateView(generateViewRequest, entityDefinition);
 
@@ -762,10 +763,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	public void generateController(GenerateControllerRequest generateControllerRequest) throws GenerationException {
 
 		EntityDefinition<?> entityDefinition = initEntityDefinition(generateControllerRequest,
-				generateControllerRequest.getScreenEntitySourceFile());
+				generateControllerRequest.getEntitySourceFile());
 
 		File projectPath = getProjectPath(generateControllerRequest.getSourceDirectory());
-		EntityWebGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
+		EntityPageGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
 				ScreenEntityMvcGenerator.class);
 
 		screenEntityWebGenerator.generateController(generateControllerRequest, entityDefinition);

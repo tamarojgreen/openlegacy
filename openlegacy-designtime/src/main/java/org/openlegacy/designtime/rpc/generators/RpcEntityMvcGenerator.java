@@ -13,12 +13,10 @@ package org.openlegacy.designtime.rpc.generators;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.generators.AbstractEntityMvcGenerator;
-import org.openlegacy.designtime.generators.EntityWebGenerator;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
-import org.springframework.stereotype.Component;
 
 import java.io.OutputStream;
 import java.text.MessageFormat;
@@ -26,11 +24,10 @@ import java.text.MessageFormat;
 /**
  * Generates all Spring MVC web related content
  * 
- * @author RoiM
+ * @author Roi Mor
  * 
  */
-@Component
-public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements EntityWebGenerator {
+public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements RpcEntityPageGenerator {
 
 	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix) {

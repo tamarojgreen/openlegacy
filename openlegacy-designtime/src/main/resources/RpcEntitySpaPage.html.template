@@ -1,0 +1,20 @@
+<form>
+	<#list entityDefinition.fieldsDefinitions?values as field>
+		<input name="${field.name}" />
+  	</#list>
+  	
+	<#list entityDefinition.partsDefinitions?values as part>
+		<@rpcPart part=part/>
+	</#list>
+</form>
+
+<#macro rpcPart part>
+		<div>
+	<#list part.fieldsDefinitions?values as field>
+			<input name="${field.name}" />
+	</#list>
+		</div>
+	<#list part.innerPartsDefinitions?values as innerPart>
+		<@rpcPart part=innerPart />
+	</#list>
+</#macro>
