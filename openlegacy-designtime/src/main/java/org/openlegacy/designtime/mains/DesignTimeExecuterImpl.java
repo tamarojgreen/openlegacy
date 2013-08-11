@@ -149,7 +149,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		renameProject(projectCreationRequest.getProjectName(), targetPath);
 		renameLaunchers(projectCreationRequest.getProjectName(), targetPath);
 
-		updateHostPropertiesFile(projectCreationRequest, targetPath);
+		updatePropertiesFile(projectCreationRequest, targetPath);
 
 		savePreference(targetPath, PreferencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
 		savePreference(targetPath, PreferencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
@@ -188,23 +188,33 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	private static void updateHostPropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath)
+	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath)
 			throws IOException, FileNotFoundException {
 		File hostPropertiesFile = new File(targetPath, "src/main/resources/host.properties");
-		if (!hostPropertiesFile.exists()) {
-			return;
+		if (hostPropertiesFile.exists()) {
+			String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
+
+			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.name=.*",
+					MessageFormat.format("host.name={0}", projectCreationRequest.getHostName()));
+
+			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.port=.*",
+					MessageFormat.format("host.port={0}", String.valueOf(projectCreationRequest.getHostPort())));
+			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.codePage=.*",
+					MessageFormat.format("host.codePage={0}", projectCreationRequest.getCodePage()));
+			FileOutputStream fos = new FileOutputStream(hostPropertiesFile);
+			IOUtils.write(hostPropertiesFileContent, fos);
 		}
-		String hostPropertiesFileContent = IOUtils.toString(new FileInputStream(hostPropertiesFile));
 
-		hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.name=.*",
-				MessageFormat.format("host.name={0}", projectCreationRequest.getHostName()));
+		File rpcPropertiesFile = new File(targetPath, "src/main/resources/rpc.properties");
+		if (rpcPropertiesFile.exists()) {
+			String rpcPropertiesFileContent = IOUtils.toString(new FileInputStream(rpcPropertiesFile));
 
-		hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.port=.*",
-				MessageFormat.format("host.port={0}", String.valueOf(projectCreationRequest.getHostPort())));
-		hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.codePage=.*",
-				MessageFormat.format("host.codePage={0}", projectCreationRequest.getCodePage()));
-		FileOutputStream fos = new FileOutputStream(hostPropertiesFile);
-		IOUtils.write(hostPropertiesFileContent, fos);
+			rpcPropertiesFileContent = rpcPropertiesFileContent.replaceFirst("rpc.host.name=.*",
+					MessageFormat.format("rpc.host.name={0}", projectCreationRequest.getHostName()));
+
+			FileOutputStream fos = new FileOutputStream(rpcPropertiesFile);
+			IOUtils.write(rpcPropertiesFileContent, fos);
+		}
 	}
 
 	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,

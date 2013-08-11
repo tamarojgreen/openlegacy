@@ -120,7 +120,7 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard {
 
 	@Override
 	public boolean canFinish() {
-		return generalPage.isDemo()
+		return generalPage.isDemo() || !generalPage.isProviderRequired()
 				|| (generalPage.isPageComplete() && providerPage.isPageComplete() && themePage.isPageComplete());
 	}
 

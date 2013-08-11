@@ -47,7 +47,7 @@ public class DefaultRpcImageRenderer implements RpcImageRenderer {
 		BufferedImage buffer;
 
 		int width = 885;
-		int height = 450;
+		int height = 550;
 
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 

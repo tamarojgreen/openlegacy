@@ -112,7 +112,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 
 	@Override
 	public boolean canFlipToNextPage() {
-		return this.isPageComplete() && (!isDemo() || isProjectSupportTheme());
+		return this.isPageComplete() && (!isDemo() || isProjectSupportTheme()) && isProviderRequired();
 	}
 
 	/**
@@ -138,6 +138,10 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 			setEnabled(true);
 		}
 
+		boolean isClientSide = this.projectTypes.get(templateName.getSelectionIndex()).isClientSideProject();
+
+		defaultPackageTxt.setEnabled(!isClientSide);
+
 		IProject[] project = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject iProject : project) {
 			if (iProject.getName().equalsIgnoreCase(projectName)) {
@@ -150,7 +154,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 			updateStatus(Messages.getString("error_project_name_not_specified"));
 			return;
 		}
-		if (defaultPackageTxt.getText().length() == 0) {
+		if (defaultPackageTxt.getText().length() == 0 && !isClientSide) {
 			updateStatus(Messages.getString("error_package_not_specified"));
 			return;
 		}
@@ -204,6 +208,13 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		return this.projectTypes.get(templateName.getSelectionIndex()).isDemo();
 	}
 
+	public boolean isProviderRequired() {
+		if ((this.projectTypes == null) || this.projectTypes.isEmpty()) {
+			return true;
+		}
+		return this.projectTypes.get(templateName.getSelectionIndex()).isProviderRequired();
+	}
+
 	public String getZipFile() {
 		if (this.projectTypes != null) {
 			return this.projectTypes.get(templateName.getSelectionIndex()).getZipFile();
@@ -253,4 +264,5 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 			}
 		});
 	}
+
 }

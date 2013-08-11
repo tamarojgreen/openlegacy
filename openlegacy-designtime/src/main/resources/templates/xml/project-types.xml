@@ -54,11 +54,13 @@
         <zip-file>openlegacy-ws-sample.zip</zip-file>
     </project-type>
     <project-type>
-        <template-name>openlegacy-angular-rpc-new</template-name>
+        <template-name>openlegacy-angular-new</template-name>
         <description>A single page application for connecting to OpenLegacy REST API</description>
         <is-demo>false</is-demo>
         <support-theme>false</support-theme>
-        <zip-file>openlegacy-angular-new-rpc-new.zip</zip-file>
+        <client-side-project>true</client-side-project>
+        <provider-required>false</provider-required>
+        <zip-file>openlegacy-angular-new-new.zip</zip-file>
     </project-type>
     
 </project-types>

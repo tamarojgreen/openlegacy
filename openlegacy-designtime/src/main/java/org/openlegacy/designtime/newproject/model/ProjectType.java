@@ -22,6 +22,9 @@ public class ProjectType {
 	private boolean supportTheme;
 	private String zipFile;
 
+	private boolean clientSideProject;
+	private boolean providerRequired = true;
+
 	public ProjectType() {}
 
 	public ProjectType(String templateName, String description, boolean isDemo, boolean supportTheme, String zipFile) {
@@ -74,5 +77,23 @@ public class ProjectType {
 	@XmlElement(name = "zip-file")
 	public void setZipFile(String zipFile) {
 		this.zipFile = zipFile;
+	}
+
+	public boolean isClientSideProject() {
+		return clientSideProject;
+	}
+
+	@XmlElement(name = "client-side-project")
+	public void setClientSideProject(boolean clientSideProject) {
+		this.clientSideProject = clientSideProject;
+	}
+
+	public boolean isProviderRequired() {
+		return providerRequired;
+	}
+
+	@XmlElement(name = "provider-required")
+	public void setProviderRequired(boolean providerRequired) {
+		this.providerRequired = providerRequired;
 	}
 }
