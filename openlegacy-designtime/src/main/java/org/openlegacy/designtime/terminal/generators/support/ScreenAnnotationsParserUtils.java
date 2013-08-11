@@ -82,7 +82,7 @@ public class ScreenAnnotationsParserUtils {
 		String whenValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.WHEN);
 		String unlessValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.UNLESS);
 
-		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : StringUtil.stripQuotes(sampleValue));
+		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : sampleValue);
 		field.setFieldTypeName(StringUtil.toClassName(fieldTypeName));
 
 		if (StringConstants.TRUE.equals(rectangleValue)) {

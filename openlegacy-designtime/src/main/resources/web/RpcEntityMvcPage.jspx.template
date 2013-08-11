@@ -16,6 +16,8 @@
 </jsp:root>
 
 <#macro rpcPart part>
+	<#if part.occur = 1>
+
 		<ol:pagePart>
 	<#list part.fieldsDefinitions?values as field>
 			<ol:field name="${field.name}" />
@@ -24,4 +26,8 @@
 	<#list part.innerPartsDefinitions?values as innerPart>
 		<@rpcPart part=innerPart />
 	</#list>
+	
+	<#else>
+		<ol:table data="${r"${"}${entityDefinition.entityName?uncap_first}.${part.partName?uncap_first}${r"}"}" property="${part.partName?uncap_first}" />
+	</#if>
 </#macro>

@@ -6,6 +6,7 @@
 
 	<ol:form model="xxolakkrParms">
 	  	
+
 		<ol:pagePart>
 			<ol:field name="lkCustomer.lkCustInd" />
 			<ol:field name="lkCustomer.lkCustId" />
@@ -13,11 +14,7 @@
 			<ol:field name="lkCustomer.lkCustAddress" />
 			<ol:field name="lkCustomer.lkCustPhone" />
 		</ol:pagePart>
-		<ol:pagePart>
-			<ol:field name="lkCards.lkCardInd" />
-			<ol:field name="lkCards.lkCardNumber" />
-			<ol:field name="lkCards.lkCardPrefix" />
-			<ol:field name="lkCards.lkCardSugSherut" />
-		</ol:pagePart>
+		<ol:table data="${xxolakkrParms.lkCards}" property="lkCards" />
+	
 	</ol:form>
 </jsp:root>

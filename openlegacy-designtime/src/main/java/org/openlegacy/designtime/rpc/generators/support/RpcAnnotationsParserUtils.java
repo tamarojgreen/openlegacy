@@ -12,6 +12,7 @@ package org.openlegacy.designtime.rpc.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
+import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Action;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Field;
@@ -42,9 +43,10 @@ public class RpcAnnotationsParserUtils {
 		String sampleValue = getAnnotationValue(annotationExpr, AnnotationConstants.SAMPLE_VALUE);
 		String rightToLeftValue = getAnnotationValue(annotationExpr, AnnotationConstants.RIGHT_TO_LEFT);
 		String lengthValue = getAnnotationValue(annotationExpr, AnnotationConstants.LENGTH);
-		String runtimeName = getAnnotationValue(annotationExpr, AnnotationConstants.RUNTIME_NAME);
+		String runtimeName = getAnnotationValue(annotationExpr, RpcAnnotationConstants.RUNTIME_NAME);
+		String direction = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DIRECTION);
 
-		field.setLength(Integer.valueOf(StringUtil.stripQuotes(lengthValue)));
+		field.setLength(Integer.valueOf(lengthValue));
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : StringUtil.stripQuotes(sampleValue));
 		field.setFieldTypeName(StringUtil.toClassName(fieldTypeName));
@@ -74,6 +76,9 @@ public class RpcAnnotationsParserUtils {
 		}
 		if (runtimeName != null) {
 			field.setRuntimeName(StringUtil.stripQuotes(runtimeName));
+		}
+		if (direction != null) {
+			field.setDirection(Direction.valueOf(direction));
 		}
 	}
 

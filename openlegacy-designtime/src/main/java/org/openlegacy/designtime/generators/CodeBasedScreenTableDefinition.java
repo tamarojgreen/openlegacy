@@ -80,7 +80,7 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 
 		for (Field field : sortedFields) {
 			SimpleScreenColumnDefinition columnDefinition = new SimpleScreenColumnDefinition(field.getName());
-			columnDefinition.setDisplayName(StringUtil.stripQuotes(field.getDisplayName()));
+			columnDefinition.setDisplayName(field.getDisplayName());
 			columnDefinition.setStartColumn(field.getColumn());
 			columnDefinition.setEndColumn(field.getEndColumn());
 			columnDefinitions.add(columnDefinition);
@@ -169,7 +169,7 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 			for (Action action : actionsFromCodeModel) {
 
 				// if action was set use it, if not use enter drill down action (default)
-				TerminalDrilldownAction sessionAction = TerminalDrilldownActions.enter(StringUtil.stripQuotes(action.getActionValue()));
+				TerminalDrilldownAction sessionAction = TerminalDrilldownActions.enter(action.getActionValue());
 				SimpleActionDefinition actionDefinition = new SimpleTerminalActionDefinition(sessionAction,
 						action.getAdditionalKey(), StringUtil.stripQuotes(action.getDisplayName()), null);
 				if (action.getAlias() != null) {

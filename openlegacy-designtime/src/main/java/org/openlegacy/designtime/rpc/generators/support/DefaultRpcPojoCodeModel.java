@@ -13,6 +13,7 @@ package org.openlegacy.designtime.rpc.generators.support;
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
 
 import org.openlegacy.FieldType.General;
+import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
@@ -90,7 +91,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private boolean hasSetter;
 		private boolean hasGetterField;
 		private String type;
-		private boolean editable = true;
+		private Boolean editable;
 		private boolean primitiveType;
 		private String helpText;
 		private FieldTypeDefinition fieldTypeDefiniton;
@@ -105,6 +106,8 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private boolean rightToLeft;
 		private int length;
 		private String runtimeName;
+		private int occurrences = 1;
+		private Direction direction;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -140,7 +143,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		}
 
 		public boolean isEditable() {
-			return editable;
+			if (editable != null) {
+				return editable;
+			}
+			return getDirection() != Direction.OUTPUT;
 		}
 
 		public boolean isHasDescription() {
@@ -259,6 +265,21 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			this.runtimeName = runtimeName;
 		}
 
+		public int getOccurrences() {
+			return occurrences;
+		}
+
+		public void setOccurrences(int occurrences) {
+			this.occurrences = occurrences;
+		}
+
+		public Direction getDirection() {
+			return direction;
+		}
+
+		public void setDirection(Direction direction) {
+			this.direction = direction;
+		}
 	}
 
 	private String className;
@@ -340,6 +361,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									RpcAnnotationConstants.RPC_BOOLEAN_FIELD_ANNOTATION)) {
 								field.setFieldTypeDefinition(AnnotationsParserUtils.loadBooleanField(annotationExpr));
+							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, RpcAnnotationConstants.RPC_PART_LIST)) {
+								field.setOccurrences(Integer.valueOf(JavaParserUtil.getAnnotationValue(annotationExpr,
+										RpcAnnotationConstants.COUNT)));
 							}
 						}
 					}

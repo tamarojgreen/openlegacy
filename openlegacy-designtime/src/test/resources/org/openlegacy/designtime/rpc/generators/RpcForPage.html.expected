@@ -1,0 +1,52 @@
+<h4>XxolakkrParms</h4>
+<div class="row">
+	<div class="span8">
+		<form class="form-horizontal" accept-charset="utf-8">
+		  	
+			<div class="control-group">
+			<div class="control-group">
+				<label for="lkCustomer_lkCustInd" class="control-label">Lk Cust Ind:</label>
+				<div class="controls">
+					<input name="lkCustomer_lkCustInd" ng-model="model.lkCustomer.lkCustInd"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label for="lkCustomer_lkCustId" class="control-label">Lk Cust Id:</label>
+				<div class="controls">
+					<input name="lkCustomer_lkCustId" ng-model="model.lkCustomer.lkCustId"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label for="lkCustomer_lkCustName" class="control-label">Lk Cust Name:</label>
+				<div class="controls">
+					<input name="lkCustomer_lkCustName" ng-model="model.lkCustomer.lkCustName"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label for="lkCustomer_lkCustAddress" class="control-label">Lk Cust Address:</label>
+				<div class="controls">
+					<input name="lkCustomer_lkCustAddress" ng-model="model.lkCustomer.lkCustAddress"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label for="lkCustomer_lkCustPhone" class="control-label">Lk Cust Phone:</label>
+				<div class="controls">
+					<input name="lkCustomer_lkCustPhone" ng-model="model.lkCustomer.lkCustPhone"/>
+				</div>
+			</div>
+			</div>
+		<table class="table">
+			<tr data-ng-repeat="item in model.entity.LkCards">
+				<td>{{item.lkCards.lkCardInd}}</td>
+				<td>{{item.lkCards.lkCardNumber}}</td>
+				<td>{{item.lkCards.lkCardPrefix}}</td>
+				<td>{{item.lkCards.lkCardSugSherut}}</td>
+			</tr>
+		</table
+
+			<div class="btn-toolbar">
+				<button data-ng-click="save()" class="btn btn-small btn-primary">Save</button>
+			</div>
+		</form>
+	</div>
+</div>

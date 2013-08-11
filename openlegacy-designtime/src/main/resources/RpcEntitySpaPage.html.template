@@ -1,20 +1,52 @@
-<form>
-	<#list entityDefinition.fieldsDefinitions?values as field>
-		<input name="${field.name}" />
-  	</#list>
-  	
-	<#list entityDefinition.partsDefinitions?values as part>
-		<@rpcPart part=part/>
-	</#list>
-</form>
+<h4>${entityDefinition.entityName}</h4>
+<div class="row">
+	<div class="span8">
+		<form class="form-horizontal" accept-charset="utf-8">
+			<#list entityDefinition.fieldsDefinitions?values as field>
+				<@rpcField field=field/>
+		  	</#list>
+		  	
+			<#list entityDefinition.partsDefinitions?values as part>
+				<@rpcPart part=part/>
+			</#list>
+			<div class="btn-toolbar">
+				<button data-ng-click="save()" class="btn btn-small btn-primary">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
 
 <#macro rpcPart part>
-		<div>
-	<#list part.fieldsDefinitions?values as field>
-			<input name="${field.name}" />
-	</#list>
-		</div>
-	<#list part.innerPartsDefinitions?values as innerPart>
+	<#if part.occur = 1>
+			<div class="control-group">
+		<#list part.fieldsDefinitions?values as field>
+		<@rpcField field=field/>
+		</#list>
+			</div>
+		<#list part.innerPartsDefinitions?values as innerPart>
 		<@rpcPart part=innerPart />
-	</#list>
+		</#list>
+
+	<#else>
+		<table class="table">
+			<tr data-ng-repeat="item in model.entity.${part.partName}">
+			<#list part.fieldsDefinitions?values as field>
+				<td>{{item.${field.name}}}</td>
+			</#list>
+			</tr>
+		</table
+	</#if>
+</#macro>
+
+<#macro rpcField field>
+			<div class="control-group">
+				<label for="${field.name?replace(".", "_")}" class="control-label">${field.displayName}:</label>
+				<div class="controls">
+	<#if field.editable>
+					<input name="${field.name?replace(".", "_")}" ng-model="model.${field.name}"/>
+	<#else>
+					<div id="${field.name?replace(".", "_")}" ng-model="model.${field.name}"></div>
+	</#if>
+				</div>
+			</div>
 </#macro>

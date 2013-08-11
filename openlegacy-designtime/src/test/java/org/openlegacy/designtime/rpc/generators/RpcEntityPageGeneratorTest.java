@@ -16,25 +16,34 @@ import japa.parser.ast.CompilationUnit;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class RpcEntityMvcGeneratorTest {
+public class RpcEntityPageGeneratorTest {
 
 	@Test
-	public void testGenerateJspxByCodeModel() throws Exception {
+	public void testMvcGenerateJspxByCodeModel() throws Exception {
 		String javaSource = "/org/openlegacy/designtime/rpc/generators/RpcForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		RpcEntityDefinition entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
-		assertPageGeneration(entityDefinition, "RpcForPage.jspx.expected");
+		assertPageGeneration(entityDefinition, "web/RpcEntityMvcPage.jspx.template", "RpcForPage.jspx.expected");
 	}
 
-	private void assertPageGeneration(RpcEntityDefinition entityDefinition, String expectedPageResultResource)
+	@Test
+	public void testSpaGenerateJspxByCodeModel() throws Exception {
+		String javaSource = "/org/openlegacy/designtime/rpc/generators/RpcForPage.java.resource";
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
+
+		RpcEntityDefinition entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+		assertPageGeneration(entityDefinition, "RpcEntitySpaPage.html.template", "RpcForPage.html.expected");
+	}
+
+	private void assertPageGeneration(RpcEntityDefinition entityDefinition, String templateName, String expectedPageResultResource)
 			throws TemplateException, IOException {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 		GenerateUtil generateUtil = new GenerateUtil();
 
-		generateUtil.generate(new SimplePageDefinition(entityDefinition), baos, "web/RpcEntityMvcPage.jspx.template");
+		generateUtil.generate(new SimplePageDefinition(entityDefinition), baos, templateName);
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedPageResultResource));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}

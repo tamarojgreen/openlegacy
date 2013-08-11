@@ -12,7 +12,8 @@ import java.util.TreeMap;
 public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<RpcFieldDefinition, RpcPojoCodeModel> implements RpcPartEntityDefinition {
 
 	private Map<String, RpcFieldDefinition> fields;
-	private Map<String, RpcPartEntityDefinition> innerParts = new TreeMap<String, RpcPartEntityDefinition>();;
+	private Map<String, RpcPartEntityDefinition> innerParts = new TreeMap<String, RpcPartEntityDefinition>();
+	private int occur;;
 
 	public CodeBasedRpcPartDefinition(RpcPojoCodeModel codeModel) {
 		super(codeModel);
@@ -33,8 +34,11 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 	}
 
 	public int getOccur() {
-		// TODO implement
-		return 0;
+		return occur;
+	}
+
+	public void setOccur(int occur) {
+		this.occur = occur;
 	}
 
 	public Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions() {

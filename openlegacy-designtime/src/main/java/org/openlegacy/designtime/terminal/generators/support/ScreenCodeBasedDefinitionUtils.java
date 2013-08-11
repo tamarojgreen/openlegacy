@@ -73,7 +73,7 @@ public class ScreenCodeBasedDefinitionUtils {
 				fieldDefinition.setLabelPosition(new SimpleTerminalPosition(javaFieldModel.getRow(),
 						javaFieldModel.getLabelColumn()));
 			}
-			fieldDefinition.setDisplayName(StringUtil.stripQuotes(javaFieldModel.getDisplayName()));
+			fieldDefinition.setDisplayName(javaFieldModel.getDisplayName());
 			if (javaFieldModel.getEndColumn() != null) {
 				fieldDefinition.setLength(javaFieldModel.getEndColumn() - javaFieldModel.getColumn() + 1);
 			}
@@ -174,7 +174,7 @@ public class ScreenCodeBasedDefinitionUtils {
 		for (Action action : actions) {
 			String actionName = StringUtil.toClassName(action.getActionName());
 			SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionName,
-					StringUtil.stripQuotes(action.getDisplayName()));
+					action.getDisplayName());
 			if (action.getAlias() != null) {
 				actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 			}

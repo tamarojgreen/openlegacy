@@ -53,7 +53,7 @@ public class RpcCodeBasedDefinitionUtils {
 			SimpleRpcFieldDefinition fieldDefinition = new SimpleRpcFieldDefinition(containerPrefix + javaFieldModel.getName(),
 					null);
 			fieldDefinition.setEditable(javaFieldModel.isEditable());
-			fieldDefinition.setDisplayName(StringUtil.stripQuotes(javaFieldModel.getDisplayName()));
+			fieldDefinition.setDisplayName(javaFieldModel.getDisplayName());
 			fieldDefinition.setFieldTypeDefinition(javaFieldModel.getFieldTypeDefiniton());
 			fieldDefinition.setKey(javaFieldModel.isKey());
 			fieldDefinition.setHelpText(javaFieldModel.getHelpText());
@@ -65,6 +65,8 @@ public class RpcCodeBasedDefinitionUtils {
 			fieldDefinition.setHelpText(javaFieldModel.getHelpText());
 			fieldDefinition.setRightToLeft(javaFieldModel.isRightToLeft());
 			fieldDefinition.setRuntimeName(javaFieldModel.getRuntimeName());
+			fieldDefinition.setOccurrences(javaFieldModel.getOccurrences());
+			fieldDefinition.setDirection(javaFieldModel.getDirection());
 
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
@@ -120,7 +122,10 @@ public class RpcCodeBasedDefinitionUtils {
 		Collection<Field> entityFields = entityDefinition.getCodeModel().getFields();
 		for (Field field : entityFields) {
 			if (!field.isPrimitiveType()) {
-				entityDefinition.getPartsDefinitions().put(field.getName(), parts.get(StringUtil.toClassName(field.getName())));
+				CodeBasedRpcPartDefinition part = parts.get(StringUtil.toClassName(field.getName()));
+				// TODO need to find a way to keep in field level and not part level, in case part is shared
+				part.setOccur(field.getOccurrences());
+				entityDefinition.getPartsDefinitions().put(field.getName(), part);
 			}
 		}
 		Collection<CodeBasedRpcPartDefinition> partsList = parts.values();
@@ -132,6 +137,8 @@ public class RpcCodeBasedDefinitionUtils {
 				if (!field.isPrimitiveType()) {
 					CodeBasedRpcPartDefinition part = parts.get(StringUtil.toClassName(field.getName()));
 					if (part != null) {
+						// TODO need to find a way to keep in field level and not part level, in case part is shared
+						part.setOccur(field.getOccurrences());
 						rpcPartEntityDefinition.getInnerPartsDefinitions().put(field.getName(), part);
 					}
 				}
@@ -147,7 +154,7 @@ public class RpcCodeBasedDefinitionUtils {
 		for (Action action : actions) {
 			String actionName = StringUtil.toClassName(action.getActionName());
 			SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionName,
-					StringUtil.stripQuotes(action.getDisplayName()));
+					action.getDisplayName());
 			if (action.getAlias() != null) {
 				actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 			}

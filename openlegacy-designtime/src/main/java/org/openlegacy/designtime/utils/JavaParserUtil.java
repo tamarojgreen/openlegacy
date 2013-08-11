@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime.utils;
 
+import org.openlegacy.utils.StringUtil;
+
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
@@ -30,7 +32,11 @@ public class JavaParserUtil {
 		}
 		for (MemberValuePair memberValuePair : attributes) {
 			if (memberValuePair.getName().equals(attributeName)) {
-				return memberValuePair.getValue().toString();
+				String value = memberValuePair.getValue().toString();
+				if (value.startsWith("\"") && value.endsWith("\"")) {
+					value = StringUtil.stripQuotes(value);
+				}
+				return value;
 			}
 		}
 		return null;

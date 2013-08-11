@@ -15,6 +15,7 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcEntitySuperClass;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.annotations.rpc.RpcPartList;
 
 public class RpcAnnotationConstants {
 
@@ -24,6 +25,7 @@ public class RpcAnnotationConstants {
 	public static final String RPC_ACTIONS_ANNOTATION = RpcActions.class.getSimpleName();
 	public static final String RPC_TYPE = "rpcType";
 	public static final String RPC_FIELD_ANNOTATION = RpcField.class.getSimpleName();
+	public static final String RPC_PART_LIST = RpcPartList.class.getSimpleName();
 	public static final String RPC_BOOLEAN_FIELD_ANNOTATION = null;
 
 	// @RpcEntity
@@ -43,4 +45,6 @@ public class RpcAnnotationConstants {
 	public static final String ORIGINAL_NAME = "originalName";
 	public static final String DIRECTION = "direction";
 	public static final String DEFAULT_VALUE = "defaultValue";
+	public static final String COUNT = "count";
+	public static final String RUNTIME_NAME = "runtimeName";
 }
