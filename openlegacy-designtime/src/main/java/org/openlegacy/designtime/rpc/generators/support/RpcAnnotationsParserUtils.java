@@ -42,6 +42,7 @@ public class RpcAnnotationsParserUtils {
 		String sampleValue = getAnnotationValue(annotationExpr, AnnotationConstants.SAMPLE_VALUE);
 		String rightToLeftValue = getAnnotationValue(annotationExpr, AnnotationConstants.RIGHT_TO_LEFT);
 		String lengthValue = getAnnotationValue(annotationExpr, AnnotationConstants.LENGTH);
+		String runtimeName = getAnnotationValue(annotationExpr, AnnotationConstants.RUNTIME_NAME);
 
 		field.setLength(Integer.valueOf(StringUtil.stripQuotes(lengthValue)));
 
@@ -70,6 +71,9 @@ public class RpcAnnotationsParserUtils {
 		}
 		if (StringConstants.TRUE.equals(rightToLeftValue)) {
 			field.setRightToLeft(true);
+		}
+		if (runtimeName != null) {
+			field.setRuntimeName(StringUtil.stripQuotes(runtimeName));
 		}
 	}
 

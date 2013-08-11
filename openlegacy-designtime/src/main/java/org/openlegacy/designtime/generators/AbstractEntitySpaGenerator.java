@@ -124,6 +124,11 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 			if (templateMarkerStart < 0 || templateMarkerEnd < 0) {
 				return;
 			}
+			if (controllersFileContent.indexOf(entityDefinition.getEntityName()) > 0) {
+				logger.info(MessageFormat.format("{0} already configured within {1}", entityDefinition.getEntityName(),
+						CONTROLLERS_JS));
+				return;
+			}
 			// replace tokens within the place holder tag
 			String definitionTemplate = controllersFileContent.substring(
 					templateMarkerStart + CONTROLLER_CODE_PLACE_HOLDER_START.length(), templateMarkerEnd);
@@ -147,6 +152,10 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 			int templateMarkerEnd = appJsFileContent.indexOf(REGISTER_CONTROLLER_PLACE_HOLDER_END) - 1;
 
 			if (templateMarkerStart < 0 || templateMarkerEnd < 0) {
+				return;
+			}
+			if (appJsFileContent.indexOf(entityDefinition.getEntityName()) > 0) {
+				logger.info(MessageFormat.format("{0} already configured within {1}", entityDefinition.getEntityName(), APP_JS));
 				return;
 			}
 			// replace tokens within the place holder tag

@@ -18,7 +18,6 @@ import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.generators.AnnotationsParserUtils;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
-import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.StringUtil;
@@ -105,6 +104,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		// @author Ivan Bort refs assembla #235
 		private boolean rightToLeft;
 		private int length;
+		private String runtimeName;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -251,6 +251,14 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			return length > 0;
 		}
 
+		public String getRuntimeName() {
+			return runtimeName;
+		}
+
+		public void setRuntimeName(String runtimeName) {
+			this.runtimeName = runtimeName;
+		}
+
 	}
 
 	private String className;
@@ -332,10 +340,6 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
 									RpcAnnotationConstants.RPC_BOOLEAN_FIELD_ANNOTATION)) {
 								field.setFieldTypeDefinition(AnnotationsParserUtils.loadBooleanField(annotationExpr));
-							}
-							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									ScreenAnnotationConstants.SCREEN_DATE_FIELD_ANNOTATION)) {
-								field.setFieldTypeDefinition(AnnotationsParserUtils.loadDateField(annotationExpr));
 							}
 						}
 					}

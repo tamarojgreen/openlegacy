@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +28,7 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 	private final static String USE_PARAMETER_QUERY = "//usingPhrase//cobolWord//text()";
 	private final static String PARAMETER_USED_QUERY = "//identifier_format2//cobolWord//text()";
 
-	private RpcEntityDefinitionBuilder rpcEntityDefinitionBuilder = new RpcEntityDefinitionBuilderImp(
-			new CobolFieldInformationFactory());
+	private RpcEntityDefinitionBuilder rpcEntityDefinitionBuilder;
 
 	private koopa.parsers.ParseResults parseResults;
 	boolean isCopyBook;
@@ -43,6 +43,7 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 	public RpcEntityDefinition getEntityDefinition() {
 		List<ParameterStructure> parameters = organize();
 		RpcEntityDefinition rpcEntityDefinition = new SimpleRpcEntityDesigntimeDefinition();
+		Assert.notNull(rpcEntityDefinitionBuilder, "rpcEntityDefinitionBuilder cannot be null");
 		rpcEntityDefinitionBuilder.build(parameters, rpcEntityDefinition);
 		return rpcEntityDefinition;
 	}
@@ -180,4 +181,7 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 		return warnings;
 	}
 
+	public void setRpcEntityDefinitionBuilder(RpcEntityDefinitionBuilder rpcEntityDefinitionBuilder) {
+		this.rpcEntityDefinitionBuilder = rpcEntityDefinitionBuilder;
+	}
 }

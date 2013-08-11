@@ -25,6 +25,8 @@ public @interface RpcField {
 
 	String originalName() default "";
 
+	String runtimeName() default "";
+
 	boolean key() default false;
 
 	Direction direction() default Direction.INPUT_OUTPUT;

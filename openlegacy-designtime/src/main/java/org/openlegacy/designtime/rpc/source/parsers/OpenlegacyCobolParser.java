@@ -35,6 +35,8 @@ public class OpenlegacyCobolParser implements CodeParser {
 	private String cobolExtension = ".cbl";
 	private final static Log logger = LogFactory.getLog(OpenlegacyCobolParser.class);
 
+	private RpcEntityDefinitionBuilder rpcEntityDefinitionBuilder;
+
 	private String copyBookPath;
 
 	private CobolParser cobolParser;
@@ -130,6 +132,7 @@ public class OpenlegacyCobolParser implements CodeParser {
 			}
 
 			CobolParseResults olParseResults = new CobolParseResults(parseResults, isCopyBook);
+			olParseResults.setRpcEntityDefinitionBuilder(rpcEntityDefinitionBuilder);
 
 			if (!parseResults.isValidInput()) {
 				throw (new OpenLegacyParseException("Koopa input is invalid", olParseResults));
@@ -156,5 +159,9 @@ public class OpenlegacyCobolParser implements CodeParser {
 
 	public void setCopybookExtension(String copybookExtension) {
 		this.copybookExtension = copybookExtension;
+	}
+
+	public void setRpcEntityDefinitionBuilder(RpcEntityDefinitionBuilder rpcEntityDefinitionBuilder) {
+		this.rpcEntityDefinitionBuilder = rpcEntityDefinitionBuilder;
 	}
 }

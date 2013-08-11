@@ -8,6 +8,7 @@ package org.openlegacy.designtime.rpc.source.parsers;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldType.General;
+import org.openlegacy.designtime.rpc.formatters.FieldDefinitionFormatter;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
@@ -18,13 +19,15 @@ import org.openlegacy.utils.StringUtil;
 import java.util.List;
 import java.util.Map;
 
-public class RpcEntityDefinitionBuilderImp implements RpcEntityDefinitionBuilder {
+public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilder {
 
-	private final static Log logger = LogFactory.getLog(RpcEntityDefinitionBuilderImp.class);
+	private final static Log logger = LogFactory.getLog(RpcEntityDefinitionBuilderImpl.class);
 
 	private FieldInformationFactory fieldInformationFactory;
 
-	public RpcEntityDefinitionBuilderImp(FieldInformationFactory fieldInformationFactory) {
+	private FieldDefinitionFormatter fieldDefinitionFormatter;
+
+	public RpcEntityDefinitionBuilderImpl(FieldInformationFactory fieldInformationFactory) {
 		this.fieldInformationFactory = fieldInformationFactory;
 	}
 
@@ -43,6 +46,7 @@ public class RpcEntityDefinitionBuilderImp implements RpcEntityDefinitionBuilder
 		rpcFieldDefinition.setJavaType(fieldInformation.getJavaType());
 		rpcFieldDefinition.setFieldTypeDefinition(fieldInformation.getType());
 
+		fieldDefinitionFormatter.format(rpcFieldDefinition);
 		return rpcFieldDefinition;
 	}
 
@@ -99,6 +103,9 @@ public class RpcEntityDefinitionBuilderImp implements RpcEntityDefinitionBuilder
 			}
 			logger.debug(interfaceParmeter.toString());
 		}
+	}
 
+	public void setFieldDefinitionFormatter(FieldDefinitionFormatter fieldDefinitionFormatter) {
+		this.fieldDefinitionFormatter = fieldDefinitionFormatter;
 	}
 }

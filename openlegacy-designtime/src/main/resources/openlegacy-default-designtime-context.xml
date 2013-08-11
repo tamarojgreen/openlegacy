@@ -380,9 +380,23 @@
 		<bean id="screenPageGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntitySpaGenerator" />
 		<bean id="rpcPageGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntitySpaGenerator" />
 	 -->
-	
-	<!-- SPA generators
-		<bean id="screenWebGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntitySpaGenerator" />
-		<bean id="rpcWebGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntitySpaGenerator" />
-	 -->
+	 
+	<!-- ability to customize RPC definition generation
+	<bean id="rpcEntityDefinitionBuilder" class="org.openlegacy.designtime.rpc.source.parsers.RpcEntityDefinitionBuilderImpl">
+		<constructor-arg>
+			<bean class="org.openlegacy.designtime.rpc.source.parsers.CobolFieldInformationFactory" />
+		</constructor-arg>
+		<property name="fieldDefinitionFormatter">
+			<bean class="org.openlegacy.designtime.rpc.formatters.ReplaceTexFieldDefinitionFormatter">
+				<property name="replaceTextConfigurations">
+					<list>
+						<bean class="org.openlegacy.designtime.rpc.formatters.ReplaceTextConfiguration" 
+							p:sourcePropertyName="originalName" p:targetPropertyName="runtimeName" p:originalText="-" p:newText="_" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	-->
+	 
 </beans>

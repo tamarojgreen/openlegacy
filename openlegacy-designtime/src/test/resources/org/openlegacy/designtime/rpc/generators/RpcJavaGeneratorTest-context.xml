@@ -16,6 +16,16 @@
 				<property name="format" value="FREE"/>
 			</bean>
 		</property>
+		<property name="rpcEntityDefinitionBuilder" ref="rpcEntityDefinitionBuilder" />
+	</bean>
+
+	<bean id="rpcEntityDefinitionBuilder" class="org.openlegacy.designtime.rpc.source.parsers.RpcEntityDefinitionBuilderImpl">
+		<constructor-arg>
+			<bean class="org.openlegacy.designtime.rpc.source.parsers.CobolFieldInformationFactory" />
+		</constructor-arg>
+		<property name="fieldDefinitionFormatter">
+			<bean class="org.openlegacy.designtime.rpc.formatters.DefaultFieldDefinitionFormatter" />
+		</property>
 	</bean>
 	
 	<bean id="RpcJavaGenerator" class="org.openlegacy.designtime.rpc.generators.RpcJavaGenerator"/>

@@ -64,6 +64,7 @@ public class RpcCodeBasedDefinitionUtils {
 			fieldDefinition.setJavaTypeName(javaFieldModel.getType());
 			fieldDefinition.setHelpText(javaFieldModel.getHelpText());
 			fieldDefinition.setRightToLeft(javaFieldModel.isRightToLeft());
+			fieldDefinition.setRuntimeName(javaFieldModel.getRuntimeName());
 
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}

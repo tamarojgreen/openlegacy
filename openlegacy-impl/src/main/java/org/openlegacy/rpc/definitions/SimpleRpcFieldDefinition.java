@@ -27,6 +27,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private int keyIndex;
 	private int order;
 	private String defaultValue;
+	private String runtimeName;
 
 	public SimpleRpcFieldDefinition(String name, Class<? extends FieldType> type) {
 		super(name, type);
@@ -97,5 +98,13 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 
 	public int compareTo(FieldDefinition o) {
 		return 0;
+	}
+
+	public String getRuntimeName() {
+		return runtimeName;
+	}
+
+	public void setRuntimeName(String runtimeName) {
+		this.runtimeName = runtimeName;
 	}
 }
