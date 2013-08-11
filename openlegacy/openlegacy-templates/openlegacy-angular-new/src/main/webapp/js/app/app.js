@@ -10,7 +10,7 @@
 		
 		$routeProvider = $routeProvider.when( '/login', {templateUrl: 'views/login.html', controller: 'loginController'} );
 		$routeProvider = $routeProvider.when( '/logoff', {templateUrl: 'views/logoff.html', controller: 'logoffController'} );
-		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html', controller: 'menuController'} );
+		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html'} );
 
 		/* Register controller place-holder start
 		$routeProvider = $routeProvider.when( '/VIEW-NAME', {templateUrl: 'views/VIEW-NAME.html', controller: 'VIEW-NAMEController'} );
