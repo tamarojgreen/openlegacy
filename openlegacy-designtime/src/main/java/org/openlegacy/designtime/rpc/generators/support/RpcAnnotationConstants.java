@@ -22,9 +22,25 @@ public class RpcAnnotationConstants {
 	public static final String RPC_ENTITY_SUPER_CLASS_ANNOTATION = RpcEntitySuperClass.class.getSimpleName();
 	public static final String RPC_PART_ANNOTATION = RpcPart.class.getSimpleName();
 	public static final String RPC_ACTIONS_ANNOTATION = RpcActions.class.getSimpleName();
-	public static final String DISPLAY_NAME = "displayName";
-	public static final String NAME = "name";
 	public static final String RPC_TYPE = "rpcType";
 	public static final String RPC_FIELD_ANNOTATION = RpcField.class.getSimpleName();
 	public static final String RPC_BOOLEAN_FIELD_ANNOTATION = null;
+
+	// @RpcEntity
+	public static final String NAME = "name";
+	public static final String DISPLAY_NAME = "displayName";
+	public static final String LANGUAGE = "language";
+
+	// @RpcNumericField
+	public static final String MINIMUM_VALUE = "minimumValue";
+	public static final String MAXIMUM_VALUE = "maximumValue";
+	public static final String DECIMAL_PLACES = "decimalPlaces";
+
+	// @RpcPart
+	public static final String OCCUR = "occur";
+
+	// @RpcField
+	public static final String ORIGINAL_NAME = "originalName";
+	public static final String DIRECTION = "direction";
+	public static final String DEFAULT_VALUE = "defaultValue";
 }

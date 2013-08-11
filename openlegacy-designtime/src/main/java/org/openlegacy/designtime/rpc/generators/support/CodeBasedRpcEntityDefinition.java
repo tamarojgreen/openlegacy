@@ -1,6 +1,7 @@
 package org.openlegacy.designtime.rpc.generators.support;
 
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
@@ -52,4 +53,12 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.openlegacy.rpc.definitions.RpcEntityDefinition#getLanguage()
+	 */
+	public Languages getLanguage() {
+		return getCodeModel().getLanguage();
+	}
 }

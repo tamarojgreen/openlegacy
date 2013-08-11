@@ -27,6 +27,10 @@ public class RpcPreview extends AbstractEntityPreview {
 
 	private static final String RPC_ENTITY_ANNOTATION = "org.openlegacy.annotations.rpc.RpcEntity";
 	private static final String RPC_ENTITY_ANNOTATION_SHORT = "RpcEntity";
+	/**
+	 * The ID of the view as specified by the extension.
+	 */
+	public static final String ID = "org.openlegacy.ide.eclipse.preview.RpcPreview";
 
 	private RpcComposite rpcComposite;
 

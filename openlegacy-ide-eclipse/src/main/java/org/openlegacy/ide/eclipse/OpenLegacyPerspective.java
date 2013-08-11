@@ -26,7 +26,8 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 	private static final String NAVIGATOR_VIEW_ID = "org.eclipse.ui.views.ResourceNavigator"; //$NON-NLS-1$
 	private static final String ERROR_LOG_VIEW_ID = "org.eclipse.pde.runtime.LogView"; //$NON-NLS-1$
 	private static final String BOTTOM = "bottom"; //$NON-NLS-1$
-	private static final String SCREEN_PREVIEW_ID = "org.openlegacy.ide.eclipse.preview.ScreenPreview";
+	private static final String SCREEN_PREVIEW_ID = "org.openlegacy.ide.eclipse.preview.ScreenPreview"; //$NON-NLS-1$
+	private static final String RPC_PREVIEW_ID = "org.openlegacy.ide.eclipse.preview.RpcPreview"; //$NON-NLS-1$
 
 	public void createInitialLayout(IPageLayout layout) {
 		defineActions(layout);
@@ -43,6 +44,7 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 		// Bottom left: Outline view and Property Sheet view
 		IFolderLayout bottomLeft = layout.createFolder("bottomLeft", IPageLayout.BOTTOM, 0.40f, "topLeft");
 		bottomLeft.addView(SCREEN_PREVIEW_ID);
+		bottomLeft.addPlaceholder(RPC_PREVIEW_ID);
 
 		// Creates a folder at the bottom of the screen
 		IFolderLayout bottom = layout.createFolder(BOTTOM, IPageLayout.BOTTOM, 0.76f, layout.getEditorArea());
@@ -71,7 +73,7 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 		// Add to "show views".
 		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 		layout.addShowViewShortcut(ERROR_LOG_VIEW_ID);
-//		layout.addShowViewShortcut(PluginConstants.OPENLEGACY_IMAGE_VIEW_ID);
+		// layout.addShowViewShortcut(PluginConstants.OPENLEGACY_IMAGE_VIEW_ID);
 		layout.addShowViewShortcut(SCREEN_PREVIEW_ID);
 		layout.addShowViewShortcut(ProjectExplorer.VIEW_ID);
 		layout.addShowViewShortcut(NAVIGATOR_VIEW_ID);

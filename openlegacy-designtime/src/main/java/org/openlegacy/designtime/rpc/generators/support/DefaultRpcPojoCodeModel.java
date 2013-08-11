@@ -13,6 +13,7 @@ package org.openlegacy.designtime.rpc.generators.support;
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
 
 import org.openlegacy.FieldType.General;
+import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.generators.AnnotationsParserUtils;
@@ -267,6 +268,8 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 	private List<Action> actions = new ArrayList<Action>();
 
+	private Languages language = Languages.UNDEFINED;
+
 	public DefaultRpcPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
@@ -396,6 +399,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		String displayNameFromAnnotation = null;
 		String entityNameFromAnnotation = null;
 		String typeNameFromAnnotation = null;
+		String languageFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
@@ -404,7 +408,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 					normalAnnotationExpr.getPairs());
 			entityNameFromAnnotation = findAnnotationAttribute(RpcAnnotationConstants.NAME, normalAnnotationExpr.getPairs());
 			typeNameFromAnnotation = findAnnotationAttribute(RpcAnnotationConstants.RPC_TYPE, normalAnnotationExpr.getPairs());
-
+			languageFromAnnotation = findAnnotationAttribute(RpcAnnotationConstants.LANGUAGE, normalAnnotationExpr.getPairs());
 		}
 		displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation)
 				: StringUtil.toDisplayName(getClassName());
@@ -413,7 +417,9 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)
 				: General.class.getSimpleName();
-
+		if (languageFromAnnotation != null) {
+			language = Languages.valueOf(languageFromAnnotation.split("\\.")[1]);
+		}
 	}
 
 	/*
@@ -473,6 +479,15 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 	public List<Action> getActions() {
 		return actions;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel#getLanguage()
+	 */
+	public Languages getLanguage() {
+		return language;
 	}
 
 }

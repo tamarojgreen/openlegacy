@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.rpc.generators;
 
+import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.designtime.generators.PojoCodeModel;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Action;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Field;
@@ -27,4 +28,6 @@ public interface RpcPojoCodeModel extends PojoCodeModel {
 	Collection<Field> getFields();
 
 	List<Action> getActions();
+
+	Languages getLanguage();
 }

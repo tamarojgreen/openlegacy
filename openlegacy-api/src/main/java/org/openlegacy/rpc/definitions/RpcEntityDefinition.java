@@ -11,6 +11,9 @@
 package org.openlegacy.rpc.definitions;
 
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.annotations.rpc.Languages;
 
 public interface RpcEntityDefinition extends EntityDefinition<RpcFieldDefinition> {
+
+	Languages getLanguage();
 }
