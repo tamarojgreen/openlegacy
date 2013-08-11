@@ -9,17 +9,17 @@ import org.openlegacy.rpc.RpcEntity;
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     declare parents: SignOn implements RpcEntity;
     
-    public String SignOn.getPassword(){
-    	return this.password;
-    }
-    public void SignOn.setPassword(String password){
-    	this.password = password;
-    }
     public String SignOn.getUser(){
     	return this.user;
     }
     public void SignOn.setUser(String user){
     	this.user = user;
+    }
+    public String SignOn.getPassword(){
+    	return this.password;
+    }
+    public void SignOn.setPassword(String password){
+    	this.password = password;
     }
     
 }

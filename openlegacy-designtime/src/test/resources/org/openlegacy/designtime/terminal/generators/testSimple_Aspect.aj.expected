@@ -15,31 +15,31 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     private String SignOn.focusField;
     
 	
-    private TerminalField SignOn.passwordField;
+    private TerminalField SignOn.userField;
 
 	
-    private TerminalField SignOn.userField;
+    private TerminalField SignOn.passwordField;
 
     
     public TerminalSnapshot SignOn.getTerminalSnapshot(){
 		return terminalSnapshot;
     }
 
-    public String SignOn.getPassword(){
-    	return this.password;
-    }
-    public TerminalField SignOn.getPasswordField(){
-    	return this.passwordField;
-    }
-    
-
-
-
     public String SignOn.getUser(){
     	return this.user;
     }
     public TerminalField SignOn.getUserField(){
     	return this.userField;
+    }
+    
+
+
+
+    public String SignOn.getPassword(){
+    	return this.password;
+    }
+    public TerminalField SignOn.getPasswordField(){
+    	return this.passwordField;
     }
     
 
@@ -54,3 +54,4 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     }
     
 }
+

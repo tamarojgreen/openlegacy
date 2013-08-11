@@ -12,18 +12,24 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     private String SignOn.focusField;
     
 	
-	
-    
 
-    public String SignOn.getPassword(){
-    	return this.password;
-    }
+	
+
     
 
     public String SignOn.getUser(){
     	return this.user;
     }
     
+
+
+
+    public String SignOn.getPassword(){
+    	return this.password;
+    }
+    
+
+
 
 
     public String SignOn.getFocusField(){
