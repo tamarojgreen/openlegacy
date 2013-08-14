@@ -14,7 +14,10 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.CharEncoding;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -27,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -34,6 +38,8 @@ import java.util.Locale;
 
 @Component
 public class GenerateUtil {
+
+	private final static Log logger = LogFactory.getLog(GenerateUtil.class);
 
 	private File templatesDir;
 
@@ -43,6 +49,49 @@ public class GenerateUtil {
 
 	public void generate(Object model, OutputStream out, String templateName) throws GenerationException {
 		generate(model, out, templateName, "");
+	}
+
+	public static String generate(Object model, StringReader templateString) throws GenerationException {
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			OutputStreamWriter output = new OutputStreamWriter(baos, CharEncoding.UTF_8);
+			Template template = new Template("Template", templateString, new Configuration());
+			template.process(model, output);
+			byte[] bytes = baos.toByteArray();
+			return new String(bytes);
+		} catch (TemplateException e) {
+			throw (new GenerationException(e));
+		} catch (IOException e) {
+			throw (new GenerationException(e));
+		}
+	}
+
+	public static void replicateTemplate(File file, String skipText, Object model, String placeHolderStart, String placeHolderEnd) {
+		try {
+			StringBuilder fileContent = new StringBuilder(FileUtils.readFileToString(file));
+
+			if (fileContent.indexOf(skipText) > 0) {
+				logger.info(MessageFormat.format("{0} already configured within {1}", skipText, file.getName()));
+				return;
+			}
+
+			int templateMarkerStart = fileContent.indexOf(placeHolderStart);
+			int templateMarkerEnd = fileContent.indexOf(placeHolderEnd) - 1;
+
+			if (templateMarkerStart < 0 || templateMarkerEnd < 0) {
+				return;
+			}
+			// replace tokens within the place holder tag
+			String definitionTemplate = fileContent.substring(templateMarkerStart + placeHolderStart.length(), templateMarkerEnd);
+
+			String definitionTemplateNew = generate(model, new StringReader(definitionTemplate));
+			fileContent = fileContent.insert(templateMarkerStart, definitionTemplateNew);
+
+			FileUtils.write(file, fileContent);
+
+		} catch (IOException e) {
+			throw (new GenerationException(e));
+		}
 	}
 
 	/**
