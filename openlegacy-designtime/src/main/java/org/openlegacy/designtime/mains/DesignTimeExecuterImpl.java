@@ -36,7 +36,6 @@ import org.openlegacy.designtime.rpc.source.CodeParser;
 import org.openlegacy.designtime.rpc.source.parsers.ParseResults;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
-import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityPageGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.designtime.terminal.generators.TrailJunitGenerator;
@@ -766,10 +765,22 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				generateControllerRequest.getEntitySourceFile());
 
 		File projectPath = getProjectPath(generateControllerRequest.getSourceDirectory());
-		EntityPageGenerator screenEntityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(
-				ScreenEntityMvcGenerator.class);
+		EntityPageGenerator entityPageGenerator = null;
+		if (entityDefinition instanceof ScreenEntityDefinition) {
+			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityPageGenerator.class);
+		} else {
+			entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
+		}
 
-		screenEntityWebGenerator.generateController(generateControllerRequest, entityDefinition);
+		if (entityPageGenerator.isSupportControllerGeneration()) {
+			entityPageGenerator.generateController(generateControllerRequest, entityDefinition);
+		} else {
+			logger.warn(MessageFormat.format("{0} doesnt support controller generation", entityPageGenerator.getClass()));
+		}
+	}
+
+	public boolean isSupportControllerGeneration(File entityFile) {
+		return getOrCreateApplicationContext(getProjectPath(entityFile)).getBean(ScreenEntityPageGenerator.class).isSupportControllerGeneration();
 	}
 
 	private static EntityDefinition<?> initEntityDefinition(AbstractGenerateRequest generatePageRequest, File sourceFile) {

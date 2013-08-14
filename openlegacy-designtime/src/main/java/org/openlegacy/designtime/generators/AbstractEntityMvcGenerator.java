@@ -31,7 +31,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public abstract class AbstractEntityMvcGenerator {
+public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator {
 
 	private final static Log logger = LogFactory.getLog(AbstractEntityMvcGenerator.class);
 
@@ -172,7 +172,7 @@ public abstract class AbstractEntityMvcGenerator {
 		}
 	}
 
-	protected abstract void generatePage(PageDefinition pageDefinition, OutputStream out, String typeName);
+	public abstract void generatePage(PageDefinition pageDefinition, OutputStream out, String typeName);
 
 	/**
 	 * Updates sprint views.xml file which contains all web page views definitions
@@ -189,4 +189,7 @@ public abstract class AbstractEntityMvcGenerator {
 		return generateUtil;
 	}
 
+	public boolean isSupportControllerGeneration() {
+		return true;
+	}
 }

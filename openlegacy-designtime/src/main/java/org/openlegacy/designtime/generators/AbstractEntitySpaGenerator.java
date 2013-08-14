@@ -175,4 +175,8 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 	public GenerateUtil getGenerateUtil() {
 		return generateUtil;
 	}
+
+	public boolean isSupportControllerGeneration() {
+		return false;
+	}
 }

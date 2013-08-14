@@ -174,8 +174,7 @@ public class EclipseDesignTimeExecuter {
 	public void generateController(IFile entitySourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
 			UserInteraction userInteraction) {
 
-		File projectPath = new File(PathsUtil.toOsLocation(entitySourceFile.getProject()),
-				DesignTimeExecuterImpl.TEMPLATES_DIR);
+		File projectPath = new File(PathsUtil.toOsLocation(entitySourceFile.getProject()), DesignTimeExecuterImpl.TEMPLATES_DIR);
 
 		GenerateControllerRequest generatePageRequest = new GenerateControllerRequest();
 		generatePageRequest.setProjectPath(PathsUtil.toOsLocation(entitySourceFile.getProject()));
@@ -247,6 +246,9 @@ public class EclipseDesignTimeExecuter {
 				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
 			}
 		});
+	}
 
+	public boolean isSupportControllerGeneration(IFile entityFile) {
+		return designTimeExecuter.isSupportControllerGeneration(PathsUtil.toOsLocation(entityFile));
 	}
 }

@@ -62,4 +62,6 @@ public interface DesignTimeExecuter {
 	public void copyDesigntimeContext(File projectPath);
 
 	public void generateRpcModel(GenerateRpcModelRequest generateRpcRequest);
+
+	public boolean isSupportControllerGeneration(File entityFile);
 }

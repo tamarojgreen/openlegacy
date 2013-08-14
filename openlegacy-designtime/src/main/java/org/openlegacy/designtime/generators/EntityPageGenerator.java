@@ -28,4 +28,6 @@ public interface EntityPageGenerator {
 	void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)
 			throws GenerationException;
 
+	boolean isSupportControllerGeneration();
+
 }
