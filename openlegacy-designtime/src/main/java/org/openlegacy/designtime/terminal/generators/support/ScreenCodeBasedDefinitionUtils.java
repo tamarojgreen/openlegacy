@@ -151,7 +151,8 @@ public class ScreenCodeBasedDefinitionUtils {
 				if (JavaParserUtil.hasAnnotation(annotationExpr, ScreenAnnotationConstants.SCREEN_PART_ANNOTATION)) {
 					screenEntityCodeModel = new DefaultScreenPojoCodeModel(compilationUnit,
 							(ClassOrInterfaceDeclaration)typeDeclaration, typeDeclaration.getName(), null);
-					CodeBasedScreenPartDefinition partDefinition = new CodeBasedScreenPartDefinition(screenEntityCodeModel);
+					CodeBasedScreenPartDefinition partDefinition = new CodeBasedScreenPartDefinition(screenEntityCodeModel,
+							packageDir);
 					screenDefinition.getPartsDefinitions().put(partDefinition.getPartName(), partDefinition);
 				}
 				if (JavaParserUtil.hasAnnotation(annotationExpr, ScreenAnnotationConstants.SCREEN_TABLE_ANNOTATION)) {

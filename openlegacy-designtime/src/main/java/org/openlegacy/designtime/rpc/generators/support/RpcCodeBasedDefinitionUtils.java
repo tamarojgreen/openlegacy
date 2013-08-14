@@ -10,18 +10,24 @@
  *******************************************************************************/
 package org.openlegacy.designtime.rpc.generators.support;
 
+import org.apache.commons.lang.CharEncoding;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Action;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
+import org.openlegacy.rpc.definitions.SimpleRpcActionDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
-import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.util.Assert;
 
+import japa.parser.JavaParser;
+import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
@@ -29,6 +35,8 @@ import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -37,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 
 public class RpcCodeBasedDefinitionUtils {
+
+	private final static Log logger = LogFactory.getLog(RpcCodeBasedDefinitionUtils.class);
 
 	public static Map<String, RpcFieldDefinition> getFieldsFromCodeModel(RpcPojoCodeModel codeModel, String containerPrefix) {
 
@@ -112,7 +122,7 @@ public class RpcCodeBasedDefinitionUtils {
 				if (JavaParserUtil.hasAnnotation(annotationExpr, RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
 					entityCodeModel = new DefaultRpcPojoCodeModel(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
 							typeDeclaration.getName(), null);
-					CodeBasedRpcPartDefinition partDefinition = new CodeBasedRpcPartDefinition(entityCodeModel);
+					CodeBasedRpcPartDefinition partDefinition = new CodeBasedRpcPartDefinition(entityCodeModel, packageDir);
 					Assert.notNull(entityDefinition, "Compliation unit doesn't contain @RpcEntity. Unable to build");
 					parts.put(partDefinition.getPartName(), partDefinition);
 				}
@@ -150,20 +160,38 @@ public class RpcCodeBasedDefinitionUtils {
 
 	}
 
-	public static List<ActionDefinition> getActionsFromCodeModel(RpcPojoCodeModel codeModel) {
+	public static List<ActionDefinition> getActionsFromCodeModel(RpcPojoCodeModel codeModel, File packageDir) {
 		List<Action> actions = codeModel.getActions();
 		List<ActionDefinition> actionDefinitions = new ArrayList<ActionDefinition>();
 		for (Action action : actions) {
 			String actionName = StringUtil.toClassName(action.getActionName());
-			SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionName,
-					action.getDisplayName());
+			SimpleRpcActionDefinition actionDefinition = new SimpleRpcActionDefinition(actionName, action.getDisplayName());
 			if (action.getAlias() != null) {
-				actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
+				actionDefinition.setAlias(action.getAlias());
 			}
+			RpcEntityDefinition targetDefinition = getEntityDefinition(action.getTargetEntityName(), packageDir);
+			actionDefinition.setTargetEntityDefinition(targetDefinition);
 			actionDefinitions.add(actionDefinition);
 		}
 
 		return actionDefinitions;
 	}
 
+	private static RpcEntityDefinition getEntityDefinition(String entityName, File packageDir) {
+		File entityFile = new File(packageDir, entityName + ".java");
+		if (!entityFile.exists()) {
+			logger.debug(MessageFormat.format("Source file for entity {0} is not defined. Unable to find file {1}",
+					entityFile.getName(), entityFile.getAbsoluteFile()));
+		}
+		CompilationUnit compilationUnit = null;
+		try {
+			compilationUnit = JavaParser.parse(entityFile, CharEncoding.UTF_8);
+		} catch (ParseException e) {
+			logger.warn("Failed parsing java file:" + e.getMessage());
+		} catch (IOException e) {
+			throw (new EntityNotAccessibleException(e));
+		}
+		RpcEntityDefinition rpcDefinition = getEntityDefinition(compilationUnit, packageDir);
+		return rpcDefinition;
+	}
 }

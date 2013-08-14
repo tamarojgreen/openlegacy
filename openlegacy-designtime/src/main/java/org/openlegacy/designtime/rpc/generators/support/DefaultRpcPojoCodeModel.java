@@ -12,7 +12,6 @@ package org.openlegacy.designtime.rpc.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
 
-import org.openlegacy.FieldType.General;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.definitions.FieldTypeDefinition;
@@ -451,7 +450,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 				: StringUtil.toClassName(getClassName());
 
 		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)
-				: General.class.getSimpleName();
+				: org.openlegacy.rpc.RpcEntityType.General.class.getSimpleName();
 		if (languageFromAnnotation != null) {
 			language = Languages.valueOf(languageFromAnnotation.split("\\.")[1]);
 		}

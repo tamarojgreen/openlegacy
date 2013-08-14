@@ -1,0 +1,32 @@
+<!-- Experimental -->
+<h4>MasterDummyEntity</h4>
+<div class="row">
+	<div class="span8">
+		<form class="form-horizontal" accept-charset="utf-8">
+		  	
+			<div class="control-group">
+			<div class="control-group">
+				<label for="parent_id" class="control-label">Id:</label>
+				<div class="controls">
+					<input name="parent_id" ng-model="model.parent.id"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label for="parent_name" class="control-label">Name:</label>
+				<div class="controls">
+					<input name="parent_name" ng-model="model.parent.name"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label for="parent_phone" class="control-label">Phone:</label>
+				<div class="controls">
+					<input name="parent_phone" ng-model="model.parent.phone"/>
+				</div>
+			</div>
+			</div>
+
+			<div class="btn-toolbar">
+			</div>
+		</form>
+	</div>
+</div>

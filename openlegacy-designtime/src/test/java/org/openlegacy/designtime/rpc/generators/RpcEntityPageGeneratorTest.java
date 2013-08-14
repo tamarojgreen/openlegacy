@@ -14,6 +14,7 @@ import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
 public class RpcEntityPageGeneratorTest {
@@ -28,12 +29,23 @@ public class RpcEntityPageGeneratorTest {
 	}
 
 	@Test
-	public void testSpaGenerateJspxByCodeModel() throws Exception {
+	public void testSpaGenerateHtmlByCodeModel() throws Exception {
 		String javaSource = "/org/openlegacy/designtime/rpc/generators/RpcForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
 
 		RpcEntityDefinition entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 		assertPageGeneration(entityDefinition, "RpcEntitySpaPage.html.template", "RpcForPage.html.expected");
+	}
+
+	@Test
+	public void testSpaGenerateMasterDetailsHtml() throws Exception {
+		String javaSource = "/org/openlegacy/designtime/rpc/generators/MasterDummyEntity.java";
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
+
+		File packageDir = new File(getClass().getResource("").getFile());
+		RpcEntityDefinition entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
+		assertPageGeneration(entityDefinition, "MasterDetailsEntityRpcEntitySpaPage.html.template",
+				"MasterDummyEntity.html.expected");
 	}
 
 	private void assertPageGeneration(RpcEntityDefinition entityDefinition, String templateName, String expectedPageResultResource)

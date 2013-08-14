@@ -1,11 +1,14 @@
 package org.openlegacy.designtime.rpc.generators.support;
 
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.generators.AbstractCodeBasedPartDefinition;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.utils.StringUtil;
 
+import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -15,9 +18,10 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 	private Map<String, RpcPartEntityDefinition> innerParts = new TreeMap<String, RpcPartEntityDefinition>();
 	private int occur;
 	private String runtimeName;
+	private List<ActionDefinition> actions;
 
-	public CodeBasedRpcPartDefinition(RpcPojoCodeModel codeModel) {
-		super(codeModel);
+	public CodeBasedRpcPartDefinition(RpcPojoCodeModel codeModel, File packageDir) {
+		super(codeModel, packageDir);
 	}
 
 	@Override
@@ -52,5 +56,12 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 
 	public void setRuntimeName(String runtimeName) {
 		this.runtimeName = runtimeName;
+	}
+
+	public List<ActionDefinition> getActions() {
+		if (actions == null) {
+			actions = RpcCodeBasedDefinitionUtils.getActionsFromCodeModel(getCodeModel(), getPackageDir());
+		}
+		return actions;
 	}
 }

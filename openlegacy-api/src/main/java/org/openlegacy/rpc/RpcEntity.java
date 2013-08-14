@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.openlegacy.rpc;
 
-
 public interface RpcEntity {
+
+	public class NONE implements RpcEntity {
+
+	}
 
 }

@@ -13,14 +13,17 @@ package org.openlegacy.designtime.generators;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 
+import java.io.File;
 import java.util.Map;
 
 public abstract class AbstractCodeBasedPartDefinition<F extends FieldDefinition, C extends PojoCodeModel> implements PartEntityDefinition<F> {
 
 	private C codeModel;
+	private File packageDir;
 
-	public AbstractCodeBasedPartDefinition(C codeModel) {
+	public AbstractCodeBasedPartDefinition(C codeModel, File packageDir) {
 		this.codeModel = codeModel;
+		this.packageDir = packageDir;
 	}
 
 	public Class<?> getPartClass() {
@@ -45,4 +48,7 @@ public abstract class AbstractCodeBasedPartDefinition<F extends FieldDefinition,
 		return codeModel;
 	}
 
+	public File getPackageDir() {
+		return packageDir;
+	}
 }

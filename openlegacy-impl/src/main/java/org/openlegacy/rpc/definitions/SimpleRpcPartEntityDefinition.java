@@ -12,9 +12,12 @@ package org.openlegacy.rpc.definitions;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.definitions.AbstractPartEntityDefinition;
+import org.openlegacy.definitions.ActionDefinition;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<RpcFieldDefinition> implements RpcPartEntityDefinition, Serializable {
@@ -27,6 +30,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private String runtimeName;
 
 	private final Map<String, RpcPartEntityDefinition> innerPartsDefinitions = new LinkedHashMap<String, RpcPartEntityDefinition>();
+	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 
 	public SimpleRpcPartEntityDefinition(Class<?> partClass) {
 		super(partClass);
@@ -71,5 +75,9 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 
 	public void setRuntimeName(String runtimeName) {
 		this.runtimeName = runtimeName;
+	}
+
+	public List<ActionDefinition> getActions() {
+		return actions;
 	}
 }

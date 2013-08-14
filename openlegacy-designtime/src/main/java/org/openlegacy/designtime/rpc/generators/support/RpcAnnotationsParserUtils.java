@@ -95,12 +95,13 @@ public class RpcAnnotationsParserUtils {
 				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.ACTION);
 				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
 				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
+				String targetEntity = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.TARGET_ENTITY);
 
 				Action action = new Action(actionAlias, actionClassName, displayName);
+				action.setTargetEntityName(StringUtil.toClassName(targetEntity));
 				actions.add(action);
 			}
 		}
 		return actions;
 	}
-
 }

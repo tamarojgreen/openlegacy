@@ -11,7 +11,9 @@
 package org.openlegacy.annotations.rpc;
 
 import org.openlegacy.annotations.screen.ScreenActions;
+import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.actions.RpcAction;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
 
@@ -60,4 +62,5 @@ public @interface Action {
 
 	String alias() default "";
 
+	Class<?> targetEntity() default RpcEntity.NONE.class;
 }

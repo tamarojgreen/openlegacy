@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.annotations.rpc;
 
+import org.openlegacy.EntityType;
 import org.openlegacy.annotations.screen.AnnotationConstants;
+import org.openlegacy.rpc.RpcEntityType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -27,4 +29,5 @@ public @interface RpcEntity {
 
 	Languages language() default Languages.UNDEFINED;
 
+	Class<? extends EntityType> rpcType() default RpcEntityType.General.class;
 }

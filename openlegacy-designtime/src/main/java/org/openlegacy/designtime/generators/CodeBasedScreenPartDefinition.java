@@ -19,6 +19,7 @@ import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 import org.openlegacy.utils.StringUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,8 +33,8 @@ public class CodeBasedScreenPartDefinition extends AbstractCodeBasedPartDefiniti
 	private int width;
 	private TerminalPosition partPosition;
 
-	public CodeBasedScreenPartDefinition(ScreenPojoCodeModel codeModel) {
-		super(codeModel);
+	public CodeBasedScreenPartDefinition(ScreenPojoCodeModel codeModel, File packageDir) {
+		super(codeModel, packageDir);
 	}
 
 	@Override

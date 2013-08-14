@@ -1,0 +1,70 @@
+<!-- Experimental -->
+<h4>${entityDefinition.entityName}</h4>
+<div class="row">
+	<div class="span8">
+		<form class="form-horizontal" accept-charset="utf-8">
+			<@rpcEntity entity=entityDefinition/>
+		</form>
+	</div>
+</div>
+
+<#macro rpcEntity entity>
+			<#list entity.fieldsDefinitions?values as field>
+				<@rpcField field=field/>
+		  	</#list>
+		  	
+			<#list entity.partsDefinitions?values as part>
+				<@rpcPart part=part/>
+			</#list>
+			<div class="btn-toolbar">
+			<#list entity.actions as action>
+				<button data-ng-click="${action.alias}()" class="btn btn-small btn-primary">${action.displayName}</button>
+			</#list>
+			</div>
+</#macro>
+
+<#macro rpcPart part>
+	<#if part.occur = 1>
+			<div class="control-group">
+		<#list part.fieldsDefinitions?values as field>
+		<@rpcField field=field/>
+		</#list>
+			</div>
+		<#list part.innerPartsDefinitions?values as innerPart>
+		<@rpcPart part=innerPart />
+		</#list>
+
+	<#else>
+		<table class="table">
+			<tr data-ng-repeat="item in model.${part.partName}">
+			<#list part.fieldsDefinitions?values as field>
+				<td>{{item.${field.name}}}</td>
+			</#list>
+			<#list part.actions as action>
+				<td><a data-ng-click="${action.alias}();">${action.displayName}</a></td>
+			</#list>
+			</tr>
+		</table
+		
+		<div>
+			<#list part.actions as action>
+				<#if action.targetEntityDefinition??>
+				<@rpcEntity entity=action.targetEntityDefinition/>
+				</#if>
+			</#list>
+		</div>
+	</#if>
+</#macro>
+
+<#macro rpcField field>
+			<div class="control-group">
+				<label for="${field.name?replace(".", "_")}" class="control-label">${field.displayName}:</label>
+				<div class="controls">
+	<#if field.editable>
+					<input name="${field.name?replace(".", "_")}" ng-model="model.${field.name}"/>
+	<#else>
+					<div id="${field.name?replace(".", "_")}" ng-model="model.${field.name}"></div>
+	</#if>
+				</div>
+			</div>
+</#macro>

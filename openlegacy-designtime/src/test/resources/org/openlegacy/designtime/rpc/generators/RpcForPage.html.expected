@@ -36,7 +36,7 @@
 			</div>
 			</div>
 		<table class="table">
-			<tr data-ng-repeat="item in model.entity.LkCards">
+			<tr data-ng-repeat="item in model.LkCards">
 				<td>{{item.lkCards.lkCardInd}}</td>
 				<td>{{item.lkCards.lkCardNumber}}</td>
 				<td>{{item.lkCards.lkCardPrefix}}</td>

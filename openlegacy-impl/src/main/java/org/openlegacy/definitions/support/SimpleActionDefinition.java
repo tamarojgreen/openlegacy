@@ -10,10 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.definitions.support;
 
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.utils.StringUtil;
 
 import java.io.Serializable;
 
@@ -35,7 +36,7 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	private Class<?> targetEntity;
 
 	// for design-time purposes
-	private ScreenEntityDefinition targetEntityDefinition;
+	private EntityDefinition<?> targetEntityDefinition;
 
 	/**
 	 * for serialization purpose only
@@ -74,10 +75,16 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 	}
 
 	public String getDisplayName() {
+		if (displayName == null) {
+			displayName = StringUtil.toDisplayName(getActionName().toLowerCase());
+		}
 		return displayName;
 	}
 
 	public String getAlias() {
+		if (alias == null) {
+			alias = getActionName().toLowerCase();
+		}
 		return alias;
 	}
 
@@ -117,11 +124,11 @@ public class SimpleActionDefinition implements ActionDefinition, Serializable {
 		this.targetEntity = targetEntity;
 	}
 
-	public ScreenEntityDefinition getTargetEntityDefinition() {
+	public EntityDefinition<?> getTargetEntityDefinition() {
 		return targetEntityDefinition;
 	}
 
-	public void setTargetEntityDefinition(ScreenEntityDefinition targetEntityDefinition) {
+	public void setTargetEntityDefinition(EntityDefinition<?> targetEntityDefinition) {
 		this.targetEntityDefinition = targetEntityDefinition;
 	}
 

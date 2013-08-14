@@ -31,7 +31,7 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 	@Override
 	public List<ActionDefinition> getActions() {
 		if (actions == null) {
-			actions = RpcCodeBasedDefinitionUtils.getActionsFromCodeModel(getCodeModel());
+			actions = RpcCodeBasedDefinitionUtils.getActionsFromCodeModel(getCodeModel(), getPackageDir());
 		}
 		return actions;
 	}
