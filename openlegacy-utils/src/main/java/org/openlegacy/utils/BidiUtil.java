@@ -36,7 +36,7 @@ public class BidiUtil {
 
 	public static String convertToVisual(String value) {
 		if (!containsRTLChar(value)) {
-			// return value;
+			return value;
 		}
 		Bidi bidi = new Bidi();
 		bidi.setPara(value, Bidi.RTL, null);
