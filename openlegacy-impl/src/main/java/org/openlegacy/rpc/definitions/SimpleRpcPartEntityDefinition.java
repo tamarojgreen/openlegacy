@@ -24,6 +24,8 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private int order;
 	private int occur;
 
+	private String runtimeName;
+
 	private final Map<String, RpcPartEntityDefinition> innerPartsDefinitions = new LinkedHashMap<String, RpcPartEntityDefinition>();
 
 	public SimpleRpcPartEntityDefinition(Class<?> partClass) {
@@ -61,5 +63,13 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public String getRuntimeName() {
+		return runtimeName;
+	}
+
+	public void setRuntimeName(String runtimeName) {
+		this.runtimeName = runtimeName;
 	}
 }

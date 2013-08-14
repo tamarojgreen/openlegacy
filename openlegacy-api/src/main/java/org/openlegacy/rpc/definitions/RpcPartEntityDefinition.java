@@ -12,4 +12,5 @@ public interface RpcPartEntityDefinition extends PartEntityDefinition<RpcFieldDe
 
 	public Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions();
 
+	String getRuntimeName();
 }

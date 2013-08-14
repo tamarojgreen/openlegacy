@@ -29,7 +29,7 @@
 
 	<#else>
 		<table class="table">
-			<tr data-ng-repeat="item in model.entity.${part.partName}">
+			<tr data-ng-repeat="item in model.${part.partName}">
 			<#list part.fieldsDefinitions?values as field>
 				<td>{{item.${field.name}}}</td>
 			</#list>

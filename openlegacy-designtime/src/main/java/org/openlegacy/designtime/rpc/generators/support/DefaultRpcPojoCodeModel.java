@@ -298,6 +298,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 	private List<Action> actions = new ArrayList<Action>();
 
 	private Languages language = Languages.UNDEFINED;
+	private String runtimeName;
 
 	public DefaultRpcPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -365,6 +366,11 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, RpcAnnotationConstants.RPC_PART_LIST)) {
 								field.setOccurrences(Integer.valueOf(JavaParserUtil.getAnnotationValue(annotationExpr,
 										RpcAnnotationConstants.COUNT)));
+								String runtimeName = JavaParserUtil.getAnnotationValue(annotationExpr,
+										RpcAnnotationConstants.RUNTIME_NAME);
+								if (runtimeName != null) {
+									field.setRuntimeName(runtimeName.length() > 0 ? runtimeName : field.getName());
+								}
 							}
 						}
 					}
@@ -517,6 +523,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 	 */
 	public Languages getLanguage() {
 		return language;
+	}
+
+	public String getRuntimeName() {
+		return runtimeName;
 	}
 
 }

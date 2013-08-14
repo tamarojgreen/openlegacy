@@ -13,4 +13,5 @@ public @interface RpcPartList {
 
 	int count();
 
+	String runtimeName() default "";
 }

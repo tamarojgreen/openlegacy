@@ -31,7 +31,7 @@ public class ${entityName?cap_first} {
 <#if part.occur = 1 >
 		private ${part.partName} ${part.partName?uncap_first};
 <#else>
-		@RpcPartList(count=${part.occur})
+		@RpcPartList(count=${part.occur}<#if part.runtimeName??>,runtimeName= "${part.runtimeName}"</#if>)
 		private List<${part.partName}> ${part.partName?uncap_first};
 </#if>
 </#macro>

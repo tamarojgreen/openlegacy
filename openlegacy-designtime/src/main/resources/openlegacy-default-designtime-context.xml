@@ -387,10 +387,10 @@
 			<bean class="org.openlegacy.designtime.rpc.source.parsers.CobolFieldInformationFactory" />
 		</constructor-arg>
 		<property name="fieldDefinitionFormatter">
-			<bean class="org.openlegacy.designtime.rpc.formatters.ReplaceTexFieldDefinitionFormatter">
+			<bean class="org.openlegacy.designtime.formatters.ReplaceTextDefinitionFormatter">
 				<property name="replaceTextConfigurations">
 					<list>
-						<bean class="org.openlegacy.designtime.rpc.formatters.ReplaceTextConfiguration" 
+						<bean class="org.openlegacy.designtime.formatters.ReplaceTextConfiguration" 
 							p:sourcePropertyName="originalName" p:targetPropertyName="runtimeName" p:originalText="-" p:newText="_" />
 					</list>
 				</property>

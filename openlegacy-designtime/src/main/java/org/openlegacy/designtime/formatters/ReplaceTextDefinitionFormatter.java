@@ -1,30 +1,47 @@
-package org.openlegacy.designtime.rpc.formatters;
+package org.openlegacy.designtime.formatters;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.openlegacy.definitions.AbstractPartEntityDefinition;
 import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
+import org.openlegacy.utils.StringUtil;
 
 import java.beans.PropertyDescriptor;
 import java.util.List;
 
 /**
- * A field definition formatter, which recieves a list of replace text configurations to handle changing properties of field
+ * A field definition formatter, which receives a list of replace text configurations to handle changing properties of field
  * definitions
  * 
  * @author Roi Mor
  * 
  */
-public class ReplaceTexFieldDefinitionFormatter implements FieldDefinitionFormatter {
+public class ReplaceTextDefinitionFormatter implements DefinitionFormatter {
 
 	private List<ReplaceTextConfiguration> replaceTextConfigurations;
 
 	public void format(FieldDefinition fieldDefinition) {
+		formatInner(fieldDefinition);
+	}
+
+	public void format(PartEntityDefinition<?> partDefinition) {
+		formatInner(partDefinition);
+		String name = partDefinition.getPartName().toLowerCase();
+		AbstractPartEntityDefinition<?> updatablePartDefinition = (AbstractPartEntityDefinition<?>)partDefinition;
+		updatablePartDefinition.setPartName(StringUtil.toClassName(name));
+	}
+
+	private void formatInner(Object definitions) {
 		for (ReplaceTextConfiguration replaceTextConfiguration : replaceTextConfigurations) {
 
 			String propertyValue = "";
 			try {
-				PropertyDescriptor propertyDescriptor = PropertyUtils.getPropertyDescriptor(fieldDefinition,
+				PropertyDescriptor propertyDescriptor = PropertyUtils.getPropertyDescriptor(definitions,
 						replaceTextConfiguration.getSourcePropertyName());
-				propertyValue = (String)propertyDescriptor.getReadMethod().invoke(fieldDefinition);
+				if (propertyDescriptor == null) {
+					continue;
+				}
+				propertyValue = (String)propertyDescriptor.getReadMethod().invoke(definitions);
 			} catch (Exception e) {
 				throw (new IllegalStateException(e));
 			}
@@ -41,9 +58,12 @@ public class ReplaceTexFieldDefinitionFormatter implements FieldDefinitionFormat
 			}
 
 			try {
-				PropertyDescriptor propertyDescriptor = PropertyUtils.getPropertyDescriptor(fieldDefinition,
+				PropertyDescriptor propertyDescriptor = PropertyUtils.getPropertyDescriptor(definitions,
 						replaceTextConfiguration.getTargetPropertyName());
-				propertyDescriptor.getWriteMethod().invoke(fieldDefinition, propertyValue);
+				if (propertyDescriptor == null) {
+					continue;
+				}
+				propertyDescriptor.getWriteMethod().invoke(definitions, propertyValue);
 			} catch (Exception e) {
 				throw (new IllegalStateException(e));
 			}

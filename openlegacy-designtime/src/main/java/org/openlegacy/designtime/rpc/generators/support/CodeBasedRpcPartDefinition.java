@@ -13,7 +13,8 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 
 	private Map<String, RpcFieldDefinition> fields;
 	private Map<String, RpcPartEntityDefinition> innerParts = new TreeMap<String, RpcPartEntityDefinition>();
-	private int occur;;
+	private int occur;
+	private String runtimeName;
 
 	public CodeBasedRpcPartDefinition(RpcPojoCodeModel codeModel) {
 		super(codeModel);
@@ -45,4 +46,11 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		return innerParts;
 	}
 
+	public String getRuntimeName() {
+		return runtimeName;
+	}
+
+	public void setRuntimeName(String runtimeName) {
+		this.runtimeName = runtimeName;
+	}
 }

@@ -1,4 +1,4 @@
-package org.openlegacy.designtime.rpc.formatters;
+package org.openlegacy.designtime.formatters;
 
 public class ReplaceTextConfiguration {
 

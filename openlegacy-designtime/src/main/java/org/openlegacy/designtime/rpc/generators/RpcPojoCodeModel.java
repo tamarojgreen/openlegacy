@@ -30,4 +30,6 @@ public interface RpcPojoCodeModel extends PojoCodeModel {
 	List<Action> getActions();
 
 	Languages getLanguage();
+
+	String getRuntimeName();
 }

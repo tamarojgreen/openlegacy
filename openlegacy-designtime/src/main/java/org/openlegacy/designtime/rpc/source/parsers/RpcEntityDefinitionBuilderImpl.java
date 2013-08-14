@@ -8,7 +8,7 @@ package org.openlegacy.designtime.rpc.source.parsers;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldType.General;
-import org.openlegacy.designtime.rpc.formatters.FieldDefinitionFormatter;
+import org.openlegacy.designtime.formatters.DefinitionFormatter;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
@@ -25,7 +25,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 
 	private FieldInformationFactory fieldInformationFactory;
 
-	private FieldDefinitionFormatter fieldDefinitionFormatter;
+	private DefinitionFormatter definitionFormatter;
 
 	public RpcEntityDefinitionBuilderImpl(FieldInformationFactory fieldInformationFactory) {
 		this.fieldInformationFactory = fieldInformationFactory;
@@ -46,7 +46,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 		rpcFieldDefinition.setJavaType(fieldInformation.getJavaType());
 		rpcFieldDefinition.setFieldTypeDefinition(fieldInformation.getType());
 
-		fieldDefinitionFormatter.format(rpcFieldDefinition);
+		definitionFormatter.format(rpcFieldDefinition);
 		return rpcFieldDefinition;
 	}
 
@@ -55,8 +55,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 
 		SimpleRpcPartEntityDefinition rpcPartEntityDefinition = new SimpleRpcPartEntityDefinition(null);
 		rpcPartEntityDefinition.setOriginalName(name);
-		name = name.toLowerCase();
-		rpcPartEntityDefinition.setPartName(StringUtil.toClassName(name));
+		rpcPartEntityDefinition.setPartName(name);
 		rpcPartEntityDefinition.setDisplayName(StringUtil.toDisplayName(name));
 		rpcPartEntityDefinition.setOccur(occur);
 
@@ -74,9 +73,10 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 						internalOrder, partField.getOccurs());
 
 				rpcPartInnerParts.put(subPartEntityDefinition.getPartName(), subPartEntityDefinition);
-
 			}
 		}
+
+		definitionFormatter.format(rpcPartEntityDefinition);
 		return rpcPartEntityDefinition;
 	}
 
@@ -105,7 +105,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 		}
 	}
 
-	public void setFieldDefinitionFormatter(FieldDefinitionFormatter fieldDefinitionFormatter) {
-		this.fieldDefinitionFormatter = fieldDefinitionFormatter;
+	public void setDefinitionFormatter(DefinitionFormatter definitionFormatter) {
+		this.definitionFormatter = definitionFormatter;
 	}
 }
