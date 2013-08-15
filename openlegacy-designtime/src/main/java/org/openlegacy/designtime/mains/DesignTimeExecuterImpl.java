@@ -751,6 +751,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityPageGenerator.class);
 		} else {
 			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
+
 		}
 		entityWebGenerator.generateView(generateViewRequest, entityDefinition);
 

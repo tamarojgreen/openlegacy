@@ -68,7 +68,7 @@ public class GenerateUtil {
 		try {
 			StringBuilder fileContent = new StringBuilder(FileUtils.readFileToString(file));
 
-			int placeHolderReplaceMarkerStart = fileContent.indexOf(existingCodeplaceHolderStart);
+			int placeHolderReplaceMarkerStart = fileContent.indexOf(existingCodeplaceHolderStart) - 1;
 			int placeHolderReplaceMarkerEnd = fileContent.indexOf(existingCodePlaceHolderEnd)
 					+ existingCodePlaceHolderEnd.length();
 
@@ -77,7 +77,7 @@ public class GenerateUtil {
 			}
 
 			int templateMarkerStart = fileContent.indexOf(placeHolderStart);
-			int templateMarkerEnd = fileContent.indexOf(placeHolderEnd) - 1;
+			int templateMarkerEnd = fileContent.indexOf(placeHolderEnd) - 2;
 
 			if (templateMarkerStart < 0 || templateMarkerEnd < 0) {
 				return;

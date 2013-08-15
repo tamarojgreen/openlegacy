@@ -7,31 +7,31 @@
 			<div class="control-group">
 				<label for="lkCustomer_lkCustInd" class="control-label">Lk Cust Ind:</label>
 				<div class="controls">
-					<input name="lkCustomer_lkCustInd" ng-model="model.lkCustomer.lkCustInd"/>
+					<input name="lkCustomer_lkCustInd" ng-model="xxolakkrParms.lkCustomer.lkCustInd"/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label for="lkCustomer_lkCustId" class="control-label">Lk Cust Id:</label>
 				<div class="controls">
-					<input name="lkCustomer_lkCustId" ng-model="model.lkCustomer.lkCustId"/>
+					<input name="lkCustomer_lkCustId" ng-model="xxolakkrParms.lkCustomer.lkCustId"/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label for="lkCustomer_lkCustName" class="control-label">Lk Cust Name:</label>
 				<div class="controls">
-					<input name="lkCustomer_lkCustName" ng-model="model.lkCustomer.lkCustName"/>
+					<input name="lkCustomer_lkCustName" ng-model="xxolakkrParms.lkCustomer.lkCustName"/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label for="lkCustomer_lkCustAddress" class="control-label">Lk Cust Address:</label>
 				<div class="controls">
-					<input name="lkCustomer_lkCustAddress" ng-model="model.lkCustomer.lkCustAddress"/>
+					<input name="lkCustomer_lkCustAddress" ng-model="xxolakkrParms.lkCustomer.lkCustAddress"/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label for="lkCustomer_lkCustPhone" class="control-label">Lk Cust Phone:</label>
 				<div class="controls">
-					<input name="lkCustomer_lkCustPhone" ng-model="model.lkCustomer.lkCustPhone"/>
+					<input name="lkCustomer_lkCustPhone" ng-model="xxolakkrParms.lkCustomer.lkCustPhone"/>
 				</div>
 			</div>
 			</div>
@@ -42,7 +42,7 @@
 				<td>{{item.lkCards.lkCardPrefix}}</td>
 				<td>{{item.lkCards.lkCardSugSherut}}</td>
 			</tr>
-		</table
+		</table>
 
 			<div class="btn-toolbar">
 				<button data-ng-click="read()" class="btn btn-small btn-primary">Read</button>

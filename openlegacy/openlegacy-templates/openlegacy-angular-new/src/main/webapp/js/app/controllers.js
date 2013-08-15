@@ -39,21 +39,22 @@
 	
 	/* Controller code place-holder start
 	module = module.controller('${entityName}Controller',
-		function($scope, $location, $olHttp) {
-			$olHttp.get('${entityName}', 
+		function($scope, $location, $olHttp,$routeParams) {
+			$olHttp.get('${entityName}/' <#if keys?size &gt; 0> + </#if><#list keys as key>$routeParams.${key.name}<#if key_has_next>+ '+'</#if></#list>, 
 					function(data) {
-						$scope.model = data.model.entity;
+						$scope.${entityName?uncap_first} = data.model.entity;
 					}
 				);
 			<#list actions as action>
 			$scope.${action.alias} = function(){
 				$olHttp.post('${entityName}?action=${action.alias}XX${action.programPath}',$scope.model, 
 					function(data) {
-						$scope.model = data.model.entity;
+						$scope.${entityName?uncap_first} = data.model.entity;
 					}
 				);
 			};
 			</#list>
+			
 		});
 	Controller code place-holder end */
 })();

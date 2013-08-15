@@ -13,6 +13,9 @@
 		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html'} );
 
 		/* Register controller place-holder start
+		<#if keys?size &gt; 0>
+		$routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
+		</#if>
 		$routeProvider = $routeProvider.when( '/${entityName}', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
 		Register controller place-holder end */
 		

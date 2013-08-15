@@ -9,11 +9,11 @@
 
 <#macro rpcEntity entity>
 			<#list entity.fieldsDefinitions?values as field>
-				<@rpcField field=field/>
+				<@rpcField field=field entity=entity/>
 		  	</#list>
 		  	
 			<#list entity.partsDefinitions?values as part>
-				<@rpcPart part=part/>
+				<@rpcPart part=part entity=entity/>
 			</#list>
 			<div class="btn-toolbar">
 			<#list entity.actions as action>
@@ -22,15 +22,15 @@
 			</div>
 </#macro>
 
-<#macro rpcPart part>
+<#macro rpcPart part entity>
 	<#if part.occur = 1>
 			<div class="control-group">
 		<#list part.fieldsDefinitions?values as field>
-		<@rpcField field=field/>
+		<@rpcField field=field entity=entity/>
 		</#list>
 			</div>
 		<#list part.innerPartsDefinitions?values as innerPart>
-		<@rpcPart part=innerPart />
+		<@rpcPart part=innerPart entity=entity/>
 		</#list>
 
 	<#else>
@@ -40,18 +40,18 @@
 				<td>{{item.${field.name}}}</td>
 			</#list>
 			</tr>
-		</table
+		</table>
 	</#if>
 </#macro>
 
-<#macro rpcField field>
+<#macro rpcField field entity>
 			<div class="control-group">
 				<label for="${field.name?replace(".", "_")}" class="control-label">${field.displayName}:</label>
 				<div class="controls">
 	<#if field.editable>
-					<input name="${field.name?replace(".", "_")}" ng-model="model.${field.name}"/>
+					<input name="${field.name?replace(".", "_")}" ng-model="${entity.entityName?uncap_first}.${field.name}"/>
 	<#else>
-					<div id="${field.name?replace(".", "_")}" ng-model="model.${field.name}"></div>
+					<div id="${field.name?replace(".", "_")}" ng-model="${entity.entityName?uncap_first}.${field.name}"></div>
 	</#if>
 				</div>
 			</div>
