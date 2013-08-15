@@ -11,9 +11,11 @@
 package org.openlegacy.designtime.rpc.generators.support;
 
 import org.openlegacy.annotations.rpc.RpcActions;
+import org.openlegacy.annotations.rpc.RpcBooleanField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcEntitySuperClass;
 import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
 
@@ -26,7 +28,6 @@ public class RpcAnnotationConstants {
 	public static final String RPC_TYPE = "rpcType";
 	public static final String RPC_FIELD_ANNOTATION = RpcField.class.getSimpleName();
 	public static final String RPC_PART_LIST = RpcPartList.class.getSimpleName();
-	public static final String RPC_BOOLEAN_FIELD_ANNOTATION = null;
 
 	// @RpcEntity
 	public static final String NAME = "name";
@@ -47,5 +48,10 @@ public class RpcAnnotationConstants {
 	public static final String DEFAULT_VALUE = "defaultValue";
 	public static final String COUNT = "count";
 	public static final String RUNTIME_NAME = "runtimeName";
+
+	public static final String RPC_BOOLEAN_FIELD_ANNOTATION = RpcBooleanField.class.getSimpleName();
+	public static final String RPC_NUMERIC_ANNOTATION = RpcNumericField.class.getSimpleName();
+
+	// @Action
 	public static final String PATH = "path";
 }

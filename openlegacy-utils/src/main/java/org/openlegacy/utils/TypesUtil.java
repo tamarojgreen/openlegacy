@@ -35,6 +35,9 @@ public class TypesUtil {
 		if (typeName.equals("Integer")) {
 			return true;
 		}
+		if (typeName.equals("Boolean") || typeName.equals("boolean")) {
+			return true;
+		}
 		return false;
 	}
 

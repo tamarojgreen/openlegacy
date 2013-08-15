@@ -11,7 +11,9 @@
 package org.openlegacy.rpc;
 
 import org.openlegacy.rpc.actions.RpcAction;
+import org.openlegacy.rpc.exceptions.RpcActionException;
 
+import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 
 public class RpcActions {
@@ -56,6 +58,30 @@ public class RpcActions {
 
 	public static DELETE DELETE() {
 		return new DELETE();
+	}
+
+	public static RpcAction newAction(String actionName) {
+		Class<?>[] classes = RpcActions.class.getClasses();
+		RpcAction action = null;
+		for (Class<?> clazz : classes) {
+			Constructor<?>[] ctors = clazz.getDeclaredConstructors();
+			for (Constructor<?> ctor : ctors) {
+				if (actionName.equals(clazz.getSimpleName())) {
+					ctor.setAccessible(true);
+					try {
+						action = (RpcAction)ctor.newInstance();
+					} catch (Exception e) {
+						throw new RpcActionException(MessageFormat.format("Cannot instantiate an action with name {0}",
+								actionName));
+					}
+					break;
+				}
+			}
+			if (action != null) {
+				break;
+			}
+		}
+		return action;
 	}
 
 }

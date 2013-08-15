@@ -16,6 +16,8 @@ import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleRpcNumericFieldTypeDefinition;
+import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.support.SimpleDisplayItem;
 import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
@@ -59,8 +61,8 @@ public class AnnotationsParserUtils {
 		String trueValue = getAnnotationValue(annotationExpr, AnnotationConstants.TRUE_VALUE);
 		String falseValue = getAnnotationValue(annotationExpr, AnnotationConstants.FALSE_VALUE);
 		String treatNullAsEmpty = getAnnotationValue(annotationExpr, AnnotationConstants.TREAT_EMPTY_AS_NULL);
-		FieldTypeDefinition booleanFieldDefiniton = new SimpleBooleanFieldTypeDefinition(trueValue, falseValue,
-				StringConstants.TRUE.equals(treatNullAsEmpty));
+		FieldTypeDefinition booleanFieldDefiniton = new SimpleBooleanFieldTypeDefinition(StringUtil.stripQuotes(trueValue),
+				StringUtil.stripQuotes(falseValue), StringConstants.TRUE.equals(treatNullAsEmpty));
 		return booleanFieldDefiniton;
 	}
 
@@ -99,5 +101,19 @@ public class AnnotationsParserUtils {
 			}
 		}
 		return enumDefinition;
+	}
+
+	public static FieldTypeDefinition loadNumericField(AnnotationExpr annotationExpr) {
+		String minimumValueFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.MINIMUM_VALUE);
+		String maximumValueFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.MAXIMUM_VALUE);
+		String decimalPlacesFromAnnotation = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DECIMAL_PLACES);
+
+		double minimumValue = !StringUtil.isEmpty(minimumValueFromAnnotation) ? Double.valueOf(minimumValueFromAnnotation) : 0.0;
+		double maximumValue = !StringUtil.isEmpty(maximumValueFromAnnotation) ? Double.valueOf(maximumValueFromAnnotation) : 0.0;
+		int decimalPlaces = !StringUtil.isEmpty(decimalPlacesFromAnnotation) ? Integer.valueOf(decimalPlacesFromAnnotation) : 0;
+
+		FieldTypeDefinition fieldTypeDefinition = new SimpleRpcNumericFieldTypeDefinition(minimumValue, maximumValue,
+				decimalPlaces);
+		return fieldTypeDefinition;
 	}
 }

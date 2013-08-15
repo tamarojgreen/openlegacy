@@ -78,6 +78,11 @@ public class RpcCodeBasedDefinitionUtils {
 			fieldDefinition.setOccurrences(javaFieldModel.getOccurrences());
 			fieldDefinition.setDirection(javaFieldModel.getDirection());
 
+			fieldDefinition.setOriginalName(javaFieldModel.getOriginalName());
+			fieldDefinition.setDirection(javaFieldModel.getDirection());
+			fieldDefinition.setDefaultValue(javaFieldModel.getDefaultValue());
+			fieldDefinition.setLength(javaFieldModel.getLength());
+
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;
@@ -166,7 +171,8 @@ public class RpcCodeBasedDefinitionUtils {
 		for (Action action : actions) {
 			String actionName = StringUtil.toClassName(action.getActionName());
 			SimpleRpcActionDefinition actionDefinition = new SimpleRpcActionDefinition(actionName, action.getDisplayName());
-			actionDefinition.setProgramPath(action.getProgramPath());
+			actionDefinition.setProgramPath(action.getPath());
+			actionDefinition.setGlobal(action.isGlobal());
 			if (action.getAlias() != null) {
 				actionDefinition.setAlias(action.getAlias());
 			}
@@ -174,6 +180,7 @@ public class RpcCodeBasedDefinitionUtils {
 				RpcEntityDefinition targetDefinition = getEntityDefinition(action.getTargetEntityName(), packageDir);
 				actionDefinition.setTargetEntityDefinition(targetDefinition);
 			}
+
 			actionDefinitions.add(actionDefinition);
 		}
 

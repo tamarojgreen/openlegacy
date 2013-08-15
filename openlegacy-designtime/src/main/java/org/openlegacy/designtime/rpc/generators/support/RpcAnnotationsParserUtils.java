@@ -44,6 +44,14 @@ public class RpcAnnotationsParserUtils {
 		String lengthValue = getAnnotationValue(annotationExpr, AnnotationConstants.LENGTH);
 		String runtimeName = getAnnotationValue(annotationExpr, RpcAnnotationConstants.RUNTIME_NAME);
 		String direction = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DIRECTION);
+		String originalNameValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.ORIGINAL_NAME);
+		String directionValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DIRECTION);
+		String defaultValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DEFAULT_VALUE);
+
+		field.setOriginalName(StringUtil.isEmpty(originalNameValue) ? "" : StringUtil.stripQuotes(originalNameValue));
+		field.setDirection(StringUtil.isEmpty(directionValue) ? Direction.INPUT_OUTPUT
+				: Direction.valueOf(directionValue.split("\\.")[1]));
+		field.setDefaultValue(StringUtil.isEmpty(defaultValue) ? "" : StringUtil.stripQuotes(defaultValue));
 
 		field.setLength(Integer.valueOf(lengthValue));
 
@@ -95,9 +103,11 @@ public class RpcAnnotationsParserUtils {
 				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
 				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
 				String targetEntity = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.TARGET_ENTITY);
-				String programPath = JavaParserUtil.getAnnotationValue(singleAction, RpcAnnotationConstants.PATH);
+				String path = JavaParserUtil.getAnnotationValue(singleAction, RpcAnnotationConstants.PATH);
+				String global = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.GLOBAL);
 
-				Action action = new Action(actionAlias, actionClassName, displayName, programPath);
+				Action action = new Action(actionAlias, actionClassName, displayName, path, (StringUtil.isEmpty(global) ? true
+						: StringConstants.TRUE.equals(global)));
 				action.setTargetEntityName(StringUtil.toClassName(targetEntity));
 				actions.add(action);
 			}

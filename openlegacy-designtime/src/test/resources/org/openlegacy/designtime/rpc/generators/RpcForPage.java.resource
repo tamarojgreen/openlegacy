@@ -43,7 +43,7 @@ public class XxolakkrParms {
 		@RpcField(length = 1, originalName = "LK-CARD-IND")
 		private String lkCardInd;
 	
-		@RpcNumericField(minimumValue = -99999999999L, maximumValue = 99999999999L, decimalPlaces = 0)
+		@RpcNumericField(minimumValue = -99999999999, maximumValue = 99999999999, decimalPlaces = 0)
 		@RpcField(length = 11, originalName = "LK-CARD-NUMBER")
 		private BigInteger lkCardNumber;
 	

@@ -50,13 +50,15 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private String actionName;
 		private String displayName;
 		private String targetEntityName;
-		private String programPath;
+		private String path;
+		private boolean global;
 
-		public Action(String alias, String actionName, String displayName, String programPath) {
+		public Action(String alias, String actionName, String displayName, String path, boolean global) {
 			this.alias = alias;
 			this.actionName = actionName;
 			this.displayName = displayName;
-			this.programPath = programPath;
+			this.path = path;
+			this.global = global;
 		}
 
 		public String getActionName() {
@@ -79,12 +81,12 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			this.targetEntityName = targetEntityName;
 		}
 
-		public String getProgramPath() {
-			return programPath;
+		public String getPath() {
+			return path;
 		}
 
-		public void setProgramPath(String programPath) {
-			this.programPath = programPath;
+		public boolean isGlobal() {
+			return global;
 		}
 	}
 
@@ -116,6 +118,9 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private String runtimeName;
 		private int occurrences = 1;
 		private Direction direction;
+		// @author Ivan Bort, refs assembla #290
+		private String originalName;
+		private String defaultValue;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -288,6 +293,23 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		public void setDirection(Direction direction) {
 			this.direction = direction;
 		}
+
+		public String getOriginalName() {
+			return originalName;
+		}
+
+		public void setOriginalName(String originalName) {
+			this.originalName = originalName;
+		}
+
+		public String getDefaultValue() {
+			return defaultValue;
+		}
+
+		public void setDefaultValue(String defaultValue) {
+			this.defaultValue = defaultValue;
+		}
+
 	}
 
 	private String className;
@@ -380,6 +402,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 									field.setRuntimeName(runtimeName.length() > 0 ? runtimeName : field.getName());
 								}
 							}
+							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
+									RpcAnnotationConstants.RPC_NUMERIC_ANNOTATION)) {
+								field.setFieldTypeDefinition(AnnotationsParserUtils.loadNumericField(annotationExpr));
+							}
 						}
 					}
 					fields.put(fieldName, field);
@@ -447,9 +473,8 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
 
-			displayNameFromAnnotation = findAnnotationAttribute(RpcAnnotationConstants.DISPLAY_NAME,
-					normalAnnotationExpr.getPairs());
-			entityNameFromAnnotation = findAnnotationAttribute(RpcAnnotationConstants.NAME, normalAnnotationExpr.getPairs());
+			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, normalAnnotationExpr.getPairs());
+			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, normalAnnotationExpr.getPairs());
 			typeNameFromAnnotation = findAnnotationAttribute(RpcAnnotationConstants.RPC_TYPE, normalAnnotationExpr.getPairs());
 			languageFromAnnotation = findAnnotationAttribute(RpcAnnotationConstants.LANGUAGE, normalAnnotationExpr.getPairs());
 		}
@@ -536,5 +561,4 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 	public String getRuntimeName() {
 		return runtimeName;
 	}
-
 }
