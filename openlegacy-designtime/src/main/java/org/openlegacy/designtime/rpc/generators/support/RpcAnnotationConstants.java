@@ -47,4 +47,5 @@ public class RpcAnnotationConstants {
 	public static final String DEFAULT_VALUE = "defaultValue";
 	public static final String COUNT = "count";
 	public static final String RUNTIME_NAME = "runtimeName";
+	public static final String PATH = "path";
 }

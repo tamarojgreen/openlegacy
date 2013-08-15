@@ -45,7 +45,8 @@
 		</table
 
 			<div class="btn-toolbar">
-				<button data-ng-click="save()" class="btn btn-small btn-primary">Save</button>
+				<button data-ng-click="read()" class="btn btn-small btn-primary">Read</button>
+				<button data-ng-click="update()" class="btn btn-small btn-primary">Update</button>
 			</div>
 		</form>
 	</div>

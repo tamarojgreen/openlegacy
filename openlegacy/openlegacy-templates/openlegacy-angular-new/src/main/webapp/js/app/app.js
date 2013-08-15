@@ -13,7 +13,7 @@
 		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html'} );
 
 		/* Register controller place-holder start
-		$routeProvider = $routeProvider.when( '/VIEW-NAME', {templateUrl: 'views/VIEW-NAME.html', controller: 'VIEW-NAMEController'} );
+		$routeProvider = $routeProvider.when( '/${entityName}', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
 		Register controller place-holder end */
 		
 		$routeProvider = $routeProvider.otherwise( {redirectTo: '/login'} );

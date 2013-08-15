@@ -156,7 +156,7 @@ public class ScreenAnnotationsParserUtils {
 			List<Expression> actionsAnnotations = actionsPairs.getValues();
 			for (Expression expression : actionsAnnotations) {
 				NormalAnnotationExpr singleAction = (NormalAnnotationExpr)expression;
-				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.ACTION);
+				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION);
 				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
 				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
 				// used by @TableAction only

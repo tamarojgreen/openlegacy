@@ -34,7 +34,7 @@ public class SimpleRpcActionDefinition extends SimpleActionDefinition implements
 		return programPath;
 	}
 
-	public void setPath(String programPath) {
+	public void setProgramPath(String programPath) {
 		this.programPath = programPath;
 	}
 

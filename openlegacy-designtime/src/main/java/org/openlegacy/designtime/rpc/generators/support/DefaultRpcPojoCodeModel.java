@@ -50,11 +50,13 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private String actionName;
 		private String displayName;
 		private String targetEntityName;
+		private String programPath;
 
-		public Action(String alias, String actionName, String displayName) {
+		public Action(String alias, String actionName, String displayName, String programPath) {
 			this.alias = alias;
 			this.actionName = actionName;
 			this.displayName = displayName;
+			this.programPath = programPath;
 		}
 
 		public String getActionName() {
@@ -77,6 +79,13 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			this.targetEntityName = targetEntityName;
 		}
 
+		public String getProgramPath() {
+			return programPath;
+		}
+
+		public void setProgramPath(String programPath) {
+			this.programPath = programPath;
+		}
 	}
 
 	/**

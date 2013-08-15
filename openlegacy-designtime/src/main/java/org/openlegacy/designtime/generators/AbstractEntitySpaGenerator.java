@@ -27,8 +27,15 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 
 	private static final String CONTROLLER_CODE_PLACE_HOLDER_START = "/* Controller code place-holder start";
 	private static final String CONTROLLER_CODE_PLACE_HOLDER_END = "Controller code place-holder end */";
+
+	private static final String EXISTING_CONTROLLER_CODE_PLACE_HOLDER_START = "// auto generated controller start - ";
+	private static final String EXISTING_CONTROLLER_CODE_PLACE_HOLDER_END = "// auto generated controller end - ";
+
 	private static final String REGISTER_CONTROLLER_PLACE_HOLDER_START = "/* Register controller place-holder start";
 	private static final String REGISTER_CONTROLLER_PLACE_HOLDER_END = "Register controller place-holder end */";
+
+	private static final String EXISTING_REGISTER_CONTROLLER_PLACE_HOLDER_START = "// auto generated register start - ";
+	private static final String EXISTING_REGISTER_CONTROLLER_PLACE_HOLDER_END = "// auto generated register end - ";
 	private static final String APP_JS = "app.js";
 	private static final String CONTROLLERS_JS = "controllers.js";
 
@@ -113,14 +120,18 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 			EntityDefinition<?> entityDefinition) {
 		File controllersJsFile = new File(generateControllerRequest.getProjectPath(), SpaGenerateUtil.JS_APP_DIR + CONTROLLERS_JS);
 
-		GenerateUtil.replicateTemplate(controllersJsFile, entityDefinition.getEntityName(), entityDefinition,
-				CONTROLLER_CODE_PLACE_HOLDER_START, CONTROLLER_CODE_PLACE_HOLDER_END);
+		String name = entityDefinition.getEntityName();
+		GenerateUtil.replicateTemplate(controllersJsFile, entityDefinition, CONTROLLER_CODE_PLACE_HOLDER_START,
+				CONTROLLER_CODE_PLACE_HOLDER_END, EXISTING_CONTROLLER_CODE_PLACE_HOLDER_START + name,
+				EXISTING_CONTROLLER_CODE_PLACE_HOLDER_END + name);
 	}
 
 	private static void updateAppJs(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition) {
 		File appJsFile = new File(generateControllerRequest.getProjectPath(), SpaGenerateUtil.JS_APP_DIR + APP_JS);
-		GenerateUtil.replicateTemplate(appJsFile, entityDefinition.getEntityName(), entityDefinition,
-				REGISTER_CONTROLLER_PLACE_HOLDER_START, REGISTER_CONTROLLER_PLACE_HOLDER_END);
+		String name = entityDefinition.getEntityName();
+		GenerateUtil.replicateTemplate(appJsFile, entityDefinition, REGISTER_CONTROLLER_PLACE_HOLDER_START,
+				REGISTER_CONTROLLER_PLACE_HOLDER_END, EXISTING_REGISTER_CONTROLLER_PLACE_HOLDER_START + name,
+				EXISTING_REGISTER_CONTROLLER_PLACE_HOLDER_END + name);
 	}
 
 	public GenerateUtil getGenerateUtil() {

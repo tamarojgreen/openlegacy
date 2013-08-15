@@ -6,6 +6,9 @@ import java.util.List;
 import org.openlegacy.annotations.rpc.*;
 import org.openlegacy.FieldType.*;
 
+@RpcActions(actions = { 
+		@Action(action = READ.class, path = "/Customer", global = false),
+		@Action(action = UPDATE.class, path = "/Customer") })
 @RpcEntity(name = "XxolakkrParms")
 public class XxolakkrParms {
 
@@ -17,7 +20,7 @@ public class XxolakkrParms {
 		@RpcField(length = 1, originalName = "LK-CUST-IND")
 		private String lkCustInd;
 	
-		@RpcNumericField(minimumValue = -999999999, maximumValue = 999999999, decimalPlaces = 0)
+		@RpcNumericField(minimumValue = -999999999, maximumValue = 999999999, decimalPlaces = 0, key=true)
 		@RpcField(length = 9, originalName = "LK-CUST-ID")
 		private Integer lkCustId;
 	

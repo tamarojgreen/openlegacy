@@ -63,6 +63,13 @@ public class StringUtil {
 		return toVariableName(text, false);
 	}
 
+	public static String toEnumValue(String enumWithClass) {
+		if (!enumWithClass.contains(".")) {
+			return enumWithClass;
+		}
+		return enumWithClass.substring(enumWithClass.lastIndexOf(".") + 1);
+	}
+
 	public static String toJavaMethodName(String text) {
 		String methodName = toVariableName(text, false);
 		return methodName;
@@ -82,12 +89,11 @@ public class StringUtil {
 		return toVariableName(text, true);
 	}
 
-	
 	public static String toVariableName(String text, boolean capFirst) {
 
 		String variableName = null;
 
-		if (!text.contains(" ") && !text.contains("_") && !text.contains("-") ) {
+		if (!text.contains(" ") && !text.contains("_") && !text.contains("-")) {
 			text = text.replaceAll("\\W", "");
 			if (!capFirst) {
 				variableName = StringUtils.uncapitalize(text);
@@ -111,7 +117,7 @@ public class StringUtil {
 				if (Character.isLetter(c) || Character.isDigit(c)) {
 					sb.append(c);
 				}
-				if (c == ' ' || c == '_' ||  c =='-') {
+				if (c == ' ' || c == '_' || c == '-') {
 					capFirst = true;
 				}
 

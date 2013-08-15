@@ -166,11 +166,14 @@ public class RpcCodeBasedDefinitionUtils {
 		for (Action action : actions) {
 			String actionName = StringUtil.toClassName(action.getActionName());
 			SimpleRpcActionDefinition actionDefinition = new SimpleRpcActionDefinition(actionName, action.getDisplayName());
+			actionDefinition.setProgramPath(action.getProgramPath());
 			if (action.getAlias() != null) {
 				actionDefinition.setAlias(action.getAlias());
 			}
-			RpcEntityDefinition targetDefinition = getEntityDefinition(action.getTargetEntityName(), packageDir);
-			actionDefinition.setTargetEntityDefinition(targetDefinition);
+			if (action.getTargetEntityName() != null) {
+				RpcEntityDefinition targetDefinition = getEntityDefinition(action.getTargetEntityName(), packageDir);
+				actionDefinition.setTargetEntityDefinition(targetDefinition);
+			}
 			actionDefinitions.add(actionDefinition);
 		}
 

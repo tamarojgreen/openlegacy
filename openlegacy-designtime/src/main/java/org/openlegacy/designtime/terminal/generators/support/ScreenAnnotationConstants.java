@@ -51,7 +51,6 @@ public class ScreenAnnotationConstants {
 	public static final String END_COLUMN = "endColumn";
 	public static final String START_ROW = "startRow";
 	public static final String END_ROW = "endRow";
-	public static final String ACTION = "action";
 	public static final String LABEL_COLUMN = "labelColumn";
 	public static final String SCREEN_TYPE = "screenType";
 	public static final String CHILD = "child";

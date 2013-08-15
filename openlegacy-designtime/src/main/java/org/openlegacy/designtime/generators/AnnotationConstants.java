@@ -20,6 +20,7 @@ public class AnnotationConstants {
 	public static final String NAME = "name";
 	public static final String ALIAS = "alias";
 	public static final String HELP_TEXT = "helpText";
+	public static final String ACTION = "action";
 
 	public static final String PROVIDER = "provider";
 

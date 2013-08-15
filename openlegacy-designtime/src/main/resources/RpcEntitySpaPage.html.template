@@ -2,19 +2,25 @@
 <div class="row">
 	<div class="span8">
 		<form class="form-horizontal" accept-charset="utf-8">
-			<#list entityDefinition.fieldsDefinitions?values as field>
-				<@rpcField field=field/>
-		  	</#list>
-		  	
-			<#list entityDefinition.partsDefinitions?values as part>
-				<@rpcPart part=part/>
-			</#list>
-			<div class="btn-toolbar">
-				<button data-ng-click="save()" class="btn btn-small btn-primary">Save</button>
-			</div>
+			<@rpcEntity entity=entityDefinition/>
 		</form>
 	</div>
 </div>
+
+<#macro rpcEntity entity>
+			<#list entity.fieldsDefinitions?values as field>
+				<@rpcField field=field/>
+		  	</#list>
+		  	
+			<#list entity.partsDefinitions?values as part>
+				<@rpcPart part=part/>
+			</#list>
+			<div class="btn-toolbar">
+			<#list entity.actions as action>
+				<button data-ng-click="${action.alias}()" class="btn btn-small btn-primary">${action.displayName}</button>
+			</#list>
+			</div>
+</#macro>
 
 <#macro rpcPart part>
 	<#if part.occur = 1>

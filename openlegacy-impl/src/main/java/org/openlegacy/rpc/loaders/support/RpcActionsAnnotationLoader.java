@@ -61,7 +61,7 @@ public class RpcActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 				} else {
 					actionDefinition.setAlias(action.alias());
 				}
-				actionDefinition.setPath(action.path());
+				actionDefinition.setProgramPath(action.path());
 				actionDefinition.setGlobal(action.global());
 
 				rpcEntityDefinition.getActions().add(actionDefinition);

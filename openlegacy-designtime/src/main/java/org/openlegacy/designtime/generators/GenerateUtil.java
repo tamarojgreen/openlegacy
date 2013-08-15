@@ -16,8 +16,7 @@ import freemarker.template.TemplateException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.CharEncoding;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.lang.SystemUtils;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -38,8 +37,6 @@ import java.util.Locale;
 
 @Component
 public class GenerateUtil {
-
-	private final static Log logger = LogFactory.getLog(GenerateUtil.class);
 
 	private File templatesDir;
 
@@ -66,13 +63,17 @@ public class GenerateUtil {
 		}
 	}
 
-	public static void replicateTemplate(File file, String skipText, Object model, String placeHolderStart, String placeHolderEnd) {
+	public static void replicateTemplate(File file, Object model, String placeHolderStart, String placeHolderEnd,
+			String existingCodeplaceHolderStart, String existingCodePlaceHolderEnd) {
 		try {
 			StringBuilder fileContent = new StringBuilder(FileUtils.readFileToString(file));
 
-			if (fileContent.indexOf(skipText) > 0) {
-				logger.info(MessageFormat.format("{0} already configured within {1}", skipText, file.getName()));
-				return;
+			int placeHolderReplaceMarkerStart = fileContent.indexOf(existingCodeplaceHolderStart);
+			int placeHolderReplaceMarkerEnd = fileContent.indexOf(existingCodePlaceHolderEnd)
+					+ existingCodePlaceHolderEnd.length();
+
+			if (placeHolderReplaceMarkerStart > 0 && placeHolderReplaceMarkerStart > 0) {
+				fileContent.delete(placeHolderReplaceMarkerStart, placeHolderReplaceMarkerEnd);
 			}
 
 			int templateMarkerStart = fileContent.indexOf(placeHolderStart);
@@ -85,7 +86,8 @@ public class GenerateUtil {
 			String definitionTemplate = fileContent.substring(templateMarkerStart + placeHolderStart.length(), templateMarkerEnd);
 
 			String definitionTemplateNew = generate(model, new StringReader(definitionTemplate));
-			fileContent = fileContent.insert(templateMarkerStart, definitionTemplateNew);
+			fileContent = fileContent.insert(templateMarkerStart, MessageFormat.format("{0}{1}{2}{3}",
+					existingCodeplaceHolderStart, definitionTemplateNew, existingCodePlaceHolderEnd, SystemUtils.LINE_SEPARATOR));
 
 			FileUtils.write(file, fileContent);
 

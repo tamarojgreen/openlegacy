@@ -16,7 +16,6 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Action;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Field;
-import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
@@ -78,7 +77,7 @@ public class RpcAnnotationsParserUtils {
 			field.setRuntimeName(StringUtil.stripQuotes(runtimeName));
 		}
 		if (direction != null) {
-			field.setDirection(Direction.valueOf(direction));
+			field.setDirection(Direction.valueOf(StringUtil.toEnumValue(direction)));
 		}
 	}
 
@@ -92,12 +91,13 @@ public class RpcAnnotationsParserUtils {
 			List<Expression> actionsAnnotations = actionsPairs.getValues();
 			for (Expression expression : actionsAnnotations) {
 				NormalAnnotationExpr singleAction = (NormalAnnotationExpr)expression;
-				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.ACTION);
+				String actionClassName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ACTION);
 				String displayName = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.DISPLAY_NAME);
 				String actionAlias = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.ALIAS);
 				String targetEntity = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.TARGET_ENTITY);
+				String programPath = JavaParserUtil.getAnnotationValue(singleAction, RpcAnnotationConstants.PATH);
 
-				Action action = new Action(actionAlias, actionClassName, displayName);
+				Action action = new Action(actionAlias, actionClassName, displayName, programPath);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntity));
 				actions.add(action);
 			}
