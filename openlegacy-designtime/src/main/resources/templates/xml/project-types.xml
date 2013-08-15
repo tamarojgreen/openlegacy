@@ -31,14 +31,15 @@
         <zip-file>openlegacy-mvc-sample.zip</zip-file>
     </project-type>
 
-    <project-type>
+<!--
+     <project-type>
         <template-name>openlegacy-mvc-rpc-sample</template-name>
         <description>A sample web application for connecting to a sample Legacy application programs</description>
         <is-demo>true</is-demo>
         <support-theme>false</support-theme>
         <zip-file>openlegacy-mvc-rpc-sample.zip</zip-file>
     </project-type>
-
+ -->
     <project-type>
         <template-name>openlegacy-rest-new</template-name>
         <description>A new REST API application Spring MVC based for connecting to your Legacy application screens in XML/JSON format</description>
@@ -60,7 +61,16 @@
         <support-theme>false</support-theme>
         <client-side-project>true</client-side-project>
         <provider-required>false</provider-required>
-        <zip-file>openlegacy-angular-new-new.zip</zip-file>
+        <zip-file>openlegacy-angular-new.zip</zip-file>
+    </project-type>
+    <project-type>
+        <template-name>openlegacy-angular-sample</template-name>
+        <description>A single page application for connecting to OpenLegacy REST API</description>
+        <is-demo>false</is-demo>
+        <support-theme>false</support-theme>
+        <client-side-project>true</client-side-project>
+        <provider-required>false</provider-required>
+        <zip-file>openlegacy-angular-sample.zip</zip-file>
     </project-type>
     
 </project-types>
