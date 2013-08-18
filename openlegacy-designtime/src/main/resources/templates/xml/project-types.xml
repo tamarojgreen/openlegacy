@@ -48,6 +48,13 @@
         <zip-file>openlegacy-rest-new.zip</zip-file>
     </project-type>
     <project-type>
+        <template-name>openlegacy-rest-sample</template-name>
+        <description>An example REST API application Spring MVC based for connecting to your Legacy application screens in XML/JSON format</description>
+        <is-demo>true</is-demo>
+        <support-theme>false</support-theme>
+        <zip-file>openlegacy-rest-sample.zip</zip-file>
+    </project-type>
+    <project-type>
         <template-name>openlegacy-ws-sample</template-name>
         <description>A simple web service example project for connecting to Legacy application screens</description>
         <is-demo>true</is-demo>
