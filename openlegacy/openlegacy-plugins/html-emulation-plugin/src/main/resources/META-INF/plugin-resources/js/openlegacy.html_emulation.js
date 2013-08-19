@@ -39,6 +39,7 @@ function emulationOnLoad(){
 		}
 		captureOnChange(on);
 		setLabelDoubleClick();
+		OLKeyBoardHandler.handleArrows();
 	});
 }
 function checkSequence(){
@@ -157,22 +158,30 @@ function setTabIndexRtl(){
 
 function setLabelDoubleClick(){
     require(["dojo/dom", "dojo/on","dojo/query","dojo/dom-class"], function(dom,on,query,domClass){
-  	  query("#terminalSnapshot span").forEach(function(label){
+    	
+    	require(["dojo/ready", "dijit/registry", "dojo/dom"], function(ready, registry,dom){
+    		on(dojo.body(),"dblclick",function(e){
+    			// avoid duplicate enter
+    			if (getMainForm().KeyboardKey.value == ""){
+    				terminalSession.doAction("ENTER");
+    			}
+    		});
+    	});
+		query("#terminalSnapshot span").forEach(function(label){
   	    	on(label, "dblclick", function(e){
   	    		if (e.target.id != null){
   	    			if (ol_currentLabelId != null){
   	    				domClass.remove(ol_currentLabelId, "label_selected");
   	    			}
   	    			ol_currentLabelId = e.target.id; 
-	    				domClass.add(ol_currentLabelId, "label_selected");
+    				domClass.add(ol_currentLabelId, "label_selected");
       	    		getMainForm().TerminalCursor.value = e.target.id;
 					terminalSession.doAction("ENTER");
   	    		}
   	    	});
-  		  
+
   	  });
   	});    
-
 }
 
 function captureOnChange(on){
@@ -270,3 +279,93 @@ function isInputElement(element){
 	}
 	return false;
 }
+
+var OLKeyBoardHandler = new function(){
+	
+	this.handleArrows = function(){
+	    require(["dojo/on"], function(on){
+			var inputs = document.getElementsByTagName("input");
+			
+			for (var i=0;i<inputs.length;i++){
+				var input = inputs[i];
+				if (!isValidInput(input)){
+					continue;
+				}
+				on(input,"keydown",function(e){
+					// down arrow
+					if (e.keyCode == 40){
+						var input = OLBrowserUtil.getElement(e);
+						var next = OLBrowserUtil.nextInput(input);
+						if (next != null){next.focus();};
+					}
+					if (e.keyCode == 38){
+						var input = OLBrowserUtil.getElement(e);
+						var prev = OLBrowserUtil.previousInput(input);
+						if (prev != null){prev.focus();};
+					};
+				});
+			};
+	    });
+	};
+};
+
+var OLBrowserUtil = new function(){
+	
+	this.previousInput = function(input){
+		var inputs = document.getElementsByTagName("input");
+		for (var i=inputs.length-1;i>=0;i--){
+			if (OLBrowserUtil.elementRow(inputs[i]) < OLBrowserUtil.elementRow(input)){
+				return inputs[i];
+			} 
+		};
+		return null;
+	};
+
+	this.nextInput = function(input){
+		var inputs = document.getElementsByTagName("input");
+		for (var i=0;i<inputs.length;i++){
+			if (OLBrowserUtil.elementRow(inputs[i]) > OLBrowserUtil.elementRow(input)){
+				return inputs[i];
+			} 
+		};
+		return null;
+	};
+
+	this.elementColumn = 
+		function (element)
+		{
+			var curleft = 0;
+			while (element != null && element.offsetParent != null){
+				curleft += element.offsetLeft;
+				element = element.offsetParent;
+			}
+			return curleft;
+		};
+
+	this.elementRow =
+		function (element)
+		{
+			var curtop = 0;
+			while (element != null && element.offsetParent != null){
+				curtop += element.offsetTop;
+				element = element.offsetParent;
+			}
+			return curtop;
+		};
+	this.cancelEvent = function(event){
+		if (event.preventDefault != null){
+			event.preventDefault();
+		}
+		if (event.stopPropagation != null){
+			event.stopPropagation();
+		}	
+	};
+
+	this.getElement = function(e){
+		if (e.srcElement){
+			return e.srcElement;
+		}
+		return e.relatedTarget;
+		
+	};	
+};
