@@ -86,7 +86,10 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 					MessageFormat.format("{0}{1}", input.getAttribute(HtmlConstants.STYLE), HtmlNamingUtil.toStyleWidth(width)));
 			if (field.isRightToLeft()) {
 				// align with HATS bidi-override
-				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";unicode-bidi: bidi-override;");
+				// input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";unicode-bidi: isolate;");
+				if (field.isEmpty()) {
+					input.setAttribute("dir", "rtl");
+				}
 			}
 			if (field.isUppercase() || openLegacyProperties.isUppercaseInput()) {
 				// align with HATS bidi-override

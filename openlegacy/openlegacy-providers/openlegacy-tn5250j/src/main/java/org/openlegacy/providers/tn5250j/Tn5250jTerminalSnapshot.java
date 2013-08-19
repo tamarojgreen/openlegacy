@@ -159,11 +159,15 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 					}
 					field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes, hidden);
 				} else {
-					// avoid creating duplicate fields from mylty line field
+					// avoid creating duplicate fields from multy line field
 					if (screenField.startRow() + 1 == startPosition.getRow()) {
 						// re-grab the all field text
 						value = grabText(screenData.text, startAbsolutePosition, startAbsolutePosition + screenField.getLength()
 								- 1);
+						if (convertToLogical == true) {
+							visualValue = value;
+							value = BidiUtil.convertToLogical(value);
+						}
 						field = createEditableField(screenField, value, hidden, fieldAttributes);
 					}
 				}
