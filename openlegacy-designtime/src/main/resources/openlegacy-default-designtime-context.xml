@@ -386,7 +386,7 @@
 		<constructor-arg>
 			<bean class="org.openlegacy.designtime.rpc.source.parsers.CobolFieldInformationFactory" />
 		</constructor-arg>
-		<property name="fieldDefinitionFormatter">
+		<property name="definitionFormatter">
 			<bean class="org.openlegacy.designtime.formatters.ReplaceTextDefinitionFormatter">
 				<property name="replaceTextConfigurations">
 					<list>
