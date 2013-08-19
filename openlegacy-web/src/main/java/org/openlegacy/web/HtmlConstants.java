@@ -42,4 +42,6 @@ public class HtmlConstants {
 	public static final String ONKEYUP = "onkeyup";
 
 	public static final String DATA_RIGHT_ADJUST = "data-ra";
+	public static final String DIR = "dir";
+	public static final String RTL = "rtl";
 }

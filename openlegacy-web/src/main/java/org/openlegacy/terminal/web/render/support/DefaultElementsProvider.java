@@ -88,7 +88,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				// align with HATS bidi-override
 				// input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";unicode-bidi: isolate;");
 				if (field.isEmpty()) {
-					input.setAttribute("dir", "rtl");
+					input.setAttribute(HtmlConstants.DIR, HtmlConstants.RTL);
 				}
 			}
 			if (field.isUppercase() || openLegacyProperties.isUppercaseInput()) {
