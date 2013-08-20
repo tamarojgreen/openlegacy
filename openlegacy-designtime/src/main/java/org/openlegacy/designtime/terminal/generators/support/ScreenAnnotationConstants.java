@@ -107,4 +107,5 @@ public class ScreenAnnotationConstants {
 
 	// @PartPosition
 	public static final String WIDTH = "width";
+	public static final String ACTION = "action";
 }
