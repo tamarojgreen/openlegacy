@@ -8,6 +8,7 @@ import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.utils.StringUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -19,6 +20,8 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 	private int occur;
 	private String runtimeName;
 	private List<ActionDefinition> actions;
+
+	private List<RpcFieldDefinition> keys;
 
 	public CodeBasedRpcPartDefinition(RpcPojoCodeModel codeModel, File packageDir) {
 		super(codeModel, packageDir);
@@ -63,5 +66,24 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 			actions = RpcCodeBasedDefinitionUtils.getActionsFromCodeModel(getCodeModel(), getPackageDir());
 		}
 		return actions;
+	}
+
+	public List<RpcFieldDefinition> getKeys() {
+		if (keys != null) {
+			return keys;
+		}
+
+		keys = new ArrayList<RpcFieldDefinition>();
+
+		for (RpcFieldDefinition field : getFieldsDefinitions().values()) {
+			if (field.isKey()) {
+				keys.add(field);
+			}
+		}
+		return keys;
+	}
+
+	public void setKeys(List<RpcFieldDefinition> keys) {
+		this.keys = keys;
 	}
 }

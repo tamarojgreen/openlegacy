@@ -31,6 +31,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 
 	private final Map<String, RpcPartEntityDefinition> innerPartsDefinitions = new LinkedHashMap<String, RpcPartEntityDefinition>();
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
+	private List<RpcFieldDefinition> keys = new ArrayList<RpcFieldDefinition>();
 
 	public SimpleRpcPartEntityDefinition(Class<?> partClass) {
 		super(partClass);
@@ -79,5 +80,9 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 
 	public List<ActionDefinition> getActions() {
 		return actions;
+	}
+
+	public List<RpcFieldDefinition> getKeys() {
+		return keys;
 	}
 }

@@ -17,4 +17,7 @@ public interface RpcPartEntityDefinition extends PartEntityDefinition<RpcFieldDe
 	String getRuntimeName();
 
 	List<ActionDefinition> getActions();
+
+	List<RpcFieldDefinition> getKeys();
+
 }
