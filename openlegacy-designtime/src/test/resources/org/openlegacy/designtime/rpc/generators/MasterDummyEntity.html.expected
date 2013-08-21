@@ -1,4 +1,5 @@
 <!-- Experimental -->
+
 <h4>MasterDummyEntity</h4>
 <div class="row">
 	<div class="span8">
@@ -8,19 +9,19 @@
 			<div class="control-group">
 				<label for="parent_id" class="control-label">Id:</label>
 				<div class="controls">
-					<input name="parent_id" ng-model="masterDummyEntity.parent.id"/>
+					<input id="parent_id" name="parent_id" data-ng-model="masterDummyEntity.parent.id"/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label for="parent_name" class="control-label">Name:</label>
 				<div class="controls">
-					<input name="parent_name" ng-model="masterDummyEntity.parent.name"/>
+					<input id="parent_name" name="parent_name" data-ng-model="masterDummyEntity.parent.name"/>
 				</div>
 			</div>
 			<div class="control-group">
 				<label for="parent_phone" class="control-label">Phone:</label>
 				<div class="controls">
-					<input name="parent_phone" ng-model="masterDummyEntity.parent.phone"/>
+					<input id="parent_phone" name="parent_phone" data-ng-model="masterDummyEntity.parent.phone"/>
 				</div>
 			</div>
 			</div>

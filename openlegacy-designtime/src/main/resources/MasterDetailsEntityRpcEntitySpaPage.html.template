@@ -1,8 +1,17 @@
 <!-- Experimental -->
+
 <h4>${entityDefinition.entityName}</h4>
 <div class="row">
 	<div class="span8">
 		<form class="form-horizontal" accept-charset="utf-8">
+			<#if entityDefinition.keys?size &gt; 0>
+			<div id="keys">
+			<#list entityDefinition.keys as keyField>
+				<@rpcField field=keyField entity=entityDefinition/>
+		  	</#list>
+		  	</div>
+			<button onclick="search('#/${entityDefinition.entityName}/')" class="btn btn-small btn-primary">Search</button>
+			</#if>
 			<@rpcEntity entity=entityDefinition/>
 		</form>
 	</div>
@@ -36,12 +45,12 @@
 
 	<#else>
 		<table class="table">
-			<tr data-ng-repeat="item in model.${part.partName}">
+			<tr data-ng-repeat="item in ${entity.entityName?uncap_first}.${part.partName}">
 			<#list part.fieldsDefinitions?values as field>
 				<td>{{item.${field.name}}}</td>
 			</#list>
 			<#list part.actions as action>
-				<td><a data-ng-click="${action.alias}();">${action.displayName}</a></td>
+				<td><a data-ng-click="${action.targetEntityDefinition.entityName?uncap_first}_${action.alias}(item);">${action.displayName}</a></td>
 			</#list>
 			</tr>
 		</table>
@@ -61,9 +70,9 @@
 				<label for="${field.name?replace(".", "_")}" class="control-label">${field.displayName}:</label>
 				<div class="controls">
 	<#if field.editable>
-					<input name="${field.name?replace(".", "_")}" ng-model="${entity.entityName?uncap_first}.${field.name}"/>
+					<input id="${field.name?replace(".", "_")}" name="${field.name?replace(".", "_")}" data-ng-model="${entity.entityName?uncap_first}.${field.name}"/>
 	<#else>
-					<div id="${field.name?replace(".", "_")}" ng-model="${entity.entityName?uncap_first}.${field.name}"></div>
+					<div id="${field.name?replace(".", "_")}" data-ng-model="${entity.entityName?uncap_first}.${field.runtimeName}"></div>
 	</#if>
 				</div>
 			</div>

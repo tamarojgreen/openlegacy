@@ -81,3 +81,4 @@ public class ${entityName?cap_first} {
 
 <#macro numberField field type>
 <#if type="BigInteger"><#assign suffix="L"><#else><#assign suffix=""></#if>(minimumValue=${field.minimumValue}${suffix}, maximumValue=${field.maximumValue}${suffix}, decimalPlaces=${field.decimalPlaces})</#macro>
+<#--if type="BigInteger">(decimalPlaces=${field.decimalPlaces})</#if></#macro-->

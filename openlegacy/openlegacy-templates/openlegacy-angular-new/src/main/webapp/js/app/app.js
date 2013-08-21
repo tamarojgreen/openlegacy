@@ -14,7 +14,7 @@
 
 		/* Register controller place-holder start
 		<#if keys?size &gt; 0>
-		$routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
+$routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
 		</#if>
 		$routeProvider = $routeProvider.when( '/${entityName}', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
 		Register controller place-holder end */
@@ -39,3 +39,12 @@ function appOnLoad($cookies,$rootScope,$location,$olHttp){
 	//});
 }
 
+
+function search(baseUrl){
+	var url = baseUrl;
+	$("#keys :input").each(function(i){
+		url = url + $(this).val() + "+";
+	});
+	url = url.substring(0,url.length-1;
+	location.href = url;
+}
