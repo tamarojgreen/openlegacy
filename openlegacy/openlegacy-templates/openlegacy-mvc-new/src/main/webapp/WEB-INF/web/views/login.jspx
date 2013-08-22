@@ -12,8 +12,10 @@
 		</div>
 		<div id="loginform">
 			<ol:form model="login">
-				<ol:field name="user" style="width:350px"/>
-				<ol:field name="password" style="width:350px" />
+			  	<spring:message code="label_user" var="label_user" htmlEscape="false" />
+			  	<spring:message code="label_password" var="label_password" htmlEscape="false" />
+				<ol:field name="user" style="width:350px" label="${label_user}"/>
+				<ol:field name="password" style="width:350px" label="${label_password}"/>
 				<div class="field_row">
 					<div class="label">
 						<!---->

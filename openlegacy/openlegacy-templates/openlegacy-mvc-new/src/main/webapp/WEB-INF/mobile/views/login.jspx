@@ -7,9 +7,11 @@
 	<div dir="${openLegacyProperties.rightToLeft ? 'rtl': 'ltr'}">
 		<ol:form model="login">
 			<ol:pagePart>
-				<ol:field name="user" />
-				<ol:field name="password" />
-			  	<spring:message code="label_submit" var="label_submit" htmlEscape="false" />
+			  	<spring:message code="label_user" var="label_user" htmlEscape="false" />
+			  	<spring:message code="label_password" var="label_password" htmlEscape="false" />
+				<ol:field name="user" label="${label_user}"/>
+				<ol:field name="password" label="${label_password}"/>
+]			  	<spring:message code="label_submit" var="label_submit" htmlEscape="false" />
 				<input data-dojo-type="dojox.mobile.Button" type="submit" onclick="doAjaxPost('LoginForm','menuContainer',null,'body,menu');resizeDojoWidget('fixedSplitter');"
 					class="mblButton greyBtn baseBtn normalBtn" value="${label_submit}" />
 				<ol:field name="errorMessage" />
