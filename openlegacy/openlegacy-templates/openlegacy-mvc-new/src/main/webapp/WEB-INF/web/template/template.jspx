@@ -89,6 +89,10 @@
 				</div>
 			</div>
 		</div>
+		<div id="loadingMessage" style="position: absolute;top: 550px;left: 150px;display: none; ">
+			<img src="${pageContext.request.contextPath}/images/loading.gif" />
+		</div>		
+		
 		<tiles:insertAttribute name="footer" />
 		<tiles:insertAttribute name="dialogs" />
 	</body>
