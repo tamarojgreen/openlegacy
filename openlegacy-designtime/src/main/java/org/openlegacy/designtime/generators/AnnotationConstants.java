@@ -23,6 +23,7 @@ public class AnnotationConstants {
 
 	public static final String PROVIDER = "provider";
 
+	public static final String ACTIONS = "actions";
 	public static final String ACTION = "action";
 	public static final String GLOBAL = "global";
 

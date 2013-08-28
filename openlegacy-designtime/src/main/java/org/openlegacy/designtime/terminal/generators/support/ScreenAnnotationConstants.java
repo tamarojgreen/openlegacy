@@ -95,9 +95,6 @@ public class ScreenAnnotationConstants {
 	// @ScreenIdentifiers
 	public static final String IDENTIFIERS = "identifiers";
 
-	// @ScreenActions
-	public static final String ACTIONS = "actions";
-
 	// @ScreenTable
 	public static final String NEXT_SCREEN_ACTION = "nextScreenAction";
 	public static final String PREV_SCREEN_ACTION = "previousScreenAction";
