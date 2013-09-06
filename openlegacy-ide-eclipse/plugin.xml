@@ -276,6 +276,23 @@
             name="Zoom In">
       </command>
    </extension>
+   <extension point="org.eclipse.ltk.core.refactoring.renameParticipants">
+      <renameParticipant
+            class="org.openlegacy.ide.eclipse.refactoring.OpenLegacyEntityRenameParticipant"
+            id="org.openlegacy.ide.eclipse.refactoring.OpenLegacyEntityRenameParticipant"
+            name="OpenLegacy Entity Rename Participant">
+         <enablement>
+             <with variable="affectedNatures">
+                <iterate operator="or">
+                    <equals value="org.openlegacy.ide.eclipse.nature"/>
+                </iterate>
+             </with>
+             <with variable="element">
+                 <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
+             </with>
+         </enablement>
+      </renameParticipant>
+   </extension>
    
    
 </plugin>

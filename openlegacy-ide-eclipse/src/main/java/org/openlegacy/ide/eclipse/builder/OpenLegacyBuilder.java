@@ -67,8 +67,8 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 						IResource[] members = resource.getParent().members();
 						for (IResource iResource : members) {
 							String resourceName = iResource.getName();
-							if (resourceName.startsWith(fileNoExtension)
-									&& (resourceName.endsWith(DesignTimeExecuter.ASPECT_SUFFIX) || resourceName.endsWith(DesignTimeExecuter.RESOURCES_FOLDER_SUFFIX))) {
+							if ((resourceName.startsWith(fileNoExtension) && resourceName.endsWith(DesignTimeExecuter.ASPECT_SUFFIX))
+									|| resourceName.endsWith(fileNoExtension + DesignTimeExecuter.RESOURCES_FOLDER_SUFFIX)) {
 								iResource.delete(false, null);
 							}
 						}
@@ -81,6 +81,25 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 					}
 					break;
 				case IResourceDelta.CHANGED:
+					// when we renamed inner class (e.g. ItemDetails2StockInfo) we need to delete appropriate Aspects
+					String name = resource.getName();
+					if (resource instanceof IFile && name.endsWith(PluginConstants.JAVA_EXTENSION)) {
+
+						String fileNoExtension = FileUtils.fileWithoutExtension(name);
+						IResource[] members = resource.getParent().members();
+						for (IResource iResource : members) {
+							String resourceName = iResource.getName();
+							if (resourceName.startsWith(fileNoExtension)
+									&& resourceName.endsWith(DesignTimeExecuter.ASPECT_SUFFIX)) {
+								iResource.delete(false, null);
+							}
+						}
+						try {
+							getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
+						} catch (CoreException e) {
+							logger.fatal(e);
+						}
+					}
 					checkAspectGenerate(resource);
 					checkAnalyzerContextChange(resource);
 					break;
