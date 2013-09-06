@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<#if cssContainerPath??>
+			<link media="all" type="text/css" rel="stylesheet" href="file://${cssContainerPath}bootstrap.min.css"/>
+			<link media="all" type="text/css" rel="stylesheet" href="file://${cssContainerPath}bootstrap-responsive.min.css"/>
+		</#if>
+		<#if jsContainerPath??>
+			<script src="file://${jsContainerPath}bootstrap.js"></script>
+		</#if>
+	</head>
+<body>
+	<h4>${pageDefinition.entityDefinition.entityName}</h4>
+	<div class="row">
+		<div class="span8">
+			<form class="form-horizontal" accept-charset="utf-8">
+				<#if pageDefinition.entityDefinition.keys?size &gt; 0>
+				<div id="keys">
+				<#list pageDefinition.entityDefinition.keys as keyField>
+					<@rpcField field=keyField entity=pageDefinition.entityDefinition/>
+			  	</#list>
+			  	</div>
+				<button class="btn btn-small btn-primary">Search</button>
+				</#if>
+				<@rpcEntity entity=pageDefinition.entityDefinition/>
+			</form>
+		</div>
+	</div>
+
+	<#macro rpcEntity entity>
+				<#list entity.fieldsDefinitions?values as field>
+					<@rpcField field=field entity=entity/>
+			  	</#list>
+			  	
+				<#list entity.partsDefinitions?values as part>
+					<@rpcPart part=part entity=entity/>
+				</#list>
+				<div class="btn-toolbar">
+				<#list entity.actions as action>
+					<button class="btn btn-small btn-primary">${action.displayName}</button>
+				</#list>
+				</div>
+	</#macro>
+
+	<#macro rpcPart part entity>
+		<#if part.occur = 1>
+				<div class="control-group">
+			<#list part.fieldsDefinitions?values as field>
+				<@rpcField field=field entity=entity/>
+			</#list>
+				</div>
+			<#list part.innerPartsDefinitions?values as innerPart>
+				<@rpcPart part=innerPart entity=entity/>
+			</#list>
+
+		<#else>
+			<table class="table">
+				<tr data-ng-repeat="item in model.${part.partName}">
+				<#list part.fieldsDefinitions?values as field>
+					<td>{{item.${field.name}}}</td>
+				</#list>
+				</tr>
+			</table>
+		</#if>
+	</#macro>
+
+	<#macro rpcField field entity>
+				<div class="control-group">
+					<label for="${field.name?replace(".", "_")}" class="control-label">${field.displayName}:</label>
+					<div class="controls">
+		<#if field.editable>
+						<input name="${field.name?replace(".", "_")}"/>
+		<#else>
+						<div id="${field.name?replace(".", "_")}"></div>
+		</#if>
+					</div>
+				</div>
+	</#macro>
+</body>
+</html>	
