@@ -80,31 +80,35 @@ public class SessionRunner extends AbstractMojo {
 			public void handle(String target, HttpServletRequest request, HttpServletResponse response, int dispatch)
 					throws IOException, ServletException {
 
-				initApplicationContext();
+				try {
+					initApplicationContext();
 
-				String uri = request.getRequestURI();
-				if (uri.contains(".js")) {
-					handleJsFiles(request, response, uri);
-					return;
-				}
+					String uri = request.getRequestURI();
+					if (uri.contains(".js")) {
+						handleJsFiles(request, response, uri);
+						return;
+					}
 
-				if (uri.contains("sequence")) {
-					response.getWriter().write(getTerminalSession().getSequence().toString());
-					((Request)request).setHandled(true);
-					return;
-				}
+					if (uri.contains("sequence")) {
+						response.getWriter().write(getTerminalSession().getSequence().toString());
+						((Request)request).setHandled(true);
+						return;
+					}
 
-				if (uri.contains("logoff")) {
-					handleLogoff(response);
-					((Request)request).setHandled(true);
-					return;
+					if (uri.contains("logoff")) {
+						handleLogoff(response);
+						((Request)request).setHandled(true);
+						return;
+					}
+					if (request.getMethod().equalsIgnoreCase("POST")) {
+						handlePost(request);
+					}
+					handleHtmlRendering(request, response);
+				} catch (RuntimeException e) {
+					e.printStackTrace();
+					throw (e);
 				}
-				if (request.getMethod().equalsIgnoreCase("POST")) {
-					handlePost(request);
-				}
-				handleHtmlRendering(request, response);
 			}
-
 		};
 
 		server.setHandler(handler);
@@ -145,9 +149,9 @@ public class SessionRunner extends AbstractMojo {
 
 	private void handleHtmlRendering(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String html = getRenderer().render(getTerminalSession().getSnapshot());
+		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().write(html);
 
-		response.setContentType("text/html;charset=utf-8");
 		response.setStatus(HttpServletResponse.SC_OK);
 		((Request)request).setHandled(true);
 	}

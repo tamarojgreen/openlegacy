@@ -72,6 +72,12 @@
 			<version>${spring.framework.version}</version>
 			<scope>compile</scope>
 		</dependency>
-
+		<!-- Bidi support
+		<dependency> 
+		    <groupId>com.ibm.icu</groupId> 
+			<artifactId>icu4j</artifactId> 
+			<version>49.1</version> 
+		</dependency>
+		-->
 	</dependencies>
 </project>
