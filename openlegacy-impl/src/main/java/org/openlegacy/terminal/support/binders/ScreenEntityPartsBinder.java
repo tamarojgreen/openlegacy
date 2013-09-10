@@ -74,6 +74,10 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 		for (String fieldPartName : fieldPartNames) {
 			PartEntityDefinition<ScreenFieldDefinition> screenPartEntityDefinition = partsDefinitions.get(fieldPartName);
 			Object screenPart = fieldAccessor.getFieldValue(fieldPartName);
+			if (screenPart == null) {
+				screenPart = ReflectionUtil.newInstance(screenPartEntityDefinition.getPartClass());
+				fieldAccessor.setFieldValue(fieldPartName, screenPart);
+			}
 			screenBinderLogic.populateSendAction(sendAction, terminalSnapshot, screenPart,
 					screenPartEntityDefinition.getFieldsDefinitions().values());
 		}
