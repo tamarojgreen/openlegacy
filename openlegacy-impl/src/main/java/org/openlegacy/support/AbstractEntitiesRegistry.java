@@ -67,6 +67,9 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	}
 
 	public Class<?> getEntityClass(String entityName) {
+		if (entityName.contains(".")) {
+			entityName = entityName.substring(entityName.lastIndexOf(".") + 1);
+		}
 		return entities.get(entityName);
 	}
 

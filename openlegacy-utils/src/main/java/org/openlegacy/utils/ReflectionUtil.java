@@ -44,6 +44,10 @@ public class ReflectionUtil {
 		return org.springframework.beans.BeanUtils.instantiate(clazz);
 	}
 
+	public static Object newInstance(String className) throws ClassNotFoundException {
+		return newInstance(Class.forName(className));
+	}
+
 	public static void copyProperties(Object destination, Object source) {
 		try {
 			BeanUtils.copyProperties(destination, source);
