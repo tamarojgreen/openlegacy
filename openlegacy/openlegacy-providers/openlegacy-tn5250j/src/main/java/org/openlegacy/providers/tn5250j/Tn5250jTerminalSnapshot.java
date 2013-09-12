@@ -145,14 +145,14 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 
 		Tn5250jTerminalField field = null;
 		boolean isEditable = screenData.field[startAbsolutePosition] != 0;
+		boolean hidden = false;
+		if ((screenData.extended[startAbsolutePosition] & TN5250jConstants.EXTENDED_5250_NON_DSP) != 0) {
+			hidden = true;
+		}
 		if (isEditable) {
 			int fieldAttributes = screenData.attr[startAbsolutePosition];
 			ScreenField screenField = screen.getScreenFields().findByPosition(startAbsolutePosition);
 			if (screenField != null) {
-				boolean hidden = false;
-				if ((screenData.extended[startAbsolutePosition] & TN5250jConstants.EXTENDED_5250_NON_DSP) != 0) {
-					hidden = true;
-				}
 				if (screenField.isBypassField()) {
 					if (screenData.attr[startAbsolutePosition] == 39) {
 						hidden = true;
@@ -174,7 +174,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 			}
 		} else {
 			int fieldAttributes = screenData.attr[startAbsolutePosition];
-			field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes, false);
+			field = createReadOnlyField(value, startPosition.getRow(), startColumn, fieldAttributes, hidden);
 		}
 
 		if (visualValue != null && !value.equals(visualValue)) {
