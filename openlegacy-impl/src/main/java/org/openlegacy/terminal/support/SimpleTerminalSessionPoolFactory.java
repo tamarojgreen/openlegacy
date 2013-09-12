@@ -41,7 +41,9 @@ public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory,
 	}
 
 	public void returnSession(TerminalSession terminalSession) {
-		ReflectionUtil.newInstance(cleanupAction).perform(terminalSession, null);
+		if (cleanupAction != null) {
+			ReflectionUtil.newInstance(cleanupAction).perform(terminalSession, null);
+		}
 		actives.remove(terminalSession);
 		blockingQueue.offer(terminalSession);
 	}
@@ -62,7 +64,9 @@ public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory,
 		for (int i = 0; i < maxConnections; i++) {
 			TerminalSession terminalSession = new DefaultTerminalSession();
 			beanFactory.autowireBean(terminalSession);
-			ReflectionUtil.newInstance(initAction).perform(terminalSession, null);
+			if (initAction != null) {
+				ReflectionUtil.newInstance(initAction).perform(terminalSession, null);
+			}
 			try {
 				blockingQueue.put(terminalSession);
 			} catch (InterruptedException e) {

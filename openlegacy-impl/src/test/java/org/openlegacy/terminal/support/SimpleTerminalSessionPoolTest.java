@@ -39,7 +39,6 @@ public class SimpleTerminalSessionPoolTest {
 				} catch (InterruptedException e) {
 					throw (new RuntimeException(e));
 				}
-				System.out.println("releasing");
 				terminalSessionPool.returnSession(terminalSession1);
 			};
 		};
