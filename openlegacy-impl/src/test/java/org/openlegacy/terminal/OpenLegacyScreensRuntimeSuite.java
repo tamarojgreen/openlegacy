@@ -25,6 +25,7 @@ import org.openlegacy.terminal.support.DefaultSessionsManagerTest;
 import org.openlegacy.terminal.support.DefaultTerminalSessionKeysTest;
 import org.openlegacy.terminal.support.DefaultTerminalSessionTest;
 import org.openlegacy.terminal.support.MultyLineFieldTest;
+import org.openlegacy.terminal.support.SimpleTerminalSessionPoolTest;
 import org.openlegacy.terminal.support.WindowTest;
 import org.openlegacy.terminal.support.binders.BooleanFieldsBinderTest;
 import org.openlegacy.terminal.support.binders.ConditionalFieldTest;
@@ -46,7 +47,7 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 		DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class, CustomBinderTest.class,
 		MultyLineFieldTest.class, DefaultSessionsManagerTest.class, ListFieldTest.class, ScreenEntityFieldAttributeTest.class,
 		ConditionalFieldTest.class, ConditionalFieldTest.class, RpcRegistryTest.class, RpcMockConnectionTest.class,
-		RpcTrailSerializeTest.class })
+		RpcTrailSerializeTest.class, SimpleTerminalSessionPoolTest.class })
 public class OpenLegacyScreensRuntimeSuite {
 
 }
