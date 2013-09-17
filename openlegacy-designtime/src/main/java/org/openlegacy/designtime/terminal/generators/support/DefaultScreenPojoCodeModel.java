@@ -152,6 +152,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean rectangle;
 		private boolean password;
 		private String sampleValue;
+		private String defaultValue;
 		private int rowsOffset;
 		private boolean hasDescription;
 		// @author Ivan Bort refs assembla #235
@@ -219,6 +220,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public String getSampleValue() {
 			return sampleValue;
+		}
+
+		public String getDefaultValue() {
+			return defaultValue;
 		}
 
 		public String getType() {
@@ -388,6 +393,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setSampleValue(String sampleValue) {
 			this.sampleValue = sampleValue;
+		}
+
+		public void setDefaultValue(String defaultValue) {
+			this.defaultValue = defaultValue;
 		}
 
 		public void setSelectionField(boolean selectionField) {

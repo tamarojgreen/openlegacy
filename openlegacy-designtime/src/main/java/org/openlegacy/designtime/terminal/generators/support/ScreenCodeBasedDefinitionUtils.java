@@ -86,6 +86,7 @@ public class ScreenCodeBasedDefinitionUtils {
 			fieldDefinition.setRectangle(javaFieldModel.isRectangle());
 			fieldDefinition.setPassword(javaFieldModel.isPassword());
 			fieldDefinition.setSampleValue(javaFieldModel.getSampleValue());
+			fieldDefinition.setDefaultValue(javaFieldModel.getDefaultValue());
 			fieldDefinition.setJavaTypeName(javaFieldModel.getType());
 			// @author Ivan Bort refs assembla #235
 			fieldDefinition.setEndPosition(new SimpleTerminalPosition(javaFieldModel.getEndRow() == null ? 0

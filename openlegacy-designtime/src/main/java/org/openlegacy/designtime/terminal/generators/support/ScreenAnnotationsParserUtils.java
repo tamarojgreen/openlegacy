@@ -74,6 +74,7 @@ public class ScreenAnnotationsParserUtils {
 		String rectangleValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.RECTANGLE);
 		String passwordValue = getAnnotationValue(annotationExpr, AnnotationConstants.PASSWORD);
 		String sampleValue = getAnnotationValue(annotationExpr, AnnotationConstants.SAMPLE_VALUE);
+		String defaultValue = getAnnotationValue(annotationExpr, AnnotationConstants.DEFAULT_VALUE);
 		String rowsOffset = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.ROWS_OFFSET);
 		// @author Ivan Bort refs assembla #235
 		String endRowValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.END_ROW);
@@ -83,6 +84,7 @@ public class ScreenAnnotationsParserUtils {
 		String unlessValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.UNLESS);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : sampleValue);
+		field.setDefaultValue(StringUtil.isEmpty(defaultValue) ? "" : defaultValue);
 		field.setFieldTypeName(StringUtil.toClassName(fieldTypeName));
 
 		if (StringConstants.TRUE.equals(rectangleValue)) {
