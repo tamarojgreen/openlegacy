@@ -6,7 +6,7 @@ import org.openlegacy.terminal.TerminalSessionFactory;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.ApplicationContext;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +18,7 @@ import javax.inject.Inject;
 public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory, InitializingBean {
 
 	@Inject
-	private AutowireCapableBeanFactory beanFactory;
+	private ApplicationContext applicationContext;
 
 	private int maxConnections = 2;
 
@@ -62,8 +62,7 @@ public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory,
 
 	private void init() {
 		for (int i = 0; i < maxConnections; i++) {
-			TerminalSession terminalSession = new DefaultTerminalSession();
-			beanFactory.autowireBean(terminalSession);
+			TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
 			if (initAction != null) {
 				ReflectionUtil.newInstance(initAction).perform(terminalSession, null);
 			}

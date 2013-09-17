@@ -11,7 +11,6 @@
 		class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" />
 
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession"
-		scope="prototype" parent="abstractTerminalSession" factory-bean="terminalSessionPool"
-		factory-method="getSession" destroy-method="returnSession" />
+		scope="prototype" parent="abstractTerminalSession" />
 
 </beans>

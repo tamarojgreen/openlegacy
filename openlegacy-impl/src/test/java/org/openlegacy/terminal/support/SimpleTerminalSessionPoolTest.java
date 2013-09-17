@@ -3,7 +3,6 @@ package org.openlegacy.terminal.support;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.terminal.TerminalSession;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -16,18 +15,15 @@ import junit.framework.Assert;
 public class SimpleTerminalSessionPoolTest {
 
 	@Inject
-	private ApplicationContext applicationContext;
-
-	@Inject
 	private SimpleTerminalSessionPoolFactory terminalSessionPool;
 
 	@Test
 	public void testPool() {
 		Assert.assertEquals(0, terminalSessionPool.getActives().size());
-		final TerminalSession terminalSession1 = applicationContext.getBean(TerminalSession.class);
+		final TerminalSession terminalSession1 = terminalSessionPool.getSession();
 		Assert.assertEquals(1, terminalSessionPool.getActives().size());
 		@SuppressWarnings("unused")
-		TerminalSession terminalSession2 = applicationContext.getBean(TerminalSession.class);
+		TerminalSession terminalSession2 = terminalSessionPool.getSession();
 		Assert.assertEquals(2, terminalSessionPool.getActives().size());
 
 		Thread thread = new Thread() {
@@ -46,7 +42,8 @@ public class SimpleTerminalSessionPoolTest {
 
 		long before = System.currentTimeMillis();
 		// should wait for run to end
-		TerminalSession terminalSession3 = applicationContext.getBean(TerminalSession.class);
+		@SuppressWarnings("unused")
+		TerminalSession terminalSession3 = terminalSessionPool.getSession();
 		long after = System.currentTimeMillis();
 
 		Assert.assertTrue((after - before) >= 1000);
