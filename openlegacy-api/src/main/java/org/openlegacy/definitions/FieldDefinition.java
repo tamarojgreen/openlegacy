@@ -25,6 +25,8 @@ public interface FieldDefinition extends Comparable<FieldDefinition> {
 
 	String getSampleValue();
 
+	String getDefaultValue();
+
 	/**
 	 * Define an applicative type of the field. e.g: UserField, MenuSelectionField, ErrorField
 	 * 

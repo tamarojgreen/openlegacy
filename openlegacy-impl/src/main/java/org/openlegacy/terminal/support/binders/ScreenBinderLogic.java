@@ -197,7 +197,11 @@ public class ScreenBinderLogic implements Serializable {
 
 			// null - skip field assignment
 			if (fieldValue == null) {
-				continue;
+				if (fieldMappingDefinition.getDefaultValue() != null) {
+					fieldValue = fieldMappingDefinition.getDefaultValue();
+				} else {
+					continue;
+				}
 			}
 
 			// don't handle none string or number

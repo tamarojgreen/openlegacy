@@ -22,6 +22,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	private String name;
 	private String sampleValue;
+	private String defaultValue;
 	private Class<? extends FieldType> type;
 	private String displayName;
 	private FieldTypeDefinition fieldTypeDefinition;
@@ -111,6 +112,14 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setSampleValue(String sampleValue) {
 		this.sampleValue = sampleValue;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 	public Class<?> getJavaType() {

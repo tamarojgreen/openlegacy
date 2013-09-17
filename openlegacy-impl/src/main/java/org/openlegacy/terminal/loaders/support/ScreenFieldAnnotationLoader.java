@@ -16,9 +16,9 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleScreenListFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleScreenListFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractFieldAnnotationLoader;
@@ -126,6 +126,9 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		}
 
 		screenFieldDefinition.setSampleValue(fieldAnnotation.sampleValue());
+		if (!fieldAnnotation.defaultValue().equals(AnnotationConstants.NULL)) {
+			screenFieldDefinition.setDefaultValue(fieldAnnotation.defaultValue());
+		}
 		screenFieldDefinition.setJavaType(field.getType());
 
 		screenFieldDefinition.setHelpText(fieldAnnotation.helpText());
