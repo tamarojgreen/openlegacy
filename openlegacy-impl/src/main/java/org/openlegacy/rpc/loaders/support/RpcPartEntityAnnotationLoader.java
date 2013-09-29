@@ -46,7 +46,6 @@ public class RpcPartEntityAnnotationLoader extends AbstractClassAnnotationLoader
 		} else if (rpcPartAnnotation.displayName().length() > 0) {
 			displayName = rpcPartAnnotation.displayName();
 		}
-		rpcPartEntityDefinition.setOccur(rpcPartAnnotation.occur());
 		rpcPartEntityDefinition.setDisplayName(displayName);
 		rpcEntitiesRegistry.addPart(rpcPartEntityDefinition);
 	}
