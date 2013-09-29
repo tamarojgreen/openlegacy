@@ -5,7 +5,7 @@ import org.openlegacy.definitions.support.AbstractListFieldTypeDefinition;
 
 public class SimpleRpcListFieldTypeDefinition extends AbstractListFieldTypeDefinition implements RpcListFieldTypeDefinition {
 
-	private FieldTypeDefinition fieldTypeDefinition;
+	private FieldTypeDefinition itemTypeDefinition;
 	private Class<?> itemJavaType;
 
 	/*
@@ -14,13 +14,17 @@ public class SimpleRpcListFieldTypeDefinition extends AbstractListFieldTypeDefin
 	 * @see org.openlegacy.rpc.definitions.RpcListFieldTypeDefinition#getItemFieldTypeDefinition()
 	 */
 	public FieldTypeDefinition getItemTypeDefinition() {
-		return fieldTypeDefinition;
+		return itemTypeDefinition;
+	}
+
+	public void setItemTypeDefinition(FieldTypeDefinition itemTypeDefinition) {
+		this.itemTypeDefinition = itemTypeDefinition;
 	}
 
 	public SimpleRpcListFieldTypeDefinition(int fieldLength, int count, FieldTypeDefinition fieldTypeDefinition,
 			Class<?> itemJavaType) {
 		super(fieldLength, count);
-		this.fieldTypeDefinition = fieldTypeDefinition;
+		this.itemTypeDefinition = fieldTypeDefinition;
 		this.itemJavaType = itemJavaType;
 	}
 

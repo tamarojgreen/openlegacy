@@ -55,7 +55,7 @@ public class ${entityName?cap_first} {
 		@RpcField(length =${field.length}, originalName="${field.originalName}"<#if field.key>key = true, </#if><#if field.editable> ,editable= true</#if><#if field.type??><#if field.type.simpleName != "General"> ,fieldType=${field.type.simpleName}.class</#if></#if><#if field.displayName??> ,displayName = "${field.displayName}"</#if><#if field.sampleValue?? && field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if><#if field.helpText?? && field.helpText != "">, helpText = "${field.helpText}"</#if><#if field.runtimeName?? && field.runtimeName != "">, runtimeName = "${field.runtimeName}"</#if>)
 <#if field.fieldTypeDefinition.typeName = "list">
 <#if field.fieldTypeDefinition.itemTypeDefinition.typeName = "number" >
-		@RpcNumericItem<@numberField field=field.fieldTypeDefinition.itemTypeDefinition type=field.javaTypeName/>
+		@RpcNumericField<@numberField field=field.fieldTypeDefinition.itemTypeDefinition type=field.javaTypeName/>
 </#if>
 		private List<${field.fieldTypeDefinition.itemJavaName}> ${field.name?uncap_first};
 <#else>
