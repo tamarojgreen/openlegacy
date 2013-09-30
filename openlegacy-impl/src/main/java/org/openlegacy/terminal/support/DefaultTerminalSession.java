@@ -98,6 +98,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
+	private Integer lastSequence = 0;
+
 	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 
@@ -110,7 +112,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (entity == null) {
 			entity = getEntityInner();
 		}
-		if (!entityUtils.isEntitiesEquals(screenEntitiesRegistry, entity, screenEntityClass, keys)) {
+		//
+		if (!entityUtils.isEntitiesEquals(screenEntitiesRegistry, entity, screenEntityClass, keys)
+				|| !lastSequence.equals(getSequence())) {
 			resetEntity();
 		}
 		ScreenEntityDefinition definitions = getScreenEntitiesRegistry().get(screenEntityClass);
@@ -176,6 +180,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@SuppressWarnings("unchecked")
 	public <R extends ScreenEntity> R getEntity() {
 		checkRegistryDirty();
+		if (!lastSequence.equals(getSequence())) {
+			resetEntity();
+		}
 		if (entity == null) {
 			entity = getEntityInner();
 		}
@@ -232,6 +239,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			}
 
 			doAction(sendAction, waitConditions);
+			lastSequence = getSequence();
 		}
 
 		return (R)getEntity();

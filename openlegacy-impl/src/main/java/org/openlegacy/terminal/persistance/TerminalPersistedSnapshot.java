@@ -75,7 +75,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 	private List<TerminalField> fields;
 
 	@XmlAttribute
-	private Integer sequence;
+	private Integer sequence = 0;
 
 	@XmlAttribute
 	private Boolean rightToLeft = false;

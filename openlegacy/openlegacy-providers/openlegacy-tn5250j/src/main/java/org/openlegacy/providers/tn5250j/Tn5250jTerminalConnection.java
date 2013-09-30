@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.providers.tn5250j;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
@@ -26,6 +28,8 @@ import org.tn5250j.framework.tn5250.ScreenOIA;
 import java.util.List;
 
 public class Tn5250jTerminalConnection implements TerminalConnection, SessionListener, ScreenListener {
+
+	private final static Log logger = LogFactory.getLog(Tn5250jTerminalConnection.class);
 
 	private Session5250 session;
 
@@ -132,6 +136,7 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 
 	public void onScreenChanged(int inUpdate, int startRow, int startCol, int endRow, int endCol) {
 		if (inUpdate == 1) {
+			logger.debug("Screen changed by host. Sequence=" + sequence);
 			sequence++;
 		}
 	}

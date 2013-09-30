@@ -140,6 +140,9 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	}
 
 	public Integer getSequence() {
+		if (!isConnected()) {
+			return 0;
+		}
 		return terminalConnection.getSequence();
 	}
 
