@@ -12,6 +12,7 @@ package org.openlegacy.terminal.support.navigation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.modules.table.Table;
 import org.openlegacy.modules.table.drilldown.DrilldownAction;
@@ -118,6 +119,14 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 
 					ScreenNavigationUtil.validateCurrentScreen(targetScreenEntityClass, currentEntityClass);
 					break;
+				}
+				if (currentEntityDefinition.getType() == LoginEntity.class) {
+					logger.error(MessageFormat.format("Reached login screen during attempt to navigate to {0}",
+							targetScreenEntityClass));
+
+					ScreenNavigationUtil.validateCurrentScreen(targetScreenEntityClass, currentEntityClass);
+					break;
+
 				}
 			}
 
