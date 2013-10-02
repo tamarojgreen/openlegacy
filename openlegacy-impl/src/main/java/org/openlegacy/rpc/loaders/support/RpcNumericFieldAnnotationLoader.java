@@ -8,6 +8,7 @@ import org.openlegacy.loaders.support.AbstractFieldAnnotationLoader;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
+import org.openlegacy.rpc.definitions.SimpleRpcListFieldTypeDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -15,6 +16,7 @@ import org.springframework.util.Assert;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.text.MessageFormat;
+import java.util.List;
 
 @Component
 public class RpcNumericFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
@@ -56,11 +58,18 @@ public class RpcNumericFieldAnnotationLoader extends AbstractFieldAnnotationLoad
 				"Field definition for field {0} not found. Verify @RpcNumericField is defined along @RpcField annotation",
 				fieldName));
 
-		if (!Number.class.isAssignableFrom(fieldDefinition.getJavaType())) {
-			throw (new RegistryException("A field marked with @RpcNumericField must be of numeric"));
+		if (!Number.class.isAssignableFrom(fieldDefinition.getJavaType()) && fieldDefinition.getJavaType() != List.class) {
+			throw (new RegistryException("A field marked with @RpcNumericField must be of numeric or List of numeric"));
 		}
-		fieldDefinition.setFieldTypeDefinition(new SimpleRpcNumericFieldTypeDefinition(fieldAnnotation.minimumValue(),
-				fieldAnnotation.maximumValue(), fieldAnnotation.decimalPlaces()));
+		SimpleRpcNumericFieldTypeDefinition simpleRpcNumericFieldTypeDefinition = new SimpleRpcNumericFieldTypeDefinition(
+				fieldAnnotation.minimumValue(), fieldAnnotation.maximumValue(), fieldAnnotation.decimalPlaces());
+		if (fieldDefinition.getJavaType() != List.class) {
+			fieldDefinition.setFieldTypeDefinition(simpleRpcNumericFieldTypeDefinition);
+		} else {
+			SimpleRpcListFieldTypeDefinition simpleRpcListFieldTypeDefinition = (SimpleRpcListFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+			simpleRpcListFieldTypeDefinition.setItemTypeDefinition(simpleRpcNumericFieldTypeDefinition);
+
+		}
 	}
 
 }

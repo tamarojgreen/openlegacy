@@ -24,7 +24,7 @@ public class ArraySample {
 
 		@RpcListField(count=6)
 		@RpcField(length =2, originalName="CHILD2")
-		@RpcNumericItem(minimumValue=-99, maximumValue=99, decimalPlaces=0)
+		@RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
 		private List<Integer> child2;
 
 	}

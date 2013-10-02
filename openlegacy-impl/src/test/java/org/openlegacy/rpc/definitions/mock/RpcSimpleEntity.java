@@ -6,7 +6,7 @@ import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 
 @RpcEntity(name = "SimpleField")
-public class RpcSimpleEntity {
+public class RpcSimpleEntity implements org.openlegacy.rpc.RpcEntity {
 
 	@RpcNumericField(minimumValue = -99, maximumValue = 99, decimalPlaces = 0)
 	@RpcField(length = 2, originalName = "PARAM1", fieldType = General.class)
