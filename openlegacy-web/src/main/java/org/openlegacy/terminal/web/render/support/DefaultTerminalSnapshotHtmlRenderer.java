@@ -15,6 +15,8 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.utils.FieldsQuery;
+import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
 import org.openlegacy.terminal.web.render.ElementsProvider;
 import org.openlegacy.terminal.web.render.HtmlProportionsHandler;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
@@ -29,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -112,6 +115,14 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	private static String getCursorFieldName(TerminalSnapshot terminalSnapshot) {
 		TerminalPosition cursorPosition = terminalSnapshot.getCursorPosition();
+		// on emulation, set cursor to 1st field if on protected field
+		TerminalField field = terminalSnapshot.getField(cursorPosition);
+		if (field != null && !field.isEditable()) {
+			List<TerminalField> editableFields = FieldsQuery.queryFields(terminalSnapshot, EditableFieldsCriteria.instance());
+			if (editableFields.size() > 0) {
+				cursorPosition = editableFields.get(0).getPosition();
+			}
+		}
 		return cursorPosition != null ? HtmlNamingUtil.getFieldName(cursorPosition) : "";
 	}
 

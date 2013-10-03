@@ -71,7 +71,7 @@ public class Tn5250jUtils {
 				color = Color.PURPLE;
 				break;
 			case 49:
-				backColor = Color.PURPLE;
+				backColor = Color.AQUA;
 				break;
 			case 50:
 				color = Color.YELLOW;
@@ -80,11 +80,11 @@ public class Tn5250jUtils {
 				backColor = Color.YELLOW;
 				break;
 			case 52:
-				color = Color.PURPLE;
+				color = Color.AQUA;
 				underline = true;
 				break;
 			case 53:
-				backColor = Color.PURPLE;
+				backColor = Color.AQUA;
 				underline = true;
 				break;
 			case 54:
@@ -123,6 +123,9 @@ public class Tn5250jUtils {
 				break;
 			default:
 				color = Color.GREEN;
+		}
+		if (backColor != Color.BLACK) {
+			color = Color.BLACK;
 		}
 		field.setColor(color);
 		field.setBackColor(backColor);

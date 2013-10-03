@@ -101,6 +101,9 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 			if (field.getRightAdjust() != RightAdjust.NONE) {
 				input.setAttribute(HtmlConstants.DATA_RIGHT_ADJUST, field.getRightAdjust().toString());
 			}
+			if (field.getType() == Integer.class) {
+				input.setAttribute("data-type", "int");
+			}
 		}
 		parentTag.appendChild(input);
 		return input;

@@ -82,7 +82,7 @@ function doAjaxPost(formName, areaName, actionName,fragments,callback) {
 }
 
 function showSessionViewer(baseUrl) {
-	showDialog("sessionViewerDialog", baseUrl + "/sessionViewer");
+	showDialog("sessionViewerDialog", baseUrl + "/sessionViewer?ts=" + (new Date()));
 }
 
 function showMobileSessionViewer(baseUrl){

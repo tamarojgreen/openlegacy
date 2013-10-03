@@ -27,7 +27,7 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 	}
 
 	public int toHeight(int row) {
-		return row * rowProportion;
+		return (row - 1) * rowProportion;
 	}
 
 	public void setColumnProportion(int columnProportion) {

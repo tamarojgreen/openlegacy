@@ -1,3 +1,5 @@
+var olConfig = {arrows:true,blockNumeric:true};
+
 // default timeouts. when page is loaded checking sequence after 1000, then 3000 and so..
 var timeouts = [1000,3000,10000];
 
@@ -13,8 +15,10 @@ function getMainForm() {
 function TerminalSession() {
 
 	this.doAction = function(keyboardKey) {
-		getMainForm().KeyboardKey.value = keyboardKey;
-		getMainForm().submit();
+		if (getMainForm().KeyboardKey.value == ""){
+			getMainForm().KeyboardKey.value = keyboardKey;
+			getMainForm().submit();
+		}
 	};
 }
 
@@ -31,6 +35,7 @@ function emulationOnLoad(){
 			return;
 		}
 		if (getMainForm().TerminalCursor != null){
+			ol_currentLabelId = null;
 			setFocus();
 			attachFieldsFocus(on);
 		}
@@ -39,7 +44,7 @@ function emulationOnLoad(){
 		}
 		captureOnChange(on);
 		setLabelDoubleClick();
-		OLKeyBoardHandler.handleArrows();
+		OLKeyBoardHandler.handleKeydown();
 	});
 }
 function checkSequence(){
@@ -162,9 +167,7 @@ function setLabelDoubleClick(){
     	require(["dojo/ready", "dijit/registry", "dojo/dom"], function(ready, registry,dom){
     		on(dojo.body(),"dblclick",function(e){
     			// avoid duplicate enter
-    			if (getMainForm().KeyboardKey.value == ""){
-    				terminalSession.doAction("ENTER");
-    			}
+				terminalSession.doAction("ENTER");
     		});
     	});
 		query("#terminalSnapshot span").forEach(function(label){
@@ -176,7 +179,7 @@ function setLabelDoubleClick(){
   	    			ol_currentLabelId = e.target.id; 
     				domClass.add(ol_currentLabelId, "label_selected");
       	    		getMainForm().TerminalCursor.value = e.target.id;
-					terminalSession.doAction("ENTER");
+    				terminalSession.doAction("ENTER");
   	    		}
   	    	});
 
@@ -282,8 +285,8 @@ function isInputElement(element){
 
 var OLKeyBoardHandler = new function(){
 	
-	this.handleArrows = function(){
-	    require(["dojo/on"], function(on){
+	this.handleKeydown = function(){
+	    require(["dojo/on", "dojo/keys"], function(on,keys){
 			var inputs = document.getElementsByTagName("input");
 			
 			for (var i=0;i<inputs.length;i++){
@@ -293,24 +296,51 @@ var OLKeyBoardHandler = new function(){
 				}
 				on(input,"keydown",function(e){
 					// down arrow
-					if (e.keyCode == 40){
-						var input = OLBrowserUtil.getElement(e);
-						var next = OLBrowserUtil.nextInput(input);
-						if (next != null){next.focus();};
+					var input = OLBrowserUtil.getElement(e);
+					
+					if (olConfig.arrows){
+						if (e.keyCode == keys.DOWN_ARROW){
+							var next = OLBrowserUtil.nextInput(input);
+							if (next != null){next.focus();};
+						}
+						if (e.keyCode == keys.UP_ARROW){
+							var prev = OLBrowserUtil.previousInput(input);
+							if (prev != null){prev.focus();};
+						};
 					}
-					if (e.keyCode == 38){
-						var input = OLBrowserUtil.getElement(e);
-						var prev = OLBrowserUtil.previousInput(input);
-						if (prev != null){prev.focus();};
-					};
+					if (olConfig.blockNumeric){
+						var dataType = input.getAttribute("data-type");
+						if (dataType != null && dataType == "int"){
+
+							if (OLBrowserUtil.isPrintableChar(e.keyCode)){
+								if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode == 190){ // dot
+									// OK
+								} else{
+									OLBrowserUtil.cancelEvent(e);
+								}
+							}
+							
+						}
+					}
 				});
 			};
 	    });
 	};
+
 };
 
 var OLBrowserUtil = new function(){
 	
+	this.isPrintableChar = function(keycode){
+		var printable = 
+	        (keycode > 47 && keycode < 58)   || // number keys
+	        keycode == 32 || keycode == 13   || // spacebar & return key(s) (if you want to allow carriage returns)
+	        (keycode > 64 && keycode < 91)   || // letter keys
+	        (keycode > 95 && keycode < 112)  || // numpad keys
+	        (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
+	        (keycode > 218 && keycode < 223);   // [\]' (in order)
+		return printable;
+	}
 	this.previousInput = function(input){
 		var inputs = document.getElementsByTagName("input");
 		for (var i=inputs.length-1;i>=0;i--){

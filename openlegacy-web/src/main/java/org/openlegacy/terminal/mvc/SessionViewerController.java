@@ -44,8 +44,8 @@ public class SessionViewerController {
 		if (request.getParameter("small") != null) {
 			style = "style=\"width:300px;height;200px\";";
 		}
-		return MessageFormat.format("<html><body><img src=\"{0}/sessionViewer/image\"/ {1}></body></html>",
-				request.getContextPath(), style);
+		return MessageFormat.format("<html><body><img src=\"{0}/sessionViewer/image?x={1}\"/ {2}></body></html>",
+				request.getContextPath(), System.currentTimeMillis(), style);
 	}
 
 	@RequestMapping(value = "/image", method = RequestMethod.GET)

@@ -12,19 +12,22 @@
 	<bean id="elementsProvider" class="org.openlegacy.terminal.web.render.support.DefaultElementsProvider">
 		<property name="colorMapper">
 			<map>
-				<!-- converts by default the color by org.openlegacy.terminal.Color -->
 				<entry key="WHITE" value="black" />
+				<entry key="BLACK" value="white" />
 				<entry key="YELLOW" value="orange" />
 				<entry key="PINK" value="purple" />
+				<entry key="AQUA" value="#00E6FF" />
 			</map>
 		</property>
 		<property name="backcolorMapper">
 			<map>
 				<entry key="BLACK" value="white" />
-				<!-- converts by default the color by org.openlegacy.terminal.Color -->
+				<entry key="WHITE" value="black" />
+				<entry key="AQUA" value="#00E6FF" />
 			</map>
 		</property>
 	</bean>
+	
  	<bean id="htmlProportionsHandler" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="19" p:columnProportion="10" p:fontSize="16" p:inputHeight="16" />
 	<bean id="terminalSendActionBuilder" class="org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder" />
 	<bean id="tableWriter" class="org.openlegacy.web.DefaultHtmlTableWriter" />
