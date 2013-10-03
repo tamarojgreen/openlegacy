@@ -16,13 +16,13 @@ import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleRpcNumericFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleScreenListFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractFieldAnnotationLoader;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
+import org.openlegacy.rpc.definitions.SimpleRpcListFieldTypeDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
@@ -107,7 +107,7 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		} else if (rpcFieldDefinition.isPassword()) {
 			rpcFieldDefinition.setFieldTypeDefinition(new SimplePasswordFieldTypeDefinition());
 		} else if (java.util.List.class == field.getType()) {
-			rpcFieldDefinition.setFieldTypeDefinition(new SimpleScreenListFieldTypeDefinition());
+			rpcFieldDefinition.setFieldTypeDefinition(new SimpleRpcListFieldTypeDefinition());
 		} else {
 			rpcFieldDefinition.setFieldTypeDefinition(new SimpleTextFieldTypeDefinition());
 		}

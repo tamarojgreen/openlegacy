@@ -17,11 +17,16 @@ public class SimpleRpcListFieldTypeDefinition extends AbstractListFieldTypeDefin
 		return itemTypeDefinition;
 	}
 
-	  public void setItemTypeDefinition(FieldTypeDefinition itemTypeDefinition) {
-		      this.itemTypeDefinition = itemTypeDefinition;
-		     }
+	public void setItemTypeDefinition(FieldTypeDefinition itemTypeDefinition) {
+		this.itemTypeDefinition = itemTypeDefinition;
+	}
 
-	
+	public SimpleRpcListFieldTypeDefinition() {
+		super(0, 0);
+		itemTypeDefinition = null;
+		itemJavaType = null;
+	}
+
 	public SimpleRpcListFieldTypeDefinition(int fieldLength, int count, FieldTypeDefinition fieldTypeDefinition,
 			Class<?> itemJavaType) {
 		super(fieldLength, count);
