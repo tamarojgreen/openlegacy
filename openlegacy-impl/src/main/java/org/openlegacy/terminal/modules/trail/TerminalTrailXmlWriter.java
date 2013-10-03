@@ -21,7 +21,7 @@ import java.util.List;
 
 public class TerminalTrailXmlWriter implements TrailWriter {
 
-	public void write(SessionTrail<? extends Snapshot> trail, OutputStream out) {
+	public synchronized void write(SessionTrail<? extends Snapshot> trail, OutputStream out) {
 
 		TerminalPersistedTrail persistedTrail = new TerminalPersistedTrail();
 		List<? extends Snapshot> snapshots = trail.getSnapshots();
