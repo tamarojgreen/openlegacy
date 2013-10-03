@@ -3,6 +3,8 @@ package org.openlegacy.terminal.support;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -15,10 +17,12 @@ import junit.framework.Assert;
 public class SimpleTerminalSessionPoolTest {
 
 	@Inject
-	private SimpleTerminalSessionPoolFactory terminalSessionPool;
+	private ApplicationContext applicationContext;
 
 	@Test
 	public void testPool() {
+		final SimpleTerminalSessionPoolFactory terminalSessionPool = applicationContext.getBean(SimpleTerminalSessionPoolFactory.class);
+
 		Assert.assertEquals(0, terminalSessionPool.getActives().size());
 		final TerminalSession terminalSession1 = terminalSessionPool.getSession();
 		Assert.assertEquals(1, terminalSessionPool.getActives().size());
@@ -47,5 +51,30 @@ public class SimpleTerminalSessionPoolTest {
 		long after = System.currentTimeMillis();
 
 		Assert.assertTrue((after - before) >= 1000);
+	}
+
+	@Test
+	public void testKeepAlive() throws InterruptedException {
+		SimpleTerminalSessionPoolFactory terminalSessionPool = applicationContext.getBean(SimpleTerminalSessionPoolFactory.class);
+		@SuppressWarnings("unused")
+		TerminalSession session = terminalSessionPool.getSession();
+		Assert.assertFalse(CleanupDummyAction.isCalled());
+		Thread.sleep(3000);
+		Assert.assertTrue(CleanupDummyAction.isCalled());
+
+	}
+
+	public static class CleanupDummyAction implements TerminalAction {
+
+		private static boolean called = false;
+
+		public void perform(TerminalSession session, Object entity, Object... keys) {
+			called = true;
+		}
+
+		public static boolean isCalled() {
+			return called;
+		}
+
 	}
 }
