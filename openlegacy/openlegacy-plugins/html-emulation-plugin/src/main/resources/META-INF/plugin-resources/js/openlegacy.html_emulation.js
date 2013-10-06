@@ -183,6 +183,13 @@ function setLabelDoubleClick(){
   	    		}
   	    	});
 
+  			query("#terminalSnapshot input").forEach(function(input){
+  	  	    	on(input, "dblclick", function(e){
+  	  	    		if (e.target.id != null){
+						OLBrowserUtil.cancelEvent(e);
+  	  	    		}
+  	  	    	});
+  	  	  	});
   	  });
   	});    
 }
