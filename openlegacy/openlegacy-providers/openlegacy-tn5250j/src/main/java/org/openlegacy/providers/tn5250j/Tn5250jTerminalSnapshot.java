@@ -138,13 +138,15 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		value = StringUtil.nullsToSpaces(value);
 
 		String visualValue = null;
-		if (convertToLogical == true) {
-			visualValue = value;
-			value = BidiUtil.convertToLogical(value);
-		}
 
 		Tn5250jTerminalField field = null;
 		boolean isEditable = screenData.field[startAbsolutePosition] != 0;
+
+		if (convertToLogical == true) {
+			visualValue = value;
+			value = BidiUtil.convertToLogical(value, isEditable);
+		}
+
 		boolean hidden = false;
 		if ((screenData.extended[startAbsolutePosition] & TN5250jConstants.EXTENDED_5250_NON_DSP) != 0) {
 			hidden = true;
@@ -166,7 +168,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 								- 1);
 						if (convertToLogical == true) {
 							visualValue = value;
-							value = BidiUtil.convertToLogical(value);
+							value = BidiUtil.convertToLogical(value, screenField.isRightToLeft());
 						}
 						field = createEditableField(screenField, value, hidden, fieldAttributes);
 					}
@@ -322,7 +324,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 	public String getLogicalText(TerminalPosition position, int length) {
 		String text = super.getText(position, length);
 		if (convertToLogical) {
-			text = BidiUtil.convertToLogical(text);
+			text = BidiUtil.convertToLogical(text, false);
 		}
 		return text;
 	}
