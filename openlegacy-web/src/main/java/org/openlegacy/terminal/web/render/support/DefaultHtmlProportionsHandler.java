@@ -21,6 +21,7 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 	private int inputAdditionalWidth = 3;
 
 	private Integer inputHeight;
+	private int letterSpacing = 0;
 
 	public int toWidth(int column) {
 		return column * columnProportion;
@@ -63,5 +64,13 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 
 	public void setInputAdditionalWidth(Integer inputAdditionalWidth) {
 		this.inputAdditionalWidth = inputAdditionalWidth;
+	}
+
+	public int getLetterSpacing() {
+		return letterSpacing;
+	}
+
+	public void setLetterSpacing(int letterSpacing) {
+		this.letterSpacing = letterSpacing;
 	}
 }

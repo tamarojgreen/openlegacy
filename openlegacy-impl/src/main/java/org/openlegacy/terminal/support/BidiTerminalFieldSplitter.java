@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalFieldSplitter;
 import org.openlegacy.utils.BidiUtil;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class BidiTerminalFieldSplitter implements TerminalFieldSplitter {
 
-	public List<TerminalField> split(TerminalField terminalField) {
+	public List<TerminalField> split(TerminalField terminalField, ScreenSize screenSize) {
 		Assert.notNull(terminalField);
 		String visualValue = terminalField.getVisualValue();
 		if (visualValue == null) {
@@ -36,7 +37,7 @@ public class BidiTerminalFieldSplitter implements TerminalFieldSplitter {
 			int endIndex = bidi.getRunLimit(i);
 			String part = visualValue.substring(index, endIndex);
 			part = BidiUtil.convertToLogical(part);
-			FieldSplitterUtil.addSplittedField(terminalField, part, fields, index);
+			FieldSplitterUtil.addSplittedField(terminalField, part, fields, index, screenSize);
 		}
 		return fields;
 	}

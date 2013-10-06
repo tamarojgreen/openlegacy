@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.web.render;
 
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
 
@@ -28,7 +29,7 @@ public interface ElementsProvider<T> {
 
 	T createHidden(T rootTag, String name);
 
-	T createLabel(T rootTag, TerminalField terminalField);
+	T createLabel(T rootTag, TerminalField terminalField, ScreenSize screenSize);
 
 	T createStyleTag(T rootTag, String styleSettings);
 

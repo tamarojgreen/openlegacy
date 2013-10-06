@@ -57,7 +57,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 		TerminalField bestMatchEntityField = null;
 
 		if (possibleFields.size() > 1) {
-			possibleFields = terminalFieldsSplitter.splitFields(possibleFields);
+			possibleFields = terminalFieldsSplitter.splitFields(possibleFields, screenEntityDefinition.getSnapshot().getSize());
 			Collections.sort(possibleFields, bestEntityNameFieldComparator);
 		}
 

@@ -16,5 +16,5 @@ public interface TerminalFieldsSplitter {
 
 	List<TerminalField> splitFields(TerminalSnapshot terminalSnapshot);
 
-	List<TerminalField> splitFields(List<TerminalField> fields);
+	List<TerminalField> splitFields(List<TerminalField> fields, ScreenSize screenSize);
 }

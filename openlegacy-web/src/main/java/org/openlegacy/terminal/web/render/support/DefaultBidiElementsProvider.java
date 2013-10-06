@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.web.render.support;
 
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalFieldSplitter;
 import org.openlegacy.terminal.support.BidiTerminalFieldSplitter;
@@ -20,26 +21,26 @@ import java.util.List;
 public class DefaultBidiElementsProvider extends DefaultElementsProvider {
 
 	@Override
-	public Element createLabel(Element rootNode, TerminalField field) {
+	public Element createLabel(Element rootNode, TerminalField field, ScreenSize screenSize) {
 		String visualValue = field.getVisualValue();
 
 		if (visualValue != null) {
 			TerminalFieldSplitter splitter = new BidiTerminalFieldSplitter();
-			List<TerminalField> fields = splitter.split(field);
+			List<TerminalField> fields = splitter.split(field, screenSize);
 			if (fields == null) {
-				return super.createLabel(rootNode, field);
+				return super.createLabel(rootNode, field, screenSize);
 			} else {
 				Element cotainer = rootNode.getOwnerDocument().createElement("span");
 				cotainer.setAttribute("style", "position:relative");
 				for (TerminalField splitField : fields) {
-					Element node = super.createLabel(rootNode, splitField);
+					Element node = super.createLabel(rootNode, splitField, screenSize);
 					cotainer.appendChild(node);
 				}
 				rootNode.appendChild(cotainer);
 				return cotainer;
 			}
 		} else {
-			return super.createLabel(rootNode, field);
+			return super.createLabel(rootNode, field, screenSize);
 		}
 	}
 }

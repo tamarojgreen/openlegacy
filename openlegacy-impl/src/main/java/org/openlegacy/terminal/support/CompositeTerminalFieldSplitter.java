@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalFieldSplitter;
 
@@ -19,9 +20,9 @@ public class CompositeTerminalFieldSplitter implements TerminalFieldSplitter {
 
 	private List<TerminalFieldSplitter> terminalFieldSplitters;
 
-	public List<TerminalField> split(TerminalField terminalField) {
+	public List<TerminalField> split(TerminalField terminalField, ScreenSize screenSize) {
 		for (TerminalFieldSplitter terminalFieldSplitter : terminalFieldSplitters) {
-			List<TerminalField> splittedFields = terminalFieldSplitter.split(terminalField);
+			List<TerminalField> splittedFields = terminalFieldSplitter.split(terminalField, screenSize);
 			if (splittedFields != null) {
 				return splittedFields;
 			}

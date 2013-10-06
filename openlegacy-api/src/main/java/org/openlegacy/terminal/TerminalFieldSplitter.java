@@ -24,5 +24,5 @@ public interface TerminalFieldSplitter {
 	 * @param terminalField
 	 * @return a split list of the field
 	 */
-	List<TerminalField> split(TerminalField terminalField);
+	List<TerminalField> split(TerminalField terminalField, ScreenSize screenSize);
 }

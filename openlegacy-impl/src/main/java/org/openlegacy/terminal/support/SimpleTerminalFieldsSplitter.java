@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalFieldSplitter;
 import org.openlegacy.terminal.TerminalFieldsSplitter;
@@ -25,10 +26,10 @@ public class SimpleTerminalFieldsSplitter implements TerminalFieldsSplitter {
 	@Inject
 	TerminalFieldSplitter terminalFieldSplitter;
 
-	public List<TerminalField> splitFields(List<TerminalField> fields) {
+	public List<TerminalField> splitFields(List<TerminalField> fields, ScreenSize screenSize) {
 		List<TerminalField> logicalFields = new ArrayList<TerminalField>();
 		for (TerminalField terminalField : fields) {
-			List<TerminalField> splittedFields = terminalFieldSplitter.split(terminalField);
+			List<TerminalField> splittedFields = terminalFieldSplitter.split(terminalField, screenSize);
 			if (splittedFields != null) {
 				logicalFields.addAll(splittedFields);
 			} else {
@@ -40,7 +41,7 @@ public class SimpleTerminalFieldsSplitter implements TerminalFieldsSplitter {
 	}
 
 	public List<TerminalField> splitFields(TerminalSnapshot terminalSnapshot) {
-		return splitFields(terminalSnapshot.getFields());
+		return splitFields(terminalSnapshot.getFields(), terminalSnapshot.getSize());
 	}
 
 }

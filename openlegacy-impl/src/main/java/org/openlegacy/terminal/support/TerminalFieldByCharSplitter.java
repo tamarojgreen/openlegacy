@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalFieldSplitter;
 
@@ -26,7 +27,7 @@ public class TerminalFieldByCharSplitter implements TerminalFieldSplitter {
 	private String ch = " ";
 	private int charCount = 2;
 
-	public List<TerminalField> split(TerminalField terminalField) {
+	public List<TerminalField> split(TerminalField terminalField, ScreenSize screenSize) {
 		if (!terminalField.getValue().contains(ch)) {
 			return null;
 		}
@@ -68,7 +69,8 @@ public class TerminalFieldByCharSplitter implements TerminalFieldSplitter {
 						}
 						c = chars[i];
 					}
-					FieldSplitterUtil.addSplittedField(terminalField, buffer.toString(), terminalFields, fieldStartOffset);
+					FieldSplitterUtil.addSplittedField(terminalField, buffer.toString(), terminalFields, fieldStartOffset,
+							screenSize);
 					buffer.setLength(0);
 					fieldStartOffset = i;
 
@@ -80,7 +82,7 @@ public class TerminalFieldByCharSplitter implements TerminalFieldSplitter {
 		}
 		// handle the last one
 		if (buffer.length() > 0) {
-			FieldSplitterUtil.addSplittedField(terminalField, buffer.toString(), terminalFields, fieldStartOffset);
+			FieldSplitterUtil.addSplittedField(terminalField, buffer.toString(), terminalFields, fieldStartOffset, screenSize);
 		}
 
 		return terminalFields;

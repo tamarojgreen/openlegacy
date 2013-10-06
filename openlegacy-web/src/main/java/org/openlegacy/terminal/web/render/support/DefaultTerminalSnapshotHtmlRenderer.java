@@ -23,6 +23,8 @@ import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.openlegacy.utils.DomUtils;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.web.HtmlConstants;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -42,7 +44,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 
 public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtmlRenderer {
 
-	private static final String DEFAULT_SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {direction:ltr;font-family:FONT_FAMILY;font-size:FONTpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input, #terminalSnapshot textarea {position:absolute;font-family:Courier New;font-size:FONTpx;height:INPUT-HEIGHTpx;INPUT_STYLE}";
+	private static final String DEFAULT_SNAPSHOT_STYLE_SETTINGS = "#terminalSnapshot {direction:ltr;font-family:FONT_FAMILY;font-size:FONTpx;letter-spacing:LETTER_SPACINGpx} #terminalSnapshot span {white-space: pre;position:absolute;} #terminalSnapshot input, #terminalSnapshot textarea {position:absolute;font-family:Courier New;font-size:FONTpx;height:INPUT-HEIGHTpx;INPUT_STYLE}";
 
 	private static final String TERMINAL_HTML = "TERMINAL_HTML";
 
@@ -55,10 +57,17 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	private String inputStyle = "";
 
 	@Inject
-	private ElementsProvider<Element> elementsProvider;
+	ApplicationContext applicationContext;
+
+	private DefaultElementsProvider elementsProvider;
 
 	@Inject
-	private HtmlProportionsHandler htmlProportionsHandler;
+	@Qualifier("htmlProportionsHandler")
+	private HtmlProportionsHandler htmlProportionsHandler80X24;
+
+	@Inject
+	@Qualifier("htmlProportionsHandler132X27")
+	private HtmlProportionsHandler htmlProportionsHandler132X27;
 
 	private String formActionURL = "emulation";
 	private String formMethod = HtmlConstants.POST;
@@ -82,13 +91,17 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	private String renderHtml(TerminalSnapshot terminalSnapshot) {
 
+		// elementsProvider is prototype
+		elementsProvider = (DefaultElementsProvider)applicationContext.getBean(ElementsProvider.class);
+		elementsProvider.setSnapshot(terminalSnapshot);
+
 		DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
 
 		Document doc;
 		try {
 			doc = dfactory.newDocumentBuilder().newDocument();
 
-			String styleSettings = createStyleSettings();
+			String styleSettings = createStyleSettings(terminalSnapshot);
 
 			Element formTag = createWrappingTag(doc);
 
@@ -126,9 +139,20 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 		return cursorPosition != null ? HtmlNamingUtil.getFieldName(cursorPosition) : "";
 	}
 
-	private String createStyleSettings() {
+	private HtmlProportionsHandler getProportionHandler(TerminalSnapshot snapshot) {
+		if (snapshot.getSize().getColumns() == 132) {
+			return htmlProportionsHandler132X27;
+		}
+		return htmlProportionsHandler80X24;
+	}
+
+	private String createStyleSettings(TerminalSnapshot terminalSnapshot) {
+		HtmlProportionsHandler htmlProportionsHandler = getProportionHandler(terminalSnapshot);
 		String actualSyleSettings = completeStyleSettings.replaceAll("FONT_FAMILY", String.valueOf(fontFamily));
 		actualSyleSettings = actualSyleSettings.replaceAll("FONT", String.valueOf(htmlProportionsHandler.getFontSize()));
+
+		actualSyleSettings = actualSyleSettings.replaceAll("LETTER_SPACING",
+				String.valueOf(htmlProportionsHandler.getLetterSpacing()));
 
 		actualSyleSettings = actualSyleSettings.replaceAll("INPUT-HEIGHT",
 				String.valueOf(htmlProportionsHandler.getInputHeight()));
@@ -137,13 +161,17 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	}
 
 	private Element createWrappingTag(Document doc) {
-		Element wrapperTag = (Element)doc.appendChild(doc.createElement(HtmlConstants.DIV));
+		Element formTag = (Element)doc.appendChild(doc.createElement("form"));
+		formTag.setAttribute("action", formActionURL);
+		formTag.setAttribute("formMethod", formMethod);
+		formTag.setAttribute("name", "openlegacyForm");
+		formTag.setAttribute("id", "openlegacyForm");
 
+		Element wrapperTag = elementsProvider.createTag(formTag, HtmlConstants.DIV);
+		formTag.appendChild(wrapperTag);
 		wrapperTag.setAttribute(HtmlConstants.ID, TerminalHtmlConstants.WRAPPER_TAG_ID);
 
-		Element formTag = elementsProvider.createFormTag(wrapperTag, formActionURL, formMethod,
-				TerminalHtmlConstants.HTML_EMULATION_FORM_NAME);
-		return formTag;
+		return wrapperTag;
 	}
 
 	private void createScript(Element formTag, String cursorFieldName) {
@@ -179,6 +207,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	}
 
 	private void calculateWidthHeight(TerminalSnapshot terminalSnapshot, Element wrapperTag) {
+		HtmlProportionsHandler htmlProportionsHandler = getProportionHandler(terminalSnapshot);
 		int width = htmlProportionsHandler.toWidth(terminalSnapshot.getSize().getColumns() + 1);
 		int height = htmlProportionsHandler.toHeight(terminalSnapshot.getSize().getRows() + 1);
 
@@ -198,7 +227,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 					elementsProvider.createInput(formTag, terminalField);
 				}
 			} else {
-				elementsProvider.createLabel(formTag, terminalField);
+				elementsProvider.createLabel(formTag, terminalField, terminalSnapshot.getSize());
 			}
 		}
 	}

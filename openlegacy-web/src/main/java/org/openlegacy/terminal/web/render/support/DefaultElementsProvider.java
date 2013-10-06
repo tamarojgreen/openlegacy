@@ -14,11 +14,15 @@ import org.apache.commons.lang.StringUtils;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.RightAdjust;
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.web.render.ElementsProvider;
 import org.openlegacy.terminal.web.render.HtmlProportionsHandler;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.web.HtmlConstants;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -33,7 +37,12 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	private static final String UNDERLINE_STYLE = "text-decoration:underline;";
 
 	@Inject
-	private HtmlProportionsHandler htmlProportionsHandler;
+	@Qualifier("htmlProportionsHandler")
+	private HtmlProportionsHandler htmlProportionsHandler80X24;
+
+	@Inject
+	@Qualifier("htmlProportionsHandler132X27")
+	private HtmlProportionsHandler htmlProportionsHandler132X27;
 
 	private Map<Color, String> colorMapper = null;
 	private Map<Color, String> backcolorMapper = null;
@@ -48,7 +57,9 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	private boolean supportUnderline = true;
 
-	public Element createLabel(Element rootNode, TerminalField field) {
+	private TerminalSnapshot terminalSnapshot;
+
+	public Element createLabel(Element rootNode, TerminalField field, ScreenSize screenSize) {
 
 		String value = field.getValue();
 		if (field.isHidden() || StringUtils.isWhitespace(value) && field.getBackColor() == Color.BLACK) {
@@ -72,6 +83,14 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 		return rootNode.getOwnerDocument().createElement(tagName);
 	}
 
+	private HtmlProportionsHandler getProportionHandler() {
+		Assert.notNull(terminalSnapshot, "terminalSnapshot not assigned in " + getClass().getName());
+		if (terminalSnapshot.getSize().getColumns() == 132) {
+			return htmlProportionsHandler132X27;
+		}
+		return htmlProportionsHandler80X24;
+	}
+
 	public Element createInput(Element parentTag, TerminalField field) {
 		Element input = createTag(parentTag, HtmlConstants.INPUT);
 		if (field != null) {
@@ -80,7 +99,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 			input.setAttribute(HtmlConstants.NAME, fieldName);
 			input.setAttribute(HtmlConstants.VALUE, field.getValue());
 			input.setAttribute(HtmlConstants.MAXLENGTH, String.valueOf(field.getLength()));
-			int width = htmlProportionsHandler.toWidth(field.getLength()) + htmlProportionsHandler.getInputAdditionalWidth();
+			int width = getProportionHandler().toWidth(field.getLength()) + getProportionHandler().getInputAdditionalWidth();
 
 			input.setAttribute(HtmlConstants.STYLE,
 					MessageFormat.format("{0}{1}", input.getAttribute(HtmlConstants.STYLE), HtmlNamingUtil.toStyleWidth(width)));
@@ -92,7 +111,6 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				}
 			}
 			if (field.isUppercase() || openLegacyProperties.isUppercaseInput()) {
-				// align with HATS bidi-override
 				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";text-transform:uppercase;");
 			}
 			if (field.isHidden()) {
@@ -112,7 +130,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	private void populateCommonAttributes(Element element, TerminalField field) {
 		String value = field.getValue();
 
-		int top = htmlProportionsHandler.toHeight(field.getPosition().getRow());
+		int top = getProportionHandler().toHeight(field.getPosition().getRow());
 		int column = 0;
 		String positioningStyle = null;
 
@@ -124,14 +142,14 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				offset = StringUtil.startOfNonBlank(value);
 			}
 			column = field.getPosition().getColumn();
-			int left = htmlProportionsHandler.toWidth(offset + column);
+			int left = getProportionHandler().toWidth(offset + column);
 			positioningStyle = MessageFormat.format("top:{0}{2};left:{1}{2};", String.valueOf(top), String.valueOf(left),
 					HtmlConstants.STYLE_UNIT);
 		} else {
 			int rightOffset = StringUtil.endOfNonBlank(value);
 
 			column = field.getEndPosition().getColumn();
-			int right = htmlProportionsHandler.toWidth(80 + rightOffset - column);
+			int right = getProportionHandler().toWidth(80 + rightOffset - column);
 			positioningStyle = MessageFormat.format("top:{0}{2};right:{1}{2};", String.valueOf(top), String.valueOf(right),
 					HtmlConstants.STYLE_UNIT);
 		}
@@ -250,7 +268,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				textarea.setAttribute(
 						HtmlConstants.STYLE,
 						MessageFormat.format("{0};height:{1}px", textarea.getAttribute(HtmlConstants.STYLE),
-								String.valueOf(htmlProportionsHandler.toHeight(rows) - 8))); // 8 - avoid overlap
+								String.valueOf(getProportionHandler().toHeight(rows) - 8))); // 8 - avoid overlap
 				;
 			} else {
 				textarea.setAttribute(HtmlConstants.ROWS, "1");
@@ -280,5 +298,9 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 
 	public void setSupportUnderline(boolean supportUnderline) {
 		this.supportUnderline = supportUnderline;
+	}
+
+	public void setSnapshot(TerminalSnapshot terminalSnapshot) {
+		this.terminalSnapshot = terminalSnapshot;
 	}
 }

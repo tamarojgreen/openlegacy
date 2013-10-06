@@ -77,7 +77,7 @@ End use this definition to replay a mock-up session application -->
 	 -->
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder" />
 
-	<bean id="elementsProvider" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
+	<bean id="elementsProvider" scope="prototype" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
 		<property name="colorMapper">
 			<map>
 				<entry key="WHITE" value="black" />

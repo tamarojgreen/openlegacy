@@ -27,4 +27,6 @@ public interface HtmlProportionsHandler {
 	Integer getInputHeight();
 
 	int getInputAdditionalWidth();
+
+	int getLetterSpacing();
 }
