@@ -106,9 +106,9 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 			if (field.isRightToLeft()) {
 				// align with HATS bidi-override
 				// input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";unicode-bidi: isolate;");
-				if (field.isEmpty()) {
-					input.setAttribute(HtmlConstants.DIR, HtmlConstants.RTL);
-				}
+				// if (field.isEmpty()) {
+				input.setAttribute(HtmlConstants.DIR, HtmlConstants.RTL);
+				// }
 			}
 			if (field.isUppercase() || openLegacyProperties.isUppercaseInput()) {
 				input.setAttribute(HtmlConstants.STYLE, input.getAttribute(HtmlConstants.STYLE) + ";text-transform:uppercase;");

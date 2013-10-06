@@ -229,7 +229,7 @@ public class TerminalPersistedSnapshot implements TerminalOutgoingSnapshot {
 	public String getLogicalText(TerminalPosition position, int length) {
 		String text = getText(position, length);
 		if (FeatureChecker.isSupportBidi()) {
-			text = BidiUtil.convertToLogical(text);
+			text = BidiUtil.convertToLogical(text, false);
 		}
 		return text;
 	}

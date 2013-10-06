@@ -49,7 +49,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 
 		// clear the snapshot sequence is different from the session, clear it so it will re-build
 		if (terminalSnapshot != null && terminalSnapshot.getSequence() != null
-				&& terminalConnection.getSequence() != terminalSnapshot.getSequence()) {
+				&& !terminalConnection.getSequence().equals(terminalSnapshot.getSequence())) {
 			terminalSnapshot = null;
 		}
 

@@ -21,9 +21,13 @@ public class BidiUtil {
 
 	private final static Log logger = LogFactory.getLog(BidiUtil.class);
 
-	public static String convertToLogical(String value) {
+	public static String convertToLogical(String value, boolean isRtl) {
+		if (isRtl) {
+			value = value.trim();
+		}
 		Bidi bidi = new Bidi();
-		bidi.setPara(value, Bidi.LTR, null);
+		byte direction = isRtl ? Bidi.RTL : Bidi.LTR;
+		bidi.setPara(value, direction, null);
 		bidi.setReorderingMode(Bidi.REORDER_INVERSE_LIKE_DIRECT);
 		String newValue = bidi.writeReordered(Bidi.DO_MIRRORING);
 

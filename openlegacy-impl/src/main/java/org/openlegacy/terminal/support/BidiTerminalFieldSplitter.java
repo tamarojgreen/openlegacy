@@ -36,7 +36,7 @@ public class BidiTerminalFieldSplitter implements TerminalFieldSplitter {
 			int index = bidi.getRunStart(i);
 			int endIndex = bidi.getRunLimit(i);
 			String part = visualValue.substring(index, endIndex);
-			part = BidiUtil.convertToLogical(part);
+			part = BidiUtil.convertToLogical(part, false);
 			FieldSplitterUtil.addSplittedField(terminalField, part, fields, index, screenSize);
 		}
 		return fields;
