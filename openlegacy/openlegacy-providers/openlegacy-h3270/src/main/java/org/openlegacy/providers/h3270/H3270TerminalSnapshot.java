@@ -131,7 +131,7 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 		}
 		if (convertToLogical) {
 			field.setVisualValue(field.getValue());
-			String value = BidiUtil.convertToLogical(field.getValue());
+			String value = BidiUtil.convertToLogical(field.getValue(), field.isEditable());
 			field.setValue(value, false);
 		}
 	}
