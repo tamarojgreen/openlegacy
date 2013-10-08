@@ -320,7 +320,7 @@ var OLKeyBoardHandler = new function(){
 						if (dataType != null && dataType == "int"){
 
 							if (OLBrowserUtil.isPrintableChar(e.keyCode)){
-								if ((e.keyCode >= 48 && e.keyCode <= 57) || e.keyCode == 190){ // dot
+								if (OLBrowserUtil.isNumericChar(e.keyCode)){ // dot
 									// OK
 								} else{
 									OLBrowserUtil.cancelEvent(e);
@@ -347,6 +347,14 @@ var OLBrowserUtil = new function(){
 	        (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
 	        (keycode > 218 && keycode < 223);   // [\]' (in order)
 		return printable;
+	}
+	this.isNumericChar = function(keycode){
+		var numeric = 
+	        (keycode > 47 && keycode < 58)   || // number keys
+	        (keycode > 95 && keycode < 112)  || // numpad keys
+	        (keycode >= 96 && keycode <= 105) || // keypad 96-105
+	        (keycode >= 109 && keycode <= 110); // keypad -.
+		return numeric;
 	}
 	this.previousInput = function(input){
 		var inputs = document.getElementsByTagName("input");

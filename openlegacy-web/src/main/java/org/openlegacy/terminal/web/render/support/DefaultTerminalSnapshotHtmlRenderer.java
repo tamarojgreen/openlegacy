@@ -162,10 +162,10 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	private Element createWrappingTag(Document doc) {
 		Element formTag = (Element)doc.appendChild(doc.createElement("form"));
-		formTag.setAttribute("action", formActionURL);
-		formTag.setAttribute("formMethod", formMethod);
-		formTag.setAttribute("name", "openlegacyForm");
-		formTag.setAttribute("id", "openlegacyForm");
+		formTag.setAttribute(HtmlConstants.ACTION, formActionURL);
+		formTag.setAttribute(HtmlConstants.METHOD, formMethod);
+		formTag.setAttribute(HtmlConstants.NAME, "openlegacyForm");
+		formTag.setAttribute(HtmlConstants.ID, "openlegacyForm");
 
 		Element wrapperTag = elementsProvider.createTag(formTag, HtmlConstants.DIV);
 		formTag.appendChild(wrapperTag);

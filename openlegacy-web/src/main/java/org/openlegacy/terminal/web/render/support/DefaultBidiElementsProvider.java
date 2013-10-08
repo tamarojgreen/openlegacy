@@ -30,14 +30,17 @@ public class DefaultBidiElementsProvider extends DefaultElementsProvider {
 			if (fields == null) {
 				return super.createLabel(rootNode, field, screenSize);
 			} else {
-				Element cotainer = rootNode.getOwnerDocument().createElement("span");
-				cotainer.setAttribute("style", "position:relative");
+				Element container = rootNode.getOwnerDocument().createElement("span");
+				container.setAttribute("style", "position:relative");
 				for (TerminalField splitField : fields) {
 					Element node = super.createLabel(rootNode, splitField, screenSize);
-					cotainer.appendChild(node);
+					if (node != null) {
+						container.appendChild(node);
+
+					}
 				}
-				rootNode.appendChild(cotainer);
-				return cotainer;
+				rootNode.appendChild(container);
+				return container;
 			}
 		} else {
 			return super.createLabel(rootNode, field, screenSize);
