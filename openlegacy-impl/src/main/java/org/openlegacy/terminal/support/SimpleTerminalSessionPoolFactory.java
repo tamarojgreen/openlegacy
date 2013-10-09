@@ -11,6 +11,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 
+import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -44,21 +45,40 @@ public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory,
 	private boolean stopKeepAlive = false;
 
 	public TerminalSession getSession() {
+		logger.debug("New session requested");
+		if (actives.size() < maxConnections) {
+			initSession();
+		}
+		return waitForSession();
+	}
+
+	private TerminalSession waitForSession() {
 		try {
 			TerminalSession terminalSession = blockingQueue.take();
 			actives.add(terminalSession);
+			logger.debug(MessageFormat.format("Session {0} pulled from blocking queue, and added to active sessions",
+					terminalSession));
 			return terminalSession;
 		} catch (Exception e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
 	}
 
-	public void returnSession(TerminalSession terminalSession) {
-		if (cleanupAction != null) {
-			ReflectionUtil.newInstance(cleanupAction).perform(terminalSession, null);
+	public void returnSession(final TerminalSession terminalSession) {
+		if (terminalSession.isConnected()) {
+			if (cleanupAction != null) {
+				ReflectionUtil.newInstance(cleanupAction).perform(terminalSession, null);
+				logger.debug(MessageFormat.format("Session {0} cleanup action {1} performed", terminalSession, cleanupAction));
+			}
+			blockingQueue.offer(terminalSession);
+			logger.debug(MessageFormat.format("Session {0} offered to queue", terminalSession));
+		} else {
+			logger.debug(MessageFormat.format("Session {0} removed from queue as session is not connected", terminalSession));
+			blockingQueue.remove(terminalSession);
 		}
 		actives.remove(terminalSession);
-		blockingQueue.offer(terminalSession);
+		logger.debug(MessageFormat.format("Session {0} removed from active sessions", terminalSession));
+
 	}
 
 	public void setMaxConnections(int maxConnections) {
@@ -74,17 +94,6 @@ public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory,
 	}
 
 	private void init() {
-		for (int i = 0; i < maxConnections; i++) {
-			TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
-			if (initAction != null) {
-				ReflectionUtil.newInstance(initAction).perform(terminalSession, null);
-			}
-			try {
-				blockingQueue.put(terminalSession);
-			} catch (InterruptedException e) {
-				throw (new OpenLegacyRuntimeException(e));
-			}
-		}
 
 		if (keepAliveAction != null) {
 			keepAliveThread = new Thread() {
@@ -93,16 +102,20 @@ public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory,
 				public void run() {
 					while (!stopKeepAlive) {
 						try {
+							logger.debug("Keep alive is sleeping");
 							sleep(keepAliveInterval);
 						} catch (InterruptedException e) {
 							throw (new RuntimeException(e));
 						}
 						TerminalAction keepAliveAction1 = ReflectionUtil.newInstance(keepAliveAction);
 						TerminalSession[] sessions = blockingQueue.toArray(new TerminalSession[blockingQueue.size()]);
+						logger.debug(sessions.length + " sessions found in queue during keep alive");
 						for (TerminalSession session : sessions) {
 							if (!actives.contains(session)) {
 								try {
 									session.doAction(keepAliveAction1);
+									logger.debug("Keep alive action " + keepAliveAction.getSimpleName() + " performed for "
+											+ session);
 								} catch (Exception e) {
 									logger.fatal(e);
 								}
@@ -112,6 +125,22 @@ public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory,
 				}
 			};
 			keepAliveThread.start();
+		}
+	}
+
+	private void initSession() {
+		TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);
+		logger.debug(MessageFormat.format("New session {0} created for pool", terminalSession));
+		if (initAction != null) {
+			ReflectionUtil.newInstance(initAction).perform(terminalSession, null);
+			logger.debug(MessageFormat.format("New session {0} init action {1} performed", terminalSession,
+					initAction.getSimpleName()));
+		}
+		try {
+			blockingQueue.put(terminalSession);
+			logger.debug("New session " + terminalSession + " added to blocking queue");
+		} catch (InterruptedException e) {
+			throw (new OpenLegacyRuntimeException(e));
 		}
 	}
 

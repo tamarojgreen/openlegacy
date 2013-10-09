@@ -7,9 +7,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.terminal.AbstractAS400TerminalSessionSystemTest;
+import org.openlegacy.terminal.TerminalConnection;
+import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.support.SimpleConnectionProperties;
+import org.openlegacy.terminal.support.SimpleTerminalSendAction;
 import org.openlegacy.test.utils.AssertUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -50,5 +54,16 @@ public class Tn5250jTerminalSessionSystemTest extends AbstractAS400TerminalSessi
 	private void assertSnapshot(TerminalSnapshot terminalSnapshot, String snapshotTextFile) throws IOException {
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(snapshotTextFile));
 		AssertUtils.assertContent(expectedBytes, terminalSnapshot.toString().getBytes());
+	}
+
+	@Test
+	public void testDisconnect() throws InterruptedException {
+		TerminalConnection connection = terminalConnectionFactory.getConnection(new SimpleConnectionProperties());
+		while (true) {
+			TerminalSendAction action = new SimpleTerminalSendAction("[enter]");
+			connection.doAction(action);
+			System.out.println(connection.getSnapshot());
+			Thread.sleep(5000);
+		}
 	}
 }

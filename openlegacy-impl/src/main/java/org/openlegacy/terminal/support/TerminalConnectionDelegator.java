@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
 import org.openlegacy.terminal.TerminalConnection;
@@ -107,6 +108,10 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 			terminalConnection = terminalConnectionFactory.getConnection(connectionProperties);
 			logger.info("Opened new session");
 		}
+		if (!isConnected()) {
+			terminalConnection = null;
+			throw (new SessionEndedException("Session is not connected"));
+		}
 	}
 
 	public void disconnect() {
@@ -117,7 +122,11 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 			return;
 		}
 		TerminalConnectionFactory terminalConnectionFactory = applicationContext.getBean(TerminalConnectionFactory.class);
-		terminalConnectionFactory.disconnect(terminalConnection);
+		try {
+			terminalConnectionFactory.disconnect(terminalConnection);
+		} catch (Exception e) {
+			logger.warn("Error disconnecting session", e);
+		}
 		terminalConnection = null;
 		terminalSnapshot = null;
 	}

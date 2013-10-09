@@ -32,6 +32,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 		for (TerminalSnapshot terminalSnapshot : snapshots) {
 			this.snapshots.add((TerminalSnapshot)SerializationUtils.clone(terminalSnapshot));
 		}
+		setConnected(true);
 	}
 
 	public TerminalSnapshot getSnapshot() {
@@ -39,7 +40,6 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 			throw (new SessionEndedException("Mock session has been finished"));
 		}
 		TerminalSnapshot snapshot = snapshots.get(currentIndex);
-		setConnected(true);
 		return snapshot;
 	}
 

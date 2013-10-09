@@ -25,6 +25,7 @@ public class SimpleTerminalSessionPoolTest {
 
 		Assert.assertEquals(0, terminalSessionPool.getActives().size());
 		final TerminalSession terminalSession1 = terminalSessionPool.getSession();
+		terminalSession1.getSnapshot();
 		Assert.assertEquals(1, terminalSessionPool.getActives().size());
 		@SuppressWarnings("unused")
 		TerminalSession terminalSession2 = terminalSessionPool.getSession();
@@ -56,10 +57,11 @@ public class SimpleTerminalSessionPoolTest {
 	@Test
 	public void testKeepAlive() throws InterruptedException {
 		SimpleTerminalSessionPoolFactory terminalSessionPool = applicationContext.getBean(SimpleTerminalSessionPoolFactory.class);
-		@SuppressWarnings("unused")
 		TerminalSession session = terminalSessionPool.getSession();
+		session.getSnapshot();
 		Assert.assertFalse(CleanupDummyAction.isCalled());
-		Thread.sleep(3000);
+		terminalSessionPool.returnSession(session);
+		Thread.sleep(4000);
 		Assert.assertTrue(CleanupDummyAction.isCalled());
 
 	}
