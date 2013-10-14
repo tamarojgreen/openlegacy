@@ -46,7 +46,7 @@ public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory,
 
 	public TerminalSession getSession() {
 		logger.debug("New session requested");
-		if (actives.size() < maxConnections) {
+		if (blockingQueue.size() == 0 && actives.size() < maxConnections) {
 			initSession();
 		}
 		return waitForSession();
