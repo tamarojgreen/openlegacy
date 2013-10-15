@@ -8,14 +8,16 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.rpc;
+package org.openlegacy.annotations.rpc;
 
-import org.openlegacy.Session;
-import org.openlegacy.rpc.actions.RpcAction;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface RpcSession extends Session {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface RpcNavigation {
 
-	void login(String user, String password);
-
-	<R extends RpcEntity> R doAction(RpcAction action, R rpcEntity);
+	String category();
 }

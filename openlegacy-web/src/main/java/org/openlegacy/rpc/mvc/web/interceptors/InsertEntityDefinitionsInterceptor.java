@@ -11,6 +11,7 @@
 package org.openlegacy.rpc.mvc.web.interceptors;
 
 import org.apache.commons.lang.StringUtils;
+import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.mvc.MvcUtils;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
@@ -38,15 +39,21 @@ public class InsertEntityDefinitionsInterceptor extends AbstractRpcInterceptor {
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 		String modelName = StringUtils.uncapitalize(modelAndView.getViewName());
-		RpcEntity entity = (RpcEntity)modelAndView.getModel().get(modelName);
-
-		mvcUtils.insertModelObjects(modelAndView, entity, entitiesRegistry);
+		Object model = modelAndView.getModel().get(modelName);
+		if (model != null && model instanceof RpcEntity) {
+			mvcUtils.insertModelObjects(modelAndView, model, entitiesRegistry);
+		}
 
 		if (entitiesRegistry.isDirty()) {
 			// set the registry back to clean - for design-time purposes only!
 			((AbstractEntitiesRegistry<?, ?, ?>)entitiesRegistry).setDirty(false);
 		}
 
+		Menu menuModule = getSession().getModule(Menu.class);
+		if (menuModule != null) {
+			modelAndView.addObject("ol_menu", menuModule.getMenuTree());
+			modelAndView.addObject("ol_flatMenus", menuModule.getFlatMenuEntries());
+		}
 	}
 
 }

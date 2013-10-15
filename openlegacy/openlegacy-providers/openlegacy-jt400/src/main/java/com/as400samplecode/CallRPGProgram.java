@@ -12,14 +12,17 @@ package com.as400samplecode;
 
 import com.ibm.as400.access.AS400;
 import com.ibm.as400.access.AS400Message;
+import com.ibm.as400.access.AS400SecurityException;
 import com.ibm.as400.access.AS400Text;
 import com.ibm.as400.access.ProgramCall;
 import com.ibm.as400.access.ProgramParameter;
 import com.ibm.as400.access.Trace;
 
+import java.io.IOException;
+
 public class CallRPGProgram {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws AS400SecurityException, IOException {
 
 		if (args.length < 3) {
 			System.out.println("Usage:" + CallCobolProgramPcml.class.getSimpleName() + " host user password");
@@ -46,7 +49,7 @@ public class CallRPGProgram {
 		Trace.setTraceJDBCOn(true);
 
 		AS400 as400System = new AS400(host, user, password);
-
+		as400System.authenticate(user, password);
 		// The ProgramCall class allows a user to call an iSeries server program,
 		// pass parameters to it (input and output), and access data returned in the
 		// output parameters after the program runs. Use ProgramCall to call programs.

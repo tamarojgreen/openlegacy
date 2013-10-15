@@ -167,4 +167,9 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 			rpcEntityBinder.populateEntity(rpcEntity, rpcResult);
 		}
 	}
+
+	public void login(String user, String password) {
+		rpcConnection.login(user, password);
+	}
+
 }

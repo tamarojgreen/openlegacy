@@ -21,4 +21,6 @@ public interface RpcConnection extends ApplicationConnection<RpcSnapshot, RpcInv
 	void disconnect();
 
 	RpcResult invoke(RpcInvokeAction rpcInvokeAction);
+
+	void login(String user, String password);
 }

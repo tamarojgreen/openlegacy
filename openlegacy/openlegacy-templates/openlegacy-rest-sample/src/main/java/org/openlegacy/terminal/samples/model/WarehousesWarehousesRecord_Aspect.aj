@@ -18,13 +18,13 @@ privileged @SuppressWarnings("unused") aspect WarehousesRecord_Aspect {
     	this.action_ = action_;
     }
 
-    public String WarehousesRecord.getDescription(){
-    	return this.description;
+    public Integer WarehousesRecord.getWhse(){
+    	return this.whse;
     }
     
 
-    public Integer WarehousesRecord.getWhse(){
-    	return this.whse;
+    public String WarehousesRecord.getDescription(){
+    	return this.description;
     }
     
 

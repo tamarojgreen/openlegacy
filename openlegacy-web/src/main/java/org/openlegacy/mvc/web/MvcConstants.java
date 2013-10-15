@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.mvc.web;
+package org.openlegacy.mvc.web;
 
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
@@ -29,6 +29,8 @@ public class MvcConstants {
 	public static final String GENERIC = "generic";
 
 	public static final String GENERIC_WINDOW = "genericWindow";
+
+	public static final String MENU = "mainMenu";
 
 	public static final String ROOTMENU_VIEW = "rootMenu";
 

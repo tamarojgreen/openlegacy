@@ -21,6 +21,8 @@
  	<bean id="registryLoader" class="org.openlegacy.support.DefaultRegistryLoader"/>
  	<bean id="rpcEntityUtils" class="org.openlegacy.rpc.utils.RpcEntityUtils"/>
  	
+	<bean id="menuBuilder" class="org.openlegacy.rpc.modules.menu.DefaultMenuBuilder" />
+ 		
 	<context:component-scan base-package="org.openlegacy"
 		use-default-filters="false">
 		<context:include-filter expression="org.springframework.stereotype.Component"
@@ -32,6 +34,7 @@
 	<!-- Open legacy default beans -->
 
 
+	<bean id="pageBuilder" class="org.openlegacy.rpc.layout.support.DefaultRpcPageBuilder" />
 	<bean id="sessionsRegistry" class="org.openlegacy.support.SimpleSessionsRegistry" />
 	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" />
 	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
@@ -50,6 +53,7 @@
 							</property>
 						</bean>
 						<bean class="org.openlegacy.rpc.modules.registry.DefaultSessionRegistryModule" />
+						<bean class="org.openlegacy.rpc.modules.menu.DefaultRpcMenuModule" />
 					</list>
 				</property>
 			</bean>

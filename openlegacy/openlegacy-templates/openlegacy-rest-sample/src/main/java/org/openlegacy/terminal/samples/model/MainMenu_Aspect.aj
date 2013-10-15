@@ -17,22 +17,22 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
 
     
 
-    public Integer MainMenu.getCompany(){
-    	return this.company;
-    }
-    
-    public void MainMenu.setCompany(Integer company){
-    	this.company = company;
-    }
-
-
-
     public Integer MainMenu.getMenuSelection(){
     	return this.menuSelection;
     }
     
     public void MainMenu.setMenuSelection(Integer menuSelection){
     	this.menuSelection = menuSelection;
+    }
+
+
+
+    public Integer MainMenu.getCompany(){
+    	return this.company;
+    }
+    
+    public void MainMenu.setCompany(Integer company){
+    	this.company = company;
     }
 
 

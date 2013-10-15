@@ -67,4 +67,8 @@ public class MockRpcConnection implements RpcConnection {
 		// do nothing. TODO implemented verifySend
 	}
 
+	public void login(String user, String password) {
+		// do nothing
+	}
+
 }

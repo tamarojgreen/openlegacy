@@ -8,8 +8,8 @@ import org.openlegacy.terminal.samples.model.ItemDetails2.StockInfo;
 
 privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
     
-    public String StockInfo.getAmendedDate(){
-    	return this.amendedDate;
+    public String StockInfo.getCreatedDate(){
+    	return this.createdDate;
     }
     
 
@@ -20,8 +20,8 @@ privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {
     
 
 		
-    public String StockInfo.getCreatedDate(){
-    	return this.createdDate;
+    public String StockInfo.getAmendedDate(){
+    	return this.amendedDate;
     }
     
 

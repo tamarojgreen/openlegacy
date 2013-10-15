@@ -102,38 +102,36 @@
 						</c:if>
 				</c:when>
 				<c:otherwise>
-					<c:if test="${definitions != null}">
-						<c:forEach items="${ol_flatMenus}" var="flatMenu">
-							<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}">
-								<div class="links">
-									<ul>
-										<li>
-											<c:forEach items="${flatMenu.menuItems}" var="menuLeaf">
-												<c:choose>
-													<c:when test="${menuLeaf.targetEntity.simpleName == definitions.entityName}">
-														<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}" 
-															class="current">${menuLeaf.displayName}</a>
-														<script>
-															require(["dojo/ready"], function(ready){
-																ready(function(){
-																	require(["dijit/registry"], function(registry){
-																		registry.byId('accordion').selectChild(registry.byId('${flatMenu.targetEntityName}'));
-																	});
+					<c:forEach items="${ol_flatMenus}" var="flatMenu">
+						<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}">
+							<div class="links">
+								<ul>
+									<li>
+										<c:forEach items="${flatMenu.menuItems}" var="menuLeaf">
+											<c:choose>
+												<c:when test="${definitions != null and menuLeaf.targetEntity.simpleName == definitions.entityName}">
+													<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}" 
+														class="current">${menuLeaf.displayName}</a>
+													<script>
+														require(["dojo/ready"], function(ready){
+															ready(function(){
+																require(["dijit/registry"], function(registry){
+																	registry.byId('accordion').selectChild(registry.byId('${flatMenu.targetEntityName}'));
 																});
 															});
-														</script>
-													</c:when>
-													<c:otherwise>
-														<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}">${menuLeaf.displayName}</a>
-													</c:otherwise>
-												</c:choose>
-											</c:forEach>										
-										</li>
-									</ul>
-								</div>
+														});
+													</script>
+												</c:when>
+												<c:otherwise>
+													<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}">${menuLeaf.displayName}</a>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>										
+									</li>
+								</ul>
 							</div>
-						</c:forEach>
-					</c:if>
+						</div>
+					</c:forEach>
 				</c:otherwise>
 			</c:choose>
 		  	<spring:message code="label_tools" var="label_tools" htmlEscape="false" />

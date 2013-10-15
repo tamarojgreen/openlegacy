@@ -8,14 +8,16 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.rpc;
+package org.openlegacy.rpc.definitions;
 
-import org.openlegacy.Session;
-import org.openlegacy.rpc.actions.RpcAction;
+/**
+ * An RPC navigation definitions. Define how to organize the entities categories
+ * 
+ * @author Roi Mor
+ * 
+ * 
+ */
+public interface RpcNavigationDefinition {
 
-public interface RpcSession extends Session {
-
-	void login(String user, String password);
-
-	<R extends RpcEntity> R doAction(RpcAction action, R rpcEntity);
+	String getCategory();
 }

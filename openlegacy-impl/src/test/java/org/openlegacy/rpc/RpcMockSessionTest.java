@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.Snapshot;
+import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
@@ -50,5 +52,12 @@ public class RpcMockSessionTest {
 
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("trail.expected"));
 		AssertUtils.assertContent(expectedBytes, result.getBytes());
+
+		MenuItem menuTree = rpcSession.getModule(Menu.class).getMenuTree();
+		Assert.assertEquals(1, menuTree.getMenuItems().size());
+		Assert.assertEquals("Main", menuTree.getDisplayName());
+		MenuItem subMenu = menuTree.getMenuItems().get(0);
+		Assert.assertEquals("Tree1", subMenu.getDisplayName());
+		Assert.assertEquals(2, subMenu.getMenuItems().size());
 	}
 }

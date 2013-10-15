@@ -16,6 +16,7 @@ import org.openlegacy.definitions.support.AbstractEntityDefinition;
 public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcFieldDefinition> implements RpcEntityDefinition {
 
 	private Languages language;
+	private RpcNavigationDefinition navigationDefinition = new SimpleRpcNavigationDefinition();
 
 	public SimpleRpcEntityDefinition() {
 		super(null, null);
@@ -35,6 +36,10 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 
 	public boolean isWindow() {
 		return false;
+	}
+
+	public RpcNavigationDefinition getNavigationDefinition() {
+		return navigationDefinition;
 	}
 
 }

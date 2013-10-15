@@ -6,13 +6,14 @@ import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.rpc.RpcActions.READ;
 import org.openlegacy.rpc.RpcActions.UPDATE;
 
 @RpcEntity(language = Languages.RPG)
-@RpcActions(actions = { 
-		@Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/GETITEMDET.PGM", global = false),
+@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/GETITEMDET.PGM", global = false),
 		@Action(action = UPDATE.class, path = "/QSYS.LIB/RMR2L1.LIB/UPDITEMDET.PGM") })
+@RpcNavigation(category = "Inventory")
 public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 
 	@RpcField(originalName = "item_number", direction = Direction.INPUT, length = 6, key = true)

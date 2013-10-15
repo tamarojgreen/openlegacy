@@ -21,6 +21,7 @@ import com.ibm.as400.access.ProgramParameter;
 
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.exceptions.OpenLegacyProviderException;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
@@ -60,7 +61,7 @@ public class Jt400RpcConnection implements RpcConnection {
 	}
 
 	public boolean isConnected() {
-		return as400Session != null;
+		return as400Session != null && as400Session.isConnected();
 	}
 
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
@@ -166,6 +167,16 @@ public class Jt400RpcConnection implements RpcConnection {
 
 	public Integer getSequence() {
 		return sequence;
+	}
+
+	public void login(String user, String password) {
+		try {
+			as400Session.setUserId(user);
+			as400Session.setPassword(password);
+			as400Session.authenticate(user, password);
+		} catch (Exception e) {
+			throw (new OpenLegacyProviderException(e));
+		}
 	}
 
 }

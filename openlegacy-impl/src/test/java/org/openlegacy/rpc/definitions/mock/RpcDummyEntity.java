@@ -5,11 +5,13 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.rpc.RpcActions.READ;
 
-@RpcEntity()
+@RpcEntity(displayName = "Dummy Entity")
 @RpcActions(actions = { @Action(action = READ.class, path = "/dir/program_name") })
+@RpcNavigation(category = "Tree1")
 public class RpcDummyEntity implements org.openlegacy.rpc.RpcEntity {
 
 	@RpcField(direction = Direction.INPUT, length = 20)

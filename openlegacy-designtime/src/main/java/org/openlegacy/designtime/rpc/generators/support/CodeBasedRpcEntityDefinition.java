@@ -9,6 +9,7 @@ import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
+import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 
 import java.io.File;
@@ -101,5 +102,9 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 			}
 		}
 
+	}
+
+	public RpcNavigationDefinition getNavigationDefinition() {
+		return null;
 	}
 }

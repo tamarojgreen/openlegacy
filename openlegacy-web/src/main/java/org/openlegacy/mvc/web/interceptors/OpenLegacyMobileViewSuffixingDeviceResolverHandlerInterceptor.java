@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.mvc.web.interceptors;
 
-import org.openlegacy.terminal.mvc.web.MvcConstants;
+import org.openlegacy.mvc.web.MvcConstants;
 import org.springframework.mobile.device.Device;
 import org.springframework.mobile.device.DeviceResolverHandlerInterceptor;
 import org.springframework.mobile.device.DeviceType;

@@ -3,9 +3,11 @@ package org.openlegacy.rpc.definitions.mock;
 import org.openlegacy.FieldType.General;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 
-@RpcEntity(name = "SimpleField")
+@RpcEntity(name = "SimpleEntity")
+@RpcNavigation(category = "Tree1")
 public class RpcSimpleEntity implements org.openlegacy.rpc.RpcEntity {
 
 	@RpcNumericField(minimumValue = -99, maximumValue = 99, decimalPlaces = 0)

@@ -15,5 +15,8 @@ import org.openlegacy.annotations.rpc.Languages;
 
 public interface RpcEntityDefinition extends EntityDefinition<RpcFieldDefinition> {
 
+	RpcNavigationDefinition getNavigationDefinition();
+
 	Languages getLanguage();
+
 }

@@ -8,14 +8,22 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.rpc;
+package org.openlegacy.rpc.definitions;
 
-import org.openlegacy.Session;
-import org.openlegacy.rpc.actions.RpcAction;
+import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
 
-public interface RpcSession extends Session {
+import java.io.Serializable;
 
-	void login(String user, String password);
+public class SimpleRpcNavigationDefinition implements RpcNavigationDefinition, Serializable {
 
-	<R extends RpcEntity> R doAction(RpcAction action, R rpcEntity);
+	private static final long serialVersionUID = 1L;
+	private String category;
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 }

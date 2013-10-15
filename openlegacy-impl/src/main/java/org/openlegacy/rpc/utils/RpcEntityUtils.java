@@ -12,6 +12,7 @@ package org.openlegacy.rpc.utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
@@ -64,5 +65,26 @@ public class RpcEntityUtils implements Serializable {
 
 		Assert.notNull(sessionAction, MessageFormat.format("Alias for rpc action {0} not found", actionAlias));
 		return rpcSession.doAction(sessionAction, rpcEntity);
+	}
+
+	public RpcActionDefinition findAction(RpcEntity rpcEntity, String actionAlias) {
+		RpcEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, RpcEntitiesRegistry.class);
+		RpcEntityDefinition entityDefinitions = screenEntitiesRegistry.get(rpcEntity.getClass());
+		RpcAction sessionAction = null;
+		RpcActionDefinition matchedActionDefinition = null;
+		if (StringUtils.isEmpty(actionAlias)) {
+			sessionAction = RpcActions.READ();
+		} else {
+			List<ActionDefinition> actions = entityDefinitions.getActions();
+			for (ActionDefinition actionDefinition : actions) {
+				if (actionDefinition.getAlias().equals(actionAlias)) {
+					matchedActionDefinition = (RpcActionDefinition)actionDefinition;
+					sessionAction = (RpcAction)actionDefinition.getAction();
+				}
+			}
+		}
+
+		Assert.notNull(sessionAction, MessageFormat.format("Alias for session action {0} not found", actionAlias));
+		return matchedActionDefinition;
 	}
 }
