@@ -56,11 +56,12 @@ End use this definition to replay a mock-up session application -->
 		-->
 	</util:map>
  
- 	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedTerminalSessionPropertiesProvider">
+<!-- Overriden by management plugin
+  	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.terminal.web.RequestBasedTerminalSessionPropertiesProvider">
  		<property name="ipDevice" ref="ipDevice" />
  		<aop:scoped-proxy/>
  	</bean>
-		
+ -->		
 	<security:http auto-config="true" use-expressions="true">
 	    <security:intercept-url pattern="/management/**" access="hasRole('ROLE_ADMIN')"/>
 		<security:http-basic />
