@@ -142,7 +142,7 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 				offset = StringUtil.startOfNonBlank(value);
 			}
 			column = field.getPosition().getColumn();
-			int left = getProportionHandler().toWidth(offset + column);
+			int left = getProportionHandler().toWidth(offset + column - 1);
 			positioningStyle = MessageFormat.format("top:{0}{2};left:{1}{2};", String.valueOf(top), String.valueOf(left),
 					HtmlConstants.STYLE_UNIT);
 		} else {

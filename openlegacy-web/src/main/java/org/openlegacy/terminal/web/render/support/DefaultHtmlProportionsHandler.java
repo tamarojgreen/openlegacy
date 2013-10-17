@@ -24,7 +24,7 @@ public class DefaultHtmlProportionsHandler implements HtmlProportionsHandler {
 	private int letterSpacing = 0;
 
 	public int toWidth(int column) {
-		return (column - 1) * columnProportion;
+		return (column) * columnProportion;
 	}
 
 	public int toHeight(int row) {
