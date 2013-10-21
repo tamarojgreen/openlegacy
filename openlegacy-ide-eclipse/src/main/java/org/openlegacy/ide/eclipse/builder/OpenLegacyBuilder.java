@@ -100,6 +100,9 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 							logger.fatal(e);
 						}
 					}
+					if (resource instanceof IFile && name.equals(".preferences")) {
+						EclipseDesignTimeExecuter.instance().reloadPreference(resource.getProject());
+					}
 					checkAspectGenerate(resource);
 					checkAnalyzerContextChange(resource);
 					break;

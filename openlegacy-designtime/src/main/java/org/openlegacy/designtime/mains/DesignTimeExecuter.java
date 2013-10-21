@@ -57,6 +57,8 @@ public interface DesignTimeExecuter {
 
 	String getPreferences(File projectPath, String key);
 
+	void reloadPreferences(File projectPath);
+
 	void savePreference(File projectPath, String key, String value);
 
 	public void copyDesigntimeContext(File projectPath);

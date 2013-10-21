@@ -199,7 +199,10 @@ public class EclipseDesignTimeExecuter {
 
 	public String getPreference(IProject project, String key) {
 		return designTimeExecuter.getPreferences(PathsUtil.toProjectOsLocation(project), key);
+	}
 
+	public void reloadPreference(IProject project) {
+		designTimeExecuter.reloadPreferences(PathsUtil.toProjectOsLocation(project));
 	}
 
 	public void savePreference(IProject project, String key, Boolean value) {

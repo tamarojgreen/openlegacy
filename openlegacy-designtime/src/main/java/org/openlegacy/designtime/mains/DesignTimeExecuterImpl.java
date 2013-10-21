@@ -855,6 +855,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return preferences;
 	}
 
+	public void reloadPreferences(File projectPath) {
+		projectsPreferences.remove(projectPath);
+	}
+
 	public void copyDesigntimeContext(File projectPath) {
 		File customDesigntimeFile = new File(projectPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
 		customDesigntimeFile.getParentFile().mkdirs();
