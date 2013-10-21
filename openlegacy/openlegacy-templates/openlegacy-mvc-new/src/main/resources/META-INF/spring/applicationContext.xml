@@ -75,7 +75,6 @@ End use this definition to replay a mock-up session application -->
 	</security:authentication-manager>
  		
 	<!-- Uncomment for bidi support
-	 -->
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder" />
 
 	<bean id="elementsProvider" scope="prototype" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
@@ -96,6 +95,7 @@ End use this definition to replay a mock-up session application -->
 			</map>
 		</property>
 	</bean>
+	 -->
 			
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>
