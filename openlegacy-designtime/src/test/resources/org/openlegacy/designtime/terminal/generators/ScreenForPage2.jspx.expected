@@ -16,8 +16,12 @@
 	 				<ol:field name="fld3Col12" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:field name="fldRow10" top="37%" left="26%" width="27%" />
-			<ol:field name="fld2Row10" top="37%" left="51%" width="27%" />
+			<ol:pagePart left="26%" top="37%" width="52%">
+				<ol:row columns="2">
+	 				<ol:field name="fldRow10" />
+	 				<ol:field name="fld2Row10" />
+				</ol:row>
+			</ol:pagePart>
 			<ol:field name="orphanFld" top="95%" left="8%" width="28%" />
 			<ol:pagePart left="0%" top="0%" width="100%">
 				<ol:row columns="2">

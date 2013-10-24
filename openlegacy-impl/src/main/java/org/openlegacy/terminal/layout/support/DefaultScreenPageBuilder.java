@@ -405,6 +405,15 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		TerminalPosition fieldPosition = screenFieldDefinition.getPosition();
 		TerminalPosition neighbourFieldPosition = neighbourField.getPosition();
 		int belowColumnsDistance = Math.abs(fieldPosition.getColumn() - neighbourFieldPosition.getColumn());
+		if (screenFieldDefinition.getEndPosition().getColumn() >= neighbourField.getEndPosition().getColumn()
+				&& screenFieldDefinition.getPosition().getColumn() <= neighbourField.getPosition().getColumn()) {
+			belowColumnsDistance = 0;
+		}
+		if (screenFieldDefinition.getEndPosition().getColumn() <= neighbourField.getEndPosition().getColumn()
+				&& screenFieldDefinition.getPosition().getColumn() >= neighbourField.getPosition().getColumn()) {
+			belowColumnsDistance = 0;
+		}
+
 		int belowRowsDistance = Math.abs(fieldPosition.getRow() - neighbourFieldPosition.getRow());
 		boolean isBelowNeighbour = belowColumnsDistance <= maxNeighbourColumnsOffset
 				&& belowRowsDistance <= maxRowDistanceWithinPart;
