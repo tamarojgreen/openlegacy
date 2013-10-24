@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -81,6 +82,12 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 			}
 			int row = fieldDefinition.getPosition().getRow();
 
+			if (fieldTypeDefinition.getDayColumn() == null && fieldTypeDefinition.getMonthColumn() == null
+					&& fieldTypeDefinition.getYearColumn() == null) {
+				throw (new RegistryException(MessageFormat.format(
+						"A Date field {0}.{1} is defined without @ScreenDateField annotation",
+						ProxyUtil.getTargetObject(screenEntity).getClass().getSimpleName(), fieldDefinition.getName())));
+			}
 			TerminalField dayField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(row,
 					fieldTypeDefinition.getDayColumn()));
 			TerminalField monthField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(row,

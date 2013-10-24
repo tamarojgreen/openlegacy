@@ -58,10 +58,6 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
 
 		SimpleTerminalPosition position = SimpleTerminalPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
-		if (screenEntityDefinition != null && !screenEntityDefinition.getScreenSize().contains(position)) {
-			throw (new RegistryException(MessageFormat.format("Field {0} is out of screen {1} bounds", field.getName(),
-					screenEntityDefinition.getEntityClassName())));
-		}
 
 		String fieldName = field.getName();
 		SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition(fieldName,
