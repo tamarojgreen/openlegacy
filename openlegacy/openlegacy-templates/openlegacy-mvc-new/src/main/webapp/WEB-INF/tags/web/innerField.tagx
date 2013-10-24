@@ -188,8 +188,19 @@
 						</c:choose>
 					</c:when>
 					<c:otherwise>
-						<ol:span cssClass="readonlyField ${cssClass}" path="${name}"
-							cssStyle="${style}" />
+						<c:choose>
+							<c:when test="${type == 'boolean'}">
+								<script>require("dijit/form/CheckBox");</script>
+								<span class="fieldPlaceholder" />
+								<form:checkbox name="${name}" disabled="true"
+									data-dojo-type="dijit.form.CheckBox" path="${name}"
+									cssStyle="${style}" />
+							</c:when>
+							<c:otherwise>
+								<ol:span cssClass="readonlyField ${cssClass}" path="${name}"
+									cssStyle="${style}" />
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 				<c:if test="${ol:hasProperty(fieldDefinition,'descriptionFieldDefinition') and fieldDefinition.descriptionFieldDefinition != null}">
