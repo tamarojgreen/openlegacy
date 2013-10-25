@@ -88,13 +88,15 @@ public class AnnotationsParserUtils {
 						String displayName = "";
 
 						List<Expression> args = entry.getArgs();
-						if (args.size() == 1) {
-							value = StringUtil.stripQuotes(args.get(0).toString());
-						} else if (args.size() >= 2) {
-							value = StringUtil.stripQuotes(args.get(0).toString());
-							displayName = StringUtil.stripQuotes(args.get(1).toString());
+						if (args != null){
+							if (args.size() == 1) {
+								value = StringUtil.stripQuotes(args.get(0).toString());
+							} else if (args.size() >= 2) {
+								value = StringUtil.stripQuotes(args.get(0).toString());
+								displayName = StringUtil.stripQuotes(args.get(1).toString());
+							}
+							enumDefinition.getEnums().put(entry.getName(), new SimpleDisplayItem(value, displayName));
 						}
-						enumDefinition.getEnums().put(entry.getName(), new SimpleDisplayItem(value, displayName));
 					}
 					break;
 				}
