@@ -389,10 +389,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultTheme=.*",
 					MessageFormat.format("themeUtil.defaultTheme={0}", projectTheme.getDisplayName().toLowerCase()));
 			// get mobile theme name
-			String[] split = projectTheme.getMobileTheme().split("-");
-			// suppose, that last element of String array is mobile theme name
-			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultMobileTheme=.*",
-					MessageFormat.format("themeUtil.defaultMobileTheme={0}", split[split.length - 1].toLowerCase()));
+			if (projectTheme.getMobileTheme() != null){
+				String[] split = projectTheme.getMobileTheme().split("-");
+				// suppose, that last element of String array is mobile theme name
+				appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultMobileTheme=.*",
+						MessageFormat.format("themeUtil.defaultMobileTheme={0}", split[split.length - 1].toLowerCase()));
+			}
 			FileOutputStream fos = new FileOutputStream(appPropertiesFile);
 			IOUtils.write(appPropertiesFileContent, fos);
 		}
