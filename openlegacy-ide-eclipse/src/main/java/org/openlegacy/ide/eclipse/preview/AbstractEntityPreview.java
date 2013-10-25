@@ -311,8 +311,8 @@ public abstract class AbstractEntityPreview extends ViewPart {
 				}
 			}
 		}
-		// hide image
-		getImageComposite().setVisible(false);
+		// keep last shown image - comfort during dev.
+		//getImageComposite().setVisible(false);
 	}
 
 	protected abstract void showPreviewImage(IJavaElement javaInput, IFile sourceFile);
