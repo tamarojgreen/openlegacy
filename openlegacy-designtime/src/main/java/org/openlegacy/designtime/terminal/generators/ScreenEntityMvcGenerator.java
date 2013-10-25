@@ -10,6 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.generators;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.text.MessageFormat;
+
+import javax.inject.Inject;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,14 +30,6 @@ import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
-import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.text.MessageFormat;
-
-import javax.inject.Inject;
 
 /**
  * Generates all Spring MVC web related content
@@ -140,7 +139,7 @@ public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator impleme
 				}
 			}
 
-			SimplePageDefinition pageDefinition = (SimplePageDefinition)new DefaultScreenPageBuilder().build((ScreenEntityDefinition)entityDefinition);
+			SimplePageDefinition pageDefinition = (SimplePageDefinition)pageBuilder.build((ScreenEntityDefinition)entityDefinition);
 			pageDefinition.setPackageName(generateControllerRequest.getPackageDirectory().replaceAll("/", "."));
 
 			if (generateController) {

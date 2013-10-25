@@ -10,6 +10,15 @@ import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_WEB_
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.VIEWS_FILE;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.WEB_VIEWS_DIR;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.MessageFormat;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,15 +30,6 @@ import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.MessageFormat;
-import java.util.List;
-
-import javax.inject.Inject;
 
 public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator {
 
@@ -146,7 +146,7 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 				List<EntityDefinition<?>> childScreens = entityDefinition.getChildEntitiesDefinitions();
 				// generate page content for each of the child screens
 				for (EntityDefinition<?> childDefinition : childScreens) {
-					pageDefinition = new DefaultScreenPageBuilder().build((ScreenEntityDefinition)childDefinition);
+					pageDefinition = buildPage(childDefinition);
 					generateView(generatePageRequest, pageDefinition, viewsDir, templateDirectoryPrefix, overrideConfirmer,
 							false, mvcTemplateType, mvcCompositeTemplateType);
 				}

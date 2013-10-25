@@ -89,8 +89,8 @@ public class ScreenCodeBasedDefinitionUtils {
 			fieldDefinition.setDefaultValue(javaFieldModel.getDefaultValue());
 			fieldDefinition.setJavaTypeName(javaFieldModel.getType());
 			// @author Ivan Bort refs assembla #235
-			fieldDefinition.setEndPosition(new SimpleTerminalPosition(javaFieldModel.getEndRow() == null ? 0
-					: javaFieldModel.getEndRow(), javaFieldModel.getEndColumn() == null ? 0 : javaFieldModel.getEndColumn()));
+			fieldDefinition.setEndPosition(new SimpleTerminalPosition(javaFieldModel.getEndRow() == null ? javaFieldModel.getRow()
+					: javaFieldModel.getEndRow(), javaFieldModel.getEndColumn() == null ? javaFieldModel.getColumn() + 1 : javaFieldModel.getEndColumn()));
 			fieldDefinition.setHelpText(javaFieldModel.getHelpText());
 			fieldDefinition.setRightToLeft(javaFieldModel.isRightToLeft());
 			fieldDefinition.setWhenFilter(javaFieldModel.getWhen());

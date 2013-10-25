@@ -5,9 +5,9 @@
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	<ol:form model="itemsList">
-			<ol:field name="positionTo" top="83%" left="6%" width="30%" />
-			<ol:field name="errorMessage" top="95%" left="1%" width="13%" />
-			<ol:pagePart left="5%" top="25%" width="80%">
+			<ol:field name="positionTo" />
+			<ol:field name="errorMessage" />
+			<ol:pagePart>
 					<ol:table data="${itemsList.itemsListRows}" property="itemListRows"  />
 			</ol:pagePart>
 		

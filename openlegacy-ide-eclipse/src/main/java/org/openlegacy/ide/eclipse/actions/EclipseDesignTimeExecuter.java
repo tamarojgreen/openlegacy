@@ -151,7 +151,7 @@ public class EclipseDesignTimeExecuter {
 	public void generateView(IFile entitySourceFile, IProject project, UserInteraction userInteraction, boolean generateHelp,
 			boolean generateMobilePage) {
 
-		File projectPath = new File(PathsUtil.toOsLocation(entitySourceFile.getProject()), DesignTimeExecuterImpl.TEMPLATES_DIR);
+		File projectPath = new File(PathsUtil.toOsLocation(project), DesignTimeExecuterImpl.TEMPLATES_DIR);
 
 		GenerateViewRequest generatePageRequest = new GenerateViewRequest();
 		generatePageRequest.setProjectPath(PathsUtil.toOsLocation(project));
