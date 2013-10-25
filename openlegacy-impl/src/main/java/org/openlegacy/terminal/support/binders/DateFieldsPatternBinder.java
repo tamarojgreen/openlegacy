@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
@@ -26,6 +27,7 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -77,7 +79,11 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 			SimpleDateFormat dateFormater = new SimpleDateFormat(pattern, new Locale(fieldTypeDefinition.getLocale()));
 
 			try {
-				Date dateVal = dateFormater.parse(dateField.getValue());
+				String value = dateField.getValue();
+				if (StringUtils.isBlank(value)){
+					continue;
+				}
+				Date dateVal = dateFormater.parse(value);
 				fieldAccessor.setFieldValue(fieldDefinition.getName(), dateVal);
 				if (logger.isDebugEnabled()) {
 					logger.debug(MessageFormat.format("Date field: {0}.{1} was set with: {2}", class1, fieldDefinition.getName(),
