@@ -55,7 +55,7 @@ public class GenerateUtil {
 			Template template = new Template("Template", templateString, new Configuration());
 			template.process(model, output);
 			byte[] bytes = baos.toByteArray();
-			return new String(bytes);
+			return new String(bytes,"UTF-8");
 		} catch (TemplateException e) {
 			throw (new GenerationException(e));
 		} catch (IOException e) {
