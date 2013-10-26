@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8" />	
+		<#if cssContainerPath??>
+			<link media="all" type="text/css" rel="stylesheet" href="file://${cssContainerPath}project.css"/>
+		</#if>
+		<#if jsContainerPath??>
+			<script src="file://${jsContainerPath}project.js"></script>
+		</#if>
+	</head>
+<body>
+		<#list pageDefinition.entityDefinition.actions as action>
+			<#if action.alias??>
+		<div class="action">
+			<button onclick="doPost('${action.alias}')">${action.displayName}</button>
+		</div>
+			</#if>
+		</#list>
+		
+		<#list pageDefinition.pageParts as pagePart>
+			<#if pagePart.oneField>
+			<input name="${pagePart.singleField.name}" value="${pagePart.singleField.sampleValue}" />
+			<#else>
+				<div class="panel">
+				<#list pagePart.partRows as partRow>
+				<table>
+					<tr>
+					<#list partRow.fields as field>
+						<td>
+	 					${field.displayName}:
+						</td>
+						<td>
+	 					<input name="${field.name}" value="${field.sampleValue}" size="${field.length}"/>
+						</td>
+					</#list>
+					</tr>
+				</table>
+				</#list>
+				<#if pagePart.hasTable>
+				<table border="1">
+					<tr>
+						<#list pagePart.tableDefinition.columnDefinitions as column>
+						<th>
+	 					 	${column.displayName}
+						</th>
+						</#list>
+						<#list pagePart.tableDefinition.columnDefinitions as column>
+						<td>
+	 					 	${column.sampleValue}
+						</td>
+						</#list>
+					</tr>
+				</table>
+				</#if>
+				</div>
+			</#if>
+		</#list>	
+</body>
+</html>		

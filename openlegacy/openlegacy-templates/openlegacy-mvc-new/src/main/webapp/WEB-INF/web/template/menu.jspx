@@ -104,7 +104,7 @@
 				<c:otherwise>
 					<c:if test="${definitions != null}">
 						<c:forEach items="${ol_flatMenus}" var="flatMenu">
-							<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}">
+							<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}_MenuItem">
 								<div class="links">
 									<ul>
 										<li>
@@ -117,7 +117,7 @@
 															require(["dojo/ready"], function(ready){
 																ready(function(){
 																	require(["dijit/registry"], function(registry){
-																		registry.byId('accordion').selectChild(registry.byId('${flatMenu.targetEntityName}'));
+																		registry.byId('accordion').selectChild(registry.byId('${flatMenu.targetEntityName}_MenuItem'));
 																	});
 																});
 															});

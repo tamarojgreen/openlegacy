@@ -4,7 +4,7 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" />
 	<jsp:output omit-xml-declaration="yes" />
 
-	<h2 data-dojo-type="dojox.mobile.RoundRectCategory">Item Details</h2>
+	<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${definitions.displayName}</h2>
 
 	<ul data-dojo-type="dojox.mobile.TabBar" data-dojo-props="barType:'segmentedControl'">
 		<li data-dojo-type="dojox.mobile.TabBarButton"
