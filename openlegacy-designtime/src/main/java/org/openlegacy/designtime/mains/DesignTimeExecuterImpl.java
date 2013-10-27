@@ -440,7 +440,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		generateTest(generateModelRequest.getTrailFile(), screenDefinitions, generateModelRequest.getProjectPath());
+		if (generateModelRequest.isGenerateTest()){
+			generateTest(generateModelRequest.getTrailFile(), screenDefinitions, generateModelRequest.getProjectPath());
+		}
 
 	}
 

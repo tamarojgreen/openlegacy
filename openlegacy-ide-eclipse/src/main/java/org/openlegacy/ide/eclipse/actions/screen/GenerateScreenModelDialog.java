@@ -44,7 +44,7 @@ public class GenerateScreenModelDialog extends AbstractGenerateModelDialog {
 					this, isUseAj(), entityDefinition);
 		} else {
 			EclipseDesignTimeExecuter.instance().generateScreenModel(trailPath, getSourceFolder(), getPackageValue(), this,
-					isUseAj(), terminalSnapshots);
+					isUseAj(), isGenerateTest(), terminalSnapshots);
 		}
 	}
 

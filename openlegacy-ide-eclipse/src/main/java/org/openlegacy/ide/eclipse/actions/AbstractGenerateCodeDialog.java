@@ -64,6 +64,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 	private String packageValue;
 	private IFile file;
 	private boolean useAj = true;
+	private boolean generateTest;
 
 	protected AbstractGenerateCodeDialog(Shell shell, IFile file) {
 		super(shell);
@@ -125,6 +126,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		useAjButton.setText(Messages.getString("label_use_aj"));
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.widthHint = 400;
 		useAjButton.setLayoutData(gd);
 
 		useAjButton.addSelectionListener(new SelectionListener() {
@@ -141,6 +143,26 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 			}
 		});
+
+		Button generateTest = new Button(parent, SWT.CHECK);
+		generateTest.setSelection(true);
+		generateTest.setText(Messages.getString("label_generate_test"));
+
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.widthHint = 400;
+		generateTest.setLayoutData(gd);
+
+		useAjButton.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				setGenerateTest(true);
+			}
+
+			public void widgetSelected(SelectionEvent arg0) {
+				setGenerateTest(!isGenerateTest());
+			}
+		});
+		
 		createDialogSpecific(parent);
 		loadPrefrences();
 		useAjButton.setSelection(isUseAj());
@@ -313,4 +335,11 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		this.useAj = useAj;
 	}
 
+	private void setGenerateTest(boolean generateTest) {
+		this.generateTest = generateTest;
+	}
+
+	public boolean isGenerateTest() {
+		return generateTest;
+	}
 }

@@ -29,6 +29,8 @@ public class GenerateScreenModelRequest extends AbstractGenerateRequest implemen
 	private boolean generateSnapshotImage = false;
 	private boolean generateSnapshotText = false;
 
+	private boolean generateTest = true;
+	
 	private EntityUserInteraction<EntityDefinition<?>> entityUserInteraction;
 
 	public File getTrailFile() {
@@ -79,4 +81,11 @@ public class GenerateScreenModelRequest extends AbstractGenerateRequest implemen
 		this.generateSnapshotText = generateSnapshotText;
 	}
 
+	public boolean isGenerateTest() {
+		return generateTest;
+	}
+	
+	public void setGenerateTest(boolean generateTest) {
+		this.generateTest = generateTest;
+	}
 }

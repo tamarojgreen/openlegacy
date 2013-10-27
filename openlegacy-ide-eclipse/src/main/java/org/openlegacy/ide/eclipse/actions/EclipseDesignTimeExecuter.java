@@ -73,7 +73,7 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateScreenModel(final IFile trailFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			EntityUserInteraction<EntityDefinition<?>> entityUserInteraction, boolean generateAspect,
+			EntityUserInteraction<EntityDefinition<?>> entityUserInteraction, boolean generateAspect,boolean generateTest,
 			TerminalSnapshot... terminalSnapshots) throws GenerationException {
 		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
 		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
@@ -86,6 +86,7 @@ public class EclipseDesignTimeExecuter {
 		generateScreenRequest.setTrailFile(PathsUtil.toOsLocation(trailFile));
 		generateScreenRequest.setTerminalSnapshots(terminalSnapshots);
 		generateScreenRequest.setGenerateAspectJ(generateAspect);
+		generateScreenRequest.setGenerateTest(generateTest);
 		generateScreenRequest.setEntityUserInteraction(entityUserInteraction);
 
 		designTimeExecuter.generateScreenModel(generateScreenRequest);
