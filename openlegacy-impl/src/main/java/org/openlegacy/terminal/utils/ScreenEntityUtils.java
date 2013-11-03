@@ -12,10 +12,13 @@ package org.openlegacy.terminal.utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.SpringUtil;
@@ -75,6 +78,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 			}
 			if (sessionAction == null) {
 				sessionAction = defaultActionAliasToAction.get(actionAlias);
+				matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "",null);
 			}
 		}
 
