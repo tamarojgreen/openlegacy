@@ -73,16 +73,21 @@ public abstract class AbstractRestController {
 
 	}
 
-	private ModelAndView getEntityRequest(String entityName, Object key, HttpServletResponse response) throws IOException {
+	private ModelAndView getEntityRequest(String entityName, String key, HttpServletResponse response) throws IOException {
 		if (!authenticate(response)) {
 			return null;
 		}
 		try {
 			Object entity;
+			Object[] keys = new Object[0];
+			if (key != null) {
+				keys = key.split("\\+");
+			}
+			
 			if (key == null) {
 				entity = getSession().getEntity(entityName);
 			} else {
-				entity = getSession().getEntity(entityName, key);
+				entity = getSession().getEntity(entityName, keys);
 			}
 			return getEntityInner(entity);
 		} catch (EntityNotFoundException e) {
