@@ -181,6 +181,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 
 		if (visualValue != null && !value.equals(visualValue)) {
 			field.setVisualValue(visualValue);
+			field.setLength(visualValue.length());
 		}
 
 		if (field != null) {
