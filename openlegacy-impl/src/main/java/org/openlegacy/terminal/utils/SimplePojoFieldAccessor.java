@@ -68,7 +68,7 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 		try {
 			directFieldAccessor.setPropertyValue(getFieldPojoName(fieldName), value);
 		} catch (Exception e) {
-			logger.error(MessageFormat.format("Unable to update entity field: {0}.{1}", target.getClass().getSimpleName(),
+			logger.fatal(MessageFormat.format("Unable to update entity field: {0}.{1}", target.getClass().getSimpleName(),
 					fieldName, e));
 			return;
 		}
