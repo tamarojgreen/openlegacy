@@ -85,6 +85,7 @@ public class LoginMetadata implements SessionModuleMetadata, Serializable {
 	}
 
 	public ScreenEntityDefinition getLoginScreenDefinition() {
+		initCache();
 		return loginScreenDefinition;
 	}
 
