@@ -19,13 +19,11 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
 import javax.inject.Inject;
 
-@Component
 public class LoginMetadata implements SessionModuleMetadata, InitializingBean, Serializable {
 
 	private static final long serialVersionUID = 1L;
