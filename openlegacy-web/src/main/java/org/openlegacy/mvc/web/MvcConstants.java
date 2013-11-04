@@ -40,4 +40,5 @@ public class MvcConstants {
 
 	public static final String REDIRECT = UrlBasedViewResolver.REDIRECT_URL_PREFIX + "/";
 
+	public static final String LOGIN_URL = REDIRECT + "login";
 }

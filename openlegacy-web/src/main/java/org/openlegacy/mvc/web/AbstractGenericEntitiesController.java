@@ -113,13 +113,17 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 			Object entity = session.getEntity(entityName, keys);
 			return prepareView(entity, uiModel, partial != null, request);
 		} catch (RuntimeException e) {
-			if (openlegacyWebProperties.isFallbackUrlOnError()) {
-				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
-				logger.fatal(e.getMessage(), e);
-				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
-			} else {
-				throw (e);
-			}
+			return handleFallbackUrl(e);
+		}
+	}
+
+	protected String handleFallbackUrl(RuntimeException e) {
+		if (openlegacyWebProperties.isFallbackUrlOnError()) {
+			Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
+			logger.error(e.getMessage());
+			return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
+		} else {
+			throw (e);
 		}
 	}
 

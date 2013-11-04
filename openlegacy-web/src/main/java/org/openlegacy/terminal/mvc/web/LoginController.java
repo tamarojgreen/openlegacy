@@ -64,6 +64,9 @@ public class LoginController {
 			} else {
 				// refer to fall back URL
 				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
+				if (openlegacyWebProperties.getFallbackUrl().equalsIgnoreCase("login")) {
+					return MvcConstants.REDIRECT + "logoff";
+				}
 				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 			}
 		}

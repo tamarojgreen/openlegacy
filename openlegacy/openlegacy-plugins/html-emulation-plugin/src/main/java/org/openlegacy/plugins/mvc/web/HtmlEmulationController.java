@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.plugins.mvc.web;
 
+import org.openlegacy.mvc.web.MvcConstants;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.modules.login.LoginMetadata;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.openlegacy.utils.EntityUtils;
 import org.springframework.stereotype.Controller;
@@ -44,6 +46,9 @@ public class HtmlEmulationController {
 	@Inject
 	private EntityUtils entityUtils;
 
+	@Inject
+	private LoginMetadata loginMetadata;
+
 	boolean emulationOnly = false;
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -51,6 +56,9 @@ public class HtmlEmulationController {
 			@RequestParam(value = "fetch", required = false) Object fetch,
 			@RequestParam(value = "stick", required = false) Object stick) {
 
+		if (!terminalSession.isConnected() && loginMetadata.getLoginScreenDefinition() != null) {
+			return MvcConstants.LOGIN_URL;
+		}
 		if (fetch != null) {
 			terminalSession.fetchSnapshot();
 		}

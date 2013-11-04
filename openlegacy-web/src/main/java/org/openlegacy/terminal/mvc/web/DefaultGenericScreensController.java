@@ -19,6 +19,7 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.mvc.web.AbstractGenericEntitiesController;
+import org.openlegacy.mvc.web.MvcConstants;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
@@ -26,6 +27,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.json.JsonSerializationUtil;
+import org.openlegacy.terminal.modules.login.LoginMetadata;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
@@ -77,6 +79,9 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 	@Inject
 	private ApplicationContext applicationContext;
 
+	@Inject
+	private LoginMetadata loginMetadata;
+
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST)
 	public String postEntity(@PathVariable("entity") String screenEntityName,
 			@RequestParam(defaultValue = "", value = ACTION) String action,
@@ -105,6 +110,16 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 		}
 
 		return handleEntity(request, uiModel, resultEntity);
+	}
+
+	@Override
+	protected String handleFallbackUrl(RuntimeException e) {
+		if (!getSession().isConnected() && loginMetadata.getLoginScreenDefinition() != null) {
+			logger.error(e.getMessage());
+			return MvcConstants.LOGIN_URL;
+		} else {
+			return super.handleFallbackUrl(e);
+		}
 	}
 
 	/**
