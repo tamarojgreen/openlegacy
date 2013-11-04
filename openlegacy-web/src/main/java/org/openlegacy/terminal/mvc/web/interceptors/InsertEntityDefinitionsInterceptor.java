@@ -11,7 +11,6 @@
 package org.openlegacy.terminal.mvc.web.interceptors;
 
 import org.openlegacy.EntityDescriptor;
-import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.mvc.MvcUtils;
@@ -20,6 +19,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.modules.login.LoginMetadata;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,11 +43,14 @@ public class InsertEntityDefinitionsInterceptor extends AbstractScreensIntercept
 	@Inject
 	private MvcUtils mvcUtils;
 
+	@Inject
+	private LoginMetadata loginMetadata;
+
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
 		if (!getSession().isConnected()) {
 			// insert login definitions when not connected
-			ScreenEntityDefinition definitions = entitiesRegistry.getSingleEntityDefinition(LoginEntity.class);
+			ScreenEntityDefinition definitions = loginMetadata.getLoginScreenDefinition();
 			if (definitions != null) {
 				modelAndView.addObject("definitions", definitions);
 			}

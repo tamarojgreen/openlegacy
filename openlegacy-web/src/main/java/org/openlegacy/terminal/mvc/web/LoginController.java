@@ -11,7 +11,6 @@
 package org.openlegacy.terminal.mvc.web;
 
 import org.openlegacy.modules.login.Login;
-import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
@@ -21,6 +20,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.modules.login.LoginMetadata;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
@@ -49,6 +49,9 @@ public class LoginController {
 	@Inject
 	private TerminalSession terminalSession;
 
+	@Inject
+	private LoginMetadata loginMetadata;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String home(Model uiModel) {
 
@@ -66,7 +69,7 @@ public class LoginController {
 		}
 
 		// not connected - create empty login entity for binding
-		ScreenEntityDefinition loginEntityDefinition = screenEntitiesRegistry.getSingleEntityDefinition(LoginEntity.class);
+		ScreenEntityDefinition loginEntityDefinition = loginMetadata.getLoginScreenDefinition();
 		if (loginEntityDefinition != null) {
 			Object loginEntity = ReflectionUtil.newInstance(loginEntityDefinition.getEntityClass());
 			uiModel.addAttribute(MvcConstants.LOGIN_MODEL, loginEntity);
@@ -80,7 +83,7 @@ public class LoginController {
 	public String login(Model uiModel, HttpServletRequest request,
 			@RequestParam(value = "partial", required = false) String partial) {
 
-		ScreenEntityDefinition loginEntityDefinition = screenEntitiesRegistry.getSingleEntityDefinition(LoginEntity.class);
+		ScreenEntityDefinition loginEntityDefinition = loginMetadata.getLoginScreenDefinition();
 
 		terminalSession.getModule(Login.class).logoff();
 

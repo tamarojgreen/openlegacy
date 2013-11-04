@@ -35,7 +35,9 @@ public class LoginMetadata implements SessionModuleMetadata, Serializable {
 	private ScreenFieldDefinition userField;
 	private ScreenFieldDefinition passwordField;
 	private ScreenFieldDefinition errorField;
-	private ScreenEntityDefinition loginScreenDefinition;;
+	private ScreenEntityDefinition loginScreenDefinition;
+
+	private Class<?> loginClass;
 
 	public void initCache() {
 
@@ -44,7 +46,11 @@ public class LoginMetadata implements SessionModuleMetadata, Serializable {
 		}
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 
-		loginScreenDefinition = screenEntitiesRegistry.getSingleEntityDefinition(Login.LoginEntity.class);
+		if (loginClass == null) {
+			loginScreenDefinition = screenEntitiesRegistry.getSingleEntityDefinition(Login.LoginEntity.class);
+		} else {
+			loginScreenDefinition = screenEntitiesRegistry.get(loginClass);
+		}
 
 		if (loginScreenDefinition == null) {
 			return;
@@ -80,5 +86,9 @@ public class LoginMetadata implements SessionModuleMetadata, Serializable {
 
 	public ScreenEntityDefinition getLoginScreenDefinition() {
 		return loginScreenDefinition;
+	}
+
+	public void setLoginClass(Class<?> clazz) {
+		loginClass = clazz;
 	}
 }
