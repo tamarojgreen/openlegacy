@@ -28,7 +28,7 @@
 		</property>
 	</bean>
 	
- 	<bean id="htmlProportionsHandler" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="19" p:columnProportion="10" p:fontSize="16" p:inputHeight="16" />
+ 	<bean id="htmlProportionsHandler" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="19" p:columnProportion="10" p:fontSize="16" p:inputHeight="18" />
  	<bean id="htmlProportionsHandler132X27" class="org.openlegacy.terminal.web.render.support.DefaultHtmlProportionsHandler" p:rowProportion="14" p:columnProportion="7" p:fontSize="11" p:inputHeight="11" p:letterSpacing="4" />
  	
 	<bean id="terminalSendActionBuilder" class="org.openlegacy.terminal.web.render.support.DefaultHttpPostSendActionBuilder" />

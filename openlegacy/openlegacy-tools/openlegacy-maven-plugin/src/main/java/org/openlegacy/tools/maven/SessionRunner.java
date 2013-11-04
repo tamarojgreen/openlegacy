@@ -56,7 +56,7 @@ public class SessionRunner extends AbstractMojo {
 	private static final String PORT = PREFIX + "port";
 	private static final int defaultPort = 1512; // OL :)
 
-	private static final String CONTEXT_FILE = PREFIX + ".context.file";
+	private static final String CONTEXT_FILE = PREFIX + "context.file";
 	private static final String defaultContext = "/META-INF/spring/applicationContext-test.xml";
 
 	protected static final String HEADER_EXPIRES = "Expires";
