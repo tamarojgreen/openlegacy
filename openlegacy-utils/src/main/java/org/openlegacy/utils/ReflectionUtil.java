@@ -12,9 +12,11 @@ package org.openlegacy.utils;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.springframework.util.Assert;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 
 public class ReflectionUtil {
@@ -70,7 +72,15 @@ public class ReflectionUtil {
 
 	public static Object invoke(Object object, String methodName, Object... args) {
 		try {
-			return object.getClass().getMethod(methodName).invoke(object, args);
+			Method[] methods = object.getClass().getMethods();
+			Method method = null;
+			for (Method method1 : methods) {
+				if (method1.getName().equals(methodName)) {
+					method = method1;
+				}
+			}
+			Assert.notNull("Method not found:" + methodName, methodName);
+			return method.invoke(object, args);
 		} catch (Exception e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
