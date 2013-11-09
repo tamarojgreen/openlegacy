@@ -319,7 +319,7 @@ var OLKeyBoardHandler = new function(){
 						var dataType = input.getAttribute("data-type");
 						if (dataType != null && dataType == "int"){
 
-							if (OLBrowserUtil.isPrintableChar(e.keyCode)){
+							if (!e.ctrlKey && OLBrowserUtil.isPrintableChar(e.keyCode)){
 								if (OLBrowserUtil.isNumericChar(e.keyCode)){ // dot
 									// OK
 								} else{
