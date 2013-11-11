@@ -9,7 +9,7 @@
 function get(){
 	var requestType = "application/" + dojo.byId('requestType').value;
 	var url = location.href + dojo.byId('getUrl').value;
-	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType;
+	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType + " ; Accept: " + requestType;
 	var xhrArgs = {
 			handleAs : "text",
 			headers: { "Content-Type": requestType, "Accept": requestType },
@@ -22,6 +22,7 @@ function get(){
 				else{
 					dojo.byId('result').innerHTML = "OK"; 
 				}
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
 			error : function(e) {
 				alert(e);
@@ -42,6 +43,7 @@ function post(){
 			headers: { "Accept": requestType, "Content-Type": requestType },
 			url : url,
 			load : function(data) {
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 
 			},
 			error : function(e) {
 				alert(e);
@@ -72,7 +74,10 @@ require(["dojo/parser", "dijit/form/ComboBox","dojox/html/format","dijit/TitlePa
 		Available URL's: <select id="getUrl"
 			data-dojo-type="dijit.form.ComboBox">
 			<option>login?user=user1&password=pwd1</option>
-			<option>ItemDetails/2000</option>
+			<option>ItemsList</option>
+			<option>ItemDetails1/2000</option>
+			<option>WarehouseDetails/3</option>
+			<option>WarehousesList</option>
 			<option>logoff</option>
 		</select> <select id="requestType">
 			<option value="json">JSON</option>
@@ -88,15 +93,27 @@ require(["dojo/parser", "dijit/form/ComboBox","dojox/html/format","dijit/TitlePa
 		data-dojo-props="title: 'HTTP POST',open:false">
 		Content: <br />
 		<textarea rows="6" cols="100" id="postData">
-{"itemNumber":2000,"itemDescription":"Domino Cubes - Board Games2","itemWeight":6}
+<screenEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xmlns:java="http://java.sun.com"
+				xsi:type="java:apps.inventory.screens.ItemDetails1">
+       <itemNumber>2000</itemNumber>
+       <itemDescription>New desc</itemDescription>
+       <palletLabelRequired>true</palletLabelRequired>
+       <focusField>itemDescription</focusField>
+</screenEntity>	
 		</textarea>
-		<br /> To URL: <input id="postUrl" value="/ItemDetails?action=update"
+		<br /> To URL: <input id="postUrl" value="/ItemDetails1?action=save"
 			size="40" /> <select id="postRequestType">
-			<option value="json">JSON</option>
 			<option value="xml">XML</option>
+			<option value="json">JSON</option>
 		</select> <br />
 		<button onclick="post()">HTTP Post</button>
 		<div id="postMessage"></div>
 	</div>
+	<div data-dojo-type="dijit.TitlePane"
+		data-dojo-props="title: 'Session state',open:true">
+		<img id="sessionImage" width="640px" height="320px" />
+	</div>
+
 </body>
 </html>

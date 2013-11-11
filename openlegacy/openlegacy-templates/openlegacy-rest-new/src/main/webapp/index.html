@@ -9,7 +9,7 @@
 function get(){
 	var requestType = "application/" + dojo.byId('requestType').value;
 	var url = location.href + dojo.byId('getUrl').value;
-	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType;
+	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType + " ; Accept: " + requestType;
 	var xhrArgs = {
 			handleAs : "text",
 			headers: { "Content-Type": requestType, "Accept": requestType },
@@ -22,7 +22,7 @@ function get(){
 				else{
 					dojo.byId('result').innerHTML = "OK"; 
 				}
-				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
 			error : function(e) {
 				alert(e);
