@@ -17,7 +17,6 @@ import org.openlegacy.Session;
 import org.openlegacy.terminal.mvc.web.ThemeUtil;
 import org.openlegacy.utils.EntityUtils;
 import org.openlegacy.utils.StringUtil;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -26,7 +25,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Component
 public class MvcUtils {
 
 	@Inject
