@@ -50,6 +50,7 @@
 
 	<c:set var="tableDefinition"
 		value="${definitions.tableDefinitions[property]}" />
+	<c:if test="${fn:length(data) &gt; 0}">
 	<div class="table" style="${style}">
 		<table>
 			<tr>
@@ -106,12 +107,12 @@
 												</c:if>
 											</c:forEach>
 											
-											<c:set var="target" value="${action.targetEntity.simpleName}/${keysValues}" />
+											<c:set var="target" value="${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${keysValues}" />
 											<c:if test="${action.targetEntity == null}">
 												<c:set var="target"
 													value="javascript:alert('No target entity specified for table action in table class @ScreenTableActions annotation');" />
 											</c:if>
-											<a href="${pageContext.request.contextPath}/${target}"
+											<a href="${target}"
 												class="${actionsCss} ${action.alias}"
 												title="${action.displayName}">${action.displayName}
 												<span><!--  --></span>
@@ -166,4 +167,5 @@
 			</div>
 		</c:if>
 	</div>
+	</c:if>
 </jsp:root>
