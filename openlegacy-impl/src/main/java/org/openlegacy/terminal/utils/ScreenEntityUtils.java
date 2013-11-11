@@ -12,11 +12,10 @@ package org.openlegacy.terminal.utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
@@ -68,6 +67,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		TerminalActionDefinition matchedActionDefinition = null;
 		if (StringUtils.isEmpty(actionAlias)) {
 			sessionAction = TerminalActions.ENTER();
+			matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "", null);
 		} else {
 			List<ActionDefinition> actions = entityDefinitions.getActions();
 			for (ActionDefinition actionDefinition : actions) {
@@ -78,7 +78,7 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 			}
 			if (sessionAction == null) {
 				sessionAction = defaultActionAliasToAction.get(actionAlias);
-				matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "",null);
+				matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "", null);
 			}
 		}
 
