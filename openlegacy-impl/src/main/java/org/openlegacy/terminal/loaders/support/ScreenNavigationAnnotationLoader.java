@@ -20,8 +20,8 @@ import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.actions.TerminalMappedAction;
 import org.openlegacy.terminal.actions.TerminalActions.ENTER;
+import org.openlegacy.terminal.actions.TerminalMappedAction;
 import org.openlegacy.terminal.definitions.SimpleFieldAssignDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenNavigationDefinition;
@@ -54,7 +54,7 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 		navigationDefinition.setAccessedFrom(screenNavigation.accessedFrom());
 		navigationDefinition.setTargetEntity(containingClass);
 
-		if (screenNavigation.drilldownValue().length() > 0) {
+		if (!screenNavigation.drilldownValue().equals(AnnotationConstants.NULL)) {
 			if (screenNavigation.terminalAction() != ENTER.class) {
 				throw (new RegistryException(MessageFormat.format(
 						"@ScreenNavigation, drilldownValue is supported only with ENTER action. Entity:{0}",
@@ -65,11 +65,10 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 		} else {
 			if (TerminalDrilldownAction.class.isAssignableFrom(screenNavigation.terminalAction())) {
 				navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
-			} else if (TerminalMappedAction.class.isAssignableFrom(screenNavigation.terminalAction())){
+			} else if (TerminalMappedAction.class.isAssignableFrom(screenNavigation.terminalAction())) {
 				navigationDefinition.setTerminalAction((TerminalAction)TerminalActions.combined(screenNavigation.additionalKey(),
 						screenNavigation.terminalAction()));
-			}
-			else{
+			} else {
 				navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
 			}
 		}

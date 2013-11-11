@@ -19,6 +19,8 @@ package org.openlegacy.terminal;
  */
 public interface ScreenEntity {
 
+	public static final String FOCUS_FIELD = "focusField";
+
 	String getFocusField();
 
 	void setFocusField(String focusField);

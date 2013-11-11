@@ -10,12 +10,14 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
 import org.openlegacy.terminal.FieldComparator;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
@@ -23,6 +25,7 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
+import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.TypesUtil;
@@ -300,6 +303,17 @@ public class ScreenBinderLogic implements Serializable {
 			}
 
 		}
+		if (screenPojo instanceof ScreenEntity) {
+			ScreenEntity screenEntity = (ScreenEntity)screenPojo;
+			String focusField = screenEntity.getFocusField();
+			if (NumberUtils.isNumber(focusField)) {
+				sendAction.setCursorPosition(SnapshotUtils.toPosition(Integer.parseInt(focusField), ScreenSize.DEFAULT_COLUMN));
+				if (logger.isDebugEnabled()) {
+					logger.debug(MessageFormat.format("Cursor was set at position {0}", focusField));
+				}
+			}
+		}
+
 	}
 
 	private static boolean isBindText(ScreenFieldDefinition screenFieldDefinition, String text) {

@@ -26,6 +26,8 @@ public class SimpleScreenSize implements ScreenSize {
 	private int rows = ScreenSize.DEFAULT_ROWS;
 	private int columns = ScreenSize.DEFAULT_COLUMN;
 
+	public static SimpleScreenSize DEFAULT = new SimpleScreenSize(ScreenSize.DEFAULT_ROWS, ScreenSize.DEFAULT_COLUMN);
+
 	public SimpleScreenSize() {}
 
 	public SimpleScreenSize(int rows, int columns) {

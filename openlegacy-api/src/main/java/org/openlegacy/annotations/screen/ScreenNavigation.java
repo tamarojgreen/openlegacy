@@ -90,7 +90,7 @@ public @interface ScreenNavigation {
 	 */
 	boolean requiresParameters() default false;
 
-	String drilldownValue() default "";
+	String drilldownValue() default AnnotationConstants.NULL;
 
 	public static class AnyScreen {
 

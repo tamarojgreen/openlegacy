@@ -276,4 +276,8 @@ public class SnapshotUtils {
 		}
 		return true;
 	}
+
+	public static TerminalPosition toPosition(int absolutePosition, int columns) {
+		return new SimpleTerminalPosition(toRow(absolutePosition, columns), toColumn(absolutePosition, columns));
+	}
 }
