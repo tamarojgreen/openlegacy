@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.web;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
@@ -84,7 +85,8 @@ public class LoginController {
 
 	@RequestMapping(value = "Login", method = RequestMethod.POST)
 	public String login(Model uiModel, HttpServletRequest request,
-			@RequestParam(value = "partial", required = false) String partial) {
+			@RequestParam(value = "partial", required = false) String partial,
+			@RequestParam(value = "requestedUrl", required = false) String requestedUrl) {
 
 		ScreenEntityDefinition loginEntityDefinition = loginMetadata.getLoginScreenDefinition();
 
@@ -102,6 +104,10 @@ public class LoginController {
 			fieldAccessor.setFieldValue(Login.ERROR_FIELD_NAME, e.getMessage());
 			uiModel.addAttribute(MvcConstants.LOGIN_MODEL, loginEntity);
 			return MvcConstants.LOGIN_VIEW;
+		}
+
+		if (StringUtils.isNotEmpty(requestedUrl)) {
+			return MvcConstants.REDIRECT + requestedUrl;
 		}
 
 		ScreenEntity screenEntity = terminalSession.getEntity();

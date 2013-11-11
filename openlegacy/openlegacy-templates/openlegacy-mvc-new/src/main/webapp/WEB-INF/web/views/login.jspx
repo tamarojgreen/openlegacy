@@ -12,6 +12,7 @@
 		</div>
 		<div id="loginform">
 			<ol:form model="login">
+				<input type="hidden" name="requestedUrl" value="${param.requestedUrl}" />
 			  	<spring:message code="label_user" var="label_user" htmlEscape="false" />
 			  	<spring:message code="label_password" var="label_password" htmlEscape="false" />
 				<ol:field name="user" style="width:350px" label="${label_user}"/>

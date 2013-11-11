@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.rpc.mvc.web;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.mvc.web.MvcConstants;
 import org.openlegacy.rpc.RpcSession;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,8 @@ public class LoginController {
 
 	@RequestMapping(value = "Login", method = RequestMethod.POST)
 	public String login(Model uiModel, HttpServletRequest request,
-			@RequestParam(value = "partial", required = false) String partial) {
+			@RequestParam(value = "partial", required = false) String partial,
+			@RequestParam(value = "requestedUrl", required = false) String requestedUrl) {
 
 		rpcSession.disconnect();
 		LoginModel loginModel = new LoginModel();
@@ -61,6 +63,9 @@ public class LoginController {
 			return MvcConstants.LOGIN_VIEW;
 		}
 
+		if (StringUtils.isNotEmpty(requestedUrl)) {
+			return MvcConstants.REDIRECT + requestedUrl;
+		}
 		return MvcConstants.REDIRECT + MvcConstants.MENU;
 	}
 }

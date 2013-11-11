@@ -69,6 +69,7 @@
 
 		<bean class="org.openlegacy.mvc.web.interceptors.InsertPluginsDataInterceptor"/>
 
+		<bean class="org.openlegacy.terminal.mvc.web.interceptors.LoginInterceptor"/>
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertEntityDefinitionsInterceptor" />
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertMessagesInterceptor" />
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertGlobalsInterceptor" />
