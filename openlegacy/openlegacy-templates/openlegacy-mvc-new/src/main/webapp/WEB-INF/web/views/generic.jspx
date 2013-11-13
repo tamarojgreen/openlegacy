@@ -19,6 +19,16 @@
 					<!-- ol:pagePart width="${pagePart.width}%" title="${pagePart.displayName}" relative="${pagePart.relative}"
 						top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%" -->
 					<!-- Page parts with relative position and proper width-->
+					<c:set var="showPart" value="true" />
+					<c:if test="${pagePart.hasTable}">
+						<c:set
+							value="${definitions.entityName}.${pagePart.tableFieldName}"
+							var="tableField" />
+							<c:set value="${olf:uncapFirst(tableField)}" var="tableField" />
+							<spring:eval expression="${tableField}" var="tableData"></spring:eval>
+							<c:set var="showPart" value="${fn:length(tableData) &gt; 0}" />
+					</c:if>
+					<c:if test="${showPart}">
 					<ol:pagePart title="${pagePart.displayName}">
 						<c:choose>
 							<c:when test="${not pagePart.hasTable}">
@@ -31,16 +41,12 @@
 								</c:forEach>
 							</c:when>
 							<c:otherwise>
-								<c:set
-									value="${definitions.entityName}.${pagePart.tableFieldName}"
-									var="tableField" />
-								<c:set value="${olf:uncapFirst(tableField)}" var="tableField" />
-								<spring:eval expression="${tableField}" var="tableData"></spring:eval>
 								<ol:table property="${pagePart.tableFieldName}"
 									data="${tableData}" window="${definitions.window}"></ol:table>
 							</c:otherwise>
 						</c:choose>
 					</ol:pagePart>
+					</c:if>
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
