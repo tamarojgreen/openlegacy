@@ -40,6 +40,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 			throw (new SessionEndedException("Mock session has been finished"));
 		}
 		TerminalSnapshot snapshot = snapshots.get(currentIndex);
+		setConnected(true);
 		return snapshot;
 	}
 

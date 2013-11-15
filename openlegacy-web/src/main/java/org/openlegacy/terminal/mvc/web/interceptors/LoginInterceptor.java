@@ -19,9 +19,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		if (!request.getRequestURI().contains(".") && !request.getRequestURI().toLowerCase().endsWith(MvcConstants.LOGIN_VIEW)
-				&& loginMetadata.getLoginScreenDefinition() != null && !terminalSession.isConnected()) {
-			String requestUri = request.getRequestURI().substring(1);
+		String requestUri = request.getRequestURI().toLowerCase().substring(1);
+		if (!request.getRequestURI().contains(".") && !requestUri.endsWith(MvcConstants.LOGIN_VIEW)
+				&& !requestUri.endsWith("logoff") && loginMetadata.getLoginScreenDefinition() != null
+				&& !terminalSession.isConnected()) {
 			String requestedPage = requestUri.substring(requestUri.indexOf("/") + 1);
 			response.sendRedirect("login?requestedUrl=" + requestedPage);
 			return false;

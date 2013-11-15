@@ -59,6 +59,9 @@ public class DefaultGlobalsModule extends TerminalSessionModuleAdapter implement
 
 	private void collectGlobals() {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
+		if (!getSession().isConnected()) {
+			return;
+		}
 		ScreenEntity currentEntity = getSession().getEntity();
 		if (currentEntity == null) {
 			return;
