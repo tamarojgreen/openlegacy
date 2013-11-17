@@ -145,12 +145,13 @@ public class ScreenBinderLogic implements Serializable {
 				// single line
 			} else {
 				terminalField = terminalSnapshot.getField(currentRow, startColumn);
-				if (fieldMappingDefinition.getLength() > 0 && fieldColumnLength != terminalField.getLength()) {
-					text += row.getText(startColumn, fieldColumnLength);
-				} else {
-					text += fieldFormatter.format(terminalField.getValue());
+				if (terminalField != null) {
+					if (fieldMappingDefinition.getLength() > 0 && fieldColumnLength != terminalField.getLength()) {
+						text += row.getText(startColumn, fieldColumnLength);
+					} else {
+						text += fieldFormatter.format(terminalField.getValue());
+					}
 				}
-
 			}
 		}
 
