@@ -17,6 +17,7 @@ import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.modules.table.Table;
 import org.openlegacy.modules.table.drilldown.DrilldownAction;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.ScreenEntity.NONE;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
@@ -198,6 +199,9 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 		navigationSteps.add(navigationDefinition);
 		while (currentNavigationNode != null) {
 			currentNavigationNode = navigationDefinition.getAccessedFrom();
+			if (currentNavigationNode == NONE.class) {
+				break;
+			}
 			ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(currentNavigationNode);
 			navigationDefinition = screenEntityDefinition.getNavigationDefinition();
 			if (screenEntityDefinition.getEntityClass() == sourceEntityDefinition.getEntityClass()) {
