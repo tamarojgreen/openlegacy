@@ -48,11 +48,15 @@ public class ScreenAnnotationsParserUtils {
 		String sourceScreenClassValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.SOURCE_SCREEN_ENTITY);
 		String sourceEntityClassName = StringUtil.toClassName(sourceScreenClassValue);
 		String collectAll = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.COLLECT_ALL);
+		String asWindow = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.AS_WINDOW);
 
 		SimpleFieldWthValuesTypeDefinition fieldDefinition = new SimpleFieldWthValuesTypeDefinition();
 		fieldDefinition.setSourceEntityClassName(sourceEntityClassName);
 		if (StringConstants.TRUE.equals(collectAll)) {
 			fieldDefinition.setCollectAllRecords(true);
+		}
+		if (StringConstants.TRUE.equals((asWindow))) {
+			fieldDefinition.setAsWindow(true);
 		}
 		return fieldDefinition;
 	}
@@ -209,6 +213,9 @@ public class ScreenAnnotationsParserUtils {
 				}
 				if (memberValuePair.getName().equals(ScreenAnnotationConstants.ASSIGNED_FIELDS)) {
 					navigationDefinition.setAssignedFields(populateAssignedFields(memberValuePair.getValue()));
+				}
+				if (memberValuePair.getName().equals(ScreenAnnotationConstants.DRILLDOWN_VALUE)) {
+					navigationDefinition.setDrilldownValue(StringUtil.stripQuotes(attributeValue));
 				}
 			}
 		}

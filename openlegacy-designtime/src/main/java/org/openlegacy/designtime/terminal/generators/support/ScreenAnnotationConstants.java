@@ -63,6 +63,7 @@ public class ScreenAnnotationConstants {
 	// @ScreenFieldValues
 	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";
 	public static final String COLLECT_ALL = "collectAll";
+	public static final String AS_WINDOW = "asWindow";
 
 	// @TableAction
 	public static final String ACTION_VALUE = "actionValue";
@@ -81,6 +82,7 @@ public class ScreenAnnotationConstants {
 	public static final String EXIT_ACTION = "exitAction";
 	public static final String EXIT_ADDITIONAL_KEY = "exitAdditionalKey";
 	public static final String REQUIRES_PARAMETERS = "requiresParameters";
+	public static final String DRILLDOWN_VALUE = "drilldownValue";
 
 	// @AssignedField
 	public static final String FIELD = "field";

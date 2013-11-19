@@ -37,6 +37,13 @@ public class SimpleDateFieldTypeDefinition implements DateFieldTypeDefinition, S
 		this.locale = locale;
 	}
 
+	public SimpleDateFieldTypeDefinition(Integer dayColumn, Integer monthColumn, Integer yearColumn, String pattern) {
+		this.dayColumn = dayColumn;
+		this.monthColumn = monthColumn;
+		this.yearColumn = yearColumn;
+		this.pattern = pattern;
+	}
+
 	public String getTypeName() {
 		return "date";
 	}

@@ -42,6 +42,7 @@ import japa.parser.ast.expr.NormalAnnotationExpr;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -555,7 +556,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 									ScreenAnnotationConstants.SCREEN_FIELD_ANNOTATION,
 									ScreenAnnotationConstants.SCREEN_COLUMN_ANNOTATION)) {
 								ScreenAnnotationsParserUtils.loadScreenFieldOrColumnAnnotation(annotationExpr, field);
-								if (!field.isPrimitiveType()) {
+								// @author Ivan Bort refs #337
+								if (!field.isPrimitiveType() && (!field.getType().equals(Date.class.getSimpleName()))) {
 									field.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration));
 								}
 							}

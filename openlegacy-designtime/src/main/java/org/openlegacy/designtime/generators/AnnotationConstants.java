@@ -36,6 +36,7 @@ public class AnnotationConstants {
 	public static final String YEAR_COLUMN = "yearColumn";
 	public static final String MONTH_COLUMN = "monthColumn";
 	public static final String DAY_COLUMN = "dayColumn";
+	public static final String PATTERN = "pattern";
 
 	// @TableAction
 	public static final String ACTION_VALUE = "actionValue";

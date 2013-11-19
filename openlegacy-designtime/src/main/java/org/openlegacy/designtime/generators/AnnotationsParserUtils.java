@@ -38,6 +38,7 @@ public class AnnotationsParserUtils {
 		Integer yearColumn = null;
 		Integer monthColumn = null;
 		Integer dayColumn = null;
+		String pattern = null;
 		String annotationValue = getAnnotationValue(annotationExpr, AnnotationConstants.YEAR_COLUMN);
 
 		if (annotationValue != null) {
@@ -51,8 +52,10 @@ public class AnnotationsParserUtils {
 		if (annotationValue != null) {
 			dayColumn = Integer.valueOf(annotationValue);
 		}
+		annotationValue = getAnnotationValue(annotationExpr, AnnotationConstants.PATTERN);
+		pattern = annotationValue != null ? annotationValue : "";
 
-		FieldTypeDefinition dateFieldDefiniton = new SimpleDateFieldTypeDefinition(dayColumn, monthColumn, yearColumn);
+		FieldTypeDefinition dateFieldDefiniton = new SimpleDateFieldTypeDefinition(dayColumn, monthColumn, yearColumn, pattern);
 		return dateFieldDefiniton;
 
 	}
