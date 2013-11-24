@@ -170,4 +170,5 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	public int compareTo(FieldDefinition o) {
 		return 0;
 	}
+
 }

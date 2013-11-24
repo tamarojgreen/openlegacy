@@ -167,4 +167,6 @@ public @interface ScreenField {
 	 * @return the regular expression used for filtering
 	 */
 	String unless() default "";
+
+	boolean internal() default false;
 }

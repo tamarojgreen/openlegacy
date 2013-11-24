@@ -46,6 +46,8 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	private boolean rightToLeft;
 
+	private boolean internal = false;
+
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
 		this.type = type;
@@ -177,5 +179,13 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setFieldTypeName(String fieldTypeName) {
 		this.fieldTypeName = fieldTypeName;
+	}
+
+	public boolean isInternal() {
+		return internal;
+	}
+
+	public void setInternal(boolean internal) {
+		this.internal = internal;
 	}
 }

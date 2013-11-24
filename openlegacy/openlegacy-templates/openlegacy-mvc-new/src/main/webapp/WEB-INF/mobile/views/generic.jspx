@@ -11,7 +11,9 @@
 		<c:forEach items="${page.pageParts}" var="pagePart">
 			<c:choose>
 				<c:when test="${pagePart.oneField}">
-					<ol:field name="${pagePart.singleField.name}" />
+					<c:if test="${not field.internal}">
+						<ol:field name="${pagePart.singleField.name}" />
+					</c:if>
 				</c:when>
 				<c:otherwise>
 					<ol:pagePart>
@@ -22,7 +24,9 @@
 										<c:if test="${pagePart.columns &gt; 1}">
 											<c:set var="cssClass" value="col_${colCounter.index+1}_of_${pagePart.columns}" />
 										</c:if>
-										<ol:field name="${field.name}" cssClass="${cssClass}"/>
+											<c:if test="${not field.internal}">
+												<ol:field name="${field.name}" cssClass="${cssClass}"/>
+											</c:if>
 									</c:forEach>
 								</c:forEach>
 							</c:when>

@@ -60,6 +60,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		SimpleTerminalPosition position = SimpleTerminalPosition.newInstance(fieldAnnotation.row(), fieldAnnotation.column());
 
 		String fieldName = field.getName();
+
 		SimpleScreenFieldDefinition screenFieldDefinition = new SimpleScreenFieldDefinition(fieldName,
 				fieldAnnotation.fieldType());
 		screenFieldDefinition.setPosition(position);
@@ -130,6 +131,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		screenFieldDefinition.setHelpText(fieldAnnotation.helpText());
 		screenFieldDefinition.setKey(fieldAnnotation.key());
 		screenFieldDefinition.setKeyIndex(fieldAnnotation.keyIndex());
+		screenFieldDefinition.setInternal(fieldAnnotation.internal());
 		if (logger.isDebugEnabled()) {
 
 			logger.debug(MessageFormat.format("The annotation of the attribute attribute is {0} ", fieldAnnotation.attribute()));
