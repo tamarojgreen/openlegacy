@@ -11,11 +11,12 @@ import org.openlegacy.FieldType.*;
 @RpcEntity(name="${entityName}"<#if displayName?? >, displayName=${displayName}</#if><#if language?? >, language=${language}</#if>)
 public class ${entityName?cap_first} {
 
-<#list fieldsDefinitions?values as field>
-   <@rpcField field=field />
-</#list>
-<#list partsDefinitions?values as part>
-<@rpcPartDeclare part=part/>
+<#list sortedFields as field>
+<#if field.partName??>
+   <@rpcPartDeclare part=field/>
+<#else>
+<@rpcField field=field />
+</#if>
 </#list>
 
 <#list partsDefinitions?values as part>

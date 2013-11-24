@@ -13,14 +13,18 @@ package org.openlegacy.rpc.definitions;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.definitions.AbstractPartEntityDefinition;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<RpcFieldDefinition> implements RpcPartEntityDefinition, Serializable {
+public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<RpcFieldDefinition> implements RpcPartEntityDefinition, Serializable, OrderedField {
 
 	private static final long serialVersionUID = 1L;
 	private String originalName;
@@ -84,5 +88,25 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 
 	public List<RpcFieldDefinition> getKeys() {
 		return keys;
+	}
+
+	public List<OrderedField> getSortedFields() {
+
+		List<OrderedField> result = new ArrayList<OrderedField>();
+
+		result.addAll(getFieldsDefinitions().values());
+		Collection<RpcPartEntityDefinition> parts = innerPartsDefinitions.values();
+
+		for (PartEntityDefinition<RpcFieldDefinition> p : parts) {
+			result.add((SimpleRpcPartEntityDefinition)p);
+		}
+
+		Collections.sort(result, new Comparator<OrderedField>() {
+
+			public int compare(OrderedField o1, OrderedField o2) {
+				return o1.getOrder() - o2.getOrder();
+			}
+		});
+		return result;
 	}
 }

@@ -58,6 +58,11 @@ public class RpcEntityCodeGeneratorTest {
 
 	}
 
+	@Test
+	public void testMixedOrder() throws IOException, TemplateException, ParseException {
+		testGenerate("mixed.cbl", "mixed.java.expected");
+	}
+
 	private void testGenerate(String sourceFile, String expectJava) throws IOException, TemplateException, ParseException {
 
 		String source = IOUtils.toString(getClass().getResource(sourceFile));

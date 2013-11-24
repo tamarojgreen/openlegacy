@@ -11,7 +11,14 @@
 package org.openlegacy.rpc.definitions;
 
 import org.openlegacy.annotations.rpc.Languages;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.support.AbstractEntityDefinition;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcFieldDefinition> implements RpcEntityDefinition {
 
@@ -40,6 +47,26 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 
 	public RpcNavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
+	}
+
+	public List<OrderedField> getSortedFields() {
+
+		List<OrderedField> result = new ArrayList<OrderedField>();
+
+		result.addAll(getFieldsDefinitions().values());
+
+		Collection<PartEntityDefinition<RpcFieldDefinition>> parts = getPartsDefinitions().values();
+		for (PartEntityDefinition<RpcFieldDefinition> p : parts) {
+			result.add((SimpleRpcPartEntityDefinition)p);
+		}
+
+		Collections.sort(result, new Comparator<OrderedField>() {
+
+			public int compare(OrderedField o1, OrderedField o2) {
+				return o1.getOrder() - o2.getOrder();
+			}
+		});
+		return result;
 	}
 
 }
