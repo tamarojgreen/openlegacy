@@ -12,7 +12,6 @@ package org.openlegacy.designtime.terminal.analyzer.support.comparators;
 
 import org.openlegacy.designtime.terminal.analyzer.BestEntityNameFieldComparator;
 import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.utils.StringUtil;
 
 public class ByWordsCountFieldComparator implements BestEntityNameFieldComparator {
 

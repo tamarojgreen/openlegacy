@@ -27,7 +27,6 @@ import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
-import org.openlegacy.utils.StringUtil;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -80,7 +79,7 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 
 			try {
 				String value = dateField.getValue();
-				if (StringUtils.isBlank(value)){
+				if (StringUtils.isBlank(value)) {
 					continue;
 				}
 				Date dateVal = dateFormater.parse(value);

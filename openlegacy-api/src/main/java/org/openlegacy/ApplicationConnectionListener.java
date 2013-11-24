@@ -20,8 +20,10 @@ public interface ApplicationConnectionListener {
 
 	void afterConnect(ApplicationConnection<?, ?> connection);
 
+	@SuppressWarnings("rawtypes")
 	void beforeAction(ApplicationConnection<?, ?> connection, RemoteAction action);
 
+	@SuppressWarnings("rawtypes")
 	void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result);
 
 }

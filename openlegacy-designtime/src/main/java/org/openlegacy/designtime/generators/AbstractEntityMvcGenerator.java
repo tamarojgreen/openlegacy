@@ -10,15 +10,6 @@ import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_WEB_
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.VIEWS_FILE;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.WEB_VIEWS_DIR;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.MessageFormat;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,8 +19,15 @@ import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.designtime.terminal.generators.HelpGenerator;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.MessageFormat;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator {
 

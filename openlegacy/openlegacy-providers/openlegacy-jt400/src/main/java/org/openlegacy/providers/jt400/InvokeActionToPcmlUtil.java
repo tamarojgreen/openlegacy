@@ -155,7 +155,7 @@ public class InvokeActionToPcmlUtil {
 	private Element createFlatField(Document doc, org.openlegacy.rpc.RpcFlatField rpcFlatField) {
 		Element struct = doc.createElement(DATA_NODE);
 		struct.setAttribute(NAME_ATTR_NAME, rpcFlatField.getName());
-		String stam = rpcFlatField.getType().getSimpleName();
+		rpcFlatField.getType().getSimpleName();
 		struct.setAttribute(TYPE_ATTR_NAME, typeTable.get(rpcFlatField.getType().getSimpleName()));
 		struct.setAttribute(LENGTH_ATTR_NAME, rpcFlatField.getLength().toString());
 		struct.setAttribute(USAGE_ATTR_NAME, directionTable.get(rpcFlatField.getDirection()));

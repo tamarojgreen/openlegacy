@@ -40,12 +40,14 @@ public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter imp
 		sessionTrail.appendSnapshot((TerminalSnapshot)terminalConnection.getSnapshot());
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void beforeAction(ApplicationConnection<?, ?> terminalConnection, RemoteAction terminalSendAction) {
 		sessionTrail.appendSnapshot(new SimpleTerminalOutgoingSnapshot((TerminalSnapshot)terminalConnection.getSnapshot(),
 				(TerminalSendAction)terminalSendAction));
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
 		sessionTrail.appendSnapshot((TerminalSnapshot)connection.getSnapshot());

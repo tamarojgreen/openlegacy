@@ -49,7 +49,7 @@ public class CallCobolProgramStructurePcml {
 
 		newPcml.setValue("cobol_structure.param1.child1", 10);
 		newPcml.setValue("cobol_structure.param1.child2", 0);
-		boolean result = newPcml.callProgram("cobol_structure");
+		newPcml.callProgram("cobol_structure");
 
 		System.out.println("child2=" + newPcml.getValue("cobol_structure.param1.child2"));
 		// The ProgramCall class allows a user to call an iSeries server program,

@@ -98,6 +98,8 @@ public @interface ScreenNavigation {
 
 	public static class DefaultNavigationExitAction implements TerminalAction, Serializable {
 
+		private static final long serialVersionUID = 1L;
+
 		public void perform(TerminalSession session, Object entity, Object... keys) {
 			TerminalAction action = session.getModule(Navigation.class).getDefaultExitAction();
 			session.doAction(action, (org.openlegacy.terminal.ScreenEntity)entity);
