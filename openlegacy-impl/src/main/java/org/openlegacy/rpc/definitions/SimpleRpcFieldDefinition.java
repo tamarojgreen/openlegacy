@@ -28,7 +28,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private int order;
 	private String defaultValue;
 	private String runtimeName;
-	private int occurrences;
+	private int count = 1;
 
 	public SimpleRpcFieldDefinition(String name, Class<? extends FieldType> type) {
 		super(name, type);
@@ -74,10 +74,12 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		this.order = order;
 	}
 
+	@Override
 	public String getDefaultValue() {
 		return defaultValue;
 	}
 
+	@Override
 	public void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
@@ -109,11 +111,11 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 		this.runtimeName = runtimeName;
 	}
 
-	public int getOccurrences() {
-		return occurrences;
+	public int getCount() {
+		return count;
 	}
 
-	public void setOccurrences(int occurrences) {
-		this.occurrences = occurrences;
+	public void setCount(int count) {
+		this.count = count;
 	}
 }

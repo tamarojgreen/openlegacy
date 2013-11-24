@@ -31,7 +31,7 @@
 </#macro>
 
 <#macro rpcPart part entity>
-	<#if part.occur = 1>
+	<#if part.count = 1>
 			<div class="control-group">
 		<#list part.fieldsDefinitions?values as field>
 		<@rpcField field=field entity=entity/>

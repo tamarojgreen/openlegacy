@@ -2,6 +2,7 @@ package org.openlegacy.rpc;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.Snapshot;
@@ -32,6 +33,7 @@ public class RpcMockSessionTest {
 	@Inject
 	private TrailWriter trailWriter;
 
+	@Ignore
 	@Test
 	public void testSessionTrail() throws IOException {
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);

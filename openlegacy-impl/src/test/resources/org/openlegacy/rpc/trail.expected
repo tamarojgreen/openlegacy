@@ -9,12 +9,18 @@
                 </structure>
                 <field value="Doe" length="20" decimalPlaces="0" modified="true" direction="INPUT"/>
                 <field value="40" length="3" decimalPlaces="0" modified="true" type="java.lang.Integer" direction="INPUT"/>
+                <field value="" length="100" decimalPlaces="0" modified="true" direction="OUTPUT" name="message"/>
             </rpcFields>
         </invoke>
         <result>
             <rpcFields>
-                <field value="hello" length="10" modified="true"/>
-                <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+                <field value="John" length="20" decimalPlaces="0" modified="true" direction="INPUT"/>
+                <structure>
+                    <children/>
+                </structure>
+                <field value="Doe" length="20" decimalPlaces="0" modified="true" direction="INPUT"/>
+                <field value="40" length="3" decimalPlaces="0" modified="true" type="java.lang.Integer" direction="INPUT"/>
+                <field value="" length="100" decimalPlaces="0" modified="true" direction="OUTPUT" name="message"/>
             </rpcFields>
         </result>
     </snapshot>

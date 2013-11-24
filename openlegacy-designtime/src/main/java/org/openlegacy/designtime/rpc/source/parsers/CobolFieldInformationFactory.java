@@ -42,10 +42,10 @@ public class CobolFieldInformationFactory implements FieldInformationFactory {
 	 * 
 	 * @see org.openlegacy.designtime.rpc.source.parsers.FieldInformation#getObject(java.lang.String)
 	 */
-	public FieldInformation getObject(String flatPicture, int occurs) {
+	public FieldInformation getObject(String flatPicture, int count) {
 		CobolFieldTypes cobolFieldType = getCobolFieldTypes(flatPicture);
-		if (occurs > 1) {
-			return new CobolListInformation(getObject(flatPicture, 1), occurs);
+		if (count > 1) {
+			return new CobolListInformation(getObject(flatPicture, 1), count);
 		}
 
 		if (CobolFieldTypes.NUMERIC == cobolFieldType) {

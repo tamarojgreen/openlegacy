@@ -15,6 +15,7 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcStructureField;
+import org.openlegacy.rpc.RpcStructureNotMappedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,55 +26,60 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SimpleRpcStructureField implements RpcStructureField {
+public class SimpleRpcStructureField extends AbstractRpcStructure implements RpcStructureField {
 
 	private static final long serialVersionUID = 1L;
-
-	@XmlAttribute
-	private String name = null;
 
 	@XmlElementWrapper
 	@XmlElements({ @XmlElement(name = "field", type = SimpleRpcFlatField.class),
 			@XmlElement(name = "structure", type = SimpleRpcStructureField.class) })
 	private List<RpcField> children = new ArrayList<RpcField>();
 
-	@XmlTransient
-	private int order;
+	private Integer length;
 
 	@XmlAttribute
 	private Direction direction;
 
-	private Integer length;
-
-	public String getName() {
-		return name;
-	}
-
 	public Direction getDirection() {
-		return direction;
-	}
+		if (direction != null) {
+			return direction;
+		}
+		if (direction == null && children.size() > 0) {
+			Boolean input = false;
+			Boolean output = false;
 
-	public void setDirection(Direction direction) {
-		this.direction = direction;
+			for (RpcField rpcField : getChildren()) {
+
+				Direction fieldDirection = rpcField.getDirection();
+				if (fieldDirection == Direction.INPUT || fieldDirection == Direction.INPUT_OUTPUT) {
+					input = true;
+				}
+				if (fieldDirection == Direction.OUTPUT || fieldDirection == Direction.INPUT_OUTPUT) {
+					output = true;
+				}
+			}
+			if (input && output) {
+				direction = Direction.INPUT_OUTPUT;
+			} else if (input) {
+				direction = Direction.INPUT;
+
+			} else if (output) {
+				direction = Direction.OUTPUT;
+			}
+		}
+
+		return direction;
 	}
 
 	public List<RpcField> getChildren() {
 		return children;
 	}
 
-	public int getOrder() {
-		return order;
-	}
-
-	public void setOrder(int order) {
-		this.order = order;
-	}
-
+	@Override
 	public Object getDelegate() {
 		return null;
 	}
@@ -104,5 +110,21 @@ public class SimpleRpcStructureField implements RpcStructureField {
 		}
 		return length;
 
+	}
+
+	public Class<?> getType() {
+		return SimpleRpcStructureField.class;
+	}
+
+	public int depth(int now, int maxDef) throws RpcStructureNotMappedException {
+
+		if (now >= maxDef) {
+			throw (new RpcStructureNotMappedException("Field: " + getName() + "excided max depth" + maxDef));
+		}
+		int maxtField = 0;
+		for (RpcField rpcField : getChildren()) {
+			maxtField = Math.max(maxtField, rpcField.depth(now + 1, maxDef));
+		}
+		return maxtField + 1;
 	}
 }

@@ -116,7 +116,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private boolean rightToLeft;
 		private int length;
 		private String runtimeName;
-		private int occurrences = 1;
+		private int count = 1;
 		private Direction direction;
 		// @author Ivan Bort, refs assembla #290
 		private String originalName;
@@ -278,12 +278,12 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			this.runtimeName = runtimeName;
 		}
 
-		public int getOccurrences() {
-			return occurrences;
+		public int getCount() {
+			return count;
 		}
 
-		public void setOccurrences(int occurrences) {
-			this.occurrences = occurrences;
+		public void setCount(int count) {
+			this.count = count;
 		}
 
 		public Direction getDirection() {
@@ -394,7 +394,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 								field.setFieldTypeDefinition(AnnotationsParserUtils.loadBooleanField(annotationExpr));
 							}
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, RpcAnnotationConstants.RPC_PART_LIST)) {
-								field.setOccurrences(Integer.valueOf(JavaParserUtil.getAnnotationValue(annotationExpr,
+								field.setCount(Integer.valueOf(JavaParserUtil.getAnnotationValue(annotationExpr,
 										RpcAnnotationConstants.COUNT)));
 								String runtimeName = JavaParserUtil.getAnnotationValue(annotationExpr,
 										RpcAnnotationConstants.RUNTIME_NAME);

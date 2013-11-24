@@ -21,7 +21,7 @@ public class RpcTreeEntity implements org.openlegacy.rpc.RpcEntity {
 
 	List<ListPart> listPart;
 
-	@RpcPart(occur = 5)
+	@RpcPart
 	public static class ListPart {
 
 		@RpcField(length = 20)

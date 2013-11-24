@@ -1,9 +1,9 @@
 <pcml version="4.0">
-	<struct name="structure1">
-		<data name="child1"        type="char"   length="2"  usage="input"/>
-		<data name="child2"        type="char"   length="2" usage="inputoutput"/>
-	</struct>
-   <program name="cobol_structure" path="/QSYS.LIB/RMR2L1.LIB/ROICBL2.PGM"> 
- 		<data name="str1"         type="struct"   struct="structure1"   usage="inputoutput"/>
-    </program>
+<struct name="param1_structure">
+<data length="2" name="child1" type="char" usage="input"/>
+<data length="2" name="child2" type="char" usage="output"/>
+</struct>
+<program name="cobol_structure" path="/QSYS.LIB/RMR2L1.LIB/ROICBL2.PGM">
+<data name="param1" struct="param1_structure" type="struct" usage="inputoutput"/>
+</program>
 </pcml>

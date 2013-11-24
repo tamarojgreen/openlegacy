@@ -144,7 +144,7 @@ public class CobolParserTest {
 		RpcPartEntityDefinition partDefinitions = (RpcPartEntityDefinition)partsDefinitions.get("Part");
 		Assert.assertNotNull(partDefinitions);
 		Assert.assertEquals(1, partDefinitions.getOrder());
-		Assert.assertEquals(3, partDefinitions.getOccur());
+		Assert.assertEquals(3, partDefinitions.getCount());
 
 		Assert.assertEquals("Part", partDefinitions.getPartName());
 		Map<String, RpcFieldDefinition> partFieldDefinitions = partDefinitions.getFieldsDefinitions();

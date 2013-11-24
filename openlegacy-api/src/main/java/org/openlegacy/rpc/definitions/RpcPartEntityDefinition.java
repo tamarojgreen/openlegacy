@@ -10,7 +10,7 @@ public interface RpcPartEntityDefinition extends PartEntityDefinition<RpcFieldDe
 
 	public int getOrder();
 
-	public int getOccur();
+	public int getCount();
 
 	public Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions();
 

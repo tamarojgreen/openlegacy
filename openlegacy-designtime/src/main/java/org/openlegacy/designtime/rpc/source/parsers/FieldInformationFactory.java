@@ -8,6 +8,6 @@ package org.openlegacy.designtime.rpc.source.parsers;
 
 public interface FieldInformationFactory {
 
-	FieldInformation getObject(String flatPicture, int occurs);
+	FieldInformation getObject(String flatPicture, int count);
 
 }

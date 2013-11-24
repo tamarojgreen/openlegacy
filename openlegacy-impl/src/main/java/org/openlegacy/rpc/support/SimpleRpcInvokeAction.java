@@ -66,4 +66,8 @@ public class SimpleRpcInvokeAction implements RpcInvokeAction, Serializable {
 		this.rpcPath = rpcPath;
 	}
 
+	public void setAction(String action) {
+		this.action = action;
+
+	}
 }

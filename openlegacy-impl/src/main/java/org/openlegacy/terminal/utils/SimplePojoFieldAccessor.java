@@ -108,7 +108,7 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 
 	public Object evaluateFieldValue(String fieldName) {
 		if (fieldName.contains(".")) {
-			String partName = fieldName.substring(0, fieldName.indexOf("."));
+			String partName = StringUtil.getNamespace(fieldName);
 			fieldName = getFieldPojoName(fieldName);
 			DirectFieldAccessor partAccesor = getPartAccessor(partName);
 			return partAccesor.getPropertyValue(fieldName);
@@ -123,8 +123,21 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 		}
 		DirectFieldAccessor partAccessor = partAccessors.get(partName);
 		if (partAccessor == null) {
-			partAccessor = new DirectFieldAccessor(directFieldAccessor.getPropertyValue(partName));
-			partAccessors.put(partName, partAccessor);
+			DirectFieldAccessor parent = directFieldAccessor;
+			if (partName.contains(".")) {
+				parent = getPartAccessor(StringUtil.getNamespace(partName));
+			}
+			if (parent == null) {
+				return null;
+			}
+			Object object = parent.getPropertyValue(StringUtil.removeNamespace(partName));
+			if (object != null) {
+				partAccessor = new DirectFieldAccessor(object);
+				partAccessors.put(partName, partAccessor);
+			} else {
+				return null;
+			}
+
 		}
 		return partAccessor;
 	}
@@ -149,5 +162,45 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 
 	public void setConcatSeperator(String concatSeperator) {
 		this.concatSeperator = concatSeperator;
+	}
+
+	public Object getPartFieldValue(String nameSpace, String fieldName) {
+		if (nameSpace.contains(".")) {
+			String parentFullPath = StringUtil.getNamespace(nameSpace);
+			DirectFieldAccessor partAccessor = getPartAccessor(parentFullPath);
+			return partAccessor.getPropertyValue(fieldName);
+		} else {
+			return getFieldValue(fieldName);
+		}
+	}
+
+	public void setPartFieldValue(String nameSpace, String fieldName, Object value) {
+		if (nameSpace.contains(".")) {
+			String parentFullPath = StringUtil.getNamespace(nameSpace);
+			DirectFieldAccessor partAccessor = getPartAccessor(parentFullPath);
+			try {
+				partAccessor.setPropertyValue(fieldName, value);
+			} catch (Exception e) {
+				logger.error(MessageFormat.format("Unable to update entity part {2} field: {0}.{1}",
+						target.getClass().getSimpleName(), fieldName, nameSpace, e));
+				return;
+			}
+			if (logger.isDebugEnabled()) {
+				if (value instanceof String) {
+					String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
+					if (!StringUtils.isEmpty(((String)value))) {
+						logger.debug(message);
+					} else {
+						// print empty value assignment only in trace mode
+						logger.trace(message);
+					}
+				} else {
+					String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
+					logger.debug(message);
+				}
+			}
+		} else {
+			setFieldValue(fieldName, value);
+		}
 	}
 }

@@ -13,14 +13,18 @@ package org.openlegacy.rpc.loaders.support;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.FieldLoader;
-import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
+import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
+import org.openlegacy.rpc.definitions.SimpleRpcPartEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class RpcPartFieldsLoader implements FieldLoader {
@@ -50,20 +54,31 @@ public class RpcPartFieldsLoader implements FieldLoader {
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
 		RpcEntitiesRegistry rpcEntitiesRegistry = (RpcEntitiesRegistry)entitiesRegistry;
+		String fieldName = field.getName();
 
-		RpcPartEntityDefinition partDefinition = rpcEntitiesRegistry.getPart(getType(field));
+		SimpleRpcPartEntityDefinition partDefinition = (SimpleRpcPartEntityDefinition)rpcEntitiesRegistry.getPart(getType(field));
+		partDefinition.setOrder(fieldOrder);
 		if (partDefinition != null) {
-			RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(containingClass);
-			if (rpcEntityDefinition == null) { // nested class
 
-				RpcPartEntityDefinition containingPartDefinition = rpcEntitiesRegistry.getPart(containingClass);
-				containingPartDefinition.getInnerPartsDefinitions().put(field.getName(), partDefinition);
-
-			} else {
-
+			if (rpcEntitiesRegistry.get(containingClass) != null) {
+				Map<String, RpcFieldDefinition> rpcFieldDefinitions = rpcEntitiesRegistry.get(containingClass).getFieldsDefinitions();
+				RpcFieldDefinition rpcFieldDefinition = rpcFieldDefinitions.get(fieldName);
+				if (rpcFieldDefinition != null) {
+					partDefinition.getCount(((SimpleRpcFieldDefinition)rpcFieldDefinition).getCount());
+					rpcFieldDefinitions.remove(fieldName);
+				}
 				rpcEntitiesRegistry.get(containingClass).getPartsDefinitions().put(field.getName(), partDefinition);
+			} else { // it is inner class
+				RpcPartEntityDefinition containgPartDefinion = rpcEntitiesRegistry.getPart(containingClass);
+				fieldName = MessageFormat.format("{0}.{1}", containgPartDefinion.getPartName(), fieldName);
+
+				RpcFieldDefinition rpcFieldDefinition = containgPartDefinion.getFieldsDefinitions().get(fieldName);
+				if (rpcFieldDefinition != null) {
+					partDefinition.getCount(((SimpleRpcFieldDefinition)rpcFieldDefinition).getCount());
+					containgPartDefinion.getFieldsDefinitions().remove(fieldName);
+				}
+				containgPartDefinion.getInnerPartsDefinitions().put(field.getName(), partDefinition);
 			}
 		}
-
 	}
 }

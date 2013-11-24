@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ Jt400RpcConnectionTest.class, Jt400RpcSessionTest.class })
+@SuiteClasses({ Jt400RpcConnectionTest.class, Jt400RpcSessionTest.class, Jt400RpcActionToPcmlTest.class })
 public class Jt400Suite {
 
 }

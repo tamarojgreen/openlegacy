@@ -17,7 +17,7 @@ public class RpgStrNum implements org.openlegacy.rpc.RpcEntity {
 	@RpcField(direction = Direction.INPUT, length = 20)
 	String lastName;
 
-	@RpcField(direction = Direction.INPUT, length = 3)
+	@RpcField(direction = Direction.INPUT, length = 4)
 	Integer age;
 
 	@RpcField(direction = Direction.OUTPUT, length = 100)

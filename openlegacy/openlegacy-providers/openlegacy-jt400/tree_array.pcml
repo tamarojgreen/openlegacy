@@ -1,0 +1,11 @@
+<pcml version="4.0">
+<struct name="top_structure">
+<struct count="3" name="record">
+<data length="11" name="text" type="char" usage="output"/>
+<data length="4" name="number" type="char" usage="output"/>
+</struct>
+</struct>
+<program name="tree_array" path="/QSYS.LIB/RMR2L1.LIB/TREEARRAY.PGM">
+<data name="top" struct="top_structure" type="struct" usage="output"/>
+</program>
+</pcml>

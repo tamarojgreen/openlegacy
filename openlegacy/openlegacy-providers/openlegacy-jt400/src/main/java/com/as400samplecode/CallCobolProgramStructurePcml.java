@@ -11,13 +11,15 @@
 package com.as400samplecode;
 
 import com.ibm.as400.access.AS400;
-import com.ibm.as400.access.Trace;
 import com.ibm.as400.data.PcmlException;
 import com.ibm.as400.data.ProgramCallDocument;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class CallCobolProgramStructurePcml {
 
-	public static void main(String[] args) throws PcmlException {
+	public static void main(String[] args) throws PcmlException, FileNotFoundException, IOException {
 
 		if (args.length < 3) {
 			System.out.println("Usage:" + CallCobolProgramPcml.class.getSimpleName() + " host user password");
@@ -30,23 +32,26 @@ public class CallCobolProgramStructurePcml {
 
 		// Connect to the iSeries using hostname, userid and password
 
-		Trace.setTraceOn(true);
-		Trace.setTraceDiagnosticOn(true);
-		Trace.setTraceInformationOn(true);
-		Trace.setTraceWarningOn(true);
-		Trace.setTraceErrorOn(true);
-		Trace.setTraceDatastreamOn(true);
-		Trace.setTraceThreadOn(true);
-		Trace.setTraceJDBCOn(true);
+		// Trace.setTraceOn(true);
+		// Trace.setTraceDiagnosticOn(true);
+		// Trace.setTraceInformationOn(true);
+		// Trace.setTraceWarningOn(true);
+		// Trace.setTraceErrorOn(true);
+		// Trace.setTraceDatastreamOn(true);
+		// Trace.setTraceThreadOn(true);
+		// Trace.setTraceJDBCOn(true);
 
 		AS400 as400System = new AS400(host, user, password);
 
 		ProgramCallDocument newPcml = new ProgramCallDocument(as400System, "com.as400samplecode.cobol_structure");
-		newPcml.setValue("cobol_structure.str1.child1", 10);
-		newPcml.setValue("cobol_structure.str1.child2", 0);
+
+		// newPcml.serialize();
+
+		newPcml.setValue("cobol_structure.param1.child1", 10);
+		newPcml.setValue("cobol_structure.param1.child2", 0);
 		boolean result = newPcml.callProgram("cobol_structure");
 
-		System.out.println("child2=" + newPcml.getValue("cobol_structure.str1.child2"));
+		System.out.println("child2=" + newPcml.getValue("cobol_structure.param1.child2"));
 		// The ProgramCall class allows a user to call an iSeries server program,
 		// pass parameters to it (input and output), and access data returned in the
 		// output parameters after the program runs. Use ProgramCall to call programs.

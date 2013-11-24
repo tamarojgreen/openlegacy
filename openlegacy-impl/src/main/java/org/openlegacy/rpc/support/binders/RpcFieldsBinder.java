@@ -1,7 +1,6 @@
 package org.openlegacy.rpc.support.binders;
 
 import org.openlegacy.PojoFieldAccessor;
-import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.rpc.RpcEntityBinder;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
@@ -12,6 +11,7 @@ import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.support.SimpleRpcFlatField;
 import org.openlegacy.rpc.utils.SimpleRpcPojoFieldAccessor;
+import org.openlegacy.utils.StringUtil;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,14 +29,12 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 		SimpleRpcPojoFieldAccessor fieldAccesor = new SimpleRpcPojoFieldAccessor(entity);
 
 		Collection<RpcFieldDefinition> fieldsDefinitions = rpcDefinition.getFieldsDefinitions().values();
-		int index = 0;
+
 		List<RpcField> rpcFields = result.getRpcFields();
 		for (RpcFieldDefinition rpcFieldDefinition : fieldsDefinitions) {
-			if (index >= rpcFields.size()) {
-				break;
-			}
-			fieldAccesor.setFieldValue(rpcFieldDefinition.getName(), ((RpcFlatField)rpcFields.get(index)).getValue());
-			index++;
+
+			fieldAccesor.setFieldValue(rpcFieldDefinition.getName(),
+					((RpcFlatField)rpcFields.get(rpcFieldDefinition.getOrder())).getValue());
 		}
 
 	}
@@ -48,9 +46,7 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 
 		Collection<RpcFieldDefinition> fieldsDefinitions = rpcEntityDefinition.getFieldsDefinitions().values();
 		for (RpcFieldDefinition rpcFieldDefinition : fieldsDefinitions) {
-			if (rpcFieldDefinition.getDirection() == Direction.OUTPUT) {
-				continue;
-			}
+
 			SimpleRpcFlatField rpcField = getRpcFlatField(rpcFieldDefinition, fieldAccesor, null);
 			sendAction.getFields().add(rpcField);
 		}
@@ -65,7 +61,7 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 		if (fieldPrefix.length() > 0) {
 			fieldPrefix += ".";
 		}
-		Object value = fieldAccesor.evaluateFieldValue(fieldPrefix + rpcFieldDefinition.getName());
+		Object value = fieldAccesor.evaluateFieldValue(fieldPrefix + StringUtil.removeNamespace(rpcFieldDefinition.getName()));
 		SimpleRpcFlatField rpcField = new SimpleRpcFlatField();
 		if (value != null) {
 			rpcField.setValue(value);

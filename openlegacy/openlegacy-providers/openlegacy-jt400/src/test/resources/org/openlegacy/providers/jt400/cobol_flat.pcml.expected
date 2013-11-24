@@ -1,0 +1,7 @@
+<pcml version="4.0">
+<program name="cobol_flat" path="/QSYS.LIB/RMR2L1.LIB/FLATCBL.PGM">
+<data init="10" length="2" name="child1" type="char" usage="input"/>
+<data length="2" name="child2" type="char" usage="output"/>
+</program>
+</pcml>
+

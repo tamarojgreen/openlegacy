@@ -28,10 +28,10 @@ public class ${entityName?cap_first} {
 </#if>
 }
 <#macro rpcPartDeclare part>
-<#if part.occur = 1 >
+<#if part.count = 1 >
 		private ${part.partName} ${part.partName?uncap_first};
 <#else>
-		@RpcPartList(count=${part.occur}<#if part.runtimeName??>,runtimeName= "${part.runtimeName}"</#if>)
+		@RpcPartList(count=${part.count}<#if part.runtimeName??>,runtimeName= "${part.runtimeName}"</#if>)
 		private List<${part.partName}> ${part.partName?uncap_first};
 </#if>
 </#macro>

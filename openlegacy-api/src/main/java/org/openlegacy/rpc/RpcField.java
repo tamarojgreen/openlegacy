@@ -51,4 +51,8 @@ public interface RpcField extends Serializable, Cloneable {
 	Direction getDirection();
 
 	int getOrder();
+	
+	int depth(int level, int maxDef) throws RpcStructureNotMappedException;
+	
+	Class<?> getType();
 }

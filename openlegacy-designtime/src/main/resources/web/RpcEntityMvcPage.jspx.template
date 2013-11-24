@@ -16,7 +16,7 @@
 </jsp:root>
 
 <#macro rpcPart part>
-	<#if part.occur = 1>
+	<#if part.count = 1>
 
 		<ol:pagePart>
 	<#list part.fieldsDefinitions?values as field>

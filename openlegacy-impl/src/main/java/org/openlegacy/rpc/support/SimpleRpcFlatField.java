@@ -33,6 +33,8 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	@XmlTransient
 	private Object value;
 
+	private Object defaultValue = null;
+
 	@XmlAttribute(name = "value")
 	private String persistedValue;
 
@@ -41,6 +43,8 @@ public class SimpleRpcFlatField implements RpcFlatField {
 
 	@XmlAttribute
 	private Integer decimalPlaces = null;
+
+	private Integer count = 1;
 
 	/**
 	 * NOTE! - All Boolean fields should have default value set. XML serializer checks if the default value change, and reset it
@@ -121,6 +125,14 @@ public class SimpleRpcFlatField implements RpcFlatField {
 
 	public void setValue(Object value) {
 		setValue(value, true);
+	}
+
+	public Object getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(Object defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 	public Integer getLength() {
@@ -241,8 +253,23 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.order = order;
 	}
 
+	public Integer getCount() {
+
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public int depth(int level, int maxDef) {
+
+		return 1;
+	}
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+
 }

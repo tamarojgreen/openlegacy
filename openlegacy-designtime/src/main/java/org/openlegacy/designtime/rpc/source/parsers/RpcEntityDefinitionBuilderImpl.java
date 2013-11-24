@@ -34,7 +34,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 	private RpcFieldDefinition buildRpcFieldDefinition(ParameterStructure parameter, int order) {
 
 		FieldInformation fieldInformation = fieldInformationFactory.getObject(parameter.getVariableDeclaration(),
-				parameter.getOccurs());
+				parameter.getCount());
 
 		String javaFieldName = StringUtil.toJavaFieldName(parameter.getFieldName().toLowerCase());
 
@@ -51,13 +51,13 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 	}
 
 	public RpcPartEntityDefinition buildRpcPartDefinition(String name, List<ParameterStructure> partFieldList, int order,
-			int occur) {
+			int count) {
 
 		SimpleRpcPartEntityDefinition rpcPartEntityDefinition = new SimpleRpcPartEntityDefinition(null);
 		rpcPartEntityDefinition.setOriginalName(name);
 		rpcPartEntityDefinition.setPartName(name);
 		rpcPartEntityDefinition.setDisplayName(StringUtil.toDisplayName(name));
-		rpcPartEntityDefinition.setOccur(occur);
+		rpcPartEntityDefinition.getCount(count);
 
 		rpcPartEntityDefinition.setOrder(order);
 		Map<String, RpcFieldDefinition> rpcFieldsMap = rpcPartEntityDefinition.getFieldsDefinitions();
@@ -70,7 +70,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 				rpcFieldsMap.put(rpcFieldDefinition.getName(), rpcFieldDefinition);
 			} else {
 				RpcPartEntityDefinition subPartEntityDefinition = buildRpcPartDefinition(partFieldName, partField.getSubFields(),
-						internalOrder, partField.getOccurs());
+						internalOrder, partField.getCount());
 
 				rpcPartInnerParts.put(subPartEntityDefinition.getPartName(), subPartEntityDefinition);
 			}
@@ -96,7 +96,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 				entityDefinition.getFieldsDefinitions().put(rpcFieldDefinition.getName(), rpcFieldDefinition);
 			} else {
 				RpcPartEntityDefinition rpcPartEntityDefinition = buildRpcPartDefinition(interfaceParmeter.getFieldName(),
-						interfaceParmeter.getSubFields(), parameterOrder, interfaceParmeter.getOccurs());
+						interfaceParmeter.getSubFields(), parameterOrder, interfaceParmeter.getCount());
 
 				entityDefinition.getPartsDefinitions().put(rpcPartEntityDefinition.getPartName(), rpcPartEntityDefinition);
 

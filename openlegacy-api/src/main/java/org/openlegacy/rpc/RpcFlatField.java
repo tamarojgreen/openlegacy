@@ -82,4 +82,8 @@ public interface RpcFlatField extends RpcField {
 	 */
 	boolean isRightToLeft();
 
+	/** return the default value of field */
+
+	public Object getDefaultValue();
+
 }

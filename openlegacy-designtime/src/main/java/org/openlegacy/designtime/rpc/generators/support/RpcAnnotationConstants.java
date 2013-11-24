@@ -39,9 +39,6 @@ public class RpcAnnotationConstants {
 	public static final String MAXIMUM_VALUE = "maximumValue";
 	public static final String DECIMAL_PLACES = "decimalPlaces";
 
-	// @RpcPart
-	public static final String OCCUR = "occur";
-
 	// @RpcField
 	public static final String ORIGINAL_NAME = "originalName";
 	public static final String DIRECTION = "direction";

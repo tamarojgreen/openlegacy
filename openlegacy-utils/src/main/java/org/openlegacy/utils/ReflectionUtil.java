@@ -18,6 +18,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReflectionUtil {
 
@@ -48,6 +50,20 @@ public class ReflectionUtil {
 
 	public static Object newInstance(String className) throws ClassNotFoundException {
 		return newInstance(Class.forName(className));
+	}
+
+	public static <T> List<T> newListInstance(Class<? extends T> clazz, int count) {
+		List<T> result = new ArrayList<T>();
+
+		for (int i = 0; i < count; i++) {
+			result.add(org.springframework.beans.BeanUtils.instantiate(clazz));
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T[] newArrayInstance(Class<? extends T> clazz, int count) {
+		return (T[])newListInstance(clazz, count).toArray();
 	}
 
 	public static void copyProperties(Object destination, Object source) {

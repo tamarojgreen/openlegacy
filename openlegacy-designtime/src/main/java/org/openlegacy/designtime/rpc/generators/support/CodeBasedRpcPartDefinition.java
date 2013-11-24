@@ -17,7 +17,7 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 
 	private Map<String, RpcFieldDefinition> fields;
 	private Map<String, RpcPartEntityDefinition> innerParts = new TreeMap<String, RpcPartEntityDefinition>();
-	private int occur;
+	private int count;
 	private String runtimeName;
 	private List<ActionDefinition> actions;
 
@@ -41,12 +41,12 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		return 0;
 	}
 
-	public int getOccur() {
-		return occur;
+	public int getCount() {
+		return count;
 	}
 
-	public void setOccur(int occur) {
-		this.occur = occur;
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	public Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions() {

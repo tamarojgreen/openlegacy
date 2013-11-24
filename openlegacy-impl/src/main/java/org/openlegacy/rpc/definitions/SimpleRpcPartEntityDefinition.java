@@ -25,7 +25,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private static final long serialVersionUID = 1L;
 	private String originalName;
 	private int order;
-	private int occur;
+	private int count = 1;
 
 	private String runtimeName;
 
@@ -53,12 +53,12 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.order = order;
 	}
 
-	public int getOccur() {
-		return occur;
+	public int getCount() {
+		return count;
 	}
 
-	public void setOccur(int occur) {
-		this.occur = occur;
+	public void getCount(int count) {
+		this.count = count;
 	}
 
 	public Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions() {

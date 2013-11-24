@@ -75,7 +75,7 @@ public class RpcCodeBasedDefinitionUtils {
 			fieldDefinition.setHelpText(javaFieldModel.getHelpText());
 			fieldDefinition.setRightToLeft(javaFieldModel.isRightToLeft());
 			fieldDefinition.setRuntimeName(javaFieldModel.getRuntimeName());
-			fieldDefinition.setOccurrences(javaFieldModel.getOccurrences());
+			fieldDefinition.setCount(javaFieldModel.getCount());
 			fieldDefinition.setDirection(javaFieldModel.getDirection());
 
 			fieldDefinition.setOriginalName(javaFieldModel.getOriginalName());
@@ -139,7 +139,7 @@ public class RpcCodeBasedDefinitionUtils {
 			if (!field.isPrimitiveType()) {
 				CodeBasedRpcPartDefinition part = parts.get(StringUtil.toClassName(field.getName()));
 				// TODO need to find a way to keep in field level and not part level, in case part is shared
-				part.setOccur(field.getOccurrences());
+				part.setCount(field.getCount());
 				part.setRuntimeName(field.getRuntimeName());
 				entityDefinition.getPartsDefinitions().put(field.getName(), part);
 			}
@@ -154,7 +154,7 @@ public class RpcCodeBasedDefinitionUtils {
 					CodeBasedRpcPartDefinition part = parts.get(StringUtil.toClassName(field.getName()));
 					if (part != null) {
 						// TODO need to find a way to keep in field level and not part level, in case part is shared
-						part.setOccur(field.getOccurrences());
+						part.setCount(field.getCount());
 						part.setRuntimeName(field.getRuntimeName());
 						rpcPartEntityDefinition.getInnerPartsDefinitions().put(field.getName(), part);
 					}

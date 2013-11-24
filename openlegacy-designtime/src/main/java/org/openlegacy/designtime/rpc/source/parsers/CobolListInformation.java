@@ -12,11 +12,11 @@ import java.util.List;
 
 public class CobolListInformation implements FieldInformation {
 
-	private int occurs;
+	private int count;
 	private FieldInformation fieldInformation;
 
-	public CobolListInformation(FieldInformation fieldInformation, int occurs) {
-		this.occurs = occurs;
+	public CobolListInformation(FieldInformation fieldInformation, int count) {
+		this.count = count;
 		this.fieldInformation = fieldInformation;
 
 	}
@@ -32,7 +32,7 @@ public class CobolListInformation implements FieldInformation {
 
 	public FieldTypeDefinition getType() {
 
-		return new SimpleRpcListFieldTypeDefinition(fieldInformation.getLength(), occurs, fieldInformation.getType(),
+		return new SimpleRpcListFieldTypeDefinition(fieldInformation.getLength(), count, fieldInformation.getType(),
 				fieldInformation.getJavaType());
 	}
 

@@ -17,7 +17,7 @@ public interface ParameterStructure {
 
 	String getFieldName();
 
-	int getOccurs();
+	int getCount();
 
 	List<ParameterStructure> getSubFields();
 

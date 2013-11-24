@@ -284,6 +284,10 @@ public class StringUtil {
 		return str.substring(str.lastIndexOf(".") + 1);
 	}
 
+	public static String getNamespace(String str) {
+		return str.substring(0, str.lastIndexOf("."));
+	}
+
 	public static String stripQuotes(String text) {
 		if (text.startsWith("\"")) {
 			text = text.substring(1);
@@ -363,6 +367,10 @@ public class StringUtil {
 		}
 		String value = new String(chars);
 		return value;
+	}
+
+	public static String pathToName(String path) {
+		return path.replaceAll("/", "_").replaceAll("\\.", "_");
 	}
 
 }

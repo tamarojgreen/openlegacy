@@ -25,7 +25,7 @@ public class KoopaParameterStructure implements ParameterStructure {
 
 	private int fieldLevel;
 	private String fieldName;
-	private int occurs;
+	private int count;
 	private String variableDeclartion;
 	private List<ParameterStructure> subFieldsList;
 
@@ -73,9 +73,9 @@ public class KoopaParameterStructure implements ParameterStructure {
 
 		List<CommonTree> tempNodeList = (List<CommonTree>)Jaxen.evaluate(parameterNode, OCCURS_QUERY);
 		if (tempNodeList.isEmpty()) {
-			occurs = 1;
+			count = 1;
 		} else {
-			occurs = Integer.parseInt(tempNodeList.get(0).getChild(0).getText());
+			count = Integer.parseInt(tempNodeList.get(0).getChild(0).getText());
 		}
 
 		tempNodeList = (List<CommonTree>)Jaxen.evaluate(parameterNode, PICTURE_QUERY);
@@ -127,8 +127,8 @@ public class KoopaParameterStructure implements ParameterStructure {
 		return fieldName;
 	}
 
-	public int getOccurs() {
-		return occurs;
+	public int getCount() {
+		return count;
 	}
 
 	/*
