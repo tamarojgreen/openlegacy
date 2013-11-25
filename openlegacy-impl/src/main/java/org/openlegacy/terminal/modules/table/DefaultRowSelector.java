@@ -57,12 +57,11 @@ public class DefaultRowSelector<T> implements RowSelector<TerminalSession, T> {
 
 		if (selectionField != null) {
 			rowFieldAccessor.setFieldValue(selectionField, drilldownAction.getActionValue());
-		} else {
-			int screenRowNumber = tableDefinitionVal.getStartRow() + rowNumber;
-			int column = tableDefinitionVal.getColumnDefinitions().get(0).getStartColumn();
-			fieldAccessor.setFieldValue(ScreenEntity.FOCUS_FIELD,
-					SnapshotUtils.toAbsolutePosition(screenRowNumber, column, SimpleScreenSize.DEFAULT));
 		}
+		int screenRowNumber = tableDefinitionVal.getStartRow() + rowNumber;
+		int column = tableDefinitionVal.getColumnDefinitions().get(0).getStartColumn();
+		fieldAccessor.setFieldValue(ScreenEntity.FOCUS_FIELD,
+				SnapshotUtils.toAbsolutePosition(screenRowNumber, column, SimpleScreenSize.DEFAULT));
 
 		terminalSession.doAction((TerminalDrilldownAction)drilldownAction, (ScreenEntity)screenEntity);
 	}
