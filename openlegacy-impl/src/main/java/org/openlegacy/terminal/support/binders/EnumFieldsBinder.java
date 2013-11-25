@@ -120,12 +120,12 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 
 			Collection<Object> enums = fieldTypeDefinition.getDisplayValues().keySet();
 			for (Object enumValue : enums) {
-				if (enumValue.equals(fieldValue)) {
+				if (enumValue.equals(fieldValue) && fieldDefinition.isEditable()) {
 					// once enum from the POJO is found, find the associated host value
 					enumField.setValue((String)ReflectionUtil.invoke(enumValue, "getValue"));
+					sendAction.getFields().add(enumField);
 				}
 			}
-			sendAction.getFields().add(enumField);
 		}
 	}
 
