@@ -55,13 +55,20 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 		navigationDefinition.setTargetEntity(containingClass);
 
 		if (!screenNavigation.drilldownValue().equals(AnnotationConstants.NULL)) {
-			if (screenNavigation.terminalAction() != ENTER.class) {
-				throw (new RegistryException(MessageFormat.format(
-						"@ScreenNavigation, drilldownValue is supported only with ENTER action. Entity:{0}",
-						containingClass.getName())));
+			if (screenNavigation.terminalAction() == ENTER.class) {
+				navigationDefinition.setDrilldownValue(screenNavigation.drilldownValue());
+				navigationDefinition.setTerminalAction(TerminalDrilldownActions.enter(screenNavigation.drilldownValue()));
+			} else {
+				if (!TerminalDrilldownAction.class.isAssignableFrom(screenNavigation.terminalAction())) {
+					throw (new RegistryException(MessageFormat.format(
+							"@ScreenNavigation, drilldown action must implement TerminalDrilldownAction. Entity:{0}",
+							containingClass.getName())));
+				}
+				navigationDefinition.setDrilldownValue(screenNavigation.drilldownValue());
+				TerminalDrilldownAction action = (TerminalDrilldownAction)ReflectionUtil.newInstance(screenNavigation.terminalAction());
+				action.setActionValue(screenNavigation.drilldownValue());
+				navigationDefinition.setTerminalAction(action);
 			}
-			navigationDefinition.setDrilldownValue(screenNavigation.drilldownValue());
-			navigationDefinition.setTerminalAction(TerminalDrilldownActions.enter(screenNavigation.drilldownValue()));
 		} else {
 			if (TerminalDrilldownAction.class.isAssignableFrom(screenNavigation.terminalAction())) {
 				navigationDefinition.setTerminalAction(ReflectionUtil.newInstance(screenNavigation.terminalAction()));
