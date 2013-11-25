@@ -39,8 +39,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * A generator which generate for screen pojos annotation with @RpcEntity, @RpcPart, (a.k.a "main rpc annotation") Work closely
- * with RPcPojoCodeModelImpl and freemarker template engine Performs the following operations:<br/>
+ * A generator which generate for RPC pojos annotation with @RpcEntity, @RpcPart, (a.k.a "main rpc annotation") Work closely with
+ * RPcPojoCodeModelImpl and freemarker template engine Performs the following operations:<br/>
  * <ul>
  * <li>1.Generate an aspect file (.aj) for each pojo</li>
  * <li>2. Add getters and setters from the aspect for class member if not exists</li>
@@ -57,13 +57,13 @@ public class RpcPojosAjGenerator extends AbstractPojosAjGenerator {
 	private GenerateUtil generateUtil;
 
 	@Override
-	public void generate(File javaFile, CompilationUnit compilationUnit) throws GenerationException {
+	public boolean generate(File javaFile, CompilationUnit compilationUnit) throws GenerationException {
 
 		List<TypeDeclaration> types = compilationUnit.getTypes();
 
 		if (types == null || types.size() == 0) {
 			logger.warn(MessageFormat.format("No types detected for {0}. skipping file", javaFile.getName()));
-			return;
+			return false;
 		}
 
 		String parentClassName = types.get(0).getName();
@@ -76,6 +76,7 @@ public class RpcPojosAjGenerator extends AbstractPojosAjGenerator {
 			}
 		}
 
+		boolean aspectGenerated = false;
 		for (TypeDeclaration typeDeclaration : types) {
 			List<AnnotationExpr> annotations = typeDeclaration.getAnnotations();
 			if (annotations == null) {
@@ -84,20 +85,23 @@ public class RpcPojosAjGenerator extends AbstractPojosAjGenerator {
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				for (AnnotationExpr annotationExpr : annotations) {
-					RpcPojoCodeModel screenEntityCodeModel = null;
+					RpcPojoCodeModel entityCodeModel = null;
 					if (JavaParserUtil.hasAnnotation(annotationExpr, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION)) {
-						screenEntityCodeModel = generateEntity(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration,
-								baos);
+						entityCodeModel = generateEntity(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration, baos);
 					}
 					// TODO RPC parts
-					if (screenEntityCodeModel != null && screenEntityCodeModel.isRelevant()) {
-						GenerateUtil.writeToFile(javaFile, baos, screenEntityCodeModel, parentClassName);
+					if (entityCodeModel != null && entityCodeModel.isRelevant()) {
+						boolean generated = GenerateUtil.writeAspectToFile(javaFile, baos, entityCodeModel, parentClassName);
+						if (generated) {
+							aspectGenerated = true;
+						}
 					}
 				}
 			} catch (Exception e) {
 				throw (new GenerationException(e));
 			}
 		}
+		return aspectGenerated;
 
 	}
 

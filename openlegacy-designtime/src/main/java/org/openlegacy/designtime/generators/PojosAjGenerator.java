@@ -16,5 +16,5 @@ import java.io.File;
 
 public interface PojosAjGenerator {
 
-	void generate(File javaFile) throws GenerationException;
+	boolean generate(File javaFile) throws GenerationException;
 }

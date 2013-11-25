@@ -32,6 +32,7 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -55,7 +56,7 @@ public class GenerateUtil {
 			Template template = new Template("Template", templateString, new Configuration());
 			template.process(model, output);
 			byte[] bytes = baos.toByteArray();
-			return new String(bytes,"UTF-8");
+			return new String(bytes, "UTF-8");
 		} catch (TemplateException e) {
 			throw (new GenerationException(e));
 		} catch (IOException e) {
@@ -192,7 +193,17 @@ public class GenerateUtil {
 
 	}
 
-	public static void writeToFile(File javaFile, java.io.ByteArrayOutputStream baos, PojoCodeModel pojoCodeModel,
+	/**
+	 * 
+	 * @param javaFile
+	 * @param baos
+	 * @param pojoCodeModel
+	 * @param parentClassName
+	 * @return true when file changed
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public static boolean writeAspectToFile(File javaFile, java.io.ByteArrayOutputStream baos, PojoCodeModel pojoCodeModel,
 			String parentClassName) throws FileNotFoundException, IOException {
 		if (pojoCodeModel != null && pojoCodeModel.isRelevant()) {
 			File outputFolder = javaFile.getParentFile().getAbsoluteFile();
@@ -201,9 +212,17 @@ public class GenerateUtil {
 			String classFileName = !formattedClassName.equals(parentClassName) ? (parentClassName + formattedClassName)
 					: formattedClassName;
 			File outputFile = new File(outputFolder, classFileName + "_Aspect.aj");
+			byte[] outputBytes = baos.toByteArray();
+			if (outputFile.exists()) {
+				byte[] currentFileContent = FileUtils.readFileToByteArray(outputFile);
+				if (Arrays.equals(outputBytes, currentFileContent)) {
+					return false;
+				}
+			}
 			FileOutputStream fos = new FileOutputStream(outputFile);
-			fos.write(baos.toByteArray());
+			fos.write(outputBytes);
 			fos.close();
 		}
+		return true;
 	}
 }

@@ -389,7 +389,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultTheme=.*",
 					MessageFormat.format("themeUtil.defaultTheme={0}", projectTheme.getDisplayName().toLowerCase()));
 			// get mobile theme name
-			if (projectTheme.getMobileTheme() != null){
+			if (projectTheme.getMobileTheme() != null) {
 				String[] split = projectTheme.getMobileTheme().split("-");
 				// suppose, that last element of String array is mobile theme name
 				appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultMobileTheme=.*",
@@ -440,7 +440,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 		}
 
-		if (generateModelRequest.isGenerateTest()){
+		if (generateModelRequest.isGenerateTest()) {
 			generateTest(generateModelRequest.getTrailFile(), screenDefinitions, generateModelRequest.getProjectPath());
 		}
 
@@ -705,7 +705,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	public void generateAspect(File javaFile) {
+	public boolean generateAspect(File javaFile) {
 
 		try {
 			FileInputStream input = new FileInputStream(javaFile);
@@ -715,12 +715,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					ScreenAnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
 				ScreenPojosAjGenerator generator = getOrCreateApplicationContext(getProjectPath(javaFile)).getBean(
 						ScreenPojosAjGenerator.class);
-				generator.generate(javaFile, compilationUnit);
+				return generator.generate(javaFile, compilationUnit);
 			} else if (JavaParserUtil.hasAnnotation(compilationUnit, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION,
 					RpcAnnotationConstants.RPC_ENTITY_SUPER_CLASS_ANNOTATION)) {
 				RpcPojosAjGenerator generator = getOrCreateApplicationContext(getProjectPath(javaFile)).getBean(
 						RpcPojosAjGenerator.class);
-				generator.generate(javaFile, compilationUnit);
+				return generator.generate(javaFile, compilationUnit);
 
 			}
 		} catch (IOException e) {
@@ -729,6 +729,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			logger.warn("Failed parsing java file:" + e.getMessage());
 			// non compiled java class. Ignore it
 		}
+		return false;
 
 	}
 

@@ -83,23 +83,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 				case IResourceDelta.CHANGED:
 					// when we renamed inner class (e.g. ItemDetails2StockInfo) we need to delete appropriate Aspects
 					String name = resource.getName();
-					if (resource instanceof IFile && name.endsWith(PluginConstants.JAVA_EXTENSION)) {
 
-						String fileNoExtension = FileUtils.fileWithoutExtension(name);
-						IResource[] members = resource.getParent().members();
-						for (IResource iResource : members) {
-							String resourceName = iResource.getName();
-							if (resourceName.startsWith(fileNoExtension)
-									&& resourceName.endsWith(DesignTimeExecuter.ASPECT_SUFFIX)) {
-								iResource.delete(false, null);
-							}
-						}
-						try {
-							getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
-						} catch (CoreException e) {
-							logger.fatal(e);
-						}
-					}
 					if (resource instanceof IFile && name.equals(".preferences")) {
 						EclipseDesignTimeExecuter.instance().reloadPreference(resource.getProject());
 					}
@@ -196,13 +180,14 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 		boolean isUseAspect = useAspect == null || useAspect.equals("1");
 		if (resource instanceof IFile && resource.getName().endsWith(PluginConstants.JAVA_EXTENSION) && !isIgnoreFolder(resource)
 				&& isUseAspect) {
-			EclipseDesignTimeExecuter.instance().generateAspect(resource);
-			try {
-				getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
-			} catch (CoreException e) {
-				logger.fatal(e);
+			boolean generated = EclipseDesignTimeExecuter.instance().generateAspect(resource);
+			if (generated) {
+				try {
+					resource.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
+				} catch (CoreException e) {
+					logger.fatal(e);
+				}
 			}
-
 		}
 	}
 
@@ -221,7 +206,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 				&& resource.getFullPath().toString().contains(DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH)) {
 			EclipseDesignTimeExecuter.instance().initialize(PathsUtil.toOsLocation(resource.getProject().getLocation()));
 			try {
-				getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
+				resource.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
 			} catch (CoreException e) {
 				logger.fatal(e);
 			}

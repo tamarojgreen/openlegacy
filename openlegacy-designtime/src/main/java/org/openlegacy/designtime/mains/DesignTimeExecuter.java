@@ -45,7 +45,7 @@ public interface DesignTimeExecuter {
 
 	boolean generateRpcEntityDefinition(GenerateRpcModelRequest generateModelRequest, RpcEntityDefinition screenEntityDefinition);
 
-	void generateAspect(File javaFile);
+	boolean generateAspect(File javaFile);
 
 	void initialize(File projectPath);
 

@@ -59,13 +59,13 @@ public class ScreenPojosAjGenerator extends AbstractPojosAjGenerator {
 	private GenerateUtil generateUtil;
 
 	@Override
-	public void generate(File javaFile, CompilationUnit compilationUnit) throws GenerationException {
+	public boolean generate(File javaFile, CompilationUnit compilationUnit) throws GenerationException {
 
 		List<TypeDeclaration> types = compilationUnit.getTypes();
 
 		if (types == null || types.size() == 0) {
 			logger.warn(MessageFormat.format("No types detected for {0}. skipping file", javaFile.getName()));
-			return;
+			return false;
 		}
 
 		String parentClassName = types.get(0).getName();
@@ -78,6 +78,7 @@ public class ScreenPojosAjGenerator extends AbstractPojosAjGenerator {
 			}
 		}
 
+		boolean aspectGenerated = false;
 		for (TypeDeclaration typeDeclaration : types) {
 			List<AnnotationExpr> annotations = typeDeclaration.getAnnotations();
 			if (annotations == null) {
@@ -102,7 +103,10 @@ public class ScreenPojosAjGenerator extends AbstractPojosAjGenerator {
 								(ClassOrInterfaceDeclaration)typeDeclaration, baos, parentClassName);
 					}
 					if (screenEntityCodeModel != null && screenEntityCodeModel.isRelevant()) {
-						GenerateUtil.writeToFile(javaFile, baos, screenEntityCodeModel, parentClassName);
+						boolean generated = GenerateUtil.writeAspectToFile(javaFile, baos, screenEntityCodeModel, parentClassName);
+						if (generated) {
+							aspectGenerated = true;
+						}
 					}
 
 				} catch (Exception e) {
@@ -110,6 +114,7 @@ public class ScreenPojosAjGenerator extends AbstractPojosAjGenerator {
 				}
 			}
 		}
+		return aspectGenerated;
 
 	}
 

@@ -21,11 +21,11 @@ import java.io.FileInputStream;
 
 public abstract class AbstractPojosAjGenerator implements PojosAjGenerator {
 
-	public void generate(File javaFile) throws GenerationException {
+	public boolean generate(File javaFile) throws GenerationException {
 		try {
 			FileInputStream input = new FileInputStream(javaFile);
 			CompilationUnit compilationUnit = JavaParser.parse(input, CharEncoding.UTF_8);
-			generate(javaFile, compilationUnit);
+			return generate(javaFile, compilationUnit);
 		} catch (GenerationException e) {
 			throw (e);
 		} catch (Exception e) {
@@ -33,5 +33,5 @@ public abstract class AbstractPojosAjGenerator implements PojosAjGenerator {
 		}
 	}
 
-	protected abstract void generate(File javaFile, CompilationUnit compilationUnit);
+	protected abstract boolean generate(File javaFile, CompilationUnit compilationUnit);
 }
