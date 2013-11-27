@@ -224,4 +224,7 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 		this.viewsSuffix = viewsSuffix;
 	}
 
+	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry() {
+		return entitiesRegistry;
+	}
 }
