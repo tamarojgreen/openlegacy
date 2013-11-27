@@ -24,6 +24,12 @@ import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.json.JsonSerializationUtil;
 
+import org.openlegacy.definitions.TableDefinition;
+import java.util.Map.Entry;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
+import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +56,8 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 
 	@Inject
 	private TableWriter ScreenForPageController.tableWriter;
+	@Inject
+	private TablesDefinitionProvider ScreenForPageController.tablesDefinitionProvider;
 	
 	// handle page ajax call display
     @RequestMapping(method = RequestMethod.GET, headers = "X-Requested-With=XMLHttpRequest")
@@ -165,11 +173,14 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
     }
 	
 	// export to excel
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/excel", method = RequestMethod.GET)
     public void ScreenForPageController.excel(HttpServletResponse response) throws IOException {
     	List<ScreenForPage.ScreenForPageRecord> records = terminalSession.getModule(Table.class).collectOne(ScreenForPage.class,ScreenForPage.ScreenForPageRecord.class);
 		response.setContentType("application/vnd.ms-excel");
 		response.addHeader("Content-Disposition", "attachment; filename=\"ScreenForPage.xls\"");
+		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+				tablesDefinitionProvider, Items.class);
     	tableWriter.writeTable(records, response.getOutputStream());
     }
 	

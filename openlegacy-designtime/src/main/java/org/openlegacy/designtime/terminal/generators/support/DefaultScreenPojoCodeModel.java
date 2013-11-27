@@ -829,6 +829,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		return childScreen;
 	}
 
+	public void setChildScreen(boolean childScreen) {
+		this.childScreen = childScreen;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

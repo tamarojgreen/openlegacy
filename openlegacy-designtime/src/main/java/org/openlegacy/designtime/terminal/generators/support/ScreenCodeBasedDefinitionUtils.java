@@ -89,8 +89,9 @@ public class ScreenCodeBasedDefinitionUtils {
 			fieldDefinition.setDefaultValue(javaFieldModel.getDefaultValue());
 			fieldDefinition.setJavaTypeName(javaFieldModel.getType());
 			// @author Ivan Bort refs assembla #235
-			fieldDefinition.setEndPosition(new SimpleTerminalPosition(javaFieldModel.getEndRow() == null ? javaFieldModel.getRow()
-					: javaFieldModel.getEndRow(), javaFieldModel.getEndColumn() == null ? javaFieldModel.getColumn() + 1 : javaFieldModel.getEndColumn()));
+			fieldDefinition.setEndPosition(new SimpleTerminalPosition(
+					javaFieldModel.getEndRow() == null ? javaFieldModel.getRow() : javaFieldModel.getEndRow(),
+					javaFieldModel.getEndColumn() == null ? javaFieldModel.getColumn() + 1 : javaFieldModel.getEndColumn()));
 			fieldDefinition.setHelpText(javaFieldModel.getHelpText());
 			fieldDefinition.setRightToLeft(javaFieldModel.isRightToLeft());
 			fieldDefinition.setWhenFilter(javaFieldModel.getWhen());
@@ -208,12 +209,12 @@ public class ScreenCodeBasedDefinitionUtils {
 			}
 			try {
 				CompilationUnit compilationUnit = JavaParser.parse(childSourceFile, CharEncoding.UTF_8);
-				ScreenEntityDefinition childEntityDefinition = getEntityDefinition(compilationUnit, packageDir);
-				if (childEntityDefinition.isChild()) {
-					childDefinitions.add(childEntityDefinition);
-				} else {
-					logger.warn(MessageFormat.format(
-							"A non child screen {0} is related from {1}. NOT added to it''s child screen list",
+				CodeBasedScreenEntityDefinition childEntityDefinition = (CodeBasedScreenEntityDefinition)getEntityDefinition(
+						compilationUnit, packageDir);
+				childDefinitions.add(childEntityDefinition);
+				if (!childEntityDefinition.isChild()) {
+					childEntityDefinition.setChild(true);
+					logger.warn(MessageFormat.format("A non child screen {0} is related from {1}. Set as child",
 							childEntityDefinition.getEntityClassName(), codeModel.getClassName()));
 				}
 			} catch (ParseException e) {

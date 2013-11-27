@@ -20,6 +20,11 @@ import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.definitions.TableDefinition;
+import java.util.Map.Entry;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
+import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.samples.model.Items;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -47,6 +52,9 @@ privileged @SuppressWarnings("unused") aspect ItemsController_Aspect {
 
 	@Inject
 	private TableWriter ItemsController.tableWriter;
+	
+	@Inject
+	private TablesDefinitionProvider ItemsController.tablesDefinitionProvider;
 	
 	// handle page initial display
     @RequestMapping(method = RequestMethod.GET)
@@ -206,12 +214,15 @@ privileged @SuppressWarnings("unused") aspect ItemsController_Aspect {
     }
 
 	// export to excel
-    @RequestMapping(value="/excel", method = RequestMethod.GET)
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value="/excel", method = RequestMethod.GET)
     public void ItemsController.excel(HttpServletResponse response) throws IOException {
     	List<Items.ItemsRecord> records = terminalSession.getModule(Table.class).collectOne(Items.class,Items.ItemsRecord.class);
 		response.setContentType("application/vnd.ms-excel");
 		response.addHeader("Content-Disposition", "attachment; filename=\"ItemsRecord.xls\"");
-    	tableWriter.writeTable(records, response.getOutputStream());
+		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+				tablesDefinitionProvider, Items.class);
+    	tableWriter.writeTable(records,(TableDefinition)tableDefinition.getValue(), response.getOutputStream());
     }
     
 	@RequestMapping(value = "/more", method = RequestMethod.GET)

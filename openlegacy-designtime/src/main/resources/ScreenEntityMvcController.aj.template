@@ -24,6 +24,12 @@ import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.json.JsonSerializationUtil;
 
+import org.openlegacy.definitions.TableDefinition;
+import java.util.Map.Entry;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
+import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
+import org.openlegacy.terminal.providers.TablesDefinitionProvider;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +57,8 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	<#if entityDefinition.tableDefinitions?size &gt; 0>
 	@Inject
 	private TableWriter ${entityDefinition.entityClassName}Controller.tableWriter;
+	@Inject
+	private TablesDefinitionProvider ${entityDefinition.entityClassName}Controller.tablesDefinitionProvider;
 	</#if>
 	
 	<#if entityDefinition.keys?size == 0>
@@ -107,11 +115,14 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 	<@postMethod actionName="PAGEDOWN" actionAlias="next" params="next" />
 	
 	// export to excel
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @RequestMapping(value="/excel", method = RequestMethod.GET)
     public void ${entityDefinition.entityClassName}Controller.excel(HttpServletResponse response) throws IOException {
     	List<${entityDefinition.entityClassName}.${entityDefinition.entityClassName}Record> records = terminalSession.getModule(Table.class).collectOne(${entityDefinition.entityClassName}.class,${entityDefinition.entityClassName}.${entityDefinition.entityClassName}Record.class);
 		response.setContentType("application/vnd.ms-excel");
 		response.addHeader("Content-Disposition", "attachment; filename=\"${entityDefinition.entityClassName}.xls\"");
+		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+				tablesDefinitionProvider, Items.class);
     	tableWriter.writeTable(records, response.getOutputStream());
     }
 	

@@ -155,7 +155,11 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 	}
 
 	public boolean isChild() {
-		return (getCodeModel()).isChildScreen();
+		return getCodeModel().isChildScreen();
+	}
+
+	public void setChild(boolean child) {
+		((DefaultScreenPojoCodeModel)getCodeModel()).setChildScreen(child);
 	}
 
 	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
