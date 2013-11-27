@@ -11,10 +11,11 @@
 package org.openlegacy.web;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.openlegacy.definitions.TableDefinition;
+import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.utils.DomUtils;
-import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.TypesUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,7 +28,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class DefaultHtmlTableWriter implements TableWriter {
 
-	public void writeTable(List<? extends Object> records, OutputStream outputStream) {
+	public void writeTable(List<? extends Object> records, TableDefinition<ColumnDefinition> tableDefinition,
+			OutputStream outputStream) {
 		DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
 
 		Document doc;
@@ -48,7 +50,7 @@ public class DefaultHtmlTableWriter implements TableWriter {
 			for (PropertyDescriptor propertyDescriptor : descriptors) {
 				if (TypesUtil.isPrimitive(propertyDescriptor.getPropertyType())) {
 					Element headerTag = createTag(rowTag, HtmlConstants.TH);
-					String displayName = StringUtil.toDisplayName(propertyDescriptor.getName());
+					String displayName = tableDefinition.getColumnDefinition(propertyDescriptor.getName()).getDisplayName();
 					setCellValue(headerTag, displayName);
 				}
 

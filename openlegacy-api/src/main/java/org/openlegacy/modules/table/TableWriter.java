@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.openlegacy.modules.table;
 
+import org.openlegacy.definitions.TableDefinition;
+import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
+
 import java.io.OutputStream;
 import java.util.List;
 
 public interface TableWriter {
 
-	void writeTable(List<? extends Object> records, OutputStream outputStream);
+	void writeTable(List<? extends Object> records, TableDefinition<ColumnDefinition> tableDefinition, OutputStream outputStream);
 
 }
