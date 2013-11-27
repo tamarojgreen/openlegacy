@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.mvc.web.AbstractGenericEntitiesController;
@@ -55,6 +56,7 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -193,6 +195,7 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 	}
 
 	// export to excel
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/{screen}/excel", method = RequestMethod.GET)
 	public void excel(@PathVariable("screen") String entityName, HttpServletResponse response) throws IOException {
 		ScreenEntity entity = (ScreenEntity)getSession().getEntity(entityName);
@@ -202,7 +205,9 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 		List<?> records = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, entity);
 		response.setContentType("application/vnd.ms-excel");
 		response.addHeader("Content-Disposition", MessageFormat.format("attachment; filename=\"{0}.xls\"", entityName));
-		tableWriter.writeTable(records, response.getOutputStream());
+		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+				tablesDefinitionProvider, entity.getClass());
+		tableWriter.writeTable(records, (TableDefinition)tableDefinition.getValue(), response.getOutputStream());
 	}
 
 	/**

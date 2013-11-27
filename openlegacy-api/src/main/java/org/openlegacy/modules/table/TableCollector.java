@@ -11,6 +11,7 @@
 package org.openlegacy.modules.table;
 
 import org.openlegacy.Session;
+import org.openlegacy.terminal.TerminalSession;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface TableCollector<S extends Session, T> {
 	public List<T> collectAll(S session, Class<?> entityClass, Class<T> rowClass);
 
 	public List<T> collectOne(S session, Class<?> entityClass, Class<T> rowClass);
+
+	public List<T> collect(TerminalSession session, Class<?> entityClass, Class<T> rowClass, int numberOfScreens);
 }

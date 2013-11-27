@@ -47,6 +47,11 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 		return tableCollector.collectAll(getSession(), screenEntityClass, rowClass);
 	}
 
+	public <T> List<T> collect(Class<?> screenEntityClass, Class<T> rowClass, int numberOfScreens) {
+		TableCollector<TerminalSession, T> tableCollector = getTableCollector(screenEntityClass);
+		return tableCollector.collect(getSession(), screenEntityClass, rowClass, numberOfScreens);
+	}
+
 	/**
 	 * Method which should be used when NOT using open legacy navigation definitions: <code>@ScreenNavigation</code> and using a
 	 * provider session navigator

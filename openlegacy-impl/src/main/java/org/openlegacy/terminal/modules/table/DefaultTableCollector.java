@@ -33,18 +33,19 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 
 	@Inject
 	private transient ApplicationContext applicationContext;
+	private int maxScreens = 50;
 
 	public List<T> collectAll(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass) {
-		return collectAllInner(terminalSession, screenEntityClass, rowClass, false);
+		return collectAllInner(terminalSession, screenEntityClass, rowClass, maxScreens);
 	}
 
 	public List<T> collectOne(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass) {
-		return collectAllInner(terminalSession, screenEntityClass, rowClass, true);
+		return collectAllInner(terminalSession, screenEntityClass, rowClass, 1);
 	}
 
 	@SuppressWarnings("unchecked")
 	private List<T> collectAllInner(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass,
-			boolean firstOnly) {
+			int numberOfScreens) {
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 
@@ -77,6 +78,7 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 		Object screenEntity = terminalSession.getEntity(screenEntityClass);
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 
+		int screensCollected = 1;
 		while (cont) {
 
 			rows = (List<T>)fieldAccessor.getFieldValue(matchingDefinitionEntry.getKey());
@@ -86,15 +88,24 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 			if (rows.size() < rowsCount) {
 				cont = false;
 			} else {
-				if (firstOnly) {
+				if (numberOfScreens <= screensCollected) {
 					break;
 				}
 				screenEntity = terminalSession.doAction(matchingTableDefinition.getNextScreenAction());
+				screensCollected++;
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
 		}
 
 		return allRows;
+	}
+
+	public List<T> collect(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass, int numberOfScreens) {
+		return collectAllInner(terminalSession, screenEntityClass, rowClass, numberOfScreens);
+	}
+
+	public void setMaxScreens(int maxScreens) {
+		this.maxScreens = maxScreens;
 	}
 
 }
