@@ -107,4 +107,8 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 	public RpcNavigationDefinition getNavigationDefinition() {
 		return null;
 	}
+
+	public boolean isValidateKeys() {
+		return true;
+	}
 }
