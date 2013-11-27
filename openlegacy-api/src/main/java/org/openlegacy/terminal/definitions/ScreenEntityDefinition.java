@@ -89,4 +89,5 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	List<ScreenEntityBinder> getBinders();
 
 	boolean isPerformDefaultBinding();
+
 }

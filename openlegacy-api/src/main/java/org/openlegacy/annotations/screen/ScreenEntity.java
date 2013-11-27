@@ -111,4 +111,11 @@ public @interface ScreenEntity {
 	 * @return is the screen is a child screen
 	 */
 	boolean child() default false;
+
+	/**
+	 * Determine whether to check screen primary keys correctness. Relevant in case key is not displayed on screen
+	 * 
+	 * @return whether to check screen primary keys correctness
+	 */
+	boolean validateKeys() default true;
 }

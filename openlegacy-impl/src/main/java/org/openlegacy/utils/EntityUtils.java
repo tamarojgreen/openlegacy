@@ -68,6 +68,9 @@ public class EntityUtils implements Serializable {
 			return true;
 		}
 
+		if (!entityDefinition.isValidateKeys()) {
+			return true;
+		}
 		// it's OK that entity is requested with no keys (sub screen for example within main screen context). False only if
 		// request and no/less keys defined on screen
 		if (requestedEntityKeys.length > actualEntityKeysValues.size()) {

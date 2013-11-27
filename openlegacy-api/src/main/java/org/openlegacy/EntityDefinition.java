@@ -126,4 +126,6 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	 * @return is the entity is a window
 	 */
 	boolean isWindow();
+
+	boolean isValidateKeys();
 }

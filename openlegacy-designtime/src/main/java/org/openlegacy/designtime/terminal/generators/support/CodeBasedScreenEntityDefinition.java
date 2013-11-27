@@ -192,4 +192,8 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return this.getCodeModel().isSupportTerminalData();
 	}
 
+	public boolean isValidateKeys() {
+		return true;
+	}
+
 }
