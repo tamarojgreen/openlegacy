@@ -73,18 +73,8 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 			return;
 		}
 		if (logger.isDebugEnabled()) {
-			if (value instanceof String) {
-				String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
-				if (!StringUtils.isEmpty(((String)value))) {
-					logger.debug(message);
-				} else {
-					// print empty value assignment only in trace mode
-					logger.trace(message);
-				}
-			} else {
-				String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
-				logger.debug(message);
-			}
+			String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
+			logger.trace(message);
 		}
 	}
 
