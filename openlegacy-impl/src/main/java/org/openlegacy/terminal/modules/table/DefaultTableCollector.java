@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.modules.table;
 
+import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -43,11 +44,13 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 		return collectAllInner(terminalSession, screenEntityClass, rowClass, 1);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private List<T> collectAllInner(TerminalSession terminalSession, Class<?> screenEntityClass, Class<T> rowClass,
 			int numberOfScreens) {
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
+		TableScrollStopConditions tableScrollStopConditions = SpringUtil.getBean(applicationContext,
+				TableScrollStopConditions.class);
 
 		ScreenEntityDefinition screenEntityDefintion = screenEntitiesRegistry.get(screenEntityClass);
 		Map<String, ScreenTableDefinition> tableDefinitionsMap = screenEntityDefintion.getTableDefinitions();
@@ -89,7 +92,7 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 			if (allRows.size() < rowsCount) {
 				cont = false;
 			} else {
-				if (numberOfScreens <= screensCollected) {
+				if (numberOfScreens <= screensCollected || tableScrollStopConditions.shouldStop(screenEntity)) {
 					break;
 				}
 				screenEntity = terminalSession.doAction(matchingTableDefinition.getNextScreenAction());
