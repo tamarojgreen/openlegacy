@@ -50,6 +50,8 @@ public @interface ScreenFieldValues {
 	 */
 	boolean asWindow() default false;
 
+	boolean autoSubmit() default false;
+
 	/**
 	 * When asWindow = true, used for displaying the mainDisplayField of the window lookup table
 	 * 

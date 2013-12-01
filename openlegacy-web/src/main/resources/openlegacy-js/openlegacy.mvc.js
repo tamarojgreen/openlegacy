@@ -409,9 +409,11 @@ function resizeDojoWidget(id) {
 //the field id which the lookup dialog result should return 
 var ol_lookupFieldId;
 var ol_lookupDisplayFieldId;
-function openLookupDialog(fieldId,displayFieldId,url,style){
+var ol_autoSubmit;
+function openLookupDialog(fieldId,displayFieldId,url,style,autoSubmit){
 	ol_lookupFieldId = fieldId;
 	ol_lookupDisplayFieldId = displayFieldId;
+	ol_autoSubmit = autoSubmit;
 	require(["dojo/ready", "dijit/registry", "dijit/Dialog","dojo/dom"], function(ready, registry,Dialog,dom){
 	    ready(function(){
 	    	var lookDialog = registry.byId("lookupDialog");
@@ -445,6 +447,9 @@ function closeAndUpdateLookup(value,displayValue){
 			handleAs : "text",
 			headers: { "Accept": "text/html;type=ajax" }
 		}).then(function(data){
+			if (ol_autoSubmit){
+				doPost();
+			}
 		}, function(e){
 			alert(e);
 		});

@@ -31,6 +31,8 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 
 	private boolean asWindow;
 
+	private boolean autoSubmit;
+
 	public void setRecordsProvider(RecordsProvider<? extends Session, Object> recordsProvider) {
 		this.recordsProvider = recordsProvider;
 	}
@@ -105,5 +107,13 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 
 	public boolean isAsWindow() {
 		return asWindow;
+	}
+
+	public boolean isAutoSubmit() {
+		return autoSubmit;
+	}
+
+	public void setAutoSubmit(boolean autoSubmit) {
+		this.autoSubmit = autoSubmit;
 	}
 }

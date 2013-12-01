@@ -47,4 +47,6 @@ public interface FieldWithValuesTypeDefinition extends FieldTypeDefinition {
 	String getDisplayFieldName();
 
 	boolean isAsWindow();
+
+	boolean isAutoSubmit();
 }

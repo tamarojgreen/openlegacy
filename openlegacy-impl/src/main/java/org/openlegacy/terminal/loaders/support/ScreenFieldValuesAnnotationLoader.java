@@ -85,6 +85,7 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 		fieldTypeDefinition.setSourceEntityClass(fieldValuesAnnotation.sourceScreenEntity());
 		fieldTypeDefinition.setCollectAllRecords(fieldValuesAnnotation.collectAll());
 		fieldTypeDefinition.setAsWindow(fieldValuesAnnotation.asWindow());
+		fieldTypeDefinition.setAutoSubmit(fieldValuesAnnotation.autoSubmit());
 		if (fieldValuesAnnotation.displayFieldName().length() > 0) {
 			fieldTypeDefinition.setDisplayFieldName(fieldValuesAnnotation.displayFieldName());
 		}
