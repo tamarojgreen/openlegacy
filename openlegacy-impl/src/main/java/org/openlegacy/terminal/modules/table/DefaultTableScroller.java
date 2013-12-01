@@ -56,7 +56,7 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 		ScreenTableDefinition tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				entityClass).getValue();
 
-		TerminalAction previousAction = tableDefinition.getNextScreenAction() != null ? tableDefinition.getPreviousScreenAction()
+		TerminalAction previousAction = tableDefinition.getPreviousScreenAction() != null ? tableDefinition.getPreviousScreenAction()
 				: defaultPreviousAction;
 		TerminalAction nextAction = tableDefinition.getNextScreenAction() != null ? tableDefinition.getNextScreenAction()
 				: defaultNextAction;

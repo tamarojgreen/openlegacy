@@ -239,4 +239,8 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 		throwNotImplemented();
 		return null;
 	}
+
+	public int getScreensCount() {
+		return 1;
+	}
 }

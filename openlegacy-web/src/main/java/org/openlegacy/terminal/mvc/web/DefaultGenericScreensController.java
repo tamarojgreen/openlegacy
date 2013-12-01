@@ -22,20 +22,16 @@ import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.mvc.web.AbstractGenericEntitiesController;
 import org.openlegacy.mvc.web.MvcConstants;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
-import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.json.JsonSerializationUtil;
 import org.openlegacy.terminal.modules.login.LoginMetadata;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
-import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
@@ -52,8 +48,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -89,6 +85,17 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 	@Inject
 	private LoginMetadata loginMetadata;
 
+	@Inject
+	private ScreenBindUtils screenBindUtil;
+
+	@Override
+	protected String prepareView(Object entity, Model uiModel, boolean partial, HttpServletRequest request)
+			throws MalformedURLException {
+		String viewName = super.prepareView(entity, uiModel, partial, request);
+		screenBindUtil.bindCollectTable(getSession(), entity, uiModel);
+		return viewName;
+	}
+
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST)
 	public String postEntity(@PathVariable("entity") String screenEntityName,
 			@RequestParam(defaultValue = "", value = ACTION) String action,
@@ -109,7 +116,7 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(screenEntity);
 		registerPropertyEditors(binder);
 		binder.bind(request);
-		bindTables(request, entityClass, screenEntity);
+		screenBindUtil.bindTables(request, entityClass, screenEntity);
 
 		TerminalActionDefinition matchedActionDefinition = screenEntityUtils.findAction(screenEntity, action);
 		ScreenEntity resultEntity = getSession().doAction((TerminalAction)matchedActionDefinition.getAction(), screenEntity);
@@ -118,36 +125,6 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 		}
 
 		return handleEntity(request, uiModel, resultEntity);
-	}
-
-	private void bindTables(HttpServletRequest request, Class<?> entityClass, ScreenEntity screenEntity) {
-		ScreenEntityDefinition entityDefinition = (ScreenEntityDefinition)getEntitiesRegistry().get(entityClass);
-		Collection<ScreenTableDefinition> tableDefinitions = entityDefinition.getTableDefinitions().values();
-		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
-
-		for (ScreenTableDefinition tableDefinition : tableDefinitions) {
-			List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
-			String fieldName = tableDefinition.getTableEntityName() + "s";
-			if (!fieldAccessor.isExists(fieldName)) {
-				continue;
-			}
-			List<?> rows = (List<?>)fieldAccessor.getFieldValue(fieldName);
-			int rowNumber = 0;
-			for (Object row : rows) {
-				ScreenPojoFieldAccessor rowFieldAccessor = new SimpleScreenPojoFieldAccessor(row);
-				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
-					if (columnDefinition.isEditable()) {
-
-						String value = request.getParameterValues(columnDefinition.getName())[rowNumber];
-						if (!StringUtils.isEmpty(value)) {
-							rowFieldAccessor.setFieldValue(columnDefinition.getName(), value);
-						}
-					}
-
-				}
-				rowNumber++;
-			}
-		}
 	}
 
 	@Override

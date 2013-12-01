@@ -47,6 +47,8 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 	@Inject
 	private ApplicationContext applicationContext;
 
+	private int maxPaging = 20;
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> T drilldown(DrilldownDefinition drilldownDefinition, TerminalSession session, Class<?> sourceEntityClass,
 			Class<T> targetEntityClass, DrilldownAction<?> drilldownAction, Object... rowKeys) {
@@ -72,6 +74,7 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 
 		Integer rowNumber = null;
 
+		int totalPaging = 0;
 		do {
 			fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 			List<?> tableRows = (List<?>)fieldAccessor.getFieldValue(tableFieldName);
@@ -79,7 +82,8 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 			if (rowNumber == null) {
 				currentEntity = (ScreenEntity)tableScroller.scroll(session, sourceEntityClass, tableScrollStopConditions, rowKeys);
 			}
-		} while (rowNumber == null && currentEntity != null);
+			totalPaging++;
+		} while (rowNumber == null && currentEntity != null && totalPaging < maxPaging);
 
 		if (rowNumber != null) {
 			rowSelector.selectRow(session, currentEntity, drilldownAction, rowNumber);
@@ -91,5 +95,9 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 
 	private <T> T getDefaultBean(Class<T> clazz) {
 		return SpringUtil.getDefaultBean(applicationContext, clazz);
+	}
+
+	public void setMaxPaging(int maxPaging) {
+		this.maxPaging = maxPaging;
 	}
 }

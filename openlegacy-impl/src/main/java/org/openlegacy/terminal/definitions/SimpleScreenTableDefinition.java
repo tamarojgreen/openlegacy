@@ -65,6 +65,8 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 
 	private int rowGaps;
 
+	private int screensCount;
+
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
 	}
@@ -302,6 +304,17 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 				sortedByFieldNames.add(columnDefinition.getName());
 			}
 		}
+		if (sortedByFieldNames.size() == 0) {
+			sortedByFieldNames.addAll(getKeyFieldNames());
+		}
 		return sortedByFieldNames;
+	}
+
+	public int getScreensCount() {
+		return screensCount;
+	}
+
+	public void setScreensCount(int screensCount) {
+		this.screensCount = screensCount;
 	}
 }

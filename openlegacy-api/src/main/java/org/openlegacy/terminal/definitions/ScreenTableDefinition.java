@@ -56,6 +56,8 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 
 	ScreenColumnDefinition getSelectionColumn();
 
+	int getScreensCount();
+
 	public interface ScreenColumnDefinition extends TableDefinition.ColumnDefinition {
 
 		boolean isSelectionField();

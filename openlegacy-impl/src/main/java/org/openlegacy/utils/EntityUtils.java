@@ -69,11 +69,16 @@ public class EntityUtils implements Serializable {
 		}
 
 		if (!entityDefinition.isValidateKeys()) {
+			logger.debug(MessageFormat.format("Validate keys for entity:{0} is false. Exiting key validation check",
+					entityDefinition.getEntityName()));
 			return true;
 		}
 		// it's OK that entity is requested with no keys (sub screen for example within main screen context). False only if
 		// request and no/less keys defined on screen
 		if (requestedEntityKeys.length > actualEntityKeysValues.size()) {
+			logger.debug(MessageFormat.format(
+					"Requested keys count:{0} for entity:{1} doesnt match actual entity keys count:{2}",
+					requestedEntityKeys.length, entityDefinition.getEntityName(), actualEntityKeysValues.size()));
 			return false;
 		}
 

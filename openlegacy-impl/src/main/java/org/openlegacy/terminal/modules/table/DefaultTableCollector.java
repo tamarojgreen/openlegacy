@@ -68,7 +68,8 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 		}
 
 		ScreenTableDefinition matchingTableDefinition = matchingDefinitionEntry.getValue();
-		int rowsCount = matchingTableDefinition.getEndRow() - matchingTableDefinition.getStartRow() + 1;
+		int rowsCount = (matchingTableDefinition.getEndRow() - matchingTableDefinition.getStartRow() + 1)
+				/ matchingTableDefinition.getRowGaps();
 
 		List<T> allRows = new ArrayList<T>();
 
@@ -85,7 +86,7 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 			allRows.addAll(rows);
 
 			// more rows exists
-			if (rows.size() < rowsCount) {
+			if (allRows.size() < rowsCount) {
 				cont = false;
 			} else {
 				if (numberOfScreens <= screensCollected) {

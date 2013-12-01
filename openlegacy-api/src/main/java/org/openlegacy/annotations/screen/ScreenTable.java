@@ -62,4 +62,6 @@ public @interface ScreenTable {
 	 * @return rows gap between records
 	 */
 	int rowGaps() default 1;
+
+	int screensCount() default 1;
 }

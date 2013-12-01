@@ -17,6 +17,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.layout.PageBuilder;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.mvc.OpenLegacyWebProperties;
@@ -39,6 +40,7 @@ import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -108,11 +110,20 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 			// enable sending more then one key, concatenated with "+"
 			Object[] keys = new Object[0];
 			if (key != null) {
-				keys = key.split("\\+");
+				String[] keysArr = key.split("\\+");
+				keys = new Object[keysArr.length];
+				List<? extends FieldDefinition> keyFields = entitiesRegistry.get(entityName).getKeys();
+				for (int i = 0; i < keysArr.length; i++) {
+					keys[i] = keysArr[i];
+					if (keyFields.get(i).getJavaType() == Integer.class) {
+						keys[i] = Integer.valueOf(keysArr[i]);
+					}
+				}
 			}
 			Object entity = session.getEntity(entityName, keys);
 			return prepareView(entity, uiModel, partial != null, request);
 		} catch (RuntimeException e) {
+			logger.fatal(e);
 			return handleFallbackUrl(e);
 		}
 	}

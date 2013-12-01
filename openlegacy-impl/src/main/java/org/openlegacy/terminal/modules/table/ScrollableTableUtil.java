@@ -11,7 +11,6 @@
 package org.openlegacy.terminal.modules.table;
 
 import org.openlegacy.exceptions.RegistryException;
-import org.openlegacy.modules.table.drilldown.DrilldownException;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
@@ -19,7 +18,6 @@ import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.springframework.util.Assert;
 
-import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +44,7 @@ public class ScrollableTableUtil {
 		Collection<Entry<String, ScreenTableDefinition>> tablesDefinitionEntries = tablesDefinitions.entrySet();
 
 		if (tablesDefinitions.size() == 0) {
-			throw (new DrilldownException(MessageFormat.format("Specified screen entity:{0} doesn''t contains table definition",
-					screenEntityClass)));
+			return null;
 		}
 		if (tablesDefinitions.size() > 1) {
 			Entry<String, ScreenTableDefinition> matchingEntry = null;
