@@ -16,8 +16,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.openlegacy.terminal.FieldAttributeType;
+
 /**
- * Define a Java field as a screen table column. The field containing class should be marked with {@link ScreenTable} annotation<br/>
+ * Define a Java field as a screen table column. The field containing class
+ * should be marked with {@link ScreenTable} annotation<br/>
  * <br/>
  * <br/>
  * Example:<br/>
@@ -57,4 +60,6 @@ public @interface ScreenColumn {
 	 * Defines the sorting index as display on the original screen
 	 */
 	int sortIndex() default -1;
+
+	FieldAttributeType attribute() default FieldAttributeType.Value;
 }

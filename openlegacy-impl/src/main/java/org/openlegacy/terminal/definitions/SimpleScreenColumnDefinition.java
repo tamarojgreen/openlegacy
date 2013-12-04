@@ -10,16 +10,18 @@
  *******************************************************************************/
 package org.openlegacy.terminal.definitions;
 
-import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
-import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
-
 import java.io.Serializable;
 
-public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Serializable {
+import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
+import org.openlegacy.terminal.FieldAttributeType;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
+
+public class SimpleScreenColumnDefinition implements ScreenColumnDefinition,
+		Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
+	private final String name;
 	private int startColumn;
 	private int endColumn;
 	private int rowsOffset;
@@ -36,6 +38,8 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 	private int colSpan;
 
 	private int sortIndex;
+
+	private FieldAttributeType attribute;
 
 	public SimpleScreenColumnDefinition(String name) {
 		this.name = name;
@@ -106,7 +110,7 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 	}
 
 	public String getJavaTypeName() {
-		if (javaType == null){
+		if (javaType == null) {
 			return String.class.getSimpleName();
 		}
 		return javaType.getSimpleName();
@@ -124,7 +128,7 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 		if (!(other instanceof ScreenColumnDefinition)) {
 			return -1;
 		}
-		ScreenColumnDefinition otherColumn = (ScreenColumnDefinition)other;
+		ScreenColumnDefinition otherColumn = (ScreenColumnDefinition) other;
 
 		return getStartColumn() - otherColumn.getStartColumn();
 	}
@@ -168,4 +172,13 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 	public void setSortIndex(int sortIndex) {
 		this.sortIndex = sortIndex;
 	}
+
+	public FieldAttributeType getAttribute() {
+		return attribute;
+	}
+
+	public void setAttribute(FieldAttributeType attribute) {
+		this.attribute = attribute;
+	}
+
 }

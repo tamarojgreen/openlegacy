@@ -21,6 +21,7 @@ import org.openlegacy.modules.table.drilldown.RowSelector;
 import org.openlegacy.modules.table.drilldown.TableDrilldownPerformer;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.modules.table.drilldown.TableScroller;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -67,6 +68,8 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 		int getEndColumn();
 
 		int getLength();
+
+		FieldAttributeType getAttribute();
 
 	}
 

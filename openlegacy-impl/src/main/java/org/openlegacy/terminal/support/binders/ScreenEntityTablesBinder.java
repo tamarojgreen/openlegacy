@@ -14,6 +14,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalField;
@@ -77,19 +78,33 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
 					TerminalPosition position = SimpleTerminalPosition.newInstance(currentRow + columnDefinition.getRowsOffset(),
 							columnDefinition.getStartColumn());
-					String cellText = getCellContent(terminalSnapshot, position, columnDefinition);
-					if (columnDefinition.isKey() && cellText.length() == 0) {
-						if (logger.isDebugEnabled()) {
-							logger.debug(MessageFormat.format(
-									"Key field {0} is empty in row {1}. Aborting table rows collecting",
-									columnDefinition.getName(), position.getRow()));
+					if (columnDefinition.getAttribute() == FieldAttributeType.Value) {
+						String cellText = getCellContent(terminalSnapshot, position, columnDefinition);
+						if (columnDefinition.isKey() && cellText.length() == 0) {
+							if (logger.isDebugEnabled()) {
+								logger.debug(MessageFormat.format(
+										"Key field {0} is empty in row {1}. Aborting table rows collecting",
+										columnDefinition.getName(), position.getRow()));
+							}
+							keyIsEmpty = true;
 						}
-						keyIsEmpty = true;
-					}
-					rowAccessor.setFieldValue(columnDefinition.getName(), cellText);
+						rowAccessor.setFieldValue(columnDefinition.getName(), cellText);
 
-					TerminalField terminalField = terminalSnapshot.getField(position);
-					rowAccessor.setTerminalField(columnDefinition.getName(), terminalField);
+						TerminalField terminalField = terminalSnapshot.getField(position);
+						rowAccessor.setTerminalField(columnDefinition.getName(), terminalField);
+					} else {
+						TerminalField terminalField = terminalSnapshot.getField(position);
+						if (terminalField == null) {
+							logger.warn(MessageFormat.format("Unable to find field in position {0} for table:{1}", position,
+									tableDefinition.getTableEntityName()));
+							break;
+						}
+						if (columnDefinition.getAttribute() == FieldAttributeType.Editable) {
+							rowAccessor.setFieldValue(columnDefinition.getName(), terminalField.isEditable());
+						} else if (columnDefinition.getAttribute() == FieldAttributeType.Color) {
+							rowAccessor.setFieldValue(columnDefinition.getName(), terminalField.getColor());
+						}
+					}
 				}
 				if (!keyIsEmpty) {
 					rows.add(row);

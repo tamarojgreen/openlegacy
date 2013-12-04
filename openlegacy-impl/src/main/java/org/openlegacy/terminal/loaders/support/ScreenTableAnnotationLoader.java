@@ -111,6 +111,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				columnDefinition.setEditable(screenColumnAnnotation.editable());
 				columnDefinition.setColSpan(screenColumnAnnotation.colSpan());
 				columnDefinition.setSortIndex(screenColumnAnnotation.sortIndex());
+				columnDefinition.setAttribute(screenColumnAnnotation.attribute());
 
 				String displayName = screenColumnAnnotation.displayName().equals(AnnotationConstants.NULL) ? StringUtil.toDisplayName(field.getName())
 						: screenColumnAnnotation.displayName();
