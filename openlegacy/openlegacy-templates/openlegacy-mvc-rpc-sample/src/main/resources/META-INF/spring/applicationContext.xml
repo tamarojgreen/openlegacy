@@ -72,6 +72,7 @@
 		</property>
 	</bean>
 	 -->
+	<bean class="org.openlegacy.mvc.MvcUtils" />
 			
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>
