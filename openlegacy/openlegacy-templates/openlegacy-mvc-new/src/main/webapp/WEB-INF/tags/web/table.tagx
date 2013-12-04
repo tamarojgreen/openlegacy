@@ -72,12 +72,12 @@
 									<c:choose>
 									<c:when
 										test="${fn:length(tableDefinition.actions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
-										<c:if test="${fn:length(tableDefinition.mainDisplayFields) &gt; 0}">
+										<c:if test="${fn:length(tableDefinition.mainDisplayFields) &gt; 0 and definitions.window}">
 											<a
 												href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayFields[0]]}');"
 												class="${actionsCss}" title="Select ">Select</a>
 										</c:if>
-										<c:if test="${fn:length(tableDefinition.mainDisplayFields) == 0}">
+										<c:if test="${fn:length(tableDefinition.mainDisplayFields) == 0 and definitions.window}">
 											<a
 												href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}');"
 												class="${actionsCss}" title="Select ">Select</a>
