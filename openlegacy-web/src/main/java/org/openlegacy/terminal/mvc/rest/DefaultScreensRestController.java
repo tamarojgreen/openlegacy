@@ -10,8 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.rest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
+import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
@@ -22,6 +27,7 @@ import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -42,6 +48,11 @@ public class DefaultScreensRestController extends AbstractRestController {
 	private static final String JSON = "application/json";
 	private static final String XML = "application/xml";
 
+	private static final String USER = "user";
+	private static final String PASSWORD = "password";
+
+	private final static Log logger = LogFactory.getLog(DefaultScreensRestController.class);
+
 	@Inject
 	private TerminalSession terminalSession;
 
@@ -59,6 +70,25 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 		ScreenEntity screenEntity = terminalSession.getEntity();
 		return getEntityInner(screenEntity);
+
+	}
+
+	@RequestMapping(value = "/login", consumes = { JSON, XML })
+	public void login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
+			throws IOException {
+		try {
+			Login loginModule = getSession().getModule(Login.class);
+			if (loginModule != null) {
+				loginModule.login(user, password);
+			} else {
+				logger.warn("No login module defined. Skipping login");
+			}
+		} catch (RegistryException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		} catch (LoginException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		}
+		response.setStatus(HttpServletResponse.SC_OK);
 
 	}
 

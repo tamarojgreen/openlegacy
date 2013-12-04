@@ -9,10 +9,8 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.exceptions.EntityNotFoundException;
-import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.json.EntitySerializationUtils;
 import org.openlegacy.modules.login.Login;
-import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
@@ -39,8 +37,6 @@ public abstract class AbstractRestController {
 	public static final String XML = "application/xml";
 	private static final String MODEL = "model";
 	private static final String ACTION = "action";
-	private static final String USER = "user";
-	private static final String PASSWORD = "password";
 
 	protected abstract Session getSession();
 
@@ -83,7 +79,7 @@ public abstract class AbstractRestController {
 			if (key != null) {
 				keys = key.split("\\+");
 			}
-			
+
 			if (key == null) {
 				entity = getSession().getEntity(entityName);
 			} else {
@@ -114,25 +110,6 @@ public abstract class AbstractRestController {
 		}
 		MenuItem menus = menuModule.getMenuTree();
 		return menus;
-	}
-
-	@RequestMapping(value = "/login", consumes = { JSON, XML })
-	public void login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
-			throws IOException {
-		try {
-			Login loginModule = getSession().getModule(Login.class);
-			if (loginModule != null) {
-				loginModule.login(user, password);
-			} else {
-				logger.warn("No login module defined. Skipping login");
-			}
-		} catch (RegistryException e) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-		} catch (LoginException e) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-		}
-		response.setStatus(HttpServletResponse.SC_OK);
-
 	}
 
 	/**

@@ -75,7 +75,7 @@ require(["dojo/parser", "dijit/form/ComboBox","dojox/html/format","dijit/TitlePa
 			data-dojo-type="dijit.form.ComboBox">
 			<option>login?user=user1&password=pwd1</option>
 			<option>ItemsList</option>
-			<option>ItemDetails1/2000</option>
+			<option>ItemDetails/2000</option>
 			<option>WarehouseDetails/3</option>
 			<option>WarehousesList</option>
 			<option>logoff</option>
@@ -93,19 +93,12 @@ require(["dojo/parser", "dijit/form/ComboBox","dojox/html/format","dijit/TitlePa
 		data-dojo-props="title: 'HTTP POST',open:false">
 		Content: <br />
 		<textarea rows="6" cols="100" id="postData">
-<screenEntity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				xmlns:java="http://java.sun.com"
-				xsi:type="java:apps.inventory.screens.ItemDetails1">
-       <itemNumber>2000</itemNumber>
-       <itemDescription>New desc</itemDescription>
-       <palletLabelRequired>true</palletLabelRequired>
-       <focusField>itemDescription</focusField>
-</screenEntity>	
+{"itemNumber":2000,"itemDescription":"Dominos cubes black/red"}	
 		</textarea>
-		<br /> To URL: <input id="postUrl" value="/ItemDetails1?action=save"
+		<br /> To URL: <input id="postUrl" value="/ItemDetails?action=delete"
 			size="40" /> <select id="postRequestType">
-			<option value="xml">XML</option>
 			<option value="json">JSON</option>
+			<option value="xml">XML</option>
 		</select> <br />
 		<button onclick="post()">HTTP Post</button>
 		<div id="postMessage"></div>

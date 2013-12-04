@@ -10,16 +10,24 @@
  *******************************************************************************/
 package org.openlegacy.rpc.mvc;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.utils.RpcEntityUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * OpenLegacy default REST API RPC controller. Handles GET/POST requests in the format of JSON or XML. Also handles login /logoff
@@ -30,6 +38,11 @@ import javax.inject.Inject;
  */
 @Controller
 public class DefaultRpcRestController extends AbstractRestController {
+
+	private static final String USER = "user";
+	private static final String PASSWORD = "password";
+
+	private final static Log logger = LogFactory.getLog(DefaultRpcRestController.class);
 
 	@Inject
 	private RpcSession rpcSession;
@@ -53,6 +66,18 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@Override
 	protected Object sendEntity(Object entity, String action) {
 		return rpcEntityUtils.sendEntity(rpcSession, (RpcEntity)entity, action);
+	}
+
+	@RequestMapping(value = "/login", consumes = { JSON, XML })
+	public void login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
+			throws IOException {
+		try {
+			rpcSession.login(user, password);
+		} catch (OpenLegacyRuntimeException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		}
+		response.setStatus(HttpServletResponse.SC_OK);
+
 	}
 
 }

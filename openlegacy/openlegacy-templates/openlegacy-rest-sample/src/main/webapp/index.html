@@ -9,7 +9,7 @@
 function get(){
 	var requestType = "application/" + dojo.byId('requestType').value;
 	var url = location.href + dojo.byId('getUrl').value;
-	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType;
+	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType + " ; Accept: " + requestType;
 	var xhrArgs = {
 			handleAs : "text",
 			headers: { "Content-Type": requestType, "Accept": requestType },
@@ -22,7 +22,7 @@ function get(){
 				else{
 					dojo.byId('result').innerHTML = "OK"; 
 				}
-				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
 			error : function(e) {
 				alert(e);
@@ -74,10 +74,10 @@ require(["dojo/parser", "dijit/form/ComboBox","dojox/html/format","dijit/TitlePa
 		Available URL's: <select id="getUrl"
 			data-dojo-type="dijit.form.ComboBox">
 			<option>login?user=user1&password=pwd1</option>
-			<option>Items</option>
+			<option>ItemsList</option>
 			<option>ItemDetails/2000</option>
 			<option>WarehouseDetails/3</option>
-			<option>Warehouses</option>
+			<option>WarehousesList</option>
 			<option>logoff</option>
 		</select> <select id="requestType">
 			<option value="json">JSON</option>
@@ -93,9 +93,9 @@ require(["dojo/parser", "dijit/form/ComboBox","dojox/html/format","dijit/TitlePa
 		data-dojo-props="title: 'HTTP POST',open:false">
 		Content: <br />
 		<textarea rows="6" cols="100" id="postData">
-{"itemNumber":2000,"itemDescription":"Domino Cubes - Board Games2","alphaSearch":"Domino Cub2","supercedingItemfrom":"2210","supercedingItemto":"2215","substituteItemNumber":"","manufacturersItemNo":"","stockGroup":"StandardStockGroup","itemWeight":850,"palletLabelRequired":false,"focusField":"itemDescription","stockGroupDescription":"Standard stock group"}
+{"itemNumber":2000,"itemDescription":"Dominos cubes black/red"}	
 		</textarea>
-		<br /> To URL: <input id="postUrl" value="/ItemDetails?action=prompt"
+		<br /> To URL: <input id="postUrl" value="/ItemDetails?action=delete"
 			size="40" /> <select id="postRequestType">
 			<option value="json">JSON</option>
 			<option value="xml">XML</option>

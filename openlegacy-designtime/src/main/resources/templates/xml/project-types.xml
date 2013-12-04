@@ -42,21 +42,21 @@
  -->
     <project-type>
         <template-name>openlegacy-rest-new</template-name>
-        <description>A new REST API application Spring MVC based for connecting to your Legacy application screens in XML/JSON format</description>
+        <description>A new REST API application Spring MVC based for connecting to your legacy application screens in XML/JSON format</description>
         <is-demo>false</is-demo>
         <support-theme>false</support-theme>
         <zip-file>openlegacy-rest-new.zip</zip-file>
     </project-type>
     <project-type>
         <template-name>openlegacy-rest-sample</template-name>
-        <description>An example REST API application Spring MVC based for connecting to your Legacy application screens in XML/JSON format</description>
+        <description>An example REST API application Spring MVC based for connecting to your legacy application screens in XML/JSON format</description>
         <is-demo>true</is-demo>
         <support-theme>false</support-theme>
         <zip-file>openlegacy-rest-sample.zip</zip-file>
     </project-type>
     <project-type>
         <template-name>openlegacy-ws-sample</template-name>
-        <description>A simple web service example project for connecting to Legacy application screens</description>
+        <description>A simple web service example project for connecting to legacy application screens</description>
         <is-demo>true</is-demo>
         <support-theme>false</support-theme>
         <zip-file>openlegacy-ws-sample.zip</zip-file>
@@ -72,12 +72,21 @@
     </project-type>
     <project-type>
         <template-name>openlegacy-angular-sample</template-name>
-        <description>A single page application for connecting to OpenLegacy REST API</description>
-        <is-demo>false</is-demo>
+        <description>A single page application demo for connecting to OpenLegacy screens REST API</description>
+        <is-demo>true</is-demo>
         <support-theme>false</support-theme>
         <client-side-project>true</client-side-project>
         <provider-required>false</provider-required>
         <zip-file>openlegacy-angular-sample.zip</zip-file>
+    </project-type>
+    <project-type>
+        <template-name>openlegacy-angular-rpc-sample</template-name>
+        <description>A single page application demo for connecting to OpenLegacy programs REST API</description>
+        <is-demo>true</is-demo>
+        <support-theme>false</support-theme>
+        <client-side-project>true</client-side-project>
+        <provider-required>false</provider-required>
+        <zip-file>openlegacy-angular-rpc-sample.zip</zip-file>
     </project-type>
     
 </project-types>

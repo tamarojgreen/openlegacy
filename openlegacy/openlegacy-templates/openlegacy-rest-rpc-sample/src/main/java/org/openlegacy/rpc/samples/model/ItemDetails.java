@@ -15,7 +15,7 @@ import org.openlegacy.rpc.RpcActions.UPDATE;
 		@Action(action = UPDATE.class, path = "/QSYS.LIB/RMR2L1.LIB/UPDITEMDET.PGM") })
 public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 
-	@RpcField(originalName = "item_number", direction = Direction.INPUT, length = 6, key = true)
+	@RpcField(originalName = "item_number", direction = Direction.INPUT, length = 8, key = true)
 	Integer itemNumber;
 
 	@RpcField(originalName = "item_name", direction = Direction.OUTPUT, length = 20)
@@ -24,7 +24,7 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 	@RpcField(originalName = "item_description", direction = Direction.OUTPUT, length = 50)
 	String itemDescription;
 
-	@RpcField(originalName = "item_weight", direction = Direction.OUTPUT, length = 3)
+	@RpcField(originalName = "item_weight", direction = Direction.OUTPUT, length = 4)
 	Integer itemWeight;
 
 }
