@@ -11,7 +11,7 @@ public class CobolFieldInformationFactory implements FieldInformationFactory {
 	private static final char DIGIT_SYMBOL = '9';
 	private static final char SCALE_SYMBOL = 'P';
 
-	private enum CobolFieldTypes {
+	private enum CobolFieldType {
 		SIMPLE,
 		NUMERIC,
 		HIERARCHY;
@@ -25,16 +25,16 @@ public class CobolFieldInformationFactory implements FieldInformationFactory {
 		return false;
 	}
 
-	private static CobolFieldTypes getCobolFieldTypes(String flatPicture) {
+	private static CobolFieldType getCobolFieldType(String flatPicture) {
 		if (flatPicture == null) {
-			return CobolFieldTypes.HIERARCHY;
+			return CobolFieldType.HIERARCHY;
 		}
 
 		if (isNumber(flatPicture.charAt(0))) {
-			return CobolFieldTypes.NUMERIC;
+			return CobolFieldType.NUMERIC;
 		}
 
-		return CobolFieldTypes.SIMPLE;
+		return CobolFieldType.SIMPLE;
 	}
 
 	/*
@@ -42,17 +42,17 @@ public class CobolFieldInformationFactory implements FieldInformationFactory {
 	 * 
 	 * @see org.openlegacy.designtime.rpc.source.parsers.FieldInformation#getObject(java.lang.String)
 	 */
-	public FieldInformation getObject(String flatPicture, int count) {
-		CobolFieldTypes cobolFieldType = getCobolFieldTypes(flatPicture);
+	public FieldInformation getFieldInformation(Object variableDeclaration, int count) {
+		CobolFieldType cobolFieldType = getCobolFieldType((String)variableDeclaration);
 		if (count > 1) {
-			return new CobolListInformation(getObject(flatPicture, 1), count);
+			return new CobolListInformation(getFieldInformation(variableDeclaration, 1), count);
 		}
 
-		if (CobolFieldTypes.NUMERIC == cobolFieldType) {
-			return new CobolNumberInformation(flatPicture);
+		if (CobolFieldType.NUMERIC == cobolFieldType) {
+			return new CobolNumberInformation((String)variableDeclaration);
 		}
-		if (CobolFieldTypes.SIMPLE == cobolFieldType) {
-			return new CobolTextInformation(flatPicture);
+		if (CobolFieldType.SIMPLE == cobolFieldType) {
+			return new CobolTextInformation((String)variableDeclaration);
 		}
 		return null;
 

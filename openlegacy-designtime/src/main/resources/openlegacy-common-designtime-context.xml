@@ -74,7 +74,18 @@
 	 -->
 	 
 	<!-- RPC beans -->
-	<bean id="OpenlegacyCobolParser"
+	
+	<bean id="codeParserFactory" class="org.openlegacy.designtime.rpc.source.SimpleCodeParserFactory">
+	    <property name="parsers">
+	        <map>
+	            <entry key="cbl" value-ref="cobolParser" />
+	            <entry key="cpy" value-ref="cobolParser" />
+	            <entry key="pcml" value-ref="pcmlParser" />
+	        </map>
+	    </property>
+    </bean>
+	
+	<bean id="cobolParser"
 		class="org.openlegacy.designtime.rpc.source.parsers.OpenlegacyCobolParser">
 		<property name="cobolParser">
 			<bean class="koopa.parsers.cobol.CobolParser">
@@ -86,6 +97,8 @@
 		<property name="rpcEntityDefinitionBuilder" ref="rpcEntityDefinitionBuilder" />
 	</bean>
 
+	<bean id="pcmlParser" class="org.openlegacy.designtime.rpc.source.parsers.PcmlParser" />
+		
 	<bean id="rpcEntityDefinitionBuilder" class="org.openlegacy.designtime.rpc.source.parsers.RpcEntityDefinitionBuilderImpl">
 		<constructor-arg>
 			<bean class="org.openlegacy.designtime.rpc.source.parsers.CobolFieldInformationFactory" />

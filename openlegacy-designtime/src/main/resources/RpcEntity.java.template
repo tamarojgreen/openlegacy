@@ -5,10 +5,18 @@ import java.math.BigInteger;
 import java.util.List;
 
 import org.openlegacy.annotations.rpc.*;
+import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.FieldType.*;
 
 <#if onlyPart=false>
 @RpcEntity(name="${entityName}"<#if displayName?? >, displayName=${displayName}</#if><#if language?? >, language=${language}</#if>)
+<#if actions?size != 0>
+@RpcActions(actions = { 
+				<#list actions as action> 
+				@Action(action = org.openlegacy.rpc.RpcActions.${action.action.class.simpleName}.class, path = "${action.programPath}", displayName = "${action.displayName}", alias = "${action.alias}")<#if action_has_next>,</#if> 
+				</#list>	
+				})
+</#if>
 public class ${entityName?cap_first} {
 
 <#list sortedFields as field>
@@ -53,7 +61,7 @@ public class ${entityName?cap_first} {
 </#macro>
 <#macro rpcField field>
    <@fieldTypes field=field />
-		@RpcField(length =${field.length}, originalName="${field.originalName}"<#if field.key>key = true, </#if><#if field.editable> ,editable= true</#if><#if field.type??><#if field.type.simpleName != "General"> ,fieldType=${field.type.simpleName}.class</#if></#if><#if field.displayName??> ,displayName = "${field.displayName}"</#if><#if field.sampleValue?? && field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if><#if field.helpText?? && field.helpText != "">, helpText = "${field.helpText}"</#if><#if field.runtimeName?? && field.runtimeName != "">, runtimeName = "${field.runtimeName}"</#if>)
+		@RpcField(length = ${field.length}<#if field.direction??>, direction = Direction.${field.direction} </#if>, originalName = "${field.originalName}"<#if field.key>key = true, </#if><#if field.editable> ,editable= true</#if><#if field.type??><#if field.type.simpleName != "General"> ,fieldType=${field.type.simpleName}.class</#if></#if><#if field.displayName??> ,displayName = "${field.displayName}"</#if><#if field.sampleValue?? && field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if><#if field.helpText?? && field.helpText != "">, helpText = "${field.helpText}"</#if><#if field.runtimeName?? && field.runtimeName != "">, runtimeName = "${field.runtimeName}"</#if>)
 <#if field.fieldTypeDefinition.typeName = "list">
 <#if field.fieldTypeDefinition.itemTypeDefinition.typeName = "number" >
 		@RpcNumericField<@numberField field=field.fieldTypeDefinition.itemTypeDefinition type=field.javaTypeName/>

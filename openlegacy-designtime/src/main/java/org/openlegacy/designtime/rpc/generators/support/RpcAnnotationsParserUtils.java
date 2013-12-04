@@ -49,8 +49,11 @@ public class RpcAnnotationsParserUtils {
 		String defaultValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DEFAULT_VALUE);
 
 		field.setOriginalName(StringUtil.isEmpty(originalNameValue) ? "" : StringUtil.stripQuotes(originalNameValue));
-		field.setDirection(StringUtil.isEmpty(directionValue) ? Direction.INPUT_OUTPUT
-				: Direction.valueOf(directionValue.split("\\.")[1]));
+		if (directionValue != null) {
+			String[] directionValues = directionValue.split("\\.");
+			field.setDirection(StringUtil.isEmpty(directionValue) ? Direction.INPUT_OUTPUT
+					: Direction.valueOf(directionValues.length > 1 ? directionValues[1] : directionValues[0]));
+		}
 		field.setDefaultValue(StringUtil.isEmpty(defaultValue) ? "" : StringUtil.stripQuotes(defaultValue));
 
 		field.setLength(Integer.valueOf(lengthValue));

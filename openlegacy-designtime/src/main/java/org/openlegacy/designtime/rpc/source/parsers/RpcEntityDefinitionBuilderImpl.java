@@ -33,7 +33,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 
 	private RpcFieldDefinition buildRpcFieldDefinition(ParameterStructure parameter, int order) {
 
-		FieldInformation fieldInformation = fieldInformationFactory.getObject(parameter.getVariableDeclaration(),
+		FieldInformation fieldInformation = fieldInformationFactory.getFieldInformation(parameter.getVariableDeclaration(),
 				parameter.getCount());
 
 		String javaFieldName = StringUtil.toJavaFieldName(parameter.getFieldName().toLowerCase());

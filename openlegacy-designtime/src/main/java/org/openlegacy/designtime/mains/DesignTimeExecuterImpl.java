@@ -33,6 +33,8 @@ import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
 import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
 import org.openlegacy.designtime.rpc.source.CodeParser;
+import org.openlegacy.designtime.rpc.source.CodeParserFactory;
+import org.openlegacy.designtime.rpc.source.parsers.OpenLegacyParseException;
 import org.openlegacy.designtime.rpc.source.parsers.ParseResults;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
@@ -897,8 +899,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		EntityUserInteraction<EntityDefinition<?>> entityUserInteraction = generateRpcModelRequest.getEntityUserInteraction();
 
-		CodeParser codeParser = projectApplicationContext.getBean(CodeParser.class);
+		String fileExtension = FileUtils.fileExtension(generateRpcModelRequest.getSourceFile().getName());
+		CodeParser codeParser = projectApplicationContext.getBean(CodeParserFactory.class).getParser(fileExtension.substring(1));
 
+		if (codeParser == null) {
+			throw (new OpenLegacyParseException("No matching parser found for extension " + fileExtension));
+		}
 		String fileContent;
 		RpcEntityDefinition rpcEntityDefinition = null;
 		try {

@@ -4,13 +4,14 @@ import java.math.BigInteger;
 import java.util.List;
 
 import org.openlegacy.annotations.rpc.*;
+import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.FieldType.*;
 
 @RpcEntity(name="ArraySample")
 public class ArraySample {
 
 		@RpcListField(count=5)
-		@RpcField(length =10, originalName="FIELD")
+		@RpcField(length = 10, originalName = "FIELD")
 		private List<String> field;
 
 		@RpcPartList(count=3)
@@ -19,11 +20,11 @@ public class ArraySample {
 	@RpcPart(name="Part")
 	public static class Part {
 
-		@RpcField(length =10, originalName="CHILD1")
+		@RpcField(length = 10, originalName = "CHILD1")
 		private String child1;
 
 		@RpcListField(count=6)
-		@RpcField(length =2, originalName="CHILD2")
+		@RpcField(length = 2, originalName = "CHILD2")
 		@RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
 		private List<Integer> child2;
 

@@ -1,0 +1,28 @@
+package com.test;
+
+import java.math.BigInteger;
+import java.util.List;
+
+import org.openlegacy.annotations.rpc.*;
+import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.FieldType.*;
+
+@RpcEntity(name="CobolStructure")
+@RpcActions(actions = { 
+				@Action(action = org.openlegacy.rpc.RpcActions.READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ROICBL2.PGM", displayName = "READ", alias = "read") 
+				})
+public class CobolStructure {
+
+		private Param1Structure param1Structure;
+
+	@RpcPart(name="Param1Structure")
+	public static class Param1Structure {
+
+		@RpcField(length = 2, direction = Direction.INPUT , originalName = "child1")
+		private String child1;
+
+		@RpcField(length = 2, direction = Direction.INPUT_OUTPUT , originalName = "child2")
+		private String child2;
+
+	}
+}

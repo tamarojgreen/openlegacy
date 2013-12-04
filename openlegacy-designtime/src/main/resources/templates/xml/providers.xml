@@ -24,4 +24,10 @@
         <display-name>mock-up</display-name>
         <description>An OpenLegacy mock-up provider which works with a recording file (.trail file)</description>
     </provider>
+
+    <provider>
+        <name>openlegacy-jt400</name>
+        <display-name>jt400</display-name>
+        <description>Open source provider for remote program calls for AS/400. http://jt400.sourceforge.net/</description>
+    </provider>
 </providers>

@@ -126,6 +126,26 @@
                id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
          </action>
       </objectContribution>
+      <objectContribution
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.pcml" 
+            id="org.openlegacy.ide.eclipse.generate_pcml_contribution">
+         <menu
+               label="%openlegacy_menu_label"
+               path="additions"
+               id="org.openlegacy.ide.eclipse.right_menu">
+            <separator
+                  name="generate">
+            </separator>
+         </menu>
+         <action
+               label="%generate_model_menu_label"
+               class="org.openlegacy.ide.eclipse.actions.rpc.GenerateRpcModelAction"
+               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+               enablesFor="1"
+               id="org.openlegacy.ide.eclipse.actions.generateRpcModel">
+         </action>
+      </objectContribution>
    </extension>
    
    <extension
