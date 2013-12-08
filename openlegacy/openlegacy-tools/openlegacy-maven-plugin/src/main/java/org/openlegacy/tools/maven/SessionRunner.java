@@ -100,6 +100,11 @@ public class SessionRunner extends AbstractMojo {
 						((Request)request).setHandled(true);
 						return;
 					}
+					String flip = request.getParameter("flip");
+					if (flip != null) {
+						getTerminalSession().getSnapshot();
+						getTerminalSession().flip();
+					}
 					if (request.getMethod().equalsIgnoreCase("POST")) {
 						handlePost(request);
 					}

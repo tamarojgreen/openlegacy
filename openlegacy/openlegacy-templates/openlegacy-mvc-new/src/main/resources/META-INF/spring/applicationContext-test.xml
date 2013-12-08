@@ -44,5 +44,27 @@
 	<!-- comment when using mock-up session -->
 	<bean id="terminalSession" parent="abstractTerminalSession" />
 	
+	<!-- Uncomment for bidi support (used by run-emulation)
+	<bean id="elementsProvider" scope="prototype" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
+		<property name="colorMapper">
+			<map>
+				<entry key="WHITE" value="black" />
+				<entry key="BLACK" value="white" />
+				<entry key="YELLOW" value="orange" />
+				<entry key="PINK" value="purple" />
+				<entry key="AQUA" value="#00E6FF" />
+			</map>
+		</property>
+		<property name="backcolorMapper">
+			<map>
+				<entry key="BLACK" value="white" />
+				<entry key="WHITE" value="black" />
+				<entry key="AQUA" value="#00E6FF" />
+			</map>
+		</property>
+	</bean>
+	-->
+
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
+		
 </beans>
