@@ -106,6 +106,7 @@
 	</bean>
 
 	<!-- Binders -->
+	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityPartsBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.BooleanFieldsBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.DateFieldsBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.DateFieldsPatternBinder" />
@@ -113,7 +114,6 @@
 	<bean class="org.openlegacy.terminal.support.binders.FieldAttributeBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.ListFieldsBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityFieldsBinder" />
-	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityPartsBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityTablesBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.ScreenBinderLogic" />
 	

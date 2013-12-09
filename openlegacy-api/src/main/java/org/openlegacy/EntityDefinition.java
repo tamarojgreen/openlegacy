@@ -78,6 +78,11 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	 */
 	Map<String, D> getFieldsDefinitions();
 
+	/**
+	 * @return All fields definitions including parts
+	 */
+	Map<String, D> getAllFieldsDefinitions();
+
 	D getFirstFieldDefinition(Class<? extends FieldType> fieldType);
 
 	/**

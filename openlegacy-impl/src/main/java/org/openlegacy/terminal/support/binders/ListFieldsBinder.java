@@ -121,9 +121,9 @@ public class ListFieldsBinder implements ScreenEntityBinder {
 			List<String> fieldValue;
 
 			if (fieldDefinition.getJavaType() == List.class) {
-				fieldValue = (List<String>)fieldAccessor.getFieldValue(fieldDefinition.getName());
+				fieldValue = (List<String>)fieldAccessor.evaluateFieldValue(fieldDefinition.getName());
 			} else {
-				fieldValue = Arrays.asList((String[])fieldAccessor.getFieldValue(fieldDefinition.getName()));
+				fieldValue = Arrays.asList((String[])fieldAccessor.evaluateFieldValue(fieldDefinition.getName()));
 			}
 
 			for (int i = 0; i < fieldTypeDefinition.getCount(); i++) {

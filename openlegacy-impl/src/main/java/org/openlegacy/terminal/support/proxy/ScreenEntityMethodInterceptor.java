@@ -14,6 +14,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.TypesUtil;
@@ -22,11 +23,16 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class ScreenEntityMethodInterceptor implements MethodInterceptor, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private TerminalSession terminalSession;
+
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	private List<ScreenEntityProxyHandler> proxyHandlers;
 
@@ -36,6 +42,10 @@ public class ScreenEntityMethodInterceptor implements MethodInterceptor, Seriali
 
 		// exit if return type is primitive
 		if (TypesUtil.isPrimitive(returnType) || Collection.class.isAssignableFrom(returnType)) {
+			return invocation.proceed();
+		}
+
+		if (screenEntitiesRegistry.getPart(returnType) != null) {
 			return invocation.proceed();
 		}
 

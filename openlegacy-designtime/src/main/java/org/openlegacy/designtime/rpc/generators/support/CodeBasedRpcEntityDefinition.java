@@ -56,6 +56,11 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 		return fields;
 	}
 
+	public Map<String, RpcFieldDefinition> getAllFieldsDefinitions() {
+		// TODO include parts
+		return getFieldsDefinitions();
+	}
+
 	public boolean isWindow() {
 		return false;
 	}

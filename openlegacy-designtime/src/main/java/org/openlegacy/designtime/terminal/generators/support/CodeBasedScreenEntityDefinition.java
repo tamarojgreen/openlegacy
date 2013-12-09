@@ -88,6 +88,11 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return fields;
 	}
 
+	public Map<String, ScreenFieldDefinition> getAllFieldsDefinitions() {
+		// TODO include parts
+		return getFieldsDefinitions();
+	}
+
 	private static void throwNotImplemented() throws UnsupportedOperationException {
 		throw (new NotImplementedException("Code based screen entity has not implemented this method"));
 	}

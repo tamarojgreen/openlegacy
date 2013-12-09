@@ -113,7 +113,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 			TerminalField booleanField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 
-			Object fieldValue = fieldAccessor.getFieldValue(fieldDefinition.getName());
+			Object fieldValue = fieldAccessor.evaluateFieldValue(fieldDefinition.getName());
 			if (fieldValue == Boolean.TRUE) {
 				booleanField.setValue(fieldTypeDefinition.getTrueValue());
 			} else {

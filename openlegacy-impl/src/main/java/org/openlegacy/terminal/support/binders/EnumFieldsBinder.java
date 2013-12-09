@@ -116,7 +116,7 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 			TerminalField enumField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 
-			Object fieldValue = fieldAccessor.getFieldValue(fieldDefinition.getName());
+			Object fieldValue = fieldAccessor.evaluateFieldValue(fieldDefinition.getName());
 
 			Collection<Object> enums = fieldTypeDefinition.getDisplayValues().keySet();
 			for (Object enumValue : enums) {

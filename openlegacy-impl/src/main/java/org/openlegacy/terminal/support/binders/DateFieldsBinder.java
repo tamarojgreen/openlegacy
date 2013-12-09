@@ -168,7 +168,7 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 			TerminalField yearField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(row,
 					fieldTypeDefinition.getYearColumn()));
 
-			Date dateFieldValue = (Date)fieldAccessor.getFieldValue(fieldDefinition.getName());
+			Date dateFieldValue = (Date)fieldAccessor.evaluateFieldValue(fieldDefinition.getName());
 
 			Calendar calender = Calendar.getInstance();
 			calender.setTime(dateFieldValue);

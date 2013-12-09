@@ -65,6 +65,12 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setFieldValue(java.lang.String, java.lang.Object)
 	 */
 	public void setFieldValue(String fieldName, Object value) {
+		if (fieldName.contains(".")) {
+			String partName = StringUtil.getNamespace(fieldName);
+			fieldName = getFieldPojoName(fieldName);
+			DirectFieldAccessor partAccesor = getPartAccessor(partName);
+			partAccesor.setPropertyValue(fieldName, value);
+		}
 		try {
 			directFieldAccessor.setPropertyValue(getFieldPojoName(fieldName), value);
 		} catch (Exception e) {
@@ -108,10 +114,11 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 	}
 
 	public DirectFieldAccessor getPartAccessor(String partName) {
-		if (partAccessors == null) {
-			partAccessors = new HashMap<String, DirectFieldAccessor>();
+		DirectFieldAccessor partAccessor = null;
+		if (partAccessors != null) {
+			partAccessor = partAccessors.get(partName);
+
 		}
-		DirectFieldAccessor partAccessor = partAccessors.get(partName);
 		if (partAccessor == null) {
 			DirectFieldAccessor parent = directFieldAccessor;
 			if (partName.contains(".")) {
@@ -120,9 +127,16 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 			if (parent == null) {
 				return null;
 			}
-			Object object = parent.getPropertyValue(StringUtil.removeNamespace(partName));
+			partName = StringUtil.removeNamespace(partName);
+			if (!parent.isReadableProperty(partName)) {
+				return directFieldAccessor;
+			}
+			Object object = parent.getPropertyValue(partName);
 			if (object != null) {
 				partAccessor = new DirectFieldAccessor(object);
+				if (partAccessors == null) {
+					partAccessors = new HashMap<String, DirectFieldAccessor>();
+				}
 				partAccessors.put(partName, partAccessor);
 			} else {
 				return null;

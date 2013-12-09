@@ -42,6 +42,8 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 
 	// LinkedHashMap preserve insert order
 	private final Map<String, F> fieldsDefinitions = new LinkedHashMap<String, F>();
+	private Map<String, F> allFieldsDefinitions = null;
+
 	private String displayName;
 	private List<F> keyFields;
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
@@ -75,6 +77,18 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 
 	public Map<String, F> getFieldsDefinitions() {
 		return fieldsDefinitions;
+	}
+
+	public Map<String, F> getAllFieldsDefinitions() {
+		if (allFieldsDefinitions == null) {
+			allFieldsDefinitions = new LinkedHashMap<String, F>();
+			allFieldsDefinitions.putAll(getFieldsDefinitions());
+			Collection<PartEntityDefinition<F>> parts = getPartsDefinitions().values();
+			for (PartEntityDefinition<F> part : parts) {
+				allFieldsDefinitions.putAll(part.getFieldsDefinitions());
+			}
+		}
+		return allFieldsDefinitions;
 	}
 
 	public void setEntityClass(Class<?> entityClass) {

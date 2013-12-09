@@ -30,6 +30,10 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+/**
+ * @deprecated Done now by type binders
+ */
+@Deprecated
 public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -15,7 +15,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
-import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
@@ -89,7 +88,7 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 							dateVal));
 				}
 			} catch (ParseException e) {
-				throw (new RegistryException(MessageFormat.format("Unable to bind date field:{0}", dateField), e));
+				logger.warn(MessageFormat.format("Unable to bind date field:{0}. {1}", dateField, e.getMessage()));
 			}
 
 		}
@@ -136,7 +135,7 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 
 			SimpleDateFormat dateFormater = new SimpleDateFormat(pattern, new Locale(fieldTypeDefinition.getLocale()));
 
-			Date dateFieldValue = (Date)fieldAccessor.getFieldValue(fieldDefinition.getName());
+			Date dateFieldValue = (Date)fieldAccessor.evaluateFieldValue(fieldDefinition.getName());
 
 			Calendar calender = Calendar.getInstance();
 			calender.setTime(dateFieldValue);

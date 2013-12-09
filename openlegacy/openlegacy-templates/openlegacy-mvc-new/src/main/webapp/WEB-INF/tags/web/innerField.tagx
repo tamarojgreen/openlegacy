@@ -85,17 +85,7 @@
 									cssStyle="${style}" />
 							</c:when>
 							<c:when test="${type == 'date'}">
-								<form:input id="${name}" path="${name}" cssStyle="${style}" />
-								<script type="text/javascript">
-								require(["dijit/form/DateTextBox", "dojo/dom"], 
-										function(DateTextBox, dom){
-											var dateField = new DateTextBox({ 
-													name : "${name}", 
-													value : dom.byId('${name}').value, 
-													datePattern : "yyyy-MM-dd" }, 
-												"${name}");
-								});
-							</script>
+								<form:input id="${name}" path="${name}" cssStyle="${style}" data-dojo-type="dijit.form.DateTextBox" data-dojo-props="datePattern : 'yyyy-MM-dd'"/>
 							</c:when>
 							<c:when test="${type == 'fieldWithValues'}">
 								<c:choose>
