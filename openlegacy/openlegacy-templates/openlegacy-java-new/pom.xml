@@ -57,7 +57,7 @@
 			<artifactId>icu4j</artifactId> 
 			<version>49.1</version> 
 		</dependency>
- -->
+ End uncomment for bidi support -->
 	</dependencies>
 
 	<build>

@@ -19,8 +19,11 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -42,6 +45,8 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 	private String projectName;
 	private String defaultPackage;
 	private List<ProjectType> projectTypes = null;
+	private Button rightTotLeftCb;
+	private boolean rightTotLeft;
 
 	/**
 	 * Constructor for SampleNewWizardPage.
@@ -118,6 +123,22 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 				}
 			}
 		});
+
+		rightTotLeftCb = new Button(container, SWT.CHECK);
+		rightTotLeftCb.setText(Messages.getString("label_right_to_left"));
+		gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true, 2, 2);
+		gd.widthHint = 400;
+		rightTotLeftCb.setLayoutData(gd);
+		rightTotLeftCb.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent arg0) {
+				setRightTotLeft(!isRightTotLeft());
+			}
+
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				setRightTotLeft(true);
+			}
+		});
 		setControl(container);
 		this.setEnabled(false);
 		setPageComplete(false);
@@ -182,6 +203,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 	private void setEnabled(boolean enabled) {
 		this.projectNameTxt.setEnabled(enabled);
 		this.defaultPackageTxt.setEnabled(enabled);
+		this.rightTotLeftCb.setEnabled(enabled);
 	}
 
 	private void updateStatus(String message) {
@@ -191,6 +213,15 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 
 	public String getTemplateName() {
 		return templateName.getText();
+	}
+
+	public boolean isRightTotLeft() {
+		return rightTotLeft;
+	}
+
+	public void setRightTotLeft(boolean rightTotLeft) {
+		this.rightTotLeft = rightTotLeft;
+		((OpenLegacyNewProjectWizard)getWizard()).setRightTotLeft(rightTotLeft);
 	}
 
 	public String getProjectName() {

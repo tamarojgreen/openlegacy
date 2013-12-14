@@ -24,12 +24,13 @@
 	    </property>
     </bean>
 			
-	<!-- Using a mock-up session application -->
+<!-- Use this definition to replay a mock-up session application
  	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/trails" />
 		<property name="trailName" value="demo_session.trail" />
 	</bean>
+	
 	<bean id="terminalSession" class="org.openlegacy.terminal.support.MockupTerminalSession" scope="session" parent="abstractTerminalSession">
 		<property name="terminalConnection">
 			<bean class="org.openlegacy.terminal.mock.MockTerminalConnection" factory-bean="terminalConnectionFactory" factory-method="getConnection">
@@ -40,7 +41,8 @@
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
-	<!-- End using a mock-up session application -->
+End use this definition to replay a mock-up session application -->
+
 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 

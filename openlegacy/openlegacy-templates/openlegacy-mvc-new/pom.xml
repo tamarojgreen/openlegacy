@@ -203,7 +203,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
-			<artifactId>openlegacy-themes-red</artifactId>
+			<artifactId>openlegacy-themes-dynamics</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
@@ -284,7 +284,7 @@ commented dependency end -->
 			<artifactId>icu4j</artifactId> 
 			<version>49.1</version> 
 		</dependency>
- -->
+End uncomment for bidi support -->
  	</dependencies>
 	<build>
 		<plugins>

@@ -30,6 +30,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
+import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
 import org.openlegacy.designtime.newproject.NewProjectMetadataRetriever;
 import org.openlegacy.ide.eclipse.Activator;
@@ -103,6 +104,7 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard {
 			projectCreationRequest.setProjectTheme(themePage.getProjectTheme());
 			projectCreationRequest.setZipFile(generalPage.getZipFile());
 			projectCreationRequest.setTemplateFetcher(retriever.getTemplateFetcher());
+			projectCreationRequest.setRightToLeft(generalPage.isRightTotLeft());
 
 			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
 		} catch (Exception e) {
@@ -168,5 +170,9 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard {
 
 		job.setPriority(Job.LONG);
 		job.schedule();
+	}
+
+	public void setRightTotLeft(boolean rightTotLeft) {
+		providerPage.setCodePage(rightTotLeft ? DesignTimeExecuter.DEFAULT_RTL_CODE_PAGE : DesignTimeExecuter.DEFAULT_CODE_PAGE);
 	}
 }

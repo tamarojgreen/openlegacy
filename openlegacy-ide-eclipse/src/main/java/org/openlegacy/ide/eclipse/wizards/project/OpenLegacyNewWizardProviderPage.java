@@ -207,6 +207,10 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		return codePage.getText();
 	}
 
+	public void setCodePage(String codePage) {
+		this.codePage.setText(codePage);
+	}
+
 	public ProjectProvider getProjectProvider() {
 		if ((this.projectProviders == null) || this.projectProviders.isEmpty()) {
 			return null;

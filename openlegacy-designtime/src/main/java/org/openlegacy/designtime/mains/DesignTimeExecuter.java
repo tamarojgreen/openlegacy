@@ -35,6 +35,7 @@ public interface DesignTimeExecuter {
 
 	public static final int DEFAULT_PORT = 23;
 	public static final String DEFAULT_CODE_PAGE = "037";
+	public static final String DEFAULT_RTL_CODE_PAGE = "424";
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException;
 

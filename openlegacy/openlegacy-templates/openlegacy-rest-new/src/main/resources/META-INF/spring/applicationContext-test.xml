@@ -43,7 +43,7 @@
 	<!-- comment when using mock-up session -->
 	<bean id="terminalSession" parent="abstractTerminalSession" />
 	
-	<!-- Uncomment for bidi support (used by run-emulation)
+	<!-- Uncomment for bidi support
 	<bean id="elementsProvider" scope="prototype" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">
 		<property name="colorMapper">
 			<map>
@@ -62,6 +62,7 @@
 			</map>
 		</property>
 	</bean>
-	-->
+	End uncomment for bidi support -->
+
 		
 </beans>

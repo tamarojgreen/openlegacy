@@ -116,6 +116,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String dependencyCommentStart = "<!-- commented dependency start";
 	private static final String dependencyCommentEnd = "commented dependency end -->";
 
+	private static final String bidiCommentStart = "<!-- Uncomment for bidi support";
+	private static final String bidiCommentEnd = "End uncomment for bidi support -->";
+
 	private ApplicationContext defaultDesigntimeApplicationContext;
 
 	// map of project path to Spring application context
@@ -151,6 +154,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		renameProject(projectCreationRequest.getProjectName(), targetPath);
 		renameLaunchers(projectCreationRequest.getProjectName(), targetPath);
 
+		if (projectCreationRequest.isRightTotLeft()) {
+			handlerRightToLeft(targetPath);
+		}
 		updatePropertiesFile(projectCreationRequest, targetPath);
 
 		savePreference(targetPath, PreferencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
@@ -161,33 +167,53 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		templateFetcher.deleteZip();
 	}
 
+	private static void handlerRightToLeft(File targetPath) throws FileNotFoundException, IOException {
+		removeComment(new File(targetPath, "pom.xml"), bidiCommentStart, bidiCommentEnd);
+		removeComment(new File(targetPath, "src/main/resources/META-INF/spring/applicationContext.xml"), bidiCommentStart,
+				bidiCommentEnd);
+		removeComment(new File(targetPath, "src/main/resources/META-INF/spring/applicationContext-test.xml"), bidiCommentStart,
+				bidiCommentEnd);
+
+		File appPropertiesFile = new File(targetPath, "src/main/resources/application.properties");
+
+		if (!appPropertiesFile.exists()) {
+			return;
+		}
+
+		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
+		appPropertiesFileContent = appPropertiesFileContent.replaceFirst("#openLegacyProperties.rightToLeft=.*",
+				"openLegacyProperties.rightToLeft=true");
+		FileOutputStream fos = new FileOutputStream(appPropertiesFile);
+		IOUtils.write(appPropertiesFileContent, fos);
+
+	}
+
 	private static void uncommentDependencies(File targetPath) throws IOException {
 		File pomFile = new File(targetPath, "pom.xml");
-		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
+		removeComment(pomFile, dependencyCommentStart, dependencyCommentEnd);
+	}
 
-		pomFileContent = pomFileContent.replaceAll(dependencyCommentStart, "");
-		pomFileContent = pomFileContent.replaceAll(dependencyCommentEnd, "");
+	private static void removeComment(File file, String commentStart, String commentEnd) throws IOException {
+		if (!file.exists()) {
+			return;
+		}
+		String fileContent = IOUtils.toString(new FileInputStream(file));
 
-		FileOutputStream fos = new FileOutputStream(pomFile);
-		IOUtils.write(pomFileContent, fos);
+		fileContent = fileContent.replaceAll(commentStart, "");
+		fileContent = fileContent.replaceAll(commentEnd, "");
+
+		FileOutputStream fos = new FileOutputStream(file);
+		IOUtils.write(fileContent, fos);
+
 	}
 
 	private static void uncommentMockConnection(String provider, File targetPath) throws IOException {
 		if (!provider.equals("mock-up")) {
 			return;
 		}
+
 		File springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext.xml");
-		if (!springContextFile.exists()) {
-			return;
-		}
-		String springContextFileContent = IOUtils.toString(new FileInputStream(springContextFile));
-
-		springContextFileContent = springContextFileContent.replace(mockupSessionCommentStart, "");
-		springContextFileContent = springContextFileContent.replace(mockupSessionCommentEnd, "");
-
-		FileOutputStream fos = new FileOutputStream(springContextFile);
-		IOUtils.write(springContextFileContent, fos);
-
+		removeComment(springContextFile, mockupSessionCommentStart, mockupSessionCommentEnd);
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,

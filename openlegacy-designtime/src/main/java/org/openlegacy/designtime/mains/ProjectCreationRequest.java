@@ -32,6 +32,7 @@ public class ProjectCreationRequest {
 	private String zipFile;
 
 	private ITemplateFetcher templateFetcher;
+	private boolean rightTotLeft;
 
 	public String getTemplateName() {
 		return templateName;
@@ -131,6 +132,14 @@ public class ProjectCreationRequest {
 
 	public void setProjectTheme(ProjectTheme projectTheme) {
 		this.projectTheme = projectTheme;
+	}
+
+	public boolean isRightTotLeft() {
+		return rightTotLeft;
+	}
+
+	public void setRightToLeft(boolean rightTotLeft) {
+		this.rightTotLeft = rightTotLeft;
 	}
 
 }
