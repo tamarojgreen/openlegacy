@@ -24,6 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.util.Assert;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,8 +39,6 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 
 	private LogicalUnitPool logicalUnitPool;
 
-	private String hostName;
-
 	private Configuration configuration;
 
 	private final Log logger = LogFactory.getLog(H3270TerminalConnectionFactory.class);
@@ -51,8 +50,8 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		try {
 			// TODO set device
-			String port = properties.getProperty("host.port");
-			S3270 s3270Session = new S3270(leaseLogicalUnit(), hostName + ":" + port, properties);
+			S3270 s3270Session = new S3270(leaseLogicalUnit(), properties.getProperty("host.name") + ":"
+					+ properties.getProperty("host.port"), properties);
 			return new H3270Connection(s3270Session, convertToLogical);
 		} catch (LogicalUnitException e) {
 			throw (new OpenLegacyProviderException(e));
@@ -94,6 +93,7 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 	}
 
 	public void afterPropertiesSet() throws Exception {
+		Assert.notNull(properties, "properties not set for " + getClass().getName());
 		initialize();
 	}
 
@@ -119,8 +119,6 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 			initResource("/cygwin1.dll");
 		}
 
-		Resource resource = new ClassPathResource("/host.properties");
-		properties = PropertiesLoaderUtils.loadProperties(resource);
 		properties.put("s3270.execPath", targetFile.getParent());
 
 		logicalUnitPool = LogicalUnitPoolFactory.createLogicalUnitPool(configuration);
@@ -159,11 +157,11 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 		return configFile;
 	}
 
-	public void setHostName(String hostName) {
-		this.hostName = hostName;
-	}
-
 	public void setConvertToLogical(Boolean convertToLogical) {
 		this.convertToLogical = convertToLogical;
+	}
+
+	public void setProperties(Properties properties) {
+		this.properties = properties;
 	}
 }

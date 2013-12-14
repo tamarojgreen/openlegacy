@@ -8,7 +8,15 @@
 
     <context:property-placeholder location="classpath*:/host.properties"/>
 
-	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.h3270.H3270TerminalConnectionFactory" p:hostName="${host.name}"/>
+	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.h3270.H3270TerminalConnectionFactory">
+	    <property name="properties">
+	    	<props>
+	    		<prop key="host.name">${host.name}</prop>
+	    		<prop key="host.port">${host.port}</prop>
+	    		<prop key="host.codePage">${host.codePage}</prop>
+			</props>
+	    </property>
+    </bean>
 
 	<util:map id="actionMappings">
 		<entry>
