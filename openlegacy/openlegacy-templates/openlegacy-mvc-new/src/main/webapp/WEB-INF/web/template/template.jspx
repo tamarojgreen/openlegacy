@@ -47,6 +47,7 @@
 					"dijit/form/CheckBox",
 					"dijit/TitlePane",
 					"dijit/form/NumberSpinner",
+					"dijit/form/DateTextBox",
 					"dijit/form/CheckBox"]);
 		</script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/openlegacy-js/openlegacy.mvc.js"><!----></script>
