@@ -28,4 +28,11 @@
         <image-file>emily.jpg</image-file>
         <mobile-theme>openlegacy-themes-emilym</mobile-theme>
     </theme>
+
+    <theme>
+        <name>openlegacy-themes-dynamics</name>
+        <display-name>Dynamics</display-name>
+        <image-file>dynamics.jpg</image-file>
+        <mobile-theme>openlegacy-themes-emilym</mobile-theme>
+    </theme>
 </themes>
