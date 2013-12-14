@@ -11,7 +11,7 @@
 		<ul>
 			<li>
 				<spring:message code="label_submit" var="label_submit" htmlEscape="false" />
-				<a href="javascript:doPost('${definitions.entityName}');">
+				<a href="javascript:doPost('${definitions.entityName}Form');">
 					<span class="actions_icon actions_submit"><!--  --></span> <!-- 
 					This comment need to make correct margin between span and text
 					 --><img src="${pageContext.request.contextPath}/icons/submit.png"
@@ -25,7 +25,7 @@
 						<c:set var="image" value="/icons/submit.png" />
 					</c:if>
 					<li>
-						<a href="javascript:doPost('${definitions.entityName}','${action.alias}');">
+						<a href="javascript:doPost('${definitions.entityName}Form','${action.alias}');">
 							<span class="actions_icon actions_${action.alias}"><!--  --></span> <!--
 						This comment need to make correct margin between span and text 
 						 --><img src="${pageContext.request.contextPath}${image}" width="15" height="14" alt="${action.alias}" />

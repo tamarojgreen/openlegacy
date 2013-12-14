@@ -44,10 +44,12 @@
 	</c:if>
 
 	<c:set var="contentPaneId" value="container" />
-	<c:if test="${window == true}">
+	<c:if test="${fn:length(definitions.childEntitiesDefinitions) &gt; 0 or definitions.child}">
+		<c:set var="contentPaneId" value="${definitions.entityName}" />
+	</c:if>
+	<c:if test="${definitions.window}">
 		<c:set var="contentPaneId" value="window_container" />
 	</c:if>
-
 	<c:set var="tableDefinition"
 		value="${definitions.tableDefinitions[property]}" />
 	<c:if test="${fn:length(data) &gt; 0}">
