@@ -15,6 +15,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -26,6 +28,7 @@ import org.eclipse.swt.widgets.Text;
 import org.openlegacy.designtime.newproject.model.ProjectType;
 import org.openlegacy.ide.eclipse.Messages;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,6 +108,16 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 			}
 		});
 
+		defaultPackageTxt.addFocusListener(new FocusListener() {
+
+			public void focusLost(FocusEvent arg0) {}
+
+			public void focusGained(FocusEvent arg0) {
+				if (defaultPackageTxt.getText().isEmpty() && !projectNameTxt.getText().isEmpty()) {
+					defaultPackageTxt.setText(MessageFormat.format("com.{0}.openlegacy", projectNameTxt.getText().toLowerCase()));
+				}
+			}
+		});
 		setControl(container);
 		this.setEnabled(false);
 		setPageComplete(false);
