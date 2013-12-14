@@ -127,7 +127,9 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 	private void initResource(String resourceName) throws IOException {
 		File targetFile = new File(initWorkingDir(), resourceName);
 		targetFile.getParentFile().mkdirs();
-		IOUtils.copy(getClass().getResourceAsStream(resourceName), new FileOutputStream(targetFile));
+		if (!targetFile.exists()) {
+			IOUtils.copy(getClass().getResourceAsStream(resourceName), new FileOutputStream(targetFile));
+		}
 	}
 
 	private void initConfiguration(File targetFile) {
