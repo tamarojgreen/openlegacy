@@ -17,7 +17,7 @@ public class H3270Connection implements TerminalConnection {
 	// adding sequence support to tn5250j which doesn't support it
 	private int sequence = 1;
 
-	private boolean rightToLeft = false;
+	private boolean rightToLeftState = false;
 
 	private boolean convertToLogical;
 
@@ -28,7 +28,7 @@ public class H3270Connection implements TerminalConnection {
 
 	public TerminalSnapshot getSnapshot() {
 		s3270Session.updateScreen();
-		return new H3270TerminalSnapshot((S3270Screen)s3270Session.getScreen(), sequence, rightToLeft, convertToLogical);
+		return new H3270TerminalSnapshot((S3270Screen)s3270Session.getScreen(), sequence, rightToLeftState, convertToLogical);
 	}
 
 	public TerminalSnapshot fetchSnapshot() {
@@ -74,7 +74,10 @@ public class H3270Connection implements TerminalConnection {
 	}
 
 	public void flip() {
-		rightToLeft = !rightToLeft;
+		rightToLeftState = !rightToLeftState;
 	}
 
+	public boolean isRightToLeftState() {
+		return rightToLeftState;
+	}
 }

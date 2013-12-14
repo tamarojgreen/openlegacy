@@ -292,7 +292,7 @@ public class ScreenAnnotationsParserUtils {
 							value = StringUtil.stripQuotes(attrValue);
 						}
 					}
-					list.add(new SimpleScreenIdentifier(new SimpleTerminalPosition(row, column), value));
+					list.add(new SimpleScreenIdentifier(new SimpleTerminalPosition(row, column), value, false));
 				}
 			}
 		}

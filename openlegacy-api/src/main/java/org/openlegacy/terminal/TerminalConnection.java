@@ -25,4 +25,5 @@ public interface TerminalConnection extends ApplicationConnection<TerminalSnapsh
 
 	void flip();
 
+	boolean isRightToLeftState();
 }

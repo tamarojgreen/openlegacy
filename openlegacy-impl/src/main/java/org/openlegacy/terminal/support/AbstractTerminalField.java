@@ -145,4 +145,8 @@ public abstract class AbstractTerminalField implements ModifiableTerminalField, 
 		}
 		return getEndPosition().getRow() > getPosition().getRow();
 	}
+
+	public int compareTo(TerminalField other) {
+		return getPosition().compareTo(other.getPosition());
+	}
 }

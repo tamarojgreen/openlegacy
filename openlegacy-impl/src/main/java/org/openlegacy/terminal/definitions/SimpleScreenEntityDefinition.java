@@ -56,6 +56,8 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 
 	private List<ScreenFieldDefinition> keyFields;
 
+	private boolean rightToLeft;
+
 	private final static Log logger = LogFactory.getLog(SimpleScreenEntityDefinition.class);
 
 	public SimpleScreenEntityDefinition() {
@@ -206,6 +208,14 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 	@Override
 	public String getPackageName() {
 		return getEntityClass().getPackage().getName();
+	}
+
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
+	public void setRightToLeft(boolean rightToLeft) {
+		this.rightToLeft = rightToLeft;
 	}
 
 }

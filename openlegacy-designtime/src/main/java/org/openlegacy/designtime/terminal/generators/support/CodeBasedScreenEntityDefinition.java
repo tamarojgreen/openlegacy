@@ -205,4 +205,8 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return true;
 	}
 
+	public boolean isRightToLeft() {
+		return false;
+	}
+
 }

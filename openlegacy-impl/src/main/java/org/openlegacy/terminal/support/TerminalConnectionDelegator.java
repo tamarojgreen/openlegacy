@@ -163,4 +163,8 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	public void flip() {
 		terminalConnection.flip();
 	}
+
+	public boolean isRightToLeftState() {
+		return terminalConnection.isRightToLeftState();
+	}
 }

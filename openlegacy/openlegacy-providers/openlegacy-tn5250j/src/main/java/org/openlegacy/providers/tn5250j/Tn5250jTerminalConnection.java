@@ -131,7 +131,11 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 	}
 
 	public void flip() {
-		throw (new UnsupportedOperationException("Not implemented flip for H3270"));
+		throw (new UnsupportedOperationException("Not implemented flip for Tn5250j"));
+	}
+
+	public boolean isRightToLeftState() {
+		return false;
 	}
 
 	public void onScreenChanged(int inUpdate, int startRow, int startCol, int endRow, int endCol) {

@@ -118,4 +118,6 @@ public @interface ScreenEntity {
 	 * @return whether to check screen primary keys correctness
 	 */
 	boolean validateKeys() default true;
+
+	boolean rightToLeft() default false;
 }

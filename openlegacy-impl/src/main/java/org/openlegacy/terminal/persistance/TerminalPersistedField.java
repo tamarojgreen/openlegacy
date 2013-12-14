@@ -323,4 +323,8 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	public void setRightAdjust(RightAdjust rightAdjust) {
 		this.rightAdjust = rightAdjust;
 	}
+
+	public int compareTo(TerminalField other) {
+		return getPosition().compareTo(other.getPosition());
+	}
 }

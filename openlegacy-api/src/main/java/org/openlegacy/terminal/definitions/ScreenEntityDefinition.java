@@ -90,4 +90,5 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 
 	boolean isPerformDefaultBinding();
 
+	boolean isRightToLeft();
 }

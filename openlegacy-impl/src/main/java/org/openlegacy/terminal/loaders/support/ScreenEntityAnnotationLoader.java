@@ -51,6 +51,7 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 		SimpleScreenEntityDefinition screenEntityDefinition = new SimpleScreenEntityDefinition(screenEntityName, containingClass);
 		screenEntityDefinition.setEntityName(screenEntityName);
 		screenEntityDefinition.setDisplayName(displayName);
+		screenEntityDefinition.setRightToLeft(screenEntity.rightToLeft());
 		screenEntityDefinition.setType(screenEntity.screenType());
 		screenEntityDefinition.setWindow(screenEntity.window());
 		screenEntityDefinition.setChild(screenEntity.child());

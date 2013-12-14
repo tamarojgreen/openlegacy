@@ -15,6 +15,7 @@ import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.utils.BidiUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class H3270TerminalSnapshot extends AbstractSnapshot {
@@ -113,6 +114,7 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 				}
 			}
 		}
+		Collections.sort(fields);
 		return fields;
 	}
 

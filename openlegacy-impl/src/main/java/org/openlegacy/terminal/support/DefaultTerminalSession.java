@@ -155,6 +155,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 
 		ScreenEntityDefinition screenEntityDefinition = getScreenEntitiesRegistry().get(matchedScreenEntity);
+
+		if (screenEntityDefinition.isRightToLeft() != getConnection().isRightToLeftState()) {
+			flip();
+			terminalSnapshot = getSnapshot();
+		}
+
 		if (screenEntityDefinition.isPerformDefaultBinding()) {
 			for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
 				screenEntityBinder.populateEntity(screenEntity, terminalSnapshot);
@@ -456,6 +462,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		terminalConnection.flip();
 		// force update
 		terminalConnection.fetchSnapshot();
+		lastSequence = getSequence();
 		notifyModulesAfterAction(null);
 	}
 

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.TerminalPosition;
@@ -30,15 +31,26 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 	private TerminalPosition position;
 	private String text;
 
-	public SimpleScreenIdentifier(TerminalPosition position, String text) {
+	private boolean supportRightToLeft;
+
+	public SimpleScreenIdentifier(TerminalPosition position, String text, boolean supportRightToLeft) {
 		this.position = position;
 		this.text = text;
+		this.supportRightToLeft = supportRightToLeft;
 	}
 
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		String foundText = terminalSnapshot.getText(position, text.length());
 		if (foundText.equals(text)) {
 			return true;
+		}
+		if (supportRightToLeft) {
+			foundText = terminalSnapshot.getText(new SimpleTerminalPosition(position.getRow(),
+					terminalSnapshot.getSize().getColumns() - (position.getColumn() + text.length() - 2)), text.length());
+			foundText = StringUtils.reverse(foundText);
+			if (foundText.equals(text)) {
+				return true;
+			}
 		}
 		return false;
 	}

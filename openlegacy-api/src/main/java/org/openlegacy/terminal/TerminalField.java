@@ -16,7 +16,7 @@ import java.io.Serializable;
  * Defines a field on a terminal screen
  * 
  */
-public interface TerminalField extends TerminalPositionContainer, Serializable, Cloneable {
+public interface TerminalField extends TerminalPositionContainer, Serializable, Cloneable, Comparable<TerminalField> {
 
 	/**
 	 * The position (row, column) of the field

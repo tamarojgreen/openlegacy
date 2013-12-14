@@ -56,7 +56,8 @@ public class SimpleScreenIdentifiersAnnotationLoader extends AbstractClassAnnota
 			for (Identifier identifier : identifiers) {
 				TerminalPosition position = SimpleTerminalPosition.newInstance(identifier.row(), identifier.column());
 				String text = identifier.value();
-				SimpleScreenIdentifier simpleIdentifier = new SimpleScreenIdentifier(position, text);
+				SimpleScreenIdentifier simpleIdentifier = new SimpleScreenIdentifier(position, text,
+						screenEntityDefinition.isRightToLeft());
 				screenIdentification.addIdentifier(simpleIdentifier);
 
 				if (logger.isDebugEnabled()) {

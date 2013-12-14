@@ -13,7 +13,7 @@ then
 	SnapshotPickerStrategy strategy = new LowestSequenceSnapshotPickerStrategy();
 	for (Set<TerminalSnapshot> group : groups){
 		// for snapshot, initialize an empty screen definitions container 
-		ScreenEntityDesigntimeDefinition screenEntityDefinition = new SimpleScreenEntityDesigntimeDefinition();
+		SimpleScreenEntityDesigntimeDefinition screenEntityDefinition = new SimpleScreenEntityDesigntimeDefinition();
 		
 		// pick 1 representer from each matched group
 		TerminalSnapshot s = (TerminalSnapshot)strategy.pickRepresenter(group);
@@ -22,6 +22,7 @@ then
 		screenEntityDefinition.setSnapshot(s);
 		screenEntityDefinition.setOutgoingSnapshot(snapshotsAnalyzerContext.getOutgoingSnapshot(s));
 		screenEntityDefinition.setAllSnapshots(group);
+		screenEntityDefinition.setRightToLeft(s.isRightToLeft());
 		/// insert the definitions container to the session
 		insert(screenEntityDefinition);
 	} 
