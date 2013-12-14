@@ -8,7 +8,7 @@ import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 @ScreenIdentifiers(identifiers = { 
 				@Identifier(row = 3, column = 22, value = " קוויש תותשר / חוקל תונמזה תכרעמל הסינכ "), 
 				@Identifier(row = 4, column = 71, value = "QPADEV001 "), 
-				@Identifier(row = 7, column = 34, value = "        מ"עב קוויש תותשר חנימע") 
+				@Identifier(row = 7, column = 34, value = "        מ\"עב קוויש תותשר חנימע") 
 				})
 @ScreenActions(actions = { 
 				@Action(action = TerminalActions.F3.class, displayName = "סיום", alias = "siom"), 
