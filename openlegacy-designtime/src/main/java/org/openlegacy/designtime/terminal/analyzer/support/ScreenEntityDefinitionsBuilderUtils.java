@@ -85,8 +85,9 @@ public class ScreenEntityDefinitionsBuilderUtils {
 		}
 
 		String fieldValue = field.getVisualValue() != null ? field.getVisualValue() : field.getValue();
-		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), StringUtils.replaceChars(fieldValue,
-				"\n\t", "  "));
+		fieldValue = StringUtils.replaceChars(fieldValue, "\n\t", "  ");
+		fieldValue = fieldValue.replaceAll("\"", "\\\\\"");
+		ScreenIdentifier identifier = new SimpleScreenIdentifier(field.getPosition(), fieldValue);
 		return identifier;
 	}
 

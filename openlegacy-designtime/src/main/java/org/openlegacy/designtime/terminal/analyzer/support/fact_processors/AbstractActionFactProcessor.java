@@ -31,8 +31,9 @@ public abstract class AbstractActionFactProcessor implements ScreenFactProcessor
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		ScreenActionFact screenActionFact = (ScreenActionFact)screenFact;
 
-		TerminalActionDefinition actionDefinition = buildActionDefinition(screenActionFact.getAction(),
-				screenActionFact.getCaption(), screenActionFact.getTerminalPosition());
+		String caption = screenActionFact.getCaption().replaceAll("\"", "\\\\\"");
+		TerminalActionDefinition actionDefinition = buildActionDefinition(screenActionFact.getAction(), caption,
+				screenActionFact.getTerminalPosition());
 
 		if (actionDefinition != null) {
 			addAction(screenEntityDefinition, screenActionFact, actionDefinition);
