@@ -121,10 +121,12 @@ public class ScreenBinderLogic implements Serializable {
 				String newLine = "\n";
 				if (fieldMappingDefinition.isRectangle()) {
 					terminalField = terminalSnapshot.getField(currentRow, startColumn);
-					if (fieldMappingDefinition.getLength() > 0 && fieldColumnLength != terminalField.getLength()) {
-						text = text + newLine + fieldFormatter.format(row.getText(startColumn, fieldColumnLength));
-					} else {
-						text = text + newLine + fieldFormatter.format(terminalField.getValue());
+					if (terminalField != null) {
+						if (fieldMappingDefinition.getLength() > 0 && fieldColumnLength != terminalField.getLength()) {
+							text = text + newLine + fieldFormatter.format(row.getText(startColumn, fieldColumnLength));
+						} else {
+							text = text + newLine + fieldFormatter.format(terminalField.getValue());
+						}
 					}
 					// breaking lines
 				} else {

@@ -80,9 +80,9 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 			ScreenFieldDefinition messagesFieldDefinition = null;
 			for (ScreenFieldDefinition screenFieldDefinition : fieldDefinitions) {
 				if (screenFieldDefinition.getType() == Messages.MessageField.class) {
+					messagesFieldDefinition = screenFieldDefinition;
 					Object fieldValue = fieldAccessor.getFieldValue(screenFieldDefinition.getName());
 					if (fieldValue instanceof String) {
-						messagesFieldDefinition = screenFieldDefinition;
 						messages.add((String)fieldValue);
 					}
 				}
