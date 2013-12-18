@@ -152,16 +152,16 @@
 		  	<spring:message code="label_next" var="label_next" htmlEscape="false" />
 		  	<spring:message code="label_prev" var="label_prev" htmlEscape="false" />
 			<div class="paging">
-				<div class="previous">
+				<div class="previous" id="previous">
 					<a
-						href="javascript:doAjaxPost('${formName}','${contentPaneId}','previous','body')">
+						href="javascript:doAjaxPost('${formName}','${contentPaneId}','previous','body',runOnLoads)">
 						<span class="arrow"> <!---->
 					</span> <span>${label_prev}</span>
 					</a>
 				</div>
-				<div class="next">
+				<div class="next" id="next">
 					<a
-						href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body')">
+						href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body',runOnLoads))">
 						<span class="arrow"> <!---->
 					</span> <span>${label_next}</span>
 					</a>

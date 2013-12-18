@@ -464,3 +464,101 @@ function setLanguage(language){
      }
      location.href=url + "?lang=" + language
 }
+
+
+
+require(["dojo/ready"], function(ready){
+	ready(function(){
+		require(["dojo/on", "dojo/_base/window", "dojo/keys","dojo/dom-form"], function(on, win, keys, dom){
+			on(win.doc, "keydown", function(e){
+				var handled = true;
+				switch (e.keyCode) {
+					case keys.ENTER:
+						var enter= document.getElementById("enter");
+						if (enter != null){
+							enter.click();
+						}
+						break;
+					case keys.PAGE_UP:
+						var prev = document.getElementById("previous");
+						if (prev != null){
+							prev.click();
+						}
+						break;
+					case keys.PAGE_DOWN:
+						var next = document.getElementById("next");
+						if (next != null){
+							next.click();
+						}
+						break;
+					default:
+						handled = false;
+				}
+				if (handled){
+					dojo.stopEvent(e);
+				}
+				return handled;
+			});
+		});
+	});
+});
+
+require(["dojo/ready"], function(ready){
+	ready(function(){
+		bindKeyboard();
+		runOnloads();
+	});
+});
+
+function bindKeyboard(){
+	require(["dojo/on", "dojo/_base/window", "dojo/keys","dojo/dom-form"], function(on, win, keys, dom){
+		on(win.doc, "keydown", function(e){
+			var handled = true;
+			switch (e.keyCode) {
+				case keys.ENTER:
+					var enter= document.getElementById("enter");
+					if (enter != null){
+						enter.click();
+					}
+					break;
+				case keys.PAGE_UP:
+					var prev = document.getElementById("previous");
+					if (prev != null){
+						prev.click();
+					}
+					break;
+				case keys.PAGE_DOWN:
+					var next = document.getElementById("next");
+					if (next != null){
+						next.click();
+					}
+					break;
+				default:
+					handled = false;
+			}
+			if (handled){
+				dojo.stopEvent(e);
+			}
+			return handled;
+		});
+	});
+	
+}
+
+function runOnloads(){
+	require(["dojo/query"], function(query){
+		  var nl = query("[data-onload]").forEach(function(node){
+			  eval(node.getAttribute("data-onload"));
+		  });
+		});	
+}
+
+function changeHidden(element,checkedValue,uncheckedValue){
+	
+	if (element.checked){
+		document.getElementById(element.name.substr(2)).value = checkedValue;	
+	}
+	else{
+		document.getElementById(element.name.substr(2)).value = uncheckedValue;	
+	}
+}

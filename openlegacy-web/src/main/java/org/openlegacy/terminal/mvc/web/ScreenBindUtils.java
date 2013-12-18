@@ -86,12 +86,9 @@ public class ScreenBindUtils {
 				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
 					if (columnDefinition.isEditable()) {
 
-						String[] parameterValues = request.getParameterValues(columnDefinition.getName());
-						if (parameterValues != null && parameterValues.length > rowNumber) {
-							String value = parameterValues[rowNumber];
-							if (!StringUtils.isEmpty(value)) {
-								rowFieldAccessor.setFieldValue(columnDefinition.getName(), value);
-							}
+						String value = request.getParameter(MessageFormat.format("{0}_{1}", columnDefinition.getName(), rowNumber));
+						if (value != null) {
+							rowFieldAccessor.setFieldValue(columnDefinition.getName(), value);
 						}
 					}
 
