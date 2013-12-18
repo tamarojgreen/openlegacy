@@ -27,7 +27,6 @@ import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
-import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -145,18 +144,22 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 				List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
 				ScreenPojoFieldAccessor rowAccessor = new SimpleScreenPojoFieldAccessor(row);
 				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
-					if (columnDefinition.isEditable()) {
+					if (columnDefinition.isEditable() && columnDefinition.getAttribute() == FieldAttributeType.Value) {
 						Object value = rowAccessor.getFieldValue(columnDefinition.getName());
 						if (value == null) {
 							continue;
 						}
 						String valueString = value.toString();
-						if (StringUtils.hasLength(valueString)) {
+						if (valueString != null) {
 							int screenRow = tableDefinition.getStartRow() + (rowCount * tableDefinition.getRowGaps());
 							TerminalField terminalField = terminalScreen.getField(SimpleTerminalPosition.newInstance(screenRow,
 									columnDefinition.getStartColumn()));
-							terminalField.setValue(valueString);
-							sendAction.getFields().add(terminalField);
+							if (terminalField.isEditable()) {
+								if (!terminalField.getValue().equals(valueString)) {
+									terminalField.setValue(valueString);
+									sendAction.getFields().add(terminalField);
+								}
+							}
 						}
 					}
 
