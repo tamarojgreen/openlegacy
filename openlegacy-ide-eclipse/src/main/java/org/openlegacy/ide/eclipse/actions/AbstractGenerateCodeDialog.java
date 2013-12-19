@@ -64,7 +64,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 	private String packageValue;
 	private IFile file;
 	private boolean useAj = true;
-	private boolean generateTest;
+	private boolean generateTest = true;
 
 	protected AbstractGenerateCodeDialog(Shell shell, IFile file) {
 		super(shell);
@@ -162,7 +162,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 				setGenerateTest(!isGenerateTest());
 			}
 		});
-		
+
 		createDialogSpecific(parent);
 		loadPrefrences();
 		useAjButton.setSelection(isUseAj());
@@ -211,7 +211,8 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 						return (((IPackageFragmentRoot)element).getKind() == IPackageFragmentRoot.K_SOURCE);
 					}
 					return true;
-				} catch (JavaModelException e) {}
+				} catch (JavaModelException e) {
+				}
 				return false;
 			}
 		};
@@ -224,7 +225,8 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 				if (element instanceof IPackageFragmentRoot) {
 					try {
 						return (((IPackageFragmentRoot)element).getKind() == IPackageFragmentRoot.K_SOURCE);
-					} catch (JavaModelException e) {}
+					} catch (JavaModelException e) {
+					}
 				} else if (element instanceof IJavaProject) {
 					IJavaProject javaPr = (IJavaProject)element;
 					return javaPr.isOpen();
