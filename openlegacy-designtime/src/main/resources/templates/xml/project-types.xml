@@ -66,24 +66,6 @@
         <zip-file>openlegacy-ws-sample.zip</zip-file>
     </project-type>
     <project-type>
-        <template-name>openlegacy-angular-new</template-name>
-        <description>A single page application for connecting to OpenLegacy REST API</description>
-        <is-demo>false</is-demo>
-        <support-theme>false</support-theme>
-        <client-side-project>true</client-side-project>
-        <provider-required>false</provider-required>
-        <zip-file>openlegacy-angular-new.zip</zip-file>
-    </project-type>
-    <project-type>
-        <template-name>openlegacy-angular-sample</template-name>
-        <description>A single page application demo for connecting to OpenLegacy screens REST API</description>
-        <is-demo>true</is-demo>
-        <support-theme>false</support-theme>
-        <client-side-project>true</client-side-project>
-        <provider-required>false</provider-required>
-        <zip-file>openlegacy-angular-sample.zip</zip-file>
-    </project-type>
-    <project-type>
         <template-name>openlegacy-angular-rpc-sample</template-name>
         <description>A single page application demo for connecting to OpenLegacy programs REST API</description>
         <is-demo>true</is-demo>

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="openlegacy-angular-sample">
-        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
-        <property name="context-root" value="openlegacy-angular-sample"/>
-        <property name="java-output-path" value="/openlegacy-angular-sample/build/classes"/>
-    </wb-module>
-</project-modules>

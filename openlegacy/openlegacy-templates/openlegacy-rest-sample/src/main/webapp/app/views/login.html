@@ -1,0 +1,57 @@
+        <div class="" id="loginModal">
+          <div class="modal-body">
+            <div class="well">
+              <div id="myTabContent" class="tab-content">
+                <div class="tab-pane active in" id="login">
+                  <form name="loginForm">
+                    <fieldset>
+                      <div id="legend">
+                        <legend class="">Login</legend>
+                      </div>    
+                      <div class="control-group">
+                        <label class="control-label"  for="username">Username</label>
+                        <div class="controls">
+                          <input type="text" id="username" name="username" placeholder="" class="input-xlarge" ng-model="user.userName" ng-required="true" ng-pattern="/\w+$/">
+                			<span class="error" ng-hide="loginForm.username.$valid">Invalid</span>
+                        </div>
+                      </div>
+ 
+                      <div class="control-group">
+                        <label class="control-label" for="password">Password</label>
+                        <div class="controls">
+                          <input type="password" id="password" name="password" placeholder="" class="input-xlarge" ng-model="user.password">
+                        </div>
+                      </div>
+ 
+ 
+                      <div class="control-group">
+                        <!-- Button -->
+                        <div class="controls">
+                          <button class="btn btn-success" ng-click="login()">Login</button>
+                        </div>
+                      </div>
+                    </fieldset>
+                  </form>                
+                </div>
+                <div class="tab-pane fade" id="create">
+                  <form id="tab">
+                    <label>Username</label>
+                    <input type="text" value="" class="input-xlarge">
+                    <label>First Name</label>
+                    <input type="text" value="" class="input-xlarge">
+                    <label>Last Name</label>
+                    <input type="text" value="" class="input-xlarge">
+                    <label>Email</label>
+                    <input type="text" value="" class="input-xlarge">
+                    <label>Address</label>
+                    <textarea value="Smith" rows="3" class="input-xlarge">
+                    </textarea>
+ 
+                    <div>
+                      <button class="btn btn-primary">Create Account</button>
+                    </div>
+                  </form>
+                </div>
+            </div>
+          </div>
+        </div>
