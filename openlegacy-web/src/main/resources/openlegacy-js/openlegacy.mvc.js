@@ -473,13 +473,19 @@ require(["dojo/ready"], function(ready){
 			on(win.doc, "keydown", function(e){
 				var handled = true;
 				switch (e.keyCode) {
-					case keys.ENTER:
+				case keys.ENTER:
+					var lookupDialog = registry.byId("lookupDialog");
+					if (lookupDialog.open){
+						doAjaxPost(e.target.form.id,'window_container','','body');
+					}
+					else{
 						var enter= document.getElementById("enter");
 						if (enter != null){
 							enter.click();
 						}
-						break;
-					case keys.PAGE_UP:
+					}
+					break;
+				case keys.PAGE_UP:
 						var prev = document.getElementById("previous");
 						if (prev != null){
 							prev.click();
@@ -511,26 +517,44 @@ require(["dojo/ready"], function(ready){
 });
 
 function bindKeyboard(){
-	require(["dojo/on", "dojo/_base/window", "dojo/keys","dojo/dom-form"], function(on, win, keys, dom){
+	require(["dojo/on", "dojo/_base/window", "dojo/keys","dojo/dom-form","dijit/registry"], function(on, win, keys, dom,registry){
 		on(win.doc, "keydown", function(e){
 			var handled = true;
 			switch (e.keyCode) {
 				case keys.ENTER:
-					var enter= document.getElementById("enter");
-					if (enter != null){
-						enter.click();
+					var lookupDialog = registry.byId("lookupDialog");
+					if (lookupDialog.open){
+						doAjaxPost(e.target.form.id,'window_container','','body');
+					}
+					else{
+						var enter= document.getElementById("enter");
+						if (enter != null){
+							enter.click();
+						}
 					}
 					break;
 				case keys.PAGE_UP:
-					var prev = document.getElementById("previous");
-					if (prev != null){
-						prev.click();
+					var lookupDialog = registry.byId("lookupDialog");
+					if (lookupDialog.open){
+						doAjaxPost(e.target.form.id,'window_container','previous','body');
 					}
-					break;
+					else{
+						var prev = document.getElementById("previous");
+						if (prev != null){
+							prev.click();
+						}
+					}
+					break;						
 				case keys.PAGE_DOWN:
-					var next = document.getElementById("next");
-					if (next != null){
-						next.click();
+					var lookupDialog = registry.byId("lookupDialog");
+					if (lookupDialog.open){
+						doAjaxPost(e.target.form.id,'window_container','next','body');
+					}
+					else{
+						var next = document.getElementById("next");
+						if (next != null){
+							next.click();
+						}
 					}
 					break;
 				default:
