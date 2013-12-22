@@ -74,23 +74,28 @@ public abstract class AbstractRestController {
 			return null;
 		}
 		try {
-			Object entity;
-			Object[] keys = new Object[0];
-			if (key != null) {
-				keys = key.split("\\+");
-			}
-
-			if (key == null) {
-				entity = getSession().getEntity(entityName);
-			} else {
-				entity = getSession().getEntity(entityName, keys);
-			}
+			Object entity = getApiEntity(entityName, key);
 			return getEntityInner(entity);
 		} catch (EntityNotFoundException e) {
 			logger.fatal(e);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return null;
 		}
+	}
+
+	private Object getApiEntity(String entityName, String key) {
+		Object entity;
+		Object[] keys = new Object[0];
+		if (key != null) {
+			keys = key.split("\\+");
+		}
+
+		if (key == null) {
+			entity = getSession().getEntity(entityName);
+		} else {
+			entity = getSession().getEntity(entityName, keys);
+		}
+		return entity;
 	}
 
 	protected ModelAndView getEntityInner(Object entity) {
@@ -127,8 +132,22 @@ public abstract class AbstractRestController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
-	public ModelAndView postEntityJson(@PathVariable("entity") String entityName, @RequestParam(ACTION) String action,
-			@RequestBody String json, HttpServletResponse response) throws IOException {
+	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
+		return postEntityJsonInner(entityName, null, action, json, response);
+	}
+
+	@RequestMapping(value = "/{entity}/{key}", method = RequestMethod.POST, consumes = JSON)
+	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
+		return postEntityJsonInner(entityName, key, action, json, response);
+	}
+
+	public ModelAndView postEntityJsonInner(String entityName, String key, String action, String json,
+			HttpServletResponse response) throws IOException {
+
 		if (!authenticate(response)) {
 			return null;
 		}
@@ -137,6 +156,8 @@ public abstract class AbstractRestController {
 		if (entityClass == null) {
 			return null;
 		}
+
+		getApiEntity(entityName, key);
 
 		Object entity = null;
 		try {
@@ -150,9 +171,22 @@ public abstract class AbstractRestController {
 		return getEntityInner(resultEntity);
 	}
 
+	@RequestMapping(value = "/{entity}/{key}", method = RequestMethod.POST, consumes = XML)
+	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
+			throws IOException {
+		return postEntityXmlInner(entityName, key, action, xml, response);
+	}
+
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
-	public ModelAndView postEntityXml(@PathVariable("entity") String entityName, @RequestParam(ACTION) String action,
-			@RequestBody String xml, HttpServletResponse response) throws IOException {
+	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
+			throws IOException {
+		return postEntityXmlInner(entityName, null, action, xml, response);
+	}
+
+	public ModelAndView postEntityXmlInner(String entityName, String key, String action, String xml, HttpServletResponse response)
+			throws IOException {
 		if (!authenticate(response)) {
 			return null;
 		}
@@ -161,6 +195,9 @@ public abstract class AbstractRestController {
 		if (entityClass == null) {
 			return null;
 		}
+
+		getApiEntity(entityName, key);
+
 		Object entity = null;
 		try {
 			InputSource inputSource = new InputSource(new ByteArrayInputStream(xml.getBytes()));
