@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.modules.trail.TrailUtil;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
@@ -53,6 +54,9 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@Inject
 	private RpcEntityUtils rpcEntityUtils;
 
+	@Inject
+	private TrailUtil trailUtil;
+
 	@Override
 	protected Session getSession() {
 		return rpcSession;
@@ -80,4 +84,15 @@ public class DefaultRpcRestController extends AbstractRestController {
 
 	}
 
+	@RequestMapping(value = "/logoff", consumes = { JSON, XML })
+	public void logoff(HttpServletResponse response) throws IOException {
+		try {
+			trailUtil.saveTrail(getSession());
+		} catch (Exception e) {
+			logger.warn("Failed to save trail - " + e.getMessage(), e);
+		} finally {
+			getSession().disconnect();
+		}
+
+	}
 }
