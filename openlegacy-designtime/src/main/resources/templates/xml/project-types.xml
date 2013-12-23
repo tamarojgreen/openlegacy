@@ -65,14 +65,4 @@
         <support-theme>false</support-theme>
         <zip-file>openlegacy-ws-sample.zip</zip-file>
     </project-type>
-    <project-type>
-        <template-name>openlegacy-angular-rpc-sample</template-name>
-        <description>A single page application demo for connecting to OpenLegacy programs REST API</description>
-        <is-demo>true</is-demo>
-        <support-theme>false</support-theme>
-        <client-side-project>true</client-side-project>
-        <provider-required>false</provider-required>
-        <zip-file>openlegacy-angular-rpc-sample.zip</zip-file>
-    </project-type>
-    
 </project-types>
