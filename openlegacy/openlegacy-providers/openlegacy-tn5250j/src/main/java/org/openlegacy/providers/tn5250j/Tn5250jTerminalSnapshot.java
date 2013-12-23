@@ -144,7 +144,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 
 		if (convertToLogical == true) {
 			visualValue = value;
-			value = BidiUtil.convertToLogical(value, isEditable);
+			value = BidiUtil.convertToLogical(value, true);
 		}
 
 		boolean hidden = false;
