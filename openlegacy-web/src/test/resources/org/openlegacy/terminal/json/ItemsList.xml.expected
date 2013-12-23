@@ -99,6 +99,7 @@
         xmlns:java="http://java.sun.com" defaultAction="false"
         global="true" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
         <additionalKey>SHIFT</additionalKey>
+        <type>GENERAL</type>
         <actionName>CombinedTerminalAction</actionName>
         <displayName>Number Seq</displayName>
         <alias>numberSeq</alias>
