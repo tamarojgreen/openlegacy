@@ -12,6 +12,7 @@ package org.openlegacy.terminal.definitions;
 
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
+import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
@@ -26,6 +27,8 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 	private AdditionalKey additionalKey;
 
 	private String focusField;
+
+	private ActionType type;
 
 	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
 			String displayName, TerminalPosition position) {
@@ -56,5 +59,13 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	public void setAdditionalKey(AdditionalKey additionalKey) {
 		this.additionalKey = additionalKey;
+	}
+
+	public ActionType getType() {
+		return type;
+	}
+
+	public void setType(ActionType type) {
+		this.type = type;
 	}
 }

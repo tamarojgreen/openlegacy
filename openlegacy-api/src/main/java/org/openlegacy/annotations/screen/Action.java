@@ -75,4 +75,12 @@ public @interface Action {
 	 * @return The Java field name to set focus in this action
 	 */
 	String focusField() default "";
+
+	ActionType type() default ActionType.GENERAL;
+
+	public static enum ActionType {
+		GENERAL,
+		NAVIGATION,
+		LOGICAL
+	}
 }
