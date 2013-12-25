@@ -65,7 +65,10 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
 		TerminalAction sessionAction = null;
 		TerminalActionDefinition matchedActionDefinition = null;
-		if (StringUtils.isEmpty(actionAlias)) {
+		if (actionAlias.equals(TerminalAction.NONE)) {
+			sessionAction = TerminalActions.NONE();
+			matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "", null);
+		} else if (StringUtils.isEmpty(actionAlias)) {
 			sessionAction = TerminalActions.ENTER();
 			matchedActionDefinition = new SimpleTerminalActionDefinition(sessionAction, AdditionalKey.NONE, "", null);
 		} else {

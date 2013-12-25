@@ -35,7 +35,7 @@ public class TerminalActions {
 
 		private static final long serialVersionUID = 1L;
 
-		public void perform(TerminalSession terminalSession, Object entity,Object... keys) {
+		public void perform(TerminalSession terminalSession, Object entity, Object... keys) {
 			// if we got here it means the actions is not mapped...
 			throw (new TerminalActionNotMappedException(MessageFormat.format(
 					"Specified action {0} is not mapped to a terminal command", getClass())));
@@ -66,6 +66,15 @@ public class TerminalActions {
 		combinedAction.setAdditionalKey(additionalKey);
 		combinedAction.setTerminalAction(terminalActionClass);
 		return combinedAction;
+	}
+
+	public static class NONE extends SimpleTerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
+	}
+
+	public static NONE NONE() {
+		return new NONE();
 	}
 
 	public static class ENTER extends SimpleTerminalMappedAction {

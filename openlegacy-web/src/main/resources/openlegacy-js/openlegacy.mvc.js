@@ -442,13 +442,13 @@ function closeAndUpdateLookup(value,displayValue){
 		lookupDialog.set("content","");
 		
 		var xhr = require("dojo/request/xhr");
-		xhr.post(resultField.form.action, {
+		xhr.post(resultField.form.action + "?action=none", {
 			data: domForm.toObject(resultField.form),
 			handleAs : "text",
 			headers: { "Accept": "text/html;type=ajax" }
 		}).then(function(data){
 			if (ol_autoSubmit){
-				doPost();
+				location.href = location.href;
 			}
 		}, function(e){
 			alert(e);
@@ -519,7 +519,7 @@ function bindKeyboard(){
 			if (handled){
 				dojo.stopEvent(e);
 			}
-			return handled;
+			return !handled;
 		});
 	});
 	

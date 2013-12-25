@@ -80,6 +80,9 @@ public class Tn5250jTerminalConnection implements TerminalConnection, SessionLis
 	}
 
 	private void waitForKeyboardUnlock(String aid) {
+		if (aid.length() == 0) {
+			return;
+		}
 		Screen5250 screen = session.getScreen();
 		screen.sendKeys(aid);
 		int waited = 0;

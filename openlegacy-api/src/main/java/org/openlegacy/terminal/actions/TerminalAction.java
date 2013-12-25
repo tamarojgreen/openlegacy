@@ -22,6 +22,8 @@ import org.openlegacy.terminal.TerminalSession;
  */
 public interface TerminalAction extends SessionAction<TerminalSession> {
 
+	public static final String NONE = "none";
+
 	public enum AdditionalKey {
 		NONE,
 		SHIFT,
