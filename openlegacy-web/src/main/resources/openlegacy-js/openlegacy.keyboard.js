@@ -44,7 +44,7 @@ require(["dojo/ready"], function(ready){
 				if (handled){
 					dojo.stopEvent(e);
 				}
-				return handled;
+				return !handled;
 			});
 		});
 	});
