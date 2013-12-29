@@ -15,21 +15,17 @@ import net.sf.uadetector.UserAgent;
 import net.sf.uadetector.UserAgentStringParser;
 
 import org.openlegacy.SessionProperties;
-import org.openlegacy.SessionPropertiesProvider;
-import org.openlegacy.support.SimpleSessionProperties;
+import org.openlegacy.SessionPropertiesFiller;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-@Deprecated
-public class RequestBasedSessionPropertiesProvider implements SessionPropertiesProvider {
+public class RequestBasedSessionPropertiesFiller implements SessionPropertiesFiller {
 
 	@Inject
 	private HttpServletRequest request;
 
-	public SessionProperties getSessionProperties() {
-		SimpleSessionProperties sessionProperties = new SimpleSessionProperties();
-
+	public void fillProperties(SessionProperties sessionProperties) {
 		// Get an UserAgentStringParser and analyze the requesting client
 		UserAgentStringParser parser = UADetectorServiceFactory.getResourceModuleParser();
 		UserAgent agent = parser.parse(request.getHeader("User-Agent"));
@@ -38,6 +34,5 @@ public class RequestBasedSessionPropertiesProvider implements SessionPropertiesP
 		sessionProperties.setProperty("OS", agent.getOperatingSystem().getName());
 		sessionProperties.setProperty("browser", agent.getName());
 		sessionProperties.setProperty("version", agent.getVersionNumber().getMajor() + "-" + agent.getVersionNumber().getMinor());
-		return sessionProperties;
 	}
 }

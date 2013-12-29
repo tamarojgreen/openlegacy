@@ -30,5 +30,8 @@ public interface SessionProperties extends Serializable {
 
 	Object getProperty(String propertyName);
 
+	void setProperty(String string, Object name);
+
 	Properties getProperties();
+
 }
