@@ -88,6 +88,11 @@ public class HtmlEmulationController {
 		if (!emulationOnly) {
 			ScreenEntity currentEntity = terminalSession.getEntity();
 			if (currentEntity != null) {
+				if (loginMetadata.getLoginScreenDefinition().getEntityClass().isAssignableFrom(currentEntity.getClass())) {
+					terminalSession.disconnect();
+					return MvcConstants.LOGIN_URL;
+				}
+
 				String currentEntityName = entityUtils.getEntityName(currentEntity);
 				return "redirect:" + currentEntityName;
 
