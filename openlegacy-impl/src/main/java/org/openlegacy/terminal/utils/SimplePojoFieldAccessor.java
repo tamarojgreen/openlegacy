@@ -65,22 +65,23 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setFieldValue(java.lang.String, java.lang.Object)
 	 */
 	public void setFieldValue(String fieldName, Object value) {
-		if (fieldName.contains(".")) {
-			String partName = StringUtil.getNamespace(fieldName);
-			fieldName = getFieldPojoName(fieldName);
-			DirectFieldAccessor partAccesor = getPartAccessor(partName);
-			partAccesor.setPropertyValue(fieldName, value);
-		}
 		try {
-			directFieldAccessor.setPropertyValue(getFieldPojoName(fieldName), value);
+			if (fieldName.contains(".")) {
+				String partName = StringUtil.getNamespace(fieldName);
+				fieldName = getFieldPojoName(fieldName);
+				DirectFieldAccessor partAccesor = getPartAccessor(partName);
+				partAccesor.setPropertyValue(fieldName, value);
+			} else {
+				directFieldAccessor.setPropertyValue(getFieldPojoName(fieldName), value);
+			}
+			if (logger.isDebugEnabled()) {
+				String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
+				logger.trace(message);
+			}
 		} catch (Exception e) {
 			logger.fatal(MessageFormat.format("Unable to update entity field: {0}.{1}", target.getClass().getSimpleName(),
 					fieldName, e));
 			return;
-		}
-		if (logger.isDebugEnabled()) {
-			String message = MessageFormat.format("Field {0} was set with value \"{1}\"", fieldName, value);
-			logger.trace(message);
 		}
 	}
 
