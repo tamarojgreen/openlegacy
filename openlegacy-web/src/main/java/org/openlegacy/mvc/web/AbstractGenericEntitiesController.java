@@ -10,18 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.mvc.web;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -47,11 +35,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
- * OpenLegacy default web controller for a terminal session. Handles GET/POST
- * requests of a web application. Works closely with generic.jspx /
- * composite.jspx. Saves the need for a dedicated controller and page for each
- * screen API, if such doesn't exists.
+ * OpenLegacy default web controller for a terminal session. Handles GET/POST requests of a web application. Works closely with
+ * generic.jspx / composite.jspx. Saves the need for a dedicated controller and page for each screen API, if such doesn't exists.
  * 
  * @author Roi Mor
  * 
@@ -60,8 +58,7 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 
 	protected static final String ACTION = "action";
 
-	private final static Log logger = LogFactory
-			.getLog(AbstractGenericEntitiesController.class);
+	private final static Log logger = LogFactory.getLog(AbstractGenericEntitiesController.class);
 
 	private static final String PAGE = "page";
 
@@ -95,8 +92,8 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET)
 	public String getEntity(@PathVariable("entity") String entityName,
-			@RequestParam(value = "partial", required = false) String partial,
-			Model uiModel, HttpServletRequest request) throws IOException {
+			@RequestParam(value = "partial", required = false) String partial, Model uiModel, HttpServletRequest request)
+			throws IOException {
 		if (entityName.equals(MAIN_MENU)) {
 			return MvcConstants.ROOTMENU_VIEW;
 		}
@@ -105,10 +102,9 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 	}
 
 	@RequestMapping(value = "/{entity}/{key:[\\w+[-_ ]*\\w+]+}", method = RequestMethod.GET)
-	public String getEntityWithKey(@PathVariable("entity") String entityName,
-			@PathVariable("key") String key,
-			@RequestParam(value = "partial", required = false) String partial,
-			Model uiModel, HttpServletRequest request) throws IOException {
+	public String getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			@RequestParam(value = "partial", required = false) String partial, Model uiModel, HttpServletRequest request)
+			throws IOException {
 
 		try {
 			// enable sending more then one key, concatenated with "+"
@@ -116,8 +112,7 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 			if (key != null) {
 				String[] keysArr = key.split("\\+");
 				keys = new Object[keysArr.length];
-				List<? extends FieldDefinition> keyFields = entitiesRegistry
-						.get(entityName).getKeys();
+				List<? extends FieldDefinition> keyFields = entitiesRegistry.get(entityName).getKeys();
 				for (int i = 0; i < keyFields.size(); i++) {
 					keys[i] = keysArr[i];
 					if (keyFields.get(i).getJavaType() == Integer.class) {
@@ -135,11 +130,9 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 
 	protected String handleFallbackUrl(RuntimeException e) {
 		if (openlegacyWebProperties.isFallbackUrlOnError()) {
-			Assert.notNull(openlegacyWebProperties.getFallbackUrl(),
-					"No fallback URL defined");
+			Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
 			logger.error(e.getMessage());
-			return MvcConstants.REDIRECT
-					+ openlegacyWebProperties.getFallbackUrl();
+			return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 		} else {
 			throw (e);
 		}
@@ -147,50 +140,40 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 
 	protected abstract ActionDefinition findAction(Object entity, String action);
 
-	protected String handleEntity(HttpServletRequest request, Model uiModel,
-			Object resultEntity) throws MalformedURLException {
+	protected String handleEntity(HttpServletRequest request, Model uiModel, Object resultEntity) throws MalformedURLException {
 		if (resultEntity == null) {
-			Assert.notNull(openlegacyWebProperties.getFallbackUrl(),
-					"No fallback URL defined");
-			return MvcConstants.REDIRECT
-					+ openlegacyWebProperties.getFallbackUrl();
+			Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
+			return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 		} else {
 			boolean isPartial = request.getParameter("partial") != null;
 			if (isPartial) {
 				return prepareView(resultEntity, uiModel, isPartial, request);
 			} else {
-				EntityDefinition<?> entityDefinition = entitiesRegistry
-						.get(resultEntity.getClass());
+				EntityDefinition<?> entityDefinition = entitiesRegistry.get(resultEntity.getClass());
 				return MvcConstants.REDIRECT + entityDefinition.getEntityName();
 			}
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	protected String prepareView(Object entity, Model uiModel, boolean partial,
-			HttpServletRequest request) throws MalformedURLException {
-		String screenEntityName = ProxyUtil.getOriginalClass(entity.getClass())
-				.getSimpleName();
+	protected String prepareView(Object entity, Model uiModel, boolean partial, HttpServletRequest request)
+			throws MalformedURLException {
+		String screenEntityName = ProxyUtil.getOriginalClass(entity.getClass()).getSimpleName();
 		uiModel.addAttribute(StringUtils.uncapitalize(screenEntityName), entity);
-		EntityDefinition<?> entityDefinition = entitiesRegistry
-				.get(screenEntityName);
+		EntityDefinition<?> entityDefinition = entitiesRegistry.get(screenEntityName);
 		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefinition));
 
-		SitePreference sitePreference = SitePreferenceUtils
-				.getCurrentSitePreference(request);
+		SitePreference sitePreference = SitePreferenceUtils.getCurrentSitePreference(request);
 
-		boolean isComposite = entityDefinition.getChildEntitiesDefinitions()
-				.size() > 0 && !partial;
+		boolean isComposite = entityDefinition.getChildEntitiesDefinitions().size() > 0 && !partial;
 		String suffix = isComposite ? MvcConstants.COMPOSITE_SUFFIX : "";
 		String viewName = entityDefinition.getEntityName() + suffix;
 
-		String viewsPath = sitePreference == SitePreference.MOBILE ? mobileViewsPath
-				: webViewsPath;
+		String viewsPath = sitePreference == SitePreference.MOBILE ? mobileViewsPath : webViewsPath;
 
 		// check if custom view exists, if not load generic view by
 		// characteristics
-		if (servletContext.getResource(MessageFormat.format("{0}/{1}{2}",
-				viewsPath, viewName, viewsSuffix)) == null) {
+		if (servletContext.getResource(MessageFormat.format("{0}/{1}{2}", viewsPath, viewName, viewsSuffix)) == null) {
 			if (isComposite) {
 				// generic composite view (multi tabbed page)
 				viewName = MvcConstants.COMPOSITE;
@@ -213,20 +196,17 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 	}
 
 	/**
-	 * Look for the given entity in the registry, and return HTTP 400 (BAD
-	 * REQUEST) in case it's not found
+	 * Look for the given entity in the registry, and return HTTP 400 (BAD REQUEST) in case it's not found
 	 * 
 	 * @param entityName
 	 * @param response
 	 * @return
 	 * @throws IOException
 	 */
-	protected Class<?> findAndHandleNotFound(String entityName,
-			HttpServletResponse response) throws IOException {
+	protected Class<?> findAndHandleNotFound(String entityName, HttpServletResponse response) throws IOException {
 		Class<?> entityClass = entitiesRegistry.getEntityClass(entityName);
 		if (entityClass == null) {
-			String message = MessageFormat.format("Entity {0} not found",
-					entityName);
+			String message = MessageFormat.format("Entity {0} not found", entityName);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, message);
 			logger.error(message);
 		}
@@ -241,8 +221,7 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 	protected static void registerPropertyEditors(DataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				dateFormat, false));
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
 	}
 
 	public void setWebViewsPath(String webViewsPath) {

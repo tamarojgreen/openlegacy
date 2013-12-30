@@ -138,6 +138,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 		}
 		if (navigationSteps != null) {
 			performDirectNavigation(terminalSession, currentEntityClass, navigationSteps, keys);
+			ScreenNavigationUtil.validateCurrentScreen(targetScreenEntityClass, terminalSession.getEntity().getClass());
 		}
 
 	}

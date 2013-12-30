@@ -25,8 +25,10 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.json.JsonSerializationUtil;
 import org.openlegacy.terminal.modules.login.LoginMetadata;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
@@ -132,6 +134,14 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 		if (!getSession().isConnected() && loginMetadata.getLoginScreenDefinition() != null) {
 			logger.error(e.getMessage());
 			return MvcConstants.LOGIN_URL;
+		} else if (e instanceof ScreenEntityNotAccessibleException) {
+			if (getSession().getEntity() != null) {
+				ScreenEntityDefinition definition = (ScreenEntityDefinition)getEntitiesRegistry().get(
+						getSession().getEntity().getClass());
+				return MvcConstants.REDIRECT + definition.getEntityName();
+			} else {
+				return super.handleFallbackUrl(e);
+			}
 		} else {
 			return super.handleFallbackUrl(e);
 		}
