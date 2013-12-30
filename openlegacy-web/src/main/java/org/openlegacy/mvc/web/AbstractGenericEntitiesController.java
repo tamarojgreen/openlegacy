@@ -101,7 +101,7 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 
 	}
 
-	@RequestMapping(value = "/{entity}/{key:[\\w+[-_ ]*\\w+]+}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET)
 	public String getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = "partial", required = false) String partial, Model uiModel, HttpServletRequest request)
 			throws IOException {
