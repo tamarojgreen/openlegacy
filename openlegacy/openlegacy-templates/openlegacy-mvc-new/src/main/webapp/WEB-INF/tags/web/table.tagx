@@ -154,14 +154,14 @@
 			<div class="paging">
 				<div class="previous" id="previous">
 					<a
-						href="javascript:doAjaxPost('${formName}','${contentPaneId}','previous','body',runOnLoads)">
+						href="javascript:doAjaxPost('${formName}','${contentPaneId}','previous','actions,body',runOnLoads)">
 						<span class="arrow"> <!---->
 					</span> <span>${label_prev}</span>
 					</a>
 				</div>
 				<div class="next" id="next">
 					<a
-						href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body',runOnLoads))">
+						href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','actions,body',runOnLoads))">
 						<span class="arrow"> <!---->
 					</span> <span>${label_next}</span>
 					</a>
