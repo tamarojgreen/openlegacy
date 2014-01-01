@@ -5,7 +5,7 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.modules.login.LoginMetadata;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import java.net.URLEncoder;
+import java.net.URI;
 import java.text.MessageFormat;
 import java.util.Set;
 
@@ -34,7 +34,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				requestedPage = MessageFormat.format("{0}&{1}={2}", requestedPage, paramName, request.getParameter(paramName));
 			}
 			requestedPage = requestedPage.replaceFirst("&", "?");
-			response.sendRedirect(request.getContextPath() + "/login?requestedUrl=" + URLEncoder.encode(requestedPage, "UTF-8"));
+			URI uri = new URI(requestedPage);
+			response.sendRedirect(request.getContextPath() + "/login?requestedUrl=" + uri.toASCIIString());
 			return false;
 		}
 		return true;

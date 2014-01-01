@@ -34,6 +34,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -86,7 +89,7 @@ public class LoginController {
 	@RequestMapping(value = "Login", method = RequestMethod.POST)
 	public String login(Model uiModel, HttpServletRequest request,
 			@RequestParam(value = "partial", required = false) String partial,
-			@RequestParam(value = "requestedUrl", required = false) String requestedUrl) {
+			@RequestParam(value = "requestedUrl", required = false) String requestedUrl) throws URISyntaxException {
 
 		ScreenEntityDefinition loginEntityDefinition = loginMetadata.getLoginScreenDefinition();
 
@@ -107,7 +110,8 @@ public class LoginController {
 		}
 
 		if (StringUtils.isNotEmpty(requestedUrl)) {
-			return MvcConstants.REDIRECT + requestedUrl;
+			URI uri = new URI(requestedUrl);
+			return MvcConstants.REDIRECT + uri.toASCIIString();
 		}
 
 		ScreenEntity screenEntity = terminalSession.getEntity();
