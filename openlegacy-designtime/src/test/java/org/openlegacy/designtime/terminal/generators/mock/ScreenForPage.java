@@ -11,7 +11,9 @@ import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
+import java.util.Collections;
 import java.util.List;
 
 @ScreenEntity
@@ -76,6 +78,11 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	public String getFocusField() {
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
 	}
 
 	public void setFocusField(String focusField) {}

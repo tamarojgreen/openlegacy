@@ -18,6 +18,11 @@ privileged @SuppressWarnings("unused") aspect ItemsListRow_Aspect {
     	this.action = action;
     }
 
+    public Integer ItemsListRow.getItemNumber(){
+    	return this.itemNumber;
+    }
+    
+
     public String ItemsListRow.getAlphaSearch(){
     	return this.alphaSearch;
     }
@@ -25,11 +30,6 @@ privileged @SuppressWarnings("unused") aspect ItemsListRow_Aspect {
 
     public String ItemsListRow.getItemDescription(){
     	return this.itemDescription;
-    }
-    
-
-    public Integer ItemsListRow.getItemNumber(){
-    	return this.itemNumber;
     }
     
 

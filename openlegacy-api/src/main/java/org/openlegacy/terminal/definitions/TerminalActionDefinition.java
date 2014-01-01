@@ -32,4 +32,17 @@ public interface TerminalActionDefinition extends ActionDefinition, TerminalPosi
 
 	String getFocusField();
 
+	/**
+	 * Together with row, column define the actual position of the action on the screen
+	 * 
+	 * @return
+	 */
+	int getLength();
+
+	/**
+	 * Together with row, column, length defines if to show the action
+	 * 
+	 * @return
+	 */
+	String getWhen();
 }

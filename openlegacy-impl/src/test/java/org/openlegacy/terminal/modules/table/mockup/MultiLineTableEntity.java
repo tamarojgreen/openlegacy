@@ -5,8 +5,10 @@ import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.List;
 
 @ScreenEntity
@@ -61,6 +63,11 @@ public class MultiLineTableEntity implements org.openlegacy.terminal.ScreenEntit
 	public void setFocusField(String focusField) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
 	}
 
 }

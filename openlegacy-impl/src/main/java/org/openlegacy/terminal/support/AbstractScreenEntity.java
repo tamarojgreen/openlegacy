@@ -11,6 +11,10 @@
 package org.openlegacy.terminal.support;
 
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
 
 public class AbstractScreenEntity implements ScreenEntity {
 
@@ -22,5 +26,10 @@ public class AbstractScreenEntity implements ScreenEntity {
 
 	public void setFocusField(String focusField) {
 		this.focusField = focusField;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
 	}
 }

@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Interface for a screen entity. Currently used for identifying child screen getters methods calls to perform lazy fetching. Not
  * to be confused with {@link org.openlegacy.annotations.screen.ScreenEntity} which marks screen entity classes. This interface is
@@ -25,6 +30,8 @@ public interface ScreenEntity {
 
 	void setFocusField(String focusField);
 
+	List<TerminalActionDefinition> getActions();
+
 	public class NONE implements ScreenEntity {
 
 		public String getFocusField() {
@@ -32,6 +39,11 @@ public interface ScreenEntity {
 		}
 
 		public void setFocusField(String focusField) {}
+
+		@SuppressWarnings("unchecked")
+		public List<TerminalActionDefinition> getActions() {
+			return Collections.EMPTY_LIST;
+		}
 
 	}
 }

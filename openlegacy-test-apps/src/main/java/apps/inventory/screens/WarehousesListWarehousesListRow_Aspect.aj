@@ -18,13 +18,13 @@ privileged @SuppressWarnings("unused") aspect WarehousesListRow_Aspect {
     	this.action = action;
     }
 
-    public String WarehousesListRow.getWarehouseDescription(){
-    	return this.warehouseDescription;
+    public String WarehousesListRow.getWarehouseNumber(){
+    	return this.warehouseNumber;
     }
     
 
-    public String WarehousesListRow.getWarehouseNumber(){
-    	return this.warehouseNumber;
+    public String WarehousesListRow.getWarehouseDescription(){
+    	return this.warehouseDescription;
     }
     
 

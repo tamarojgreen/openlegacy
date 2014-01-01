@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobs_Aspect {
 
     declare parents: WorkWithSubmittedJobs implements ScreenEntity;
     private String WorkWithSubmittedJobs.focusField;
+    private List<TerminalActionDefinition> WorkWithSubmittedJobs.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -17,15 +19,15 @@ privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobs_Aspect {
 
     
 
-    public List<WorkWithSubmittedJobsRecord> WorkWithSubmittedJobs.getWorkWithSubmittedJobsRecords(){
-    	return this.WorkWithSubmittedJobsRecords;
+    public String WorkWithSubmittedJobs.getSubmittedFrom(){
+    	return this.submittedFrom;
     }
     
 
 
 
-    public String WorkWithSubmittedJobs.getSubmittedFrom(){
-    	return this.submittedFrom;
+    public List<WorkWithSubmittedJobsRecord> WorkWithSubmittedJobs.getWorkWithSubmittedJobsRecords(){
+    	return this.WorkWithSubmittedJobsRecords;
     }
     
 
@@ -37,6 +39,10 @@ privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobs_Aspect {
     }
     public void WorkWithSubmittedJobs.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> WorkWithSubmittedJobs.getActions(){
+    	return actions;
     }
     
 }

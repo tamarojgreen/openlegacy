@@ -6,6 +6,10 @@ import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.FieldAttributeType;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 23, value = "Attributes") })
@@ -52,4 +56,8 @@ public class ScreenFieldAttributeEntity implements org.openlegacy.terminal.Scree
 
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
+	}
 }

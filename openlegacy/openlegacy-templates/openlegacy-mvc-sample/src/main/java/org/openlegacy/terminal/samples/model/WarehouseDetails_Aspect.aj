@@ -5,30 +5,14 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
 
     declare parents: WarehouseDetails implements ScreenEntity;
     private String WarehouseDetails.focusField;
+    private List<TerminalActionDefinition> WarehouseDetails.actions = new ArrayList<TerminalActionDefinition>();
     
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
 	
 
 	
@@ -38,85 +22,32 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     private Map<Object,Object> WarehouseDetails.warehouseTypeValues;
 	
 
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
     
 
-    public String WarehouseDetails.getAddress(){
-    	return this.address;
+    public Integer WarehouseDetails.getWarehouseNumber(){
+    	return this.warehouseNumber;
     }
     
-    public void WarehouseDetails.setAddress(String address){
-    	this.address = address;
-    }
-
-
-
-    public String WarehouseDetails.getAmendedBy(){
-    	return this.amendedBy;
-    }
-    
-
-
-
-    public Date WarehouseDetails.getAmendedDate(){
-    	return this.amendedDate;
-    }
-    
-    public void WarehouseDetails.setAmendedDate(Date amendedDate){
-    	this.amendedDate = amendedDate;
-    }
-
-
-
-    public Integer WarehouseDetails.getCostingType(){
-    	return this.costingType;
-    }
-    
-    public void WarehouseDetails.setCostingType(Integer costingType){
-    	this.costingType = costingType;
-    }
-
-
-
-    public String WarehouseDetails.getCreatedBy(){
-    	return this.createdBy;
-    }
-    
-
-
-
-    public String WarehouseDetails.getCreatedDate(){
-    	return this.createdDate;
-    }
-    
-
-
-
-    public String WarehouseDetails.getEmail(){
-    	return this.email;
-    }
-    
-    public void WarehouseDetails.setEmail(String email){
-    	this.email = email;
-    }
-
-
-
-    public String WarehouseDetails.getPhone(){
-    	return this.phone;
-    }
-    
-    public void WarehouseDetails.setPhone(String phone){
-    	this.phone = phone;
-    }
-
-
-
-    public String WarehouseDetails.getReplenishmentCycleFlag(){
-    	return this.replenishmentCycleFlag;
-    }
-    
-    public void WarehouseDetails.setReplenishmentCycleFlag(String replenishmentCycleFlag){
-    	this.replenishmentCycleFlag = replenishmentCycleFlag;
+    public void WarehouseDetails.setWarehouseNumber(Integer warehouseNumber){
+    	this.warehouseNumber = warehouseNumber;
     }
 
 
@@ -127,16 +58,6 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     
     public void WarehouseDetails.setWarehouseDescription(String warehouseDescription){
     	this.warehouseDescription = warehouseDescription;
-    }
-
-
-
-    public Integer WarehouseDetails.getWarehouseNumber(){
-    	return this.warehouseNumber;
-    }
-    
-    public void WarehouseDetails.setWarehouseNumber(Integer warehouseNumber){
-    	this.warehouseNumber = warehouseNumber;
     }
 
 
@@ -161,12 +82,97 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
 
 
 
+    public Integer WarehouseDetails.getCostingType(){
+    	return this.costingType;
+    }
+    
+    public void WarehouseDetails.setCostingType(Integer costingType){
+    	this.costingType = costingType;
+    }
+
+
+
+    public String WarehouseDetails.getReplenishmentCycleFlag(){
+    	return this.replenishmentCycleFlag;
+    }
+    
+    public void WarehouseDetails.setReplenishmentCycleFlag(String replenishmentCycleFlag){
+    	this.replenishmentCycleFlag = replenishmentCycleFlag;
+    }
+
+
+
+    public String WarehouseDetails.getAddress(){
+    	return this.address;
+    }
+    
+    public void WarehouseDetails.setAddress(String address){
+    	this.address = address;
+    }
+
+
+
+    public String WarehouseDetails.getPhone(){
+    	return this.phone;
+    }
+    
+    public void WarehouseDetails.setPhone(String phone){
+    	this.phone = phone;
+    }
+
+
+
+    public String WarehouseDetails.getEmail(){
+    	return this.email;
+    }
+    
+    public void WarehouseDetails.setEmail(String email){
+    	this.email = email;
+    }
+
+
+
+    public Date WarehouseDetails.getAmendedDate(){
+    	return this.amendedDate;
+    }
+    
+    public void WarehouseDetails.setAmendedDate(Date amendedDate){
+    	this.amendedDate = amendedDate;
+    }
+
+
+
+    public String WarehouseDetails.getAmendedBy(){
+    	return this.amendedBy;
+    }
+    
+
+
+
+    public String WarehouseDetails.getCreatedDate(){
+    	return this.createdDate;
+    }
+    
+
+
+
+    public String WarehouseDetails.getCreatedBy(){
+    	return this.createdBy;
+    }
+    
+
+
+
 
     public String WarehouseDetails.getFocusField(){
     	return focusField;
     }
     public void WarehouseDetails.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> WarehouseDetails.getActions(){
+    	return actions;
     }
     
 }

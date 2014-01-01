@@ -82,6 +82,9 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				actionDefinition.setGlobal(action.global());
 				actionDefinition.setType(action.type());
 
+				actionDefinition.setLength(action.length());
+				actionDefinition.setWhen(action.when());
+
 				if (action.focusField().length() > 0) {
 					actionDefinition.setFocusField(action.focusField());
 				}

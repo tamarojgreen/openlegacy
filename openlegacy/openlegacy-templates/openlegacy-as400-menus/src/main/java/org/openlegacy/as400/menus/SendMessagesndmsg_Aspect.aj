@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SendMessagesndmsg_Aspect {
 
     declare parents: SendMessagesndmsg implements ScreenEntity;
     private String SendMessagesndmsg.focusField;
+    private List<TerminalActionDefinition> SendMessagesndmsg.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -43,6 +45,10 @@ privileged @SuppressWarnings("unused") aspect SendMessagesndmsg_Aspect {
     }
     public void SendMessagesndmsg.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> SendMessagesndmsg.getActions(){
+    	return actions;
     }
     
 }

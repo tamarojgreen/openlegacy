@@ -5,16 +5,21 @@ package apps.inventory.screens;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect DisplayProgramMessages_Aspect {
 
     declare parents: DisplayProgramMessages implements ScreenEntity;
     private String DisplayProgramMessages.focusField;
+    private List<TerminalActionDefinition> DisplayProgramMessages.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
     
 
+    public String DisplayProgramMessages.getMessage(){
+    	return this.message;
+    }
     
 
 
@@ -25,6 +30,10 @@ privileged @SuppressWarnings("unused") aspect DisplayProgramMessages_Aspect {
     }
     public void DisplayProgramMessages.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> DisplayProgramMessages.getActions(){
+    	return actions;
     }
     
 }

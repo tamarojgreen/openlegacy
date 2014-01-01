@@ -10,13 +10,13 @@ import org.openlegacy.as400.menus.WorkWithMessages.WorkWithMessagesRecord;
 
 privileged @SuppressWarnings("unused") aspect WorkWithMessagesRecord_Aspect {
     
-    public String WorkWithMessagesRecord.getMessage(){
-    	return this.message;
+    public String WorkWithMessagesRecord.getOpt(){
+    	return this.opt;
     }
     
 
-    public String WorkWithMessagesRecord.getOpt(){
-    	return this.opt;
+    public String WorkWithMessagesRecord.getMessage(){
+    	return this.message;
     }
     
 

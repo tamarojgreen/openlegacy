@@ -23,7 +23,7 @@
 					${label_submit}
 				</a>
 			</li>
-			<c:forEach items="${definitions.actions}" var="action">
+			<c:forEach items="${ol_actions}" var="action">
 				<li>
 					<a href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}','${action.alias}');"
 						value="${action.displayName}">

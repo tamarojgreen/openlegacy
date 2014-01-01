@@ -5,27 +5,19 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
 
     declare parents: MainMenu implements ScreenEntity;
     private String MainMenu.focusField;
+    private List<TerminalActionDefinition> MainMenu.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
 	
 
     
-
-    public Integer MainMenu.getCompany(){
-    	return this.company;
-    }
-    
-    public void MainMenu.setCompany(Integer company){
-    	this.company = company;
-    }
-
-
 
     public Integer MainMenu.getMenuSelection(){
     	return this.menuSelection;
@@ -37,12 +29,26 @@ privileged @SuppressWarnings("unused") aspect MainMenu_Aspect {
 
 
 
+    public Integer MainMenu.getCompany(){
+    	return this.company;
+    }
+    
+    public void MainMenu.setCompany(Integer company){
+    	this.company = company;
+    }
+
+
+
 
     public String MainMenu.getFocusField(){
     	return focusField;
     }
     public void MainMenu.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> MainMenu.getActions(){
+    	return actions;
     }
     
 }

@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect DisplayJobStatusAttributes_Aspect {
 
     declare parents: DisplayJobStatusAttributes implements ScreenEntity;
     private String DisplayJobStatusAttributes.focusField;
+    private List<TerminalActionDefinition> DisplayJobStatusAttributes.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -47,22 +49,8 @@ privileged @SuppressWarnings("unused") aspect DisplayJobStatusAttributes_Aspect 
 
     
 
-    public String DisplayJobStatusAttributes.getCurrentUserProfile(){
-    	return this.currentUserProfile;
-    }
-    
-
-
-
-    public String DisplayJobStatusAttributes.getDate(){
-    	return this.date;
-    }
-    
-
-
-
-    public String DisplayJobStatusAttributes.getDate1(){
-    	return this.date1;
+    public String DisplayJobStatusAttributes.getSystem(){
+    	return this.system;
     }
     
 
@@ -75,8 +63,8 @@ privileged @SuppressWarnings("unused") aspect DisplayJobStatusAttributes_Aspect 
 
 
 
-    public String DisplayJobStatusAttributes.getJobUserIdentity(){
-    	return this.jobUserIdentity;
+    public String DisplayJobStatusAttributes.getUser(){
+    	return this.user;
     }
     
 
@@ -89,8 +77,22 @@ privileged @SuppressWarnings("unused") aspect DisplayJobStatusAttributes_Aspect 
 
 
 
-    public Integer DisplayJobStatusAttributes.getProgramReturnCode(){
-    	return this.programReturnCode;
+    public String DisplayJobStatusAttributes.getStatusOfJob(){
+    	return this.statusOfJob;
+    }
+    
+
+
+
+    public String DisplayJobStatusAttributes.getCurrentUserProfile(){
+    	return this.currentUserProfile;
+    }
+    
+
+
+
+    public String DisplayJobStatusAttributes.getJobUserIdentity(){
+    	return this.jobUserIdentity;
     }
     
 
@@ -103,15 +105,29 @@ privileged @SuppressWarnings("unused") aspect DisplayJobStatusAttributes_Aspect 
 
 
 
-    public String DisplayJobStatusAttributes.getSpecialEnvironment(){
-    	return this.specialEnvironment;
+    public String DisplayJobStatusAttributes.getDate1(){
+    	return this.date1;
     }
     
 
 
 
-    public String DisplayJobStatusAttributes.getStatusOfJob(){
-    	return this.statusOfJob;
+    public String DisplayJobStatusAttributes.getTime1(){
+    	return this.time1;
+    }
+    
+
+
+
+    public String DisplayJobStatusAttributes.getDate(){
+    	return this.date;
+    }
+    
+
+
+
+    public String DisplayJobStatusAttributes.getTime(){
+    	return this.time;
     }
     
 
@@ -131,27 +147,6 @@ privileged @SuppressWarnings("unused") aspect DisplayJobStatusAttributes_Aspect 
 
 
 
-    public String DisplayJobStatusAttributes.getSystem(){
-    	return this.system;
-    }
-    
-
-
-
-    public String DisplayJobStatusAttributes.getTime(){
-    	return this.time;
-    }
-    
-
-
-
-    public String DisplayJobStatusAttributes.getTime1(){
-    	return this.time1;
-    }
-    
-
-
-
     public String DisplayJobStatusAttributes.getTypeOfJob(){
     	return this.typeOfJob;
     }
@@ -159,8 +154,15 @@ privileged @SuppressWarnings("unused") aspect DisplayJobStatusAttributes_Aspect 
 
 
 
-    public String DisplayJobStatusAttributes.getUser(){
-    	return this.user;
+    public String DisplayJobStatusAttributes.getSpecialEnvironment(){
+    	return this.specialEnvironment;
+    }
+    
+
+
+
+    public Integer DisplayJobStatusAttributes.getProgramReturnCode(){
+    	return this.programReturnCode;
     }
     
 
@@ -172,6 +174,10 @@ privileged @SuppressWarnings("unused") aspect DisplayJobStatusAttributes_Aspect 
     }
     public void DisplayJobStatusAttributes.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> DisplayJobStatusAttributes.getActions(){
+    	return actions;
     }
     
 }

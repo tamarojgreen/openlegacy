@@ -24,7 +24,6 @@ import org.openlegacy.terminal.services.ScreenIdentification;
 import org.openlegacy.terminal.support.SimpleScreenIdentification;
 import org.openlegacy.terminal.support.TerminalPositionContainerComparator;
 
-import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,9 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<ScreenFieldDefinition> implements ScreenEntityDefinition, Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<ScreenFieldDefinition> implements ScreenEntityDefinition {
 
 	private ScreenIdentification screenIdentification = new SimpleScreenIdentification();
 	private NavigationDefinition navigationDefinition;

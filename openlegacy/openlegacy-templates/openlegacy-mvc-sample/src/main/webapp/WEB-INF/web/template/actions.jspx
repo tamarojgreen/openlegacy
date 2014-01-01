@@ -17,7 +17,7 @@
 					Submit
 				</a>
 			</li>
-			<c:forEach items="${definitions.actions}" var="action">
+			<c:forEach items="${ol_actions}" var="action">
 				<c:set var="image" value="/icons/${action.alias}.png" />
 				<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">
 					<c:set var="image" value="/icons/submit.png" />

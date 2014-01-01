@@ -14,8 +14,4 @@ public class DisplayProgramMessages {
 	@ScreenField(row = 3, column = 2, endRow = 4, endColumn = 77, rectangle = true, fieldType = MessageField.class)
 	private String message;
 
-	public String getMessage() {
-		return message;
-	}
-
 }

@@ -5,11 +5,13 @@ package com.someorg.examples.screens;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 
     declare parents: SignOn implements ScreenEntity;
     private String SignOn.focusField;
+    private List<TerminalActionDefinition> SignOn.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -37,6 +39,10 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     }
     public void SignOn.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> SignOn.getActions(){
+    	return actions;
     }
     
 }

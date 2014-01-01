@@ -18,7 +18,7 @@
 					width="15" height="14" alt="Submit" /> ${label_submit}
 				</a>
 			</li>
-			<c:forEach items="${definitions.actions}" var="action">
+			<c:forEach items="${ol_actions}" var="action">
 				<c:if test="${action.global}">
 					<c:set var="image" value="/icons/${action.alias}.png" />
 					<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">

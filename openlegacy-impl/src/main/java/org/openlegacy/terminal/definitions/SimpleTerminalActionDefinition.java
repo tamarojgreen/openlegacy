@@ -30,6 +30,10 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	private ActionType type;
 
+	private int length;
+
+	private String when;
+
 	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
 			String displayName, TerminalPosition position) {
 		super(action, displayName);
@@ -67,5 +71,21 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	public void setType(ActionType type) {
 		this.type = type;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
+	public String getWhen() {
+		return when;
+	}
+
+	public void setWhen(String when) {
+		this.when = when;
 	}
 }

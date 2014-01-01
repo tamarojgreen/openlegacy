@@ -52,6 +52,7 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 
 	private int skipLimit = 5;
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> terminalConnection, RemoteAction action, Snapshot result) {
 

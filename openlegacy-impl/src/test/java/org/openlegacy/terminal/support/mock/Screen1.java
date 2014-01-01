@@ -5,8 +5,11 @@ import org.openlegacy.annotations.screen.ScreenDateField;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 30, value = "Date Screen title") })
@@ -29,4 +32,9 @@ public class Screen1 implements org.openlegacy.terminal.ScreenEntity {
 	}
 
 	public void setFocusField(String focusField) {}
+
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
+	}
 }

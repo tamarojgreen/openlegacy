@@ -8,7 +8,11 @@ import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.support.mock.CustomBindScreen.CustomBinder;
+
+import java.util.Collections;
+import java.util.List;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 30, value = "Custom bind title") })
@@ -30,6 +34,11 @@ public class CustomBindScreen implements org.openlegacy.terminal.ScreenEntity {
 	}
 
 	public void setFocusField(String focusField) {}
+
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
+	}
 
 	public static class CustomBinder implements ScreenEntityBinder {
 

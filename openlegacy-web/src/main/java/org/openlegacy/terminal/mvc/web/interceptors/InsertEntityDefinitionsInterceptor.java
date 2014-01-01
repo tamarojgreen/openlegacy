@@ -63,6 +63,7 @@ public class InsertEntityDefinitionsInterceptor extends AbstractScreensIntercept
 			ScreenEntityDefinition definitions = entitiesRegistry.get(entity.getClass());
 
 			mvcUtils.insertModelObjects(modelAndView, entity, entitiesRegistry);
+			modelAndView.addObject("ol_actions", entity.getActions());
 
 			NavigationDefinition navigationDefinition = definitions.getNavigationDefinition();
 			if (navigationDefinition != null) {

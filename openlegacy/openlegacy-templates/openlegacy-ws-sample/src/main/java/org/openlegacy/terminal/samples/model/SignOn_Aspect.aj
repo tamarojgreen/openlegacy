@@ -5,11 +5,13 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 
     declare parents: SignOn implements ScreenEntity;
     private String SignOn.focusField;
+    private List<TerminalActionDefinition> SignOn.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -31,13 +33,17 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 
     
 
-    public String SignOn.getCurrentLibrary(){
-    	return this.currentLibrary;
+    public String SignOn.getSystem(){
+    	return this.system;
     }
     
-    public void SignOn.setCurrentLibrary(String currentLibrary){
-    	this.currentLibrary = currentLibrary;
+
+
+
+    public String SignOn.getSubsystem(){
+    	return this.subsystem;
     }
+    
 
 
 
@@ -48,19 +54,12 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 
 
 
-    public String SignOn.getErrorMessage(){
-    	return this.errorMessage;
+    public String SignOn.getUser(){
+    	return this.user;
     }
     
-
-
-
-    public String SignOn.getMenu(){
-    	return this.menu;
-    }
-    
-    public void SignOn.setMenu(String menu){
-    	this.menu = menu;
+    public void SignOn.setUser(String user){
+    	this.user = user;
     }
 
 
@@ -85,27 +84,30 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
 
 
 
-    public String SignOn.getSubsystem(){
-    	return this.subsystem;
+    public String SignOn.getMenu(){
+    	return this.menu;
     }
     
+    public void SignOn.setMenu(String menu){
+    	this.menu = menu;
+    }
 
 
 
-    public String SignOn.getSystem(){
-    	return this.system;
+    public String SignOn.getCurrentLibrary(){
+    	return this.currentLibrary;
     }
     
+    public void SignOn.setCurrentLibrary(String currentLibrary){
+    	this.currentLibrary = currentLibrary;
+    }
 
 
 
-    public String SignOn.getUser(){
-    	return this.user;
+    public String SignOn.getErrorMessage(){
+    	return this.errorMessage;
     }
     
-    public void SignOn.setUser(String user){
-    	this.user = user;
-    }
 
 
 
@@ -115,6 +117,10 @@ privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     }
     public void SignOn.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> SignOn.getActions(){
+    	return actions;
     }
     
 }

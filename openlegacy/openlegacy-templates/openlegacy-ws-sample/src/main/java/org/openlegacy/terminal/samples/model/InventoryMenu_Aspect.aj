@@ -5,11 +5,13 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect InventoryMenu_Aspect {
 
     declare parents: InventoryMenu implements ScreenEntity;
     private String InventoryMenu.focusField;
+    private List<TerminalActionDefinition> InventoryMenu.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -31,6 +33,10 @@ privileged @SuppressWarnings("unused") aspect InventoryMenu_Aspect {
     }
     public void InventoryMenu.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> InventoryMenu.getActions(){
+    	return actions;
     }
     
 }

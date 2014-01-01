@@ -5,17 +5,26 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect InteractiveDataDefinitionUtility_Aspect {
 
     declare parents: InteractiveDataDefinitionUtility implements ScreenEntity;
     private String InteractiveDataDefinitionUtility.focusField;
+    private List<TerminalActionDefinition> InteractiveDataDefinitionUtility.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
 	
 
     
+
+    public String InteractiveDataDefinitionUtility.getSystem(){
+    	return this.system;
+    }
+    
+
+
 
     public String InteractiveDataDefinitionUtility.getMenuSelection(){
     	return this.menuSelection;
@@ -27,19 +36,16 @@ privileged @SuppressWarnings("unused") aspect InteractiveDataDefinitionUtility_A
 
 
 
-    public String InteractiveDataDefinitionUtility.getSystem(){
-    	return this.system;
-    }
-    
-
-
-
 
     public String InteractiveDataDefinitionUtility.getFocusField(){
     	return focusField;
     }
     public void InteractiveDataDefinitionUtility.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> InteractiveDataDefinitionUtility.getActions(){
+    	return actions;
     }
     
 }

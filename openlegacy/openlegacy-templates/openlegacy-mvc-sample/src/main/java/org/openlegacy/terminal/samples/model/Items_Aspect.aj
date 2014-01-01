@@ -5,24 +5,19 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect Items_Aspect {
 
     declare parents: Items implements ScreenEntity;
     private String Items.focusField;
+    private List<TerminalActionDefinition> Items.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
 	
 
     
-
-    public List<ItemsRecord> Items.getItemsRecords(){
-    	return this.itemsRecords;
-    }
-    
-
-
 
     public String Items.getPositionTo(){
     	return this.positionTo;
@@ -34,12 +29,23 @@ privileged @SuppressWarnings("unused") aspect Items_Aspect {
 
 
 
+    public List<ItemsRecord> Items.getItemsRecords(){
+    	return this.itemsRecords;
+    }
+    
+
+
+
 
     public String Items.getFocusField(){
     	return focusField;
     }
     public void Items.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> Items.getActions(){
+    	return actions;
     }
     
 }

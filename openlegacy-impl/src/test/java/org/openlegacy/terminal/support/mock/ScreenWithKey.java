@@ -5,8 +5,12 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenNavigation;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.EnterDrilldownAction;
 import org.openlegacy.terminal.support.mock.ScreenWithKey.ScreenWithKeyDrillDown;
+
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("unused")
 @ScreenEntity
@@ -26,6 +30,11 @@ public class ScreenWithKey implements org.openlegacy.terminal.ScreenEntity {
 	}
 
 	public void setFocusField(String focusField) {}
+
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
+	}
 
 	public static class ScreenWithKeyDrillDown extends EnterDrilldownAction {
 

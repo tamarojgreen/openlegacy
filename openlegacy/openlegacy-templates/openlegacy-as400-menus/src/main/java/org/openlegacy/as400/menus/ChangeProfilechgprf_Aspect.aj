@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
 
     declare parents: ChangeProfilechgprf implements ScreenEntity;
     private String ChangeProfilechgprf.focusField;
+    private List<TerminalActionDefinition> ChangeProfilechgprf.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -47,16 +49,6 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
 
 
 
-    public String ChangeProfilechgprf.getInitialMenu(){
-    	return this.initialMenu;
-    }
-    
-    public void ChangeProfilechgprf.setInitialMenu(String initialMenu){
-    	this.initialMenu = initialMenu;
-    }
-
-
-
     public String ChangeProfilechgprf.getInitialProgramToCall(){
     	return this.initialProgramToCall;
     }
@@ -67,22 +59,32 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
 
 
 
-    public String ChangeProfilechgprf.getLibrary(){
-    	return this.library;
-    }
-    
-    public void ChangeProfilechgprf.setLibrary(String library){
-    	this.library = library;
-    }
-
-
-
     public String ChangeProfilechgprf.getLibrary1(){
     	return this.library1;
     }
     
     public void ChangeProfilechgprf.setLibrary1(String library1){
     	this.library1 = library1;
+    }
+
+
+
+    public String ChangeProfilechgprf.getInitialMenu(){
+    	return this.initialMenu;
+    }
+    
+    public void ChangeProfilechgprf.setInitialMenu(String initialMenu){
+    	this.initialMenu = initialMenu;
+    }
+
+
+
+    public String ChangeProfilechgprf.getLibrary(){
+    	return this.library;
+    }
+    
+    public void ChangeProfilechgprf.setLibrary(String library){
+    	this.library = library;
     }
 
 
@@ -103,6 +105,10 @@ privileged @SuppressWarnings("unused") aspect ChangeProfilechgprf_Aspect {
     }
     public void ChangeProfilechgprf.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> ChangeProfilechgprf.getActions(){
+    	return actions;
     }
     
 }

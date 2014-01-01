@@ -8,7 +8,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.terminal.samples.model.Warehouses.WarehousesRecord;
 
-privileged @SuppressWarnings("unused") aspect WarehousesRecordTable_Aspect {
+privileged @SuppressWarnings("unused") aspect WarehousesRecord_Aspect {
     
     public Integer WarehousesRecord.getAction_(){
     	return this.action_;
@@ -18,13 +18,13 @@ privileged @SuppressWarnings("unused") aspect WarehousesRecordTable_Aspect {
     	this.action_ = action_;
     }
 
-    public String WarehousesRecord.getDescription(){
-    	return this.description;
+    public Integer WarehousesRecord.getWhse(){
+    	return this.whse;
     }
     
 
-    public Integer WarehousesRecord.getWhse(){
-    	return this.whse;
+    public String WarehousesRecord.getDescription(){
+    	return this.description;
     }
     
 

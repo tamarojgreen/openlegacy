@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ChangePassword_Aspect {
 
     declare parents: ChangePassword implements ScreenEntity;
     private String ChangePassword.focusField;
+    private List<TerminalActionDefinition> ChangePassword.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -22,6 +24,20 @@ privileged @SuppressWarnings("unused") aspect ChangePassword_Aspect {
 	
 
     
+
+    public String ChangePassword.getUserProfile(){
+    	return this.userProfile;
+    }
+    
+
+
+
+    public String ChangePassword.getPasswordLastChanged(){
+    	return this.passwordLastChanged;
+    }
+    
+
+
 
     public String ChangePassword.getCurrentPassword(){
     	return this.currentPassword;
@@ -53,26 +69,16 @@ privileged @SuppressWarnings("unused") aspect ChangePassword_Aspect {
 
 
 
-    public String ChangePassword.getPasswordLastChanged(){
-    	return this.passwordLastChanged;
-    }
-    
-
-
-
-    public String ChangePassword.getUserProfile(){
-    	return this.userProfile;
-    }
-    
-
-
-
 
     public String ChangePassword.getFocusField(){
     	return focusField;
     }
     public void ChangePassword.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> ChangePassword.getActions(){
+    	return actions;
     }
     
 }

@@ -2,6 +2,10 @@ package org.openlegacy.terminal.layout.mock_bidi;
 
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
 
 @ScreenEntity
 public class BidiScreenForPage implements org.openlegacy.terminal.ScreenEntity {
@@ -33,4 +37,8 @@ public class BidiScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	public void setFocusField(String focusField) {}
 
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
+	}
 }

@@ -5,11 +5,13 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
 
     declare parents: ItemDetails implements ScreenEntity;
     private String ItemDetails.focusField;
+    private List<TerminalActionDefinition> ItemDetails.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -36,12 +38,12 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
 
     
 
-    public String ItemDetails.getAlphaSearch(){
-    	return this.alphaSearch;
+    public Integer ItemDetails.getItemNumber(){
+    	return this.itemNumber;
     }
     
-    public void ItemDetails.setAlphaSearch(String alphaSearch){
-    	this.alphaSearch = alphaSearch;
+    public void ItemDetails.setItemNumber(Integer itemNumber){
+    	this.itemNumber = itemNumber;
     }
 
 
@@ -56,72 +58,12 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
 
 
 
-    public ItemDetails2 ItemDetails.getItemDetails2(){
-    	return this.itemDetails2;
+    public String ItemDetails.getAlphaSearch(){
+    	return this.alphaSearch;
     }
     
-
-
-
-    public Integer ItemDetails.getItemNumber(){
-    	return this.itemNumber;
-    }
-    
-    public void ItemDetails.setItemNumber(Integer itemNumber){
-    	this.itemNumber = itemNumber;
-    }
-
-
-
-    public Integer ItemDetails.getItemWeight(){
-    	return this.itemWeight;
-    }
-    
-    public void ItemDetails.setItemWeight(Integer itemWeight){
-    	this.itemWeight = itemWeight;
-    }
-
-
-
-    public String ItemDetails.getManufacturersItemNo(){
-    	return this.manufacturersItemNo;
-    }
-    
-    public void ItemDetails.setManufacturersItemNo(String manufacturersItemNo){
-    	this.manufacturersItemNo = manufacturersItemNo;
-    }
-
-
-
-    public Boolean ItemDetails.getPalletLabelRequired(){
-    	return this.palletLabelRequired;
-    }
-    
-    public void ItemDetails.setPalletLabelRequired(Boolean palletLabelRequired){
-    	this.palletLabelRequired = palletLabelRequired;
-    }
-
-
-
-    public StockGroup ItemDetails.getStockGroup(){
-    	return this.stockGroup;
-    }
-    
-    public void ItemDetails.setStockGroup(StockGroup stockGroup){
-    	this.stockGroup = stockGroup;
-    }
-
-    public String  ItemDetails.getStockGroupDescription(){
-    	return this.stockGroupDescription;
-    }
-
-
-    public String ItemDetails.getSubstituteItemNumber(){
-    	return this.substituteItemNumber;
-    }
-    
-    public void ItemDetails.setSubstituteItemNumber(String substituteItemNumber){
-    	this.substituteItemNumber = substituteItemNumber;
+    public void ItemDetails.setAlphaSearch(String alphaSearch){
+    	this.alphaSearch = alphaSearch;
     }
 
 
@@ -146,12 +88,76 @@ privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
 
 
 
+    public String ItemDetails.getSubstituteItemNumber(){
+    	return this.substituteItemNumber;
+    }
+    
+    public void ItemDetails.setSubstituteItemNumber(String substituteItemNumber){
+    	this.substituteItemNumber = substituteItemNumber;
+    }
+
+
+
+    public String ItemDetails.getManufacturersItemNo(){
+    	return this.manufacturersItemNo;
+    }
+    
+    public void ItemDetails.setManufacturersItemNo(String manufacturersItemNo){
+    	this.manufacturersItemNo = manufacturersItemNo;
+    }
+
+
+
+    public StockGroup ItemDetails.getStockGroup(){
+    	return this.stockGroup;
+    }
+    
+    public void ItemDetails.setStockGroup(StockGroup stockGroup){
+    	this.stockGroup = stockGroup;
+    }
+
+    public String  ItemDetails.getStockGroupDescription(){
+    	return this.stockGroupDescription;
+    }
+
+
+    public Integer ItemDetails.getItemWeight(){
+    	return this.itemWeight;
+    }
+    
+    public void ItemDetails.setItemWeight(Integer itemWeight){
+    	this.itemWeight = itemWeight;
+    }
+
+
+
+    public Boolean ItemDetails.getPalletLabelRequired(){
+    	return this.palletLabelRequired;
+    }
+    
+    public void ItemDetails.setPalletLabelRequired(Boolean palletLabelRequired){
+    	this.palletLabelRequired = palletLabelRequired;
+    }
+
+
+
+    public ItemDetails2 ItemDetails.getItemDetails2(){
+    	return this.itemDetails2;
+    }
+    
+
+
+
 
     public String ItemDetails.getFocusField(){
     	return focusField;
     }
     public void ItemDetails.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> ItemDetails.getActions(){
+    	return actions;
     }
     
 }

@@ -5,27 +5,27 @@ package apps.inventory.screens;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 
     declare parents: ItemDetails1 implements ScreenEntity;
     private String ItemDetails1.focusField;
+    private List<TerminalActionDefinition> ItemDetails1.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
+	
+
+	
+
+	
+
+	
+
+	
+
     private String ItemDetails1.itemClassDescription;
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
 	
 
     private String ItemDetails1.stockGroupDescription;
@@ -33,19 +33,15 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 
 	
 
+	
+
     
 
-    public String ItemDetails1.getItemClass(){
-    	return this.itemClass;
+    public Integer ItemDetails1.getItemNumber(){
+    	return this.itemNumber;
     }
     
-    public void ItemDetails1.setItemClass(String itemClass){
-    	this.itemClass = itemClass;
-    }
 
-    public String  ItemDetails1.getItemClassDescription(){
-    	return this.itemClassDescription;
-    }
 
 
     public String ItemDetails1.getItemDescription(){
@@ -58,17 +54,23 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 
 
 
-    public ItemDetails2 ItemDetails1.getItemDetails2(){
-    	return this.itemDetails2;
+    public String ItemDetails1.getSupercedingItemTo(){
+    	return this.supercedingItemTo;
     }
     
+    public void ItemDetails1.setSupercedingItemTo(String supercedingItemTo){
+    	this.supercedingItemTo = supercedingItemTo;
+    }
 
 
 
-    public Integer ItemDetails1.getItemNumber(){
-    	return this.itemNumber;
+    public String ItemDetails1.getSupercedingItemFrom(){
+    	return this.supercedingItemFrom;
     }
     
+    public void ItemDetails1.setSupercedingItemFrom(String supercedingItemFrom){
+    	this.supercedingItemFrom = supercedingItemFrom;
+    }
 
 
 
@@ -82,24 +84,17 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 
 
 
-    public OuterUnitOfMeasure ItemDetails1.getOuterUnitOfMeasure(){
-    	return this.outerUnitOfMeasure;
+    public String ItemDetails1.getItemClass(){
+    	return this.itemClass;
     }
     
-    public void ItemDetails1.setOuterUnitOfMeasure(OuterUnitOfMeasure outerUnitOfMeasure){
-    	this.outerUnitOfMeasure = outerUnitOfMeasure;
+    public void ItemDetails1.setItemClass(String itemClass){
+    	this.itemClass = itemClass;
     }
 
-
-
-    public Boolean ItemDetails1.getPalletLabelRequired(){
-    	return this.palletLabelRequired;
+    public String  ItemDetails1.getItemClassDescription(){
+    	return this.itemClassDescription;
     }
-    
-    public void ItemDetails1.setPalletLabelRequired(Boolean palletLabelRequired){
-    	this.palletLabelRequired = palletLabelRequired;
-    }
-
 
 
     public String ItemDetails1.getStockGroup(){
@@ -115,23 +110,30 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     }
 
 
-    public String ItemDetails1.getSupercedingItemFrom(){
-    	return this.supercedingItemFrom;
+    public Boolean ItemDetails1.getPalletLabelRequired(){
+    	return this.palletLabelRequired;
     }
     
-    public void ItemDetails1.setSupercedingItemFrom(String supercedingItemFrom){
-    	this.supercedingItemFrom = supercedingItemFrom;
+    public void ItemDetails1.setPalletLabelRequired(Boolean palletLabelRequired){
+    	this.palletLabelRequired = palletLabelRequired;
     }
 
 
 
-    public String ItemDetails1.getSupercedingItemTo(){
-    	return this.supercedingItemTo;
+    public OuterUnitOfMeasure ItemDetails1.getOuterUnitOfMeasure(){
+    	return this.outerUnitOfMeasure;
     }
     
-    public void ItemDetails1.setSupercedingItemTo(String supercedingItemTo){
-    	this.supercedingItemTo = supercedingItemTo;
+    public void ItemDetails1.setOuterUnitOfMeasure(OuterUnitOfMeasure outerUnitOfMeasure){
+    	this.outerUnitOfMeasure = outerUnitOfMeasure;
     }
+
+
+
+    public ItemDetails2 ItemDetails1.getItemDetails2(){
+    	return this.itemDetails2;
+    }
+    
 
 
 
@@ -141,6 +143,10 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     }
     public void ItemDetails1.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> ItemDetails1.getActions(){
+    	return actions;
     }
     
 }

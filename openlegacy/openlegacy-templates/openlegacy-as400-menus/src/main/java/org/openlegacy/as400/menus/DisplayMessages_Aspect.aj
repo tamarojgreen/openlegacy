@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect DisplayMessages_Aspect {
 
     declare parents: DisplayMessages implements ScreenEntity;
     private String DisplayMessages.focusField;
+    private List<TerminalActionDefinition> DisplayMessages.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -29,36 +31,8 @@ privileged @SuppressWarnings("unused") aspect DisplayMessages_Aspect {
 
     
 
-    public String DisplayMessages.getDelivery(){
-    	return this.delivery;
-    }
-    
-
-
-
-    public String DisplayMessages.getLibrary(){
-    	return this.library;
-    }
-    
-
-
-
-    public String DisplayMessages.getLibrary1(){
-    	return this.library1;
-    }
-    
-
-
-
-    public String DisplayMessages.getMessage(){
-    	return this.message;
-    }
-    
-
-
-
-    public String DisplayMessages.getProgram(){
-    	return this.program;
+    public String DisplayMessages.getSystem(){
+    	return this.system;
     }
     
 
@@ -71,6 +45,27 @@ privileged @SuppressWarnings("unused") aspect DisplayMessages_Aspect {
 
 
 
+    public String DisplayMessages.getProgram(){
+    	return this.program;
+    }
+    
+
+
+
+    public String DisplayMessages.getLibrary1(){
+    	return this.library1;
+    }
+    
+
+
+
+    public String DisplayMessages.getLibrary(){
+    	return this.library;
+    }
+    
+
+
+
     public Integer DisplayMessages.getSeverity(){
     	return this.severity;
     }
@@ -78,8 +73,15 @@ privileged @SuppressWarnings("unused") aspect DisplayMessages_Aspect {
 
 
 
-    public String DisplayMessages.getSystem(){
-    	return this.system;
+    public String DisplayMessages.getDelivery(){
+    	return this.delivery;
+    }
+    
+
+
+
+    public String DisplayMessages.getMessage(){
+    	return this.message;
     }
     
 
@@ -91,6 +93,10 @@ privileged @SuppressWarnings("unused") aspect DisplayMessages_Aspect {
     }
     public void DisplayMessages.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> DisplayMessages.getActions(){
+    	return actions;
     }
     
 }

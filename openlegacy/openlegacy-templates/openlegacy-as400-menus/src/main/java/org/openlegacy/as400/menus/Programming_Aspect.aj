@@ -5,17 +5,26 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect Programming_Aspect {
 
     declare parents: Programming implements ScreenEntity;
     private String Programming.focusField;
+    private List<TerminalActionDefinition> Programming.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
 	
 
     
+
+    public String Programming.getSystem(){
+    	return this.system;
+    }
+    
+
+
 
     public String Programming.getMenuSelection(){
     	return this.menuSelection;
@@ -27,19 +36,16 @@ privileged @SuppressWarnings("unused") aspect Programming_Aspect {
 
 
 
-    public String Programming.getSystem(){
-    	return this.system;
-    }
-    
-
-
-
 
     public String Programming.getFocusField(){
     	return focusField;
     }
     public void Programming.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> Programming.getActions(){
+    	return actions;
     }
     
 }

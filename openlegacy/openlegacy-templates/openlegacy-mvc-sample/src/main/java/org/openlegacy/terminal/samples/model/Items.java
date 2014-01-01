@@ -21,7 +21,7 @@ import java.util.List;
 @ScreenIdentifiers(identifiers = {
 		@Identifier(row = 2, column = 26, value = "    Work with Item Master     "),
 		@Identifier(row = 4, column = 2, value = "Type one or more action codes. Then Enter.                                    ") })
-@ScreenActions(actions = { @Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help"),
+@ScreenActions(actions = { @Action(action = TerminalActions.F1.class, displayName = "Help", alias = "help",row=23,column=2,length=7,when=".*F1.*"),
 		@Action(action = TerminalActions.F3.class, displayName = "Exit", alias = "exit"),
 		@Action(action = TerminalActions.F6.class, displayName = "Create", alias = "create"),
 		@Action(action = TerminalActions.F12.class, displayName = "Cancel", alias = "cancel") })

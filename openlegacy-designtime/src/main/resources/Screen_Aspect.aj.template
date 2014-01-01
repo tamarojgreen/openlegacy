@@ -5,6 +5,7 @@ package ${packageName};
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 <#if supportTerminalData>
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -18,6 +19,7 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
 <#if !superClass>
     declare parents: ${className} implements ScreenEntity;
     private String ${className}.focusField;
+    private List<TerminalActionDefinition> ${className}.actions = new ArrayList<TerminalActionDefinition>();
 </#if>
     
 	<#list fields as field>
@@ -78,6 +80,10 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
     }
     public void ${className}.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> ${className}.getActions(){
+    	return actions;
     }
 </#if>
     

@@ -5,27 +5,19 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SelectDefinitionType_Aspect {
 
     declare parents: SelectDefinitionType implements ScreenEntity;
     private String SelectDefinitionType.focusField;
+    private List<TerminalActionDefinition> SelectDefinitionType.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
 	
 
     
-
-    public String SelectDefinitionType.getDataDictionary(){
-    	return this.dataDictionary;
-    }
-    
-    public void SelectDefinitionType.setDataDictionary(String dataDictionary){
-    	this.dataDictionary = dataDictionary;
-    }
-
-
 
     public DefinitionType SelectDefinitionType.getDefinitionType(){
     	return this.definitionType;
@@ -37,12 +29,26 @@ privileged @SuppressWarnings("unused") aspect SelectDefinitionType_Aspect {
 
 
 
+    public String SelectDefinitionType.getDataDictionary(){
+    	return this.dataDictionary;
+    }
+    
+    public void SelectDefinitionType.setDataDictionary(String dataDictionary){
+    	this.dataDictionary = dataDictionary;
+    }
+
+
+
 
     public String SelectDefinitionType.getFocusField(){
     	return focusField;
     }
     public void SelectDefinitionType.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> SelectDefinitionType.getActions(){
+    	return actions;
     }
     
 }

@@ -8,38 +8,22 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.openlegacy.as400.menus.EditLibraryList.EditLibraryListRecord;
 
-privileged @SuppressWarnings("unused") aspect EditLibraryListRecordTable_Aspect {
+privileged @SuppressWarnings("unused") aspect EditLibraryListRecord_Aspect {
     
-    public String EditLibraryListRecord.getLibrary(){
-    	return this.library;
-    }
-    
-    public void EditLibraryListRecord.setLibrary(String library){
-    	this.library = library;
-    }
-
-    public String EditLibraryListRecord.getLibrary1(){
-    	return this.library1;
-    }
-    
-    public void EditLibraryListRecord.setLibrary1(String library1){
-    	this.library1 = library1;
-    }
-
-    public String EditLibraryListRecord.getLibrary2(){
-    	return this.library2;
-    }
-    
-    public void EditLibraryListRecord.setLibrary2(String library2){
-    	this.library2 = library2;
-    }
-
     public Integer EditLibraryListRecord.getNumber(){
     	return this.number;
     }
     
     public void EditLibraryListRecord.setNumber(Integer number){
     	this.number = number;
+    }
+
+    public String EditLibraryListRecord.getLibrary(){
+    	return this.library;
+    }
+    
+    public void EditLibraryListRecord.setLibrary(String library){
+    	this.library = library;
     }
 
     public Integer EditLibraryListRecord.getNumber1(){
@@ -50,12 +34,28 @@ privileged @SuppressWarnings("unused") aspect EditLibraryListRecordTable_Aspect 
     	this.number1 = number1;
     }
 
+    public String EditLibraryListRecord.getLibrary1(){
+    	return this.library1;
+    }
+    
+    public void EditLibraryListRecord.setLibrary1(String library1){
+    	this.library1 = library1;
+    }
+
     public Integer EditLibraryListRecord.getNumber2(){
     	return this.number2;
     }
     
     public void EditLibraryListRecord.setNumber2(Integer number2){
     	this.number2 = number2;
+    }
+
+    public String EditLibraryListRecord.getLibrary2(){
+    	return this.library2;
+    }
+    
+    public void EditLibraryListRecord.setLibrary2(String library2){
+    	this.library2 = library2;
     }
 
 

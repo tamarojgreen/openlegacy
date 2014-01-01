@@ -23,6 +23,7 @@ import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.terminal.ScreenEntityType;
 import org.openlegacy.utils.StringUtil;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +32,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class AbstractEntityDefinition<F extends FieldDefinition> implements EntityDefinition<F> {
+public abstract class AbstractEntityDefinition<F extends FieldDefinition> implements EntityDefinition<F>, Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private final static Log logger = LogFactory.getLog(AbstractEntityDefinition.class);
 

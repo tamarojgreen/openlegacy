@@ -2,6 +2,10 @@ package org.openlegacy.designtime.terminal.generators.mock;
 
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
 
 @ScreenEntity
 public class CompositeScreenForPage implements org.openlegacy.terminal.ScreenEntity {
@@ -23,5 +27,10 @@ public class CompositeScreenForPage implements org.openlegacy.terminal.ScreenEnt
 
 	public ScreenForPage getScreenForPage() {
 		return screenForPage;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
 	}
 }

@@ -5,11 +5,13 @@ package apps.inventory.screens;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
 
     declare parents: WarehouseDetails implements ScreenEntity;
     private String WarehouseDetails.focusField;
+    private List<TerminalActionDefinition> WarehouseDetails.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -32,22 +34,19 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     private Map<Object,Object> WarehouseDetails.warehouseTypeValues;
     
 
-    public String WarehouseDetails.getAddress(){
-    	return this.address;
+    public Integer WarehouseDetails.getWarehouseNumber(){
+    	return this.warehouseNumber;
     }
     
-    public void WarehouseDetails.setAddress(String address){
-    	this.address = address;
-    }
 
 
 
-    public String WarehouseDetails.getAmendedBy(){
-    	return this.amendedBy;
+    public String WarehouseDetails.getWarehouseDescription(){
+    	return this.warehouseDescription;
     }
     
-    public void WarehouseDetails.setAmendedBy(String amendedBy){
-    	this.amendedBy = amendedBy;
+    public void WarehouseDetails.setWarehouseDescription(String warehouseDescription){
+    	this.warehouseDescription = warehouseDescription;
     }
 
 
@@ -62,22 +61,12 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
 
 
 
-    public String WarehouseDetails.getCreatedBy(){
-    	return this.createdBy;
+    public String WarehouseDetails.getAddress(){
+    	return this.address;
     }
     
-    public void WarehouseDetails.setCreatedBy(String createdBy){
-    	this.createdBy = createdBy;
-    }
-
-
-
-    public String WarehouseDetails.getEmail(){
-    	return this.email;
-    }
-    
-    public void WarehouseDetails.setEmail(String email){
-    	this.email = email;
+    public void WarehouseDetails.setAddress(String address){
+    	this.address = address;
     }
 
 
@@ -92,20 +81,33 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
 
 
 
-    public String WarehouseDetails.getWarehouseDescription(){
-    	return this.warehouseDescription;
+    public String WarehouseDetails.getEmail(){
+    	return this.email;
     }
     
-    public void WarehouseDetails.setWarehouseDescription(String warehouseDescription){
-    	this.warehouseDescription = warehouseDescription;
+    public void WarehouseDetails.setEmail(String email){
+    	this.email = email;
     }
 
 
 
-    public Integer WarehouseDetails.getWarehouseNumber(){
-    	return this.warehouseNumber;
+    public String WarehouseDetails.getAmendedBy(){
+    	return this.amendedBy;
     }
     
+    public void WarehouseDetails.setAmendedBy(String amendedBy){
+    	this.amendedBy = amendedBy;
+    }
+
+
+
+    public String WarehouseDetails.getCreatedBy(){
+    	return this.createdBy;
+    }
+    
+    public void WarehouseDetails.setCreatedBy(String createdBy){
+    	this.createdBy = createdBy;
+    }
 
 
 
@@ -128,6 +130,10 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetails_Aspect {
     }
     public void WarehouseDetails.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> WarehouseDetails.getActions(){
+    	return actions;
     }
     
 }

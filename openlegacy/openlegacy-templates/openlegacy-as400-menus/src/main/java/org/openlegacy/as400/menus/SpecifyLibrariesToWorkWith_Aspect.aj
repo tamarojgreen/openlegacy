@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SpecifyLibrariesToWorkWith_Aspect {
 
     declare parents: SpecifyLibrariesToWorkWith implements ScreenEntity;
     private String SpecifyLibrariesToWorkWith.focusField;
+    private List<TerminalActionDefinition> SpecifyLibrariesToWorkWith.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -19,12 +21,12 @@ privileged @SuppressWarnings("unused") aspect SpecifyLibrariesToWorkWith_Aspect 
 
     
 
-    public String SpecifyLibrariesToWorkWith.getAspDevice(){
-    	return this.aspDevice;
+    public String SpecifyLibrariesToWorkWith.getLibrary(){
+    	return this.library;
     }
     
-    public void SpecifyLibrariesToWorkWith.setAspDevice(String aspDevice){
-    	this.aspDevice = aspDevice;
+    public void SpecifyLibrariesToWorkWith.setLibrary(String library){
+    	this.library = library;
     }
 
 
@@ -39,12 +41,12 @@ privileged @SuppressWarnings("unused") aspect SpecifyLibrariesToWorkWith_Aspect 
 
 
 
-    public String SpecifyLibrariesToWorkWith.getLibrary(){
-    	return this.library;
+    public String SpecifyLibrariesToWorkWith.getAspDevice(){
+    	return this.aspDevice;
     }
     
-    public void SpecifyLibrariesToWorkWith.setLibrary(String library){
-    	this.library = library;
+    public void SpecifyLibrariesToWorkWith.setAspDevice(String aspDevice){
+    	this.aspDevice = aspDevice;
     }
 
 
@@ -55,6 +57,10 @@ privileged @SuppressWarnings("unused") aspect SpecifyLibrariesToWorkWith_Aspect 
     }
     public void SpecifyLibrariesToWorkWith.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> SpecifyLibrariesToWorkWith.getActions(){
+    	return actions;
     }
     
 }

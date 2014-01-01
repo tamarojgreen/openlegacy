@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WorkWithJob_Aspect {
 
     declare parents: WorkWithJob implements ScreenEntity;
     private String WorkWithJob.focusField;
+    private List<TerminalActionDefinition> WorkWithJob.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -22,9 +24,30 @@ privileged @SuppressWarnings("unused") aspect WorkWithJob_Aspect {
 	
 
     
+
+    public String WorkWithJob.getSystem(){
+    	return this.system;
+    }
+    
+
+
 
     public String WorkWithJob.getJob(){
     	return this.job;
+    }
+    
+
+
+
+    public String WorkWithJob.getUser(){
+    	return this.user;
+    }
+    
+
+
+
+    public Integer WorkWithJob.getNumber(){
+    	return this.number;
     }
     
 
@@ -40,33 +63,16 @@ privileged @SuppressWarnings("unused") aspect WorkWithJob_Aspect {
 
 
 
-    public Integer WorkWithJob.getNumber(){
-    	return this.number;
-    }
-    
-
-
-
-    public String WorkWithJob.getSystem(){
-    	return this.system;
-    }
-    
-
-
-
-    public String WorkWithJob.getUser(){
-    	return this.user;
-    }
-    
-
-
-
 
     public String WorkWithJob.getFocusField(){
     	return focusField;
     }
     public void WorkWithJob.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> WorkWithJob.getActions(){
+    	return actions;
     }
     
 }

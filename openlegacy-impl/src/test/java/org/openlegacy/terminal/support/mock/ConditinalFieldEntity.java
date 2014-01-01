@@ -4,6 +4,10 @@ import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
 
 @ScreenEntity
 @ScreenIdentifiers(identifiers = { @Identifier(row = 2, column = 24, value = "Attributes") })
@@ -96,4 +100,8 @@ public class ConditinalFieldEntity implements org.openlegacy.terminal.ScreenEnti
 
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
+	}
 }

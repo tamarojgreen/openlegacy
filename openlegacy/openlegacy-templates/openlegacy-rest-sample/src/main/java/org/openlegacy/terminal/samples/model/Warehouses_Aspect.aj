@@ -5,11 +5,13 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect Warehouses_Aspect {
 
     declare parents: Warehouses implements ScreenEntity;
     private String Warehouses.focusField;
+    private List<TerminalActionDefinition> Warehouses.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -40,6 +42,10 @@ privileged @SuppressWarnings("unused") aspect Warehouses_Aspect {
     }
     public void Warehouses.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> Warehouses.getActions(){
+    	return actions;
     }
     
 }

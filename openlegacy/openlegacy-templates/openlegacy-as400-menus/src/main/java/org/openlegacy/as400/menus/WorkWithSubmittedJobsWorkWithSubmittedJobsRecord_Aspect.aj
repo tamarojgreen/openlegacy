@@ -10,13 +10,13 @@ import org.openlegacy.as400.menus.WorkWithSubmittedJobs.WorkWithSubmittedJobsRec
 
 privileged @SuppressWarnings("unused") aspect WorkWithSubmittedJobsRecord_Aspect {
     
-    public String WorkWithSubmittedJobsRecord.getJob(){
-    	return this.job;
+    public String WorkWithSubmittedJobsRecord.getOpt(){
+    	return this.opt;
     }
     
 
-    public String WorkWithSubmittedJobsRecord.getOpt(){
-    	return this.opt;
+    public String WorkWithSubmittedJobsRecord.getJob(){
+    	return this.job;
     }
     
 

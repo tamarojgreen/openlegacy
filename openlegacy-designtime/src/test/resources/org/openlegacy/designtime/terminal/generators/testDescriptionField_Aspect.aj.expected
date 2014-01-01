@@ -5,11 +5,13 @@ package com.someorg.examples.screens;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect DescriptionFieldScreen_Aspect {
 
     declare parents: DescriptionFieldScreen implements ScreenEntity;
     private String DescriptionFieldScreen.focusField;
+    private List<TerminalActionDefinition> DescriptionFieldScreen.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -32,6 +34,10 @@ privileged @SuppressWarnings("unused") aspect DescriptionFieldScreen_Aspect {
     }
     public void DescriptionFieldScreen.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> DescriptionFieldScreen.getActions(){
+    	return actions;
     }
     
 }

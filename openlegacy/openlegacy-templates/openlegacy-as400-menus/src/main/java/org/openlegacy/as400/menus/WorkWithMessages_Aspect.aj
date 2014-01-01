@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WorkWithMessages_Aspect {
 
     declare parents: WorkWithMessages implements ScreenEntity;
     private String WorkWithMessages.focusField;
+    private List<TerminalActionDefinition> WorkWithMessages.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -37,6 +39,10 @@ privileged @SuppressWarnings("unused") aspect WorkWithMessages_Aspect {
     }
     public void WorkWithMessages.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> WorkWithMessages.getActions(){
+    	return actions;
     }
     
 }

@@ -5,11 +5,13 @@ package org.openlegacy.terminal.samples.model;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
 
     declare parents: ItemDetails2 implements ScreenEntity;
     private String ItemDetails2.focusField;
+    private List<TerminalActionDefinition> ItemDetails2.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -40,61 +42,11 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
 	
 
     
-
-    public String ItemDetails2.getField(){
-    	return this.field;
-    }
-    
-    public void ItemDetails2.setField(String field){
-    	this.field = field;
-    }
-
-
-
-    public String ItemDetails2.getField1(){
-    	return this.field1;
-    }
-    
-    public void ItemDetails2.setField1(String field1){
-    	this.field1 = field1;
-    }
-
-
-
-    public String ItemDetails2.getField2(){
-    	return this.field2;
-    }
-    
-    public void ItemDetails2.setField2(String field2){
-    	this.field2 = field2;
-    }
-
-
 
     public Integer ItemDetails2.getItemNumberdesc(){
     	return this.itemNumberdesc;
     }
     
-
-
-
-    public String ItemDetails2.getItemTypeBusinessArea(){
-    	return this.itemTypeBusinessArea;
-    }
-    
-    public void ItemDetails2.setItemTypeBusinessArea(String itemTypeBusinessArea){
-    	this.itemTypeBusinessArea = itemTypeBusinessArea;
-    }
-
-
-
-    public Integer ItemDetails2.getListPrice(){
-    	return this.listPrice;
-    }
-    
-    public void ItemDetails2.setListPrice(Integer listPrice){
-    	this.listPrice = listPrice;
-    }
 
 
 
@@ -128,12 +80,42 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
 
 
 
-    public Integer ItemDetails2.getStandardUnitCost(){
-    	return this.standardUnitCost;
+    public String ItemDetails2.getField2(){
+    	return this.field2;
     }
     
-    public void ItemDetails2.setStandardUnitCost(Integer standardUnitCost){
-    	this.standardUnitCost = standardUnitCost;
+    public void ItemDetails2.setField2(String field2){
+    	this.field2 = field2;
+    }
+
+
+
+    public String ItemDetails2.getField1(){
+    	return this.field1;
+    }
+    
+    public void ItemDetails2.setField1(String field1){
+    	this.field1 = field1;
+    }
+
+
+
+    public String ItemDetails2.getField(){
+    	return this.field;
+    }
+    
+    public void ItemDetails2.setField(String field){
+    	this.field = field;
+    }
+
+
+
+    public String ItemDetails2.getItemTypeBusinessArea(){
+    	return this.itemTypeBusinessArea;
+    }
+    
+    public void ItemDetails2.setItemTypeBusinessArea(String itemTypeBusinessArea){
+    	this.itemTypeBusinessArea = itemTypeBusinessArea;
     }
 
 
@@ -148,10 +130,13 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
 
 
 
-    public StockInfo ItemDetails2.getStockInfo(){
-    	return this.stockInfo;
+    public String ItemDetails2.getStockValueGroup(){
+    	return this.stockValueGroup;
     }
     
+    public void ItemDetails2.setStockValueGroup(String stockValueGroup){
+    	this.stockValueGroup = stockValueGroup;
+    }
 
 
 
@@ -165,13 +150,30 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
 
 
 
-    public String ItemDetails2.getStockValueGroup(){
-    	return this.stockValueGroup;
+    public Integer ItemDetails2.getListPrice(){
+    	return this.listPrice;
     }
     
-    public void ItemDetails2.setStockValueGroup(String stockValueGroup){
-    	this.stockValueGroup = stockValueGroup;
+    public void ItemDetails2.setListPrice(Integer listPrice){
+    	this.listPrice = listPrice;
     }
+
+
+
+    public Integer ItemDetails2.getStandardUnitCost(){
+    	return this.standardUnitCost;
+    }
+    
+    public void ItemDetails2.setStandardUnitCost(Integer standardUnitCost){
+    	this.standardUnitCost = standardUnitCost;
+    }
+
+
+
+    public StockInfo ItemDetails2.getStockInfo(){
+    	return this.stockInfo;
+    }
+    
 
 
 
@@ -181,6 +183,10 @@ privileged @SuppressWarnings("unused") aspect ItemDetails2_Aspect {
     }
     public void ItemDetails2.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> ItemDetails2.getActions(){
+    	return actions;
     }
     
 }

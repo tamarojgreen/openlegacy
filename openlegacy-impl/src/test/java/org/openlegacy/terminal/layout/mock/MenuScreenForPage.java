@@ -3,6 +3,10 @@ package org.openlegacy.terminal.layout.mock;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.modules.menu.Menu;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.Collections;
+import java.util.List;
 
 @ScreenEntity(screenType = Menu.MenuEntity.class)
 public class MenuScreenForPage implements org.openlegacy.terminal.ScreenEntity {
@@ -22,5 +26,10 @@ public class MenuScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 
 	public void setFld1(String fld1) {
 		this.fld1 = fld1;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
 	}
 }

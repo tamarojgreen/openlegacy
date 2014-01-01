@@ -83,4 +83,8 @@ public @interface Action {
 		NAVIGATION,
 		LOGICAL
 	}
+
+	int length() default 0;
+
+	String when() default ".*";
 }

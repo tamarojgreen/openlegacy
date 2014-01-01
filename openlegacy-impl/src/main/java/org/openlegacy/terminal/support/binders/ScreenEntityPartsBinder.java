@@ -30,10 +30,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-/**
- * @deprecated Done now by type binders
- */
-@Deprecated
 public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -59,7 +55,6 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 			fieldAccessor.setFieldValue(fieldPartName, partObject);
 
 			SimpleScreenPojoFieldAccessor partFieldAccessor = new SimpleScreenPojoFieldAccessor(partObject);
-
 			Collection<ScreenFieldDefinition> fieldMappingDefinitions = screenPartEntityDefinition.getFieldsDefinitions().values();
 			screenBinderLogic.populatedFields(partFieldAccessor, terminalSnapshot, fieldMappingDefinitions);
 		}

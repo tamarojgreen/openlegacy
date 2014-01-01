@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
 
     declare parents: SubmitJobsbmjob implements ScreenEntity;
     private String SubmitJobsbmjob.focusField;
+    private List<TerminalActionDefinition> SubmitJobsbmjob.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -41,16 +43,6 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
 
 
 
-    public String SubmitJobsbmjob.getJobDescription(){
-    	return this.jobDescription;
-    }
-    
-    public void SubmitJobsbmjob.setJobDescription(String jobDescription){
-    	this.jobDescription = jobDescription;
-    }
-
-
-
     public String SubmitJobsbmjob.getJobName(){
     	return this.jobName;
     }
@@ -61,12 +53,22 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
 
 
 
-    public String SubmitJobsbmjob.getJobPriorityonJobq(){
-    	return this.jobPriorityonJobq;
+    public String SubmitJobsbmjob.getJobDescription(){
+    	return this.jobDescription;
     }
     
-    public void SubmitJobsbmjob.setJobPriorityonJobq(String jobPriorityonJobq){
-    	this.jobPriorityonJobq = jobPriorityonJobq;
+    public void SubmitJobsbmjob.setJobDescription(String jobDescription){
+    	this.jobDescription = jobDescription;
+    }
+
+
+
+    public String SubmitJobsbmjob.getLibrary1(){
+    	return this.library1;
+    }
+    
+    public void SubmitJobsbmjob.setLibrary1(String library1){
+    	this.library1 = library1;
     }
 
 
@@ -91,12 +93,12 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
 
 
 
-    public String SubmitJobsbmjob.getLibrary1(){
-    	return this.library1;
+    public String SubmitJobsbmjob.getJobPriorityonJobq(){
+    	return this.jobPriorityonJobq;
     }
     
-    public void SubmitJobsbmjob.setLibrary1(String library1){
-    	this.library1 = library1;
+    public void SubmitJobsbmjob.setJobPriorityonJobq(String jobPriorityonJobq){
+    	this.jobPriorityonJobq = jobPriorityonJobq;
     }
 
 
@@ -127,6 +129,10 @@ privileged @SuppressWarnings("unused") aspect SubmitJobsbmjob_Aspect {
     }
     public void SubmitJobsbmjob.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> SubmitJobsbmjob.getActions(){
+    	return actions;
     }
     
 }

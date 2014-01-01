@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
 
     declare parents: ProgrammerMenu implements ScreenEntity;
     private String ProgrammerMenu.focusField;
+    private List<TerminalActionDefinition> ProgrammerMenu.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -33,32 +35,19 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
 
     
 
-    public String ProgrammerMenu.getCommand(){
-    	return this.command;
+    public String ProgrammerMenu.getSystem(){
+    	return this.system;
     }
     
-    public void ProgrammerMenu.setCommand(String command){
-    	this.command = command;
-    }
 
 
 
-    public String ProgrammerMenu.getJobDescription(){
-    	return this.jobDescription;
+    public Integer ProgrammerMenu.getSelection(){
+    	return this.selection;
     }
     
-    public void ProgrammerMenu.setJobDescription(String jobDescription){
-    	this.jobDescription = jobDescription;
-    }
-
-
-
-    public String ProgrammerMenu.getObjectLibrary(){
-    	return this.objectLibrary;
-    }
-    
-    public void ProgrammerMenu.setObjectLibrary(String objectLibrary){
-    	this.objectLibrary = objectLibrary;
+    public void ProgrammerMenu.setSelection(Integer selection){
+    	this.selection = selection;
     }
 
 
@@ -73,6 +62,16 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
 
 
 
+    public String ProgrammerMenu.getType(){
+    	return this.type;
+    }
+    
+    public void ProgrammerMenu.setType(String type){
+    	this.type = type;
+    }
+
+
+
     public String ProgrammerMenu.getParm2(){
     	return this.parm2;
     }
@@ -83,12 +82,12 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
 
 
 
-    public Integer ProgrammerMenu.getSelection(){
-    	return this.selection;
+    public String ProgrammerMenu.getCommand(){
+    	return this.command;
     }
     
-    public void ProgrammerMenu.setSelection(Integer selection){
-    	this.selection = selection;
+    public void ProgrammerMenu.setCommand(String command){
+    	this.command = command;
     }
 
 
@@ -113,19 +112,22 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
 
 
 
-    public String ProgrammerMenu.getSystem(){
-    	return this.system;
+    public String ProgrammerMenu.getObjectLibrary(){
+    	return this.objectLibrary;
     }
     
+    public void ProgrammerMenu.setObjectLibrary(String objectLibrary){
+    	this.objectLibrary = objectLibrary;
+    }
 
 
 
-    public String ProgrammerMenu.getType(){
-    	return this.type;
+    public String ProgrammerMenu.getJobDescription(){
+    	return this.jobDescription;
     }
     
-    public void ProgrammerMenu.setType(String type){
-    	this.type = type;
+    public void ProgrammerMenu.setJobDescription(String jobDescription){
+    	this.jobDescription = jobDescription;
     }
 
 
@@ -136,6 +138,10 @@ privileged @SuppressWarnings("unused") aspect ProgrammerMenu_Aspect {
     }
     public void ProgrammerMenu.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> ProgrammerMenu.getActions(){
+    	return actions;
     }
     
 }

@@ -5,7 +5,9 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenListField;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
+import java.util.Collections;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -35,4 +37,8 @@ public class ListNumEntity implements org.openlegacy.terminal.ScreenEntity {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
+	}
 }

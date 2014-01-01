@@ -8,18 +8,9 @@ import org.openlegacy.terminal.TerminalField;
 import apps.inventory.screens.ItemDetails2.AuditDetails;
 
 privileged @SuppressWarnings("unused") aspect AuditDetailsPart_Aspect {
-    private TerminalField AuditDetails.createdByField;
     private TerminalField AuditDetails.createdDateField;
+    private TerminalField AuditDetails.createdByField;
     
-    public String AuditDetails.getCreatedBy(){
-    	return this.createdBy;
-    }
-    
-
-    public TerminalField AuditDetails.getCreatedByField(){
-    	return createdByField;
-    }
-		
     public String AuditDetails.getCreatedDate(){
     	return this.createdDate;
     }
@@ -27,6 +18,15 @@ privileged @SuppressWarnings("unused") aspect AuditDetailsPart_Aspect {
 
     public TerminalField AuditDetails.getCreatedDateField(){
     	return createdDateField;
+    }
+		
+    public String AuditDetails.getCreatedBy(){
+    	return this.createdBy;
+    }
+    
+
+    public TerminalField AuditDetails.getCreatedByField(){
+    	return createdByField;
     }
 		
 }

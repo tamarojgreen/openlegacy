@@ -8,7 +8,9 @@ import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.annotations.screen.ScreenTableActions;
 import org.openlegacy.annotations.screen.TableAction;
 import org.openlegacy.modules.table.RecordSelectionEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
+import java.util.Collections;
 import java.util.List;
 
 @ScreenEntity(screenType = RecordSelectionEntity.class)
@@ -57,4 +59,9 @@ public class TableScreen implements org.openlegacy.terminal.ScreenEntity {
 	}
 
 	public void setFocusField(String focusField) {}
+
+	@SuppressWarnings("unchecked")
+	public List<TerminalActionDefinition> getActions() {
+		return Collections.EMPTY_LIST;
+	}
 }

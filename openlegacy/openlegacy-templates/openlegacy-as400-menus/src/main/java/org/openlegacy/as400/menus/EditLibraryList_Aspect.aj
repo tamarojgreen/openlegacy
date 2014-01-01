@@ -5,11 +5,13 @@ package org.openlegacy.as400.menus;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect EditLibraryList_Aspect {
 
     declare parents: EditLibraryList implements ScreenEntity;
     private String EditLibraryList.focusField;
+    private List<TerminalActionDefinition> EditLibraryList.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -17,15 +19,15 @@ privileged @SuppressWarnings("unused") aspect EditLibraryList_Aspect {
 
     
 
-    public List<EditLibraryListRecord> EditLibraryList.getEditLibraryListRecords(){
-    	return this.editLibraryListRecords;
+    public String EditLibraryList.getSystem(){
+    	return this.system;
     }
     
 
 
 
-    public String EditLibraryList.getSystem(){
-    	return this.system;
+    public List<EditLibraryListRecord> EditLibraryList.getEditLibraryListRecords(){
+    	return this.editLibraryListRecords;
     }
     
 
@@ -37,6 +39,10 @@ privileged @SuppressWarnings("unused") aspect EditLibraryList_Aspect {
     }
     public void EditLibraryList.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> EditLibraryList.getActions(){
+    	return actions;
     }
     
 }

@@ -5,11 +5,13 @@ package apps.inventory.screens;
 
 import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 privileged @SuppressWarnings("unused") aspect WarehousesList_Aspect {
 
     declare parents: WarehousesList implements ScreenEntity;
     private String WarehousesList.focusField;
+    private List<TerminalActionDefinition> WarehousesList.actions = new ArrayList<TerminalActionDefinition>();
     
 	
 
@@ -28,6 +30,10 @@ privileged @SuppressWarnings("unused") aspect WarehousesList_Aspect {
     }
     public void WarehousesList.setFocusField(String focusField){
     	this.focusField = focusField;
+    }
+    
+    public List<TerminalActionDefinition> WarehousesList.getActions(){
+    	return actions;
     }
     
 }
