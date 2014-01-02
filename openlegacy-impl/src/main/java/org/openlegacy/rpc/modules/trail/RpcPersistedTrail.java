@@ -40,4 +40,10 @@ public class RpcPersistedTrail implements RpcSessionTrail {
 		snapshots.clear();
 	}
 
+	public void advanceCurrent(int steps) {}
+
+	public RpcSnapshot getCurrent() {
+		return snapshots.get(snapshots.size() - 1);
+	}
+
 }

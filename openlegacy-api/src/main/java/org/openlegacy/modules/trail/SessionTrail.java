@@ -28,4 +28,8 @@ public interface SessionTrail<S extends Snapshot> {
 	void appendSnapshot(S snapshot);
 
 	void clear();
+
+	void advanceCurrent(int steps);
+
+	S getCurrent();
 }

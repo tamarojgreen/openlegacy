@@ -50,4 +50,13 @@ public class TerminalPersistedTrail implements TerminalSessionTrail {
 		snapshots.clear();
 	}
 
+	public TerminalSnapshot getCurrent() {
+		return getSnapshots().get(snapshots.size() - 1);
+	}
+
+	public void advanceCurrent(int steps) {
+		// do nothing
+
+	}
+
 }

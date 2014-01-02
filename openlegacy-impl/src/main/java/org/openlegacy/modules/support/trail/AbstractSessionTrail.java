@@ -25,6 +25,8 @@ public abstract class AbstractSessionTrail<S extends Snapshot> implements Sessio
 
 	private Integer historyCount = 3;
 
+	private Integer current = null;
+
 	public List<S> getSnapshots() {
 		return snapshots;
 	}
@@ -35,6 +37,7 @@ public abstract class AbstractSessionTrail<S extends Snapshot> implements Sessio
 		if (historyCount != null && snapshots.size() > historyCount) {
 			snapshots.removeFirst();
 		}
+		current = snapshots.size() - 1;
 	}
 
 	public Integer getHistoryCount() {
@@ -47,5 +50,25 @@ public abstract class AbstractSessionTrail<S extends Snapshot> implements Sessio
 
 	public void clear() {
 		snapshots.clear();
+	}
+
+	public S getCurrent() {
+		if (current == null) {
+			current = snapshots.size() - 1;
+		}
+		return snapshots.get(current);
+	}
+
+	public void advanceCurrent(int steps) {
+		if (current == null) {
+			current = snapshots.size() - 1;
+		}
+		current += steps;
+		if (current < 0) {
+			current = 0;
+		}
+		if (current >= snapshots.size()) {
+			current = snapshots.size() - 1;
+		}
 	}
 }
