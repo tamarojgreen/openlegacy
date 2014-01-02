@@ -56,7 +56,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 			IResource resource = delta.getResource();
 			switch (delta.getKind()) {
 				case IResourceDelta.ADDED:
-					checkAspectGenerate(resource);
+					checkAspectGenerate(resource, true);
 					checkNewTrail(resource);
 					break;
 				case IResourceDelta.REMOVED:
@@ -87,7 +87,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 					if (resource instanceof IFile && name.equals(".preferences")) {
 						EclipseDesignTimeExecuter.instance().reloadPreference(resource.getProject());
 					}
-					checkAspectGenerate(resource);
+					checkAspectGenerate(resource, true);
 					checkAnalyzerContextChange(resource);
 					break;
 			}
@@ -146,7 +146,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 	class OpenLegacyResourceVisitor implements IResourceVisitor {
 
 		public boolean visit(IResource resource) {
-			checkAspectGenerate(resource);
+			checkAspectGenerate(resource, false);
 			// return true to continue visiting children.
 			return true;
 		}
@@ -175,13 +175,13 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 		return null;
 	}
 
-	void checkAspectGenerate(IResource resource) {
+	void checkAspectGenerate(IResource resource, boolean refresh) {
 		String useAspect = EclipseDesignTimeExecuter.instance().getPreference(getProject(), PreferencesConstants.USE_AJ);
 		boolean isUseAspect = useAspect == null || useAspect.equals("1");
 		if (resource instanceof IFile && resource.getName().endsWith(PluginConstants.JAVA_EXTENSION) && !isIgnoreFolder(resource)
 				&& isUseAspect) {
 			boolean generated = EclipseDesignTimeExecuter.instance().generateAspect(resource);
-			if (generated) {
+			if (generated && refresh) {
 				try {
 					resource.getParent().refreshLocal(IResource.DEPTH_INFINITE, null);
 				} catch (CoreException e) {
@@ -201,7 +201,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 	 * 
 	 * @param resource
 	 */
-	private void checkAnalyzerContextChange(IResource resource) {
+	private static void checkAnalyzerContextChange(IResource resource) {
 		if (resource instanceof IFile
 				&& resource.getFullPath().toString().contains(DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH)) {
 			EclipseDesignTimeExecuter.instance().initialize(PathsUtil.toOsLocation(resource.getProject().getLocation()));
@@ -218,6 +218,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
 		try {
 			getProject().accept(new OpenLegacyResourceVisitor());
+			getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
 		}
 	}
