@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.openlegacy;
 
-import org.openlegacy.EntityDescriptor;
-import org.openlegacy.definitions.ActionDefinition;
-
 import java.util.List;
 
 /**
@@ -26,6 +23,4 @@ public interface EntityWrapper {
 	Object getEntity();
 
 	List<EntityDescriptor> getPaths();
-
-	List<ActionDefinition> getActions();
 }

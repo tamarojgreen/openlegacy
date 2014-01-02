@@ -103,10 +103,9 @@ public abstract class AbstractRestController {
 			throw (new EntityNotFoundException("No entity found"));
 		}
 		entity = ProxyUtil.getTargetObject(entity);
-		EntityDefinition<?> entityDefinitions = getEntitiesRegistry().get(entity.getClass());
 		Navigation navigationModule = getSession().getModule(Navigation.class);
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, navigationModule != null ? navigationModule.getPaths()
-				: null, entityDefinitions.getActions());
+				: null);
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
 
