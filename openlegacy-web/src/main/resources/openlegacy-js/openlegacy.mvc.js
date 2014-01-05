@@ -49,7 +49,7 @@ function doAjaxPost(formName, areaName, actionName,fragments,callback) {
 			title = container.get('title');
 		}
 	}
-	form.action = form.action + "?partial=1";
+	form.action = form.action.split("?")[0] + "?partial=1";
 	if (fragments != null){
 		form.action = form.action + "&fragments=" + fragments;
 	}
@@ -59,16 +59,19 @@ function doAjaxPost(formName, areaName, actionName,fragments,callback) {
 	}
 
 	var xhr = require("dojo/request/xhr");
-	xhr.post(form.action, {
+	var promise = xhr.post(form.action, {
 		data: domForm.toObject(formName),
-		handleAs : "text",
+		//handleAs : "text",
 		headers: { "Accept": "text/html;type=ajax" }
-	}).then(function(data){
+	});
+	promise.then(function(data){
 		if (container != null) {
 			if (title != null){
 				container.set('title', title);
 			}
-			container.set('content', data);
+			if (data.length > 0){
+				container.set('content', data);
+			}
 			if (callback != null){
 				callback.call();
 			}
@@ -76,6 +79,13 @@ function doAjaxPost(formName, areaName, actionName,fragments,callback) {
 	}, function(e){
 		alert(e);
 	});
+	promise.response.then(function(response) {
+		var redirectUrl = response.getHeader("Spring-Redirect-URL");
+		if (redirectUrl != null){
+			location.href = redirectUrl;
+		}
+    });	
+	
 	if (container != null) {
 		container.set('title', 'Updating...');
 	}
