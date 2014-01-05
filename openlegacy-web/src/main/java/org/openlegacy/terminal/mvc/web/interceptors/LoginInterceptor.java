@@ -31,11 +31,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			@SuppressWarnings("unchecked")
 			Set<String> paramNames = request.getParameterMap().keySet();
 			for (String paramName : paramNames) {
-				requestedPage = MessageFormat.format("{0}&{1}={2}", requestedPage, paramName, request.getParameter(paramName));
+				requestedPage = MessageFormat.format("{0}&{1}={2}", requestedPage, paramName,
+						request.getParameter(paramName).replaceAll(" ", "%20"));
 			}
 			requestedPage = requestedPage.replaceFirst("&", "?");
 			URI uri = new URI(requestedPage);
-			response.sendRedirect(request.getContextPath() + "/login?requestedUrl=" + uri.toASCIIString());
+			response.sendRedirect(request.getContextPath() + "/login?requestedUrl=" + uri.toASCIIString().replaceAll("&", "%26"));
 			return false;
 		}
 		return true;

@@ -110,7 +110,7 @@ public class LoginController {
 		}
 
 		if (StringUtils.isNotEmpty(requestedUrl)) {
-			URI uri = new URI(requestedUrl);
+			URI uri = new URI(requestedUrl.replaceAll(" ", "%20"));
 			return MvcConstants.REDIRECT + uri.toASCIIString();
 		}
 
