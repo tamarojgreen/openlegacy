@@ -411,12 +411,17 @@ var ol_lookupFieldId;
 var ol_lookupDisplayFieldId;
 var ol_autoSubmit;
 function openLookupDialog(fieldId,displayFieldId,url,style,autoSubmit){
-	ol_lookupFieldId = fieldId;
-	ol_lookupDisplayFieldId = displayFieldId;
-	ol_autoSubmit = autoSubmit;
 	require(["dojo/ready", "dijit/registry", "dijit/Dialog","dojo/dom"], function(ready, registry,Dialog,dom){
 	    ready(function(){
 	    	var lookDialog = registry.byId("lookupDialog");
+	    	
+	    	// don't override lookup if window is opened 
+	    	if (!lookDialog.open){
+		    	ol_lookupFieldId = fieldId;
+		    	ol_lookupDisplayFieldId = displayFieldId;
+		    	ol_autoSubmit = autoSubmit;
+	    	}
+	    	
 	    	lookDialog.set("style",style);
 	    	lookDialog.set("href",url);
 	    	
