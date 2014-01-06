@@ -9,6 +9,8 @@
 	<properties>
 		<openlegacy-version>1.2.0-SNAPSHOT</openlegacy-version>
 		<aspectj.version>1.6.11</aspectj.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<pluginRepositories>
