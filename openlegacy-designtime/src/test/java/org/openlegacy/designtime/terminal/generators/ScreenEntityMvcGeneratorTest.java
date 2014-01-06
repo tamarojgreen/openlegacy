@@ -142,14 +142,6 @@ public class ScreenEntityMvcGeneratorTest {
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
-	@Test
-	public void testGenerateControllerAspect() throws Exception {
-
-		ScreenEntityDefinition screenDefinition = screenEntitiesRegistry.get(ScreenForPage.class);
-
-		assertControllerAspectGeneration(screenDefinition);
-	}
-
 	private void assertControllerAspectGeneration(ScreenEntityDefinition screenDefinition) throws TemplateException, IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PageDefinition pageDefinition = screenPageBuilder.build(screenDefinition);
