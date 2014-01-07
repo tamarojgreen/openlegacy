@@ -85,7 +85,7 @@
 									cssStyle="${style}" />
 							</c:when>
 							<c:when test="${type == 'date'}">
-								<form:input id="${name}" path="${name}" cssStyle="${style}" data-dojo-type="dijit.form.DateTextBox" data-dojo-props="datePattern : 'yyyy-MM-dd'"/>
+								<form:input id="${name}" path="${name}" cssStyle="${style}" data-dojo-type="dijit.form.DateTextBox" data-dojo-props="constraints: {datePattern : 'dd/MM/yyyy'}"/>
 							</c:when>
 							<c:when test="${type == 'fieldWithValues'}">
 								<c:choose>
