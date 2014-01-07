@@ -76,7 +76,7 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 
 				// find the DisplayItem by host value, and return the enum object
 				fieldAccessor.setFieldValue(fieldDefinition.getName(),
-						fieldTypeDefinition.getEnums().get(enumField.getValue()).getValue());
+						fieldTypeDefinition.getEnums().get(enumField.getValue().trim()).getValue());
 			}
 
 		}
@@ -111,6 +111,9 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
 
+			if (!fieldDefinition.isEditable()) {
+				continue;
+			}
 			EnumFieldTypeDefinition fieldTypeDefinition = (EnumFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
 			TerminalPosition position = fieldDefinition.getPosition();
 			TerminalField enumField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),

@@ -149,7 +149,7 @@ public class DateFieldsBinder implements ScreenEntityBinder, Serializable {
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
 
-			if (fieldDefinition.getJavaType() != Date.class) {
+			if (!fieldDefinition.isEditable() || fieldDefinition.getJavaType() != Date.class) {
 				continue;
 			}
 

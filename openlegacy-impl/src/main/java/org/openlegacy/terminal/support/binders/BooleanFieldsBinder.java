@@ -104,7 +104,8 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 				fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 			}
 
-			if (fieldDefinition.getJavaType() != Boolean.class || fieldDefinition.getAttribute() != FieldAttributeType.Value) {
+			if (!fieldDefinition.isEditable() || fieldDefinition.getJavaType() != Boolean.class
+					|| fieldDefinition.getAttribute() != FieldAttributeType.Value) {
 				continue;
 			}
 			BooleanFieldTypeDefinition fieldTypeDefinition = (BooleanFieldTypeDefinition)fieldDefinition.getFieldTypeDefinition();
