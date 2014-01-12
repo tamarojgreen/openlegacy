@@ -163,6 +163,10 @@ public class DefaultElementsProvider implements ElementsProvider<Element> {
 	}
 
 	public String toStyleColors(TerminalField field) {
+		if (field.isEditable()) {
+			return "";
+		}
+
 		String color = getColor(field.getColor(), colorMapper, defaultColor);
 		String backcolor = getColor(field.getBackColor(), backcolorMapper, defaultBackgroundColor);
 
