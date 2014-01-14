@@ -62,6 +62,18 @@
  -->
  
 	<mvc:interceptors>
+		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor" 
+          p:cacheSeconds="0" p:useExpiresHeader="true" p:useCacheControlHeader="true" p:useCacheControlNoStore="true">
+           <property name="cacheMappings">
+        		<props>
+            		<!-- cache for one day -->
+    	        	<prop key="/**/*.css">86400</prop>
+    	        	<prop key="/**/*.js">86400</prop>
+    	        	<prop key="/**/*.jpg">86400</prop>
+    	        	<prop key="/**/*.gif">86400</prop>
+        		</props>
+    		</property>
+        </bean>
 		<!-- On pre-handle, resolve the device that originated the web request -->
 		<bean class="org.openlegacy.mvc.web.interceptors.OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor"/>
 		<!-- On pre-handle, manage the user's site preference -->
