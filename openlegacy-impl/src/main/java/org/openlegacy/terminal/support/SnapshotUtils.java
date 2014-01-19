@@ -229,6 +229,9 @@ public class SnapshotUtils {
 	}
 
 	public static String getRowText(TerminalRow row, int column, int length) {
+		if (row.getText() == null) {
+			return "";
+		}
 		return row.getText().substring(column - 1, column + length - 1);
 	}
 
