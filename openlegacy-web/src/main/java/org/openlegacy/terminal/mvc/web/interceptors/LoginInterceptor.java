@@ -25,8 +25,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String requestUri = request.getRequestURI().substring(1);
 		if (!request.getRequestURI().contains(".") && !requestUri.toLowerCase().endsWith(MvcConstants.LOGIN_VIEW)
-				&& !requestUri.endsWith("logoff") && loginMetadata.getLoginScreenDefinition() != null
-				&& !terminalSession.isConnected()) {
+				&& !requestUri.toLowerCase().contains("/management") && !requestUri.endsWith("logoff")
+				&& loginMetadata.getLoginScreenDefinition() != null && !terminalSession.isConnected()) {
 			String requestedPage = requestUri.substring(requestUri.indexOf("/") + 1);
 			@SuppressWarnings("unchecked")
 			Set<String> paramNames = request.getParameterMap().keySet();
