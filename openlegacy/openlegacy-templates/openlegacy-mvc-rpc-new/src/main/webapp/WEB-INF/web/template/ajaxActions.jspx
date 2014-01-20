@@ -1,0 +1,38 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="http://www.openlegacy.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div class="actions">
+		<ul>
+			<li>
+				<a href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}');">
+					<span class="emily_actions_icon emily_actions_submit"><!--  --></span><!-- 
+					This comment need to make correct margin between span and text
+					 --><img src="${pageContext.request.contextPath}/icons/submit.png"
+						width="15" height="14" alt="Submit" />
+				  	<spring:message code="label_submit" var="label_submit" htmlEscape="false" />
+					${label_submit}
+				</a>
+			</li>
+			<c:forEach items="${definitions.actions}" var="action">
+				<li>
+					<a href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}','${action.alias}');"
+						value="${action.displayName}">
+						<c:set var="image" value="/icons/${action.alias}.png" />
+						<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">
+							<c:set var="image" value="/icons/submit.png" />
+						</c:if>
+						<span class="emily_actions_icon emily_actions_${action.alias}"><!--  --></span><!--
+						This comment need to make correct margin between span and text 
+						 --><img src="${pageContext.request.contextPath}/${image}"
+							width="15" height="14" alt="${action.displayName}" />
+						${action.displayName}
+					</a>
+				</li>
+			</c:forEach>
+		</ul>
+	</div>
+</jsp:root>

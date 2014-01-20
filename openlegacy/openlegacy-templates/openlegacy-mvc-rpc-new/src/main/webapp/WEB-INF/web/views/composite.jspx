@@ -1,0 +1,27 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+		<script>
+			require(["dijit/layout/TabContainer",
+					"dijit/layout/ContentPane"]);
+		</script>
+	
+		<div id="tabContainer" class="tabContainer"
+			data-dojo-type="dijit.layout.TabContainer" data-dojo-props="tabPosition:'top', tabStrip:true">
+			<div id="${definitions.entityName}" title="${definitions.displayName}" class="tab_container"
+				selected="true" data-dojo-type="dijit.layout.ContentPane"
+				data-dojo-props="href:'${pageContext.request.contextPath}/${definitions.entityName}?partial=1',parseOnLoad: true">
+				<div>Place holder</div>
+			</div>
+			<c:forEach items="${definitions.childEntitiesDefinitions}" var="childEntityDefinition">
+				<div id="${childEntityDefinition.entityName}" title="${childEntityDefinition.displayName}" class="tab_container"
+					data-dojo-type="dijit.layout.ContentPane"
+					data-dojo-props="href:'${pageContext.request.contextPath}/${childEntityDefinition.entityName}?partial=1',parseOnLoad: true">
+					<div>Place holder</div>
+				</div>
+			</c:forEach>
+	</div>
+</jsp:root>

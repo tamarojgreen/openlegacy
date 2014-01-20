@@ -1,0 +1,55 @@
+<jsp:root xmlns:ol="http://www.openlegacy.org/tags"
+	xmlns:olt="urn:jsptagdir:/WEB-INF/tags/web"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:directive.attribute name="data" type="java.util.Collection"
+		required="true" rtexprvalue="true"
+		description="The collection to be displayed in the table" />
+	<jsp:directive.attribute name="property" type="java.lang.String"
+		required="true" rtexprvalue="true" description="The table name" />
+
+	<jsp:output omit-xml-declaration="yes" />
+
+	<c:if test="${empty formName}">
+		${ol:throwException("formName not found. Probably ol:table tag is not within ol:form")}
+	</c:if>
+
+	<c:set var="tableDefinition" value="${definitions.tableDefinitions[property]}" />
+	<c:set var="defaultTableAction" value="${tableDefinition.defaultAction}" />
+
+	<c:if test="${defaultTableAction == null}">
+		${ol:throwException("No default table action specified in table class @ScreenTableActions annotation")}
+	</c:if>
+	<c:if test="${defaultTableAction.targetEntity == null}">
+		${ol:throwException("No target entity specified for table action in table class @ScreenTableActions annotation")}
+	</c:if>
+
+	<c:if test="${fn:length(data) &gt; 0}">
+	<ul data-dojo-type="dojox.mobile.RoundRectList" id="${definitions.entityName}Table">
+		<c:forEach items="${data}" var="item" varStatus="i">
+			<c:set var="keyValue" value="${item[tableDefinition.keyFieldNames[0]]}" />
+			<li data-dojo-type="dojox.mobile.ListItem" transition="slide"
+				onclick="showLoading();"
+				url="${defaultTableAction.targetEntity.simpleName}/${keyValue}">
+					<c:forEach items="${tableDefinition.mainDisplayFields}" var="mainDisplayField" varStatus="ii">
+					<c:set var="displayValue" value="${item[mainDisplayField]}" />
+					${displayValue}
+					<c:if test="${!ii.last}"> - </c:if>
+					</c:forEach>
+				</li>
+		</c:forEach>
+	</ul>
+	<c:if test="${fn:length(data) &gt;= tableDefinition.maxRowsCount}">
+  	<spring:message code="label_load_more" var="label_load_more" htmlEscape="false" />
+	<c:if test="${fn:length(tableDefinition.keyFieldNames) == 0}">
+		${ol:throwException("No key defined for table")}
+	</c:if>
+	<button dojoType="dojox.mobile.Button" class="mblButton baseBtn mblBtn"
+		onclick="javascript:loadMore('${definitions.entityName}Table','${pageContext.request.contextPath}/${definitions.entityName}/more','${tableDefinition.keyFieldNames[0]}','${ol:join(tableDefinition.mainDisplayFields)}','${defaultTableAction.targetEntity.simpleName}/')">${label_load_more}</button>
+	</c:if>
+	</c:if>
+
+</jsp:root>

@@ -20,7 +20,7 @@ public abstract class AbstractPartEntityDefinition<F extends FieldDefinition> im
 
 	private Class<?> partClass;
 
-	private final Map<String, F> fieldDefinitions = new LinkedHashMap<String, F>();
+	private final Map<String, F> fieldsDefinitions = new LinkedHashMap<String, F>();
 
 	private String partName;
 
@@ -35,7 +35,7 @@ public abstract class AbstractPartEntityDefinition<F extends FieldDefinition> im
 	}
 
 	public Map<String, F> getFieldsDefinitions() {
-		return fieldDefinitions;
+		return fieldsDefinitions;
 	}
 
 	public String getPartName() {

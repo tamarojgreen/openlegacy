@@ -93,12 +93,15 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		if (rpcEntityDefinition != null) {
 			rpcEntityDefinition.getFieldsDefinitions().put(fieldName, rpcFieldDefinition);
 		} else {
-			// look in screen entities parts
+			// look in RPC entities parts
 			RpcPartEntityDefinition rpcPart = rpcEntitiesRegistry.getPart(containingClass);
 			if (rpcPart != null) {
 				fieldName = MessageFormat.format("{0}.{1}", rpcPart.getPartName(), fieldName);
 				rpcFieldDefinition.setName(fieldName);
 				rpcPart.getFieldsDefinitions().put(fieldName, rpcFieldDefinition);
+				if (fieldAnnotation.key() == true) {
+					rpcPart.getKeys().add(rpcFieldDefinition);
+				}
 			}
 
 		}

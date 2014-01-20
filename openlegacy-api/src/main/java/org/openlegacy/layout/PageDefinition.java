@@ -28,6 +28,6 @@ public interface PageDefinition {
 	List<PagePartDefinition> getPageParts();
 
 	List<ActionDefinition> getActions();
-	
+
 	String getPackageName();
 }

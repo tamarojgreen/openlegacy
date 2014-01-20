@@ -162,16 +162,32 @@ public class Jt400RpcConnection implements RpcConnection {
 				if (((RpcFlatField)field).getValue() == null) {
 					continue;
 				}
+				Object value = getValue((RpcFlatField)field);
+
 				if (indexLevel == 0) {
-					logger.debug("Stting value to" + varPath + " " + ((RpcFlatField)field).getValue());
-					programCallDocument.setValue(varPath, ((RpcFlatField)field).getValue());
+					logger.debug("Stting value to" + varPath + " " + value);
+					programCallDocument.setValue(varPath, value);
 				} else {
-					logger.debug("Stting value to" + varPath + " " + ((RpcFlatField)field).getValue() + " indices " + indices);
-					programCallDocument.setValue(varPath, indices, ((RpcFlatField)field).getValue());
+					logger.debug("Stting value to" + varPath + " " + value + " indices " + indices);
+					programCallDocument.setValue(varPath, indices, value);
 				}
 			}
 
 		}
+
+	}
+
+	@SuppressWarnings("static-method")
+	private Object getValue(RpcFlatField field) {
+		Object result = field.getValue();
+		Class<?> clazz = field.getType();
+
+		if (clazz == Integer.class || clazz == Long.class || clazz == Short.class) {
+
+			String imageName = "%0" + field.getLength() + "d";
+			return String.format(imageName, Integer.parseInt(String.valueOf(result)));
+		}
+		return result;
 	}
 
 	private void getParameters(ProgramCallDocument programCallDocument, List<RpcField> fields, String path, int indexLevel,

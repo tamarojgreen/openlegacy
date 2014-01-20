@@ -4,10 +4,14 @@
 package ${packageName};
 
 import java.util.*;
+<#if parentClassName??>
+import ${packageName}.${parentClassName}.*;
+<#else>
 import org.openlegacy.rpc.RpcEntity;
+</#if>
 
 privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
-<#if !superClass>
+<#if !parentClassName??>
     declare parents: ${className} implements RpcEntity;
 </#if>
     

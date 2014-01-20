@@ -7,13 +7,19 @@
 	<jsp:output omit-xml-declaration="yes" />
 	 
 	<div>	
-		<ol:form model="itemDetails">
-			<ol:pagePart>
-				<ol:field name="itemNumber" />
-				<ol:field name="itemName" />
-				<ol:field name="itemDescription" />
-				<ol:field name="itemWeight" />
+		<ol:form model="itemDetails" >
+			<ol:pagePart title="Item Record Details">
+				<ol:field name="itemNum" />
+				<ol:field name="itemRecord.itemName" />
+				<ol:field name="itemRecord.description" />
+				<ol:field name="itemRecord.weight" />			
 			</ol:pagePart>
+			
+			<ol:pagePart title="Sippment Details">
+				<ol:field name="shipping.shippingMethod" />
+				<ol:field name="shipping.days" />	
+			</ol:pagePart>
+			
 		</ol:form>
 	</div>
 </jsp:root>

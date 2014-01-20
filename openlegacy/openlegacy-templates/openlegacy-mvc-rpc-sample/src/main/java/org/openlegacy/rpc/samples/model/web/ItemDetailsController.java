@@ -20,6 +20,8 @@ public class ItemDetailsController {
 
 	@RequestMapping(value = "/{key:[\\w+[-_ ]*\\w+]+}", method = RequestMethod.GET)
 	public String show(Model uiModel, @PathVariable("key") String key) {
+		if (key.equals("help"))
+			return "help";
 		ItemDetails itemDetails = rpcSession.getEntity(ItemDetails.class, key);
 
 		uiModel.addAttribute("itemDetails", itemDetails);
@@ -27,10 +29,10 @@ public class ItemDetailsController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, params = "action=update")
-	public String update(ItemDetails ItemDetails, Model uiModel) {
-		ItemDetails itemDetails = rpcSession.doAction(RpcActions.UPDATE(), ItemDetails);
+	public String update(ItemDetails newItemDetails, Model uiModel) {
+		newItemDetails = rpcSession.doAction(RpcActions.UPDATE(), newItemDetails);
 
-		uiModel.addAttribute("itemDetails", itemDetails);
+		uiModel.addAttribute("itemDetails", newItemDetails);
 		return "ItemDetails";
 	}
 }

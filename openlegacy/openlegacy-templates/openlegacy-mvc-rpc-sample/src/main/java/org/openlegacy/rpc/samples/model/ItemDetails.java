@@ -1,31 +1,49 @@
 package org.openlegacy.rpc.samples.model;
 
 import org.openlegacy.annotations.rpc.Action;
-import org.openlegacy.annotations.rpc.Direction;
-import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
-import org.openlegacy.annotations.rpc.RpcNavigation;
+import org.openlegacy.annotations.rpc.RpcNumericField;
+import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.rpc.RpcActions.READ;
 import org.openlegacy.rpc.RpcActions.UPDATE;
 
-@RpcEntity(language = Languages.RPG)
-@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/GETITEMDET.PGM", global = false),
-		@Action(action = UPDATE.class, path = "/QSYS.LIB/RMR2L1.LIB/UPDITEMDET.PGM") })
-@RpcNavigation(category = "Inventory")
+@RpcEntity(name="ItemDetails")
+@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM", global = false),
+		@Action(action = UPDATE.class, path = "/QSYS.LIB/RMR2L1.LIB/UPDATEITEM.PGM") })
 public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 
-	@RpcField(originalName = "item_number", direction = Direction.INPUT, length = 8, key = true)
-	Integer itemNumber;
+		@RpcNumericField(minimumValue=-99999999, maximumValue=99999999, decimalPlaces=0)
+		@RpcField(length = 8, key = true, originalName = "ITEM-NUM")
+		private Integer itemNum;
 
-	@RpcField(originalName = "item_name", direction = Direction.OUTPUT, length = 20)
-	String itemName;
+		private ItemRecord itemRecord;
+		private Shipping shipping;
 
-	@RpcField(originalName = "item_description", direction = Direction.OUTPUT, length = 50)
-	String itemDescription;
+	@RpcPart(name="ItemRecord")
+	public static class ItemRecord {
 
-	@RpcField(originalName = "item_weight", direction = Direction.OUTPUT, length = 4)
-	Integer itemWeight;
+		@RpcField(length = 16, originalName = "ITEM-NAME")
+		private String itemName;
 
+		@RpcField(length = 28, originalName = "DESCRIPTION")
+		private String description;
+
+		@RpcNumericField(minimumValue=-9999, maximumValue=9999, decimalPlaces=0)
+		@RpcField(length = 4, originalName = "WEIGHT")
+		private Integer weight;
+
+	}
+	@RpcPart(name="Shipping")
+	public static class Shipping {
+
+		@RpcField(length = 10, originalName = "SHIPPING-METHOD")
+		private String shippingMethod;
+
+		@RpcNumericField(minimumValue=-9999, maximumValue=9999, decimalPlaces=0)
+		@RpcField(length = 4, originalName = "DAYS")
+		private Integer days;
+
+	}
 }

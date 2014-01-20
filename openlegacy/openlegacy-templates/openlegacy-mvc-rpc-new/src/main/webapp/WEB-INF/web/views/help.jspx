@@ -1,0 +1,51 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
+	xmlns:olf="http://www.openlegacy.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+<html>
+<head>
+<style>
+.help label {
+	font-weight: bold;
+}
+
+.help div {
+	margin-bottom: 5px;
+}
+</style>
+</head>
+<body>
+	<h1> ${page.entityDefinition.displayName}</h1>
+
+	<div class="help">
+	
+	<p>Description for ${page.entityDefinition.displayName}</p>
+
+	<c:forEach items="${page.pageParts}" var="pagePart">
+		<hr/>
+		<c:forEach items="${pagePart.partRows}" var="partRow">
+			<c:forEach items="${partRow.fields}" var="field">
+			<div>
+				<label>${field.displayName}:</label><span><c:if test="${field.helpText != null}">${field.helpText}</c:if></span>
+			</div>
+			</c:forEach>
+		</c:forEach>
+		<c:if test="${pagePart.tableDefinition != null}">
+			<c:forEach items="${pagePart.tableDefinition.columnDefinitions}" var="column">
+			<div>
+				<label>${column.displayName}:</label><span><c:if test="${column.helpText != null}">${column.helpText}</c:if></span>
+			</div>
+			</c:forEach>
+		</c:if>
+	</c:forEach>
+	
+	</div>
+</body>
+</html>
+	
+</jsp:root>

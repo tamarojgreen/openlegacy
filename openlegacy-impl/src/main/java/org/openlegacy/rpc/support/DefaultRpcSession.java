@@ -171,5 +171,5 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	public void login(String user, String password) {
 		rpcConnection.login(user, password);
 	}
-
+	
 }

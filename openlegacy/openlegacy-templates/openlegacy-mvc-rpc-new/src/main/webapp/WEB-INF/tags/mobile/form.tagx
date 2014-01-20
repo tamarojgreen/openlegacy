@@ -1,0 +1,18 @@
+<jsp:root xmlns:ol="http://www.openlegacy.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.attribute name="model" type="java.lang.String" required="true" rtexprvalue="true" description="The model for this form" />
+
+	<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${definitions.displayName}</h2>
+
+	<c:set var="formName" value="${ol:capFirst(model)}Form" scope="request" />
+
+    <form:form id="${ol:capFirst(model)}Form" method="post" action="${pageContext.request.contextPath}/${ol:capFirst(model)}" modelAttribute="${model}" onsubmit="return false;">
+		<jsp:doBody />
+	</form:form>
+
+</jsp:root>

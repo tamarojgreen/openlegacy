@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+  <definition name="template" template="/WEB-INF/web/template/template.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="menu" value="/WEB-INF/web/template/menu.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
+    <put-attribute name="dialogs" value="/WEB-INF/web/template/dialogs.jspx" />
+    <put-attribute name="actions" value="/WEB-INF/web/template/actions.jspx" />
+    <put-attribute name="breadcrumb" value="/WEB-INF/web/template/breadcrumb.jspx" />
+  </definition>
+
+  <definition name="emulation" template="/WEB-INF/web/template/template.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="menu" value="/WEB-INF/web/template/menu.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
+    <put-attribute name="dialogs" value="/WEB-INF/web/template/dialogs.jspx" />
+  </definition>
+  
+  <definition name="menu" template="/WEB-INF/web/template/template.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="menu" value="/WEB-INF/web/template/menu.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
+    <put-attribute name="dialogs" value="/WEB-INF/web/template/dialogs.jspx" />
+    <put-attribute name="breadcrumb" value="/WEB-INF/web/template/breadcrumb.jspx" />
+  </definition>
+
+  <definition name="compositeTemplate" template="/WEB-INF/web/template/template.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="menu" value="/WEB-INF/web/template/menu.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
+    <put-attribute name="dialogs" value="/WEB-INF/web/template/dialogs.jspx" />
+    <put-attribute name="breadcrumb" value="/WEB-INF/web/template/breadcrumb.jspx" />
+  </definition>
+  
+  <definition name="view" template="/WEB-INF/web/template/view.jspx">
+    <put-attribute name="actions" value="/WEB-INF/web/template/ajaxActions.jspx" />
+  </definition>
+
+  <definition name="flatView" template="/WEB-INF/web/template/view.jspx">
+  </definition>
+  
+  <definition name="public" template="/WEB-INF/web/template/public.jspx">
+    <put-attribute name="header" value="/WEB-INF/web/template/header.jspx" />
+    <put-attribute name="footer" value="/WEB-INF/web/template/footer.jspx" />
+  </definition>
+
+  <definition name="window" template="/WEB-INF/web/template/window.jspx">
+  </definition>
+  
+</tiles-definitions>

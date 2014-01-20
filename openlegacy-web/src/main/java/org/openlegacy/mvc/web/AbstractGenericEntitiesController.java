@@ -158,9 +158,9 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 	@SuppressWarnings("unchecked")
 	protected String prepareView(Object entity, Model uiModel, boolean partial, HttpServletRequest request)
 			throws MalformedURLException {
-		String screenEntityName = ProxyUtil.getOriginalClass(entity.getClass()).getSimpleName();
-		uiModel.addAttribute(StringUtils.uncapitalize(screenEntityName), entity);
-		EntityDefinition<?> entityDefinition = entitiesRegistry.get(screenEntityName);
+		String entityName = ProxyUtil.getOriginalClass(entity.getClass()).getSimpleName();
+		uiModel.addAttribute(StringUtils.uncapitalize(entityName), entity);
+		EntityDefinition<?> entityDefinition = entitiesRegistry.get(entityName);
 		uiModel.addAttribute(PAGE, pageBuilder.build(entityDefinition));
 
 		SitePreference sitePreference = SitePreferenceUtils.getCurrentSitePreference(request);

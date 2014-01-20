@@ -10,13 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.generators;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.text.MessageFormat;
-
-import javax.inject.Inject;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,6 +23,13 @@ import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.layout.ScreenPageBuilder;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.text.MessageFormat;
+
+import javax.inject.Inject;
 
 /**
  * Generates all Spring MVC web related content

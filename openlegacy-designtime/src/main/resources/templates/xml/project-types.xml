@@ -23,8 +23,8 @@
         <zip-file>openlegacy-mvc-new.zip</zip-file>
     </project-type>
     <project-type>
-        <template-name>openlegacy-mvc-new</template-name>
-        <description>A new combined web and mobile application for connecting to your Legacy application screens</description>
+        <template-name>openlegacy-mvc-rpc-new</template-name>
+        <description>A new combined web and mobile application for connecting to your Legacy application rpc</description>
         <is-demo>false</is-demo>
         <support-theme>true</support-theme>
         <zip-file>openlegacy-mvc-new.zip</zip-file>
@@ -35,7 +35,7 @@
         <description>A sample combined web and mobile application for connecting to a sample Legacy application screens</description>
         <is-demo>true</is-demo>
         <support-theme>false</support-theme>
-        <zip-file>openlegacy-mvc-sample.zip</zip-file>
+        <zip-file>openlegacy-mvc-rpc-new.zip</zip-file>
     </project-type>
      <project-type>
         <template-name>openlegacy-mvc-rpc-sample</template-name>

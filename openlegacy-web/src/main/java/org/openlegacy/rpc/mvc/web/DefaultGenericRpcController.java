@@ -17,6 +17,7 @@ import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.actions.RpcAction;
 import org.openlegacy.rpc.utils.RpcEntityUtils;
+import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -50,12 +51,13 @@ public class DefaultGenericRpcController extends AbstractGenericEntitiesControll
 			@RequestParam(value = "partial", required = false) String partial, HttpServletRequest request,
 			HttpServletResponse response, Model uiModel) throws IOException {
 
-		Class<?> entityClass = findAndHandleNotFound(entityName, response);
+		@SuppressWarnings("unchecked")
+		Class<RpcEntity> entityClass = (Class<RpcEntity>)findAndHandleNotFound(entityName, response);
 		if (entityClass == null) {
 			return null;
 		}
 
-		RpcEntity rpcEntity = (RpcEntity)getSession().getEntity(entityName);
+		RpcEntity rpcEntity = ReflectionUtil.newInstance(entityClass);
 
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(rpcEntity);
 		registerPropertyEditors(binder);
@@ -67,7 +69,7 @@ public class DefaultGenericRpcController extends AbstractGenericEntitiesControll
 			resultEntity = (RpcEntity)getSession().getEntity(matchedActionDefinition.getTargetEntity());
 		}
 
-		return handleEntity(request, uiModel, resultEntity);
+		return prepareView(resultEntity, uiModel, false, request);
 	}
 
 	@Override

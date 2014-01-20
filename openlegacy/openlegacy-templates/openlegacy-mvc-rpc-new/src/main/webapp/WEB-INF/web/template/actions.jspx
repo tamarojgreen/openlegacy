@@ -1,0 +1,41 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="http://www.openlegacy.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags" 
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<div class="actions">
+		<ul>
+			<c:forEach items="${definitions.actions}" var="action">
+				<c:if test="${action.global}">
+					<c:set var="image" value="/icons/${action.alias}.png" />
+					<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">
+						<c:set var="image" value="/icons/submit.png" />
+					</c:if>
+					<li>
+						<a href="javascript:doPost('${definitions.entityName}','${action.alias}');">
+							<span class="emily_actions_icon emily_actions_${action.alias}"><!--  --></span> <!--
+						This comment need to make correct margin between span and text 
+						 --><img src="${pageContext.request.contextPath}${image}" width="15" height="14" alt="${action.alias}" />
+						${action.displayName}
+						</a>
+					</li>
+				</c:if>
+			</c:forEach>
+			<c:if test="${ol:hasProperty(definitions,'tableDefinitions') and fn:length(definitions.tableDefinitions) > 0}">
+				<li class="right">
+					<spring:message code="label_excel" var="label_excel" htmlEscape="false" />
+					<a href="${pageContext.request.contextPath}/${definitions.entityName}/excel">
+						<span class="emily_actions_icon emily_actions_excel"><!--  --></span> <!--
+						This comment need to make correct margin between span and text
+						--> <img src="${pageContext.request.contextPath}/icons/excel.png" class="excel" />
+						${label_excel}
+					</a>
+				</li>
+			</c:if>
+		</ul>
+	</div>
+</jsp:root>

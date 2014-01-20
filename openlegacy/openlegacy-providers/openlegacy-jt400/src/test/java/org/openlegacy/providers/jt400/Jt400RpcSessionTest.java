@@ -9,6 +9,7 @@ import org.openlegacy.providers.jt400.mockup.DummyHierarchyStructEntity.InnerRec
 import org.openlegacy.providers.jt400.mockup.DummyHierarchyStructEntity.Top;
 import org.openlegacy.providers.jt400.mockup.DummyStructEntity;
 import org.openlegacy.providers.jt400.mockup.DummyStructEntity.Record;
+import org.openlegacy.providers.jt400.mockup.ItemDetails;
 import org.openlegacy.providers.jt400.mockup.MixedOrderEntity;
 import org.openlegacy.providers.jt400.mockup.TreeArray;
 import org.openlegacy.rpc.RpcActions;
@@ -104,6 +105,16 @@ public class Jt400RpcSessionTest {
 		Assert.assertEquals("CHILD2", mixedOrderEntity.getStruct1().getChild2());
 		Assert.assertEquals("CHILD3", mixedOrderEntity.getStruct2().getChild3());
 		Assert.assertEquals("CHILD4", mixedOrderEntity.getStruct2().getChild4());
+
+	}
+
+	@Test
+	public void testSetNumber() {
+		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
+		ItemDetails itemDetails = new ItemDetails();
+		itemDetails.setItemNumber(1000);
+		itemDetails = rpcSession.doAction(RpcActions.READ(), itemDetails);
+		Assert.assertEquals(new Integer(200), itemDetails.getItemWeight());
 
 	}
 

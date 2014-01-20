@@ -1,0 +1,12 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div data-dojo-type="dojox.mobile.View" dir="${openLegacyProperties.rightToLeft ? 'rtl': 'ltr'}" id="${ol_entityUniqueId}Panel" data-dojo-props="selected:true">
+		<tiles:insertAttribute name="header" />
+		<tiles:insertAttribute name="body" />
+		<tiles:insertAttribute name="actions" ignore="true" />
+	</div>
+</jsp:root>

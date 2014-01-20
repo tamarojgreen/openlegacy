@@ -1,0 +1,27 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+
+	<h2 data-dojo-type="dojox.mobile.RoundRectCategory">Item Details</h2>
+
+	<ul data-dojo-type="dojox.mobile.TabBar" data-dojo-props="barType:'segmentedControl'">
+		<li data-dojo-type="dojox.mobile.TabBarButton"
+			data-dojo-props="moveTo:'${definitions.entityName}_${ol_entityId}Panel',
+							selected:true">${definitions.displayName}</li>
+		<c:forEach items="${definitions.childEntitiesDefinitions}" var="childEntityDefinition">
+		<li data-dojo-type="dojox.mobile.TabBarButton" 
+		onclick="asyncLoadMobilePanel('${childEntityDefinition.entityName}_${ol_entityId}Panel','${pageContext.request.contextPath}/${childEntityDefinition.entityName}/${ol_entityId}?partial=1',0)"
+			data-dojo-props="moveTo:'${childEntityDefinition.entityName}_${ol_entityId}Panel'">${childEntityDefinition.displayName}</li>
+		</c:forEach>
+	</ul>
+
+	<div id="${definitions.entityName}_${ol_entityId}Panel"
+		data-dojo-type="dojox.mobile.View" selected="true"
+		data-dojo-props="onShow: asyncLoadMobilePanel('${definitions.entityName}_${ol_entityId}Panel','${pageContext.request.contextPath}/${definitions.entityName}/${ol_entityId}?partial=1',0)">Loading...</div>
+	<c:forEach items="${definitions.childEntitiesDefinitions}" var="childEntityDefinition" varStatus="counter">
+	<div id="${childEntityDefinition.entityName}_${ol_entityId}Panel"
+		data-dojo-type="dojox.mobile.View">Loading...</div>
+	</c:forEach>
+</jsp:root>

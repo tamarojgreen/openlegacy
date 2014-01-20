@@ -1,0 +1,12 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" />
+	 
+	<div class="logoff">
+	  	<spring:message code="label_session_ended" var="label_session_ended" htmlEscape="false" />
+		${label_session_ended}<br />
+	  	<spring:message code="label_reconnect" var="label_reconnect" htmlEscape="false" />
+		<a href="${pageContext.request.contextPath}">${label_reconnect}</a>
+	</div>
+</jsp:root>

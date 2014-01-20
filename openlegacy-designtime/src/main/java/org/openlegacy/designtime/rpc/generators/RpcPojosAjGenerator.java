@@ -89,7 +89,11 @@ public class RpcPojosAjGenerator extends AbstractPojosAjGenerator {
 					if (JavaParserUtil.hasAnnotation(annotationExpr, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION)) {
 						entityCodeModel = generateEntity(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration, baos);
 					}
-					// TODO RPC parts
+					if (JavaParserUtil.hasAnnotation(annotationExpr, RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
+
+						entityCodeModel = generatePart(compilationUnit, (ClassOrInterfaceDeclaration)typeDeclaration, baos,
+								parentClassName);
+					}
 					if (entityCodeModel != null && entityCodeModel.isRelevant()) {
 						boolean generated = GenerateUtil.writeAspectToFile(javaFile, baos, entityCodeModel, parentClassName);
 						if (generated) {
@@ -103,6 +107,11 @@ public class RpcPojosAjGenerator extends AbstractPojosAjGenerator {
 		}
 		return aspectGenerated;
 
+	}
+
+	public RpcPojoCodeModel generatePart(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,
+			OutputStream out, String parentClass) throws IOException, TemplateException, ParseException {
+		return generate(out, compilationUnit, typeDeclaration, "Rpc_Aspect.aj.template", parentClass);
 	}
 
 	public RpcPojoCodeModel generateEntity(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration typeDeclaration,

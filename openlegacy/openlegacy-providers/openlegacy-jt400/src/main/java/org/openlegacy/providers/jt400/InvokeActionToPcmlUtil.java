@@ -47,9 +47,9 @@ public class InvokeActionToPcmlUtil {
 	InvokeActionToPcmlUtil() {
 		typeTable.put("String", "char");
 		typeTable.put("Byte", "char");
-		typeTable.put("Short", "int");
-		typeTable.put("Integer", "int");
-		typeTable.put("Long", "int");
+		typeTable.put("Short", "char");
+		typeTable.put("Integer", "char");
+		typeTable.put("Long", "char");
 		typeTable.put("BigDecimal", "packed");
 		typeTable.put("Float", "float");
 		typeTable.put("Double", "float");
@@ -155,7 +155,6 @@ public class InvokeActionToPcmlUtil {
 	private Element createFlatField(Document doc, org.openlegacy.rpc.RpcFlatField rpcFlatField) {
 		Element struct = doc.createElement(DATA_NODE);
 		struct.setAttribute(NAME_ATTR_NAME, rpcFlatField.getName());
-		rpcFlatField.getType().getSimpleName();
 		struct.setAttribute(TYPE_ATTR_NAME, typeTable.get(rpcFlatField.getType().getSimpleName()));
 		struct.setAttribute(LENGTH_ATTR_NAME, rpcFlatField.getLength().toString());
 		struct.setAttribute(USAGE_ATTR_NAME, directionTable.get(rpcFlatField.getDirection()));

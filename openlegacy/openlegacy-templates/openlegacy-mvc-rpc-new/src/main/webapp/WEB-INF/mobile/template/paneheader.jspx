@@ -1,0 +1,28 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<c:set var="backVal" value=""/>
+	<c:if test="${accessedFromDefinitions != null 
+		&amp;&amp; ((accessedFromDefinitions != null &amp;&amp; accessedFromDefinitions.typeName eq 'MenuEntity') 
+					|| (deviceType eq 'MOBILE'))}">
+	  	<spring:message code="label_back" var="label_back" htmlEscape="false" />
+		<c:set var="backVal" value="back:'${label_back}',"/>
+	</c:if>
+	
+	<c:if test="${deviceType != 'MOBILE'}">
+	<h1 data-dojo-type="dojox.mobile.Heading" 
+		data-dojo-props="fixed:'top', ${backVal} moveTo:'${definitions.navigationDefinition.accessedFrom.simpleName}Panel'">
+		<img src="images/logo.png" class="logo" />
+		<c:if test="${ol_connected}">
+	  	<spring:message code="label_logout" var="label_logout" htmlEscape="false" />
+		<button data-dojo-type="dojox.mobile.ToolBarButton" style="float:right;"
+			class="logoffBtn"
+			onclick="location.href='${pageContext.request.contextPath}/logoff'">${label_logout}</button>
+		</c:if>
+	</h1>
+	</c:if>
+</jsp:root>

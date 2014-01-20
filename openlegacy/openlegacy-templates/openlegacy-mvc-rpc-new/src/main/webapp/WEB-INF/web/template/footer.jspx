@@ -1,0 +1,17 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div id="footer">
+		<div id="footer_left">
+			<a target="_new" href="http://www.openlegacy.org" class="logo" title="OpenLegacy">OpenLegacy</a>
+		</div>
+		<div id="footer_right">
+			Copyright &#169; 2012 OpenLegacy. All rights reserved. <br />Powered
+			by OpenLegacy &#174; ${openLegacyProperties.version}
+			<br/>
+			Web | <a href="${pageContext.request.contextPath}/?site_preference=mobile">Mobile</a>
+		</div>
+	</div>
+</jsp:root>

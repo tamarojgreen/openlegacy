@@ -10,6 +10,7 @@
 		<module>openlegacy-java-new</module>
 		<module>openlegacy-java-rpc-new</module>
 		<module>openlegacy-mvc-new</module>
+		<module>openlegacy-mvc-rpc-new</module>
 		<module>openlegacy-mvc-sample</module>
 		<module>openlegacy-mvc-rpc-sample</module>
 		<module>openlegacy-rest-new</module>

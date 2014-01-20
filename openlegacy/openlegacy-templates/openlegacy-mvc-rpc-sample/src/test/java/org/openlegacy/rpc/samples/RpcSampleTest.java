@@ -1,7 +1,6 @@
 package org.openlegacy.rpc.samples;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.rpc.RpcSession;
@@ -19,16 +18,15 @@ public class RpcSampleTest {
 	@Inject
 	ApplicationContext applicationContext;
 
-	@Ignore
 	@Test
 	public void testApplication() {
 
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
 
-		ItemDetails itemDetails = rpcSession.getEntity(ItemDetails.class, 123);
+		ItemDetails itemDetails = rpcSession.getEntity(ItemDetails.class, 1000);
 		Assert.assertNotNull(itemDetails);
-		Assert.assertEquals("Domino cubes", itemDetails.getItemName());
-		Assert.assertEquals("Dominos cubes black/red", itemDetails.getItemDescription());
-		Assert.assertEquals(Integer.valueOf(5), itemDetails.getItemWeight());
+		Assert.assertEquals("Kid Guitar", itemDetails.getItemRecord().getItemName());
+		Assert.assertEquals("Kids Guitar - Musical Toys", itemDetails.getItemRecord().getDescription());
+		Assert.assertEquals(Integer.valueOf(200), itemDetails.getItemRecord().getWeight());
 	}
 }

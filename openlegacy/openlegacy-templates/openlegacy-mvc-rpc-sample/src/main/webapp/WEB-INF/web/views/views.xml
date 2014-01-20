@@ -31,6 +31,10 @@
 		<put-attribute name="body" value="/WEB-INF/web/views/ItemDetails.jspx" />
 	</definition> 
 
+	<definition name="Items" extends="template"> 
+		<put-attribute name="body" value="/WEB-INF/web/views/Items.jspx" />
+	</definition> 
+
 	<!-- A generic API page view -->
 	<definition name="generic" extends="template">
 		<put-attribute name="body" value="/WEB-INF/web/views/generic.jspx" />

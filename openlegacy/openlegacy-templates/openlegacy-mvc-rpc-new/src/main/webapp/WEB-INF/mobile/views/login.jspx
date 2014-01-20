@@ -1,0 +1,19 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" 
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
+	<jsp:output omit-xml-declaration="yes" /> 
+
+	<div dir="${openLegacyProperties.rightToLeft ? 'rtl': 'ltr'}">
+		<ol:form model="login">
+			<ol:pagePart>
+				<ol:field name="user" />
+				<ol:field name="password" />
+			  	<spring:message code="label_submit" var="label_submit" htmlEscape="false" />
+				<input data-dojo-type="dojox.mobile.Button" type="submit" onclick="doAjaxPost('LoginForm','menuContainer',null,'body,menu');resizeDojoWidget('fixedSplitter');"
+					class="mblButton greyBtn baseBtn normalBtn" value="${label_submit}" />
+				<ol:field name="errorMessage" />
+			</ol:pagePart>
+		</ol:form>
+	</div>
+</jsp:root>

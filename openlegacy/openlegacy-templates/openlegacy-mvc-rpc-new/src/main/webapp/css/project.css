@@ -1,0 +1,50 @@
+.red .main{
+	position:relative;
+	min-height: 460px;
+}
+
+.actions_container{
+	height: 500px;
+}
+
+.red .container table tr td{
+	padding-top:0px;
+	padding-bottom: 0px; 
+}
+.red .container input, .red .container select{
+	padding: 1px;
+}
+#treeNode{
+	height: 200px;
+}
+
+.container .panelRow tr td{
+	border: solid white 1px;	
+}
+
+.panel .content .field_row .label {
+	font-weight: bold;
+}
+
+.breadcrumbs ul li a {
+	background-image: url();
+	background-position: left center;
+}
+
+
+.container table tr .placeHolder{
+	padding: 0px 0px 0px 0px;
+}
+
+.panel .content .field_row .field {
+	float: left;
+	width: 65%;
+}
+
+.main .table table{
+	font-size: 13px;
+	white-space: nowrap;
+}
+.container .table table{
+	font-family: Helvetica, sans-serif;
+}

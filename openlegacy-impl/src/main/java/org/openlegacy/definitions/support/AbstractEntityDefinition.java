@@ -53,7 +53,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 
 	private List<EntityDefinition<?>> childEntitiesDefinitions = new ArrayList<EntityDefinition<?>>();
 
-	private Map<String, PartEntityDefinition<F>> partDefinitions = new LinkedHashMap<String, PartEntityDefinition<F>>();
+	private Map<String, PartEntityDefinition<F>> partsDefinitions = new LinkedHashMap<String, PartEntityDefinition<F>>();
 
 	private boolean validateKeys = true;
 
@@ -205,7 +205,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 	}
 
 	public Map<String, PartEntityDefinition<F>> getPartsDefinitions() {
-		return partDefinitions;
+		return partsDefinitions;
 	}
 
 	public boolean isValidateKeys() {

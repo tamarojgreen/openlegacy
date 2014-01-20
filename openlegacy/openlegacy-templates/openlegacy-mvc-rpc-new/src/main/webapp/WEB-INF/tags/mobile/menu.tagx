@@ -1,0 +1,52 @@
+<jsp:root
+	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/mobile" 
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.attribute name="menu" type="org.openlegacy.modules.menu.MenuItem" required="true" rtexprvalue="true" description="The menu model" />
+	<jsp:directive.attribute name="parentMenu" type="org.openlegacy.modules.menu.MenuItem" required="false" rtexprvalue="true" description="The menu parent" />
+
+	<div id="${menu.targetEntity.simpleName}Panel" data-dojo-type="dojox.mobile.View">
+		<c:set var="backToParentProperties" value=""/>
+	  	<spring:message code="label_back" var="label_back" htmlEscape="false" />
+		<c:if test="${parentMenu != null}">
+			<c:set var="backToParentProperties" value=",back:'${label_back}',moveTo:'${parentMenu.targetEntity.simpleName}Panel'"/>
+		</c:if>
+		<h1 data-dojo-type="dojox.mobile.Heading" data-dojo-props="fixed:'top'${backToParentProperties}">
+			<c:if test="${deviceType eq 'MOBILE'}">
+				<img src="images/logo.png" class="logo" />
+				<button data-dojo-type="dojox.mobile.ToolBarButton" data-dojo-props="fixed:'right'"
+					class="logoffBtn"
+					onclick="location.href='${pageContext.request.contextPath}/logoff'">Logoff</button>
+			</c:if>
+		</h1>
+		<h2 data-dojo-type="dojox.mobile.RoundRectCategory">${menu.displayName}</h2>
+		<ul data-dojo-type="dojox.mobile.RoundRectList">
+			<c:forEach items="${menu.menuItems}" var="menuItem">
+			<c:choose>
+				<c:when test="${fn:length(menuItem.menuItems) &gt; 0}">
+					<li data-dojo-type="dojox.mobile.ListItem" 
+						data-dojo-props="transition:'slide',
+										moveTo:'${menuItem.targetEntity.simpleName}Panel'"
+						 onclick="addViewToHistory('${menuItem.targetEntity.simpleName}Panel');resizeDojoWidget('fixedSplitter');">${menuItem.displayName}</li>
+				</c:when>
+				<c:otherwise>
+					<li data-dojo-type="dojox.mobile.ListItem"
+						data-dojo-props="url:'${pageContext.request.contextPath}/${menuItem.targetEntity.simpleName}',
+								urlTarget:'bodyContainer'" 
+						onclick="showLoading();addViewToHistory('${menuItem.targetEntity.simpleName}Panel');resizeDojoWidget('fixedSplitter');">${menuItem.displayName}</li>
+				</c:otherwise>
+			</c:choose>
+			</c:forEach>
+		</ul>
+	</div>
+	
+	<c:forEach items="${menu.menuItems}" var="menuItem">
+	<c:if test="${fn:length(menuItem.menuItems) &gt; 0}">
+		<ol:menu menu="${menuItem}" parentMenu="${menu}" />
+	</c:if>
+	</c:forEach>
+
+</jsp:root>

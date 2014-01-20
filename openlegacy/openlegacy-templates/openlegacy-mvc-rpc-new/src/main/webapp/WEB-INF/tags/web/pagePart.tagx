@@ -1,0 +1,40 @@
+<jsp:root xmlns:ol="http://www.openlegacy.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+	<jsp:output omit-xml-declaration="yes" />
+	<jsp:directive.attribute name="top" type="java.lang.String" required="false" rtexprvalue="true" description="The top position of this panel" />
+	<jsp:directive.attribute name="left" type="java.lang.String" required="false" rtexprvalue="true" description="The left position of this panel" />
+	<jsp:directive.attribute name="width" type="java.lang.String" required="false" rtexprvalue="true" description="The width of this panel" />
+	<jsp:directive.attribute name="relative" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be relative" />
+	<jsp:directive.attribute name="collapsible" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be collapsible" />
+	<jsp:directive.attribute name="open" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Is the panel should be opened, if defined as collapsible" />
+	<jsp:directive.attribute name="title" type="java.lang.String" required="false" rtexprvalue="true" description="The panel title" />
+
+	<c:set var="leftStyle" value=""/>
+	<c:set var="topStyle" value=""/>
+	<c:set var="widthStyle" value=""/>
+	<c:set var="absoluteStyle" value=""/>
+	
+	<c:if test="${not relative and not empty left}">
+		<c:set var="leftStyle" value="left: ${left};"/>
+	</c:if>
+	<c:if test="${not relative and not empty top}">
+		<c:set var="topStyle" value="top: ${top};"/>
+	</c:if>
+	<c:if test="${not empty width}">
+		<c:set var="widthStyle" value="width: ${width};"/>
+	</c:if>
+	<c:if test="${not relative and not empty top and not empty left}">
+		<c:set var="absoluteStyle" value="position: absolute;"/>
+	</c:if>
+	
+	<div style="${leftStyle} ${topStyle} ${widthStyle}; ${absoluteStyle} height: auto;" data-dojo-type="dijit.TitlePane" data-dojo-props="title: '${title}'" class="panel">
+		<div class="content">
+			<jsp:doBody />
+		</div>
+	</div>
+
+</jsp:root>
