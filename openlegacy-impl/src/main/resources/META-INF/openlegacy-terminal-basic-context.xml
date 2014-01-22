@@ -56,6 +56,7 @@
 
 	<bean id="sessionsRegistry" class="org.openlegacy.support.SimpleSessionsRegistry" />
 	<bean id="sessionsManager" class="org.openlegacy.support.DefaultSessionsManager" />
+	<bean id="deviceAllocator" class="org.openlegacy.terminal.support.FreeDeviceAllocator" />
 	<bean id="loginMetadata" class="org.openlegacy.terminal.modules.login.LoginMetadata" />
 	
 	<bean id="abstractTerminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession" abstract="true">

@@ -71,8 +71,6 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	private static final String LOGIN_FAILED = "Login failed";
 
-	private static final String USER_NAME = "User name";
-
 	public void login(String user, String password) throws LoginException {
 		if (loggedInUser != null) {
 			return;
@@ -159,7 +157,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 			throw (new LoginException(message));
 		} else {
 			loggedInUser = user;
-			getSession().getProperties().getProperties().put(USER_NAME, loggedInUser);
+			getSession().getProperties().getProperties().put(Login.USER_NAME_PROPERTY, loggedInUser);
 		}
 
 	}

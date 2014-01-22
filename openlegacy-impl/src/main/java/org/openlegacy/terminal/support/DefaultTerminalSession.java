@@ -22,6 +22,7 @@ import org.openlegacy.modules.SessionModule;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
+import org.openlegacy.terminal.DeviceAllocator;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.TerminalActionMapper;
@@ -97,6 +98,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	@Inject
+	private DeviceAllocator deviceAllocator;
 
 	private Integer lastSequence = 0;
 
@@ -450,6 +454,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 				public String getDeviceName() {
 					String device = (String)getProperties().getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
+					// treat the result property device as pool name
+					device = deviceAllocator.allocate(device);
+					if (device != null) {
+						getProperties().setProperty(TerminalSessionPropertiesConsts.DEVICE_NAME, device);
+					}
 					return device;
 				}
 
@@ -465,5 +474,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		lastSequence = getSequence();
 		notifyModulesAfterAction(null);
 	}
+
 
 }

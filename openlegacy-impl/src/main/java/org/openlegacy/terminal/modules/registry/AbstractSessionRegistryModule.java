@@ -31,12 +31,11 @@ public class AbstractSessionRegistryModule extends SessionModuleAdapter implemen
 	private SessionsRegistry sessionsRegistry;
 
 	@Override
-	public void beforeConnect(ApplicationConnection connection) {
-		sessionsRegistry.register(getSession());
-	}
+	public void beforeConnect(ApplicationConnection connection) {}
 
 	@Override
 	public void afterConnect(ApplicationConnection terminalConnection) {
+		sessionsRegistry.register(getSession());
 		setLastActivity();
 	}
 

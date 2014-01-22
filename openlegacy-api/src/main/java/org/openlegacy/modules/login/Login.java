@@ -29,6 +29,8 @@ public interface Login extends SessionModule {
 
 	public static final String ERROR_FIELD_NAME = "errorMessage";
 
+	public static final String USER_NAME_PROPERTY = "User name";
+
 	void login(String user, String password) throws LoginException, RegistryException;
 
 	/**
