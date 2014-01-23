@@ -20,12 +20,20 @@
 			</li>
 			<c:forEach items="${ol_actions}" var="action">
 				<c:if test="${action.global}">
+					<c:choose>
+						<c:when test="${action.type == 'WINDOW'}">
+							<c:set var="newHref" value="javascript:showDialog('lookupDialog', '${action.targetEntity.simpleName}');" />
+						</c:when>
+						<c:otherwise>
+							<c:set var="newHref" value="javascript:doPost('${definitions.entityName}Form','${action.alias}');" />
+						</c:otherwise>
+					</c:choose>
 					<c:set var="image" value="/icons/${action.alias}.png" />
 					<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">
 						<c:set var="image" value="/icons/submit.png" />
 					</c:if>
 					<li>
-						<a href="javascript:doPost('${definitions.entityName}Form','${action.alias}');">
+						<a href="${newHref}">
 							<span class="actions_icon actions_${action.alias}"><!--  --></span> <!--
 						This comment need to make correct margin between span and text 
 						 --><img src="${pageContext.request.contextPath}${image}" width="15" height="14" alt="${action.alias}" />

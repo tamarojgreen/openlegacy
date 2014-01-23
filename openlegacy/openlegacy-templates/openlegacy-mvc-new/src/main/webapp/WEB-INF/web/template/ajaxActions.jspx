@@ -25,7 +25,18 @@
 			</li>
 			<c:forEach items="${ol_actions}" var="action">
 				<li>
-					<a href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}','${action.alias}');"
+					<c:choose>
+						<c:when test="${action.type == 'WINDOW'}">
+							<c:set var="newHref" value="javascript:showDialog('lookupDialog', '${pageContext.request.contextPath}/${action.targetEntity.simpleName}');" />
+						</c:when>
+						<c:when test="${action.type == 'NAVIGATION'}">
+							<c:set var="newHref" value="javascript:doPost('${definitions.entityName}Form','${action.alias}');" />
+						</c:when>
+						<c:otherwise>
+							<c:set var="newHref" value="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}','${action.alias}');" />
+						</c:otherwise>
+					</c:choose>				
+					<a href="${newHref}"
 						value="${action.displayName}">
 						<c:set var="image" value="/icons/${action.alias}.png" />
 						<c:if test="${not ol:fileExists(pageContext.servletContext,image)}">

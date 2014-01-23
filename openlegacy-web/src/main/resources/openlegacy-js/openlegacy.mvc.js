@@ -557,3 +557,17 @@ function changeHidden(element,checkedValue,uncheckedValue){
 		document.getElementById(element.name.substr(2)).value = uncheckedValue;	
 	}
 }
+
+function doBackgroundUpdate(url){
+	require([ "dojo/dom" , "dijit/registry","dojo/dom-form"], function(dom,registry,domForm) {
+		var xhr = require("dojo/request/xhr");
+		xhr.post(url + "?action=none", {
+			data: domForm.toObject(getMainForm()),
+			handleAs : "text",
+			headers: { "Accept": "text/html;type=ajax" }
+		}).then(function(data){
+		}, function(e){
+			alert(e);
+		});
+	});
+}

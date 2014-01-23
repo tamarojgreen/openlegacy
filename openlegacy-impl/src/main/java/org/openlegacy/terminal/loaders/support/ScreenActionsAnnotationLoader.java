@@ -17,6 +17,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.Action;
 import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
+import org.openlegacy.terminal.ScreenEntity.NONE;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -79,7 +80,9 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				} else {
 					actionDefinition.setAlias(action.alias());
 				}
-
+				if (action.targetEntity() != NONE.class) {
+					actionDefinition.setTargetEntity(action.targetEntity());
+				}
 				actionDefinition.setGlobal(action.global());
 				actionDefinition.setType(action.type());
 

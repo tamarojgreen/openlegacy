@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -81,10 +82,14 @@ public @interface Action {
 	public static enum ActionType {
 		GENERAL,
 		NAVIGATION,
-		LOGICAL
+		LOGICAL,
+		WINDOW
 	}
 
 	int length() default 0;
 
 	String when() default ".*";
+
+	Class<?> targetEntity() default ScreenEntity.NONE.class;
+
 }
