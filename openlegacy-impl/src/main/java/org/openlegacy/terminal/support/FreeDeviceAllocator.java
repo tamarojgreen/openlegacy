@@ -21,6 +21,9 @@ public class FreeDeviceAllocator implements DeviceAllocator {
 	private String errorMessageWhenNotAvailable = "No device is available from:{0}";
 
 	public String allocate(String pullName) {
+		if (pullName == null) {
+			return null;
+		}
 		String[] possibleDevices = pullName.split(",");
 
 		Set<SessionProperties> sessionsProperties = sessionsManager.getSessionsProperties();
