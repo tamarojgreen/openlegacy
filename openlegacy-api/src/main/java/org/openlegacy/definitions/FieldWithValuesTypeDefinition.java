@@ -13,6 +13,7 @@ package org.openlegacy.definitions;
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 /**
@@ -48,5 +49,5 @@ public interface FieldWithValuesTypeDefinition extends FieldTypeDefinition {
 
 	boolean isAsWindow();
 
-	boolean isAutoSubmit();
+	TerminalAction getAutoSubmitAction();
 }

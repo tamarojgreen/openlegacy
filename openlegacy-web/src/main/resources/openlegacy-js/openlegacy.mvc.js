@@ -462,8 +462,8 @@ function closeAndUpdateLookup(value,displayValue){
 			handleAs : "text",
 			headers: { "Accept": "text/html;type=ajax" }
 		}).then(function(data){
-			if (ol_autoSubmit){
-				location.href = location.href;
+			if (ol_autoSubmit != 'null'){
+				doPost(getMainForm().name,ol_autoSubmit);
 			}
 		}, function(e){
 			alert(e);

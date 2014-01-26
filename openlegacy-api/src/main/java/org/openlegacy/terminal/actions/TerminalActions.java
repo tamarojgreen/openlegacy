@@ -68,6 +68,11 @@ public class TerminalActions {
 		return combinedAction;
 	}
 
+	public static class NULL extends SimpleTerminalMappedAction {
+
+		private static final long serialVersionUID = 1L;
+	}
+
 	public static class NONE extends SimpleTerminalMappedAction {
 
 		private static final long serialVersionUID = 1L;

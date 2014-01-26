@@ -12,6 +12,8 @@ package org.openlegacy.annotations.screen;
 
 import org.openlegacy.modules.table.LookupEntity;
 import org.openlegacy.terminal.ScreenRecordsProvider;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -50,7 +52,7 @@ public @interface ScreenFieldValues {
 	 */
 	boolean asWindow() default false;
 
-	boolean autoSubmit() default false;
+	Class<? extends TerminalAction> autoSubmitAction() default TerminalActions.NULL.class;
 
 	/**
 	 * When asWindow = true, used for displaying the mainDisplayField of the window lookup table

@@ -13,6 +13,7 @@ package org.openlegacy.definitions.support;
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
+import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.Serializable;
@@ -31,7 +32,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 
 	private boolean asWindow;
 
-	private boolean autoSubmit;
+	private TerminalAction autoSubmitAction;
 
 	public void setRecordsProvider(RecordsProvider<? extends Session, Object> recordsProvider) {
 		this.recordsProvider = recordsProvider;
@@ -109,11 +110,11 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 		return asWindow;
 	}
 
-	public boolean isAutoSubmit() {
-		return autoSubmit;
+	public TerminalAction getAutoSubmitAction() {
+		return autoSubmitAction;
 	}
 
-	public void setAutoSubmit(boolean autoSubmit) {
-		this.autoSubmit = autoSubmit;
+	public void setAutoSubmitAction(TerminalAction autoSubmitAction) {
+		this.autoSubmitAction = autoSubmitAction;
 	}
 }

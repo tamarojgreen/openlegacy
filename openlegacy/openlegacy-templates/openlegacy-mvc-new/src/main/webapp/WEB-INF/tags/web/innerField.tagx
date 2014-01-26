@@ -98,7 +98,7 @@
 											<ol:span cssClass="readonlyField" path="${fieldDefinition.fieldTypeDefinition.displayFieldName}"
 												cssStyle="${style}" />
 										</c:if>
-										<img src="${pageContext.request.contextPath}/icons/search.png" onclick="openLookupDialog('${name}','${fieldDefinition.fieldTypeDefinition.displayFieldName}','${pageContext.request.contextPath}/${windowUrl}','width:550px;height:520px',${fieldDefinition.fieldTypeDefinition.autoSubmit})" class="search" />
+										<img src="${pageContext.request.contextPath}/icons/search.png" onclick="openLookupDialog('${name}','${fieldDefinition.fieldTypeDefinition.displayFieldName}','${pageContext.request.contextPath}/${windowUrl}','width:550px;height:520px','${fn:toLowerCase(fieldDefinition.fieldTypeDefinition.autoSubmitAction.class.simpleName)}')" class="search" />
 									</c:when>
 									<c:otherwise>
 										<script language="JavaScript" type="text/javascript">

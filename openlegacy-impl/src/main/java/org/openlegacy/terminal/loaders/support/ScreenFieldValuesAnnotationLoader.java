@@ -19,6 +19,7 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenPartEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -85,7 +86,7 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 		fieldTypeDefinition.setSourceEntityClass(fieldValuesAnnotation.sourceScreenEntity());
 		fieldTypeDefinition.setCollectAllRecords(fieldValuesAnnotation.collectAll());
 		fieldTypeDefinition.setAsWindow(fieldValuesAnnotation.asWindow());
-		fieldTypeDefinition.setAutoSubmit(fieldValuesAnnotation.autoSubmit());
+		fieldTypeDefinition.setAutoSubmitAction(ReflectionUtil.newInstance(fieldValuesAnnotation.autoSubmitAction()));
 		if (fieldValuesAnnotation.displayFieldName().length() > 0) {
 			fieldTypeDefinition.setDisplayFieldName(fieldValuesAnnotation.displayFieldName());
 		}
