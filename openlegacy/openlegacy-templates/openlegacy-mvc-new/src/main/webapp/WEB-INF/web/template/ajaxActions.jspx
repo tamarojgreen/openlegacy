@@ -8,13 +8,7 @@
 	<div class="actions">
 		<ul>
 			<li>
-				<c:set var="jsFunction" value="doAjaxPost" />
-				<c:set var="target" value="${definitions.entityName}" />
-				<c:if test="${action.type == 'NAVIGATION'}">
-					<c:set var="jsFunction" value="doPost" />
-					<c:set var="target" value="" />
-				</c:if>
-				<a href="javascript:${jsFunction}('${definitions.entityName}Form','${target}','${action.alias}');"
+				<a href="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}','');">
 					<span class="actions_icon actions_submit"><!--  --></span><!-- 
 					This comment need to make correct margin between span and text
 					 --><img src="${pageContext.request.contextPath}/icons/submit.png"
