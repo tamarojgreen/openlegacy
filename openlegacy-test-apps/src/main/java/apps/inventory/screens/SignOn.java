@@ -6,7 +6,6 @@ import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
-import org.openlegacy.modules.globals.Globals.GlobalField;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.terminal.actions.TerminalActions;
 
@@ -15,7 +14,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 @ScreenActions(actions = { @Action(action = TerminalActions.ESC.class, displayName = "Escape") })
 public class SignOn extends AbstractScreen {
 
-	@ScreenField(row = 2, column = 70, endColumn = 77, displayName = "System", sampleValue = "S44R5550", labelColumn = 48, fieldType = GlobalField.class)
+	@ScreenField(row = 2, column = 70, endColumn = 77, displayName = "System", sampleValue = "S44R5550", labelColumn = 48, global = true)
 	private String system;
 
 	@ScreenField(row = 6, column = 53, endColumn = 62, fieldType = Login.UserField.class, editable = true, labelColumn = 17)
