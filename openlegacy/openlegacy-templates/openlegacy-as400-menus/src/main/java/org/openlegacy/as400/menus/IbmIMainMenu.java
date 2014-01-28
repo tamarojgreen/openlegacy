@@ -6,7 +6,6 @@ import org.openlegacy.annotations.screen.ScreenActions;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
-import org.openlegacy.modules.globals.Globals.GlobalField;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.modules.menu.Menu.MenuSelectionField;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
@@ -24,7 +23,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 		@Action(action = TerminalActions.F11.class, additionalKey = AdditionalKey.SHIFT, displayName = "Set initial menu", alias = "setInitialMenu") })
 public class IbmIMainMenu {
 
-	@ScreenField(row = 2, column = 72, endColumn = 79, labelColumn = 62, displayName = "System", sampleValue = "S1051C6E", fieldType = GlobalField.class)
+	@ScreenField(row = 2, column = 72, endColumn = 79, labelColumn = 62, displayName = "System", sampleValue = "S1051C6E", global = true)
 	private String system;
 
 	@ScreenField(row = 20, column = 7, endColumn = 80, editable = true, fieldType = MenuSelectionField.class, displayName = "Menu Selection")
