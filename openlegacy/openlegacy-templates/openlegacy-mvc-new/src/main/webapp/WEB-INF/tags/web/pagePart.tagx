@@ -30,8 +30,11 @@
 	<c:if test="${not relative and not empty top and not empty left}">
 		<c:set var="absoluteStyle" value="position: absolute;"/>
 	</c:if>
+	<c:if test="${empty open}">
+		<c:set var="open" value="true"/>
+	</c:if>	
 	
-	<div style="${leftStyle} ${topStyle} ${widthStyle}; ${absoluteStyle} height: auto;" data-dojo-type="dijit.TitlePane" data-dojo-props="title: '${title}'" class="panel">
+	<div style="${leftStyle} ${topStyle} ${widthStyle}; ${absoluteStyle} height: auto;" data-dojo-type="dijit.TitlePane" data-dojo-props="open: ${open},title: '${title}'" class="panel">
 		<div class="content">
 			<jsp:doBody />
 		</div>
