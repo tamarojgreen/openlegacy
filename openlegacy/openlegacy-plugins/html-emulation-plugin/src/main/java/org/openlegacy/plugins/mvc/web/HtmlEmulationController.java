@@ -15,6 +15,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.modules.login.LoginMetadata;
 import org.openlegacy.terminal.web.render.TerminalSnapshotHtmlRenderer;
 import org.openlegacy.utils.EntityUtils;
@@ -88,7 +89,9 @@ public class HtmlEmulationController {
 		if (!emulationOnly) {
 			ScreenEntity currentEntity = terminalSession.getEntity();
 			if (currentEntity != null) {
-				if (loginMetadata.getLoginScreenDefinition().getEntityClass().isAssignableFrom(currentEntity.getClass())) {
+				ScreenEntityDefinition loginScreenDefinition = loginMetadata.getLoginScreenDefinition();
+				if (loginScreenDefinition != null
+						&& loginScreenDefinition.getEntityClass().isAssignableFrom(currentEntity.getClass())) {
 					terminalSession.disconnect();
 					return MvcConstants.LOGIN_URL;
 				}
