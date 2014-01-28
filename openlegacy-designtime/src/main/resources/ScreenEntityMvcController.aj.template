@@ -106,7 +106,9 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
     }
 
 	<@postMethod actionName="ENTER" actionAlias="submit" params="" />
-    
+	
+	<@postMethod actionName="NONE" actionAlias="none" params="none" />
+	    
 	<#list actions as action>
 	<@postMethod actionName=action.actionName actionAlias=action.alias params=action.alias />
 	</#list>	
@@ -122,7 +124,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 		response.setContentType("application/vnd.ms-excel");
 		response.addHeader("Content-Disposition", "attachment; filename=\"${entityDefinition.entityClassName}.xls\"");
 		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
-				tablesDefinitionProvider, Items.class);
+				tablesDefinitionProvider, ${entityDefinition.entityClassName}.class);
     	tableWriter.writeTable(records, response.getOutputStream());
     }
 	

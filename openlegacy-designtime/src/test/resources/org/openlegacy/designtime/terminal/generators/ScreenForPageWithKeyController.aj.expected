@@ -98,7 +98,25 @@ privileged @SuppressWarnings("unused") aspect ScreenForPagewithKeyController_Asp
     	return "redirect:/emulation";
 		
     }
-    
+	
+	// handle none action
+    @RequestMapping(params="action=none", method = RequestMethod.POST)
+    public String ScreenForPagewithKeyController.none(ScreenForPagewithKey screenForPagewithKey, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.NONE(), screenForPagewithKey);
+	// go to the controller for the resulting screen name
+		if (resultScreenEntity != null){
+			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			if (httpServletRequest.getParameter("partial") != null || screenEntityName.equals("ScreenForPagewithKey")){
+				screenForPagewithKey = terminalSession.getEntity(ScreenForPagewithKey.class);
+		    	uiModel.addAttribute("screenForPagewithKey", screenForPagewithKey);
+		        return "ScreenForPagewithKey";
+			}
+        	return "redirect:" + screenEntityName;
+		}
+    	return "redirect:/emulation";
+		
+    }
+	    
 	
 	
 	@InitBinder

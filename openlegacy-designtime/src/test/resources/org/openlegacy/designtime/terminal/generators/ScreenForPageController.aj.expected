@@ -102,7 +102,25 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
     	return "redirect:/emulation";
 		
     }
-    
+	
+	// handle none action
+    @RequestMapping(params="action=none", method = RequestMethod.POST)
+    public String ScreenForPageController.none(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
+	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.NONE(), screenForPage);
+	// go to the controller for the resulting screen name
+		if (resultScreenEntity != null){
+			String screenEntityName = screenEntitiesRegistry.get(resultScreenEntity.getClass()).getEntityClassName();
+			if (httpServletRequest.getParameter("partial") != null || screenEntityName.equals("ScreenForPage")){
+				screenForPage = terminalSession.getEntity(ScreenForPage.class);
+		    	uiModel.addAttribute("screenForPage", screenForPage);
+		        return "ScreenForPage";
+			}
+        	return "redirect:" + screenEntityName;
+		}
+    	return "redirect:/emulation";
+		
+    }
+	    
 	// handle help action
     @RequestMapping(params="action=help", method = RequestMethod.POST)
     public String ScreenForPageController.help(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
@@ -180,7 +198,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 		response.setContentType("application/vnd.ms-excel");
 		response.addHeader("Content-Disposition", "attachment; filename=\"ScreenForPage.xls\"");
 		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
-				tablesDefinitionProvider, Items.class);
+				tablesDefinitionProvider, ScreenForPage.class);
     	tableWriter.writeTable(records, response.getOutputStream());
     }
 	
