@@ -86,7 +86,9 @@ function doAjaxPost(formName, areaName, actionName,fragments,callback) {
 			showDialog("lookupDialog", redirectUrl);
 		}
 		else{
-			location.href = redirectUrl;
+			if (redirectUrl){
+				location.href = redirectUrl;
+			}			
 		}
     });	
 	
