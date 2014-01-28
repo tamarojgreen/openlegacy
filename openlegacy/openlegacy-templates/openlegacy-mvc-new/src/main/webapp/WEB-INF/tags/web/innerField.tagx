@@ -14,6 +14,7 @@
 	<jsp:directive.attribute name="top" type="java.lang.String" required="false" rtexprvalue="true" description="Set field top position" />
 	<jsp:directive.attribute name="left" type="java.lang.String" required="false" rtexprvalue="true" description="Set field left position" />
 	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field direction" />
+	<jsp:directive.attribute name="editable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field editable" />
 	
 	<c:choose>
 		<c:when test="${fn:contains(name,'.')}">
@@ -66,7 +67,7 @@
 			</c:if>
 			<div class="field">
 				<c:choose>
-					<c:when test="${fieldDefinition.editable}">
+					<c:when test="${editable}">
 						<c:choose>
 							<c:when test="${type == 'number'}">
 								<script>require("dijit/form/NumberSpinner");</script>
