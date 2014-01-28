@@ -140,17 +140,17 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 
 	protected abstract ActionDefinition findAction(Object entity, String action);
 
-	protected String handleEntity(HttpServletRequest request, Model uiModel, Object resultEntity) throws MalformedURLException {
+	protected String handleEntity(HttpServletRequest request, Model uiModel, Object resultEntity, String urlPrefix)
+			throws MalformedURLException {
 		if (resultEntity == null) {
 			Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
 			return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 		} else {
-			boolean isPartial = request.getParameter("partial") != null;
-			if (isPartial) {
-				return prepareView(resultEntity, uiModel, isPartial, request);
+			if (StringUtils.isEmpty(urlPrefix)) {
+				return prepareView(resultEntity, uiModel, true, request);
 			} else {
 				EntityDefinition<?> entityDefinition = entitiesRegistry.get(resultEntity.getClass());
-				return MvcConstants.REDIRECT + entityDefinition.getEntityName();
+				return urlPrefix + entityDefinition.getEntityName();
 			}
 		}
 	}

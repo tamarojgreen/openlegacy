@@ -21,6 +21,7 @@ import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
 import org.openlegacy.mvc.web.AbstractGenericEntitiesController;
 import org.openlegacy.mvc.web.MvcConstants;
+import org.openlegacy.mvc.web.OpenLegacyViewResolver;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
@@ -110,9 +111,10 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 		}
 
 		ScreenEntity screenEntity = (ScreenEntity)getSession().getEntity(screenEntityName);
+		boolean isPartial = request.getParameter("partial") != null;
 		if (screenEntity == null) {
 			ScreenEntity currentEntity = getSession().getEntity();
-			return handleEntity(request, uiModel, currentEntity);
+			return handleEntity(request, uiModel, currentEntity, isPartial ? null : MvcConstants.REDIRECT);
 		}
 
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(screenEntity);
@@ -120,13 +122,19 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 		binder.bind(request);
 		screenBindUtil.bindTables(request, entityClass, screenEntity);
 
+		ScreenEntityDefinition beforeEntityDefinition = (ScreenEntityDefinition)getEntitiesRegistry().get(entityClass);
 		TerminalActionDefinition matchedActionDefinition = screenEntityUtils.findAction(screenEntity, action);
 		ScreenEntity resultEntity = getSession().doAction((TerminalAction)matchedActionDefinition.getAction(), screenEntity);
 		if (matchedActionDefinition != null && matchedActionDefinition.getTargetEntity() != null) {
 			resultEntity = (ScreenEntity)getSession().getEntity(matchedActionDefinition.getTargetEntity());
 		}
 
-		return handleEntity(request, uiModel, resultEntity);
+		ScreenEntityDefinition afterEntityDefinition = (ScreenEntityDefinition)getEntitiesRegistry().get(resultEntity.getClass());
+		String urlPrefix = isPartial ? null : MvcConstants.REDIRECT;
+		if (!beforeEntityDefinition.isWindow() && afterEntityDefinition.isWindow()) {
+			urlPrefix = OpenLegacyViewResolver.WINDOW_URL_PREFIX;
+		}
+		return handleEntity(request, uiModel, resultEntity, urlPrefix);
 	}
 
 	@Override

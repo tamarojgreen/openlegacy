@@ -130,7 +130,7 @@
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean"
 		id="applicationConversionService" />
 		
-	<bean class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">
+	<bean class="org.openlegacy.mvc.web.OpenLegacyViewResolver">
 	   <property name="viewClass" value="org.springframework.js.ajax.tiles2.AjaxTilesView"/>
 	</bean>
 	

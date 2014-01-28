@@ -80,8 +80,12 @@ function doAjaxPost(formName, areaName, actionName,fragments,callback) {
 		alert(e);
 	});
 	promise.response.then(function(response) {
+		var windowUrl = response.getHeader("Spring-Modal-View");
 		var redirectUrl = response.getHeader("Spring-Redirect-URL");
-		if (redirectUrl != null){
+		if (windowUrl){
+			showDialog("lookupDialog", redirectUrl);
+		}
+		else{
 			location.href = redirectUrl;
 		}
     });	

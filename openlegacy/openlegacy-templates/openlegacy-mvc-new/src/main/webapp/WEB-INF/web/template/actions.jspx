@@ -24,6 +24,9 @@
 						<c:when test="${action.type == 'WINDOW'}">
 							<c:set var="newHref" value="javascript:showDialog('lookupDialog', '${action.targetEntity.simpleName}');" />
 						</c:when>
+						<c:when test="${action.type == 'LOGICAL'}">
+							<c:set var="newHref" value="javascript:doAjaxPost('${definitions.entityName}Form','${definitions.entityName}','${action.alias}');" />
+						</c:when>
 						<c:otherwise>
 							<c:set var="newHref" value="javascript:doPost('${definitions.entityName}Form','${action.alias}');" />
 						</c:otherwise>
