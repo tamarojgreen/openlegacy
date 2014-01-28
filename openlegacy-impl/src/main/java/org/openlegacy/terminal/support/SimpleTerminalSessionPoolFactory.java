@@ -117,7 +117,7 @@ public class SimpleTerminalSessionPoolFactory implements TerminalSessionFactory,
 									logger.debug("Keep alive action " + keepAliveAction.getSimpleName() + " performed for "
 											+ session);
 								} catch (Exception e) {
-									logger.fatal(e);
+									logger.fatal(e, e);
 								}
 							}
 						}

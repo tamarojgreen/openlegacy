@@ -123,7 +123,7 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 			Object entity = session.getEntity(entityName, keys);
 			return prepareView(entity, uiModel, partial != null, request);
 		} catch (RuntimeException e) {
-			logger.fatal(e);
+			logger.fatal(e, e);
 			return handleFallbackUrl(e);
 		}
 	}

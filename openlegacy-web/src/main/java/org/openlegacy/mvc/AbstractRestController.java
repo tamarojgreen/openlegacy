@@ -77,7 +77,7 @@ public abstract class AbstractRestController {
 			Object entity = getApiEntity(entityName, key);
 			return getEntityInner(entity);
 		} catch (EntityNotFoundException e) {
-			logger.fatal(e);
+			logger.fatal(e, e);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return null;
 		}
