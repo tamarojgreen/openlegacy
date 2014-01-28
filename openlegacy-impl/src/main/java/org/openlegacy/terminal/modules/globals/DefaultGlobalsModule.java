@@ -18,14 +18,15 @@ import org.openlegacy.modules.globals.Globals;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -71,9 +72,12 @@ public class DefaultGlobalsModule extends TerminalSessionModuleAdapter implement
 
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(currentEntity.getClass());
 
-		List<? extends FieldDefinition> globalFields = entityDefinitions.getFieldDefinitions(Globals.GlobalField.class);
+		Collection<ScreenFieldDefinition> fields = entityDefinitions.getAllFieldsDefinitions().values();
 
-		for (FieldDefinition fieldDefinition : globalFields) {
+		for (FieldDefinition fieldDefinition : fields) {
+			if (!fieldDefinition.isGlobal()) {
+				continue;
+			}
 			String globalFieldName = fieldDefinition.getName();
 			Object globalFieldValue = fieldAccessor.getFieldValue(globalFieldName);
 			if (globalFieldValue != null) {

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.modules.globals;
 
-import org.openlegacy.FieldType;
 import org.openlegacy.modules.SessionModule;
 
 import java.util.Map;
@@ -22,12 +21,7 @@ import java.util.Map;
  */
 public interface Globals extends SessionModule {
 
-	public static final String MESSAGE_FIELD = "message";
-
 	Map<String, Object> getGlobals();
 
 	Object getGlobal(String name);
-
-	public static class GlobalField implements FieldType {
-	}
 }

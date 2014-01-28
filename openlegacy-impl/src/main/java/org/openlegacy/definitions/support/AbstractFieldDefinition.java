@@ -33,6 +33,8 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	private String helpText;
 
+	private boolean global;
+
 	// @author Ivan Bort, refs assembla #112
 	private String fieldTypeName;
 
@@ -187,5 +189,13 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	public void setInternal(boolean internal) {
 		this.internal = internal;
+	}
+
+	public boolean isGlobal() {
+		return global;
+	}
+
+	public void setGlobal(boolean global) {
+		this.global = global;
 	}
 }

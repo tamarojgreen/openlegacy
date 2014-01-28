@@ -57,4 +57,6 @@ public interface FieldDefinition extends Comparable<FieldDefinition> {
 	boolean isRightToLeft();
 
 	boolean isInternal();
+
+	public boolean isGlobal();
 }

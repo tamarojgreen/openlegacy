@@ -169,4 +169,6 @@ public @interface ScreenField {
 	String unless() default "";
 
 	boolean internal() default false;
+
+	boolean global() default false;
 }
