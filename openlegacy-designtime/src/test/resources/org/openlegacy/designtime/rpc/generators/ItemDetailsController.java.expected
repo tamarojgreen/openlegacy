@@ -1,0 +1,43 @@
+package org.openlegacy.designtime.rpc.generators.mock.web;
+
+import org.openlegacy.designtime.rpc.generators.mock.ItemDetails;
+import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.RpcSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.inject.Inject;
+
+
+/**
+ * Handles requests for RPC ItemDetails
+ */
+
+@Controller
+@RequestMapping("/ItemDetails")
+public class ItemDetailsController {
+
+	@Inject
+	private RpcSession rpcSession;
+
+	@RequestMapping(value = "/{key:[\\w+[-_ ]*\\w+]+}", method = RequestMethod.GET)
+	public String show(Model uiModel, @PathVariable("key") String key) {
+		if (key.equals("help"))
+			return "help";
+
+		ItemDetails itemDetails = rpcSession.getEntity(ItemDetails.class, key);
+		uiModel.addAttribute("itemDetails", itemDetails);
+		return "ItemDetails";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, params = "action=update")
+	public String update(ItemDetails itemDetails, Model uiModel) {
+		itemDetails = rpcSession.doAction(RpcActions.UPDATE(), itemDetails);
+
+		uiModel.addAttribute("itemDetails", itemDetails);
+		return "ItemDetails";
+	}
+}

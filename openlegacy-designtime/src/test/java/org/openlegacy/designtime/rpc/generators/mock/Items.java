@@ -1,4 +1,4 @@
-package org.openlegacy.rpc.samples.model;
+package org.openlegacy.designtime.rpc.generators.mock;
 
 import org.openlegacy.annotations.rpc.Action;
 import org.openlegacy.annotations.rpc.RpcActions;
@@ -9,12 +9,14 @@ import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
 import org.openlegacy.rpc.RpcActions.READ;
+import org.openlegacy.rpc.RpcActions.UPDATE;
 
 import java.util.List;
 
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMS.PGM") })
 @RpcEntity(name = "Items")
 @RpcNavigation(category = "Inventory Menu")
+@SuppressWarnings("unused")
 public class Items implements org.openlegacy.rpc.RpcEntity {
 
 	private TopLevel topLevel;
@@ -26,7 +28,9 @@ public class Items implements org.openlegacy.rpc.RpcEntity {
 		private List<InnerRecord> innerRecord;
 	}
 
-	@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMDETAIL.PGM", displayName = "View", targetEntity = ItemDetails.class, alias = "display") })
+	@RpcActions(actions = {
+			@Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMDETAIL.PGM", displayName = "View", targetEntity = ItemDetails.class, alias = "display"),
+			@Action(action = UPDATE.class, path = "/QSYS.LIB/RMR2L1.LIB/UPDITEMDET.PGM", displayName = "Edit", targetEntity = ItemDetails.class) })
 	@RpcPart(name = "InnerRecord")
 	public static class InnerRecord {
 

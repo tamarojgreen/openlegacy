@@ -7,6 +7,7 @@ import org.openlegacy.rpc.definitions.mock.RpcTreeEntity.WPart1.NestedPart;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 @RpcEntity()
 public class RpcTreeEntity implements org.openlegacy.rpc.RpcEntity {
 

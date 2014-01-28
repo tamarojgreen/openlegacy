@@ -1,4 +1,4 @@
-package org.openlegacy.rpc.samples.model;
+package org.openlegacy.designtime.rpc.generators.mock;
 
 import org.openlegacy.annotations.rpc.Action;
 import org.openlegacy.annotations.rpc.RpcActions;

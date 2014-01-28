@@ -22,6 +22,7 @@ import java.util.List;
 
 public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcFieldDefinition> implements RpcEntityDefinition {
 
+	private static final long serialVersionUID = 1L;
 	private Languages language;
 	private RpcNavigationDefinition navigationDefinition = new SimpleRpcNavigationDefinition();
 

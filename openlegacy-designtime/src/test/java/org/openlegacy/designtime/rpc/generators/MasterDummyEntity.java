@@ -11,6 +11,7 @@ import org.openlegacy.rpc.RpcEntityType.MasterDetailsEntity;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 @RpcEntity(rpcType = MasterDetailsEntity.class)
 public class MasterDummyEntity {
 

@@ -64,7 +64,8 @@
 	<bean id="ruleDefinition" class="org.openlegacy.designtime.rules.support.RuleDefinitionBean" abstract="true"/>
 	<bean id="ruleParametersSet" class="org.openlegacy.designtime.rules.support.RuleParametersSetBean" abstract="true"/>
 
-	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
+	<bean id="screenPageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
+	<bean id="rpcPageBuilder" class="org.openlegacy.rpc.layout.support.DefaultRpcPageBuilder" />
 
 	<bean id="screenPageGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGenerator" />
 	<bean id="rpcPageGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntityMvcGenerator" />

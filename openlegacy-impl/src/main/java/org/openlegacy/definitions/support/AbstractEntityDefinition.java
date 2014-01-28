@@ -48,7 +48,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 	private Map<String, F> allFieldsDefinitions = null;
 
 	private String displayName;
-	private List<F> keyFields;
+	private List<F> keys; // change name to math getter
 	private List<ActionDefinition> actions = new ArrayList<ActionDefinition>();
 
 	private List<EntityDefinition<?>> childEntitiesDefinitions = new ArrayList<EntityDefinition<?>>();
@@ -144,16 +144,16 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 	}
 
 	public List<? extends FieldDefinition> getKeys() {
-		if (keyFields == null) {
+		if (keys == null) {
 			Collection<F> allFields = fieldsDefinitions.values();
-			keyFields = new ArrayList<F>();
+			keys = new ArrayList<F>();
 			for (F field : allFields) {
 				if (field.isKey()) {
-					keyFields.add(field);
+					keys.add(field);
 				}
 			}
 		}
-		return keyFields;
+		return keys;
 	}
 
 	public List<EntityDefinition<?>> getChildEntitiesDefinitions() {

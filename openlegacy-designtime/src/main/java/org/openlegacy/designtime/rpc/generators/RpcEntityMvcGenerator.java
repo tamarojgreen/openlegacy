@@ -10,16 +10,26 @@
  *******************************************************************************/
 package org.openlegacy.designtime.rpc.generators;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.page.support.SimplePageDefinition;
+import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.generators.AbstractEntityMvcGenerator;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
+import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.layout.RpcPageBuilder;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
+
+import javax.inject.Inject;
 
 /**
  * Generates all Spring MVC web related content
@@ -29,15 +39,20 @@ import java.text.MessageFormat;
  */
 public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements RpcEntityPageGenerator {
 
+	private final static Log logger = LogFactory.getLog(RpcEntityMvcGenerator.class);
+
+	@Inject
+	private RpcPageBuilder pageBuilder;
+
 	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix) {
-		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,
-				pageDefinition.getEntityDefinition().getTypeName());
-		getGenerateUtil().generate(pageDefinition, output, "RpcEntityMvcPage.jspx.template", typeName);
+		// TODO implement
 	}
 
 	public void generateController(PageDefinition pageDefinition, OutputStream output) {
 		// TODO implement
+		String typeName = pageDefinition.getEntityDefinition().getTypeName();
+		getGenerateUtil().generate(pageDefinition, output, "rpcEntityMvcController.java.template", typeName);
 	}
 
 	public void generateControllerAspect(PageDefinition pageDefinition, OutputStream output) {
@@ -59,7 +74,46 @@ public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements
 
 	public void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException {
-		// TODO implement
+
+		getGenerateUtil().setTemplateDirectory(generateControllerRequest.getTemplatesDirectory());
+
+		UserInteraction userInteraction = generateControllerRequest.getUserInteraction();
+		FileOutputStream fos = null;
+		try {
+
+			File packageDir = new File(generateControllerRequest.getSourceDirectory(),
+					generateControllerRequest.getPackageDirectory());
+			String entityClassName = entityDefinition.getEntityClassName();
+
+			File contollerFile = new File(packageDir, entityClassName + "Controller.java");
+			boolean generateController = true;
+			if (contollerFile.exists()) {
+				boolean override = userInteraction.isOverride(contollerFile);
+				if (!override) {
+					generateController = false;
+				}
+			}
+
+			SimplePageDefinition pageDefinition = (SimplePageDefinition)pageBuilder.build((RpcEntityDefinition)entityDefinition);
+			pageDefinition.setPackageName(generateControllerRequest.getPackageDirectory().replaceAll("/", "."));
+
+			if (generateController) {
+				contollerFile.getParentFile().mkdirs();
+				fos = new FileOutputStream(contollerFile);
+				try {
+					generateController(pageDefinition, fos);
+					logger.info(MessageFormat.format("Generated controller : {0}", contollerFile.getAbsoluteFile()));
+				} finally {
+					IOUtils.closeQuietly(fos);
+					org.openlegacy.utils.FileUtils.deleteEmptyFile(contollerFile);
+				}
+			}
+
+		} catch (Exception e) {
+			throw (new GenerationException(e));
+		} finally {
+			IOUtils.closeQuietly(fos);
+		}
 
 	}
 

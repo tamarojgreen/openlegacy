@@ -3,6 +3,7 @@ package org.openlegacy.designtime.rpc.generators;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 
+@SuppressWarnings("unused")
 @RpcEntity
 public class DetailsDummyEntity {
 
