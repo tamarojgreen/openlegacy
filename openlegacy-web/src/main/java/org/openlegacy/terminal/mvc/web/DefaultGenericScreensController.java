@@ -129,10 +129,13 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 			resultEntity = (ScreenEntity)getSession().getEntity(matchedActionDefinition.getTargetEntity());
 		}
 
-		ScreenEntityDefinition afterEntityDefinition = (ScreenEntityDefinition)getEntitiesRegistry().get(resultEntity.getClass());
 		String urlPrefix = isPartial ? null : MvcConstants.REDIRECT;
-		if (!beforeEntityDefinition.isWindow() && afterEntityDefinition.isWindow()) {
-			urlPrefix = OpenLegacyViewResolver.WINDOW_URL_PREFIX;
+		if (resultEntity != null) {
+			ScreenEntityDefinition afterEntityDefinition = (ScreenEntityDefinition)getEntitiesRegistry().get(
+					resultEntity.getClass());
+			if (!beforeEntityDefinition.isWindow() && afterEntityDefinition.isWindow()) {
+				urlPrefix = OpenLegacyViewResolver.WINDOW_URL_PREFIX;
+			}
 		}
 		return handleEntity(request, uiModel, resultEntity, urlPrefix);
 	}
