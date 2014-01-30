@@ -45,6 +45,19 @@ public class DefaultGenericRpcController extends AbstractGenericEntitiesControll
 	@Inject
 	private RpcEntityUtils rpcEntityUtils;
 
+	public String help(@PathVariable("entity") String entityName, Model uiModel, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		@SuppressWarnings("unchecked")
+		Class<RpcEntity> entityClass = (Class<RpcEntity>)findAndHandleNotFound(entityName, response);
+		if (entityClass == null) {
+			return null;
+		}
+
+		RpcEntity rpcEntity = ReflectionUtil.newInstance(entityClass);
+		prepareView(rpcEntity, uiModel, false, request);
+		return "help";
+	}
+
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST)
 	public String postEntity(@PathVariable("entity") String entityName,
 			@RequestParam(defaultValue = "", value = ACTION) String action,

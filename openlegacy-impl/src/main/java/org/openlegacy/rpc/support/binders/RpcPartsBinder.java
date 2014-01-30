@@ -22,6 +22,7 @@ import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
+import org.openlegacy.rpc.support.RpcOrderFieldComparator;
 import org.openlegacy.rpc.support.SimpleRpcStructureField;
 import org.openlegacy.rpc.support.SimpleRpcStructureListField;
 import org.openlegacy.rpc.utils.SimpleRpcPojoFieldAccessor;
@@ -32,7 +33,6 @@ import org.springframework.beans.DirectFieldAccessor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -185,12 +185,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 			fieldsInLevel.add(populateActionDeep(fullName + "." + innerPart.getPartName(), innerPart, fieldAccesor));
 		}
 
-		Collections.sort(fieldsInLevel, new Comparator<RpcField>() {
-
-			public int compare(RpcField arg0, RpcField arg1) {
-				return arg0.getOrder() - arg1.getOrder();
-			}
-		});
+		Collections.sort(fieldsInLevel, new RpcOrderFieldComparator());
 		return fieldsInLevel;
 	}
 }

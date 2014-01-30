@@ -36,6 +36,10 @@ import java.util.Set;
 
 public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<ScreenFieldDefinition> implements ScreenEntityDefinition {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ScreenIdentification screenIdentification = new SimpleScreenIdentification();
 	private NavigationDefinition navigationDefinition;
 	private Map<String, ScreenTableDefinition> tableDefinitions = new HashMap<String, ScreenTableDefinition>();

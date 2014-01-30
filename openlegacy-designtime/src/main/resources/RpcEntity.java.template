@@ -19,7 +19,7 @@ import org.openlegacy.FieldType.*;
 </#if>
 public class ${entityName?cap_first} {
 
-<#list sortedFields as field>
+<#list allFieldsDefinitionsSorted as field>
 <#if field.partName??>
    <@rpcPartDeclare part=field/>
 <#else>

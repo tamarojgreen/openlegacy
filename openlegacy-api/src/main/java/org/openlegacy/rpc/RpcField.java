@@ -11,6 +11,7 @@
 package org.openlegacy.rpc;
 
 import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.rpc.definitions.OrderedField;
 
 import java.io.Serializable;
 
@@ -18,7 +19,7 @@ import java.io.Serializable;
  * Defines an rpc field to send
  * 
  */
-public interface RpcField extends Serializable, Cloneable {
+public interface RpcField extends Serializable, Cloneable, OrderedField {
 
 	/**
 	 * The name of the field
@@ -51,8 +52,8 @@ public interface RpcField extends Serializable, Cloneable {
 	Direction getDirection();
 
 	int getOrder();
-	
+
 	int depth(int level, int maxDef) throws RpcStructureNotMappedException;
-	
+
 	Class<?> getType();
 }

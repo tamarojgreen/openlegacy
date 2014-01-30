@@ -2,32 +2,40 @@
 	xmlns:ol="urn:jsptagdir:/WEB-INF/tags/web" 
 	version="2.0">
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
-	<jsp:output omit-xml-declaration="yes" /> 
-
+	<jsp:output omit-xml-declaration="yes" />
+	
 	<ol:form model="${entityDefinition.entityName?uncap_first}">
-		<#list entityDefinition.fieldsDefinitions?values as field>
-			<ol:field name="${field.name}" />
-	  	</#list>
-	  	
-		<#list entityDefinition.partsDefinitions?values as part>
-			<@rpcPart part=part/>
+	<#if entityDefinition.fieldsDefinitions?size != 0 >
+		<ol:pagePart title="${entityDefinition.entityName}">
+		<#list entityDefinition.fieldsDefinitions?values as fieldDefinitions>
+			<@simpleField fieldDefinitions=fieldDefinitions/>
 		</#list>
+		</ol:pagePart>
+	</#if>
+	<#list entityDefinition.partsDefinitions?values as partDefinitions>
+		<@simplePart partDefinitions=partDefinitions/>
+		<#list partDefinitions.innerPartsDefinitions?values as innerPart>
+			<#if innerPart.count = 1>
+				<#list innerPart.fieldDefinitions as fieldDefinitions >
+					<@simpleField fieldDefinitions=fieldDefinitions/>
+				</#list>
+			<#else>
+				<#assign data="${entityDefinition.entityName?uncap_first}.${partDefinitions.partName}.${innerPart.partName}" />
+				<ol:table data="${r"${"}${data}${r"}"}" property="${partDefinitions.partName}.${innerPart.partName}" actionsAsIcons="true"/>
+			</#if>
+		</#list>
+	</#list>
 	</ol:form>
 </jsp:root>
-
-<#macro rpcPart part>
-	<#if part.count = 1>
-
-		<ol:pagePart>
-	<#list part.fieldsDefinitions?values as field>
-			<ol:field name="${field.name}" />
-	</#list>
+<#macro simpleField fieldDefinitions>
+	<ol:field name="${fieldDefinitions.name}" />
+</#macro>
+<#macro simplePart partDefinitions>
+	<#if partDefinitions.fieldsDefinitions?size !=0 >
+		<ol:pagePart title="${partDefinitions.partName}">
+		<#list partDefinitions.fieldsDefinitions?values as fieldDefinitions>
+			<@simpleField fieldDefinitions=fieldDefinitions/>
+		</#list>
 		</ol:pagePart>
-	<#list part.innerPartsDefinitions?values as innerPart>
-		<@rpcPart part=innerPart />
-	</#list>
-	
-	<#else>
-		<ol:table data="${r"${"}${entityDefinition.entityName?uncap_first}.${part.partName?uncap_first}${r"}"}" property="${part.partName?uncap_first}" />
 	</#if>
 </#macro>

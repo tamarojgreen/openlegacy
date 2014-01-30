@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime.rpc.generators;
 
+import freemarker.template.TemplateException;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,6 +28,7 @@ import org.openlegacy.rpc.layout.RpcPageBuilder;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 
@@ -44,13 +47,15 @@ public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements
 	@Inject
 	private RpcPageBuilder pageBuilder;
 
+	@Inject
+	private RpcHelpGenerator helpGenerator;
+
 	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix) {
-		// TODO implement
+		getGenerateUtil().generate(pageDefinition, output, "RpcEntityMvcPage.jspx.template", templateDirectoryPrefix);
 	}
 
 	public void generateController(PageDefinition pageDefinition, OutputStream output) {
-		// TODO implement
 		String typeName = pageDefinition.getEntityDefinition().getTypeName();
 		getGenerateUtil().generate(pageDefinition, output, "rpcEntityMvcController.java.template", typeName);
 	}
@@ -120,6 +125,11 @@ public class RpcEntityMvcGenerator extends AbstractEntityMvcGenerator implements
 	@Override
 	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
 		return new SimplePageDefinition(entityDefinition);
+	}
+
+	@Override
+	public void generateHelp(PageDefinition pageDefinition, OutputStream out) throws TemplateException, IOException {
+		helpGenerator.generate(pageDefinition, out);
 	}
 
 }

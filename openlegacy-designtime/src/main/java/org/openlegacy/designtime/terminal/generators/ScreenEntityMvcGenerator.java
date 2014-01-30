@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime.terminal.generators;
 
+import freemarker.template.TemplateException;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,6 +28,7 @@ import org.openlegacy.terminal.layout.ScreenPageBuilder;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
 
@@ -43,6 +46,9 @@ public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator impleme
 
 	@Inject
 	private ScreenPageBuilder pageBuilder;
+
+	@Inject
+	private HelpGenerator helpGenerator;
 
 	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix) {
@@ -188,6 +194,11 @@ public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator impleme
 	@Override
 	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
 		return pageBuilder.build((ScreenEntityDefinition)entityDefinition);
+	}
+
+	@Override
+	public void generateHelp(PageDefinition pageDefinition, OutputStream out) throws TemplateException, IOException {
+		helpGenerator.generate(pageDefinition, out);
 	}
 
 }

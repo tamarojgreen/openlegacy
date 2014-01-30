@@ -17,14 +17,17 @@ import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
+import org.openlegacy.rpc.definitions.OrderedField;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
+import org.openlegacy.rpc.support.RpcOrderFieldComparator;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +72,14 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 	public Map<String, RpcFieldDefinition> getAllFieldsDefinitions() {
 		// TODO include parts
 		return getFieldsDefinitions();
+	}
+
+
+	public List<RpcFieldDefinition> getSortedFields() {
+		Collection<RpcFieldDefinition> fields = getFieldsDefinitions().values();
+		List<RpcFieldDefinition> sortedFields = new ArrayList<RpcFieldDefinition>(fields);
+		Collections.sort(sortedFields, new RpcOrderFieldComparator());
+		return sortedFields;
 	}
 
 	public boolean isWindow() {

@@ -11,6 +11,7 @@ import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.test.utils.AssertUtils;
 
 import japa.parser.JavaParser;
+import japa.parser.ParseException;
 import japa.parser.ast.CompilationUnit;
 
 import java.io.ByteArrayOutputStream;
@@ -26,6 +27,25 @@ public class RpcEntityPageGeneratorTest {
 
 		RpcEntityDefinition entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
 		assertPageGeneration(entityDefinition, "web/RpcEntityMvcPage.jspx.template", "RpcForPage.jspx.expected");
+	}
+
+	@Test
+	public void testMvcGenerateJspxByCodeModel2() throws Exception {
+		String javaSource = "/org/openlegacy/designtime/rpc/generators/ItemDetails.java.resource";
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
+
+		RpcEntityDefinition entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+		assertPageGeneration(entityDefinition, "web/RpcEntityMvcPage.jspx.template", "ItemDetails.jspx.expected");
+	}
+
+	@Test
+	public void testGenerateHelp() throws TemplateException, IOException, ParseException {
+		String javaSource = "/org/openlegacy/designtime/rpc/generators/ItemDetails.java.resource";
+		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));
+
+		RpcEntityDefinition entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, null);
+		assertPageGeneration(entityDefinition, "RpcEntityHelpPage.html.template", "ItemDetailsHelp.html.expected");
+
 	}
 
 	@Test

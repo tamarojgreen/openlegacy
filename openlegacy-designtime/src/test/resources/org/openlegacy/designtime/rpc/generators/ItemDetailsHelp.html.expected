@@ -22,24 +22,19 @@
 	<div>
 			<label>Item Record:</label>
 			<span>
-				<a href="#itemRecord">
-					Description for Item Record
-				</a>
+				Description for Item Record
 			</span>			
 	</div>	
 	<div>
 			<label>Shipping:</label>
 			<span>
-				<a href="#shipping">
-					Description for Shipping
-				</a>
+				Description for Shipping
 			</span>			
 	</div>	
-
     <br>
 	<hr>
 	<div>
-	<a id="itemRecord"><h3> Item Record</h3></a>
+	<a id="ItemRecord"><h3> Item Record</h3></a>
 	<div>
 			<label>Item Name:</label><span>Description for Item Name</span>
 	</div>	
@@ -53,7 +48,7 @@
     <br>
 	<hr>
 	<div>
-	<a id="shipping"><h3> Shipping</h3></a>
+	<a id="Shipping"><h3> Shipping</h3></a>
 	<div>
 			<label>Shipping Method:</label><span>Description for Shipping Method</span>
 	</div>	
@@ -61,7 +56,6 @@
 			<label>Days:</label><span>Description for Days</span>
 	</div>	
 	<div>
-	
 	</div>
 </body>
 </html>

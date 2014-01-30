@@ -9,7 +9,6 @@ import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
 import org.openlegacy.rpc.RpcActions.READ;
-import org.openlegacy.rpc.RpcActions.UPDATE;
 
 import java.util.List;
 
@@ -28,9 +27,7 @@ public class Items implements org.openlegacy.rpc.RpcEntity {
 		private List<InnerRecord> innerRecord;
 	}
 
-	@RpcActions(actions = {
-			@Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMDETAIL.PGM", displayName = "View", targetEntity = ItemDetails.class, alias = "display"),
-			@Action(action = UPDATE.class, path = "/QSYS.LIB/RMR2L1.LIB/UPDITEMDET.PGM", displayName = "Edit", targetEntity = ItemDetails.class) })
+	@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMDETAIL.PGM", displayName = "View", targetEntity = ItemDetails.class, alias = "display") })
 	@RpcPart(name = "InnerRecord")
 	public static class InnerRecord {
 

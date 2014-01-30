@@ -1,7 +1,5 @@
 package org.openlegacy.designtime.rpc.generators;
 
-import freemarker.template.TemplateException;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -33,9 +30,6 @@ public class RpcEntityMvcGeneratorTest {
 	@Inject
 	private RpcEntityMvcGenerator rpcEntityMvcGenerator;
 
-	@Inject
-	private RpcHelpGenerator helpGenerator;
-
 	@Test
 	public void testGenerateControllerWithParam() throws Exception {
 		testGenerateController(ItemDetails.class, "ItemDetailsController.java.expected");
@@ -44,18 +38,8 @@ public class RpcEntityMvcGeneratorTest {
 
 	@Test
 	public void testGenerateControllerWithNoParam() throws Exception {
-		testGenerateController(Items.class, "Items.java.expected");
+		testGenerateController(Items.class, "ItemsController.java.expected");
 
-	}
-
-	@Test
-	public void testGenerateHelp() throws TemplateException, IOException {
-		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(ItemDetails.class);
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PageDefinition pageDefinition = rpcPageBuilder.build(rpcDefinition);
-		helpGenerator.generate(pageDefinition, baos);
-		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ItemDetailsHelp.html.expected"));
-		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
 	private void testGenerateController(Class<?> testClass, String expectedStream) throws Exception {

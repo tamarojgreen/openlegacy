@@ -19,6 +19,7 @@ import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_MOBI
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_WEB_DIR_PREFIX;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.VIEWS_FILE;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.WEB_VIEWS_DIR;
+import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
@@ -26,7 +27,6 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
-import org.openlegacy.designtime.terminal.generators.HelpGenerator;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 
@@ -46,8 +46,7 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 	@Inject
 	private GenerateUtil generateUtil;
 
-	@Inject
-	private HelpGenerator helpGenerator;
+	public abstract void generateHelp(PageDefinition pageDefinition, OutputStream out) throws TemplateException, IOException;
 
 	/**
 	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
@@ -82,7 +81,8 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 					helpFile.getParentFile().mkdirs();
 					OutputStream out = new FileOutputStream(helpFile);
 					try {
-						helpGenerator.generate(pageDefinition, out);
+						generateHelp(pageDefinition, out);
+
 					} finally {
 						IOUtils.closeQuietly(out);
 						org.openlegacy.utils.FileUtils.deleteEmptyFile(helpFile);

@@ -19,7 +19,9 @@
 	<#list entityDefinition.sortedFields as field>
 		<@handleField field=field/>
 	</#list>
-
+	<#list entityDefinition.partsDefinitions?values as field>
+		<@handleField field=field/>
+	</#list>
 	<#list entityDefinition.partsDefinitions?values as entityPart>
 		<@handlePart part=entityPart/>
 	</#list>
@@ -32,9 +34,7 @@
 		<#if field.partName??>
 			<label>${field.displayName}:</label>
 			<span>
-				<a href="#${field.partName}">
-					<#if field.helpText??>${field.helpText}<#else>Description for ${field.displayName}</#if>
-				</a>
+				<#if field.helpText??>${field.helpText}<#else>Description for ${field.displayName}</#if>
 			</span>			
 		<#else>
 			<label>${field.displayName}:</label><span><#if field.helpText??>${field.helpText}<#else>Description for ${field.displayName}</#if></span>
@@ -50,6 +50,8 @@
 		<@handleField field=field/>
 	</#list>
 	<#list part.innerPartsDefinitions?values as innerPart>
+		<label>${innerPart.partName}:</label>
+		<span><#if innerPart.helpText??>${innerPart.helpText}<#else>Description for ${innerPart.partName}</#if></span>
 		<@handlePart part=innerPart />
 	</#list>
 	<div>
