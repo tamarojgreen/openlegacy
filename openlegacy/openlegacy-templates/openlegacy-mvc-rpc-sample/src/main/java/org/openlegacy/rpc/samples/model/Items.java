@@ -12,7 +12,7 @@ import org.openlegacy.rpc.RpcActions.READ;
 
 import java.util.List;
 
-@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMS.PGM") })
+@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMS.PGM", global = false) })
 @RpcEntity(name = "Items")
 @RpcNavigation(category = "Inventory Menu")
 public class Items implements org.openlegacy.rpc.RpcEntity {

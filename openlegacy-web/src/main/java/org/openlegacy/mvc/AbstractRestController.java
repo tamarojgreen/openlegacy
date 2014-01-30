@@ -65,7 +65,8 @@ public abstract class AbstractRestController {
 		return getEntityRequest(entityName, null, response);
 	}
 
-	@RequestMapping(value = "/{entity}/{key}", method = RequestMethod.GET, consumes = { JSON, XML })
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
+			XML })
 	public ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			HttpServletResponse response) throws IOException {
 		return getEntityRequest(entityName, key, response);
@@ -147,7 +148,7 @@ public abstract class AbstractRestController {
 		return postEntityJsonInner(entityName, null, action, json, response);
 	}
 
-	@RequestMapping(value = "/{entity}/{key}", method = RequestMethod.POST, consumes = JSON)
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
 			throws IOException {
@@ -180,7 +181,7 @@ public abstract class AbstractRestController {
 		return getEntityInner(resultEntity);
 	}
 
-	@RequestMapping(value = "/{entity}/{key}", method = RequestMethod.POST, consumes = XML)
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
 			throws IOException {

@@ -59,6 +59,7 @@ public class LoginController {
 
 		try {
 			rpcSession.login(loginModel.getUser(), loginModel.getPassword());
+			request.getSession().setAttribute("ol_loggedInUser", loginModel.getUser());
 		} catch (Exception e) {
 			rpcSession.disconnect();
 			loginModel.setErrorMessage(e.getMessage());
