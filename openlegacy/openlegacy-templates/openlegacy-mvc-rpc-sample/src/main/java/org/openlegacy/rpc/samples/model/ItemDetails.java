@@ -16,7 +16,7 @@ import org.openlegacy.rpc.RpcActions.UPDATE;
 public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 
 	@RpcNumericField(minimumValue = -99999999, maximumValue = 99999999, decimalPlaces = 0)
-	@RpcField(length = 8, key = true, originalName = "ITEM-NUM")
+	@RpcField(length = 8, key = true, originalName = "ITEM-NUM", displayName = "Item Number")
 	private Integer itemNum;
 
 	private ItemRecord itemRecord;

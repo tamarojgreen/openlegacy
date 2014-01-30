@@ -203,6 +203,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-dynamics</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-emilym</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>

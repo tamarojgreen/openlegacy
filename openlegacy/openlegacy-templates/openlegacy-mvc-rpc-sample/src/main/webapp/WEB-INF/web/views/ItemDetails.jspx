@@ -8,14 +8,14 @@
 	 
 	<div>	
 		<ol:form model="itemDetails" >
-			<ol:pagePart title="Item Record Details">
+			<ol:pagePart title="Item Details">
 				<ol:field name="itemNum" />
 				<ol:field name="itemRecord.itemName" />
 				<ol:field name="itemRecord.description" />
 				<ol:field name="itemRecord.weight" />			
 			</ol:pagePart>
 			
-			<ol:pagePart title="Sippment Details">
+			<ol:pagePart title="Shippment Details">
 				<ol:field name="shipping.shippingMethod" />
 				<ol:field name="shipping.days" />	
 			</ol:pagePart>

@@ -23,7 +23,7 @@
 					</c:if>
 				  	<spring:message code="label_mobile" var="label_mobile" htmlEscape="false" />
 					<!-- <li class="mobile"><a href="${pageContext.request.contextPath}/?site_preference=mobile" title="Mobile version">${label_mobile}</a></li> -->
-					<!-- <li class="prefs"><a href="javascript:changeTheme('red');">Theme</a></li> -->
+					<li class="prefs"><a href="javascript:changeTheme({cloud:'cloudm',night:'cloudm',red:'cloudm',emily:'emilym',dynamics:'emilym'});"><span class="big_icon theme"><!--  --></span>Theme</a></li>
 				  	<spring:message code="label_logout" var="label_logout" htmlEscape="false" />
 					<li class="logout"><a href="${pageContext.request.contextPath}/logoff">${label_logout}</a></li>
 				</ul>

@@ -209,12 +209,37 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-night</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-cloud</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-red</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
 			<artifactId>openlegacy-themes-cloudm</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-emily</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-dynamics</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-emilym</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
