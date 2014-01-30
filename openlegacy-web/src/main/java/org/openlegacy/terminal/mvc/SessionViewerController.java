@@ -55,8 +55,15 @@ public class SessionViewerController {
 		String nextClick = "document.getElementById('sessionImage').src='sessionViewer/image/1?x=' + (new Date().getTime());";
 
 		return MessageFormat.format(
-				"<html><body><button onclick=\"{3}\"><</button> <button onclick=\"{4}\">></button><br/><img id=\"sessionImage\" src=\"{0}/sessionViewer/image/0?x={1}\"/ {2}></body></html>",
+				"<html><body><button onclick=\"{3}\"><</button> <button onclick=\"{4}\">></button><br/><img id=\"sessionImage\" src=\"{0}/sessionViewer/image?x={1}\"/ {2}></body></html>",
 				request.getContextPath(), System.currentTimeMillis(), style, prevClick, nextClick);
+	}
+
+	@RequestMapping(value = "/image", method = RequestMethod.GET)
+	public void lastImage(HttpServletResponse response) throws IOException {
+		if (terminalSession.isConnected()) {
+			imageRenderer.render(terminalSession.getSnapshot(), response.getOutputStream());
+		}
 	}
 
 	@RequestMapping(value = "/image/{steps}", method = RequestMethod.GET)

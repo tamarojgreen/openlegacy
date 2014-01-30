@@ -48,7 +48,7 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
     	return this.${field.name};
     }
 		</#if>
-		<#if supportTerminalData>
+		<#if supportTerminalData && !field.hasGetterField && field.primitiveType>
     public TerminalField ${className}.get${field.name?cap_first}Field(){
     	return this.${field.name}Field;
     }

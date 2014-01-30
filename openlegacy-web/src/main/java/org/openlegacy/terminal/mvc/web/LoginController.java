@@ -59,24 +59,31 @@ public class LoginController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String home(Model uiModel) {
 
+		// not connected - create empty login entity for binding
+		ScreenEntityDefinition loginEntityDefinition = loginMetadata.getLoginScreenDefinition();
+
 		if (terminalSession.isConnected()) {
-			MenuItem mainMenu = terminalSession.getModule(Menu.class).getMenuTree();
-			if (mainMenu != null) {
-				// refer to main menu if one exists
-				Class<?> mainMenuEntity = mainMenu.getTargetEntity();
-				return MvcConstants.REDIRECT + screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
+			if (terminalSession.getEntity() != null
+					&& ProxyUtil.isClassesMatch(loginEntityDefinition.getEntityClass(), terminalSession.getEntity().getClass())) {
+				terminalSession.disconnect();
 			} else {
-				// refer to fall back URL
-				Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
-				if (openlegacyWebProperties.getFallbackUrl().equalsIgnoreCase("login")) {
-					return MvcConstants.REDIRECT + "logoff";
+				MenuItem mainMenu = terminalSession.getModule(Menu.class).getMenuTree();
+				if (mainMenu != null) {
+					// refer to main menu if one exists
+					Class<?> mainMenuEntity = mainMenu.getTargetEntity();
+					return MvcConstants.REDIRECT + screenEntitiesRegistry.get(mainMenuEntity).getEntityClassName();
+				} else {
+					// refer to fall back URL
+					Assert.notNull(openlegacyWebProperties.getFallbackUrl(), "No fallback URL defined");
+					if (openlegacyWebProperties.getFallbackUrl().equalsIgnoreCase("login")) {
+						return MvcConstants.REDIRECT + "logoff";
+					}
+					return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 				}
-				return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 			}
 		}
 
 		// not connected - create empty login entity for binding
-		ScreenEntityDefinition loginEntityDefinition = loginMetadata.getLoginScreenDefinition();
 		if (loginEntityDefinition != null) {
 			Object loginEntity = ReflectionUtil.newInstance(loginEntityDefinition.getEntityClass());
 			uiModel.addAttribute(MvcConstants.LOGIN_MODEL, loginEntity);

@@ -469,6 +469,7 @@ function closeAndUpdateLookup(value,displayValue){
 			headers: { "Accept": "text/html;type=ajax" }
 		}).then(function(data){
 			if (ol_autoSubmit != 'null'){
+				ol_autoSubmit = ol_autoSubmit == "enter" ? "" : ol_autoSubmit;
 				doPost(getMainForm().name,ol_autoSubmit);
 			}
 		}, function(e){
