@@ -13,10 +13,10 @@ package org.openlegacy.terminal.modules.globals;
 import org.openlegacy.ApplicationConnection;
 import org.openlegacy.RemoteAction;
 import org.openlegacy.Snapshot;
-import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.modules.globals.Globals;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
@@ -27,6 +27,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -50,15 +51,20 @@ public class DefaultGlobalsModule extends TerminalSessionModuleAdapter implement
 
 	@Override
 	public void afterConnect(ApplicationConnection<?, ?> terminalConnection) {
-		collectGlobals();
+		collectGlobals(null);
+	}
+
+	@Override
+	public void beforeAction(ApplicationConnection<?, ?> cconnection, RemoteAction action) {
+		collectGlobals(action);
 	}
 
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
-		collectGlobals();
+		collectGlobals(action);
 	}
 
-	private void collectGlobals() {
+	private void collectGlobals(RemoteAction action) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		if (!getSession().isConnected()) {
 			return;
@@ -74,12 +80,24 @@ public class DefaultGlobalsModule extends TerminalSessionModuleAdapter implement
 
 		Collection<ScreenFieldDefinition> fields = entityDefinitions.getAllFieldsDefinitions().values();
 
-		for (FieldDefinition fieldDefinition : fields) {
+		for (ScreenFieldDefinition fieldDefinition : fields) {
 			if (!fieldDefinition.isGlobal()) {
 				continue;
 			}
 			String globalFieldName = fieldDefinition.getName();
-			Object globalFieldValue = fieldAccessor.getFieldValue(globalFieldName);
+			Object globalFieldValue = null;
+			if (action != null) {
+				@SuppressWarnings("unchecked")
+				List<TerminalField> modifiedFields = action.getFields();
+				for (TerminalField modifiedField : modifiedFields) {
+					if (modifiedField.getPosition().equals(fieldDefinition.getPosition())) {
+						globalFieldValue = modifiedField.getValue();
+						break;
+					}
+				}
+			} else {
+				globalFieldValue = fieldAccessor.getFieldValue(globalFieldName);
+			}
 			if (globalFieldValue != null) {
 				globals.put(globalFieldName, globalFieldValue);
 			}
