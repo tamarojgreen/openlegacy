@@ -88,7 +88,15 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 				return;
 			}
 
-			navigationSteps = findDirectNavigationPath(currentEntityDefinition, targetEntityDefinition, screenEntitiesRegistry);
+			NavigationDefinition navigationDefinition = targetEntityDefinition.getNavigationDefinition();
+			// invoke custom navigation (NONE screen)
+			if (navigationDefinition != null && navigationDefinition.getAccessedFrom() == NONE.class) {
+				navigationSteps = new ArrayList<NavigationDefinition>();
+				navigationSteps.add(navigationDefinition);
+			} else {
+				navigationSteps = findDirectNavigationPath(currentEntityDefinition, targetEntityDefinition,
+						screenEntitiesRegistry);
+			}
 
 			if (navigationSteps == null) {
 				NavigationDefinition currentScreenNavigationDefinition = currentEntityDefinition.getNavigationDefinition();
@@ -204,7 +212,10 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 		while (currentNavigationNode != null) {
 			currentNavigationNode = navigationDefinition.getAccessedFrom();
 			if (currentNavigationNode == NONE.class) {
-				break;
+				logger.debug(MessageFormat.format(
+						"Found NONE for accessedFrom in @ScreenNavigation withing screen {0}. Ignoring direct navigation path",
+						currentNavigationNode.getName()));
+				return null;
 			}
 			ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(currentNavigationNode);
 			navigationDefinition = screenEntityDefinition.getNavigationDefinition();
