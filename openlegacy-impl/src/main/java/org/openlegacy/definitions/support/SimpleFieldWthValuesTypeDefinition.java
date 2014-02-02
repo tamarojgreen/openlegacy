@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.definitions.support;
 
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.Serializable;
 
@@ -25,7 +25,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 	private RecordsProvider<? extends Session, Object> recordsProvider;
 	private Class<?> sourceEntityClass;
 	private boolean collectAll;
-	private ScreenEntityDefinition sourceEntityDefinition;
+	private EntityDefinition<?> sourceEntityDefinition;
 	private String sourceEntityClassName;
 
 	private String displayFieldName;
@@ -63,11 +63,11 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 	 * @return
 	 */
 
-	public ScreenEntityDefinition getSourceEntityDefinition() {
+	public EntityDefinition<?> getSourceEntityDefinition() {
 		return sourceEntityDefinition;
 	}
 
-	public void setSourceEntityDefinition(ScreenEntityDefinition sourceEntityDefinition) {
+	public void setSourceEntityDefinition(EntityDefinition<?> sourceEntityDefinition) {
 		this.sourceEntityDefinition = sourceEntityDefinition;
 	}
 

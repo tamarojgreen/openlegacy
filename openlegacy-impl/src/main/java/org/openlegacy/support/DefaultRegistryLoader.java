@@ -14,6 +14,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
+import org.openlegacy.definitions.support.SimpleFieldWthValuesTypeDefinition;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
 import org.openlegacy.loaders.FieldLoader;
@@ -156,6 +159,13 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		ReflectionUtils.doWithFields(entityDefinition.getEntityClass(), new FieldCallback() {
 
 			public void doWith(Field field) {
+				FieldDefinition fieldDefinition = entityDefinition.getFieldsDefinitions().get(field.getName());
+				if (fieldDefinition != null && fieldDefinition.getFieldTypeDefinition() instanceof FieldWithValuesTypeDefinition) {
+					FieldWithValuesTypeDefinition fieldTypeDefinition = (FieldWithValuesTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+					EntityDefinition<?> sourceEntityDefinition = entitiesRegistry.get(fieldTypeDefinition.getSourceEntityClass());
+					((SimpleFieldWthValuesTypeDefinition)fieldTypeDefinition).setSourceEntityDefinition(sourceEntityDefinition);
+				}
+
 				if (TypesUtil.isPrimitive(field.getType())) {
 					return;
 				}
@@ -166,6 +176,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 				if (childEntity != null) {
 					entityDefinition.getChildEntitiesDefinitions().add(childEntity);
 				}
+
 			}
 		});
 	}

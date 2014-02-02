@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.definitions;
 
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.RecordsProvider;
 import org.openlegacy.Session;
+import org.openlegacy.SessionAction;
 import org.openlegacy.annotations.screen.ScreenFieldValues;
-import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 /**
  * Defines a field with values field type registry information. A field with values definition contains definition for field with
@@ -43,11 +43,11 @@ public interface FieldWithValuesTypeDefinition extends FieldTypeDefinition {
 	 * 
 	 * @return
 	 */
-	ScreenEntityDefinition getSourceEntityDefinition();
+	EntityDefinition<?> getSourceEntityDefinition();
 
 	String getDisplayFieldName();
 
 	boolean isAsWindow();
 
-	TerminalAction getAutoSubmitAction();
+	SessionAction<?> getAutoSubmitAction();
 }

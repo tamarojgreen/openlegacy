@@ -92,14 +92,16 @@
 								<c:choose>
 									<c:when test="${fieldDefinition.fieldTypeDefinition.asWindow}">
 										<c:set var="windowUrl" value="${fieldDefinition.fieldTypeDefinition.sourceEntityClassName}" />
+										<c:set var="windowRows" value="${fieldDefinition.fieldTypeDefinition.sourceEntityDefinition.screenSize.rows}" />
+										<c:set var="windowColumns" value="${fieldDefinition.fieldTypeDefinition.sourceEntityDefinition.screenSize.columns}" />
+										<c:set var="windowHeight" value="${windowRows == 24 ? 500 : windowRows * 26}" />
+										<c:set var="windowHeight" value="${windowHeight &gt; 500 ? 500 : windowHeight}" />
+										<c:set var="windowWidth" value="${windowColumns == 80 ? '500' : windowColumns * 8}" />
+										<c:set var="windowWidth" value="${windowWidth &gt; 800 ? 800 : windowWidth}" />
 										<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 										<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
-											maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" />
-										<c:if test="${not empty fieldDefinition.fieldTypeDefinition.displayFieldName}">
-											<ol:span cssClass="readonlyField" path="${fieldDefinition.fieldTypeDefinition.displayFieldName}"
-												cssStyle="${style}" />
-										</c:if>
-										<img src="${pageContext.request.contextPath}/icons/search.png" onclick="openLookupDialog('${name}','${fieldDefinition.fieldTypeDefinition.displayFieldName}','${pageContext.request.contextPath}/${windowUrl}','width:550px;height:520px','${fn:toLowerCase(fieldDefinition.fieldTypeDefinition.autoSubmitAction.class.simpleName)}')" class="search" />
+											maxlength="${maxlength}" path="${name}" cssStyle="${style}" />
+										<img id="${name}Search" src="${pageContext.request.contextPath}/icons/search.png" onclick="openLookupDialog('${name}','${fieldDefinition.fieldTypeDefinition.displayFieldName}','${pageContext.request.contextPath}/${windowUrl}','width:${windowWidth}px;height:${windowHeight}px','${fn:toLowerCase(fieldDefinition.fieldTypeDefinition.autoSubmitAction['class'].simpleName)}')" class="search" />
 									</c:when>
 									<c:otherwise>
 										<script language="JavaScript" type="text/javascript">
