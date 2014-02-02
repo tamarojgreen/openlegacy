@@ -13,7 +13,7 @@ import java.util.List;
 @ScreenIdentifiers(identifiers = { @Identifier(row = 1, column = 30, value = "Multy line title") })
 public class MultyLineFieldScreen implements org.openlegacy.terminal.ScreenEntity {
 
-	@ScreenField(row = 3, endRow = 4, column = 15, endColumn = 20, rectangle = true, editable = true)
+	@ScreenField(row = 3, endRow = 4, column = 15, endColumn = 19, rectangle = true, editable = true)
 	String multlyLineField;
 
 	@ScreenField(row = 6, endRow = 7, column = 71, endColumn = 21, rectangle = false, editable = true)
