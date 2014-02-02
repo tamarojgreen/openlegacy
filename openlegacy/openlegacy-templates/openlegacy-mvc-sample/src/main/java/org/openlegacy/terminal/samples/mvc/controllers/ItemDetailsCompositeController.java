@@ -47,7 +47,6 @@ public class ItemDetailsCompositeController {
 		// fetch relevant notes from the DB and pass the page
 		StockItem stockItem = stockItemsService.getOrCreateStockItem(itemNumber);
 
-		System.out.println("********************** shippings");
 		uiModel.addAttribute(stockItem);
 		Collection<StockItemNote> notes = stockItem.getNotes().values();
 		uiModel.addAttribute("notes", notes);

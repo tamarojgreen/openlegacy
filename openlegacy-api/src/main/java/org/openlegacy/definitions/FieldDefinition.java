@@ -58,5 +58,17 @@ public interface FieldDefinition extends Comparable<FieldDefinition> {
 
 	boolean isInternal();
 
-	public boolean isGlobal();
+	/**
+	 * Defines if the field should persisted as a global field in session level
+	 * 
+	 * @return
+	 */
+	boolean isGlobal();
+
+	/**
+	 * Defines if the field content which should treated as null (e.g: "00", etc)
+	 * 
+	 * @return
+	 */
+	String getNullValue();
 }

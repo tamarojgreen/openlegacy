@@ -50,6 +50,8 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	private boolean internal = false;
 
+	private String nullValue = null;
+
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
 		this.type = type;
@@ -198,4 +200,13 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 	public void setGlobal(boolean global) {
 		this.global = global;
 	}
+
+	public String getNullValue() {
+		return nullValue;
+	}
+
+	public void setNullValue(String nullValue) {
+		this.nullValue = nullValue;
+	}
+
 }

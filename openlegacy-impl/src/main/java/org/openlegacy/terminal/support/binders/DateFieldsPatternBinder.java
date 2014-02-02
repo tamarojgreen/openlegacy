@@ -81,12 +81,15 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 				if (StringUtils.isBlank(value)) {
 					continue;
 				}
-				Date dateVal = dateFormater.parse(value);
-				fieldAccessor.setFieldValue(fieldDefinition.getName(), dateVal);
-				if (logger.isDebugEnabled()) {
-					logger.debug(MessageFormat.format("Date field: {0}.{1} was set with: {2}", class1, fieldDefinition.getName(),
-							dateVal));
+				if (!value.equals(fieldDefinition.getNullValue())) {
+					Date dateVal = dateFormater.parse(value);
+					fieldAccessor.setFieldValue(fieldDefinition.getName(), dateVal);
+					if (logger.isDebugEnabled()) {
+						logger.debug(MessageFormat.format("Date field: {0}.{1} was set with: {2}", class1,
+								fieldDefinition.getName(), dateVal));
+					}
 				}
+
 			} catch (ParseException e) {
 				logger.warn(MessageFormat.format("Unable to bind date field:{0}. {1}", dateField, e.getMessage()));
 			}

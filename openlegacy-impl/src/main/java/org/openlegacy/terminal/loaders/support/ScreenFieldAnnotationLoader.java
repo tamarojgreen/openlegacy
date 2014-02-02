@@ -133,6 +133,10 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		screenFieldDefinition.setKeyIndex(fieldAnnotation.keyIndex());
 		screenFieldDefinition.setInternal(fieldAnnotation.internal());
 		screenFieldDefinition.setGlobal(fieldAnnotation.global());
+
+		if (!fieldAnnotation.nullValue().equals(AnnotationConstants.NULL)) {
+			screenFieldDefinition.setNullValue(fieldAnnotation.nullValue());
+		}
 		if (logger.isDebugEnabled()) {
 
 			logger.debug(MessageFormat.format("The annotation of the attribute attribute is {0} ", fieldAnnotation.attribute()));

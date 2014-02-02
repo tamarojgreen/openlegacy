@@ -20,14 +20,13 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.layout.PageBuilder;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.mvc.MvcUtils;
 import org.openlegacy.mvc.OpenLegacyWebProperties;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.mobile.device.site.SitePreference;
 import org.springframework.mobile.device.site.SitePreferenceUtils;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,9 +37,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -216,22 +212,7 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		registerPropertyEditors(binder);
-	}
-
-	protected void registerPropertyEditors(DataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-
-		registerEnumEditors(binder);
-	}
-
-	private void registerEnumEditors(DataBinder binder) {
-		Collection<? extends FieldDefinition> allEnums = entitiesRegistry.getAllFieldsOfType(Enum.class);
-		for (FieldDefinition fieldDefinition : allEnums) {
-			binder.registerCustomEditor(fieldDefinition.getJavaType(), new EnumPropertyAdapter(fieldDefinition));
-		}
+		MvcUtils.registerEditors(binder, entitiesRegistry);
 	}
 
 	public void setWebViewsPath(String webViewsPath) {

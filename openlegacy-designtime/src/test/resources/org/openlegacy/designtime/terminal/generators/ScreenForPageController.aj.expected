@@ -18,6 +18,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
+import org.openlegacy.mvc.MvcUtils;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalActions;
@@ -233,9 +234,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	
 	@InitBinder
 	public void ScreenForPageController.initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+		MvcUtils.registerEditors(binder, screenEntitiesRegistry);
 	}
 	
 }

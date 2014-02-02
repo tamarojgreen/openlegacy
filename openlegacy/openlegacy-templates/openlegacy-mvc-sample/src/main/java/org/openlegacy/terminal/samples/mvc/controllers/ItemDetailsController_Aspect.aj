@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
+import org.openlegacy.mvc.MvcUtils;
 import org.openlegacy.terminal.samples.model.*;
 
 import java.io.IOException;
@@ -121,9 +122,7 @@ privileged @SuppressWarnings("unused") aspect ItemDetailsController_Aspect {
 	
 	@InitBinder
 	public void ItemDetailsController.initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+		MvcUtils.registerEditors(binder, screenEntitiesRegistry);
 	}
 	
 }

@@ -171,4 +171,6 @@ public @interface ScreenField {
 	boolean internal() default false;
 
 	boolean global() default false;
+
+	String nullValue() default AnnotationConstants.NULL;
 }

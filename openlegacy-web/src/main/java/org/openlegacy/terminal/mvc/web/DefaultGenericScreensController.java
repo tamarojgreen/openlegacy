@@ -19,6 +19,7 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.modules.table.drilldown.TableScrollStopConditions;
+import org.openlegacy.mvc.MvcUtils;
 import org.openlegacy.mvc.web.AbstractGenericEntitiesController;
 import org.openlegacy.mvc.web.MvcConstants;
 import org.openlegacy.mvc.web.OpenLegacyViewResolver;
@@ -118,7 +119,7 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 		}
 
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(screenEntity);
-		registerPropertyEditors(binder);
+		MvcUtils.registerEditors(binder, getEntitiesRegistry());
 		binder.bind(request);
 		screenBindUtil.bindTables(request, entityClass, screenEntity);
 

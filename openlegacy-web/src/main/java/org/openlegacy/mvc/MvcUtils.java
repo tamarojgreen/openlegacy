@@ -14,11 +14,18 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.Session;
+import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.mvc.web.EnumPropertyAdapter;
 import org.openlegacy.terminal.mvc.web.ThemeUtil;
 import org.openlegacy.utils.EntityUtils;
 import org.openlegacy.utils.StringUtil;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.validation.DataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -63,6 +70,22 @@ public class MvcUtils {
 
 		modelAndView.addObject("ol_connected", true);
 
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void registerEditors(DataBinder binder, EntitiesRegistry entitiesRegistry) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+		registerEnumEditors(binder, entitiesRegistry);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void registerEnumEditors(DataBinder binder, EntitiesRegistry entitiesRegistry) {
+		Collection<? extends FieldDefinition> allEnums = entitiesRegistry.getAllFieldsOfType(Enum.class);
+		for (FieldDefinition fieldDefinition : allEnums) {
+			binder.registerCustomEditor(fieldDefinition.getJavaType(), new EnumPropertyAdapter(fieldDefinition));
+		}
 	}
 
 }

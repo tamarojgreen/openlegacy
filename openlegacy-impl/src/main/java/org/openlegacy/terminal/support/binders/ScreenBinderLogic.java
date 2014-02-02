@@ -70,7 +70,9 @@ public class ScreenBinderLogic implements Serializable {
 				Class<?> javaType = fieldMappingDefinition.getJavaType();
 				if (TypesUtil.isNumberOrString(javaType)) {
 					String content = fieldFormatter.format(text);
-					fieldAccessor.setFieldValue(fieldName, content);
+					if (!content.equals(fieldMappingDefinition.getNullValue())) {
+						fieldAccessor.setFieldValue(fieldName, content);
+					}
 				}
 				fieldAccessor.setTerminalField(fieldName, terminalField);
 				handleDescriptionField(fieldAccessor, terminalSnapshot, fieldMappingDefinition, fieldName);
@@ -286,14 +288,20 @@ public class ScreenBinderLogic implements Serializable {
 					boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalFieldValue, value);
 					if (fieldModified) {
 						if (fieldMappingDefinition.isEditable()) {
-							terminalField.setValue(value);
-							modifiedfields.add(terminalField);
-
-							if (logger.isDebugEnabled()) {
+							if (value.equals(fieldMappingDefinition.getNullValue())) {
 								logger.debug(MessageFormat.format(
-										"Field {0} was set with value \"{1}\" to send fields for screen {2}", fieldName, value,
-										screenPojo.getClass()));
+										"Skipping sending field {0} with value \"{1}\" from screen {2} as it matches null value",
+										fieldName, value, screenPojo.getClass()));
+							} else {
+								terminalField.setValue(value);
+								modifiedfields.add(terminalField);
+								if (logger.isDebugEnabled()) {
+									logger.debug(MessageFormat.format(
+											"Field {0} was set with value \"{1}\" to send fields for screen {2}", fieldName,
+											value, screenPojo.getClass()));
+								}
 							}
+
 						} else {
 							throw (new TerminalActionException(MessageFormat.format(
 									"Field {0} in screen {1} was modified with value {2}, but is not defined as editable",
