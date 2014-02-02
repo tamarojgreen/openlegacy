@@ -21,6 +21,7 @@ import org.openlegacy.utils.ProxyUtil;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,6 +44,8 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 	@SuppressWarnings("unchecked")
 	private Map<String, Class<?>> entities = new CaseInsensitiveMap();
 	private Map<Class<?>, String> reversedEntities = new HashMap<Class<?>, String>();
+
+	private Map<Class<?>, Collection<FieldDefinition>> allFieldsOfType = new HashMap<Class<?>, Collection<FieldDefinition>>();
 
 	private final Map<Class<?>, P> partDefinitions = new HashMap<Class<?>, P>();
 
@@ -129,6 +132,7 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		reversedEntities.clear();
 		entitiesByTypes.clear();
 		partDefinitions.clear();
+		allFieldsOfType.clear();
 	}
 
 	public boolean isDirty() {
@@ -151,4 +155,25 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		return partDefinitions.get(containingClass);
 	}
 
+	public Collection<? extends FieldDefinition> getAllFieldsOfType(Class<?> javaType) {
+
+		Collection<FieldDefinition> allFields = allFieldsOfType.get(javaType);
+		if (allFields == null) {
+			Collection<?> entities = getEntitiesDefinitions();
+			allFields = new ArrayList<FieldDefinition>();
+			for (Object object : entities) {
+				@SuppressWarnings("unchecked")
+				EntityDefinition<FieldDefinition> entityDefinition = (EntityDefinition<FieldDefinition>)object;
+				Collection<FieldDefinition> fields = entityDefinition.getAllFieldsDefinitions().values();
+				for (FieldDefinition fieldDefinition : fields) {
+					Class<?> fieldJavaType = fieldDefinition.getJavaType();
+					if (javaType.isAssignableFrom(fieldJavaType)) {
+						allFields.add(fieldDefinition);
+					}
+				}
+			}
+			allFieldsOfType.put(javaType, allFields);
+		}
+		return allFields;
+	}
 }

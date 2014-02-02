@@ -69,6 +69,15 @@ public interface EntitiesRegistry<H extends EntityDefinition<D>, D extends Field
 	Set<Class<?>> getByType(Class<? extends EntityType> entityType);
 
 	/**
+	 * Returns a collection of all fields of the given java type. type
+	 * 
+	 * @param javaType
+	 *            the requested field definitions type
+	 * @return a collection of fields in the specified type
+	 */
+	Collection<? extends FieldDefinition> getAllFieldsOfType(Class<?> javaType);
+
+	/**
 	 * Returns a single entity with the specified {@link EntityType}.
 	 * 
 	 * @param entityType

@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -218,10 +219,19 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 		registerPropertyEditors(binder);
 	}
 
-	protected static void registerPropertyEditors(DataBinder binder) {
+	protected void registerPropertyEditors(DataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+
+		registerEnumEditors(binder);
+	}
+
+	private void registerEnumEditors(DataBinder binder) {
+		Collection<? extends FieldDefinition> allEnums = entitiesRegistry.getAllFieldsOfType(Enum.class);
+		for (FieldDefinition fieldDefinition : allEnums) {
+			binder.registerCustomEditor(fieldDefinition.getJavaType(), new EnumPropertyAdapter(fieldDefinition));
+		}
 	}
 
 	public void setWebViewsPath(String webViewsPath) {
