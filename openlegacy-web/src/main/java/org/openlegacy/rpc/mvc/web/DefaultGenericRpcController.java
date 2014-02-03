@@ -12,6 +12,7 @@ package org.openlegacy.rpc.mvc.web;
 
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
+import org.openlegacy.mvc.MvcUtils;
 import org.openlegacy.mvc.web.AbstractGenericEntitiesController;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
@@ -73,7 +74,7 @@ public class DefaultGenericRpcController extends AbstractGenericEntitiesControll
 		RpcEntity rpcEntity = ReflectionUtil.newInstance(entityClass);
 
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(rpcEntity);
-		registerPropertyEditors(binder);
+		MvcUtils.registerEditors(binder, getEntitiesRegistry());
 		binder.bind(request);
 
 		RpcActionDefinition matchedActionDefinition = rpcEntityUtils.findAction(rpcEntity, action);
