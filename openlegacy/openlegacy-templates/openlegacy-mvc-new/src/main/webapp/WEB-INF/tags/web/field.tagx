@@ -44,12 +44,23 @@
 		<c:set var="editable" value="${fieldDefinition.editable}" />
 		<c:set var="entity" value="${requestScope[olf:uncapFirst(definitions.entityName)]}"/>
 		<c:set var="fieldName" value="${fieldDefinition.name}Field"/>
-		<c:if test="${olf:hasProperty(entity,fieldName) and editable}">
+
+		<c:if test="${fieldPart != null}">
+			<c:set var="part" value="${entity[olf:uncapFirst(fieldPart.partName)]}"/>
+		</c:if>
+		<c:if test="${part != null}">
+			<c:set var="fieldName" value="${fieldNameParts[1]}Field"/>
+			<c:if test="${olf:hasProperty(part,fieldName) and editable}">
+				<c:set var="field" value="${part[fieldName]}"/>
+				<c:set var="editable" value="${field.editable}" />
+			</c:if>
+		</c:if> 
+		<c:if test="${part == null and olf:hasProperty(entity,fieldName) and editable}">
 			<c:set var="field" value="${entity[fieldName]}"/>
 			<c:set var="editable" value="${field.editable}" />
 		</c:if>
 	</c:if>
-	
+		
 	<c:choose>
 		<c:when test="${not empty columnWidth}">
 			<td style="width: ${columnWidth}%">
