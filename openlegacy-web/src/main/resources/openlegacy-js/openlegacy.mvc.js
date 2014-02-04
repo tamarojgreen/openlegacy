@@ -21,6 +21,7 @@ function doPost(formName, actionName) {
 	showLoading();
 	var form = getForm(formName);
 	if (actionName != null && actionName.length > 0) {
+		form.action = form.action.split("?")[0];
 		form.action = form.action + "?action=" + actionName;
 	}
 	
