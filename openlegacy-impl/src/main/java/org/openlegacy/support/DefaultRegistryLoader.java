@@ -16,6 +16,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.support.SimpleFieldWthValuesTypeDefinition;
 import org.openlegacy.loaders.ClassAnnotationsLoader;
 import org.openlegacy.loaders.FieldAnnotationsLoader;
@@ -156,15 +157,32 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		if (entityDefinition == null) {
 			return;
 		}
+		Collection<?> parts = entityDefinition.getPartsDefinitions().values();
+		for (Object object : parts) {
+			final PartEntityDefinition<?> part = (PartEntityDefinition<?>)object;
+
+			ReflectionUtils.doWithFields(part.getPartClass(), new FieldCallback() {
+
+				public void doWith(Field field) {
+					FieldDefinition fieldDefinition = part.getFieldsDefinitions().get(
+							MessageFormat.format("{0}.{1}", part.getPartName(), field.getName()));
+					assignFieldWithValues(entitiesRegistry, fieldDefinition, field);
+
+					if (TypesUtil.isPrimitive(field.getType())) {
+						return;
+					}
+					if (List.class.isAssignableFrom(field.getType())) {
+						return;
+					}
+				}
+
+			});
+		}
 		ReflectionUtils.doWithFields(entityDefinition.getEntityClass(), new FieldCallback() {
 
 			public void doWith(Field field) {
 				FieldDefinition fieldDefinition = entityDefinition.getFieldsDefinitions().get(field.getName());
-				if (fieldDefinition != null && fieldDefinition.getFieldTypeDefinition() instanceof FieldWithValuesTypeDefinition) {
-					FieldWithValuesTypeDefinition fieldTypeDefinition = (FieldWithValuesTypeDefinition)fieldDefinition.getFieldTypeDefinition();
-					EntityDefinition<?> sourceEntityDefinition = entitiesRegistry.get(fieldTypeDefinition.getSourceEntityClass());
-					((SimpleFieldWthValuesTypeDefinition)fieldTypeDefinition).setSourceEntityDefinition(sourceEntityDefinition);
-				}
+				assignFieldWithValues(entitiesRegistry, fieldDefinition, field);
 
 				if (TypesUtil.isPrimitive(field.getType())) {
 					return;
@@ -179,6 +197,16 @@ public class DefaultRegistryLoader implements RegistryLoader {
 
 			}
 		});
+
+	}
+
+	private static void assignFieldWithValues(final EntitiesRegistry<?, ?, ?> entitiesRegistry, FieldDefinition fieldDefinition,
+			Field field) {
+		if (fieldDefinition != null && fieldDefinition.getFieldTypeDefinition() instanceof FieldWithValuesTypeDefinition) {
+			FieldWithValuesTypeDefinition fieldTypeDefinition = (FieldWithValuesTypeDefinition)fieldDefinition.getFieldTypeDefinition();
+			EntityDefinition<?> sourceEntityDefinition = entitiesRegistry.get(fieldTypeDefinition.getSourceEntityClass());
+			((SimpleFieldWthValuesTypeDefinition)fieldTypeDefinition).setSourceEntityDefinition(sourceEntityDefinition);
+		}
 	}
 
 	private void processAnnotations(List<ClassAnnotationsLoader> annotationLoaders, EntitiesRegistry<?, ?, ?> entitiesRegistry,
