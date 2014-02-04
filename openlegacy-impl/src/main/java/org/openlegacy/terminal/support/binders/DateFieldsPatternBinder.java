@@ -13,6 +13,7 @@ package org.openlegacy.terminal.support.binders;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.FieldFormatter;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.terminal.ScreenEntity;
@@ -32,7 +33,6 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
@@ -45,6 +45,9 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
+
+	@Inject
+	private FieldFormatter fieldFormatter;
 
 	private final static Log logger = LogFactory.getLog(DateFieldsBinder.class);
 
@@ -81,6 +84,8 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 				if (StringUtils.isBlank(value)) {
 					continue;
 				}
+
+				value = fieldFormatter.format(value);
 				if (!value.equals(fieldDefinition.getNullValue())) {
 					Date dateVal = dateFormater.parse(value);
 					fieldAccessor.setFieldValue(fieldDefinition.getName(), dateVal);
@@ -140,14 +145,16 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 
 			Date dateFieldValue = (Date)fieldAccessor.evaluateFieldValue(fieldDefinition.getName());
 
-			Calendar calender = Calendar.getInstance();
-			calender.setTime(dateFieldValue);
-
 			if (dateFieldValue != null) {
 				String dateStr = dateFormater.format(dateFieldValue);
 
 				if (!dateStr.equals(dateField.getValue())) {
 					dateField.setValue(dateStr);
+					sendAction.getFields().add(dateField);
+				}
+			} else {
+				if (fieldDefinition.getNullValue() != null) {
+					dateField.setValue(fieldDefinition.getNullValue());
 					sendAction.getFields().add(dateField);
 				}
 			}
