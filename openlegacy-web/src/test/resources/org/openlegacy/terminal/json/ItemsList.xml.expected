@@ -75,7 +75,8 @@
             <itemNumber>1015</itemNumber>
             <action></action>
         </itemListRows>
-        <actions length="0" defaultAction="false" global="true" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
+        <actions length="0" sleep="0" defaultAction="false"
+            global="true" xsi:type="java:org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition">
             <when>.*</when>
             <additionalKey>SHIFT</additionalKey>
             <type>GENERAL</type>
