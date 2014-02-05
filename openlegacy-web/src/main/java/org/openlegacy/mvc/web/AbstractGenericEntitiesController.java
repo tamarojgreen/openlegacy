@@ -166,6 +166,9 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 		String suffix = isComposite ? MvcConstants.COMPOSITE_SUFFIX : "";
 		String viewName = entityDefinition.getEntityName() + suffix;
 
+		boolean isEmpty = !isComposite && entityDefinition.getFieldsDefinitions().size() == 0
+				&& entityDefinition.getPartsDefinitions().size() == 0;
+
 		String viewsPath = sitePreference == SitePreference.MOBILE ? mobileViewsPath : webViewsPath;
 
 		// check if custom view exists, if not load generic view by
@@ -183,6 +186,8 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 			} else if (entityDefinition.isWindow()) {
 				// generic window pop-pup view
 				viewName = MvcConstants.GENERIC_WINDOW;
+			} else if (isEmpty) {
+				viewName = MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
 			} else {
 				// generic view
 				viewName = MvcConstants.GENERIC;
