@@ -11,6 +11,8 @@
 package org.openlegacy.terminal.mvc.web;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
@@ -43,6 +45,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = { "/login", "/" })
 public class LoginController {
+
+	private final static Log logger = LogFactory.getLog(LoginController.class);
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
@@ -109,6 +113,7 @@ public class LoginController {
 		try {
 			terminalSession.getModule(Login.class).login(loginEntity);
 		} catch (LoginException e) {
+			logger.error(e.getMessage());
 			terminalSession.getModule(Login.class).logoff();
 			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 			fieldAccessor.setFieldValue(Login.ERROR_FIELD_NAME, e.getMessage());

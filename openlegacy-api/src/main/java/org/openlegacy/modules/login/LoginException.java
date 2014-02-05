@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.modules.login;
 
-import org.openlegacy.exceptions.OpenLegacyException;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 
 /**
  * A login exception is thrown when a session is not able to pass the login phase
@@ -18,7 +18,7 @@ import org.openlegacy.exceptions.OpenLegacyException;
  * @author Roi Mor
  * 
  */
-public class LoginException extends OpenLegacyException {
+public class LoginException extends OpenLegacyRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
