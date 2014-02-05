@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyProviderException;
@@ -17,8 +18,10 @@ import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
+import org.openlegacy.terminal.RightAdjust;
 import org.openlegacy.terminal.TerminalConnection;
 import org.openlegacy.terminal.TerminalConnectionFactory;
+import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.utils.SpringUtil;
@@ -26,6 +29,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -92,7 +96,12 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 	public void doAction(TerminalSendAction terminalSendAction) {
 		lazyConnect();
 		terminalSnapshot = null;
+		handleRightAdjust(terminalSendAction);
 		terminalConnection.doAction(terminalSendAction);
+		handleSleep(terminalSendAction);
+	}
+
+	private static void handleSleep(TerminalSendAction terminalSendAction) {
 		if (terminalSendAction.getSleep() > 0) {
 			try {
 				if (logger.isDebugEnabled()) {
@@ -102,6 +111,19 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 				Thread.sleep(terminalSendAction.getSleep());
 			} catch (InterruptedException e) {
 				logger.fatal(e, e);
+			}
+		}
+	}
+
+	private static void handleRightAdjust(TerminalSendAction terminalSendAction) {
+		List<TerminalField> fields = terminalSendAction.getFields();
+		for (TerminalField terminalField : fields) {
+			if (terminalField.getRightAdjust() != RightAdjust.NONE) {
+				if (terminalField.getLength() > terminalField.getValue().length()) {
+					String fillerChar = terminalField.getRightAdjust() == RightAdjust.ZERO_FILL ? "0" : " ";
+					String newValue = StringUtils.leftPad(terminalField.getValue(), terminalField.getLength(), fillerChar);
+					terminalField.setValue(newValue);
+				}
 			}
 		}
 	}
