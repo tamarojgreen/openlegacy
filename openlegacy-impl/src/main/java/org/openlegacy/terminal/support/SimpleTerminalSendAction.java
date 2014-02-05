@@ -29,6 +29,8 @@ public class SimpleTerminalSendAction implements TerminalSendAction, Serializabl
 	private Object command;
 	private TerminalPosition cursorPosition;
 
+	private int sleep = 0;
+
 	public SimpleTerminalSendAction(Object command) {
 		this.command = command;
 	}
@@ -52,6 +54,14 @@ public class SimpleTerminalSendAction implements TerminalSendAction, Serializabl
 	@Override
 	public boolean equals(Object obj) {
 		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+
+	public int getSleep() {
+		return sleep;
+	}
+
+	public void setSleep(int sleep) {
+		this.sleep = sleep;
 	}
 
 	@Override

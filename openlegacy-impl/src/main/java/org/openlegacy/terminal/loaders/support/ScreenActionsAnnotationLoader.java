@@ -85,7 +85,7 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				}
 				actionDefinition.setGlobal(action.global());
 				actionDefinition.setType(action.type());
-
+				actionDefinition.setSleep(action.sleep());
 				actionDefinition.setLength(action.length());
 				actionDefinition.setWhen(action.when());
 

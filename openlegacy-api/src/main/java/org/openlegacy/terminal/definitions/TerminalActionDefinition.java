@@ -45,4 +45,6 @@ public interface TerminalActionDefinition extends ActionDefinition, TerminalPosi
 	 * @return
 	 */
 	String getWhen();
+
+	int getSleep();
 }

@@ -93,6 +93,17 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		lazyConnect();
 		terminalSnapshot = null;
 		terminalConnection.doAction(terminalSendAction);
+		if (terminalSendAction.getSleep() > 0) {
+			try {
+				if (logger.isDebugEnabled()) {
+					logger.debug(MessageFormat.format("Sleeping for {0} after action {1}", terminalSendAction.getSleep(),
+							terminalSendAction.getCommand()));
+				}
+				Thread.sleep(terminalSendAction.getSleep());
+			} catch (InterruptedException e) {
+				logger.fatal(e, e);
+			}
+		}
 	}
 
 	public Object getDelegate() {

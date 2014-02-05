@@ -26,4 +26,6 @@ public interface TerminalSendAction extends RemoteAction<TerminalField> {
 	TerminalPosition getCursorPosition();
 
 	void setCursorPosition(TerminalPosition fieldPosition);
+
+	int getSleep();
 }

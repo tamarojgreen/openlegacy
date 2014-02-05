@@ -34,6 +34,8 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	private String when;
 
+	private int sleep;
+
 	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
 			String displayName, TerminalPosition position) {
 		super(action, displayName);
@@ -87,5 +89,13 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	public void setWhen(String when) {
 		this.when = when;
+	}
+
+	public int getSleep() {
+		return sleep;
+	}
+
+	public void setSleep(int sleep) {
+		this.sleep = sleep;
 	}
 }

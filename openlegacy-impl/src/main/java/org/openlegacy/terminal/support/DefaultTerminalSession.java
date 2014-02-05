@@ -34,11 +34,13 @@ import org.openlegacy.terminal.TerminalSessionPropertiesConsts;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreensRecognizer;
 import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
+import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.wait_conditions.WaitCondition;
 import org.openlegacy.utils.EntityUtils;
 import org.openlegacy.utils.ProxyUtil;
@@ -81,6 +83,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	@Inject
 	private EntityUtils entityUtils;
+
+	@Inject
+	private ScreenEntityUtils screenEntityUtils;
 
 	@Inject
 	private OpenLegacyProperties openLegacyProperties;
@@ -232,8 +237,11 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		} else {
 			SimpleTerminalSendAction sendAction = new SimpleTerminalSendAction(command);
 
+			int sleep = 0;
 			if (screenEntity != null) {
 				ScreenEntityDefinition screenEntityDefinition = getScreenEntitiesRegistry().get(screenEntity.getClass());
+				TerminalActionDefinition actionDefinition = screenEntityUtils.findAction(screenEntity, terminalAction);
+				sleep = (actionDefinition != null ? actionDefinition.getSleep() : 0);
 				if (screenEntityDefinition.isPerformDefaultBinding()) {
 					for (ScreenEntityBinder screenEntityBinder : screenEntityBinders) {
 						screenEntityBinder.populateAction(sendAction, getSnapshot(), screenEntity);
@@ -248,6 +256,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				}
 			}
 
+			sendAction.setSleep(sleep);
 			doAction(sendAction, waitConditions);
 			lastSequence = getSequence();
 		}
@@ -474,6 +483,5 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		lastSequence = getSequence();
 		notifyModulesAfterAction(null);
 	}
-
 
 }

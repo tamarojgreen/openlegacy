@@ -88,8 +88,18 @@ public @interface Action {
 
 	int length() default 0;
 
+	/**
+	 * A regex condition that defines a certain text pattern on the screen in which to include the action. Need to define row,
+	 * column, length to be affective
+	 * 
+	 * @return
+	 */
 	String when() default ".*";
 
 	Class<?> targetEntity() default ScreenEntity.NONE.class;
 
+	/**
+	 * Time to wait in ms, after an action was performed
+	 **/
+	int sleep() default 0;
 }

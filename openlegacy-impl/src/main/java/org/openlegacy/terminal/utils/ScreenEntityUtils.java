@@ -60,6 +60,19 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 	 * 
 	 * @return The invoked action definition
 	 */
+	public TerminalActionDefinition findAction(ScreenEntity screenEntity, TerminalAction action) {
+		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
+		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
+		List<ActionDefinition> actions = entityDefinitions.getActions();
+		for (ActionDefinition actionDefinition : actions) {
+			if (actionDefinition.getClass() == action.getClass()) {
+				return (TerminalActionDefinition)actionDefinition;
+			}
+		}
+
+		return null;
+	}
+
 	public TerminalActionDefinition findAction(ScreenEntity screenEntity, String actionAlias) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
