@@ -38,6 +38,9 @@ public class TypesUtil {
 		if (typeName.equals("Boolean") || typeName.equals("boolean")) {
 			return true;
 		}
+		if (typeName.equals("Date")) {
+			return true;
+		}
 		return false;
 	}
 
