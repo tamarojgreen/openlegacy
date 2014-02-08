@@ -14,126 +14,36 @@
 
 	<div id="menu">
 		<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
-			<c:choose>
-				<c:when test="${openLegacyWebProperties.treeMenu}">
-					<c:set var="width" value="350px" />
-					<c:if test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
-						<c:set var="width" value="700px" />
-					</c:if>
-					<style>
-						#leftPane{
-							width:${width}; 
-						}
-					</style>
-					<script language="JavaScript" type="text/javascript">
-						require([ "dojo/store/JsonRest", "dijit/Tree",
-								"dijit/tree/ObjectStoreModel", "dojo/ready", "dijit/registry",
-								"dojo/dom-style"], function(
-								JsonRest, Tree, ObjectStoreModel, ready, registry, domStyle) {
-							var olStore = new JsonRest({
-								target : '${pageContext.request.contextPath}/menu/',
-								accepts : 'application/javascript;charset=UTF-8',
-								getChildren : function(object) {
-									return this.get(object.id).then(function(fullObject) {
-										return fullObject.children;
-									});
-								}
-							});
-							var olModel = new ObjectStoreModel({
-								store : olStore,
-								getRoot : function(onItem) {
-									this.store.get("root").then(onItem);
-								},
-								mayHaveChildren : function(object) {
-									return "children" in object;
-								}
-							});
-			
-							ready(function() {
-								var tree = new Tree({
-									model : olModel,
-									//showRoot: false,
-									openOnClick: true,
-									onClick: function(item){
-										if (item.url){
-											location.href = '${pageContext.request.contextPath}/'+item.url;
-											return true;
-										}
-										return false;
-									},
-									onOpen:function(item, node){
-										domStyle.set('treeNode', 'height', '');
-									},
-									onClose:function(item,node){
-										domStyle.set('treeNode', 'height', '');
-									}
-								}, 'treeNode');
-			
-								var breadCrumb = new Array();
-								breadCrumb[0] = 'root';
-								<c:forEach items="${breadCrumb}" var="pathItem" varStatus="status">
-										<c:if test="${!status.first and !pathItem.requiresParameters}">
-											breadCrumb[${status.index}] = '${pathItem.entityName}';
-										</c:if>
-								</c:forEach>
-								
-								var widget = registry.byId('accordion');
-								if (widget) {
-									widget.watch('selectedChildWidget', function(){
-										domStyle.set('treeNode', 'height', '');
-									});
-									setTimeout(function(){
-										//tree.collapseAll();
-										tree.set('path', breadCrumb);
-										widget.resize();
-										domStyle.set('treeNode', 'height', '');
-									}, 100);
-								}
-							});
-						});
-					</script>
-						<c:if test="${definitions != null}">
-						  	<spring:message code="label_system_menu" var="label_system_menu" htmlEscape="false" />
-							<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title:'${label_system_menu}'" class="element">
-									<div id="treeNode">
-										<!-- FF -->
-									</div>
-							</div>
-						</c:if>
-				</c:when>
-				<c:otherwise>
-					<c:forEach items="${ol_flatMenus}" var="flatMenu">
-						<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}">
-							<div class="links">
-								<ul>
-									<li>
-										<c:forEach items="${flatMenu.menuItems}" var="menuLeaf">
-											<c:choose>
-												<c:when test="${definitions != null and menuLeaf.targetEntity.simpleName == definitions.entityName}">
-													<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}" 
-														class="current">${menuLeaf.displayName}</a>
-													<script>
-														require(["dojo/ready"], function(ready){
-															ready(function(){
-																require(["dijit/registry"], function(registry){
-																	registry.byId('accordion').selectChild(registry.byId('${flatMenu.targetEntityName}'));
-																});
-															});
+			<c:forEach items="${ol_flatMenus}" var="flatMenu">
+				<div data-dojo-type="dijit.layout.ContentPane" title="${flatMenu.displayName}" class="element" id="${flatMenu.targetEntityName}">
+					<div class="links">
+						<ul>
+							<li>
+								<c:forEach items="${flatMenu.menuItems}" var="menuLeaf">
+									<c:choose>
+										<c:when test="${definitions != null and menuLeaf.targetEntity.simpleName == definitions.entityName}">
+											<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}" 
+												class="current">${menuLeaf.displayName}</a>
+											<script>
+												require(["dojo/ready"], function(ready){
+													ready(function(){
+														require(["dijit/registry"], function(registry){
+															registry.byId('accordion').selectChild(registry.byId('${flatMenu.targetEntityName}'));
 														});
-													</script>
-												</c:when>
-												<c:otherwise>
-													<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}">${menuLeaf.displayName}</a>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>										
-									</li>
-								</ul>
-							</div>
-						</div>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
+													});
+												});
+											</script>
+										</c:when>
+										<c:otherwise>
+											<a href="${pageContext.request.contextPath}/${menuLeaf.targetEntity.simpleName}">${menuLeaf.displayName}</a>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>										
+							</li>
+						</ul>
+					</div>
+				</div>
+			</c:forEach>
 		  	<spring:message code="label_tools" var="label_tools" htmlEscape="false" />
 			<div data-dojo-type="dijit.layout.ContentPane" title="${label_tools}" class="element">
 				<div class="links">
@@ -167,6 +77,26 @@
 					</div>
 				</div>
 			</c:forEach>
+			<div data-dojo-type="dijit.layout.ContentPane" title="Demo stuff" id="demoStuff" class="element">
+				<div class="links">
+					<ul>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/rpc/samples/model/${definitions.entityName}.java')">View Model</a></li>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/web/views/${definitions.entityName}.jspx')">View page</a></li>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/rpc/samples/mvc/controllers/${definitions.entityName}Controller.java')">View Controller</a></li>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/test/org/openlegacy/rpc/samples/MvcRpcSampleTest.java')">View API Test</a></li>
+					</ul>
+				</div>
+			</div>
+			<script>
+				require(["dojo/ready"], function(ready){
+					ready(function(){
+						require(["dijit/registry"], function(registry){
+							registry.byId('accordion').selectChild(registry.byId('demoStuff'));
+						});
+					});
+				});
+			</script>
 		</div>
 	</div>
+
 </jsp:root>

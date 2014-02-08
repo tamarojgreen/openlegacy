@@ -330,6 +330,16 @@
 				<version>2.3</version>
 				<configuration>
 					<warName>openlegacy-mvc-rpc-sample</warName>
+					<webResources>
+						<resource>
+							<directory>${project.build.sourceDirectory}</directory>
+							<targetPath>src/main</targetPath>
+						</resource>
+						<resource>
+							<directory>${project.build.testSourceDirectory}</directory>
+							<targetPath>src/test</targetPath>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 			<plugin>
