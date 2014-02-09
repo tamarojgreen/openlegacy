@@ -19,6 +19,7 @@ import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
@@ -52,7 +53,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 	public MenuItem getMenuTree(Class<?> menuEntityClass) {
 		if (menuEntityClass == null) {
-			return null;
+			return getMenuTree();
 		}
 		ScreenEntityDefinition menuDefinition = getScreenEntitiesRegistry().get(menuEntityClass);
 
@@ -62,7 +63,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 				MessageFormat.format("{0} is not a screen entity", menuEntityClass.getName()));
 
 		sortToMenus();
-		Integer subMenuDepth = allMenusDepths.get(menuEntityClass);
+		Integer subMenuDepth = allMenusDepths.get(ProxyUtil.getOriginalClass(menuEntityClass));
 		return buildMenu(menuEntityClass, subMenuDepth);
 	}
 
@@ -70,8 +71,11 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 		sortToMenus();
 
-		Class<?> rootClass = findRoot();
-		return getMenuTree(rootClass);
+		List<Class<?>> rootClasses = findRoots();
+		if (rootClasses.size() > 1) {
+			throw (new IllegalStateException("More then one root menus exists"));
+		}
+		return getMenuTree(rootClasses.get(0));
 	}
 
 	private void sortToMenus() {
@@ -127,20 +131,18 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		return depth;
 	}
 
-	private Class<?> findRoot() {
+	private List<Class<?>> findRoots() {
 		Set<Class<?>> menuEntityClasses = allMenusOptions.keySet();
 
-		Class<?> rootMenuClass = null;
+		List<Class<?>> rootMenuClasses = new ArrayList<Class<?>>();
 		for (Class<?> menuEntityClass : menuEntityClasses) {
 			ScreenEntityDefinition menuDefintion = screenEntitiesRegistry.get(menuEntityClass);
 			if (menuDefintion.getNavigationDefinition() == null) {
-				Assert.isNull(rootMenuClass,
-						MessageFormat.format("Found more then one root menu entries:{0}, {1}", rootMenuClass, menuEntityClass));
-				rootMenuClass = menuEntityClass;
+				rootMenuClasses.add(menuEntityClass);
 			}
 		}
 
-		return rootMenuClass;
+		return rootMenuClasses;
 	}
 
 	private MenuItem buildMenu(Class<?> rootClass, int depth) {
@@ -218,7 +220,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		}
 	}
 
-	public List<MenuItem> getFlatMenuEntries() {
+	public List<MenuItem> getFlatMenuEntries(Class<?> menuEntityClass) {
 
 		sortToMenus();
 
@@ -228,11 +230,14 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		for (Class<?> subMenu : subMenus) {
 			List<Class<?>> leafs = allMenusOptions.get(subMenu);
 			if (hasLeafs(leafs)) {
-				ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(subMenu);
+				ScreenEntityDefinition subMenuEntityDefinition = screenEntitiesRegistry.get(subMenu);
 				Integer subMenuDepth = allMenusDepths.get(subMenu);
-				MenuItem subMenuItem = new SimpleMenuItem(subMenu, screenEntityDefinition.getDisplayName(), subMenuDepth);
+				if (!isSibling(menuEntityClass, subMenu)) {
+					continue;
+				}
+				MenuItem subMenuItem = new SimpleMenuItem(subMenu, subMenuEntityDefinition.getDisplayName(), subMenuDepth);
 				for (Class<?> leaf : leafs) {
-					screenEntityDefinition = screenEntitiesRegistry.get(leaf);
+					ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(leaf);
 					if (screenEntityDefinition.getType() == MenuEntity.class) {
 						continue;
 					}
@@ -250,6 +255,26 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		}
 
 		return flatMenuEntries;
+	}
+
+	private boolean isSibling(Class<?> rootMenuClass, Class<?> subMenuClass) {
+		if (rootMenuClass == null) {
+			return true;
+		}
+		while (true) {
+			ScreenEntityDefinition subMenuEntityDefinition = screenEntitiesRegistry.get(subMenuClass);
+			if (ProxyUtil.isClassesMatch(subMenuEntityDefinition.getEntityClass(), rootMenuClass)) {
+				return true;
+			}
+			if (subMenuEntityDefinition.getNavigationDefinition() == null) {
+				return false;
+			}
+			subMenuClass = subMenuEntityDefinition.getNavigationDefinition().getAccessedFrom();
+		}
+	}
+
+	public List<MenuItem> getFlatMenuEntries() {
+		return getFlatMenuEntries(null);
 	}
 
 	/**

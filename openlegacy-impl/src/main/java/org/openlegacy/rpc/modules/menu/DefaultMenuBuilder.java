@@ -89,4 +89,8 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		return buildMenu();
 	}
 
+	public List<MenuItem> getFlatMenuEntries(Class<?> menuEntityClass) {
+		return getFlatMenuEntries();
+	}
+
 }

@@ -39,4 +39,6 @@ public interface MenuBuilder {
 	MenuItem getMenuTree();
 
 	List<MenuItem> getFlatMenuEntries();
+
+	List<MenuItem> getFlatMenuEntries(Class<?> menuEntityClass);
 }
