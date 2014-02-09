@@ -65,7 +65,8 @@ public class ScreenEntityUtils implements InitializingBean, Serializable {
 		ScreenEntityDefinition entityDefinitions = screenEntitiesRegistry.get(screenEntity.getClass());
 		List<ActionDefinition> actions = entityDefinitions.getActions();
 		for (ActionDefinition actionDefinition : actions) {
-			if (actionDefinition.getClass() == action.getClass()) {
+			TerminalAction action2 = (TerminalAction)actionDefinition.getAction();
+			if (action2.equals(action)) {
 				return (TerminalActionDefinition)actionDefinition;
 			}
 		}
