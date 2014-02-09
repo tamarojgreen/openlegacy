@@ -45,7 +45,11 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 			}
 		} else {
 			try {
-				logger.error("Error occoured. Current screen is:\n" + terminalSession.getSnapshot());
+				if (terminalSession.isConnected()) {
+					logger.error("Error occoured. Current screen is:\n" + terminalSession.getSnapshot());
+				} else {
+					logger.error("Error occoured.");
+				}
 			} catch (Exception e) {
 				logger.fatal("Unable to print current screen", e);
 			}
