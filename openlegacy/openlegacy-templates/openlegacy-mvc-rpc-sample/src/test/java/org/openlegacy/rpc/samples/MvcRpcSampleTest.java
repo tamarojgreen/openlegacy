@@ -1,6 +1,7 @@
 package org.openlegacy.rpc.samples;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.rpc.RpcSession;
@@ -19,6 +20,7 @@ public class MvcRpcSampleTest {
 	@Inject
 	ApplicationContext applicationContext;
 
+	@Ignore
 	@Test
 	public void testApplication() {
 
