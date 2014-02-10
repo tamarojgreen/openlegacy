@@ -440,7 +440,7 @@ function openLookupDialog(fieldId,displayFieldId,url,style,autoSubmit){
 	    	}
 	    	
 	    	lookDialog.set("style",style);
-	    	lookDialog.set("href",url);
+	    	lookDialog.set("href",url + "?ts=" + (new Date()));
 	    	
 	    	lookDialog.show();
 	    });
