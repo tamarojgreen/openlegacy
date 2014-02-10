@@ -12,10 +12,13 @@ package org.openlegacy.modules.support.menu;
 
 import org.openlegacy.modules.menu.MenuItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleMenuItem implements MenuItem {
+public class SimpleMenuItem implements MenuItem, Serializable, Cloneable {
+
+	private static final long serialVersionUID = 1L;
 
 	private transient Class<?> targetEntity;
 	private String targetEntityName;
@@ -55,5 +58,15 @@ public class SimpleMenuItem implements MenuItem {
 	@Override
 	public String toString() {
 		return getDisplayName();
+	}
+
+	@Override
+	public MenuItem clone() {
+		SimpleMenuItem menuItem = new SimpleMenuItem(targetEntity, displayName, depth);
+		List<MenuItem> items = getMenuItems();
+		for (MenuItem menuItem2 : items) {
+			menuItem.getMenuItems().add(menuItem2);
+		}
+		return menuItem;
 	}
 }

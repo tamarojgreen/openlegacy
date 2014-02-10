@@ -12,6 +12,7 @@ package org.openlegacy.terminal.support.navigation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.authorization.AuthorizationService;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.login.User;
@@ -62,6 +63,9 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	@Inject
+	private AuthorizationService authorizationService;
 
 	private final static Log logger = LogFactory.getLog(DefaultSessionNavigator.class);
 
@@ -164,7 +168,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 		terminalSession.doAction(exitAction);
 	}
 
-	private static void performDirectNavigation(TerminalSession terminalSession, Class<?> currentEntityClass,
+	private void performDirectNavigation(TerminalSession terminalSession, Class<?> currentEntityClass,
 			List<NavigationDefinition> navigationSteps, Object... keys) {
 		ScreenEntity currentEntity = terminalSession.getEntity();
 		User currentUser = terminalSession.getModule(Login.class).getLoggedInUser();
@@ -208,27 +212,14 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 		}
 	}
 
-	private static void assignField(User currentUser, ScreenPojoFieldAccessor fieldAccessor,
-			FieldAssignDefinition fieldAssignDefinition, String value) {
-		boolean doAssign = true;
-		if (fieldAssignDefinition.getRole() != null) {
-			if (currentUser != null) {
-				Object userRole = currentUser.getProperties().get(Login.USER_ROLE_PROPERTY);
-				if (userRole != null) {
-					if (!userRole.equals(fieldAssignDefinition.getRole())) {
-						doAssign = false;
-					}
-				}
-			}
-		}
-		if (!doAssign) {
-			return;
-		}
+	private void assignField(User user, ScreenPojoFieldAccessor fieldAccessor, FieldAssignDefinition fieldAssignDefinition,
+			String value) {
 
-		String fieldName = fieldAssignDefinition.getName();
-		fieldAccessor.setFieldValue(fieldName, value);
-		fieldAccessor.setFocusField(fieldName);
-
+		if (authorizationService.canAssignField(user, fieldAssignDefinition)) {
+			String fieldName = fieldAssignDefinition.getName();
+			fieldAccessor.setFieldValue(fieldName, value);
+			fieldAccessor.setFocusField(fieldName);
+		}
 	}
 
 	/**

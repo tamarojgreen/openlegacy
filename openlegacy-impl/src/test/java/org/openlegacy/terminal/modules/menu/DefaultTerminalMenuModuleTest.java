@@ -37,16 +37,6 @@ public class DefaultTerminalMenuModuleTest extends AbstractTest {
 	}
 
 	@Test
-	public void testMenu() {
-
-		TerminalSession terminalSession = newTerminalSession();
-
-		MenuItem menuItem = terminalSession.getModule(Menu.class).getMenuTree(InventoryManagement.class);
-
-		asserSubMenu(menuItem);
-	}
-
-	@Test
 	public void testFlatMenu() {
 
 		TerminalSession terminalSession = newTerminalSession();

@@ -22,6 +22,7 @@ import org.openlegacy.designtime.generators.PojoCodeModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -119,5 +120,9 @@ public abstract class AbstractCodeBasedEntityDefinition<F extends FieldDefinitio
 
 	public File getPackageDir() {
 		return packageDir;
+	}
+
+	public List<String> getRoles() {
+		return Collections.emptyList();
 	}
 }

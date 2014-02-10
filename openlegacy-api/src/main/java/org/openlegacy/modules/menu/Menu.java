@@ -36,13 +36,6 @@ public interface Menu extends SessionModule {
 	MenuItem getMenuTree();
 
 	/**
-	 * Gets all the menus from the given menu entity class as root down to all leafs
-	 * 
-	 * @return root menu tree from the given menu entity class
-	 */
-	MenuItem getMenuTree(Class<?> menuEntityClass);
-
-	/**
 	 * Gets all sub menus with leafs
 	 * 
 	 * @return

@@ -133,4 +133,6 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	boolean isWindow();
 
 	boolean isValidateKeys();
+
+	List<String> getRoles();
 }

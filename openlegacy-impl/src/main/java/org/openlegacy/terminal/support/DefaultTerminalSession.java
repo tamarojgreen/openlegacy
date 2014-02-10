@@ -15,10 +15,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.ApplicationConnectionListener;
 import org.openlegacy.OpenLegacyProperties;
+import org.openlegacy.authorization.AuthorizationService;
 import org.openlegacy.exceptions.EntityNotAccessibleException;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.SessionModule;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.Login.LoginEntity;
+import org.openlegacy.modules.login.User;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.terminal.ConnectionProperties;
 import org.openlegacy.terminal.ConnectionPropertiesProvider;
@@ -107,10 +111,15 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@Inject
 	private DeviceAllocator deviceAllocator;
 
+	@Inject
+	private AuthorizationService authorizationService;
+
 	private Integer lastSequence = 0;
 
 	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
+
+		authorize(screenEntityClass);
 
 		if (keys.length == 1 && keys[0] == null) {
 			keys = new Object[0];
@@ -121,12 +130,14 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		if (entity == null) {
 			entity = getEntityInner();
 		}
-		//
+
 		if (!entityUtils.isEntitiesEquals(screenEntitiesRegistry, entity, screenEntityClass, keys)
 				|| !lastSequence.equals(getSequence())) {
 			resetEntity();
 		}
+
 		ScreenEntityDefinition definitions = getScreenEntitiesRegistry().get(screenEntityClass);
+
 		if (keys.length > definitions.getKeys().size()) {
 			throw (new EntityNotAccessibleException(
 					MessageFormat.format(
@@ -139,6 +150,15 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			entity = getEntityInner();
 		}
 		return (S)entity;
+	}
+
+	private <S> void authorize(Class<S> screenEntityClass) {
+		ScreenEntityDefinition definitions = getScreenEntitiesRegistry().get(screenEntityClass);
+		User loggedInUser = getModule(Login.class).getLoggedInUser();
+		if (definitions.getType() != LoginEntity.class && !authorizationService.isAuthorized(loggedInUser, screenEntityClass)) {
+			throw (new EntityNotAccessibleException(MessageFormat.format("Logged in user {0} has no permission for entity {1}",
+					loggedInUser.getUserName(), screenEntityClass.getName())));
+		}
 	}
 
 	private void checkRegistryDirty() {

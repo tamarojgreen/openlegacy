@@ -30,4 +30,6 @@ public interface MenuItem {
 
 	int getDepth();
 
+	MenuItem clone();
+
 }

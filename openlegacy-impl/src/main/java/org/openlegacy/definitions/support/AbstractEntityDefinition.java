@@ -57,6 +57,8 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 
 	private boolean validateKeys = true;
 
+	private List<String> roles;
+
 	public AbstractEntityDefinition() {
 		// for serialization purposes
 	}
@@ -216,4 +218,11 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		this.validateKeys = validateKeys;
 	}
 
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
 }

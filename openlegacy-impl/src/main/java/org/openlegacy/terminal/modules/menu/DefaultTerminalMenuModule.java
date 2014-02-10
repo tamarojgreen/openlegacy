@@ -13,6 +13,8 @@ package org.openlegacy.terminal.modules.menu;
 import org.openlegacy.ApplicationConnection;
 import org.openlegacy.RemoteAction;
 import org.openlegacy.Snapshot;
+import org.openlegacy.authorization.AuthorizationService;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuBuilder;
 import org.openlegacy.modules.menu.MenuItem;
@@ -31,6 +33,9 @@ public class DefaultTerminalMenuModule extends TerminalSessionModuleAdapter impl
 	private static final long serialVersionUID = 1L;
 
 	@Inject
+	private AuthorizationService authorizationService;
+
+	@Inject
 	private MenuBuilder menuBuilder;
 
 	@Inject
@@ -38,6 +43,11 @@ public class DefaultTerminalMenuModule extends TerminalSessionModuleAdapter impl
 
 	private Class<? extends ScreenEntity> currentMainMenu;
 
+	private List<MenuItem> userFlatMenus;
+
+	private MenuItem userMenus;
+
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
 
@@ -53,19 +63,25 @@ public class DefaultTerminalMenuModule extends TerminalSessionModuleAdapter impl
 	}
 
 	public MenuItem getMenuTree() {
-		return menuBuilder.getMenuTree(currentMainMenu);
-	}
-
-	public MenuItem getMenuTree(Class<?> menuEntityClass) {
-		return menuBuilder.getMenuTree(menuEntityClass);
-
+		if (userMenus == null) {
+			MenuItem rootMenu = menuBuilder.getMenuTree(currentMainMenu);
+			userMenus = authorizationService.filterMenu(getSession().getModule(Login.class).getLoggedInUser(), rootMenu);
+		}
+		return userMenus;
 	}
 
 	public List<MenuItem> getFlatMenuEntries() {
-		return menuBuilder.getFlatMenuEntries(currentMainMenu);
+		if (userFlatMenus == null) {
+			List<MenuItem> flatMenuEntries = menuBuilder.getFlatMenuEntries();
+			userFlatMenus = authorizationService.filterMenus(getSession().getModule(Login.class).getLoggedInUser(),
+					flatMenuEntries);
+		}
+		return userFlatMenus;
 	}
 
-	public List<MenuItem> getFlatMenuEntries(Class<?> menuEntityClass) {
-		return menuBuilder.getFlatMenuEntries(menuEntityClass);
+	@Override
+	public void destroy() {
+		userFlatMenus = null;
+		userMenus = null;
 	}
 }

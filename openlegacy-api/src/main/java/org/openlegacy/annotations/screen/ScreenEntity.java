@@ -120,4 +120,6 @@ public @interface ScreenEntity {
 	boolean validateKeys() default true;
 
 	boolean rightToLeft() default false;
+
+	String[] roles() default AnnotationConstants.NULL;
 }

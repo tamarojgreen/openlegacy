@@ -125,7 +125,9 @@
 	<!-- Default. Should be overrides by web apps -->
 	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
 	
-	<!-- Providers may override the default beans -->
+	<bean id="authorizationService" class="org.openlegacy.authorization.DefaultAuthorizationService" />
+	
+		<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-terminal-provider.xml" /> 
 
 	<context:annotation-config />

@@ -13,6 +13,7 @@ package org.openlegacy.terminal.loaders.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 @Component
 @Order(1)
@@ -59,6 +61,9 @@ public class ScreenEntityAnnotationLoader extends AbstractClassAnnotationLoader 
 
 		screenEntityDefinition.setScreenSize(new SimpleScreenSize(screenEntity.rows(), screenEntity.columns()));
 
+		if (!screenEntity.roles()[0].equals(AnnotationConstants.NULL)) {
+			screenEntityDefinition.setRoles(Arrays.asList(screenEntity.roles()));
+		}
 		loadSnapshot(containingClass, screenEntityName, screenEntityDefinition);
 
 		logger.info(MessageFormat.format("Screen \"{0}\" was added to the screen registry ({1})", screenEntityName,
