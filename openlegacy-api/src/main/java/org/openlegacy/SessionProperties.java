@@ -12,7 +12,7 @@ package org.openlegacy;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Properties;
+import java.util.Map;
 
 /**
  * A container for all session properties. Common usage: IP, device
@@ -32,6 +32,6 @@ public interface SessionProperties extends Serializable {
 
 	void setProperty(String string, Object name);
 
-	Properties getProperties();
+	Map<String, Object> getProperties();
 
 }

@@ -88,7 +88,11 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 			if (AnnotationConstants.NULL.equals(value)) {
 				value = null;
 			}
-			navigationDefinition.getAssignedFields().add(new SimpleFieldAssignDefinition(assignedField.field(), value));
+			SimpleFieldAssignDefinition fieldAssignDefinition = new SimpleFieldAssignDefinition(assignedField.field(), value);
+			if (!assignedField.role().equals(AnnotationConstants.NULL)) {
+				fieldAssignDefinition.setRole(assignedField.role());
+			}
+			navigationDefinition.getAssignedFields().add(fieldAssignDefinition);
 		}
 
 		// @author Ivan Bort, refs assembla #112

@@ -14,13 +14,14 @@ import org.openlegacy.SessionProperties;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SimpleSessionProperties implements SessionProperties, Serializable, Comparable<SessionProperties> {
 
 	private static final long serialVersionUID = 1L;
 
-	private Properties properties = new Properties();
+	private Map<String, Object> properties = new HashMap<String, Object>();
 	private String id;
 	private Date startedOn;
 
@@ -79,7 +80,7 @@ public class SimpleSessionProperties implements SessionProperties, Serializable,
 		this.lastActivity = lastActivity;
 	}
 
-	public Properties getProperties() {
+	public Map<String, Object> getProperties() {
 		return properties;
 	}
 }

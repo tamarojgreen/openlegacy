@@ -21,4 +21,6 @@ public interface FieldAssignDefinition {
 	String getName();
 
 	String getValue();
+
+	String getRole();
 }

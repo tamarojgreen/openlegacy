@@ -12,7 +12,9 @@ package org.openlegacy.terminal.support.navigation;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
+import org.openlegacy.modules.login.User;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.modules.table.Table;
 import org.openlegacy.modules.table.drilldown.DrilldownAction;
@@ -40,6 +42,7 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -164,6 +167,8 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 	private static void performDirectNavigation(TerminalSession terminalSession, Class<?> currentEntityClass,
 			List<NavigationDefinition> navigationSteps, Object... keys) {
 		ScreenEntity currentEntity = terminalSession.getEntity();
+		User currentUser = terminalSession.getModule(Login.class).getLoggedInUser();
+
 		for (NavigationDefinition navigationDefinition : navigationSteps) {
 			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 			List<FieldAssignDefinition> assignedFields = navigationDefinition.getAssignedFields();
@@ -171,12 +176,20 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 				currentEntityClass = ProxyUtil.getOriginalClass(currentEntity.getClass());
 				logger.debug("Performing navigation actions from screen " + currentEntityClass);
 			}
+			Collections.sort(assignedFields, new Comparator<FieldAssignDefinition>() {
+
+				public int compare(FieldAssignDefinition o1, FieldAssignDefinition o2) {
+					// make sure fields with roles are set last
+					return o1.getRole() == null ? -1 : 1;
+				}
+			});
+
 			for (FieldAssignDefinition fieldAssignDefinition : assignedFields) {
 				String value = fieldAssignDefinition.getValue();
+
 				if (value != null) {
-					fieldAccessor.setFieldValue(fieldAssignDefinition.getName(), value);
+					assignField(currentUser, fieldAccessor, fieldAssignDefinition, value);
 				}
-				fieldAccessor.setFocusField(fieldAssignDefinition.getName());
 			}
 			if (assignedFields.size() == 0) {
 				currentEntity = null;
@@ -193,6 +206,29 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			}
 			currentEntity = terminalSession.getEntity();
 		}
+	}
+
+	private static void assignField(User currentUser, ScreenPojoFieldAccessor fieldAccessor,
+			FieldAssignDefinition fieldAssignDefinition, String value) {
+		boolean doAssign = true;
+		if (fieldAssignDefinition.getRole() != null) {
+			if (currentUser != null) {
+				Object userRole = currentUser.getProperties().get(Login.USER_ROLE_PROPERTY);
+				if (userRole != null) {
+					if (!userRole.equals(fieldAssignDefinition.getRole())) {
+						doAssign = false;
+					}
+				}
+			}
+		}
+		if (!doAssign) {
+			return;
+		}
+
+		String fieldName = fieldAssignDefinition.getName();
+		fieldAccessor.setFieldValue(fieldName, value);
+		fieldAccessor.setFocusField(fieldName);
+
 	}
 
 	/**

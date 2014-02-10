@@ -17,6 +17,7 @@ import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.modules.login.User;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.actions.TerminalAction;
@@ -58,7 +59,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 	private TerminalAction loginAction = TerminalActions.ENTER();
 
-	private String loggedInUser = null;
+	private User loggedInUser = null;
 
 	private TerminalAction defaultExitAction = TerminalActions.F3();
 
@@ -117,7 +118,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(loginEntity);
 		String user = (String)fieldAccessor.getFieldValue(loginMetadata.getUserField().getName());
 
-		loggedInUser = user;
+		loggedInUser = new PersistedUser(user);
 
 		// construct a wait while login error message is NOT shown (or next screen whows up)
 		String errorFieldName = loginMetadata.getErrorField().getName();
@@ -156,8 +157,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 			loggedInUser = null;
 			throw (new LoginException(message));
 		} else {
-			loggedInUser = user;
-			getSession().getProperties().getProperties().put(Login.USER_NAME_PROPERTY, loggedInUser);
+			getSession().getProperties().getProperties().put(Login.USER_NAME_PROPERTY, loggedInUser.getUserName());
 		}
 
 	}
@@ -250,7 +250,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		this.loginTimeout = loginTimeout;
 	}
 
-	public String getLoggedInUser() {
+	public User getLoggedInUser() {
 		return loggedInUser;
 	}
 

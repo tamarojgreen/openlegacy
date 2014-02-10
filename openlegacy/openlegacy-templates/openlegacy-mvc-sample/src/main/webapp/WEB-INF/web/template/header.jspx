@@ -24,7 +24,7 @@
 			 			</li>
 					</c:if>
 					<c:if test="${ol_loggedInUser != null}">
-						<li class="welcomeUser">Welcome, ${ol_loggedInUser}!</li>
+						<li class="welcomeUser">Welcome, ${ol_loggedInUser.userName}!</li>
 					</c:if>
 					<li class="prefs"><a href="javascript:changeTheme({cloud:'cloudm',night:'cloudm',red:'cloudm',emily:'emilym',dynamics:'emilym'});"><span class="big_icon theme"><!--  --></span>Theme</a></li>
 					<li class="mobile"><a href="${pageContext.request.contextPath}/SignOn?site_preference=mobile" title="Mobile version"><span class="big_icon mobile"><!--  --></span>Mobile</a></li>

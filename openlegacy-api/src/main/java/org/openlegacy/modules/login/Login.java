@@ -31,6 +31,8 @@ public interface Login extends SessionModule {
 
 	public static final String USER_NAME_PROPERTY = "User name";
 
+	public static final String USER_ROLE_PROPERTY = "User role";
+
 	void login(String user, String password) throws LoginException, RegistryException;
 
 	/**
@@ -44,7 +46,7 @@ public interface Login extends SessionModule {
 
 	boolean isLoggedIn();
 
-	String getLoggedInUser();
+	User getLoggedInUser();
 
 	void logoff();
 

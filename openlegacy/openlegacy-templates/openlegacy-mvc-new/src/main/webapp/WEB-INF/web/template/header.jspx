@@ -19,7 +19,7 @@
 					</li>
 				  	<spring:message code="label_welcome" var="label_welcome" htmlEscape="false" />
 					<c:if test="${ol_loggedInUser != null}">
-						<li class="welcomeUser">${label_welcome} , ${ol_loggedInUser}!</li>
+						<li class="welcomeUser">${label_welcome} , ${ol_loggedInUser.userName}!</li>
 					</c:if>
 				  	<spring:message code="label_mobile" var="label_mobile" htmlEscape="false" />
 					<li class="mobile"><a href="${pageContext.request.contextPath}/?site_preference=mobile" title="Mobile version">${label_mobile}</a></li>

@@ -19,6 +19,8 @@ public class SimpleFieldAssignDefinition implements FieldAssignDefinition, Seria
 	private String name;
 	private String value;
 
+	private String role;
+
 	public SimpleFieldAssignDefinition(String name, String value) {
 		this.name = name;
 		this.value = value;
@@ -38,5 +40,13 @@ public class SimpleFieldAssignDefinition implements FieldAssignDefinition, Seria
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

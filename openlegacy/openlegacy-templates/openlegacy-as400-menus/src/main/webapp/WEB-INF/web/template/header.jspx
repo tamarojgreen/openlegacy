@@ -13,7 +13,7 @@
 				<ul>
 					<li>System: ${ol_globals['system']}</li>
 					<c:if test="${ol_loggedInUser != null}">
-						<li>Welcome, ${ol_loggedInUser}!</li>
+						<li>Welcome, ${ol_loggedInUser.userName}!</li>
 					</c:if>
 					<li class="prefs"><a href="javascript:changeTheme('red');">Theme</a></li>
 					<li class="mobile"><a href="${pageContext.request.contextPath}/?site_preference=mobile" title="Mobile version">Mobile</a></li>

@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 
 /**
  * Defines an constant field assignment. Currently used within {@link ScreenNavigation} annotation. Typical usage would be within
- * moving from screen 1 to screen 2 using a constant argumnt.
+ * moving from screen 1 to screen 2 using a constant argument.
  * 
  * <br/>
  * <br/>
@@ -34,9 +34,18 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface AssignedField {
 
+	/**
+	 * The name of the field to assign
+	 * 
+	 * @return
+	 */
 	String field();
 
 	// marking with "fake" null since default can't be null. Handled in ScreenNavigationAnnotationLoader
 	String value() default AnnotationConstants.NULL;
 
+	/**
+	 * The role of the current user. Useful in case different navigation parameters are needed for different roles
+	 */
+	String role() default AnnotationConstants.NULL;
 }
