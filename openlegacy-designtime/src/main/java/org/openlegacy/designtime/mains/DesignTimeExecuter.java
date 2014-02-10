@@ -11,8 +11,10 @@
 package org.openlegacy.designtime.mains;
 
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
+import org.openlegacy.designtime.rpc.ImportSourceRequest;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.exceptions.GenerationException;
+import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
@@ -65,6 +67,8 @@ public interface DesignTimeExecuter {
 	public void copyDesigntimeContext(File projectPath);
 
 	public void generateRpcModel(GenerateRpcModelRequest generateRpcRequest);
+
+	public void importSourceFile(ImportSourceRequest importSourceRequest) throws OpenLegacyException;
 
 	public boolean isSupportControllerGeneration(File entityFile);
 }

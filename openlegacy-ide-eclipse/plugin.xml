@@ -29,6 +29,13 @@
                enablesFor="1"
                id="org.openlegacy.ide.eclipse.actions.customizeContext">
          </action>
+          <action
+               label="%import_source"
+               class="org.openlegacy.ide.eclipse.actions.ImportSourceAction"
+               menubarPath="org.openlegacy.ide.eclipse.right_menu/import"
+               enablesFor="1"
+               id="org.openlegacy.ide.eclipse.actions.import_source">
+         </action>
       </objectContribution>
       <objectContribution
             objectClass="org.eclipse.core.resources.IFile"

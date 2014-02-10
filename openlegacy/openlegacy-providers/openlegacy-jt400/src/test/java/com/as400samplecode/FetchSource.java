@@ -10,53 +10,26 @@
  *******************************************************************************/
 package com.as400samplecode;
 
-import com.ibm.as400.access.AS400;
-import com.ibm.as400.access.AS400File;
-import com.ibm.as400.access.AS400FileRecordDescription;
-import com.ibm.as400.access.QSYSObjectPathName;
-import com.ibm.as400.access.Record;
-import com.ibm.as400.access.RecordFormat;
-import com.ibm.as400.access.SequentialFile;
+import org.openlegacy.exceptions.OpenLegacyException;
+import org.openlegacy.rpc.SourceFetcher;
+import org.openlegacy.utils.jt400.Jt400SourceFetcher;
 
 public class FetchSource {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws OpenLegacyException {
 
 		if (args.length < 3) {
-			System.out.println("Usage:" + CallCobolProgramPcml.class.getSimpleName() + " host user password");
+			System.out.println("Usage:" + SourceFetcher.class.getSimpleName() + " host user password");
 			return;
 		}
 
 		String host = args[0];
 		String user = args[1];
 		String password = args[2];
-
-		try {
-			AS400 as400 = new AS400(host, user, password);
-			as400.connectService(AS400.RECORDACCESS);
-			QSYSObjectPathName filename = new QSYSObjectPathName("/QSYS.LIB/RMR2L1.LIB/QRPGLESRC.FILE/RPGROICH.MBR");
-			SequentialFile file = new SequentialFile(as400, filename.getPath());
-			// Retrieve the record format for the file
-			AS400FileRecordDescription recordDescription = new AS400FileRecordDescription(as400, filename.getPath());
-			RecordFormat[] format = recordDescription.retrieveRecordFormat();
-			file.setRecordFormat(format[0]);
-			file.open(AS400File.READ_ONLY, 100, AS400File.COMMIT_LOCK_LEVEL_NONE);
-			Record data = file.readNext();
-			// Loop while there are records in the file (while we have not
-			// reached end-of-file).
-
-			while (data != null) {
-				// Object field = data.getField(1);
-				data = file.readNext();
-				System.out.println(data);
-			}
-		}
-
-		catch (Exception de) {
-			System.out.println(de.getMessage());
-			de.printStackTrace();
-			System.exit(0);
-		}
+		Jt400SourceFetcher fetchSourceUtil = new Jt400SourceFetcher();
+		// System.out.println(fetchSourceUtil.fetch(host, user, password, "/QSYS.LIB/RMR2L1.LIB/QRPGLESRC.FILE/RPGROICH.MBR"));
+		byte[] result = fetchSourceUtil.fetch(host, user, password, "/QSYS.LIB/RMR2L1.LIB/QCBLSRC.FILE/ITEMS.MBR");
+		System.out.println(new String(result));
 
 	}
 }

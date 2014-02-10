@@ -20,10 +20,15 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.openlegacy.providers</groupId>
+			<artifactId>openlegacy-jt400</artifactId>
+			<version>${openlegacy.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-designtime</artifactId>
 			<version>${openlegacy.version}</version>
-		</dependency>
+		</dependency>	
 	</dependencies>
 
 	<build>

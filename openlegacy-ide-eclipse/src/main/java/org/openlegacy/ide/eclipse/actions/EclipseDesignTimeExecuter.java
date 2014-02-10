@@ -33,8 +33,10 @@ import org.openlegacy.designtime.mains.GenerateControllerRequest;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
+import org.openlegacy.designtime.rpc.ImportSourceRequest;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.exceptions.GenerationException;
+import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
@@ -254,5 +256,26 @@ public class EclipseDesignTimeExecuter {
 
 	public boolean isSupportControllerGeneration(IFile entityFile) {
 		return designTimeExecuter.isSupportControllerGeneration(PathsUtil.toOsLocation(entityFile));
+	}
+
+	public String importFile(String workingDirPath, String host, String user, String pwd, String legacyFile,
+			UserInteraction userInteraction) throws OpenLegacyException {
+		ImportSourceRequest importSourceRequest = new ImportSourceRequest();
+		importSourceRequest.setWorkingDirPath(workingDirPath);
+		importSourceRequest.setHost(host);
+		importSourceRequest.setUser(user);
+		importSourceRequest.setPwd(pwd);
+		importSourceRequest.setLegacyFile(legacyFile);
+		importSourceRequest.setUserInteraction(userInteraction);
+		designTimeExecuter.importSourceFile(importSourceRequest);
+
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
+			}
+		});
+		return importSourceRequest.getNewFileName();
+
 	}
 }

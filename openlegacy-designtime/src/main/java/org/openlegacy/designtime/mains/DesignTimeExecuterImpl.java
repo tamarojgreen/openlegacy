@@ -18,15 +18,18 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
+import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.generators.EntityPageGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
+import org.openlegacy.designtime.rpc.ImportSourceRequest;
 import org.openlegacy.designtime.rpc.generators.RpcEntityPageGenerator;
 import org.openlegacy.designtime.rpc.generators.RpcPojosAjGenerator;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
@@ -46,7 +49,9 @@ import org.openlegacy.designtime.terminal.generators.support.ScreenCodeBasedDefi
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.exceptions.GenerationException;
+import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.rpc.SourceFetcher;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -614,6 +619,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return defaultDesigntimeApplicationContext.getBean(GenerateUtil.class);
 	}
 
+	private SourceFetcher getImportUtil() {
+		return defaultDesigntimeApplicationContext.getBean(SourceFetcher.class);
+	}
+
 	private void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File projectPath) {
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(projectPath);
 
@@ -828,8 +837,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			if (fileContent.contains(ScreenEntity.class.getSimpleName())) {
 				entityDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
 			} else {
-				entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
-
+				if (fileContent.contains(RpcEntity.class.getSimpleName())) {
+					entityDefinition = RpcCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
+				}
 			}
 		} catch (Exception e) {
 			throw (new GenerationException(e));
@@ -956,5 +966,38 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
 			entityUserInteraction.open(targetJavaFile);
 		}
+	}
+
+	public void importSourceFile(ImportSourceRequest importSourceRequest) throws OpenLegacyException {
+
+		byte[] source = getImportUtil().fetch(importSourceRequest.getHost(), importSourceRequest.getUser(),
+				importSourceRequest.getPwd(), importSourceRequest.getLegacyFile());
+
+		boolean getFile = true;
+
+		UserInteraction userInteraction = importSourceRequest.getUserInteraction();
+		try {
+
+			File dir = new File(importSourceRequest.getWorkingDirPath());
+			dir.mkdirs();
+			importSourceRequest.setNewFileName(getImportUtil().convertExtension(importSourceRequest.getLegacyFile()));
+			String fileName = importSourceRequest.getWorkingDirPath() + importSourceRequest.getNewFileName();
+			File file = new File(fileName);
+			if (file.exists()) {
+				boolean override = userInteraction.isOverride(file);
+				if (!override) {
+					getFile = false;
+				}
+			}
+			if (getFile) {
+				FileOutputStream fos = new FileOutputStream(fileName);
+				fos.write(source);
+				fos.close();
+
+			}
+		} catch (IOException e) {
+			throw new OpenLegacyException("Fail to write file", e);
+		}
+
 	}
 }
