@@ -18,6 +18,7 @@
 				</a>
 			</li>
 			<c:forEach items="${ol_actions}" var="action">
+				<c:if test="${action.global}">
 				<li>
 					<c:choose>
 						<c:when test="${action.type == 'WINDOW'}">
@@ -43,6 +44,7 @@
 						${action.displayName}
 					</a>
 				</li>
+				</c:if>
 			</c:forEach>
 		</ul>
 	</div>
