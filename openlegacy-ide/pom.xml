@@ -5,12 +5,12 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<version>1.2.0-SNAPSHOT</version>
+		<!-- KEEP DEFAULT --><version>2.0.0-SNAPSHOT</version>
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<!--  Can't be RC1 - cause conflict with Tycho in Manifest.MF -->
-	<version>1.2.0-SNAPSHOT</version>
+	<!--  Can't be RELEASE - cause conflict with Tycho in Manifest.MF -->
+	<version>2.0.0-SNAPSHOT</version>
 	<groupId>org.openlegacy.ide</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
@@ -31,7 +31,7 @@
 	</repositories>
 
 	<properties>
-		<openlegacy.version>1.2.0-SNAPSHOT</openlegacy.version>
+		<openlegacy.version>2.0.0-SNAPSHOT</openlegacy.version>
 		<tycho.version>0.16.0</tycho.version>
 	</properties>
 

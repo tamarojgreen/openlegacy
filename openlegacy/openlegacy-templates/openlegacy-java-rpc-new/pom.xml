@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.openlegacy.templates</groupId>
 	<artifactId>openlegacy-java-rpc-new</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<name>OpenLegacy new Java RPC application</name>
 	<properties>
-		<openlegacy-version>1.2.0-SNAPSHOT</openlegacy-version>
+		<openlegacy-version>2.0.0-SNAPSHOT</openlegacy-version>
 		<aspectj.version>1.6.11</aspectj.version>
 	</properties>
 
