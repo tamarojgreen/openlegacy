@@ -12,6 +12,7 @@ import com.ibm.as400.access.SequentialFile;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.apache.commons.lang.SystemUtils;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.rpc.SourceFetcher;
 import org.openlegacy.utils.FileUtils;
@@ -55,7 +56,7 @@ public class Jt400SourceFetcher implements SourceFetcher {
 
 		byte[] result = null;
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		String seperatoe = System.lineSeparator();
+		String seperator = SystemUtils.LINE_SEPARATOR;
 		try {
 			SequentialFile file = getFile(host, user, password, legacyFile);
 			Record data = file.readNext();
@@ -64,7 +65,7 @@ public class Jt400SourceFetcher implements SourceFetcher {
 
 			while (data != null) {
 				output.write(data.toString().getBytes());
-				output.write(seperatoe.getBytes());
+				output.write(seperator.getBytes());
 				data = file.readNext();
 			}
 			result = new byte[output.size()];
