@@ -398,5 +398,14 @@
 		</property>
 	</bean>
 	-->
-	 
+	
+<!-- AS/400 source fetcher
+  	<bean id="sourceFetcher" class="org.openlegacy.utils.jt400.Jt400SourceFetcher">
+		<property name="namesMappings" >
+			<map>
+				<entry key="MBR" value="cbl" />
+			</map>
+		</property>
+	</bean>
+ -->	 
 </beans>
