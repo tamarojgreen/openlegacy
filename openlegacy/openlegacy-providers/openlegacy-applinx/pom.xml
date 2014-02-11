@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>openlegacy-providers</artifactId>
 		<groupId>org.openlegacy.providers</groupId>
-		<version>1.2.0-SNAPSHOT</version>
+		<version>1.2.0-RELEASE</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>openlegacy-applinx</artifactId>
