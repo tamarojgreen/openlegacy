@@ -21,6 +21,9 @@ public class DefaultAuthorizationService implements AuthorizationService {
 	private boolean allowNullUser = true;
 
 	public MenuItem filterMenu(User user, MenuItem rootMenu) {
+		if (rootMenu == null) {
+			return null;
+		}
 		checkNullUser(user);
 		MenuItem userMenu = rootMenu.clone();
 		if (user != null) {

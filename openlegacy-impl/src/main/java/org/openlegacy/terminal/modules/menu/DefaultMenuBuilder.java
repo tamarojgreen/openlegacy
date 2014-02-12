@@ -75,6 +75,9 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		if (rootClasses.size() > 1) {
 			throw (new IllegalStateException("More then one root menus exists"));
 		}
+		if (rootClasses.size() == 0) {
+			return null;
+		}
 		return getMenuTree(rootClasses.get(0));
 	}
 
