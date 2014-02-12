@@ -20,30 +20,52 @@
 </style>
 </head>
 <body>
-	<h1> ${page.entityDefinition.displayName}</h1>
+	<h1>${page.entityDefinition.displayName}</h1>
 
 	<div class="help">
 	
 	<p>Description for ${page.entityDefinition.displayName}</p>
 
-	<c:forEach items="${page.pageParts}" var="pagePart">
-		<hr/>
-		<c:forEach items="${pagePart.partRows}" var="partRow">
-			<c:forEach items="${partRow.fields}" var="field">
-			<div>
-				<label>${field.displayName}:</label><span><c:if test="${field.helpText != null}">${field.helpText}</c:if></span>
-			</div>
-			</c:forEach>
-		</c:forEach>
-		<c:if test="${pagePart.tableDefinition != null}">
-			<c:forEach items="${pagePart.tableDefinition.columnDefinitions}" var="column">
-			<div>
-				<label>${column.displayName}:</label><span><c:if test="${column.helpText != null}">${column.helpText}</c:if></span>
-			</div>
-			</c:forEach>
+	<c:forEach items="${page.entityDefinition.fieldsDefinitions}" var="field" >
+		<label>${field.value.displayName}:</label>
+		<span>
+		<c:if test='${not empty field.value.helpText}'>
+ 			${field.value.helpText}
 		</c:if>
+		</span>
+		<br/>
 	</c:forEach>
 	
+	<c:forEach items="${page.entityDefinition.partsDefinitions}" var="part" >
+		<label>${part.value.displayName}:</label>
+		<br/>
+	</c:forEach>
+	
+	<c:forEach items="${page.entityDefinition.partsDefinitions}" var="part" >
+		<hr/>
+		<p>Description for ${part.value.displayName}</p>
+		<c:forEach items="${part.value.fieldsDefinitions}" var="partFields" >
+			<label>${partFields.value.displayName}:</label>
+			<span>
+			<c:if test='${not empty partFields.value.helpText}'>
+	 			${partFields.value.helpText}
+			</c:if>
+			</span>
+			<br/>
+		</c:forEach>
+		<c:forEach items="${part.value.innerPartsDefinitions}" var="innerParts" >
+			<c:forEach items="${innerParts.value.fieldsDefinitions}" var="innerPartsFields" >
+				<label>${innerPartsFields.value.displayName}:</label>
+				<span>
+				<c:if test='${not empty innerPartsFields.value.helpText}'>
+		 			${innerPartsFields.value.helpText}
+				</c:if>
+				</span>
+				<br/>
+			</c:forEach>
+		</c:forEach>
+	</c:forEach>
+
 	</div>
 </body>
 </html>
