@@ -10,11 +10,20 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.web;
 
+import java.io.IOException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.SessionEndedException;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.mvc.MvcUtils;
+import org.openlegacy.mvc.web.MvcConstants;
+import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.modules.login.LoginMetadata;
+import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
@@ -29,12 +38,17 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 	@Inject
 	private MvcUtils mvcUtils;
 
+	@Inject
+	private LoginMetadata loginMetadata;
+	
 	private final static Log logger = LogFactory.getLog(OpenLegacyExceptionResolver.class);
 
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		TerminalSession terminalSession = (TerminalSession)request.getSession().getAttribute(
 				TERMINAL_SESSION_WEB_SESSION_ATTRIBUTE_NAME);
+		ModelAndView modelAndView = super.resolveException(request, response, handler, ex);
+		
 		if (ex instanceof SessionEndedException) {
 			if (terminalSession != null) {
 				try {
@@ -43,6 +57,13 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 					// do nothing
 				}
 			}
+			try {
+				response.sendRedirect("");
+			} catch (IOException e) {
+				logger.fatal(e,e);
+			}
+			return modelAndView;
+
 		} else {
 			try {
 				if (terminalSession.isConnected()) {
@@ -57,7 +78,6 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 
 		logger.fatal(ex.getMessage(), ex);
 
-		ModelAndView modelAndView = super.resolveException(request, response, handler, ex);
 		mvcUtils.insertGlobalData(modelAndView, request, response, terminalSession);
 		return modelAndView;
 	}
