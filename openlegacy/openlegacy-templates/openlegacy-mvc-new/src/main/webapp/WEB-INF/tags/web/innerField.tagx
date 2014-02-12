@@ -15,7 +15,9 @@
 	<jsp:directive.attribute name="left" type="java.lang.String" required="false" rtexprvalue="true" description="Set field left position" />
 	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field direction" />
 	<jsp:directive.attribute name="editable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field editable" />
-	
+	<jsp:directive.attribute name="url" type="java.lang.String" required="false" rtexprvalue="true" description="Set field url" />
+	<jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field required" />
+		
 	<c:choose>
 		<c:when test="${fn:contains(name,'.')}">
 			<c:set var="fieldNameParts" value="${fn:split(name,'.')}" />
@@ -62,7 +64,7 @@
 		<div class="field_row">
 			<c:if test="${not empty label}">
 				<div class="label">
-					<label>${label}<c:if test="${fn:length(label) &gt; 1}">:</c:if></label>
+					<label>${label}<c:if test="${required}"><span class="required">*</span></c:if><c:if test="${fn:length(label) &gt; 1}">:</c:if></label>
 				</div>
 			</c:if>
 			<div class="field">
@@ -99,7 +101,7 @@
 										<c:set var="windowWidth" value="${windowColumns == 80 ? '500' : windowColumns * 8}" />
 										<c:set var="windowWidth" value="${windowWidth &gt; 800 ? 800 : windowWidth}" />
 										<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
-										<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
+										<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}',required:${required}"
 											maxlength="${maxlength}" path="${name}" cssStyle="${style}" />
 										<img id="${name}Search" src="${pageContext.request.contextPath}/icons/search.png" onclick="openLookupDialog('${name}','${fieldDefinition.fieldTypeDefinition.displayFieldName}','${pageContext.request.contextPath}/${windowUrl}','width:${windowWidth}px;height:${windowHeight}px','${fn:toLowerCase(fieldDefinition.fieldTypeDefinition.autoSubmitAction['class'].simpleName)}')" class="search" />
 									</c:when>
@@ -112,7 +114,7 @@
 											data-dojo-id="${fieldDefinition.name}Values"></span>
 										<input name="${fieldDefinition.name}"
 											data-dojo-type="dijit.form.FilteringSelect"
-											data-dojo-props="store:${fieldDefinition.name}Values, searchAttr:'name', pageSize:100"
+											data-dojo-props="store:${fieldDefinition.name}Values, searchAttr:'name', pageSize:100,required:${required}"
 											style="width: 200px"></input>
 									</c:otherwise>
 								</c:choose>
@@ -140,7 +142,7 @@
 							</c:when>
 							<c:when test="${type == 'password'}">
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
-								<form:input type="password" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'" 
+								<form:input type="password" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}',required:${required}" 
 									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" />
 							</c:when>
 							<c:when test="${type == 'radio'}">
@@ -153,6 +155,7 @@
 								<span class="fieldPlaceholder" />
 								<form:select id="${name}"
 									data-dojo-type="dijit.form.FilteringSelect" path="${name}"
+									data-dojo-props="required:${required}"
 									cssStyle="${style}">
 									<form:option value="" label="--- Select ---" />
 									<form:options
@@ -175,25 +178,33 @@
 							</c:when>
 							<c:otherwise>
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
-								<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
+								<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}',required:${required}"
 									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" />
 							</c:otherwise>
 						</c:choose>
 					</c:when>
 					<c:otherwise>
-						<c:choose>
-							<c:when test="${type == 'boolean'}">
-								<script>require("dijit/form/CheckBox");</script>
-								<span class="fieldPlaceholder" />
-								<form:checkbox name="${name}" disabled="true"
-									data-dojo-type="dijit.form.CheckBox" path="${name}"
-									cssStyle="${style}" />
-							</c:when>
-							<c:otherwise>
+						<c:if test="${not empty url}">
+							<a href="${url}">
 								<ol:span cssClass="readonlyField ${cssClass}" path="${name}"
 									cssStyle="${style}" />
-							</c:otherwise>
-						</c:choose>
+							</a>
+						</c:if>
+						<c:if test="${empty url}">
+							<c:choose>
+								<c:when test="${type == 'boolean'}">
+									<script>require("dijit/form/CheckBox");</script>
+									<span class="fieldPlaceholder" />
+									<form:checkbox name="${name}" onchange="${onchange}" disabled="true"
+										data-dojo-type="dijit.form.CheckBox" path="${name}"
+										cssStyle="${style}" />
+								</c:when>
+								<c:otherwise>							
+									<ol:span cssClass="readonlyField ${cssClass}" path="${name}"
+										cssStyle="${style}" />
+								</c:otherwise>
+							</c:choose>
+						</c:if>
 					</c:otherwise>
 				</c:choose>
 				<c:if test="${ol:hasProperty(fieldDefinition,'descriptionFieldDefinition') and fieldDefinition.descriptionFieldDefinition != null}">

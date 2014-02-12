@@ -17,7 +17,9 @@
 	<jsp:directive.attribute name="width" type="java.lang.String" required="false" rtexprvalue="true" description="Set field width" />
 	<jsp:directive.attribute name="rightToLeft" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set if field is right to left" />
 	<jsp:directive.attribute name="editable" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field editable" />
-
+	<jsp:directive.attribute name="url" type="java.lang.String" required="false" rtexprvalue="true" description="Set field url" />
+	<jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" rtexprvalue="true" description="Set field required" />
+	
 	<c:choose>
 		<c:when test="${fn:contains(name,'.')}">
 			<c:set var="fieldNameParts" value="${fn:split(name,'.')}" />
@@ -64,20 +66,20 @@
 	<c:choose>
 		<c:when test="${not empty columnWidth}">
 			<td style="width: ${columnWidth}%">
-				<olt:innerField name="${name}" label="${label}" editable="${editable}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}">
+				<olt:innerField name="${name}" label="${label}" editable="${editable}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" required="${required}" url="${url}">
 					<jsp:doBody />
 				</olt:innerField>
 			</td>
 		</c:when>
 		<c:when test="${empty top}">
-			<olt:innerField name="${name}" label="${label}" editable="${editable}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}">
+			<olt:innerField name="${name}" label="${label}" editable="${editable}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" style="${style}" cssClass="${cssClass}" required="${required}" url="${url}">
 				<jsp:doBody />
 			</olt:innerField>
 		</c:when>
 		<c:otherwise>
 			<div style="margin-left: ${left}; top: ${top}; width:${width}; position:absolute;">
 				<olt:innerField name="${name}" label="${label}" editable="${editable}" maxlength="${maxlength}" rightToLeft="${rightToLeft}" type="${type}" 
-					style="${style}" cssClass="${cssClass}">
+					style="${style}" cssClass="${cssClass}" required="${required}" url="${url}">
 					<jsp:doBody />
 				</olt:innerField>
 			</div>
