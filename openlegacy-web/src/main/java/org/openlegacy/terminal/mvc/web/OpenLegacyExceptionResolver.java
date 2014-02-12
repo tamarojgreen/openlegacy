@@ -12,24 +12,17 @@ package org.openlegacy.terminal.mvc.web;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.openlegacy.exceptions.SessionEndedException;
-import org.openlegacy.modules.login.Login;
-import org.openlegacy.mvc.MvcUtils;
-import org.openlegacy.mvc.web.MvcConstants;
-import org.openlegacy.terminal.ScreenPojoFieldAccessor;
-import org.openlegacy.terminal.TerminalSession;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.modules.login.LoginMetadata;
-import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
-import org.openlegacy.utils.ReflectionUtil;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.openlegacy.exceptions.SessionEndedException;
+import org.openlegacy.mvc.MvcUtils;
+import org.openlegacy.terminal.TerminalSession;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver {
 
@@ -38,9 +31,6 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 	@Inject
 	private MvcUtils mvcUtils;
 
-	@Inject
-	private LoginMetadata loginMetadata;
-	
 	private final static Log logger = LogFactory.getLog(OpenLegacyExceptionResolver.class);
 
 	@Override
