@@ -11,6 +11,7 @@
 package org.openlegacy.modules.support.menu;
 
 import org.openlegacy.modules.menu.MenuItem;
+import org.openlegacy.utils.ProxyUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class SimpleMenuItem implements MenuItem, Serializable, Cloneable {
 
 	public SimpleMenuItem(Class<?> targetEntity, String displayName, int depth) {
 		this.targetEntity = targetEntity;
-		this.targetEntityName = targetEntity.getSimpleName();
+		this.targetEntityName = ProxyUtil.getOriginalClass(targetEntity).getSimpleName();
 		this.displayName = displayName;
 		this.depth = depth;
 	}
