@@ -80,7 +80,8 @@
 		<bean class="org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor" />
 
 		<bean class="org.openlegacy.mvc.web.interceptors.InsertPluginsDataInterceptor"/>
-
+		<bean class="org.openlegacy.mvc.web.interceptors.ManifestInterceptor"/>
+		
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.LoginInterceptor"/>
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertEntityDefinitionsInterceptor" />
 		<bean class="org.openlegacy.terminal.mvc.web.interceptors.InsertMessagesInterceptor" />
