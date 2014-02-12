@@ -18,6 +18,8 @@ import org.openlegacy.terminal.TerminalSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +37,8 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		TerminalSession terminalSession = (TerminalSession)request.getSession().getAttribute(
 				TERMINAL_SESSION_WEB_SESSION_ATTRIBUTE_NAME);
+		ModelAndView modelAndView = super.resolveException(request, response, handler, ex);
+
 		if (ex instanceof SessionEndedException) {
 			if (terminalSession != null) {
 				try {
@@ -43,6 +47,13 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 					// do nothing
 				}
 			}
+			try {
+				response.sendRedirect("");
+			} catch (IOException e) {
+				logger.fatal(e, e);
+			}
+			return modelAndView;
+
 		} else {
 			try {
 				if (terminalSession.isConnected()) {
@@ -57,7 +68,6 @@ public class OpenLegacyExceptionResolver extends SimpleMappingExceptionResolver 
 
 		logger.fatal(ex.getMessage(), ex);
 
-		ModelAndView modelAndView = super.resolveException(request, response, handler, ex);
 		mvcUtils.insertGlobalData(modelAndView, request, response, terminalSession);
 		return modelAndView;
 	}
