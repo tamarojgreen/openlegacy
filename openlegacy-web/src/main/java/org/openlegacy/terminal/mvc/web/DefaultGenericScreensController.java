@@ -137,6 +137,12 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 			if (!beforeEntityDefinition.isWindow() && afterEntityDefinition.isWindow()) {
 				urlPrefix = OpenLegacyViewResolver.WINDOW_URL_PREFIX;
 			}
+			else if (beforeEntityDefinition.isWindow() && !afterEntityDefinition.isWindow()) {
+				urlPrefix = OpenLegacyViewResolver.REDIRECT_URL_PREFIX;
+			}
+			else if (!beforeEntityDefinition.isWindow() && !afterEntityDefinition.isWindow() && !beforeEntityDefinition.getEntityName().equals(afterEntityDefinition.getEntityName())) {
+				urlPrefix = OpenLegacyViewResolver.REDIRECT_URL_PREFIX;
+			}
 		}
 		return handleEntity(request, uiModel, resultEntity, urlPrefix);
 	}
