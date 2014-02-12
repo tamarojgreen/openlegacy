@@ -13,6 +13,7 @@ package org.openlegacy.web.tags;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -56,7 +57,11 @@ public class TagUtils {
 	}
 
 	public static boolean fileExists(ServletContext application, String file) {
-		return TagUtils.class.getResource(file) != null;
+		try {
+			return application.getResource(file) != null;
+		} catch (MalformedURLException e) {
+			return false;
+		}
 	}
 
 	public static String join(List<?> array) {
