@@ -116,6 +116,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private Integer lastSequence = 0;
 
+	private boolean forceAuthorization = true;
+
 	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 
@@ -153,6 +155,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	private <S> void authorize(Class<S> screenEntityClass) {
+		if (!forceAuthorization) {
+			return;
+		}
 		ScreenEntityDefinition definitions = getScreenEntitiesRegistry().get(screenEntityClass);
 		User loggedInUser = getModule(Login.class).getLoggedInUser();
 		if (definitions.getType() != LoginEntity.class && !authorizationService.isAuthorized(loggedInUser, screenEntityClass)) {
@@ -504,4 +509,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		notifyModulesAfterAction(null);
 	}
 
+	public void setForceAuthorization(boolean forceAuthorization) {
+		this.forceAuthorization = forceAuthorization;
+	}
 }
