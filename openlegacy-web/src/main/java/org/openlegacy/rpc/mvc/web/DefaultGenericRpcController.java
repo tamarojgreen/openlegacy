@@ -46,6 +46,7 @@ public class DefaultGenericRpcController extends AbstractGenericEntitiesControll
 	@Inject
 	private RpcEntityUtils rpcEntityUtils;
 
+	@RequestMapping(value = "/{entity}/{key:help}")
 	public String help(@PathVariable("entity") String entityName, Model uiModel, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		@SuppressWarnings("unchecked")
