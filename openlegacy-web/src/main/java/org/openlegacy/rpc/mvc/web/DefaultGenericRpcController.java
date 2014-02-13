@@ -41,7 +41,6 @@ import javax.servlet.http.HttpServletResponse;
  * 
  */
 @Controller
-@RequestMapping(value = "/{entity}/{key:help}")
 public class DefaultGenericRpcController extends AbstractGenericEntitiesController<RpcSession> {
 
 	@Inject
