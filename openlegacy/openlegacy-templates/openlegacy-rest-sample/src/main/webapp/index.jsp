@@ -33,9 +33,9 @@ function get(){
 					if (data != null && data.model != null){
 						dojo.byId('result').value = JSON.stringify(data);
 						dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
-						for(var i=0;i<data.model.actions.length;i++){
+						for(var i=0;i<data.model.entity.actions.length;i++){
 							var option=document.createElement("option");
-							option.text = data.model.actions[i].alias;
+							option.text = data.model.entity.actions[i].alias;
 							dojo.byId("actionType").add(option);
 						}
 					}
@@ -62,7 +62,7 @@ function get(){
 					dojo.byId("postUrl").value = dojo.byId('getUrl').value;
 				}
 				
-				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image/0?ts=" + (new Date())); 
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
 			error : function(e) {
 				alert(e);
