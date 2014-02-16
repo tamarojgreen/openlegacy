@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 /**
  * Handles requests for the application home page.
@@ -38,8 +39,10 @@ public class LogoffController {
 	@Inject
 	private TrailUtil trailUtil;
 
+	private boolean invalidateWebSession = true;
+
 	@RequestMapping(value = "/logoff", method = RequestMethod.GET)
-	public String logoff() throws IOException {
+	public String logoff(HttpSession webSession) throws IOException {
 
 		for (Session session : sessions) {
 			try {
@@ -54,10 +57,17 @@ public class LogoffController {
 					session.disconnect();
 				}
 			}
-
+			
+		}
+		if (invalidateWebSession){
+			webSession.invalidate();
 		}
 
 		return "logoff";
+	}
+	
+	public void setInvalidateWebSession(boolean invalidateWebSession) {
+		this.invalidateWebSession = invalidateWebSession;
 	}
 
 }
