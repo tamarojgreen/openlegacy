@@ -84,7 +84,9 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 				if (StringUtils.isBlank(value)) {
 					continue;
 				}
-
+				if (!dateField.isEditable()){
+					continue;
+				}
 				value = fieldFormatter.format(value);
 				if (!value.equals(fieldDefinition.getNullValue())) {
 					Date dateVal = dateFormater.parse(value);

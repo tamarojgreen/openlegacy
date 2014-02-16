@@ -72,6 +72,10 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 			TerminalField enumField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 
+			if (!enumField.isEditable()){
+				continue;
+			}
+
 			if (!StringUtil.isEmpty(enumField.getValue())) {
 
 				// find the DisplayItem by host value, and return the enum object
