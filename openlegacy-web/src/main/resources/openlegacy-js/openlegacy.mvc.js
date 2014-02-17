@@ -102,6 +102,10 @@ function showSessionViewer(baseUrl) {
 	showDialog("sessionViewerDialog", baseUrl + "/sessionViewer?ts=" + (new Date()));
 }
 
+function showEntityViewer(baseUrl,entityName) {
+	showDialog("sessionViewerDialog", baseUrl + "/entityViewer/" + entityName + "/?ts=" + (new Date()));
+}
+
 function showMobileSessionViewer(baseUrl){
 	var registry = require("dijit/registry"); 
 	var dialog = registry.byId("sessionViewer");

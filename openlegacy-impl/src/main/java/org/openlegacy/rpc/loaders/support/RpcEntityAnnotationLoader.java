@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.rpc.loaders.support;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
@@ -23,6 +24,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
+import java.net.URL;
 import java.text.MessageFormat;
 
 @Component
@@ -50,10 +52,23 @@ public class RpcEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 		rpcEntityDefinition.setDisplayName(displayName);
 		rpcEntityDefinition.setLanguage(rpcAnnotation.language());
 
+		loadSourceCode(containingClass, rpcEntityName, rpcEntityDefinition);
 		logger.info(MessageFormat.format("RPC \"{0}\" was added to the RPC registry ({1})", rpcEntityName,
 				containingClass.getName()));
 
 		rpcEntitiesRegistry.add(rpcEntityDefinition);
 	}
 
+	private static void loadSourceCode(Class<?> containingClass, String rpcEntityName, SimpleRpcEntityDefinition rpcEntityDefinition) {
+		String srcResourceName = MessageFormat.format("{0}-resources/{1}.src", rpcEntityName, containingClass.getSimpleName());
+		URL srcResource = containingClass.getResource(srcResourceName);
+		if (srcResource != null) {
+			try {
+				String sourceCode = IOUtils.toString(srcResource);
+				rpcEntityDefinition.setSourceCode(sourceCode);
+			} catch (Exception e) {
+				logger.warn("Failed to source code for " + rpcEntityName);
+			}
+		}
+	}
 }

@@ -39,7 +39,8 @@
 	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" />
 	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
 	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" p:trim="true" />
-
+	<bean id="imageRenderer" class="org.openlegacy.rpc.render.DefaultRpcImageRenderer" />
+	
 	<bean id="abstractRpcSession" class="org.openlegacy.rpc.support.DefaultRpcSession" abstract="true">
 		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">

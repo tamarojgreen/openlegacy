@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.components.rpc;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -26,10 +29,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.ide.eclipse.components.ImageComposite;
-import org.openlegacy.terminal.render.DefaultRpcImageRenderer;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import org.openlegacy.rpc.render.DefaultRpcImageRenderer;
 
 public class RpcComposite extends ImageComposite {
 

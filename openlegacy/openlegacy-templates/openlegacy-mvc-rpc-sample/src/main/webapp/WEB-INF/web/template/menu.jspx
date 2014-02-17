@@ -85,6 +85,13 @@
 						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/rpc/samples/mvc/controllers/${definitions.entityName}Controller.java')">View Controller</a></li>
 						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/test/org/openlegacy/rpc/samples/MvcRpcSampleTest.java')">View API Test</a></li>
 					</ul>
+					<div class="demo_session">
+						<c:if test="${definitions != null}">
+						<a href="javascript:showEntityViewer('${pageContext.request.contextPath}','${definitions.entityName}');" title="Original terminal screen - this is how it looked before">
+							<img src="${pageContext.request.contextPath}/entityViewer/${definitions.entityName}/image" width="325px" height="170px"/>
+						</a>
+						</c:if>
+					</div>
 				</div>
 			</div>
 			<script>

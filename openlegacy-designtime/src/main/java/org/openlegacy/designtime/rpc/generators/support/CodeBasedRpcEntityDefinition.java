@@ -10,20 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.designtime.rpc.generators.support;
 
-import org.openlegacy.EntityDefinition;
-import org.openlegacy.annotations.rpc.Languages;
-import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.definitions.FieldDefinition;
-import org.openlegacy.definitions.PartEntityDefinition;
-import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
-import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
-import org.openlegacy.rpc.definitions.OrderedField;
-import org.openlegacy.rpc.definitions.RpcEntityDefinition;
-import org.openlegacy.rpc.definitions.RpcFieldDefinition;
-import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
-import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
-import org.openlegacy.rpc.support.RpcOrderFieldComparator;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +18,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.openlegacy.EntityDefinition;
+import org.openlegacy.annotations.rpc.Languages;
+import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.FieldDefinition;
+import org.openlegacy.definitions.PartEntityDefinition;
+import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
+import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
+import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.definitions.RpcFieldDefinition;
+import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
+import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
+import org.openlegacy.rpc.support.RpcOrderFieldComparator;
 
 public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinition<RpcFieldDefinition, RpcPojoCodeModel> implements RpcEntityDefinition {
 
@@ -136,5 +135,9 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 
 	public boolean isValidateKeys() {
 		return true;
+	}
+
+	public String getSourceCode() {
+		return null;
 	}
 }
