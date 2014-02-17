@@ -24,10 +24,10 @@
     </project-type>
     <project-type>
         <template-name>openlegacy-mvc-rpc-new</template-name>
-        <description>A new combined web and mobile application for connecting to your Legacy application rpc</description>
+        <description>A new combined web and mobile application for connecting to your Legacy application programs</description>
         <is-demo>false</is-demo>
         <support-theme>true</support-theme>
-        <zip-file>openlegacy-mvc-new.zip</zip-file>
+        <zip-file>openlegacy-mvc-rpc-new.zip</zip-file>
     </project-type>
     
     <project-type>
@@ -53,6 +53,13 @@
     </project-type>
     <project-type>
         <template-name>openlegacy-rest-sample</template-name>
+        <description>An example REST API application Spring MVC based for connecting to your legacy application screens in XML/JSON format</description>
+        <is-demo>true</is-demo>
+        <support-theme>false</support-theme>
+        <zip-file>openlegacy-rest-sample.zip</zip-file>
+    </project-type>
+    <project-type>
+        <template-name>openlegacy-rest-rpc-sample</template-name>
         <description>An example REST API application Spring MVC based for connecting to your legacy application screens in XML/JSON format</description>
         <is-demo>true</is-demo>
         <support-theme>false</support-theme>
