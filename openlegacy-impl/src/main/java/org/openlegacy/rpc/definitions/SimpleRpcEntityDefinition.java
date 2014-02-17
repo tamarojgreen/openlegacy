@@ -25,6 +25,7 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 	private static final long serialVersionUID = 1L;
 	private Languages language;
 	private RpcNavigationDefinition navigationDefinition = new SimpleRpcNavigationDefinition();
+	private String sourceCode;
 
 	public SimpleRpcEntityDefinition() {
 		super(null, null);
@@ -73,6 +74,14 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 
 		Collections.sort(result, new RpcOrderFieldComparator());
 		return result;
+	}
+
+	public String getSourceCode() {
+		return sourceCode;
+	}
+
+	public void setSourceCode(String sourceCode) {
+		this.sourceCode = sourceCode;
 	}
 
 }

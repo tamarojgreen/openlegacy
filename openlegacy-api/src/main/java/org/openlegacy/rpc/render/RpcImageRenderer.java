@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal.render;
+package org.openlegacy.rpc.render;
 
 import java.io.OutputStream;
 
