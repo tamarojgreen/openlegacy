@@ -17,7 +17,6 @@ import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
-import org.openlegacy.rpc.definitions.OrderedField;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
@@ -73,7 +72,6 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 		// TODO include parts
 		return getFieldsDefinitions();
 	}
-
 
 	public List<RpcFieldDefinition> getSortedFields() {
 		Collection<RpcFieldDefinition> fields = getFieldsDefinitions().values();
@@ -136,5 +134,10 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 
 	public boolean isValidateKeys() {
 		return true;
+	}
+
+	public String getSourceCode() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

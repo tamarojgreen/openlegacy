@@ -3,8 +3,6 @@ package org.openlegacy.rpc.render;
 import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openlegacy.terminal.render.DefaultRpcImageRenderer;
-import org.openlegacy.terminal.render.RpcImageRenderer;
 import org.openlegacy.test.utils.AssertUtils;
 
 import java.io.ByteArrayOutputStream;

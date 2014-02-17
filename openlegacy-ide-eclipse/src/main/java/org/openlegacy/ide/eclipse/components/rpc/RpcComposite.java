@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.ide.eclipse.components.ImageComposite;
-import org.openlegacy.terminal.render.DefaultRpcImageRenderer;
+import org.openlegacy.rpc.render.DefaultRpcImageRenderer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
