@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.trail.TrailUtil;
 import org.openlegacy.mvc.AbstractRestController;
@@ -21,11 +22,13 @@ import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.utils.RpcEntityUtils;
+import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -95,4 +98,15 @@ public class DefaultRpcRestController extends AbstractRestController {
 		}
 
 	}
+
+	@Override
+	protected Object postApiEntity(String entityName, Class<?> entityClass, String key) {
+		return ReflectionUtil.newInstance(entityClass);
+	}
+
+	@Override
+	protected List<ActionDefinition> getActions(Object entity) {
+		return getEntitiesRegistry().get(entity.getClass()).getActions();
+	}
+
 }

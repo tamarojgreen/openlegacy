@@ -28,7 +28,7 @@ function appOnLoad($cookies,$rootScope,$location,$olHttp){
 	
 	if ($cookies.loggedInUser != null){
 		$rootScope.loggedInUser = $cookies.loggedInUser;
-		$location.path("/ItemDetails/2000");
+		$location.path("/items");
 	}
 //	$olHttp.get("menu",function(data){
 	//	$rootScope.menus = data.simpleMenuItem.menuItems;

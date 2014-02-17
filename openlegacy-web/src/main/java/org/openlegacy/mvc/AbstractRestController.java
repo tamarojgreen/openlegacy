@@ -18,6 +18,7 @@ import org.exolab.castor.xml.ValidationException;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.json.EntitySerializationUtils;
 import org.openlegacy.modules.login.Login;
@@ -38,6 +39,7 @@ import org.xml.sax.InputSource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -94,6 +96,10 @@ public abstract class AbstractRestController {
 		}
 	}
 
+	protected Object postApiEntity(String entityName, Class<?> entityClass, String key) {
+		return getApiEntity(entityName, key);
+	}
+
 	private Object getApiEntity(String entityName, String key) {
 		Object entity;
 		Object[] keys = new Object[0];
@@ -116,9 +122,11 @@ public abstract class AbstractRestController {
 		entity = ProxyUtil.getTargetObject(entity);
 		Navigation navigationModule = getSession().getModule(Navigation.class);
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, navigationModule != null ? navigationModule.getPaths()
-				: null);
+				: null, getActions(entity));
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
+
+	protected abstract List<ActionDefinition> getActions(Object entity);
 
 	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
 	public Object getMenu(ModelMap model) {
@@ -167,9 +175,9 @@ public abstract class AbstractRestController {
 			return null;
 		}
 
-		getApiEntity(entityName, key);
-
 		Object entity = null;
+		postApiEntity(entityName, entityClass, key);
+
 		try {
 			entity = EntitySerializationUtils.deserialize(json, entityClass);
 		} catch (Exception e) {
@@ -206,9 +214,9 @@ public abstract class AbstractRestController {
 			return null;
 		}
 
-		getApiEntity(entityName, key);
-
 		Object entity = null;
+		postApiEntity(entityName, entityClass, key);
+
 		try {
 			InputSource inputSource = new InputSource(new ByteArrayInputStream(xml.getBytes()));
 			entity = Unmarshaller.unmarshal(entityClass, inputSource);

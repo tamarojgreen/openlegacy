@@ -13,7 +13,7 @@
 			$scope.login = function() {
 				$cookies.loggedInUser = $scope.user.userName;
 				$rootScope.loggedInUser = $scope.user.userName;
-				$location.path("/itemDetails/2000");
+				$location.path("/items");
 
 				$olHttp.get('login?user=' + $scope.user.userName + '&password='+ $scope.user.password, 
 					function() {
@@ -39,7 +39,7 @@
 		function($scope, $location, $olHttp) {
 			$olHttp.get('Items', 
 					function(data) {
-						$scope.items = data.model.entity.itemsRecords;
+						$scope.items = data.model.entity.topLevel.innerRecord;
 					}
 				);
 			

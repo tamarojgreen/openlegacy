@@ -9,20 +9,23 @@ import org.openlegacy.rpc.RpcEntity;
 privileged @SuppressWarnings("unused") aspect ItemDetails_Aspect {
     declare parents: ItemDetails implements RpcEntity;
     
-    public Integer ItemDetails.getItemNumber(){
-    	return this.itemNumber;
+    public Integer ItemDetails.getItemNum(){
+    	return this.itemNum;
     }
-    public void ItemDetails.setItemNumber(Integer itemNumber){
-    	this.itemNumber = itemNumber;
+    public void ItemDetails.setItemNum(Integer itemNum){
+    	this.itemNum = itemNum;
     }
-    public String ItemDetails.getItemName(){
-    	return this.itemName;
+    public ItemRecord ItemDetails.getItemRecord(){
+    	return this.itemRecord;
     }
-    public String ItemDetails.getItemDescription(){
-    	return this.itemDescription;
+    public void ItemDetails.setItemRecord(ItemRecord itemRecord){
+    	this.itemRecord = itemRecord;
     }
-    public Integer ItemDetails.getItemWeight(){
-    	return this.itemWeight;
+    public Shipping ItemDetails.getShipping(){
+    	return this.shipping;
+    }
+    public void ItemDetails.setShipping(Shipping shipping){
+    	this.shipping = shipping;
     }
     
 }

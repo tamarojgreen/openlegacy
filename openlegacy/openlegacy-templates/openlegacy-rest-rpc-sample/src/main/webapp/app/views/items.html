@@ -3,14 +3,14 @@
 		<thead>
 			<tr>
 				<th>Item Number</th>
+				<th>Item Name</th>
 				<th>Item Description</th>
-				<th>Alpha Search</th>
 			</tr>
 		</thead>
 		<tr data-ng-repeat="item in items">
 			<td><a title="Edit" class="rbtn revise" href="#/itemDetails/{{item.itemNumber}}">{{item.itemNumber}}<i class="icon-envelope"></i></a></td>
-			<td>{{item.itemDescription}}</td>
-			<td>{{item.alphaSearch}}</td>
+			<td>{{item.itemName}}</td>
+			<td>{{item.description}}</td>
 		</tr>
 	</table>
 </div>
