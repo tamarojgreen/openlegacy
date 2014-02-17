@@ -37,7 +37,7 @@ public class EntitySerializationUtils {
 			ScreenEntityDefinition entityDefinitions) {
 		entity = ProxyUtil.getTargetObject(entity);
 		Navigation navigation = session.getModule(Navigation.class);
-		return new SimpleEntityWrapper(entity, navigation != null ? navigation.getPaths() : null);
+		return new SimpleEntityWrapper(entity, navigation != null ? navigation.getPaths() : null, null);
 
 	}
 

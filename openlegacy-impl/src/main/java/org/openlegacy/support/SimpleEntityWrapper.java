@@ -12,6 +12,7 @@ package org.openlegacy.support;
 
 import org.openlegacy.EntityDescriptor;
 import org.openlegacy.EntityWrapper;
+import org.openlegacy.definitions.ActionDefinition;
 
 import java.util.List;
 
@@ -23,15 +24,18 @@ public class SimpleEntityWrapper implements EntityWrapper {
 
 	private List<EntityDescriptor> paths;
 
+	private List<ActionDefinition> actions;
+
 	public SimpleEntityWrapper() {
 		// for de-serialization
 	}
 
-	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths) {
+	public SimpleEntityWrapper(Object entity, List<EntityDescriptor> paths, List<ActionDefinition> actions) {
 		this.entity = entity;
 
 		this.entityName = entity.getClass().getSimpleName();
 		this.paths = paths;
+		this.actions = actions;
 	}
 
 	public Object getEntity() {
@@ -44,5 +48,9 @@ public class SimpleEntityWrapper implements EntityWrapper {
 
 	public List<EntityDescriptor> getPaths() {
 		return paths;
+	}
+
+	public List<ActionDefinition> getActions() {
+		return actions;
 	}
 }

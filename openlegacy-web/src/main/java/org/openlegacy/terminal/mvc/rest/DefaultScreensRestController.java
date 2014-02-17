@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
+import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -106,6 +108,12 @@ public class DefaultScreensRestController extends AbstractRestController {
 	protected Object sendEntity(Object entity, String action) {
 		TerminalActionDefinition actionDefinition = screenEntityUtils.findAction((ScreenEntity)entity, action);
 		return terminalSession.doAction((TerminalAction)actionDefinition.getAction(), (ScreenEntity)entity);
+	}
+
+	@Override
+	protected List<ActionDefinition> getActions(Object entity) {
+		// actions for screen exists on the entity. No need to fetch from registry
+		return null;
 	}
 
 }
