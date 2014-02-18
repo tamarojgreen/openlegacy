@@ -18,6 +18,7 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
@@ -34,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -114,6 +116,20 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 		terminalSession.doAction(action);
 		response.setStatus(HttpServletResponse.SC_OK);
+
+	}
+
+	@RequestMapping(value = "/messages", consumes = { JSON, XML })
+	public ModelAndView messages() throws IOException {
+
+		Messages messagesModule = terminalSession.getModule(Messages.class);
+		List<String> messages = messagesModule.getMessages();
+		if (messages.size() > 0) {
+			ModelAndView modelAndView = new ModelAndView(MODEL, MODEL, new ArrayList<String>(messages));
+			messagesModule.resetMessages();
+			return modelAndView;
+		}
+		return null;
 
 	}
 

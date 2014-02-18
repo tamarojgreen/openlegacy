@@ -32,12 +32,13 @@ function get(){
 				if (dojo.byId("requestType").value == "json"){
 					if (data != null && data.model != null){
 						dojo.byId('result').value = JSON.stringify(data);
-						dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
-						for(var i=0;i<data.model.actions.length;i++){
+						for(var i=0;i<data.model.entity.actions.length;i++){
 							var option=document.createElement("option");
-							option.text = data.model.actions[i].alias;
+							option.text = data.model.entity.actions[i].alias;
 							dojo.byId("actionType").add(option);
 						}
+						data.model.entity.actions = null;
+						dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
 					}
 					else{
 						dojo.byId('result').value = "OK"; 
@@ -58,9 +59,9 @@ function get(){
 					else{
 						dojo.byId('result').value = "OK"; 
 					}
-					dojo.byId("postRequestType").value = dojo.byId("requestType").value;
-					dojo.byId("postUrl").value = dojo.byId('getUrl').value;
 				}
+				dojo.byId("postRequestType").value = dojo.byId("requestType").value;
+				dojo.byId("postUrl").value = dojo.byId('getUrl').value;
 				
 				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image/0?ts=" + (new Date())); 
 			},
@@ -129,6 +130,7 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 			}
 			%>
 			<option>emulation?keyboardKey=ENTER</option>
+			<option>messages</option>
 			<option>logoff</option>
 		</select> 
 		Method: <select id="requestType">
