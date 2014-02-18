@@ -20,8 +20,8 @@ import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.terminal.ScreenEntity.NONE;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
-import org.openlegacy.terminal.actions.TerminalMappedAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
@@ -67,12 +67,12 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				String displayName = action.displayName().length() > 0 ? action.displayName()
 						: StringUtil.toDisplayName(action.action().getSimpleName());
 
-				if (TerminalMappedAction.class.isAssignableFrom(theAction)) {
+				if (action.additionalKey() != AdditionalKey.NONE) {
 					actionDefinition = new SimpleTerminalActionDefinition(TerminalActions.combined(action.additionalKey(),
 							theAction), action.additionalKey(), displayName, position);
 				} else {
 					actionDefinition = new SimpleTerminalActionDefinition(ReflectionUtil.newInstance(theAction),
-							action.additionalKey(), displayName, position);
+							action.additionalKey(), displayName, null);
 				}
 
 				if (StringUtils.isEmpty(action.alias())) {
