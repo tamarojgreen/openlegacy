@@ -80,12 +80,18 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private String actionValue;
 		private String targetEntityName;
 		private AdditionalKey additionalKey;
+		private int row;
+		private int column;
+		private int length;
 
-		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey) {
+		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey, int row, int column, int length) {
 			this.alias = alias;
 			this.actionName = actionName;
 			this.displayName = displayName;
 			this.additionalKey = additionalKey;
+			this.setRow(row);
+			this.setColumn(column);
+			this.setLength(length);
 		}
 
 		public String getActionName() {
@@ -122,6 +128,30 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setAdditionalKey(AdditionalKey additionalKey) {
 			this.additionalKey = additionalKey;
+		}
+
+		public int getRow() {
+			return row;
+		}
+
+		public void setRow(int row) {
+			this.row = row;
+		}
+
+		public int getColumn() {
+			return column;
+		}
+
+		public void setColumn(int column) {
+			this.column = column;
+		}
+
+		public int getLength() {
+			return length;
+		}
+
+		public void setLength(int length) {
+			this.length = length;
 		}
 	}
 

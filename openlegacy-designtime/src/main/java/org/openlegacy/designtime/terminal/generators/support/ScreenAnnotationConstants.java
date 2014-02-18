@@ -47,6 +47,7 @@ public class ScreenAnnotationConstants {
 	public static final String SUPPORT_TERMINAL_DATA = "supportTerminalData";
 	public static final String ROW = "row";
 	public static final String COLUMN = "column";
+	public static final String LENGTH = "length";
 	public static final String START_COLUMN = "startColumn";
 	public static final String END_COLUMN = "endColumn";
 	public static final String START_ROW = "startRow";

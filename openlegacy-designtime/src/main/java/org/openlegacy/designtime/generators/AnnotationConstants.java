@@ -23,7 +23,9 @@ public class AnnotationConstants {
 	public static final String NAME = "name";
 	public static final String ALIAS = "alias";
 	public static final String HELP_TEXT = "helpText";
-
+	public static final String ROW = "row";
+	public static final String COLUMN = "column";
+	
 	public static final String PROVIDER = "provider";
 
 	public static final String ACTIONS = "actions";

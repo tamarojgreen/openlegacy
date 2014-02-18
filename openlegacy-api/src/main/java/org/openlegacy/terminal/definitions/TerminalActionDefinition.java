@@ -39,6 +39,10 @@ public interface TerminalActionDefinition extends ActionDefinition, TerminalPosi
 	 */
 	int getLength();
 
+	int getRow();
+	
+	int getColumn();
+	
 	/**
 	 * Together with row, column, length defines if to show the action
 	 * 

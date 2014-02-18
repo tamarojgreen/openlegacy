@@ -42,7 +42,24 @@ public class JavaParserUtil {
 		return null;
 
 	}
-
+	
+	public static int getAnnotationValueInt(AnnotationExpr annotation, String attributeName, int defaultValue) {
+		if (!(annotation instanceof NormalAnnotationExpr)) {
+			return defaultValue;
+		}
+		List<MemberValuePair> attributes = ((NormalAnnotationExpr)annotation).getPairs();
+		if (attributes == null) {
+			return defaultValue;
+		}
+		for (MemberValuePair memberValuePair : attributes) {
+			if (memberValuePair.getName().equals(attributeName)) {
+				int value = Integer.parseInt(memberValuePair.getValue().toString());
+				return value;
+			}
+		}
+		return defaultValue;
+	}
+	
 	public static boolean isOneOfAnnotationsPresent(AnnotationExpr annotation, String... annotationNames) {
 		for (String annotationName : annotationNames) {
 			if (annotation.getName().getName().equals(annotationName)) {

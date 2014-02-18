@@ -182,6 +182,9 @@ public class ScreenCodeBasedDefinitionUtils {
 				actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 			}
 			actionDefinition.setAdditionalKey(action.getAdditionalKey());
+			actionDefinition.setRow(action.getRow());
+			actionDefinition.setColumn(action.getColumn());
+			actionDefinition.setLength(action.getLength());
 			actionDefinitions.add(actionDefinition);
 		}
 

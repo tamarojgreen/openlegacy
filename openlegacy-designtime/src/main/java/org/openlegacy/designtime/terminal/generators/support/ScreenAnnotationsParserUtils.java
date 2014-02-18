@@ -171,12 +171,16 @@ public class ScreenAnnotationsParserUtils {
 				// @author Ivan Bort, refs assembla #235
 				String additionalKeyValue = JavaParserUtil.getAnnotationValue(singleAction,
 						ScreenAnnotationConstants.ADDITIONAL_KEY);
+				
+				int row = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.ROW, 0);
+				int column = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.COLUMN, 0);
+				int length = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.LENGTH, 0);
 
 				AdditionalKey additionalKey = AdditionalKey.NONE;
 				if (additionalKeyValue != null) {
 					additionalKey = AdditionalKey.valueOf(additionalKeyValue.split("\\.")[1]);
 				}
-				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey);
+				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey, row, column, length);
 				action.setActionValue(actionValue == null ? "" : actionValue);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
 				actions.add(action);
