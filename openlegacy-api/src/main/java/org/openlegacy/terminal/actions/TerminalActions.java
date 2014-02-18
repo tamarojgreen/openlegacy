@@ -12,6 +12,7 @@ package org.openlegacy.terminal.actions;
 
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalActionMapper;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
@@ -235,16 +236,27 @@ public class TerminalActions {
 	 * @return A command which to the given keyboardKey
 	 * @throws TerminalActionNotMappedException
 	 */
-	@SuppressWarnings("unchecked")
 	public static Object getCommand(String keyboardKey, TerminalActionMapper terminalActionMapper)
 			throws TerminalActionNotMappedException {
-		String[] keyboardActionParts = keyboardKey.split("-");
-
-		Class<? extends TerminalAction> keyboardClazz;
-		AdditionalKey additionalKey = AdditionalKey.NONE;
-		TerminalAction terminalAction = null;
 		Object command;
 		try {
+			command = terminalActionMapper.getCommand(getAction(keyboardKey));
+		} catch (Exception e) {
+			throw (new TerminalActionNotMappedException(MessageFormat.format(
+					"The keyboard key {0} has not been mapped to any command", keyboardKey), e));
+		}
+		return command;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public static TerminalAction getAction(String keyboardKey) {
+		String[] keyboardActionParts = keyboardKey.split("-");
+
+		TerminalAction terminalAction = null;
+		try {
+			Class<? extends TerminalAction> keyboardClazz;
+			AdditionalKey additionalKey = AdditionalKey.NONE;
 			if (keyboardActionParts.length == 2) {
 				keyboardKey = keyboardActionParts[1];
 				String keyboardKeyClass = MessageFormat.format("{0}${1}", TerminalActions.class.getName(), keyboardKey);
@@ -256,13 +268,11 @@ public class TerminalActions {
 				keyboardClazz = (Class<? extends TerminalAction>)Class.forName(keyboardKeyClass);
 				terminalAction = keyboardClazz.newInstance();
 			}
-			command = terminalActionMapper.getCommand(terminalAction);
 		} catch (Exception e) {
-			throw (new TerminalActionNotMappedException(MessageFormat.format(
-					"The keyboard key {0} has not been mapped to any command", keyboardKey), e));
+			throw (new OpenLegacyRuntimeException(MessageFormat.format("The keyboard key {0} has not been mapped to any command",
+					keyboardKey), e));
 		}
-		return command;
-
+		return terminalAction;
 	}
 
 	public static TerminalAction newAction(String actionName) {

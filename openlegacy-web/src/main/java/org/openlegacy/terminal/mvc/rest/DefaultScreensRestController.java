@@ -22,6 +22,7 @@ import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,6 +66,8 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@Inject
 	private ScreenEntityUtils screenEntityUtils;
 
+	private boolean enableEmulation = true;
+
 	@RequestMapping(value = "/", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getScreenEntity(HttpServletResponse response) throws IOException {
 		if (!authenticate(response)) {
@@ -90,6 +94,25 @@ public class DefaultScreensRestController extends AbstractRestController {
 		} catch (LoginException e) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 		}
+		response.setStatus(HttpServletResponse.SC_OK);
+
+	}
+
+	@RequestMapping(value = "/emulation", consumes = { JSON, XML })
+	public void emulation(@RequestParam(value = "keyboardKey", required = true) String keyboardKey, HttpServletResponse response)
+			throws IOException {
+		if (!enableEmulation) {
+			logger.warn("emulation for REST controller not enabled");
+			return;
+		}
+		TerminalAction action = TerminalActions.getAction(keyboardKey);
+
+		if (action == null) {
+			logger.error(MessageFormat.format("No action found for keyboardKey {0}", keyboardKey));
+			return;
+		}
+
+		terminalSession.doAction(action);
 		response.setStatus(HttpServletResponse.SC_OK);
 
 	}

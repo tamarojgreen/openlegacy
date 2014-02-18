@@ -177,7 +177,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		TerminalSnapshot terminalSnapshot = getSnapshot();
 
 		Class<?> matchedScreenEntity = screensRecognizer.match(terminalSnapshot);
+
 		if (matchedScreenEntity == null) {
+			logger.debug("Current snapshot is not recognized");
 			return null;
 		}
 

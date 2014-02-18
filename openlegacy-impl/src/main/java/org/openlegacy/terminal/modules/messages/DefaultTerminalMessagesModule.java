@@ -74,6 +74,8 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 
 		// if screen is not messages screen, exit
 		while (entityDefinition.getType() == Messages.MessagesEntity.class && skippedScreens < skipLimit) {
+			logger.debug(MessageFormat.format("Found messages screen: {0}", entityDefinition.getEntityName()));
+
 			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 
 			// collect all messages field into messages
@@ -81,6 +83,7 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 			ScreenFieldDefinition messagesFieldDefinition = null;
 			for (ScreenFieldDefinition screenFieldDefinition : fieldDefinitions) {
 				if (screenFieldDefinition.getType() == Messages.MessageField.class) {
+					logger.debug(MessageFormat.format("Found messages field: {0}", screenFieldDefinition.getName()));
 					messagesFieldDefinition = screenFieldDefinition;
 					Object fieldValue = fieldAccessor.getFieldValue(screenFieldDefinition.getName());
 					if (fieldValue instanceof String) {
