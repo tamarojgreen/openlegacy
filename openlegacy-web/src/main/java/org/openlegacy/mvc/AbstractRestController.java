@@ -47,7 +47,7 @@ public abstract class AbstractRestController {
 
 	public static final String JSON = "application/json";
 	public static final String XML = "application/xml";
-	private static final String MODEL = "model";
+	protected static final String MODEL = "model";
 	private static final String ACTION = "action";
 
 	protected abstract Session getSession();

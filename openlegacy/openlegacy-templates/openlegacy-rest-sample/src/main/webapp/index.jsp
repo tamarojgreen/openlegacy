@@ -129,6 +129,7 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 			}
 			%>
 			<option>emulation?keyboardKey=ENTER</option>
+			<option>messages</option>
 			<option>logoff</option>
 		</select> 
 		Method: <select id="requestType">
