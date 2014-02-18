@@ -128,6 +128,7 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 				out.write("<option>" + definition.getEntityName() + keyStr + "</option>");
 			}
 			%>
+			<option>emulation?keyboardKey=ENTER</option>
 			<option>logoff</option>
 		</select> 
 		Method: <select id="requestType">
