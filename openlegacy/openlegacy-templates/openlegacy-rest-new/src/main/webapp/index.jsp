@@ -63,7 +63,7 @@ function get(){
 				dojo.byId("postRequestType").value = dojo.byId("requestType").value;
 				dojo.byId("postUrl").value = dojo.byId('getUrl').value;
 				
-				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image/0?ts=" + (new Date())); 
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
 			error : function(e) {
 				alert(e);
