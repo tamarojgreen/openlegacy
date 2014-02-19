@@ -152,7 +152,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		gd.widthHint = 400;
 		generateTest.setLayoutData(gd);
 
-		useAjButton.addSelectionListener(new SelectionListener() {
+		generateTest.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				setGenerateTest(true);
