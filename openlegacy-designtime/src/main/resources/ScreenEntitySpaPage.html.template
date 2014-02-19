@@ -1,20 +1,32 @@
-<form>
-	<#list entityDefinition.fieldsDefinitions?values as field>
-		<input name="${field.name}" />
-  	</#list>
-  	
-	<#list entityDefinition.partsDefinitions?values as part>
-		<@rpcPart part=part/>
-	</#list>
-</form>
-
-<#macro rpcPart part>
-		<div>
-	<#list part.fieldsDefinitions?values as field>
-			<input name="${field.name}" />
-	</#list>
+<h4>${entityDefinition.displayName}</h4>
+<div class="row">
+	<form class="form-horizontal" accept-charset="utf-8">
+		<div class="span8">
+			<#list entityDefinition.sortedFields as field>
+				<@fieldMacro field=field/>
+		  	</#list>
 		</div>
-	<#list part.innerPartsDefinitions?values as innerPart>
-		<@rpcPart part=innerPart />
-	</#list>
+		<#list entityDefinition.partsDefinitions?values as part>
+			<@screenPart part=part/>
+		</#list>
+		<#list entityDefinition.actions as action>
+			<button data-ng-click="${action.alias}()" class="btn btn-small btn-primary">${action.displayName}</button>
+		</#list>
+	</form>
+</div>
+<#macro screenPart part>
+	<div class="span8">
+		<#list part.sortedFields as field>
+			<@fieldMacro field=field/>
+	  	</#list>
+	</div>
+</#macro>
+
+<#macro fieldMacro field>
+			<div class="control-group">
+				<label for="${field.name}" class="control-label">${field.displayName}:</label>
+				<div class="controls">
+					<input type="text" id="${field.name}" ng-model="model.${field.name}">
+				</div>
+			</div>
 </#macro>
