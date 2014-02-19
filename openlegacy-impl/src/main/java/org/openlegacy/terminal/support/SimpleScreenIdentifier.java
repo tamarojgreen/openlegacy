@@ -48,7 +48,8 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 		String foundText = terminalSnapshot.getText(position, text.length());
 		if (foundText.equals(text)) {
 			if (logger.isTraceEnabled()) {
-				logger.trace(MessageFormat.format("Found text on screen:\'{0}\' matched to identifier:\'{1}\'", foundText, text));
+				logger.trace(MessageFormat.format("Found text on screen:\''{0}\'' matched to identifier:\''{1}\''", foundText,
+						text));
 			}
 			return true;
 		}
@@ -61,7 +62,8 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 			}
 		}
 		if (logger.isTraceEnabled()) {
-			logger.trace(MessageFormat.format("Found text on screen:\'{0}\' wasnt matched to identifier:\'{1}\'", foundText, text));
+			logger.trace(MessageFormat.format("Found text on screen:\''{0}\'' wasnt matched to identifier:\''{1}\''", foundText,
+					text));
 		}
 		return false;
 	}
