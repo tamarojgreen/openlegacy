@@ -60,6 +60,7 @@ import org.openlegacy.terminal.render.TerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotRenderer;
 import org.openlegacy.terminal.render.TerminalSnapshotTextRenderer;
 import org.openlegacy.utils.FileUtils;
+import org.openlegacy.utils.OsUtils;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -710,7 +711,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			File designtimeContextFile = new File(projectPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
 			if (designtimeContextFile.exists()) {
 				// in windows add / to the file path (http://www.ehour.nl/forum/viewtopic.php?t=1113)
-				String prefix = designtimeContextFile.getAbsolutePath().startsWith("/") ? "" : "/";
+				// #453 - in linux need throws an error when having only single /
+				String prefix = OsUtils.isWindows() && designtimeContextFile.getAbsolutePath().startsWith("/") ? "" : "/";
 				projectApplicationContext = new FileSystemXmlApplicationContext(prefix + designtimeContextFile.getAbsolutePath());
 			} else {
 				String embeddedDesigntimeContextFile = getEmbeddedDesigntimeContextFile(projectPath);
