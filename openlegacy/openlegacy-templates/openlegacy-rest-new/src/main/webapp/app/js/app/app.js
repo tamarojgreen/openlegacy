@@ -45,6 +45,6 @@ function search(baseUrl){
 	$("#keys :input").each(function(i){
 		url = url + $(this).val() + "+";
 	});
-	url = url.substring(0,url.length-1;
+	url = url.substring(0,url.length-1);
 	location.href = url;
 }
