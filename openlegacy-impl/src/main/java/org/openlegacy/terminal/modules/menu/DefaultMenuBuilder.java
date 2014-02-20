@@ -10,20 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal.modules.menu;
 
-import org.apache.commons.lang.StringUtils;
-import org.openlegacy.modules.menu.Menu.MenuEntity;
-import org.openlegacy.modules.menu.MenuBuilder;
-import org.openlegacy.modules.menu.MenuItem;
-import org.openlegacy.modules.support.menu.SimpleMenuItem;
-import org.openlegacy.terminal.definitions.FieldAssignDefinition;
-import org.openlegacy.terminal.definitions.NavigationDefinition;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.openlegacy.utils.ProxyUtil;
-import org.openlegacy.utils.SpringUtil;
-import org.springframework.context.ApplicationContext;
-import org.springframework.util.Assert;
-
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -36,6 +22,21 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.modules.menu.MenuBuilder;
+import org.openlegacy.modules.menu.MenuItem;
+import org.openlegacy.modules.support.menu.SimpleMenuItem;
+import org.openlegacy.terminal.definitions.FieldAssignDefinition;
+import org.openlegacy.terminal.definitions.NavigationDefinition;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.utils.ProxyUtil;
+import org.openlegacy.utils.SpringUtil;
+import org.springframework.context.ApplicationContext;
+import org.springframework.util.Assert;
 
 public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
@@ -122,6 +123,41 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 		}
 		menuOptions.add(screenEntityClass);
+		Collections.sort(menuOptions, new Comparator<Class<?>>() {
+
+			public int compare(Class<?> o1, Class<?> o2) {
+				return compareEntitiesByAssignFields(screenEntitiesRegistry.get(o1),screenEntitiesRegistry.get(o2));
+			}
+
+		});
+
+	}
+	private int compareEntitiesByAssignFields(
+			ScreenEntityDefinition screenEntityDefinition1,
+			ScreenEntityDefinition screenEntityDefinition2) {
+
+		NavigationDefinition navDefinition1 = screenEntityDefinition1.getNavigationDefinition();
+		NavigationDefinition navDefinition2 = screenEntityDefinition2.getNavigationDefinition();
+		if (navDefinition1 != null && navDefinition1.getAccessedFrom() == screenEntityDefinition2.getEntityClass()){
+			return 1;
+		}
+		if (navDefinition2 != null && navDefinition2.getAccessedFrom() == screenEntityDefinition1.getEntityClass()){
+			return -1;
+		}
+		if (navDefinition1 == null || navDefinition2 == null){
+			return 0;
+		}
+		List<FieldAssignDefinition> assignedFields1 = navDefinition1.getAssignedFields();
+		List<FieldAssignDefinition> assignedFields2 = navDefinition2.getAssignedFields();
+		if (assignedFields1.size() == 0 || assignedFields2.size() == 0){
+			return 0;
+		}
+		String optionValue1 = assignedFields1.get(0).getValue();
+		String optionValue2 = assignedFields2.get(0).getValue();
+		if (NumberUtils.isNumber(optionValue1) && NumberUtils.isNumber(optionValue2)){
+			return Integer.parseInt(optionValue1) - Integer.parseInt(optionValue2);
+		}
+		return optionValue1.compareTo(optionValue2);
 	}
 
 	private Integer calculateDepth(Class<?> entityClass) {
@@ -254,6 +290,13 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 					subMenuItem.getMenuItems().add(menuLeaf);
 				}
 				flatMenuEntries.add(subMenuItem);
+				
+				Collections.sort(flatMenuEntries,new Comparator<MenuItem>() {
+
+					public int compare(MenuItem o1, MenuItem o2) {
+						return compareEntitiesByAssignFields(screenEntitiesRegistry.get(o1.getTargetEntity()),screenEntitiesRegistry.get(o2.getTargetEntity()));
+					}
+				});
 			}
 		}
 

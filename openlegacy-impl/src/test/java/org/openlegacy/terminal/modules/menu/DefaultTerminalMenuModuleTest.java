@@ -47,6 +47,8 @@ public class DefaultTerminalMenuModuleTest extends AbstractTest {
 		MenuItem inventoryManagementMenu = menuEntries.get(0);
 		List<MenuItem> menuItems = inventoryManagementMenu.getMenuItems();
 		Assert.assertEquals(2, menuItems.size());
+		Assert.assertEquals(ItemsList.class, menuItems.get(0).getTargetEntity());
+		Assert.assertEquals(WarehousesList.class, menuItems.get(1).getTargetEntity());
 		Assert.assertEquals(2, inventoryManagementMenu.getDepth());
 
 	}
