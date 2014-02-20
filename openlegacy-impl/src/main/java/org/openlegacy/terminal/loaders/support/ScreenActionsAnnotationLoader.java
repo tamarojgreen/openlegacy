@@ -72,7 +72,7 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 							theAction), action.additionalKey(), displayName, position);
 				} else {
 					actionDefinition = new SimpleTerminalActionDefinition(ReflectionUtil.newInstance(theAction),
-							action.additionalKey(), displayName, null);
+							action.additionalKey(), displayName, position);
 				}
 
 				if (StringUtils.isEmpty(action.alias())) {
