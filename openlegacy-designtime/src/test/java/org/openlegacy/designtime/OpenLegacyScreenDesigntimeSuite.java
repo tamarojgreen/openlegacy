@@ -9,11 +9,13 @@ import org.openlegacy.designtime.terminal.generators.DefaultTerminalSnapshotsSor
 import org.openlegacy.designtime.terminal.generators.HelpGeneratorTest;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityAjGeneratorTest;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityMvcGeneratorTest;
+import org.openlegacy.designtime.terminal.generators.ScreenEntitySpaGeneratorTest;
 import org.openlegacy.designtime.terminal.generators.TrailJunitGeneratorTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ AnalyzerSuite.class, ScreenEntityAjGeneratorTest.class, DefaultTerminalSnapshotsSorterTest.class,
-		SnapshotsSorterTest.class, TrailJunitGeneratorTest.class, ScreenEntityMvcGeneratorTest.class, HelpGeneratorTest.class })
+		SnapshotsSorterTest.class, TrailJunitGeneratorTest.class, ScreenEntityMvcGeneratorTest.class,
+		ScreenEntitySpaGeneratorTest.class, HelpGeneratorTest.class })
 public class OpenLegacyScreenDesigntimeSuite {
 
 }

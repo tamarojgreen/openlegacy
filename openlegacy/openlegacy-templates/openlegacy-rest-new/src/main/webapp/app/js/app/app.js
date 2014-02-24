@@ -12,7 +12,15 @@
 		$routeProvider = $routeProvider.when( '/logoff', {templateUrl: 'views/logoff.html', controller: 'logoffController'} );
 		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html'} );
 
-		/* Register controller place-holder start
+	
+// auto generated register start - ItemDetails
+		$routeProvider = $routeProvider.when( '/ItemDetails/:itemNumber', {templateUrl: 'views/ItemDetails.html', controller: 'ItemDetailsController'} );
+		$routeProvider = $routeProvider.when( '/ItemDetails', {templateUrl: 'views/ItemDetails.html', controller: 'ItemDetailsController'} );
+// auto generated register end - ItemDetails
+// auto generated register start - Items
+				$routeProvider = $routeProvider.when( '/Items', {templateUrl: 'views/Items.html', controller: 'ItemsController'} );
+// auto generated register end - Items
+/* Register controller place-holder start
 		<#if keys?size &gt; 0>
 $routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
 		</#if>
@@ -32,7 +40,7 @@ function appOnLoad($cookies,$rootScope,$location,$olHttp){
 	
 	if ($cookies.loggedInUser != null){
 		$rootScope.loggedInUser = $cookies.loggedInUser;
-		$location.path("/menu");
+		//$location.path("/menu");
 	}
 //	$olHttp.get("menu",function(data){
 	//	$rootScope.menus = data.simpleMenuItem.menuItems;

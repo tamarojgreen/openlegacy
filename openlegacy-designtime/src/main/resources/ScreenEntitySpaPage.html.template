@@ -6,20 +6,41 @@
 				<@fieldMacro field=field/>
 		  	</#list>
 		</div>
-		<#list entityDefinition.partsDefinitions?values as part>
-			<@screenPart part=part/>
+		<#list pageParts as part>
+			<@pagePart part=part/>
 		</#list>
 		<#list entityDefinition.actions as action>
 			<button data-ng-click="${action.alias}()" class="btn btn-small btn-primary">${action.displayName}</button>
 		</#list>
 	</form>
 </div>
-<#macro screenPart part>
-	<div class="span8">
-		<#list part.sortedFields as field>
-			<@fieldMacro field=field/>
-	  	</#list>
-	</div>
+<#macro pagePart part>
+		<#if part.hasTable>
+			<div class="table span12">
+				<table>
+					<thead>
+						<tr>
+						<#list part.tableDefinition.columnDefinitions as column>
+							<th>${column.displayName}</th>
+				  		</#list>
+						</tr>
+					</thead>
+					<tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">
+					<#list part.tableDefinition.columnDefinitions as column>
+						<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
+			  		</#list>
+					</tr>
+		  		</table>
+	  		</div>		
+		<#else>
+			<#list part.partRows as partRow> 
+			<div class="span8">
+				<#list partRow.fields as field>
+					<@fieldMacro field=field/>
+				</#list>
+			</div>
+			</#list>
+		</#if>
 </#macro>
 
 <#macro fieldMacro field>

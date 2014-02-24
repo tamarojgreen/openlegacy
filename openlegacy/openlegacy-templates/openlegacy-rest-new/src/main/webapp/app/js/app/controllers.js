@@ -37,15 +37,23 @@
 			);
 		});
 	
-	/* Controller code place-holder start
+/* Controller code place-holder start
 	module = module.controller('${entityName}Controller',
 		function($scope, $location, $olHttp,$routeParams) {
+			$scope.read = function(){
+				$olHttp.get('${entityName}/' <#if keys?size &gt; 0>+ $routeParams.${keys[0].name?replace(".", "_")}</#if>,
+					function(data) {
+						$scope.model = data.model.entity;
+					}
+				);
+			};		
 			<#list actions as action>
 			$scope.${action.alias} = function(){
-				$olHttp.get('${entityName}?action=${action.alias}',$scope.model, 
+				$scope.model.actions = null;
+				$olHttp.post('${entityName}?action=${action.alias}',$scope.model, 
 					function(data) {
 						if (data.model.entityName == '${entityName}'){
-							$scope.${entityName?uncap_first} = data.model.entity;
+							$scope.model = data.model.entity;
 						}
 						else{
 							$location.path("/" + data.model.entityName);
@@ -56,13 +64,11 @@
 			</#list>
 			<#if keys?size &gt; 0>
 			if ($routeParams.${keys[0].name?replace(".", "_")} != null && $routeParams.${keys[0].name?replace(".", "_")}.length > 0){
-				if ($scope.read == null){
-					alert("No READ action defined for entity");
-				}
 				$scope.read();
 			}
+			<#else>
+				$scope.read();
 			</#if>
-			
 
 		});
 	Controller code place-holder end */
@@ -81,11 +87,10 @@
 			    });
 			};
 			</#list>
-			<#if keys?size &gt; 0>
 			if ($routeParams.${keys[0].name?replace(".", "_")} != null){
 				$scope.read();
 			}
-			</#if>
+			
 		});
 
 	 Controller with JSONP code place-holder end */

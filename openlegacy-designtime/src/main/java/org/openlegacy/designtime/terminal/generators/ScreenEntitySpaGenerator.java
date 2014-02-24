@@ -11,10 +11,11 @@
 package org.openlegacy.designtime.terminal.generators;
 
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.generators.AbstractEntitySpaGenerator;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
 
 import java.io.OutputStream;
 import java.text.MessageFormat;
@@ -37,6 +38,6 @@ public class ScreenEntitySpaGenerator extends AbstractEntitySpaGenerator impleme
 
 	@Override
 	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
-		return new SimplePageDefinition(entityDefinition);
+		return new DefaultScreenPageBuilder().build((ScreenEntityDefinition)entityDefinition);
 	}
 }
