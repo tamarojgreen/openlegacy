@@ -68,6 +68,8 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 	// the maximum number of actions allowed in order to exit back to login screen
 	private int maxActionsToLogin = 7;
 
+	private boolean backToLoginOnDisconnect = true;
+
 	private final static Log logger = LogFactory.getLog(DefaultTerminalLoginModule.class);
 
 	private static final String LOGIN_FAILED = "Login failed";
@@ -190,7 +192,9 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 
 		if (getSession().isConnected()) {
 			try {
-				backToLogin(loginClass);
+				if (backToLoginOnDisconnect){
+					backToLogin(loginClass);
+				}
 			} catch (Exception e) {
 				// ok
 				logger.warn("Failed to return to login screen - " + e.getMessage(), e);
@@ -254,6 +258,9 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		return loggedInUser;
 	}
 
+	public void setBackToLoginOnDisconnect(boolean backToLoginOnDisconnect) {
+		this.backToLoginOnDisconnect = backToLoginOnDisconnect;
+	}
 	@Override
 	public void destroy() {
 		try {
