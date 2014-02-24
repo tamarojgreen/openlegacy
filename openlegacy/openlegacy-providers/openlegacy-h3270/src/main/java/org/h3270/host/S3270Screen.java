@@ -312,7 +312,8 @@ public class S3270Screen extends AbstractScreen {
   
   private Field createField(byte startCode, int startx, int starty,
                             int endx, int endy, int color, int ext_highlight) {
-    if ((startCode & Field.ATTR_PROTECTED) == 0)
+	  													
+	  if ((startCode & Field.ATTR_PROTECTED) == 0 || (endy- starty >= 23)) // RM 24/02/2014 - workaround to support empty input screen
       return new InputField (this, startCode, startx, starty, endx, endy,
                              color, ext_highlight);
     else

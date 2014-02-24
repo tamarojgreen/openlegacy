@@ -112,8 +112,10 @@ public class S3270 implements Terminal {
 			logger.info("Starting s3270: " + commandLine);
 			s3270 = pb.start();
 
-			out = new PrintWriter(new OutputStreamWriter(s3270.getOutputStream(), "ISO-8859-1"));
-			in = new BufferedReader(new InputStreamReader(s3270.getInputStream(), "ISO-8859-1"));
+			String systemEncoding = System.getProperty("file.encoding");
+			String encoding = systemEncoding != null ? systemEncoding : "ISO-8859-1";
+			out = new PrintWriter(new OutputStreamWriter(s3270.getOutputStream(), encoding));
+			in = new BufferedReader(new InputStreamReader(s3270.getInputStream(), encoding));
 			errorReader = new ErrorReader();
 			errorReader.start();
 
@@ -146,6 +148,9 @@ public class S3270 implements Terminal {
 		if (additional != null) {
 			cmd.append(" " + additional);
 		}
+		// use UTF-8 encoding
+		cmd.append(" -utf8");
+
 		cmd.append(" ");
 		if (logicalUnit != null) {
 			cmd.append(logicalUnit).append('@');

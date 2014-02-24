@@ -140,7 +140,12 @@ public class H3270TerminalField extends AbstractTerminalField {
 	public void setValue(String value) {
 		super.setValue(value);
 		if (s3270Field instanceof InputField) {
-			((InputField)s3270Field).setValue(value);
+			if (s3270Field.isMultiline()) {
+				// TODO handle multiple fields
+				((InputField)s3270Field).setValue(0, value);
+			} else {
+				((InputField)s3270Field).setValue(value);
+			}
 		}
 	}
 
