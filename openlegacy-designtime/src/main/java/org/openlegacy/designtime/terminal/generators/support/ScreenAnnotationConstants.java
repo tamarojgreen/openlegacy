@@ -108,4 +108,12 @@ public class ScreenAnnotationConstants {
 	// @PartPosition
 	public static final String WIDTH = "width";
 	public static final String ACTION = "action";
+	
+	
+	// default values for annotation.
+	// TODO decide maybe derive actual annotation default values from these
+	public static final int ROW_DEFAULT_VALUE = 0;
+	public static final int COLUMN_DEFAULT_VALUE = 0;
+	public static final int LENGTH_DEFAULT_VALUE = 0;
+	
 }

@@ -83,15 +83,17 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private int row;
 		private int column;
 		private int length;
+		private String when;
 
-		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey, int row, int column, int length) {
+		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey, int row, int column, int length, String when) {
 			this.alias = alias;
 			this.actionName = actionName;
 			this.displayName = displayName;
 			this.additionalKey = additionalKey;
-			this.setRow(row);
-			this.setColumn(column);
-			this.setLength(length);
+			this.row = row;
+			this.column = column;
+			this.length = length ;
+			this.when = when;
 		}
 
 		public String getActionName() {
@@ -152,6 +154,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setLength(int length) {
 			this.length = length;
+		}
+
+		public String getWhen() {
+			return when;
+		}
+
+		public void setWhen(String when) {
+			this.when = when;
 		}
 	}
 

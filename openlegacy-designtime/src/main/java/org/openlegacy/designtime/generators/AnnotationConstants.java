@@ -59,6 +59,7 @@ public class AnnotationConstants {
 	public static final String RIGHT_TO_LEFT = "rightToLeft";
 	public static final String ATTRIBUTE = "attribute";
 	public static final String LENGTH = "length";
+	public static final String WHEN = "when";
 	public static final Object SERVICE_INPUT = ServiceInput.class.getSimpleName();
 	public static final Object SERVICE_OUTPUT = ServiceOutput.class.getSimpleName();
 

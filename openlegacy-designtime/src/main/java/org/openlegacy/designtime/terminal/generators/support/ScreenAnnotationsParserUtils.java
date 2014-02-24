@@ -172,15 +172,16 @@ public class ScreenAnnotationsParserUtils {
 				String additionalKeyValue = JavaParserUtil.getAnnotationValue(singleAction,
 						ScreenAnnotationConstants.ADDITIONAL_KEY);
 				
-				int row = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.ROW, 0);
-				int column = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.COLUMN, 0);
-				int length = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.LENGTH, 0);
+				int row = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.ROW, ScreenAnnotationConstants.ROW_DEFAULT_VALUE);
+				int column = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.COLUMN, ScreenAnnotationConstants.COLUMN_DEFAULT_VALUE);
+				int length = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.LENGTH, ScreenAnnotationConstants.LENGTH_DEFAULT_VALUE);
+				String when = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.WHEN);
 
 				AdditionalKey additionalKey = AdditionalKey.NONE;
 				if (additionalKeyValue != null) {
 					additionalKey = AdditionalKey.valueOf(additionalKeyValue.split("\\.")[1]);
 				}
-				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey, row, column, length);
+				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey, row, column, length, when);
 				action.setActionValue(actionValue == null ? "" : actionValue);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
 				actions.add(action);

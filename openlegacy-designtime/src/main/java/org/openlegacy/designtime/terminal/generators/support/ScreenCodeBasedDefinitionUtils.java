@@ -185,6 +185,7 @@ public class ScreenCodeBasedDefinitionUtils {
 			actionDefinition.setRow(action.getRow());
 			actionDefinition.setColumn(action.getColumn());
 			actionDefinition.setLength(action.getLength());
+			actionDefinition.setWhen(action.getWhen());
 			actionDefinitions.add(actionDefinition);
 		}
 
