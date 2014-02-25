@@ -51,7 +51,11 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 		for (Field field : fields) {
 			// don't count fields outside the snapshot
 			if (field.getStartX() > 0) {
-				fieldSepeators.add(new SimpleTerminalPosition(field.getStartY() + 1, field.getStartX()));
+				int x = field.getStartX();
+				if (isRightToLeft()) {
+					x = getSize().getColumns() - x + 1;
+				}
+				fieldSepeators.add(new SimpleTerminalPosition(field.getStartY() + 1, x));
 			}
 		}
 		return fieldSepeators;
