@@ -15,10 +15,12 @@ import org.openlegacy.designtime.generators.AbstractEntitySpaGenerator;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder;
+import org.openlegacy.terminal.layout.ScreenPageBuilder;
 
 import java.io.OutputStream;
 import java.text.MessageFormat;
+
+import javax.inject.Inject;
 
 /**
  * Generates all angular Single Page Application web related content
@@ -27,6 +29,9 @@ import java.text.MessageFormat;
  * 
  */
 public class ScreenEntitySpaGenerator extends AbstractEntitySpaGenerator implements ScreenEntityPageGenerator {
+
+	@Inject
+	private ScreenPageBuilder screenPageBuilder;
 
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)
 			throws GenerationException {
@@ -38,6 +43,6 @@ public class ScreenEntitySpaGenerator extends AbstractEntitySpaGenerator impleme
 
 	@Override
 	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
-		return new DefaultScreenPageBuilder().build((ScreenEntityDefinition)entityDefinition);
+		return screenPageBuilder.build((ScreenEntityDefinition)entityDefinition);
 	}
 }
