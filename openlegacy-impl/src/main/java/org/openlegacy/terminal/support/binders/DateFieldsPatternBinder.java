@@ -84,9 +84,6 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 				if (StringUtils.isBlank(value)) {
 					continue;
 				}
-				if (!dateField.isEditable()){
-					continue;
-				}
 				value = fieldFormatter.format(value);
 				if (!value.equals(fieldDefinition.getNullValue())) {
 					Date dateVal = dateFormater.parse(value);
@@ -142,6 +139,10 @@ public class DateFieldsPatternBinder implements ScreenEntityBinder, Serializable
 			}
 
 			TerminalField dateField = terminalSnapshot.getField(fieldDefinition.getPosition());
+
+			if (!dateField.isEditable()) {
+				continue;
+			}
 
 			SimpleDateFormat dateFormater = new SimpleDateFormat(pattern, new Locale(fieldTypeDefinition.getLocale()));
 
