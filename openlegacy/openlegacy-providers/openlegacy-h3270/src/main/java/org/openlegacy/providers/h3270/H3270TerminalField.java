@@ -61,7 +61,11 @@ public class H3270TerminalField extends AbstractTerminalField {
 	public TerminalPosition initPosition() {
 		TerminalPosition position;
 		if (lineOffset > 0) {
-			position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, 1);
+			if (rightToLeftScreen) {
+				position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, startColumn);
+			} else {
+				position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, 1);
+			}
 		} else {
 			position = new SimpleTerminalPosition(s3270Field.getStartY() + lineOffset + 1, startColumn);
 		}

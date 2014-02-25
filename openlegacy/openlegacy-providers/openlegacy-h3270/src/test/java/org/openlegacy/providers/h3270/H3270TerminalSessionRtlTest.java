@@ -5,7 +5,6 @@ import org.junit.runner.RunWith;
 import org.openlegacy.AbstractTest;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
-import org.openlegacy.terminal.actions.TerminalActions;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -16,8 +15,11 @@ public class H3270TerminalSessionRtlTest extends AbstractTest {
 	@Test
 	public void testH3270System() throws Exception {
 		TerminalSession terminalSession = newTerminalSession();
-		terminalSession.doAction(TerminalActions.ENTER());
 		TerminalSnapshot snapshot = terminalSession.getSnapshot();
+		System.out.println(snapshot);
+		terminalSession.flip();
+		snapshot = terminalSession.getSnapshot();
+		System.out.println(snapshot);
 	}
 
 }
