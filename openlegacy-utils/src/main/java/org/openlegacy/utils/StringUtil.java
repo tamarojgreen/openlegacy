@@ -251,7 +251,10 @@ public class StringUtil {
 		}
 		value = value.trim();
 		if (value.matches("\\d+")) {
-			return Integer.class;
+			if (value.length() < 10) {
+				return Integer.class;
+			}
+			return Long.class;
 		}
 		if (value.matches("\\d+\\.\\d+")) {
 			return Double.class;

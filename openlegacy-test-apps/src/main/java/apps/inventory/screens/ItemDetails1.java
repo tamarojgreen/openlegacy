@@ -32,7 +32,7 @@ public class ItemDetails1 {
 	private String supercedingItemFrom;
 
 	@ScreenField(row = 13, column = 33, editable = true)
-	private Integer itemWeight;
+	private Long itemWeight;
 
 	@ScreenDescriptionField(column = 37)
 	@ScreenField(row = 14, column = 33, editable = true)
@@ -41,6 +41,9 @@ public class ItemDetails1 {
 	@ScreenDescriptionField(column = 37)
 	@ScreenField(row = 15, column = 33, editable = true, sampleValue = "SG")
 	private String stockGroup;
+
+	@ScreenField(row = 17, column = 33, editable = true)
+	private Integer packagingMultipler;
 
 	@ScreenBooleanField(trueValue = "Y", falseValue = "N")
 	@ScreenField(row = 20, column = 33, editable = true)

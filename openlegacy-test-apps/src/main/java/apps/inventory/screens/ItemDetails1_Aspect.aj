@@ -35,6 +35,8 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 
 	
 
+	
+
     
 
     public Integer ItemDetails1.getItemNumber(){
@@ -74,11 +76,11 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
 
 
 
-    public Integer ItemDetails1.getItemWeight(){
+    public Long ItemDetails1.getItemWeight(){
     	return this.itemWeight;
     }
     
-    public void ItemDetails1.setItemWeight(Integer itemWeight){
+    public void ItemDetails1.setItemWeight(Long itemWeight){
     	this.itemWeight = itemWeight;
     }
 
@@ -108,6 +110,16 @@ privileged @SuppressWarnings("unused") aspect ItemDetails1_Aspect {
     public String  ItemDetails1.getStockGroupDescription(){
     	return this.stockGroupDescription;
     }
+
+
+    public Integer ItemDetails1.getPackagingMultipler(){
+    	return this.packagingMultipler;
+    }
+    
+    public void ItemDetails1.setPackagingMultipler(Integer packagingMultipler){
+    	this.packagingMultipler = packagingMultipler;
+    }
+
 
 
     public Boolean ItemDetails1.getPalletLabelRequired(){

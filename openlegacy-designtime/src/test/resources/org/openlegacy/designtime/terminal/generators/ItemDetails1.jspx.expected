@@ -32,7 +32,14 @@
 	 				<ol:field name="stockGroup" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:field name="outerUnitOfMeasure" />
+			<ol:pagePart>
+				<ol:row columns="1">
+	 				<ol:field name="packagingMultipler" />
+				</ol:row>
+				<ol:row columns="1">
+	 				<ol:field name="outerUnitOfMeasure" />
+				</ol:row>
+			</ol:pagePart>
 			<ol:field name="palletLabelRequired" />
 		
 	</ol:form>

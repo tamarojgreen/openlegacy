@@ -285,6 +285,9 @@ public class ScreenBinderLogic implements Serializable {
 					if (fieldMappingDefinition.getJavaType() == Integer.class && !terminalField.isEmpty()) {
 						terminalFieldValue = Integer.valueOf(fieldFormatter.format(terminalFieldValue)).toString();
 					}
+					if (fieldMappingDefinition.getJavaType() == Long.class && !terminalField.isEmpty()) {
+						terminalFieldValue = Long.valueOf(fieldFormatter.format(terminalFieldValue)).toString();
+					}
 					boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalFieldValue, value);
 					if (fieldModified) {
 						if (fieldMappingDefinition.isEditable()) {

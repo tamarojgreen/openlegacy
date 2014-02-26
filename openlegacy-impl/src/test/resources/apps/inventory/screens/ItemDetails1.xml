@@ -54,7 +54,7 @@
     </row>
     <row rowNumber="13">
         <field column="2" value="Item weight . . . . . . . . ."/>
-        <field column="33" length="15" editable="true" type="java.lang.Integer"/>
+        <field column="33" length="15" editable="true" type="java.lang.Long" value="1234567890" />
         <field column="49" value="                                "/>
     </row>
     <row rowNumber="14">
@@ -76,7 +76,7 @@
     </row>
     <row rowNumber="17">
         <field column="2" value="Packing Multiplier  . . . . ."/>
-        <field column="33" length="6" editable="true" type="java.lang.Integer"/>
+        <field column="33" length="6" editable="true" type="java.lang.Integer" value="456789"/>
         <field column="40" value="                                         "/>
     </row>
     <row rowNumber="18">
