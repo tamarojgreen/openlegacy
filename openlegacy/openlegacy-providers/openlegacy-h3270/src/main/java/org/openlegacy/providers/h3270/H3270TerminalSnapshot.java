@@ -152,4 +152,13 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 		return rightToLeft;
 	}
 
+	@Override
+	public String getLogicalText(TerminalPosition position, int length) {
+		String text = super.getText(position, length);
+		if (convertToLogical) {
+			text = BidiUtil.convertToLogical(text, false);
+		}
+		return text;
+	}
+
 }

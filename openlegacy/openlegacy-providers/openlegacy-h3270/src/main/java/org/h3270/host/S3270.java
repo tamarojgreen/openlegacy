@@ -74,6 +74,8 @@ public class S3270 implements Terminal {
 	 */
 	private ErrorReader errorReader = null;
 
+	private int maxWait = 5000;
+
 	/**
 	 * Constructs a new S3270 object. The s3270 subprocess (which does the communication with the host) is immediately started and
 	 * connected to the target host. If this fails, the constructor will throw an appropriate exception.
@@ -296,13 +298,16 @@ public class S3270 implements Terminal {
 	 * waits for a formatted screen
 	 */
 	private void waitFormat() {
-		for (int i = 0; i < 50; i++) {
+		int totalWait = 0;
+		// rm 26022014 - change wait to be configurable 
+		while(totalWait <= maxWait){
 			Result r = doCommand("");
 			if (r.status.startsWith("U F")) {
 				return;
 			}
 			try {
 				Thread.sleep(100);
+				totalWait += 100;
 			} catch (InterruptedException ex) {
 			}
 		}
@@ -526,5 +531,9 @@ public class S3270 implements Terminal {
 
 	public void setCursor(int row, int column) {
 		doCommand("movecursor (" + row + ", " + column + ")");
+	}
+	
+	public void setMaxWait(int maxWait) {
+		this.maxWait = maxWait;
 	}
 }
