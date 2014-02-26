@@ -123,4 +123,14 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 		return maxtField + 1;
 	}
 
+	public boolean isContainer() {
+		// Only simple structure can have container
+		return false;
+	}
+
+	public boolean isVirtual() {
+		// only simple structure can be virtual
+		return false;
+	}
+
 }

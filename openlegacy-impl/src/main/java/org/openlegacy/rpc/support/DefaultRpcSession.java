@@ -24,7 +24,7 @@ import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcEntityBinder;
-import org.openlegacy.rpc.RpcField;
+import org.openlegacy.rpc.RpcFieldConverter;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSession;
@@ -39,7 +39,6 @@ import org.springframework.util.Assert;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -55,6 +54,9 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	@Inject
 	private List<RpcEntityBinder> rpcEntityBinders;
+
+	@Inject
+	private List<RpcFieldConverter> rpcFieldConverters;
 
 	public Object getDelegate() {
 		return rpcConnection;
@@ -123,10 +125,12 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
 		rpcAction.setRpcPath(actionDefinition.getProgramPath());
 		populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
+		converToLegacyFields(rpcAction);
 		RpcResult rpcResult = invoke(rpcAction);
 		if (actionDefinition.getTargetEntity() != null) {
 			return (RpcEntity)getEntity(actionDefinition.getTargetEntity());
 		} else {
+			converToApiFields(rpcAction);
 			populateEntity(rpcEntity, rpcDefinition, rpcResult);
 		}
 		return rpcEntity;
@@ -150,19 +154,33 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		}
 	}
 
+	private void converToLegacyFields(RpcInvokeAction rpcAction) {
+
+		for (RpcFieldConverter fpcFieldConverter : rpcFieldConverters) {
+			fpcFieldConverter.toLegacy(rpcAction.getFields());
+		}
+
+		Collections.sort(rpcAction.getFields(), new RpcOrderFieldComparator());
+
+	}
+
+	private void converToApiFields(RpcInvokeAction rpcAction) {
+
+		for (RpcFieldConverter fpcFieldConverter : rpcFieldConverters) {
+			fpcFieldConverter.toApi(rpcAction.getFields());
+		}
+
+	}
+
 	private void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition, RpcInvokeAction rpcAction) {
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateAction(rpcAction, rpcEntity);
 		}
-		Collections.sort(rpcAction.getFields(), new Comparator<RpcField>() {
 
-			public int compare(RpcField field1, RpcField field2) {
-				return field1.getOrder() - field2.getOrder();
-			}
-		});
 	}
 
 	private void populateEntity(RpcEntity rpcEntity, RpcEntityDefinition rpcDefinition, RpcResult rpcResult) {
+
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateEntity(rpcEntity, rpcResult);
 		}
@@ -171,5 +189,5 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	public void login(String user, String password) {
 		rpcConnection.login(user, password);
 	}
-	
+
 }

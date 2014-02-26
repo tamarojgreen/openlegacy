@@ -67,7 +67,7 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 		rpcPartEntityDefinition.setOriginalName(name);
 		rpcPartEntityDefinition.setPartName(name);
 		rpcPartEntityDefinition.setDisplayName(StringUtil.toDisplayName(name));
-		rpcPartEntityDefinition.getCount(count);
+		rpcPartEntityDefinition.setCount(count);
 
 		rpcPartEntityDefinition.setOrder(order);
 		Map<String, RpcFieldDefinition> rpcFieldsMap = rpcPartEntityDefinition.getFieldsDefinitions();

@@ -20,9 +20,9 @@ public abstract class AbstractRpcStructure {
 	// @XmlAttribute
 	private String name = null;
 
-	public String getName() {
-		return name;
-	}
+	private String virtualGroup = "";
+
+	private String legacyContainerName;
 
 	public void setName(String name) {
 		this.name = name;
@@ -34,6 +34,26 @@ public abstract class AbstractRpcStructure {
 
 	public void setOrder(int order) {
 		this.order = order;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getLegacyContainerName() {
+		return legacyContainerName;
+	}
+
+	public void setLegacyContainerName(String legacyContainerName) {
+		this.legacyContainerName = legacyContainerName;
+	}
+
+	public String getVirtualGroup() {
+		return virtualGroup;
+	}
+
+	public void setVirtualGroup(String virtualGroup) {
+		this.virtualGroup = virtualGroup;
 	}
 
 	public Object getDelegate() {

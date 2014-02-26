@@ -18,7 +18,9 @@ import org.openlegacy.rpc.RpcStructureField;
 import org.openlegacy.rpc.RpcStructureNotMappedException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -43,6 +45,12 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 
 	@XmlAttribute
 	private Direction direction;
+
+	private boolean isContainer;
+
+	private boolean virtual;
+
+	private Map<Integer, Integer> orderCorelator;
 
 	public Direction getDirection() {
 		if (direction != null) {
@@ -116,6 +124,14 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 		return SimpleRpcStructureField.class;
 	}
 
+	public boolean isContainer() {
+		return isContainer;
+	}
+
+	public void setIsContainer(Boolean isContainer) {
+		this.isContainer = isContainer;
+	}
+
 	public int depth(int now, int maxDef) throws RpcStructureNotMappedException {
 
 		if (now >= maxDef) {
@@ -126,5 +142,28 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 			maxtField = Math.max(maxtField, rpcField.depth(now + 1, maxDef));
 		}
 		return maxtField + 1;
+	}
+
+	public boolean isVirtual() {
+		return virtual;
+	}
+
+	public void setVirtual(boolean virtual) {
+		this.virtual = virtual;
+
+	}
+
+	public int getFieldRelativeOrder(int order) {
+		if (virtual == false) {
+			return order;
+		}
+
+		if (orderCorelator == null) {
+			orderCorelator = new HashMap<Integer, Integer>();
+			for (int i = 0; i < children.size(); i++) {
+				orderCorelator.put(children.get(i).getOrder(), i);
+			}
+		}
+		return orderCorelator.get(order);
 	}
 }

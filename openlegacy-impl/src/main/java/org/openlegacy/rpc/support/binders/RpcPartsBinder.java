@@ -22,6 +22,7 @@ import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
+import org.openlegacy.rpc.support.AbstractRpcStructure;
 import org.openlegacy.rpc.support.RpcOrderFieldComparator;
 import org.openlegacy.rpc.support.SimpleRpcStructureField;
 import org.openlegacy.rpc.support.SimpleRpcStructureListField;
@@ -69,7 +70,8 @@ public class RpcPartsBinder implements RpcEntityBinder {
 			RpcStructureField structureField = (RpcStructureField)rpcFields.get(order);
 			List<RpcField> rpcInnerFields = structureField.getChildren();
 			for (RpcFieldDefinition fieldDefinition : fieldsDefinitions.values()) {
-				int inerOrder = fieldDefinition.getOrder();
+				int inerOrder = structureField.getFieldRelativeOrder(fieldDefinition.getOrder());
+
 				String name = StringUtil.removeNamespace(fieldDefinition.getName());
 				Object value = ((RpcFlatField)rpcInnerFields.get(inerOrder)).getValue();
 				partAccesor.setPropertyValue(name, value);
@@ -129,12 +131,11 @@ public class RpcPartsBinder implements RpcEntityBinder {
 
 	private static RpcField populateActionDeep(String fullName, RpcPartEntityDefinition rpcPartEntityDefinition,
 			SimpleRpcPojoFieldAccessor fieldAccesor) {
-		RpcField result;
+		AbstractRpcStructure result;
 		int count = rpcPartEntityDefinition.getCount();
 		if (count == 1) {
 			SimpleRpcStructureField rpcStructureField = new SimpleRpcStructureField();
-			rpcStructureField.setName(rpcPartEntityDefinition.getPartName());
-			rpcStructureField.setOrder(rpcPartEntityDefinition.getOrder());
+			rpcStructureField.setVirtual(rpcPartEntityDefinition.isVirtual());
 			Object curentObject = fieldAccesor.getPartFieldValue(fullName, rpcPartEntityDefinition.getPartName());
 			if (curentObject == null) {
 				curentObject = ReflectionUtil.newInstance(rpcPartEntityDefinition.getPartClass());
@@ -146,8 +147,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 			result = rpcStructureField;
 		} else {
 			SimpleRpcStructureListField rpcStructureListField = new SimpleRpcStructureListField();
-			rpcStructureListField.setName(rpcPartEntityDefinition.getPartName());
-			rpcStructureListField.setOrder(rpcPartEntityDefinition.getOrder());
+
 			result = rpcStructureListField;
 			Object currentObject = fieldAccesor.getPartFieldValue(fullName, rpcPartEntityDefinition.getPartName());
 			if (currentObject == null) {
@@ -168,7 +168,11 @@ public class RpcPartsBinder implements RpcEntityBinder {
 			}
 
 		}
-		return result;
+		result.setName(rpcPartEntityDefinition.getPartName());
+		result.setOrder(rpcPartEntityDefinition.getOrder());
+		result.setLegacyContainerName(rpcPartEntityDefinition.getLegacyContainer());
+
+		return (RpcField)result;
 	}
 
 	private static List<RpcField> populateFields(String fullName, RpcPartEntityDefinition rpcPartEntityDefinition,

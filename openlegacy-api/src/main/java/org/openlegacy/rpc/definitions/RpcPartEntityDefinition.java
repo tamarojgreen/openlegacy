@@ -18,16 +18,22 @@ import java.util.Map;
 
 public interface RpcPartEntityDefinition extends PartEntityDefinition<RpcFieldDefinition> {
 
-	public int getOrder();
+	int getOrder();
 
-	public int getCount();
+	int getCount();
 
-	public Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions();
+	Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions();
 
 	String getRuntimeName();
 
 	List<ActionDefinition> getActions();
 
 	List<RpcFieldDefinition> getKeys();
+
+	String getHelpText();
+
+	String getLegacyContainer();
+
+	boolean isVirtual();
 
 }
