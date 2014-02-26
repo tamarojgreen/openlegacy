@@ -170,6 +170,8 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 			fpcFieldConverter.toApi(rpcAction.getFields());
 		}
 
+		Collections.sort(rpcAction.getFields(), new RpcOrderFieldComparator());
+
 	}
 
 	private void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition, RpcInvokeAction rpcAction) {
