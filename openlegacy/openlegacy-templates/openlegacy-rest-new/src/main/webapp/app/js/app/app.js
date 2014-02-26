@@ -11,6 +11,14 @@
 		$routeProvider = $routeProvider.when( '/login', {templateUrl: 'views/login.html', controller: 'loginController'} );
 		$routeProvider = $routeProvider.when( '/logoff', {templateUrl: 'views/logoff.html', controller: 'logoffController'} );
 		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html'} );
+		$routeProvider = $routeProvider.when( '/TviotByTvia', {templateUrl: 'views/TviotByTvia.html', controller: 'TviotByTviaController'} );
+		$routeProvider = $routeProvider.when( '/TviotByPolisa', {templateUrl: 'views/TviotByPolisa.html', controller: 'TviotByPolisaController'} );
+		$routeProvider = $routeProvider.when( '/NetuneyTvia/:misparTvia', {templateUrl: 'views/NetuneyTvia.html', controller: 'NetuneyTviaController'} );
+
+	
+// auto generated register start - TviotParams
+				$routeProvider = $routeProvider.when( '/TviotParams', {templateUrl: 'views/TviotParams.html', controller: 'TviotParamsController'} );
+// auto generated register end - TviotParams
 /* Register controller place-holder start
 		<#if keys?size &gt; 0>
 $routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
@@ -31,7 +39,7 @@ function appOnLoad($cookies,$rootScope,$location,$olHttp){
 	
 	if ($cookies.loggedInUser != null){
 		$rootScope.loggedInUser = $cookies.loggedInUser;
-		//$location.path("/menu");
+		//$location.path("/TviotParams");
 	}
 //	$olHttp.get("menu",function(data){
 	//	$rootScope.menus = data.simpleMenuItem.menuItems;

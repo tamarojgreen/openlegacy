@@ -1,3 +1,9 @@
+body {
+	padding-top:50px;
+}
+
+
+
 .header {
 	margin-left: 80%;
 	margin-top: 10px;
@@ -8,5 +14,5 @@
 }
 
 .row {
-	margin-top: 10px;
+	margin-top: 20px;
 }
