@@ -47,11 +47,14 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 
 	private Boolean convertToLogical;
 
+	private int maxWait = 500;
+
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		try {
 			// TODO set device
 			S3270 s3270Session = new S3270(leaseLogicalUnit(), properties.getProperty("host.name") + ":"
 					+ properties.getProperty("host.port"), properties);
+			s3270Session.setMaxWait(maxWait);
 			return new H3270Connection(s3270Session, convertToLogical);
 		} catch (LogicalUnitException e) {
 			throw (new OpenLegacyProviderException(e));
@@ -165,5 +168,9 @@ public class H3270TerminalConnectionFactory implements TerminalConnectionFactory
 
 	public void setProperties(Properties properties) {
 		this.properties = properties;
+	}
+	
+	public void setMaxWait(int maxWait) {
+		this.maxWait = maxWait;
 	}
 }
