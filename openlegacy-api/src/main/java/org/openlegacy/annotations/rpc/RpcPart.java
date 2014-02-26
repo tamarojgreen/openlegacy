@@ -25,4 +25,10 @@ public @interface RpcPart {
 
 	String name() default AnnotationConstants.NULL;
 
+	String helpText() default AnnotationConstants.NULL;
+
+	String legacyContainerName() default AnnotationConstants.NULL;
+
+	boolean virtual() default false;
+
 }

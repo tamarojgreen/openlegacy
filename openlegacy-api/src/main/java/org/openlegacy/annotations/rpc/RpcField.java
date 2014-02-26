@@ -44,4 +44,6 @@ public @interface RpcField {
 	boolean editable() default true;
 
 	String defaultValue() default "";
+
+	int order() default AnnotationConstants.AUTOMATICALY;
 }

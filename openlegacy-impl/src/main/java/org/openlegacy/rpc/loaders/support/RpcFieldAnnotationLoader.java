@@ -54,8 +54,11 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		String fieldName = field.getName();
 		SimpleRpcFieldDefinition rpcFieldDefinition = new SimpleRpcFieldDefinition(fieldName, fieldAnnotation.fieldType());
 
-		rpcFieldDefinition.setOrder(fieldOrder);
-
+		if (fieldAnnotation.order() == AnnotationConstants.AUTOMATICALY) {
+			rpcFieldDefinition.setOrder(fieldOrder);
+		} else {
+			rpcFieldDefinition.setOrder(fieldAnnotation.order());
+		}
 		if (fieldAnnotation.displayName().equals(AnnotationConstants.NULL)) {
 			rpcFieldDefinition.setDisplayName(StringUtil.toDisplayName(fieldName));
 		} else {

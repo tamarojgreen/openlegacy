@@ -78,6 +78,8 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	@XmlAttribute
 	private String name = "";
 
+	private String virtualGroup = "";
+
 	@XmlTransient
 	private int order;
 
@@ -96,6 +98,33 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		}
 
 		return value;
+	}
+
+	public void setDefaultValue(String value, Class<?> type) {
+		this.type = type;
+		if (type == Integer.class) {
+			if (value.equals("")) {
+				this.value = new Integer(0);
+			} else {
+				this.value = Integer.parseInt(value);
+			}
+		} else if (type == Long.class) {
+			if (value.equals("")) {
+				this.value = new Long(0);
+			} else {
+				this.value = Long.parseLong(value);
+			}
+
+		} else if (type == Float.class) {
+			if (value.equals("")) {
+				this.value = new Float(0);
+			} else {
+				this.value = Float.parseFloat(value);
+			}
+		} else {
+			this.value = value;
+
+		}
 	}
 
 	public void setValue(Object value, boolean modified) {
@@ -270,6 +299,29 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public String getLegacyContainerName() {
+		// Only structure can have container
+		return null;
+	}
+
+	public boolean isContainer() {
+		// Only structure can have container
+		return false;
+	}
+
+	public boolean isVirtual() {
+		// only structure can be virtual
+		return false;
+	}
+
+	public String getVirtualGroup() {
+		return virtualGroup;
+	}
+
+	public void setVirtualGroup(String virtualGroup) {
+		this.virtualGroup = virtualGroup;
 	}
 
 }

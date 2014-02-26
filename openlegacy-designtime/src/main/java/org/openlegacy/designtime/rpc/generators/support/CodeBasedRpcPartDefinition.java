@@ -96,4 +96,19 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 	public void setKeys(List<RpcFieldDefinition> keys) {
 		this.keys = keys;
 	}
+
+	public String getLegacyContainer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getHelpText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isVirtual() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

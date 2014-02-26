@@ -76,7 +76,8 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 		if (value != null) {
 			rpcField.setValue(value);
 		} else {
-			rpcField.setValue(rpcFieldDefinition.getDefaultValue());
+			rpcField.setDefaultValue(rpcFieldDefinition.getDefaultValue(), rpcFieldDefinition.getJavaType());
+
 		}
 
 		rpcField.setName(rpcFieldDefinition.getOriginalName());

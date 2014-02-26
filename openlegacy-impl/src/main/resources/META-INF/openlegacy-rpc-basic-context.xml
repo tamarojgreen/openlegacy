@@ -65,6 +65,11 @@
 	<bean class="org.openlegacy.rpc.support.binders.RpcFieldsBinder" />
 	<bean class="org.openlegacy.rpc.support.binders.RpcPartsBinder" />
 
+	<!--RpcFieldConvertors  -->
+	<bean class="org.openlegacy.rpc.convector.LegacyContainerRpcFieldConvertor" />
+	<bean class="org.openlegacy.rpc.convector.VirtualRpcConvertor" />
+	
+	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-rpc-provider.xml" /> 
 

@@ -56,4 +56,15 @@ public interface RpcField extends Serializable, Cloneable, OrderedField {
 	int depth(int level, int maxDef) throws RpcStructureNotMappedException;
 
 	Class<?> getType();
+
+	String getLegacyContainerName();
+
+	boolean isContainer();
+
+	boolean isVirtual();
+
+	void setVirtualGroup(String virtaulGroup);
+
+	String getVirtualGroup();
+
 }

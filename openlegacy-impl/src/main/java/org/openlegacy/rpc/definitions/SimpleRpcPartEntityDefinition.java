@@ -30,6 +30,10 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private String originalName;
 	private int order;
 	private int count = 1;
+	private String legacyContainerName;
+
+	private String helpText;
+	private boolean isVirtual;
 
 	private String runtimeName;
 
@@ -61,8 +65,16 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		return count;
 	}
 
-	public void getCount(int count) {
+	public void setCount(int count) {
 		this.count = count;
+	}
+
+	public String getLegacyContainer() {
+		return legacyContainerName;
+	}
+
+	public void setLegacyContainerName(String legacyContainerName) {
+		this.legacyContainerName = legacyContainerName;
 	}
 
 	public Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions() {
@@ -109,4 +121,22 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		});
 		return result;
 	}
+
+	public String getHelpText() {
+		return helpText;
+	}
+
+	public void setHelpText(String helpText) {
+		this.helpText = helpText;
+	}
+
+	public boolean isVirtual() {
+		return isVirtual;
+	}
+
+	public void setVirtual(boolean isVirtual) {
+		this.isVirtual = isVirtual;
+
+	}
+
 }

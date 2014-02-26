@@ -7,6 +7,8 @@ import org.openlegacy.providers.jt400.mockup.DummyFlatEntity;
 import org.openlegacy.providers.jt400.mockup.DummyHierarchyStructEntity;
 import org.openlegacy.providers.jt400.mockup.DummyHierarchyStructEntity.InnerRecord;
 import org.openlegacy.providers.jt400.mockup.DummyHierarchyStructEntity.Top;
+import org.openlegacy.providers.jt400.mockup.DummyIntegersEntity;
+import org.openlegacy.providers.jt400.mockup.DummyIntegersEntity.Param;
 import org.openlegacy.providers.jt400.mockup.DummyStructEntity;
 import org.openlegacy.providers.jt400.mockup.DummyStructEntity.Record;
 import org.openlegacy.providers.jt400.mockup.ItemDetails;
@@ -115,6 +117,25 @@ public class Jt400RpcSessionTest {
 		itemDetails.setItemNumber(1000);
 		itemDetails = rpcSession.doAction(RpcActions.READ(), itemDetails);
 		Assert.assertEquals(new Integer(200), itemDetails.getItemWeight());
+
+	}
+
+	@Test
+	public void testNumberDefaultValue() {
+		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
+		DummyIntegersEntity entity = new DummyIntegersEntity();
+
+		Param p = new Param();
+
+		p.setGroup1child1(15);
+		p.setGroup1child2(25);
+		p.setGroup2child1(30);
+		entity.setParam(p);
+
+		DummyIntegersEntity result = rpcSession.doAction(RpcActions.READ(), entity);
+		Assert.assertEquals(new Integer(20), result.getParam().getChild2());
+		Assert.assertEquals(new Integer(40), result.getParam().getGroup1child3());
+		Assert.assertEquals(new Integer(30), result.getParam().getGroup2child2());
 
 	}
 

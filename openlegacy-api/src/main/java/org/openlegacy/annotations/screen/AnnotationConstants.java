@@ -17,4 +17,6 @@ public class AnnotationConstants {
 	 */
 	public static final String NULL = "$XX$";
 
+	public static final int AUTOMATICALY = -1;
+
 }

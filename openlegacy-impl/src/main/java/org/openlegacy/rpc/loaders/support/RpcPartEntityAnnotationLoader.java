@@ -39,15 +39,21 @@ public class RpcPartEntityAnnotationLoader extends AbstractClassAnnotationLoader
 		SimpleRpcPartEntityDefinition rpcPartEntityDefinition = new SimpleRpcPartEntityDefinition(containingClass);
 		String name = StringUtil.toJavaFieldName(containingClass.getSimpleName());
 		rpcPartEntityDefinition.setPartName(name);
-
+		if (!rpcPartAnnotation.legacyContainerName().equals(AnnotationConstants.NULL)) {
+			rpcPartEntityDefinition.setLegacyContainerName(rpcPartAnnotation.legacyContainerName());
+		}
+		if (!rpcPartAnnotation.helpText().equals(AnnotationConstants.NULL)) {
+			rpcPartEntityDefinition.setHelpText(rpcPartAnnotation.helpText());
+		}
 		String displayName = null;
 		if (rpcPartAnnotation.displayName().equals(AnnotationConstants.NULL)) {
 			displayName = StringUtil.toDisplayName(name);
 		} else if (rpcPartAnnotation.displayName().length() > 0) {
 			displayName = rpcPartAnnotation.displayName();
 		}
-	
+
 		rpcPartEntityDefinition.setDisplayName(displayName);
+		rpcPartEntityDefinition.setVirtual(rpcPartAnnotation.virtual());
 		rpcEntitiesRegistry.addPart(rpcPartEntityDefinition);
 	}
 }
