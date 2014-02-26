@@ -35,10 +35,6 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 	private String when;
 
 	private int sleep;
-	
-	private int row;
-	
-	private int column;
 
 	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
 			String displayName, TerminalPosition position) {
@@ -47,10 +43,11 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		this.additionalKey = additionalKey;
 	}
 
-	public SimpleTerminalActionDefinition(String actionName, String displayName) {
+	public SimpleTerminalActionDefinition(String actionName, String displayName, TerminalPosition position) {
 		super(actionName, displayName);
+		this.position = position;
 	}
-
+	
 	public TerminalPosition getPosition() {
 		return position;
 	}
@@ -104,18 +101,10 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 	}
 
 	public int getRow() {
-		return row;
+		return position.getRow();
 	}
 
 	public int getColumn() {
-		return column;
-	}
-
-	public void setRow(int row) {
-		this.row = row;
-	}
-
-	public void setColumn(int column) {
-		this.column = column;
+		return position.getColumn();
 	}
 }

@@ -177,13 +177,11 @@ public class ScreenCodeBasedDefinitionUtils {
 		for (Action action : actions) {
 			String actionName = StringUtil.toClassName(action.getActionName());
 			SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionName,
-					action.getDisplayName());
+					action.getDisplayName(), new SimpleTerminalPosition(action.getRow(), action.getColumn()));
 			if (action.getAlias() != null) {
 				actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 			}
 			actionDefinition.setAdditionalKey(action.getAdditionalKey());
-			actionDefinition.setRow(action.getRow());
-			actionDefinition.setColumn(action.getColumn());
 			actionDefinition.setLength(action.getLength());
 			actionDefinition.setWhen(action.getWhen());
 			actionDefinitions.add(actionDefinition);
