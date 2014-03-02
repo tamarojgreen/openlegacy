@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.mains;
 
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
 import org.openlegacy.designtime.rpc.ImportSourceRequest;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
@@ -71,4 +72,10 @@ public interface DesignTimeExecuter {
 	public void importSourceFile(ImportSourceRequest importSourceRequest) throws OpenLegacyException;
 
 	public boolean isSupportControllerGeneration(File entityFile);
+
+	public boolean isSupportServiceGeneration(File projectPath);
+
+	public void generateService(GenerateServiceRequest generateServiceRequest);
+
+	public EntityDefinition<?> initEntityDefinition(File sourceFile);
 }

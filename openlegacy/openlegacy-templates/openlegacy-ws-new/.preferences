@@ -1,0 +1,6 @@
+#
+#Sun Sep 08 22:30:13 IDT 2013
+DESIGNTIME_CONTEXT=default
+USE_AJ=1
+API_SOURCE_FOLDER=src/main/java
+API_PACKAGE=com.shumera.openlegacy

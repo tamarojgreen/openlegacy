@@ -122,6 +122,8 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 		new Label(parent, SWT.NONE);
 
+		loadPrefrences();
+
 		Button useAjButton = new Button(parent, SWT.CHECK);
 		useAjButton.setText(Messages.getString("label_use_aj"));
 
@@ -137,16 +139,17 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 			}
 
 			public void widgetSelected(SelectionEvent arg0) {
-
 				setUseAj(!isUseAj());
-				// TODO Auto-generated method stub
-
 			}
 		});
+		useAjButton.setSelection(isUseAj() && isSupportAjGeneration());
+		useAjButton.setEnabled(isSupportAjGeneration());
 
 		Button generateTest = new Button(parent, SWT.CHECK);
-		generateTest.setSelection(true);
+		generateTest.setSelection(isSupportTestGeneration());
 		generateTest.setText(Messages.getString("label_generate_test"));
+
+		generateTest.setEnabled(isSupportTestGeneration());
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.widthHint = 400;
@@ -164,9 +167,15 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		});
 
 		createDialogSpecific(parent);
-		loadPrefrences();
-		useAjButton.setSelection(isUseAj());
 		return parent;
+	}
+
+	protected boolean isSupportTestGeneration() {
+		return true;
+	}
+
+	protected boolean isSupportAjGeneration() {
+		return true;
 	}
 
 	protected void createDialogSpecific(Composite parent) {

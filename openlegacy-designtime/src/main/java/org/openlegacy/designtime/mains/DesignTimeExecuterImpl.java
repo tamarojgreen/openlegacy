@@ -25,7 +25,9 @@ import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.generators.EntityPageGenerator;
+import org.openlegacy.designtime.generators.EntityServiceGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
+import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
@@ -42,6 +44,7 @@ import org.openlegacy.designtime.rpc.source.parsers.ParseResults;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
 import org.openlegacy.designtime.terminal.analyzer.TerminalSnapshotsAnalyzer;
 import org.openlegacy.designtime.terminal.generators.ScreenEntityPageGenerator;
+import org.openlegacy.designtime.terminal.generators.ScreenEntityServiceGenerator;
 import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.designtime.terminal.generators.TrailJunitGenerator;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
@@ -786,8 +789,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	 */
 	public void generateView(GenerateViewRequest generateViewRequest) throws GenerationException {
 
-		EntityDefinition<?> entityDefinition = initEntityDefinition(generateViewRequest,
-				generateViewRequest.getEntitySourceFile());
+		EntityDefinition<?> entityDefinition = initEntityDefinition(generateViewRequest.getEntitySourceFile());
 
 		File projectPath = getProjectPath(generateViewRequest.getEntitySourceFile());
 		EntityPageGenerator entityWebGenerator = null;
@@ -806,8 +808,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	 */
 	public void generateController(GenerateControllerRequest generateControllerRequest) throws GenerationException {
 
-		EntityDefinition<?> entityDefinition = initEntityDefinition(generateControllerRequest,
-				generateControllerRequest.getEntitySourceFile());
+		EntityDefinition<?> entityDefinition = initEntityDefinition(generateControllerRequest.getEntitySourceFile());
 
 		File projectPath = getProjectPath(generateControllerRequest.getSourceDirectory());
 		EntityPageGenerator entityPageGenerator = null;
@@ -828,14 +829,36 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return getOrCreateApplicationContext(getProjectPath(entityFile)).getBean(ScreenEntityPageGenerator.class).isSupportControllerGeneration();
 	}
 
-	private static EntityDefinition<?> initEntityDefinition(AbstractGenerateRequest generatePageRequest, File sourceFile) {
+	public boolean isSupportServiceGeneration(File projectPath) {
+		return getOrCreateApplicationContext(projectPath).getBean(ScreenEntityServiceGenerator.class).isSupportServiceGeneration(
+				projectPath);
+	}
+
+	public void generateService(GenerateServiceRequest generateServiceRequest) {
+		File projectPath = generateServiceRequest.getProjectPath();
+		EntityServiceGenerator entityServiceGenerator = null;
+		if (generateServiceRequest.getServiceType() == ServiceType.SCREEN) {
+			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityServiceGenerator.class);
+		} else {
+			// TODO generated RPC service
+			// entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityServiceGenerator.class);
+		}
+
+		if (entityServiceGenerator.isSupportServiceGeneration(generateServiceRequest.getProjectPath())) {
+			entityServiceGenerator.generateService(generateServiceRequest);
+		} else {
+			logger.warn(MessageFormat.format("{0} doesnt support controller generation", entityServiceGenerator.getClass()));
+		}
+
+	}
+
+	public EntityDefinition<?> initEntityDefinition(File sourceFile) {
 		EntityDefinition<?> entityDefinition = null;
 		try {
 			FileInputStream fis = new FileInputStream(sourceFile);
 			String fileContent = IOUtils.toString(fis);
 			CompilationUnit compilationUnit = JavaParser.parse(sourceFile, CharEncoding.UTF_8);
-			File packageDir = new File(generatePageRequest.getSourceDirectory(),
-					compilationUnit.getPackage().getName().toString().replaceAll("\\.", "/"));
+			File packageDir = new File(sourceFile.getParent());
 			if (fileContent.contains(ScreenEntity.class.getSimpleName())) {
 				entityDefinition = ScreenCodeBasedDefinitionUtils.getEntityDefinition(compilationUnit, packageDir);
 			} else {

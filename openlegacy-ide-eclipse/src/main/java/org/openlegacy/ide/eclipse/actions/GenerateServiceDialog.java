@@ -37,13 +37,15 @@ import org.openlegacy.ide.eclipse.util.JavaUtils;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
+public class GenerateServiceDialog extends AbstractGenerateCodeDialog {
 
-	private final static Logger logger = Logger.getLogger(GenerateControllerDialog.class);
+	private final static Logger logger = Logger.getLogger(GenerateServiceDialog.class);
 	private ISelection selection;
 
-	protected GenerateControllerDialog(Shell shell, ISelection selection) {
+	protected GenerateServiceDialog(Shell shell, ISelection selection) {
 		super(shell, (IFile)((ICompilationUnit)((TreeSelection)selection).getFirstElement()).getResource());
 		this.selection = selection;
 	}
@@ -51,7 +53,7 @@ public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 	@Override
 	protected void executeGenerate() {
 
-		Job job = new Job(Messages.getString("job_generating_controller")) {
+		Job job = new Job(Messages.getString("job_generating_service")) {
 
 			@Override
 			protected IStatus run(final IProgressMonitor monitor) {
@@ -60,13 +62,11 @@ public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 
 				monitor.beginTask(Messages.getString("task_generating"), pathElements.length + 1);
 
+				List<IFile> javaFiles = new ArrayList<IFile>();
 				for (TreePath treePath : pathElements) {
 					if (treePath.getLastSegment() instanceof ICompilationUnit) {
 						final IFile screenEntitySourceFile = (IFile)((ICompilationUnit)treePath.getLastSegment()).getResource();
-
-						EclipseDesignTimeExecuter.instance().generateController(screenEntitySourceFile, getSourceFolder(),
-								getPackageValue(), GenerateControllerDialog.this);
-
+						javaFiles.add(screenEntitySourceFile);
 						monitor.worked(1);
 
 					} else {
@@ -74,6 +74,11 @@ public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 								treePath.getLastSegment()));
 					}
 				}
+				if (javaFiles.size() == 0) {
+					return Status.CANCEL_STATUS;
+				}
+				EclipseDesignTimeExecuter.instance().generateServiceFromEntity(javaFiles.get(0), getSourceFolder(),
+						getPackageValue(), GenerateServiceDialog.this, isGenerateTest());
 
 				Display.getDefault().syncExec(new Runnable() {
 
@@ -120,10 +125,11 @@ public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(project);
 		setSourceFolder(javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath));
 
-		String prefrencePackage = designtimeExecuter.getPreference(project, PreferencesConstants.WEB_PACKAGE);
-		if (prefrencePackage != null) {
-			getPackageText().setText(prefrencePackage);
+		String prefrencePackage = designtimeExecuter.getPreference(project, PreferencesConstants.SERVICE_PACKAGE);
+		if (prefrencePackage == null) {
+			prefrencePackage = designtimeExecuter.getPreference(project, PreferencesConstants.API_PACKAGE) + ".services";
 		}
+		getPackageText().setText(prefrencePackage);
 	}
 
 	@Override
@@ -134,11 +140,11 @@ public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 		EclipseDesignTimeExecuter designtimeExecuter = EclipseDesignTimeExecuter.instance();
 
 		designtimeExecuter.savePreference(getProject(), PreferencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
-		designtimeExecuter.savePreference(getProject(), PreferencesConstants.WEB_PACKAGE, getPackageText().getText());
+		designtimeExecuter.savePreference(getProject(), PreferencesConstants.SERVICE_PACKAGE, getPackageText().getText());
 	}
 
 	@Override
-	protected boolean isSupportTestGeneration() {
+	protected boolean isSupportAjGeneration() {
 		return false;
 	}
 }

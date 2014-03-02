@@ -30,8 +30,11 @@ import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
 import org.openlegacy.designtime.mains.GenerateControllerRequest;
+import org.openlegacy.designtime.mains.GenerateServiceRequest;
+import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.designtime.mains.ProjectCreationRequest;
+import org.openlegacy.designtime.mains.ServiceEntityParameter;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
 import org.openlegacy.designtime.rpc.ImportSourceRequest;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
@@ -42,6 +45,7 @@ import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -179,14 +183,14 @@ public class EclipseDesignTimeExecuter {
 
 		File projectPath = new File(PathsUtil.toOsLocation(entitySourceFile.getProject()), DesignTimeExecuterImpl.TEMPLATES_DIR);
 
-		GenerateControllerRequest generatePageRequest = new GenerateControllerRequest();
-		generatePageRequest.setProjectPath(PathsUtil.toOsLocation(entitySourceFile.getProject()));
-		generatePageRequest.setEntitySourceFile(PathsUtil.toOsLocation(entitySourceFile));
-		generatePageRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
-		generatePageRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
-		generatePageRequest.setTemplatesDirectory(projectPath);
-		generatePageRequest.setUserInteraction(userInteraction);
-		designTimeExecuter.generateController(generatePageRequest);
+		GenerateControllerRequest generateControllerRequest = new GenerateControllerRequest();
+		generateControllerRequest.setProjectPath(PathsUtil.toOsLocation(entitySourceFile.getProject()));
+		generateControllerRequest.setEntitySourceFile(PathsUtil.toOsLocation(entitySourceFile));
+		generateControllerRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
+		generateControllerRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		generateControllerRequest.setTemplatesDirectory(projectPath);
+		generateControllerRequest.setUserInteraction(userInteraction);
+		designTimeExecuter.generateController(generateControllerRequest);
 
 	}
 
@@ -276,6 +280,31 @@ public class EclipseDesignTimeExecuter {
 			}
 		});
 		return importSourceRequest.getNewFileName();
+
+	}
+
+	public boolean isSupportServiceGeneration(IProject project) {
+		return designTimeExecuter.isSupportServiceGeneration(PathsUtil.toOsLocation(project));
+	}
+
+	public void generateServiceFromEntity(IFile entityJavaFile, IPackageFragmentRoot sourceDirectory, String packageDir,
+			UserInteraction userInteraction, boolean generateTest) {
+		IProject project = entityJavaFile.getProject();
+		File projectPath = new File(PathsUtil.toOsLocation(project), DesignTimeExecuterImpl.TEMPLATES_DIR);
+
+		GenerateServiceRequest generateServiceRequest = new GenerateServiceRequest();
+		EntityDefinition<?> entityDefinition = designTimeExecuter.initEntityDefinition(PathsUtil.toOsLocation(entityJavaFile));
+		generateServiceRequest.setServiceType(entityDefinition instanceof ScreenEntityDefinition ? ServiceType.SCREEN
+				: ServiceType.RPC);
+		generateServiceRequest.getOutputParameters().add(new ServiceEntityParameter(entityDefinition));
+		generateServiceRequest.setProjectPath(PathsUtil.toOsLocation(project));
+		generateServiceRequest.setServiceName(FileUtils.fileWithoutExtension(entityJavaFile.getName()));
+		generateServiceRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
+		generateServiceRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		generateServiceRequest.setTemplatesDirectory(projectPath);
+		generateServiceRequest.setUserInteraction(userInteraction);
+		generateServiceRequest.setGenerateTest(generateTest);
+		designTimeExecuter.generateService(generateServiceRequest);
 
 	}
 }

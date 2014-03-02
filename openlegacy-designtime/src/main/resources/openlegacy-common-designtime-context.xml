@@ -78,8 +78,10 @@
 		<bean id="rpcPageGenerator" class="org.openlegacy.designtime.rpc.generators.RpcEntitySpaGenerator" />
 	 -->
 	 
-	<!-- RPC beans -->
+	<!-- Service Generator -->
+	<bean id="serviceServiceGenerator" class="org.openlegacy.designtime.terminal.generators.ScreenEntityWsGenerator" />
 	
+	<!-- RPC beans -->
 	<bean id="codeParserFactory" class="org.openlegacy.designtime.rpc.source.SimpleCodeParserFactory">
 	    <property name="parsers">
 	        <map>

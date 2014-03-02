@@ -31,4 +31,8 @@ public class GenerateRpcModelDialog extends AbstractGenerateModelDialog {
 		return true;
 	}
 
+	@Override
+	protected boolean isSupportTestGeneration() {
+		return false;
+	}
 }

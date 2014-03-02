@@ -94,6 +94,24 @@
          </action>
       </objectContribution>
       <objectContribution
+            objectClass="org.eclipse.jdt.core.ICompilationUnit"
+            id="org.openlegacy.ide.eclipse.generate_service">
+         <menu
+               label="%openlegacy"
+               path="additions"
+               id="org.openlegacy.ide.eclipse.right_menu">
+            <separator
+                  name="generate">
+            </separator>
+         </menu>
+         <action
+               label="%generate_service"
+               class="org.openlegacy.ide.eclipse.actions.GenerateServiceAction"
+               menubarPath="org.openlegacy.ide.eclipse.right_menu/generate"
+               id="org.openlegacy.ide.eclipse.actions.generateService">
+         </action>
+      </objectContribution>
+      <objectContribution
             objectClass="org.eclipse.core.resources.IFile"
             nameFilter="*.cbl" 
             id="org.openlegacy.ide.eclipse.generate_cobol_contribution">

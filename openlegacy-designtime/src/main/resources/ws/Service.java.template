@@ -1,0 +1,56 @@
+package ${package};
+
+import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.modules.login.LoginException;
+
+import javax.jws.WebMethod;
+import javax.jws.WebResult;
+import javax.jws.WebService;
+
+<#list inputParameters as parameter>
+<#if parameter.entityDefinition??>
+import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName}; 
+</#if>
+</#list>
+<#list outputParameters as parameter>
+<#if parameter.entityDefinition??>
+import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName}; 
+</#if>
+</#list>
+
+@WebService
+public interface ${serviceName}Service {
+
+	@WebMethod(operationName = "get${serviceName}")
+	@WebResult(name = "${serviceName}Output")
+	public ${serviceName}Out get${serviceName}(<#if inputParameters?size != 0>${serviceName}In ${serviceName?uncap_first}In</#if>) throws RegistryException, LoginException;
+
+	<#if inputParameters?size != 0>
+	public static class ${serviceName}In{
+		<#list inputParameters as parameter>
+			<#if parameter.entityDefinition??>
+				${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first}; 
+			</#if>
+		</#list>
+	}
+	</#if>
+	public static class ${serviceName}Out{
+		<#list outputParameters as parameter>
+		<#if parameter.entityDefinition??>
+		${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first}; 
+		</#if>
+		</#list>
+
+		<#list outputParameters as parameter>
+		<#if parameter.entityDefinition??>
+		public ${parameter.entityDefinition.entityName} get${parameter.entityDefinition.entityName}(){
+			return ${parameter.entityDefinition.entityName?uncap_first};
+		} 
+		public void set${parameter.entityDefinition.entityName}(${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first}){
+			this.${parameter.entityDefinition.entityName?uncap_first} = ${parameter.entityDefinition.entityName?uncap_first};
+		} 
+		</#if>
+		</#list>
+	}
+
+}

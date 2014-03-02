@@ -32,6 +32,10 @@ public abstract class AbstractGenerateRequest {
 		return packageDirectory;
 	}
 
+	public String getPackage() {
+		return packageDirectory.replaceAll("/", ".");
+	}
+
 	public void setPackageDirectory(String packageDirectory) {
 		this.packageDirectory = packageDirectory;
 	}

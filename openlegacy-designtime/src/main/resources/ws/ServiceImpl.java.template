@@ -1,0 +1,47 @@
+package ${package};
+
+import org.openlegacy.exceptions.RegistryException;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.LoginException;
+import org.openlegacy.terminal.TerminalSession;
+
+import javax.inject.Inject;
+import javax.jws.WebService;
+
+<#list inputParameters as parameter>
+<#if parameter.entityDefinition??>
+import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName}; 
+</#if>
+</#list>
+<#list outputParameters as parameter>
+<#if parameter.entityDefinition??>
+import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName}; 
+</#if>
+</#list>
+
+@WebService(endpointInterface = "${package}.${serviceName}Service")
+public class ${serviceName}ServiceImpl implements ${serviceName}Service {
+
+	@Inject
+	private TerminalSession terminalSession;
+
+	@Override
+	public ${serviceName}Out get${serviceName}(<#if inputParameters?size != 0>${serviceName}In ${serviceName?uncap_first}In</#if>) throws RegistryException, LoginException {
+		
+		try{
+			terminalSession.getModule(Login.class).login("USER","PASSWORD");
+			${serviceName}Out ${serviceName?uncap_first}Out = new ${serviceName}Out(); 
+			<#list outputParameters as parameter>
+				<#if parameter.entityDefinition??>
+			${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${parameter.entityDefinition.entityName}.class);
+			${serviceName?uncap_first}Out.set${parameter.entityDefinition.entityName}(${parameter.entityDefinition.entityName?uncap_first});
+				</#if>
+			</#list>
+			return ${serviceName?uncap_first}Out;
+		}
+		finally{
+			terminalSession.disconnect();
+		}
+	}
+
+}
