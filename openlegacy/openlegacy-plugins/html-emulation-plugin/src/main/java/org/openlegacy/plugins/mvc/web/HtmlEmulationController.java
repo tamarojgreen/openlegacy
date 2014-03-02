@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Handles requests for the application home page.
@@ -34,6 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller("htmlEmulationController")
 @RequestMapping(value = "/emulation")
 public class HtmlEmulationController {
+
+	private static final String EMULATION_ONLY = "ol_emulationOnly";
 
 	@Inject
 	private TerminalSession terminalSession;
@@ -50,7 +53,10 @@ public class HtmlEmulationController {
 	@Inject
 	private LoginMetadata loginMetadata;
 
-	boolean emulationOnly = false;
+	@Inject
+	private HttpSession httpSession;
+
+	private boolean emulationOnly;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String show(Model uiModel, HttpServletRequest request, @RequestParam(value = "flip", required = false) Object flip,
@@ -70,11 +76,10 @@ public class HtmlEmulationController {
 
 		if (stick != null) {
 			if (stick.equals("false")) {
-				emulationOnly = false;
+				request.getSession().setAttribute(EMULATION_ONLY, Boolean.FALSE);
 			} else {
-				emulationOnly = true;
+				request.getSession().setAttribute(EMULATION_ONLY, Boolean.TRUE);
 			}
-
 		}
 		String result = snapshotHtmlRenderer.render(terminalSession.getSnapshot());
 		uiModel.addAttribute("terminalHtml", result);
@@ -86,7 +91,7 @@ public class HtmlEmulationController {
 
 		TerminalSendAction terminalSendAction = terminalSendActionBuilder.buildSendAction(terminalSession.getSnapshot(), request);
 		terminalSession.doAction(terminalSendAction);
-		if (!emulationOnly) {
+		if (!isEmulationOnly() && !emulationOnly) {
 			ScreenEntity currentEntity = terminalSession.getEntity();
 			if (currentEntity != null) {
 				ScreenEntityDefinition loginScreenDefinition = loginMetadata.getLoginScreenDefinition();
@@ -102,6 +107,10 @@ public class HtmlEmulationController {
 			}
 		}
 		return show(uiModel, request, null, null, null);
+	}
+
+	private boolean isEmulationOnly() {
+		return httpSession.getAttribute(EMULATION_ONLY) != null && httpSession.getAttribute(EMULATION_ONLY) == Boolean.TRUE;
 	}
 
 	/**
