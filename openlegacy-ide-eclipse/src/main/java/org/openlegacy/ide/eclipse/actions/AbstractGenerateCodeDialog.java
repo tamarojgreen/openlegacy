@@ -170,6 +170,10 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		return parent;
 	}
 
+	protected boolean isPackageMandatory() {
+		return true;
+	}
+
 	protected boolean isSupportTestGeneration() {
 		return true;
 	}
@@ -273,7 +277,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 	private boolean validate() {
 
-		if (getPackageText().getText().length() == 0) {
+		if (getPackageText().getText().length() == 0 && isPackageMandatory()) {
 			MessageDialog.openError(getShell(), PluginConstants.TITLE, Messages.getString("error_package_cannot_be_empty"));
 			return false;
 		}

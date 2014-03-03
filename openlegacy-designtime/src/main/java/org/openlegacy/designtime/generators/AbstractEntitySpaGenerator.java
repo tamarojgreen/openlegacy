@@ -68,13 +68,6 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 			// generate web view
 			generateView(generateViewRequest, pageDefinition, SpaGenerateUtil.VIEWS_DIR, userInteraction, false);
 
-			GenerateControllerRequest generateControllerRequest = new GenerateControllerRequest();
-			generateControllerRequest.setProjectPath(generateViewRequest.getProjectPath());
-			generateControllerRequest.setEntitySourceFile(generateViewRequest.getEntitySourceFile());
-			generateControllerRequest.setSourceDirectory(generateControllerRequest.getSourceDirectory());
-			generateControllerRequest.setTemplatesDirectory(generateControllerRequest.getTemplatesDirectory());
-			generateControllerRequest.setUserInteraction(userInteraction);
-			generateControllerFromView(generateControllerRequest, entityDefinition);
 		} catch (Exception e) {
 			throw (new GenerationException(e));
 		} finally {
@@ -117,13 +110,14 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 
 	public void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException {
-		// do nothing (for now)
+		updateAppJs(generateControllerRequest, entityDefinition);
+		updateControllersJs(generateControllerRequest, entityDefinition);
 	}
 
 	private static void generateControllerFromView(GenerateControllerRequest generateControllerRequest,
 			EntityDefinition<?> entityDefinition) throws GenerationException {
-		updateAppJs(generateControllerRequest, entityDefinition);
-		updateControllersJs(generateControllerRequest, entityDefinition);
+		// updateAppJs(generateControllerRequest, entityDefinition);
+		// updateControllersJs(generateControllerRequest, entityDefinition);
 	}
 
 	private static void updateControllersJs(GenerateControllerRequest generateControllerRequest,
@@ -149,6 +143,6 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 	}
 
 	public boolean isSupportControllerGeneration() {
-		return false;
+		return true;
 	}
 }

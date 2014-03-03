@@ -21,11 +21,14 @@
 			</#list>
 		</#if>
 		
-	/* Register controller place-holder start
+// auto generated register start - Items
+				$routeProvider = $routeProvider.when( '/Items', {templateUrl: 'views/Items.html', controller: 'ItemsController'} );
+// auto generated register end - Items
+/* Register controller place-holder start
 		<#if entityName?? & keys?size &gt; 0>
 $routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
-		$routeProvider = $routeProvider.when( '/${entityName}', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
 		</#if>
+		$routeProvider = $routeProvider.when( '/${entityName}', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
 		Register controller place-holder end */
 		
 		$routeProvider = $routeProvider.otherwise( {redirectTo: '/login'} );

@@ -141,4 +141,9 @@ public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 	protected boolean isSupportTestGeneration() {
 		return false;
 	}
+
+	@Override
+	protected boolean isPackageMandatory() {
+		return false;
+	}
 }

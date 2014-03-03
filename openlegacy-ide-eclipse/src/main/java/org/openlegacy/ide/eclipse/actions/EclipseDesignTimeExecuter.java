@@ -46,6 +46,7 @@ import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.utils.FileUtils;
+import org.openlegacy.utils.StringUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -187,7 +188,9 @@ public class EclipseDesignTimeExecuter {
 		generateControllerRequest.setProjectPath(PathsUtil.toOsLocation(entitySourceFile.getProject()));
 		generateControllerRequest.setEntitySourceFile(PathsUtil.toOsLocation(entitySourceFile));
 		generateControllerRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
-		generateControllerRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		if (!StringUtil.isEmpty(packageDir)) {
+			generateControllerRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		}
 		generateControllerRequest.setTemplatesDirectory(projectPath);
 		generateControllerRequest.setUserInteraction(userInteraction);
 		designTimeExecuter.generateController(generateControllerRequest);
