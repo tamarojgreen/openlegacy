@@ -19,7 +19,7 @@
 	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
 	    <property name="packages">
 	        <list>
-	            <value>apps.inventory.screens</value>
+	            <value>com.test1</value>
             </list>
 	    </property>
     </bean>
@@ -62,6 +62,7 @@
 -->
 					
 <!-- Use this definition to replay a mock-up session application
+End use this definition to replay a mock-up session application -->
  	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/trails" />
@@ -78,7 +79,6 @@
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
-End use this definition to replay a mock-up session application -->
 
 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>

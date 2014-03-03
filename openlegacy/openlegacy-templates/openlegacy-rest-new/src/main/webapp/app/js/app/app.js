@@ -11,19 +11,21 @@
 		$routeProvider = $routeProvider.when( '/login', {templateUrl: 'views/login.html', controller: 'loginController'} );
 		$routeProvider = $routeProvider.when( '/logoff', {templateUrl: 'views/logoff.html', controller: 'logoffController'} );
 		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html'} );
-		$routeProvider = $routeProvider.when( '/TviotByTvia', {templateUrl: 'views/TviotByTvia.html', controller: 'TviotByTviaController'} );
-		$routeProvider = $routeProvider.when( '/TviotByPolisa', {templateUrl: 'views/TviotByPolisa.html', controller: 'TviotByPolisaController'} );
-		$routeProvider = $routeProvider.when( '/NetuneyTvia/:misparTvia', {templateUrl: 'views/NetuneyTvia.html', controller: 'NetuneyTviaController'} );
-
-	
-// auto generated register start - TviotParams
-				$routeProvider = $routeProvider.when( '/TviotParams', {templateUrl: 'views/TviotParams.html', controller: 'TviotParamsController'} );
-// auto generated register end - TviotParams
-/* Register controller place-holder start
-		<#if keys?size &gt; 0>
-$routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
+		//$routeProvider = $routeProvider.when( '/ItemDetails', {templateUrl: 'views/ItemDetails.html',controller: 'ItemDetailsController'} );
+		<#if entitiesDefinitions??>
+			<#list entitiesDefinitions as entityDefinition>
+			$routeProvider = $routeProvider.when( '/${entityDefinition.entityName}', {templateUrl: 'views/${entityDefinition.entityName}.html', controller: '${entityDefinition.entityName}Controller'} );
+			<#if entityDefinition.keys?size &gt; 0>
+			$routeProvider = $routeProvider.when( '/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityDefinition.entityName}.html', controller: '${entityDefinition.entityName}Controller'} );
+			</#if>
+			</#list>
 		</#if>
+		
+	/* Register controller place-holder start
+		<#if entityName?? & keys?size &gt; 0>
+$routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
 		$routeProvider = $routeProvider.when( '/${entityName}', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
+		</#if>
 		Register controller place-holder end */
 		
 		$routeProvider = $routeProvider.otherwise( {redirectTo: '/login'} );

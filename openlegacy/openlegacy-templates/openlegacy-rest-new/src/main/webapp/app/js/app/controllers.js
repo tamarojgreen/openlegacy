@@ -34,56 +34,48 @@
 			);
 		});
 
-
-	
-	module = module.controller('TviotByTviaController',
+	// template for all entities 
+	<#if entitiesDefinitions??>
+	<#list entitiesDefinitions as entityDefinition>
+	module = module.controller('${entityDefinition.entityName}Controller',
 			function($scope, $location, $olHttp,$routeParams) {
-				$olHttp.get('TviotByTvia', 
+				$scope.read = function(){
+					$olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $routeParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if>,
 						function(data) {
 							$scope.model = data.model.entity;
 						}
 					);
-			});
-
-	module = module.controller('TviotByPolisaController',
-			function($scope, $location, $olHttp,$routeParams) {
-				$olHttp.get('TviotByPolisa', 
+				};		
+				<#list entityDefinition.actions as action>
+				$scope.${action.alias} = function(){
+					$scope.model.actions = null;
+					$olHttp.post('${entityDefinition.entityName}?action=${action.alias}',$scope.model, 
 						function(data) {
-							$scope.model = data.model.entity;
+							if (data.model.entityName == '${entityDefinition.entityName}'){
+								$scope.model = data.model.entity;
+							}
+							else{
+								$location.path("/" + data.model.entityName);
+							}
 						}
 					);
-				$scope.selectRow = function(){
-					alert($scope.tvia);
 				};
+				</#list>
+				<#if entityDefinition.keys?size &gt; 0>
+				if ($routeParams.${entityDefinition.keys[0].name?replace(".", "_")} != null && $routeParams.${entityDefinition.keys[0].name?replace(".", "_")}.length > 0){
+					$scope.read();
+				}
+				<#else>
+					$scope.read();
+				</#if>
+
 			});
 	
-// auto generated controller start - TviotParams
-	module = module.controller('TviotParamsController',
-		function($scope, $location, $olHttp,$routeParams) {
-			$scope.read = function(){
-				$olHttp.get('TviotParams/' ,
-					function(data) {
-						$scope.model = data.model.entity;
-					}
-				);
-			};		
-			$scope.find = function(){
-				$scope.model.actions = null;
-				$olHttp.post('TviotParams?action=find',$scope.model, 
-					function(data) {
-						if (data.model.entityName == 'TviotParams'){
-							$scope.model = data.model.entity;
-						}
-						else{
-							$location.path("/" + data.model.entityName);
-						}
-					}
-				);
-			};
-				$scope.read();
-
-		});// auto generated controller end - TviotParams
+	</#list>
+	</#if>
+	
 /* Controller code place-holder start
+	<#if entityName??>
 	module = module.controller('${entityName}Controller',
 		function($scope, $location, $olHttp,$routeParams) {
 			$scope.read = function(){
@@ -117,9 +109,11 @@
 			</#if>
 
 		});
+	</#if>
 	Controller code place-holder end */
 
 	/* Controller with JSONP code place-holder start
+	<#if entityName??>
 	module = module.controller('${entityName}Controller',
 		function($scope, $location, $http,$routeParams,$templateCache) {
 			<#list actions as action>
@@ -138,6 +132,6 @@
 			}
 			
 		});
-
-	 Controller with JSONP code place-holder end */
+	</#if>
+ 	Controller with JSONP code place-holder end */
 })();

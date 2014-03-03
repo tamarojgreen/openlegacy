@@ -1,0 +1,70 @@
+<div class="row">
+	<div class="col-sm-4">
+		<h1>${entityDefinition.displayName}</h1>
+	</div>
+	<div class="col-sm-8">
+		<h1>
+		<#list entityDefinition.actions as action>
+			<button data-ng-click="${action.alias}()" class="btn btn-lg btn-primary">${action.displayName}</button>
+		</#list>
+		</h1>
+	</div>
+</div>
+
+<form  role="form" accept-charset="utf-8">
+	<#list pageParts as part>
+		<@pagePart part=part/>
+	</#list>
+</form>
+
+<#macro pagePart part>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading"><#if part.displayName??>${part.displayName}</#if></div>
+			<div class="panel-body">
+			<#if part.hasTable>
+				<div class="row">
+					<table class="table">
+						<thead>
+							<tr>
+							<#list part.tableDefinition.columnDefinitions as column>
+								<th>${column.displayName}</th>
+					  		</#list>
+							</tr>
+						</thead>
+						<tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}s">
+						<#list part.tableDefinition.columnDefinitions as column>
+							<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
+				  		</#list>
+						</tr>
+			  		</table>
+		  		</div>		
+	  		</div>		
+			<#else>
+				<#list part.partRows as partRow> 
+				<div class="row">
+					<#list partRow.fields as field>
+						<@fieldMacro field=field/>
+					</#list>
+				</div>
+				</#list>
+			</#if>
+			</div>
+		</div>
+	</div>
+</#macro>
+
+<#macro fieldMacro field>
+				<div class="col-sm-4">
+					<div class="form-group">
+					    <label for="${field.name}" class="col-sm-3 control-label">${field.displayName}:</label>
+					    <div class="col-sm-9">
+					    <#if field.editable>
+				   		<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}" />
+				   		<#else>
+				   			<div id="${field.name}" ng-model="model.${field.name}"></div>
+				   		</#if>
+					   	</div>
+					</div>
+				</div>
+</#macro>

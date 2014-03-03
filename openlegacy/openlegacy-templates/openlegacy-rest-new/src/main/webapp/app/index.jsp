@@ -52,8 +52,8 @@
 	<script src="js/angular-1.0.7/angular.min.js"></script>
 	<script src="js/angular-1.0.7/angular-cookies.min.js"></script>
 	<script src="bootstrap/js/bootstrap.js"></script>
-	<script src="js/app/app.js" type="text/javascript"></script>
-	<script src="js/app/controllers.js" type="text/javascript"></script>
+	<script src="js/app/app.js_ng" type="text/javascript"></script>
+	<script src="js/app/controllers.js_ng" type="text/javascript"></script>
 	<script src="js/app/services.js" type="text/javascript"></script>
 	<script src="js/app/config.js" type="text/javascript"></script>
 </body>
