@@ -17,6 +17,7 @@ import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.login.User;
+import org.openlegacy.modules.menu.MenuOptionFinder;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.modules.table.Table;
 import org.openlegacy.modules.table.drilldown.DrilldownAction;
@@ -24,6 +25,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenEntity.NONE;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
+import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalMappedAction;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
@@ -190,11 +192,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 			});
 
 			for (FieldAssignDefinition fieldAssignDefinition : assignedFields) {
-				String value = fieldAssignDefinition.getValue();
-
-				if (value != null) {
-					assignField(currentUser, fieldAccessor, fieldAssignDefinition, value);
-				}
+				assignField(currentUser, fieldAccessor, fieldAssignDefinition, terminalSession.getSnapshot());
 			}
 			if (assignedFields.size() == 0) {
 				currentEntity = null;
@@ -214,10 +212,25 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 	}
 
 	private void assignField(User user, ScreenPojoFieldAccessor fieldAccessor, FieldAssignDefinition fieldAssignDefinition,
-			String value) {
+			TerminalSnapshot terminalSnapshot) {
 
-		if (authorizationService.canAssignField(user, fieldAssignDefinition)) {
-			String fieldName = fieldAssignDefinition.getName();
+		String fieldName = fieldAssignDefinition.getName();
+		String menuText = fieldAssignDefinition.getMenuText();
+		if (menuText != null){
+			MenuOptionFinder menuOptionFinder = applicationContext.getBean(MenuOptionFinder.class);
+			String menuOption = menuOptionFinder.findMenuOption(terminalSnapshot, menuText);
+			if (menuOption != null){
+				if (logger.isDebugEnabled()){
+					logger.debug("Assigning found menu option:" + menuOption + " following menu text:" + menuText);
+				}
+				fieldAccessor.setFieldValue(fieldName, menuOption);
+				fieldAccessor.setFocusField(fieldName);
+				return;
+			}
+		}
+		
+		String value = fieldAssignDefinition.getValue();
+		if (value != null && authorizationService.canAssignField(user, fieldAssignDefinition)) {
 			fieldAccessor.setFieldValue(fieldName, value);
 			fieldAccessor.setFocusField(fieldName);
 		}

@@ -21,6 +21,8 @@ public class SimpleFieldAssignDefinition implements FieldAssignDefinition, Seria
 
 	private String role;
 
+	private String menuText;
+
 	public SimpleFieldAssignDefinition(String name, String value) {
 		this.name = name;
 		this.value = value;
@@ -48,5 +50,13 @@ public class SimpleFieldAssignDefinition implements FieldAssignDefinition, Seria
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getMenuText() {
+		return menuText;
+	}
+
+	public void setMenuText(String menuText) {
+		this.menuText = menuText;
 	}
 }

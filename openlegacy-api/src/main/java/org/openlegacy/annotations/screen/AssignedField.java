@@ -48,4 +48,10 @@ public @interface AssignedField {
 	 * The role of the current user. Useful in case different navigation parameters are needed for different roles
 	 */
 	String role() default AnnotationConstants.NULL;
+	
+	/**
+	 * Menu text to use in order to find the matching option using 
+	 * @return
+	 */
+	String menuText() default AnnotationConstants.NULL;
 }

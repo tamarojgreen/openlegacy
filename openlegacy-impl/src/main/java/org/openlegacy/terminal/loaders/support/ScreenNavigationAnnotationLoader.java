@@ -92,6 +92,9 @@ public class ScreenNavigationAnnotationLoader extends AbstractClassAnnotationLoa
 			if (!assignedField.role().equals(AnnotationConstants.NULL)) {
 				fieldAssignDefinition.setRole(assignedField.role());
 			}
+			if (!assignedField.menuText().equals(AnnotationConstants.NULL)) {
+				fieldAssignDefinition.setMenuText(assignedField.menuText());
+			}
 			navigationDefinition.getAssignedFields().add(fieldAssignDefinition);
 		}
 
