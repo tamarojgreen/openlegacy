@@ -44,6 +44,10 @@
 End use this definition to replay a mock-up session application -->
 
 
+	<!-- Uncomment for bidi support
+ 	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.RightToLeftMenuOptionFinder" />
+	End uncomment for bidi support -->
+
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 
 </beans>

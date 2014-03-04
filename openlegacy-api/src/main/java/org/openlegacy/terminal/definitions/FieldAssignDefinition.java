@@ -23,4 +23,6 @@ public interface FieldAssignDefinition {
 	String getValue();
 
 	String getRole();
+	
+	String getMenuText();
 }
