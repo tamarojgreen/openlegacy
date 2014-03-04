@@ -1,5 +1,6 @@
 package org.openlegacy.authorization;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.modules.login.Login;
@@ -9,6 +10,7 @@ import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,7 +33,8 @@ public class DefaultAuthorizationService implements AuthorizationService {
 			if (userRole != null) {
 				List<MenuItem> userItems = new ArrayList<MenuItem>();
 				userItems.add(userMenu);
-				filterMenuItems(userRole, userItems);
+				String[] userRoles = userRole.split(",");
+				filterMenuItems(userRoles, userItems);
 			}
 		}
 		return userMenu;
@@ -50,23 +53,24 @@ public class DefaultAuthorizationService implements AuthorizationService {
 			String userRole = (String)user.getProperties().get(Login.USER_ROLE_PROPERTY);
 			if (userRole != null) {
 				// have working copy for the user
-				filterMenuItems(userRole, userFlatMenus1);
+				String[] userRoles = userRole.split(",");
+				filterMenuItems(userRoles, userFlatMenus1);
 			}
 		}
 		return userFlatMenus1;
 	}
 
-	private void filterMenuItems(String userRole, List<MenuItem> menuItems) {
+	private void filterMenuItems(String[] userRoles, List<MenuItem> menuItems) {
 		MenuItem[] items = menuItems.toArray(new MenuItem[menuItems.size()]);
 		for (MenuItem menuItem : items) {
 			String targetEntityName = menuItem.getTargetEntityName();
 			EntityDefinition<?> entityDefinition = entitiesRegistry.get(targetEntityName);
 			if (entityDefinition.getRoles() != null && entityDefinition.getRoles().size() > 0) {
-				if (!entityDefinition.getRoles().contains(userRole)) {
+				if (!CollectionUtils.containsAny(entityDefinition.getRoles(), Arrays.asList(userRoles))){
 					menuItems.remove(menuItem);
 				}
 			}
-			filterMenuItems(userRole, menuItem.getMenuItems());
+			filterMenuItems(userRoles, menuItem.getMenuItems());
 		}
 	}
 
