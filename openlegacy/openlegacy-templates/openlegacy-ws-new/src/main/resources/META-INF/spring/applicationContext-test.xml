@@ -10,25 +10,6 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
 	<context:property-placeholder location="classpath*:/*.properties" />
-
-	<import resource="classpath*:/META-INF/openlegacy-terminal-basic-context.xml" />
-
-	<import resource="classpath:/META-INF/spring/actions-mappings.xml"/>
-		
-	<bean id="terminalSession" class="org.openlegacy.terminal.support.DefaultTerminalSession"
-		scope="prototype" parent="abstractTerminalSession" />
-
-	<bean id="screensRegistry" class="org.openlegacy.terminal.support.DefaultScreenEntitiesRegistry">
-		<property name="packages">
-			<list>
-				<value>com.test1</value>
-			</list>
-		</property>
-	</bean>
-
-	<!-- Uncomment for bidi support
- 	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.RightToLeftMenuOptionFinder" />
-	End uncomment for bidi support -->
 		
 <!-- Use this definition to replay a mock-up session application
 	<bean id="terminalConnectionFactory" class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">

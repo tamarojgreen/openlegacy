@@ -30,7 +30,7 @@ public class ${serviceName}ServiceTest {
 	@Test
 	public void test${serviceName}Service() throws RegistryException, LoginException {
 
-		${serviceName}Out ${serviceName?uncap_first}Out = hr08Client.get${serviceName}();
+		${serviceName}Out ${serviceName?uncap_first}Out = ${serviceName?uncap_first}Client.get${serviceName}();
 		Assert.assertNotNull(${serviceName?uncap_first}Out);
 		
 		System.out.println(ReflectionToStringBuilder.toString(${serviceName?uncap_first}Out));
