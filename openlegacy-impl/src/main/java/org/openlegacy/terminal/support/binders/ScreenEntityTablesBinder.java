@@ -154,7 +154,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 							int screenRow = tableDefinition.getStartRow() + (rowCount * tableDefinition.getRowGaps());
 							TerminalField terminalField = terminalScreen.getField(SimpleTerminalPosition.newInstance(screenRow,
 									columnDefinition.getStartColumn()));
-							if (terminalField.isEditable()) {
+							if (terminalField != null && terminalField.isEditable()) {
 								if (!terminalField.getValue().equals(valueString)) {
 									terminalField.setValue(valueString);
 									sendAction.getFields().add(terminalField);
