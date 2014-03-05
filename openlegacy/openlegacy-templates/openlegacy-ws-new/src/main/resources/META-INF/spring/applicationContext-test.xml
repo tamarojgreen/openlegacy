@@ -40,6 +40,7 @@
 <!-- Register WS place-holder start
 	<jaxws:client id="${serviceName?uncap_first}Client" serviceClass="${package}.${serviceName}Service"
 		address="http://localhost:8080/${projectPath.name}/services/${serviceName?uncap_first}" />
+
 Register WS place-holder end -->
 
 </beans>

@@ -42,7 +42,7 @@
 -->
 
 	<!-- comment when using mock-up session -->
-	<bean id="terminalSession" parent="abstractTerminalSession" />
+	<bean id="terminalSession" parent="abstractTerminalSession">
 		<!-- Use this definition to configure modules properties
    		<property name="sessionModules">
 			<bean class="org.openlegacy.support.SessionModules">
