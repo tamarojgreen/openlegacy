@@ -114,6 +114,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private boolean forceAuthorization = true;
 
+	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 
 		authorize(screenEntityClass);
@@ -134,7 +135,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 							screenEntityClass.getName())));
 		}
 		sessionNavigator.navigate(this, screenEntityClass, keys);
-		return getEntity();
+		return (S)getEntity();
 	}
 
 	private <S> void authorize(Class<S> screenEntityClass) {
