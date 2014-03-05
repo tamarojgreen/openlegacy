@@ -64,6 +64,8 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 					+ "was not found in the recorded trail"));
 		}
 		SnapshotInfo snapshotInfo = snapshotsList.getCurrent();
+		setLastSequence(snapshotInfo.getTerminalSnapshot().getSequence());
+		resetEntity();
 		getConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
 	}
 
@@ -175,7 +177,6 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 			return indexInSession;
 		}
 
-		@SuppressWarnings("unused")
 		public TerminalSnapshot getTerminalSnapshot() {
 			return terminalSnapshot;
 		}

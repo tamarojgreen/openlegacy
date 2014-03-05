@@ -46,7 +46,6 @@ import org.openlegacy.terminal.services.SessionNavigator;
 import org.openlegacy.terminal.support.proxy.ScreenEntityMethodInterceptor;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.terminal.wait_conditions.WaitCondition;
-import org.openlegacy.utils.EntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.ReflectionUtil;
 import org.openlegacy.utils.SpringUtil;
@@ -86,9 +85,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private TerminalActionMapper terminalActionMapper;
 
 	@Inject
-	private EntityUtils entityUtils;
-
-	@Inject
 	private ScreenEntityUtils screenEntityUtils;
 
 	@Inject
@@ -118,7 +114,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	private boolean forceAuthorization = true;
 
-	@SuppressWarnings("unchecked")
 	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 
 		authorize(screenEntityClass);
@@ -129,15 +124,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 		checkRegistryDirty();
 
-		if (entity == null) {
-			entity = getEntityInner();
-		}
-
-		if (!entityUtils.isEntitiesEquals(screenEntitiesRegistry, entity, screenEntityClass, keys)
-				|| !lastSequence.equals(getSequence())) {
-			resetEntity();
-		}
-
 		ScreenEntityDefinition definitions = getScreenEntitiesRegistry().get(screenEntityClass);
 
 		if (keys.length > definitions.getKeys().size()) {
@@ -147,15 +133,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 							screenEntityClass, ArrayUtils.toString(keys), definitions.getKeys().size(),
 							screenEntityClass.getName())));
 		}
-		if (entity == null) {
-			sessionNavigator.navigate(this, screenEntityClass, keys);
-			entity = getEntityInner();
-		}
-		return (S)entity;
+		sessionNavigator.navigate(this, screenEntityClass, keys);
+		return getEntity();
 	}
 
 	private <S> void authorize(Class<S> screenEntityClass) {
-		if (!forceAuthorization){
+		if (!forceAuthorization) {
 			return;
 		}
 		ScreenEntityDefinition definitions = getScreenEntitiesRegistry().get(screenEntityClass);
@@ -213,8 +196,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return screenEntity;
 	}
 
-	private void resetEntity() {
+	protected void resetEntity() {
 		if (entity != null) {
+			System.out.println("%%%%%%%%%%%%%%% reset entity");
 			entity = null;
 		}
 	}
@@ -257,7 +241,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			getEntity(screenEntity.getClass());
 		}
 
-		resetEntity();
 		Object command = terminalActionMapper.getCommand(terminalAction);
 		if (command == null) {
 			terminalAction.perform(this, screenEntity);
@@ -285,7 +268,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 			sendAction.setSleep(sleep);
 			doAction(sendAction, waitConditions);
-			lastSequence = getSequence();
 		}
 
 		return (R)getEntity();
@@ -397,6 +379,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		notifyModulesBeforeSend(sendAction);
 
 		terminalConnection.doAction(sendAction);
+		lastSequence = getSequence();
 		resetEntity();
 
 		performWait(waitConditions);
@@ -469,7 +452,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	public Integer getSequence() {
-		return terminalConnection.getSequence();
+		Integer seq = terminalConnection.getSequence();
+		return seq;
 	}
 
 	public <R extends ScreenEntity> void setEntity(R entity) {
@@ -513,5 +497,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	public void setForceAuthorization(boolean forceAuthorization) {
 		this.forceAuthorization = forceAuthorization;
+	}
+
+	protected void setLastSequence(Integer lastSequence) {
+		this.lastSequence = lastSequence;
 	}
 }
