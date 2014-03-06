@@ -8,11 +8,14 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.terminal;
+package org.openlegacy;
 
-public interface TerminalSessionFactory {
+import org.openlegacy.Session;
+import org.openlegacy.SessionAction;
 
-	TerminalSession getSession();
+public interface SessionFactory<S extends Session, A extends SessionAction<S>> {
 
-	void returnSession(TerminalSession session);
+	S getSession();
+
+	void returnSession(final S session);
 }

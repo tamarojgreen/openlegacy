@@ -46,7 +46,6 @@ public class PcmlPrefomaceTest {
 		System.out.println("Starting load from Stream");
 
 		Long startTime = System.currentTimeMillis();
-		boolean result;
 		for (int i = 0; i < iterations; i++) {
 			newPcml = new ProgramCallDocument(as400System, "com.as400samplecode.tree_array", in);
 

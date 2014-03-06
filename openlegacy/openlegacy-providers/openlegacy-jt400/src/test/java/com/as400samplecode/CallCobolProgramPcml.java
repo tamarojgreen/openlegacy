@@ -43,8 +43,6 @@ public class CallCobolProgramPcml {
 		ProgramCallDocument newPcml = new ProgramCallDocument(as400System, "com.as400samplecode.rpg_program");
 		newPcml.setValue("rpg_program.FIRSTNAME", "Roi");
 		newPcml.setValue("rpg_program.LASTNAME", "Mor");
-		boolean result = newPcml.callProgram("rpg_program");
-
 		System.out.println("***********" + newPcml.getValue("rpg_program.MESSAGE"));
 		// The ProgramCall class allows a user to call an iSeries server program,
 		// pass parameters to it (input and output), and access data returned in the
