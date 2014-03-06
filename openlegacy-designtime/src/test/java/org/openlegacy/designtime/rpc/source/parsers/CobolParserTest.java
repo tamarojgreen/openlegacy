@@ -181,7 +181,7 @@ public class CobolParserTest {
 		String sourceFile = "sampprog_expand.cbl";
 		RpcEntityDefinition rpcEntityDefinition = getEntity(sourceFile);
 		Set<String> interfaceParameters = new HashSet<String>();
-		interfaceParameters.add("Dfhcommarea");
+		interfaceParameters.add("CmVars");
 		// Test collecting parameters from program commands
 		Assert.assertTrue(rpcEntityDefinition.getFieldsDefinitions().isEmpty());
 		Map<String, PartEntityDefinition<RpcFieldDefinition>> partEntityDefinitions = rpcEntityDefinition.getPartsDefinitions();
@@ -233,12 +233,9 @@ public class CobolParserTest {
 
 		Map<String, PartEntityDefinition<RpcFieldDefinition>> partEntityDefinitions = rpcEntityDefinition.getPartsDefinitions();
 
-		RpcPartEntityDefinition rpcPartEntityDefinition = (RpcPartEntityDefinition)partEntityDefinitions.get("Dfhcommarea");
+		RpcPartEntityDefinition rpcPartEntityDefinition = (RpcPartEntityDefinition)partEntityDefinitions.get("CmVars");
 
-		Map<String, RpcPartEntityDefinition> partsEntityInnerDefinitions = rpcPartEntityDefinition.getInnerPartsDefinitions();
-		RpcPartEntityDefinition partEntityInnerDefinitions = partsEntityInnerDefinitions.get("CmVars");
-
-		Map<String, RpcFieldDefinition> innerFields = partEntityInnerDefinitions.getFieldsDefinitions();
+		Map<String, RpcFieldDefinition> innerFields = rpcPartEntityDefinition.getFieldsDefinitions();
 		Assert.assertEquals(3, innerFields.size());
 		RpcFieldDefinition myvar = innerFields.get("cmMyvar");
 		Assert.assertEquals(String.class, myvar.getJavaType());

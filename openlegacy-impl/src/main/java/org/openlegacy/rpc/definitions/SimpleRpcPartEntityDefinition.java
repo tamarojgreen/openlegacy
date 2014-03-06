@@ -69,7 +69,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.count = count;
 	}
 
-	public String getLegacyContainer() {
+	public String getLegacyContainerName() {
 		return legacyContainerName;
 	}
 

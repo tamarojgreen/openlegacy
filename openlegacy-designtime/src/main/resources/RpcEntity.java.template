@@ -45,7 +45,7 @@ public class ${entityName?cap_first} {
 </#if>
 </#macro>
 <#macro rpcPartClass part>
-	@RpcPart(name="${part.partName}")
+	@RpcPart(name="${part.partName}"<#if part.legacyContainerName??>, legacyContainerName = "${part.legacyContainerName}"</#if>)
 	public static class ${part.partName} {
 
 	<#list part.fieldsDefinitions?values as partField>

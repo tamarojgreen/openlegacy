@@ -170,7 +170,7 @@ public class RpcPartsBinder implements RpcEntityBinder {
 		}
 		result.setName(rpcPartEntityDefinition.getPartName());
 		result.setOrder(rpcPartEntityDefinition.getOrder());
-		result.setLegacyContainerName(rpcPartEntityDefinition.getLegacyContainer());
+		result.setLegacyContainerName(rpcPartEntityDefinition.getLegacyContainerName());
 
 		return (RpcField)result;
 	}

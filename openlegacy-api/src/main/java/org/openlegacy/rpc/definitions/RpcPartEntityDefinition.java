@@ -32,7 +32,7 @@ public interface RpcPartEntityDefinition extends PartEntityDefinition<RpcFieldDe
 
 	String getHelpText();
 
-	String getLegacyContainer();
+	String getLegacyContainerName();
 
 	boolean isVirtual();
 

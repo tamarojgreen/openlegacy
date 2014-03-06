@@ -10,14 +10,9 @@ import org.openlegacy.FieldType.*;
 @RpcEntity(name="SampprogExpand")
 public class SampprogExpand {
 
-		private Dfhcommarea dfhcommarea;
-
-	@RpcPart(name="Dfhcommarea")
-	public static class Dfhcommarea {
-
 		private CmVars cmVars;
-	}
-	@RpcPart(name="CmVars")
+
+	@RpcPart(name="CmVars", legacyContainerName = "Dfhcommarea")
 	public static class CmVars {
 
 		@RpcField(length = 20, originalName = "CM-MYVAR")
@@ -32,3 +27,4 @@ public class SampprogExpand {
 
 	}
 }
+

@@ -18,6 +18,7 @@ package org.openlegacy.designtime.rpc.source.parsers;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldType.General;
+import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.designtime.formatters.DefinitionFormatter;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
@@ -112,6 +113,29 @@ public class RpcEntityDefinitionBuilderImpl implements RpcEntityDefinitionBuilde
 
 			}
 			logger.debug(interfaceParmeter.toString());
+		}
+		postBuild(entityDefinition);
+	}
+
+	@SuppressWarnings("static-method")
+	private void postBuild(RpcEntityDefinition entityDefinition) {
+
+		// handle legacy Container
+		Map<String, PartEntityDefinition<RpcFieldDefinition>> parts = entityDefinition.getPartsDefinitions();
+		if (entityDefinition.getFieldsDefinitions().isEmpty() && parts.size() == 1) {
+
+			RpcPartEntityDefinition topLevelPart = null;
+			for (PartEntityDefinition<RpcFieldDefinition> part : parts.values()) {
+				topLevelPart = (RpcPartEntityDefinition)part;
+			}
+			Map<String, RpcPartEntityDefinition> innerParts = topLevelPart.getInnerPartsDefinitions();
+			if (topLevelPart.getFieldsDefinitions().isEmpty() && innerParts.size() == 1) {
+				parts.clear();
+				parts.putAll(innerParts);
+				for (RpcPartEntityDefinition innerPart : innerParts.values()) {
+					((SimpleRpcPartEntityDefinition)innerPart).setLegacyContainerName(topLevelPart.getPartName());
+				}
+			}
 		}
 	}
 

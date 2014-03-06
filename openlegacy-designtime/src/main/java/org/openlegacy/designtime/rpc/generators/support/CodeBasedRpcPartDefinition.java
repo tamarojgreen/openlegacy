@@ -97,7 +97,7 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		this.keys = keys;
 	}
 
-	public String getLegacyContainer() {
+	public String getLegacyContainerName() {
 		// TODO Auto-generated method stub
 		return null;
 	}

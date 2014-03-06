@@ -7,12 +7,7 @@ import org.openlegacy.annotations.rpc.*;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.FieldType.*;
 
-	@RpcPart(name="XxolakkrParms")
-	public static class XxolakkrParms {
-
-		private LkCustomer lkCustomer;
-	}
-	@RpcPart(name="LkCustomer")
+	@RpcPart(name="LkCustomer", legacyContainerName = "XxolakkrParms")
 	public static class LkCustomer {
 
 		@RpcField(length = 1, originalName = "LK-CUST-IND")
