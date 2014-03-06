@@ -12,7 +12,6 @@ package org.openlegacy.ide.eclipse.actions;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -23,17 +22,11 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorDescriptor;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
-import org.openlegacy.ide.eclipse.util.PathsUtil;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -107,6 +100,13 @@ public abstract class AbstractGenerateModelDialog extends AbstractGenerateCodeDi
 		} else {
 			this.setUseAj(false);
 		}
+		String generateTest = designtimeExecuter.getPreference(project, PreferencesConstants.GENERATE_TEST);
+		if (generateTest == null || generateTest.equals("1")) {
+			this.setGenerateTest(true);
+		} else {
+			this.setGenerateTest(false);
+		}
+
 	}
 
 	@Override
@@ -119,38 +119,7 @@ public abstract class AbstractGenerateModelDialog extends AbstractGenerateCodeDi
 		designtimeExecuter.savePreference(getProject(), PreferencesConstants.API_SOURCE_FOLDER, sourceFolderOnly);
 		designtimeExecuter.savePreference(getProject(), PreferencesConstants.API_PACKAGE, getPackageText().getText());
 		designtimeExecuter.savePreference(getProject(), PreferencesConstants.USE_AJ, isUseAj());
+		designtimeExecuter.savePreference(getProject(), PreferencesConstants.GENERATE_TEST, isGenerateTest());
 	}
 
-	public void open(final File file) {
-
-		Display.getDefault().asyncExec(new Runnable() {
-
-			public void run() {
-				final IFolder folder = getProject().getFolder(
-						getSourceFolder().getPath() + "/" + PathsUtil.packageToPath(getPackageValue()));
-				try {
-					if (folder != null) {
-						folder.refreshLocal(1, null);
-					}
-				} catch (CoreException e1) {
-					logger.fatal(e1);
-				}
-
-				IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
-				try {
-					IFile javaFile = getProject().getFile(
-							getSourceFolder().getPath().toPortableString() + "/" + PathsUtil.packageToPath(getPackageValue())
-									+ "/" + file.getName());
-					IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
-							javaFile.getName());
-
-					page.openEditor(new FileEditorInput(javaFile), editorDescriptor.getId());
-
-				} catch (PartInitException e) {
-					logger.fatal(e);
-				}
-			}
-		});
-
-	}
 }

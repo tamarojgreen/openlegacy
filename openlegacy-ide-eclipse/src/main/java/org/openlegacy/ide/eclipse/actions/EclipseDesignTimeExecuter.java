@@ -291,7 +291,7 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateServiceFromEntity(IFile entityJavaFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			UserInteraction userInteraction, boolean generateTest) {
+			final UserInteraction userInteraction, boolean generateTest) {
 		IProject project = entityJavaFile.getProject();
 		File projectPath = new File(PathsUtil.toOsLocation(project), DesignTimeExecuterImpl.TEMPLATES_DIR);
 
@@ -301,13 +301,18 @@ public class EclipseDesignTimeExecuter {
 				: ServiceType.RPC);
 		generateServiceRequest.getOutputParameters().add(new ServiceEntityParameter(entityDefinition));
 		generateServiceRequest.setProjectPath(PathsUtil.toOsLocation(project));
-		generateServiceRequest.setServiceName(FileUtils.fileWithoutExtension(entityJavaFile.getName()));
-		generateServiceRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
-		generateServiceRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		final String serviceName = FileUtils.fileWithoutExtension(entityJavaFile.getName());
+		generateServiceRequest.setServiceName(serviceName);
+		final File sourceDirectoryPath = PathsUtil.toSourceDirectory(sourceDirectory);
+		generateServiceRequest.setSourceDirectory(sourceDirectoryPath);
+		final String packagePath = PathsUtil.packageToPath(packageDir);
+		generateServiceRequest.setPackageDirectory(packagePath);
 		generateServiceRequest.setTemplatesDirectory(projectPath);
 		generateServiceRequest.setUserInteraction(userInteraction);
 		generateServiceRequest.setGenerateTest(generateTest);
 		designTimeExecuter.generateService(generateServiceRequest);
+
+		userInteraction.open(new File(sourceDirectoryPath, packagePath + "/" + serviceName + "ServiceImpl.java"));
 
 	}
 }

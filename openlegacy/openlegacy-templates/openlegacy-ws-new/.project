@@ -12,6 +12,11 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+			<name>org.openlegacy.ide.eclipse.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.ajdt.core.ajbuilder</name>
 			<arguments>
 			</arguments>

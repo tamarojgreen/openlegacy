@@ -65,7 +65,7 @@
 		<property name="root" value="/trails" />
 		<property name="trailName" value="demo_session.trail" />
 	</bean>
--->
+End use this definition to replay a mock-up session application -->
 
 	<!-- Uncomment for bidi support
  	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.RightToLeftMenuOptionFinder" />

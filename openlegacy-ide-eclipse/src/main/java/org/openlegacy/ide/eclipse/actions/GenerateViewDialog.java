@@ -205,4 +205,9 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 
 		return (Boolean)result[0];
 	}
+
+	public void open(File file) {
+		// TODO Auto-generated method stub
+
+	}
 }

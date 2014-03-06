@@ -83,7 +83,7 @@ public class FileUtils {
 		filename = new File(filename).getName();
 		return filename.substring(0, filename.indexOf("."));
 	}
-	
+
 	public static String fileExtension(String filename) {
 		if (!filename.contains(".")) {
 			return "";
@@ -122,6 +122,15 @@ public class FileUtils {
 			}
 		} catch (IOException e) {
 			// do nothing
+		}
+	}
+
+	public static void write(String str, File file) throws IOException {
+		FileOutputStream fos = new FileOutputStream(file);
+		try {
+			IOUtils.write(str, fos);
+		} finally {
+			IOUtils.closeQuietly(fos);
 		}
 	}
 }

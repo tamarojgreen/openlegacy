@@ -10,10 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
@@ -46,17 +49,25 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
+import org.openlegacy.ide.eclipse.util.PathsUtil;
 
 import java.io.File;
 import java.text.MessageFormat;
 
 @SuppressWarnings("restriction")
 public abstract class AbstractGenerateCodeDialog extends Dialog implements UserInteraction {
+
+	private final static Logger logger = Logger.getLogger(AbstractGenerateCodeDialog.class);
 
 	private Text sourceFolderPathText;
 	private IPackageFragmentRoot sourceFolder;
@@ -146,7 +157,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		useAjButton.setEnabled(isSupportAjGeneration());
 
 		Button generateTest = new Button(parent, SWT.CHECK);
-		generateTest.setSelection(isSupportTestGeneration());
+		generateTest.setSelection(isSupportTestGeneration() && isGenerateTest());
 		generateTest.setText(Messages.getString("label_generate_test"));
 
 		generateTest.setEnabled(isSupportTestGeneration());
@@ -350,11 +361,44 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		this.useAj = useAj;
 	}
 
-	private void setGenerateTest(boolean generateTest) {
+	protected void setGenerateTest(boolean generateTest) {
 		this.generateTest = generateTest;
 	}
 
 	public boolean isGenerateTest() {
 		return generateTest;
+	}
+
+	public void open(final File file) {
+
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				final IFolder folder = getProject().getFolder(
+						getSourceFolder().getPath() + "/" + PathsUtil.packageToPath(getPackageValue()));
+				try {
+					if (folder != null) {
+						folder.refreshLocal(1, null);
+					}
+				} catch (CoreException e1) {
+					logger.fatal(e1);
+				}
+
+				IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
+				try {
+					IFile javaFile = getProject().getFile(
+							getSourceFolder().getPath().toPortableString() + "/" + PathsUtil.packageToPath(getPackageValue())
+									+ "/" + file.getName());
+					IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
+							javaFile.getName());
+
+					page.openEditor(new FileEditorInput(javaFile), editorDescriptor.getId());
+
+				} catch (PartInitException e) {
+					logger.fatal(e);
+				}
+			}
+		});
+
 	}
 }

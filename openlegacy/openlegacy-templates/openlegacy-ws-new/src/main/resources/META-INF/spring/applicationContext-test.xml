@@ -16,7 +16,7 @@
 		<property name="root" value="/trails" />
 		<property name="trailName" value="demo_session.trail" />
 	</bean>
--->
+End use this definition to replay a mock-up session application -->
 
 <!-- Register WS place-holder start
 	<jaxws:client id="${serviceName?uncap_first}Client" serviceClass="${package}.${serviceName}Service"

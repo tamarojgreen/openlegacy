@@ -12,8 +12,6 @@ package org.openlegacy.designtime;
 
 import org.openlegacy.EntityDefinition;
 
-import java.io.File;
-
 /**
  * Interface for communicate with the user interface during code generation of all entities, which allows user to customize the
  * generated code
@@ -25,5 +23,4 @@ public interface EntityUserInteraction<E extends EntityDefinition<?>> extends Us
 
 	boolean customizeEntity(E entityDefinition);
 
-	void open(File file);
 }

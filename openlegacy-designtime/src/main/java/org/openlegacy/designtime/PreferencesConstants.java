@@ -19,6 +19,7 @@ public class PreferencesConstants {
 	public static final String WEB_PACKAGE = "WEB_PACKAGE";
 	public static final String SERVICE_PACKAGE = "SERVICE_PACKAGE";
 	public static final String USE_AJ = "USE_AJ";
+	public static final String GENERATE_TEST = "GENERATE_TEST";
 
 	// possible values: default, rtl (openlegacy-default-designtime-context.xml, openlegacy-rtl-designtime-context.xml)
 	public static final String DESIGNTIME_CONTEXT = "DESIGNTIME_CONTEXT";

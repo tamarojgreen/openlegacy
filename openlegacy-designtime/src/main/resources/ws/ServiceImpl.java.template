@@ -1,8 +1,6 @@
 package ${package};
 
-import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
-import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.terminal.TerminalSession;
 
 import javax.inject.Inject;
@@ -26,7 +24,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 	private TerminalSession terminalSession;
 
 	@Override
-	public ${serviceName}Out get${serviceName}(<#if inputParameters?size != 0>${serviceName}In ${serviceName?uncap_first}In</#if>) throws RegistryException, LoginException {
+	public ${serviceName}Out get${serviceName}(<#if inputParameters?size != 0>${serviceName}In ${serviceName?uncap_first}In</#if>) {
 		
 		try{
 			terminalSession.getModule(Login.class).login("USER","PASSWORD");

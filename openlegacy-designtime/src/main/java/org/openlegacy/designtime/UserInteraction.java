@@ -15,4 +15,6 @@ import java.io.File;
 public interface UserInteraction {
 
 	boolean isOverride(File file);
+
+	void open(File file);
 }

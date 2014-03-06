@@ -163,9 +163,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		renameProject(projectCreationRequest.getProjectName(), targetPath);
 		renameLaunchers(projectCreationRequest.getProjectName(), targetPath);
 
-		if (projectCreationRequest.isRightTotLeft()) {
-			handlerRightToLeft(targetPath);
-		}
 		updatePropertiesFile(projectCreationRequest, targetPath);
 
 		savePreference(targetPath, PreferencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
@@ -173,10 +170,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		savePreference(targetPath, PreferencesConstants.DESIGNTIME_CONTEXT, "default");
 		savePreference(targetPath, PreferencesConstants.USE_AJ, "1");
 
+		if (projectCreationRequest.isRightTotLeft()) {
+			handleRightToLeft(targetPath);
+		}
+
 		templateFetcher.deleteZip();
 	}
 
-	private static void handlerRightToLeft(File targetPath) throws FileNotFoundException, IOException {
+	private static void handleRightToLeft(File targetPath) throws FileNotFoundException, IOException {
 		removeComment(new File(targetPath, "pom.xml"), bidiCommentStart, bidiCommentEnd);
 		removeComment(new File(targetPath, "src/main/resources/META-INF/spring/applicationContext.xml"), bidiCommentStart,
 				bidiCommentEnd);
@@ -192,9 +193,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
 		appPropertiesFileContent = appPropertiesFileContent.replaceFirst("#openLegacyProperties.rightToLeft=.*",
 				"openLegacyProperties.rightToLeft=true");
-		FileOutputStream fos = new FileOutputStream(appPropertiesFile);
-		IOUtils.write(appPropertiesFileContent, fos);
+		FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 
+		File preferenceFile = new File(targetPath, PREFERENCES_FILE);
+		String preferenceContent = IOUtils.toString(new FileInputStream(preferenceFile));
+		preferenceContent = preferenceContent.replaceFirst("DESIGNTIME_CONTEXT=.*", "DESIGNTIME_CONTEXT=rtl");
+		FileUtils.write(preferenceContent, preferenceFile);
 	}
 
 	private static void uncommentDependencies(File targetPath) throws IOException {
@@ -213,7 +217,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		FileOutputStream fos = new FileOutputStream(file);
 		IOUtils.write(fileContent, fos);
-
+		IOUtils.closeQuietly(fos);
 	}
 
 	private static void uncommentMockConnection(String provider, File targetPath) throws IOException {
@@ -238,8 +242,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					MessageFormat.format("host.port={0}", String.valueOf(projectCreationRequest.getHostPort())));
 			hostPropertiesFileContent = hostPropertiesFileContent.replaceFirst("host.codePage=.*",
 					MessageFormat.format("host.codePage={0}", projectCreationRequest.getCodePage()));
-			FileOutputStream fos = new FileOutputStream(hostPropertiesFile);
-			IOUtils.write(hostPropertiesFileContent, fos);
+			FileUtils.write(hostPropertiesFileContent, hostPropertiesFile);
 		}
 
 		File rpcPropertiesFile = new File(targetPath, "src/main/resources/rpc.properties");
@@ -249,8 +252,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			rpcPropertiesFileContent = rpcPropertiesFileContent.replaceFirst("rpc.host.name=.*",
 					MessageFormat.format("rpc.host.name={0}", projectCreationRequest.getHostName()));
 
-			FileOutputStream fos = new FileOutputStream(rpcPropertiesFile);
-			IOUtils.write(rpcPropertiesFileContent, fos);
+			FileUtils.write(rpcPropertiesFileContent, rpcPropertiesFile);
 		}
 	}
 
@@ -283,8 +285,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		String launchFileContent = IOUtils.toString(new FileInputStream(launcherFile));
 
 		launchFileContent = launchFileContent.replaceAll("workspace_loc:.*}", ("workspace_loc:" + projectName + "}"));
-		FileOutputStream fos = new FileOutputStream(launcherFile);
-		IOUtils.write(launchFileContent, fos);
+		FileUtils.write(launchFileContent, launcherFile);
 
 	}
 
@@ -313,8 +314,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		 */
 		springFileContent = springFileContent.replaceFirst("<value>[a-z_0-9\\.]+</value>",
 				MessageFormat.format("<value>{0}</value>", defaultPackageName));
-		FileOutputStream fos = new FileOutputStream(springFile);
-		IOUtils.write(springFileContent, fos);
+		FileUtils.write(springFileContent, springFile);
 	}
 
 	private static void renameProject(String projectName, File targetPath) throws IOException, FileNotFoundException {
@@ -324,8 +324,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		// NOTE assuming all project templates starts with "openlegacy-"
 		projectFileContent = projectFileContent.replaceAll("<name>openlegacy-.*</name>",
 				MessageFormat.format("<name>{0}</name>", projectName));
-		FileOutputStream fos = new FileOutputStream(projectFile);
-		IOUtils.write(projectFileContent, fos);
+		FileUtils.write(projectFileContent, projectFile);
 	}
 
 	private static void renameProjectProperties(String projectName, File targetPath) throws IOException, FileNotFoundException {
@@ -346,8 +345,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			pomFileContent = replaceFirstAttribute("openlegacy-version", openlegacyVersion, pomFileContent);
 		}
 
-		FileOutputStream fos = new FileOutputStream(pomFile);
-		IOUtils.write(pomFileContent, fos);
+		FileUtils.write(pomFileContent, pomFile);
 	}
 
 	private static String replaceFirstAttribute(String attributeName, String attributeValue, String pomFileContent) {
@@ -406,8 +404,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					"<groupId>org.openlegacy.web</groupId>\\s+<artifactId>openlegacy-themes-\\w+(.*?)(?<=m)</artifactId>",
 					MessageFormat.format("<groupId>org.openlegacy.web</groupId>\n\t\t\t<artifactId>{0}</artifactId>",
 							projectTheme.getMobileTheme()));
-			FileOutputStream fos = new FileOutputStream(pomFile);
-			IOUtils.write(pomFileContent, fos);
+			FileUtils.write(pomFileContent, pomFile);
 		}
 	}
 
@@ -432,8 +429,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultMobileTheme=.*",
 						MessageFormat.format("themeUtil.defaultMobileTheme={0}", split[split.length - 1].toLowerCase()));
 			}
-			FileOutputStream fos = new FileOutputStream(appPropertiesFile);
-			IOUtils.write(appPropertiesFileContent, fos);
+			FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 		}
 	}
 
@@ -890,6 +886,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				targetFile.getParentFile().mkdirs();
 				fos = new FileOutputStream(targetFile);
 				IOUtils.copy(resource.getInputStream(), fos);
+				IOUtils.closeQuietly(fos);
 			}
 		} catch (IOException e) {
 			throw (new GenerationException("Error creating custom templates", e));
@@ -925,6 +922,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	public void reloadPreferences(File projectPath) {
 		projectsPreferences.remove(projectPath);
+		projectsDesigntimeAplicationContexts.remove(projectPath.getAbsolutePath());
+		getOrCreateApplicationContext(projectPath);
 	}
 
 	public void copyDesigntimeContext(File projectPath) {
@@ -1017,7 +1016,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			if (getFile) {
 				FileOutputStream fos = new FileOutputStream(fileName);
 				fos.write(source);
-				fos.close();
+				IOUtils.closeQuietly(fos);
 
 			}
 		} catch (IOException e) {
