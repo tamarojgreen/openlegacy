@@ -199,7 +199,6 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	protected void resetEntity() {
 		if (entity != null) {
-			System.out.println("%%%%%%%%%%%%%%% reset entity");
 			entity = null;
 		}
 	}
