@@ -9,6 +9,8 @@
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
+	 <bean id="marshaller" class="org.springframework.oxm.xstream.XStreamMarshaller"/>
+
 	<context:property-placeholder location="classpath*:/*.properties" />
 		
 <!-- Use this definition to replay a mock-up session application
