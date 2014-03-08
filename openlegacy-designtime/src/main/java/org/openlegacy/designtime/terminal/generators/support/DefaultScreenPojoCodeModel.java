@@ -471,6 +471,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	private SimpleScreenSize screenSize;
 
+	private boolean serviceInOut = false;
+
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
@@ -535,6 +537,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			}
 			if (annotationName.equals(ScreenAnnotationConstants.PART_POSITION_ANNOTATION)) {
 				partPostition = populatePartPositionAttributes(annotationExpr);
+			}
+			if (annotationName.equals(AnnotationConstants.SERVICE_INPUT)
+					|| annotationName.equals(AnnotationConstants.SERVICE_OUTPUT)) {
+				serviceInOut = true;
 			}
 		}
 	}
@@ -863,5 +869,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			screenSize = new SimpleScreenSize();
 		}
 		return screenSize;
+	}
+
+	public boolean isServiceInOut() {
+		return serviceInOut;
 	}
 }

@@ -330,6 +330,8 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 	private Languages language = Languages.UNDEFINED;
 	private String runtimeName;
 
+	private boolean serviceInOut = false;
+
 	public DefaultRpcPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
@@ -364,6 +366,10 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			}
 			if (annotationName.equals(RpcAnnotationConstants.RPC_ACTIONS_ANNOTATION)) {
 				actions = RpcAnnotationsParserUtils.populateRpcActions(annotationExpr);
+			}
+			if (annotationName.equals(AnnotationConstants.SERVICE_INPUT)
+					|| annotationName.equals(AnnotationConstants.SERVICE_OUTPUT)) {
+				serviceInOut = true;
 			}
 
 		}
@@ -560,5 +566,9 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 	public String getRuntimeName() {
 		return runtimeName;
+	}
+
+	public boolean isServiceInOut() {
+		return serviceInOut;
 	}
 }

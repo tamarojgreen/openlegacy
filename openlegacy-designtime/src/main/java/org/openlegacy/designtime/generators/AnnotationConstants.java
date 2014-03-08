@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.designtime.generators;
 
+import org.openlegacy.annotations.ServiceInput;
+import org.openlegacy.annotations.ServiceOutput;
+
 public class AnnotationConstants {
 
 	public static final String TRUE = "true";
@@ -54,5 +57,7 @@ public class AnnotationConstants {
 	public static final String RIGHT_TO_LEFT = "rightToLeft";
 	public static final String ATTRIBUTE = "attribute";
 	public static final String LENGTH = "length";
+	public static final Object SERVICE_INPUT = ServiceInput.class.getSimpleName();
+	public static final Object SERVICE_OUTPUT = ServiceOutput.class.getSimpleName();
 
 }

@@ -125,4 +125,9 @@ public abstract class AbstractCodeBasedEntityDefinition<F extends FieldDefinitio
 	public List<String> getRoles() {
 		return Collections.emptyList();
 	}
+
+	public boolean isServiceInOut() {
+		return getCodeModel().isServiceInOut();
+	}
+
 }

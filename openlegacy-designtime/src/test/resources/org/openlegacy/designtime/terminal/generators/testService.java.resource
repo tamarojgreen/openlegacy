@@ -3,11 +3,13 @@ package com.someorg.examples.screens;
 import org.openlegacy.annotations.screen.FieldMapping;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenEntity;
+import org.openlegacy.annotations.ServiceOutput;
 
-@ScreenEntity(supportTerminalData=true)
-public class SignOn {
+@ServiceOutput
+@ScreenEntity()
+public class ItemDetails {
 
-	private String user;
-	private String password;
+	private Integer itemNumber;
+	private String description;
 
 }

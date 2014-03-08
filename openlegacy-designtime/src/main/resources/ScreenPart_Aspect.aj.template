@@ -26,7 +26,7 @@ privileged @SuppressWarnings("unused") aspect ${formattedClassName}Part_Aspect {
     }
 		</#if>
     
-		<#if !field.hasSetter && field.editable>
+		<#if serviceInOut || (!field.hasSetter && field.editable)>
     public void ${className}.set${field.name?cap_first}(${field.type} ${field.name}){
     	this.${field.name} = ${field.name};
     }

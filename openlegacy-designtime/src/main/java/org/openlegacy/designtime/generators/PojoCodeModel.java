@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.designtime.generators;
 
-
 /**
  * An interface which model the code model of screen classes annotation with @ScreenEntity, @ScreenPart, @ScreenTable
  * 
@@ -31,4 +30,7 @@ public interface PojoCodeModel {
 	String getDisplayName();
 
 	String getTypeName();
+
+	boolean isServiceInOut();
+
 }
