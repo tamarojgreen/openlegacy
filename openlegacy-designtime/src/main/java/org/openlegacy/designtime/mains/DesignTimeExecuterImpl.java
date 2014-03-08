@@ -101,6 +101,8 @@ import java.util.Map;
  */
 public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
+	private static final String APPLICATION_PROPERTIES = "src/main/resources/application.properties";
+
 	private final static Log logger = LogFactory.getLog(DesignTimeExecuterImpl.class);
 
 	private static final String DEFAULT_SPRING_CONTEXT_FILE = "/src/main/resources/META-INF/spring/applicationContext.xml";
@@ -157,7 +159,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		// spring files
 		updateSpringContextWithDefaultPackage(projectCreationRequest.getDefaultPackageName(), targetPath);
-		uncommentMockConnection(projectCreationRequest.getProvider(), targetPath);
+		uncommentMockSettings(projectCreationRequest.getProvider(), targetPath);
 
 		// eclipse files
 		renameProject(projectCreationRequest.getProjectName(), targetPath);
@@ -179,12 +181,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static void handleRightToLeft(File targetPath) throws FileNotFoundException, IOException {
 		removeComment(new File(targetPath, "pom.xml"), bidiCommentStart, bidiCommentEnd);
-		removeComment(new File(targetPath, "src/main/resources/META-INF/spring/applicationContext.xml"), bidiCommentStart,
-				bidiCommentEnd);
-		removeComment(new File(targetPath, "src/main/resources/META-INF/spring/applicationContext-test.xml"), bidiCommentStart,
-				bidiCommentEnd);
+		removeComment(new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
+		removeComment(new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
 
-		File appPropertiesFile = new File(targetPath, "src/main/resources/application.properties");
+		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
 		if (!appPropertiesFile.exists()) {
 			return;
@@ -215,18 +215,23 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		fileContent = fileContent.replaceAll(commentStart, "");
 		fileContent = fileContent.replaceAll(commentEnd, "");
 
-		FileOutputStream fos = new FileOutputStream(file);
-		IOUtils.write(fileContent, fos);
-		IOUtils.closeQuietly(fos);
+		FileUtils.write(fileContent, file);
 	}
 
-	private static void uncommentMockConnection(String provider, File targetPath) throws IOException {
+	private static void uncommentMockSettings(String provider, File targetPath) throws IOException {
 		if (!provider.equals("mock-up")) {
 			return;
 		}
 
 		File springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext.xml");
 		removeComment(springContextFile, mockupSessionCommentStart, mockupSessionCommentEnd);
+
+		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
+		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
+		appPropertiesFileContent = appPropertiesFileContent.replaceFirst("#screenEntityUtils.returnTrueOnDifferentKeys=.*",
+				"screenEntityUtils.returnTrueOnDifferentKeys=true");
+		FileUtils.write(appPropertiesFileContent, appPropertiesFile);
+
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
@@ -378,8 +383,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 							provider));
 		}
 
-		FileOutputStream fos = new FileOutputStream(pomFile);
-		IOUtils.write(pomFileContent, fos);
+		FileUtils.write(pomFileContent, pomFile);
 	}
 
 	private static void renameThemeInPOM(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException, IOException {
@@ -410,7 +414,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static void renameThemeInAppProperties(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
 			IOException {
-		File appPropertiesFile = new File(targetPath, "src/main/resources/application.properties");
+		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 
 		if (!appPropertiesFile.exists()) {
 			logger.error(MessageFormat.format("Unable to find application.properties within {0}", targetPath));
