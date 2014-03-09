@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.terminal;
 
+import org.openlegacy.SessionProperties;
+
 public interface DeviceAllocator {
 
-	String allocate(String pullName);
+	String allocate(String pullName, SessionProperties newSessionProperties);
 }
