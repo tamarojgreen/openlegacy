@@ -10,13 +10,14 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
+import org.openlegacy.SessionProperties;
 import org.openlegacy.terminal.DeviceAllocator;
 
 public class SimpleDeviceAllocator implements DeviceAllocator {
 
 	private String deviceName;
 
-	public String allocate(String pullName) {
+	public String allocate(String pullName, SessionProperties newSessionProperties) {
 		return deviceName;
 	}
 

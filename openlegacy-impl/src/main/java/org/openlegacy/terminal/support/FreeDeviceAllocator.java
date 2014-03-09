@@ -24,13 +24,18 @@ import javax.inject.Inject;
 
 public class FreeDeviceAllocator implements DeviceAllocator {
 
+	private static final String IP = "IP";
+	
 	@Inject
 	private SessionsManager<TerminalSession> sessionsManager;
 
 	private boolean errorWhenNotAvailable = false;
 	private String errorMessageWhenNotAvailable = "No device is available from:{0}";
+	private boolean disconnectOtherSessionWhenSameIP = false;
 
-	public String allocate(String pullName) {
+	private long delayAfterDisconnect = 3000;
+
+	public String allocate(String pullName,SessionProperties newSessionProperties) {
 		if (pullName == null) {
 			return null;
 		}
@@ -42,7 +47,8 @@ public class FreeDeviceAllocator implements DeviceAllocator {
 			for (SessionProperties sessionProperties : sessionsProperties) {
 				String activeDevice = (String)sessionProperties.getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
 				if (possibleDevice.equals(activeDevice)) {
-					used = true;
+					used = !disconnectWhenSameIp(newSessionProperties,
+							sessionProperties);
 				}
 			}
 			if (!used) {
@@ -55,6 +61,23 @@ public class FreeDeviceAllocator implements DeviceAllocator {
 		return null;
 	}
 
+	private boolean disconnectWhenSameIp(SessionProperties newSessionProperties,
+			SessionProperties sessionProperties) {
+		if (disconnectOtherSessionWhenSameIP){
+			String activeDeviceIp = (String) sessionProperties.getProperty(IP);
+			String newSessionIp = (String) newSessionProperties.getProperty(IP);
+			if (activeDeviceIp != null && newSessionIp != null && activeDeviceIp.equals(newSessionIp)){
+				sessionsManager.disconnect(sessionProperties.getId());
+				try {
+					Thread.sleep(delayAfterDisconnect);
+				} catch (InterruptedException e) {
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void setErrorWhenNotAvailable(boolean errorWhenNotAvailable) {
 		this.errorWhenNotAvailable = errorWhenNotAvailable;
 	}
@@ -63,4 +86,10 @@ public class FreeDeviceAllocator implements DeviceAllocator {
 		this.errorMessageWhenNotAvailable = errorMessageWhenNotAvailable;
 	}
 
+	public void setDisconnectOtherSessionWhenSameIP(boolean disconnectOtherSessionWhenSameIP) {
+		this.disconnectOtherSessionWhenSameIP = disconnectOtherSessionWhenSameIP;
+	}
+	public void setDelayAfterDisconnect(long delayAfterDisconnect) {
+		this.delayAfterDisconnect = delayAfterDisconnect;
+	}
 }

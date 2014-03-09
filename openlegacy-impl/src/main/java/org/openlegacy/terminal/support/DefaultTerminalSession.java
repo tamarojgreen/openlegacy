@@ -475,7 +475,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				public String getDeviceName() {
 					String device = (String)getProperties().getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
 					// treat the result property device as pool name
-					device = deviceAllocator.allocate(device);
+					device = deviceAllocator.allocate(device,getProperties());
 					if (device != null) {
 						getProperties().setProperty(TerminalSessionPropertiesConsts.DEVICE_NAME, device);
 					}
