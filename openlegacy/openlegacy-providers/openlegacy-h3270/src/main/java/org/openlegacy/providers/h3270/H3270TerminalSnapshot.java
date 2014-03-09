@@ -156,7 +156,7 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 	public String getLogicalText(TerminalPosition position, int length) {
 		String text = super.getText(position, length);
 		if (convertToLogical) {
-			text = BidiUtil.convertToLogical(text, false);
+			text = BidiUtil.convertToLogical(text, true);
 		}
 		return text;
 	}
