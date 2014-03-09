@@ -325,7 +325,7 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 	public String getLogicalText(TerminalPosition position, int length) {
 		String text = super.getText(position, length);
 		if (convertToLogical) {
-			text = BidiUtil.convertToLogical(text, false);
+			text = BidiUtil.convertToLogical(text, true);
 		}
 		return text;
 	}
