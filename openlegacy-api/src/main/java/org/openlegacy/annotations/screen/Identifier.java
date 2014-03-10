@@ -16,6 +16,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.openlegacy.terminal.FieldAttributeType;
+
 /**
  * Defines a terminal screen identifier. A set of identifiers on {@link ScreenIdentifiers} annotation, define a unique identifier
  * for a snapshot screen, and make it matched to a given a class marked with {@link ScreenEntity} annotation.
@@ -39,4 +41,5 @@ public @interface Identifier {
 
 	String value();
 
+	FieldAttributeType attribute() default FieldAttributeType.Value;
 }

@@ -10,23 +10,29 @@
  *******************************************************************************/
 package org.openlegacy.terminal.loaders.support;
 
+import java.lang.annotation.Annotation;
+import java.text.MessageFormat;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
+import org.openlegacy.terminal.Color;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.services.ScreenIdentification;
+import org.openlegacy.terminal.services.ScreenIdentifier;
+import org.openlegacy.terminal.support.FieldColorIdentifier;
+import org.openlegacy.terminal.support.FieldEditableIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-
-import java.lang.annotation.Annotation;
-import java.text.MessageFormat;
 
 @Component
 public class SimpleScreenIdentifiersAnnotationLoader extends AbstractClassAnnotationLoader {
@@ -55,15 +61,42 @@ public class SimpleScreenIdentifiersAnnotationLoader extends AbstractClassAnnota
 			ScreenIdentification screenIdentification = screenEntityDefinition.getScreenIdentification();
 			for (Identifier identifier : identifiers) {
 				TerminalPosition position = SimpleTerminalPosition.newInstance(identifier.row(), identifier.column());
-				String text = identifier.value();
-				SimpleScreenIdentifier simpleIdentifier = new SimpleScreenIdentifier(position, text,
-						screenEntityDefinition.isRightToLeft());
+				ScreenIdentifier simpleIdentifier = null;  
+				if (identifier.attribute() == FieldAttributeType.Editable){
+					if (!identifier.value().equals("true") && !identifier.value().equals("false")){
+						throw(new RegistryException("Identifier of type Editable must have \"true\" or \"false\" as value"));
+					}
+					Boolean editable = Boolean.valueOf(identifier.value());
+					simpleIdentifier = new FieldEditableIdentifier(position, editable);
+					if (logger.isDebugEnabled()) {
+						logger.debug(MessageFormat.format("Identifier {0} - editable: {1} , was added to the registry for screen {2}",
+								position, editable, screenEntityClass));
+					}
+					
+				}
+				else if (identifier.attribute() == FieldAttributeType.Color){
+					if (Color.valueOf(identifier.value()) == null){
+						throw(new RegistryException("Identifier of type Color must have org.openlegacy.terminal.Color as value"));
+					}
+					Color color = Color.valueOf(identifier.value());
+					simpleIdentifier = new FieldColorIdentifier(position, color);
+					if (logger.isDebugEnabled()) {
+						logger.debug(MessageFormat.format("Identifier {0} - color: {1} , was added to the registry for screen {2}",
+								position, color, screenEntityClass));
+					}
+					
+				}
+				else{
+					String text = identifier.value();
+					simpleIdentifier = new SimpleScreenIdentifier(position, text,
+							screenEntityDefinition.isRightToLeft());
+					if (logger.isDebugEnabled()) {
+						logger.debug(MessageFormat.format("Identifier {0} - \"{1}\" was added to the registry for screen {2}",
+								position, text, screenEntityClass));
+					}
+				}
 				screenIdentification.addIdentifier(simpleIdentifier);
 
-				if (logger.isDebugEnabled()) {
-					logger.debug(MessageFormat.format("Identifier {0} - \"{1}\" was added to the registry for screen {2}",
-							position, text, screenEntityClass));
-				}
 
 			}
 			logger.info(MessageFormat.format("Screen identifications for \"{0}\" was added to the screen registry",

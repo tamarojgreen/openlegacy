@@ -1,7 +1,9 @@
 package org.openlegacy.recognizers;
 
+import apps.inventory.screens.InventoryManagement;
 import apps.inventory.screens.MainMenu;
 import apps.inventory.screens.SignOn;
+import apps.inventory.screens.WarehouseDetails;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,5 +30,9 @@ public class RegistryBasedScreensRecognizerTest extends AbstractTest {
 		terminalSession.doAction(TerminalActions.ENTER());
 		MainMenu mainMenu = terminalSession.getEntity(MainMenu.class);
 		Assert.assertNotNull(mainMenu);
+		
+		terminalSession.doAction(TerminalActions.ENTER());
+		InventoryManagement inventoryManagement =  terminalSession.getEntity(InventoryManagement.class);
+		Assert.assertNotNull(inventoryManagement);
 	}
 }
