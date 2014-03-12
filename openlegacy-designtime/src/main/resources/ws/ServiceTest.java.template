@@ -2,10 +2,13 @@ package tests;
 
 import java.io.IOException;
 import java.io.StringWriter;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+ 
 import javax.inject.Inject;
 import javax.xml.transform.stream.StreamResult;
-
+ 
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,14 +33,19 @@ public class ${serviceName}ServiceTest {
 	private Marshaller marshaller;
 	
 	@Test
-	public void test${serviceName}Service() throws RegistryException, LoginException {
+	public void test${serviceName}Service() throws ParseException, XmlMappingException, IOException {
+
+		long before = System.currentTimeMillis();
 
 		${serviceName}Out ${serviceName?uncap_first}Out = ${serviceName?uncap_first}Client.get${serviceName}();
 		Assert.assertNotNull(${serviceName?uncap_first}Out);
-		
+
+        long after = System.currentTimeMillis();
+  		System.out.println("Execution time:" + (after-before));
+  				
 		StringWriter stringWriter = new StringWriter();
 		StreamResult result = new StreamResult(stringWriter);
-		marshaller.marshal(itemsOut, result);
+		marshaller.marshal(${serviceName?uncap_first}Out, result);
 		System.out.println(stringWriter.toString());
 		
 	}
