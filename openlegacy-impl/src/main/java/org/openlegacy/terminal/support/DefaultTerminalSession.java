@@ -211,6 +211,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 		if (entity == null) {
 			entity = getEntityInner();
+			if (entity == null) {
+				entity = new ScreenEntity.NONE();
+			}
+		}
+		if (entity != null && entity instanceof ScreenEntity.NONE) {
+			return null;
 		}
 		return (R)entity;
 	}
@@ -475,7 +481,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 				public String getDeviceName() {
 					String device = (String)getProperties().getProperty(TerminalSessionPropertiesConsts.DEVICE_NAME);
 					// treat the result property device as pool name
-					device = deviceAllocator.allocate(device,getProperties());
+					device = deviceAllocator.allocate(device, getProperties());
 					if (device != null) {
 						getProperties().setProperty(TerminalSessionPropertiesConsts.DEVICE_NAME, device);
 					}
