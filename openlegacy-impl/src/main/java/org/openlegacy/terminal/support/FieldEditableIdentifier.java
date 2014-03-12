@@ -43,7 +43,7 @@ public class FieldEditableIdentifier implements ScreenIdentifier, TerminalPositi
 
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		TerminalField field = terminalSnapshot.getField(position);
-		if (field.isEditable() == editable) {
+		if (field != null && field.isEditable() == editable) {
 			if (logger.isTraceEnabled()) {
 				logger.trace(MessageFormat.format("Found editable {0} identifier on screen", editable));
 			}

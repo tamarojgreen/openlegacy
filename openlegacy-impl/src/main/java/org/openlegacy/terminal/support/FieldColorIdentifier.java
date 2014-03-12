@@ -44,7 +44,7 @@ public class FieldColorIdentifier implements ScreenIdentifier, TerminalPositionC
 
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		TerminalField field = terminalSnapshot.getField(position);
-		if (field.getColor() == color) {
+		if (field != null && field.getColor() == color) {
 			if (logger.isTraceEnabled()) {
 				logger.trace(MessageFormat.format("Found color {0} identifier on screen", color));
 			}
