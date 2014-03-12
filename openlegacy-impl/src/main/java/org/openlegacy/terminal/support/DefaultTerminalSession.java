@@ -211,6 +211,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 		if (entity == null) {
 			entity = getEntityInner();
+			if (entity == null) {
+				entity = new ScreenEntity.NONE();
+			}
+		}
+		if (entity != null && entity instanceof ScreenEntity.NONE) {
+			return null;
 		}
 		return (R)entity;
 	}
