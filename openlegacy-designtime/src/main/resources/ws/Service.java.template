@@ -15,6 +15,12 @@ import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.en
 </#if>
 </#list>
 
+/**
+ *  A service interface and input/oputput definition for a web service.
+ *  Defines the contract between the client and server. The client uses the same interface for testing the service via Java code. 
+ *  The interface ${serviceName}Service can be customized to enabling passing parameters to the service.     
+ */
+
 @WebService
 public interface ${serviceName}Service {
 
