@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
-import java.io.Serializable;
-import java.text.MessageFormat;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.logging.Log;
@@ -23,6 +20,9 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.services.ScreenIdentifier;
+
+import java.io.Serializable;
+import java.text.MessageFormat;
 
 /**
  * A simple implementation for a screen identifier
@@ -44,7 +44,7 @@ public class FieldColorIdentifier implements ScreenIdentifier, TerminalPositionC
 
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		TerminalField field = terminalSnapshot.getField(position);
-		if (field.getColor() == color) {
+		if (field != null && field.getColor() == color) {
 			if (logger.isTraceEnabled()) {
 				logger.trace(MessageFormat.format("Found color {0} identifier on screen", color));
 			}
@@ -60,6 +60,7 @@ public class FieldColorIdentifier implements ScreenIdentifier, TerminalPositionC
 	public Color getColor() {
 		return color;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		return EqualsBuilder.reflectionEquals(this, obj);

@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support;
 
-import java.io.Serializable;
-import java.text.MessageFormat;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.logging.Log;
@@ -22,6 +19,9 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.services.ScreenIdentifier;
+
+import java.io.Serializable;
+import java.text.MessageFormat;
 
 /**
  * A simple implementation for a screen identifier
@@ -43,7 +43,7 @@ public class FieldEditableIdentifier implements ScreenIdentifier, TerminalPositi
 
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		TerminalField field = terminalSnapshot.getField(position);
-		if (field.isEditable() == editable) {
+		if (field != null && field.isEditable() == editable) {
 			if (logger.isTraceEnabled()) {
 				logger.trace(MessageFormat.format("Found editable {0} identifier on screen", editable));
 			}
@@ -59,7 +59,7 @@ public class FieldEditableIdentifier implements ScreenIdentifier, TerminalPositi
 	public boolean isEditable() {
 		return editable;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		return EqualsBuilder.reflectionEquals(this, obj);
