@@ -26,6 +26,8 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 
 	protected List<S> actives = new LinkedList<S>();
 
+	protected List<S> dirties = new LinkedList<S>();
+
 	protected Class<A> initAction = null;
 
 	protected Class<A> cleanupAction = null;
@@ -34,9 +36,13 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 
 	protected long keepAliveInterval = 300000; // 5 minutes by default
 
+	protected long returnSessionsInterval = 100;
+
 	protected Thread keepAliveThread;
 
-	protected boolean stopKeepAlive = false;
+	protected Thread returnSessionsThread;
+
+	protected boolean stopThreads = false;
 
 	protected abstract void initSession();
 
@@ -94,11 +100,25 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 		this.keepAliveInterval = keepAliveInterval;
 	}
 
+	public void setReturnSessionsInterval(long returnSessionsInterval) {
+		this.returnSessionsInterval = returnSessionsInterval;
+	}
+
 	public void destroy() throws Exception {
-		stopKeepAlive = true;
+		stopThreads = true;
 	}
 
 	public void returnSession(final S session) {
+		if (cleanupAction != null) {
+			logger.debug(MessageFormat.format("Adding session {0} to dirties for async recycling", session));
+			dirties.add(session);
+		} else {
+			returnSessionInner(session);
+		}
+
+	}
+
+	protected void returnSessionInner(final S session) {
 		if (session.isConnected()) {
 			if (cleanupAction != null) {
 				ReflectionUtil.newInstance(cleanupAction).perform(session, null);
@@ -112,7 +132,6 @@ public abstract class AbstractSessionPoolFactory<S extends Session, A extends Se
 		}
 		actives.remove(session);
 		logger.debug(MessageFormat.format("Session {0} removed from active sessions", session));
-
 	}
 
 }

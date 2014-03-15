@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.rpc.RpcSession;
+import org.openlegacy.rpc.RpcSessionFactory;
 import org.openlegacy.rpc.actions.RpcAction;
 import org.openlegacy.support.AbstractSessionPoolFactory;
 import org.openlegacy.utils.ReflectionUtil;
@@ -13,7 +14,7 @@ import java.text.MessageFormat;
 
 import javax.inject.Inject;
 
-public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcSession, RpcAction> {
+public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcSession, RpcAction> implements RpcSessionFactory {
 
 	private static final Log logger = LogFactory.getLog(SimpleRpcSessionPoolFactory.class);
 
@@ -27,7 +28,7 @@ public class SimpleRpcSessionPoolFactory extends AbstractSessionPoolFactory<RpcS
 
 				@Override
 				public void run() {
-					while (!stopKeepAlive) {
+					while (!stopThreads) {
 						try {
 							logger.debug("Keep alive is sleeping");
 							sleep(keepAliveInterval);
