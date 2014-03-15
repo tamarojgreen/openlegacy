@@ -359,8 +359,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 			fetchSnapshot();
 			resetEntity();
 			while (waitCondition.continueWait(this) && totalWait < waitCondition.getWaitTimeout()) {
-				if (logger.isTraceEnabled()) {
-					logger.trace(MessageFormat.format("Waiting for {0}ms. Current screen is:{1}",
+				if (logger.isDebugEnabled()) {
+					logger.debug(MessageFormat.format("Waiting for {0}ms. Current screen is:{1}",
 							waitCondition.getWaitInterval(), fetchSnapshot()));
 				}
 				try {

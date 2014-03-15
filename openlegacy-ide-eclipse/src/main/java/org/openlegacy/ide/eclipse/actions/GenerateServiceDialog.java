@@ -26,8 +26,11 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -44,6 +47,7 @@ public class GenerateServiceDialog extends AbstractGenerateCodeDialog {
 
 	private final static Logger logger = Logger.getLogger(GenerateServiceDialog.class);
 	private ISelection selection;
+	private boolean generatePool;
 
 	protected GenerateServiceDialog(Shell shell, ISelection selection) {
 		super(shell, (IFile)((ICompilationUnit)((TreeSelection)selection).getFirstElement()).getResource());
@@ -78,7 +82,7 @@ public class GenerateServiceDialog extends AbstractGenerateCodeDialog {
 					return Status.CANCEL_STATUS;
 				}
 				EclipseDesignTimeExecuter.instance().generateServiceFromEntity(javaFiles.get(0), getSourceFolder(),
-						getPackageValue(), GenerateServiceDialog.this, isGenerateTest());
+						getPackageValue(), GenerateServiceDialog.this, isGenerateTest(), isGeneratePool());
 
 				Display.getDefault().syncExec(new Runnable() {
 
@@ -101,15 +105,42 @@ public class GenerateServiceDialog extends AbstractGenerateCodeDialog {
 
 	@Override
 	protected void createDialogSpecific(Composite parent) {
+		Button generatePool = new Button(parent, SWT.CHECK);
+		generatePool.setText(Messages.getString("label_generate_pool"));
+
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.widthHint = 400;
+		generatePool.setLayoutData(gd);
+
+		generatePool.addSelectionListener(new SelectionListener() {
+
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+				setGeneratePool(true);
+			}
+
+			public void widgetSelected(SelectionEvent arg0) {
+				setGeneratePool(!isGeneratePool());
+			}
+
+		});
+
 		Composite composite = new Composite(parent, SWT.NONE);
 
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
+		gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
 		gd.horizontalSpan = 3;
 		composite.setLayoutData(gd);
 		composite.setLayout(gridLayout);
 
+	}
+
+	public boolean isGeneratePool() {
+		return generatePool;
+	}
+
+	private void setGeneratePool(boolean b) {
+		generatePool = b;
 	}
 
 	@Override

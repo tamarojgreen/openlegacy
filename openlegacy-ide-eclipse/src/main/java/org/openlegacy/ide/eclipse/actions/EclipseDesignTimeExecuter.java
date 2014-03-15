@@ -291,7 +291,7 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateServiceFromEntity(IFile entityJavaFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			final UserInteraction userInteraction, boolean generateTest) {
+			final UserInteraction userInteraction, boolean generateTest, boolean generatePool) {
 		IProject project = entityJavaFile.getProject();
 		File projectPath = new File(PathsUtil.toOsLocation(project), DesignTimeExecuterImpl.TEMPLATES_DIR);
 
@@ -310,6 +310,7 @@ public class EclipseDesignTimeExecuter {
 		generateServiceRequest.setTemplatesDirectory(projectPath);
 		generateServiceRequest.setUserInteraction(userInteraction);
 		generateServiceRequest.setGenerateTest(generateTest);
+		generateServiceRequest.setGeneratePool(generatePool);
 		designTimeExecuter.generateService(generateServiceRequest);
 
 		userInteraction.open(new File(sourceDirectoryPath, packagePath + "/" + serviceName + "ServiceImpl.java"));

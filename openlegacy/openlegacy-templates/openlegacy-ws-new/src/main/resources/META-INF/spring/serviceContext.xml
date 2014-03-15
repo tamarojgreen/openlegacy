@@ -11,14 +11,13 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
-	<!-- 
-	<bean id="examplePool"
-	class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" 
-	p:keepAliveAction="org.openlegacy.terminal.actions.TerminalActions.ENTER" p:keepAliveInterval="600000" 
-	p:initAction="<INIT ACTION CLASS (extends TerminalAction)>" p:cleanupAction="<CLEANUP ACTION CLASS (extends TerminalAction)>/>
-	-->
-	
 <!-- Register WS place-holder start
+<#if generatePool>
+	<bean id="${serviceName?uncap_first}Pool"
+	class="org.openlegacy.terminal.support.SimpleTerminalSessionPoolFactory" p:maxConnections="2" 
+	p:keepAliveAction="${package}.${serviceName}ServiceImpl.KeepAliveAction" p:keepAliveInterval="600000" 
+	p:initAction="${package}.${serviceName}ServiceImpl.InitAction" p:cleanupAction="${package}.${serviceName}ServiceImpl.CleanupAction"/>
+</#if>
 	<bean id="${serviceName?uncap_first}Impl" class="${package}.${serviceName}ServiceImpl" />
 
 	<jaxws:endpoint id="${serviceName?uncap_first}" implementor="#${serviceName?uncap_first}Impl" address="/${serviceName?uncap_first}" />

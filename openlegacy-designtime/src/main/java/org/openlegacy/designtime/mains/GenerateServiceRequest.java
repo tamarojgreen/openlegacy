@@ -24,6 +24,8 @@ public class GenerateServiceRequest extends AbstractGenerateRequest {
 
 	private ServiceType serviceType;
 
+	private boolean generatePool;
+
 	private boolean generateTest = true;
 
 	public String getServiceName() {
@@ -64,6 +66,14 @@ public class GenerateServiceRequest extends AbstractGenerateRequest {
 
 	public void setGenerateTest(boolean generateTest) {
 		this.generateTest = generateTest;
+	}
+
+	public boolean isGeneratePool() {
+		return generatePool;
+	}
+
+	public void setGeneratePool(boolean generatePool) {
+		this.generatePool = generatePool;
 	}
 
 	public enum ServiceType {
