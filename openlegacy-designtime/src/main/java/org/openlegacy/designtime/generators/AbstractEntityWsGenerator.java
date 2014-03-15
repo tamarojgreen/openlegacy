@@ -57,25 +57,31 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			File sourceDir = new File(generateServiceRequest.getSourceDirectory(), generateServiceRequest.getPackageDirectory());
 			String serviceName = generateServiceRequest.getServiceName();
 			File serviceInterfaceFile = new File(sourceDir, serviceName + SERVICE_SUFFIX);
+			boolean generate = true;
 			if (serviceInterfaceFile.exists()) {
 				boolean override = userInteraction.isOverride(serviceInterfaceFile);
 				if (!override) {
-					return;
+					generate = false;
 				}
 			}
-			serviceInterfaceFile.getParentFile().mkdirs();
-			fos = new FileOutputStream(serviceInterfaceFile);
-			getGenerateUtil().generate(generateServiceRequest, fos, SERVICE_TEMPLATE);
+			if (generate) {
+				serviceInterfaceFile.getParentFile().mkdirs();
+				fos = new FileOutputStream(serviceInterfaceFile);
+				getGenerateUtil().generate(generateServiceRequest, fos, SERVICE_TEMPLATE);
+			}
 
+			generate = true;
 			File serviceImplFile = new File(sourceDir, serviceName + SERVICE_IMPL_SUFFIX);
 			if (serviceImplFile.exists()) {
 				boolean override = userInteraction.isOverride(serviceImplFile);
 				if (!override) {
-					return;
+					generate = false;
 				}
 			}
-			fos = new FileOutputStream(serviceImplFile);
-			getGenerateUtil().generate(generateServiceRequest, fos, SERVICE_IMPL_TEMPLATE);
+			if (generate) {
+				fos = new FileOutputStream(serviceImplFile);
+				getGenerateUtil().generate(generateServiceRequest, fos, SERVICE_IMPL_TEMPLATE);
+			}
 
 			File serviceContextFile = new File(generateServiceRequest.getProjectPath(), SERVICE_CONTEXT_RELATIVE_PATH);
 
