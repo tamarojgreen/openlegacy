@@ -21,12 +21,15 @@ public class H3270Connection implements TerminalConnection {
 
 	private boolean convertToLogical;
 
+	private Boolean connected;
+
 	public H3270Connection(S3270 s3270Session, boolean convertToLogical) {
 		this.s3270Session = s3270Session;
 		this.convertToLogical = convertToLogical;
 	}
 
 	public TerminalSnapshot getSnapshot() {
+		connected = null;
 		s3270Session.updateScreen();
 		return new H3270TerminalSnapshot((S3270Screen)s3270Session.getScreen(), sequence, rightToLeftState, convertToLogical);
 	}
@@ -62,7 +65,10 @@ public class H3270Connection implements TerminalConnection {
 	}
 
 	public boolean isConnected() {
-		return s3270Session.isConnected();
+		if (connected == null) {
+			connected = s3270Session.isConnected();
+		}
+		return connected;
 	}
 
 	public void disconnect() {
