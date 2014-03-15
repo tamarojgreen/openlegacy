@@ -120,7 +120,7 @@
 	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityActionsBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.ScreenBinderLogic" />
 	
-	<bean id="waitConditionFactory" class="org.openlegacy.terminal.support.wait_conditions.DefaultWaitConditionFactory" p:defaultWaitInterval="250" p:defaultWaitTimeout="2000" />
+	<bean id="waitConditionFactory" class="org.openlegacy.terminal.support.wait_conditions.DefaultWaitConditionFactory" p:defaultWaitInterval="250" p:defaultWaitTimeout="5000" />
 	
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />
 	<!-- Default. Should be overrides by web apps -->
