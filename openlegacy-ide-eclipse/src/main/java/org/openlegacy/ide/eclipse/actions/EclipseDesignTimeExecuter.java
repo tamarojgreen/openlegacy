@@ -314,6 +314,7 @@ public class EclipseDesignTimeExecuter {
 		designTimeExecuter.generateService(generateServiceRequest);
 
 		userInteraction.open(new File(sourceDirectoryPath, packagePath + "/" + serviceName + "ServiceImpl.java"));
+		userInteraction.open(new File(sourceDirectoryPath, packagePath + "/" + serviceName + "Service.java"));
 
 	}
 }
