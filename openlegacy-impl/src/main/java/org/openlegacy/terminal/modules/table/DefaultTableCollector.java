@@ -86,7 +86,11 @@ public class DefaultTableCollector<T> implements ScreenTableCollector<T> {
 		while (cont) {
 
 			rows = (List<T>)fieldAccessor.getFieldValue(matchingDefinitionEntry.getKey());
-			allRows.addAll(rows);
+			if (rows.size() > 0 && allRows.contains(rows.get(0))) {
+				cont = false;
+			} else {
+				allRows.addAll(rows);
+			}
 
 			// more rows exists
 			if (allRows.size() < rowsCount) {
