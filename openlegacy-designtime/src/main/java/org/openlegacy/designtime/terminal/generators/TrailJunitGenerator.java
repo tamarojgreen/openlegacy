@@ -97,7 +97,7 @@ public class TrailJunitGenerator {
 
 				}
 
-				String nextEntityName = i < screenEntityDefinitions.size() ? screenEntityDefinitions.get(i + 1).getEntityName()
+				String nextEntityName = i < (screenEntityDefinitions.size() - 1) ? screenEntityDefinitions.get(i + 1).getEntityName()
 						: null;
 
 				if (nextEntityName != null) {
