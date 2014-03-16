@@ -77,5 +77,7 @@ public interface DesignTimeExecuter {
 
 	public void generateService(GenerateServiceRequest generateServiceRequest);
 
+	public void addServiceOutputAnnotation(File javaEntityFile);
+
 	public EntityDefinition<?> initEntityDefinition(File sourceFile);
 }

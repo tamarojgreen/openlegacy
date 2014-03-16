@@ -296,7 +296,8 @@ public class EclipseDesignTimeExecuter {
 		File projectPath = new File(PathsUtil.toOsLocation(project), DesignTimeExecuterImpl.TEMPLATES_DIR);
 
 		GenerateServiceRequest generateServiceRequest = new GenerateServiceRequest();
-		EntityDefinition<?> entityDefinition = designTimeExecuter.initEntityDefinition(PathsUtil.toOsLocation(entityJavaFile));
+		File javaFile = PathsUtil.toOsLocation(entityJavaFile);
+		EntityDefinition<?> entityDefinition = designTimeExecuter.initEntityDefinition(javaFile);
 		generateServiceRequest.setServiceType(entityDefinition instanceof ScreenEntityDefinition ? ServiceType.SCREEN
 				: ServiceType.RPC);
 		generateServiceRequest.getOutputParameters().add(new ServiceEntityParameter(entityDefinition));
@@ -312,6 +313,8 @@ public class EclipseDesignTimeExecuter {
 		generateServiceRequest.setGenerateTest(generateTest);
 		generateServiceRequest.setGeneratePool(generatePool);
 		designTimeExecuter.generateService(generateServiceRequest);
+
+		designTimeExecuter.addServiceOutputAnnotation(javaFile);
 
 		userInteraction.open(new File(sourceDirectoryPath, packagePath + "/" + serviceName + "ServiceImpl.java"));
 		userInteraction.open(new File(sourceDirectoryPath, packagePath + "/" + serviceName + "Service.java"));

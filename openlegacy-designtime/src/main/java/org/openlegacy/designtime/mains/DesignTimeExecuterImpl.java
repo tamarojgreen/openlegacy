@@ -1028,4 +1028,19 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 
 	}
+
+	public void addServiceOutputAnnotation(File javaEntityFile) {
+		String fileContent;
+		try {
+			fileContent = org.apache.commons.io.FileUtils.readFileToString(javaEntityFile);
+			fileContent = fileContent.replace("@ScreenEntity",
+					"import org.openlegacy.annotations.ServiceOutput;\n\n@ServiceOutput\n@ScreenEntity");
+			fileContent = fileContent.replace("@RpcEntity",
+					"import org.openlegacy.annotations.ServiceOutput;\n\n@ServiceOutput\n@RpcEntity");
+			FileUtils.write(fileContent, javaEntityFile);
+		} catch (IOException e) {
+			throw (new RuntimeException(e));
+		}
+
+	}
 }
