@@ -57,10 +57,18 @@ public class SimpleMenuItem implements MenuItem, Serializable, Cloneable {
 	}
 
 	@Override
+	public int hashCode() {
+		return getDisplayName().hashCode();
+	}
+	
+	@Override
 	public String toString() {
 		return getDisplayName();
 	}
 
+	public void setTargetEntityName(String targetEntityName) {
+		this.targetEntityName = targetEntityName;
+	}
 	@Override
 	public MenuItem clone() {
 		SimpleMenuItem menuItem = new SimpleMenuItem(targetEntity, displayName, depth);
