@@ -56,7 +56,7 @@
 	<div class="table" style="${style}">
 		<table>
 			<tr>
-			<c:forEach items="${tableDefinition.columnDefinitions}" var="column">
+			<c:forEach items="${tableDefinition.columnDefinitions}" var="column" varStatus="columnIndex">
 				<c:if test="${column.rowsOffset == 0}">
 				<th>${column.displayName}</th>
 				</c:if>
@@ -100,6 +100,7 @@
 										</select>
 									</c:when>
 									<c:otherwise>
+										<input type="hidden" name="${column.name}_${columnIndex.index}" id="${column.name}_${columnIndex.index}" />
 										<c:forEach items="${tableDefinition.actions}" var="action"
 											varStatus="counter">
 											<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
@@ -112,7 +113,7 @@
 											<c:set var="target" value="${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${keysValues}" />
 											<c:if test="${action.targetEntity == null}">
 												<c:set var="target"
-													value="javascript:alert('No target entity specified for table action in table class @ScreenTableActions annotation');" />
+													value="javascript:document.getElementById('${column.name}_${columnIndex.index}').value='${action.action.actionValue}';doPost()" />
 											</c:if>
 											<a href="${target}"
 												class="${actionsCss} ${action.alias}"
