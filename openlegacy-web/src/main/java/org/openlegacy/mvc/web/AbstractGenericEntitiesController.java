@@ -23,6 +23,7 @@ import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.mvc.MvcUtils;
 import org.openlegacy.mvc.OpenLegacyWebProperties;
 import org.openlegacy.utils.ProxyUtil;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.mobile.device.site.SitePreference;
 import org.springframework.mobile.device.site.SitePreferenceUtils;
 import org.springframework.ui.Model;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,13 +47,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * OpenLegacy default web controller for a terminal session. Handles GET/POST requests of a web application. Works closely with
+ * OpenLegacy generic web controller for a session. Handles GET/POST requests of a web application. Works closely with
  * generic.jspx / composite.jspx. Saves the need for a dedicated controller and page for each screen API, if such doesn't exists.
  * 
  * @author Roi Mor
  * 
  */
-public abstract class AbstractGenericEntitiesController<S extends Session> {
+public abstract class AbstractGenericEntitiesController<S extends Session> implements InitializingBean{
 
 	protected static final String ACTION = "action";
 
@@ -74,9 +76,9 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 	@Inject
 	private ServletContext servletContext;
 
-	private String mobileViewsPath = "/WEB-INF/mobile/views";
+	private List<String> mobileViewsPaths = new ArrayList<String>();
 
-	private String webViewsPath = "/WEB-INF/web/views";
+	private List<String> webViewsPaths = new ArrayList<String>();
 
 	private String viewsSuffix = ".jspx";
 
@@ -169,11 +171,12 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 		boolean isEmpty = !isComposite && entityDefinition.getFieldsDefinitions().size() == 0
 				&& entityDefinition.getPartsDefinitions().size() == 0;
 
-		String viewsPath = sitePreference == SitePreference.MOBILE ? mobileViewsPath : webViewsPath;
+		List<String> viewsPaths = sitePreference == SitePreference.MOBILE ? mobileViewsPaths : webViewsPaths;
 
+		
 		// check if custom view exists, if not load generic view by
 		// characteristics
-		if (servletContext.getResource(MessageFormat.format("{0}/{1}{2}", viewsPath, viewName, viewsSuffix)) == null) {
+		if (!isResourceExists(viewsPaths,viewName,viewsSuffix)) {
 			if (isComposite) {
 				// generic composite view (multi tabbed page)
 				viewName = MvcConstants.COMPOSITE;
@@ -197,6 +200,15 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 		return viewName;
 	}
 
+	private boolean isResourceExists(List<String> viewsPaths, String viewName, String viewsSuffix) throws MalformedURLException {
+		for (String viewsPath : viewsPaths) {
+			 if (servletContext.getResource(MessageFormat.format("{0}/{1}{2}", viewsPath, viewName, viewsSuffix)) != null){
+				 return true;
+			 }
+		}
+		return false;
+	}
+	
 	/**
 	 * Look for the given entity in the registry, and return HTTP 400 (BAD REQUEST) in case it's not found
 	 * 
@@ -220,12 +232,19 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 		MvcUtils.registerEditors(binder, entitiesRegistry);
 	}
 
-	public void setWebViewsPath(String webViewsPath) {
-		this.webViewsPath = webViewsPath;
+	public List<String> getWebViewsPaths(){
+		return webViewsPaths;
+	}
+	
+	public void setWebViewsPaths(List<String> webViewsPaths){
+		this.webViewsPaths = webViewsPaths;
 	}
 
-	public void setMobileViewsPath(String mobileViewsPath) {
-		this.mobileViewsPath = mobileViewsPath;
+	public List<String> getMobileViewsPaths(){
+		return mobileViewsPaths;
+	}
+	public void setMobileViewsPaths(List<String> mobileViewsPaths){
+		this.mobileViewsPaths = mobileViewsPaths;
 	}
 
 	public void setViewsSuffix(String viewsSuffix) {
@@ -235,4 +254,16 @@ public abstract class AbstractGenericEntitiesController<S extends Session> {
 	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry() {
 		return entitiesRegistry;
 	}
+	
+
+
+	public void afterPropertiesSet() throws Exception {
+		if (webViewsPaths.size() == 0){
+			webViewsPaths.add("/WEB-INF/web/views");
+		}
+		if (mobileViewsPaths.size() == 0){
+			mobileViewsPaths.add("/WEB-INF/mobile/views");
+		}
+	}
+
 }
