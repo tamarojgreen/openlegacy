@@ -23,11 +23,6 @@ import java.text.MessageFormat;
 
 public class MvcGenerateUtil {
 
-	public static final String WEB_VIEWS_DIR = "src/main/webapp/WEB-INF/web/views/";
-	public static final String MOBILE_VIEWS_DIR = "src/main/webapp/WEB-INF/mobile/views/";
-	public static final String HELP_DIR = "src/main/webapp/help/";
-
-	public static final String VIEWS_FILE = "views.xml";
 	public static final String TILES_VIEW_PLACEHOLDER_START = "<!-- Marker for code generation start:";
 	public static final String TILES_VIEW_PLACEHOLDER_END = "Marker for code generation end -->";
 

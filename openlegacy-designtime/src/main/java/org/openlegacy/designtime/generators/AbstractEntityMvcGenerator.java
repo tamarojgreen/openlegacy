@@ -13,12 +13,8 @@ package org.openlegacy.designtime.generators;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.COMPOSITE_SUFFIX;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.COMPOSITE_TEMPLATE;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.COMPOSITE_VIEW;
-import static org.openlegacy.designtime.generators.MvcGenerateUtil.HELP_DIR;
-import static org.openlegacy.designtime.generators.MvcGenerateUtil.MOBILE_VIEWS_DIR;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_MOBILE_DIR_PREFIX;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_WEB_DIR_PREFIX;
-import static org.openlegacy.designtime.generators.MvcGenerateUtil.VIEWS_FILE;
-import static org.openlegacy.designtime.generators.MvcGenerateUtil.WEB_VIEWS_DIR;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
@@ -40,6 +36,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator {
+
+	public String webViewsDir = "src/main/webapp/WEB-INF/web/views/";
+	public String mobileViewsDir = "src/main/webapp/WEB-INF/mobile/views/";
+	public String helpDir = "src/main/webapp/help/";
+
+	public String viewsFile = "views.xml";
 
 	private final static Log logger = LogFactory.getLog(AbstractEntityMvcGenerator.class);
 
@@ -69,7 +71,7 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 
 			if (generateViewRequest.isGenerateHelp()) {
 				boolean generateHelp = true;
-				File helpFile = new File(generateViewRequest.getProjectPath(), MessageFormat.format("{0}{1}.html", HELP_DIR,
+				File helpFile = new File(generateViewRequest.getProjectPath(), MessageFormat.format("{0}{1}.html", helpDir,
 						entityClassName));
 				if (helpFile.exists()) {
 					boolean override = userInteraction.isOverride(helpFile);
@@ -92,12 +94,12 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 
 			// generate web view
 			String mvcTemplateType = MvcGenerateUtil.getMvcTemplateType(entityDefinition, isComposite, isChild, false);
-			generateView(generateViewRequest, pageDefinition, WEB_VIEWS_DIR, TEMPLATE_WEB_DIR_PREFIX, userInteraction,
-					isComposite, mvcTemplateType, COMPOSITE_TEMPLATE);
+			generateView(generateViewRequest, pageDefinition, webViewsDir, TEMPLATE_WEB_DIR_PREFIX, userInteraction, isComposite,
+					mvcTemplateType, COMPOSITE_TEMPLATE);
 			// generate mobile view
 			if (generateViewRequest.isGenerateMobilePage()) {
 				mvcTemplateType = MvcGenerateUtil.getMvcTemplateType(entityDefinition, isComposite, isChild, true);
-				generateView(generateViewRequest, pageDefinition, MOBILE_VIEWS_DIR, TEMPLATE_MOBILE_DIR_PREFIX, userInteraction,
+				generateView(generateViewRequest, pageDefinition, mobileViewsDir, TEMPLATE_MOBILE_DIR_PREFIX, userInteraction,
 						isComposite, mvcTemplateType, COMPOSITE_VIEW);
 			}
 
@@ -166,7 +168,7 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 
 				String viewName = entityDefinition.getEntityClassName();
 
-				String tilesViewsFile = viewsDir + VIEWS_FILE;
+				String tilesViewsFile = viewsDir + viewsFile;
 				MvcGenerateUtil.updateViewsFile(generatePageRequest.getProjectPath(), entityDefinition, viewName,
 						mvcTemplateType, tilesViewsFile);
 
@@ -199,5 +201,21 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 
 	public boolean isSupportControllerGeneration() {
 		return true;
+	}
+
+	public void setWebViewsDir(String webViewsDir) {
+		this.webViewsDir = webViewsDir;
+	}
+
+	public void setMobileViewsDir(String mobileViewsDir) {
+		this.mobileViewsDir = mobileViewsDir;
+	}
+
+	public void setViewsFile(String viewsFile) {
+		this.viewsFile = viewsFile;
+	}
+
+	public void setHelpDir(String helpDir) {
+		this.helpDir = helpDir;
 	}
 }
