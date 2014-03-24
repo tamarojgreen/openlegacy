@@ -72,7 +72,7 @@ public class DefaultTerminalMenuModule extends TerminalSessionModuleAdapter impl
 
 	public List<MenuItem> getFlatMenuEntries() {
 		if (userFlatMenus == null) {
-			List<MenuItem> flatMenuEntries = menuBuilder.getFlatMenuEntries();
+			List<MenuItem> flatMenuEntries = menuBuilder.getFlatMenuEntries(currentMainMenu);
 			userFlatMenus = authorizationService.filterMenus(getSession().getModule(Login.class).getLoggedInUser(),
 					flatMenuEntries);
 		}
