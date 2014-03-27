@@ -135,4 +135,6 @@ public interface EntityDefinition<D extends FieldDefinition> {
 	boolean isValidateKeys();
 
 	List<String> getRoles();
+
+	boolean isEmpty();
 }

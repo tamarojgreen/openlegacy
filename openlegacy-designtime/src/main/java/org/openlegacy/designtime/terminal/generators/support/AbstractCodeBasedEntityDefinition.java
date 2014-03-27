@@ -130,4 +130,7 @@ public abstract class AbstractCodeBasedEntityDefinition<F extends FieldDefinitio
 		return getCodeModel().isServiceInOut();
 	}
 
+	public boolean isEmpty() {
+		return false;
+	}
 }
