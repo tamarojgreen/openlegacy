@@ -78,5 +78,9 @@ public class SimpleTerminalSessionPoolTest {
 			return called;
 		}
 
+		public boolean isMacro() {
+			return false;
+		}
+
 	}
 }

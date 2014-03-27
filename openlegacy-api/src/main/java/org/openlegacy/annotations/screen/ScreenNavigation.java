@@ -109,6 +109,10 @@ public @interface ScreenNavigation {
 			// dummy method to avoid json serialization error
 			return getClass().getSimpleName();
 		}
+
+		public boolean isMacro() {
+			return false;
+		}
 	}
 
 }

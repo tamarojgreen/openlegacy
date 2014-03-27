@@ -24,6 +24,8 @@ public interface TerminalAction extends SessionAction<TerminalSession> {
 
 	public static final String NONE = "none";
 
+	boolean isMacro();
+
 	public enum AdditionalKey {
 		NONE,
 		SHIFT,

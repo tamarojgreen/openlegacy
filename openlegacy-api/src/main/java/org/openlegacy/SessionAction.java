@@ -18,5 +18,6 @@ package org.openlegacy;
  */
 public interface SessionAction<S extends Session> {
 
-	void perform(S session, Object entity,Object... keys);
+	void perform(S session, Object entity, Object... keys);
+
 }

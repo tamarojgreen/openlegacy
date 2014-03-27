@@ -22,7 +22,6 @@ import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.modules.table.Table;
 import org.openlegacy.modules.table.drilldown.DrilldownAction;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.ScreenEntity.NONE;
 import org.openlegacy.terminal.ScreenPojoFieldAccessor;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -100,7 +99,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 
 			NavigationDefinition navigationDefinition = targetEntityDefinition.getNavigationDefinition();
 			// invoke custom navigation (NONE screen)
-			if (navigationDefinition != null && navigationDefinition.getAccessedFrom() == NONE.class) {
+			if (navigationDefinition != null && navigationDefinition.getTerminalAction().isMacro()) {
 				navigationSteps = new ArrayList<NavigationDefinition>();
 				navigationSteps.add(navigationDefinition);
 			} else {
@@ -216,11 +215,11 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 
 		String fieldName = fieldAssignDefinition.getName();
 		String menuText = fieldAssignDefinition.getMenuText();
-		if (menuText != null){
+		if (menuText != null) {
 			MenuOptionFinder menuOptionFinder = applicationContext.getBean(MenuOptionFinder.class);
 			String menuOption = menuOptionFinder.findMenuOption(terminalSnapshot, menuText);
-			if (menuOption != null){
-				if (logger.isDebugEnabled()){
+			if (menuOption != null) {
+				if (logger.isDebugEnabled()) {
 					logger.debug("Assigning found menu option:" + menuOption + " following menu text:" + menuText);
 				}
 				fieldAccessor.setFieldValue(fieldName, menuOption);
@@ -228,7 +227,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 				return;
 			}
 		}
-		
+
 		String value = fieldAssignDefinition.getValue();
 		if (value != null && authorizationService.canAssignField(user, fieldAssignDefinition)) {
 			fieldAccessor.setFieldValue(fieldName, value);
@@ -252,7 +251,7 @@ public class DefaultSessionNavigator implements SessionNavigator, Serializable {
 		navigationSteps.add(navigationDefinition);
 		while (currentNavigationNode != null) {
 			currentNavigationNode = navigationDefinition.getAccessedFrom();
-			if (currentNavigationNode == NONE.class) {
+			if (navigationDefinition.getTerminalAction().isMacro()) {
 				logger.debug(MessageFormat.format(
 						"Found NONE for accessedFrom in @ScreenNavigation withing screen {0}. Ignoring direct navigation path",
 						currentNavigationNode.getName()));

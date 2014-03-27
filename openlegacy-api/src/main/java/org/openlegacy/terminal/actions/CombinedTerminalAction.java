@@ -29,7 +29,7 @@ public class CombinedTerminalAction implements TerminalMappedAction, Serializabl
 	private AdditionalKey additionalKey;
 	private Class<? extends TerminalAction> terminalAction;
 
-	public void perform(TerminalSession session, Object entity,Object... keys) {
+	public void perform(TerminalSession session, Object entity, Object... keys) {
 		// if we got here it means the actions is not mapped...
 		throw (new TerminalActionNotMappedException(MessageFormat.format(
 				"Specified action {0} is not mapped to a terminal command", getClass())));
@@ -68,5 +68,9 @@ public class CombinedTerminalAction implements TerminalMappedAction, Serializabl
 	@Override
 	public String toString() {
 		return terminalAction.getSimpleName();
+	}
+
+	public boolean isMacro() {
+		return false;
 	}
 }

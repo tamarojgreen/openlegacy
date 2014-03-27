@@ -55,6 +55,10 @@ public class TerminalActions {
 		public boolean equals(Object obj) {
 			return obj.getClass().equals(getClass());
 		}
+
+		public boolean isMacro() {
+			return false;
+		}
 	}
 
 	public static SessionAction<? extends Session> combined(AdditionalKey additionalKey, TerminalAction terminalAction) {
