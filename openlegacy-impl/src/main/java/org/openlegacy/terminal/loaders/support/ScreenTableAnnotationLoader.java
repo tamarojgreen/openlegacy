@@ -17,6 +17,7 @@ import org.openlegacy.annotations.screen.ScreenColumn;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
@@ -122,7 +123,9 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				if (columnDefinition.isSelectionField()) {
 					columnDefinition.setEditable(true);
 				}
-
+				if (screenColumnAnnotation.targetEntity() != ScreenEntity.NONE.class) {
+					columnDefinition.setTargetEntity(screenColumnAnnotation.targetEntity());
+				}
 				columnDefinition.setHelpText(screenColumnAnnotation.helpText());
 
 				if (columnDefinition.isKey() && columnDefinition.isSelectionField()) {

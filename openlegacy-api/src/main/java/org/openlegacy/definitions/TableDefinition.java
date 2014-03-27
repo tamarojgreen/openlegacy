@@ -72,6 +72,7 @@ public interface TableDefinition<C extends ColumnDefinition> {
 		 */
 		int getSortIndex();
 
+		Class<?> getTargetEntity();
 	}
 
 }
