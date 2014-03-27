@@ -83,7 +83,7 @@
             <actionName>CombinedTerminalAction</actionName>
             <displayName>Number Seq</displayName>
             <alias>numberSeq</alias>
-            <action xsi:type="java:org.openlegacy.terminal.actions.CombinedTerminalAction">
+            <action macro="false" xsi:type="java:org.openlegacy.terminal.actions.CombinedTerminalAction">
                 <additionalKey>SHIFT</additionalKey>
             </action>
         </actions>
