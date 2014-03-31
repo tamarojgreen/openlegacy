@@ -23,8 +23,10 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalRow;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.TerminalActionException;
+import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
@@ -46,6 +48,9 @@ public class ScreenBinderLogic implements Serializable {
 
 	@Inject
 	private FieldComparator fieldComparator;
+	
+	@Inject
+	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	private String descriptionFieldSuffix = "Description";
 
@@ -316,9 +321,11 @@ public class ScreenBinderLogic implements Serializable {
 		}
 		if (screenPojo instanceof ScreenEntity) {
 			ScreenEntity screenEntity = (ScreenEntity)screenPojo;
+			ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity.getClass());
 			String focusField = screenEntity.getFocusField();
 			if (NumberUtils.isNumber(focusField)) {
-				sendAction.setCursorPosition(SnapshotUtils.toPosition(Integer.parseInt(focusField), ScreenSize.DEFAULT_COLUMN));
+				int columns = screenEntityDefinition.getScreenSize().getColumns();
+				sendAction.setCursorPosition(SnapshotUtils.toPosition(Integer.parseInt(focusField), columns));
 				if (logger.isDebugEnabled()) {
 					logger.debug(MessageFormat.format("Cursor was set at position {0}", focusField));
 				}
