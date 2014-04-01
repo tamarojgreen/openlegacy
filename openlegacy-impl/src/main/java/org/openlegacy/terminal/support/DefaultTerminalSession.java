@@ -483,6 +483,9 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 					// treat the result property device as pool name
 					device = deviceAllocator.allocate(device,getProperties());
 					if (device != null) {
+							logger.info(MessageFormat.format(
+									"Allocated device {0} for new session",
+									device));
 						getProperties().setProperty(TerminalSessionPropertiesConsts.DEVICE_NAME, device);
 					}
 					return device;
