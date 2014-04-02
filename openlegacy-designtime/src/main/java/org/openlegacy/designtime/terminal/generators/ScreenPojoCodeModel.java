@@ -61,4 +61,11 @@ public interface ScreenPojoCodeModel extends PojoCodeModel {
 	int getPartWidth();
 
 	SimpleScreenSize getScreenSize();
+
+	boolean isValidateKeys();
+
+	boolean isRightToLeft();
+
+	List<String> getRoles();
+
 }

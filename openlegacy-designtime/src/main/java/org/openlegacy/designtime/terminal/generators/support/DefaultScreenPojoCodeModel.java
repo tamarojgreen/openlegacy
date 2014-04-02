@@ -11,6 +11,7 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
+import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationStringAttributes;
 
 import org.openlegacy.FieldType.General;
 import org.openlegacy.definitions.FieldTypeDefinition;
@@ -38,6 +39,7 @@ import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
+import japa.parser.ast.expr.MemberValuePair;
 import japa.parser.ast.expr.NormalAnnotationExpr;
 
 import java.util.ArrayList;
@@ -85,14 +87,15 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private int length;
 		private String when;
 
-		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey, int row, int column, int length, String when) {
+		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey, int row, int column,
+				int length, String when) {
 			this.alias = alias;
 			this.actionName = actionName;
 			this.displayName = displayName;
 			this.additionalKey = additionalKey;
 			this.row = row;
 			this.column = column;
-			this.length = length ;
+			this.length = length;
 			this.when = when;
 		}
 
@@ -513,6 +516,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	private boolean serviceInOut = false;
 
+	// @ScreenEntity attrubutes
+	private boolean validateKeys = true;
+	private boolean rightToLeft = false;
+	private List<String> roles = new ArrayList<String>();
+
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
@@ -699,37 +707,34 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String supportTerminalDataString = null;
 		String screenSizeRowsFromAnnotation = null;
 		String screenSizeColumnsFromAnnotation = null;
+		String validateKeysFlagFromAnnotations = null;
+		String rightToLeftFlagFromAnnotation = null;
+		List<String> rolesFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
 
-			supportTerminalDataString = findAnnotationAttribute(ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA,
-					normalAnnotationExpr.getPairs());
-			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, normalAnnotationExpr.getPairs());
-			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, normalAnnotationExpr.getPairs());
-			typeNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCREEN_TYPE,
-					normalAnnotationExpr.getPairs());
-			childFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
-			startRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.START_ROW,
-					normalAnnotationExpr.getPairs());
-			endRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.END_ROW,
-					normalAnnotationExpr.getPairs());
-			windowFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
+			List<MemberValuePair> pairs = normalAnnotationExpr.getPairs();
+			supportTerminalDataString = findAnnotationAttribute(ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA, pairs);
+			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, pairs);
+			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, pairs);
+			typeNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCREEN_TYPE, pairs);
+			childFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.CHILD, pairs);
+			startRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.START_ROW, pairs);
+			endRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.END_ROW, pairs);
+			windowFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.WINDOW, pairs);
 
-			nextScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.NEXT_SCREEN_ACTION,
-					normalAnnotationExpr.getPairs());
-			previousScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.PREV_SCREEN_ACTION,
-					normalAnnotationExpr.getPairs());
-			tableCollectorNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.TABLE_COLLECTOR,
-					normalAnnotationExpr.getPairs());
-			scrollableFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCROLLABLE,
-					normalAnnotationExpr.getPairs());
-			rowGapsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROW_GAPS, normalAnnotationExpr.getPairs());
+			nextScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.NEXT_SCREEN_ACTION, pairs);
+			previousScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.PREV_SCREEN_ACTION, pairs);
+			tableCollectorNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.TABLE_COLLECTOR, pairs);
+			scrollableFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCROLLABLE, pairs);
+			rowGapsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROW_GAPS, pairs);
 
-			screenSizeRowsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROWS,
-					normalAnnotationExpr.getPairs());
-			screenSizeColumnsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.COLUMNS,
-					normalAnnotationExpr.getPairs());
+			screenSizeRowsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROWS, pairs);
+			screenSizeColumnsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.COLUMNS, pairs);
+			validateKeysFlagFromAnnotations = findAnnotationAttribute(ScreenAnnotationConstants.VALIDATE_KEYS, pairs);
+			rightToLeftFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.RIGHT_TO_LEFT, pairs);
+			rolesFromAnnotation = findAnnotationStringAttributes(ScreenAnnotationConstants.ROLES, pairs);
 		}
 		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
@@ -768,6 +773,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 		screenSize = new SimpleScreenSize(Integer.valueOf(screenSizeRowsFromAnnotation),
 				Integer.valueOf(screenSizeColumnsFromAnnotation));
+		validateKeys = validateKeysFlagFromAnnotations != null ? Boolean.valueOf(validateKeysFlagFromAnnotations) : true;
+		rightToLeft = rightToLeftFlagFromAnnotation != null ? Boolean.valueOf(rightToLeftFlagFromAnnotation) : false;
+		roles = rolesFromAnnotation != null ? rolesFromAnnotation : new ArrayList<String>();
 	}
 
 	public List<Action> getActions() {
@@ -914,4 +922,17 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	public boolean isServiceInOut() {
 		return serviceInOut;
 	}
+
+	public boolean isValidateKeys() {
+		return validateKeys;
+	}
+
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
 }

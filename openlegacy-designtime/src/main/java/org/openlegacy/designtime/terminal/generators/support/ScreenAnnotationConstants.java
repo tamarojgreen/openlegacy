@@ -60,6 +60,9 @@ public class ScreenAnnotationConstants {
 	public static final String WINDOW = "window";
 	public static final String ROWS = "rows";
 	public static final String COLUMNS = "columns";
+	public static final String VALIDATE_KEYS = "validateKeys";
+	public static final String RIGHT_TO_LEFT = "rightToLeft";
+	public static final String ROLES = "roles";
 
 	// @ScreenFieldValues
 	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";
@@ -108,12 +111,11 @@ public class ScreenAnnotationConstants {
 	// @PartPosition
 	public static final String WIDTH = "width";
 	public static final String ACTION = "action";
-	
-	
+
 	// default values for annotation.
 	// TODO decide maybe derive actual annotation default values from these
 	public static final int ROW_DEFAULT_VALUE = 0;
 	public static final int COLUMN_DEFAULT_VALUE = 0;
 	public static final int LENGTH_DEFAULT_VALUE = 0;
-	
+
 }
