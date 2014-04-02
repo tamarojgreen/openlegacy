@@ -110,6 +110,12 @@ public class ScreenCodeBasedDefinitionUtils {
 						javaFieldModel.getDescriptionEndColumn() != null ? javaFieldModel.getDescriptionEndColumn() : 0));
 				fieldDefinition.setDescriptionFieldDefinition(descriptionFieldDefinition);
 			}
+			// @author Ivan Bort refs assembla #483
+			fieldDefinition.setKeyIndex(javaFieldModel.getKeyIndex());
+			fieldDefinition.setInternal(javaFieldModel.isInternal());
+			fieldDefinition.setGlobal(javaFieldModel.isGlobal());
+			fieldDefinition.setNullValue(javaFieldModel.getNullValue());
+
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;

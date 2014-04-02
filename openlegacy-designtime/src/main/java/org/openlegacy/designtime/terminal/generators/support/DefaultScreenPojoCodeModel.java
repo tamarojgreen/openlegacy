@@ -208,6 +208,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private Integer descriptionRow;
 		private Integer descriptionColumn;
 		private Integer descriptionEndColumn;
+		// @author Ivan Bort refs assembla #483
+		private int keyIndex;
+		private boolean internal;
+		private boolean global;
+		private String nullValue;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -477,6 +482,38 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setDescriptionEndColumn(Integer descriptionEndColumn) {
 			this.descriptionEndColumn = descriptionEndColumn;
+		}
+
+		public int getKeyIndex() {
+			return keyIndex;
+		}
+
+		public void setKeyIndex(int keyIndex) {
+			this.keyIndex = keyIndex;
+		}
+
+		public boolean isInternal() {
+			return internal;
+		}
+
+		public void setInternal(boolean internal) {
+			this.internal = internal;
+		}
+
+		public boolean isGlobal() {
+			return global;
+		}
+
+		public void setGlobal(boolean global) {
+			this.global = global;
+		}
+
+		public String getNullValue() {
+			return nullValue;
+		}
+
+		public void setNullValue(String nullValue) {
+			this.nullValue = nullValue;
 		}
 
 	}

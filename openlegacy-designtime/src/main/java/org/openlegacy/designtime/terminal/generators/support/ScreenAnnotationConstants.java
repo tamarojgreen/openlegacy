@@ -97,6 +97,10 @@ public class ScreenAnnotationConstants {
 	public static final String ATTRIBUTE = "attribute";
 	public static final String WHEN = "when";
 	public static final String UNLESS = "unless";
+	public static final String KEY_INDEX = "keyIndex";
+	public static final String INTERNAL = "internal";
+	public static final String GLOBAL = "global";
+	public static final String NULL_VALUE = "nullValue";
 
 	// @ScreenIdentifiers
 	public static final String IDENTIFIERS = "identifiers";

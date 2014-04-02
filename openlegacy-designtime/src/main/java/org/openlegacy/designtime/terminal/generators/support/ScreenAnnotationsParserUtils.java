@@ -86,6 +86,11 @@ public class ScreenAnnotationsParserUtils {
 		String attributeValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.ATTRIBUTE);
 		String whenValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.WHEN);
 		String unlessValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.UNLESS);
+		// @author Ivan Bort refs assembla #483
+		String keyIndexValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.KEY_INDEX);
+		String internalValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.INTERNAL);
+		String globalValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.GLOBAL);
+		String nullValueValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.NULL_VALUE);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : sampleValue);
 		field.setDefaultValue(StringUtil.isEmpty(defaultValue) ? "" : defaultValue);
@@ -150,6 +155,18 @@ public class ScreenAnnotationsParserUtils {
 		if (unlessValue != null) {
 			field.setUnless(StringUtil.stripQuotes(unlessValue));
 		}
+
+		field.setKeyIndex(keyIndexValue != null ? Integer.valueOf(keyIndexValue) : -1);
+
+		if (StringConstants.TRUE.equals(internalValue)) {
+			field.setInternal(true);
+		}
+		if (StringConstants.TRUE.equals(globalValue)) {
+			field.setGlobal(true);
+		}
+		if (nullValueValue != null) {
+			field.setNullValue(StringUtil.stripQuotes(nullValueValue));
+		}
 	}
 
 	public static List<Action> populateScreenActions(AnnotationExpr annotationExpr) {
@@ -171,10 +188,13 @@ public class ScreenAnnotationsParserUtils {
 				// @author Ivan Bort, refs assembla #235
 				String additionalKeyValue = JavaParserUtil.getAnnotationValue(singleAction,
 						ScreenAnnotationConstants.ADDITIONAL_KEY);
-				
-				int row = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.ROW, ScreenAnnotationConstants.ROW_DEFAULT_VALUE);
-				int column = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.COLUMN, ScreenAnnotationConstants.COLUMN_DEFAULT_VALUE);
-				int length = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.LENGTH, ScreenAnnotationConstants.LENGTH_DEFAULT_VALUE);
+
+				int row = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.ROW,
+						ScreenAnnotationConstants.ROW_DEFAULT_VALUE);
+				int column = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.COLUMN,
+						ScreenAnnotationConstants.COLUMN_DEFAULT_VALUE);
+				int length = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.LENGTH,
+						ScreenAnnotationConstants.LENGTH_DEFAULT_VALUE);
 				String when = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.WHEN);
 
 				AdditionalKey additionalKey = AdditionalKey.NONE;

@@ -46,6 +46,9 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private ScreenFieldDefinition descriptionFieldDefinition;
 
 	private int keyIndex;
+	private boolean internal;
+	private boolean global;
+	private String nullValue;
 
 	public SimpleScreenFieldDefinition() {
 		super();
@@ -165,6 +168,36 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setKeyIndex(int keyIndex) {
 		this.keyIndex = keyIndex;
+	}
+
+	@Override
+	public boolean isInternal() {
+		return internal;
+	}
+
+	@Override
+	public void setInternal(boolean internal) {
+		this.internal = internal;
+	}
+
+	@Override
+	public boolean isGlobal() {
+		return global;
+	}
+
+	@Override
+	public void setGlobal(boolean global) {
+		this.global = global;
+	}
+
+	@Override
+	public String getNullValue() {
+		return nullValue;
+	}
+
+	@Override
+	public void setNullValue(String nullValue) {
+		this.nullValue = nullValue;
 	}
 
 	public int compareTo(FieldDefinition o) {
