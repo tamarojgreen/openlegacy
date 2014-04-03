@@ -20,6 +20,7 @@ import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
@@ -317,6 +318,7 @@ public class ScreenAnnotationsParserUtils {
 					int row = 0;
 					int column = 0;
 					String value = null;
+					FieldAttributeType attribute = FieldAttributeType.Value;
 					for (MemberValuePair pair : pairs) {
 						String attrValue = pair.getValue().toString();
 						if (pair.getName().equals(ScreenAnnotationConstants.ROW)) {
@@ -328,8 +330,11 @@ public class ScreenAnnotationsParserUtils {
 						if (pair.getName().equals(ScreenAnnotationConstants.VALUE)) {
 							value = StringUtil.stripQuotes(attrValue);
 						}
+						if (pair.getName().equals(ScreenAnnotationConstants.ATTRIBUTE)) {
+							attribute = FieldAttributeType.valueOf(attrValue.split("\\.")[1]);
+						}
 					}
-					list.add(new SimpleScreenIdentifier(new SimpleTerminalPosition(row, column), value, false));
+					list.add(new SimpleScreenIdentifier(new SimpleTerminalPosition(row, column), value, false, attribute));
 				}
 			}
 		}
