@@ -546,6 +546,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private boolean scrollable;
 
 	private int rowGaps;
+	private int screensCount;
 
 	private PartPostition partPostition;
 
@@ -747,6 +748,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String validateKeysFlagFromAnnotations = null;
 		String rightToLeftFlagFromAnnotation = null;
 		List<String> rolesFromAnnotation = null;
+		String screensCountFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
@@ -772,6 +774,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			validateKeysFlagFromAnnotations = findAnnotationAttribute(ScreenAnnotationConstants.VALIDATE_KEYS, pairs);
 			rightToLeftFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.RIGHT_TO_LEFT, pairs);
 			rolesFromAnnotation = findAnnotationStringAttributes(ScreenAnnotationConstants.ROLES, pairs);
+
+			screensCountFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCREENS_COUNT, pairs);
 		}
 		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
@@ -813,6 +817,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		validateKeys = validateKeysFlagFromAnnotations != null ? Boolean.valueOf(validateKeysFlagFromAnnotations) : true;
 		rightToLeft = rightToLeftFlagFromAnnotation != null ? Boolean.valueOf(rightToLeftFlagFromAnnotation) : false;
 		roles = rolesFromAnnotation != null ? rolesFromAnnotation : new ArrayList<String>();
+
+		screensCount = screensCountFromAnnotation != null ? Integer.valueOf(screensCountFromAnnotation) : 1;
 	}
 
 	public List<Action> getActions() {
@@ -972,4 +978,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		return roles;
 	}
 
+	public int getScreensCount() {
+		return screensCount;
+	}
 }

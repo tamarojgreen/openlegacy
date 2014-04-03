@@ -68,4 +68,5 @@ public interface ScreenPojoCodeModel extends PojoCodeModel {
 
 	List<String> getRoles();
 
+	int getScreensCount();
 }

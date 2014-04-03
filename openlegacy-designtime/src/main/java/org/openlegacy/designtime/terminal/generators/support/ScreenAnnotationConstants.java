@@ -111,6 +111,7 @@ public class ScreenAnnotationConstants {
 	public static final String TABLE_COLLECTOR = "tableCollector";
 	public static final String SCROLLABLE = "scrollable";
 	public static final String ROW_GAPS = "rowGaps";
+	public static final String SCREENS_COUNT = "screensCount";
 
 	// @PartPosition
 	public static final String WIDTH = "width";
