@@ -91,6 +91,9 @@ public class ScreenAnnotationsParserUtils {
 		String internalValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.INTERNAL);
 		String globalValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.GLOBAL);
 		String nullValueValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.NULL_VALUE);
+		String colSpanValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.COL_SPAN);
+		String sortIndexValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.SORT_INDEX);
+		String targetEntityClassNameValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.TARGET_ENTITY);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : sampleValue);
 		field.setDefaultValue(StringUtil.isEmpty(defaultValue) ? "" : defaultValue);
@@ -166,6 +169,15 @@ public class ScreenAnnotationsParserUtils {
 		}
 		if (nullValueValue != null) {
 			field.setNullValue(StringUtil.stripQuotes(nullValueValue));
+		}
+		if (colSpanValue != null) {
+			field.setColSpan(Integer.valueOf(colSpanValue));
+		}
+
+		field.setSortIndex(sortIndexValue != null ? Integer.valueOf(sortIndexValue) : -1);
+
+		if (targetEntityClassNameValue != null) {
+			field.setTargetEntityClassName(StringUtil.toClassName(targetEntityClassNameValue));
 		}
 	}
 

@@ -213,6 +213,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean internal;
 		private boolean global;
 		private String nullValue;
+		private int colSpan;
+		private int sortIndex;
+		private String targetEntityClassName;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -514,6 +517,30 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setNullValue(String nullValue) {
 			this.nullValue = nullValue;
+		}
+
+		public int getColSpan() {
+			return colSpan;
+		}
+
+		public void setColSpan(int colSpan) {
+			this.colSpan = colSpan;
+		}
+
+		public int getSortIndex() {
+			return sortIndex;
+		}
+
+		public void setSortIndex(int sortIndex) {
+			this.sortIndex = sortIndex;
+		}
+
+		public String getTargetEntityClassName() {
+			return targetEntityClassName;
+		}
+
+		public void setTargetEntityClassName(String targetEntityClassName) {
+			this.targetEntityClassName = targetEntityClassName;
 		}
 
 	}
