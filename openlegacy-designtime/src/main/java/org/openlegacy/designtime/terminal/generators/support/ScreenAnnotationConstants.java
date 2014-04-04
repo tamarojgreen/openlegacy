@@ -119,6 +119,11 @@ public class ScreenAnnotationConstants {
 	public static final String WIDTH = "width";
 	public static final String ACTION = "action";
 
+	// @Action
+	public static final String FOCUS_FIELD = "focusField";
+	public static final String TYPE = "type";
+	public static final String SLEEP = "sleep";
+
 	// default values for annotation.
 	// TODO decide maybe derive actual annotation default values from these
 	public static final int ROW_DEFAULT_VALUE = 0;

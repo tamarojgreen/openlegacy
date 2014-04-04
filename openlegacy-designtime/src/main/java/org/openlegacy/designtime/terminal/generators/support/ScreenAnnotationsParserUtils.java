@@ -12,6 +12,7 @@ package org.openlegacy.designtime.terminal.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
+import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.definitions.FieldTypeDefinition;
@@ -201,6 +202,10 @@ public class ScreenAnnotationsParserUtils {
 				// @author Ivan Bort, refs assembla #235
 				String additionalKeyValue = JavaParserUtil.getAnnotationValue(singleAction,
 						ScreenAnnotationConstants.ADDITIONAL_KEY);
+				// @author Ivan Bort refs assembla #483
+				String focusFieldValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.FOCUS_FIELD);
+				String typeValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.TYPE);
+				String sleepValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.SLEEP);
 
 				int row = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.ROW,
 						ScreenAnnotationConstants.ROW_DEFAULT_VALUE);
@@ -214,7 +219,16 @@ public class ScreenAnnotationsParserUtils {
 				if (additionalKeyValue != null) {
 					additionalKey = AdditionalKey.valueOf(additionalKeyValue.split("\\.")[1]);
 				}
-				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey, row, column, length, when);
+				ActionType type = ActionType.GENERAL;
+				if (typeValue != null) {
+					type = ActionType.valueOf(typeValue.split("\\.")[1]);
+				}
+				int sleep = 0;
+				if (sleepValue != null) {
+					sleep = Integer.valueOf(sleepValue);
+				}
+				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey, row, column, length, when,
+						focusFieldValue, type, sleep);
 				action.setActionValue(actionValue == null ? "" : actionValue);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
 				actions.add(action);

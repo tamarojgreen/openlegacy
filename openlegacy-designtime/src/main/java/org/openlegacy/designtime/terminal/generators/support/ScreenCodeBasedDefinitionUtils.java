@@ -190,6 +190,12 @@ public class ScreenCodeBasedDefinitionUtils {
 			actionDefinition.setAdditionalKey(action.getAdditionalKey());
 			actionDefinition.setLength(action.getLength());
 			actionDefinition.setWhen(action.getWhen());
+			if (action.getFocusField() != null) {
+				actionDefinition.setFocusField(StringUtil.stripQuotes(action.getFocusField()));
+			}
+			actionDefinition.setType(action.getType());
+			actionDefinition.setTargetEntityName(action.getTargetEntityName());
+			actionDefinition.setSleep(action.getSleep());
 			actionDefinitions.add(actionDefinition);
 		}
 

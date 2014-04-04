@@ -14,11 +14,13 @@ import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttri
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationStringAttributes;
 
 import org.openlegacy.FieldType.General;
+import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.generators.AnnotationsParserUtils;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
@@ -86,9 +88,12 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private int column;
 		private int length;
 		private String when;
+		private String focusField;
+		private ActionType type;
+		private int sleep;
 
 		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey, int row, int column,
-				int length, String when) {
+				int length, String when, String focusField, ActionType type, int sleep) {
 			this.alias = alias;
 			this.actionName = actionName;
 			this.displayName = displayName;
@@ -97,6 +102,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			this.column = column;
 			this.length = length;
 			this.when = when;
+			this.focusField = focusField;
+			this.type = type;
+			this.targetEntityName = ScreenEntity.NONE.class.getSimpleName();
+			this.sleep = sleep;
 		}
 
 		public String getActionName() {
@@ -166,6 +175,31 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public void setWhen(String when) {
 			this.when = when;
 		}
+
+		public String getFocusField() {
+			return focusField;
+		}
+
+		public void setFocusField(String focusField) {
+			this.focusField = focusField;
+		}
+
+		public ActionType getType() {
+			return type;
+		}
+
+		public void setType(ActionType type) {
+			this.type = type;
+		}
+
+		public int getSleep() {
+			return sleep;
+		}
+
+		public void setSleep(int sleep) {
+			this.sleep = sleep;
+		}
+
 	}
 
 	/**
