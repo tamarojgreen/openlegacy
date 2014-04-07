@@ -15,6 +15,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -35,6 +36,7 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 
 	private TerminalPosition position;
 	private String text;
+	private FieldAttributeType attribute;
 
 	private boolean supportRightToLeft;
 
@@ -42,6 +44,14 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 		this.position = position;
 		this.text = text;
 		this.supportRightToLeft = supportRightToLeft;
+		this.attribute = FieldAttributeType.Value;
+	}
+
+	public SimpleScreenIdentifier(TerminalPosition position, String text, boolean supportRightToLeft, FieldAttributeType attribute) {
+		this.position = position;
+		this.text = text;
+		this.supportRightToLeft = supportRightToLeft;
+		this.attribute = attribute;
 	}
 
 	public boolean match(TerminalSnapshot terminalSnapshot) {
@@ -74,6 +84,14 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 
 	public String getText() {
 		return text;
+	}
+
+	public FieldAttributeType getAttribute() {
+		return attribute;
+	}
+
+	public void setAttribute(FieldAttributeType attribute) {
+		this.attribute = attribute;
 	}
 
 	@Override

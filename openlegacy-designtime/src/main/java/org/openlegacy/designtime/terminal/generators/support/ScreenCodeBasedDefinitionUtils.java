@@ -110,6 +110,12 @@ public class ScreenCodeBasedDefinitionUtils {
 						javaFieldModel.getDescriptionEndColumn() != null ? javaFieldModel.getDescriptionEndColumn() : 0));
 				fieldDefinition.setDescriptionFieldDefinition(descriptionFieldDefinition);
 			}
+			// @author Ivan Bort refs assembla #483
+			fieldDefinition.setKeyIndex(javaFieldModel.getKeyIndex());
+			fieldDefinition.setInternal(javaFieldModel.isInternal());
+			fieldDefinition.setGlobal(javaFieldModel.isGlobal());
+			fieldDefinition.setNullValue(javaFieldModel.getNullValue());
+
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;
@@ -177,11 +183,19 @@ public class ScreenCodeBasedDefinitionUtils {
 		for (Action action : actions) {
 			String actionName = StringUtil.toClassName(action.getActionName());
 			SimpleTerminalActionDefinition actionDefinition = new SimpleTerminalActionDefinition(actionName,
-					action.getDisplayName());
+					action.getDisplayName(), new SimpleTerminalPosition(action.getRow(), action.getColumn()));
 			if (action.getAlias() != null) {
 				actionDefinition.setAlias(StringUtil.stripQuotes(action.getAlias()));
 			}
 			actionDefinition.setAdditionalKey(action.getAdditionalKey());
+			actionDefinition.setLength(action.getLength());
+			actionDefinition.setWhen(action.getWhen());
+			if (action.getFocusField() != null) {
+				actionDefinition.setFocusField(StringUtil.stripQuotes(action.getFocusField()));
+			}
+			actionDefinition.setType(action.getType());
+			actionDefinition.setTargetEntityName(action.getTargetEntityName());
+			actionDefinition.setSleep(action.getSleep());
 			actionDefinitions.add(actionDefinition);
 		}
 

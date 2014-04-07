@@ -35,12 +35,10 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 	private boolean mainDisplayField;
 
 	private int colSpan;
-
 	private int sortIndex;
-
 	private FieldAttributeType attribute;
-
 	private Class<?> targetEntity;
+	private String targetEntityClassName;
 
 	public SimpleScreenColumnDefinition(String name) {
 		this.name = name;
@@ -188,5 +186,13 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Ser
 
 	public void setTargetEntity(Class<?> targetEntity) {
 		this.targetEntity = targetEntity;
+	}
+
+	public String getTargetEntityClassName() {
+		return targetEntityClassName;
+	}
+
+	public void setTargetEntityClassName(String targetEntityClassName) {
+		this.targetEntityClassName = targetEntityClassName;
 	}
 }

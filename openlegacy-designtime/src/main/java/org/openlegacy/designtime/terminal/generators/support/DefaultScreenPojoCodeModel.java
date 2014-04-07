@@ -11,13 +11,16 @@
 package org.openlegacy.designtime.terminal.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
+import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationStringAttributes;
 
 import org.openlegacy.FieldType.General;
+import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.generators.AnnotationsParserUtils;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
@@ -38,6 +41,7 @@ import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.AnnotationExpr;
+import japa.parser.ast.expr.MemberValuePair;
 import japa.parser.ast.expr.NormalAnnotationExpr;
 
 import java.util.ArrayList;
@@ -80,12 +84,28 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private String actionValue;
 		private String targetEntityName;
 		private AdditionalKey additionalKey;
+		private int row;
+		private int column;
+		private int length;
+		private String when;
+		private String focusField;
+		private ActionType type;
+		private int sleep;
 
-		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey) {
+		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey, int row, int column,
+				int length, String when, String focusField, ActionType type, int sleep) {
 			this.alias = alias;
 			this.actionName = actionName;
 			this.displayName = displayName;
 			this.additionalKey = additionalKey;
+			this.row = row;
+			this.column = column;
+			this.length = length;
+			this.when = when;
+			this.focusField = focusField;
+			this.type = type;
+			this.targetEntityName = ScreenEntity.NONE.class.getSimpleName();
+			this.sleep = sleep;
 		}
 
 		public String getActionName() {
@@ -123,6 +143,63 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		public void setAdditionalKey(AdditionalKey additionalKey) {
 			this.additionalKey = additionalKey;
 		}
+
+		public int getRow() {
+			return row;
+		}
+
+		public void setRow(int row) {
+			this.row = row;
+		}
+
+		public int getColumn() {
+			return column;
+		}
+
+		public void setColumn(int column) {
+			this.column = column;
+		}
+
+		public int getLength() {
+			return length;
+		}
+
+		public void setLength(int length) {
+			this.length = length;
+		}
+
+		public String getWhen() {
+			return when;
+		}
+
+		public void setWhen(String when) {
+			this.when = when;
+		}
+
+		public String getFocusField() {
+			return focusField;
+		}
+
+		public void setFocusField(String focusField) {
+			this.focusField = focusField;
+		}
+
+		public ActionType getType() {
+			return type;
+		}
+
+		public void setType(ActionType type) {
+			this.type = type;
+		}
+
+		public int getSleep() {
+			return sleep;
+		}
+
+		public void setSleep(int sleep) {
+			this.sleep = sleep;
+		}
+
 	}
 
 	/**
@@ -165,6 +242,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private Integer descriptionRow;
 		private Integer descriptionColumn;
 		private Integer descriptionEndColumn;
+		// @author Ivan Bort refs assembla #483
+		private int keyIndex;
+		private boolean internal;
+		private boolean global;
+		private String nullValue;
+		private int colSpan;
+		private int sortIndex;
+		private String targetEntityClassName;
 
 		public Field(String name, String type) {
 			this.name = name;
@@ -436,6 +521,62 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			this.descriptionEndColumn = descriptionEndColumn;
 		}
 
+		public int getKeyIndex() {
+			return keyIndex;
+		}
+
+		public void setKeyIndex(int keyIndex) {
+			this.keyIndex = keyIndex;
+		}
+
+		public boolean isInternal() {
+			return internal;
+		}
+
+		public void setInternal(boolean internal) {
+			this.internal = internal;
+		}
+
+		public boolean isGlobal() {
+			return global;
+		}
+
+		public void setGlobal(boolean global) {
+			this.global = global;
+		}
+
+		public String getNullValue() {
+			return nullValue;
+		}
+
+		public void setNullValue(String nullValue) {
+			this.nullValue = nullValue;
+		}
+
+		public int getColSpan() {
+			return colSpan;
+		}
+
+		public void setColSpan(int colSpan) {
+			this.colSpan = colSpan;
+		}
+
+		public int getSortIndex() {
+			return sortIndex;
+		}
+
+		public void setSortIndex(int sortIndex) {
+			this.sortIndex = sortIndex;
+		}
+
+		public String getTargetEntityClassName() {
+			return targetEntityClassName;
+		}
+
+		public void setTargetEntityClassName(String targetEntityClassName) {
+			this.targetEntityClassName = targetEntityClassName;
+		}
+
 	}
 
 	private String className;
@@ -466,12 +607,18 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private boolean scrollable;
 
 	private int rowGaps;
+	private int screensCount;
 
 	private PartPostition partPostition;
 
 	private SimpleScreenSize screenSize;
 
 	private boolean serviceInOut = false;
+
+	// @ScreenEntity attrubutes
+	private boolean validateKeys = true;
+	private boolean rightToLeft = false;
+	private List<String> roles = new ArrayList<String>();
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -659,37 +806,37 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String supportTerminalDataString = null;
 		String screenSizeRowsFromAnnotation = null;
 		String screenSizeColumnsFromAnnotation = null;
+		String validateKeysFlagFromAnnotations = null;
+		String rightToLeftFlagFromAnnotation = null;
+		List<String> rolesFromAnnotation = null;
+		String screensCountFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
 
-			supportTerminalDataString = findAnnotationAttribute(ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA,
-					normalAnnotationExpr.getPairs());
-			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, normalAnnotationExpr.getPairs());
-			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, normalAnnotationExpr.getPairs());
-			typeNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCREEN_TYPE,
-					normalAnnotationExpr.getPairs());
-			childFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.CHILD, normalAnnotationExpr.getPairs());
-			startRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.START_ROW,
-					normalAnnotationExpr.getPairs());
-			endRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.END_ROW,
-					normalAnnotationExpr.getPairs());
-			windowFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.WINDOW, normalAnnotationExpr.getPairs());
+			List<MemberValuePair> pairs = normalAnnotationExpr.getPairs();
+			supportTerminalDataString = findAnnotationAttribute(ScreenAnnotationConstants.SUPPORT_TERMINAL_DATA, pairs);
+			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, pairs);
+			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, pairs);
+			typeNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCREEN_TYPE, pairs);
+			childFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.CHILD, pairs);
+			startRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.START_ROW, pairs);
+			endRowFromTableAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.END_ROW, pairs);
+			windowFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.WINDOW, pairs);
 
-			nextScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.NEXT_SCREEN_ACTION,
-					normalAnnotationExpr.getPairs());
-			previousScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.PREV_SCREEN_ACTION,
-					normalAnnotationExpr.getPairs());
-			tableCollectorNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.TABLE_COLLECTOR,
-					normalAnnotationExpr.getPairs());
-			scrollableFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCROLLABLE,
-					normalAnnotationExpr.getPairs());
-			rowGapsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROW_GAPS, normalAnnotationExpr.getPairs());
+			nextScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.NEXT_SCREEN_ACTION, pairs);
+			previousScreenActionNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.PREV_SCREEN_ACTION, pairs);
+			tableCollectorNameFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.TABLE_COLLECTOR, pairs);
+			scrollableFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCROLLABLE, pairs);
+			rowGapsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROW_GAPS, pairs);
 
-			screenSizeRowsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROWS,
-					normalAnnotationExpr.getPairs());
-			screenSizeColumnsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.COLUMNS,
-					normalAnnotationExpr.getPairs());
+			screenSizeRowsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.ROWS, pairs);
+			screenSizeColumnsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.COLUMNS, pairs);
+			validateKeysFlagFromAnnotations = findAnnotationAttribute(ScreenAnnotationConstants.VALIDATE_KEYS, pairs);
+			rightToLeftFlagFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.RIGHT_TO_LEFT, pairs);
+			rolesFromAnnotation = findAnnotationStringAttributes(ScreenAnnotationConstants.ROLES, pairs);
+
+			screensCountFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCREENS_COUNT, pairs);
 		}
 		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
@@ -728,6 +875,11 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		}
 		screenSize = new SimpleScreenSize(Integer.valueOf(screenSizeRowsFromAnnotation),
 				Integer.valueOf(screenSizeColumnsFromAnnotation));
+		validateKeys = validateKeysFlagFromAnnotations != null ? Boolean.valueOf(validateKeysFlagFromAnnotations) : true;
+		rightToLeft = rightToLeftFlagFromAnnotation != null ? Boolean.valueOf(rightToLeftFlagFromAnnotation) : false;
+		roles = rolesFromAnnotation != null ? rolesFromAnnotation : new ArrayList<String>();
+
+		screensCount = screensCountFromAnnotation != null ? Integer.valueOf(screensCountFromAnnotation) : 1;
 	}
 
 	public List<Action> getActions() {
@@ -873,5 +1025,21 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	public boolean isServiceInOut() {
 		return serviceInOut;
+	}
+
+	public boolean isValidateKeys() {
+		return validateKeys;
+	}
+
+	public boolean isRightToLeft() {
+		return rightToLeft;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public int getScreensCount() {
+		return screensCount;
 	}
 }

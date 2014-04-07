@@ -202,11 +202,18 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 	}
 
 	public boolean isValidateKeys() {
-		return true;
+		return getCodeModel().isValidateKeys();
+		// return true;
 	}
 
 	public boolean isRightToLeft() {
-		return false;
+		return getCodeModel().isRightToLeft();
+		// return false;
+	}
+
+	@Override
+	public List<String> getRoles() {
+		return getCodeModel().getRoles();
 	}
 
 }

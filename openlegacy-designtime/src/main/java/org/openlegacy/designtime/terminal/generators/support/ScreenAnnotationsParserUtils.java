@@ -12,6 +12,7 @@ package org.openlegacy.designtime.terminal.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
+import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.Identifier;
 import org.openlegacy.definitions.FieldTypeDefinition;
@@ -20,6 +21,7 @@ import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.definitions.FieldAssignDefinition;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
@@ -86,6 +88,14 @@ public class ScreenAnnotationsParserUtils {
 		String attributeValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.ATTRIBUTE);
 		String whenValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.WHEN);
 		String unlessValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.UNLESS);
+		// @author Ivan Bort refs assembla #483
+		String keyIndexValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.KEY_INDEX);
+		String internalValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.INTERNAL);
+		String globalValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.GLOBAL);
+		String nullValueValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.NULL_VALUE);
+		String colSpanValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.COL_SPAN);
+		String sortIndexValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.SORT_INDEX);
+		String targetEntityClassNameValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.TARGET_ENTITY);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : sampleValue);
 		field.setDefaultValue(StringUtil.isEmpty(defaultValue) ? "" : defaultValue);
@@ -150,6 +160,27 @@ public class ScreenAnnotationsParserUtils {
 		if (unlessValue != null) {
 			field.setUnless(StringUtil.stripQuotes(unlessValue));
 		}
+
+		field.setKeyIndex(keyIndexValue != null ? Integer.valueOf(keyIndexValue) : -1);
+
+		if (StringConstants.TRUE.equals(internalValue)) {
+			field.setInternal(true);
+		}
+		if (StringConstants.TRUE.equals(globalValue)) {
+			field.setGlobal(true);
+		}
+		if (nullValueValue != null) {
+			field.setNullValue(StringUtil.stripQuotes(nullValueValue));
+		}
+		if (colSpanValue != null) {
+			field.setColSpan(Integer.valueOf(colSpanValue));
+		}
+
+		field.setSortIndex(sortIndexValue != null ? Integer.valueOf(sortIndexValue) : -1);
+
+		if (targetEntityClassNameValue != null) {
+			field.setTargetEntityClassName(StringUtil.toClassName(targetEntityClassNameValue));
+		}
 	}
 
 	public static List<Action> populateScreenActions(AnnotationExpr annotationExpr) {
@@ -171,12 +202,33 @@ public class ScreenAnnotationsParserUtils {
 				// @author Ivan Bort, refs assembla #235
 				String additionalKeyValue = JavaParserUtil.getAnnotationValue(singleAction,
 						ScreenAnnotationConstants.ADDITIONAL_KEY);
+				// @author Ivan Bort refs assembla #483
+				String focusFieldValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.FOCUS_FIELD);
+				String typeValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.TYPE);
+				String sleepValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.SLEEP);
+
+				int row = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.ROW,
+						ScreenAnnotationConstants.ROW_DEFAULT_VALUE);
+				int column = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.COLUMN,
+						ScreenAnnotationConstants.COLUMN_DEFAULT_VALUE);
+				int length = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.LENGTH,
+						ScreenAnnotationConstants.LENGTH_DEFAULT_VALUE);
+				String when = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.WHEN);
 
 				AdditionalKey additionalKey = AdditionalKey.NONE;
 				if (additionalKeyValue != null) {
 					additionalKey = AdditionalKey.valueOf(additionalKeyValue.split("\\.")[1]);
 				}
-				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey);
+				ActionType type = ActionType.GENERAL;
+				if (typeValue != null) {
+					type = ActionType.valueOf(typeValue.split("\\.")[1]);
+				}
+				int sleep = 0;
+				if (sleepValue != null) {
+					sleep = Integer.valueOf(sleepValue);
+				}
+				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey, row, column, length, when,
+						focusFieldValue, type, sleep);
 				action.setActionValue(actionValue == null ? "" : actionValue);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
 				actions.add(action);
@@ -280,6 +332,7 @@ public class ScreenAnnotationsParserUtils {
 					int row = 0;
 					int column = 0;
 					String value = null;
+					FieldAttributeType attribute = FieldAttributeType.Value;
 					for (MemberValuePair pair : pairs) {
 						String attrValue = pair.getValue().toString();
 						if (pair.getName().equals(ScreenAnnotationConstants.ROW)) {
@@ -291,8 +344,11 @@ public class ScreenAnnotationsParserUtils {
 						if (pair.getName().equals(ScreenAnnotationConstants.VALUE)) {
 							value = StringUtil.stripQuotes(attrValue);
 						}
+						if (pair.getName().equals(ScreenAnnotationConstants.ATTRIBUTE)) {
+							attribute = FieldAttributeType.valueOf(attrValue.split("\\.")[1]);
+						}
 					}
-					list.add(new SimpleScreenIdentifier(new SimpleTerminalPosition(row, column), value, false));
+					list.add(new SimpleScreenIdentifier(new SimpleTerminalPosition(row, column), value, false, attribute));
 				}
 			}
 		}

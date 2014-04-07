@@ -17,7 +17,9 @@ import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Action;
 import org.openlegacy.designtime.terminal.generators.support.DefaultScreenPojoCodeModel.Field;
 import org.openlegacy.modules.table.TableCollector;
+import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.PositionedPart;
+import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
@@ -86,7 +88,7 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 			columnDefinitions.add(columnDefinition);
 			columnDefinition.setKey(field.isKey());
 			columnDefinition.setSelectionField(field.isSelectionField());
-			columnDefinition.setHelpText(field.getHelpText());
+			columnDefinition.setHelpText(field.getHelpText() != null ? field.getHelpText() : "");
 
 			// @author Ivan Bort refs assembla #112
 			columnDefinition.setMainDisplayField(field.isMainDisplayField());
@@ -102,6 +104,13 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 				columnDefinition.setJavaType(String.class);
 				// TODO add other types
 			}
+			// @author Ivan Bort refs assembla #483
+			columnDefinition.setColSpan(field.getColSpan());
+			columnDefinition.setSortIndex(field.getSortIndex());
+			columnDefinition.setAttribute(field.getAttributeName() != null ? FieldAttributeType.valueOf(field.getAttributeName())
+					: FieldAttributeType.Value);
+			columnDefinition.setTargetEntityClassName(field.getTargetEntityClassName() != null ? field.getTargetEntityClassName()
+					: ScreenEntity.NONE.class.getSimpleName());
 		}
 		return columnDefinitions;
 	}
@@ -241,6 +250,6 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 	}
 
 	public int getScreensCount() {
-		return 1;
+		return codeModel.getScreensCount();
 	}
 }

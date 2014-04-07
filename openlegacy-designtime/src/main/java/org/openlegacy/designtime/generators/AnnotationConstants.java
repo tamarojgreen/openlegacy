@@ -23,6 +23,8 @@ public class AnnotationConstants {
 	public static final String NAME = "name";
 	public static final String ALIAS = "alias";
 	public static final String HELP_TEXT = "helpText";
+	public static final String ROW = "row";
+	public static final String COLUMN = "column";
 
 	public static final String PROVIDER = "provider";
 
@@ -57,7 +59,11 @@ public class AnnotationConstants {
 	public static final String RIGHT_TO_LEFT = "rightToLeft";
 	public static final String ATTRIBUTE = "attribute";
 	public static final String LENGTH = "length";
+	public static final String WHEN = "when";
 	public static final Object SERVICE_INPUT = ServiceInput.class.getSimpleName();
 	public static final Object SERVICE_OUTPUT = ServiceOutput.class.getSimpleName();
+
+	// @ScreenEntity
+	public static final String ROLE = "role";
 
 }
