@@ -32,6 +32,9 @@ public interface Messages extends SessionModule {
 	public static class MessagesEntity implements EntityType {
 	}
 
+	public static class IgnoreEntity implements EntityType {
+	}
+	
 	public static class MessageField implements FieldType {
 	}
 }
