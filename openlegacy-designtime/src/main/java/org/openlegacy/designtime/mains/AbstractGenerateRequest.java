@@ -16,7 +16,7 @@ public abstract class AbstractGenerateRequest {
 
 	private File sourceDirectory;
 	private String packageDirectory;
-	private File TemplatesDirectory;
+	private File templatesDirectory;
 	private File projectPath;
 	private boolean generateAspectJ;
 
@@ -37,11 +37,11 @@ public abstract class AbstractGenerateRequest {
 	}
 
 	public File getTemplatesDirectory() {
-		return TemplatesDirectory;
+		return templatesDirectory;
 	}
 
 	public void setTemplatesDirectory(File templatesDirectory) {
-		TemplatesDirectory = templatesDirectory;
+		this.templatesDirectory = templatesDirectory;
 	}
 
 	public File getProjectPath() {

@@ -177,14 +177,14 @@ public class EclipseDesignTimeExecuter {
 	public void generateController(IFile entitySourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
 			UserInteraction userInteraction) {
 
-		File projectPath = new File(PathsUtil.toOsLocation(entitySourceFile.getProject()), DesignTimeExecuterImpl.TEMPLATES_DIR);
+		File templatesDir = new File(PathsUtil.toOsLocation(entitySourceFile.getProject()), DesignTimeExecuterImpl.TEMPLATES_DIR);
 
 		GenerateControllerRequest generatePageRequest = new GenerateControllerRequest();
 		generatePageRequest.setProjectPath(PathsUtil.toOsLocation(entitySourceFile.getProject()));
 		generatePageRequest.setEntitySourceFile(PathsUtil.toOsLocation(entitySourceFile));
 		generatePageRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
 		generatePageRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
-		generatePageRequest.setTemplatesDirectory(projectPath);
+		generatePageRequest.setTemplatesDirectory(templatesDir);
 		generatePageRequest.setUserInteraction(userInteraction);
 		designTimeExecuter.generateController(generatePageRequest);
 
