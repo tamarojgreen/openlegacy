@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot sequence="1">
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+	            <field value="hello" length="10" modified="true"/>
+    	        <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+   	        </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+	            <field value="hello" length="10" modified="true"/>
+	            <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+            </rpcFields>
+        </result>
+    </snapshot>
+     <snapshot sequence="2">
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+	            <field value="hello2" length="10" modified="true"/>
+    	        <field value="2345" length="5" modified="true" type="java.lang.Integer"/>
+   	        </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+	            <field value="hello-new" length="10" modified="true"/>
+	            <field value="3456" length="5" modified="true" type="java.lang.Integer"/>
+            </rpcFields>
+        </result>
+    </snapshot>
+</rpc-trail>
+

@@ -64,7 +64,7 @@ public class CobolParserTest {
 		Assert.assertEquals(SimpleRpcNumericFieldTypeDefinition.class, fieldTypeDefinition.getClass());
 		SimpleRpcNumericFieldTypeDefinition simpleRpcNumericFieldTypeDefinition = (SimpleRpcNumericFieldTypeDefinition)fieldTypeDefinition;
 		Assert.assertEquals(99.0, ((SimpleRpcNumericFieldTypeDefinition)fieldTypeDefinition).getMaximumValue(), precise);
-		Assert.assertEquals(0, simpleRpcNumericFieldTypeDefinition.getDecimalPlaces());
+		Assert.assertEquals(new Integer(0), simpleRpcNumericFieldTypeDefinition.getDecimalPlaces());
 		Assert.assertEquals(0, fieldDefinition.getOrder());
 
 		// Fetch Decimal
@@ -75,7 +75,7 @@ public class CobolParserTest {
 		fieldTypeDefinition = fieldDefinition.getFieldTypeDefinition();
 		simpleRpcNumericFieldTypeDefinition = (SimpleRpcNumericFieldTypeDefinition)fieldTypeDefinition;
 		Assert.assertEquals(9.9, simpleRpcNumericFieldTypeDefinition.getMaximumValue(), precise);
-		Assert.assertEquals(1, simpleRpcNumericFieldTypeDefinition.getDecimalPlaces());
+		Assert.assertEquals(new Integer(1), simpleRpcNumericFieldTypeDefinition.getDecimalPlaces());
 		Assert.assertEquals(1, fieldDefinition.getOrder());
 
 		// String

@@ -150,7 +150,7 @@ public class InvokeActionToPcmlUtil {
 					struct.setAttribute(COUNT_ATTR_NAME, ((RpcStructureListField)rpcField).count().toString());
 					handleStruct(doc, struct, ((RpcStructureListField)rpcField).getChildren(0), false);
 				} else {
-					handleStruct(doc, struct, ((RpcStructureField)rpcField).getChildren(), false);
+					handleStruct(doc, struct, ((RpcStructureField)rpcField).getChildrens(), false);
 				}
 			} else {
 				if (top == false) {

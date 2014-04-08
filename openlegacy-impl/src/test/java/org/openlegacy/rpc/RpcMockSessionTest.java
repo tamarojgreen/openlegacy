@@ -2,7 +2,6 @@ package org.openlegacy.rpc;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.Snapshot;
@@ -20,10 +19,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.inject.Inject;
 
-@ContextConfiguration("/test-rpc-mock-context.xml")
+@ContextConfiguration("test-rpc-mock-session-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RpcMockSessionTest {
 
@@ -33,17 +34,14 @@ public class RpcMockSessionTest {
 	@Inject
 	private TrailWriter trailWriter;
 
-	@Ignore
 	@Test
 	public void testSessionTrail() throws IOException {
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
-		RpcDummyEntity rpcDummyEntity = new RpcDummyEntity();
-		rpcDummyEntity.setFirstName("John");
-		rpcDummyEntity.setLastName("Doe");
-		rpcDummyEntity.setAge(40);
 
-		rpcDummyEntity = rpcSession.doAction(RpcActions.READ(), rpcDummyEntity);
+		RpcDummyEntity rpcDummyEntity = rpcSession.getEntity(RpcDummyEntity.class);
+		// rpcDummyEntity = rpcSession.doAction(RpcActions.READ(), rpcDummyEntity);
 
+		Assert.assertEquals("My name is John Doe", rpcDummyEntity.getMessage());
 		SessionTrail<? extends Snapshot> sessionTrail = rpcSession.getModule(Trail.class).getSessionTrail();
 		Assert.assertNotNull(sessionTrail);
 		Assert.assertEquals(1, sessionTrail.getSnapshots().size());
@@ -56,10 +54,15 @@ public class RpcMockSessionTest {
 		AssertUtils.assertContent(expectedBytes, result.getBytes());
 
 		MenuItem menuTree = rpcSession.getModule(Menu.class).getMenuTree();
-		Assert.assertEquals(1, menuTree.getMenuItems().size());
+		Assert.assertEquals(2, menuTree.getMenuItems().size());
 		Assert.assertEquals("Main", menuTree.getDisplayName());
-		MenuItem subMenu = menuTree.getMenuItems().get(0);
-		Assert.assertEquals("Tree1", subMenu.getDisplayName());
-		Assert.assertEquals(2, subMenu.getMenuItems().size());
+
+		Set<String> subMenuNames = new HashSet<String>();
+		subMenuNames.add(menuTree.getMenuItems().get(0).getDisplayName());
+		subMenuNames.add(menuTree.getMenuItems().get(1).getDisplayName());
+		Set<String> subMeneExpected = new HashSet<String>();
+		subMeneExpected.add("Tree1");
+		subMeneExpected.add("Inventory Menu");
+		Assert.assertTrue(subMenuNames.containsAll(subMeneExpected));
 	}
 }

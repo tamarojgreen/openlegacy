@@ -9,7 +9,7 @@
 	<div>	
 	
 		<ol:form model="items">
-			<ol:table data="${items.topLevel.innerRecord}" property="topLevel.innerRecord" actionsAsIcons="true"/>
+			<ol:table data="${items.innerRecord}" property="innerRecord" actionsAsIcons="true"/>
 			
 		</ol:form>
 	</div>

@@ -12,7 +12,9 @@ package org.openlegacy.rpc.definitions;
 
 import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.definitions.PartEntityDefinition;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.definitions.support.AbstractEntityDefinition;
+import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.support.RpcOrderFieldComparator;
 
 import java.util.ArrayList;
@@ -82,6 +84,15 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 
 	public void setSourceCode(String sourceCode) {
 		this.sourceCode = sourceCode;
+	}
+
+	public String getIdentification() {
+
+		RpcActionDefinition actionDefinition = (RpcActionDefinition)getAction(RpcActions.READ.class);
+		if (actionDefinition != null) {
+			return actionDefinition.getProgramPath();
+		}
+		return null;
 	}
 
 }

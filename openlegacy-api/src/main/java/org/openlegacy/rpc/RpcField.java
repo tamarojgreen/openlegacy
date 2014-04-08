@@ -61,7 +61,7 @@ public interface RpcField extends Serializable, Cloneable, OrderedField {
 
 	boolean isContainer();
 
-	boolean isVirtual();
+	Boolean isVirtual();
 
 	void setVirtualGroup(String virtaulGroup);
 

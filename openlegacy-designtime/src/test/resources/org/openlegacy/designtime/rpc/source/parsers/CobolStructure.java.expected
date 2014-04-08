@@ -4,8 +4,9 @@ import java.math.BigInteger;
 import java.util.List;
 
 import org.openlegacy.annotations.rpc.*;
-import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.FieldType.*;
+import org.openlegacy.rpc.RpcActions.*;
+
 
 @RpcEntity(name="CobolStructure")
 @RpcActions(actions = { 

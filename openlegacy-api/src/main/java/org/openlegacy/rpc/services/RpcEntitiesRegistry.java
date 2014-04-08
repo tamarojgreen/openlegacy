@@ -11,10 +11,13 @@
 package org.openlegacy.rpc.services;
 
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.rpc.RpcSnapshot;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 
 public interface RpcEntitiesRegistry extends EntitiesRegistry<RpcEntityDefinition, RpcFieldDefinition, RpcPartEntityDefinition> {
+
+	RpcEntityDefinition match(RpcSnapshot rpcSnapshot);
 
 }

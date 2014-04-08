@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot>
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+                <structure-list order="0">
+                    <record>
+                        <field value="hello" length="10" modified="true" order="0"/>
+                        <field value="0" length="5" modified="true" type="java.lang.Integer" order="1"/>
+                    </record>
+                    <record>
+                        <field value="hello" length="10" modified="true" order="0"/>
+                        <field value="1" length="5" modified="true" type="java.lang.Integer" order="1"/>
+                    </record>
+                    <record>
+                        <field value="hello" length="10" modified="true" order="0"/>
+                        <field value="2" length="5" modified="true" type="java.lang.Integer" order="1"/>
+                    </record>
+                </structure-list>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <structure-list order="0">
+                    <record>
+                        <field value="hello" length="10" modified="true" order="0"/>
+                        <field value="0" length="5" modified="true" type="java.lang.Integer" order="1"/>
+                    </record>
+                    <record>
+                        <field value="hello" length="10" modified="true" order="0"/>
+                        <field value="1" length="5" modified="true" type="java.lang.Integer" order="1"/>
+                    </record>
+                    <record>
+                        <field value="hello" length="10" modified="true" order="0"/>
+                        <field value="2" length="5" modified="true" type="java.lang.Integer" order="1"/>
+                    </record>
+                </structure-list>
+            </rpcFields>
+        </result>
+    </snapshot>
+</rpc-trail>

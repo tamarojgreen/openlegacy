@@ -13,6 +13,8 @@ package org.openlegacy.terminal.support;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.support.SnapshotsList;
+import org.openlegacy.support.SnapshotsList.SnapshotInfo;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -21,8 +23,6 @@ import org.openlegacy.terminal.mock.MockTerminalConnection;
 import org.openlegacy.terminal.wait_conditions.WaitCondition;
 import org.openlegacy.utils.ProxyUtil;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +39,7 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 
 	private final static Log logger = LogFactory.getLog(PartPositionAnnotationLoader.class);
 
-	private Map<Class<?>, SnapshotsList> snapshotsMap = new HashMap<Class<?>, SnapshotsList>();
+	private Map<Class<?>, SnapshotsList<TerminalSnapshot>> snapshotsMap = new HashMap<Class<?>, SnapshotsList<TerminalSnapshot>>();
 
 	@Override
 	public TerminalSnapshot getSnapshot() {
@@ -58,13 +58,13 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 			preserveSnapshots(getConnection());
 		}
 		screenEntityClass = (Class<S>)ProxyUtil.getOriginalClass(screenEntityClass);
-		SnapshotsList snapshotsList = snapshotsMap.get(screenEntityClass);
+		SnapshotsList<TerminalSnapshot> snapshotsList = snapshotsMap.get(screenEntityClass);
 		if (snapshotsList == null) {
 			throw (new EntityNotFoundException("The entity " + screenEntityClass.getSimpleName()
 					+ "was not found in the recorded trail"));
 		}
-		SnapshotInfo snapshotInfo = snapshotsList.getCurrent();
-		setLastSequence(snapshotInfo.getTerminalSnapshot().getSequence());
+		SnapshotInfo<TerminalSnapshot> snapshotInfo = snapshotsList.getCurrent();
+		setLastSequence(snapshotInfo.getSnapshot().getSequence());
 		resetEntity();
 		getConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
 	}
@@ -81,7 +81,7 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 			return;
 		}
 		Class<?> screenEntityClass = ProxyUtil.getOriginalClass(result.getClass());
-		SnapshotsList snapshotsList = snapshotsMap.get(screenEntityClass);
+		SnapshotsList<TerminalSnapshot> snapshotsList = snapshotsMap.get(screenEntityClass);
 		snapshotsList.next();
 	}
 
@@ -101,9 +101,9 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 				logger.warn("An unrecognized snapshot was found in the trail:");
 				logger.warn(terminalSnapshot);
 			} else {
-				SnapshotsList snapshotsList = snapshotsMap.get(matchedClass);
+				SnapshotsList<TerminalSnapshot> snapshotsList = snapshotsMap.get(matchedClass);
 				if (snapshotsMap.get(matchedClass) == null) {
-					snapshotsList = new SnapshotsList();
+					snapshotsList = new SnapshotsList<TerminalSnapshot>();
 					snapshotsMap.put(matchedClass, snapshotsList);
 				}
 				snapshotsList.add(terminalSnapshot, count);
@@ -115,8 +115,8 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	@Override
 	public void disconnect() {
 		super.disconnect();
-		Collection<SnapshotsList> snapshotLists = snapshotsMap.values();
-		for (SnapshotsList snapshotsList : snapshotLists) {
+		Collection<SnapshotsList<TerminalSnapshot>> snapshotLists = snapshotsMap.values();
+		for (SnapshotsList<TerminalSnapshot> snapshotsList : snapshotLists) {
 			snapshotsList.setCurrent(0);
 		}
 	}
@@ -130,55 +130,4 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 	 * A mock-up helper class which manage a list of snapshots and knows always what is the current one
 	 * 
 	 */
-	private static class SnapshotsList implements Serializable {
-
-		private static final long serialVersionUID = 1L;
-
-		private List<SnapshotInfo> terminalSnapshots = new ArrayList<SnapshotInfo>();
-		private int current;
-
-		public void add(TerminalSnapshot terminalSnapshot, int indexInSession) {
-			// don't put duplicates
-			if (!terminalSnapshots.contains(terminalSnapshot)) {
-				terminalSnapshots.add(new SnapshotInfo(terminalSnapshot, indexInSession));
-			}
-		}
-
-		public void setCurrent(int current) {
-			this.current = current;
-		}
-
-		public SnapshotInfo getCurrent() {
-			return terminalSnapshots.get(current);
-		}
-
-		public void next() {
-			if (current < terminalSnapshots.size() - 1) {
-				current++;
-			} else {
-				current = 0;
-			}
-		}
-	}
-
-	private static class SnapshotInfo implements Serializable {
-
-		private static final long serialVersionUID = 1L;
-
-		private TerminalSnapshot terminalSnapshot;
-		private int indexInSession;
-
-		public SnapshotInfo(TerminalSnapshot terminalSnapshot, int indexInSession) {
-			this.terminalSnapshot = terminalSnapshot;
-			this.indexInSession = indexInSession;
-		}
-
-		public int getIndexInSession() {
-			return indexInSession;
-		}
-
-		public TerminalSnapshot getTerminalSnapshot() {
-			return terminalSnapshot;
-		}
-	}
 }

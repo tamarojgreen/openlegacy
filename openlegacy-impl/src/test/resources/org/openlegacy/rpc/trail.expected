@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <rpc-trail>
-    <snapshot>
+    <snapshot sequence="1">
         <invoke rpcPath="/dir/program_name">
             <rpcFields>
-                <field value="John" length="20" decimalPlaces="0" modified="true" direction="INPUT"/>
-                <structure>
-                    <children/>
-                </structure>
-                <field value="Doe" length="20" decimalPlaces="0" modified="true" direction="INPUT"/>
-                <field value="40" length="3" decimalPlaces="0" modified="true" type="java.lang.Integer" direction="INPUT"/>
-                <field value="" length="100" decimalPlaces="0" modified="true" direction="OUTPUT" name="message"/>
+                <field value="John" length="20" modified="true" direction="INPUT" name="firstName" order="0"/>
+                <field value="Doe" length="20" modified="true" direction="INPUT" name="lastName" order="1"/>
+                <field value="40" length="4" modified="true" type="java.lang.Integer" direction="INPUT" name="age" order="2"/>
+                <field value="" length="100" modified="true" direction="OUTPUT" name="message" order="3"/>
+                <structure order="4" name="dummyPart"/>
             </rpcFields>
         </invoke>
         <result>
             <rpcFields>
-                <field value="John" length="20" decimalPlaces="0" modified="true" direction="INPUT"/>
-                <structure>
-                    <children/>
-                </structure>
-                <field value="Doe" length="20" decimalPlaces="0" modified="true" direction="INPUT"/>
-                <field value="40" length="3" decimalPlaces="0" modified="true" type="java.lang.Integer" direction="INPUT"/>
-                <field value="" length="100" decimalPlaces="0" modified="true" direction="OUTPUT" name="message"/>
+                <field value="John" length="20" direction="INPUT" name="firstName" order="0"/>
+                <field value="Doe" length="20" direction="INPUT" name="lastName" order="1"/>
+                <field value="40" length="4" type="java.lang.Integer" direction="INPUT" name="age" order="2"/>
+                <field value="My name is John Doe" length="100" direction="OUTPUT" name="message" order="3"/>
+                <structure order="4" name="dummyPart"/>
             </rpcFields>
         </result>
     </snapshot>

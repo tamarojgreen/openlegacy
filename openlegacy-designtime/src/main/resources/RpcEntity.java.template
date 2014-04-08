@@ -5,8 +5,8 @@ import java.math.BigInteger;
 import java.util.List;
 
 import org.openlegacy.annotations.rpc.*;
-import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.FieldType.*;
+import org.openlegacy.rpc.RpcActions.*;
 
 <#if onlyPart=false>
 @RpcEntity(name="${entityName}"<#if displayName?? >, displayName=${displayName}</#if><#if language?? >, language=${language}</#if>)

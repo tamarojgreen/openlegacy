@@ -24,6 +24,7 @@ import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcEntityBinder;
+import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFieldConverter;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
@@ -50,7 +51,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	private RpcConnection rpcConnection;
 
 	@Inject
-	private RpcEntitiesRegistry rpcEntitiesRegistry;
+	protected RpcEntitiesRegistry rpcEntitiesRegistry;
 
 	@Inject
 	private List<RpcEntityBinder> rpcEntityBinders;
@@ -127,11 +128,13 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
 		converToLegacyFields(rpcAction);
 		RpcResult rpcResult = invoke(rpcAction);
+		RpcResult rpcResultCopy = rpcResult.clone();
+
 		if (actionDefinition.getTargetEntity() != null) {
 			return (RpcEntity)getEntity(actionDefinition.getTargetEntity());
 		} else {
-			converToApiFields(rpcAction);
-			populateEntity(rpcEntity, rpcDefinition, rpcResult);
+			converToApiFields(rpcResultCopy.getRpcFields());
+			populateEntity(rpcEntity, rpcDefinition, rpcResultCopy);
 		}
 		return rpcEntity;
 
@@ -164,13 +167,13 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
-	private void converToApiFields(RpcInvokeAction rpcAction) {
+	protected void converToApiFields(List<RpcField> fields) {
 
 		for (RpcFieldConverter fpcFieldConverter : rpcFieldConverters) {
-			fpcFieldConverter.toApi(rpcAction.getFields());
+			fpcFieldConverter.toApi(fields);
 		}
 
-		Collections.sort(rpcAction.getFields(), new RpcOrderFieldComparator());
+		Collections.sort(fields, new RpcOrderFieldComparator());
 
 	}
 
@@ -181,7 +184,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
-	private void populateEntity(RpcEntity rpcEntity, RpcEntityDefinition rpcDefinition, RpcResult rpcResult) {
+	protected void populateEntity(RpcEntity rpcEntity, RpcEntityDefinition rpcDefinition, RpcResult rpcResult) {
 
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateEntity(rpcEntity, rpcResult);

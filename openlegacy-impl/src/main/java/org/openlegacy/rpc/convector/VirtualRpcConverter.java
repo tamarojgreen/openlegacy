@@ -19,16 +19,16 @@ public class VirtualRpcConverter implements RpcFieldConverter {
 			if (rpcField instanceof RpcStructureField) {
 				convertChildsToLegacy((RpcStructureField)rpcField);
 			}
-			if (rpcField.isVirtual() == true) {
+			if (Boolean.TRUE.equals(rpcField.isVirtual())) {
 				RpcStructureField rpcStructureField = (RpcStructureField)rpcField;
-				List<RpcField> childs = rpcStructureField.getChildren();
+				List<RpcField> childs = rpcStructureField.getChildrens();
 
 				for (RpcField child : childs) {
 					child.setVirtualGroup(rpcField.getName());
 				}
 
 				result.addAll(childs);
-				rpcStructureField.getChildren().clear();
+				rpcStructureField.getChildrens().clear();
 			}
 
 			result.add(rpcField);
@@ -40,7 +40,7 @@ public class VirtualRpcConverter implements RpcFieldConverter {
 	}
 
 	private void convertChildsToLegacy(RpcStructureField rpcStructureField) {
-		toLegacy(rpcStructureField.getChildren());
+		toLegacy(rpcStructureField.getChildrens());
 
 	}
 
@@ -68,7 +68,7 @@ public class VirtualRpcConverter implements RpcFieldConverter {
 			} else {
 				// only simple structures can be virtual
 				RpcStructureField virtualPart = (RpcStructureField)fieldCollector.get("").get(virtualGroupName);
-				virtualPart.getChildren().addAll(fieldCollector.get(virtualGroupName).values());
+				virtualPart.getChildrens().addAll(fieldCollector.get(virtualGroupName).values());
 
 			}
 		}
@@ -78,7 +78,7 @@ public class VirtualRpcConverter implements RpcFieldConverter {
 	}
 
 	private void convertChildsToApi(RpcStructureField rpcStructureField) {
-		toApi(rpcStructureField.getChildren());
+		toApi(rpcStructureField.getChildrens());
 
 	}
 

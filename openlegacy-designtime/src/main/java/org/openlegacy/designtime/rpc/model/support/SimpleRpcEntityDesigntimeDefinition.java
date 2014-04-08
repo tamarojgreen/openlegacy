@@ -4,6 +4,10 @@ import org.openlegacy.rpc.definitions.SimpleRpcEntityDefinition;
 
 public class SimpleRpcEntityDesigntimeDefinition extends SimpleRpcEntityDefinition {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String packageName;
 	private boolean onlyPart;
 

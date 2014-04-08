@@ -10,23 +10,30 @@
  *******************************************************************************/
 package org.openlegacy.rpc.support;
 
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
-public abstract class AbstractRpcStructure {
+@XmlTransient
+public abstract class AbstractRpcStructure implements Serializable {
 
-	@XmlTransient
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@XmlAttribute
 	private int order;
 
-	// @XmlAttribute
+	@XmlAttribute
 	private String name = null;
 
+	@XmlAttribute
 	private String virtualGroup = "";
 
+	@XmlAttribute
 	private String legacyContainerName;
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public int getOrder() {
 		return order;
@@ -34,6 +41,10 @@ public abstract class AbstractRpcStructure {
 
 	public void setOrder(int order) {
 		this.order = order;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getName() {

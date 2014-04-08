@@ -30,7 +30,7 @@ public class MvcRpcSampleTest {
 
 		Items items = rpcSession.getEntity(Items.class);
 		Assert.assertNotNull(items);
-		Assert.assertEquals(5, items.getTopLevel().getInnerRecord().size());
+		Assert.assertEquals(5, items.getInnerRecord().size());
 		ItemDetails itemDetails = rpcSession.getEntity(ItemDetails.class, 1000);
 		Assert.assertNotNull(itemDetails);
 		Assert.assertEquals("Kid Guitar", itemDetails.getItemRecord().getItemName());

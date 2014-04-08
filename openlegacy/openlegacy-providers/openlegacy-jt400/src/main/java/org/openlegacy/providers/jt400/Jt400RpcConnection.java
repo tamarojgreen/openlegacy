@@ -126,6 +126,7 @@ public class Jt400RpcConnection implements RpcConnection {
 		}
 		SimpleRpcResult rpcResult = new SimpleRpcResult();
 		rpcResult.setRpcFields(rpcInvokeAction.getFields());
+		sequence++;
 		return rpcResult;
 
 	}
@@ -138,7 +139,7 @@ public class Jt400RpcConnection implements RpcConnection {
 			String varPath = path + "." + field.getName();
 
 			if (field instanceof RpcStructureField) {
-				setParameters(programCallDocument, ((RpcStructureField)field).getChildren(), varPath, indexLevel, indices);
+				setParameters(programCallDocument, ((RpcStructureField)field).getChildrens(), varPath, indexLevel, indices);
 			} else if (field instanceof RpcStructureListField) {
 
 				if (indexLevel == 0) {
@@ -203,7 +204,7 @@ public class Jt400RpcConnection implements RpcConnection {
 			String varPath = path + "." + field.getName();
 
 			if (field instanceof RpcStructureField) {
-				getParameters(programCallDocument, ((RpcStructureField)field).getChildren(), varPath, indexLevel, indices);
+				getParameters(programCallDocument, ((RpcStructureField)field).getChildrens(), varPath, indexLevel, indices);
 			} else if (field instanceof RpcStructureListField) {
 
 				if (indexLevel == 0) {

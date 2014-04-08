@@ -9,10 +9,10 @@
 
 	<bean id="rpcConnection" class="org.openlegacy.rpc.mock.MockRpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection" />
 	
-	<bean id="rpcConnectionFactory"
-		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
-		<property name="root" value="/org/openlegacy/rpc/mock" />
-		<property name="trailName" value="dummyRpc.xml" />
+	<bean id="rpcSession" class="org.openlegacy.rpc.support.MockupRpcSession" scope="prototype" parent="abstractRpcSession">
+		<property name="connection" ref="rpcConnection" />
 	</bean>
-
+	
+	<bean id="rpcRecognizer" class="org.openlegacy.rpc.recognizers.DefaultRpcRecognizer" />
+	
 </beans>

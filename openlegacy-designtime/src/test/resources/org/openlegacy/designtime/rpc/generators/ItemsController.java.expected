@@ -2,6 +2,7 @@ package org.openlegacy.designtime.rpc.generators.mock.web;
 
 import org.openlegacy.designtime.rpc.generators.mock.Items;
 import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -4,7 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.annotations.rpc.Direction;
-import org.openlegacy.rpc.RpcField;
+import org.openlegacy.rpc.RpcFields;
+import org.openlegacy.rpc.support.SimpleRpcFields;
 import org.openlegacy.rpc.support.SimpleRpcFlatField;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.openlegacy.rpc.support.SimpleRpcStructureField;
@@ -16,8 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -54,8 +53,8 @@ public class Jt400RpcActionToPcmlTest {
 		SimpleRpcStructureField rpcStructureField = new SimpleRpcStructureField();
 		rpcStructureField.setName("param1");
 
-		rpcStructureField.getChildren().add(child1());
-		rpcStructureField.getChildren().add(child2());
+		rpcStructureField.getChildrens().add(child1());
+		rpcStructureField.getChildrens().add(child2());
 
 		rpcInvokeAction.getFields().add(rpcStructureField);
 		rpcInvokeAction.setRpcPath("/QSYS.LIB/RMR2L1.LIB/ROICBL2.PGM");
@@ -76,10 +75,10 @@ public class Jt400RpcActionToPcmlTest {
 
 		SimpleRpcStructureField rpcStructureField = new SimpleRpcStructureField();
 		rpcStructureField.setName("param1");
-		rpcStructureField.getChildren().add(child1());
-		rpcStructureField.getChildren().add(child2());
+		rpcStructureField.getChildrens().add(child1());
+		rpcStructureField.getChildrens().add(child2());
 
-		rpcTopStructureField.getChildren().add(rpcStructureField);
+		rpcTopStructureField.getChildrens().add(rpcStructureField);
 
 		rpcInvokeAction.getFields().add(rpcTopStructureField);
 		rpcInvokeAction.setRpcPath("/QSYS.LIB/RMR2L1.LIB/TREECBL.PGM");
@@ -101,11 +100,11 @@ public class Jt400RpcActionToPcmlTest {
 		SimpleRpcStructureListField rpcRecordField = new SimpleRpcStructureListField();
 		rpcRecordField.setName("record");
 
-		rpcTopStructureField.getChildren().add(rpcRecordField);
+		rpcTopStructureField.getChildrens().add(rpcRecordField);
 
 		for (int i = 0; i < 3; i++) {
 
-			List<RpcField> recordFields = new ArrayList<RpcField>();
+			RpcFields recordFields = new SimpleRpcFields();
 
 			SimpleRpcFlatField rpcFlatField = new SimpleRpcFlatField();
 			rpcFlatField.setName("text");
@@ -123,7 +122,7 @@ public class Jt400RpcActionToPcmlTest {
 			rpcFlatField.setDirection(Direction.OUTPUT);
 			recordFields.add(rpcFlatField);
 
-			rpcRecordField.getChildren().add(recordFields);
+			rpcRecordField.getChildrens().add(recordFields);
 		}
 		rpcInvokeAction.getFields().add(rpcTopStructureField);
 		rpcInvokeAction.setRpcPath("/QSYS.LIB/RMR2L1.LIB/TREEARRAY.PGM");

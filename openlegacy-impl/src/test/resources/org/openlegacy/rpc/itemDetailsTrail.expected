@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot sequence="2">
+        <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
+            <rpcFields>
+                <field value="1001" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
+                <structure order="1" name="itemRecord">
+                    <field value="" length="16" modified="true" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
+                    <field value="" length="28" modified="true" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field value="" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="DAYS" order="1"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <field value="1001" length="8" type="java.lang.Integer" direction="INPUT" name="itemNum" order="0"/>
+                <structure order="1" name="ItemRecord">
+                    <field value="Ball Pool" length="16" modified="true" name="itemName" order="0"/>
+                    <field value="Ball Pool - Novelty Toys" length="28" modified="true" name="description" order="1"/>
+                    <field value="200" length="4" modified="true" type="java.lang.Integer" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field value="AIR" length="16" modified="true" name="shippingMethod" order="0"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence="3">
+        <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
+            <rpcFields>
+                <field value="1002" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
+                <structure order="1" name="itemRecord">
+                    <field value="" length="16" modified="true" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
+                    <field value="" length="28" modified="true" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field value="" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="DAYS" order="1"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <field value="1002" length="8" type="java.lang.Integer" direction="INPUT" name="itemNum" order="0"/>
+                <structure order="1" name="ItemRecord">
+                    <field value="Water Ball" length="16" modified="true" name="itemName" order="0"/>
+                    <field value="Water Ball - Balls" length="28" modified="true" name="description" order="1"/>
+                    <field value="200" length="4" modified="true" type="java.lang.Integer" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field value="AIR" length="16" modified="true" name="shippingMethod" order="0"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence="4">
+        <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
+            <rpcFields>
+                <field value="1003" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
+                <structure order="1" name="itemRecord">
+                    <field value="" length="16" modified="true" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
+                    <field value="" length="28" modified="true" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field value="AIR" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="DAYS" order="1"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <field value="1003" length="8" type="java.lang.Integer" direction="INPUT" name="itemNum" order="0"/>
+                <structure order="1" name="ItemRecord">
+                    <field value="Frisbee" length="16" modified="true" name="itemName" order="0"/>
+                    <field value="Dog Frisbee - Pet Toys" length="28" modified="true" name="description" order="1"/>
+                    <field value="200" length="4" modified="true" type="java.lang.Integer" name="weight" order="2"/>
+                </structure>
+                <structure order="2" name="shipping">
+                    <field value="AIR" length="16" modified="true" name="shippingMethod" order="0"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer" name="days" order="1"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+</rpc-trail>

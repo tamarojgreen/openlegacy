@@ -14,7 +14,9 @@ import org.openlegacy.Snapshot;
 
 import java.util.List;
 
-public interface RpcResult extends Snapshot {
+public interface RpcResult extends Snapshot, Cloneable {
 
 	List<RpcField> getRpcFields();
+
+	RpcResult clone();
 }

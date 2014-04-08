@@ -18,7 +18,7 @@ public class LegacyContainerRpcFieldConverter implements RpcFieldConverter {
 				rpcStructureField.setName(rpcField.getLegacyContainerName());
 				rpcStructureField.setOrder(0);
 				rpcStructureField.setIsContainer(true);
-				rpcStructureField.getChildren().add(rpcField);
+				rpcStructureField.getChildrens().add(rpcField);
 				result.add(rpcStructureField);
 			} else {
 				result.add(rpcField);
@@ -33,7 +33,7 @@ public class LegacyContainerRpcFieldConverter implements RpcFieldConverter {
 		List<RpcField> result = new ArrayList<RpcField>();
 		for (RpcField rpcField : fields) {
 			if (rpcField.isContainer() == true) {
-				result.add(((RpcStructureField)rpcField).getChildren().get(0));
+				result.add(((RpcStructureField)rpcField).getChildrens().get(0));
 
 			} else {
 				result.add(rpcField);

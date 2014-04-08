@@ -18,18 +18,18 @@ public class SimpleRpcNumericFieldTypeDefinition extends SimpleNumericFieldTypeD
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	int decimalPlaces = 0;
+	Integer decimalPlaces = 0;
 
 	public SimpleRpcNumericFieldTypeDefinition() {
 		super();
 	}
 
-	public SimpleRpcNumericFieldTypeDefinition(double minimumValue, double maximumValue, int decimalPlaces) {
+	public SimpleRpcNumericFieldTypeDefinition(double minimumValue, double maximumValue, Integer decimalPlaces) {
 		super(minimumValue, maximumValue);
 		this.decimalPlaces = decimalPlaces;
 	}
 
-	public int getDecimalPlaces() {
+	public Integer getDecimalPlaces() {
 		return decimalPlaces;
 	}
 

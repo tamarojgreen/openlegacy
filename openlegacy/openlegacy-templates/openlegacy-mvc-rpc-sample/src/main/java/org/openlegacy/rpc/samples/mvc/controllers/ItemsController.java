@@ -31,9 +31,8 @@ public class ItemsController {
 	
 	@RequestMapping
 	public String show(Model uiModel) {
-		Items items = new Items();
+		Items items = rpcSession.getEntity(Items.class);
 		items = rpcSession.doAction(RpcActions.READ(), items);
-
 		uiModel.addAttribute("items", items);
 		return "Items";
 	}

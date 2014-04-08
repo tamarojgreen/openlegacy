@@ -7,6 +7,7 @@ package ${packageName};
 <#assign parentPackageLength=packageName?last_index_of(".")>
 import ${packageName?substring(0,parentPackageLength)}.${entityDefinition.entityClassName};
 import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +43,7 @@ public class ${entityDefinition.entityClassName}Controller {
 <#if entityDefinition.keys?size != 0>
 	@RequestMapping(value = "/{key:[\\w+[-_ ]*\\w+]+}", method = RequestMethod.GET)
 	public String show(Model uiModel, @PathVariable("key") String key) {
-	${entityDefinition.entityName} ${varName} = rpcSession.getEntity(${entityDefinition.entityName}.class, key);
+		${entityDefinition.entityName} ${varName} = rpcSession.getEntity(${entityDefinition.entityName}.class, key);
 
 <#else>
 	@RequestMapping( method = RequestMethod.GET)
@@ -57,8 +58,8 @@ public class ${entityDefinition.entityClassName}Controller {
 		<#if action.actionName != "READ">
 		@RequestMapping(method = RequestMethod.POST, params = "action=${action.alias}")
 	public String update(${entityDefinition.entityName} ${varName}, Model uiModel) {
-		${varName} = rpcSession.doAction(RpcActions.${action.actionName}(), ${varName});
-
+	
+		${varName} = (${entityDefinition.entityName})rpcSession.doAction(RpcActions.${action.actionName}(), (RpcEntity)${varName});
 		uiModel.addAttribute("${varName}", ${varName});
 		return "${entityDefinition.entityName}";
 	}

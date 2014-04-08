@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface RpcStructureField extends RpcField {
 
-	List<RpcField> getChildren();
+	List<RpcField> getChildrens();
 
 	int getFieldRelativeOrder(int order);
 }

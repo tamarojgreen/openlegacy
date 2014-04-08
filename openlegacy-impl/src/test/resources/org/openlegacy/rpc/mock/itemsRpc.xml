@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot>
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+            	<structure>
+	            	<structure-list>
+	            		<record>
+	                    	<field value="0" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="" length="16" modified="true"/>
+	                        <field value="" length="28" modified="true"/>
+	                    </record>
+	                    <record>
+	                    	<field value="0" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="" length="16" modified="true"/>
+	                        <field value="" length="28" modified="true"/>
+	                    </record>
+	                    <record>
+	                    	<field value="0" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="" length="16" modified="true"/>
+	                        <field value="" length="28" modified="true"/>
+	                    </record>
+	                    <record>
+	                    	<field value="0" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="" length="16" modified="true"/>
+	                        <field value="" length="28" modified="true"/>
+	                    </record>
+	                    <record>
+	                    	<field value="0" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="" length="16" modified="true"/>
+	                        <field value="" length="28" modified="true"/>
+	                    </record>
+	                 </structure-list>
+	              </structure>
+	        </rpcFields>
+        </invoke>
+        <result>
+             <rpcFields>
+                <structure>
+	             	<structure-list>
+		         		<record>
+	                    	<field value="1000" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="Kids Guitar" length="16" modified="true"/>
+	                        <field value="Kids Guitar - Musical Toys" length="28" modified="true"/>
+	                    </record>
+	                    <record>
+	                    	<field value="1001" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="Ball Pool" length="16" modified="true"/>
+	                        <field value="Ball Pool - Novelty Toys" length="28" modified="true"/>
+	                    </record>
+	                    <record>
+	                    	<field value="1002" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="Water Ball" length="16" modified="true"/>
+	                        <field value="Water Ball - Balls" length="28" modified="true"/>
+	                    </record>
+	                    <record>
+	                    	<field value="1003" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="Dog Frisbee" length="16" modified="true"/>
+	                        <field value="Dog Frisbee - Pet Toys" length="28" modified="true"/>
+	                    </record>
+	                    <record>
+	                    	<field value="1004" length="4"  modified="true" type="java.lang.Integer"/>
+	                        <field value="Pig Bank" length="16" modified="true"/>
+	                        <field value="Pig Saving Bank - Ceramics" length="28" modified="true"/>
+	                    </record>
+	            	</structure-list>
+	            </structure>
+   	        </rpcFields>
+        </result>
+    </snapshot>
+</rpc-trail>
+
+
+

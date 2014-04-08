@@ -14,24 +14,36 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.rpc.RpcField;
+import org.openlegacy.rpc.RpcFields;
 import org.openlegacy.rpc.RpcStructureListField;
 import org.openlegacy.rpc.RpcStructureNotMappedException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType
+@XmlAccessorType(XmlAccessType.FIELD)
 public class SimpleRpcStructureListField extends AbstractRpcStructure implements RpcStructureListField {
 
 	private static final long serialVersionUID = 1L;
 
 	private Integer length;
 
+	@XmlAttribute
 	private Direction direction;
 
-	private List<List<RpcField>> children = new ArrayList<List<RpcField>>();
+	@XmlElements({ @XmlElement(name = "record", type = SimpleRpcFields.class) })
+	private List<RpcFields> childrens = new ArrayList<RpcFields>();
 
 	public Integer count() {
-		return children.size();
+		return childrens.size();
 	}
 
 	public Integer getLength() {
@@ -42,13 +54,13 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 			length = 0;
 		}
 		// all records in list have the same size
-		List<RpcField> firstRecord = children.get(0);
+		List<RpcField> firstRecord = childrens.get(0).getFields();
 
 		for (RpcField rpcField : firstRecord) {
 
 			length += (rpcField.getLength());
 		}
-		return length * children.size();
+		return length * childrens.size();
 	}
 
 	public Direction getDirection() {
@@ -56,12 +68,12 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 			return direction;
 		}
 
-		if (direction == null && children.size() > 0) {
+		if (direction == null && childrens.size() > 0) {
 			Boolean input = false;
 			Boolean output = false;
 
 			// all records in list have the same structure
-			List<RpcField> firstRecord = children.get(0);
+			List<RpcField> firstRecord = childrens.get(0).getFields();
 			for (RpcField rpcField : firstRecord) {
 
 				Direction itemDirection = rpcField.getDirection();
@@ -91,11 +103,11 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 	}
 
 	public List<RpcField> getChildren(int i) {
-		return children.get(i);
+		return childrens.get(i).getFields();
 	}
 
-	public List<List<RpcField>> getChildren() {
-		return children;
+	public List<RpcFields> getChildrens() {
+		return childrens;
 	}
 
 	@Override
@@ -128,9 +140,9 @@ public class SimpleRpcStructureListField extends AbstractRpcStructure implements
 		return false;
 	}
 
-	public boolean isVirtual() {
+	public Boolean isVirtual() {
 		// only simple structure can be virtual
-		return false;
+		return null;
 	}
 
 }

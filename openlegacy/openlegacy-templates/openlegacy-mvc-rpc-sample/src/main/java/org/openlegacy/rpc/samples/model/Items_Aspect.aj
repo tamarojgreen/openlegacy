@@ -9,11 +9,11 @@ import org.openlegacy.rpc.RpcEntity;
 privileged @SuppressWarnings("unused") aspect Items_Aspect {
     declare parents: Items implements RpcEntity;
     
-    public TopLevel Items.getTopLevel(){
-    	return this.topLevel;
+    public List<InnerRecord> Items.getInnerRecord(){
+    	return this.innerRecord;
     }
-    public void Items.setTopLevel(TopLevel topLevel){
-    	this.topLevel = topLevel;
+    public void Items.setInnerRecord(List<InnerRecord> innerRecord){
+    	this.innerRecord = innerRecord;
     }
     
 }

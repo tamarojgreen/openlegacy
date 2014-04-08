@@ -33,7 +33,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private String legacyContainerName;
 
 	private String helpText;
-	private boolean isVirtual;
+	private Boolean isVirtual = false;
 
 	private String runtimeName;
 
@@ -130,11 +130,11 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.helpText = helpText;
 	}
 
-	public boolean isVirtual() {
+	public Boolean isVirtual() {
 		return isVirtual;
 	}
 
-	public void setVirtual(boolean isVirtual) {
+	public void setVirtual(Boolean isVirtual) {
 		this.isVirtual = isVirtual;
 
 	}

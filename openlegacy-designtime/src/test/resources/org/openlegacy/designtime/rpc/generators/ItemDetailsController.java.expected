@@ -2,6 +2,7 @@ package org.openlegacy.designtime.rpc.generators.mock.web;
 
 import org.openlegacy.designtime.rpc.generators.mock.ItemDetails;
 import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +26,7 @@ public class ItemDetailsController {
 
 	@Inject
 	private RpcSession rpcSession;
-	
+
 	@RequestMapping(value = "/help")
 	public @ResponseBody
 	String help(HttpServletRequest request) throws IOException {
@@ -43,7 +44,7 @@ public class ItemDetailsController {
 
 	@RequestMapping(method = RequestMethod.POST, params = "action=update")
 	public String update(ItemDetails itemDetails, Model uiModel) {
-		itemDetails = rpcSession.doAction(RpcActions.UPDATE(), itemDetails);
+		itemDetails = (ItemDetails)rpcSession.doAction(RpcActions.UPDATE(), (RpcEntity)itemDetails);
 
 		uiModel.addAttribute("itemDetails", itemDetails);
 		return "ItemDetails";

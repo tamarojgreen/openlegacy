@@ -107,8 +107,8 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		return null;
 	}
 
-	public boolean isVirtual() {
+	public Boolean isVirtual() {
 		// TODO Auto-generated method stub
-		return false;
+		return null;
 	}
 }

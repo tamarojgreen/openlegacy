@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot>
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+                <structure order="0" legacyContainerName="containerTest">
+                    <field value="hello" length="10" modified="true" order="0"/>
+                    <field value="1234" length="5" modified="true" type="java.lang.Integer" order="1"/>
+                </structure>
+                <structure order="1" name="virtualPart">
+                    <field value="1234" length="5" modified="true" type="java.lang.Integer" order="0"/>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <structure order="0" legacyContainerName="containerTest">
+                    <field value="hello" length="10" modified="true" order="0"/>
+                    <field value="1234" length="5" modified="true" type="java.lang.Integer" order="1"/>
+                </structure>
+                <structure order="1" name="virtualPart">
+                    <field value="1234" length="5" modified="true" type="java.lang.Integer" order="0"/>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+</rpc-trail>

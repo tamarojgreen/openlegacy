@@ -69,6 +69,8 @@
 	<bean class="org.openlegacy.rpc.convector.LegacyContainerRpcFieldConverter" />
 	<bean class="org.openlegacy.rpc.convector.VirtualRpcConverter" />
 	
+	<bean id="rpcRecognizer" class="org.openlegacy.rpc.recognizers.DefaultRpcRecognizer" />
+	
 	<!-- Providers may override the default beans -->
 	<import resource="classpath*:/META-INF/*-openlegacy-rpc-provider.xml" /> 
 

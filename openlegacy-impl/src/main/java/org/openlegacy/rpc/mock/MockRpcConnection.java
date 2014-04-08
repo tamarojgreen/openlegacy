@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.rpc.mock;
 
+import org.openlegacy.exceptions.SessionEndedException;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcInvokeAction;
 import org.openlegacy.rpc.RpcResult;
@@ -22,6 +23,8 @@ public class MockRpcConnection implements RpcConnection {
 	private List<RpcSnapshot> snapshots;
 
 	private RpcSnapshot lastSnapshpot;
+	private Integer currentIndex = 0;
+	private boolean connected=false;
 
 	public MockRpcConnection(List<RpcSnapshot> rpcSnapshots) {
 		snapshots = rpcSnapshots;
@@ -32,19 +35,22 @@ public class MockRpcConnection implements RpcConnection {
 	}
 
 	public boolean isConnected() {
-		return true;
+		return connected;
 	}
 
 	public void disconnect() {
-		// do nothing
+		
+		connected = false;
+		lastSnapshpot = null;
 	}
 
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
-		if (lastSnapshpot == null || lastSnapshpot.getSequence() >= snapshots.size()) {
+		if (lastSnapshpot == null || lastSnapshpot.getSequence() > snapshots.size()) {
 			lastSnapshpot = snapshots.get(0);
 		} else {
-			lastSnapshpot = snapshots.get(lastSnapshpot.getSequence() + 1);
+			lastSnapshpot = snapshots.get(lastSnapshpot.getSequence() - 1);
 		}
+		currentIndex = lastSnapshpot.getSequence();
 		return lastSnapshpot.getRpcResult();
 	}
 
@@ -64,11 +70,28 @@ public class MockRpcConnection implements RpcConnection {
 	}
 
 	public void doAction(RpcInvokeAction sendAction) {
-		// do nothing. TODO implemented verifySend
+		currentIndex = currentIndex++ % snapshots.size();
+		lastSnapshpot = snapshots.get(currentIndex);
+		// TODO implemented verifySend
 	}
 
 	public void login(String user, String password) {
-		// do nothing
+		connected = true;
+		currentIndex = 0;
+	}
+
+	public List<RpcSnapshot> getSnapshots() {
+
+		return snapshots;
+	}
+
+	public void setCurrentIndex(int currentIndex) {
+
+		if (currentIndex >= snapshots.size()) {
+			throw (new SessionEndedException("Mock session has been finished"));
+		}
+
+		lastSnapshpot = snapshots.get(currentIndex);
 	}
 
 }

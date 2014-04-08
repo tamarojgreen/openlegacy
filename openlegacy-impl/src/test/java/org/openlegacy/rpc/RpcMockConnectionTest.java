@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
 
-@ContextConfiguration("/test-rpc-mock-context.xml")
+@ContextConfiguration("test-rpc-mock-connection-conntext.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RpcMockConnectionTest {
 
@@ -22,7 +22,7 @@ public class RpcMockConnectionTest {
 		Assert.assertNotNull(rpcConnection);
 		RpcInvokeAction rpcAction = new SimpleRpcInvokeAction("test");
 		RpcResult rpcResult = rpcConnection.invoke(rpcAction);
-
+		rpcConnection.doAction(null);
 		Assert.assertNotNull(rpcResult);
 		RpcFlatField rpcField = (RpcFlatField)rpcResult.getRpcFields().get(0);
 		Assert.assertNotNull(rpcField);
@@ -31,5 +31,18 @@ public class RpcMockConnectionTest {
 		rpcField = (RpcFlatField)rpcResult.getRpcFields().get(1);
 		Assert.assertNotNull(rpcField);
 		Assert.assertEquals(1234, rpcField.getValue());
+
+		// second call
+
+		rpcResult = rpcConnection.invoke(rpcAction);
+
+		Assert.assertNotNull(rpcResult);
+		rpcField = (RpcFlatField)rpcResult.getRpcFields().get(0);
+		Assert.assertNotNull(rpcField);
+		Assert.assertEquals("hello-new", rpcField.getValue());
+
+		rpcField = (RpcFlatField)rpcResult.getRpcFields().get(1);
+		Assert.assertNotNull(rpcField);
+		Assert.assertEquals(3456, rpcField.getValue());
 	}
 }

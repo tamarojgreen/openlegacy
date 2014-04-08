@@ -14,7 +14,7 @@
 	
     <context:property-placeholder location="classpath*:/*.properties"/>
 	
-	<import resource="classpath:/META-INF/openlegacy-rpc-basic-context.xml" /> 
+	<import resource="classpath*:/META-INF/openlegacy-rpc-webenabling-context.xml"/>
 	
 	<bean id="openLegacyWebProperties" class="org.openlegacy.mvc.SimpleOpenLegacyWebProperties" />
 		
@@ -32,12 +32,14 @@
 		<property name="root" value="/trails" />
 		<property name="trailName" value="demo_session.trail" />
 	</bean>
--->
-	<bean id="rpcSession" parent="abstractRpcSession" scope="session">
+	
+	
+	<bean id="rpcSession" parent="abstractRpcSession" scope="prototype" class="org.openlegacy.rpc.support.MockupRpcSession">
 		<property name="connection" ref="rpcConnection" />
 	    <aop:scoped-proxy/>
 	</bean>
-
+End use this definition to replay a mock-up session application -->
+	
  	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.web.RequestBasedSessionPropertiesProvider">
  		<aop:scoped-proxy/>
  	</bean>

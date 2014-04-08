@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot sequence ="1">
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+    	    <field value="1000" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                <field value="" length="16" modified="true"/>
+                    <field value="" length="28" modified="true"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="" length="16" modified="true"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </invoke>
+        <result>
+             <rpcFields>
+	      <field value="1000" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                    <field value="Kids Guitar" length="16" modified="true"/>
+                    <field value="Kids Guitar - Musical Toys" length="28" modified="true" />
+                    <field value="200" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="AIR" length="16" modified="true"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence ="2">
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+    	    <field value="1000" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                    <field value="" length="16" modified="true"/>
+                    <field value="" length="28" modified="true" type="java.lang.Integer"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="" length="16" modified="true"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </invoke>
+        <result>
+             <rpcFields>
+	      <field value="1001" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                    <field value="Ball Pool" length="16" modified="true"/>
+                    <field value="Ball Pool - Novelty Toys" length="28" modified="true" />
+                    <field value="200" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="AIR" length="16" modified="true"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </result>
+    </snapshot>  
+    <snapshot sequence ="3">
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+	        
+    	    <field value="1000" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                    <field value="" length="16" modified="true"/>
+                    <field value="" length="28" modified="true" type="java.lang.Integer"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="" length="16" modified="true"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </invoke>
+        <result>
+             <rpcFields>
+	      <field value="1002" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                    <field value="Water Ball" length="16" modified="true"/>
+                    <field value="Water Ball - Balls" length="28" modified="true" />
+                    <field value="200" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="AIR" length="16" modified="true"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence ="4">
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+    	    <field value="1003" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                    <field value="" length="16" modified="true"/>
+                    <field value="" length="28" modified="true" type="java.lang.Integer"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="" length="16" modified="true"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </invoke>
+        <result>
+             <rpcFields>
+	      <field value="1000" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                    <field value="Frisbee" length="16" modified="true"/>
+                    <field value="Dog Frisbee - Pet Toys" length="28" modified="true" />
+                    <field value="200" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="AIR" length="16" modified="true"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </result>
+    </snapshot>
+    <snapshot sequence ="5">
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+    	    <field value="1000" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                    <field value="" length="16" modified="true"/>
+                    <field value="" length="28" modified="true" type="java.lang.Integer"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="" length="16" modified="true"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </invoke>
+        <result>
+             <rpcFields>
+	      <field value="1004" direction="INPUT" length="8"  type="java.lang.Integer" />
+    	        <structure >
+                    <field value=" Pig Bank" length="16" modified="true"/>
+                    <field value="Pig Saving Bank - Ceramics" length="28" modified="true" />
+                    <field value="200" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+    	        <structure >
+    	        	<field value="AIR" length="16" modified="true"/>
+                    <field value="2" length="4" modified="true" type="java.lang.Integer"/>
+    	        </structure>
+   	        </rpcFields>
+        </result>
+    </snapshot>
+</rpc-trail>
+
+
+

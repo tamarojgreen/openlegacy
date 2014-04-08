@@ -20,4 +20,6 @@ public interface RpcEntityDefinition extends EntityDefinition<RpcFieldDefinition
 	Languages getLanguage();
 
 	String getSourceCode();
+
+	String getIdentification();
 }

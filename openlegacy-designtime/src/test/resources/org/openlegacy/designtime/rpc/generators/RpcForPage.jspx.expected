@@ -12,6 +12,6 @@
 	<ol:field name="lkCustomer.lkCustAddress" />
 	<ol:field name="lkCustomer.lkCustPhone" />
 		</ol:pagePart>
-				<ol:table data="${xxolakkrParms.LkCustomer.LkCards}" property="LkCustomer.LkCards" actionsAsIcons="true"/>
+				<ol:table data="${xxolakkrParms.lkCustomer.lkCards}" property="lkCustomer.lkCards" actionsAsIcons="true"/>
 	</ol:form>
 </jsp:root>

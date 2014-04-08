@@ -15,8 +15,10 @@ import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
+import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
@@ -141,4 +143,11 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 		return null;
 	}
 
+	public String getIdentification() {
+		RpcActionDefinition actionDefinition = (RpcActionDefinition)getAction(RpcActions.READ.class);
+		if (actionDefinition != null) {
+			return actionDefinition.getProgramPath();
+		}
+		return null;
+	}
 }

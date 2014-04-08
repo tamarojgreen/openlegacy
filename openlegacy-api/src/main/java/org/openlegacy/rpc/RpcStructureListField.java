@@ -16,7 +16,7 @@ public interface RpcStructureListField extends RpcField {
 
 	List<RpcField> getChildren(int i);
 
-	List<List<RpcField>> getChildren();
+	List<RpcFields> getChildrens();
 
 	Integer count();
 

@@ -42,8 +42,9 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	private Integer length;
 
 	@XmlAttribute
-	private Integer decimalPlaces = null;
+	private Integer decimalPlaces = 0;
 
+	@XmlTransient
 	private Integer count = 1;
 
 	/**
@@ -78,9 +79,10 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	@XmlAttribute
 	private String name = "";
 
+	@XmlTransient
 	private String virtualGroup = "";
 
-	@XmlTransient
+	@XmlAttribute
 	private int order;
 
 	public Object getValue() {
@@ -311,9 +313,9 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		return false;
 	}
 
-	public boolean isVirtual() {
+	public Boolean isVirtual() {
 		// only structure can be virtual
-		return false;
+		return null;
 	}
 
 	public String getVirtualGroup() {

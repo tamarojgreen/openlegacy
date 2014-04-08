@@ -13,15 +13,20 @@
 		</ol:pagePart>
 	</#if>
 	<#list entityDefinition.partsDefinitions?values as partDefinitions>
+		<#if partDefinitions.count != 1 >
+			<#assign data="${entityDefinition.entityName?uncap_first}.${partDefinitions.partName?uncap_first}" />
+			<ol:table data="${r"${"}${data}${r"}"}" property="${partDefinitions.partName?uncap_first}" actionsAsIcons="true"/>
+		<#else>
 		<@simplePart partDefinitions=partDefinitions/>
+		</#if>
 		<#list partDefinitions.innerPartsDefinitions?values as innerPart>
 			<#if innerPart.count = 1>
 				<#list innerPart.fieldDefinitions as fieldDefinitions >
 					<@simpleField fieldDefinitions=fieldDefinitions/>
 				</#list>
 			<#else>
-				<#assign data="${entityDefinition.entityName?uncap_first}.${partDefinitions.partName}.${innerPart.partName}" />
-				<ol:table data="${r"${"}${data}${r"}"}" property="${partDefinitions.partName}.${innerPart.partName}" actionsAsIcons="true"/>
+				<#assign data="${entityDefinition.entityName?uncap_first}.${partDefinitions.partName?uncap_first}.${innerPart.partName?uncap_first}" />
+				<ol:table data="${r"${"}${data}${r"}"}" property="${partDefinitions.partName?uncap_first}.${innerPart.partName?uncap_first}" actionsAsIcons="true"/>
 			</#if>
 		</#list>
 	</#list>

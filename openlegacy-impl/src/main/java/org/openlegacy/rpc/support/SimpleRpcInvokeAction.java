@@ -33,7 +33,8 @@ public class SimpleRpcInvokeAction implements RpcInvokeAction, Serializable {
 
 	@XmlElementWrapper
 	@XmlElements({ @XmlElement(name = "field", type = SimpleRpcFlatField.class),
-			@XmlElement(name = "structure", type = SimpleRpcStructureField.class) })
+			@XmlElement(name = "structure", type = SimpleRpcStructureField.class),
+			@XmlElement(name = "structure-list", type = SimpleRpcStructureListField.class) })
 	private List<RpcField> rpcFields = new ArrayList<RpcField>();
 
 	@XmlAttribute

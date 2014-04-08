@@ -19,40 +19,40 @@
 				</ol:pagePart>
 			</c:if>
 		<c:forEach items="${definitions.partsDefinitions}" var="part">
-			<c:if test="${fn:length(part.value.fieldsDefinitions) >0}">
-				<ol:pagePart title="${part.key}">
-					<c:forEach items="${part.value.fieldsDefinitions}" var="field">
-						<ol:field name="${field.key}" />
+			<c:if test="${part.value.count >1 }">
+				<spring:eval var="data" expression="${model}.${part.key}" />
+				<ol:table data="${data}" property="${part.key}" actionsAsIcons="true"/>
+			</c:if>
+			<c:if test="${part.value.count==1 }">
+				<c:if test="${fn:length(part.value.fieldsDefinitions) >0}">
+					<ol:pagePart title="${part.key}">
+						<c:forEach items="${part.value.fieldsDefinitions}" var="field">
+							<ol:field name="${field.key}" />
+						</c:forEach>
+					</ol:pagePart>
+				</c:if>
+				<c:if test="${fn:length(part.value.innerPartsDefinitions) >0}">
+				
+					<c:forEach items="${part.value.innerPartsDefinitions}" var="innerPart">
+						<c:choose>
+							<c:when test="${innerPart.value.count > 1}">
+								<spring:eval var="data" expression="${model}.${part.key}.${innerPart.key}" />
+								<ol:table data="${data}" property="${part.key}.${innerPart.key}" actionsAsIcons="true"/>
+							</c:when>
+							<c:otherwise>
+								<c:if test="${fn:length(innerPart.value.fieldsDefinitions) >0}">
+									<ol:pagePart title="${innerPart.key}">
+										<c:forEach items="${innerPart.value.fieldsDefinitions}" var="field">
+											<ol:field name="${field.key}" />
+										</c:forEach>
+									</ol:pagePart>
+								</c:if>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
-				</ol:pagePart>
+				</c:if>
 			</c:if>
-			<c:if test="${fn:length(part.value.innerPartsDefinitions) >0}">
-			
-				<c:forEach items="${part.value.innerPartsDefinitions}" var="innerPart">
-					<c:choose>
-						<c:when test="${innerPart.value.count > 1}">
-							<spring:eval var="data" expression="${model}.${part.key}.${innerPart.key}" />
-							<ol:table data="${data}" property="${part.key}.${innerPart.key}" actionsAsIcons="true"/>
-						</c:when>
-						<c:otherwise>
-							<c:if test="${fn:length(innerPart.value.fieldsDefinitions) >0}">
-								<ol:pagePart title="${innerPart.key}">
-									<c:forEach items="${innerPart.value.fieldsDefinitions}" var="field">
-										<ol:field name="${field.key}" />
-									</c:forEach>
-								</ol:pagePart>
-							</c:if>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</c:if>
-			
 		</c:forEach>
-		
 		</ol:form>
-	
-		
 	</div>
-	
-	
 </jsp:root>

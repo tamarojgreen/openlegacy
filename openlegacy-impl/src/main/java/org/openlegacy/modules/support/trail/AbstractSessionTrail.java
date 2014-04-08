@@ -23,7 +23,7 @@ public abstract class AbstractSessionTrail<S extends Snapshot> implements Sessio
 
 	private LinkedList<S> snapshots = new LinkedList<S>();
 
-	private Integer historyCount = 3;
+	private Integer historyCount;
 
 	private Integer current = null;
 

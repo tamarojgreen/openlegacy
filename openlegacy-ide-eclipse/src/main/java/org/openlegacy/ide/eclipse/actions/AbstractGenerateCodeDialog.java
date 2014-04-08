@@ -12,6 +12,7 @@ package org.openlegacy.ide.eclipse.actions;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -373,8 +374,12 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
+				final IFolder folder = getProject().getFolder(
+						getSourceFolder().getPath() + "/" + PathsUtil.packageToPath(getPackageValue()));
 				try {
-					getProject().refreshLocal(1, null);
+					if (folder != null) {
+						folder.refreshLocal(1, null);
+					}
 				} catch (CoreException e1) {
 					logger.fatal(e1);
 				}

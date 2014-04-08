@@ -3,14 +3,14 @@
     <snapshot>
         <invoke rpcPath="rpctest">
             <rpcFields>
-                <field value="hello" length="10" modified="true"/>
-                <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+                <field value="hello" length="10" modified="true" direction="INPUT" order="0"/>
+                <field value="1234" length="5" modified="true" type="java.lang.Integer" direction="OUTPUT" order="1"/>
             </rpcFields>
         </invoke>
         <result>
             <rpcFields>
-                <field value="hello" length="10" modified="true"/>
-                <field value="1234" length="5" modified="true" type="java.lang.Integer"/>
+                <field value="hello" length="10" modified="true" direction="INPUT" order="0"/>
+                <field value="1234" length="5" modified="true" type="java.lang.Integer" direction="OUTPUT" order="1"/>
             </rpcFields>
         </result>
     </snapshot>

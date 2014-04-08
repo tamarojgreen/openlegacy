@@ -34,6 +34,6 @@ public interface RpcPartEntityDefinition extends PartEntityDefinition<RpcFieldDe
 
 	String getLegacyContainerName();
 
-	boolean isVirtual();
+	Boolean isVirtual();
 
 }

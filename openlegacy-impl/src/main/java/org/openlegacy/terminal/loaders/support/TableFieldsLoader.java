@@ -14,13 +14,11 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.loaders.FieldLoader;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
-import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 @Component
 public class TableFieldsLoader implements FieldLoader {
@@ -44,7 +42,6 @@ public class TableFieldsLoader implements FieldLoader {
 		ScreenTableDefinition tableDefinition = screenEntitiesRegistry.getTable(listType);
 		if (tableDefinition != null) {
 			ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(containingClass);
-			List<ScreenColumnDefinition> columns = tableDefinition.getColumnDefinitions();
 			screenEntityDefinition.getTableDefinitions().put(field.getName(), tableDefinition);
 		}
 

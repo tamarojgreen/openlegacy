@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType
@@ -36,31 +36,34 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlElementWrapper
 	@XmlElements({ @XmlElement(name = "field", type = SimpleRpcFlatField.class),
-			@XmlElement(name = "structure", type = SimpleRpcStructureField.class) })
-	private List<RpcField> children = new ArrayList<RpcField>();
+			@XmlElement(name = "structure", type = SimpleRpcStructureField.class),
+			@XmlElement(name = "structure-list", type = SimpleRpcStructureListField.class) })
+	private List<RpcField> childrens = new ArrayList<RpcField>();
 
 	private Integer length;
 
 	@XmlAttribute
 	private Direction direction;
 
-	private boolean isContainer;
+	@XmlAttribute
+	private Boolean isContainer = false;
 
-	private boolean virtual;
+	@XmlTransient
+	private Boolean virtual = false;
 
+	@XmlTransient
 	private Map<Integer, Integer> orderCorelator;
 
 	public Direction getDirection() {
 		if (direction != null) {
 			return direction;
 		}
-		if (direction == null && children.size() > 0) {
+		if (direction == null && childrens.size() > 0) {
 			Boolean input = false;
 			Boolean output = false;
 
-			for (RpcField rpcField : getChildren()) {
+			for (RpcField rpcField : getChildrens()) {
 
 				Direction fieldDirection = rpcField.getDirection();
 				if (fieldDirection == Direction.INPUT || fieldDirection == Direction.INPUT_OUTPUT) {
@@ -83,8 +86,8 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 		return direction;
 	}
 
-	public List<RpcField> getChildren() {
-		return children;
+	public List<RpcField> getChildrens() {
+		return childrens;
 	}
 
 	@Override
@@ -113,7 +116,7 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 			length = 0;
 		}
 
-		for (RpcField rpcField : getChildren()) {
+		for (RpcField rpcField : getChildrens()) {
 			length += rpcField.getLength();
 		}
 		return length;
@@ -138,17 +141,17 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 			throw (new RpcStructureNotMappedException("Field: " + getName() + "excided max depth" + maxDef));
 		}
 		int maxtField = 0;
-		for (RpcField rpcField : getChildren()) {
+		for (RpcField rpcField : getChildrens()) {
 			maxtField = Math.max(maxtField, rpcField.depth(now + 1, maxDef));
 		}
 		return maxtField + 1;
 	}
 
-	public boolean isVirtual() {
+	public Boolean isVirtual() {
 		return virtual;
 	}
 
-	public void setVirtual(boolean virtual) {
+	public void setVirtual(Boolean virtual) {
 		this.virtual = virtual;
 
 	}
@@ -160,10 +163,11 @@ public class SimpleRpcStructureField extends AbstractRpcStructure implements Rpc
 
 		if (orderCorelator == null) {
 			orderCorelator = new HashMap<Integer, Integer>();
-			for (int i = 0; i < children.size(); i++) {
-				orderCorelator.put(children.get(i).getOrder(), i);
+			for (int i = 0; i < childrens.size(); i++) {
+				orderCorelator.put(childrens.get(i).getOrder(), i);
 			}
 		}
 		return orderCorelator.get(order);
 	}
+
 }

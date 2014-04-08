@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.rpc.support;
 
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcResult;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -31,7 +33,8 @@ public class SimpleRpcResult implements RpcResult, Serializable {
 
 	@XmlElementWrapper
 	@XmlElements({ @XmlElement(name = "field", type = SimpleRpcFlatField.class),
-			@XmlElement(name = "structure", type = SimpleRpcStructureField.class) })
+			@XmlElement(name = "structure", type = SimpleRpcStructureField.class),
+			@XmlElement(name = "structure-list", type = SimpleRpcStructureListField.class) })
 	private List<RpcField> rpcFields;
 
 	public List<RpcField> getRpcFields() {
@@ -40,6 +43,20 @@ public class SimpleRpcResult implements RpcResult, Serializable {
 
 	public void setRpcFields(List<RpcField> rpcFields) {
 		this.rpcFields = rpcFields;
+	}
+
+	@Override
+	public RpcResult clone() {
+		try {
+			SimpleRpcResult c = (SimpleRpcResult)super.clone();
+			c.setRpcFields(new ArrayList<RpcField>());
+			for (RpcField field : rpcFields) {
+				c.getRpcFields().add(field.clone());
+			}
+			return c;
+		} catch (CloneNotSupportedException e) {
+			throw (new OpenLegacyRuntimeException(e));
+		}
 	}
 
 }

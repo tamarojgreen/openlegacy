@@ -8,10 +8,12 @@ import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcConnectionFactory;
 import org.openlegacy.rpc.RpcField;
+import org.openlegacy.rpc.RpcFields;
 import org.openlegacy.rpc.RpcFlatField;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcStructureField;
 import org.openlegacy.rpc.RpcStructureListField;
+import org.openlegacy.rpc.support.SimpleRpcFields;
 import org.openlegacy.rpc.support.SimpleRpcFlatField;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.openlegacy.rpc.support.SimpleRpcStructureField;
@@ -19,7 +21,6 @@ import org.openlegacy.rpc.support.SimpleRpcStructureListField;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -160,10 +161,10 @@ public class Jt400RpcConnectionTest {
 		SimpleRpcFlatField input = child1();
 		input.setValue("15");
 		SimpleRpcFlatField out = child2();
-		rpcStructureField.getChildren().add(input);
+		rpcStructureField.getChildrens().add(input);
 		out.setValue("0");
 
-		rpcStructureField.getChildren().add(out);
+		rpcStructureField.getChildrens().add(out);
 
 		rpcInvokeAction.getFields().add(rpcStructureField);
 		rpcInvokeAction.setRpcPath("/QSYS.LIB/RMR2L1.LIB/ROICBL2.PGM");
@@ -173,7 +174,7 @@ public class Jt400RpcConnectionTest {
 		List<RpcField> fields = rpcResult.getRpcFields();
 		Assert.assertEquals(1, fields.size());
 		SimpleRpcStructureField resultTopStructure = (SimpleRpcStructureField)fields.get(0);
-		List<RpcField> children = resultTopStructure.getChildren();
+		List<RpcField> children = resultTopStructure.getChildrens();
 		Assert.assertEquals(2, children.size());
 		RpcField field = children.get(1);
 		Assert.assertEquals("30", ((RpcFlatField)field).getValue());
@@ -195,11 +196,11 @@ public class Jt400RpcConnectionTest {
 		SimpleRpcStructureListField rpcRecordField = new SimpleRpcStructureListField();
 		rpcRecordField.setName("record");
 
-		rpcTopStructureField.getChildren().add(rpcRecordField);
+		rpcTopStructureField.getChildrens().add(rpcRecordField);
 
 		for (int i = 0; i < 3; i++) {
 
-			List<RpcField> recordFields = new ArrayList<RpcField>();
+			RpcFields recordFields = new SimpleRpcFields();
 
 			SimpleRpcFlatField rpcFlatField = new SimpleRpcFlatField();
 			rpcFlatField.setName("text");
@@ -217,14 +218,14 @@ public class Jt400RpcConnectionTest {
 			rpcFlatField.setDirection(Direction.OUTPUT);
 			recordFields.add(rpcFlatField);
 
-			rpcRecordField.getChildren().add(recordFields);
+			rpcRecordField.getChildrens().add(recordFields);
 		}
 		rpcInvokeAction.getFields().add(rpcTopStructureField);
 		rpcInvokeAction.setRpcPath("/QSYS.LIB/RMR2L1.LIB/TREEARRAY.PGM");
 		RpcResult rpcResult = rpcConnection.invoke(rpcInvokeAction);
 		Assert.assertNotNull(rpcResult);
 		RpcStructureField topLevelField = (RpcStructureField)rpcResult.getRpcFields().get(0);
-		RpcStructureListField records = (RpcStructureListField)topLevelField.getChildren().get(0);
+		RpcStructureListField records = (RpcStructureListField)topLevelField.getChildrens().get(0);
 		List<RpcField> firstRecordFields = records.getChildren(0);
 		RpcFlatField numField = (RpcFlatField)firstRecordFields.get(1);
 		Assert.assertEquals("0030", numField.getValue());

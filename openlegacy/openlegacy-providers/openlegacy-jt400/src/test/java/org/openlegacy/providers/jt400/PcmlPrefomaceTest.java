@@ -6,7 +6,8 @@ import com.ibm.as400.data.PcmlException;
 import com.ibm.as400.data.ProgramCallDocument;
 
 import org.openlegacy.annotations.rpc.Direction;
-import org.openlegacy.rpc.RpcField;
+import org.openlegacy.rpc.RpcFields;
+import org.openlegacy.rpc.support.SimpleRpcFields;
 import org.openlegacy.rpc.support.SimpleRpcFlatField;
 import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.openlegacy.rpc.support.SimpleRpcStructureField;
@@ -16,8 +17,6 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -77,11 +76,11 @@ public class PcmlPrefomaceTest {
 		SimpleRpcStructureListField rpcRecordField = new SimpleRpcStructureListField();
 		rpcRecordField.setName("record");
 
-		rpcTopStructureField.getChildren().add(rpcRecordField);
+		rpcTopStructureField.getChildrens().add(rpcRecordField);
 
 		for (int i = 0; i < 3; i++) {
 
-			List<RpcField> recordFields = new ArrayList<RpcField>();
+			RpcFields recordFields = new SimpleRpcFields();
 
 			SimpleRpcFlatField rpcFlatField = new SimpleRpcFlatField();
 			rpcFlatField.setName("text");
@@ -99,7 +98,7 @@ public class PcmlPrefomaceTest {
 			rpcFlatField.setDirection(Direction.OUTPUT);
 			recordFields.add(rpcFlatField);
 
-			rpcRecordField.getChildren().add(recordFields);
+			rpcRecordField.getChildrens().add(recordFields);
 		}
 		rpcInvokeAction.getFields().add(rpcTopStructureField);
 		rpcInvokeAction.setRpcPath("/QSYS.LIB/RMR2L1.LIB/TREEARRAY.PGM");

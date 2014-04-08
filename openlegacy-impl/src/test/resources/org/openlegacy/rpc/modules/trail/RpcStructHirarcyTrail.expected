@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot>
+        <invoke rpcPath="rpctest">
+            <rpcFields>
+                <structure order="0">
+                    <structure order="0">
+                        <field value="hello" length="10" modified="true" order="0"/>
+                    </structure>
+                </structure>
+            </rpcFields>
+        </invoke>
+        <result>
+            <rpcFields>
+                <structure order="0">
+                    <structure order="0">
+                        <field value="hello" length="10" modified="true" order="0"/>
+                    </structure>
+                </structure>
+            </rpcFields>
+        </result>
+    </snapshot>
+</rpc-trail>

@@ -10,14 +10,39 @@
  *******************************************************************************/
 package org.openlegacy.rpc.support;
 
+import org.openlegacy.rpc.RpcSnapshot;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.support.AbstractEntitiesRegistry;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 public class DefaultRpcEntitiesRegistry extends AbstractEntitiesRegistry<RpcEntityDefinition, RpcFieldDefinition, RpcPartEntityDefinition> implements RpcEntitiesRegistry {
 
 	private static final long serialVersionUID = 1L;
+	private Map<String, RpcEntityDefinition> rpcDefinitionsByProgram;
+
+	public RpcEntityDefinition match(RpcSnapshot rpcSnapshot) {
+
+		if (rpcDefinitionsByProgram == null) {
+			rpcDefinitionsByProgram = new HashMap<String, RpcEntityDefinition>();
+			Collection<RpcEntityDefinition> rpcDefinitionsValues = getEntitiesDefinitions();
+			for (RpcEntityDefinition rpcDefinition : rpcDefinitionsValues) {
+				rpcDefinitionsByProgram.put(rpcDefinition.getIdentification(), rpcDefinition);
+			}
+
+		}
+		String programPath = rpcSnapshot.getRpcInvokeAction().getRpcPath();
+		if (rpcDefinitionsByProgram.containsKey(programPath)) {
+			return rpcDefinitionsByProgram.get(programPath);
+		}
+
+		return null;
+
+	}
 
 }

@@ -16,5 +16,5 @@ package org.openlegacy.definitions;
 
 public interface RpcNumericFieldTypeDefinition extends NumericFieldTypeDefinition {
 
-	int getDecimalPlaces();
+	Integer getDecimalPlaces();
 }
