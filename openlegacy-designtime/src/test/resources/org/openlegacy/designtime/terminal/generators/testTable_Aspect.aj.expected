@@ -4,7 +4,6 @@
 package com.someorg.examples.screens;
 
 import java.util.List;
-import org.openlegacy.terminal.Color;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import com.someorg.examples.screens.TestClass.TableScreenRecord;

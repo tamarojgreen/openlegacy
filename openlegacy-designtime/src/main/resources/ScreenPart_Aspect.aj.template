@@ -4,6 +4,7 @@
 package ${packageName};
 
 import java.util.*;
+import org.openlegacy.terminal.Color;
 <#if supportTerminalData>
 import org.openlegacy.terminal.TerminalField;
 </#if>
