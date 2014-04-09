@@ -99,12 +99,4 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 	public void setSleep(int sleep) {
 		this.sleep = sleep;
 	}
-
-	public int getRow() {
-		return position.getRow();
-	}
-
-	public int getColumn() {
-		return position.getColumn();
-	}
 }
