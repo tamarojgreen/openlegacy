@@ -73,8 +73,8 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 		}
 
 		// if screen is not messages screen, exit
-		while (entityDefinition.getType() == Messages.MessagesEntity.class && skippedScreens < skipLimit) {
-			logger.debug(MessageFormat.format("Found messages screen: {0}", entityDefinition.getEntityName()));
+		while ((entityDefinition.getType() == Messages.MessagesEntity.class || entityDefinition.getType() == Messages.IgnoreEntity.class) && skippedScreens < skipLimit) {
+			logger.debug(MessageFormat.format("Found messages/ignore screen: {0}", entityDefinition.getEntityName()));
 
 			ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(currentEntity);
 
@@ -91,7 +91,7 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 					}
 				}
 			}
-			if (messagesFieldDefinition == null) {
+			if (messagesFieldDefinition == null && entityDefinition.getType() == Messages.MessagesEntity.class) {
 				throw (new RegistryException(MessageFormat.format(
 						"Messages entity {0} doesnt contain a message field (@ScreenField(fieldType=MessagesField.class))",
 						entityDefinition.getEntityClassName())));
