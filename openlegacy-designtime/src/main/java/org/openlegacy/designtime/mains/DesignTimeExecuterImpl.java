@@ -749,18 +749,23 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	public boolean generateAspect(File javaFile) {
 
+
+		File projectPath = getProjectPath(javaFile);
+		ApplicationContext applicationContext = getOrCreateApplicationContext(projectPath);
+		GenerateUtil generateUtil = applicationContext.getBean(GenerateUtil.class);
+		generateUtil.setTemplateDirectory(new File(projectPath,TEMPLATES_DIR));
 		try {
 			FileInputStream input = new FileInputStream(javaFile);
 			CompilationUnit compilationUnit = JavaParser.parse(input, CharEncoding.UTF_8);
 
 			if (JavaParserUtil.hasAnnotation(compilationUnit, ScreenAnnotationConstants.SCREEN_ENTITY_ANNOTATION,
 					ScreenAnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
-				ScreenPojosAjGenerator generator = getOrCreateApplicationContext(getProjectPath(javaFile)).getBean(
+				ScreenPojosAjGenerator generator = applicationContext.getBean(
 						ScreenPojosAjGenerator.class);
 				return generator.generate(javaFile, compilationUnit);
 			} else if (JavaParserUtil.hasAnnotation(compilationUnit, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION,
 					RpcAnnotationConstants.RPC_ENTITY_SUPER_CLASS_ANNOTATION)) {
-				RpcPojosAjGenerator generator = getOrCreateApplicationContext(getProjectPath(javaFile)).getBean(
+				RpcPojosAjGenerator generator = applicationContext.getBean(
 						RpcPojosAjGenerator.class);
 				return generator.generate(javaFile, compilationUnit);
 
