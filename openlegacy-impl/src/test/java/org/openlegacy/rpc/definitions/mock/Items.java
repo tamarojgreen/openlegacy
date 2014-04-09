@@ -20,6 +20,13 @@ public class Items implements org.openlegacy.rpc.RpcEntity {
 	@RpcPartList(count = 5)
 	private List<InnerRecord> innerRecord;
 
+    public List<InnerRecord> getInnerRecord(){
+    	return this.innerRecord;
+    }
+    public void setInnerRecord(List<InnerRecord> innerRecord){
+    	this.innerRecord = innerRecord;
+    }
+
 	@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMDETAIL.PGM", displayName = "View", targetEntity = ItemDetails.class, alias = "display") })
 	@RpcPart(name = "InnerRecord", legacyContainerName = "Top")
 	public static class InnerRecord {
@@ -34,6 +41,17 @@ public class Items implements org.openlegacy.rpc.RpcEntity {
 		@RpcField(length = 28, originalName = "DESCRIPTION")
 		private String description;
 
+		public Integer getItemNumber() {
+			return itemNumber;
+		}
+		public String getItemName() {
+			return itemName;
+		}
+		public String getDescription() {
+			return description;
+		}
+		
+		
 	}
 
 }

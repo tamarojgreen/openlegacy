@@ -21,6 +21,26 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 	private ItemRecord itemRecord;
 	private Shipping shipping;
 
+    public Integer getItemNum(){
+    	return this.itemNum;
+    }
+    public void setItemNum(Integer itemNum){
+    	this.itemNum = itemNum;
+    }
+    public ItemRecord getItemRecord(){
+    	return this.itemRecord;
+    }
+    public void setItemRecord(ItemRecord itemRecord){
+    	this.itemRecord = itemRecord;
+    }
+    public Shipping getShipping(){
+    	return this.shipping;
+    }
+    public void setShipping(Shipping shipping){
+    	this.shipping = shipping;
+    }
+    
+	
 	@RpcPart(name = "ItemRecord")
 	public static class ItemRecord {
 
@@ -34,6 +54,16 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 		@RpcField(length = 4, originalName = "WEIGHT")
 		private Integer weight;
 
+		public String getItemName() {
+			return itemName;
+		}
+		public String getDescription() {
+			return description;
+		}
+		public Integer getWeight() {
+			return weight;
+		}
+		
 	}
 
 	@RpcPart(name = "Shipping")
@@ -46,5 +76,11 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 		@RpcField(length = 4, originalName = "DAYS")
 		private Integer days;
 
+		public String getShippingMethod() {
+			return shippingMethod;
+		}
+		public Integer getDays() {
+			return days;
+		}
 	}
 }
