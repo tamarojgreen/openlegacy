@@ -99,11 +99,11 @@ function doAjaxPost(formName, areaName, actionName,fragments,callback) {
 }
 
 function showSessionViewer(baseUrl) {
-	showDialog("sessionViewerDialog", baseUrl + "/sessionViewer?ts=" + (new Date()));
+	showDialog("sessionViewerDialog", baseUrl + "/sessionViewer?ts=" + (new Date().getTime()));
 }
 
 function showEntityViewer(baseUrl,entityName) {
-	showDialog("sessionViewerDialog", baseUrl + "/entityViewer/" + entityName + "/?ts=" + (new Date()));
+	showDialog("sessionViewerDialog", baseUrl + "/entityViewer/" + entityName + "?ts=" + (new Date().getTime()));
 }
 
 function showMobileSessionViewer(baseUrl){
