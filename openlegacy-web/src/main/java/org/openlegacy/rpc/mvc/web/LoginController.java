@@ -33,6 +33,8 @@ public class LoginController {
 	@Inject
 	private RpcSession rpcSession;
 
+	private String afterLoginURL = MvcConstants.MENU;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String home(Model uiModel) {
 
@@ -72,6 +74,10 @@ public class LoginController {
 			return MvcConstants.REDIRECT + uri.toASCIIString();
 		}
 
-		return MvcConstants.REDIRECT + MvcConstants.MENU;
+		return MvcConstants.REDIRECT + afterLoginURL;
+	}
+
+	public void setAfterLoginURL(String afterLoginURL) {
+		this.afterLoginURL = afterLoginURL;
 	}
 }
