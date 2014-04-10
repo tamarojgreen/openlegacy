@@ -80,10 +80,10 @@
 			<div data-dojo-type="dijit.layout.ContentPane" title="Demo stuff" id="demoStuff" class="element">
 				<div class="links">
 					<ul>
-						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/rpc/samples/model/${definitions.entityName}.java')">View Model</a></li>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/classes/org/openlegacy/rpc/samples/model/${definitions.entityName}.java')">View Model</a></li>
 						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/web/views/${definitions.entityName}.jspx')">View page</a></li>
-						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/main/org/openlegacy/rpc/samples/mvc/controllers/${definitions.entityName}Controller.java')">View Controller</a></li>
-						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/src/test/org/openlegacy/rpc/samples/MvcRpcSampleTest.java')">View API Test</a></li>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/classes/org/openlegacy/rpc/samples/mvc/controllers/${definitions.entityName}Controller.java')">View Controller</a></li>
+						<li><a href="javascript:showDialog('viewSourceDialog','${pageContext.request.contextPath}/viewSource?file=/WEB-INF/classes/org/openlegacy/rpc/samples/MvcRpcSampleTest.java')">View API Test</a></li>
 					</ul>
 					<div class="demo_session">
 						<c:if test="${definitions != null}">

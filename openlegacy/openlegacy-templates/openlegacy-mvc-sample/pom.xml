@@ -400,11 +400,11 @@
 					<webResources>
 						<resource>
 							<directory>${project.build.sourceDirectory}</directory>
-							<targetPath>src/main</targetPath>
+							<targetPath>WEB-INF/classes</targetPath>
 						</resource>
 						<resource>
 							<directory>${project.build.testSourceDirectory}</directory>
-							<targetPath>src/test</targetPath>
+							<targetPath>WEB-INF/classes</targetPath>
 						</resource>
 					</webResources>
 				</configuration>
