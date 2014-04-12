@@ -13,6 +13,7 @@ package org.openlegacy.designtime.mains;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -749,24 +750,21 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	public boolean generateAspect(File javaFile) {
 
-
 		File projectPath = getProjectPath(javaFile);
 		ApplicationContext applicationContext = getOrCreateApplicationContext(projectPath);
 		GenerateUtil generateUtil = applicationContext.getBean(GenerateUtil.class);
-		generateUtil.setTemplateDirectory(new File(projectPath,TEMPLATES_DIR));
+		generateUtil.setTemplateDirectory(new File(projectPath, TEMPLATES_DIR));
 		try {
 			FileInputStream input = new FileInputStream(javaFile);
 			CompilationUnit compilationUnit = JavaParser.parse(input, CharEncoding.UTF_8);
 
 			if (JavaParserUtil.hasAnnotation(compilationUnit, ScreenAnnotationConstants.SCREEN_ENTITY_ANNOTATION,
 					ScreenAnnotationConstants.SCREEN_ENTITY_SUPER_CLASS_ANNOTATION)) {
-				ScreenPojosAjGenerator generator = applicationContext.getBean(
-						ScreenPojosAjGenerator.class);
+				ScreenPojosAjGenerator generator = applicationContext.getBean(ScreenPojosAjGenerator.class);
 				return generator.generate(javaFile, compilationUnit);
 			} else if (JavaParserUtil.hasAnnotation(compilationUnit, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION,
 					RpcAnnotationConstants.RPC_ENTITY_SUPER_CLASS_ANNOTATION)) {
-				RpcPojosAjGenerator generator = applicationContext.getBean(
-						RpcPojosAjGenerator.class);
+				RpcPojosAjGenerator generator = applicationContext.getBean(RpcPojosAjGenerator.class);
 				return generator.generate(javaFile, compilationUnit);
 
 			}
@@ -969,6 +967,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		EntityUserInteraction<EntityDefinition<?>> entityUserInteraction = generateRpcModelRequest.getEntityUserInteraction();
 
 		String fileExtension = FileUtils.fileExtension(generateRpcModelRequest.getSourceFile().getName());
+
 		CodeParser codeParser = projectApplicationContext.getBean(CodeParserFactory.class).getParser(fileExtension.substring(1));
 
 		if (codeParser == null) {
@@ -978,9 +977,25 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		RpcEntityDefinition rpcEntityDefinition = null;
 		try {
 			File sourceFile = generateRpcModelRequest.getSourceFile();
-			fileContent = IOUtils.toString(new FileInputStream(sourceFile));
-			ParseResults parseResults = codeParser.parse(fileContent, sourceFile.getName());
 
+			String baseName = FileUtils.fileWithoutAnyExtension(sourceFile.getName());
+
+			int baseNameLength = baseName.length();
+			File dir = new File(sourceFile.getParent());
+			FileFilter fileFilter = new WildcardFileFilter(baseName + "*.cpy");
+			File[] files = dir.listFiles(fileFilter);
+
+			ParseResults parseResults;
+			fileContent = IOUtils.toString(new FileInputStream(sourceFile));
+			if (files == null) {
+				parseResults = codeParser.parse(fileContent, sourceFile.getName());
+			} else {
+				Map<String, InputStream> streamMap = new HashMap<String, InputStream>();
+				for (File file : files) {
+					streamMap.put(file.getName().substring(baseNameLength + 1), new FileInputStream(file));
+				}
+				parseResults = codeParser.parse(fileContent, streamMap);
+			}
 			rpcEntityDefinition = parseResults.getEntityDefinition();
 
 			String name = FileUtils.fileWithoutAnyExtension(sourceFile.getName());

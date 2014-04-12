@@ -16,14 +16,14 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.rpc.source.CodeParser;
 import org.openlegacy.utils.FileUtils;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import koopa.parsers.cobol.CobolParser;
 import koopa.trees.antlr.jaxen.Jaxen;
@@ -40,6 +40,13 @@ public class OpenlegacyCobolParser implements CodeParser {
 	private final static String COPY_FILE_QUERY = "//textName//cobolWord//text()";
 	private final static String OPERAND_QUERY = "//copyOperandName//pseudoLiteral//text()";
 	private final static String COPYBOOK_REPLACE_QUERY = "//copyReplacementInstruction";
+	private final static String newLine = System.getProperty("line.separator");
+	private final static String linePrefix = "      ";
+	private final static String CBL_HEADER = linePrefix + "IDENTIFICATION DIVISION." + newLine + linePrefix
+			+ "PROGRAM-ID.                     STM." + newLine + linePrefix + "DATA DIVISION." + newLine + linePrefix;
+
+	private final static Pattern linkagePattern = Pattern.compile("LINKAGE\\s*SECTION");
+	private final static Pattern procedurePattern = Pattern.compile("PROCEDURE\\s*DIVISION");
 
 	private String copybookExtension = ".cpy";
 	private String cobolExtension = ".cbl";
@@ -53,22 +60,6 @@ public class OpenlegacyCobolParser implements CodeParser {
 
 	public String getCopyBookPath() {
 		return copyBookPath;
-	}
-
-	private static String writeToTempFile(String source, String extension) throws IOException {
-
-		File tempFile = File.createTempFile("temp" + System.currentTimeMillis(), extension);
-
-		tempFile.deleteOnExit();
-
-		BufferedWriter out = new BufferedWriter(new FileWriter(tempFile));
-		try {
-			out.write(source);
-		} finally {
-			out.close();
-
-		}
-		return tempFile.getPath();
 	}
 
 	@SuppressWarnings({ "unchecked" })
@@ -120,6 +111,23 @@ public class OpenlegacyCobolParser implements CodeParser {
 
 	}
 
+	private static String getParsePart(String source) {
+
+		String result = CBL_HEADER;
+		Matcher matcherStart = linkagePattern.matcher(source);
+		Matcher matchEnd = procedurePattern.matcher(source);
+		if (matcherStart.find() == true && matchEnd.find() == true) {
+			String remain = source.substring(matchEnd.end());
+			int eol = remain.indexOf('.');
+			if (eol > 1) {
+				result = result + source.substring(matcherStart.start(), matchEnd.end()) + remain.substring(0, eol + 1) + newLine;
+			} else {
+				result = result + source.substring(matcherStart.start());
+			}
+		}
+		return result;
+	}
+
 	public ParseResults parse(String source, String fileName) {
 
 		String tempFileName = "";
@@ -127,10 +135,13 @@ public class OpenlegacyCobolParser implements CodeParser {
 		boolean isCopyBook = extension.equals(copybookExtension);
 		if (isCopyBook) {
 			source = source.replaceAll(":.*:", "");
+		} else {
+			source = getParsePart(source);
+			source = CobolParserUtils.removeCommentsAndLabels(source);
 		}
 
 		try {
-			tempFileName = writeToTempFile(source, extension);
+			tempFileName = CobolParserUtils.writeToTempFile(source, extension);
 		} catch (Exception e) {// Catch exception if any
 			logger.fatal(e);
 			return null;

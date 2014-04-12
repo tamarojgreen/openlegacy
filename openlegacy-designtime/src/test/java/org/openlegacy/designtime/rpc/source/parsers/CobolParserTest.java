@@ -246,4 +246,18 @@ public class CobolParserTest {
 		Assert.assertEquals(String.class, another.getJavaType());
 	}
 
+	@Test
+	public void useCase() throws IOException {
+		String sourceFile = "qcblsrc.esuserb.cbl";
+		Map<String, InputStream> streamMap = new HashMap<String, InputStream>();
+
+		streamMap.put("prm1i.cpy", getClass().getResourceAsStream("qcblsrc.prm1i.cpy"));
+		streamMap.put("prm2o.cpy", getClass().getResourceAsStream("qcblsrc.prm2o.cpy"));
+		streamMap.put("prmuser4o.cpy", getClass().getResourceAsStream("qcblsrc.prmuser4o.cpy"));
+		String source = IOUtils.toString(getClass().getResource(sourceFile));
+		ParseResults parseResults = openlegacyCobolParser.parse(source, streamMap);
+		RpcEntityDefinition rpcEntityDefinition = parseResults.getEntityDefinition();
+		Assert.assertNotNull(rpcEntityDefinition);
+	}
+
 }

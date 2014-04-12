@@ -11,20 +11,26 @@
 package org.openlegacy.designtime.rpc.source.parsers;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Map;
 
 public class CobolParserUtils {
+
+	private static String LINE_START = "      ";
+	private static int LINE_MIN_LENGTH = 6;
+	private static String newLine = System.getProperty("line.separator");
 
 	public static String createTmpDir(String initial) {
 		boolean needToFind = true;
@@ -61,15 +67,79 @@ public class CobolParserUtils {
 		writer.close();
 	}
 
+	private static boolean isComment(String line) {
+
+		for (int i = 6; i < line.length(); i++) {
+			if (line.charAt(i) != ' ') {
+				if (line.charAt(i) == '*') {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static String preProcessLine(String line) {
+		if (line.length() > LINE_MIN_LENGTH) {
+			line = LINE_START + line.substring(6);
+			if (isComment(line) == false) {
+				return line + newLine;
+
+			}
+		}
+		return null;
+	}
+
+	public static String removeCommentsAndLabels(String source) {
+		String result = "";
+		String[] lines = source.split(newLine);
+		for (String line : lines) {
+			if ((line = preProcessLine(line)) != null) {
+				result = result + line;
+			}
+		}
+
+		return result;
+	}
+
 	public static void copyStreamsToFile(String path, Map<String, InputStream> streamMap) throws IOException {
+
 		for (String copyBookName : streamMap.keySet()) {
 			File copyBookFile = new File(path + copyBookName);
 			OutputStream copyBookStream = new FileOutputStream(copyBookFile);
+			OutputStreamWriter copyBookStreamWriter = new OutputStreamWriter(copyBookStream);
 
 			copyBookFile.deleteOnExit();
 
-			IOUtils.copy(streamMap.get(copyBookName), copyBookStream);
+			BufferedReader input = new BufferedReader(new InputStreamReader(streamMap.get(copyBookName)));
+			String line;
+			while ((line = input.readLine()) != null) {
+				if ((line = preProcessLine(line)) != null) {
+					copyBookStreamWriter.write(line);
+				}
+
+			}
+			// IOUtils.copy(streamMap.get(copyBookName), copyBookStream);
+			copyBookStreamWriter.close();
 			copyBookStream.close();
 		}
+	}
+
+	public static String writeToTempFile(String source, String extension) throws IOException {
+
+		File tempFile = File.createTempFile("temp" + System.currentTimeMillis(), extension);
+
+		tempFile.deleteOnExit();
+
+		BufferedWriter out = new BufferedWriter(new FileWriter(tempFile));
+		try {
+			out.write(source);
+		} finally {
+			out.close();
+
+		}
+		return tempFile.getPath();
 	}
 }
