@@ -31,6 +31,7 @@ public class CobolParserUtils {
 	private static String LINE_START = "      ";
 	private static int LINE_MIN_LENGTH = 6;
 	private static String newLine = System.getProperty("line.separator");
+	private static String lineSeperator = "\\r?\\n"; // covers both \r\n and \n
 
 	public static String createTmpDir(String initial) {
 		boolean needToFind = true;
@@ -94,7 +95,7 @@ public class CobolParserUtils {
 
 	public static String removeCommentsAndLabels(String source) {
 		String result = "";
-		String[] lines = source.split(newLine);
+		String[] lines = source.split(lineSeperator);
 		for (String line : lines) {
 			if ((line = preProcessLine(line)) != null) {
 				result = result + line;
