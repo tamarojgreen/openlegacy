@@ -45,6 +45,7 @@ import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer;
+import org.openlegacy.terminal.support.DefaultTerminalSnapshotsLoader;
 import org.openlegacy.terminal.support.SimpleRowPart;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.utils.StringUtil;
@@ -737,5 +738,11 @@ public class SnapshotComposite extends ImageComposite {
 		// minimize image when mouse leaves image bounds
 		shell.addListener(SWT.MouseExit, getShellMouseListener(shell));
 		shell.open();
+	}
+
+	public void setSnapshotFromPath(String path) {
+		DefaultTerminalSnapshotsLoader loader = new DefaultTerminalSnapshotsLoader();
+		TerminalSnapshot terminalSnapshot = loader.load(path);
+		setSnapshot(terminalSnapshot);
 	}
 }
