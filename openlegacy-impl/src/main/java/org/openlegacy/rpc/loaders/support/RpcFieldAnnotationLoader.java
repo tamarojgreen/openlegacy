@@ -65,12 +65,6 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			rpcFieldDefinition.setDisplayName(fieldAnnotation.displayName());
 		}
 
-		if (!(fieldAnnotation.length() == 2 || fieldAnnotation.length() == 4 || fieldAnnotation.length() == 8)
-				&& field.getType() == Integer.class) {
-			throw (new RegistryException(MessageFormat.format("Integer Length must be 2,4,8 {0}.{1}",
-					containingClass.getSimpleName(), field.getName())));
-		}
-
 		if (fieldAnnotation.length() % 1 > 0 && field.getType() == String.class) {
 			throw (new RegistryException(MessageFormat.format(
 					"Length with floating point cannot be set for String field {0}.{1}", containingClass.getSimpleName(),
