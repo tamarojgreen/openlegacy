@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.util.Map;
 
 public class CobolParserUtils {
@@ -39,7 +40,8 @@ public class CobolParserUtils {
 		File tempDir;
 		String randomDirName = null;
 		while (needToFind) {
-			randomDirName = sysTempDir + initial + ((Double)Math.random()).toString();
+			randomDirName = MessageFormat.format("{0}{1}{2}{3}", sysTempDir, File.separator, initial,
+					((Double)Math.random()).toString());
 			tempDir = new File(randomDirName);
 			if (!tempDir.exists()) {
 				needToFind = false;
