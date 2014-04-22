@@ -42,7 +42,8 @@
 	<bean id="fieldSplitter" class="org.openlegacy.terminal.support.TerminalFieldByCharSplitter" p:char=" " p:charCount="2" />
 	<bean id="fieldsSplitter" class="org.openlegacy.terminal.support.SimpleTerminalFieldsSplitter" />
 	<bean id="screenEntityUtils" class="org.openlegacy.terminal.utils.ScreenEntityUtils" />
-
+	<bean class="org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil" />
+	
 	<bean id="sessionNavigator" class="org.openlegacy.terminal.support.navigation.DefaultSessionNavigator" />
  	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.DefaultMenuOptionFinder" />
 	

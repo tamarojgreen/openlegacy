@@ -14,11 +14,13 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenColumn;
+import org.openlegacy.annotations.screen.ScreenTableReference;
 import org.openlegacy.annotations.screen.ScreenTable;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenColumnDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenTableReferenceDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenTableDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.utils.ReflectionUtil;
@@ -70,6 +72,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 		tableDefinition.setTableCollector(screenTableAnnotation.tableCollector());
 		collectColumnsMetadata(containingClass, tableDefinition);
+		collectTablesReferenceMetadata(containingClass, tableDefinition);
 
 		final OpenLegacyProperties olProperties = getBeanFactory().getBean(OpenLegacyProperties.class);
 
@@ -90,6 +93,24 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 			throw (new RegistryException("No key column/s defined for table " + containingClass.getSimpleName()));
 		}
 		screenEntitiesRegistry.addTable(tableDefinition);
+
+	}
+
+	private static void collectTablesReferenceMetadata(final Class<?> rowClass, final SimpleScreenTableDefinition tableDefinition) {
+
+		ReflectionUtils.doWithFields(rowClass, new FieldCallback() {
+
+			public void doWith(Field field) {
+
+				if (!field.isAnnotationPresent(ScreenTableReference.class)) {
+					return;
+				}
+				SimpleScreenTableReferenceDefinition tableReferenceDefinition = new SimpleScreenTableReferenceDefinition(
+						field.getName(), field.getAnnotation(ScreenTableReference.class).referredScreen(), rowClass);
+				tableDefinition.getTableReferenceDefinitions().add(tableReferenceDefinition);
+
+			}
+		});
 
 	}
 

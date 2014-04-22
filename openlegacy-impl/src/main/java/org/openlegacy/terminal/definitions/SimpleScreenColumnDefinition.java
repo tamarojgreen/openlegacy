@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.terminal.definitions;
 
-import java.io.Serializable;
-
 import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.terminal.FieldAttributeType;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 
-public class SimpleScreenColumnDefinition implements ScreenColumnDefinition,
-		Serializable {
+import java.io.Serializable;
+
+public class SimpleScreenColumnDefinition implements ScreenColumnDefinition, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -128,7 +127,7 @@ public class SimpleScreenColumnDefinition implements ScreenColumnDefinition,
 		if (!(other instanceof ScreenColumnDefinition)) {
 			return -1;
 		}
-		ScreenColumnDefinition otherColumn = (ScreenColumnDefinition) other;
+		ScreenColumnDefinition otherColumn = (ScreenColumnDefinition)other;
 
 		return getStartColumn() - otherColumn.getStartColumn();
 	}

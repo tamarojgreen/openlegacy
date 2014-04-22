@@ -67,6 +67,8 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 
 	private int screensCount;
 
+	private List<ScreenTableReferenceDefinition> tableReferenceDefinitions = new ArrayList<ScreenTableReferenceDefinition>();
+
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
 	}
@@ -316,5 +318,9 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 
 	public void setScreensCount(int screensCount) {
 		this.screensCount = screensCount;
+	}
+
+	public List<ScreenTableReferenceDefinition> getTableReferenceDefinitions() {
+		return tableReferenceDefinitions;
 	}
 }

@@ -26,6 +26,8 @@ import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 
+import java.util.List;
+
 /**
  * Defines all the information required to manage terminal session tables including drill-down definitions Typically loaded from
  * 
@@ -59,6 +61,8 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 
 	int getScreensCount();
 
+	List<ScreenTableReferenceDefinition> getTableReferenceDefinitions();
+
 	public interface ScreenColumnDefinition extends TableDefinition.ColumnDefinition {
 
 		boolean isSelectionField();
@@ -70,7 +74,15 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 		int getLength();
 
 		FieldAttributeType getAttribute();
+	}
 
+	public interface ScreenTableReferenceDefinition {
+
+		String getFieldName();
+
+		Class<?> getRelatedTableRecord();
+
+		Class<?> getRelatedScreen();
 	}
 
 	public interface DrilldownDefinition {
