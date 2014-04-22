@@ -225,4 +225,9 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
+
+	public boolean isEmpty() {
+		return getFieldsDefinitions().size() == 0 && getPartsDefinitions().size() == 0;
+	}
+
 }

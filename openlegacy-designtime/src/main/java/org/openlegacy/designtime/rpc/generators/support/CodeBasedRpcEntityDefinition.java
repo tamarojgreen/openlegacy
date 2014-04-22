@@ -140,4 +140,8 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 	public String getSourceCode() {
 		return null;
 	}
+
+	public boolean isEmpty() {
+		return false;
+	}
 }

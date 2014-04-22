@@ -209,4 +209,8 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return false;
 	}
 
+	public boolean isEmpty() {
+		return false;
+	}
+
 }

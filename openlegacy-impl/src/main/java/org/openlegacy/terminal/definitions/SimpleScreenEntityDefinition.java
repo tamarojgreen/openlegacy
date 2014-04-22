@@ -217,4 +217,8 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 		this.rightToLeft = rightToLeft;
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return super.isEmpty() && getTableDefinitions().isEmpty();
+	}
 }

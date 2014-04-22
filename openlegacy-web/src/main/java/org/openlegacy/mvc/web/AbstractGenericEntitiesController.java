@@ -168,8 +168,7 @@ public abstract class AbstractGenericEntitiesController<S extends Session> imple
 		String suffix = isComposite ? MvcConstants.COMPOSITE_SUFFIX : "";
 		String viewName = entityDefinition.getEntityName() + suffix;
 
-		boolean isEmpty = !isComposite && entityDefinition.getFieldsDefinitions().size() == 0
-				&& entityDefinition.getPartsDefinitions().size() == 0;
+		boolean isEmpty = !isComposite && entityDefinition.isEmpty();
 
 		List<String> viewsPaths = sitePreference == SitePreference.MOBILE ? mobileViewsPaths : webViewsPaths;
 
