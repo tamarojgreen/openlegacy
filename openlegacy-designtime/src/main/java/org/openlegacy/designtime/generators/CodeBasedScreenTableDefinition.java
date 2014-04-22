@@ -252,4 +252,8 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 	public int getScreensCount() {
 		return codeModel.getScreensCount();
 	}
+
+	public List<ScreenTableReferenceDefinition> getTableReferenceDefinitions() {
+		return null;
+	}
 }
