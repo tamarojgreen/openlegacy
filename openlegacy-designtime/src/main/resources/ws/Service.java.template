@@ -4,15 +4,25 @@ import javax.jws.WebMethod;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
+<#assign primitiveTypes = ["byte", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
+
+<#assign addedImports = []/>
 <#list inputParameters as parameter>
-<#if parameter.entityDefinition??>
-import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName}; 
-</#if>
+	<#if parameter.entityDefinition??>
+		<#if !addedImports?seq_contains(parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName)>
+import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName};
+			<#assign addedImports = addedImports + [parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName]/> 
+		</#if>
+	</#if>
 </#list>
+
 <#list outputParameters as parameter>
-<#if parameter.entityDefinition??>
+	<#if parameter.entityDefinition??>
+		<#if !addedImports?seq_contains(parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName)>
 import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName}; 
-</#if>
+			<#assign addedImports = addedImports + [parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName]/>
+		</#if> 
+	</#if>
 </#list>
 
 /**
@@ -30,29 +40,46 @@ public interface ${serviceName}Service {
 
 	<#if inputParameters?size != 0>
 	public static class ${serviceName}In{
+		<#assign addedParams = []/>
 		<#list inputParameters as parameter>
-			<#if parameter.entityDefinition??>
-				${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first}; 
+			<#if parameter.entityDefinition?? && !addedParams?seq_contains(parameter.entityDefinition.entityName)>
+		${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first};
+				<#assign addedParams = addedParams + [parameter.entityDefinition.entityName]/>
 			</#if>
 		</#list>
+		
+		<#assign addedParams = []/>
+		<#list inputParameters as parameter>
+			<#if parameter.entityDefinition?? && !addedParams?seq_contains(parameter.entityDefinition.entityName)>
+		public ${parameter.entityDefinition.entityName} get${parameter.entityDefinition.entityName}(){
+			return ${parameter.entityDefinition.entityName?uncap_first};
+		} 
+				<#assign addedParams = addedParams + [parameter.entityDefinition.entityName]/>
+			</#if>
+		</#list>
+
 	}
 	</#if>
 	public static class ${serviceName}Out{
+		<#assign addedParams = []/>
 		<#list outputParameters as parameter>
-		<#if parameter.entityDefinition??>
+			<#if parameter.entityDefinition?? && !addedParams?seq_contains(parameter.entityDefinition.entityName)>
 		${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first}; 
-		</#if>
+				<#assign addedParams = addedParams + [parameter.entityDefinition.entityName]/>
+			</#if>
 		</#list>
 
+		<#assign addedParams = []/>
 		<#list outputParameters as parameter>
-		<#if parameter.entityDefinition??>
+			<#if parameter.entityDefinition?? && !addedParams?seq_contains(parameter.entityDefinition.entityName)>
 		public ${parameter.entityDefinition.entityName} get${parameter.entityDefinition.entityName}(){
 			return ${parameter.entityDefinition.entityName?uncap_first};
 		} 
 		public void set${parameter.entityDefinition.entityName}(${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first}){
 			this.${parameter.entityDefinition.entityName?uncap_first} = ${parameter.entityDefinition.entityName?uncap_first};
 		} 
-		</#if>
+				<#assign addedParams = addedParams + [parameter.entityDefinition.entityName]/>
+			</#if>
 		</#list>
 	}
 
