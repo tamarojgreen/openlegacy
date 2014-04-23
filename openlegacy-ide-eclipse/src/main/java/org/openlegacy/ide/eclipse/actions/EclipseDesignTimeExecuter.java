@@ -238,7 +238,8 @@ public class EclipseDesignTimeExecuter {
 	}
 
 	public void generateRpcModel(final IFile sourceFile, IPackageFragmentRoot sourceDirectory, String packageDir,
-			EntityUserInteraction<EntityDefinition<?>> entityUserInteraction, boolean generateAspect) throws GenerationException {
+			EntityUserInteraction<EntityDefinition<?>> entityUserInteraction, boolean generateAspect, String readAction,
+			String navigation) throws GenerationException {
 		File projectDirectory = PathsUtil.toOsLocation(sourceFile.getProject());
 		File templatesDirectory = new File(projectDirectory, DesignTimeExecuterImpl.TEMPLATES_DIR);
 
@@ -250,7 +251,8 @@ public class EclipseDesignTimeExecuter {
 		generateRpcRequest.setSourceFile(PathsUtil.toOsLocation(sourceFile));
 		generateRpcRequest.setGenerateAspectJ(generateAspect);
 		generateRpcRequest.setEntityUserInteraction(entityUserInteraction);
-
+		generateRpcRequest.setReadAction(readAction);
+		generateRpcRequest.setNavigation(navigation);
 		designTimeExecuter.generateRpcModel(generateRpcRequest);
 
 		Display.getDefault().asyncExec(new Runnable() {

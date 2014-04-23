@@ -21,6 +21,10 @@ public class GenerateRpcModelRequest extends AbstractGenerateRequest implements 
 
 	private File sourceFile;
 
+	private String readAction;
+
+	private String navigation;
+
 	private EntityUserInteraction<EntityDefinition<?>> entityUserInteraction;
 
 	private boolean generateSource = true;
@@ -47,6 +51,22 @@ public class GenerateRpcModelRequest extends AbstractGenerateRequest implements 
 
 	public void setGenerateSnapshotText(boolean generateSource) {
 		this.generateSource = generateSource;
+	}
+
+	public String getReadAction() {
+		return readAction;
+	}
+
+	public void setReadAction(String readAction) {
+		this.readAction = readAction;
+	}
+
+	public String getNavigation() {
+		return navigation;
+	}
+
+	public void setNavigation(String navigation) {
+		this.navigation = navigation;
 	}
 
 }

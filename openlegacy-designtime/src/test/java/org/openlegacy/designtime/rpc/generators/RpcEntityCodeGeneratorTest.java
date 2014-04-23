@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
 import org.openlegacy.designtime.rpc.source.parsers.OpenlegacyCobolParser;
 import org.openlegacy.designtime.rpc.source.parsers.ParseResults;
+import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.definitions.SimpleRpcActionDefinition;
 import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.FileUtils;
 import org.springframework.test.context.ContextConfiguration;
@@ -61,6 +63,34 @@ public class RpcEntityCodeGeneratorTest {
 	@Test
 	public void testMixedOrder() throws IOException, TemplateException, ParseException {
 		testGenerate("mixed.cbl", "mixed.java.expected");
+	}
+
+	@Test
+	public void testActionAndNavigation() throws IOException, TemplateException, ParseException {
+		String sourceFile = "simpleField.cbl";
+		String expectJava = "simpleField_withEntityAnnotations.java.expected";
+		String source = IOUtils.toString(getClass().getResource(sourceFile));
+		String entityName = FileUtils.fileWithoutAnyExtension(sourceFile);
+
+		ParseResults parseResults = openlegacyCobolParser.parse(source, sourceFile);
+		SimpleRpcEntityDesigntimeDefinition rpcEntityDesigntimeDefinition = (SimpleRpcEntityDesigntimeDefinition)parseResults.getEntityDefinition();
+
+		rpcEntityDesigntimeDefinition.setPackageName("test.com");
+		rpcEntityDesigntimeDefinition.setEntityName(entityName);
+
+		rpcEntityDesigntimeDefinition.setOnlyPart(false);
+		rpcEntityDesigntimeDefinition.setNavigation("menuNavigation");
+
+		SimpleRpcActionDefinition actionDefinition = new SimpleRpcActionDefinition(RpcActions.READ(), "Read");
+		actionDefinition.setProgramPath("/root/path");
+		rpcEntityDesigntimeDefinition.getActions().add(actionDefinition);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		rpcJavaGenerator.generate(rpcEntityDesigntimeDefinition, baos);
+
+		// System.err.println(baos);
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectJava));
+
+		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 
 	private void testGenerate(String sourceFile, String expectJava) throws IOException, TemplateException, ParseException {

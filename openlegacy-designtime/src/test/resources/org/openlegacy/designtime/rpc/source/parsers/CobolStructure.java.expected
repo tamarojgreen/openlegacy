@@ -10,7 +10,7 @@ import org.openlegacy.rpc.RpcActions.*;
 
 @RpcEntity(name="CobolStructure")
 @RpcActions(actions = { 
-				@Action(action = org.openlegacy.rpc.RpcActions.READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ROICBL2.PGM", displayName = "READ", alias = "read") 
+				@Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ROICBL2.PGM", displayName = "Read", alias = "read") 
 				})
 public class CobolStructure {
 

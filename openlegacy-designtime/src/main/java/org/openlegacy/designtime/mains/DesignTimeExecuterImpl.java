@@ -55,8 +55,10 @@ import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
+import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.SourceFetcher;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.definitions.SimpleRpcActionDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.render.DefaultTerminalSnapshotXmlRenderer;
@@ -565,6 +567,13 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		((SimpleRpcEntityDesigntimeDefinition)entityDefinition).setPackageName(generateRpcModelRequest.getPackageDirectory().replaceAll(
 				"/", "."));
 
+		((SimpleRpcEntityDesigntimeDefinition)entityDefinition).setNavigation(generateRpcModelRequest.getNavigation());
+
+		SimpleRpcActionDefinition actionDefinition = new SimpleRpcActionDefinition(RpcActions.READ(), "Read");
+
+		actionDefinition.setProgramPath(generateRpcModelRequest.getReadAction());
+		entityDefinition.getActions().add(actionDefinition);
+
 		try {
 			File packageDir = new File(generateRpcModelRequest.getSourceDirectory(),
 					generateRpcModelRequest.getPackageDirectory());
@@ -987,7 +996,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 			ParseResults parseResults;
 			fileContent = IOUtils.toString(new FileInputStream(sourceFile));
-			if (files == null) {
+			if (files == null || files.length == 0) {
 				parseResults = codeParser.parse(fileContent, sourceFile.getName());
 			} else {
 				Map<String, InputStream> streamMap = new HashMap<String, InputStream>();

@@ -57,8 +57,9 @@ public class PcmlParser implements CodeParser {
 			List<Element> programs = DomUtils.getChildElementsByTagName(doc.getDocumentElement(), "program");
 			for (Element programElement : programs) {
 				rpcDefinition.setEntityName(StringUtil.toClassName(programElement.getAttribute("name")));
+
 				SimpleRpcActionDefinition actionDefinition = new SimpleRpcActionDefinition(RpcActions.READ(),
-						READ.class.getSimpleName());
+						StringUtil.toDisplayName(READ.class.getSimpleName()));
 				actionDefinition.setProgramPath(programElement.getAttribute("path"));
 				rpcDefinition.getActions().add(actionDefinition);
 				Map<String, RpcFieldDefinition> fieldsDefinitions = rpcDefinition.getFieldsDefinitions();

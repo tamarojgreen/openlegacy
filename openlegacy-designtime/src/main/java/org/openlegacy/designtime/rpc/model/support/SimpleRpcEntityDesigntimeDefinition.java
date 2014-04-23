@@ -9,6 +9,7 @@ public class SimpleRpcEntityDesigntimeDefinition extends SimpleRpcEntityDefiniti
 	 */
 	private static final long serialVersionUID = 1L;
 	private String packageName;
+	private String navigation;
 	private boolean onlyPart;
 
 	public SimpleRpcEntityDesigntimeDefinition() {
@@ -35,6 +36,15 @@ public class SimpleRpcEntityDesigntimeDefinition extends SimpleRpcEntityDefiniti
 
 	public void setOnlyPart(boolean onlyPart) {
 		this.onlyPart = onlyPart;
+	}
+
+	public String getNavigation() {
+		return navigation;
+	}
+
+	public void setNavigation(String navigation) {
+		this.navigation = navigation;
+
 	}
 
 }

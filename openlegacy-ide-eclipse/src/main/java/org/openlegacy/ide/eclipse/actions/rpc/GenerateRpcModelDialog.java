@@ -24,7 +24,8 @@ public class GenerateRpcModelDialog extends AbstractGenerateModelDialog {
 
 	@Override
 	protected void generate() {
-		EclipseDesignTimeExecuter.instance().generateRpcModel(getFile(), getSourceFolder(), getPackageValue(), this, isUseAj());
+		EclipseDesignTimeExecuter.instance().generateRpcModel(getFile(), getSourceFolder(), getPackageValue(), this, isUseAj(),
+				getActionValue(), getNavigationValue());
 	}
 
 	public boolean customizeEntity(EntityDefinition<?> entityDefinition) {

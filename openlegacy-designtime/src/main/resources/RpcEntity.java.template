@@ -9,11 +9,14 @@ import org.openlegacy.FieldType.*;
 import org.openlegacy.rpc.RpcActions.*;
 
 <#if onlyPart=false>
+<#if navigation??>
+@RpcNavigation(category = "${navigation}")
+</#if>
 @RpcEntity(name="${entityName}"<#if displayName?? >, displayName=${displayName}</#if><#if language?? >, language=${language}</#if>)
 <#if actions?size != 0>
 @RpcActions(actions = { 
 				<#list actions as action> 
-				@Action(action = org.openlegacy.rpc.RpcActions.${action.action.class.simpleName}.class, path = "${action.programPath}", displayName = "${action.displayName}", alias = "${action.alias}")<#if action_has_next>,</#if> 
+				@Action(action = ${action.action.class.simpleName}.class, path = "${action.programPath}", displayName = "${action.displayName}", alias = "${action.alias}")<#if action_has_next>,</#if> 
 				</#list>	
 				})
 </#if>

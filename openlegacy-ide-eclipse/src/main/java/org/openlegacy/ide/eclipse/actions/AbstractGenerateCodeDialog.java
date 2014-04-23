@@ -71,8 +71,8 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 	private Text sourceFolderPathText;
 	private IPackageFragmentRoot sourceFolder;
-	private Text packageText;
-	private String packageValue;
+	protected Text packageText;
+	protected String packageValue;
 	private IFile file;
 	private boolean useAj = true;
 	private boolean generateTest = true;

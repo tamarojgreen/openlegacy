@@ -9,7 +9,7 @@ import org.openlegacy.rpc.RpcActions.*;
 
 @RpcEntity(name="CobolFlat")
 @RpcActions(actions = { 
-				@Action(action = org.openlegacy.rpc.RpcActions.READ.class, path = "/QSYS.LIB/RMR2L1.LIB/FLATCBL.PGM", displayName = "READ", alias = "read") 
+				@Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/FLATCBL.PGM", displayName = "Read", alias = "read") 
 				})
 public class CobolFlat {
 
