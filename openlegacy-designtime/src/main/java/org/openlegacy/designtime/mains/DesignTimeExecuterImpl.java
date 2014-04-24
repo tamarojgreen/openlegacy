@@ -1008,7 +1008,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			rpcEntityDefinition = parseResults.getEntityDefinition();
 
 			String name = FileUtils.fileWithoutAnyExtension(sourceFile.getName());
-			((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setEntityName(name);
+			((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setEntityName(parseResults.getEntityName(name));
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}

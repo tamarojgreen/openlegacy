@@ -7,7 +7,12 @@ import org.openlegacy.annotations.rpc.*;
 import org.openlegacy.FieldType.*;
 import org.openlegacy.rpc.RpcActions.*;
 
+@RpcNavigation(category = "menuNavigation")
 @RpcEntity(name="As400sample")
+@RpcActions(actions = { 
+				@Action(action = READ.class, path = "/root/path", displayName = "Read", alias = "read") 
+				})
+
 public class As400sample {
 
 		private Param1 param1;

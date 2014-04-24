@@ -258,6 +258,7 @@ public class CobolParserTest {
 		ParseResults parseResults = openlegacyCobolParser.parse(source, streamMap);
 		RpcEntityDefinition rpcEntityDefinition = parseResults.getEntityDefinition();
 		Assert.assertNotNull(rpcEntityDefinition);
+		Assert.assertEquals("Esuserb", parseResults.getEntityName(""));
 	}
 
 }

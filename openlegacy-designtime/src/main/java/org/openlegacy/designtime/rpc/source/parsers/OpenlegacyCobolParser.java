@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.rpc.source.CodeParser;
 import org.openlegacy.utils.FileUtils;
+import org.openlegacy.utils.StringUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class OpenlegacyCobolParser implements CodeParser {
 
 	private final static Pattern linkagePattern = Pattern.compile("LINKAGE\\s*SECTION");
 	private final static Pattern procedurePattern = Pattern.compile("PROCEDURE\\s*DIVISION");
+	private final static Pattern programIDPattern = Pattern.compile("PROGRAM-ID\\.\\s*(.*)\\.");
 
 	private String copybookExtension = ".cpy";
 	private String cobolExtension = ".cbl";
@@ -128,10 +130,21 @@ public class OpenlegacyCobolParser implements CodeParser {
 		return result;
 	}
 
+	private static String getEntityName(String source) {
+		String result = "";
+		Matcher matcherStart = programIDPattern.matcher(source);
+		if (matcherStart.find() == true) {
+			result = StringUtil.toClassName(matcherStart.group(1).toLowerCase());
+
+		}
+		return result;
+	}
+
 	public ParseResults parse(String source, String fileName) {
 
 		String tempFileName = "";
 		String extension = FileUtils.fileExtension(fileName);
+		String entityName = getEntityName(source);
 		boolean isCopyBook = extension.equals(copybookExtension);
 		if (isCopyBook) {
 			source = source.replaceAll(":.*:", "");
@@ -158,6 +171,7 @@ public class OpenlegacyCobolParser implements CodeParser {
 			if (!parseResults.isValidInput()) {
 				throw (new OpenLegacyParseException("Koopa input is invalid", olParseResults));
 			}
+			olParseResults.setEntityName(entityName);
 			return olParseResults;
 
 		} catch (Exception e) {

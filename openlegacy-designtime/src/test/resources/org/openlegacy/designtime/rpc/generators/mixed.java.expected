@@ -7,7 +7,11 @@ import org.openlegacy.annotations.rpc.*;
 import org.openlegacy.FieldType.*;
 import org.openlegacy.rpc.RpcActions.*;
 
+@RpcNavigation(category = "menuNavigation")
 @RpcEntity(name="Mixed")
+@RpcActions(actions = { 
+				@Action(action = READ.class, path = "/root/path", displayName = "Read", alias = "read") 
+				})
 public class Mixed {
 
 		@RpcField(length = 10, originalName = "VAR1")
