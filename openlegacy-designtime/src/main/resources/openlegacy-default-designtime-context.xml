@@ -19,7 +19,8 @@
 	</bean>
 	
 	<!-- OpenLegacy default terminal snapshot analyzer rules definition -->	 
-	<bean id="terminalSnapshotsAnalyzer" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsAnalyzer" p:processName="screen-builder">
+	<bean id="terminalSnapshotsAnalyzer" class="org.openlegacy.designtime.terminal.analyzer.support.DefaultTerminalSnapshotsAnalyzer" p:processName="screen-builder"
+		lazy-init="true">
 		<property name="ruleDefinitions">
 			<list>
 				<bean parent="ruleDefinition" p:droolsFile="rules/screen-builder.bpmn" />

@@ -13,7 +13,7 @@ public class ServiceEntityFieldParameter implements ServiceParameter {
 		this.fieldDefinition = fieldDefinition;
 	}
 
-	EntityDefinition<?> getEntityDefinition() {
+	public EntityDefinition<?> getEntityDefinition() {
 		return entityDefinition;
 	}
 

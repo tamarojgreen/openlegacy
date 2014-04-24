@@ -1,5 +1,9 @@
 package ${package};
 
+<#if inputParameters?size != 0 || outputParameters?size != 0>
+import org.openlegacy.terminal.ScreenEntity;
+</#if>
+
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.modules.login.Login;
 <#if generatePool>
@@ -13,16 +17,31 @@ import javax.inject.Inject;
 
 import javax.jws.WebService;
 
+<#assign addedImports = []/>
 <#list inputParameters as parameter>
 <#if parameter.entityDefinition??>
-import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName}; 
+	<#if !addedImports?seq_contains(parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName)>
+import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName};
+	<#assign addedImports = addedImports + [parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName]/> 
+	</#if>
 </#if>
 </#list>
+
 <#list outputParameters as parameter>
 <#if parameter.entityDefinition??>
+	<#if !addedImports?seq_contains(parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName)>
 import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName}; 
+	<#assign addedImports = addedImports + [parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName]/> 
+	</#if> 
 </#if>
 </#list>
+
+<#if inputParameters?size != 0 || outputParameters?size != 0>
+<#if !generatePool>
+import org.openlegacy.terminal.actions.TerminalActions;
+</#if>
+import org.openlegacy.terminal.wait_conditions.WaitCondition;
+</#if>
 
 /**
  *  A service implementation which invokes OpenLegacy API, and returns a service output.
@@ -52,13 +71,95 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			<#if !generatePool>
 			terminalSession.getModule(Login.class).login("USER","PASSWORD");
 			</#if>
-			${serviceName}Out ${serviceName?uncap_first}Out = new ${serviceName}Out(); 
-			<#list outputParameters as parameter>
+			<#assign addedEntities = [] />
+			<#list inputParameters as parameter>
 				<#if parameter.entityDefinition??>
-			${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first} = terminalSession.getEntity(${parameter.entityDefinition.entityName}.class);
-			${serviceName?uncap_first}Out.set${parameter.entityDefinition.entityName}(${parameter.entityDefinition.entityName?uncap_first});
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#if !addedEntities?seq_contains(entityName)>
+
+			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+				</#if>
+				<#if parameter.entityDefinition?? && parameter.fieldDefinition??>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+					<#assign fieldNames = fieldName?split(".")/>
+					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+						<#assign fieldName = fieldNames[1]/>
+					</#if>
+			${entityName?uncap_first}.set${fieldName?cap_first}(${serviceName?uncap_first}In.get${fieldName?cap_first}());	
+				</#if>
+				<#if parameter.entityDefinition?? && parameter.partEntityDefinition??>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
+					<#if !addedEntities?seq_contains(entityName)>
+			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+			${entityName?uncap_first}.set${partName}(${serviceName?uncap_first}In.get${partName}());	
 				</#if>
 			</#list>
+			
+			<#assign eNames = []/>
+			<#list inputParameters as parameter>
+				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
+					<#assign eName = parameter.entityDefinition.entityName/>
+			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
+					<#assign eNames = eNames + [eName]/>
+				</#if>
+			</#list>
+			
+			${serviceName}Out ${serviceName?uncap_first}Out = new ${serviceName}Out();
+			<#assign setterAdded = 0/> 
+			<#list outputParameters as parameter>
+				<#if parameter.entityDefinition??>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#if !addedEntities?seq_contains(entityName)>
+					
+			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+					<#if setterAdded != 1>
+			${serviceName?uncap_first}Out.set${parameter.entityDefinition.entityName}(${parameter.entityDefinition.entityName?uncap_first});
+						<#assign setterAdded = 1/>
+					</#if>
+				</#if>
+				<#if parameter.entityDefinition?? && parameter.fieldDefinition??>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+					<#assign fieldNames = fieldName?split(".")/>
+					<#if !addedEntities?seq_contains(entityName)>
+			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+						<#assign fieldName = fieldNames[1]/>
+			${serviceName?uncap_first}Out.set${fieldName?cap_first}(${entityName?uncap_first}.get${fieldNames[0]?cap_first}().get${fieldName?cap_first}());
+					<#else>
+			${serviceName?uncap_first}Out.set${fieldName?cap_first}(${entityName?uncap_first}.get${fieldName?cap_first}());
+					</#if>
+				</#if>
+				<#if parameter.entityDefinition?? && parameter.partEntityDefinition??>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
+					<#if !addedEntities?seq_contains(entityName)>
+			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+			${serviceName?uncap_first}Out.set${partName?cap_first}(${entityName?uncap_first}.get${partName?cap_first}());
+					</#if>
+			</#list>
+
+			<#assign eNames = []/>
+			<#list outputParameters as parameter>
+				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
+					<#assign eName = parameter.entityDefinition.entityName/>
+			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
+					<#assign eNames = eNames + [eName]/>
+				</#if>
+			</#list>
+			
 			return ${serviceName?uncap_first}Out;
 		<#if generatePool>
 		}catch(RuntimeException e){
@@ -81,11 +182,23 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			//terminalSession.getModule(Login.class).login("USER","PASSWORD");
 			// PLACE HOLDER for init action
 		}
+
+		@Override
+		public boolean isMacro() {
+			// TODO Auto-generated method stub
+			return false;
+		}
 	}
 	public static class KeepAliveAction implements TerminalAction{
 		
 		public void perform(TerminalSession terminalSession, Object entity,Object... keys){
 			// PLACE HOLDER for keep alive action
+		}
+
+		@Override
+		public boolean isMacro() {
+			// TODO Auto-generated method stub
+			return false;
 		}
 	}
 	public static class CleanupAction implements TerminalAction{
@@ -93,6 +206,12 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 		public void perform(TerminalSession terminalSession, Object entity,Object... keys){
 			//terminalSession.doAction(TerminalActions.F12());
 			// PLACE HOLDER for cleanup action
+		}
+
+		@Override
+		public boolean isMacro() {
+			// TODO Auto-generated method stub
+			return false;
 		}
 	}
 	</#if> 
