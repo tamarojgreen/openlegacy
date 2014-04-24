@@ -37,7 +37,9 @@ import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.en
 </#list>
 
 <#if inputParameters?size != 0 || outputParameters?size != 0>
+<#if !generatePool>
 import org.openlegacy.terminal.actions.TerminalActions;
+</#if>
 import org.openlegacy.terminal.wait_conditions.WaitCondition;
 </#if>
 
@@ -69,12 +71,12 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			<#if !generatePool>
 			terminalSession.getModule(Login.class).login("USER","PASSWORD");
 			</#if>
-			
 			<#assign addedEntities = [] />
 			<#list inputParameters as parameter>
 				<#if parameter.entityDefinition??>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#if !addedEntities?seq_contains(entityName)>
+
 			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
@@ -84,10 +86,9 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 					<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 					<#assign fieldNames = fieldName?split(".")/>
 					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-			${entityName?uncap_first}.get${fieldNames[0]?cap_first}().set${fieldNames[1]?cap_first}(${serviceName?uncap_first}In.get${entityName}().get${fieldNames[0]?cap_first}().get${fieldNames[1]?cap_first}());	
-					<#else>
-			${entityName?uncap_first}.set${fieldName}(${serviceName?uncap_first}In.get${entityName}().get${fieldName}());	
+						<#assign fieldName = fieldNames[1]/>
 					</#if>
+			${entityName?uncap_first}.set${fieldName?cap_first}(${serviceName?uncap_first}In.get${fieldName?cap_first}());	
 				</#if>
 				<#if parameter.entityDefinition?? && parameter.partEntityDefinition??>
 					<#assign entityName = parameter.entityDefinition.entityName/>
@@ -96,7 +97,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
-			${entityName?uncap_first}.set${partName}(${serviceName?uncap_first}In.get${entityName}().get${partName}());	
+			${entityName?uncap_first}.set${partName}(${serviceName?uncap_first}In.get${partName}());	
 				</#if>
 			</#list>
 			
@@ -104,7 +105,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 			<#list inputParameters as parameter>
 				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
 					<#assign eName = parameter.entityDefinition.entityName/>
-			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first}, new WaitCondition[]{});
+			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
 					<#assign eNames = eNames + [eName]/>
 				</#if>
 			</#list>
@@ -115,6 +116,7 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				<#if parameter.entityDefinition??>
 					<#assign entityName = parameter.entityDefinition.entityName/>
 					<#if !addedEntities?seq_contains(entityName)>
+					
 			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
@@ -132,27 +134,28 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 						<#assign addedEntities = addedEntities + [entityName]/>
 					</#if>
 					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-			${serviceName?uncap_first}Out.get${entityName}().get${fieldNames[0]?cap_first}().set${fieldNames[1]?cap_first}(${entityName?uncap_first}.get${fieldNames[0]?cap_first}().get${fieldNames[1]?cap_first}());
+						<#assign fieldName = fieldNames[1]/>
+			${serviceName?uncap_first}Out.set${fieldName?cap_first}(${entityName?uncap_first}.get${fieldNames[0]?cap_first}().get${fieldName?cap_first}());
 					<#else>
-			${serviceName?uncap_first}Out.get${entityName}().set${fieldName}(${entityName?uncap_first}.get${fieldName}());
+			${serviceName?uncap_first}Out.set${fieldName?cap_first}(${entityName?uncap_first}.get${fieldName?cap_first}());
 					</#if>
 				</#if>
 				<#if parameter.entityDefinition?? && parameter.partEntityDefinition??>
-				<#assign entityName = parameter.entityDefinition.entityName/>
-				<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
-				<#if !addedEntities?seq_contains(entityName)>
+					<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign partName = parameter.partEntityDefinition.partName?cap_first/>
+					<#if !addedEntities?seq_contains(entityName)>
 			${entityName} ${entityName?uncap_first} = terminalSession.getEntity(${entityName}.class);
-				<#assign addedEntities = addedEntities + [entityName]/>
-				</#if>
-			${serviceName?uncap_first}Out.get${entityName}().set${partName}(${entityName?uncap_first}.get${partName}());
-				</#if>
+						<#assign addedEntities = addedEntities + [entityName]/>
+					</#if>
+			${serviceName?uncap_first}Out.set${partName?cap_first}(${entityName?uncap_first}.get${partName?cap_first}());
+					</#if>
 			</#list>
 
 			<#assign eNames = []/>
 			<#list outputParameters as parameter>
 				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
 					<#assign eName = parameter.entityDefinition.entityName/>
-			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first}, new WaitCondition[]{});
+			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
 					<#assign eNames = eNames + [eName]/>
 				</#if>
 			</#list>
