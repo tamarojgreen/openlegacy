@@ -32,7 +32,7 @@
 
 	<properties>
 		<openlegacy.version>2.0.0-SNAPSHOT</openlegacy.version>
-		<tycho.version>0.16.0</tycho.version>
+		<tycho.version>0.20.0</tycho.version>
 	</properties>
 
 	<build>
