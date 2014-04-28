@@ -31,7 +31,7 @@ import org.openlegacy.ide.eclipse.util.JavaUtils;
 import java.io.File;
 import java.text.MessageFormat;
 
-public abstract class AbstractGenerateModelDialog extends RpcAbstractGenerateCodeDialog implements EntityUserInteraction<EntityDefinition<?>> {
+public abstract class AbstractGenerateModelDialog extends AbstractGenerateCodeDialog implements EntityUserInteraction<EntityDefinition<?>> {
 
 	public AbstractGenerateModelDialog(Shell shell, IFile file) {
 		super(shell, file);
