@@ -25,6 +25,7 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition.DrilldownDefini
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.table.ScreenTableDrilldownPerformer;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.utils.ProxyUtil;
 import org.openlegacy.utils.SpringUtil;
 import org.springframework.context.ApplicationContext;
 
@@ -87,7 +88,12 @@ public class DefaultTableDrilldownPerformer implements ScreenTableDrilldownPerfo
 
 		if (rowNumber != null) {
 			rowSelector.selectRow(session, currentEntity, drilldownAction, rowNumber);
-			return session.getEntity(targetEntityClass, rowKeys);
+			currentEntity = session.getEntity();
+
+			if (ProxyUtil.isClassesMatch(currentEntity.getClass(), targetEntityClass)) {
+				return (T)currentEntity;
+			}
+			return null;
 		}
 		throw (new DrilldownException("Unable to drilldown into " + targetEntityClass + ", with key field: "
 				+ Arrays.toString(tableDefinition.getKeyFieldNames().toArray()) + " with keys values:" + Arrays.toString(rowKeys)));
