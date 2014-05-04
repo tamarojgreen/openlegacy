@@ -206,6 +206,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	@SuppressWarnings("unchecked")
 	public <R extends ScreenEntity> R getEntity() {
 		checkRegistryDirty();
+		getSnapshot();
 		if (!lastSequence.equals(getSequence())) {
 			resetEntity();
 		}
