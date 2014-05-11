@@ -63,6 +63,7 @@ End use this definition to replay a mock-up session application -->
  	</bean>
  -->		
 	<security:http auto-config="true" use-expressions="true">
+	    <security:intercept-url pattern="/management" access="hasAnyRole('ROLE_ADMIN', 'ROLE_HELPDESK')"/>
 	    <security:intercept-url pattern="/management/**" access="hasRole('ROLE_ADMIN')"/>
 		<security:http-basic />
 	</security:http>
@@ -70,10 +71,11 @@ End use this definition to replay a mock-up session application -->
 		<security:authentication-provider>
 			<security:user-service>
 				<security:user name="admin" password="pwd" authorities="ROLE_ADMIN" />
+				<security:user name="helpdesk" password="pwd" authorities="ROLE_HELPDESK" />
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
- 		
+	
 	<!-- Uncomment for bidi support
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultBidiScreenPageBuilder" />
  	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.RightToLeftMenuOptionFinder" />
