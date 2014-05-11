@@ -66,8 +66,8 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 		}
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("Font set to:" + fontFamily);
+		if (logger.isTraceEnabled()) {
+			logger.trace("Font set to:" + fontFamily);
 		}
 
 		Font font = new Font(fontFamily, fontType, fontSize);
