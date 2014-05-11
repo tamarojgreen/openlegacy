@@ -15,7 +15,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.designtime.rpc.source.CodeParser;
 import org.openlegacy.utils.FileUtils;
-import org.openlegacy.utils.StringUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +47,6 @@ public class OpenlegacyCobolParser implements CodeParser {
 
 	private final static Pattern linkagePattern = Pattern.compile("LINKAGE\\s*SECTION");
 	private final static Pattern procedurePattern = Pattern.compile("PROCEDURE\\s*DIVISION");
-	private final static Pattern programIDPattern = Pattern.compile("PROGRAM-ID\\.\\s*(.*)\\.");
 
 	private String copybookExtension = ".cpy";
 	private String cobolExtension = ".cbl";
@@ -65,12 +63,11 @@ public class OpenlegacyCobolParser implements CodeParser {
 	}
 
 	@SuppressWarnings({ "unchecked" })
-	private boolean handlePreProcess(CommonTree rootNode) throws IOException {
+	private List<String> handlePreProcess(CommonTree rootNode) throws IOException {
 
-		boolean result = false;
+		List<String> result = new ArrayList<String>();
 
 		if (!Jaxen.evaluate(rootNode, USE_COPYBOOK_QUERY).isEmpty()) {
-			result = true;
 			List<File> koppaSerachPath = new ArrayList<File>();
 			koppaSerachPath.add(new File(copyBookPath));
 			cobolParser.setCopybookPath(koppaSerachPath);
@@ -82,7 +79,8 @@ public class OpenlegacyCobolParser implements CodeParser {
 				for (CommonTree copybookNode : copybookNodes) {
 					copybookNode.setParent(null);
 					List<CommonTree> fileNode = (List<CommonTree>)Jaxen.evaluate(copybookNode, COPY_FILE_QUERY);
-					String fileName = fileNode.get(0).getText() + ".cpy";
+					String copyBookName = fileNode.get(0).getText();
+					result.add(copyBookName);
 					List<CommonTree> replaceNodes = (List<CommonTree>)Jaxen.evaluate(copybookNode, COPYBOOK_REPLACE_QUERY);
 					if (!replaceNodes.isEmpty()) {
 
@@ -91,7 +89,7 @@ public class OpenlegacyCobolParser implements CodeParser {
 						List<CommonTree> operandNodes = (List<CommonTree>)Jaxen.evaluate(replaceNode, OPERAND_QUERY);
 						String oldString = removeDelimiter(operandNodes.get(0).getText());
 						String newString = removeDelimiter(operandNodes.get(1).getText());
-						CobolParserUtils.replaceStringInFile(oldString, newString, copyBookPath, fileName);
+						CobolParserUtils.replaceStringInFile(oldString, newString, copyBookPath, copyBookName + copybookExtension);
 					}
 				}
 
@@ -130,30 +128,21 @@ public class OpenlegacyCobolParser implements CodeParser {
 		return result;
 	}
 
-	private static String getEntityName(String source) {
-		String result = "";
-		Matcher matcherStart = programIDPattern.matcher(source);
-		if (matcherStart.find() == true) {
-			result = StringUtil.toClassName(matcherStart.group(1).toLowerCase());
-
-		}
-		return result;
-	}
-
 	public ParseResults parse(String source, String fileName) {
 
 		String tempFileName = "";
 		String extension = FileUtils.fileExtension(fileName);
-		String entityName = getEntityName(source);
+
 		boolean isCopyBook = extension.equals(copybookExtension);
 		if (isCopyBook) {
+
 			source = source.replaceAll(":.*:", "");
 		} else {
 			source = getParsePart(source);
-			source = CobolParserUtils.removeCommentsAndLabels(source);
 		}
 
 		try {
+			source = CobolParserUtils.removeCommentsAndLabels(source);
 			tempFileName = CobolParserUtils.writeToTempFile(source, extension);
 		} catch (Exception e) {// Catch exception if any
 			logger.fatal(e);
@@ -161,7 +150,8 @@ public class OpenlegacyCobolParser implements CodeParser {
 		}
 		try {
 			koopa.parsers.ParseResults parseResults = cobolParser.parse(new File(tempFileName));
-			if (handlePreProcess(parseResults.getTree())) {
+			List<String> externalParts = handlePreProcess(parseResults.getTree());
+			if (externalParts.size() > 0) {
 				parseResults = cobolParser.parse(new File(tempFileName));
 			}
 
@@ -171,7 +161,7 @@ public class OpenlegacyCobolParser implements CodeParser {
 			if (!parseResults.isValidInput()) {
 				throw (new OpenLegacyParseException("Koopa input is invalid", olParseResults));
 			}
-			olParseResults.setEntityName(entityName);
+
 			return olParseResults;
 
 		} catch (Exception e) {

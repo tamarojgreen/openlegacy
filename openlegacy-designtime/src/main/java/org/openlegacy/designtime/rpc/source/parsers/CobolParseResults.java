@@ -42,7 +42,6 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 
 	private koopa.parsers.ParseResults parseResults;
 	private boolean isCopyBook;
-	private String entityName;
 
 	private final static Log logger = LogFactory.getLog(CobolParseResults.class);
 
@@ -61,7 +60,9 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 
 	private List<ParameterStructure> organize() {
 		CommonTree rootNode = parseResults.getTree();
-
+		if (rootNode == null) {
+			return null;
+		}
 		String queryString = PARAMETER_DEFINITION_QUERY;
 		if (isCopyBook) {
 			queryString = PARAMETER_COPYBOOK_DEFINITION_QUERY;
@@ -196,15 +197,4 @@ public class CobolParseResults implements org.openlegacy.designtime.rpc.source.p
 		this.rpcEntityDefinitionBuilder = rpcEntityDefinitionBuilder;
 	}
 
-	public String getEntityName(String defaultName) {
-		if (entityName != null) {
-			return entityName;
-		}
-		return defaultName;
-	}
-
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
-
-	}
 }

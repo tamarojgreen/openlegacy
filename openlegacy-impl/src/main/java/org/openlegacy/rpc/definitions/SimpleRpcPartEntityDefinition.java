@@ -31,7 +31,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private int order;
 	private int count = 1;
 	private String legacyContainerName;
-
+	private String externalName;
 	private String helpText;
 	private Boolean isVirtual = false;
 
@@ -137,6 +137,17 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	public void setVirtual(Boolean isVirtual) {
 		this.isVirtual = isVirtual;
 
+	}
+
+	public String getExternalName() {
+		if (externalName == null) {
+			return getPartName();
+		}
+		return externalName;
+	}
+
+	public void setExternalName(String externalName) {
+		this.externalName = externalName;
 	}
 
 }

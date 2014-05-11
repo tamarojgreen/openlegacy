@@ -13,7 +13,6 @@ package org.openlegacy.designtime.mains;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang.CharEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -40,6 +39,9 @@ import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUt
 import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
 import org.openlegacy.designtime.rpc.source.CodeParser;
 import org.openlegacy.designtime.rpc.source.CodeParserFactory;
+import org.openlegacy.designtime.rpc.source.parsers.CobolLocalPartNamesFethcher;
+import org.openlegacy.designtime.rpc.source.parsers.CobolNameRecognizer;
+import org.openlegacy.designtime.rpc.source.parsers.CopyBookFetcher;
 import org.openlegacy.designtime.rpc.source.parsers.OpenLegacyParseException;
 import org.openlegacy.designtime.rpc.source.parsers.ParseResults;
 import org.openlegacy.designtime.terminal.GenerateScreenModelRequest;
@@ -87,6 +89,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -637,6 +640,20 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return defaultDesigntimeApplicationContext.getBean(SourceFetcher.class);
 	}
 
+	private CobolNameRecognizer getCobolNameRecognizer() {
+		return defaultDesigntimeApplicationContext.getBean(CobolNameRecognizer.class);
+
+	}
+
+	private CopyBookFetcher getCopyBookFetcher() {
+		return defaultDesigntimeApplicationContext.getBean(CopyBookFetcher.class);
+
+	}
+
+	private CobolLocalPartNamesFethcher getCobolLocalPartNamesFethcher() {
+		return defaultDesigntimeApplicationContext.getBean(CobolLocalPartNamesFethcher.class);
+	}
+
 	private void generateTest(File trailFile, Collection<ScreenEntityDefinition> screenDefinitions, File projectPath) {
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(projectPath);
 
@@ -772,7 +789,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				ScreenPojosAjGenerator generator = applicationContext.getBean(ScreenPojosAjGenerator.class);
 				return generator.generate(javaFile, compilationUnit);
 			} else if (JavaParserUtil.hasAnnotation(compilationUnit, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION,
-					RpcAnnotationConstants.RPC_ENTITY_SUPER_CLASS_ANNOTATION)) {
+					RpcAnnotationConstants.RPC_ENTITY_SUPER_CLASS_ANNOTATION)
+					|| JavaParserUtil.hasAnnotation(compilationUnit, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION,
+							RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
 				RpcPojosAjGenerator generator = applicationContext.getBean(RpcPojosAjGenerator.class);
 				return generator.generate(javaFile, compilationUnit);
 
@@ -968,6 +987,45 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		return MessageFormat.format("/openlegacy-{0}-designtime-context.xml", designtimeContextType);
 	}
 
+	public List<File> generateRpcModelParts(GenerateRpcModelRequest generateRpcModelRequest, CodeParser codeParser)
+			throws FileNotFoundException {
+		ParseResults parseResults;
+		List<File> javaFiles = new ArrayList<File>();
+		CopyBookFetcher copyBookFetcher = getCopyBookFetcher();
+		Map<String, InputStream> copybookStreams = copyBookFetcher.getCopyBooks(generateRpcModelRequest.getSourceFile());
+		File packageDir = new File(generateRpcModelRequest.getSourceDirectory(), generateRpcModelRequest.getPackageDirectory());
+		String packegeName = generateRpcModelRequest.getPackageDirectory().replaceAll("/", ".");
+		for (String copyBookName : copybookStreams.keySet()) {
+			String baseName = FileUtils.fileWithoutAnyExtension(copyBookName);
+			File targetPartJavaFile = new File(packageDir, MessageFormat.format("{0}.java", StringUtil.toClassName(baseName)));
+			javaFiles.add(targetPartJavaFile);
+			if (targetPartJavaFile.exists()) {
+				continue;
+			}
+			InputStream inputStream = copybookStreams.get(copyBookName);
+			try {
+				StringWriter writer = new StringWriter();
+
+				IOUtils.copy(inputStream, writer);
+
+				String fileContent = writer.toString();
+				parseResults = codeParser.parse(fileContent, copyBookName);
+				RpcEntityDefinition rpcEntityDefinition = parseResults.getEntityDefinition();
+				SimpleRpcEntityDesigntimeDefinition devEntity = (SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition;
+				devEntity.setEntityName(baseName);
+				devEntity.setPackageName(packegeName);
+				devEntity.setOnlyPart(true);
+				generateJava(rpcEntityDefinition, targetPartJavaFile, "RpcEntity.java.template");
+				generateAspect(targetPartJavaFile);
+			} catch (IOException e) {
+				throw (new OpenLegacyRuntimeException(e));
+			} catch (TemplateException e) {
+				throw (new OpenLegacyRuntimeException(e));
+			}
+		}
+		return javaFiles;
+	}
+
 	public void generateRpcModel(GenerateRpcModelRequest generateRpcModelRequest) {
 		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateRpcModelRequest.getProjectPath());
 
@@ -984,31 +1042,37 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 		String fileContent;
 		RpcEntityDefinition rpcEntityDefinition = null;
+		List<File> javaFiles = new ArrayList<File>();
+
 		try {
 			File sourceFile = generateRpcModelRequest.getSourceFile();
 
-			String baseName = FileUtils.fileWithoutAnyExtension(sourceFile.getName());
-
-			int baseNameLength = baseName.length();
-			File dir = new File(sourceFile.getParent());
-			FileFilter fileFilter = new WildcardFileFilter(baseName + "*.cpy");
-			File[] files = dir.listFiles(fileFilter);
-
 			ParseResults parseResults;
+			CopyBookFetcher copyBookFetcher = getCopyBookFetcher();
+
+			Map<String, InputStream> copybookStreams = copyBookFetcher.getCopyBooks(generateRpcModelRequest.getSourceFile());
 			fileContent = IOUtils.toString(new FileInputStream(sourceFile));
-			if (files == null || files.length == 0) {
+			if (copybookStreams.isEmpty()) {
 				parseResults = codeParser.parse(fileContent, sourceFile.getName());
 			} else {
-				Map<String, InputStream> streamMap = new HashMap<String, InputStream>();
-				for (File file : files) {
-					streamMap.put(file.getName().substring(baseNameLength + 1), new FileInputStream(file));
-				}
-				parseResults = codeParser.parse(fileContent, streamMap);
+				javaFiles = generateRpcModelParts(generateRpcModelRequest, codeParser);
+				parseResults = codeParser.parse(fileContent, copybookStreams);
 			}
 			rpcEntityDefinition = parseResults.getEntityDefinition();
+			if (!copybookStreams.isEmpty()) {
+				CobolLocalPartNamesFethcher cobolLocalPartNamesFethcher = getCobolLocalPartNamesFethcher();
+				List<String> externalParts = new ArrayList<String>();
+				for (String externalPart : copybookStreams.keySet()) {
+					externalParts.add(FileUtils.fileWithoutAnyExtension(externalPart));
+				}
+				Map<String, String> localToExternal = cobolLocalPartNamesFethcher.get(fileContent, externalParts);
+				((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).convertToExternal(localToExternal);
+			}
 
-			String name = FileUtils.fileWithoutAnyExtension(sourceFile.getName());
-			((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setEntityName(parseResults.getEntityName(name));
+			CobolNameRecognizer cobolNameRecognizer = getCobolNameRecognizer();
+
+			((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setEntityName(cobolNameRecognizer.getEntityName(
+					fileContent, sourceFile.getName()));
 		} catch (IOException e) {
 			throw (new OpenLegacyRuntimeException(e));
 		}
@@ -1022,6 +1086,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			String entityName = rpcEntityDefinition.getEntityName();
 			File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
 			entityUserInteraction.open(targetJavaFile);
+			for (File javaFile : javaFiles) {
+				entityUserInteraction.open(javaFile);
+			}
+
 		}
 	}
 

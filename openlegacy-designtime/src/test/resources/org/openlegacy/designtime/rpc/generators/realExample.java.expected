@@ -7,6 +7,10 @@ import org.openlegacy.annotations.rpc.*;
 import org.openlegacy.FieldType.*;
 import org.openlegacy.rpc.RpcActions.*;
 
+
+@RpcPart(name="RealExample")
+public class RealExample {
+		private LkCustomer lkCustomer;
 	@RpcPart(name="LkCustomer", legacyContainerName = "XxolakkrParms")
 	public static class LkCustomer {
 

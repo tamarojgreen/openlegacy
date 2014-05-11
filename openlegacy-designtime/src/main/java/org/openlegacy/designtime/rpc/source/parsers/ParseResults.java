@@ -22,6 +22,4 @@ public interface ParseResults {
 
 	RpcEntityDefinition getEntityDefinition();
 
-	String getEntityName(String defaultName);
-
 }

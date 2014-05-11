@@ -1,6 +1,12 @@
 package org.openlegacy.designtime.rpc.model.support;
 
+import org.openlegacy.definitions.PartEntityDefinition;
+import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcEntityDefinition;
+import org.openlegacy.rpc.definitions.SimpleRpcPartEntityDefinition;
+import org.openlegacy.utils.StringUtil;
+
+import java.util.Map;
 
 public class SimpleRpcEntityDesigntimeDefinition extends SimpleRpcEntityDefinition {
 
@@ -44,6 +50,18 @@ public class SimpleRpcEntityDesigntimeDefinition extends SimpleRpcEntityDefiniti
 
 	public void setNavigation(String navigation) {
 		this.navigation = navigation;
+
+	}
+
+	public void convertToExternal(Map<String, String> localToExternal) {
+		Map<String, PartEntityDefinition<RpcFieldDefinition>> parts = getPartsDefinitions();
+		for (String partName : parts.keySet()) {
+			if (localToExternal.containsKey(partName)) {
+				SimpleRpcPartEntityDefinition part = (SimpleRpcPartEntityDefinition)parts.get(partName);
+				part.setExternalName(StringUtil.toClassName(localToExternal.get(partName)));
+
+			}
+		}
 
 	}
 

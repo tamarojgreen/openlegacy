@@ -1,0 +1,62 @@
+package test.com;
+
+import java.math.BigInteger;
+import java.util.List;
+
+import org.openlegacy.annotations.rpc.*;
+import org.openlegacy.FieldType.*;
+import org.openlegacy.rpc.RpcActions.*;
+
+@RpcPart(name="CopybookFileds")
+public class CopybookFileds {
+		@RpcNumericField(minimumValue=-9999, maximumValue=9999, decimalPlaces=0)
+		@RpcField(length = 4, originalName = "PI1_ESTASK")
+		private Integer pi1Estask;
+
+		@RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
+		@RpcField(length = 2, originalName = "PI1_ESPEUL")
+		private Integer pi1Espeul;
+
+		@RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
+		@RpcField(length = 2, originalName = "PI1_ESSVIV")
+		private Integer pi1Essviv;
+
+		@RpcNumericField(minimumValue=-999999, maximumValue=999999, decimalPlaces=0)
+		@RpcField(length = 6, originalName = "PI1_ESKDMK")
+		private Integer pi1Eskdmk;
+
+		@RpcField(length = 10, originalName = "PI1_ESUSER")
+		private String pi1Esuser;
+
+		@RpcNumericField(minimumValue=-9999, maximumValue=9999, decimalPlaces=0)
+		@RpcField(length = 4, originalName = "PI1_ESBOXN")
+		private Integer pi1Esboxn;
+
+		@RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
+		@RpcField(length = 2, originalName = "PI1_ESKODB")
+		private Integer pi1Eskodb;
+
+		@RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
+		@RpcField(length = 2, originalName = "PI1_ESUSRK")
+		private Integer pi1Esusrk;
+
+		@RpcNumericField(minimumValue=-9, maximumValue=9, decimalPlaces=0)
+		@RpcField(length = 1, originalName = "PI1_ESCOMP")
+		private Integer pi1Escomp;
+
+		@RpcNumericField(minimumValue=-99, maximumValue=99, decimalPlaces=0)
+		@RpcField(length = 2, originalName = "PI1_ESMHOZ")
+		private Integer pi1Esmhoz;
+
+		@RpcNumericField(minimumValue=-999999, maximumValue=999999, decimalPlaces=0)
+		@RpcField(length = 6, originalName = "PI1_ESACC1")
+		private Integer pi1Esacc1;
+
+		@RpcNumericField(minimumValue=-999999, maximumValue=999999, decimalPlaces=0)
+		@RpcField(length = 6, originalName = "PI1_ESACC2")
+		private Integer pi1Esacc2;
+
+		@RpcField(length = 50, originalName = "PI1_ESFILR")
+		private String pi1Esfilr;
+
+}

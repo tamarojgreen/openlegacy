@@ -37,9 +37,4 @@ public class SimpleParseResults implements ParseResults {
 		return entityDefinition;
 	}
 
-	public String getEntityName(String defaultName) {
-
-		return defaultName;
-	}
-
 }

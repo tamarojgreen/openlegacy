@@ -31,9 +31,23 @@ public class ${entityName?cap_first} {
 </#list>
 
 <#list partsDefinitions?values as part>
+<#if !part.externalName??>
 <@rpcPartClass part=part/>
+</#if>
+<#if part.externalName=part.partName>
+<@rpcPartClass part=part/>
+</#if>
 </#list>
 <#else>
+@RpcPart(name="${entityName}")
+public class ${entityName?cap_first} {
+<#list allFieldsDefinitionsSorted as field>
+<#if field.partName??>
+   <@rpcPartDeclare part=field/>
+<#else>
+<@rpcField field=field />
+</#if>
+</#list>
 <#list partsDefinitions?values as part>
 <@rpcPartClass part=part/>
 </#list>
@@ -41,10 +55,10 @@ public class ${entityName?cap_first} {
 }
 <#macro rpcPartDeclare part>
 <#if part.count = 1 >
-		private ${part.partName} ${part.partName?uncap_first};
+		private ${part.externalName} ${part.partName?uncap_first};
 <#else>
 		@RpcPartList(count=${part.count}<#if part.runtimeName??>,runtimeName= "${part.runtimeName}"</#if>)
-		private List<${part.partName}> ${part.partName?uncap_first};
+		private List<${part.externalName}> ${part.partName?uncap_first};
 </#if>
 </#macro>
 <#macro rpcPartClass part>

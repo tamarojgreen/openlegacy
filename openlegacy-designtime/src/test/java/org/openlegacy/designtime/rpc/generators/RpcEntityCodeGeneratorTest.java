@@ -55,8 +55,14 @@ public class RpcEntityCodeGeneratorTest {
 	}
 
 	@Test
-	public void testRealTree() throws IOException, TemplateException, ParseException {
+	public void testCopyBookParts() throws IOException, TemplateException, ParseException {
 		testGenerate("realExample.cpy", "realExample.java.expected");
+
+	}
+
+	@Test
+	public void testCopyBookFields() throws IOException, TemplateException, ParseException {
+		testGenerate("copybookFileds.cpy", "copybookFileds.java.expected");
 
 	}
 
