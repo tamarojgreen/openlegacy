@@ -169,15 +169,6 @@ public class ${serviceName}ServiceImpl implements ${serviceName}Service {
 				</#if>
 			</#list>
 
-			<#assign eNames = []/>
-			<#list outputParameters as parameter>
-				<#if parameter.entityDefinition?? && !eNames?seq_contains(parameter.entityDefinition.entityName)>
-					<#assign eName = parameter.entityDefinition.entityName/>
-			terminalSession.doAction(TerminalActions.ENTER(), (ScreenEntity)${eName?uncap_first});
-					<#assign eNames = eNames + [eName]/>
-				</#if>
-			</#list>
-			
 			return ${serviceName?uncap_first}Out;
 		<#if generatePool>
 		} catch(RuntimeException e){
