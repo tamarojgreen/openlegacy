@@ -1,63 +1,59 @@
+<#function isEntityParameter parameter>
+	<#if parameter.entityDefinition?? && !parameter.fieldDefinition?? && !parameter.partEntityDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isFieldParameter parameter>
+	<#if parameter.entityDefinition?? && parameter.fieldDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#function isPartParameter parameter>
+	<#if parameter.partEntityDefinition??>
+		<#return true>
+	</#if>
+	<#return false>
+</#function>
+<#assign addedImports = []/>
+<#macro addImports parameters>
+	<#assign primitiveTypes = ["byte", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
+	<#list parameters as parameter>
+		<#if isEntityParameter(parameter)>
+			<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName/>
+			<#if !addedImports?seq_contains(import)>
+import ${import};
+				<#assign addedImports = addedImports + [import]/>
+			</#if>
+		<#elseif isPartParameter(parameter)>
+			<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName + "." + parameter.partEntityDefinition.partName />
+			<#if !addedImports?seq_contains(import)>
+import ${import};
+				<#assign addedImports = addedImports + [import]/> 
+			</#if>
+		<#elseif isFieldParameter(parameter)>
+			<#if !primitiveTypes?seq_contains(parameter.fieldDefinition.javaTypeName)>
+				<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName + "." + parameter.fieldDefinition.javaTypeName />
+				<#if parameter.fieldDefinition.javaTypeName = "Date" && !addedImports?seq_contains("java.util.Date")>
+import java.util.Date;
+					<#assign addedImports = addedImports + ["java.util.Date"]/> 
+				<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import)>
+import ${import};
+					<#assign addedImports = addedImports + [import]/>
+				</#if>
+			</#if>
+		</#if>
+	</#list>
+</#macro>
 package ${package};
 
 import javax.jws.WebMethod;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
-<#assign primitiveTypes = ["byte", "short", "int", "long", "float", "double", "char", "boolean", "Integer", "String", "Boolean", "Long", "Double"]/>
-
-<#assign addedImports = []/>
-<#list inputParameters as parameter>
-	<#if parameter.entityDefinition??>
-		<#if !addedImports?seq_contains(parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName)>
-import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName};
-			<#assign addedImports = addedImports + [parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName]/> 
-		</#if>
-	</#if>
-	<#if parameter.entityDefinition?? && parameter.fieldDefinition?? && !primitiveTypes?seq_contains(parameter.fieldDefinition.javaTypeName)>
-		<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName + "." + parameter.fieldDefinition.javaTypeName />
-		<#if parameter.fieldDefinition.javaTypeName = "Date" && !addedImports?seq_contains("java.util.Date")>
-import java.util.Date;
-			<#assign addedImports = addedImports + ["java.util.Date"]/> 
-		<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import)>
-import ${import};
-			<#assign addedImports = addedImports + [import]/>
-		</#if>
-	</#if>
-	<#if parameter.partEntityDefinition??>
-		<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName + "." + parameter.partEntityDefinition.partName />
-		<#if !addedImports?seq_contains(import)>
-import ${import};
-			<#assign addedImports = addedImports + [import]/> 
-		</#if>
-	</#if>
-</#list>
-
-<#list outputParameters as parameter>
-	<#if parameter.entityDefinition??>
-		<#if !addedImports?seq_contains(parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName)>
-import ${parameter.entityDefinition.packageName}.${parameter.entityDefinition.entityClassName}; 
-			<#assign addedImports = addedImports + [parameter.entityDefinition.packageName + parameter.entityDefinition.entityClassName]/>
-		</#if> 
-	</#if>
-	<#if parameter.entityDefinition?? && parameter.fieldDefinition?? && !primitiveTypes?seq_contains(parameter.fieldDefinition.javaTypeName)>
-		<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName + "." + parameter.fieldDefinition.javaTypeName />
-		<#if parameter.fieldDefinition.javaTypeName = "Date" && !addedImports?seq_contains("java.util.Date")>
-import java.util.Date;
-			<#assign addedImports = addedImports + ["java.util.Date"]/> 
-		<#elseif parameter.fieldDefinition.javaTypeName != "Date" && !addedImports?seq_contains(import)>
-import ${import};
-			<#assign addedImports = addedImports + [import]/>
-		</#if>
-	</#if>
-	<#if parameter.partEntityDefinition??>
-		<#assign import = parameter.entityDefinition.packageName + "." + parameter.entityDefinition.entityClassName + "." + parameter.partEntityDefinition.partName />
-		<#if !addedImports?seq_contains(import)>
-import ${import};
-			<#assign addedImports = addedImports + [import]/> 
-		</#if>
-	</#if>
-</#list>
+<@addImports parameters=inputParameters/>
+<@addImports parameters=outputParameters/>
 
 /**
  *  A service interface and input/oputput definition for a web service.
@@ -76,135 +72,144 @@ public interface ${serviceName}Service {
 	public static class ${serviceName}In{
 		<#assign fields = []/>
 		<#list inputParameters as parameter>
-			<#if parameter.entityDefinition?? && !fields?seq_contains(parameter.entityDefinition.entityName)>
+			<#if isEntityParameter(parameter)>
+				<#if !fields?seq_contains(parameter.entityDefinition.entityName)>
 		${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first};
-				<#assign fields = fields + [parameter.entityDefinition.entityName]/>
+					<#assign fields = fields + [parameter.entityDefinition.entityName]/>
+				</#if>
+			<#elseif isPartParameter(parameter)>
+				<#if !fields?seq_contains(parameter.partEntityDefinition.partName)>
+		${parameter.partEntityDefinition.partName} ${parameter.partEntityDefinition.partName?uncap_first};
+					<#assign fields = fields + [parameter.partEntityDefinition.partName]/>
+				</#if>
+			<#elseif isFieldParameter(parameter)>
+				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+				<#assign fieldNames = fieldName?split(".")/>
+				<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+					<#assign fieldName = fieldNames[1]?cap_first/>
+				</#if>
+				<#if !fields?seq_contains(fieldName)>
+		${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first};
+					<#assign fields = fields + [fieldName]/>
+				</#if>
 			</#if>
 		</#list>
 		
 		<#assign getters = []/>
 		<#list inputParameters as parameter>
-			<#if parameter.entityDefinition?? && !getters?seq_contains("get" + parameter.entityDefinition.entityName)>
-			<#assign getter = "get" + parameter.entityDefinition.entityName/>
+			<#if isEntityParameter(parameter)>
+				<#assign getter = "get" + parameter.entityDefinition.entityName?cap_first/>
+				<#if !getters?seq_contains(getter)>
 		public ${parameter.entityDefinition.entityName} ${getter}(){
 			return ${parameter.entityDefinition.entityName?uncap_first};
 		} 
-				<#assign getters = getters + [getter]/>
-			</#if>
-		</#list>
-		
-
-		<#list inputParameters as parameter>
-			<#if parameter.entityDefinition?? && parameter.fieldDefinition??>
-				<#assign entityName = parameter.entityDefinition.entityName/>
+					<#assign getters = getters + [getter]/>
+				</#if>
+			<#elseif isPartParameter(parameter)>
+				<#assign getter = "get" + parameter.partEntityDefinition.partName?cap_first/>
+				<#if !getters?seq_contains(getter)>
+		public ${parameter.partEntityDefinition.partName} ${getter}(){
+			return ${parameter.partEntityDefinition.partName?uncap_first};
+		}
+					<#assign getters = getters + [getter]/>
+				</#if>
+			<#elseif isFieldParameter(parameter)>
 				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 				<#assign fieldNames = fieldName?split(".")/>
 				<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-					<#assign fieldName = fieldNames[1]/>
+					<#assign fieldName = fieldNames[1]?cap_first/>
 				</#if>
 				<#assign getter = "get" + fieldName?cap_first/>
 				<#if !getters?seq_contains(getter)>
 		public ${parameter.fieldDefinition.javaTypeName} ${getter}(){
-					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-			return ${entityName?uncap_first}.get${fieldNames[0]?cap_first}().get${fieldName?cap_first}();
-					<#else>
-			return ${entityName?uncap_first}.get${fieldName?cap_first}();
-					</#if>
-		}	
+			return ${fieldName?uncap_first};
+		}
+		
+		public void set${fieldName?cap_first}(${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first}){
+			this.${fieldName?uncap_first} = ${fieldName?uncap_first};
+		}
 					<#assign getters = getters + [getter]/>
 				</#if>
 			</#if>
-		</#list>
 
-		<#list inputParameters as parameter>
-			<#if parameter.entityDefinition?? && parameter.partEntityDefinition??>
-				<#assign entityName = parameter.entityDefinition.entityName/>
-				<#assign partName = parameter.partEntityDefinition.partName />
-				<#assign getter = "get" + partName?cap_first/>
-				<#if !getters?seq_contains(getter)>
-		public ${partName} ${getter}(){
-			return ${entityName?uncap_first}.get${partName?cap_first}();
-		}	
-					<#assign getters = getters + [getter]/>
-				</#if>
-			</#if>
 		</#list>
-
 	}
 	</#if>
 	public static class ${serviceName}Out{
 		<#assign fields = []/>
 		<#list outputParameters as parameter>
-			<#if parameter.entityDefinition?? && !fields?seq_contains(parameter.entityDefinition.entityName)>
-		${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first}; 
-				<#assign fields = fields + [parameter.entityDefinition.entityName]/>
+			<#if isEntityParameter(parameter)>
+				<#if !fields?seq_contains(parameter.entityDefinition.entityName)>
+		${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first};
+					<#assign fields = fields + [parameter.entityDefinition.entityName]/>
+				</#if>
+			<#elseif isPartParameter(parameter)>
+				<#if !fields?seq_contains(parameter.partEntityDefinition.partName)>
+		${parameter.partEntityDefinition.partName} ${parameter.partEntityDefinition.partName?uncap_first};
+					<#assign fields = fields + [parameter.partEntityDefinition.partName]/>
+				</#if>
+			<#elseif isFieldParameter(parameter)>
+				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
+				<#assign fieldNames = fieldName?split(".")/>
+				<#if fieldNames?is_sequence && (fieldNames?size > 1)>
+					<#assign fieldName = fieldNames[1]?cap_first/>
+				</#if>
+				<#if !fields?seq_contains(fieldName)>
+		${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first};
+					<#assign fields = fields + [fieldName]/>
+				</#if>
 			</#if>
 		</#list>
 
 		<#assign gettersSetters = []/>
 		<#list outputParameters as parameter>
-			<#if parameter.entityDefinition?? && !gettersSetters?seq_contains(parameter.entityDefinition.entityName)>
-		public ${parameter.entityDefinition.entityName} get${parameter.entityDefinition.entityName}(){
-			return ${parameter.entityDefinition.entityName?uncap_first};
-		} 
-		public void set${parameter.entityDefinition.entityName}(${parameter.entityDefinition.entityName} ${parameter.entityDefinition.entityName?uncap_first}){
-			this.${parameter.entityDefinition.entityName?uncap_first} = ${parameter.entityDefinition.entityName?uncap_first};
-		} 
-				<#assign gettersSetters = gettersSetters + [parameter.entityDefinition.entityName]/>
-			</#if>
-		</#list>
-
-		<#list outputParameters as parameter>
-			<#if parameter.entityDefinition?? && parameter.fieldDefinition??>
+			<#if isEntityParameter(parameter)>
 				<#assign entityName = parameter.entityDefinition.entityName/>
+				<#assign getter = "get" + entityName?cap_first/>
+				<#if !gettersSetters?seq_contains(getter)>
+				
+		public ${entityName?cap_first} ${getter}(){
+			return ${entityName?uncap_first};
+		}
+		
+		public void set${entityName?cap_first}(${entityName?cap_first} ${entityName?uncap_first}){
+			this.${entityName?uncap_first} = ${entityName?uncap_first};
+		}
+					<#assign gettersSetters = gettersSetters + [getter]/>
+				</#if>
+			<#elseif isPartParameter(parameter)>
+				<#assign partName = parameter.partEntityDefinition.partName />
+				<#assign getter = "get" + partName?cap_first/>
+				<#if !gettersSetters?seq_contains(getter)>
+				
+		public ${partName?cap_first} ${getter}(){
+			return ${partName?uncap_first};
+		}
+		
+		public void set${partName?cap_first}(${partName?cap_first} ${partName?uncap_first}){
+			this.${partName?uncap_first} = ${partName?uncap_first};
+		}
+					<#assign gettersSetters = gettersSetters + [getter]/>
+				</#if>
+			<#elseif isFieldParameter(parameter)>
 				<#assign fieldName = parameter.fieldDefinition.name?cap_first/>
 				<#assign fieldNames = fieldName?split(".")/>
 				<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-					<#assign fieldName = fieldNames[1]/>
+					<#assign fieldName = fieldNames[1]?cap_first/>
 				</#if>
 				<#assign getter = "get" + fieldName?cap_first/>
-				<#assign setter = "set" + fieldName?cap_first/>
 				<#if !gettersSetters?seq_contains(getter)>
+				
 		public ${parameter.fieldDefinition.javaTypeName} ${getter}(){
-					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-			return ${entityName?uncap_first}.get${fieldNames[0]?cap_first}().get${fieldName?cap_first}();
-					<#else>
-			return ${entityName?uncap_first}.get${fieldName?cap_first}();
-					</#if>
-		}	
-					<#assign gettersSetters = gettersSetters + [getter]/>
-				</#if>
-				<#if !gettersSetters?seq_contains(setter)>
-		public void ${setter}(${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first}){
-					<#if fieldNames?is_sequence && (fieldNames?size > 1)>
-			this.${entityName?uncap_first}.get${fieldNames[0]}().${setter}(${fieldName?uncap_first});
-					<#else>
-			this.${entityName?uncap_first}.${setter}(${fieldName?uncap_first});
-					</#if>
+			return ${fieldName?uncap_first};
 		}
-					<#assign gettersSetters = gettersSetters + [setter]/>
-				</#if>
-			</#if>
-		</#list>
-
-		<#list outputParameters as parameter>
-			<#if parameter.entityDefinition?? && parameter.partEntityDefinition??>
-				<#assign entityName = parameter.entityDefinition.entityName/>
-				<#assign partName = parameter.partEntityDefinition.partName />
-				<#assign getter = "get" + partName?cap_first/>
-				<#assign setter = "set" + partName?cap_first/>
-				<#if !gettersSetters?seq_contains(getter)>
-		public ${partName} ${getter}(){
-			return ${entityName?uncap_first}.get${partName?cap_first}();
-		}	
-
-		public void ${setter}(${partName} ${partName?uncap_first}){
-			this.${entityName?uncap_first}.${setter}(${partName?uncap_first});
+		
+		public void set${fieldName?cap_first}(${parameter.fieldDefinition.javaTypeName} ${fieldName?uncap_first}){
+			this.${fieldName?uncap_first} = ${fieldName?uncap_first};
 		}
 					<#assign gettersSetters = gettersSetters + [getter]/>
 				</#if>
 			</#if>
 		</#list>
 	}
-
 }
