@@ -6,11 +6,10 @@ import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
+import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
+import org.openlegacy.layout.PageBuilder;
 import org.openlegacy.layout.PageDefinition;
-import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
-import org.openlegacy.terminal.layout.ScreenPageBuilder;
-import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,8 +27,7 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
-@Controller
-public class AngularScreenController {
+public abstract class AbstractAngularController {
 
 	private static final String HTML_VIEW_PATH = "app/views/{0}.html";
 
@@ -43,10 +41,10 @@ public class AngularScreenController {
 	private ServletContext servletContext;
 
 	@Inject
-	private ScreenEntitiesRegistry entitiesRegistry;
+	private EntitiesRegistry<?, ?, ?> entitiesRegistry;
 
 	@Inject
-	private ScreenPageBuilder pageBuilder;
+	private PageBuilder<EntityDefinition<?>, ?> pageBuilder;
 
 	@RequestMapping(value = "app/views/{entityName}.html", method = RequestMethod.GET)
 	public void getView(@PathVariable("entityName") String entityName, HttpServletResponse response) throws IOException,
@@ -57,7 +55,7 @@ public class AngularScreenController {
 			IOUtils.write(content, response.getWriter());
 		} else {
 			Template template = initTemplate(GENERIC_HTML_TEMPLATE);
-			ScreenEntityDefinition entityDefinition = entitiesRegistry.get(entityName);
+			EntityDefinition<?> entityDefinition = entitiesRegistry.get(entityName);
 
 			PageDefinition pageDefinition = pageBuilder.build(entityDefinition);
 

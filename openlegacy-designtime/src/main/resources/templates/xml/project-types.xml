@@ -52,6 +52,13 @@
         <zip-file>openlegacy-rest-new.zip</zip-file>
     </project-type>
     <project-type>
+        <template-name>openlegacy-rest-rpc-new</template-name>
+        <description>A new REST API application Spring MVC based for connecting to your legacy application programs in XML/JSON format</description>
+        <is-demo>false</is-demo>
+        <support-theme>false</support-theme>
+        <zip-file>openlegacy-rest-rpc-new.zip</zip-file>
+    </project-type>
+    <project-type>
         <template-name>openlegacy-rest-sample</template-name>
         <description>An example REST API application Spring MVC based for connecting to your legacy application screens in XML/JSON format</description>
         <is-demo>true</is-demo>

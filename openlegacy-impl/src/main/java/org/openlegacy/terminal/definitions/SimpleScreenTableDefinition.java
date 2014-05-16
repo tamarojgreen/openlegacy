@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.definitions;
 
+import org.openlegacy.definitions.AbstractTableDefinition;
 import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.table.TableCollector;
 import org.openlegacy.modules.table.drilldown.RowComparator;
 import org.openlegacy.modules.table.drilldown.RowFinder;
@@ -22,25 +22,20 @@ import org.openlegacy.modules.table.drilldown.TableScroller;
 import org.openlegacy.terminal.PositionedPart;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @SuppressWarnings("rawtypes")
-public class SimpleScreenTableDefinition implements ScreenTableDefinition, PositionedPart, Serializable {
+public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenColumnDefinition> implements ScreenTableDefinition, PositionedPart {
 
 	private static final long serialVersionUID = 1L;
 
-	private Class<?> rowClass;
-
 	private int startRow;
 	private int endRow;
-	private List<ScreenColumnDefinition> columnDefinitions = new ArrayList<ScreenColumnDefinition>();
 
 	private TerminalAction nextScreenAction;
 	private TerminalAction previousScreenAction;
@@ -48,8 +43,6 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 	private DrilldownDefinition drilldownDefinition = new SimpleDrilldownDefinition();
 
 	private boolean scrollable = true;
-
-	private Class<? extends TableCollector> tableCollectorClass;
 
 	private String tableEntityName;
 
@@ -61,20 +54,14 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 
 	private int width;
 
-	private ActionDefinition defaultAction;
+	private List<ScreenTableReferenceDefinition> tableReferenceDefinitions = new ArrayList<ScreenTableReferenceDefinition>();
 
-	private int rowGaps;
+	private Class<? extends TableCollector> tableCollectorClass;
 
 	private int screensCount;
 
-	private List<ScreenTableReferenceDefinition> tableReferenceDefinitions = new ArrayList<ScreenTableReferenceDefinition>();
-
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
-		this.rowClass = rowClass;
-	}
-
-	public Class<?> getTableClass() {
-		return rowClass;
+		super(rowClass);
 	}
 
 	public int getStartRow() {
@@ -93,10 +80,6 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		this.endRow = endRow;
 	}
 
-	public List<ScreenColumnDefinition> getColumnDefinitions() {
-		return columnDefinitions;
-	}
-
 	public TerminalAction getNextScreenAction() {
 		return nextScreenAction;
 	}
@@ -113,18 +96,8 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		this.previousScreenAction = previousScreenAction;
 	}
 
-	public List<String> getKeyFieldNames() {
-		List<String> keyFields = new ArrayList<String>();
-		for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
-			if (columnDefinition.isKey()) {
-				keyFields.add(columnDefinition.getName());
-			}
-		}
-		return keyFields;
-	}
-
 	public ScreenColumnDefinition getSelectionColumn() {
-		for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
+		for (ScreenColumnDefinition columnDefinition : getColumnDefinitions()) {
 			if (columnDefinition.isSelectionField()) {
 				return columnDefinition;
 			}
@@ -136,8 +109,9 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		return (getEndRow() - getStartRow() + 1) / getRowGaps();
 	}
 
+	@Override
 	public ScreenColumnDefinition getColumnDefinition(String fieldName) {
-		for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
+		for (ScreenColumnDefinition columnDefinition : getColumnDefinitions()) {
 			if (columnDefinition.getName().equals(fieldName)) {
 				return columnDefinition;
 			}
@@ -149,10 +123,12 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		return drilldownDefinition;
 	}
 
+	@Override
 	public boolean isScrollable() {
 		return scrollable;
 	}
 
+	@Override
 	public void setScrollable(boolean scrollable) {
 		this.scrollable = scrollable;
 	}
@@ -230,10 +206,12 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		}
 	}
 
+	@Override
 	public String getTableEntityName() {
 		return tableEntityName;
 	}
 
+	@Override
 	public void setTableEntityName(String tableEntityName) {
 		this.tableEntityName = tableEntityName;
 	}
@@ -242,10 +220,12 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 		return ScrollableTableUtil.getRowSelectionField(this);
 	}
 
+	@Override
 	public List<String> getMainDisplayFields() {
 		return mainDisplayFields;
 	}
 
+	@Override
 	public List<ActionDefinition> getActions() {
 		return actions;
 	}
@@ -264,52 +244,6 @@ public class SimpleScreenTableDefinition implements ScreenTableDefinition, Posit
 
 	public int getWidth() {
 		return width;
-	}
-
-	public ActionDefinition getDefaultAction() {
-		if (defaultAction != null) {
-			return defaultAction;
-		}
-		for (ActionDefinition action : actions) {
-			if (action.isDefaultAction()) {
-				defaultAction = action;
-				return defaultAction;
-			}
-		}
-		throw (new RegistryException(MessageFormat.format("No default table action was defined for table: {0}",
-				getTableEntityName())));
-
-	}
-
-	public int getRowGaps() {
-		return rowGaps;
-	}
-
-	public void setRowsGap(int rowGaps) {
-		this.rowGaps = rowGaps;
-	}
-
-	public List<String> getSortedByFieldNames() {
-		// copy the list for sorting
-		List<ColumnDefinition> columns = new ArrayList<ColumnDefinition>(getColumnDefinitions());
-		Collections.sort(columns, new Comparator<ColumnDefinition>() {
-
-			public int compare(org.openlegacy.definitions.TableDefinition.ColumnDefinition column1,
-					org.openlegacy.definitions.TableDefinition.ColumnDefinition column2) {
-				return column1.getSortIndex() - column2.getSortIndex();
-			}
-		});
-
-		List<String> sortedByFieldNames = new ArrayList<String>();
-		for (ColumnDefinition columnDefinition : columns) {
-			if (columnDefinition.getSortIndex() >= 0) {
-				sortedByFieldNames.add(columnDefinition.getName());
-			}
-		}
-		if (sortedByFieldNames.size() == 0) {
-			sortedByFieldNames.addAll(getKeyFieldNames());
-		}
-		return sortedByFieldNames;
 	}
 
 	public int getScreensCount() {
