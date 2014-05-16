@@ -4,10 +4,10 @@ import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.generators.GenerateUtil;
 import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.layout.support.DefaultRpcPageBuilder;
 import org.openlegacy.test.utils.AssertUtils;
 
 import japa.parser.JavaParser;
@@ -75,7 +75,8 @@ public class RpcEntityPageGeneratorTest {
 
 		GenerateUtil generateUtil = new GenerateUtil();
 
-		generateUtil.generate(new SimplePageDefinition(entityDefinition), baos, templateName);
+		DefaultRpcPageBuilder rpcPageBuilder = new DefaultRpcPageBuilder();
+		generateUtil.generate(rpcPageBuilder.build(entityDefinition), baos, templateName);
 		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream(expectedPageResultResource));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}

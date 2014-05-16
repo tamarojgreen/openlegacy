@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="org.springframework.context.*" %>
 <%@ page import="org.springframework.web.context.support.*" %>
-<%@ page import="org.openlegacy.rpc.services.*" %>
-<%@ page import="org.openlegacy.rpc.definitions.*" %>
+<%@ page import="org.openlegacy.terminal.services.*" %>
+<%@ page import="org.openlegacy.terminal.definitions.*" %>
 <%@ page import="java.util.*" %>
 <%
 	ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(pageContext.getServletContext());
-	RpcEntitiesRegistry registry = context.getBean(RpcEntitiesRegistry.class);
-	Collection<RpcEntityDefinition> entityDefinitions = registry.getEntitiesDefinitions();
+	ScreenEntitiesRegistry registry = context.getBean(ScreenEntitiesRegistry.class);
+	Collection<ScreenEntityDefinition> entityDefinitions = registry.getEntitiesDefinitions();
 
 %>
 
@@ -121,7 +121,7 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 			data-dojo-type="dijit.form.ComboBox">
 			<option>login?user=user1&password=pwd1</option>
 			<%
-			for (RpcEntityDefinition definition : entityDefinitions){
+			for (ScreenEntityDefinition definition : entityDefinitions){
 				String keyStr = "";
 				if (definition.getKeys().size() > 0){
 					keyStr = "/&lt;ID&gt;";

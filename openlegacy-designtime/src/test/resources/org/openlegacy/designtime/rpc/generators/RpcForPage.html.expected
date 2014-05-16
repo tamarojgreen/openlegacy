@@ -1,53 +1,96 @@
-<h4>XxolakkrParms</h4>
 <div class="row">
-	<div class="span8">
-		<form class="form-horizontal" accept-charset="utf-8">
-		  	
-			<div class="control-group">
-			<div class="control-group">
-				<label for="lkCustomer_lkCustInd" class="control-label">Lk Cust Ind:</label>
-				<div class="controls">
-					<input name="lkCustomer_lkCustInd" ng-model="xxolakkrParms.lkCustomer.lkCustInd"/>
-				</div>
-			</div>
-			<div class="control-group">
-				<label for="lkCustomer_lkCustId" class="control-label">Lk Cust Id:</label>
-				<div class="controls">
-					<input name="lkCustomer_lkCustId" ng-model="xxolakkrParms.lkCustomer.lkCustId"/>
-				</div>
-			</div>
-			<div class="control-group">
-				<label for="lkCustomer_lkCustName" class="control-label">Lk Cust Name:</label>
-				<div class="controls">
-					<input name="lkCustomer_lkCustName" ng-model="xxolakkrParms.lkCustomer.lkCustName"/>
-				</div>
-			</div>
-			<div class="control-group">
-				<label for="lkCustomer_lkCustAddress" class="control-label">Lk Cust Address:</label>
-				<div class="controls">
-					<input name="lkCustomer_lkCustAddress" ng-model="xxolakkrParms.lkCustomer.lkCustAddress"/>
-				</div>
-			</div>
-			<div class="control-group">
-				<label for="lkCustomer_lkCustPhone" class="control-label">Lk Cust Phone:</label>
-				<div class="controls">
-					<input name="lkCustomer_lkCustPhone" ng-model="xxolakkrParms.lkCustomer.lkCustPhone"/>
-				</div>
-			</div>
-			</div>
-		<table class="table">
-			<tr data-ng-repeat="item in model.LkCards">
-				<td>{{item.lkCards.lkCardInd}}</td>
-				<td>{{item.lkCards.lkCardNumber}}</td>
-				<td>{{item.lkCards.lkCardPrefix}}</td>
-				<td>{{item.lkCards.lkCardSugSherut}}</td>
-			</tr>
-		</table>
-
-			<div class="btn-toolbar">
-				<button data-ng-click="read()" class="btn btn-small btn-primary">Read</button>
-				<button data-ng-click="update()" class="btn btn-small btn-primary">Update</button>
-			</div>
-		</form>
+	<div class="col-sm-4">
+		<h1>Xxolakkr Parms</h1>
+	</div>
+	<div class="col-sm-8">
+		<h1>
+			<button data-ng-click="update()" class="btn btn-lg btn-primary">Update</button>
+		</h1>
 	</div>
 </div>
+
+<form  role="form" accept-charset="utf-8">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">Lk Customer</div>
+			<div class="panel-body">
+				<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+					    <label for="lkCustomer.lkCustInd" class="col-sm-3 control-label">Lk Cust Ind:</label>
+					    <div class="col-sm-9">
+				   		<input type="text" class="form-control" id="lkCustomer.lkCustInd" ng-model="model.lkCustomer.lkCustInd" />
+					   	</div>
+					</div>
+				</div>
+				</div>
+				<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+					    <label for="lkCustomer.lkCustId" class="col-sm-3 control-label">Lk Cust Id:</label>
+					    <div class="col-sm-9">
+				   		<input type="text" class="form-control" id="lkCustomer.lkCustId" ng-model="model.lkCustomer.lkCustId" />
+					   	</div>
+					</div>
+				</div>
+				</div>
+				<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+					    <label for="lkCustomer.lkCustName" class="col-sm-3 control-label">Lk Cust Name:</label>
+					    <div class="col-sm-9">
+				   		<input type="text" class="form-control" id="lkCustomer.lkCustName" ng-model="model.lkCustomer.lkCustName" />
+					   	</div>
+					</div>
+				</div>
+				</div>
+				<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+					    <label for="lkCustomer.lkCustAddress" class="col-sm-3 control-label">Lk Cust Address:</label>
+					    <div class="col-sm-9">
+				   		<input type="text" class="form-control" id="lkCustomer.lkCustAddress" ng-model="model.lkCustomer.lkCustAddress" />
+					   	</div>
+					</div>
+				</div>
+				</div>
+				<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+					    <label for="lkCustomer.lkCustPhone" class="col-sm-3 control-label">Lk Cust Phone:</label>
+					    <div class="col-sm-9">
+				   		<input type="text" class="form-control" id="lkCustomer.lkCustPhone" ng-model="model.lkCustomer.lkCustPhone" />
+					   	</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading"></div>
+			<div class="panel-body">
+				<div class="row">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Lk Card Ind</th>
+								<th>Lk Card Number</th>
+								<th>Lk Card Prefix</th>
+								<th>Lk Card Sug Sherut</th>
+							</tr>
+						</thead>
+						<tr data-ng-repeat="lkCustomer_LkCards in model.lkCustomer.LkCards">
+							<td>{{lkCustomer_LkCards.lkCardInd}}</td>
+							<td>{{lkCustomer_LkCards.lkCardNumber}}</td>
+							<td>{{lkCustomer_LkCards.lkCardPrefix}}</td>
+							<td>{{lkCustomer_LkCards.lkCardSugSherut}}</td>
+						</tr>
+			  		</table>
+		  		</div>		
+	  		</div>		
+			</div>
+		</div>
+	</div>
+</form>
