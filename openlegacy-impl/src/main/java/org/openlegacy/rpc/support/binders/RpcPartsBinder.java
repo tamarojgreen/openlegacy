@@ -11,7 +11,6 @@
 package org.openlegacy.rpc.support.binders;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.junit.Assert;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.rpc.RpcEntityBinder;
 import org.openlegacy.rpc.RpcField;
@@ -269,13 +268,11 @@ public class RpcPartsBinder implements RpcEntityBinder {
 
 	public Object toApi(RpcFieldDefinition rpcFieldDefinition, Object fiieldValue) {
 
-		Assert.assertTrue("Should not arive", false);
-		return null;
+		throw (new IllegalStateException("Should not arrive"));
 	}
 
 	public Object toLegacy(RpcFieldDefinition rpcFieldDefinition, Object apiFieldValue, RpcFlatField booleanField) {
-		Assert.assertTrue("Should not arive", false);
-		return null;
+		throw (new IllegalStateException("Should not arrive"));
 	}
 
 }
