@@ -1,7 +1,6 @@
 package org.openlegacy.rpc.definitions;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.definitions.FieldDefinition;
@@ -147,7 +146,6 @@ public class RpcRegistryTest {
 	}
 
 	@Test
-	@Ignore
 	public void testKeyFields() {
 		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(RpcTreeEntity.class);
 		List<? extends FieldDefinition> keys = rpcEntityDefinition.getKeys();
