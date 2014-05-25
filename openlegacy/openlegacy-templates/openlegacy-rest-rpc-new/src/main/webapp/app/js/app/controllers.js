@@ -9,7 +9,7 @@
 	module = module.controller(
 		'loginController',
 		function($scope, $location, $olHttp, $rootScope, $cookies) {
-			$scope.user = {userName:"elbpr",password:"el%23978bpr1"};
+			$scope.user = {userName:"",password:""};
 			$scope.login = function() {
 				$cookies.loggedInUser = $scope.user.userName;
 				$rootScope.loggedInUser = $scope.user.userName;
