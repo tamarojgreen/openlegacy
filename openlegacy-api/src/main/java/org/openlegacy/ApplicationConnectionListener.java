@@ -26,4 +26,7 @@ public interface ApplicationConnectionListener {
 	@SuppressWarnings("rawtypes")
 	void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result);
 
+	@SuppressWarnings("rawtypes")
+	void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result, String entityName);
+
 }

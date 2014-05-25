@@ -37,8 +37,9 @@ public class DefaultRpcTrailModule extends RpcSessionModuleAdapter implements Tr
 	}
 
 	@Override
-	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
-		sessionTrail.appendSnapshot(new RpcPersistedSnapshot((RpcInvokeAction)action, (RpcResult)result, connection.getSequence()));
+	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result, String entityName) {
+		sessionTrail.appendSnapshot(new RpcPersistedSnapshot((RpcInvokeAction)action, (RpcResult)result,
+				connection.getSequence(), entityName));
 	}
 
 	public void setSessionTrail(SessionTrail<RpcSnapshot> sessionTrail) {

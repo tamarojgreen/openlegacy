@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <rpc-trail>
-    <snapshot sequence="2">
+    <snapshot sequence="2" entityName="ItemDetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1001" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -30,7 +30,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="3">
+    <snapshot sequence="3" entityName="ItemDetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1002" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -60,7 +60,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="4">
+    <snapshot sequence="4" entityName="ItemDetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1003" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>

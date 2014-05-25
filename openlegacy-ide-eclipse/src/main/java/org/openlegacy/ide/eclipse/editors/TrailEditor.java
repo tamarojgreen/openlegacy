@@ -54,6 +54,7 @@ import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.actions.screen.GenerateScreenModelDialog;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
+import org.openlegacy.rpc.modules.trail.RpcPersistedTrail;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.TerminalSnapshot.SnapshotType;
 import org.openlegacy.terminal.modules.trail.TerminalPersistedTrail;
@@ -133,10 +134,22 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		}
 
 		TerminalPersistedTrail terminalSessionTrail = null;
+
 		try {
 			terminalSessionTrail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, new FileInputStream(file));
 		} catch (Exception e) {
-			throw (new DesigntimeException(Messages.getString("error_unable_to_open_trail_file"), e));
+			try {
+				// Temporary solution for RPC, will open only standard editor.
+				RpcPersistedTrail rpcPersistedTrail = XmlSerializationUtil.deserialize(RpcPersistedTrail.class,
+						new FileInputStream(file));
+				if (rpcPersistedTrail != null) {
+					return null;
+				}
+			} catch (Exception e1) {
+
+				throw (new DesigntimeException(Messages.getString("error_unable_to_open_trail_file"), e));
+
+			}
 		}
 		if (terminalSessionTrail.getSnapshots().size() == 0) {
 			throw (new DesigntimeException(Messages.getString("error_no_snapshots_found")));

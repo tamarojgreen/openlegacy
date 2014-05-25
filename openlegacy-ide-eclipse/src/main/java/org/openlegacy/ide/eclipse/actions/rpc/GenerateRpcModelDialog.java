@@ -13,10 +13,10 @@ package org.openlegacy.ide.eclipse.actions.rpc;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.ide.eclipse.actions.AbstractGenerateModelDialog;
 import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
+import org.openlegacy.ide.eclipse.actions.AbstractRpcGenerateCodeDialog;
 
-public class GenerateRpcModelDialog extends AbstractGenerateModelDialog {
+public class GenerateRpcModelDialog extends AbstractRpcGenerateCodeDialog {
 
 	public GenerateRpcModelDialog(Shell shell, IFile file) {
 		super(shell, file);
@@ -25,9 +25,8 @@ public class GenerateRpcModelDialog extends AbstractGenerateModelDialog {
 	@Override
 	protected void generate() {
 		EclipseDesignTimeExecuter.instance().generateRpcModel(getFile(), getSourceFolder(), getPackageValue(), this, isUseAj(),
-				"", "");
-		// TODO
-		// getActionValue(), getNavigationValue());
+
+		getActionValue(), getNavigationValue());
 	}
 
 	public boolean customizeEntity(EntityDefinition<?> entityDefinition) {

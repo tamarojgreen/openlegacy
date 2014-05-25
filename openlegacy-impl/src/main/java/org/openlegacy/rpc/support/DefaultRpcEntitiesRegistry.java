@@ -33,6 +33,11 @@ public class DefaultRpcEntitiesRegistry extends AbstractEntitiesRegistry<RpcEnti
 			Collection<RpcEntityDefinition> rpcDefinitionsValues = getEntitiesDefinitions();
 			for (RpcEntityDefinition rpcDefinition : rpcDefinitionsValues) {
 				rpcDefinitionsByProgram.put(rpcDefinition.getIdentification(), rpcDefinition);
+
+			}
+
+			if (rpcDefinitionsByProgram.containsKey(null)) {
+				rpcDefinitionsByProgram.remove(null);
 			}
 
 		}
@@ -40,9 +45,12 @@ public class DefaultRpcEntitiesRegistry extends AbstractEntitiesRegistry<RpcEnti
 		if (rpcDefinitionsByProgram.containsKey(programPath)) {
 			return rpcDefinitionsByProgram.get(programPath);
 		}
+		String entityName = rpcSnapshot.getEntityName();
+		if (entityName != null) {
+			return get(entityName);
 
+		}
 		return null;
-
 	}
 
 }

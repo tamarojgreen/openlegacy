@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <rpc-trail>
-    <snapshot sequence="1">
+    <snapshot sequence="1" entityName="RpcDummyEntity">
         <invoke rpcPath="/dir/program_name">
             <rpcFields>
                 <field value="John" length="20" modified="true" direction="INPUT" name="firstName" order="0"/>

@@ -10,7 +10,7 @@ import org.openlegacy.rpc.render.RpcImageRendererTest;
 @RunWith(Suite.class)
 @SuiteClasses({ RpcRegistryTest.class, RpcMockConnectionTest.class, RpcMockSessionTest.class, RpcTrailSerializeTest.class,
 		RpcImageRendererTest.class, RpcMockItemsConnectionTest.class, RpcMockDemoSessionTest.class,
-		RpcMockItemDetailsConnectionTest.class })
+		RpcMockItemDetailsConnectionTest.class, RpcMockSessionWithNoActionTest.class })
 public class OpenLegacyRpcRuntimeSuite {
 
 }

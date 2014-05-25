@@ -21,4 +21,6 @@ public interface RpcSnapshot extends Snapshot, Serializable {
 	RpcInvokeAction getRpcInvokeAction();
 
 	RpcResult getRpcResult();
+
+	String getEntityName();
 }

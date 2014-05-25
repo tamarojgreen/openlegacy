@@ -37,14 +37,18 @@ public class RpcPersistedSnapshot implements RpcSnapshot {
 	@XmlAttribute
 	private Integer sequence = null;
 
+	@XmlAttribute
+	String entityName;
+
 	public RpcPersistedSnapshot() {
 		// for serialization purposes
 	}
 
-	public RpcPersistedSnapshot(RpcInvokeAction rpInvokeAction, RpcResult rpcResult, Integer sequence) {
+	public RpcPersistedSnapshot(RpcInvokeAction rpInvokeAction, RpcResult rpcResult, Integer sequence, String entityName) {
 		this.rpcInvokeAction = rpInvokeAction;
 		this.rpcResult = rpcResult;
 		this.sequence = sequence;
+		this.entityName = entityName;
 	}
 
 	public RpcInvokeAction getRpcInvokeAction() {
@@ -69,5 +73,14 @@ public class RpcPersistedSnapshot implements RpcSnapshot {
 
 	public void setSequence(Integer sequence) {
 		this.sequence = sequence;
+	}
+
+	public String getEntityName() {
+
+		return entityName;
+	}
+
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
 	}
 }

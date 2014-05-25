@@ -2,12 +2,16 @@ package org.openlegacy.rpc.support;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcInvokeAction;
+import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
+import org.openlegacy.rpc.actions.RpcAction;
+import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.mock.MockRpcConnection;
 import org.openlegacy.rpc.recognizers.RpcRecognizer;
 import org.openlegacy.support.SnapshotsList;
@@ -64,6 +68,28 @@ public class MockupRpcSession extends DefaultRpcSession {
 		populateEntity((RpcEntity)entity, null, result);
 		snapshotsList.next();
 		return (T)doAction(RpcActions.READ(), (RpcEntity)entity);
+
+	}
+
+	@Override
+	public RpcEntity doAction(RpcAction action, RpcEntity rpcEntity) {
+		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
+		RpcActionDefinition actionDefinition = (RpcActionDefinition)rpcDefinition.getAction(action.getClass());
+
+		if (actionDefinition != null) {
+			return super.doAction(action, rpcEntity);
+		} else {
+			SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
+			populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
+			converToLegacyFields(rpcAction);
+			RpcResult rpcResult = invoke(rpcAction, rpcEntity.getClass().getSimpleName());
+			RpcResult rpcResultCopy = rpcResult.clone();
+
+			converToApiFields(rpcResultCopy.getRpcFields());
+			populateEntity(rpcEntity, rpcDefinition, rpcResultCopy);
+		}
+
+		return rpcEntity;
 
 	}
 

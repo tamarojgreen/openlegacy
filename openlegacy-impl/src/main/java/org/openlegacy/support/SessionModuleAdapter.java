@@ -50,6 +50,10 @@ public abstract class SessionModuleAdapter<S extends Session> implements Session
 		// allow override
 	}
 
+	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result, String entityName) {
+		// allow override
+	}
+
 	public S getSession() {
 		return session;
 	}

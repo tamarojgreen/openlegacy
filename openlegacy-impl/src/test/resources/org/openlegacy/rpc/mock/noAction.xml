@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+    <snapshot sequence="1" entityName="noActionEntity1">
+        <invoke >
+            <rpcFields>
+	            <field value="John" length="20" direction="INPUT" order="0" name="firstName"/>
+   	        </rpcFields>
+        </invoke>
+        <result>
+             <rpcFields>
+	             <field value="John" length="20" direction="INPUT" order="0" name="firstName"/>
+   	        </rpcFields>
+        </result>
+    </snapshot>
+     <snapshot sequence="2" entityName="noActionEntity2">
+        <invoke >
+            <rpcFields>
+	            <field value="Danny" length="20" direction="INPUT" order="0" name="firstName"/>
+   	        </rpcFields>
+        </invoke>
+        <result>
+             <rpcFields>
+	             <field value="Danny" length="20" direction="INPUT" order="0" name="firstName"/>
+   	        </rpcFields>
+        </result>
+    </snapshot>
+</rpc-trail>
+
+
+

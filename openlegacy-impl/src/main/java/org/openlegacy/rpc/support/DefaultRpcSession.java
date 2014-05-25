@@ -127,12 +127,12 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		rpcAction.setRpcPath(actionDefinition.getProgramPath());
 		populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
 		converToLegacyFields(rpcAction);
-		RpcResult rpcResult = invoke(rpcAction);
-		RpcResult rpcResultCopy = rpcResult.clone();
 
 		if (actionDefinition.getTargetEntity() != null) {
 			return (RpcEntity)getEntity(actionDefinition.getTargetEntity());
 		} else {
+			RpcResult rpcResult = invoke(rpcAction, rpcEntity.getClass().getSimpleName());
+			RpcResult rpcResultCopy = rpcResult.clone();
 			converToApiFields(rpcResultCopy.getRpcFields());
 			populateEntity(rpcEntity, rpcDefinition, rpcResultCopy);
 		}
@@ -140,24 +140,24 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
-	private RpcResult invoke(SimpleRpcInvokeAction rpcAction) {
+	final protected RpcResult invoke(SimpleRpcInvokeAction rpcAction, String entityName) {
 		// clone to avoid modifications by connection of fields collection
 		SimpleRpcInvokeAction clonedRpcAction = (SimpleRpcInvokeAction)SerializationUtils.clone(rpcAction);
 		RpcResult rpcResult = rpcConnection.invoke(rpcAction);
-		notifyModulesAfterSend(clonedRpcAction, rpcResult);
+		notifyModulesAfterSend(clonedRpcAction, rpcResult, entityName);
 		return rpcResult;
 	}
 
-	protected void notifyModulesAfterSend(SimpleRpcInvokeAction rpcAction, RpcResult rpcResult) {
+	private void notifyModulesAfterSend(SimpleRpcInvokeAction rpcAction, RpcResult rpcResult, String entityName) {
 		Collection<? extends SessionModule> modulesList = getSessionModules().getModules();
 		for (SessionModule sessionModule : modulesList) {
 			if (sessionModule instanceof ApplicationConnectionListener) {
-				((ApplicationConnectionListener)sessionModule).afterAction(getConnection(), rpcAction, rpcResult);
+				((ApplicationConnectionListener)sessionModule).afterAction(getConnection(), rpcAction, rpcResult, entityName);
 			}
 		}
 	}
 
-	private void converToLegacyFields(RpcInvokeAction rpcAction) {
+	final protected void converToLegacyFields(RpcInvokeAction rpcAction) {
 
 		for (RpcFieldConverter fpcFieldConverter : rpcFieldConverters) {
 			fpcFieldConverter.toLegacy(rpcAction.getFields());
@@ -167,7 +167,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
-	protected void converToApiFields(List<RpcField> fields) {
+	final protected void converToApiFields(List<RpcField> fields) {
 
 		for (RpcFieldConverter fpcFieldConverter : rpcFieldConverters) {
 			fpcFieldConverter.toApi(fields);
@@ -177,14 +177,14 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	}
 
-	private void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition, RpcInvokeAction rpcAction) {
+	final protected void populateRpcFields(RpcEntity rpcEntity, RpcEntityDefinition rpcEntityDefinition, RpcInvokeAction rpcAction) {
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateAction(rpcAction, rpcEntity);
 		}
 
 	}
 
-	protected void populateEntity(RpcEntity rpcEntity, RpcEntityDefinition rpcDefinition, RpcResult rpcResult) {
+	final protected void populateEntity(RpcEntity rpcEntity, RpcEntityDefinition rpcDefinition, RpcResult rpcResult) {
 
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateEntity(rpcEntity, rpcResult);

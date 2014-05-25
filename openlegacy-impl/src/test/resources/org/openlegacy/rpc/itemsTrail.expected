@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <rpc-trail>
-    <snapshot sequence="5">
+    <snapshot sequence="5" entityName="Items">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/ITEMS.PGM">
             <rpcFields>
                 <structure order="0" name="Top" isContainer="true">

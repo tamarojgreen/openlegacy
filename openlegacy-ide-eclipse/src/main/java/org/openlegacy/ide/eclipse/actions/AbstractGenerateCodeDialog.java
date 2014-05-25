@@ -82,6 +82,10 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		this.file = file;
 	}
 
+	protected void addDialogFotter() {
+
+	}
+
 	@Override
 	protected Control createDialogArea(Composite parent) {
 
