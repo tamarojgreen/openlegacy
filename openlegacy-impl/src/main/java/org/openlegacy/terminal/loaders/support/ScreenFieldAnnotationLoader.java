@@ -16,6 +16,7 @@ import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleScreenListFieldTypeDefinition;
@@ -180,6 +181,8 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			screenFieldDefinition.setFieldTypeDefinition(new SimplePasswordFieldTypeDefinition());
 		} else if (java.util.List.class == field.getType()) {
 			screenFieldDefinition.setFieldTypeDefinition(new SimpleScreenListFieldTypeDefinition());
+		} else if (field.getType().isEnum()) {
+			screenFieldDefinition.setFieldTypeDefinition(new SimpleEnumFieldTypeDefinition());
 		} else {
 			screenFieldDefinition.setFieldTypeDefinition(new SimpleTextFieldTypeDefinition());
 		}

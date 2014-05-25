@@ -7,13 +7,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
-import org.openlegacy.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.designtime.DesigntimeException;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcListFieldTypeDefinition;
+import org.openlegacy.rpc.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

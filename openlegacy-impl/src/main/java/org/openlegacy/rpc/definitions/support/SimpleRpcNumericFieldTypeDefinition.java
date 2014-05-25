@@ -8,9 +8,10 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.definitions.support;
+package org.openlegacy.rpc.definitions.support;
 
 import org.openlegacy.definitions.RpcNumericFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 
 public class SimpleRpcNumericFieldTypeDefinition extends SimpleNumericFieldTypeDefinition implements RpcNumericFieldTypeDefinition {
 

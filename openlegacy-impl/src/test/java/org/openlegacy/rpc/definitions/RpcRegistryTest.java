@@ -1,18 +1,20 @@
 package org.openlegacy.rpc.definitions;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.RpcNumericFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.rpc.definitions.mock.RpcDummyEntity;
 import org.openlegacy.rpc.definitions.mock.RpcDummyEntity.DummyPart;
 import org.openlegacy.rpc.definitions.mock.RpcListEntity;
 import org.openlegacy.rpc.definitions.mock.RpcSimpleEntity;
 import org.openlegacy.rpc.definitions.mock.RpcTreeEntity;
+import org.openlegacy.rpc.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -144,4 +146,12 @@ public class RpcRegistryTest {
 		Assert.assertEquals(String.class, innerFieldDefinition.getJavaType());
 	}
 
+	@Test
+	@Ignore
+	public void testKeyFields() {
+		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(RpcTreeEntity.class);
+		List<? extends FieldDefinition> keys = rpcEntityDefinition.getKeys();
+		Assert.assertEquals(2, keys.size());
+
+	}
 }

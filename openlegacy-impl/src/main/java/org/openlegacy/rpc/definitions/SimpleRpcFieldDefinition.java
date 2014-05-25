@@ -28,10 +28,12 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private int order;
 	private String defaultValue;
 	private String runtimeName;
+	private String nullValue;
 	private int count = 1;
 
 	public SimpleRpcFieldDefinition(String name, Class<? extends FieldType> type) {
 		super(name, type);
+
 	}
 
 	public Integer getLength() {
@@ -118,4 +120,15 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	public void setCount(int count) {
 		this.count = count;
 	}
+
+	@Override
+	public String getNullValue() {
+		return nullValue;
+	}
+
+	@Override
+	public void setNullValue(String nullValue) {
+		this.nullValue = nullValue;
+	}
+
 }

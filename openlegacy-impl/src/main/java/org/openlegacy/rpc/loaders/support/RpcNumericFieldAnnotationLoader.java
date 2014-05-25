@@ -12,13 +12,13 @@ package org.openlegacy.rpc.loaders.support;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.rpc.RpcNumericField;
-import org.openlegacy.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractFieldAnnotationLoader;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcListFieldTypeDefinition;
+import org.openlegacy.rpc.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;

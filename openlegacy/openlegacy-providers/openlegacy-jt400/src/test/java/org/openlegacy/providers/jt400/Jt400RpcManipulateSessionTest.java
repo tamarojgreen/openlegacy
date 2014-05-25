@@ -4,10 +4,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.providers.jt400.mockup.DummyGroupEntity;
-import org.openlegacy.providers.jt400.mockup.DummyLegacyContainerEntity;
 import org.openlegacy.providers.jt400.mockup.DummyGroupEntity.Container;
 import org.openlegacy.providers.jt400.mockup.DummyGroupEntity.Group1;
 import org.openlegacy.providers.jt400.mockup.DummyGroupEntity.Group2;
+import org.openlegacy.providers.jt400.mockup.DummyLegacyContainerEntity;
 import org.openlegacy.providers.jt400.mockup.DummyLegacyContainerEntity.Record;
 import org.openlegacy.providers.jt400.mockup.Items;
 import org.openlegacy.rpc.RpcActions;
@@ -45,6 +45,15 @@ public class Jt400RpcManipulateSessionTest {
 		Assert.assertEquals(new Integer(1000), result.getInnerRecord().get(0).getItemNumber());
 		Assert.assertEquals("Kid Guitar", result.getInnerRecord().get(0).getItemName());
 		Assert.assertEquals(new Integer(1001), result.getInnerRecord().get(1).getItemNumber());
+
+	}
+
+	@Test
+	public void testFilterEmpty() {
+		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
+		Items result = rpcSession.doAction(RpcActions.READ(), new Items());
+
+		Assert.assertEquals(5, result.getInnerRecord().size());
 
 	}
 

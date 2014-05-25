@@ -46,4 +46,6 @@ public @interface RpcField {
 	String defaultValue() default "";
 
 	int order() default AnnotationConstants.AUTOMATICALY;
+
+	String nullValue() default AnnotationConstants.NULL;
 }

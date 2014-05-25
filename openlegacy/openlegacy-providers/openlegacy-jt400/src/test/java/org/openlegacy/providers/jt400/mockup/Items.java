@@ -12,12 +12,12 @@ import org.openlegacy.rpc.RpcActions.READ;
 
 import java.util.List;
 
-@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMS.PGM", global = false) })
+@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMS10.PGM", global = false) })
 @RpcEntity(name = "Items")
 @RpcNavigation(category = "Inventory Menu")
 public class Items implements org.openlegacy.rpc.RpcEntity {
 
-	@RpcPartList(count = 5)
+	@RpcPartList(count = 8)
 	private List<InnerRecord> innerRecord;
 
 	@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMDETAIL.PGM", displayName = "View", targetEntity = ItemDetails.class, alias = "display") })

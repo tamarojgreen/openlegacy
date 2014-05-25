@@ -11,6 +11,7 @@
 package org.openlegacy.rpc.definitions;
 
 import org.openlegacy.annotations.rpc.Languages;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.definitions.support.AbstractEntityDefinition;
@@ -28,6 +29,7 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 	private Languages language;
 	private RpcNavigationDefinition navigationDefinition = new SimpleRpcNavigationDefinition();
 	private String sourceCode;
+	private List<RpcFieldDefinition> keyFields;
 
 	public SimpleRpcEntityDefinition() {
 		super(null, null);
@@ -95,4 +97,21 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 		return null;
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<? extends FieldDefinition> getKeys() {
+
+		if (keyFields == null) {
+			keyFields = (List<RpcFieldDefinition>)super.getKeys();
+			Collection<PartEntityDefinition<RpcFieldDefinition>> parts = getPartsDefinitions().values();
+			for (PartEntityDefinition<RpcFieldDefinition> partDefinition : parts) {
+				RpcPartEntityDefinition rpcPartEntityDefinition = (RpcPartEntityDefinition)partDefinition;
+				if (rpcPartEntityDefinition.getCount() == 1) {
+					keyFields.addAll(rpcPartEntityDefinition.getKeys());
+				}
+			}
+		}
+
+		return keyFields;
+	}
 }

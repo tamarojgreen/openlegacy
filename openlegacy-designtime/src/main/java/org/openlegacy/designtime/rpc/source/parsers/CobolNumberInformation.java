@@ -16,7 +16,7 @@ package org.openlegacy.designtime.rpc.source.parsers;
  */
 
 import org.openlegacy.definitions.FieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleRpcNumericFieldTypeDefinition;
+import org.openlegacy.rpc.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 
 import java.math.BigInteger;
 

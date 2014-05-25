@@ -34,7 +34,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private String externalName;
 	private String helpText;
 	private Boolean isVirtual = false;
-
+	private Boolean keyFirstTime = true;
 	private String runtimeName;
 
 	private final Map<String, RpcPartEntityDefinition> innerPartsDefinitions = new LinkedHashMap<String, RpcPartEntityDefinition>();
@@ -99,6 +99,15 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	}
 
 	public List<RpcFieldDefinition> getKeys() {
+
+		if (keyFirstTime.equals(true)) {
+			for (PartEntityDefinition<RpcFieldDefinition> part : innerPartsDefinitions.values()) {
+				if (((RpcPartEntityDefinition)part).getCount() == 1) {
+					keys.addAll(((RpcPartEntityDefinition)part).getKeys());
+				}
+			}
+			keyFirstTime = false;
+		}
 		return keys;
 	}
 

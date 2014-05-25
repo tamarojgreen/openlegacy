@@ -3,6 +3,7 @@ package org.openlegacy.rpc.definitions.mock;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.annotations.rpc.RpcPartList;
 import org.openlegacy.rpc.definitions.mock.RpcTreeEntity.WPart1.NestedPart;
 
 import java.util.List;
@@ -13,46 +14,47 @@ public class RpcTreeEntity implements org.openlegacy.rpc.RpcEntity {
 
 	SimplePart simplePart;
 
-	@RpcPart
+	@RpcPart(name = "SimplePart")
 	public static class SimplePart {
 
-		@RpcField(length = 20)
+		@RpcField(length = 20, key = true)
 		String firstName;
 	}
 
+	@RpcPartList(count = 2)
 	List<ListPart> listPart;
 
-	@RpcPart
+	@RpcPart(name = "ListPart")
 	public static class ListPart {
 
-		@RpcField(length = 20)
+		@RpcField(length = 20, key = true)
 		String firstName;
 	}
 
 	TreePart treePart;
 
-	@RpcPart
+	@RpcPart(name = "APart1")
 	public static class APart1 {
 
 		@RpcField(length = 20)
 		String innerVariable;
 	}
 
-	@RpcPart
+	@RpcPart(name = "WPart1")
 	public static class WPart1 {
 
 		@RpcField(length = 20)
 		String innerVariable;
 
-		@RpcPart
+		@RpcPart(name = "NestedPart")
 		public static class NestedPart {
 
-			@RpcField(length = 20)
+			@RpcField(length = 20, key = true)
 			String innerVariable;
 		}
 	}
 
-	@RpcPart
+	@RpcPart(name = "TreePart")
 	public static class TreePart {
 
 		private NestedPart nestedPart;
@@ -63,14 +65,14 @@ public class RpcTreeEntity implements org.openlegacy.rpc.RpcEntity {
 
 	}
 
-	@RpcPart
+	@RpcPart(name = "WPart2")
 	public static class WPart2 {
 
 		@RpcField(length = 20)
 		String innerVariable;
 	}
 
-	@RpcPart
+	@RpcPart(name = "APart2")
 	public static class APart2 {
 
 		@RpcField(length = 20)

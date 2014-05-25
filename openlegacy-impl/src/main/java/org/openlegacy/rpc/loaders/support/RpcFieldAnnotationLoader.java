@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.openlegacy.rpc.loaders.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.screen.AnnotationConstants;
-import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
-import org.openlegacy.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractFieldAnnotationLoader;
@@ -23,6 +23,8 @@ import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcListFieldTypeDefinition;
+import org.openlegacy.rpc.definitions.support.SimpleRpcDateFieldTypeDefinition;
+import org.openlegacy.rpc.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.core.Ordered;
@@ -87,6 +89,9 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			rpcFieldDefinition.setHelpText(fieldAnnotation.helpText());
 		}
 		setupFieldType(field, rpcFieldDefinition);
+		if (!fieldAnnotation.nullValue().equals(AnnotationConstants.NULL)) {
+			rpcFieldDefinition.setNullValue(fieldAnnotation.nullValue());
+		}
 
 		if (rpcEntityDefinition != null) {
 			rpcEntityDefinition.getFieldsDefinitions().put(fieldName, rpcFieldDefinition);
@@ -109,16 +114,22 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		// set number type definition - may be overridden by ScreenNumericFieldAnnotationLoader to fill in specific numeric
 		// properties
 
+		rpcFieldDefinition.setNullValue("");
 		if (Number.class.isAssignableFrom(field.getType())) {
+
+			rpcFieldDefinition.setNullValue(StringUtils.repeat("0", "", rpcFieldDefinition.getLength()));
 			rpcFieldDefinition.setFieldTypeDefinition(new SimpleRpcNumericFieldTypeDefinition());
 		}
 		// set date type definition - may be overridden by ScreenDateFieldAnnotationLoader to fill in specific date properties
 		else if (Date.class.isAssignableFrom(field.getType())) {
-			rpcFieldDefinition.setFieldTypeDefinition(new SimpleDateFieldTypeDefinition());
+			rpcFieldDefinition.setNullValue(AnnotationConstants.NULL);
+			rpcFieldDefinition.setFieldTypeDefinition(new SimpleRpcDateFieldTypeDefinition());
 		} else if (rpcFieldDefinition.isPassword()) {
 			rpcFieldDefinition.setFieldTypeDefinition(new SimplePasswordFieldTypeDefinition());
 		} else if (java.util.List.class == field.getType()) {
 			rpcFieldDefinition.setFieldTypeDefinition(new SimpleRpcListFieldTypeDefinition());
+		} else if (field.getType().isEnum()) {
+			rpcFieldDefinition.setFieldTypeDefinition(new SimpleEnumFieldTypeDefinition());
 		} else {
 			rpcFieldDefinition.setFieldTypeDefinition(new SimpleTextFieldTypeDefinition());
 		}

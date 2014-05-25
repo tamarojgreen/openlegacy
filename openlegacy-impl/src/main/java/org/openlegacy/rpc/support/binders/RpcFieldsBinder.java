@@ -43,6 +43,9 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 		List<RpcField> rpcFields = result.getRpcFields();
 		for (RpcFieldDefinition rpcFieldDefinition : fieldsDefinitions) {
 
+			if (!fieldMatch(rpcFieldDefinition)) {
+				continue;
+			}
 			fieldAccesor.setFieldValue(rpcFieldDefinition.getName(),
 					((RpcFlatField)rpcFields.get(rpcFieldDefinition.getOrder())).getValue());
 		}
@@ -57,13 +60,17 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 		Collection<RpcFieldDefinition> fieldsDefinitions = rpcEntityDefinition.getFieldsDefinitions().values();
 		for (RpcFieldDefinition rpcFieldDefinition : fieldsDefinitions) {
 
-			SimpleRpcFlatField rpcField = getRpcFlatField(rpcFieldDefinition, fieldAccesor, null);
+			if (!fieldMatch(rpcFieldDefinition)) {
+				continue;
+			}
+
+			RpcFlatField rpcField = getRpcFlatField(rpcFieldDefinition, fieldAccesor, null);
 			sendAction.getFields().add(rpcField);
 		}
 
 	}
 
-	public static SimpleRpcFlatField getRpcFlatField(RpcFieldDefinition rpcFieldDefinition, PojoFieldAccessor fieldAccesor,
+	public static RpcFlatField getRpcFlatField(RpcFieldDefinition rpcFieldDefinition, PojoFieldAccessor fieldAccesor,
 			String fieldPrefix) {
 		if (fieldPrefix == null) {
 			fieldPrefix = "";
@@ -87,6 +94,24 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 		rpcField.setDirection(rpcFieldDefinition.getDirection());
 		rpcField.setOrder(rpcFieldDefinition.getOrder());
 		return rpcField;
+	}
+
+	public boolean fieldMatch(RpcFieldDefinition rpcFieldDefinition) {
+		if (rpcFieldDefinition.getJavaType() == Boolean.class || rpcFieldDefinition.getJavaType() == java.util.Date.class
+				|| rpcFieldDefinition.getJavaType().isEnum()) {
+			return false;
+		}
+		return true;
+	}
+
+	public Object toApi(RpcFieldDefinition rpcFieldDefinition, Object legacyFieldValue) {
+		// no conversion
+		return legacyFieldValue;
+	}
+
+	public Object toLegacy(RpcFieldDefinition rpcFieldDefinition, Object apiFieldValue, RpcFlatField booleanField) {
+		// no conversion
+		return apiFieldValue;
 	}
 
 }

@@ -12,10 +12,11 @@ package org.openlegacy.rpc;
 
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 
 /**
- * Defines a binder between a screen entity instance from a {@link RpcResult} and to a {@link RpcInvokeAction}, typically using
- * field mappings defined using {@link RpcField} annotations.
+ * Defines a binder between a rpc entity instance from a {@link RpcResult} and to a {@link RpcInvokeAction}, typically using field
+ * mappings defined using {@link RpcField} annotations.
  * 
  * @author Roi Mor
  * 
@@ -42,4 +43,20 @@ public interface RpcEntityBinder {
 	 *            the entity from which new values are taken
 	 */
 	void populateAction(RpcInvokeAction remoteAction, Object entity);
+
+	/**
+	 * match the binder to field
+	 */
+	boolean fieldMatch(RpcFieldDefinition rpcFieldDefinition);
+
+	/**
+	 * Converts the legacy field value to Api field value, using field definitions
+	 */
+	Object toApi(RpcFieldDefinition rpcFieldDefinition, Object fiieldValue);
+
+	/**
+	 * Converts the Api field value to legacy value, using field definitions
+	 */
+	Object toLegacy(RpcFieldDefinition rpcFieldDefinition, Object apiFieldValue, RpcFlatField rpcFlatField);
+
 }

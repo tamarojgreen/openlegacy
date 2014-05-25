@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+   <snapshot sequence="1" entityName="RpcDateEntity">
+      <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/DATE.PGM">
+         <rpcFields>
+         	<field  value="18 - 05 - 2014" length="14" type="java.lang.Date" direction="INPUT_OUTPUT" name="dateField" order="0"/>
+         </rpcFields>
+      </invoke>
+      <result>
+         <rpcFields>
+         	<field value="18 - 05 - 2014" length="14" type="java.lang.Date" direction="INPUT_OUTPUT" name="dateField" order="0"/>
+         </rpcFields>
+      </result>
+    </snapshot>
+</rpc-trail>

@@ -8,24 +8,18 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.rpc.definitions;
+package org.openlegacy.definitions;
 
-import org.openlegacy.annotations.rpc.Direction;
-import org.openlegacy.definitions.FieldDefinition;
+/**
+ * Defines a date field type registry information stored within {@link FieldDefinition}.
+ * 
+ * @author Roi Mor
+ */
+public interface RpcDateFieldTypeDefinition extends FieldTypeDefinition {
 
-public interface RpcFieldDefinition extends FieldDefinition, OrderedField {
 
-	String getOriginalName();
 
-	Direction getDirection();
+	String getPattern();
 
-	Integer getLength();
-
-	Integer getDecimalPlaces();
-
-	int getOrder();
-
-	String getDefaultValue();
-
-	String getNullValue();
+	String getLocale();
 }
