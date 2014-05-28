@@ -33,6 +33,7 @@ import org.openlegacy.rpc.support.SimpleRpcResult;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -187,7 +188,13 @@ public class Jt400RpcConnection implements RpcConnection {
 
 			String imageName = "%0" + field.getLength() + "d";
 			return String.format(imageName, Integer.parseInt(String.valueOf(result)));
+		} else if (clazz == BigInteger.class) {
+			String imageName = "%" + field.getLength() + "s";
+
+			result = String.format(imageName, result.toString());
+			return result;
 		}
+
 		return result;
 	}
 

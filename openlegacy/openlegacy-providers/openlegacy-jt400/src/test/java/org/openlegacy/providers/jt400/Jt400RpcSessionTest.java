@@ -3,6 +3,7 @@ package org.openlegacy.providers.jt400;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openlegacy.providers.jt400.mockup.BigIntEntity;
 import org.openlegacy.providers.jt400.mockup.BooleanEntity;
 import org.openlegacy.providers.jt400.mockup.BooleanPartEntity;
 import org.openlegacy.providers.jt400.mockup.BooleanPartEntity.BooleanPart;
@@ -28,6 +29,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -127,6 +129,23 @@ public class Jt400RpcSessionTest {
 		itemDetails.setItemNumber(1000);
 		itemDetails = rpcSession.doAction(RpcActions.READ(), itemDetails);
 		Assert.assertEquals(new Integer(200), itemDetails.getItemWeight());
+
+	}
+
+	@Test
+	public void testBigInt() {
+		BigInteger i = new BigInteger("123456789012");
+
+		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
+		BigIntEntity bigIntEntity = new BigIntEntity();
+		bigIntEntity.setBigInt(i);
+		bigIntEntity = rpcSession.doAction(RpcActions.READ(), bigIntEntity);
+		Assert.assertEquals(i.add(new BigInteger("1")), bigIntEntity.getBigInt());
+
+		i = new BigInteger("1000");
+		bigIntEntity.setBigInt(i);
+		bigIntEntity = rpcSession.doAction(RpcActions.READ(), bigIntEntity);
+		Assert.assertEquals(i.add(new BigInteger("1")), bigIntEntity.getBigInt());
 
 	}
 
