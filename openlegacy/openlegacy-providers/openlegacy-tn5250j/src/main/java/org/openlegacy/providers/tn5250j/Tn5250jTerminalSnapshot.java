@@ -114,9 +114,11 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 			}
 		}
 		// fill last empty rows
-		for (int currentRow = currentPosition.getRow() + 1; currentRow <= getSize().getRows(); currentRow++) {
-			addField(fields, new SimpleTerminalPosition(currentRow, 1), new SimpleTerminalPosition(currentRow,
-					getSize().getColumns()), false, false);
+		if (currentPosition != null) {
+			for (int currentRow = currentPosition.getRow() + 1; currentRow <= getSize().getRows(); currentRow++) {
+				addField(fields, new SimpleTerminalPosition(currentRow, 1), new SimpleTerminalPosition(currentRow,
+						getSize().getColumns()), false, false);
+			}
 		}
 
 		return fields;
