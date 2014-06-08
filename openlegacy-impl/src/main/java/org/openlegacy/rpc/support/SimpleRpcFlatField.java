@@ -90,11 +90,11 @@ public class SimpleRpcFlatField implements RpcFlatField {
 			value = persistedValue;
 			if (value != null) {
 				if (type == Integer.class) {
-					value = Integer.parseInt(String.valueOf(value));
+					value = BigDecimal.valueOf(Integer.parseInt(String.valueOf(value)));
 				} else if (type == Float.class) {
-					value = Float.parseFloat(String.valueOf(value));
+					value = BigDecimal.valueOf(Float.parseFloat(String.valueOf(value)));
 				} else if (type == Double.class) {
-					value = Double.parseDouble(String.valueOf(value));
+					value = BigDecimal.valueOf(Double.parseDouble(String.valueOf(value)));
 				}
 			}
 		}

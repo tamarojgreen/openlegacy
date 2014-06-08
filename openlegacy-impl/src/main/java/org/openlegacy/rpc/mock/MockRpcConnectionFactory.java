@@ -30,13 +30,24 @@ public class MockRpcConnectionFactory implements RpcConnectionFactory {
 	private List<RpcSnapshot> snapshots = null;
 	private String root;
 	private String trailName;
+	private boolean verifySend;
+
+	public boolean isVerifySend() {
+		return verifySend;
+	}
+
+	public void setVerifySend(boolean verifySend) {
+		this.verifySend = verifySend;
+	}
 
 	public RpcConnection getConnection() {
 		List<RpcSnapshot> clonedSnapshots = new ArrayList<RpcSnapshot>();
 		for (RpcSnapshot rpcSnapshot : fetchRpcSnapshots()) {
 			clonedSnapshots.add((RpcSnapshot)SerializationUtils.clone(rpcSnapshot));
 		}
-		return new MockRpcConnection(clonedSnapshots);
+		MockRpcConnection result = new MockRpcConnection(clonedSnapshots);
+		result.setVerifySend(verifySend);
+		return result;
 	}
 
 	private List<RpcSnapshot> fetchRpcSnapshots() {

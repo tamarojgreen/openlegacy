@@ -24,7 +24,16 @@ public class MockRpcConnection implements RpcConnection {
 
 	private RpcSnapshot lastSnapshpot;
 	private Integer currentIndex = 0;
-	private boolean connected=false;
+	private boolean connected = false;
+	private boolean verifySend;
+
+	public boolean isVerifySend() {
+		return verifySend;
+	}
+
+	public void setVerifySend(boolean verifySend) {
+		this.verifySend = verifySend;
+	}
 
 	public MockRpcConnection(List<RpcSnapshot> rpcSnapshots) {
 		snapshots = rpcSnapshots;
@@ -39,7 +48,7 @@ public class MockRpcConnection implements RpcConnection {
 	}
 
 	public void disconnect() {
-		
+
 		connected = false;
 		lastSnapshpot = null;
 	}
@@ -51,6 +60,9 @@ public class MockRpcConnection implements RpcConnection {
 			lastSnapshpot = snapshots.get(lastSnapshpot.getSequence() - 1);
 		}
 		currentIndex = lastSnapshpot.getSequence();
+		if (verifySend == true) {
+			MockRpcSendValidationUtils.validateInvokeAction(lastSnapshpot.getRpcInvokeAction(), rpcInvokeAction);
+		}
 		return lastSnapshpot.getRpcResult();
 	}
 
@@ -72,7 +84,7 @@ public class MockRpcConnection implements RpcConnection {
 	public void doAction(RpcInvokeAction sendAction) {
 		currentIndex = currentIndex++ % snapshots.size();
 		lastSnapshpot = snapshots.get(currentIndex);
-		// TODO implemented verifySend
+
 	}
 
 	public void login(String user, String password) {

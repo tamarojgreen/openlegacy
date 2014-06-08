@@ -74,20 +74,19 @@ public class MockupRpcSession extends DefaultRpcSession {
 	@Override
 	public RpcEntity doAction(RpcAction action, RpcEntity rpcEntity) {
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
+
+		SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
 		RpcActionDefinition actionDefinition = (RpcActionDefinition)rpcDefinition.getAction(action.getClass());
-
 		if (actionDefinition != null) {
-			return super.doAction(action, rpcEntity);
-		} else {
-			SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
-			populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
-			converToLegacyFields(rpcAction);
-			RpcResult rpcResult = invoke(rpcAction, rpcEntity.getClass().getSimpleName());
-			RpcResult rpcResultCopy = rpcResult.clone();
-
-			converToApiFields(rpcResultCopy.getRpcFields());
-			populateEntity(rpcEntity, rpcDefinition, rpcResultCopy);
+			rpcAction.setRpcPath(actionDefinition.getProgramPath());
 		}
+		populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
+		converToLegacyFields(rpcAction);
+		RpcResult rpcResult = invoke(rpcAction, rpcEntity.getClass().getSimpleName());
+		RpcResult rpcResultCopy = rpcResult.clone();
+
+		converToApiFields(rpcResultCopy.getRpcFields());
+		populateEntity(rpcEntity, rpcDefinition, rpcResultCopy);
 
 		return rpcEntity;
 

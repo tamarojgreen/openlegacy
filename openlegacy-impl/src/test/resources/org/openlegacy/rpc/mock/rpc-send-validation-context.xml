@@ -10,7 +10,7 @@
 	<bean id="rpcRegistry" class="org.openlegacy.rpc.support.DefaultRpcEntitiesRegistry">
 	    <property name="packages">
 	        <list>
-	            <value>org.openlegacy.rpc.support.mock</value>
+	            <value>org.openlegacy.rpc.mock.mock</value>
             </list>
 	    </property>
     </bean>
@@ -18,7 +18,7 @@
 	<bean id="rpcConnectionFactory"
 		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory" >
 		<property name="root" value="/org/openlegacy/rpc/support/mock" />
-		<property name="trailName" value="BooleanRpc.trail"/>
+		<property name="trailName" value="AllFieldTypeRpc.trail"/>
 		<property name="verifySend" value="true"/>
 		
 	</bean>
