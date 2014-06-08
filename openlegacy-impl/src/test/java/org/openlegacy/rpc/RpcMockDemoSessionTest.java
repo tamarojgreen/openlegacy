@@ -70,7 +70,7 @@ public class RpcMockDemoSessionTest {
 		names.add("Frisbee");
 		ItemDetails itemDetails;
 		for (Integer i = 1000; i < 1004; i++) {
-			itemDetails = rpcSession.getEntity(ItemDetails.class);
+			itemDetails = rpcSession.getEntity(ItemDetails.class, i);
 			Assert.assertEquals(i, itemDetails.getItemNum());
 			Assert.assertEquals(names.get(i - 1000), itemDetails.getItemRecord().getItemName());
 

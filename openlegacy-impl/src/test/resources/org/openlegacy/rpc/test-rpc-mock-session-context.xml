@@ -11,6 +11,7 @@
 		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
 		<property name="root" value="/org/openlegacy/rpc/mock" />
 		<property name="trailName" value="dummyRpc.xml" />
+		<property name="verifySend" value="true" />
 	</bean>
 
 </beans>

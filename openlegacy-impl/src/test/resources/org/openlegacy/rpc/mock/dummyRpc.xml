@@ -20,6 +20,30 @@
    	        </rpcFields>
         </result>
     </snapshot>
+     <snapshot sequence="2">
+    <invoke rpcPath="/dir/InnerKeyEntity">
+            <rpcFields>
+	            <field value="key2" length="20" direction="INPUT" order="0" name="topLevelKey"/>
+    	        <field  length="20" direction="INPUT" order="1" name="result"/>
+    	        <structure order="2" name="containsKeyPart">
+    	            <structure order="0" name="innerKeyPart">
+    	        	    <field value="key1" length="20" direction="INPUT" order="0" name="innerKey"/>
+    	        	</structure>
+    	        </structure>
+   	        </rpcFields>
+        </invoke>
+        <result>
+             <rpcFields>
+	            <field value="John" length="20" direction="INPUT" order="0" name="topLevelKey"/>
+    	        <field length="20" direction="INPUT" order="1" name="result"/>
+    	         <structure order="2" name="containsKeyPart">
+    	            <structure order="0" name="innerKeyPart">
+    	        	    <field value="key2" length="20" direction="INPUT" order="0" name="innerKey"/>
+    	        	</structure>
+    	        </structure>
+   	        </rpcFields>
+        </result>
+    </snapshot>
 </rpc-trail>
 
 

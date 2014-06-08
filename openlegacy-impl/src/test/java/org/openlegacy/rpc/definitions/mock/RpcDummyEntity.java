@@ -14,13 +14,13 @@ import org.openlegacy.rpc.RpcActions.READ;
 @RpcNavigation(category = "Tree1")
 public class RpcDummyEntity implements org.openlegacy.rpc.RpcEntity {
 
-	@RpcField(direction = Direction.INPUT, length = 20)
+	@RpcField(direction = Direction.INPUT, length = 20, key = true)
 	String firstName;
 
-	@RpcField(direction = Direction.INPUT, length = 20)
+	@RpcField(direction = Direction.INPUT, length = 20, key = true)
 	String lastName;
 
-	@RpcField(direction = Direction.INPUT, length = 4)
+	@RpcField(direction = Direction.INPUT, length = 4, key = true)
 	Integer age;
 
 	@RpcField(direction = Direction.OUTPUT, length = 100)

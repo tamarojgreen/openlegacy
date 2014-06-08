@@ -36,4 +36,6 @@ public interface RpcPartEntityDefinition extends PartEntityDefinition<RpcFieldDe
 
 	Boolean isVirtual();
 
+	public String getPartFullName();
+
 }

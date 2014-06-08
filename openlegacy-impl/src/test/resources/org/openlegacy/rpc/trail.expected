@@ -6,7 +6,7 @@
                 <field value="John" length="20" modified="true" direction="INPUT" name="firstName" order="0"/>
                 <field value="Doe" length="20" modified="true" direction="INPUT" name="lastName" order="1"/>
                 <field value="40" length="4" modified="true" type="java.lang.Integer" direction="INPUT" name="age" order="2"/>
-                <field value="" length="100" modified="true" direction="OUTPUT" name="message" order="3"/>
+                <field length="100" direction="OUTPUT" name="message" order="3"/>
                 <structure order="4" name="dummyPart"/>
             </rpcFields>
         </invoke>

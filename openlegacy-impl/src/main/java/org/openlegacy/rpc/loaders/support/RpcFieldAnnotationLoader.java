@@ -67,6 +67,7 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			rpcFieldDefinition.setDisplayName(fieldAnnotation.displayName());
 		}
 
+		rpcFieldDefinition.setKeyIndex(fieldAnnotation.keyIndex());
 		if (fieldAnnotation.length() % 1 > 0 && field.getType() == String.class) {
 			throw (new RegistryException(MessageFormat.format(
 					"Length with floating point cannot be set for String field {0}.{1}", containingClass.getSimpleName(),
@@ -99,8 +100,10 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			// look in RPC entities parts
 			RpcPartEntityDefinition rpcPart = rpcEntitiesRegistry.getPart(containingClass);
 			if (rpcPart != null) {
+				rpcFieldDefinition.setName(MessageFormat.format("{0}.{1}", rpcPart.getPartFullName(), fieldName));
 				fieldName = MessageFormat.format("{0}.{1}", rpcPart.getPartName(), fieldName);
-				rpcFieldDefinition.setName(fieldName);
+				rpcFieldDefinition.setShortName(fieldName);
+
 				rpcPart.getFieldsDefinitions().put(fieldName, rpcFieldDefinition);
 				if (fieldAnnotation.key() == true) {
 					rpcPart.getKeys().add(rpcFieldDefinition);

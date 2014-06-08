@@ -10,6 +10,7 @@ import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
+import org.openlegacy.rpc.definitions.mock.InnerKeyEntity;
 import org.openlegacy.rpc.definitions.mock.RpcDummyEntity;
 import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.StringUtil;
@@ -38,8 +39,7 @@ public class RpcMockSessionTest {
 	public void testSessionTrail() throws IOException {
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
 
-		RpcDummyEntity rpcDummyEntity = rpcSession.getEntity(RpcDummyEntity.class);
-		// rpcDummyEntity = rpcSession.doAction(RpcActions.READ(), rpcDummyEntity);
+		RpcDummyEntity rpcDummyEntity = rpcSession.getEntity(RpcDummyEntity.class, "John", "Doe", 40);
 
 		Assert.assertEquals("My name is John Doe", rpcDummyEntity.getMessage());
 		SessionTrail<? extends Snapshot> sessionTrail = rpcSession.getModule(Trail.class).getSessionTrail();
@@ -64,5 +64,12 @@ public class RpcMockSessionTest {
 		subMeneExpected.add("Tree1");
 		subMeneExpected.add("Inventory Menu");
 		Assert.assertTrue(subMenuNames.containsAll(subMeneExpected));
+	}
+
+	@Test
+	public void innerKeysTest() {
+		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
+
+		rpcSession.getEntity(InnerKeyEntity.class, "key1", "key2");
 	}
 }

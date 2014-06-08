@@ -21,6 +21,7 @@ import org.openlegacy.rpc.support.RpcOrderFieldComparator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcFieldDefinition> implements RpcEntityDefinition {
@@ -110,6 +111,12 @@ public class SimpleRpcEntityDefinition extends AbstractEntityDefinition<RpcField
 					keyFields.addAll(rpcPartEntityDefinition.getKeys());
 				}
 			}
+			Collections.sort(keyFields, new Comparator<RpcFieldDefinition>() {
+
+				public int compare(RpcFieldDefinition o1, RpcFieldDefinition o2) {
+					return o1.getKeyIndex() - o2.getKeyIndex();
+				}
+			});
 		}
 
 		return keyFields;

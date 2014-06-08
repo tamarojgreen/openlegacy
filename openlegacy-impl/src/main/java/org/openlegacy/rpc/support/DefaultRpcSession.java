@@ -27,14 +27,17 @@ import org.openlegacy.rpc.RpcEntityBinder;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFieldConverter;
 import org.openlegacy.rpc.RpcInvokeAction;
+import org.openlegacy.rpc.RpcPojoFieldAccessor;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.actions.RpcAction;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
-import org.openlegacy.rpc.utils.SimpleRpcPojoFieldAccessor;
+import org.openlegacy.rpc.utils.HierarchyRpcPojoFieldAccessor;
+import org.openlegacy.rpc.utils.SimpleHierarchyRpcPojoFieldAccessor;
 import org.openlegacy.support.AbstractSession;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.StringUtil;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
@@ -66,7 +69,6 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> entityClass, Object... keys) throws EntityNotFoundException {
 		T entity = ReflectionUtil.newInstance(entityClass);
-		SimpleRpcPojoFieldAccessor fieldAccesor = new SimpleRpcPojoFieldAccessor(entity);
 
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(entityClass);
 		ActionDefinition action = rpcDefinition.getAction(RpcActions.READ.class);
@@ -81,9 +83,12 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 				keysDefinitions.size() == keys.length,
 				MessageFormat.format("Provided keys {0} doesnt match entity {1} keys", StringUtils.join(keys, "-"),
 						rpcDefinition.getEntityName()));
+		HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(entity);
 		int index = 0;
 		for (FieldDefinition fieldDefinition : keysDefinitions) {
-			fieldAccesor.setFieldValue(fieldDefinition.getName(), keys[index]);
+
+			RpcPojoFieldAccessor directFieldAccessor = fieldAccesor.getPartAccessor(fieldDefinition.getName());
+			directFieldAccessor.setFieldValue(StringUtil.removeNamespace(fieldDefinition.getName()), keys[index]);
 			index++;
 		}
 

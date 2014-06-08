@@ -17,7 +17,7 @@ public class RpcTreeEntity implements org.openlegacy.rpc.RpcEntity {
 	@RpcPart(name = "SimplePart")
 	public static class SimplePart {
 
-		@RpcField(length = 20, key = true)
+		@RpcField(length = 20, key = true, keyIndex = 2)
 		String firstName;
 	}
 
@@ -49,7 +49,7 @@ public class RpcTreeEntity implements org.openlegacy.rpc.RpcEntity {
 		@RpcPart(name = "NestedPart")
 		public static class NestedPart {
 
-			@RpcField(length = 20, key = true)
+			@RpcField(length = 20, key = true, keyIndex = 1)
 			String innerVariable;
 		}
 	}

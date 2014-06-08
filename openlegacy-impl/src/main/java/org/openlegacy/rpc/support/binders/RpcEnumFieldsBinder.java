@@ -48,7 +48,7 @@ public class RpcEnumFieldsBinder implements RpcEntityBinder, Serializable {
 			RpcFlatField dateField = (RpcFlatField)rpcFields.get(rpcFieldDefinition.getOrder());
 			if (dateField != null) {
 				Object apiFieldValue = toApi(rpcFieldDefinition, dateField.getValue());
-				fieldAccessor.setFieldValue(rpcFieldDefinition.getName(), apiFieldValue);
+				fieldAccessor.setFieldValue(rpcFieldDefinition.getShortName(), apiFieldValue);
 			}
 		}
 
@@ -71,7 +71,7 @@ public class RpcEnumFieldsBinder implements RpcEntityBinder, Serializable {
 				fieldAccessor = new SimpleRpcPojoFieldAccessor(rpcEntity);
 			}
 
-			Object enumApiFieldValue = fieldAccessor.evaluateFieldValue(rpcFieldDefinition.getName());
+			Object enumApiFieldValue = fieldAccessor.evaluateFieldValue(rpcFieldDefinition.getShortName());
 			RpcFlatField enumField = RpcFieldsBinder.getRpcFlatField(rpcFieldDefinition, fieldAccessor, null);
 			if (enumApiFieldValue != null) {
 				enumField.setValue(toLegacy(rpcFieldDefinition, enumApiFieldValue, enumField));

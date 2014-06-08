@@ -67,10 +67,9 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 	public void setFieldValue(String fieldName, Object value) {
 		try {
 			if (fieldName.contains(".")) {
-				String partName = StringUtil.getNamespace(fieldName);
-				fieldName = getFieldPojoName(fieldName);
-				DirectFieldAccessor partAccesor = getPartAccessor(partName);
-				partAccesor.setPropertyValue(fieldName, value);
+
+				DirectFieldAccessor partAccesor = getPartAccessor(StringUtil.getNamespace(fieldName));
+				partAccesor.setPropertyValue(getFieldPojoName(fieldName), value);
 			} else {
 				directFieldAccessor.setPropertyValue(getFieldPojoName(fieldName), value);
 			}
