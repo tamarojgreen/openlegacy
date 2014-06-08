@@ -6,7 +6,18 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <context:property-placeholder location="classpath*:/host.properties"/>
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:/host.properties</value>
+				<value>file:${user.home}/.openlegacy/host.properties</value>
+				<value>file:${user.home}/.openlegacy/#{servletContext.contextPath}/host.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+		<property name="ignoreResourceNotFound" value="true"/>
+	</bean>
+<!--     <context:property-placeholder location="classpath*:/host.properties"/> -->
 
 	<bean id="terminalConnectionFactory" class="org.openlegacy.providers.tn5250j.Tn5250jTerminalConnectionFactory" p:waitTimeout="10000" p:waitPauses="300">
 	    <property name="properties">
