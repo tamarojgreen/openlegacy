@@ -59,11 +59,14 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 
 		BufferedImage buffer;
 
-		int width = imageWidth = 885;
-		int height = imageHeight = 450;
+		int width = 885;
+		int height = 450;
 		if (terminalSnapshot.getSize().getColumns() == 132) {
-			width = imageWidth = 1460;
+			width = 1460;
 		}
+		imageWidth = width;
+		imageHeight = height;
+
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 		if (logger.isTraceEnabled()) {

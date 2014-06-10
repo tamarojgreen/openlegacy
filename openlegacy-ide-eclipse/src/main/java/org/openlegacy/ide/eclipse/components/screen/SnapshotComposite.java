@@ -342,6 +342,9 @@ public class SnapshotComposite extends ImageComposite {
 		renderer.render(terminalSnapshot, baos);
 		ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
 		defaultImage = new Image(getShell().getDisplay(), bais);
+
+		this.maxRowCount = renderer.getMaxImageRow() + LEFT_COLUMN_OFFSET;
+		this.maxColCount = renderer.getMaxImageColumn() - renderer.getLeftColumnsOffset();
 	}
 
 	private PaintListener getCursorPaintListener() {
