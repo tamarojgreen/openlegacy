@@ -110,6 +110,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		createTable(trailComposite, terminalSessionTrail);
 
 		snapshotComposite = new SnapshotComposite(trailComposite, terminalSessionTrail.getSnapshots().get(0));
+		snapshotComposite.setIsScalable(true);
 
 		if (getPageCount() == 2) {
 			removePage(0);
@@ -206,7 +207,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		tableViewer.getTable().setMenu(menu);
 		GridData data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 1;
-		data.widthHint = 280;
+		data.widthHint = 200;
 		tableViewer.getTable().setLayoutData(data);
 		tableViewer.getTable().addKeyListener(new KeyListener() {
 
