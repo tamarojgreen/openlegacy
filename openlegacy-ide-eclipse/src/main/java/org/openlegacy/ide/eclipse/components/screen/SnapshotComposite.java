@@ -103,6 +103,12 @@ public class SnapshotComposite extends ImageComposite {
 
 	private TerminalSnapshot terminalSnapshotCopy;
 
+	private int compositeWidth = 850;
+	private int compositeHeight = 450;
+
+	private int canvasWidthDistinction = 25;
+	private int canvasHeightDistinction = 50;
+
 	public SnapshotComposite(Composite parent) {
 		super(parent);
 		initialize();
@@ -336,6 +342,9 @@ public class SnapshotComposite extends ImageComposite {
 		renderer.render(terminalSnapshot, baos);
 		ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
 		defaultImage = new Image(getShell().getDisplay(), bais);
+
+		this.maxRowCount = renderer.getMaxImageRow() + LEFT_COLUMN_OFFSET;
+		this.maxColCount = renderer.getMaxImageColumn() - renderer.getLeftColumnsOffset();
 	}
 
 	private PaintListener getCursorPaintListener() {
@@ -569,8 +578,8 @@ public class SnapshotComposite extends ImageComposite {
 
 	private void initialize() {
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
-		gd.widthHint = 850;
-		gd.heightHint = 450;
+		gd.widthHint = compositeWidth;
+		gd.heightHint = compositeHeight;
 		this.setLayoutData(gd);
 
 		GridLayout gridLayout = new GridLayout();
@@ -578,15 +587,14 @@ public class SnapshotComposite extends ImageComposite {
 		this.setLayout(gridLayout);
 
 		gd = new GridData(GridData.FILL_HORIZONTAL, GridData.FILL_VERTICAL, true, true);
-		gd.widthHint = 825;
-		gd.heightHint = 400;
+		gd.widthHint = compositeWidth - canvasWidthDistinction;
+		gd.heightHint = compositeHeight - canvasHeightDistinction;
 
 		this.canvas = new Canvas(this, SWT.NONE);
 		this.canvas.setBackground(new Color(Display.getCurrent(), new RGB(0x00, 0x00, 0x00)));
 		this.canvas.setLayoutData(gd);
 		this.canvas.addPaintListener(this.getTerminalPaintListener());
 
-		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
 		this.maxRowCount = renderer.getMaxImageRow() + LEFT_COLUMN_OFFSET;
 		this.maxColCount = renderer.getMaxImageColumn() - renderer.getLeftColumnsOffset();
 

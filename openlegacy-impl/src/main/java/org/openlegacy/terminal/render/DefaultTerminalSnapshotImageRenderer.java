@@ -64,6 +64,9 @@ public class DefaultTerminalSnapshotImageRenderer implements TerminalSnapshotIma
 		if (terminalSnapshot.getSize().getColumns() == 132) {
 			width = 1460;
 		}
+		imageWidth = width;
+		imageHeight = height;
+
 		buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 		if (logger.isTraceEnabled()) {
