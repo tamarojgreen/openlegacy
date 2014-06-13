@@ -10,12 +10,15 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.editors;
 
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -28,6 +31,7 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -39,10 +43,13 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -51,8 +58,10 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.openlegacy.designtime.DesigntimeException;
 import org.openlegacy.ide.eclipse.Messages;
+import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.ide.eclipse.actions.screen.GenerateScreenModelDialog;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
+import org.openlegacy.ide.eclipse.editors.graphical.IOpenLegacyEditor;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.rpc.modules.trail.RpcPersistedTrail;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -64,6 +73,7 @@ import org.w3c.dom.Element;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.MessageFormat;
 import java.util.List;
 
 @SuppressWarnings("restriction")
@@ -76,6 +86,8 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 	private TableViewer tableViewer;
 
 	private Composite trailComposite;
+
+	private String editorId = null;
 
 	public TrailEditor() {
 		super();
@@ -204,6 +216,29 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 			}
 		});
 
+		menuItem = new MenuItem(menu, SWT.PUSH);
+		menuItem.setText(Messages.getString("menu_update_screen_image"));
+		menuItem.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if (!StringUtils.isEmpty(editorId)) {
+					IEditorReference editorReference = getEditorReferenceById(editorId);
+					String entityName = editorReference.getTitle().replace(".java", "");
+					String message = MessageFormat.format("Are you sure you want to replace the image of {0} screen?", entityName);
+					boolean confirmed = MessageDialog.openQuestion(getEditorSite().getShell(), "Update Screen image", message);
+					if (confirmed) {
+						int[] selectionIndexes = tableViewer.getTable().getSelectionIndices();
+						TerminalSnapshot snapshot = terminalSessionTrail.getSnapshots().get(selectionIndexes[0]);
+						IFile file = ((FileEditorInput)getEditorInput()).getFile();
+
+						EclipseDesignTimeExecuter.instance().generateScreenEntityResources(file, snapshot, entityName);
+					}
+				}
+			}
+
+		});
+
 		tableViewer.getTable().setMenu(menu);
 		GridData data = new GridData(GridData.FILL_BOTH);
 		data.horizontalSpan = 1;
@@ -257,6 +292,10 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 
 				tableViewer.getTable().getMenu().getItem(1).setEnabled(selectionIndexes.length == 1);
 
+				editorId = null;
+				// editorId will be set in isOpenlegacyEditorOpened() if it will be found
+				tableViewer.getTable().getMenu().getItem(2).setEnabled(
+						isOpenlegacyEditorOpened() && (selectionIndexes.length == 1));
 			}
 		});
 		refreshSnapshots();
@@ -363,6 +402,31 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 				}
 			});
 		}
+	}
+
+	private boolean isOpenlegacyEditorOpened() {
+		IEditorReference[] editorReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
+		for (IEditorReference iEditorReference : editorReferences) {
+			IWorkbenchPart part = iEditorReference.getPart(true);
+			if (part instanceof IOpenLegacyEditor) {
+				editorId = iEditorReference.getId();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static IEditorReference getEditorReferenceById(String editorId) {
+		if (StringUtils.isEmpty(editorId)) {
+			return null;
+		}
+		IEditorReference[] editorReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences();
+		for (IEditorReference iEditorReference : editorReferences) {
+			if (editorId.equals(iEditorReference.getId())) {
+				return iEditorReference;
+			}
+		}
+		return null;
 	}
 
 }
