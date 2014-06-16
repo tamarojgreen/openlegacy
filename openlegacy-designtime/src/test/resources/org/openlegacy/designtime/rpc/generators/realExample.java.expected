@@ -10,7 +10,7 @@ import org.openlegacy.rpc.RpcActions.*;
 
 @RpcPart(name="RealExample")
 public class RealExample {
-		private LkCustomer lkCustomer;
+		private LkCustomer lkCustomer = new LkCustomer();
 	@RpcPart(name="LkCustomer", legacyContainerName = "XxolakkrParms")
 	public static class LkCustomer {
 

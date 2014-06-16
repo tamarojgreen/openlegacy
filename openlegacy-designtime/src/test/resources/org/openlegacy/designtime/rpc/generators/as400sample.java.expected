@@ -15,7 +15,7 @@ import org.openlegacy.rpc.RpcActions.*;
 
 public class As400sample {
 
-		private Param1 param1;
+		private Param1 param1 = new Param1();
 
 	@RpcPart(name="Param1")
 	public static class Param1 {
