@@ -265,6 +265,15 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 			FileUtils.write(rpcPropertiesFileContent, rpcPropertiesFile);
 		}
+		File appPropertiesFile = new File(targetPath, "src/main/resources/application.properties");
+		if (appPropertiesFile.exists()) {
+			String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
+
+			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("terminalConnectionFactory.preferencePath=.*",
+					MessageFormat.format("terminalConnectionFactory.preferencePath={0}", projectCreationRequest.getProjectName()));
+
+			FileUtils.write(appPropertiesFileContent, appPropertiesFile);
+		}
 	}
 
 	private static void renameLaunchers(final String projectName, final File targetPath) throws FileNotFoundException,

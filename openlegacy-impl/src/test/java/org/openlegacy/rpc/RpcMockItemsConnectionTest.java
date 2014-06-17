@@ -7,6 +7,7 @@ import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,7 +30,7 @@ public class RpcMockItemsConnectionTest {
 		RpcStructureField legacyContainer = (RpcStructureField)result.get(0);
 		RpcStructureListField records = (RpcStructureListField)legacyContainer.getChildrens().get(0);
 		List<RpcField> theItem = records.getChildren(2);
-		Assert.assertEquals(1002, ((RpcFlatField)theItem.get(0)).getValue());
+		Assert.assertEquals(BigDecimal.valueOf(1002), ((RpcFlatField)theItem.get(0)).getValue());
 		Assert.assertEquals("Water Ball", ((RpcFlatField)theItem.get(1)).getValue());
 		Assert.assertEquals("Water Ball - Balls", ((RpcFlatField)theItem.get(2)).getValue());
 	}

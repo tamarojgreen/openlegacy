@@ -14,7 +14,7 @@ import org.openlegacy.rpc.RpcActions.*;
 				})
 public class CobolStructure {
 
-		private Param1Structure param1Structure;
+		private Param1Structure param1Structure = new Param1Structure();
 
 	@RpcPart(name="Param1Structure")
 	public static class Param1Structure {

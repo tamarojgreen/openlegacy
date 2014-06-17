@@ -102,3 +102,4 @@ Export-Package: org.openlegacy.ide.eclipse.editors.graphical;uses:="org.eclipse.
  org.openlegacy.ide.eclipse.preview.rpc,
  org.openlegacy.ide.eclipse.preview.screen,
  org.openlegacy.ide.eclipse.util
+Eclipse-RegisterBuddy: org.apache.log4j

@@ -1,22 +1,29 @@
 package org.openlegacy.rpc.support;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.RpcConnection;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcInvokeAction;
+import org.openlegacy.rpc.RpcPojoFieldAccessor;
 import org.openlegacy.rpc.RpcResult;
 import org.openlegacy.rpc.RpcSnapshot;
 import org.openlegacy.rpc.actions.RpcAction;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.mock.MockRpcConnection;
 import org.openlegacy.rpc.recognizers.RpcRecognizer;
+import org.openlegacy.rpc.utils.HierarchyRpcPojoFieldAccessor;
+import org.openlegacy.rpc.utils.SimpleHierarchyRpcPojoFieldAccessor;
 import org.openlegacy.support.SnapshotsList;
 import org.openlegacy.support.SnapshotsList.SnapshotInfo;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.StringUtil;
+import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -59,13 +66,24 @@ public class MockupRpcSession extends DefaultRpcSession {
 
 		T entity = ReflectionUtil.newInstance(rpcEntityClass);
 
+		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntityClass);
+		List<? extends FieldDefinition> keysDefinitions = rpcDefinition.getKeys();
+		Assert.isTrue(
+				keysDefinitions.size() == keys.length,
+				MessageFormat.format("Provided keys {0} doesnt match entity {1} keys", StringUtils.join(keys, "-"),
+						rpcDefinition.getEntityName()));
+		int index = 0;
+
+		HierarchyRpcPojoFieldAccessor fieldAccesor = new SimpleHierarchyRpcPojoFieldAccessor(entity);
+		for (FieldDefinition fieldDefinition : keysDefinitions) {
+
+			RpcPojoFieldAccessor directFieldAccessor = fieldAccesor.getPartAccessor(fieldDefinition.getName());
+			directFieldAccessor.setFieldValue(StringUtil.removeNamespace(fieldDefinition.getName()), keys[index]);
+			index++;
+		}
 		RpcInvokeAction rpcInvokeAction = snapshotInfo.getSnapshot().getRpcInvokeAction();
 		converToApiFields(rpcInvokeAction.getFields());
 
-		// We put into Result so we can use populateEntity that works on entities.
-		SimpleRpcResult result = new SimpleRpcResult();
-		result.setRpcFields(rpcInvokeAction.getFields());
-		populateEntity((RpcEntity)entity, null, result);
 		snapshotsList.next();
 		return (T)doAction(RpcActions.READ(), (RpcEntity)entity);
 
@@ -74,20 +92,19 @@ public class MockupRpcSession extends DefaultRpcSession {
 	@Override
 	public RpcEntity doAction(RpcAction action, RpcEntity rpcEntity) {
 		RpcEntityDefinition rpcDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
+
+		SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
 		RpcActionDefinition actionDefinition = (RpcActionDefinition)rpcDefinition.getAction(action.getClass());
-
 		if (actionDefinition != null) {
-			return super.doAction(action, rpcEntity);
-		} else {
-			SimpleRpcInvokeAction rpcAction = new SimpleRpcInvokeAction();
-			populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
-			converToLegacyFields(rpcAction);
-			RpcResult rpcResult = invoke(rpcAction, rpcEntity.getClass().getSimpleName());
-			RpcResult rpcResultCopy = rpcResult.clone();
-
-			converToApiFields(rpcResultCopy.getRpcFields());
-			populateEntity(rpcEntity, rpcDefinition, rpcResultCopy);
+			rpcAction.setRpcPath(actionDefinition.getProgramPath());
 		}
+		populateRpcFields(rpcEntity, rpcDefinition, rpcAction);
+		converToLegacyFields(rpcAction);
+		RpcResult rpcResult = invoke(rpcAction, rpcEntity.getClass().getSimpleName());
+		RpcResult rpcResultCopy = rpcResult.clone();
+
+		converToApiFields(rpcResultCopy.getRpcFields());
+		populateEntity(rpcEntity, rpcDefinition, rpcResultCopy);
 
 		return rpcEntity;
 

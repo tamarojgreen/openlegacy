@@ -61,7 +61,7 @@ public class RpcDateFieldsPatternBinder implements RpcEntityBinder, Serializable
 			RpcFlatField dateField = (RpcFlatField)rpcFields.get(rpcFieldDefinition.getOrder());
 			if (dateField != null) {
 				Object apiFieldValue = toApi(rpcFieldDefinition, dateField.getValue());
-				fieldAccessor.setFieldValue(rpcFieldDefinition.getName(), apiFieldValue);
+				fieldAccessor.setFieldValue(rpcFieldDefinition.getShortName(), apiFieldValue);
 			}
 		}
 	}
@@ -83,7 +83,7 @@ public class RpcDateFieldsPatternBinder implements RpcEntityBinder, Serializable
 				fieldAccessor = new SimpleRpcPojoFieldAccessor(rpcEntity);
 			}
 
-			Object dateApiFieldValue = fieldAccessor.evaluateFieldValue(rpcFieldDefinition.getName());
+			Object dateApiFieldValue = fieldAccessor.evaluateFieldValue(rpcFieldDefinition.getShortName());
 			RpcFlatField dateField = RpcFieldsBinder.getRpcFlatField(rpcFieldDefinition, fieldAccessor, null);
 			// Object datelegacyFieldValue =toLegacy(rpcFieldDefinition,dateApiFieldValue,dateField);
 

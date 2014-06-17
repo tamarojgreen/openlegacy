@@ -1,4 +1,5 @@
 <#setting number_format="0.##">
+<#setting locale="en_US">
 package ${packageName};
 
 import java.math.BigInteger;
@@ -55,7 +56,7 @@ public class ${entityName?cap_first} {
 }
 <#macro rpcPartDeclare part>
 <#if part.count = 1 >
-		private ${part.externalName} ${part.partName?uncap_first};
+		private ${part.externalName} ${part.partName?uncap_first} = new ${part.externalName}();
 <#else>
 		@RpcPartList(count=${part.count}<#if part.runtimeName??>,runtimeName= "${part.runtimeName}"</#if>)
 		private List<${part.externalName}> ${part.partName?uncap_first};

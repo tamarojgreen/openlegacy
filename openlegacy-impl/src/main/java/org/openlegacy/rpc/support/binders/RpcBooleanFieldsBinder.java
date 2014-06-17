@@ -49,7 +49,7 @@ public class RpcBooleanFieldsBinder implements RpcEntityBinder, Serializable {
 
 			Boolean apiValue = (Boolean)toApi(rpcFieldDefinition, booleanField.getValue());
 			if (apiValue != null) {
-				fieldAccessor.setFieldValue(rpcFieldDefinition.getName(), apiValue);
+				fieldAccessor.setFieldValue(rpcFieldDefinition.getShortName(), apiValue);
 
 			}
 		}
@@ -82,7 +82,7 @@ public class RpcBooleanFieldsBinder implements RpcEntityBinder, Serializable {
 			}
 
 			RpcFlatField booleanField = RpcFieldsBinder.getRpcFlatField(rpcFieldDefinition, fieldAccessor, null);
-			Object fieldApiValue = fieldAccessor.evaluateFieldValue(rpcFieldDefinition.getName());
+			Object fieldApiValue = fieldAccessor.evaluateFieldValue(rpcFieldDefinition.getShortName());
 			Object fieldlegacyValue = toLegacy(rpcFieldDefinition, fieldApiValue, booleanField);
 			booleanField.setValue(fieldlegacyValue);
 			sendAction.getFields().add(booleanField);

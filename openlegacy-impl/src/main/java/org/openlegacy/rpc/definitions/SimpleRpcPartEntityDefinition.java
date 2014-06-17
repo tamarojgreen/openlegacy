@@ -31,6 +31,8 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 	private int order;
 	private int count = 1;
 	private String legacyContainerName;
+	private String partFullName;
+
 	private String externalName;
 	private String helpText;
 	private Boolean isVirtual = false;
@@ -157,6 +159,14 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 
 	public void setExternalName(String externalName) {
 		this.externalName = externalName;
+	}
+
+	public String getPartFullName() {
+		return partFullName;
+	}
+
+	public void setPartFullName(String partFullName) {
+		this.partFullName = partFullName;
 	}
 
 }

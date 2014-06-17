@@ -111,4 +111,9 @@ public class CodeBasedRpcPartDefinition extends AbstractCodeBasedPartDefinition<
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public String getPartFullName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

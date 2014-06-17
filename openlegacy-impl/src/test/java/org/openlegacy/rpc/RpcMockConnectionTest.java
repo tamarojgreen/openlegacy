@@ -7,6 +7,8 @@ import org.openlegacy.rpc.support.SimpleRpcInvokeAction;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.math.BigDecimal;
+
 import javax.inject.Inject;
 
 @ContextConfiguration("test-rpc-mock-connection-conntext.xml")
@@ -30,7 +32,7 @@ public class RpcMockConnectionTest {
 
 		rpcField = (RpcFlatField)rpcResult.getRpcFields().get(1);
 		Assert.assertNotNull(rpcField);
-		Assert.assertEquals(1234, rpcField.getValue());
+		Assert.assertEquals(BigDecimal.valueOf(1234), rpcField.getValue());
 
 		// second call
 
@@ -43,6 +45,6 @@ public class RpcMockConnectionTest {
 
 		rpcField = (RpcFlatField)rpcResult.getRpcFields().get(1);
 		Assert.assertNotNull(rpcField);
-		Assert.assertEquals(3456, rpcField.getValue());
+		Assert.assertEquals(BigDecimal.valueOf(3456), rpcField.getValue());
 	}
 }

@@ -14,7 +14,7 @@ import org.openlegacy.rpc.RpcActions.*;
 				})
 public class SampprogExpand {
 
-		private CmVars cmVars;
+		private CmVars cmVars = new CmVars();
 
 	@RpcPart(name="CmVars", legacyContainerName = "Dfhcommarea")
 	public static class CmVars {

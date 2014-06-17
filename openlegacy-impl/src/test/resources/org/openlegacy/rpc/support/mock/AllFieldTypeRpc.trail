@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+   <snapshot sequence="1" entityName="FieldsEntity">
+    <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/X123.PGM">
+         <rpcFields>
+           <field value="1000" direction="INPUT" length="4"  type="java.lang.Integer" name="itemNumber" order="0"/>
+           <field value="Input text" length="16" modified="true" name="itemName" order="1"/>
+           <field value="Y" length="1" type="java.lang.Boolean" direction="INPUT_OUTPUT" name="bool" order="2"/>
+           <field  value="18 - 05 - 2014" length="14" type="java.lang.Date" direction="INPUT_OUTPUT" name="dateField" order="3"/>   
+           <structure name="innerPart" order="4">
+               <field value="Inner text" length="16" name="textField" order="0"/>     
+    	   </structure>
+    	   <structure-list name="listPart" order="5">
+    	   		<record>
+    	   	    	<field value="First item" length="16" name="textField" order="0"/>   
+    	  		</record>
+    	   	 	<record>
+    	   	     	<field value="Second item" length="16" name="textField" order="0"/>
+    	   		</record>
+    	   	</structure-list>
+         </rpcFields>
+      </invoke>
+      <result>
+         <rpcFields>
+           <field value="1000" direction="INPUT" length="4"  type="java.lang.Integer" name="itemNumber" order="0"/>
+           <field value="Input text" length="16" modified="true" name="itemName" order="1"/>
+           <field value="Y" length="1" type="java.lang.Boolean" direction="INPUT_OUTPUT" name="bool" order="2"/>
+           <field  value="18 - 05 - 2014" length="14" type="java.lang.Date" direction="INPUT_OUTPUT" name="dateField" order="3"/>
+           <structure name="innerPart" order="4">
+               <field value="Inner text" length="16" name="textField" order="0"/>     
+    	   </structure>
+    	   <structure-list name="listPart" order="5">
+    	   		<record>
+    	   	    	<field value="First item" length="16" name="textField" order="0"/>   
+    	  		</record>
+    	   	 	<record>
+    	   	     	<field value="Second item" length="16" name="textField" order="0"/>
+    	   		</record>
+    	   	</structure-list>
+         </rpcFields>
+      </result>
+   </snapshot>
+</rpc-trail>

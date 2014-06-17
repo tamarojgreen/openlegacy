@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.providers.tn5250j;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
@@ -19,12 +21,16 @@ import org.openlegacy.terminal.TerminalConnectionFactory;
 import org.openlegacy.utils.FeatureChecker;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.tn5250j.Session5250;
 import org.tn5250j.TN5250jConstants;
 import org.tn5250j.framework.common.SessionManager;
 
+import java.io.File;
+import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Properties;
 
 public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFactory, InitializingBean {
@@ -40,7 +46,13 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 	private final static Log logger = LogFactory.getLog(Tn5250jTerminalConnectionFactory.class);
 	private static final String DEFAULT_HOST_MODEL = "1";
 
+	private String preferencePath;
+
 	public synchronized TerminalConnection getConnection(ConnectionProperties connectionProperties) {
+
+		properties.put("SESSION_HOST", hostProperties.get("host.name"));
+		properties.put("SESSION_HOST_PORT", hostProperties.get("host.port"));
+		properties.put("SESSION_CODE_PAGE", hostProperties.get("host.codePage"));
 
 		Properties sessionProperties = (Properties)properties.clone();
 
@@ -107,6 +119,14 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 		this.convertToLogical = convertToLogical;
 	}
 
+	public String getPreferencePath() {
+		return preferencePath;
+	}
+
+	public void setPreferencePath(String preferencePath) {
+		this.preferencePath = preferencePath;
+	}
+
 	public void afterPropertiesSet() throws Exception {
 		if (convertToLogical == null) {
 			if (FeatureChecker.isSupportBidi()) {
@@ -114,7 +134,24 @@ public class Tn5250jTerminalConnectionFactory implements TerminalConnectionFacto
 				convertToLogical = true;
 			}
 		}
-		Resource resource = new ClassPathResource("/host.properties");
+		Resource resource = null;
+		String userFolder = System.getProperty("user.home") + "/.openlegacy";
+		// try to find *.properties files in user home directory
+		if (!StringUtils.isEmpty(preferencePath)) {
+			userFolder = MessageFormat.format("{0}{1}{2}", userFolder, System.getProperty("file.separator"), preferencePath);
+		}
+		File userDir = new File(userFolder);
+		if (userDir.exists()) {
+			Collection<File> files = FileUtils.listFiles(userDir, new String[] { "properties" }, false);
+			for (File file : files) {
+				if (file.getName().equals("host.properties")) {
+					resource = new FileSystemResource(file);
+				}
+			}
+		}
+		if (resource == null) {
+			resource = new ClassPathResource("/host.properties");
+		}
 		hostProperties = PropertiesLoaderUtils.loadProperties(resource);
 
 	}

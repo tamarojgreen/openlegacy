@@ -17,11 +17,11 @@ public class Mixed {
 		@RpcField(length = 10, originalName = "VAR1")
 		private String var1;
 
-		private Struct1 struct1;
+		private Struct1 struct1 = new Struct1();
 		@RpcField(length = 10, originalName = "VAR2")
 		private String var2;
 
-		private Struct2 struct2;
+		private Struct2 struct2 = new Struct2();
 
 	@RpcPart(name="Struct1")
 	public static class Struct1 {

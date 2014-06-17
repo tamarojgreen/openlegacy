@@ -48,4 +48,6 @@ public @interface RpcField {
 	int order() default AnnotationConstants.AUTOMATICALY;
 
 	String nullValue() default AnnotationConstants.NULL;
+
+	int keyIndex() default 0;
 }

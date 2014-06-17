@@ -46,7 +46,7 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 			if (!fieldMatch(rpcFieldDefinition)) {
 				continue;
 			}
-			fieldAccesor.setFieldValue(rpcFieldDefinition.getName(),
+			fieldAccesor.setFieldValue(rpcFieldDefinition.getShortName(),
 					((RpcFlatField)rpcFields.get(rpcFieldDefinition.getOrder())).getValue());
 		}
 

@@ -1,6 +1,7 @@
 package org.openlegacy.rpc.definitions;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.definitions.FieldDefinition;
@@ -145,11 +146,13 @@ public class RpcRegistryTest {
 		Assert.assertEquals(String.class, innerFieldDefinition.getJavaType());
 	}
 
+	@Ignore
 	@Test
 	public void testKeyFields() {
 		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(RpcTreeEntity.class);
 		List<? extends FieldDefinition> keys = rpcEntityDefinition.getKeys();
 		Assert.assertEquals(2, keys.size());
-
+		Assert.assertEquals("Wpar1.NestedPart.keyVariable", keys.get(0).getName());
+		Assert.assertEquals("TreePart.NestedPart.innerVariable", keys.get(1).getName());
 	}
 }

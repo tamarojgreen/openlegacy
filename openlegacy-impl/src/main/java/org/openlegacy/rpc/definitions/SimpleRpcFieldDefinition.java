@@ -29,11 +29,18 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private String defaultValue;
 	private String runtimeName;
 	private String nullValue;
+	private String shortName;
+
 	private int count = 1;
 
 	public SimpleRpcFieldDefinition(String name, Class<? extends FieldType> type) {
 		super(name, type);
+		if (name.indexOf('.') > 0) {
+			shortName = name.substring(name.indexOf('.') + 1);
+		} else {
+			shortName = name;
 
+		}
 	}
 
 	public Integer getLength() {
@@ -129,6 +136,14 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	@Override
 	public void setNullValue(String nullValue) {
 		this.nullValue = nullValue;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 
 }

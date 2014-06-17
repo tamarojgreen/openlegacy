@@ -70,8 +70,8 @@
                     <field value="0" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
                 </structure>
                 <structure order="2" name="shipping">
-                    <field value="AIR" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
-                    <field value="2" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="DAYS" order="1"/>
+                    <field value="" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
+                    <field value="0" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="DAYS" order="1"/>
                 </structure>
             </rpcFields>
         </invoke>
