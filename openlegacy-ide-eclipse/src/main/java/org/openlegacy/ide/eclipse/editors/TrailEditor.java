@@ -62,6 +62,7 @@ import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.ide.eclipse.actions.screen.GenerateScreenModelDialog;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
 import org.openlegacy.ide.eclipse.editors.graphical.IOpenLegacyEditor;
+import org.openlegacy.ide.eclipse.preview.screen.ScreenPreview;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.rpc.modules.trail.RpcPersistedTrail;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -222,18 +223,33 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (!StringUtils.isEmpty(editorId)) {
-					IEditorReference editorReference = getEditorReferenceById(editorId);
-					String entityName = editorReference.getTitle().replace(".java", "");
-					String message = MessageFormat.format("Are you sure you want to replace the image of {0} screen?", entityName);
-					boolean confirmed = MessageDialog.openQuestion(getEditorSite().getShell(), "Update Screen image", message);
-					if (confirmed) {
-						int[] selectionIndexes = tableViewer.getTable().getSelectionIndices();
-						TerminalSnapshot snapshot = terminalSessionTrail.getSnapshots().get(selectionIndexes[0]);
-						IFile file = ((FileEditorInput)getEditorInput()).getFile();
-
-						EclipseDesignTimeExecuter.instance().generateScreenEntityResources(file, snapshot, entityName);
+				String title = null;
+				ScreenPreview screenPreview = (ScreenPreview)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(
+						ScreenPreview.ID);
+				if (screenPreview != null) {
+					IEditorPart lastActiveEditor = screenPreview.getLastActiveEditor();
+					if (lastActiveEditor != null) {
+						title = lastActiveEditor.getTitle();
 					}
+				}
+				if (StringUtils.isEmpty(title) && !StringUtils.isEmpty(editorId)) {
+					IEditorReference editorReference = getEditorReferenceById(editorId);
+					if (editorReference != null) {
+						title = editorReference.getTitle();
+					}
+				}
+				if (StringUtils.isEmpty(title)) {
+					return;
+				}
+				String entityName = title.replace(".java", "");
+				String message = MessageFormat.format("Are you sure you want to replace the image of {0} screen?", entityName);
+				boolean confirmed = MessageDialog.openQuestion(getEditorSite().getShell(), "Update Screen image", message);
+				if (confirmed) {
+					int[] selectionIndexes = tableViewer.getTable().getSelectionIndices();
+					TerminalSnapshot snapshot = terminalSessionTrail.getSnapshots().get(selectionIndexes[0]);
+					IFile file = ((FileEditorInput)getEditorInput()).getFile();
+
+					EclipseDesignTimeExecuter.instance().generateScreenEntityResources(file, snapshot, entityName);
 				}
 			}
 

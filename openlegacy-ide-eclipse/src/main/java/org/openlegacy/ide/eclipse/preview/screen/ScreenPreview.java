@@ -308,4 +308,8 @@ public class ScreenPreview extends AbstractEntityPreview {
 		return snapshotComposite;
 	}
 
+	public IEditorPart getLastActiveEditor() {
+		return lastActiveEditor;
+	}
+
 }
