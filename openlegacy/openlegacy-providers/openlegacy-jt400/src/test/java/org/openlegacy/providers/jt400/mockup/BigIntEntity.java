@@ -13,7 +13,7 @@ import java.math.BigInteger;
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/BIGINTCBL.PGM") })
 public class BigIntEntity implements org.openlegacy.rpc.RpcEntity {
 
-	@RpcNumericField
+	@RpcNumericField(minimumValue = -999999999999L, maximumValue = 999999999999L)
 	@RpcField(length = 12, originalName = "bigInt", editable = true)
 	BigInteger bigInt;
 
