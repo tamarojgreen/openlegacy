@@ -54,7 +54,8 @@ public class SimpleSessionProperties implements SessionProperties, Serializable,
 
 	@Override
 	public boolean equals(Object obj) {
-		return id.equals(((SimpleSessionProperties)obj).id);
+		return obj instanceof SimpleSessionProperties 
+				&& id.equals(((SimpleSessionProperties)obj).id);
 	}
 
 	public Date getStartedOn() {
