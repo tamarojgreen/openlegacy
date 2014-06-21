@@ -94,7 +94,7 @@ public class RpcBooleanFieldsBinder implements RpcEntityBinder, Serializable {
 		BooleanFieldTypeDefinition fieldTypeDefinition = (BooleanFieldTypeDefinition)rpcFieldDefinition.getFieldTypeDefinition();
 		Assert.notNull(fieldTypeDefinition, "A field of type Boolean is defined without @RpcBooleanField annotation");
 
-		if (apiFieldValue == Boolean.TRUE) {
+		if (Boolean.TRUE.equals(apiFieldValue)) {
 			if (!booleanField.getValue().equals(fieldTypeDefinition.getTrueValue())) {
 				legacyFieldValue = fieldTypeDefinition.getTrueValue();
 			}

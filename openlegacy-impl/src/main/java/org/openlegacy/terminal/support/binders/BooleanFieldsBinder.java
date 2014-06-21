@@ -118,7 +118,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 			if (!booleanField.isEditable()) {
 				continue;
 			}
-			if (fieldValue == Boolean.TRUE) {
+			if (Boolean.TRUE.equals(fieldValue) ) {
 				if (!booleanField.getValue().equals(fieldTypeDefinition.getTrueValue())) {
 					booleanField.setValue(fieldTypeDefinition.getTrueValue());
 				}
