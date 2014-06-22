@@ -1,0 +1,108 @@
+<div class="container-fluid">
+    <div class="row text-center logo">
+        <img src="img/logo.png">
+    </div>
+    <div class="row">
+        
+        <div class="col-sm-3 col-md-2 no-gutters-sm"><!--      sidebar       -->
+            <div ng-include="'partials/sidebar.html'"></div>
+        </div> <!--/sidebar -->
+        
+        <div class="col-sm-9 col-md-10"><!--      main       -->
+            <ol class="breadcrumb hidden-xs">
+                <li><a href="#">Main Menu</a></li>
+                <li><a href="#">Inventory Menu</a></li>
+                <li class="active">Items</li>
+            </ol>
+            
+            
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <nav class="navbar navbar-default hidden-xs" role="navigation">
+                        <form class="navbar-form xnavbar-left" role="navigation">
+                            <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-share-alt"></span>
+                                 Submit
+                            </button>
+                            <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                                 Help
+                            </button>
+                            <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-log-out"></span>
+                                 Exit
+                            </button>
+                            <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                 Create
+                            </button>
+                            <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                 Cancel
+                            </button>
+                            <button type="button" class="btn btn-primary navbar-btn pull-right">
+                                <span class="glyphicon glyphicon-export"></span>
+                                 Excel
+                            </button>
+
+                        </form>
+                    </nav>
+                    
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Alpha Search</th>
+                                    <th>Item Description</th>
+                                    <th>Item Number</th>
+                                    <th class="hidden-xs">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            	<tr ng-repeat="item in items" >
+                                    <td><a href="#/itemDetails/{{item.itemNumber}}">{{item.alphaSearch}}</a></td>
+                                    <td>{{item.itemDescription}}</td>
+                                    <td>{{item.itemNumber}}</td>
+                                    <td class="hidden-xs">
+                                        <a href="#"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
+                                        <a href="#"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
+                                        <a href="#"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
+                                    </td>
+                            	
+                            	</tr>                            
+                            </tbody>
+                        </table>
+                    </div><!-- /table responsive -->
+
+                    
+                    <div class="top-margin-50">
+                        <button type="button" class="btn btn-default navbar-btn pull-right">
+                            Next
+                            <span class="glyphicon glyphicon-forward"></span>
+                        </button>
+                        <button type="button" class="btn btn-default navbar-btn pull-left">
+                            <span class="glyphicon glyphicon-backward"></span>
+                            Prev
+                        </button>
+                    </div>
+                </div>
+            </div><!-- /main panel -->
+                
+            <!-- screenshot -->
+            <a href="#" data-toggle="modal" data-target=".ol-screenshot">Show screenshot</a>
+
+            <div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <img src="/openlegacy-rest-sample/sessionViewer/image" class="img-thumbnail">
+                    </div>
+                </div>
+            </div>                       					
+            <div class="top-margin-50"></div>
+            
+        </div><!--      /main  col      -->
+        
+    </div><!--/row -->
+    
+</div><!--/container -->

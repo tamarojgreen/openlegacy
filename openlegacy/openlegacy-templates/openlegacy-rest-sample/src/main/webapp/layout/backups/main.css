@@ -1,0 +1,74 @@
+body{
+    margin-top:50px;
+}
+
+.navbar ul li .glyphicon{
+/*.navbar .glyphicon{*/
+    font-size:18px;
+    vertical-align:text-bottom; 
+}
+
+.top-margin-10{
+    margin-top:10px;
+}
+
+
+/*
+ * logo row
+ */
+.logo{
+    background-color:#333 ;
+    padding:10px;
+    min-height:100px;
+}
+
+
+
+
+
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+
+
+@media (max-width: 768px){
+    .no-gutters-sm {
+        padding:0px;
+        margin:0px;
+        background-color:#eee;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
