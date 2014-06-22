@@ -55,6 +55,7 @@
 						</bean>
 						<bean class="org.openlegacy.rpc.modules.registry.DefaultSessionRegistryModule" />
 						<bean class="org.openlegacy.rpc.modules.menu.DefaultRpcMenuModule" />
+						<bean class="org.openlegacy.rpc.modules.login.DefaultRpcLoginModule"/>
 					</list>
 				</property>
 			</bean>

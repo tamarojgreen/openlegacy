@@ -13,14 +13,14 @@ package org.openlegacy.rpc.modules.menu;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuBuilder;
 import org.openlegacy.modules.menu.MenuItem;
-import org.openlegacy.terminal.support.TerminalSessionModuleAdapter;
+import org.openlegacy.rpc.support.RpcSessionModuleAdapter;
 
 import java.io.Serializable;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class DefaultRpcMenuModule extends TerminalSessionModuleAdapter implements Menu, Serializable {
+public class DefaultRpcMenuModule extends RpcSessionModuleAdapter implements Menu, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

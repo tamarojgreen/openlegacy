@@ -79,6 +79,13 @@
         <support-theme>false</support-theme>
         <zip-file>openlegacy-ws-sample.zip</zip-file>
     </project-type>
+     <project-type>
+        <template-name>openlegacy-ws-rpc-sample</template-name>
+        <description>A simple web service example project for connecting to legacy application screens</description>
+        <is-demo>true</is-demo>
+        <support-theme>false</support-theme>
+        <zip-file>openlegacy-ws-rpc-sample.zip</zip-file>
+    </project-type>
     <project-type>
         <template-name>openlegacy-ws-new</template-name>
         <description>A new web service project for connecting to legacy application screens</description>

@@ -47,8 +47,8 @@ public class MockupRpcSession extends DefaultRpcSession {
 	private RpcRecognizer rpcRecognizer;
 
 	@Override
-	protected MockRpcConnection getConnection() {
-		return (MockRpcConnection)super.getConnection();
+	public RpcConnection getConnection() {
+		return (RpcConnection)super.getConnection();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -62,7 +62,7 @@ public class MockupRpcSession extends DefaultRpcSession {
 		}
 		SnapshotInfo<RpcSnapshot> snapshotInfo = snapshotsList.getCurrent();
 
-		getConnection().setCurrentIndex(snapshotInfo.getIndexInSession());
+		((MockRpcConnection)getConnection()).setCurrentIndex(snapshotInfo.getIndexInSession());
 
 		T entity = ReflectionUtil.newInstance(rpcEntityClass);
 
@@ -114,7 +114,7 @@ public class MockupRpcSession extends DefaultRpcSession {
 	public void setConnection(RpcConnection rpcConnection) {
 
 		super.setConnection(rpcConnection);
-		preserveSnapshots(getConnection());
+		preserveSnapshots((MockRpcConnection)getConnection());
 	}
 
 	private void preserveSnapshots(MockRpcConnection rpcConnection) {
