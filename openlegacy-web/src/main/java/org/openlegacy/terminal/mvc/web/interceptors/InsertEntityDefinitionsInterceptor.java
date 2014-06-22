@@ -20,6 +20,7 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.modules.login.LoginMetadata;
+import org.openlegacy.terminal.mvc.web.interceptors.AbstractScreensInterceptor;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -45,6 +46,8 @@ public class InsertEntityDefinitionsInterceptor extends AbstractScreensIntercept
 
 	@Inject
 	private LoginMetadata loginMetadata;
+
+	private List<Class<?>> nonMenuClasses;
 
 	@Override
 	protected void insertModelData(ModelAndView modelAndView, HttpServletRequest request, HttpServletResponse response) {
@@ -73,8 +76,16 @@ public class InsertEntityDefinitionsInterceptor extends AbstractScreensIntercept
 		}
 		Menu menuModule = terminalSession.getModule(Menu.class);
 		if (menuModule != null) {
-			modelAndView.addObject("ol_menu", menuModule.getMenuTree());
-			modelAndView.addObject("ol_flatMenus", menuModule.getFlatMenuEntries());
+			boolean skip = false;
+			for (Class<?> cls : nonMenuClasses) {
+				if (cls.isAssignableFrom(terminalSession.getEntity().getClass())) {
+					skip = true;
+				}
+			}
+			if (!skip) {
+				modelAndView.addObject("ol_menu", menuModule.getMenuTree());
+				modelAndView.addObject("ol_flatMenus", menuModule.getFlatMenuEntries());
+			}
 		}
 
 		Navigation navigationModule = terminalSession.getModule(Navigation.class);
@@ -90,5 +101,9 @@ public class InsertEntityDefinitionsInterceptor extends AbstractScreensIntercept
 			((AbstractEntitiesRegistry<?, ?, ?>)entitiesRegistry).setDirty(false);
 		}
 
+	}
+
+	public void setNonMenuClasses(List<Class<?>> nonMenuClasses) {
+		this.nonMenuClasses = nonMenuClasses;
 	}
 }
