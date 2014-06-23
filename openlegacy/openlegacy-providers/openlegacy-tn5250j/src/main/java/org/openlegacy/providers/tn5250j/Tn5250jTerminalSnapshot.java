@@ -213,6 +213,9 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 		value = StringUtil.rightTrim(value);
 		int length = screenField.getFieldLength();
 		Tn5250jTerminalField field = new Tn5250jTerminalEditableField(screenField, length, fieldAttributes, value);
+		if (field.getPosition().getColumn() + length > getSize().getColumns()) {
+			length = getSize().getColumns() - field.getPosition().getColumn() + 1;
+		}
 		field.setEndPosition(SnapshotUtils.moveBy(field.getPosition(), length - 1, getSize()));
 		field.setHidden(hidden);
 		return field;
