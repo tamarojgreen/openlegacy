@@ -20,7 +20,6 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.modules.login.LoginMetadata;
-import org.openlegacy.terminal.mvc.web.interceptors.AbstractScreensInterceptor;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -77,9 +76,11 @@ public class InsertEntityDefinitionsInterceptor extends AbstractScreensIntercept
 		Menu menuModule = terminalSession.getModule(Menu.class);
 		if (menuModule != null) {
 			boolean skip = false;
-			for (Class<?> cls : nonMenuClasses) {
-				if (cls.isAssignableFrom(terminalSession.getEntity().getClass())) {
-					skip = true;
+			if (nonMenuClasses != null) {
+				for (Class<?> cls : nonMenuClasses) {
+					if (cls.isAssignableFrom(terminalSession.getEntity().getClass())) {
+						skip = true;
+					}
 				}
 			}
 			if (!skip) {
