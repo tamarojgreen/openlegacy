@@ -1,4 +1,4 @@
 var olConfig = 
     {
-        baseURL:'/openlegacy-rest-sample'
+        baseURL:'http://localhost:8080/openlegacy-rest-sample'
     }

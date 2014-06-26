@@ -41,6 +41,20 @@ olApp.service('$olData', ['$http', function($http){
     
     
     
+    olDataInstance.getShippingList = function(successCallback){        
+       
+    	var result = {shippingList:[
+    	               {name:"Jennifer R. Young", address:"3103 Byrd Lane Tijeras NM 87008", phone:"903-427-0380", date:"10/11/2012"},
+    	               {name:"Arthur B. Craft", address:"2056 Florence Street Clarksville TX 75426", phone:"902-327-1340", date:"13/10/2012"},
+    	               {name:"Brian K. Milliken", address:"2870 Mudlick Road Spokane WA 99201", phone:"509-481-5251", date:"12/03/2012"},
+    	               {name:"John M. Popham", address:"4943 My Drive New York NY 10011", phone:"347-228-6752", date:"10/04/2013"}
+    	             ]};
+    	successCallback(result);
+    };
+    
+     
+    
+    
     
     
     

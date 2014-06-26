@@ -19,10 +19,7 @@ olControllers.controller('itemListCtrl', ['$scope','$http', '$location', '$state
     $olData.getItems(function(data){
         console.log(JSON.stringify(data.model.entity.itemsRecords));
         $scope.items = data.model.entity.itemsRecords
-    });  
-   
-    
-    
+    });      
 }]);
 
 
@@ -35,5 +32,11 @@ olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$st
 		$scope.itemDetails = data.model.entity
 	});  
 
+    $olData.getShippingList(function(data){
+        $scope.shippingList = data.shippingList;
+    });  
+	
+	
+	
 }]);
 

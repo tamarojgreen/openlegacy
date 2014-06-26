@@ -94,6 +94,12 @@ body{
 }
 
 
+
+
+ 
+
+
+
 /*
  * Helper classes
  */
@@ -108,4 +114,11 @@ body{
 
 .clickable{
 	cursor:pointer;
+}
+
+.transparant{
+	background: rgba(0, 0, 0,.0);
+	box-shadow:none;
+	outline:none;
+	border:none;
 }

@@ -18,58 +18,36 @@
             
             <div class="panel panel-default">
                 <div class="panel-body">
-                	<h1>Item Details</h1>
+                	<!-- tabs -->
+                	<ul class="nav nav-tabs">
+                		<li class="active"><a href="/#main-details" data-toggle="tab">Main Details</a></li>
+                		<li><a href="/#stock" data-toggle="tab">Stock</a></li>
+                		<li><a href="/#gallery" data-toggle="tab">Gallery</a></li>
+                		<li><a href="/#notes" data-toggle="tab">Notes</a></li>
+                		<li><a href="/#sales" data-toggle="tab">Sales</a></li>
+                	</ul>
                 
-					<form role="form">
-						<div class="row">
-						
-							<div class="col-sm-6">
-								<img src="img/{{itemDetails.itemNumber}}.jpg" class="img-thumbnail"></img>
-							</div>	
-													
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label for="alphaSearch" class="control-label">Alpha Search:</label>
-									<input type="text" class="form-control" id="alphaSearch" placeholder="Alpha Search" ng-model="itemDetails.alphaSearch">
-								</div>
-								<div class="form-group">
-									<label for="itemNumber" class="control-label">Item Number:</label>
-									<input type="text" class="form-control" id="itemNumber" placeholder="Item No" ng-model="itemDetails.itemNumber">
-								</div>
-								<div class="form-group">
-									<label for="itemDescription" class="control-label">Item Description:</label>
-									<input type="text" class="form-control" id="itemDescription" placeholder="Item Description" ng-model="itemDetails.itemDescription">
-								</div>	
-								
-								<div class="form-group">
-									<label for="SupercedingItemFrom" class="control-label">Superceding Item From:</label>
-									<input type="text" class="form-control" id="SupercedingItemFrom" placeholder="Superceding Item From" ng-model="itemDetails.supercedingItemfrom">
-								</div>
-								<div class="form-group">
-									<label for="supercedingItemTo" class="control-label">Superceding Item To:</label>
-									<input type="text" class="form-control" id="supercedingItemTo" placeholder="Superceding Item To" ng-model="itemDetails.supercedingItemto">
-								</div>
-								<div class="form-group">
-									<label for="stockGroup" class="control-label">Stock Group:</label>
-									<input type="text" class="form-control" id=""stockGroup"" placeholder="Stock Group" ng-model="itemDetails.stockGroup">
-								</div>
-								<div class="form-group">
-									<label for="itemWeight" class="control-label">item Weight:</label>
-									<input type="text" class="form-control" id="itemWeight" placeholder="item Weight" ng-model="itemDetails.itemWeight">
-								</div>								
-								
-														
-							</div>
+                
+                	<!--  tabs content -->
+                	<div class="tab-content top-margin-10">
+                		<div class="tab-pane active" id="main-details">
+							<div ng-include="'partials/tabs/item-main-details.html'"></div>
+						</div>
+                		<div class="tab-pane" id="stock">
+                			<div ng-include="'partials/tabs/item-stock.html'"></div>
+                		</div>
+                		<div class="tab-pane" id="gallery">
+                			<div ng-include="'partials/tabs/item-gallery.html'"></div>
+                		</div>
+                		<div class="tab-pane" id="notes">
+                			<div ng-include="'partials/tabs/item-notes.html'"></div>
+                		</div>
+                		<div class="tab-pane" id="sales">
+                			<div ng-include="'partials/tabs/item-sales.html'"></div>
+                		</div>
+                	</div>
+                	
 
-							
-						</div>			
-					
-					
-
-	
-
-						
-					</form>
                     
                     
                 </div>

@@ -1,0 +1,141 @@
+                    <nav class="navbar navbar-default hidden-xs top-margin-10" role="navigation">
+                        <form class="navbar-form xnavbar-left" role="navigation">
+                            <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-share-alt"></span>
+                                 Submit
+                            </button>
+                            <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-question-sign"></span>
+                                 Help
+                            </button>
+                            <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-comment"></span>
+                                 Prompt
+                            </button>
+                            <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                 Cancel
+                            </button>
+                           <button type="button" class="btn btn-primary navbar-btn">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                 Delete
+                            </button>                            
+                            <button type="button" class="btn btn-primary navbar-btn pull-right">
+                                <span class="glyphicon glyphicon-export"></span>
+                                 Excel
+                            </button>
+
+                        </form>
+                    </nav>                
+                
+                	<h1>Item Details</h1>
+                
+					<form role="form">
+						<div class="row">
+						
+							<div class="col-sm-6">
+								<img src="img/{{itemDetails.itemNumber}}.jpg" class="img-thumbnail"></img>
+							</div>	
+													
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="alphaSearch" class="control-label">Alpha Search:</label>
+									<input type="text" class="form-control" id="alphaSearch" placeholder="Alpha Search" ng-model="itemDetails.alphaSearch">
+								</div>
+								<div class="form-group">
+									<label for="itemNumber" class="control-label">Item Number:</label>
+									<input type="text" class="form-control" id="itemNumber" placeholder="Item No" ng-model="itemDetails.itemNumber">
+								</div>
+								<div class="form-group">
+									<label for="itemDescription" class="control-label">Item Description:</label>
+									<input type="text" class="form-control" id="itemDescription" placeholder="Item Description" ng-model="itemDetails.itemDescription">
+								</div>	
+								
+								<div class="form-group">
+									<label for="SupercedingItemFrom" class="control-label">Superceding Item From:</label>
+									<input type="text" class="form-control" id="SupercedingItemFrom" placeholder="Superceding Item From" ng-model="itemDetails.supercedingItemfrom">
+								</div>
+								<div class="form-group">
+									<label for="supercedingItemTo" class="control-label">Superceding Item To:</label>
+									<input type="text" class="form-control" id="supercedingItemTo" placeholder="Superceding Item To" ng-model="itemDetails.supercedingItemto">
+								</div>
+								<div class="form-group">
+									<label for="stockGroup" class="control-label">Stock Group:</label>
+									<input type="text" class="form-control" id=""stockGroup"" placeholder="Stock Group" ng-model="itemDetails.stockGroup">
+								</div>
+								<div class="form-group">
+									<label for="itemWeight" class="control-label">item Weight:</label>
+									<input type="text" class="form-control touchspin" id="itemWeight" placeholder="item Weight" ng-model="itemDetails.itemWeight">
+								</div>								
+							</div>		
+						</div>	<!-- /row -->
+						
+							
+						<div class="row">
+
+							<div class="col-xs-12">
+								<h1 class="top-margin-50">Shipping Data</h1>
+								<div class="table-responsive">
+								     <table class="table table-hover">
+								         <thead>
+								             <tr>
+								                 <th>Name</th>
+								                 <th>Address</th>
+								                 <th>Phone</th>
+								                 <th>Date</th>
+								             </tr>
+								         </thead>
+								         <tbody>
+								         	<tr ng-repeat="shipping in shippingList" >
+								            	<td>{{shipping.name}}</td>
+								            	<td>{{shipping.address}}</td>
+								            	<td>{{shipping.phone}}</td>
+												<td>{{shipping.date}}</td>								         	
+								         	</tr>                            
+								         </tbody>
+								     </table>
+								 </div><!-- /table responsive -->
+							</div>						
+						</div>	
+						
+						<div class="row">
+							<div class="col-sm-6">
+								<h1 class="top-margin-50">Advanced</h1>
+								<div class="form-group">
+									<label class="control-label">Video URL:</label>
+									<div class="input-group">
+										<span class="input-group-addon">
+											<span class="glyphicon glyphicon-globe"></span>
+										</span>
+										<input type="text" class="form-control" placeholder="Video URL">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="manufacturersItemNo" class="control-label">Manufacturers Item No:</label>
+									<input type="text" class="form-control" id="manufacturersItemNo" placeholder="Enter Manufacturers Item No">
+								</div>								
+								
+								<div class="checkbox">
+									<label>
+										<input type="checkbox"> Pallet label required
+									</label>
+								</div>																
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-xs-12">
+								<h1 class="top-margin-50">Full Description</h1>
+								
+								<textarea class="editor textarea form-control" rows=7 placeholder="Enter Description"></textarea>
+								
+							</div>
+						</div>
+					
+					
+
+	
+
+						
+					</form>
