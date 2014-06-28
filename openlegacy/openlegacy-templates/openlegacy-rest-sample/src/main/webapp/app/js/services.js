@@ -14,6 +14,20 @@ olApp.service('$olData', ['$http', function($http){
         this.RESTrequest(url,successCallback);
     };
     
+    olDataInstance.getWarehouses = function(successCallback){        
+        var url = "Warehouses";
+        console.log(url);
+        this.RESTrequest(url,successCallback);
+        //this.DebugRequest(url,successCallback);
+    };
+    
+    olDataInstance.getWarehouseDetails = function(warehouseId,successCallback){        
+        var url = "WarehouseDetails/" + warehouseId;
+        console.log(url);
+        this.RESTrequest(url,successCallback);
+    };
+
+    
     olDataInstance.RESTrequest = function(url, successCallback){
         console.log('url : ' + url);
         $http(

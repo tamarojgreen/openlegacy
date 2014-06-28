@@ -30,3 +30,13 @@ olApp.directive('touchspin', function(){
 		}
 	}
 })
+
+
+olApp.directive('highcharts', function(){
+	return{
+		restrict:'C',
+		link: function(scope, element, attrs){			
+			$(element).highcharts(scope.chartOptions[attrs.highchartsOptions]);
+		}
+	}
+})

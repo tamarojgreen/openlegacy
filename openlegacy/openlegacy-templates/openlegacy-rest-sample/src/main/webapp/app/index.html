@@ -40,6 +40,7 @@
 	<script type="text/javascript" src="lib/wysihtml5/bootstrap-wysihtml5.js"></script>
 	<script type="text/javascript" src="lib/lightbox/bootstrap-lightbox.js"></script>
 	<script type="text/javascript" src="lib/touchspin/jquery.bootstrap-touchspin.min.js"></script>
+	<script type="text/javascript" src="lib/highcharts/highcharts.js"></script>
 
 	<!-- Include project JS -->
 	<script type="text/javascript" src="js/app.js"></script>
@@ -51,7 +52,8 @@
   </head>
   <body>
 	<!-- this is the header -->
-	<div ng-include="'partials/header.html'"></div>
+	<!-- <div ng-include="'partials/header.html'"></div> -->
+	<div ui-view="header"></div>
     <!-- this is the sidebar -->
 	<div class="main" ui-view="main"></div>
 	<!-- this is the footer -->

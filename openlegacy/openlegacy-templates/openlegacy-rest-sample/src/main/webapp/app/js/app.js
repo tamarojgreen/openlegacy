@@ -3,17 +3,16 @@ var olApp = angular.module('olApp', [
     'ngTouch',
     'olControllers'
 ]).run(['$rootScope', '$state', function ($rootScope, $state) {
-    /* 
+     
     // here will be the code to pevent unauthorised access to pages
-    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {    
-      
-        if ($rootScope.user == undefined && toState.name != 'dashboard') {
+    $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {        
+    	if ($rootScope.user == undefined && toState.name != 'logon') {
         console.log('not logged in, forcing dashboard');
             event.preventDefault(); 
-            $state.go("dashboard");
+            $state.go("logon");
       }
     });
-    */
+    
 }]);
  
 olApp.config(function($stateProvider, $urlRouterProvider) {
@@ -27,22 +26,22 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             "main": { 
                 templateUrl: "partials/itemList.html",
                 controller: 'itemListCtrl'
-            }
+            },
             //"sidebar": { 
             //    templateUrl: "partials/sidebar.html",
             //    controller: 'SidebarCtrl'                
             //},            
-            //"header": { 
-            //    templateUrl: "partials/header.html",
-            //    controller: 'HeaderCtrl'
-            //},
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            }
             //"footer": { 
             //    templateUrl: "partials/footer.html",
             //    controller: 'FooterCtrl'
             //}
         }
     })    
-    .state('details', {
+    .state('itemDetails', {
         url: "/itemDetails/:itemId",
         views: {
             "main": { 
@@ -53,10 +52,73 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //    templateUrl: "partials/sidebar.html",
             //    controller: 'SidebarCtrl'
             //},                        
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            },
+            //"footer": { 
+            //    templateUrl: "partials/footer.html",
+            //    controller: 'FooterCtrl'
+            //}
+        }
+    })
+    .state('warehouseList', {
+        url: "/warehouseList",
+        views: {
+            "main": { 
+                templateUrl: "partials/warehouseList.html",
+                controller: 'warehouseListCtrl'
+            },
+            //"sidebar": { 
+            //    templateUrl: "partials/sidebar.html",
+            //    controller: 'SidebarCtrl'
+            //},                        
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            },
+            //"footer": { 
+            //    templateUrl: "partials/footer.html",
+            //    controller: 'FooterCtrl'
+            //}
+        }
+    })
+    .state('warehouseDetails', {
+        url: "/warehouseDetails/:warehouseId",
+        views: {
+            "main": { 
+                templateUrl: "partials/warehouseDetails.html",
+                controller: 'warehouseDetailsCtrl'
+            },
+            //"sidebar": { 
+            //    templateUrl: "partials/sidebar.html",
+            //    controller: 'SidebarCtrl'
+            //},                        
             //"header": { 
             //    templateUrl: "partials/header.html",
             //    controller: 'HeaderCtrl'
             //},
+            //"footer": { 
+            //    templateUrl: "partials/footer.html",
+            //    controller: 'FooterCtrl'
+            //}
+        }
+    })
+    .state('logon', {
+        url: "/logon",
+        views: {
+            "main": { 
+                templateUrl: "partials/logon.html",
+                controller: 'logonCtrl'
+            },
+            //"sidebar": { 
+            //    templateUrl: "partials/sidebar.html",
+            //    controller: 'SidebarCtrl'
+            //},                        
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            },
             //"footer": { 
             //    templateUrl: "partials/footer.html",
             //    controller: 'FooterCtrl'
