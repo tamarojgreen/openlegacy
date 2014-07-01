@@ -20,7 +20,6 @@ import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.definitions.NavigationDefinition;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.modules.login.LoginMetadata;
-import org.openlegacy.terminal.mvc.web.interceptors.AbstractScreensInterceptor;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -73,32 +72,34 @@ public class InsertEntityDefinitionsInterceptor extends AbstractScreensIntercept
 				modelAndView.addObject("accessedFromDefinitions", entitiesRegistry.get(navigationDefinition.getAccessedFrom()));
 			}
 
-		}
-		Menu menuModule = terminalSession.getModule(Menu.class);
-		if (menuModule != null) {
-			boolean skip = false;
-			for (Class<?> cls : nonMenuClasses) {
-				if (cls.isAssignableFrom(terminalSession.getEntity().getClass())) {
-					skip = true;
+			Menu menuModule = terminalSession.getModule(Menu.class);
+			if (menuModule != null) {
+				boolean skip = false;
+				if (nonMenuClasses != null) {
+					for (Class<?> cls : nonMenuClasses) {
+						if (cls.isAssignableFrom(terminalSession.getEntity().getClass())) {
+							skip = true;
+						}
+					}
+				}
+				if (!skip) {
+					modelAndView.addObject("ol_menu", menuModule.getMenuTree());
+					modelAndView.addObject("ol_flatMenus", menuModule.getFlatMenuEntries());
 				}
 			}
-			if (!skip) {
-				modelAndView.addObject("ol_menu", menuModule.getMenuTree());
-				modelAndView.addObject("ol_flatMenus", menuModule.getFlatMenuEntries());
-			}
-		}
 
-		Navigation navigationModule = terminalSession.getModule(Navigation.class);
-		if (navigationModule != null) {
-			List<EntityDescriptor> breadCrumb = navigationModule.getPaths();
-			if (breadCrumb != null) {
-				modelAndView.addObject("breadCrumb", breadCrumb);
+			Navigation navigationModule = terminalSession.getModule(Navigation.class);
+			if (navigationModule != null) {
+				List<EntityDescriptor> breadCrumb = navigationModule.getPaths();
+				if (breadCrumb != null) {
+					modelAndView.addObject("breadCrumb", breadCrumb);
+				}
 			}
-		}
 
-		if (entitiesRegistry.isDirty()) {
-			// set the registry back to clean - for design-time purposes only!
-			((AbstractEntitiesRegistry<?, ?, ?>)entitiesRegistry).setDirty(false);
+			if (entitiesRegistry.isDirty()) {
+				// set the registry back to clean - for design-time purposes only!
+				((AbstractEntitiesRegistry<?, ?, ?>)entitiesRegistry).setDirty(false);
+			}
 		}
 
 	}
