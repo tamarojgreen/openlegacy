@@ -97,8 +97,8 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			}
 			if (fieldAnnotation.endColumn() == 0) {
 				throw (new RegistryException(MessageFormat.format(
-						"End column must be defined for multiple rows in field {0}. (can be removed for same row)",
-						field.getName())));
+						"End column must be defined for multiple rows in field {0} in entity {1}. (can be removed for same row)",
+						field.getName(), containingClass.getSimpleName())));
 			}
 
 			screenFieldDefinition.setEndPosition(SimpleTerminalPosition.newInstance(fieldAnnotation.endRow(),
