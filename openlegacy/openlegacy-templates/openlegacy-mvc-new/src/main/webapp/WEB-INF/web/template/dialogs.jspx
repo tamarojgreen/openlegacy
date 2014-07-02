@@ -29,8 +29,9 @@
 			title="Lookup window" style="overflow: auto;"
 			data-dojo-props="parseOnLoad: true, draggable:true"><!--  --></div>
 		<c:if test="${ol_messages != null}">
+			<spring:message code="label_messages" var="label_messages" htmlEscape="false" />
 			<div id="messagesDialog" data-dojo-type="dijit.Dialog"
-				style="overflow: auto;" title="Messages">
+				style="overflow: auto;" title="${label_messages}">
 				<c:forEach items="${ol_messages}" var="message">
 					<pre>${message}</pre>
 				</c:forEach>
