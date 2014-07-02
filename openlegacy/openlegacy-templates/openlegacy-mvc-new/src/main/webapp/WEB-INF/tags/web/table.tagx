@@ -62,9 +62,9 @@
 				</c:if>
 			</c:forEach>
 			</tr>
-			<c:forEach items="${data}" var="item" varStatus="i">
+			<c:forEach items="${data}" var="item" varStatus="rowIndex">
 				<c:forEach begin="0" end="${tableDefinition.rowGaps-1}" var="rowGap">
-					<tr class="${i.index % 2 == 0 or !alternate ? '' : 'alt'}">
+					<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}">
 						<c:forEach items="${tableDefinition.columnDefinitions}"
 							var="column">
 							<spring:eval var="columnValue" expression="item[column.name]" />
@@ -100,7 +100,7 @@
 										</select>
 									</c:when>
 									<c:otherwise>
-										<input type="hidden" name="${column.name}_${columnIndex.index}" id="${column.name}_${columnIndex.index}" />
+										<input type="hidden" name="${column.name}_${rowIndex.index}" id="${column.name}_${rowIndex.index}" />
 										<c:forEach items="${tableDefinition.actions}" var="action"
 											varStatus="counter">
 											<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
@@ -113,7 +113,7 @@
 											<c:set var="target" value="${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${keysValues}" />
 											<c:if test="${action.targetEntity == null}">
 												<c:set var="target"
-													value="javascript:document.getElementById('${column.name}_${columnIndex.index}').value='${action.action.actionValue}';doPost()" />
+													value="javascript:document.getElementById('${column.name}_${rowIndex.index}').value='${action.action.actionValue}';doPost()" />
 											</c:if>
 											<a href="${target}"
 												class="${actionsCss} ${action.alias}"
