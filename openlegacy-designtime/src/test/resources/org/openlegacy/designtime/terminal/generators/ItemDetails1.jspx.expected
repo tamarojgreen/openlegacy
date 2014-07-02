@@ -40,7 +40,9 @@
 	 				<ol:field name="outerUnitOfMeasure" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:field name="palletLabelRequired" />
+			<ol:pagePart>
+				<ol:field name="palletLabelRequired" />
+			</ol:pagePart>
 		
 	</ol:form>
 </jsp:root>

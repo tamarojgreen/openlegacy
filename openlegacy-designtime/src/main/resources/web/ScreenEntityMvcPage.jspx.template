@@ -7,7 +7,9 @@
 	<ol:form model="${entityDefinition.entityName?uncap_first}">
 		<#list pageParts as pagePart>
 			<#if pagePart.oneField>
-			<ol:field name="${pagePart.singleField.name}" />
+			<ol:pagePart>
+				<ol:field name="${pagePart.singleField.name}" />
+			</ol:pagePart>
 			<#else>
 			<ol:pagePart>
 				<#list pagePart.partRows as partRow>

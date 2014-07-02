@@ -13,7 +13,9 @@
 			<c:choose>
 				<c:when test="${pagePart.oneField}">
 					<c:if test="${not field.internal}">
-						<ol:field name="${pagePart.singleField.name}" top="${pagePart.topMargin}%" left="${pagePart.leftMargin}%" width="${pagePart.width}%" />
+						<ol:pagePart>
+							<ol:field name="${pagePart.singleField.name}" />
+						</ol:pagePart>
 					</c:if>
 				</c:when>
 				<c:otherwise>

@@ -22,7 +22,9 @@
 	 				<ol:field name="fld2Row10" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:field name="orphanFld" />
+			<ol:pagePart>
+				<ol:field name="orphanFld" />
+			</ol:pagePart>
 			<ol:pagePart>
 				<ol:row columns="2">
 	 				<ol:field name="screenForPagePart.fldRow20" />

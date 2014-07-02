@@ -5,8 +5,12 @@
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	<ol:form model="itemsList">
-			<ol:field name="positionTo" />
-			<ol:field name="errorMessage" />
+			<ol:pagePart>
+				<ol:field name="positionTo" />
+			</ol:pagePart>
+			<ol:pagePart>
+				<ol:field name="errorMessage" />
+			</ol:pagePart>
 			<ol:pagePart>
 					<ol:table data="${itemsList.itemsListRows}" property="itemListRows"  />
 			</ol:pagePart>
