@@ -64,7 +64,7 @@ public abstract class AbstractEntityPreview extends ViewPart {
 
 	private boolean isVisible;
 
-	private IEditorPart lastActiveEditor;
+	protected IEditorPart lastActiveEditor;
 
 	protected static CompilationUnit createParser(ICompilationUnit javaInput) {
 		ASTParser parser = ASTParser.newParser(AST.JLS4);
@@ -248,6 +248,7 @@ public abstract class AbstractEntityPreview extends ViewPart {
 		// hide image if editor with annotation closed
 		if (part == lastActiveEditor) {
 			getImageComposite().setVisible(false);
+			lastActiveEditor = null;
 		}
 	}
 
@@ -312,7 +313,7 @@ public abstract class AbstractEntityPreview extends ViewPart {
 			}
 		}
 		// keep last shown image - comfort during dev.
-		//getImageComposite().setVisible(false);
+		// getImageComposite().setVisible(false);
 	}
 
 	protected abstract void showPreviewImage(IJavaElement javaInput, IFile sourceFile);
