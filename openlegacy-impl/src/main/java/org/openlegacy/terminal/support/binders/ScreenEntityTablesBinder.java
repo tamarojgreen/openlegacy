@@ -157,6 +157,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 							if (terminalField.isEditable()) {
 								if (!terminalField.getValue().equals(valueString)) {
 									terminalField.setValue(valueString);
+									sendAction.setCursorPosition(terminalField.getPosition());
 									sendAction.getFields().add(terminalField);
 								}
 							}
