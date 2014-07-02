@@ -55,7 +55,7 @@ public class RecordValuesProxyHandler implements ScreenEntityProxyHandler, Seria
 		Class<?> entityClass = target.getClass();
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(entityClass);
 		ScreenFieldDefinition fieldDefinition = screenEntityDefinition.getFieldsDefinitions().get(propertyName);
-		if (!(fieldDefinition.getFieldTypeDefinition() instanceof FieldWithValuesTypeDefinition)) {
+		if (fieldDefinition == null || !(fieldDefinition.getFieldTypeDefinition() instanceof FieldWithValuesTypeDefinition)) {
 			return null;
 		}
 		FieldWithValuesTypeDefinition fieldTypeDefinition = (FieldWithValuesTypeDefinition)fieldDefinition.getFieldTypeDefinition();
