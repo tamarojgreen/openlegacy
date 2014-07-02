@@ -80,4 +80,6 @@ public interface DesignTimeExecuter {
 	public void addServiceOutputAnnotation(File javaEntityFile);
 
 	public EntityDefinition<?> initEntityDefinition(File sourceFile);
+
+	public void generateScreenEntityResources(String entityName, GenerateScreenModelRequest generateScreenModelRequest);
 }

@@ -14,6 +14,7 @@ import freemarker.template.TemplateException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -708,12 +709,17 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static void generateResource(TerminalSnapshot terminalSnapshot, String entityName, File screenResourcesDir,
 			TerminalSnapshotRenderer renderer) {
+		generateResource(terminalSnapshot, entityName, screenResourcesDir, renderer, false);
+	}
+
+	private static void generateResource(TerminalSnapshot terminalSnapshot, String entityName, File screenResourcesDir,
+			TerminalSnapshotRenderer renderer, boolean overrideResource) {
 		FileOutputStream fos = null;
 		File renderedScreenResourceFile = null;
 		try {
 			renderedScreenResourceFile = new File(screenResourcesDir, MessageFormat.format("{0}.{1}", entityName,
 					renderer.getFileFormat()));
-			if (!renderedScreenResourceFile.exists()) {
+			if (!renderedScreenResourceFile.exists() || overrideResource) {
 				fos = new FileOutputStream(renderedScreenResourceFile);
 				renderer.render(terminalSnapshot, fos);
 			}
@@ -1148,5 +1154,37 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			throw (new RuntimeException(e));
 		}
 
+	}
+
+	public void generateScreenEntityResources(String entityName, GenerateScreenModelRequest generateScreenModelRequest) {
+
+		File packageDir = new File(generateScreenModelRequest.getSourceDirectory(),
+				generateScreenModelRequest.getPackageDirectory());
+		File screenResourcesDir = new File(packageDir, entityName + "-resources");
+		if (!screenResourcesDir.exists()) {
+			screenResourcesDir.mkdir();
+		}
+
+		ApplicationContext projectApplicationContext = getOrCreateApplicationContext(generateScreenModelRequest.getProjectPath());
+
+		TerminalSnapshotImageRenderer imageRenderer = projectApplicationContext.getBean(TerminalSnapshotImageRenderer.class);
+		TerminalSnapshotTextRenderer textRenderer = projectApplicationContext.getBean(TerminalSnapshotTextRenderer.class);
+		DefaultTerminalSnapshotXmlRenderer xmlRenderer = projectApplicationContext.getBean(DefaultTerminalSnapshotXmlRenderer.class);
+
+		TerminalSnapshot snapshot = (TerminalSnapshot)SerializationUtils.clone(generateScreenModelRequest.getTerminalSnapshots()[0]);
+
+		if (generateScreenModelRequest.isGenerateSnapshotText()) {
+			// generate txt file with screen content
+			generateResource(snapshot, entityName, screenResourcesDir, textRenderer, true);
+		}
+		if (generateScreenModelRequest.isGenerateSnapshotImage()) {
+			// generate jpg file with screen image
+			generateResource(snapshot, entityName, screenResourcesDir, imageRenderer, true);
+		}
+
+		if (generateScreenModelRequest.isGenerateSnapshotXml()) {
+			// generate xml file with screen XML for testing purposes
+			generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer, true);
+		}
 	}
 }

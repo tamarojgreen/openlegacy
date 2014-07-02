@@ -21,11 +21,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.actions.GlobalBuildAction;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.EntityUserInteraction;
+import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.DesignTimeExecuterImpl;
@@ -42,6 +44,7 @@ import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
+import org.openlegacy.ide.eclipse.util.JavaUtils;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -321,5 +324,33 @@ public class EclipseDesignTimeExecuter {
 		userInteraction.open(new File(sourceDirectoryPath, packagePath + "/" + serviceName + "ServiceImpl.java"));
 		userInteraction.open(new File(sourceDirectoryPath, packagePath + "/" + serviceName + "Service.java"));
 
+	}
+
+	public void generateScreenEntityResources(IFile trailFile, TerminalSnapshot snapshot, String entityName) {
+		File projectDirectory = PathsUtil.toOsLocation(trailFile.getProject());
+		IProject project = trailFile.getProject();
+		String prefrenceSourceFolderPath = getPreference(project, PreferencesConstants.API_SOURCE_FOLDER);
+		IJavaProject javaProject = JavaUtils.getJavaProjectFromIProject(project);
+		IPackageFragmentRoot sourceDirectory = javaProject.getPackageFragmentRoot(prefrenceSourceFolderPath);
+
+		String packageDir = getPreference(project, PreferencesConstants.API_PACKAGE);
+
+		GenerateScreenModelRequest generateScreenRequest = new GenerateScreenModelRequest();
+		generateScreenRequest.setProjectPath(projectDirectory);
+		generateScreenRequest.setSourceDirectory(PathsUtil.toSourceDirectory(sourceDirectory));
+		generateScreenRequest.setPackageDirectory(PathsUtil.packageToPath(packageDir));
+		generateScreenRequest.setGenerateSnapshotImage(true);
+		generateScreenRequest.setGenerateSnapshotText(true);
+		generateScreenRequest.setGenerateSnapshotXml(true);
+		generateScreenRequest.setTerminalSnapshots(new TerminalSnapshot[] { snapshot });
+
+		designTimeExecuter.generateScreenEntityResources(entityName, generateScreenRequest);
+
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
+			}
+		});
 	}
 }
