@@ -21,12 +21,14 @@ import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.TerminalSendAction;
+import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
-import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
+import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,11 +36,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -70,6 +72,9 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	private boolean enableEmulation = true;
 
+	@Inject
+	private TerminalSendActionBuilder<HttpServletRequest> sendActionBuilder;
+
 	@RequestMapping(value = "/", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getScreenEntity(HttpServletResponse response) throws IOException {
 		if (!authenticate(response)) {
@@ -79,6 +84,14 @@ public class DefaultScreensRestController extends AbstractRestController {
 		ScreenEntity screenEntity = terminalSession.getEntity();
 		return getEntityInner(screenEntity);
 
+	}
+
+	@RequestMapping(value = "/current", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getCurrent(HttpServletResponse response) throws IOException {
+		if (terminalSession.getEntity() == null) {
+			return null;
+		}
+		return getEntityRequest(ProxyUtil.getTargetObject(terminalSession.getEntity()).getClass().getSimpleName(), null, response);
 	}
 
 	@RequestMapping(value = "/login", consumes = { JSON, XML })
@@ -101,18 +114,12 @@ public class DefaultScreensRestController extends AbstractRestController {
 	}
 
 	@RequestMapping(value = "/emulation", consumes = { JSON, XML })
-	public void emulation(@RequestParam(value = "keyboardKey", required = true) String keyboardKey, HttpServletResponse response)
-			throws IOException {
+	public void emulation(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		if (!enableEmulation) {
 			logger.warn("emulation for REST controller not enabled");
 			return;
 		}
-		TerminalAction action = TerminalActions.getAction(keyboardKey);
-
-		if (action == null) {
-			logger.error(MessageFormat.format("No action found for keyboardKey {0}", keyboardKey));
-			return;
-		}
+		TerminalSendAction action = sendActionBuilder.buildSendAction(terminalSession.getSnapshot(), request);
 
 		terminalSession.doAction(action);
 		response.setStatus(HttpServletResponse.SC_OK);

@@ -82,7 +82,7 @@ public abstract class AbstractRestController {
 
 	}
 
-	private ModelAndView getEntityRequest(String entityName, String key, HttpServletResponse response) throws IOException {
+	protected ModelAndView getEntityRequest(String entityName, String key, HttpServletResponse response) throws IOException {
 		if (!authenticate(response)) {
 			return null;
 		}

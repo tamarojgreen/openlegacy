@@ -35,7 +35,13 @@
 		<context:include-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />
 	</context:component-scan>
-		
+
+	<context:component-scan base-package="org.openlegacy.terminal.mvc"
+		use-default-filters="false" resource-pattern="*.class">
+		<context:include-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+			
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
 	Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />

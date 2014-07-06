@@ -121,6 +121,10 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 		Available URL's: <select id="getUrl"
 			data-dojo-type="dijit.form.ComboBox">
 			<option>login?user=user1&password=pwd1</option>
+			<option>emulation?KeyboardKey=ENTER</option>
+			<option>current</option>
+			<option>messages</option>
+			<option>logoff</option>
 			<%
 			for (ScreenEntityDefinition definition : entityDefinitions){
 				String keyStr = "";
@@ -130,9 +134,6 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 				out.write("<option>" + definition.getEntityName() + keyStr + "</option>");
 			}
 			%>
-			<option>emulation?keyboardKey=ENTER</option>
-			<option>messages</option>
-			<option>logoff</option>
 		</select> 
 		Method: <select id="requestType">
 			<option value="json">JSON</option>
@@ -152,6 +153,8 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 		<br /> To URL: <input id="postUrl" value="" size="40" /> 
 		Action: <select id="actionType" onchange="changeAction();">
 			<option value="">Submit</option>
+			<option value="next">Next</option>
+			<option value="previous">Previous</option>
 		</select>
 		Method: <select id="postRequestType">
 			<option value="json">JSON</option>
