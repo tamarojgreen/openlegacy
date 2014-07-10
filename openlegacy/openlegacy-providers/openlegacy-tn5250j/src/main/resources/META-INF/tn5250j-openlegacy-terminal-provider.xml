@@ -11,7 +11,6 @@
 			<list>
 				<value>classpath*:/host.properties</value>
 				<value>file:${user.home}/.openlegacy/host.properties</value>
-				<value>file:${user.home}/.openlegacy/#{servletContext.contextPath}/host.properties</value>
 			</list>
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true"/>
