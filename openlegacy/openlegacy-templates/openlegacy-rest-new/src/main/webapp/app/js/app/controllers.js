@@ -17,7 +17,7 @@
 					function() {
 						$cookies.loggedInUser = $scope.user.userName;
 						$rootScope.loggedInUser = $scope.user.userName;
-						$location.path("/TviotParams");
+						$location.path("/Items");
 					}
 				);
 			};
