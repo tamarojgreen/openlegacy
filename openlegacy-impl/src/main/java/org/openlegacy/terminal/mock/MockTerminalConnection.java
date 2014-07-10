@@ -32,10 +32,10 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 		for (TerminalSnapshot terminalSnapshot : snapshots) {
 			this.snapshots.add((TerminalSnapshot)SerializationUtils.clone(terminalSnapshot));
 		}
-		setConnected(true);
 	}
 
 	public TerminalSnapshot getSnapshot() {
+		setConnected(true);
 		if (currentIndex >= snapshots.size()) {
 			throw (new SessionEndedException("Mock session has been finished"));
 		}
