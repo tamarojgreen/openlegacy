@@ -40,3 +40,31 @@ olApp.directive('highcharts', function(){
 		}
 	}
 })
+
+olApp.directive('datepicker', function() {
+    return {
+        restrict: 'A',
+        require : 'ngModel',
+        link : function (scope, element, attrs, ngModelCtrl) {
+            $(function(){
+            	element.datepicker({                    
+                }).on("changeDate", function(ev) {
+            	    ngModelCtrl.$setViewValue(ev.date);            	    
+                });
+            	ngModelCtrl.$formatters.unshift(function (modelValue) {                		
+            		if (modelValue != null && modelValue != "" ) {            			
+            			date = new Date(modelValue);
+            			element.datepicker("setValue", date);
+                		return date.getMonth() + "/" + date.getDay() + "/" + getFullYear();            			
+            		} else {
+            			return modelValue;
+            		}               		
+                });
+            	
+            	ngModelCtrl.$parsers.push(function (viewValue) {            		
+            		return Date.parse(viewValue)/1000;
+            	});
+            });
+        }
+    }
+});

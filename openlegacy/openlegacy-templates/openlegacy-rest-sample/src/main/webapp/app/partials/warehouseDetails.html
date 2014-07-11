@@ -75,10 +75,15 @@
 								<div class="form-group">
 									<label for="email" class="control-label">Email:</label>
 									<input type="text" class="form-control" id="email" placeholder="Enter Email" ng-model="warehouseDetails.email">
-								</div>																					
+								</div>								
+								<div class="form-group">
+									<label for="amendedDate" class="control-label">Amended Date:</label>																											
+									<input type="text" id="amendedDate" class="form-control" placeholder="mm/dd/yyyy" ng-model="warehouseDetails.amendedDate" datepicker />
+								</div>																			
+								
 
 								<div>
-									<p>Created by {{warehouseDetails.createdBy}} on {{warehouseDetails.createdDate}}</p>
+									<p>Created by {{warehouseDetails.createdBy}} on {{warehouseDetails.createdDate}}</p>									
 								</div>							
 							
 							
