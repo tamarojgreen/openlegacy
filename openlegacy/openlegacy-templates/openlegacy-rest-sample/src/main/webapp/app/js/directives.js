@@ -55,7 +55,7 @@ olApp.directive('datepicker', function() {
             		if (modelValue != null && modelValue != "" ) {            			
             			date = new Date(modelValue);
             			element.datepicker("setValue", date);
-                		return date.getMonth() + "/" + date.getDay() + "/" + getFullYear();            			
+                		return date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();            			
             		} else {
             			return modelValue;
             		}               		
