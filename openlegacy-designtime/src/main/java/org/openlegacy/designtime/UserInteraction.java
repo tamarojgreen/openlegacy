@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime;
 
+import org.openlegacy.EntityDefinition;
+
 import java.io.File;
 
 public interface UserInteraction {
@@ -17,4 +19,6 @@ public interface UserInteraction {
 	boolean isOverride(File file);
 
 	void open(File file);
+
+	void open(File file, EntityDefinition<?> entityDefinition);
 }

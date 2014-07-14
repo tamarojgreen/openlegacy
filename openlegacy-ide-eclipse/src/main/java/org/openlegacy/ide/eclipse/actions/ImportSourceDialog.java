@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.exceptions.OpenLegacyException;
@@ -235,6 +236,10 @@ public class ImportSourceDialog extends Dialog implements UserInteraction {
 	}
 
 	public void open(File file) {
+		// TODO Auto-generated method stub
+	}
+
+	public void open(File file, EntityDefinition<?> entityDefinition) {
 		// TODO Auto-generated method stub
 	}
 

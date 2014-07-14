@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.ide.eclipse.EclipseUtil;
 import org.openlegacy.ide.eclipse.Messages;
@@ -208,6 +209,10 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 
 	public void open(File file) {
 		// TODO Auto-generated method stub
-
 	}
+
+	public void open(File file, EntityDefinition<?> entityDefinition) {
+		// TODO Auto-generated method stub
+	}
+
 }
