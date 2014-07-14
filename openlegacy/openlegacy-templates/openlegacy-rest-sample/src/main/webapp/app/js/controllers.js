@@ -39,8 +39,17 @@ olControllers.controller('warehouseListCtrl', ['$scope','$http', '$location', '$
 olControllers.controller('warehouseDetailsCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {    
 	$olData.getWarehouseDetails($stateParams.warehouseId,function(data){
 		console.log(JSON.stringify(data.model.entity));
-		$scope.warehouseDetails = data.model.entity
-	});  
+		$scope.warehouseDetails = data.model.entity;
+	});
+	
+	
+	$olData.getWarehouseTypes(function(data) {
+		console.log(JSON.stringify(data.model.entity.warehouseTypesRecords));
+		$scope.types = data.model.entity.warehouseTypesRecords;
+		$scope.WhTypeClick = function(type) {
+			$scope.warehouseDetails.warehouseType = type.type;			
+		}
+	});
 }]);
 
 

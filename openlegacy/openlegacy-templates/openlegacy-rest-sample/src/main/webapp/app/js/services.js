@@ -26,6 +26,12 @@ olApp.service('$olData', ['$http', function($http){
         console.log(url);
         this.RESTrequest(url,successCallback);
     };
+    
+    olDataInstance.getWarehouseTypes = function(successCallback){        
+        var url = "WarehouseTypes";
+        console.log(url);
+        this.RESTrequest(url,successCallback);
+    };
 
     
     olDataInstance.RESTrequest = function(url, successCallback){
