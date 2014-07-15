@@ -116,8 +116,8 @@ End use this definition to replay a mock-up session application -->
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:user-service>
-				<security:user name="admin" password="pwd" authorities="ROLE_ADMIN" />
-				<security:user name="helpdesk" password="pwd" authorities="ROLE_HELPDESK" />
+				<security:user name="admin" password="${admin.password}" authorities="ROLE_ADMIN" />
+				<security:user name="helpdesk" password="${helpdesk.password}" authorities="ROLE_HELPDESK" />
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
