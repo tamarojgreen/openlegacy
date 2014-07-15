@@ -41,14 +41,32 @@ public class SimpleNumericFieldTypeDefinition implements NumericFieldTypeDefinit
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (object instanceof SimpleNumericFieldTypeDefinition) {
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(maximumValue);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(minimumValue);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
 
-			SimpleNumericFieldTypeDefinition convertedObject = (SimpleNumericFieldTypeDefinition)object;
-			if (convertedObject.maximumValue == maximumValue && convertedObject.minimumValue == minimumValue) {
-				return true;
-			}
-		}
-		return false;
+	@Override
+	public boolean equals(final Object object) {
+		if (this == object)
+			return true;
+		if (object == null)
+			return false;
+		if (getClass() != object.getClass())
+			return false;
+		final SimpleNumericFieldTypeDefinition other = (SimpleNumericFieldTypeDefinition) object;
+		if (Double.doubleToLongBits(maximumValue) != Double
+				.doubleToLongBits(other.maximumValue))
+			return false;
+		if (Double.doubleToLongBits(minimumValue) != Double
+				.doubleToLongBits(other.minimumValue))
+			return false;
+		return true;
 	}
 }

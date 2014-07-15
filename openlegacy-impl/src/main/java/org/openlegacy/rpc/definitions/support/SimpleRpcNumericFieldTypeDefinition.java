@@ -35,15 +35,29 @@ public class SimpleRpcNumericFieldTypeDefinition extends SimpleNumericFieldTypeD
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (object instanceof SimpleRpcNumericFieldTypeDefinition) {
-			SimpleRpcNumericFieldTypeDefinition convertedObject = (SimpleRpcNumericFieldTypeDefinition)object;
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((decimalPlaces == null) ? 0 : decimalPlaces.hashCode());
+		return result;
+	}
 
-			if (super.equals(convertedObject) == true && convertedObject.decimalPlaces == decimalPlaces) {
-				return true;
-			}
-		}
-		return false;
 
+	@Override
+	public boolean equals(final Object object) {
+		if (this == object)
+			return true;
+		if (!super.equals(object))
+			return false;
+		if (getClass() != object.getClass())
+			return false;
+		final SimpleRpcNumericFieldTypeDefinition other = (SimpleRpcNumericFieldTypeDefinition) object;
+		if (decimalPlaces == null) {
+			if (other.decimalPlaces != null)
+				return false;
+		} else if (!decimalPlaces.equals(other.decimalPlaces))
+			return false;
+		return true;
 	}
 }
