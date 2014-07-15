@@ -55,11 +55,14 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.part.FileEditorInput;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.util.JavaUtils;
 import org.openlegacy.ide.eclipse.util.PathsUtil;
+import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.io.File;
 import java.text.MessageFormat;
@@ -373,7 +376,11 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		return generateTest;
 	}
 
-	public void open(final File file) {
+	public void open(File file) {
+		open(file, null);
+	}
+
+	public void open(final File file, final EntityDefinition<?> entityDefinition) {
 
 		Display.getDefault().asyncExec(new Runnable() {
 
@@ -393,8 +400,22 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 					IFile javaFile = getProject().getFile(
 							getSourceFolder().getPath().toPortableString() + "/" + PathsUtil.packageToPath(getPackageValue())
 									+ "/" + file.getName());
+
 					IEditorDescriptor editorDescriptor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
 							javaFile.getName());
+					if (entityDefinition != null && entityDefinition instanceof ScreenEntityDefinition) {
+						IEditorDescriptor descriptor = PlatformUI.getWorkbench().getEditorRegistry().findEditor(
+								"com.openlegacy.enterprise.ide.eclipse.editors.ScreenEntityEditor");
+						if (descriptor != null) {
+							editorDescriptor = descriptor;
+						}
+					} else if (entityDefinition != null && entityDefinition instanceof RpcEntityDefinition) {
+						IEditorDescriptor descriptor = PlatformUI.getWorkbench().getEditorRegistry().findEditor(
+								"com.openlegacy.enterprise.ide.eclipse.editors.RpcEntityEditor");
+						if (descriptor != null) {
+							editorDescriptor = descriptor;
+						}
+					}
 
 					page.openEditor(new FileEditorInput(javaFile), editorDescriptor.getId());
 

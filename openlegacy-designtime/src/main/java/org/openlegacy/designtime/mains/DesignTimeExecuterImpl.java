@@ -489,7 +489,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				File packageDir = new File(generateModelRequest.getSourceDirectory(), generateModelRequest.getPackageDirectory());
 				String entityName = screenEntityDefinition.getEntityName();
 				File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
-				entityUserInteraction.open(targetJavaFile);
+				entityUserInteraction.open(targetJavaFile, screenEntityDefinition);
 			}
 		}
 
@@ -1100,9 +1100,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					generateRpcModelRequest.getPackageDirectory());
 			String entityName = rpcEntityDefinition.getEntityName();
 			File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
-			entityUserInteraction.open(targetJavaFile);
+			entityUserInteraction.open(targetJavaFile, rpcEntityDefinition);
 			for (File javaFile : javaFiles) {
-				entityUserInteraction.open(javaFile);
+				entityUserInteraction.open(javaFile, rpcEntityDefinition);
 			}
 
 		}
