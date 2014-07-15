@@ -38,7 +38,8 @@ public class TerminalPersistedTrail implements TerminalSessionTrail {
 		TerminalPersistedSnapshot transformSnapshot = SnapshotPersistanceDTO.transformSnapshot(snapshot);
 		if (snapshots.size() > 0) {
 			TerminalSnapshot lastSnapshot = snapshots.get(snapshots.size() - 1);
-			if (lastSnapshot.getSequence() == transformSnapshot.getSequence()) {
+			if (lastSnapshot.getSequence() != null
+					&& lastSnapshot.getSequence().equals(transformSnapshot.getSequence())) {
 				// verify snapshots are persisted ALWAYS by at least +1 from the last snapshot
 				transformSnapshot.setSequence(transformSnapshot.getSequence() + 1);
 			}
