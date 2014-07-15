@@ -88,7 +88,7 @@ public abstract class AbstractTerminalSessionSnapshotsDumper implements Terminal
 
 		} catch (OpenLegacyRuntimeException e) {
 			logger.info("Session completed:" + e.getMessage());
-			System.exit(0);
+			return;
 		}
 
 	}
