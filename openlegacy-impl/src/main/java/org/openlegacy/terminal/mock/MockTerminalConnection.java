@@ -44,7 +44,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 		return snapshot;
 	}
 
-	private void setConnected(boolean connected) {
+	void setConnected(boolean connected) {
 		this.connected = connected;
 
 	}

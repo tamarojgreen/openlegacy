@@ -16,8 +16,9 @@ import org.openlegacy.terminal.TerminalConnection;
 public class MockTerminalConnectionFactory extends AbstractMockTerminalConnectionFactory {
 
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
-
-		return new MockTerminalConnection(fetchSnapshots());
+		MockTerminalConnection connection = new MockTerminalConnection(fetchSnapshots());
+		connection.setConnected(true);
+		return connection;
 	}
 
 	public void disconnect(TerminalConnection terminalConnection) {
