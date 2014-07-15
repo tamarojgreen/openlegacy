@@ -499,57 +499,127 @@ require(["dojo/ready"], function(ready){
 	});
 });
 
-function bindKeyboard(){
-	require(["dojo/on", "dojo/_base/window", "dojo/keys","dojo/dom-form","dijit/registry"], function(on, win, keys, dom,registry){
-		on(win.doc, "keydown", function(e){
-			var handled = true;
-			switch (e.keyCode) {
-				case keys.ENTER:
-					var lookupDialog = registry.byId("lookupDialog");
-					if (lookupDialog.open){
-						doAjaxPost(document.forms[1].id,'window_container','','body');
-					}
-					else{
-						var enter= document.getElementById("enter");
-						if (enter != null){
-							enter.click();
-						}
-					}
-					break;
-				case keys.PAGE_UP:
-					var lookupDialog = registry.byId("lookupDialog");
-					if (lookupDialog.open){
-						doAjaxPost(document.forms[1].id,'window_container','previous','body');
-					}
-					else{
-						var prev = document.getElementById("previous");
-						if (prev != null){
-							prev.click();
-						}
-					}
-					break;						
-				case keys.PAGE_DOWN:
-					var lookupDialog = registry.byId("lookupDialog");
-					if (lookupDialog.open){
-						doAjaxPost(document.forms[1].id,'window_container','next','body');
-					}
-					else{
-						var next = document.getElementById("next");
-						if (next != null){
-							next.click();
-						}
-					}
-					break;
-				default:
-					handled = false;
-			}
-			if (handled){
-				dojo.stopEvent(e);
-			}
-			return !handled;
-		});
-	});
-	
+function bindKeyboard() {
+	require(
+			[ "dojo/on", "dojo/_base/window", "dojo/keys", "dojo/dom-form",
+					"dijit/registry", "dojo/query" ],
+			function(on, win, keys, dom, registry, query) {
+				on(
+						win.doc,
+						"keydown",
+						function(e) {
+							if (document.getElementById("loadingMessage").style.display != "none") {
+								return;
+							}
+							var handled = true;
+							var tabs = registry.byId("tabbed_area");
+							switch (e.keyCode) {
+							case keys.ENTER:
+								var lookupDialog = registry
+										.byId("lookupDialog");
+								if (lookupDialog.open) {
+									if (!document.forms[2]) {
+										doAjaxPost(document.forms[1].id,
+												'window_container', '', 'body');
+									} else {
+										doAjaxPost(document.forms[2].id,
+												'window_container', '', 'body');
+									}
+								} else {
+									var enter = null;
+
+									if (tabs == null) {
+										enter = query("#submit");
+									} else {
+										var exp = "#"
+												+ tabs.selectedChildWidget.id
+												+ " #submit";
+										console.log(exp);
+										enter = query(exp);
+									}
+									console.log(enter.length);
+									if (enter.length > 0) {
+										enter[0].click();
+									} else {
+										document.activeElement.blur();
+									}
+								}
+								break;
+							case keys.PAGE_UP:
+								var lookupDialog = registry
+										.byId("lookupDialog");
+								if (lookupDialog.open) {
+									if (!document.forms[2]) {
+										doAjaxPost(document.forms[1].id,
+												'window_container', 'previous',
+												'body');
+									} else {
+										doAjaxPost(document.forms[2].id,
+												'window_container', 'previous',
+												'body');
+									}
+								} else {
+									var prev = null;
+									if (tabs == null) {
+										prev = query("#previous");
+									} else {
+										var exp = "#"
+												+ tabs.selectedChildWidget.id
+												+ " #previous";
+										console.log(exp);
+										prev = query(exp);
+									}
+									console.log(prev.length);
+									if (prev.length > 0) {
+										prev[0].click();
+									}
+								}
+								break;
+							case keys.PAGE_DOWN:
+								var lookupDialog = registry
+										.byId("lookupDialog");
+								if (lookupDialog.open) {
+									if (!document.forms[2]) {
+										doAjaxPost(document.forms[1].id,
+												'window_container', 'next',
+												'body');
+									} else {
+										doAjaxPost(document.forms[2].id,
+												'window_container', 'next',
+												'body');
+									}
+								} else {
+									var next = null;
+									if (tabs == null) {
+										next = query("#next");
+									} else {
+										var exp = "#"
+												+ tabs.selectedChildWidget.id
+												+ " #next";
+										console.log(exp);
+										next = query(exp);
+									}
+									console.log(next.length);
+									if (next.length > 0) {
+										next[0].click();
+									}
+								}
+								break;
+							case 8:
+								if (e.target.tagName == "INPUT") {
+									handled = false;
+								}
+								break;
+							default:
+								handled = false;
+							}
+							if (handled) {
+								dojo.stopEvent(e);
+							}
+							return handled;
+						});
+			});
+
 }
 
 function runOnloads(){
