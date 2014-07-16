@@ -6,6 +6,10 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:META-INF/spring/applicationContext.xml</param-value>
 	</context-param>
+	<context-param>
+		<param-name>userPropertiesFolderName</param-name>
+		<param-value>openlegacy-mvc-new</param-value>
+	</context-param>
 	<listener>
 		<listener-class>org.openlegacy.web.OpenLegacyContextLoaderListener</listener-class>
 	</listener>
