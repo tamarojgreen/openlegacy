@@ -100,6 +100,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * OpenLegacy main design-time API entry point. Consolidate all design-time common UI actions
@@ -137,6 +139,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String bidiCommentStart = "<!-- Uncomment for bidi support";
 	private static final String bidiCommentEnd = "End uncomment for bidi support -->";
 
+	private static final String USER_PROPERTIES_FOLDER_NAME = "userPropertiesFolderName";
+
 	private ApplicationContext defaultDesigntimeApplicationContext;
 
 	// map of project path to Spring application context
@@ -153,6 +157,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (projectCreationRequest.isDemo()) {
 			return;
 		}
+
+		// change folder name for user properties files
+		changeOrAddContextParamInWebXml(USER_PROPERTIES_FOLDER_NAME, projectCreationRequest.getProjectName(), targetPath);
 
 		// maven files
 		renameProjectProperties(projectCreationRequest.getProjectName(), targetPath);
@@ -451,6 +458,36 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			}
 			FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 		}
+	}
+
+	private static void changeOrAddContextParamInWebXml(String paramName, String paramValue, File targetPath)
+			throws FileNotFoundException, IOException {
+		File webXmlFile = new File(targetPath, "src/main/webapp/WEB-INF/web.xml");
+		if (!webXmlFile.exists()) {
+			logger.error(MessageFormat.format("Unable to find web.xml within {0}", targetPath));
+			return;
+		}
+
+		String fileContent = IOUtils.toString(new FileInputStream(webXmlFile));
+
+		Pattern pattern = Pattern.compile(".*<context-param>\\s+<param-name>" + paramName + "</param-name>.*");
+		Matcher matcher = pattern.matcher(fileContent);
+		if (matcher.find()) {
+			fileContent = fileContent.replaceFirst("<context-param>\\s+<param-name>" + paramName
+					+ "</param-name>\\s+<param-value>.*</param-value>", MessageFormat.format(
+					"<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>", paramName,
+					paramValue));
+		} else {
+			// add new <context-param> into the end of file
+			int indexOf = fileContent.indexOf("</web-app>");
+			StringBuilder sb = new StringBuilder(fileContent);
+			fileContent = sb.insert(
+					indexOf,
+					MessageFormat.format(
+							"\t<context-param>\n\t\t<param-name>{0}</param-name>\n\t\t<param-value>{1}</param-value>\n\t</context-param>\n",
+							paramName, paramValue)).toString();
+		}
+		FileUtils.write(fileContent, webXmlFile);
 	}
 
 	public void generateScreenModel(GenerateScreenModelRequest generateModelRequest) throws GenerationException {
