@@ -109,6 +109,11 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 				logger.debug("Ignoring demo session trail from automatic analysis");
 				return;
 			}
+			// ignore trails from /target folder
+			if (resource.getFullPath().toString().contains("/target/")) { //$NON-NLS-1$
+				logger.debug("Ignoring session trail from /target folder");
+				return;
+			}
 
 			final IFile trailFile = (IFile)resource;
 			Display.getDefault().asyncExec(new Runnable() {
