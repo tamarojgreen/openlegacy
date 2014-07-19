@@ -200,7 +200,7 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 		response.addHeader("Content-Disposition", "attachment; filename=\"ScreenForPage.xls\"");
 		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
 				tablesDefinitionProvider, ScreenForPage.class);
-    	tableWriter.writeTable(records, response.getOutputStream());
+    	tableWriter.writeTable(records, (TableDefinition)tableDefinition.getValue(),response.getOutputStream());
     }
 	
 	// handle json request for mobile "load more" 
@@ -238,3 +238,4 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	}
 	
 }
+

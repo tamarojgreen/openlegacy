@@ -126,7 +126,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
 		response.addHeader("Content-Disposition", "attachment; filename=\"${entityDefinition.entityClassName}.xls\"");
 		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
 				tablesDefinitionProvider, ${entityDefinition.entityClassName}.class);
-    	tableWriter.writeTable(records, response.getOutputStream());
+    	tableWriter.writeTable(records, (TableDefinition)tableDefinition.getValue(),response.getOutputStream());
     }
 	
 	// handle json request for mobile "load more" 
