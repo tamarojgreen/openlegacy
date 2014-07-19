@@ -60,6 +60,8 @@ public class LoginController {
 	@Inject
 	private LoginMetadata loginMetadata;
 
+	private String afterLoginURL;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String home(Model uiModel) {
 
@@ -133,9 +135,16 @@ public class LoginController {
 			if (partial != null) {
 				return MvcConstants.ROOTMENU_VIEW;
 			} else {
+				if (afterLoginURL != null) {
+					return MvcConstants.REDIRECT + afterLoginURL;
+				}
 				return MvcConstants.REDIRECT + resultEntityName;
 			}
 		}
 		return MvcConstants.REDIRECT + openlegacyWebProperties.getFallbackUrl();
+	}
+
+	public void setAfterLoginURL(String afterLoginURL) {
+		this.afterLoginURL = afterLoginURL;
 	}
 }
