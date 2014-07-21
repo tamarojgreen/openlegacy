@@ -13,10 +13,12 @@ package org.openlegacy.ide.eclipse.actions;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -37,6 +39,11 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.ide.eclipse.EclipseUtil;
@@ -211,8 +218,37 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 		// TODO Auto-generated method stub
 	}
 
-	public void open(File file, EntityDefinition<?> entityDefinition) {
-		// TODO Auto-generated method stub
+	public void open(final File file, EntityDefinition<?> entityDefinition) {
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				IPath projectLocation = getProject().getLocation();
+				if (projectLocation == null) {
+					logger.fatal("Cannot determine project absolute path");
+					return;
+				}
+				String folderPath = file.getParentFile().getPath().replace(projectLocation.toOSString(), "");
+				IFolder folder = getProject().getFolder(folderPath);
+				try {
+					if (folder != null) {
+						folder.refreshLocal(1, null);
+					}
+				} catch (CoreException e1) {
+					logger.fatal(e1);
+				}
+
+				IWorkbenchPage page = PlatformUI.getWorkbench().getWorkbenchWindows()[0].getActivePage();
+				try {
+					IFile jspxFile = getProject().getFile(folderPath + "/" + file.getName());
+					IEditorDescriptor defaultEditor = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(
+							jspxFile.getName());
+					page.openEditor(new FileEditorInput(jspxFile), defaultEditor.getId());
+				} catch (PartInitException e) {
+					logger.fatal(e);
+				}
+			}
+
+		});
 	}
 
 }
