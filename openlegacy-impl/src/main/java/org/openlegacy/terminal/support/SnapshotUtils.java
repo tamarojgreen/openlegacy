@@ -11,6 +11,7 @@
 package org.openlegacy.terminal.support;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.openlegacy.terminal.RowPart;
 import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalField;
@@ -285,5 +286,28 @@ public class SnapshotUtils {
 
 	public static TerminalPosition toPosition(int absolutePosition, int columns) {
 		return new SimpleTerminalPosition(toRow(absolutePosition, columns), toColumn(absolutePosition, columns));
+	}
+
+	public static String getRenderedText(TerminalSnapshot snapshot, TerminalPosition startPosition, TerminalPosition endPosition) {
+		int beginIndex = ((startPosition.getRow() - 1) * snapshot.getSize().getColumns()) + (startPosition.getColumn() - 1);
+		int rows = endPosition.getRow() - startPosition.getRow() + 1;
+		int length = endPosition.getColumn() - startPosition.getColumn() + 1;
+		StringBuilder sb = new StringBuilder();
+		String snapshotText = snapshot.getText();
+		if (StringUtils.isEmpty(snapshotText)) {
+			return sb.toString();
+		}
+		for (int i = 0; i < rows; i++) {
+			if ((snapshotText.length() < beginIndex) || (snapshotText.length() < (beginIndex + length))) {
+				return sb.toString();
+			}
+			String text = snapshotText.substring(beginIndex, beginIndex + length);
+			sb.append(text);
+			if ((i + 1) < rows) {
+				sb.append(SystemUtils.LINE_SEPARATOR);
+			}
+			beginIndex += snapshot.getSize().getColumns();
+		}
+		return sb.toString();
 	}
 }

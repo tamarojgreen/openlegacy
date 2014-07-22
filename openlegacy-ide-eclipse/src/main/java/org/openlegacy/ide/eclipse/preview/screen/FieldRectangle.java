@@ -69,4 +69,8 @@ public class FieldRectangle {
 	public TerminalPosition getStartPosition() {
 		return new SimpleTerminalPosition(row, column);
 	}
+
+	public TerminalPosition getEndPosition() {
+		return new SimpleTerminalPosition(endRow, endColumn);
+	}
 }
