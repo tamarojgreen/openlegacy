@@ -17,10 +17,11 @@ var olApp = angular.module('olApp', [
  
 olApp.config(function($stateProvider, $urlRouterProvider) {
     // For any unmatched url, redirect to /state1
+	 $urlRouterProvider.when('/WarehouseDetails', "/warehouseDetails/1");
     $urlRouterProvider.otherwise("/itemList");
     // Now set up the states
     $stateProvider
-    .state('itemList', {
+    .state('Items', {
         url: "/itemList",
         views: {
             "main": { 
@@ -40,7 +41,28 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //    controller: 'FooterCtrl'
             //}
         }
-    })    
+    })
+    .state('ItemDetails', {
+        url: "/itemDetails/",
+        views: {
+            "main": { 
+                templateUrl: "partials/itemDetails.html",
+                controller: 'itemDetailsCtrl'
+            },
+            //"sidebar": { 
+            //    templateUrl: "partials/sidebar.html",
+            //    controller: 'SidebarCtrl'
+            //},                        
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            },
+            //"footer": { 
+            //    templateUrl: "partials/footer.html",
+            //    controller: 'FooterCtrl'
+            //}
+        }
+    })
     .state('itemDetails', {
         url: "/itemDetails/:itemId",
         views: {
@@ -83,6 +105,27 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //}
         }
     })
+    .state('WarehouseDetails', {
+        url: "/warehouseDetails/",
+        views: {
+            "main": { 
+                templateUrl: "partials/warehouseDetails.html",
+                controller: 'warehouseDetailsCtrl'
+            },
+            //"sidebar": { 
+            //    templateUrl: "partials/sidebar.html",
+            //    controller: 'SidebarCtrl'
+            //},                        
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            },
+            //"footer": { 
+            //    templateUrl: "partials/footer.html",
+            //    controller: 'FooterCtrl'
+            //}
+        }
+    })
     .state('warehouseDetails', {
         url: "/warehouseDetails/:warehouseId",
         views: {
@@ -94,10 +137,10 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //    templateUrl: "partials/sidebar.html",
             //    controller: 'SidebarCtrl'
             //},                        
-            //"header": { 
-            //    templateUrl: "partials/header.html",
-            //    controller: 'HeaderCtrl'
-            //},
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            },
             //"footer": { 
             //    templateUrl: "partials/footer.html",
             //    controller: 'FooterCtrl'
@@ -125,4 +168,28 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //}
         }
     })
+    .state('mainMenu', {
+    	url: "/mainMenu",
+    	views: {
+    		"main": {
+    			templateUrl: "partials/mainMenu.html"
+    		},
+    		"header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            }
+    	}
+    })
+    .state('InventoryMenu', {
+    	url: "/inventoryMenu",
+    	views: {
+    		"main": {
+    			templateUrl: "partials/inventoryMenu.html"
+    		},
+    		"header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            }
+    	}
+    })    
 });

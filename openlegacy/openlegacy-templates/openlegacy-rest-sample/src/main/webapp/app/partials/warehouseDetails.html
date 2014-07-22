@@ -10,9 +10,9 @@
         
         <div class="col-sm-9 col-md-10"><!--      main       -->
             <ol class="breadcrumb hidden-xs">
-                <li><a href="#">Main Menu</a></li>
-                <li><a href="#">Inventory Menu</a></li>
-                <li><a href="#">Warehouses</a></li>
+                <li><a href="#/mainMenu">Main Menu</a></li>
+                <li><a href="#/inventoryMenu">Inventory Menu</a></li>
+                <li><a href="#/warehouseList">Warehouses</a></li>
                 <li class="active">Warehouse Details</li>
             </ol>
             
@@ -23,18 +23,31 @@
 
                     <nav class="navbar navbar-default hidden-xs top-margin-10" role="navigation">
                         <form class="navbar-form xnavbar-left" role="navigation">
-                            <button type="button" class="btn btn-primary navbar-btn">
+                            <button type="button" class="btn btn-primary navbar-btn" ng-click="postAction('')">
                                 <span class="glyphicon glyphicon-share-alt"></span>
                                  Submit
                             </button>
-                            <button type="button" class="btn btn-primary navbar-btn">
+                            
+                            <span ng-repeat="action in actions">
+                            	<span ng-switch="action.alias">
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="postAction(action.alias)">
+                            			<span class="glyphicon glyphicon-question-sign"></span>
+	                                	{{action.displayName}}
+                            		</button>
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="delete" ng-click="postAction(action.alias)">
+                            			<span class="glyphicon glyphicon-trash"></span>
+	                                	{{action.displayName}}
+                            		</button>
+                            	</span>
+                            </span>
+                            <!-- <button type="button" class="btn btn-primary navbar-btn">
                                 <span class="glyphicon glyphicon-question-sign"></span>
                                  Help
                             </button>
                            <button type="button" class="btn btn-primary navbar-btn">
                                 <span class="glyphicon glyphicon-trash"></span>
                                  Delete
-                            </button>                            
+                            </button> -->                            
                         </form>
                     </nav>                
                 
