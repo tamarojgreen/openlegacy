@@ -52,7 +52,6 @@ olControllers.controller('warehouseDetailsCtrl', ['$scope','$http', '$location',
 		$scope.postAction = function(actionAlias) {        	
 	    	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {
 	    		//$state.go(data.model.entityName);
-	    		//alert(data.model.entityName);
 	    	});
 	    };		
 	});
@@ -76,8 +75,12 @@ olControllers.controller('itemListCtrl', ['$scope','$http', '$location', '$state
         $scope.actions = data.model.entity.actions;
         
         $scope.postAction = function(actionAlias) {        	
-        	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {
-        		$state.go(data.model.entityName);        		
+        	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {        		
+        		if ($state.current.name == data.model.entityName) {
+        			$scope.items = data.model.entity.itemsRecords
+        		} else {
+        			$state.go(data.model.entityName);
+        		}        		
         	});
         };
         
