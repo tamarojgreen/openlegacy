@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>tn5250j</groupId>
 			<artifactId>tn5250j</artifactId>
-			<version>0.6.3</version>
+			<version>0.7.3</version>
 		</dependency>
 		<dependency>
 			<groupId>osohio</groupId>
