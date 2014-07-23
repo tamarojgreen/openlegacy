@@ -53,6 +53,14 @@
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
+<!-- Uncomment for OpenLegacy enterprise managemenent plugin
+ 		<dependency>
+			<groupId>com.openlegacy.enterprise.plugins</groupId>
+			<artifactId>management-plugin</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+End Uncomment for OpenLegacy enterprise managemenent plugin -->
+				
 <!-- Uncomment for bidi support
  		<dependency> 
 		    <groupId>com.ibm.icu</groupId> 
