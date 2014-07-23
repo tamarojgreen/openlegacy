@@ -785,9 +785,6 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 				}
 			}
 		}
-		if (numberOfProperties == numberOfGetters) {
-			enabled = false;
-		}
 	}
 
 	private void populateEntityAttributes(AnnotationExpr annotationExpr) {
