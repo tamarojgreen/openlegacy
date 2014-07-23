@@ -114,19 +114,20 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 	protected abstract PageDefinition buildPage(EntityDefinition<?> entityDefinition);
 
 	private void generateView(GenerateViewRequest generatePageRequest, PageDefinition pageDefinition, String viewsDir,
-			String templateDirectoryPrefix, UserInteraction overrideConfirmer, boolean isComposite, String mvcTemplateType,
+			String templateDirectoryPrefix, UserInteraction userInteraction, boolean isComposite, String mvcTemplateType,
 			String mvcCompositeTemplateType) throws IOException {
 
 		EntityDefinition<?> entityDefinition = pageDefinition.getEntityDefinition();
 		String entityClassName = entityDefinition.getEntityClassName();
 		FileOutputStream fos = null;
+		File pageCompositeFile = null;
 
 		File pageFile = new File(generatePageRequest.getProjectPath(), MessageFormat.format("{0}{1}.jspx", viewsDir,
 				entityClassName));
 		boolean pageFileExists = pageFile.exists();
 		boolean generateView = true;
 		if (pageFileExists) {
-			boolean override = overrideConfirmer.isOverride(pageFile);
+			boolean override = userInteraction.isOverride(pageFile);
 			if (!override) {
 				generateView = false;
 			}
@@ -144,8 +145,8 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 
 			// generate a composite page (with tabs)
 			if (isComposite) {
-				File pageCompositeFile = new File(generatePageRequest.getProjectPath(), MessageFormat.format(
-						"{0}{1}Composite.jspx", viewsDir, entityClassName));
+				pageCompositeFile = new File(generatePageRequest.getProjectPath(), MessageFormat.format("{0}{1}Composite.jspx",
+						viewsDir, entityClassName));
 				fos = new FileOutputStream(pageCompositeFile);
 				try {
 					generateCompositePage(entityDefinition, fos, templateDirectoryPrefix);
@@ -157,8 +158,8 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 				// generate page content for each of the child screens
 				for (EntityDefinition<?> childDefinition : childScreens) {
 					pageDefinition = buildPage(childDefinition);
-					generateView(generatePageRequest, pageDefinition, viewsDir, templateDirectoryPrefix, overrideConfirmer,
-							false, mvcTemplateType, mvcCompositeTemplateType);
+					generateView(generatePageRequest, pageDefinition, viewsDir, templateDirectoryPrefix, userInteraction, false,
+							mvcTemplateType, mvcCompositeTemplateType);
 				}
 			}
 
@@ -179,6 +180,12 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 				}
 			}
 
+			if (pageFile.exists()) {
+				userInteraction.open(pageFile, entityDefinition);
+			}
+			if (pageCompositeFile != null && pageCompositeFile.exists()) {
+				userInteraction.open(pageCompositeFile, entityDefinition);
+			}
 		}
 	}
 

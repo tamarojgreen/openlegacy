@@ -76,7 +76,7 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 	}
 
 	private void generateView(GenerateViewRequest generatePageRequest, PageDefinition pageDefinition, String viewsDir,
-			UserInteraction overrideConfirmer, boolean isComposite) throws IOException {
+			UserInteraction userInteraction, boolean isComposite) throws IOException {
 
 		EntityDefinition<?> entityDefinition = pageDefinition.getEntityDefinition();
 		String entityClassName = entityDefinition.getEntityClassName();
@@ -87,7 +87,7 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 		boolean pageFileExists = pageFile.exists();
 		boolean generateView = true;
 		if (pageFileExists) {
-			boolean override = overrideConfirmer.isOverride(pageFile);
+			boolean override = userInteraction.isOverride(pageFile);
 			if (!override) {
 				generateView = false;
 			}
@@ -102,7 +102,10 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 				IOUtils.closeQuietly(fos);
 				org.openlegacy.utils.FileUtils.deleteEmptyFile(pageFile);
 			}
+		}
 
+		if (pageFile.exists()) {
+			userInteraction.open(pageFile, entityDefinition);
 		}
 	}
 

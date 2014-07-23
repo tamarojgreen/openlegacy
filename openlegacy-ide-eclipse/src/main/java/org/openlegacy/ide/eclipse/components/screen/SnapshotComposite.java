@@ -10,7 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.components.screen;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.swt.dnd.TextTransfer;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.DragDetectEvent;
 import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.KeyEvent;
@@ -48,6 +52,7 @@ import org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.support.DefaultTerminalSnapshotsLoader;
 import org.openlegacy.terminal.support.SimpleRowPart;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
+import org.openlegacy.terminal.support.SnapshotUtils;
 import org.openlegacy.utils.StringUtil;
 
 import java.io.ByteArrayInputStream;
@@ -442,6 +447,9 @@ public class SnapshotComposite extends ImageComposite {
 						cursorCol = maxColCount;
 						break;
 					default:
+						if (e.stateMask == SWT.CTRL && e.keyCode == 'c') {
+							copySelectedToClipboard();
+						}
 						return;
 				}
 				calcCursorRectangle();
@@ -753,4 +761,17 @@ public class SnapshotComposite extends ImageComposite {
 		TerminalSnapshot terminalSnapshot = loader.load(path);
 		setSnapshot(terminalSnapshot);
 	}
+
+	private void copySelectedToClipboard() {
+		if (selectedObject != null && terminalSnapshotCopy != null) {
+			String text = SnapshotUtils.getRenderedText(terminalSnapshotCopy,
+					selectedObject.getFieldRectangle().getStartPosition(), selectedObject.getFieldRectangle().getEndPosition());
+			if (!StringUtils.isEmpty(text)) {
+				Clipboard cb = new Clipboard(getDisplay());
+				cb.setContents(new Object[] { text }, new Transfer[] { TextTransfer.getInstance() });
+				cb.dispose();
+			}
+		}
+	}
+
 }
