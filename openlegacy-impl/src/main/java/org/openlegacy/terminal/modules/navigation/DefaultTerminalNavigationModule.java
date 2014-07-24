@@ -38,6 +38,8 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 
 	private TerminalAction defaultExitAction = TerminalActions.F3();
 
+	private int maxPath = 7;
+
 	public List<EntityDescriptor> getPaths() {
 
 		Object currentEntity = getSession().getEntity();
@@ -52,11 +54,14 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 		ScreenEntityDefinition currentEntityDefinition = screenEntitiesRegistry.get(currentEntity.getClass());
 
 		boolean first = true;
-		while (currentEntityDefinition != null) {
+
+		int pathCount = 0;
+
+		while (currentEntityDefinition != null && pathCount <= maxPath) {
 			NavigationDefinition navigationDefinition = currentEntityDefinition.getNavigationDefinition();
 			boolean requiresParameters = navigationDefinition == null ? false : navigationDefinition.isRequiresParameters();
 			SimpleEntityDescriptor pathEntry = new SimpleEntityDescriptor(currentEntityDefinition.getEntityClass(),
-					currentEntityDefinition.getEntityName(), currentEntityDefinition.getDisplayName(),requiresParameters);
+					currentEntityDefinition.getEntityName(), currentEntityDefinition.getDisplayName(), requiresParameters);
 			pathEntry.setCurrent(first);
 			first = false;
 
@@ -65,6 +70,7 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 			currentEntityDefinition = navigationDefinition != null ? screenEntitiesRegistry.get(navigationDefinition.getAccessedFrom())
 					: null;
 
+			pathCount++;
 		}
 
 		Collections.reverse(pathEntries);
@@ -78,5 +84,9 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 
 	public TerminalAction getDefaultExitAction() {
 		return defaultExitAction;
+	}
+
+	public void setMaxPath(int maxPath) {
+		this.maxPath = maxPath;
 	}
 }
