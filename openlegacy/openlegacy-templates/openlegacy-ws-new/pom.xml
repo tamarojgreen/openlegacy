@@ -61,7 +61,7 @@
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-End Uncomment for OpenLegacy enterprise managemenent plugin ->
+End Uncomment for OpenLegacy enterprise managemenent plugin -->
 		<!-- JUnit -->
 		<dependency>
 			<groupId>junit</groupId>
