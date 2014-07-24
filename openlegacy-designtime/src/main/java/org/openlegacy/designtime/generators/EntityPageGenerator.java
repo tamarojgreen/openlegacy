@@ -16,6 +16,7 @@ import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 
+import java.io.File;
 import java.io.OutputStream;
 
 public interface EntityPageGenerator {
@@ -29,5 +30,7 @@ public interface EntityPageGenerator {
 			throws GenerationException;
 
 	boolean isSupportControllerGeneration();
+
+	void renameViews(String fileNoExtension, String newName, File projectPath);
 
 }

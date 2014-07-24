@@ -148,4 +148,10 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 	public boolean isSupportControllerGeneration() {
 		return true;
 	}
+
+	public void renameViews(String fileNoExtension, String newName, File projectPath) {
+		// XXX Ivan: Auto-generated method stub
+
+	}
+
 }

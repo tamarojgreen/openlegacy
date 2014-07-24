@@ -31,6 +31,7 @@ import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.ide.eclipse.Messages;
+import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.utils.FileUtils;
 
 import japa.parser.JavaParser;
@@ -151,7 +152,7 @@ public class OpenLegacyEntityRenameParticipant extends RenameParticipant {
 						iResource.delete(false, pm);
 					}
 				}
-
+				EclipseDesignTimeExecuter.instance().renameViews(fileNoExtension, newName, compilationUnit);
 				return null;
 			}
 

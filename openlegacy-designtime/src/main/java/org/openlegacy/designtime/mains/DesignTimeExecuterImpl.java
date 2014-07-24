@@ -1224,4 +1224,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer, true);
 		}
 	}
+
+	public void renameViews(String fileNoExtension, String newName, File javaFile, String fileExtension) {
+		File projectPath = getProjectPath(javaFile);
+		File renamedJavaFile = new File(javaFile.getParentFile(), MessageFormat.format("{0}.{1}", newName, fileExtension));
+		EntityDefinition<?> entityDefinition = initEntityDefinition(renamedJavaFile);
+		EntityPageGenerator entityWebGenerator = null;
+		if (entityDefinition instanceof ScreenEntityDefinition) {
+			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityPageGenerator.class);
+		} else {
+			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
+		}
+		entityWebGenerator.renameViews(fileNoExtension, newName, projectPath);
+	}
+
 }
