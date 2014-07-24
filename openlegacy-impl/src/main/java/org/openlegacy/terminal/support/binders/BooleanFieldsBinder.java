@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.terminal.FieldAttributeType;
@@ -23,6 +25,7 @@ import org.openlegacy.terminal.TerminalSnapshot;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.exceptions.ScreenEntityNotAccessibleException;
 import org.openlegacy.terminal.providers.ScreenFieldsDefinitionProvider;
+import org.openlegacy.terminal.support.DefaultTerminalSession;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ProxyUtil;
@@ -40,6 +43,8 @@ import javax.inject.Inject;
 public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	private final static Log logger = LogFactory.getLog(DefaultTerminalSession.class);
 
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
@@ -70,6 +75,10 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 			TerminalField booleanField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 
+			if (booleanField == null) {
+				logger.warn("A mapped field not found as terminal field on snapshot:" + fieldDefinition);
+				return;
+			}
 			if (booleanField.getValue().equals(fieldTypeDefinition.getTrueValue())) {
 				fieldAccessor.setFieldValue(fieldDefinition.getName(), Boolean.TRUE);
 			} else {
@@ -118,7 +127,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 			if (!booleanField.isEditable()) {
 				continue;
 			}
-			if (Boolean.TRUE.equals(fieldValue) ) {
+			if (Boolean.TRUE.equals(fieldValue)) {
 				if (!booleanField.getValue().equals(fieldTypeDefinition.getTrueValue())) {
 					booleanField.setValue(fieldTypeDefinition.getTrueValue());
 				}
