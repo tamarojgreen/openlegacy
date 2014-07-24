@@ -23,6 +23,7 @@ import org.openlegacy.terminal.mock.MockTerminalConnection;
 import org.openlegacy.terminal.wait_conditions.WaitCondition;
 import org.openlegacy.utils.ProxyUtil;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -60,8 +61,8 @@ public class MockupTerminalSession extends DefaultTerminalSession {
 		screenEntityClass = (Class<S>)ProxyUtil.getOriginalClass(screenEntityClass);
 		SnapshotsList<TerminalSnapshot> snapshotsList = snapshotsMap.get(screenEntityClass);
 		if (snapshotsList == null) {
-			throw (new EntityNotFoundException("The entity " + screenEntityClass.getSimpleName()
-					+ "was not found in the recorded trail"));
+			throw (new EntityNotFoundException(MessageFormat.format("The entity {0} was not found in the recorded trail",
+					screenEntityClass.getSimpleName())));
 		}
 		SnapshotInfo<TerminalSnapshot> snapshotInfo = snapshotsList.getCurrent();
 		setLastSequence(snapshotInfo.getSnapshot().getSequence());
