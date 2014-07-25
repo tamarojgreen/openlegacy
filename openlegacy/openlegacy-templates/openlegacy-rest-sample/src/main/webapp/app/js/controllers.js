@@ -1,11 +1,11 @@
 
 var olControllers = angular.module('olControllers', []);
 
-olControllers.controller('logonCtrl', ['$rootScope', '$state', '$scope','$http', '$location', function ($rootScope, $state, $scope, $http, $location) {    
+olControllers.controller('logonCtrl', ['$rootScope', '$state', '$scope','$http', '$location', function ($rootScope, $state, $scope, $http, $location) {
     $scope.logon = function(username){
     	$rootScope.user = username;
     	$state.go("Items");
-    }	
+    }
 }]);
 
 olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http', '$location', function ($rootScope, $state, $scope, $http, $location) {    
@@ -39,7 +39,9 @@ olControllers.controller('warehouseListCtrl', ['$scope','$http', '$location', '$
         	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {        		
         		$state.go(data.model.entityName);
         	});
-        };    
+        };
+        
+        $scope.exportExcelUrl = olConfig.baseURL + "/" + data.model.entityName + "/excel";
     });
 }]);
 
@@ -53,7 +55,7 @@ olControllers.controller('warehouseDetailsCtrl', ['$scope','$http', '$location',
 	    	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {
 	    		//$state.go(data.model.entityName);
 	    	});
-	    };		
+	    };
 	});
 	
 	$olData.getWarehouseTypes(function(data) {
@@ -68,8 +70,8 @@ olControllers.controller('warehouseDetailsCtrl', ['$scope','$http', '$location',
 
 
 
-olControllers.controller('itemListCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {    
-    $olData.getItems(function(data){
+olControllers.controller('itemListCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {	
+	$olData.getItems(function(data){
         console.log(JSON.stringify(data.model.entity.itemsRecords));        
         $scope.items = data.model.entity.itemsRecords
         $scope.actions = data.model.entity.actions;
@@ -84,6 +86,7 @@ olControllers.controller('itemListCtrl', ['$scope','$http', '$location', '$state
         	});
         };
         
+        $scope.exportExcelUrl = olConfig.baseURL + "/" + data.model.entityName + "/excel";        
     });
 }]);
 
@@ -187,9 +190,5 @@ olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$st
             }]    		    			
     	}, //end of sales chart in items options
     } //end of chartOptions 
-    
-    
-    
-
 }]);
 

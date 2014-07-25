@@ -16,8 +16,7 @@ var olApp = angular.module('olApp', [
 }]);
  
 olApp.config(function($stateProvider, $urlRouterProvider) {
-    // For any unmatched url, redirect to /state1
-	 $urlRouterProvider.when('/WarehouseDetails', "/warehouseDetails/1");
+    // For any unmatched url, redirect to /state1	 
     $urlRouterProvider.otherwise("/itemList");
     // Now set up the states
     $stateProvider
