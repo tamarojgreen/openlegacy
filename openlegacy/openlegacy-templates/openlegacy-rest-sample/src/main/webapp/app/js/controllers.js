@@ -8,7 +8,7 @@ olControllers.controller('logonCtrl', ['$rootScope', '$state', '$scope','$http',
     }
 }]);
 
-olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http', '$location', function ($rootScope, $state, $scope, $http, $location) {    
+olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http', '$location', '$themeService', function ($rootScope, $state, $scope, $http, $location, $themeService) {    
 	if ($rootScope.user != undefined) {
 		$scope.username = $rootScope.user
 	}
@@ -18,6 +18,10 @@ olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http',
 		delete $rootScope.user
 		$state.go("logon")
 	}
+	
+	$scope.changeTheme = function() {
+		$themeService.changeTheme();
+	};
 	
 }]);
 

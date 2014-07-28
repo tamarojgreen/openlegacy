@@ -1,8 +1,9 @@
 var olApp = angular.module('olApp', [
     'ui.router',
     'ngTouch',
-    'olControllers'
-]).run(['$rootScope', '$state', function ($rootScope, $state) {
+    'olControllers',
+    'ngCookies'
+]).run(['$rootScope', '$state', '$themeService', function ($rootScope, $state, $themeService) {
      
     // here will be the code to pevent unauthorised access to pages
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {        
@@ -13,6 +14,7 @@ var olApp = angular.module('olApp', [
       }
     });
     
+    $rootScope.theme = $themeService.getCurrentTheme();
 }]);
  
 olApp.config(function($stateProvider, $urlRouterProvider) {
