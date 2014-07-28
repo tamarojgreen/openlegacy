@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<snapshot type="INCOMING" sequence="22">
+    <row rowNumber="1">
+        <field column="21" value="Toys Inventory                          " color="WHITE"/>
+    </row>
+    <row rowNumber="2">
+        <field column="26" value="  Warehouse Details " color="WHITE"/>
+        <field column="73" value="11:45:15" color="BLUE"/>
+    </row>
+    <row rowNumber="3">
+        <field column="1"/>
+        <field column="2" backColor="BLUE"/>
+        <field column="3" value="                                                             " backColor="BLUE"/>
+        <field column="65" value="                "/>
+    </row>
+    <row rowNumber="4">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="19" value="    Warehouse Types   " color="WHITE"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="5">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="6">
+        <field column="2" backColor="BLUE"/>
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="6" value="Type options, press Enter." color="BLUE"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="7">
+        <field column="2" backColor="BLUE"/>
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="8" value="1=Select" color="BLUE"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="8">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="9">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="6" value="Action" color="WHITE"/>
+        <field column="14" value="Type" color="WHITE"/>
+        <field column="20" value="Description" color="WHITE"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="10">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="8" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="14" value="ST"/>
+        <field column="20" value="Sports Toys warehouse                  " length="41"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="11">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="8" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="14" value="GL"/>
+        <field column="20" value="General warehouse                       " length="41"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="12">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="8" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="14" value="GM"/>
+        <field column="20" value="Games warehouse                          " length="41"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="13">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="8" length="1" editable="true" type="java.lang.Integer"/>
+        <field column="14" value="BT"/>
+        <field column="20" value="Baby Toys warehouse            " length="41"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="14">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="15">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="16">
+        <field column="3" value=" " backColor="BLUE"/>
+        <field column="6" value="F12=Cancel" color="BLUE"/>
+        <field column="63" value=" " backColor="BLUE"/>
+    </row>
+    <row rowNumber="17">
+        <field column="3" value="                                                             " backColor="BLUE"/>
+        <field column="65" value="                "/>
+    </row>
+    <row rowNumber="23">
+        <field column="2" value="F1=Help  F4=Prompt  F12=Cancel  F14=Delete" color="BLUE"/>
+    </row>
+    <row rowNumber="24">
+        <field column="2" value="The end of the file was reached.                                            " color="WHITE"/>
+    </row>
+    <size rows="24" columns="80"/>
+    <cursor row="10" column="8"/>
+</snapshot>
