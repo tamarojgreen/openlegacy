@@ -86,7 +86,7 @@ public class DefaultGlobalsModule extends TerminalSessionModuleAdapter implement
 			}
 			String globalFieldName = fieldDefinition.getName();
 			Object globalFieldValue = null;
-			if (action != null) {
+			if (action != null && fieldDefinition.isEditable()) {
 				@SuppressWarnings("unchecked")
 				List<TerminalField> modifiedFields = action.getFields();
 				for (TerminalField modifiedField : modifiedFields) {
