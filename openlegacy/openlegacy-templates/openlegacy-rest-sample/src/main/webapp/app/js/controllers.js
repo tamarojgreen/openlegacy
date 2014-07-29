@@ -1,14 +1,14 @@
 
 var olControllers = angular.module('olControllers', []);
 
-olControllers.controller('logonCtrl', ['$rootScope', '$state', '$scope','$http', '$location', function ($rootScope, $state, $scope, $http, $location) {    
+olControllers.controller('logonCtrl', ['$rootScope', '$state', '$scope','$http', '$location', function ($rootScope, $state, $scope, $http, $location) {
     $scope.logon = function(username){
     	$rootScope.user = username;
-    	$state.go("itemList");
-    }	
+    	$state.go("Items");
+    }
 }]);
 
-olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http', '$location', function ($rootScope, $state, $scope, $http, $location) {    
+olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http', '$location', '$themeService', function ($rootScope, $state, $scope, $http, $location, $themeService) {    
 	if ($rootScope.user != undefined) {
 		$scope.username = $rootScope.user
 	}
@@ -18,6 +18,10 @@ olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http',
 		delete $rootScope.user
 		$state.go("logon")
 	}
+	
+	$scope.changeTheme = function() {
+		$themeService.changeTheme();
+	};
 	
 }]);
 
@@ -33,24 +37,61 @@ olControllers.controller('warehouseListCtrl', ['$scope','$http', '$location', '$
     $olData.getWarehouses(function(data){
         console.log(JSON.stringify(data.model.entity.warehousesRecords));
         $scope.warehouses = data.model.entity.warehousesRecords
-    });      
+        $scope.actions = data.model.entity.actions;
+        
+        $scope.postAction = function(actionAlias) {        	
+        	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {        		
+        		$state.go(data.model.entityName);
+        	});
+        };
+        
+        $scope.exportExcelUrl = olConfig.baseURL + "/" + data.model.entityName + "/excel";
+    });
 }]);
 
-olControllers.controller('warehouseDetailsCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {    
+olControllers.controller('warehouseDetailsCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {
 	$olData.getWarehouseDetails($stateParams.warehouseId,function(data){
 		console.log(JSON.stringify(data.model.entity));
-		$scope.warehouseDetails = data.model.entity
-	});  
+		$scope.warehouseDetails = data.model.entity;
+		$scope.actions = data.model.entity.actions;
+		
+		$scope.postAction = function(actionAlias) {        	
+	    	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {
+	    		//$state.go(data.model.entityName);
+	    	});
+	    };
+	});
+	
+	$olData.getWarehouseTypes(function(data) {
+		console.log(JSON.stringify(data.model.entity.warehouseTypesRecords));
+		$scope.types = data.model.entity.warehouseTypesRecords;
+		$scope.WhTypeClick = function(type) {
+			$scope.warehouseDetails.warehouseType = type.type;			
+		}
+	});
 }]);
 
 
 
 
-olControllers.controller('itemListCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {    
-    $olData.getItems(function(data){
-        console.log(JSON.stringify(data.model.entity.itemsRecords));
+olControllers.controller('itemListCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {	
+	$olData.getItems(function(data){
+        console.log(JSON.stringify(data.model.entity.itemsRecords));        
         $scope.items = data.model.entity.itemsRecords
-    });      
+        $scope.actions = data.model.entity.actions;
+        
+        $scope.postAction = function(actionAlias) {        	
+        	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {        		
+        		if ($state.current.name == data.model.entityName) {
+        			$scope.items = data.model.entity.itemsRecords
+        		} else {
+        			$state.go(data.model.entityName);
+        		}        		
+        	});
+        };
+        
+        $scope.exportExcelUrl = olConfig.baseURL + "/" + data.model.entityName + "/excel";        
+    });
 }]);
 
 
@@ -61,7 +102,15 @@ olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$st
 	$olData.getItemDetails($stateParams.itemId,function(data){
 		console.log(JSON.stringify(data.model.entity));
 		$scope.itemDetails = data.model.entity
-	});  
+		$scope.actions = data.model.entity.actions;
+		
+		$scope.postAction = function(actionAlias) {        	
+	    	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {
+	    		//$state.go(data.model.entityName);	    		
+	    	});
+	    }; 
+		
+	});
 
     $olData.getShippingList(function(data){
         $scope.shippingList = data.shippingList;
@@ -145,9 +194,5 @@ olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$st
             }]    		    			
     	}, //end of sales chart in items options
     } //end of chartOptions 
-    
-    
-    
-
 }]);
 

@@ -15,29 +15,37 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.messages.Messages;
+import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
+import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +74,12 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
+
+	@Inject
+	private TablesDefinitionProvider tablesDefinitionProvider;
+
+	@Inject
+	private TableWriter tableWriter;
 
 	@Inject
 	private ScreenEntityUtils screenEntityUtils;
@@ -138,6 +152,22 @@ public class DefaultScreensRestController extends AbstractRestController {
 		}
 		return null;
 
+	}
+
+	// export to excel
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/{screen}/excel", method = RequestMethod.GET)
+	public void excel(@PathVariable("screen") String entityName, HttpServletResponse response) throws IOException {
+		ScreenEntity entity = (ScreenEntity)getSession().getEntity(entityName);
+		if (entity == null) {
+			return;
+		}
+		List<?> records = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, entity);
+		response.setContentType("application/vnd.ms-excel");
+		response.addHeader("Content-Disposition", MessageFormat.format("attachment; filename=\"{0}.xls\"", entityName));
+		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
+				tablesDefinitionProvider, entity.getClass());
+		tableWriter.writeTable(records, (TableDefinition)tableDefinition.getValue(), response.getOutputStream());
 	}
 
 	@Override

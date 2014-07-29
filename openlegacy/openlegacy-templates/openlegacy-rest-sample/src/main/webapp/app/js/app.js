@@ -1,8 +1,9 @@
 var olApp = angular.module('olApp', [
     'ui.router',
     'ngTouch',
-    'olControllers'
-]).run(['$rootScope', '$state', function ($rootScope, $state) {
+    'olControllers',
+    'ngCookies'
+]).run(['$rootScope', '$state', '$themeService', function ($rootScope, $state, $themeService) {
      
     // here will be the code to pevent unauthorised access to pages
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {        
@@ -13,18 +14,19 @@ var olApp = angular.module('olApp', [
       }
     });
     
+    $rootScope.theme = $themeService.getCurrentTheme();
 }]);
  
 olApp.config(function($stateProvider, $urlRouterProvider) {
-    // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise("/itemList");
+    // For any unmatched url, redirect to /state1	 
+    $urlRouterProvider.otherwise("/Items");
     // Now set up the states
     $stateProvider
-    .state('itemList', {
-        url: "/itemList",
+    .state('Items', {
+        url: "/Items",
         views: {
             "main": { 
-                templateUrl: "partials/itemList.html",
+                templateUrl: "partials/Items.html",
                 controller: 'itemListCtrl'
             },
             //"sidebar": { 
@@ -40,12 +42,12 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //    controller: 'FooterCtrl'
             //}
         }
-    })    
-    .state('itemDetails', {
-        url: "/itemDetails/:itemId",
+    })
+    .state('ItemDetails', {
+        url: "/ItemDetails/",
         views: {
             "main": { 
-                templateUrl: "partials/itemDetails.html",
+                templateUrl: "partials/ItemDetails.html",
                 controller: 'itemDetailsCtrl'
             },
             //"sidebar": { 
@@ -62,11 +64,32 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //}
         }
     })
-    .state('warehouseList', {
-        url: "/warehouseList",
+    .state('ItemDetailsWithId', {
+        url: "/ItemDetails/:itemId",
         views: {
             "main": { 
-                templateUrl: "partials/warehouseList.html",
+                templateUrl: "partials/ItemDetails.html",
+                controller: 'itemDetailsCtrl'
+            },
+            //"sidebar": { 
+            //    templateUrl: "partials/sidebar.html",
+            //    controller: 'SidebarCtrl'
+            //},                        
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            },
+            //"footer": { 
+            //    templateUrl: "partials/footer.html",
+            //    controller: 'FooterCtrl'
+            //}
+        }
+    })
+    .state('Warehouses', {
+        url: "/Warehouses",
+        views: {
+            "main": { 
+                templateUrl: "partials/Warehouses.html",
                 controller: 'warehouseListCtrl'
             },
             //"sidebar": { 
@@ -83,21 +106,42 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //}
         }
     })
-    .state('warehouseDetails', {
-        url: "/warehouseDetails/:warehouseId",
+    .state('WarehouseDetails', {
+        url: "/WarehouseDetails/",
         views: {
             "main": { 
-                templateUrl: "partials/warehouseDetails.html",
+                templateUrl: "partials/WarehouseDetails.html",
                 controller: 'warehouseDetailsCtrl'
             },
             //"sidebar": { 
             //    templateUrl: "partials/sidebar.html",
             //    controller: 'SidebarCtrl'
             //},                        
-            //"header": { 
-            //    templateUrl: "partials/header.html",
-            //    controller: 'HeaderCtrl'
-            //},
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            },
+            //"footer": { 
+            //    templateUrl: "partials/footer.html",
+            //    controller: 'FooterCtrl'
+            //}
+        }
+    })
+    .state('WarehouseDetailsWithId', {
+        url: "/WarehouseDetails/:warehouseId",
+        views: {
+            "main": { 
+                templateUrl: "partials/WarehouseDetails.html",
+                controller: 'warehouseDetailsCtrl'
+            },
+            //"sidebar": { 
+            //    templateUrl: "partials/sidebar.html",
+            //    controller: 'SidebarCtrl'
+            //},                        
+            "header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            },
             //"footer": { 
             //    templateUrl: "partials/footer.html",
             //    controller: 'FooterCtrl'
@@ -125,4 +169,28 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //}
         }
     })
+    .state('MainMenu', {
+    	url: "/MainMenu",
+    	views: {
+    		"main": {
+    			templateUrl: "partials/MainMenu.html"
+    		},
+    		"header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            }
+    	}
+    })
+    .state('InventoryMenu', {
+    	url: "/InventoryMenu",
+    	views: {
+    		"main": {
+    			templateUrl: "partials/InventoryMenu.html"
+    		},
+    		"header": { 
+                templateUrl: "partials/header.html",
+                controller: 'HeaderCtrl'
+            }
+    	}
+    })    
 });

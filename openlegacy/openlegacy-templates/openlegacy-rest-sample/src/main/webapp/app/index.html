@@ -13,28 +13,30 @@
 
     <!-- Include the bootstrap CSS -->
     <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="lib/bootstrap/css/datepicker.css" rel="stylesheet">
 
     <!-- Include widgets CSS -->
     <link href="lib/wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet">
     <link href="lib/lightbox/bootstrap-lightbox.css" rel="stylesheet">
     <link href="lib/touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
 
-
 	<!-- Include project css -->
 	<link href="css/main.css" rel="stylesheet">
 
 	<!-- Include jquery JS -->
-	<script type="text/javascript" src="lib/jquery/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery-2.1.0.min.js"></script>		
 
     <!-- Include the bootstrap -->
     <script src="lib/bootstrap/js/bootstrap.js"></script>
-
+    <script src="lib/bootstrap/js/bootstrap-datepicker.js"></script>
+    
 
 	<!-- Include angular JS -->
 	<script type="text/javascript" src="lib/angular/angular.min.js"></script>
 	<script type="text/javascript" src="lib/angular/angular-ui-router.js"></script>
 	<script type="text/javascript" src="lib/angular/angular-touch.js"></script>
-
+	<script type="text/javascript" src="lib/angular/angular-cookies.min.js"></script>
+	
 	<!-- Include wigdets JS -->
 	<script type="text/javascript" src="lib/wysihtml5/wysihtml5-0.3.0.js"></script>
 	<script type="text/javascript" src="lib/wysihtml5/bootstrap-wysihtml5.js"></script>
@@ -47,13 +49,15 @@
 	<script type="text/javascript" src="js/controllers.js"></script>
 	<script type="text/javascript" src="js/directives.js"></script>
     <script type="text/javascript" src="js/services.js"></script>
-    <script type="text/javascript" src="js/config.js"></script>  
-
+    <script type="text/javascript" src="js/config.js"></script>
+   
+    <link ng-href="lib/ol_themes/{{theme}}/{{theme}}.css" rel="stylesheet">
+    
   </head>
-  <body>
+  <body class="base" ng-class="theme">	  
 	<!-- this is the header -->
 	<!-- <div ng-include="'partials/header.html'"></div> -->
-	<div ui-view="header"></div>
+	<div ui-view="header"></div>	
     <!-- this is the sidebar -->
 	<div class="main" ui-view="main"></div>
 	<!-- this is the footer -->
