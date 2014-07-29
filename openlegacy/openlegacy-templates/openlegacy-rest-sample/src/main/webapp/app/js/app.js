@@ -19,14 +19,14 @@ var olApp = angular.module('olApp', [
  
 olApp.config(function($stateProvider, $urlRouterProvider) {
     // For any unmatched url, redirect to /state1	 
-    $urlRouterProvider.otherwise("/itemList");
+    $urlRouterProvider.otherwise("/Items");
     // Now set up the states
     $stateProvider
     .state('Items', {
-        url: "/itemList",
+        url: "/Items",
         views: {
             "main": { 
-                templateUrl: "partials/itemList.html",
+                templateUrl: "partials/Items.html",
                 controller: 'itemListCtrl'
             },
             //"sidebar": { 
@@ -44,10 +44,10 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
         }
     })
     .state('ItemDetails', {
-        url: "/itemDetails/",
+        url: "/ItemDetails/",
         views: {
             "main": { 
-                templateUrl: "partials/itemDetails.html",
+                templateUrl: "partials/ItemDetails.html",
                 controller: 'itemDetailsCtrl'
             },
             //"sidebar": { 
@@ -64,11 +64,11 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //}
         }
     })
-    .state('itemDetails', {
-        url: "/itemDetails/:itemId",
+    .state('ItemDetailsWithId', {
+        url: "/ItemDetails/:itemId",
         views: {
             "main": { 
-                templateUrl: "partials/itemDetails.html",
+                templateUrl: "partials/ItemDetails.html",
                 controller: 'itemDetailsCtrl'
             },
             //"sidebar": { 
@@ -85,11 +85,11 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //}
         }
     })
-    .state('warehouseList', {
-        url: "/warehouseList",
+    .state('Warehouses', {
+        url: "/Warehouses",
         views: {
             "main": { 
-                templateUrl: "partials/warehouseList.html",
+                templateUrl: "partials/Warehouses.html",
                 controller: 'warehouseListCtrl'
             },
             //"sidebar": { 
@@ -107,10 +107,10 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
         }
     })
     .state('WarehouseDetails', {
-        url: "/warehouseDetails/",
+        url: "/WarehouseDetails/",
         views: {
             "main": { 
-                templateUrl: "partials/warehouseDetails.html",
+                templateUrl: "partials/WarehouseDetails.html",
                 controller: 'warehouseDetailsCtrl'
             },
             //"sidebar": { 
@@ -127,11 +127,11 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //}
         }
     })
-    .state('warehouseDetails', {
-        url: "/warehouseDetails/:warehouseId",
+    .state('WarehouseDetailsWithId', {
+        url: "/WarehouseDetails/:warehouseId",
         views: {
             "main": { 
-                templateUrl: "partials/warehouseDetails.html",
+                templateUrl: "partials/WarehouseDetails.html",
                 controller: 'warehouseDetailsCtrl'
             },
             //"sidebar": { 
@@ -169,11 +169,11 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
             //}
         }
     })
-    .state('mainMenu', {
-    	url: "/mainMenu",
+    .state('MainMenu', {
+    	url: "/MainMenu",
     	views: {
     		"main": {
-    			templateUrl: "partials/mainMenu.html"
+    			templateUrl: "partials/MainMenu.html"
     		},
     		"header": { 
                 templateUrl: "partials/header.html",
@@ -182,10 +182,10 @@ olApp.config(function($stateProvider, $urlRouterProvider) {
     	}
     })
     .state('InventoryMenu', {
-    	url: "/inventoryMenu",
+    	url: "/InventoryMenu",
     	views: {
     		"main": {
-    			templateUrl: "partials/inventoryMenu.html"
+    			templateUrl: "partials/InventoryMenu.html"
     		},
     		"header": { 
                 templateUrl: "partials/header.html",

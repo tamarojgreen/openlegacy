@@ -10,8 +10,8 @@
         
         <div class="col-sm-9 col-md-10"><!--      main       -->
             <ol class="breadcrumb hidden-xs">
-                <li><a href="#/mainMenu">Main Menu</a></li>
-                <li><a href="#/inventoryMenu">Inventory Menu</a></li>
+                <li><a href="#/MainMenu">Main Menu</a></li>
+                <li><a href="#/InventoryMenu">Inventory Menu</a></li>
                 <li class="active">Items</li>
             </ol>
             
@@ -87,13 +87,13 @@
                             </thead>
                             <tbody>
                             	<tr ng-repeat="item in items" >
-                                    <td><a href="#/itemDetails/{{item.itemNumber}}">{{item.alphaSearch}}</a></td>
+                                    <td><a href="#/ItemDetails/{{item.itemNumber}}">{{item.alphaSearch}}</a></td>
                                     <td>{{item.itemDescription}}</td>
                                     <td>{{item.itemNumber}}</td>
                                     <td class="hidden-xs">
-                                        <a href="#/itemDetails/{{item.itemNumber}}"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
-                                        <a href="#/itemDetails/{{item.itemNumber}}"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
-                                        <a href="#/itemDetails/{{item.itemNumber}}"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
+                                        <a href="#/ItemDetails/{{item.itemNumber}}"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
+                                        <a href="#/ItemDetails/{{item.itemNumber}}"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
+                                        <a href="#/ItemDetails/{{item.itemNumber}}"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
                                     </td>
                             	
                             	</tr>                            
