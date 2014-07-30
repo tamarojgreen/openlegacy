@@ -82,4 +82,6 @@ public interface DesignTimeExecuter {
 	public EntityDefinition<?> initEntityDefinition(File sourceFile);
 
 	public void generateScreenEntityResources(String entityName, GenerateScreenModelRequest generateScreenModelRequest);
+
+	public void renameViews(String fileNoExtension, String newName, File javaFile, String fileExtension);
 }

@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.swt.widgets.Display;
@@ -352,5 +353,13 @@ public class EclipseDesignTimeExecuter {
 				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
 			}
 		});
+	}
+
+	public void renameViews(String fileNoExtension, String newName, ICompilationUnit compilationUnit) {
+		IResource resource = compilationUnit.getResource();
+		if (resource instanceof IFile) {
+			File javaFile = PathsUtil.toOsLocation(resource);
+			designTimeExecuter.renameViews(fileNoExtension, newName, javaFile, resource.getFileExtension());
+		}
 	}
 }

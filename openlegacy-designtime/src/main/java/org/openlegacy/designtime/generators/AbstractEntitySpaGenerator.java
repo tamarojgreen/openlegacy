@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.openlegacy.designtime.generators;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
@@ -148,4 +150,63 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 	public boolean isSupportControllerGeneration() {
 		return true;
 	}
+
+	public void renameViews(String fileNoExtension, String newName, File projectPath) {
+		// views
+		File viewsDir = new File(projectPath, SpaGenerateUtil.VIEWS_DIR);
+		if (viewsDir.exists()) {
+			File[] listFiles = viewsDir.listFiles();
+			for (File file : listFiles) {
+				if (file.getAbsolutePath().endsWith(MessageFormat.format("{0}.{1}", fileNoExtension, "html"))) {
+					file.renameTo(new File(file.getParentFile(), MessageFormat.format("{0}.{1}", newName, "html")));
+					break;
+				}
+				if (file.getAbsolutePath().endsWith(
+						MessageFormat.format("{0}.{1}", StringUtils.uncapitalize(fileNoExtension), "html"))) {
+					file.renameTo(new File(file.getParentFile(), MessageFormat.format("{0}.{1}",
+							StringUtils.uncapitalize(newName), "html")));
+					break;
+				}
+			}
+		}
+		// app.js
+		File appJsFile = new File(projectPath, SpaGenerateUtil.JS_APP_DIR + APP_JS);
+		FileOutputStream fos = null;
+		try {
+			String appJsFileContent = FileUtils.readFileToString(appJsFile);
+			// replace e.g.: /items -> /newItems
+			appJsFileContent = appJsFileContent.replaceAll(
+					MessageFormat.format("/{0}", StringUtils.uncapitalize(fileNoExtension)),
+					MessageFormat.format("/{0}", StringUtils.uncapitalize(newName)));
+			// replace e.g.: itemsController -> newItemsController
+			appJsFileContent = appJsFileContent.replaceAll(
+					MessageFormat.format("{0}Controller", StringUtils.uncapitalize(fileNoExtension)),
+					MessageFormat.format("{0}Controller", StringUtils.uncapitalize(newName)));
+			fos = new FileOutputStream(appJsFile);
+			IOUtils.write(appJsFileContent, fos);
+		} catch (IOException e) {
+			logger.info(e.getMessage());
+		} finally {
+			IOUtils.closeQuietly(fos);
+		}
+		// controller.js
+		File controllersJsFile = new File(projectPath, SpaGenerateUtil.JS_APP_DIR + CONTROLLERS_JS);
+		fos = null;
+		try {
+			String controllerJsFileContent = FileUtils.readFileToString(controllersJsFile);
+			// replace e.g.: itemsController -> newItemsController
+			controllerJsFileContent = controllerJsFileContent.replaceAll(
+					MessageFormat.format("{0}Controller", StringUtils.uncapitalize(fileNoExtension)),
+					MessageFormat.format("{0}Controller", StringUtils.uncapitalize(newName)));
+			// replace e.g.: Items -> NewItems
+			controllerJsFileContent = controllerJsFileContent.replaceAll(fileNoExtension, newName);
+			fos = new FileOutputStream(controllersJsFile);
+			IOUtils.write(controllerJsFileContent, fos);
+		} catch (IOException e) {
+			logger.info(e.getMessage());
+		} finally {
+			IOUtils.closeQuietly(fos);
+		}
+	}
+
 }

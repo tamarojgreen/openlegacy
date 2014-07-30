@@ -17,7 +17,9 @@ import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_MOBI
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_WEB_DIR_PREFIX;
 import freemarker.template.TemplateException;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
@@ -225,4 +227,57 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 	public void setHelpDir(String helpDir) {
 		this.helpDir = helpDir;
 	}
+
+	public void renameViews(String fileNoExtension, String newName, File projectPath) {
+		// web
+		try {
+			renameViews(webViewsDir, viewsFile, fileNoExtension, newName, null, projectPath);
+		} catch (IOException e) {
+			logger.info(e.getMessage());
+		}
+		// mobile
+		try {
+			renameViews(mobileViewsDir, viewsFile, fileNoExtension, newName, "_m", projectPath);
+		} catch (IOException e) {
+			logger.info(e.getMessage());
+		}
+	}
+
+	private static void renameViews(String viewsDir, String viewsFile, String oldName, String newName, String viewNameSuffix,
+			File projectPath) throws IOException {
+		File webDir = new File(projectPath, viewsDir);
+		if (webDir.exists()) {
+			// rename views
+			File[] listFiles = webDir.listFiles();
+			for (File file : listFiles) {
+				if (file.getAbsolutePath().endsWith(MessageFormat.format("{0}.{1}", oldName, "jspx"))) {
+					file.renameTo(new File(file.getParentFile(), MessageFormat.format("{0}.{1}", newName, "jspx")));
+					break;
+				}
+			}
+			// rename definition in views description file
+			File templateViewsFile = new File(projectPath, MessageFormat.format("{0}/{1}", viewsDir, viewsFile));
+			FileOutputStream fos = null;
+			try {
+				String viewsFileContent = FileUtils.readFileToString(templateViewsFile);
+				if (StringUtils.isEmpty(viewNameSuffix)) {
+					viewsFileContent = viewsFileContent.replaceAll(MessageFormat.format("name=\"{0}\"", oldName),
+							MessageFormat.format("name=\"{0}\"", newName));
+					viewsFileContent = viewsFileContent.replaceAll(MessageFormat.format("{0}.jspx", oldName),
+							MessageFormat.format("{0}.jspx", newName));
+				} else {
+					viewsFileContent = viewsFileContent.replaceAll(
+							MessageFormat.format("name=\"{0}{1}\"", oldName, viewNameSuffix),
+							MessageFormat.format("name=\"{0}{1}\"", newName, viewNameSuffix));
+					viewsFileContent = viewsFileContent.replaceAll(MessageFormat.format("{0}.jspx", oldName),
+							MessageFormat.format("{0}.jspx", newName));
+				}
+				fos = new FileOutputStream(templateViewsFile);
+				IOUtils.write(viewsFileContent, fos);
+			} finally {
+				IOUtils.closeQuietly(fos);
+			}
+		}
+	}
+
 }
