@@ -67,6 +67,10 @@
 				});	
 				
 				$scope.doAction = function(entityName, actionAlias) {					
+					    });					     
+					}
+					getMenuString(data.simpleMenuItemList);					
+				});
 					$scope.model.actions = null;					
 					$olHttp.post(entityName + '?action=' + actionAlias,$scope.model, 
 						function(data) {
