@@ -26,7 +26,7 @@
 		
 		 <!--/sidebar -->
 		 
-		<div class="col-sm-9 col-md-10">
+		<div class="col-sm-9 col-md-10"><!--  main   -->
 		
 			<ol class="breadcrumb hidden-xs">
 				<li data-ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
@@ -35,9 +35,9 @@
 				</li>
 			</ol>			
 			
-			<h1>${entityDefinition.displayName}</h1>						
-			
-			<!-- <div class="row">
+			<h1>${entityDefinition.displayName}</h1>
+						
+			<!-- <form role="form" accept-charset="utf-8"> -->								
 			    </div>
 			</div>    
 		</div>
@@ -59,9 +59,9 @@
 					<#assign hasTable = true>												
 				</#if>
 			</#list>			
-		</div>
+		</div><!--  /main   -->
 	</div>
-</div>
+</div>									
 			
 			<#if (entityDefinition.childEntitiesDefinitions?size == 0)>
 				<h1>${entityDefinition.displayName}</h1>
@@ -246,6 +246,8 @@
 			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">	        	
             	Excel
             </a>            
+            </a>
+            </#if>
 	    </form>
 	</nav>    
 </#macro>

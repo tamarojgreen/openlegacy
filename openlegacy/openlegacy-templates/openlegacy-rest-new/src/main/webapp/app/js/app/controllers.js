@@ -58,6 +58,7 @@
 								});
 										
 							};
+							};							
 						}
 					);
 				};		
@@ -106,7 +107,7 @@
 							$scope.model = data.model.entity;																
 						});					
 				};
-				</#if>
+				</#if>				
 				
 				$scope.read();
 			});
