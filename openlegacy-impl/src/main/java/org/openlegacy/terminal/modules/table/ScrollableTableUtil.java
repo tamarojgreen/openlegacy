@@ -68,6 +68,9 @@ public class ScrollableTableUtil {
 		Entry<String, ScreenTableDefinition> tableDefinition = getSingleScrollableTableDefinition(tablesDefinitionProvider,
 				screenEntity.getClass());
 
+		if (tableDefinition == null) {
+			return null;
+		}
 		ScreenPojoFieldAccessor screenPojoFieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
 		List<?> rows = (List<?>)screenPojoFieldAccessor.getFieldValue(tableDefinition.getKey());
 		return rows;

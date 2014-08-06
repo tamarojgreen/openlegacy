@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.terminal.support.binders;
 
+import org.openlegacy.DisplayItem;
 import org.openlegacy.definitions.EnumFieldTypeDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.terminal.FieldAttributeType;
@@ -72,15 +73,17 @@ public class EnumFieldsBinder implements ScreenEntityBinder, Serializable {
 			TerminalField enumField = terminalSnapshot.getField(SimpleTerminalPosition.newInstance(position.getRow(),
 					position.getColumn()));
 
-			if (!enumField.isEditable()){
+			if (!enumField.isEditable()) {
 				continue;
 			}
 
 			if (!StringUtil.isEmpty(enumField.getValue())) {
 
 				// find the DisplayItem by host value, and return the enum object
-				fieldAccessor.setFieldValue(fieldDefinition.getName(),
-						fieldTypeDefinition.getEnums().get(enumField.getValue().trim()).getValue());
+				DisplayItem enum1 = fieldTypeDefinition.getEnums().get(enumField.getValue().trim());
+				if (enum1 != null) {
+					fieldAccessor.setFieldValue(fieldDefinition.getName(), enum1.getValue());
+				}
 			}
 
 		}

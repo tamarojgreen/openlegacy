@@ -36,7 +36,7 @@ public class DefaultTableScrollStopConditions<T> implements TableScrollStopCondi
 	public boolean shouldStop(T beforeScrollEntity, T afterScrollEntity) {
 		List<?> beforeScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, beforeScrollEntity);
 		List<?> afterScrollRows = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, afterScrollEntity);
-		if (beforeScrollRows.containsAll(afterScrollRows)) {
+		if (afterScrollRows != null && beforeScrollRows.containsAll(afterScrollRows)) {
 			return true;
 		}
 		return false;

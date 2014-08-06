@@ -165,6 +165,7 @@ End Uncomment for OpenLegacy enterprise managemenent plugin -->
 				<version>2.3</version>
 				<configuration>
 					<warName>openlegacy-ws-sample</warName>
+					<attachClasses>true</attachClasses>
 				</configuration>
 			</plugin>
 

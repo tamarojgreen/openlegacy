@@ -6,7 +6,6 @@ import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.samples.model.ItemDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.annotation.Resource;
@@ -29,9 +28,8 @@ public class ItemDetailsWebServiceImpl implements ItemDetailsWebService {
 	@Override
 	public ItemDetails getItem(int itemNumber) throws RegistryException, LoginException {
 		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)webServiceContext.getUserPrincipal();
-		UserDetails user = userDetailsService.loadUserByUsername(token.getName());
 
-		terminalSession.getModule(Login.class).login(user.getUsername(), user.getPassword());
+		terminalSession.getModule(Login.class).login("user", "pwd");
 		return terminalSession.getEntity(ItemDetails.class, itemNumber);
 	}
 }
