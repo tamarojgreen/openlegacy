@@ -47,7 +47,7 @@
 						function(data) {						
 							$scope.model = data.model.entity;
 							$scope.breadcrumbs = data.model.paths;
-							$scope.baseUrl = olConfig.baseUrl;
+							$scope.baseUrl = olConfig.baseUrl;							
 							
 							$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 								$scope.model.actions=null;
@@ -93,6 +93,13 @@
 							$scope.${field.name}s = data.model.entity.${field.name}sRecords;							
 							$scope.${field.name?cap_first}Click = function(${field.name}) {								
 								$scope.model.${field.name} = ${field.name}.type;			
+							}
+						});
+						</#if>						
+					</#list>
+				</#if>				
+				
+		        
 							}
 						});
 						</#if>						

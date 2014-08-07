@@ -33,11 +33,20 @@
 					<a ng-show="!$last" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
 					<span ng-show="$last">{{bc.displayName}}</span>
 				</li>
-			</ol>			
+			</ol>
 			
-			<h1>${entityDefinition.displayName}</h1>
+			<#assign hasTable = false>			
+			<#list pageParts as part>
+				<#if part.hasTable>
+					<#assign hasTable = true>												
+				</#if>
+			</#list>
+			
+			<#if hasTable>
+				<h1>${entityDefinition.displayName}</h1>
+			</#if>			
 						
-			<!-- <form role="form" accept-charset="utf-8"> -->								
+			<!-- <form role="form" accept-charset="utf-8"> -->
 			    </div>
 			</div>    
 		</div>
@@ -59,6 +68,11 @@
 					<#assign hasTable = true>												
 				</#if>
 			</#list>			
+				</div>
+			</div>
+			
+					
+				
 		</div><!--  /main   -->
 	</div>
 </div>									
@@ -211,6 +225,33 @@
 </#macro>
 
 <#macro fieldMacro field>
+		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
+		<#if field.editable>
+			<#if field.fieldTypeDefinition.typeName == 'date'>
+				<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" datepicker />
+			<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
+				<div class="input-group">
+				  <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+				  <div class="input-group-btn">
+					  <button id="dropdownMenu" class="btn dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</button>
+					  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
+					    <li class="animate-repeat" ng-repeat="${field.name} in ${field.name}s">
+					      <a ng-click="${field.name?cap_first}Click(${field.name})" href="">{{${field.name}.description}}</a>
+					    </li>
+					  </ul>
+				  </div>
+				</div>														
+			<#else>
+				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+			</#if>
+   		<#else>
+   			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>   			
+   		</#if>		
+	</div>	
+
+
+
+	<!--<div class="col-sm-4">
 	<div class="form-group">		
 		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
 		<#if field.editable>
@@ -234,7 +275,6 @@
    		<#else>
    			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>   			
    		</#if>		
-	</div>
 </#macro>
 
 <#macro navMacro entity showExcelBtn>
@@ -246,8 +286,7 @@
 			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">	        	
             	Excel
             </a>            
-            </a>
-            </#if>
+            </a>            
 	    </form>
 	</nav>    
 </#macro>
