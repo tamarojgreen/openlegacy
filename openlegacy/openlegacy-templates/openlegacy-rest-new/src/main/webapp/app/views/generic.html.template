@@ -40,11 +40,9 @@
 				<#if part.hasTable>
 					<#assign hasTable = true>												
 				</#if>
-			</#list>
+			</#list>			
 			
-			<#if hasTable>
-				<h1>${entityDefinition.displayName}</h1>
-			</#if>			
+			<h1>${entityDefinition.displayName}</h1>						
 						
 			<!-- <form role="form" accept-charset="utf-8"> -->
 			    </div>
