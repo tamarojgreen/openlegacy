@@ -12,6 +12,7 @@ package org.openlegacy.ide.eclipse.actions;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -22,7 +23,7 @@ import org.eclipse.swt.widgets.Text;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
-import org.openlegacy.ide.eclipse.components.TablesCompositeImpl;
+import org.openlegacy.ide.eclipse.components.TablesComposite;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -31,10 +32,14 @@ import java.text.MessageFormat;
 
 public class CustomizeScreenEntityDialog extends Dialog {
 
+	private static final int DIALOG_WIDTH = 825;
+	private static final int DIALOG_HEIGHT = 800;
+
 	private Text entityNameTxt;
 	private ScreenEntityDefinition screenEntityDefinition;
 	private SnapshotComposite snapshotComposite;
-	private TablesCompositeImpl tablesComposite;
+
+	// private TablesCompositeImpl tablesComposite;
 
 	public CustomizeScreenEntityDialog(Shell parentShell, ScreenEntityDefinition screenEntityDefinition) {
 		super(parentShell);
@@ -50,39 +55,43 @@ public class CustomizeScreenEntityDialog extends Dialog {
 				MessageFormat.format(Messages.getString("title_ol_generate_screens_api"), PluginConstants.TITLE));
 
 		GridLayout gridLayout = new GridLayout();
-		gridLayout.numColumns = 2;
+		gridLayout.numColumns = 1;
 		GridData gd = new GridData();
-		gd.widthHint = 1160;
-		gd.heightHint = 500;
+		gd.widthHint = DIALOG_WIDTH;
+		gd.heightHint = DIALOG_HEIGHT;
 		parent.setLayoutData(gd);
 		parent.setLayout(gridLayout);
 
-		tablesComposite = new TablesCompositeImpl(parent, SWT.NONE, 280, gd.heightHint);
-		tablesComposite.fillTables(screenEntityDefinition.getSortedFields(),
-				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
+		// tablesComposite = new TablesCompositeImpl(parent, SWT.NONE, 280, gd.heightHint);
+		// tablesComposite.fillTables(screenEntityDefinition.getSortedFields(),
+		// screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
 
-		Composite composite = new Composite(parent, SWT.NONE);
-		gridLayout = new GridLayout();
-		gridLayout.numColumns = 1;
-		composite.setLayout(gridLayout);
-		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		// Composite composite = new Composite(parent, SWT.NONE);
+		// gridLayout = new GridLayout();
+		// gridLayout.numColumns = 1;
+		// composite.setLayout(gridLayout);
+		// composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Label labelPackage = new Label(composite, SWT.NULL);
+		Label labelPackage = new Label(parent, SWT.NULL);
 		labelPackage.setText(Messages.getString("field_entity_name"));
-		entityNameTxt = new Text(composite, SWT.SINGLE | SWT.BORDER);
+		entityNameTxt = new Text(parent, SWT.SINGLE | SWT.BORDER);
 
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		entityNameTxt.setLayoutData(gd);
-
 		entityNameTxt.setText(screenEntityDefinition.getEntityName());
 
 		// space
-		Label label = new Label(composite, SWT.NONE);
-		label.setText(" "); //$NON-NLS-1$
+		// Label label = new Label(parent, SWT.NONE);
+		//		label.setText(" "); //$NON-NLS-1$
+		// Label labelSeparator = new Label(parent, SWT.HORIZONTAL | SWT.SEPARATOR);
+		// labelSeparator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		snapshotComposite = new SnapshotComposite(composite, screenEntityDefinition.getOriginalSnapshot());
+		TablesComposite tablesComposite = new TablesComposite(parent, SWT.NONE, screenEntityDefinition);
 
-		tablesComposite.setPaintedControl(snapshotComposite);
+		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getOriginalSnapshot());
+		snapshotComposite.setIsScalable(true);
+
+		// tablesComposite.setPaintedControl(snapshotComposite);
 
 		return parent;
 	}
@@ -94,8 +103,29 @@ public class CustomizeScreenEntityDialog extends Dialog {
 			return;
 		}
 		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
-		this.tablesComposite.cleanupScreenentityDefinition(screenEntityDefinition.getFieldsDefinitions(),
-				screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
+		// this.tablesComposite.cleanupScreenentityDefinition(screenEntityDefinition.getFieldsDefinitions(),
+		// screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
 		super.okPressed();
 	}
+
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		super.createButtonsForButtonBar(parent);
+		// Set the size of the parent shell
+		parent.getShell().setSize(DIALOG_WIDTH + 5, DIALOG_HEIGHT + 75);
+		// Set the dialog position in the middle of the monitor
+		setDialogLocation();
+	}
+
+	/**
+	 * Method used to set the dialog in the centre of the monitor
+	 */
+	private void setDialogLocation() {
+		Rectangle monitorArea = getShell().getDisplay().getPrimaryMonitor().getBounds();
+		Rectangle shellArea = getShell().getBounds();
+		int x = monitorArea.x + (monitorArea.width - shellArea.width) / 2;
+		int y = monitorArea.y + (monitorArea.height - shellArea.height) / 2;
+		getShell().setLocation(x, y);
+	}
+
 }
