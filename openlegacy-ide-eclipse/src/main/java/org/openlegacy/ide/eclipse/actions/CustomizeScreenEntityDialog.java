@@ -91,7 +91,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getOriginalSnapshot());
 		snapshotComposite.setIsScalable(true);
 
-		// tablesComposite.setPaintedControl(snapshotComposite);
+		tablesComposite.setPaintedControl(snapshotComposite);
 
 		return parent;
 	}

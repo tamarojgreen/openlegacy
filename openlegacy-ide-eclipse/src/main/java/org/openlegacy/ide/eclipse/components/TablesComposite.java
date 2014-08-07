@@ -1,16 +1,21 @@
 package org.openlegacy.ide.eclipse.components;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -18,8 +23,12 @@ import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.components.providers.FieldsTableContentProvider;
 import org.openlegacy.ide.eclipse.components.providers.IdentifiersTableContentProvider;
+import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
+import org.openlegacy.terminal.TerminalPosition;
+import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
+import org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 
 /**
@@ -36,10 +45,19 @@ public class TablesComposite extends Composite {
 	private TableViewer fieldsTableViewer;
 	private TableViewer identifiersTableViewer;
 
+	private Control paintedControl = null;
+
 	public TablesComposite(Composite parent, int style, ScreenEntityDefinition screenEntityDefinition) {
 		super(parent, style);
 		this.screenEntityDefinition = screenEntityDefinition;
 		createLayout();
+	}
+
+	public void setPaintedControl(Control control) {
+		if (control == null) {
+			return;
+		}
+		this.paintedControl = control;
 	}
 
 	private void createLayout() {
@@ -74,6 +92,7 @@ public class TablesComposite extends Composite {
 		createFieldsTableColumns(fieldsTableViewer);
 		fieldsTableViewer.setContentProvider(new FieldsTableContentProvider());
 		fieldsTableViewer.setInput(screenEntityDefinition);
+		fieldsTableViewer.addSelectionChangedListener(getDefaultSelectionChangedListener());
 	}
 
 	private void createButtonsPanelForFieldsTable(Composite parent) {
@@ -124,6 +143,7 @@ public class TablesComposite extends Composite {
 		createIdentifiersTableColumns(identifiersTableViewer);
 		identifiersTableViewer.setContentProvider(new IdentifiersTableContentProvider());
 		identifiersTableViewer.setInput(screenEntityDefinition);
+		identifiersTableViewer.addSelectionChangedListener(getDefaultSelectionChangedListener());
 	}
 
 	private void createButtonsPanelForIdentifiersTable(Composite parent) {
@@ -322,6 +342,53 @@ public class TablesComposite extends Composite {
 				editor.setEditor(btn, item, 3);
 			}
 		});
+	}
+
+	private static Rectangle getRectangleForDrawing(Object element) {
+		TerminalPosition position = ((TerminalPositionContainer)element).getPosition();
+		if (position == null) {
+			return null;
+		}
+
+		int length = 0;
+		if (element instanceof ScreenFieldDefinition) {
+			length = ((ScreenFieldDefinition)element).getLength();
+		} else if (element instanceof SimpleScreenIdentifier) {
+			length = ((SimpleScreenIdentifier)element).getText().length();
+		} else {
+			return null;
+		}
+		DefaultTerminalSnapshotImageRenderer renderer = new DefaultTerminalSnapshotImageRenderer();
+
+		int x = renderer.toWidth(position.getColumn() - 1 + renderer.getLeftColumnsOffset());
+		int y = renderer.toHeight(position.getRow() - 1) + renderer.getTopPixelsOffset();
+		int width = renderer.toWidth(length);
+		int height = renderer.toHeight(1);
+		return new Rectangle(x, y, width, height);
+	}
+
+	private void redrawPaintedControl(Object element) {
+		if (this.paintedControl == null) {
+			return;
+		}
+		if (this.paintedControl instanceof SnapshotComposite) {
+			((SnapshotComposite)this.paintedControl).addDrawingRectangle(getRectangleForDrawing(element), SWT.COLOR_YELLOW, true);
+			((SnapshotComposite)this.paintedControl).setSnapshot(null);
+		} else {
+			this.paintedControl.redraw();
+		}
+	}
+
+	private ISelectionChangedListener getDefaultSelectionChangedListener() {
+		return new ISelectionChangedListener() {
+
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+				if (!selection.isEmpty()) {
+					redrawPaintedControl(selection.getFirstElement());
+				}
+			}
+		};
 	}
 
 }
