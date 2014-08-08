@@ -47,7 +47,7 @@
 						function(data) {						
 							$scope.model = data.model.entity;
 							$scope.breadcrumbs = data.model.paths;
-							$scope.baseUrl = olConfig.baseUrl;							
+							$scope.baseUrl = olConfig.baseUrl;
 							
 							$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 								$scope.model.actions=null;
@@ -97,11 +97,24 @@
 						});
 						</#if>						
 					</#list>
-				</#if>				
+				</#if>
 				
-		        
+				<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
+				$scope.loadTab = function(entityName) {
+					$scope.model.actions=null;
+					$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $routeParams.${entityDefinition.keys[0].name}</#if>, 
+						function(data) {
+							$scope.model = data.model.entity;																
+						});					
+				};
+				</#if>
+				
 							}
 						});
+//				<#else>
+//					$scope.read();
+//				</#if>				
+				
 						</#if>						
 					</#list>
 				</#if>

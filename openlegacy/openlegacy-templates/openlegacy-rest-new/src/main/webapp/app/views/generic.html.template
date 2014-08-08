@@ -29,7 +29,7 @@
 		<div class="col-sm-9 col-md-10"><!--  main   -->
 		
 			<ol class="breadcrumb hidden-xs">
-				<li data-ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
+				<li ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
 					<a ng-show="!$last" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
 					<span ng-show="$last">{{bc.displayName}}</span>
 				</li>
@@ -42,9 +42,10 @@
 				</#if>
 			</#list>			
 			
-			<h1>${entityDefinition.displayName}</h1>						
-						
-			<!-- <form role="form" accept-charset="utf-8"> -->
+			<#if (entityDefinition.childEntitiesDefinitions?size == 0)>
+				<h1>${entityDefinition.displayName}</h1>
+			</#if>
+			
 			    </div>
 			</div>    
 		</div>
@@ -66,11 +67,34 @@
 					<#assign hasTable = true>												
 				</#if>
 			</#list>			
+								
+							  </div>
+							  <#list entityDefinition.childEntitiesDefinitions as childEntity>		            			
+		            			<div class="tab-pane" id="${childEntity.entityName}">			            					            				
+								    <@navMacro entity=childEntity showExcelBtn=hasTable?string/>
+								    <#if (childEntity.partsDefinitions?size > 0)>
+								    	<#list childEntity.partsDefinitions as part>											
+											<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
+											<@pagePart entity=childEntity part=part/>
+										</#list>
+						    		<#else>						    			
+						    			<#list childEntity.fieldsDefinitions?keys as key>						    			
+								    		<@fieldMacro field=childEntity.fieldsDefinitions[key]/>
+						    			</#list>							    		
+								    </#if>
+		            			</div>
+		            		  </#list>						  
+							</div><!-- /Tab panes -->
+						</div>
+					<#else>
+						<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
+						<#list pageParts as part>											
+							<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
+							<@pagePart entity=entityDefinition part=part/>
+						</#list> 					
+	            	</#if>
 				</div>
 			</div>
-			
-					
-				
 		</div><!--  /main   -->
 	</div>
 </div>									
@@ -245,11 +269,7 @@
    		<#else>
    			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>   			
    		</#if>		
-	</div>	
-
-
-
-	<!--<div class="col-sm-4">
+	</div>
 	<div class="form-group">		
 		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
 		<#if field.editable>
