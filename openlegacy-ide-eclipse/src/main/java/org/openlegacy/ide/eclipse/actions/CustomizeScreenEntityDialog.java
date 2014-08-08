@@ -10,9 +10,19 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.search.IJavaSearchConstants;
+import org.eclipse.jdt.core.search.IJavaSearchScope;
+import org.eclipse.jdt.core.search.SearchEngine;
+import org.eclipse.jdt.internal.ui.util.BusyIndicatorRunnableContext;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.operation.IRunnableContext;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -22,17 +32,49 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.openlegacy.EntityType;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
 import org.openlegacy.ide.eclipse.components.TablesComposite;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
+import org.openlegacy.ide.eclipse.dialogs.TypesSelectionDialog;
+import org.openlegacy.ide.eclipse.dialogs.filters.ScreenTypeViewerFilter;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
+import org.openlegacy.modules.login.Login.LoginEntity;
+import org.openlegacy.modules.menu.Menu.MenuEntity;
+import org.openlegacy.modules.messages.Messages.MessagesEntity;
+import org.openlegacy.modules.table.LookupEntity;
+import org.openlegacy.modules.table.RecordSelectionEntity;
+import org.openlegacy.terminal.ScreenEntityType;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CustomizeScreenEntityDialog extends Dialog {
+
+	// map of screen types
+	private static Map<String, Class<? extends EntityType>> mapScreenTypes = Collections.unmodifiableMap(new HashMap<String, Class<? extends EntityType>>() {
+
+		private static final long serialVersionUID = 1401084746820724548L;
+
+		{
+			put(ScreenEntityType.General.class.getSimpleName(), ScreenEntityType.General.class);
+			put(LoginEntity.class.getSimpleName(), LoginEntity.class);
+			put(LookupEntity.class.getSimpleName(), LookupEntity.class);
+			put(MenuEntity.class.getSimpleName(), MenuEntity.class);
+			put(MessagesEntity.class.getSimpleName(), MessagesEntity.class);
+			put(RecordSelectionEntity.class.getSimpleName(), RecordSelectionEntity.class);
+		}
+	});
+
+	private static final String ID_FULLY_QUALIFIED_NAME = "id.fullyQualifiedName";//$NON-NLS-1$
 
 	private static final int DIALOG_WIDTH = 825;
 	private static final int DIALOG_HEIGHT = 800;
@@ -126,19 +168,19 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		composite.setLayout(gl);
 		// Label for CCombo
 		Label label = new Label(composite, SWT.NONE);
-		// gd = new GridData();
-		// label.setLayoutData(gd);
 		label.setText(Messages.getString("label_screen_type"));
 		// CCombo
 		CCombo combo = new CCombo(composite, SWT.FLAT | SWT.DROP_DOWN | SWT.READ_ONLY | SWT.BORDER);
 		gd = new GridData();
 		gd.widthHint = 210;
 		combo.setLayoutData(gd);
-		// XXX Ivan: add items
+		combo.setItems(getComboItems());
+		combo.setText(screenEntityDefinition.getTypeName());
 
 		// Browse button
 		Button browse = new Button(composite, SWT.PUSH);
 		browse.setText(Messages.getString("btn_browse"));
+		browse.addSelectionListener(getBrowseButtonSelectionListener(combo));
 
 		Label emptylabel = new Label(composite, SWT.NONE);
 		gd = new GridData();
@@ -147,12 +189,41 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		emptylabel.setText(" ");
 		// label for Checkbox
 		Label checkboxLabel = new Label(composite, SWT.NONE);
-		// gd = new GridData();
-		// gd.widthHint = 140;
-		// checkboxLabel.setLayoutData(gd);
 		checkboxLabel.setText(Messages.getString("label_is_window"));
 		// checkbox
 		Button checkbox = new Button(composite, SWT.CHECK);
+		checkbox.setSelection(screenEntityDefinition.isWindow());
+	}
+
+	private static String[] getComboItems() {
+		Collection<Class<? extends EntityType>> collection = mapScreenTypes.values();
+		List<String> list = new ArrayList<String>();
+		for (Class<? extends EntityType> clazz : collection) {
+			list.add(clazz.getSimpleName());
+		}
+		return list.toArray(new String[] {});
+	}
+
+	private SelectionListener getBrowseButtonSelectionListener(final CCombo combo) {
+		return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IRunnableContext context = new BusyIndicatorRunnableContext();
+				IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
+				TypesSelectionDialog dialog = new TypesSelectionDialog(e.widget.getDisplay().getActiveShell(), false, context,
+						scope, IJavaSearchConstants.CLASS);
+				ScreenTypeViewerFilter filter = new ScreenTypeViewerFilter();
+				dialog.addListFilter(filter);
+				dialog.setTitle(Messages.getString("title_select_class_dialog"));//$NON-NLS-1$
+				if (dialog.open() == Window.OK) {
+					IType res = (IType)dialog.getResult()[0];
+					combo.setData(ID_FULLY_QUALIFIED_NAME, res.getFullyQualifiedName());
+					combo.setText(res.getElementName());
+				}
+			}
+
+		};
 	}
 
 }
