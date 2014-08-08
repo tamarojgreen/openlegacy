@@ -8,7 +8,9 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -18,7 +20,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.components.providers.FieldsTableContentProvider;
@@ -29,7 +30,11 @@ import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.render.DefaultTerminalSnapshotImageRenderer;
+import org.openlegacy.terminal.services.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Ivan Bort
@@ -96,35 +101,67 @@ public class TablesComposite extends Composite {
 	}
 
 	private void createButtonsPanelForFieldsTable(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
+		Composite mainComposite = new Composite(parent, SWT.NONE);
+		GridLayout gl = new GridLayout();
+		gl.numColumns = 2;
+		gl.marginBottom = 0;
+		gl.marginHeight = 0;
+		gl.marginLeft = 0;
+		gl.marginRight = 0;
+		gl.marginTop = 0;
+		gl.marginWidth = 0;
+		mainComposite.setLayout(gl);
+		GridData gd = new GridData();
+		gd.horizontalIndent = 0;
+		gd.verticalIndent = 0;
+		gd.horizontalAlignment = SWT.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		mainComposite.setLayoutData(gd);
+
+		Composite leftComposite = new Composite(mainComposite, SWT.NONE);
 		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
 		rl.marginTop = 0;
-		composite.setLayout(rl);
-		GridData gd = new GridData(SWT.FILL);
-		gd.horizontalAlignment = GridData.END;
+		leftComposite.setLayout(rl);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.BEGINNING;
 		gd.verticalIndent = 0;
-		composite.setLayoutData(gd);
+		gd.grabExcessHorizontalSpace = true;
+		leftComposite.setLayoutData(gd);
 
-		Button btnString = new Button(composite, SWT.PUSH);
+		Button btnString = new Button(leftComposite, SWT.PUSH);
 		btnString.setImage(Activator.getDefault().getImage(Activator.ICON_STRING));
 		btnString.setToolTipText(Messages.getString("btn_tooltip_add_string"));
 
-		Button btnInteger = new Button(composite, SWT.PUSH);
+		Button btnInteger = new Button(leftComposite, SWT.PUSH);
 		btnInteger.setImage(Activator.getDefault().getImage(Activator.ICON_INTEGER));
 		btnInteger.setToolTipText(Messages.getString("btn_tooltip_add_integer"));
 
-		Button btnBoolean = new Button(composite, SWT.PUSH);
+		Button btnBoolean = new Button(leftComposite, SWT.PUSH);
 		btnBoolean.setImage(Activator.getDefault().getImage(Activator.ICON_BOOLEAN));
 		btnBoolean.setToolTipText(Messages.getString("btn_tooltip_add_boolean"));
 
-		Button btnDate = new Button(composite, SWT.PUSH);
+		Button btnDate = new Button(leftComposite, SWT.PUSH);
 		btnDate.setImage(Activator.getDefault().getImage(Activator.ICON_DATE));
 		btnDate.setToolTipText(Messages.getString("btn_tooltip_add_date"));
 
-		Button btnEnum = new Button(composite, SWT.PUSH);
+		Button btnEnum = new Button(leftComposite, SWT.PUSH);
 		btnEnum.setImage(Activator.getDefault().getImage(Activator.ICON_ENUM));
 		btnEnum.setToolTipText(Messages.getString("btn_tooltip_add_enum"));
 
+		Composite rightComposite = new Composite(mainComposite, SWT.NONE);
+		rl = new RowLayout(SWT.HORIZONTAL);
+		rl.marginTop = 0;
+		rightComposite.setLayout(rl);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.END;
+		gd.verticalIndent = 0;
+		gd.grabExcessHorizontalSpace = true;
+		rightComposite.setLayoutData(gd);
+
+		Button btnRemove = new Button(rightComposite, SWT.PUSH);
+		btnRemove.setImage(Activator.getDefault().getImage(Activator.ICON_DELETE));
+		btnRemove.setToolTipText(Messages.getString("btn_tooltip_remove"));
+		btnRemove.addSelectionListener(getRemoveFieldSelectionListener());
 	}
 
 	private void createIdentifiersColumn(Composite parent) {
@@ -147,18 +184,51 @@ public class TablesComposite extends Composite {
 	}
 
 	private void createButtonsPanelForIdentifiersTable(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
+		Composite mainComposite = new Composite(parent, SWT.NONE);
+		GridLayout gl = new GridLayout();
+		gl.numColumns = 2;
+		gl.marginBottom = 0;
+		gl.marginHeight = 0;
+		gl.marginLeft = 0;
+		gl.marginRight = 0;
+		gl.marginTop = 0;
+		gl.marginWidth = 0;
+		mainComposite.setLayout(gl);
+		GridData gd = new GridData();
+		gd.horizontalIndent = 0;
+		gd.verticalIndent = 0;
+		gd.horizontalAlignment = SWT.FILL;
+		gd.grabExcessHorizontalSpace = true;
+		mainComposite.setLayoutData(gd);
+
+		Composite leftComposite = new Composite(mainComposite, SWT.NONE);
 		RowLayout rl = new RowLayout(SWT.HORIZONTAL);
 		rl.marginTop = 0;
-		composite.setLayout(rl);
-		GridData gd = new GridData(SWT.FILL);
-		gd.horizontalAlignment = GridData.END;
+		leftComposite.setLayout(rl);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.BEGINNING;
 		gd.verticalIndent = 0;
-		composite.setLayoutData(gd);
+		gd.grabExcessHorizontalSpace = true;
+		leftComposite.setLayoutData(gd);
 
-		Button btnIdentifier = new Button(composite, SWT.PUSH);
+		Button btnIdentifier = new Button(leftComposite, SWT.PUSH);
 		btnIdentifier.setImage(Activator.getDefault().getImage(Activator.ICON_ANNOTATION));
 		btnIdentifier.setToolTipText(Messages.getString("btn_tooltip_add_identifier"));
+
+		Composite rightComposite = new Composite(mainComposite, SWT.NONE);
+		rl = new RowLayout(SWT.HORIZONTAL);
+		rl.marginTop = 0;
+		rightComposite.setLayout(rl);
+		gd = new GridData();
+		gd.horizontalAlignment = GridData.END;
+		gd.verticalIndent = 0;
+		gd.grabExcessHorizontalSpace = true;
+		rightComposite.setLayoutData(gd);
+
+		Button btnRemove = new Button(rightComposite, SWT.PUSH);
+		btnRemove.setImage(Activator.getDefault().getImage(Activator.ICON_DELETE));
+		btnRemove.setToolTipText(Messages.getString("btn_tooltip_remove"));
+		btnRemove.addSelectionListener(getRemoveIdentifierSelectionListener());
 	}
 
 	private static Composite getColumnComposite(Composite parent) {
@@ -176,7 +246,7 @@ public class TablesComposite extends Composite {
 		return composite;
 	}
 
-	private void createFieldsTableColumns(TableViewer tableViewer) {
+	private static void createFieldsTableColumns(TableViewer tableViewer) {
 		// "Fields"
 		TableViewerColumn vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tcol = vcol.getColumn();
@@ -225,7 +295,7 @@ public class TablesComposite extends Composite {
 		tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_java_type"));
 		tcol.setResizable(false);
-		tcol.setWidth(70);
+		tcol.setWidth(88);
 		// vcol.setEditingSupport(null);
 		vcol.setLabelProvider(new CellLabelProvider() {
 
@@ -240,48 +310,26 @@ public class TablesComposite extends Composite {
 		tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_field_type"));
 		tcol.setResizable(false);
-		tcol.setWidth(70);
+		tcol.setWidth(88);
 		// vcol.setEditingSupport(null);
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
 			public void update(ViewerCell cell) {
 				ScreenFieldDefinition definition = (ScreenFieldDefinition)cell.getElement();
-				cell.setText(definition.getJavaType().getSimpleName());
-			}
-		});
-		// Delete button
-		vcol = new TableViewerColumn(tableViewer, SWT.NONE);
-		tcol = vcol.getColumn();
-		tcol.setText("");
-		tcol.setResizable(false);
-		tcol.setWidth(35);
-		vcol.setLabelProvider(new CellLabelProvider() {
-
-			@Override
-			public void update(ViewerCell cell) {
-				TableItem item = (TableItem)cell.getItem();
-
-				Button btn = new Button(item.getParent(), SWT.NONE);
-				btn.setSize(35, item.getBounds().height);
-				btn.setImage(Activator.getDefault().getImage(Activator.ICON_DELETE));
-				btn.pack();
-
-				TableEditor editor = new TableEditor(item.getParent());
-				editor.minimumWidth = btn.getSize().x;
-				editor.horizontalAlignment = SWT.CENTER;
-				editor.setEditor(btn, item, 5);
+				// XXX Ivan: check correct value
+				cell.setText(definition.getFieldTypeName());
 			}
 		});
 	}
 
-	private void createIdentifiersTableColumns(TableViewer tableViewer) {
+	private static void createIdentifiersTableColumns(TableViewer tableViewer) {
 		// "Fields"
 		TableViewerColumn vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_identifiers"));
 		tcol.setResizable(false);
-		tcol.setWidth(200);
+		tcol.setWidth(240);
 		// vcol.setEditingSupport(null);
 		vcol.setLabelProvider(new CellLabelProvider() {
 
@@ -317,29 +365,6 @@ public class TablesComposite extends Composite {
 			public void update(ViewerCell cell) {
 				SimpleScreenIdentifier identifier = (SimpleScreenIdentifier)cell.getElement();
 				cell.setText(String.valueOf(identifier.getPosition().getColumn()));
-			}
-		});
-		// Delete button
-		vcol = new TableViewerColumn(tableViewer, SWT.NONE);
-		tcol = vcol.getColumn();
-		tcol.setText("");
-		tcol.setResizable(false);
-		tcol.setWidth(35);
-		vcol.setLabelProvider(new CellLabelProvider() {
-
-			@Override
-			public void update(ViewerCell cell) {
-				TableItem item = (TableItem)cell.getItem();
-
-				Button btn = new Button(item.getParent(), SWT.NONE);
-				btn.setSize(35, item.getBounds().height);
-				btn.setImage(Activator.getDefault().getImage(Activator.ICON_DELETE));
-				btn.pack();
-
-				TableEditor editor = new TableEditor(item.getParent());
-				editor.minimumWidth = btn.getSize().x;
-				editor.horizontalAlignment = SWT.CENTER;
-				editor.setEditor(btn, item, 3);
 			}
 		});
 	}
@@ -386,6 +411,44 @@ public class TablesComposite extends Composite {
 				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 				if (!selection.isEmpty()) {
 					redrawPaintedControl(selection.getFirstElement());
+				}
+			}
+		};
+	}
+
+	private SelectionListener getRemoveFieldSelectionListener() {
+		return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection selection = (IStructuredSelection)fieldsTableViewer.getSelection();
+				if (!selection.isEmpty()) {
+					ScreenFieldDefinition definition = (ScreenFieldDefinition)selection.getFirstElement();
+					Map<String, ScreenFieldDefinition> map = screenEntityDefinition.getFieldsDefinitions();
+					if (map.containsValue(definition)) {
+						map.values().remove(definition);
+						fieldsTableViewer.setInput(screenEntityDefinition);
+					}
+				}
+
+			}
+
+		};
+	}
+
+	private SelectionListener getRemoveIdentifierSelectionListener() {
+		return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				IStructuredSelection selection = (IStructuredSelection)identifiersTableViewer.getSelection();
+				if (!selection.isEmpty()) {
+					ScreenIdentifier identifier = (ScreenIdentifier)selection.getFirstElement();
+					List<ScreenIdentifier> list = screenEntityDefinition.getScreenIdentification().getScreenIdentifiers();
+					if (list.contains(identifier)) {
+						list.remove(identifier);
+						identifiersTableViewer.setInput(screenEntityDefinition);
+					}
 				}
 			}
 		};

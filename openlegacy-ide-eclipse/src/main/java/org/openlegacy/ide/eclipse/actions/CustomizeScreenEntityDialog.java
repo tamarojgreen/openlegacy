@@ -12,9 +12,11 @@ package org.openlegacy.ide.eclipse.actions;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -39,8 +41,6 @@ public class CustomizeScreenEntityDialog extends Dialog {
 	private ScreenEntityDefinition screenEntityDefinition;
 	private SnapshotComposite snapshotComposite;
 
-	// private TablesCompositeImpl tablesComposite;
-
 	public CustomizeScreenEntityDialog(Shell parentShell, ScreenEntityDefinition screenEntityDefinition) {
 		super(parentShell);
 		this.screenEntityDefinition = screenEntityDefinition;
@@ -62,32 +62,16 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		parent.setLayoutData(gd);
 		parent.setLayout(gridLayout);
 
-		// tablesComposite = new TablesCompositeImpl(parent, SWT.NONE, 280, gd.heightHint);
-		// tablesComposite.fillTables(screenEntityDefinition.getSortedFields(),
-		// screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
-
-		// Composite composite = new Composite(parent, SWT.NONE);
-		// gridLayout = new GridLayout();
-		// gridLayout.numColumns = 1;
-		// composite.setLayout(gridLayout);
-		// composite.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-		Label labelPackage = new Label(parent, SWT.NULL);
-		labelPackage.setText(Messages.getString("field_entity_name"));
-		entityNameTxt = new Text(parent, SWT.SINGLE | SWT.BORDER);
-
+		// entity level
+		createEntityLevelControls(parent);
+		Label separator = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		entityNameTxt.setLayoutData(gd);
-		entityNameTxt.setText(screenEntityDefinition.getEntityName());
+		gd.verticalIndent = gd.horizontalIndent = 0;
+		separator.setLayoutData(gd);
 
-		// space
-		// Label label = new Label(parent, SWT.NONE);
-		//		label.setText(" "); //$NON-NLS-1$
-		// Label labelSeparator = new Label(parent, SWT.HORIZONTAL | SWT.SEPARATOR);
-		// labelSeparator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
+		// fields/identifiers level
 		TablesComposite tablesComposite = new TablesComposite(parent, SWT.NONE, screenEntityDefinition);
-
+		// image level
 		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getOriginalSnapshot());
 		snapshotComposite.setIsScalable(true);
 
@@ -103,8 +87,6 @@ public class CustomizeScreenEntityDialog extends Dialog {
 			return;
 		}
 		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
-		// this.tablesComposite.cleanupScreenentityDefinition(screenEntityDefinition.getFieldsDefinitions(),
-		// screenEntityDefinition.getScreenIdentification().getScreenIdentifiers());
 		super.okPressed();
 	}
 
@@ -126,6 +108,51 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		int x = monitorArea.x + (monitorArea.width - shellArea.width) / 2;
 		int y = monitorArea.y + (monitorArea.height - shellArea.height) / 2;
 		getShell().setLocation(x, y);
+	}
+
+	private void createEntityLevelControls(Composite parent) {
+		Label labelPackage = new Label(parent, SWT.NULL);
+		labelPackage.setText(Messages.getString("field_entity_name"));
+		entityNameTxt = new Text(parent, SWT.SINGLE | SWT.BORDER);
+
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		entityNameTxt.setLayoutData(gd);
+		entityNameTxt.setText(screenEntityDefinition.getEntityName());
+
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout gl = new GridLayout();
+		gl.marginWidth = gl.marginHeight = 0;
+		gl.numColumns = 6;
+		composite.setLayout(gl);
+		// Label for CCombo
+		Label label = new Label(composite, SWT.NONE);
+		// gd = new GridData();
+		// label.setLayoutData(gd);
+		label.setText(Messages.getString("label_screen_type"));
+		// CCombo
+		CCombo combo = new CCombo(composite, SWT.FLAT | SWT.DROP_DOWN | SWT.READ_ONLY | SWT.BORDER);
+		gd = new GridData();
+		gd.widthHint = 210;
+		combo.setLayoutData(gd);
+		// XXX Ivan: add items
+
+		// Browse button
+		Button browse = new Button(composite, SWT.PUSH);
+		browse.setText(Messages.getString("btn_browse"));
+
+		Label emptylabel = new Label(composite, SWT.NONE);
+		gd = new GridData();
+		gd.widthHint = 50;
+		emptylabel.setLayoutData(gd);
+		emptylabel.setText(" ");
+		// label for Checkbox
+		Label checkboxLabel = new Label(composite, SWT.NONE);
+		// gd = new GridData();
+		// gd.widthHint = 140;
+		// checkboxLabel.setLayoutData(gd);
+		checkboxLabel.setText(Messages.getString("label_is_window"));
+		// checkbox
+		Button checkbox = new Button(composite, SWT.CHECK);
 	}
 
 }
