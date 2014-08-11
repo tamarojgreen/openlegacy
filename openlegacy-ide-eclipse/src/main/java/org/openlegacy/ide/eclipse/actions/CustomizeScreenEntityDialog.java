@@ -106,6 +106,8 @@ public class CustomizeScreenEntityDialog extends Dialog {
 
 		// entity level
 		createEntityLevelControls(parent);
+
+		// insert separator
 		Label separator = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.verticalIndent = gd.horizontalIndent = 0;
@@ -204,7 +206,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		return list.toArray(new String[] {});
 	}
 
-	private SelectionListener getBrowseButtonSelectionListener(final CCombo combo) {
+	private static SelectionListener getBrowseButtonSelectionListener(final CCombo combo) {
 		return new SelectionAdapter() {
 
 			@Override
