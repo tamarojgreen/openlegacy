@@ -31,6 +31,7 @@ import org.openlegacy.ide.eclipse.components.providers.FieldsTableContentProvide
 import org.openlegacy.ide.eclipse.components.providers.IdentifiersTableContentProvider;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
 import org.openlegacy.ide.eclipse.components.support.ComboBoxEditingSupport;
+import org.openlegacy.ide.eclipse.components.support.DialogEditingSupport;
 import org.openlegacy.ide.eclipse.components.support.TextEditingSupport;
 import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
@@ -332,7 +333,7 @@ public class TablesComposite extends Composite {
 		tcol.setText(Messages.getString("label_col_field_type"));
 		tcol.setResizable(false);
 		tcol.setWidth(88);
-		// vcol.setEditingSupport(null);
+		vcol.setEditingSupport(new DialogEditingSupport(tableViewer));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
