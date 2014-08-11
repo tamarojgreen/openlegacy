@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.actions;
 
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
@@ -20,6 +22,8 @@ import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -41,6 +45,7 @@ import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
 import org.openlegacy.ide.eclipse.dialogs.TypesSelectionDialog;
 import org.openlegacy.ide.eclipse.dialogs.filters.ScreenTypeViewerFilter;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
+import org.openlegacy.ide.eclipse.util.Utils;
 import org.openlegacy.modules.login.Login.LoginEntity;
 import org.openlegacy.modules.menu.Menu.MenuEntity;
 import org.openlegacy.modules.messages.Messages.MessagesEntity;
@@ -48,7 +53,9 @@ import org.openlegacy.modules.table.LookupEntity;
 import org.openlegacy.modules.table.RecordSelectionEntity;
 import org.openlegacy.terminal.ScreenEntityType;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 
+import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -178,6 +185,33 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		combo.setLayoutData(gd);
 		combo.setItems(getComboItems());
 		combo.setText(screenEntityDefinition.getTypeName());
+		combo.addModifyListener(new ModifyListener() {
+
+			@SuppressWarnings("unchecked")
+			public void modifyText(ModifyEvent e) {
+				if (!(screenEntityDefinition instanceof SimpleScreenEntityDefinition)) {
+					return;
+				}
+				String text = ((CCombo)e.widget).getText();
+				String fullyQualifiedName = (String)e.widget.getData(ID_FULLY_QUALIFIED_NAME);
+				Class<? extends EntityType> screenType = null;
+				if (mapScreenTypes.get(text) != null) {
+					screenType = mapScreenTypes.get(text);
+				} else if (!StringUtils.isEmpty(fullyQualifiedName)) {
+					try {
+						screenType = (Class<? extends EntityType>)Utils.getClazz(fullyQualifiedName);
+					} catch (MalformedURLException e1) {
+					} catch (CoreException e1) {
+					}
+				}
+
+				if (screenType == null) {
+					screenType = ScreenEntityType.General.class;
+				}
+
+				((SimpleScreenEntityDefinition)screenEntityDefinition).setType(screenType);
+			}
+		});
 
 		// Browse button
 		Button browse = new Button(composite, SWT.PUSH);
@@ -195,6 +229,17 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		// checkbox
 		Button checkbox = new Button(composite, SWT.CHECK);
 		checkbox.setSelection(screenEntityDefinition.isWindow());
+		checkbox.addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean selection = ((Button)e.widget).getSelection();
+				if (screenEntityDefinition instanceof SimpleScreenEntityDefinition) {
+					((SimpleScreenEntityDefinition)screenEntityDefinition).setWindow(selection);
+				}
+			}
+
+		});
 	}
 
 	private static String[] getComboItems() {

@@ -30,6 +30,8 @@ import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.components.providers.FieldsTableContentProvider;
 import org.openlegacy.ide.eclipse.components.providers.IdentifiersTableContentProvider;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
+import org.openlegacy.ide.eclipse.components.support.ComboBoxEditingSupport;
+import org.openlegacy.ide.eclipse.components.support.TextEditingSupport;
 import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
 import org.openlegacy.terminal.TerminalPosition;
@@ -42,6 +44,7 @@ import org.openlegacy.terminal.services.ScreenIdentifier;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -271,7 +274,7 @@ public class TablesComposite extends Composite {
 		tcol.setText(Messages.getString("label_col_fields"));
 		tcol.setResizable(false);
 		tcol.setWidth(115);
-		// vcol.setEditingSupport(null);
+		vcol.setEditingSupport(new TextEditingSupport(tableViewer));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -314,7 +317,7 @@ public class TablesComposite extends Composite {
 		tcol.setText(Messages.getString("label_col_java_type"));
 		tcol.setResizable(false);
 		tcol.setWidth(88);
-		// vcol.setEditingSupport(null);
+		vcol.setEditingSupport(new ComboBoxEditingSupport(tableViewer, getJavaTypeItems()));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -347,7 +350,7 @@ public class TablesComposite extends Composite {
 		tcol.setText(Messages.getString("label_col_identifiers"));
 		tcol.setResizable(false);
 		tcol.setWidth(240);
-		// vcol.setEditingSupport(null);
+		vcol.setEditingSupport(new TextEditingSupport(tableViewer));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -597,6 +600,15 @@ public class TablesComposite extends Composite {
 			}
 
 		};
+	}
+
+	private static List<String> getJavaTypeItems() {
+		List<String> list = new ArrayList<String>();
+		list.add(String.class.getSimpleName());
+		list.add(Integer.class.getSimpleName());
+		list.add(Boolean.class.getSimpleName());
+		list.add(Date.class.getSimpleName());
+		return list;
 	}
 
 }
