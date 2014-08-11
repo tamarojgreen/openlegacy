@@ -69,10 +69,15 @@ public class SessionViewerController {
 	@RequestMapping(value = "/image/{steps}", method = RequestMethod.GET)
 	public void imageFromTrail(HttpServletResponse response, @PathVariable("steps") int steps) throws IOException {
 		if (terminalSession.isConnected()) {
-			SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
-			trail.advanceCurrent(steps);
+			TerminalSnapshot current;
+			if (steps == 0) {
+				current = terminalSession.getSnapshot();
+			} else {
+				SessionTrail<? extends Snapshot> trail = terminalSession.getModule(Trail.class).getSessionTrail();
+				trail.advanceCurrent(steps);
+				current = (TerminalSnapshot)trail.getCurrent();
+			}
 			response.setContentType("image/jpeg");
-			TerminalSnapshot current = (TerminalSnapshot)trail.getCurrent();
 			TerminalPersistedSnapshot transformSnapshot = SnapshotPersistanceDTO.transformSnapshot(current);
 			imageRenderer.render(transformSnapshot, response.getOutputStream());
 		}
