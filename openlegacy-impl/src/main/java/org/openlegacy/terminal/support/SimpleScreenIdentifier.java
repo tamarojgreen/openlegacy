@@ -86,6 +86,10 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 		return text;
 	}
 
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	public FieldAttributeType getAttribute() {
 		return attribute;
 	}
