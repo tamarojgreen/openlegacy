@@ -21,7 +21,6 @@
         <image-file>red.jpg</image-file>
         <mobile-theme>openlegacy-themes-cloudm</mobile-theme>
     </theme>
-    
     <theme>
         <name>openlegacy-themes-emily</name>
         <display-name>Emily</display-name>
@@ -35,4 +34,10 @@
         <image-file>dynamics.jpg</image-file>
         <mobile-theme>openlegacy-themes-emilym</mobile-theme>
     </theme>
+    <theme>
+        <name>openlegacy-themes-orange</name>
+        <display-name>Orange</display-name>
+        <image-file>orange.jpg</image-file>
+        <mobile-theme>openlegacy-themes-emilym</mobile-theme>
+    </theme>    
 </themes>
