@@ -59,7 +59,7 @@ import java.util.regex.Pattern;
 public class TablesComposite extends Composite {
 
 	private static final int TABLE_WIDTH = 400;
-	private static final int TABLE_HEIGHT = 210;
+	private static final int TABLE_HEIGHT = 110;
 
 	private ScreenEntityDefinition screenEntityDefinition;
 
@@ -164,11 +164,6 @@ public class TablesComposite extends Composite {
 		btnDate.setToolTipText(Messages.getString("btn_tooltip_add_date"));
 		btnDate.addSelectionListener(getNewDateFieldSelectionListener());
 
-		// Button btnEnum = new Button(leftComposite, SWT.PUSH);
-		// btnEnum.setImage(Activator.getDefault().getImage(Activator.ICON_ENUM));
-		// btnEnum.setToolTipText(Messages.getString("btn_tooltip_add_enum"));
-		// btnEnum.addSelectionListener(getNewEnumFieldSelectionListener());
-
 		Composite rightComposite = new Composite(mainComposite, SWT.NONE);
 		rl = new RowLayout(SWT.HORIZONTAL);
 		rl.marginTop = 0;
@@ -233,7 +228,7 @@ public class TablesComposite extends Composite {
 		leftComposite.setLayoutData(gd);
 
 		Button btnIdentifier = new Button(leftComposite, SWT.PUSH);
-		btnIdentifier.setImage(Activator.getDefault().getImage(Activator.ICON_ANNOTATION));
+		btnIdentifier.setImage(Activator.getDefault().getImage(Activator.ICON_PLUS));
 		btnIdentifier.setToolTipText(Messages.getString("btn_tooltip_add_identifier"));
 		btnIdentifier.addSelectionListener(getNewIdentifierSelectionListener());
 
@@ -254,7 +249,7 @@ public class TablesComposite extends Composite {
 	}
 
 	private static Composite getColumnComposite(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
+		Composite composite = new Composite(parent, SWT.BORDER);
 		GridLayout gl = new GridLayout();
 		gl.numColumns = 1;
 		gl.marginTop = 0;
@@ -289,7 +284,7 @@ public class TablesComposite extends Composite {
 		tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_row"));
 		tcol.setResizable(false);
-		tcol.setWidth(40);
+		tcol.setWidth(38);
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override

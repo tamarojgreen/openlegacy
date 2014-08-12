@@ -36,7 +36,6 @@ public class DialogEditingSupport extends EditingSupport {
 	public DialogEditingSupport(TableViewer viewer) {
 		super(viewer);
 		this.viewer = viewer;
-		// XXX Ivan: Auto-generated constructor stub
 	}
 
 	/*

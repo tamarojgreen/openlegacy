@@ -40,13 +40,13 @@ public class Activator extends AbstractUIPlugin {
 	public static final String PLUGIN_ID = "org.openlegacy.ide.eclipse"; //$NON-NLS-1$
 
 	public static final String ICON_DELETE = "delete";//$NON-NLS-1$
+	public static final String ICON_PLUS = "plus";//$NON-NLS-1$
 	// fields icons
 	public static final String ICON_BOOLEAN = "boolean";//$NON-NLS-1$
 	public static final String ICON_DATE = "date";//$NON-NLS-1$
 	public static final String ICON_ENUM = "enum";//$NON-NLS-1$
 	public static final String ICON_INTEGER = "integer";//$NON-NLS-1$
 	public static final String ICON_STRING = "string";//$NON-NLS-1$
-	public static final String ICON_ANNOTATION = "annotation";//$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
@@ -132,12 +132,12 @@ public class Activator extends AbstractUIPlugin {
 	@Override
 	protected void initializeImageRegistry(ImageRegistry reg) {
 		registerImage(reg, ICON_DELETE, "delete.png");//$NON-NLS-1$
+		registerImage(reg, ICON_PLUS, "plus.png");//$NON-NLS-1$
 		registerImage(reg, ICON_BOOLEAN, "buttons/b.png");//$NON-NLS-1$
 		registerImage(reg, ICON_DATE, "buttons/d.png");//$NON-NLS-1$
 		registerImage(reg, ICON_ENUM, "buttons/e.png");//$NON-NLS-1$
 		registerImage(reg, ICON_INTEGER, "buttons/i.png");//$NON-NLS-1$
 		registerImage(reg, ICON_STRING, "buttons/s.png");//$NON-NLS-1$
-		registerImage(reg, ICON_ANNOTATION, "buttons/annotation.png");//$NON-NLS-1$
 		super.initializeImageRegistry(reg);
 	}
 
