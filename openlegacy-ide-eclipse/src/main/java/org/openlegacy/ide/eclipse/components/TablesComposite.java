@@ -334,7 +334,7 @@ public class TablesComposite extends Composite {
 			@Override
 			public void update(ViewerCell cell) {
 				ScreenFieldDefinition definition = (ScreenFieldDefinition)cell.getElement();
-				cell.setText(definition.getType() == null ? General.class.getSimpleName() : definition.getType().getSimpleName());
+				cell.setText(definition.getType() == null ? "" : definition.getType().getSimpleName());
 			}
 		});
 	}

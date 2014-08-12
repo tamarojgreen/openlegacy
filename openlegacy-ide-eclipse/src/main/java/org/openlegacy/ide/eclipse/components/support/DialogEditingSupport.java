@@ -14,7 +14,6 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Control;
 import org.openlegacy.FieldType;
-import org.openlegacy.FieldType.General;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.dialogs.TypesSelectionDialog;
 import org.openlegacy.ide.eclipse.dialogs.filters.AbstractViewerFilter;
@@ -87,7 +86,7 @@ public class DialogEditingSupport extends EditingSupport {
 		if (element instanceof ScreenFieldDefinition && ((ScreenFieldDefinition)element).getType() != null) {
 			return ((ScreenFieldDefinition)element).getType().getSimpleName();
 		}
-		return General.class.getSimpleName();
+		return "";
 	}
 
 	/*
