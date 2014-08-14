@@ -516,18 +516,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		List<ScreenEntityDefinition> screenDefinitions = getSortedSnapshots(screenEntitiesDefinitions);
 
-		EntityUserInteraction<EntityDefinition<?>> entityUserInteraction = generateModelRequest.getEntityUserInteraction();
 		for (ScreenEntityDefinition screenEntityDefinition : screenDefinitions) {
 			((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setGenerateAspect(generateModelRequest.isGenerateAspectJ());
 
-			boolean generated = generateScreenEntityDefinition(generateModelRequest, screenEntityDefinition);
-
-			if (generated && screenDefinitions.size() == 1) {
-				File packageDir = new File(generateModelRequest.getSourceDirectory(), generateModelRequest.getPackageDirectory());
-				String entityName = screenEntityDefinition.getEntityName();
-				File targetJavaFile = new File(packageDir, MessageFormat.format("{0}.java", entityName));
-				entityUserInteraction.open(targetJavaFile, screenEntityDefinition);
-			}
+			generateScreenEntityDefinition(generateModelRequest, screenEntityDefinition);
 		}
 
 		if (generateModelRequest.isGenerateTest()) {
@@ -592,6 +584,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				// generate xml file with screen XML for testing purposes
 				generateResource(snapshot, entityName, screenResourcesDir, xmlRenderer);
 			}
+
+			// open in editor
+			entityUserInteraction.open(targetJavaFile, entityDefinition);
+
 			return true;
 
 		} catch (TemplateException e) {

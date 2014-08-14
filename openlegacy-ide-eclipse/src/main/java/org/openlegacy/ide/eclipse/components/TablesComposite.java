@@ -21,7 +21,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.openlegacy.FieldType.General;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
@@ -513,7 +512,7 @@ public class TablesComposite extends Composite {
 				fieldName = generateNewFieldName(screenEntityDefinition, null);
 			}
 
-			SimpleScreenFieldDefinition definition = new SimpleScreenFieldDefinition(fieldName, General.class);
+			SimpleScreenFieldDefinition definition = new SimpleScreenFieldDefinition(fieldName, null);
 			definition.setJavaType(javaType);
 			definition.setPosition(selectedObject.getFieldRectangle().getStartPosition());
 			definition.setEndPosition(selectedObject.getFieldRectangle().getEndPosition());
