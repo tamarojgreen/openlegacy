@@ -12,14 +12,11 @@ package org.openlegacy.designtime.generators;
 
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.COMPOSITE_SUFFIX;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.COMPOSITE_TEMPLATE;
-import static org.openlegacy.designtime.generators.MvcGenerateUtil.COMPOSITE_VIEW;
-import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_MOBILE_DIR_PREFIX;
 import static org.openlegacy.designtime.generators.MvcGenerateUtil.TEMPLATE_WEB_DIR_PREFIX;
 import freemarker.template.TemplateException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
@@ -40,7 +37,6 @@ import javax.inject.Inject;
 public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator {
 
 	public String webViewsDir = "src/main/webapp/WEB-INF/web/views/";
-	public String mobileViewsDir = "src/main/webapp/WEB-INF/mobile/views/";
 	public String helpDir = "src/main/webapp/help/";
 
 	public String viewsFile = "views.xml";
@@ -95,15 +91,9 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 			}
 
 			// generate web view
-			String mvcTemplateType = MvcGenerateUtil.getMvcTemplateType(entityDefinition, isComposite, isChild, false);
+			String mvcTemplateType = MvcGenerateUtil.getMvcTemplateType(entityDefinition, isComposite, isChild);
 			generateView(generateViewRequest, pageDefinition, webViewsDir, TEMPLATE_WEB_DIR_PREFIX, userInteraction, isComposite,
 					mvcTemplateType, COMPOSITE_TEMPLATE);
-			// generate mobile view
-			if (generateViewRequest.isGenerateMobilePage()) {
-				mvcTemplateType = MvcGenerateUtil.getMvcTemplateType(entityDefinition, isComposite, isChild, true);
-				generateView(generateViewRequest, pageDefinition, mobileViewsDir, TEMPLATE_MOBILE_DIR_PREFIX, userInteraction,
-						isComposite, mvcTemplateType, COMPOSITE_VIEW);
-			}
 
 		} catch (Exception e) {
 			throw (new GenerationException(e));
@@ -216,10 +206,6 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 		this.webViewsDir = webViewsDir;
 	}
 
-	public void setMobileViewsDir(String mobileViewsDir) {
-		this.mobileViewsDir = mobileViewsDir;
-	}
-
 	public void setViewsFile(String viewsFile) {
 		this.viewsFile = viewsFile;
 	}
@@ -231,20 +217,14 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 	public void renameViews(String fileNoExtension, String newName, File projectPath) {
 		// web
 		try {
-			renameViews(webViewsDir, viewsFile, fileNoExtension, newName, null, projectPath);
-		} catch (IOException e) {
-			logger.info(e.getMessage());
-		}
-		// mobile
-		try {
-			renameViews(mobileViewsDir, viewsFile, fileNoExtension, newName, "_m", projectPath);
+			renameViews(webViewsDir, viewsFile, fileNoExtension, newName, projectPath);
 		} catch (IOException e) {
 			logger.info(e.getMessage());
 		}
 	}
 
-	private static void renameViews(String viewsDir, String viewsFile, String oldName, String newName, String viewNameSuffix,
-			File projectPath) throws IOException {
+	private static void renameViews(String viewsDir, String viewsFile, String oldName, String newName, File projectPath)
+			throws IOException {
 		File webDir = new File(projectPath, viewsDir);
 		if (webDir.exists()) {
 			// rename views
@@ -260,18 +240,10 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 			FileOutputStream fos = null;
 			try {
 				String viewsFileContent = FileUtils.readFileToString(templateViewsFile);
-				if (StringUtils.isEmpty(viewNameSuffix)) {
-					viewsFileContent = viewsFileContent.replaceAll(MessageFormat.format("name=\"{0}\"", oldName),
-							MessageFormat.format("name=\"{0}\"", newName));
-					viewsFileContent = viewsFileContent.replaceAll(MessageFormat.format("{0}.jspx", oldName),
-							MessageFormat.format("{0}.jspx", newName));
-				} else {
-					viewsFileContent = viewsFileContent.replaceAll(
-							MessageFormat.format("name=\"{0}{1}\"", oldName, viewNameSuffix),
-							MessageFormat.format("name=\"{0}{1}\"", newName, viewNameSuffix));
-					viewsFileContent = viewsFileContent.replaceAll(MessageFormat.format("{0}.jspx", oldName),
-							MessageFormat.format("{0}.jspx", newName));
-				}
+				viewsFileContent = viewsFileContent.replaceAll(MessageFormat.format("name=\"{0}\"", oldName),
+						MessageFormat.format("name=\"{0}\"", newName));
+				viewsFileContent = viewsFileContent.replaceAll(MessageFormat.format("{0}.jspx", oldName),
+						MessageFormat.format("{0}.jspx", newName));
 				fos = new FileOutputStream(templateViewsFile);
 				IOUtils.write(viewsFileContent, fos);
 			} finally {

@@ -19,7 +19,6 @@ public class GenerateViewRequest extends AbstractGenerateRequest {
 	private File entitySourceFile;
 	private boolean generateHelp;
 	private UserInteraction userInteraction;
-	private boolean generateMobilePage;
 
 	public File getEntitySourceFile() {
 		return entitySourceFile;
@@ -45,11 +44,4 @@ public class GenerateViewRequest extends AbstractGenerateRequest {
 		this.generateHelp = generateHelp;
 	}
 
-	public boolean isGenerateMobilePage() {
-		return generateMobilePage;
-	}
-
-	public void setGenerateMobilePage(boolean generateMobilePage) {
-		this.generateMobilePage = generateMobilePage;
-	}
 }

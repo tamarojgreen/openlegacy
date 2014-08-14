@@ -5,39 +5,33 @@
         <name>openlegacy-themes-cloud</name>
         <display-name>Cloud</display-name>
         <image-file>cloud.jpg</image-file>
-        <mobile-theme>openlegacy-themes-cloudm</mobile-theme>
     </theme>
 
     <theme>
         <name>openlegacy-themes-night</name>
         <display-name>Night</display-name>
         <image-file>night.jpg</image-file>
-        <mobile-theme>openlegacy-themes-cloudm</mobile-theme>
     </theme>
 
     <theme>
         <name>openlegacy-themes-red</name>
         <display-name>Red</display-name>
         <image-file>red.jpg</image-file>
-        <mobile-theme>openlegacy-themes-cloudm</mobile-theme>
     </theme>
     <theme>
         <name>openlegacy-themes-emily</name>
         <display-name>Emily</display-name>
         <image-file>emily.jpg</image-file>
-        <mobile-theme>openlegacy-themes-emilym</mobile-theme>
     </theme>
 
     <theme>
         <name>openlegacy-themes-dynamics</name>
         <display-name>Dynamics</display-name>
         <image-file>dynamics.jpg</image-file>
-        <mobile-theme>openlegacy-themes-emilym</mobile-theme>
     </theme>
     <theme>
         <name>openlegacy-themes-orange</name>
         <display-name>Orange</display-name>
         <image-file>orange.jpg</image-file>
-        <mobile-theme>openlegacy-themes-emilym</mobile-theme>
     </theme>    
 </themes>

@@ -119,11 +119,11 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 		updateControllersJs(generateControllerRequest, entityDefinition);
 	}
 
-	private static void generateControllerFromView(GenerateControllerRequest generateControllerRequest,
-			EntityDefinition<?> entityDefinition) throws GenerationException {
-		// updateAppJs(generateControllerRequest, entityDefinition);
-		// updateControllersJs(generateControllerRequest, entityDefinition);
-	}
+	// private static void generateControllerFromView(GenerateControllerRequest generateControllerRequest,
+	// EntityDefinition<?> entityDefinition) throws GenerationException {
+	// updateAppJs(generateControllerRequest, entityDefinition);
+	// updateControllersJs(generateControllerRequest, entityDefinition);
+	// }
 
 	private static void updateControllersJs(GenerateControllerRequest generateControllerRequest,
 			EntityDefinition<?> entityDefinition) {

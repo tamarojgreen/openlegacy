@@ -96,17 +96,6 @@ public class ScreenEntityMvcGeneratorTest {
 	}
 
 	@Test
-	public void testGenerateMobileCompositeJspx() throws Exception {
-
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		screenEntityMvcGenerator.generateCompositePage(screenEntitiesRegistry.get(CompositeScreenForPage.class), baos,
-				MvcGenerateUtil.TEMPLATE_MOBILE_DIR_PREFIX);
-
-		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("ScreenForPageMobileComposite.jspx.expected"));
-		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
-	}
-
-	@Test
 	public void testGenerateContollerAspectByCodeModel() throws Exception {
 		String javaSource = "/org/openlegacy/designtime/terminal/generators/mock/ScreenForPage.java.resource";
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream(javaSource));

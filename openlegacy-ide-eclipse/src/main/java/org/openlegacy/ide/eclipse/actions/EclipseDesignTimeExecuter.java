@@ -160,8 +160,7 @@ public class EclipseDesignTimeExecuter {
 		job.schedule();
 	}
 
-	public void generateView(IFile entitySourceFile, IProject project, UserInteraction userInteraction, boolean generateHelp,
-			boolean generateMobilePage) {
+	public void generateView(IFile entitySourceFile, IProject project, UserInteraction userInteraction, boolean generateHelp) {
 
 		File projectPath = new File(PathsUtil.toOsLocation(project), DesignTimeExecuterImpl.TEMPLATES_DIR);
 
@@ -178,7 +177,6 @@ public class EclipseDesignTimeExecuter {
 		generatePageRequest.setTemplatesDirectory(projectPath);
 		generatePageRequest.setUserInteraction(userInteraction);
 		generatePageRequest.setGenerateHelp(generateHelp);
-		generatePageRequest.setGenerateMobilePage(generateMobilePage);
 		designTimeExecuter.generateView(generatePageRequest);
 
 	}

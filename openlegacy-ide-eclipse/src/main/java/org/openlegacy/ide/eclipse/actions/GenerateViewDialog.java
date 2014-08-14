@@ -60,7 +60,6 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 	private Combo projectName;
 
 	private Button generateHelpBtn;
-	private Button generateMobilePageBtn;
 	private ISelection selection;
 
 	private IFile file;
@@ -105,10 +104,6 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 		generateHelpBtn = new Button(composite, SWT.CHECK);
 		generateHelpBtn.setText(Messages.getString("label_generate_help"));
 		generateHelpBtn.setSelection(true);
-		// "Generate mobile page" option (checkbox)
-		generateMobilePageBtn = new Button(composite, SWT.CHECK);
-		generateMobilePageBtn.setText(Messages.getString("label_generate_mobile_page"));
-		generateMobilePageBtn.setSelection(true);
 
 		loadPrefrences();
 
@@ -134,7 +129,6 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 	protected void executeGenerate() {
 
 		final boolean generateHelp = generateHelpBtn.getSelection();
-		final boolean generateMobilePage = generateMobilePageBtn.getSelection();
 		final String projectNameText = projectName.getText();
 		Job job = new Job(Messages.getString("job_generating_view")) {
 
@@ -150,7 +144,7 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 						final IFile screenEntitySourceFile = (IFile)((ICompilationUnit)treePath.getLastSegment()).getResource();
 						IProject project = EclipseUtil.getProject(projectNameText);
 						EclipseDesignTimeExecuter.instance().generateView(screenEntitySourceFile, project,
-								GenerateViewDialog.this, generateHelp, generateMobilePage);
+								GenerateViewDialog.this, generateHelp);
 
 						monitor.worked(1);
 

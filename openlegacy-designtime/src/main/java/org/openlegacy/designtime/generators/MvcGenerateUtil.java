@@ -31,7 +31,6 @@ public class MvcGenerateUtil {
 
 	public static final String DEFAULT_TEMPLATE = "template";
 	public static final String VIEW_ONLY_TEMPLATE = "view";
-	public static final String INNER_VIEW_MOBILE_TEMPLATE = "innerView";
 	public static final String WINDOW_TEMPLATE = "window";
 
 	public static final String COMPOSITE_SUFFIX = "Composite";
@@ -42,7 +41,6 @@ public class MvcGenerateUtil {
 
 	// must ends with slash
 	public static final String TEMPLATE_WEB_DIR_PREFIX = "web/";
-	public static final String TEMPLATE_MOBILE_DIR_PREFIX = "mobile/";
 
 	private final static Log logger = LogFactory.getLog(MvcGenerateUtil.class);
 
@@ -68,22 +66,12 @@ public class MvcGenerateUtil {
 		return definitionTemplate;
 	}
 
-	public static String getMvcTemplateType(EntityDefinition<?> entityDefinition, boolean isComposite, boolean isChild,
-			boolean isMobile) {
-		String mvcTemplateType = null;
-		if (isMobile) {
-			// in mobile - generate pages as views by default. composite (main screen) and it's child entities - generate as inner
-			// views (child of view)
-			mvcTemplateType = (isComposite || isChild) ? INNER_VIEW_MOBILE_TEMPLATE : VIEW_ONLY_TEMPLATE;
-		} else {
-			if (entityDefinition.isWindow()) {
-				return WINDOW_TEMPLATE;
-			}
-			// in web - generate pages as template by default. composite (main screen) and it's child entities - generate as views
-			mvcTemplateType = (isComposite || isChild) ? VIEW_ONLY_TEMPLATE : DEFAULT_TEMPLATE;
+	public static String getMvcTemplateType(EntityDefinition<?> entityDefinition, boolean isComposite, boolean isChild) {
+		if (entityDefinition.isWindow()) {
+			return WINDOW_TEMPLATE;
 		}
-
-		return mvcTemplateType;
+		// in web - generate pages as template by default. composite (main screen) and it's child entities - generate as views
+		return (isComposite || isChild) ? VIEW_ONLY_TEMPLATE : DEFAULT_TEMPLATE;
 	}
 
 	public static void updateViewsFile(File projectDir, EntityDefinition<?> entityDefinition, String viewName,

@@ -14,7 +14,6 @@
 			Copyright &#169; 2012 OpenLegacy. All rights reserved. <br />Powered
 			by OpenLegacy &#174; ${openLegacyProperties.version}
 			<br/>
-			Web | <a href="${pageContext.request.contextPath}/?site_preference=mobile">Mobile</a>
 		</div>
 	</div>
 </jsp:root>

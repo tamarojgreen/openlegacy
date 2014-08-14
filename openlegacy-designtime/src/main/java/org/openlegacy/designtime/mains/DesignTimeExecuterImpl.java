@@ -425,12 +425,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					"<groupId>org.openlegacy.web</groupId>\\s+<artifactId>openlegacy-themes-\\w+(.*?)(?<!m)</artifactId>",
 					MessageFormat.format("<groupId>org.openlegacy.web</groupId>\n\t\t\t<artifactId>{0}</artifactId>",
 							projectTheme.getName()));
-
-			// rename theme for mobile
-			pomFileContent = pomFileContent.replaceFirst(
-					"<groupId>org.openlegacy.web</groupId>\\s+<artifactId>openlegacy-themes-\\w+(.*?)(?<=m)</artifactId>",
-					MessageFormat.format("<groupId>org.openlegacy.web</groupId>\n\t\t\t<artifactId>{0}</artifactId>",
-							projectTheme.getMobileTheme()));
 			FileUtils.write(pomFileContent, pomFile);
 		}
 	}
@@ -449,13 +443,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (projectTheme != null) {
 			appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultTheme=.*",
 					MessageFormat.format("themeUtil.defaultTheme={0}", projectTheme.getDisplayName().toLowerCase()));
-			// get mobile theme name
-			if (projectTheme.getMobileTheme() != null) {
-				String[] split = projectTheme.getMobileTheme().split("-");
-				// suppose, that last element of String array is mobile theme name
-				appPropertiesFileContent = appPropertiesFileContent.replaceFirst("themeUtil.defaultMobileTheme=.*",
-						MessageFormat.format("themeUtil.defaultMobileTheme={0}", split[split.length - 1].toLowerCase()));
-			}
 			FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 		}
 	}

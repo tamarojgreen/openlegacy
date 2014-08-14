@@ -17,7 +17,7 @@
 			<c:choose>
 				<c:when test="${openLegacyWebProperties.treeMenu}">
 					<c:set var="width" value="350px" />
-					<c:if test="${openLegacyProperties.rightToLeft &amp;&amp; (deviceType ne 'MOBILE')}">
+					<c:if test="${openLegacyProperties.rightToLeft}">
 						<c:set var="width" value="700px" />
 					</c:if>
 					<style>

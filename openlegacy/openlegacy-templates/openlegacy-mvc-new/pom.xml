@@ -209,11 +209,6 @@
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openlegacy.web</groupId>
-			<artifactId>openlegacy-themes-cloudm</artifactId>
-			<version>${openlegacy-version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.openlegacy</groupId>
 			<artifactId>openlegacy-impl</artifactId>
 			<version>${openlegacy-version}</version>
