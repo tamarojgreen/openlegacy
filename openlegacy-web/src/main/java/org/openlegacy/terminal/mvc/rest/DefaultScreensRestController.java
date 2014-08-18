@@ -76,13 +76,13 @@ public class DefaultScreensRestController extends AbstractRestController {
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
 	@Inject
+	private ScreenEntityUtils screenEntityUtils;
+
+	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
 	@Inject
 	private TableWriter tableWriter;
-
-	@Inject
-	private ScreenEntityUtils screenEntityUtils;
 
 	private boolean enableEmulation = true;
 

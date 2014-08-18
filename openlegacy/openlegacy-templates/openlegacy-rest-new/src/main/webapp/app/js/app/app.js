@@ -4,7 +4,7 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services'] );
+	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services', 'directives'] );
 
 	olApp.config( [ '$routeProvider', function( $routeProvider) {
 		

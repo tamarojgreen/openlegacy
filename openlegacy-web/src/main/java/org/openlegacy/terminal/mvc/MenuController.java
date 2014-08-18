@@ -13,6 +13,7 @@ package org.openlegacy.terminal.mvc;
 import org.openlegacy.OpenLegacyProperties;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
+import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.terminal.TerminalSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,8 +42,7 @@ public class MenuController {
 	private MenuItem menus = null;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public @ResponseBody
-	String getMenuId(@PathVariable("id") String id) {
+	public @ResponseBody String getMenuId(@PathVariable("id") String id) {
 
 		if (menus == null || openLegacyProperties.isDesigntime()) {
 			menus = terminalSession.getModule(Menu.class).getMenuTree();
@@ -95,5 +95,11 @@ public class MenuController {
 
 	private static String getMenuUniqueId(MenuItem item) {
 		return item.getTargetEntityName();
+	}
+
+	@RequestMapping(value = "/flatMenu", method = RequestMethod.GET, consumes = AbstractRestController.JSON)
+	public Object getFlatMenuEntries() {
+		Menu menus = terminalSession.getModule(Menu.class);
+		return menus.getFlatMenuEntries();
 	}
 }
