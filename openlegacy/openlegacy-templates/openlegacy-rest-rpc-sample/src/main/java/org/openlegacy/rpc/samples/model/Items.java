@@ -17,17 +17,11 @@ import java.util.List;
 @RpcNavigation(category = "Inventory Menu")
 public class Items implements org.openlegacy.rpc.RpcEntity {
 
-	private TopLevel topLevel;
-
-	@RpcPart(name = "TopLevel")
-	public static class TopLevel {
-
-		@RpcPartList(count = 5)
-		private List<InnerRecord> innerRecord;
-	}
+	@RpcPartList(count = 5)
+	private List<InnerRecord> innerRecord;
 
 	@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMDETAIL.PGM", displayName = "View", targetEntity = ItemDetails.class, alias = "display") })
-	@RpcPart(name = "InnerRecord")
+	@RpcPart(name = "InnerRecord", legacyContainerName = "Top")
 	public static class InnerRecord {
 
 		@RpcNumericField(minimumValue = -9999, maximumValue = 9999, decimalPlaces = 0)
@@ -41,4 +35,5 @@ public class Items implements org.openlegacy.rpc.RpcEntity {
 		private String description;
 
 	}
+
 }

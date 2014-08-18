@@ -26,6 +26,8 @@
 	    </property>
     </bean>
 	
+	<!-- Use this definition to replay a mock-up session application
+	End use this definition to replay a mock-up session application -->
  	<bean id="rpcConnectionFactory"
 		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
 		<property name="root" value="/trails" />
@@ -35,6 +37,7 @@
 		<property name="connection" ref="rpcConnection" />
 	    <aop:scoped-proxy/>
 	</bean>
+	
 		
  	<bean id="sessionPropertiesProvider" scope="request" class="org.openlegacy.web.RequestBasedSessionPropertiesProvider">
  		<aop:scoped-proxy/>

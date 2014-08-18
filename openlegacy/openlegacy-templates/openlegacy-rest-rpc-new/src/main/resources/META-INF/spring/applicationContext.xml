@@ -24,12 +24,19 @@
 	    </property>
     </bean>
 
+	<!--
+ 	<bean id="rpcSession" parent="abstractRpcSession" scope="session">
+		<property name="connection" ref="rpcConnection" />
+	    <aop:scoped-proxy/>
+	</bean>
+	 -->
+	 			
+	<!-- Use this definition to replay a mock-up session application
+	End use this definition to replay a mock-up session application -->
 	<bean id="rpcSession" parent="abstractRpcSession" scope="session">
 		<property name="connection" ref="rpcConnection" />
 	    <aop:scoped-proxy/>
 	</bean>
-			
-	<!-- End using a mock-up session application -->
 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 
