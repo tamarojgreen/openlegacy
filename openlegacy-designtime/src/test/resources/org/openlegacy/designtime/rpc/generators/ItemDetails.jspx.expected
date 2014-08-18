@@ -10,16 +10,28 @@
 	
 	<ol:form model="itemDetails">
 		<ol:pagePart title="ItemDetails">
-	<ol:field name="itemNum" />
+	<ol:row columns="1">
+		<ol:field name="itemNum" />
+	</ol:row>
 		</ol:pagePart>
 		<ol:pagePart title="ItemRecord">
-	<ol:field name="itemRecord.itemName" />
-	<ol:field name="itemRecord.description" />
-	<ol:field name="itemRecord.weight" />
-			</ol:pagePart>
-			<ol:pagePart title="Shipping">
-	<ol:field name="shipping.shippingMethod" />
-	<ol:field name="shipping.days" />
-			</ol:pagePart>
+	<ol:row columns="1">
+		<ol:field name="itemRecord.itemName" />
+	</ol:row>
+	<ol:row columns="1">
+		<ol:field name="itemRecord.description" />
+	</ol:row>
+	<ol:row columns="1">
+		<ol:field name="itemRecord.weight" />
+	</ol:row>
+		</ol:pagePart>
+		<ol:pagePart title="Shipping">
+	<ol:row columns="1">
+		<ol:field name="shipping.shippingMethod" />
+	</ol:row>
+	<ol:row columns="1">
+		<ol:field name="shipping.days" />
+	</ol:row>
+		</ol:pagePart>
 	</ol:form>
 </jsp:root>

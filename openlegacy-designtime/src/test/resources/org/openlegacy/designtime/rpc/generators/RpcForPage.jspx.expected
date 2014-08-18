@@ -10,11 +10,21 @@
 	
 	<ol:form model="xxolakkrParms">
 		<ol:pagePart title="LkCustomer">
-	<ol:field name="lkCustomer.lkCustInd" />
-	<ol:field name="lkCustomer.lkCustId" />
-	<ol:field name="lkCustomer.lkCustName" />
-	<ol:field name="lkCustomer.lkCustAddress" />
-	<ol:field name="lkCustomer.lkCustPhone" />
+	<ol:row columns="1">
+		<ol:field name="lkCustomer.lkCustInd" />
+	</ol:row>
+	<ol:row columns="1">
+		<ol:field name="lkCustomer.lkCustId" />
+	</ol:row>
+	<ol:row columns="1">
+		<ol:field name="lkCustomer.lkCustName" />
+	</ol:row>
+	<ol:row columns="1">
+		<ol:field name="lkCustomer.lkCustAddress" />
+	</ol:row>
+	<ol:row columns="1">
+		<ol:field name="lkCustomer.lkCustPhone" />
+	</ol:row>
 		</ol:pagePart>
 				<ol:table data="${xxolakkrParms.lkCustomer.lkCards}" property="lkCustomer.lkCards" actionsAsIcons="true"/>
 	</ol:form>

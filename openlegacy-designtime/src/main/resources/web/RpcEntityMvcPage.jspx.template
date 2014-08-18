@@ -37,7 +37,9 @@
 	</ol:form>
 </jsp:root>
 <#macro simpleField fieldDefinitions>
-	<ol:field name="${fieldDefinitions.name}" />
+	<ol:row columns="1">
+		<ol:field name="${fieldDefinitions.name}" />
+	</ol:row>
 </#macro>
 <#macro simplePart partDefinitions>
 	<#if partDefinitions.fieldsDefinitions?size !=0 >

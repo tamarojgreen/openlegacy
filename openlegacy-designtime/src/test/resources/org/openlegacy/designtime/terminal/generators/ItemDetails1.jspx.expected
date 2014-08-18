@@ -9,7 +9,7 @@
 	<jsp:output omit-xml-declaration="yes" /> 
 
 	<ol:form model="itemDetails1">
-			<ol:pagePart>
+			<ol:pagePart title="">
 				<ol:row columns="1">
 	 				<ol:field name="itemNumber" />
 				</ol:row>
@@ -17,7 +17,7 @@
 	 				<ol:field name="itemDescription" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:pagePart>
+			<ol:pagePart title="">
 				<ol:row columns="1">
 	 				<ol:field name="supercedingItemTo" />
 				</ol:row>
@@ -25,7 +25,7 @@
 	 				<ol:field name="supercedingItemFrom" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:pagePart>
+			<ol:pagePart title="">
 				<ol:row columns="1">
 	 				<ol:field name="itemWeight" />
 				</ol:row>
@@ -36,7 +36,7 @@
 	 				<ol:field name="stockGroup" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:pagePart>
+			<ol:pagePart title="">
 				<ol:row columns="1">
 	 				<ol:field name="packagingMultipler" />
 				</ol:row>
@@ -44,9 +44,11 @@
 	 				<ol:field name="outerUnitOfMeasure" />
 				</ol:row>
 			</ol:pagePart>
-			<ol:pagePart>
-				<ol:field name="palletLabelRequired" />
+			<ol:pagePart title="Pallet Label Required">
+				<ol:row columns="1">
+					<ol:field name="palletLabelRequired" />
+				</ol:row>
 			</ol:pagePart>
-		
 	</ol:form>
 </jsp:root>
+

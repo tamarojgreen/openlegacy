@@ -11,11 +11,13 @@
 	<ol:form model="${entityDefinition.entityName?uncap_first}">
 		<#list pageParts as pagePart>
 			<#if pagePart.oneField>
-			<ol:pagePart>
-				<ol:field name="${pagePart.singleField.name}" />
+			<ol:pagePart title="${pagePart.singleField.displayName}">
+				<ol:row columns="1">
+					<ol:field name="${pagePart.singleField.name}" />
+				</ol:row>
 			</ol:pagePart>
 			<#else>
-			<ol:pagePart>
+			<ol:pagePart title="">
 				<#list pagePart.partRows as partRow>
 				<ol:row columns="${partRow.fields?size}">
 					<#list partRow.fields as field>
@@ -29,18 +31,6 @@
 			</ol:pagePart>
 			</#if>
 		</#list>	
-		
-		<#-- Uncomment to generate actions
-		
-		<#list entityDefinition.actions as action>
-			<#if action.alias??>
-		<div class="action">
-			<button onclick="doPost('${action.alias}')">${action.displayName}</button>
-		</div>
-			</#if>
-		</#list>
-			
-		-->		
 	</ol:form>
 </jsp:root>
 		
