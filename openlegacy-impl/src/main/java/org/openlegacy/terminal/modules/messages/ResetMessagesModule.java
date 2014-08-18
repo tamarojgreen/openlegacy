@@ -22,8 +22,24 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 
 	private TerminalAction terminalAction = TerminalActions.ESC();
 
+	private boolean resetBefore = true;
+	private boolean resetAfter = false;
+
+	@Override
+	public void beforeAction(ApplicationConnection<?, ?> connection, RemoteAction action) {
+		if (resetBefore) {
+			resetMessages();
+		}
+	}
+
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
+		if (resetAfter) {
+			resetMessages();
+		}
+	}
+
+	private void resetMessages() {
 		ScreenEntity entity = getSession().getEntity();
 		if (entity == null) {
 			return;
@@ -61,5 +77,13 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 
 	public void setTerminalAction(Class<TerminalAction> terminalAction) {
 		this.terminalAction = org.openlegacy.utils.ReflectionUtil.newInstance(terminalAction);
+	}
+
+	public void setResetAfter(boolean resetAfter) {
+		this.resetAfter = resetAfter;
+	}
+
+	public void setResetBefore(boolean resetBefore) {
+		this.resetBefore = resetBefore;
 	}
 }
