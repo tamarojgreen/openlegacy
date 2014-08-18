@@ -50,12 +50,22 @@
 	<c:if test="${definitions.window}">
 		<c:set var="contentPaneId" value="window_container" />
 	</c:if>
+
 	<c:set var="tableDefinition"
 		value="${definitions.tableDefinitions[property]}" />
 	<c:if test="${fn:length(data) &gt; 0}">
 	<div class="table" style="${style}">
 		<table>
 			<tr>
+			<c:forEach items="${tableDefinition.columnDefinitions}"
+				var="column">
+				<c:if test="${column.selectionField}">
+					<c:set var="foundSelectionField" value="true" />
+				</c:if>
+			</c:forEach>
+				<c:if test="${not foundSelectionField}">
+					<th><!--  --></th>
+				</c:if>
 			<c:forEach items="${tableDefinition.columnDefinitions}" var="column" varStatus="columnIndex">
 				<c:if test="${column.rowsOffset == 0}">
 				<th>${column.displayName}</th>
@@ -65,27 +75,59 @@
 			<c:forEach items="${data}" var="item" varStatus="rowIndex">
 				<c:forEach begin="0" end="${tableDefinition.rowGaps-1}" var="rowGap">
 					<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}">
+					
+						<c:if test="${not foundSelectionField}">
+							<td>
+								<c:forEach items="${tableDefinition.actions}" var="action"
+									varStatus="counter">
+									<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
+									<c:forEach items="${tableDefinition.keyFieldNames}" var="key" varStatus="i">
+										<c:if test="${i.index gt 0}">
+											<c:set var="keysValues" value="${keysValues}+${item[tableDefinition.keyFieldNames[i.index]]}" />
+										</c:if>
+									</c:forEach>
+									
+									<c:set var="target" value="${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${keysValues}" />
+									<c:if test="${action.targetEntity == null}">
+										<c:set var="target"
+											value="javascript:document.getElementById('${column.name}_${rowIndex.index}').value='${action.action.actionValue}';doPost()" />
+									</c:if>
+									<a href="${target}"
+										class="${actionsCss}"
+										title="${action.displayName}">${action.displayName}
+										<span><!--  --></span>
+									</a>
+									<c:if
+										test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}">
+										<span class="actions_separator"> | </span>
+									</c:if>
+								</c:forEach>
+							</td>
+						</c:if>
+					
 						<c:forEach items="${tableDefinition.columnDefinitions}"
 							var="column">
 							<spring:eval var="columnValue" expression="item[column.name]" />
 							<c:if test="${column.rowsOffset == rowGap}">
+						  	<spring:message code="label_select" var="label_select" htmlEscape="false" />
 							<td colspan="${column.colSpan}"><c:choose>
 									<c:when test="${column.selectionField}">
+									<c:set var="foundSelectionField" value="true" />
 									<c:choose>
 									<c:when
 										test="${fn:length(tableDefinition.actions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
 										<c:if test="${fn:length(tableDefinition.mainDisplayFields) &gt; 0 and definitions.window}">
 											<a
 												href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayFields[0]]}');"
-												class="${actionsCss}" title="Select ">Select</a>
+												class="${actionsCss}" title="${label_select}">${label_select}</a>
 										</c:if>
 										<c:if test="${fn:length(tableDefinition.mainDisplayFields) == 0 and definitions.window}">
 											<a
 												href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}');"
-												class="${actionsCss}" title="Select ">Select</a>
+												class="${actionsCss}" title="${label_select}">${label_select}</a>
 										</c:if>
 									</c:when>
-									<c:when test="${fn:length(tableDefinition.actions) &gt; 3}">
+									<c:when test="${fn:length(tableDefinition.actions) &gt; 5}">
 										<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect">
 											<option value="">- Select -</option>
 											<c:forEach items="${tableDefinition.actions}" var="action">
@@ -116,7 +158,7 @@
 													value="javascript:document.getElementById('${column.name}_${rowIndex.index}').value='${action.action.actionValue}';doPost()" />
 											</c:if>
 											<a href="${target}"
-												class="${actionsCss} ${action.alias}"
+												class="${actionsCss}"
 												title="${action.displayName}">${action.displayName}
 												<span><!--  --></span>
 											</a>
@@ -129,7 +171,7 @@
 									</c:choose>									
 									</c:when>
 									<c:when test="${column.editable}">
-										<input name="${column.name}" maxlength="${column.length}"
+										<input name="${column.name}_${rowIndex.index}" maxlength="${column.length}"
 											size="${column.length}" value="${columnValue}" />
 									</c:when>
 									<c:otherwise>
@@ -159,19 +201,16 @@
 		<c:if test="${paging}">
 		  	<spring:message code="label_next" var="label_next" htmlEscape="false" />
 		  	<spring:message code="label_prev" var="label_prev" htmlEscape="false" />
-			<div class="paging">
-				<div class="previous">
-					<a id="previous"
-						href="javascript:doAjaxPost('${formName}','${contentPaneId}','previous','actions,body',window.runOnloads)">
-						<span class="arrow"> <!---->
-					</span> <span>${label_prev}</span>
+			<div class="paging1">
+				<div>
+					<a  id="next"
+						href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body',window.runOnloads)">
+						<span>${label_next} &gt;</span>
 					</a>
 				</div>
-				<div class="next">
-					<a id="next"
-						href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','actions,body',window.runOnloads)">
-						<span class="arrow"> <!---->
-					</span> <span>${label_next}</span>
+				<div>
+					<a id="previous"
+						href="javascript:doAjaxPost('${formName}','${contentPaneId}','previous','body',window.runOnloads)"><span> &lt; ${label_prev}</span>
 					</a>
 				</div>
 			</div>
