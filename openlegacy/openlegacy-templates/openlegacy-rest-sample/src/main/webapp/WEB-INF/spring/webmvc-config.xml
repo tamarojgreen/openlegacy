@@ -40,8 +40,11 @@
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
 	Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />
-
-
+	
+	<!-- themes in from various openlegacy themes -->
+	<mvc:resources cache-period="86400" location="classpath:/themes/" mapping="/app/themes/**"/>	
+	<mvc:resources cache-period="86400" location="/app/" mapping="/app/**"/>
+	
     <bean
         class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="defaultContentType" value="application/xml" />

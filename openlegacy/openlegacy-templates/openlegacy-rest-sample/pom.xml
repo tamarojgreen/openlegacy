@@ -135,6 +135,17 @@
 			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-rest-emily</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-rest-light</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
 
 		<!-- TODO -remove. This is included just yo have a model for testing -->
 		<dependency>
