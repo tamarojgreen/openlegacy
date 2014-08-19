@@ -35,7 +35,7 @@
 								accepts : 'application/javascript;charset=UTF-8',
 								getChildren : function(object) {
 									return this.get(object.id).then(function(fullObject) {
-										return fullObject.children;
+										return fullObject.children || [];
 									});
 								}
 							});
