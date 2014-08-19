@@ -155,6 +155,17 @@
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-rest-emily</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openlegacy.web</groupId>
+			<artifactId>openlegacy-themes-rest-light</artifactId>
+			<version>${openlegacy-version}</version>
+		</dependency>
 <!-- Uncomment for OpenLegacy enterprise managemenent plugin
  		<dependency>
 			<groupId>com.openlegacy.enterprise.plugins</groupId>
