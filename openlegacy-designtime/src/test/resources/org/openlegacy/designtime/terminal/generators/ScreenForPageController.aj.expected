@@ -86,9 +86,9 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
     	return result;
     }
 
-	// handle submit action
+	// handle doSubmit action
     @RequestMapping(method = RequestMethod.POST)
-    public String ScreenForPageController.submit(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
+    public String ScreenForPageController.doSubmit(ScreenForPage screenForPage, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), screenForPage);
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){
@@ -238,4 +238,3 @@ privileged @SuppressWarnings("unused") aspect ScreenForPageController_Aspect {
 	}
 	
 }
-

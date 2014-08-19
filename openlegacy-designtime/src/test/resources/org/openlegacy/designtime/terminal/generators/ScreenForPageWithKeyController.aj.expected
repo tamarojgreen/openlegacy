@@ -82,9 +82,9 @@ privileged @SuppressWarnings("unused") aspect ScreenForPagewithKeyController_Asp
     	return result;
     }
 
-	// handle submit action
+	// handle doSubmit action
     @RequestMapping(method = RequestMethod.POST)
-    public String ScreenForPagewithKeyController.submit(ScreenForPagewithKey screenForPagewithKey, Model uiModel, HttpServletRequest httpServletRequest) {
+    public String ScreenForPagewithKeyController.doSubmit(ScreenForPagewithKey screenForPagewithKey, Model uiModel, HttpServletRequest httpServletRequest) {
 	ScreenEntity resultScreenEntity = terminalSession.doAction(TerminalActions.ENTER(), screenForPagewithKey);
 	// go to the controller for the resulting screen name
 		if (resultScreenEntity != null){

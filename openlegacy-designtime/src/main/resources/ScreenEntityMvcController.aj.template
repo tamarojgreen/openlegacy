@@ -106,7 +106,7 @@ privileged @SuppressWarnings("unused") aspect ${entityDefinition.entityClassName
     	return result;
     }
 
-	<@postMethod actionName="ENTER" actionAlias="submit" params="" />
+	<@postMethod actionName="ENTER" actionAlias="doSubmit" params="" />
 	
 	<@postMethod actionName="NONE" actionAlias="none" params="none" />
 	    
