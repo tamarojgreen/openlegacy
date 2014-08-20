@@ -57,6 +57,7 @@ import org.openlegacy.terminal.ScreenEntityType;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -92,9 +93,12 @@ public class CustomizeScreenEntityDialog extends Dialog {
 	private ScreenEntityDefinition screenEntityDefinition;
 	private SnapshotComposite snapshotComposite;
 
-	public CustomizeScreenEntityDialog(Shell parentShell, ScreenEntityDefinition screenEntityDefinition) {
+	private File projectPath;
+
+	public CustomizeScreenEntityDialog(Shell parentShell, ScreenEntityDefinition screenEntityDefinition, File projectPath) {
 		super(parentShell);
 		this.screenEntityDefinition = screenEntityDefinition;
+		this.projectPath = projectPath;
 	}
 
 	@Override
@@ -119,7 +123,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		// fields/identifiers level
 		TablesComposite tablesComposite = new TablesComposite(parent, SWT.NONE, screenEntityDefinition);
 		// image level
-		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getOriginalSnapshot());
+		snapshotComposite = new SnapshotComposite(parent, screenEntityDefinition.getOriginalSnapshot(), projectPath);
 		snapshotComposite.setIsScalable(true);
 
 		tablesComposite.setPaintedControl(snapshotComposite);

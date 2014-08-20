@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.ide.eclipse.Messages;
+import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 import org.openlegacy.ide.eclipse.components.ImageComposite;
 import org.openlegacy.ide.eclipse.preview.screen.FieldRectangle;
 import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
@@ -57,6 +58,7 @@ import org.openlegacy.utils.StringUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -114,17 +116,21 @@ public class SnapshotComposite extends ImageComposite {
 	private int canvasWidthDistinction = 25;
 	private int canvasHeightDistinction = 50;
 
-	public SnapshotComposite(Composite parent) {
+	private File projectPath;
+
+	public SnapshotComposite(Composite parent, File projectPath) {
 		super(parent);
+		this.projectPath = projectPath;
 		initialize();
 
 	}
 
-	public SnapshotComposite(Composite parent, TerminalSnapshot terminalSnapshot) {
+	public SnapshotComposite(Composite parent, TerminalSnapshot terminalSnapshot, File projectPath) {
 		super(parent);
 		this.terminalSnapshot = terminalSnapshot;
 		this.terminalSnapshotCopy = terminalSnapshot;
 		this.generateDefaultImage();
+		this.projectPath = projectPath;
 		initialize();
 	}
 
@@ -307,6 +313,10 @@ public class SnapshotComposite extends ImageComposite {
 
 	private void fillSelectedObject() {
 		if ((terminalSnapshotCopy != null) && selectedObject.isEditable()) {
+			String designtimeContext = projectPath != null ? EclipseDesignTimeExecuter.instance().getPreference(projectPath,
+					"DESIGNTIME_CONTEXT") : "";
+			boolean isRtl = StringUtils.isEmpty(designtimeContext) ? false : "rtl".equalsIgnoreCase(designtimeContext);
+
 			List<RowPart> rowParts = terminalSnapshotCopy.getRow(selectedObject.getFieldRectangle().getRow()).getRowParts();
 			SimpleRowPart rowPart = null;
 			for (RowPart rowPartItem : rowParts) {
@@ -317,12 +327,19 @@ public class SnapshotComposite extends ImageComposite {
 				int rightBorder = rowPartItem.getPosition().getColumn() + ((SimpleRowPart)rowPartItem).getLength();
 				if ((fieldColumn >= rowPartItem.getPosition().getColumn()) && (fieldColumn <= rightBorder)) {
 					int index = rowParts.indexOf(rowPartItem);
-					if (index > 0) {
-						--index;
+					if (!isRtl) {
+						if (index > 0) {
+							--index;
+						}
+					} else {
+						if (index < (rowParts.size() - 1)) {
+							++index;
+						}
 					}
 					rowPart = (SimpleRowPart)rowParts.get(index);
 					break;
 				}
+
 			}
 			if (rowPart != null) {
 				List<TerminalField> fields = rowPart.getFields();
@@ -760,6 +777,10 @@ public class SnapshotComposite extends ImageComposite {
 		DefaultTerminalSnapshotsLoader loader = new DefaultTerminalSnapshotsLoader();
 		TerminalSnapshot terminalSnapshot = loader.load(path);
 		setSnapshot(terminalSnapshot);
+	}
+
+	public void setProjectPath(File projectPath) {
+		this.projectPath = projectPath;
 	}
 
 	private void copySelectedToClipboard() {

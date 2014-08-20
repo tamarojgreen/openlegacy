@@ -122,7 +122,10 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 
 		createTable(trailComposite, terminalSessionTrail);
 
-		snapshotComposite = new SnapshotComposite(trailComposite, terminalSessionTrail.getSnapshots().get(0));
+		FileEditorInput input = (FileEditorInput)getEditorInput();
+		File projectPath = PathsUtil.toOsLocation(input.getFile().getProject());
+
+		snapshotComposite = new SnapshotComposite(trailComposite, terminalSessionTrail.getSnapshots().get(0), projectPath);
 		snapshotComposite.setIsScalable(true);
 
 		if (getPageCount() == 2) {
