@@ -32,9 +32,11 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.part.FileEditorInput;
 import org.openlegacy.ide.eclipse.components.ImageComposite;
 import org.openlegacy.ide.eclipse.components.screen.SnapshotComposite;
 import org.openlegacy.ide.eclipse.preview.AbstractEntityPreview;
+import org.openlegacy.ide.eclipse.util.PathsUtil;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -235,6 +237,7 @@ public class ScreenPreview extends AbstractEntityPreview {
 			terminalSnapshot = loader.load(new File(xmlFile.getLocationURI()).getAbsolutePath());
 			snapshotComposite.setSnapshot(terminalSnapshot);
 			snapshotComposite.setVisible(true);
+			snapshotComposite.setProjectPath(PathsUtil.toOsLocation(xmlFile.getProject()));
 			return;
 		}
 		// hide image
@@ -262,7 +265,13 @@ public class ScreenPreview extends AbstractEntityPreview {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		snapshotComposite = new SnapshotComposite(parent);
+		File projectPath = null;
+		IEditorPart editor = getActiveEditor();
+		if (editor != null) {
+			FileEditorInput input = (FileEditorInput)getActiveEditor().getEditorInput();
+			projectPath = PathsUtil.toOsLocation(input.getFile().getProject());
+		}
+		snapshotComposite = new SnapshotComposite(parent, projectPath);
 		snapshotComposite.setIsScalable(true);
 	}
 

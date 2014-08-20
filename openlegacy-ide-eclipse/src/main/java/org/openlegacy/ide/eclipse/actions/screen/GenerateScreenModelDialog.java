@@ -15,6 +15,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.designtime.GenerateModelRequest;
 import org.openlegacy.designtime.terminal.model.support.SimpleScreenEntityDesigntimeDefinition;
 import org.openlegacy.ide.eclipse.actions.AbstractGenerateModelDialog;
 import org.openlegacy.ide.eclipse.actions.CustomizeScreenEntityDialog;
@@ -48,14 +49,15 @@ public class GenerateScreenModelDialog extends AbstractGenerateModelDialog {
 		}
 	}
 
-	public boolean customizeEntity(final EntityDefinition<?> screenEntityDefinition) {
+	public boolean customizeEntity(final EntityDefinition<?> screenEntityDefinition,
+			final GenerateModelRequest generateModelRequest) {
 
 		final BooleanContainer generate = new BooleanContainer();
 		Display.getDefault().syncExec(new Runnable() {
 
 			public void run() {
 				CustomizeScreenEntityDialog customizeDialog = new CustomizeScreenEntityDialog(getShell(),
-						(ScreenEntityDefinition)screenEntityDefinition);
+						(ScreenEntityDefinition)screenEntityDefinition, generateModelRequest.getProjectPath());
 				int result = customizeDialog.open();
 				if (result == Window.CANCEL) {
 					generate.setBooleanValue(false);
