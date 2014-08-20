@@ -50,6 +50,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private boolean global;
 	private String nullValue;
 
+	private boolean tableKey;
+
 	public SimpleScreenFieldDefinition() {
 		super();
 	}
@@ -204,4 +206,11 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		return 0;
 	}
 
+	public boolean isTableKey() {
+		return tableKey;
+	}
+
+	public void setTableKey(boolean tableKey) {
+		this.tableKey = tableKey;
+	}
 }

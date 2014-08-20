@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.definitions;
 
-import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.definitions.TableDefinition;
 import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.exceptions.RegistryException;
 
@@ -42,6 +40,8 @@ public abstract class AbstractTableDefinition<C extends ColumnDefinition> implem
 
 	private int rowGaps;
 
+	private List<String> keyFields = null;
+
 	public AbstractTableDefinition(Class<?> rowClass) {
 		this.rowClass = rowClass;
 	}
@@ -55,7 +55,11 @@ public abstract class AbstractTableDefinition<C extends ColumnDefinition> implem
 	}
 
 	public List<String> getKeyFieldNames() {
-		List<String> keyFields = new ArrayList<String>();
+		if (keyFields != null) {
+			return keyFields;
+		}
+
+		keyFields = new ArrayList<String>();
 		for (C columnDefinition : columnDefinitions) {
 			if (columnDefinition.isKey()) {
 				keyFields.add(columnDefinition.getName());

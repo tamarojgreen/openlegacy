@@ -105,4 +105,6 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 	String getFieldTypeName();
 
 	ScreenFieldDefinition getDescriptionFieldDefinition();
+
+	boolean isTableKey();
 }

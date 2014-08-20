@@ -16,7 +16,7 @@
 	    </property>
  	</bean>
  	
- 	<bean id="registryLoader" class="org.openlegacy.support.DefaultRegistryLoader"/>
+ 	<bean id="registryLoader" class="org.openlegacy.terminal.support.DefaultScreensRegistryLoader"/>
  	
 	<context:component-scan base-package="org.openlegacy"
 		use-default-filters="false">

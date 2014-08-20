@@ -144,7 +144,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 	 * 
 	 * @param entitiesRegistry
 	 */
-	private static void fillEntitiesReferences(final EntitiesRegistry<?, ?, ?> entitiesRegistry) {
+	private void fillEntitiesReferences(final EntitiesRegistry<?, ?, ?> entitiesRegistry) {
 		@SuppressWarnings("unchecked")
 		Collection<EntityDefinition<?>> entities = (Collection<EntityDefinition<?>>)entitiesRegistry.getEntitiesDefinitions();
 		for (final EntityDefinition<?> entityDefinition : entities) {
@@ -152,7 +152,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 		}
 	}
 
-	private static void fillEntityReferences(final EntitiesRegistry<?, ?, ?> entitiesRegistry,
+	protected void fillEntityReferences(final EntitiesRegistry<?, ?, ?> entitiesRegistry,
 			final EntityDefinition<?> entityDefinition) {
 		if (entityDefinition == null) {
 			return;

@@ -173,4 +173,11 @@ public @interface ScreenField {
 	boolean global() default false;
 
 	String nullValue() default AnnotationConstants.NULL;
+
+	/**
+	 * Determine whether the field should be passed a parameter as table key
+	 * 
+	 * @return
+	 */
+	boolean tableKey() default false;
 }

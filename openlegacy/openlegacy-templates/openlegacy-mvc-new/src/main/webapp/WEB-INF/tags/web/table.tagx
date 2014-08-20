@@ -80,10 +80,26 @@
 							<td>
 								<c:forEach items="${tableDefinition.actions}" var="action"
 									varStatus="counter">
-									<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
+									<c:choose>
+									<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
+										<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
+									</c:when>
+									<c:otherwise>
+										<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+										<c:set var="keysValues" value="${model[tableDefinition.keyFieldNames[0]]}" />
+									</c:otherwise>
+									</c:choose>
 									<c:forEach items="${tableDefinition.keyFieldNames}" var="key" varStatus="i">
 										<c:if test="${i.index gt 0}">
-											<c:set var="keysValues" value="${keysValues}+${item[tableDefinition.keyFieldNames[i.index]]}" />
+											<c:choose>
+												<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
+													<c:set var="keysValues" value="${keysValues}+${item[tableDefinition.keyFieldNames[i.index]]}" />
+												</c:when>
+												<c:otherwise>
+													<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+													<c:set var="keysValues" value="${keysValues}+${model[tableDefinition.keyFieldNames[i.index]]}" />
+												</c:otherwise>
+											</c:choose>
 										</c:if>
 									</c:forEach>
 									
@@ -145,10 +161,25 @@
 										<input type="hidden" name="${column.name}_${rowIndex.index}" id="${column.name}_${rowIndex.index}" />
 										<c:forEach items="${tableDefinition.actions}" var="action"
 											varStatus="counter">
-											<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
+											<c:choose>
+											<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
+												<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
+											</c:when>
+											<c:otherwise>
+												<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+												<c:set var="keysValues" value="${model[tableDefinition.keyFieldNames[0]]}" />
+											</c:otherwise>
+											</c:choose>
 											<c:forEach items="${tableDefinition.keyFieldNames}" var="key" varStatus="i">
 												<c:if test="${i.index gt 0}">
-													<c:set var="keysValues" value="${keysValues}+${item[tableDefinition.keyFieldNames[i.index]]}" />
+													<c:choose>
+														<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
+															<c:set var="keysValues" value="${keysValues}+${item[tableDefinition.keyFieldNames[i.index]]}" />														</c:when>
+														<c:otherwise>
+															<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+															<c:set var="keysValues" value="${keysValues}+${model[tableDefinition.keyFieldNames[i.index]]}" />
+														</c:otherwise>
+													</c:choose>
 												</c:if>
 											</c:forEach>
 											
