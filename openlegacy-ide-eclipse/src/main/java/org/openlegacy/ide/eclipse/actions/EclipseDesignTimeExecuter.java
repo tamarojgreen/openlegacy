@@ -213,6 +213,10 @@ public class EclipseDesignTimeExecuter {
 		return designTimeExecuter.getPreferences(PathsUtil.toProjectOsLocation(project), key);
 	}
 
+	public String getPreference(File projectPath, String key) {
+		return designTimeExecuter.getPreferences(projectPath, key);
+	}
+
 	public void reloadPreference(IProject project) {
 		designTimeExecuter.reloadPreferences(PathsUtil.toProjectOsLocation(project));
 	}

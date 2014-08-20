@@ -13,8 +13,9 @@ package org.openlegacy.ide.eclipse.actions.rpc;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
+import org.openlegacy.designtime.GenerateModelRequest;
 import org.openlegacy.ide.eclipse.actions.AbstractRpcGenerateCodeDialog;
+import org.openlegacy.ide.eclipse.actions.EclipseDesignTimeExecuter;
 
 public class GenerateRpcModelDialog extends AbstractRpcGenerateCodeDialog {
 
@@ -29,7 +30,7 @@ public class GenerateRpcModelDialog extends AbstractRpcGenerateCodeDialog {
 		getActionValue(), getNavigationValue());
 	}
 
-	public boolean customizeEntity(EntityDefinition<?> entityDefinition) {
+	public boolean customizeEntity(EntityDefinition<?> entityDefinition, GenerateModelRequest generateModelRequest) {
 		return true;
 	}
 

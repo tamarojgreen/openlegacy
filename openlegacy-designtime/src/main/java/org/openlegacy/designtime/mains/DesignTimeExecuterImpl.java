@@ -521,7 +521,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		EntityUserInteraction<EntityDefinition<?>> entityUserInteraction = generateScreenModelRequest.getEntityUserInteraction();
 
 		if (entityUserInteraction != null) {
-			boolean generate = entityUserInteraction.customizeEntity(entityDefinition);
+			boolean generate = entityUserInteraction.customizeEntity(entityDefinition, generateScreenModelRequest);
 			if (!generate) {
 				return false;
 			}
@@ -591,7 +591,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		EntityUserInteraction<EntityDefinition<?>> entityUserInteraction = generateRpcModelRequest.getEntityUserInteraction();
 
 		if (entityUserInteraction != null) {
-			boolean generate = entityUserInteraction.customizeEntity(entityDefinition);
+			boolean generate = entityUserInteraction.customizeEntity(entityDefinition, generateRpcModelRequest);
 			if (!generate) {
 				return false;
 			}
