@@ -52,6 +52,8 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	private boolean tableKey;
 
+	private boolean forceUpdate;
+
 	public SimpleScreenFieldDefinition() {
 		super();
 	}
@@ -212,5 +214,13 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setTableKey(boolean tableKey) {
 		this.tableKey = tableKey;
+	}
+
+	public boolean isForceUpdate() {
+		return forceUpdate;
+	}
+
+	public void setForceUpdate(boolean forceUpdate) {
+		this.forceUpdate = forceUpdate;
 	}
 }

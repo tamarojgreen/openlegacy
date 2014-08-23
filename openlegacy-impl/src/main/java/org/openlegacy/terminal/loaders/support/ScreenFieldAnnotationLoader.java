@@ -135,6 +135,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		screenFieldDefinition.setInternal(fieldAnnotation.internal());
 		screenFieldDefinition.setGlobal(fieldAnnotation.global());
 		screenFieldDefinition.setTableKey(fieldAnnotation.tableKey());
+		screenFieldDefinition.setForceUpdate(fieldAnnotation.forceUpdate());
 
 		if (!fieldAnnotation.nullValue().equals(AnnotationConstants.NULL)) {
 			screenFieldDefinition.setNullValue(fieldAnnotation.nullValue());

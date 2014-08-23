@@ -180,4 +180,6 @@ public @interface ScreenField {
 	 * @return
 	 */
 	boolean tableKey() default false;
+
+	boolean forceUpdate() default false;
 }

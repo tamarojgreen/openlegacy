@@ -293,7 +293,7 @@ public class ScreenBinderLogic implements Serializable {
 						terminalFieldValue = Long.valueOf(fieldFormatter.format(terminalFieldValue)).toString();
 					}
 					boolean fieldModified = fieldComparator.isFieldModified(screenPojo, fieldName, terminalFieldValue, value);
-					if (fieldModified) {
+					if (fieldMappingDefinition.isForceUpdate() || fieldModified) {
 						if (fieldMappingDefinition.isEditable()) {
 							if (value.equals(fieldMappingDefinition.getNullValue())) {
 								logger.debug(MessageFormat.format(
