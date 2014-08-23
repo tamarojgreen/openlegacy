@@ -24,8 +24,13 @@ import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.utils.RpcEntityUtils;
 import org.openlegacy.utils.ReflectionUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.List;
@@ -68,6 +73,65 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@Override
 	protected EntitiesRegistry<?, ?, ?> getEntitiesRegistry() {
 		return rpcEntitiesRegistry;
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response) throws IOException {
+		return super.getEntity(entityName, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
+			XML })
+	public ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			HttpServletResponse response) throws IOException {
+		return super.getEntityWithKey(entityName, key, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}/definitions", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getEntityDefinitions(@PathVariable("entity") String entityName, HttpServletResponse response)
+			throws IOException {
+		return super.getEntityDefinitions(entityName, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
+	public Object getMenu(ModelMap model) {
+		return super.getMenu(model);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
+	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
+		return super.postEntityJson(entityName, action, json, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
+	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
+		return super.postEntityJsonWithKey(entityName, key, action, json, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
+	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
+			throws IOException {
+		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
+	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
+			throws IOException {
+		return super.postEntityXml(entityName, action, xml, response);
 	}
 
 	@Override

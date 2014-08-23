@@ -35,7 +35,9 @@ import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,6 +90,65 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Inject
 	private TerminalSendActionBuilder<HttpServletRequest> sendActionBuilder;
+
+	@Override
+	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response) throws IOException {
+		return super.getEntity(entityName, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
+			XML })
+	public ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			HttpServletResponse response) throws IOException {
+		return super.getEntityWithKey(entityName, key, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}/definitions", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getEntityDefinitions(@PathVariable("entity") String entityName, HttpServletResponse response)
+			throws IOException {
+		return super.getEntityDefinitions(entityName, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
+	public Object getMenu(ModelMap model) {
+		return super.getMenu(model);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
+	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
+		return super.postEntityJson(entityName, action, json, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
+	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
+			throws IOException {
+		return super.postEntityJsonWithKey(entityName, key, action, json, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
+	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
+			throws IOException {
+		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
+	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
+			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
+			throws IOException {
+		return super.postEntityXml(entityName, action, xml, response);
+	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getScreenEntity(HttpServletResponse response) throws IOException {

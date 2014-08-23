@@ -28,11 +28,6 @@ import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.xml.sax.InputSource;
 
@@ -48,7 +43,7 @@ public abstract class AbstractRestController {
 	public static final String JSON = "application/json";
 	public static final String XML = "application/xml";
 	protected static final String MODEL = "model";
-	private static final String ACTION = "action";
+	protected static final String ACTION = "action";
 
 	protected abstract Session getSession();
 
@@ -62,21 +57,15 @@ public abstract class AbstractRestController {
 	 */
 	private boolean requiresLogin = false;
 
-	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
-	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response) throws IOException {
+	protected ModelAndView getEntity(String entityName, HttpServletResponse response) throws IOException {
 		return getEntityRequest(entityName, null, response);
 	}
 
-	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
-			XML })
-	public ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
-			HttpServletResponse response) throws IOException {
+	protected ModelAndView getEntityWithKey(String entityName, String key, HttpServletResponse response) throws IOException {
 		return getEntityRequest(entityName, key, response);
 	}
 
-	@RequestMapping(value = "/{entity}/definitions", method = RequestMethod.GET, consumes = { JSON, XML })
-	public ModelAndView getEntityDefinitions(@PathVariable("entity") String entityName, HttpServletResponse response)
-			throws IOException {
+	protected ModelAndView getEntityDefinitions(String entityName, HttpServletResponse response) throws IOException {
 		EntityDefinition<?> entityDefinitions = getEntitiesRegistry().get(entityName);
 		return new ModelAndView("definitions", "definitions", entityDefinitions);
 
@@ -128,8 +117,7 @@ public abstract class AbstractRestController {
 
 	protected abstract List<ActionDefinition> getActions(Object entity);
 
-	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
-	public Object getMenu(ModelMap model) {
+	protected Object getMenu(ModelMap model) {
 		Menu menuModule = getSession().getModule(Menu.class);
 		if (menuModule == null) {
 			return null;
@@ -149,21 +137,17 @@ public abstract class AbstractRestController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
-	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
-			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
+	protected ModelAndView postEntityJson(String entityName, String action, String json, HttpServletResponse response)
 			throws IOException {
 		return postEntityJsonInner(entityName, null, action, json, response);
 	}
 
-	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
-	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
-			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-			throws IOException {
+	protected ModelAndView postEntityJsonWithKey(String entityName, String key, String action, String json,
+			HttpServletResponse response) throws IOException {
 		return postEntityJsonInner(entityName, key, action, json, response);
 	}
 
-	public ModelAndView postEntityJsonInner(String entityName, String key, String action, String json,
+	private ModelAndView postEntityJsonInner(String entityName, String key, String action, String json,
 			HttpServletResponse response) throws IOException {
 
 		if (!authenticate(response)) {
@@ -189,21 +173,17 @@ public abstract class AbstractRestController {
 		return getEntityInner(resultEntity);
 	}
 
-	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
-	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
-			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+	protected ModelAndView postEntityXmlWithKey(String entityName, String key, String action, String xml,
+			HttpServletResponse response) throws IOException {
 		return postEntityXmlInner(entityName, key, action, xml, response);
 	}
 
-	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
-	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
-			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
+	protected ModelAndView postEntityXml(String entityName, String action, String xml, HttpServletResponse response)
 			throws IOException {
 		return postEntityXmlInner(entityName, null, action, xml, response);
 	}
 
-	public ModelAndView postEntityXmlInner(String entityName, String key, String action, String xml, HttpServletResponse response)
+	private ModelAndView postEntityXmlInner(String entityName, String key, String action, String xml, HttpServletResponse response)
 			throws IOException {
 		if (!authenticate(response)) {
 			return null;
