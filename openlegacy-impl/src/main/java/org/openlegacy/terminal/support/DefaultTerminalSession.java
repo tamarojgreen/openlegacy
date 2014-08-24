@@ -115,7 +115,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	private boolean forceAuthorization = true;
 
 	@SuppressWarnings("unchecked")
-	public <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
+	public synchronized <S> S getEntity(Class<S> screenEntityClass, Object... keys) throws EntityNotFoundException {
 
 		authorize(screenEntityClass);
 
@@ -204,7 +204,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	@SuppressWarnings("unchecked")
-	public <R extends ScreenEntity> R getEntity() {
+	public synchronized <R extends ScreenEntity> R getEntity() {
 		checkRegistryDirty();
 		getSnapshot();
 		if (!lastSequence.equals(getSequence())) {
@@ -224,12 +224,12 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	@SuppressWarnings("unchecked")
-	public <R extends ScreenEntity> R doAction(TerminalAction action, WaitCondition... waitConditions) {
+	public synchronized <R extends ScreenEntity> R doAction(TerminalAction action, WaitCondition... waitConditions) {
 		return (R)doAction(action, null, waitConditions);
 	}
 
-	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity,
-			Class<R> expectedEntity) {
+	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction,
+			S screenEntity, Class<R> expectedEntity) {
 		try {
 			@SuppressWarnings("unchecked")
 			R object = (R)doAction(terminalAction, screenEntity);
@@ -241,8 +241,8 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 	}
 
 	@SuppressWarnings("unchecked")
-	public <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction, S screenEntity,
-			WaitCondition... waitConditions) {
+	public synchronized <S extends ScreenEntity, R extends ScreenEntity> R doAction(TerminalAction terminalAction,
+			S screenEntity, WaitCondition... waitConditions) {
 
 		// verify screens are synch
 		if (screenEntity != null) {
@@ -299,7 +299,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 	}
 
-	public TerminalSnapshot getSnapshot() {
+	public synchronized TerminalSnapshot getSnapshot() {
 		boolean newSession = false;
 		if (!terminalConnection.isConnected()) {
 			notifyModulesBeforeConnect();
@@ -345,7 +345,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		interceptor.setTerminalSession(this);
 	}
 
-	public void doAction(TerminalSendAction sendAction, WaitCondition... waitConditions) {
+	public synchronized void doAction(TerminalSendAction sendAction, WaitCondition... waitConditions) {
 
 		doTerminalAction(sendAction, waitConditions);
 	}
@@ -425,7 +425,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		}
 	}
 
-	public TerminalSnapshot fetchSnapshot() {
+	public synchronized TerminalSnapshot fetchSnapshot() {
 		return terminalConnection.fetchSnapshot();
 	}
 
@@ -438,7 +438,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 		return screensRecognizer;
 	}
 
-	public Object getEntity(String entityName, Object... keys) throws EntityNotFoundException {
+	public synchronized Object getEntity(String entityName, Object... keys) throws EntityNotFoundException {
 		Class<?> entityClass = getScreenEntitiesRegistry().getEntityClass(entityName);
 		if (entityClass == null) {
 			throw (new EntityNotFoundException(MessageFormat.format("Screen entity \"{0}\" not found", entityName)));
