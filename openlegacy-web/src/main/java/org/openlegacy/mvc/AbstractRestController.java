@@ -58,11 +58,19 @@ public abstract class AbstractRestController {
 	private boolean requiresLogin = false;
 
 	protected ModelAndView getEntity(String entityName, HttpServletResponse response) throws IOException {
-		return getEntityRequest(entityName, null, response);
+		try {
+			return getEntityRequest(entityName, null, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
 	}
 
 	protected ModelAndView getEntityWithKey(String entityName, String key, HttpServletResponse response) throws IOException {
-		return getEntityRequest(entityName, key, response);
+		try {
+			return getEntityRequest(entityName, key, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
 	}
 
 	protected ModelAndView getEntityDefinitions(String entityName, HttpServletResponse response) throws IOException {
@@ -139,12 +147,26 @@ public abstract class AbstractRestController {
 	 */
 	protected ModelAndView postEntityJson(String entityName, String action, String json, HttpServletResponse response)
 			throws IOException {
-		return postEntityJsonInner(entityName, null, action, json, response);
+		try {
+			return postEntityJsonInner(entityName, null, action, json, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
+	}
+
+	private static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
+		response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+		logger.fatal(e.getMessage(), e);
+		return null;
 	}
 
 	protected ModelAndView postEntityJsonWithKey(String entityName, String key, String action, String json,
 			HttpServletResponse response) throws IOException {
-		return postEntityJsonInner(entityName, key, action, json, response);
+		try {
+			return postEntityJsonInner(entityName, key, action, json, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
 	}
 
 	private ModelAndView postEntityJsonInner(String entityName, String key, String action, String json,
@@ -175,12 +197,20 @@ public abstract class AbstractRestController {
 
 	protected ModelAndView postEntityXmlWithKey(String entityName, String key, String action, String xml,
 			HttpServletResponse response) throws IOException {
-		return postEntityXmlInner(entityName, key, action, xml, response);
+		try {
+			return postEntityXmlInner(entityName, key, action, xml, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
 	}
 
 	protected ModelAndView postEntityXml(String entityName, String action, String xml, HttpServletResponse response)
 			throws IOException {
-		return postEntityXmlInner(entityName, null, action, xml, response);
+		try {
+			return postEntityXmlInner(entityName, null, action, xml, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
 	}
 
 	private ModelAndView postEntityXmlInner(String entityName, String key, String action, String xml, HttpServletResponse response)
