@@ -155,7 +155,8 @@ public abstract class AbstractRestController {
 	}
 
 	private static ModelAndView handleException(HttpServletResponse response, RuntimeException e) throws IOException {
-		response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+		response.setStatus(500);
+		response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
 		logger.fatal(e.getMessage(), e);
 		return null;
 	}
