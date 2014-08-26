@@ -155,6 +155,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				projectCreationRequest.getProjectName(), projectCreationRequest.getBaseDir());
 
 		if (projectCreationRequest.isDemo()) {
+			templateFetcher.deleteZip();
 			return;
 		}
 
