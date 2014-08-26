@@ -1,6 +1,7 @@
 package org.openlegacy.ide.eclipse.wizards.project.organized;
 
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
@@ -23,6 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.newproject.organized.NewProjectMetadataRetriever;
 import org.openlegacy.designtime.newproject.organized.model.ProjectType;
 import org.openlegacy.ide.eclipse.Messages;
@@ -146,6 +148,10 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getWizardModel().setRightToLeft(((Button)e.widget).getSelection());
+				getWizardModel().setCodePage(
+						getWizardModel().isRightToLeft() ? DesignTimeExecuter.DEFAULT_RTL_CODE_PAGE
+								: DesignTimeExecuter.DEFAULT_CODE_PAGE);
+				((OpenLegacyWizardHostPage)getNextPage()).updateControlsData(null, getWizardModel().getCodePage());
 				updateStatus(null);
 			}
 
@@ -288,6 +294,13 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 			getWizardModel().setProjectName(null);
 			updateStatus(status.getMessage());
 		}
+		IProject[] project = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		for (IProject iProject : project) {
+			if (iProject.getName().equalsIgnoreCase(projectName)) {
+				updateStatus(Messages.getString("error_project_already_exists"));
+				return false;
+			}
+		}
 		return status.isOK();
 	}
 
@@ -308,6 +321,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		} else if (demoRadioButton.getSelection()) {
 			updateStatus(null);
 		}
+		((OpenLegacyWizardHostPage)getNextPage()).updateControlsData(backendCombo.getText(), null);
 	}
 
 }

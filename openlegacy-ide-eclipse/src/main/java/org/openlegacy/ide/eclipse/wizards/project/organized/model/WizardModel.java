@@ -26,6 +26,9 @@ public class WizardModel {
 	// theme
 	private ProjectTheme projectTheme;
 
+	private String backendSolution;
+	private String frontendSolution;
+
 	public boolean isDemo() {
 		return demo;
 	}
@@ -102,29 +105,33 @@ public class WizardModel {
 		this.projectTheme = projectTheme;
 	}
 
+	public String getBackendSolution() {
+		return backendSolution;
+	}
+
+	public String getFrontendSolution() {
+		return frontendSolution;
+	}
+
 	public void update(ProjectType projectType) {
 		if (projectType == null) {
-			templateName = null;
-			demo = false;
-			projectSupportTheme = false;
-			zipFile = null;
-			projectName = null;
-			defaultPackageName = null;
-			rightToLeft = false;
+			clear();
 		} else {
 			templateName = projectType.getTemplateName();
 			demo = projectType.isDemo();
 			projectSupportTheme = projectType.isSupportTheme();
 			zipFile = projectType.getZipFile();
+			backendSolution = projectType.getBackendSolution();
+			frontendSolution = projectType.getFrontendSolution();
+			if (demo) {
+				projectName = templateName;
+			}
 		}
 	}
 
 	public void update(HostType hostType) {
 		if (hostType == null) {
-			hostTypeName = null;
-			host = null;
-			hostPort = 0;
-			codePage = null;
+			clear();
 		} else {
 			hostTypeName = hostType.getName();
 		}
@@ -143,6 +150,8 @@ public class WizardModel {
 		hostPort = 0;
 		codePage = null;
 		projectTheme = null;
+		backendSolution = null;
+		frontendSolution = null;
 	}
 
 }

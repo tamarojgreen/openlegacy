@@ -23,8 +23,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.newproject.organized.NewProjectMetadataRetriever;
-import org.openlegacy.designtime.newproject.organized.model.ProjectTheme;
 import org.openlegacy.ide.eclipse.Messages;
 
 import java.io.BufferedInputStream;
@@ -137,6 +137,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 			public void selectionChanged(SelectionChangedEvent e) {
 				if (projectThemes != null) {
 					canvas.redraw();
+					getWizardModel().setProjectTheme(projectThemes.get(tableViewer.getTable().getSelectionIndex()));
 					setPageComplete(true);
 				}
 			}
@@ -156,13 +157,6 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 	public String getThemeName() {
 		if (this.projectThemes != null) {
 			return this.projectThemes.get(tableViewer.getTable().getSelectionIndex()).getDisplayName().toLowerCase();
-		}
-		return null;
-	}
-
-	public ProjectTheme getProjectTheme() {
-		if (this.projectThemes != null) {
-			return this.projectThemes.get(tableViewer.getTable().getSelectionIndex());
 		}
 		return null;
 	}
