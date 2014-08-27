@@ -163,6 +163,11 @@ public class TablesComposite extends Composite {
 		btnDate.setToolTipText(Messages.getString("btn_tooltip_add_date"));
 		btnDate.addSelectionListener(getNewDateFieldSelectionListener());
 
+		Button btnEnum = new Button(leftComposite, SWT.PUSH);
+		btnEnum.setImage(Activator.getDefault().getImage(Activator.ICON_ENUM));
+		btnEnum.setToolTipText(Messages.getString("btn_tooltip_add_enum"));
+		btnEnum.addSelectionListener(getNewEnumFieldSelectionListener());
+
 		Composite rightComposite = new Composite(mainComposite, SWT.NONE);
 		rl = new RowLayout(SWT.HORIZONTAL);
 		rl.marginTop = 0;
@@ -574,6 +579,17 @@ public class TablesComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addNewField(Date.class);
+			}
+
+		};
+	}
+
+	private SelectionListener getNewEnumFieldSelectionListener() {
+		return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				addNewField(Enum.class);
 			}
 
 		};
