@@ -5,6 +5,8 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 import org.openlegacy.terminal.support.SimpleScreenIdentifier;
@@ -16,6 +18,7 @@ import org.openlegacy.terminal.support.SimpleScreenIdentifier;
 public class TextEditingSupport extends EditingSupport {
 
 	private TableViewer viewer;
+	private String oldFieldName;
 
 	public TextEditingSupport(TableViewer viewer) {
 		super(viewer);
@@ -30,6 +33,32 @@ public class TextEditingSupport extends EditingSupport {
 	@Override
 	protected CellEditor getCellEditor(Object element) {
 		return new TextCellEditor(viewer.getTable());
+	}
+
+	@Override
+	protected void initializeCellEditorValue(CellEditor cellEditor, ViewerCell cell) {
+		super.initializeCellEditorValue(cellEditor, cell);
+		Object element = cell.getElement();
+		if (element instanceof ScreenFieldDefinition) {
+			oldFieldName = ((ScreenFieldDefinition)element).getName();
+		} else {
+			oldFieldName = null;
+		}
+	}
+
+	@Override
+	protected void saveCellEditorValue(CellEditor cellEditor, ViewerCell cell) {
+		super.saveCellEditorValue(cellEditor, cell);
+		Object element = cell.getElement();
+		if (element instanceof ScreenFieldDefinition && !StringUtils.isEmpty(oldFieldName)) {
+			if (viewer.getData("screenEntityDefinition") != null) {
+				ScreenEntityDefinition entityDefinition = (ScreenEntityDefinition)viewer.getData("screenEntityDefinition");
+				ScreenFieldDefinition fieldDefinition = entityDefinition.getFieldsDefinitions().get(oldFieldName);
+				String newFieldName = ((ScreenFieldDefinition)element).getName();
+				entityDefinition.getFieldsDefinitions().remove(oldFieldName);
+				entityDefinition.getFieldsDefinitions().put(newFieldName, fieldDefinition);
+			}
+		}
 	}
 
 	/*

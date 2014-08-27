@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.components.providers.FieldsTableContentProvider;
@@ -109,6 +110,7 @@ public class TablesComposite extends Composite {
 		table.setLinesVisible(true);
 
 		fieldsTableViewer = new TableViewer(table);
+		fieldsTableViewer.setData("screenEntityDefinition", screenEntityDefinition);
 		createFieldsTableColumns(fieldsTableViewer);
 		fieldsTableViewer.setContentProvider(new FieldsTableContentProvider());
 		fieldsTableViewer.setInput(screenEntityDefinition);
@@ -530,6 +532,8 @@ public class TablesComposite extends Composite {
 				fieldTypeDefinition = new SimpleBooleanFieldTypeDefinition("", "", false);
 			} else if (javaType.isAssignableFrom(Date.class)) {
 				fieldTypeDefinition = new SimpleDateFieldTypeDefinition(0, 0, 0, "");
+			} else if (javaType.isAssignableFrom(Enum.class)) {
+				fieldTypeDefinition = new SimpleEnumFieldTypeDefinition();
 			}
 			if (fieldTypeDefinition != null) {
 				definition.setFieldTypeDefinition(fieldTypeDefinition);
@@ -619,6 +623,7 @@ public class TablesComposite extends Composite {
 		list.add(Integer.class.getSimpleName());
 		list.add(Boolean.class.getSimpleName());
 		list.add(Date.class.getSimpleName());
+		list.add(Enum.class.getSimpleName());
 		return list;
 	}
 
