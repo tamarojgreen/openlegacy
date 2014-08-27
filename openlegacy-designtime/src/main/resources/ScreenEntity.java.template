@@ -11,7 +11,13 @@ import org.openlegacy.annotations.screen.ScreenTable;
 </#if>
 <#list referredClasses as referredClass> 
 import ${referredClass};  
-</#list>	
+</#list>
+<#list sortedFields as field>
+	<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName = "enum">
+import org.openlegacy.definitions.EnumGetValue;
+		<#break>
+	</#if>
+</#list>
 
 <#-- TODO find a nicer way to generate "," properly when 2 attributes exists -->
 @ScreenEntity(<#if window>window=true, rows= ${screenSize.rows}, columns= ${screenSize.columns}</#if><#if window && type??>,</#if><#if type??>screenType=${type.simpleName}.class</#if><#if child && (window || type??)>,</#if><#if child>child=true</#if><#if (window || type??) && displayName??>,</#if><#if displayName??>displayName="${displayName}"</#if><#if rightToLeft>, rightToLeft = true</#if>)
@@ -46,7 +52,11 @@ public class ${entityName} {
 	
 	<@fieldTypes field=field />
 	@ScreenField(<#if field.key>key = true, </#if>row = ${field.position.row}, column = ${field.position.column}<#if field.length &gt; 0>, endColumn= ${field.endPosition.column}</#if><#if field.labelPosition??> ,labelColumn= ${field.labelPosition.column}</#if><#if field.password> ,password= true</#if><#if field.editable> ,editable= true</#if><#if field.multyLine> ,endRow= ${field.endPosition.row}</#if><#if field.rectangle> ,rectangle= true</#if><#if field.type??> ,fieldType=${field.type.simpleName}.class</#if><#if field.displayName??> ,displayName = "${field.displayName}"</#if><#if field.sampleValue?? && field.sampleValue != "">, sampleValue = "${field.sampleValue}"</#if><#if field.helpText?? && field.helpText != "">, helpText = "${field.helpText}"</#if>)
+		<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName = "enum">
+	private ${field.name?cap_first} ${field.name?uncap_first};
+		<#else>
     private ${field.javaTypeName} ${field.name?uncap_first};
+    	</#if>
 	</#list>	
 
     <#if generateAspect = false>
@@ -132,9 +142,9 @@ public class ${entityName} {
 		<#assign enumMap = field.fieldTypeDefinition.enums>
 		<#assign enumKeys = enumMap?keys>
 		<#list enumKeys as enumKey>
-			${enumKey?cap_first}("${enumMap[enumKey].value}","${enumMap[enumKey].display}")<#if enumKey_has_next>,<#else>;</#if>
+			${enumKey?cap_first}("${enumMap[enumKey].value}","${enumMap[enumKey].display}")<#if enumKey_has_next>,</#if>
 		</#list>
-		
+		;
 		private String value;
 		private String display;
 

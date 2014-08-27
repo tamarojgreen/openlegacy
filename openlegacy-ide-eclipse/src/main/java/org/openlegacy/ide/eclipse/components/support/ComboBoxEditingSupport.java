@@ -6,6 +6,7 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
+import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
 import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenFieldDefinition;
 
@@ -76,6 +77,9 @@ public class ComboBoxEditingSupport extends EditingSupport {
 			} else if (Date.class.getSimpleName().equals(type)) {
 				definition.setJavaType(Date.class);
 				definition.setFieldTypeDefinition(new SimpleDateFieldTypeDefinition(0, 0, 0, ""));
+			} else if (Enum.class.getSimpleName().equals(type)) {
+				definition.setJavaType(Enum.class);
+				definition.setFieldTypeDefinition(new SimpleEnumFieldTypeDefinition());
 			} else if (Integer.class.getSimpleName().equals(type)) {
 				definition.setJavaType(Integer.class);
 				definition.setFieldTypeDefinition(null);
