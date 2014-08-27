@@ -421,7 +421,7 @@ public class DefaultTerminalSession extends AbstractSession implements TerminalS
 
 	protected void logScreenAfter() {
 		if (logger.isDebugEnabled()) {
-			logger.debug("\n\nScreen after ([ abc ] indicates a input field):\n\n" + getSnapshot());
+			logger.debug(MessageFormat.format("\n\nScreen after ([ abc ] indicates a input field):\nCursor: {0}\n\n{1}", getSnapshot().getCursorPosition(), getSnapshot()));
 		}
 	}
 
