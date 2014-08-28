@@ -176,8 +176,8 @@ public class SessionRunner extends AbstractMojo {
 	private void initApplicationContext() {
 		if (applicationContext == null) {
 			String configLocation = (String)getProperty(CONTEXT_FILE, defaultContext);
-			applicationContext = new ClassPathXmlApplicationContext(configLocation,
-					"/META-INF/openlegacy-webcomponents-context.xml");
+			applicationContext = new ClassPathXmlApplicationContext("/META-INF/openlegacy-webcomponents-context.xml",
+					configLocation);
 		}
 	}
 
