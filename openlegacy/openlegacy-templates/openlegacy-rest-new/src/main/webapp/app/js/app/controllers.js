@@ -110,16 +110,6 @@
 				};
 				</#if>
 				
-		        
-//				<#if entityDefinition.keys?size &gt; 0>
-//				if ($routeParams.${entityDefinition.keys[0].name?replace(".", "_")} != null && $routeParams.${entityDefinition.keys[0].name?replace(".", "_")}.length > 0){
-//					$scope.read();
-//				}
-//				
-//				<#else>
-//					$scope.read();
-//				</#if>				
-				
 				$scope.read();
 			});
 	
@@ -129,38 +119,80 @@
 /* Controller code place-holder start
 	<#if entityName??>
 	module = module.controller('${entityName}Controller',
-		function($scope, $location, $olHttp,$routeParams) {
-			$scope.read = function(){
-				$olHttp.get('${entityName}/' <#if keys?size &gt; 0>+ $routeParams.${keys[0].name?replace(".", "_")}</#if>,
-					function(data) {
-						$scope.model = data.model.entity;
-					}
-				);
-			};		
-			<#list actions as action>
-			$scope.${action.alias} = function(){
-				$scope.model.actions = null;
-				$olHttp.post('${entityName}?action=${action.alias}',$scope.model, 
-					function(data) {
-						if (data.model.entityName == '${entityName}'){
+				function($scope, $location, $olHttp,$routeParams) {
+				$scope.noTargetScreenEntityAlert = function() {
+					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
+				}; 
+				$scope.read = function(){
+					$olHttp.get('${entityName}/'  <#if keys?size &gt; 0>+ $routeParams.${keys[0].name?replace(".", "_")}</#if>,
+						function(data) {						
 							$scope.model = data.model.entity;
+							$scope.breadcrumbs = data.model.paths;
+							$scope.baseUrl = olConfig.baseUrl;
+							
+							$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
+								$scope.model.actions=null;
+								$scope.model.itemsRecords[rowIndex].action_ = actionValue;
+								
+								$olHttp.post('${entityName}/', $scope.model, function(data) {
+									$scope.model = data.model.entity;									
+								});
+										
+							};
 						}
-						else{
-							$location.path("/" + data.model.entityName);
-						}
+					);
+				};		
+				$olHttp.get('menu/flatMenu', function(data) {
+					$scope.menuArray = [];					
+					var getMenuString = function(data) {						
+						angular.forEach(data, function(value) {							
+							$scope.menuArray.push(value);
+							getMenuString(value.menuItems);
+					    });					     
 					}
-				);
-			};
-			</#list>
-			<#if keys?size &gt; 0>
-			if ($routeParams.${keys[0].name?replace(".", "_")} != null && $routeParams.${keys[0].name?replace(".", "_")}.length > 0){
+					getMenuString(data.simpleMenuItemList);					
+				});
+				
+				$scope.doAction = function(entityName, actionAlias) {					
+					$scope.model.actions = null;					
+					$olHttp.post(entityName + '?action=' + actionAlias,$scope.model, 
+						function(data) {
+							if (data.model.entityName == '${entityName}'){
+								$scope.model = data.model.entity;								
+							}
+							else{					
+								
+								$location.path("/" + data.model.entityName);
+							}
+						}
+					);
+				};
+				
+				<#if (sortedFields?size > 0)>
+					<#list sortedFields as field>
+						<#if field.fieldTypeDefinition?? && field.fieldTypeDefinition.typeName == 'fieldWithValues'>						
+						$olHttp.get("${field.name?cap_first}s", function(data) {							
+							$scope.${field.name}s = data.model.entity.${field.name}sRecords;							
+							$scope.${field.name?cap_first}Click = function(${field.name}) {								
+								$scope.model.${field.name} = ${field.name}.type;			
+							}
+						});
+						</#if>						
+					</#list>
+				</#if>
+				
+				<#if (childEntitiesDefinitions?size > 0)>
+				$scope.loadTab = function(entityName) {
+					$scope.model.actions=null;
+					$olHttp.get(entityName + '/' <#if (keys?size > 0)>+ $routeParams.${keys[0].name}</#if>, 
+						function(data) {
+							$scope.model = data.model.entity;																
+						});					
+				};
+				</#if>
+				
 				$scope.read();
-			}
-			<#else>
-				$scope.read();
-			</#if>
-
-		});
+			});
 	</#if>
 	Controller code place-holder end */
 

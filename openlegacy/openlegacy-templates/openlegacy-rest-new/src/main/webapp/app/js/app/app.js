@@ -25,7 +25,7 @@
 				$routeProvider = $routeProvider.when( '/Items', {templateUrl: 'views/Items.html', controller: 'ItemsController'} );
 // auto generated register end - Items
 /* Register controller place-holder start
-		<#if entityName?? & keys?size &gt; 0>
+		<#if entityName??>
 			<#if keys?size &gt; 0>
 $routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
 			</#if>
