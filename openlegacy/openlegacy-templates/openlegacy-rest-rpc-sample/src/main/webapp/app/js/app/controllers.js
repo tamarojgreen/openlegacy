@@ -4,24 +4,24 @@
 
 	/* Controllers */
 
-	var module = angular.module('controllers', [])
+	var module = angular.module('controllers', ['ui.router'])
 
 	.controller(
-		'loginController',
-		function($scope, $location, $olHttp, $rootScope, $cookies) {
-			$scope.user = {userName:"test",password:"testp"};
-			$scope.login = function() {
-				$cookies.loggedInUser = $scope.user.userName;
-				$rootScope.loggedInUser = $scope.user.userName;
-				$location.path("/items");
-
-				$olHttp.get('login?user=' + $scope.user.userName + '&password='+ $scope.user.password, 
-					function() {
-						$cookies.loggedInUser = $scope.user.userName;
-						$rootScope.loggedInUser = $scope.user.userName;
-						$location.path("/items");
-					}
-				);
+		'loginCtrl',
+		function($scope, $location, $olHttp, $rootScope, $cookies, $state) {			
+			
+			if ($cookies.loggedInUser != undefined) {
+				$state.go("Items");
+			}
+			$scope.login = function(username, password) {				
+				
+				$olHttp.get('login?user=' + username + '&password='+ password, 
+						function() {
+							$cookies.loggedInUser = username;
+							$rootScope.$broadcast("olApp:login:authorized", username);
+							$state.go("items");							
+						}
+					);
 			};
 		})
 	.controller(
@@ -35,14 +35,13 @@
 				}
 			);
 		})
-	.controller('itemsController',
+	.controller('itemsCtrl',
 		function($scope, $location, $olHttp) {
 			$olHttp.get('Items', 
-					function(data) {
-						$scope.items = data.model.entity.topLevel.innerRecord;
+					function(data) {						
+						$scope.items = data.model.entity.innerRecord;
 					}
-				);
-			
+				);			
 		})
 	.controller('itemDetailsController',
 			function($scope, $location, $olHttp,$routeParams) {
@@ -62,5 +61,23 @@
 				};
 				$scope.read();
 
+			})	
+	.controller('HeaderCtrl',
+		function ($cookies, $rootScope, $state, $scope, $http, $location/*, $themeService*/) {    
+			$rootScope.$on("olApp:login:authorized", function(e, value) {
+				$scope.username = value;
 			});
+			
+			$scope.logout = function(){
+				delete $scope.username
+				delete $rootScope.loggedInUser
+				delete $cookies.loggedInUser				
+				$state.go("login");
+			}
+			//TODO: implement theme changing
+//			$scope.changeTheme = function() {
+//				$themeService.changeTheme();
+//			};
+		
+	});
 })();
