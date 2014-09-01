@@ -83,7 +83,7 @@ function post(){
 	
 	var xhrArgs = {
 			handleAs : "text",
-			postData : data,
+			postData : encodeURIComponent(data),
 			headers: { "Accept": requestType, "Content-Type": requestType },
 			url : url,
 			load : function(data) {

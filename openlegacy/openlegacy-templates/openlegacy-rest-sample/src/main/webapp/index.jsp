@@ -77,11 +77,11 @@ function post(){
 	var data = dojo.byId("postData").value;
 	var url= location.href + dojo.byId('postUrl').value;
 	dojo.byId("postMessage").innerHTML = "POST:" + url + " ; Content-Type: " + requestType;
-	
+	var object = null;
 	var xhrArgs = {
-			handleAs : "text",
-			postData : data,
-			headers: { "Accept": requestType, "Content-Type": requestType },
+			handleAs : "text/plain;charset=UTF-8",
+			postData : encodeURIComponent(data),
+			headers: { "Accept": requestType, "Content-Type": requestType},
 			url : url,
 			load : function(data) {
 				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 

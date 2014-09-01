@@ -33,6 +33,8 @@ import org.xml.sax.InputSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -173,6 +175,8 @@ public abstract class AbstractRestController {
 	private ModelAndView postEntityJsonInner(String entityName, String key, String action, String json,
 			HttpServletResponse response) throws IOException {
 
+		json = decode(json, "{");
+
 		if (!authenticate(response)) {
 			return null;
 		}
@@ -216,6 +220,9 @@ public abstract class AbstractRestController {
 
 	private ModelAndView postEntityXmlInner(String entityName, String key, String action, String xml, HttpServletResponse response)
 			throws IOException {
+
+		xml = decode(xml, "<");
+
 		if (!authenticate(response)) {
 			return null;
 		}
@@ -241,6 +248,19 @@ public abstract class AbstractRestController {
 
 		Object resultEntity = sendEntity(entity, action);
 		return getEntityInner(resultEntity);
+	}
+
+	private static String decode(String content, String encodeIndicator) {
+		URI uri = null;
+		try {
+			if (content.length() > 0 && !content.contains(encodeIndicator)) {
+				uri = new URI(content);
+				content = uri.getPath();
+			}
+		} catch (URISyntaxException e) {
+			throw (new RuntimeException(e));
+		}
+		return content;
 	}
 
 	/**
