@@ -11,7 +11,7 @@
 		function($scope, $location, $olHttp, $rootScope, $cookies, $state) {			
 			
 			if ($cookies.loggedInUser != undefined) {
-				$state.go("Items");
+				$state.go("items");
 			}
 			$scope.login = function(username, password) {				
 				
@@ -36,12 +36,29 @@
 			);
 		})
 	.controller('itemsCtrl',
-		function($scope, $location, $olHttp) {
+		function($state, $scope, $location, $olHttp) {
 			$olHttp.get('Items', 
-					function(data) {						
-						$scope.items = data.model.entity.innerRecord;
-					}
-				);			
+				function(data) {
+				
+					$scope.items = data.model.entity.innerRecord;
+					
+			        $scope.actions = data.model.actions;
+			        
+			        $scope.postAction = function(actionAlias) {			        	
+			        	$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
+			        		if ($state.current.name == data.model.entityName.toLowerCase()) {
+			        			$scope.items = data.model.entity.innerRecord;
+			        			console.log("OK");
+			        		} else {
+			        			$state.go(data.model.entityName.toLowerCase());
+			        		}
+			        		
+			        	});
+			        };
+			        
+			        $scope.exportExcelUrl = olConfig.baseUrl + data.model.entityName + "/excel";        
+						
+				});			
 		})
 	.controller('itemDetailsController',
 			function($scope, $location, $olHttp,$routeParams) {
@@ -67,6 +84,11 @@
 			$rootScope.$on("olApp:login:authorized", function(e, value) {
 				$scope.username = value;
 			});
+			
+			if ($cookies.loggedInUser != undefined) {
+				$scope.username = $cookies.loggedInUser;
+			}
+			
 			
 			$scope.logout = function(){
 				delete $scope.username

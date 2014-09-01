@@ -20,7 +20,7 @@
 //	} ] );
 	
 	olApp.config(function($stateProvider, $urlRouterProvider) {
-		$urlRouterProvider.otherwise("/Items");
+		$urlRouterProvider.otherwise("/items");
 		$stateProvider
 			.state('login', {
 				url: "/login",
@@ -31,6 +31,14 @@
 		    	url: "/items",
 	    		templateUrl: "views/items.html",
 		    	controller: "itemsCtrl"		    	    	 
+		    })
+			.state('mainMenu', {
+		    	url: "/mainMenu",
+	    		templateUrl: "views/mainMenu.html"		    	    	    	 
+		    })
+		    .state('inventoryMenu', {
+		    	url: "/inventoryMenu",
+	    		templateUrl: "views/inventoryMenu.html"		    	    	    	 
 		    });
 	});
 } )();
