@@ -83,7 +83,7 @@
 
 			})	
 	.controller('HeaderCtrl',
-		function ($cookies, $rootScope, $state, $scope, $http, $location/*, $themeService*/) {    
+		function ($cookies, $rootScope, $state, $scope, $http, $location, $themeService) {    
 			$rootScope.$on("olApp:login:authorized", function(e, value) {
 				$scope.username = value;
 			});
@@ -99,10 +99,10 @@
 				delete $cookies.loggedInUser				
 				$state.go("login");
 			}
-			//TODO: implement theme changing
-//			$scope.changeTheme = function() {
-//				$themeService.changeTheme();
-//			};
+			
+			$scope.changeTheme = function() {
+				$themeService.changeTheme();
+			};
 		
 	});
 })();

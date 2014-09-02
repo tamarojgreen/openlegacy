@@ -4,20 +4,10 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services', 'ui.router'] );
-
-//	olApp.config( [ '$routeProvider', function( $routeProvider) {
-//		
-////		$routeProvider = $routeProvider.when( '/login', {templateUrl: 'views/login.html', controller: 'loginController'} );
-//		$routeProvider = $routeProvider.when( '/logoff', {templateUrl: 'views/logoff.html', controller: 'logoffController'} );
-//		$routeProvider = $routeProvider.when( '/mainMenu', {templateUrl: 'views/menu.html'});
-//		$routeProvider = $routeProvider.when( '/items', {templateUrl: 'views/items.html', controller: 'itemsController'} );
-//
-//		$routeProvider = $routeProvider.when( '/itemDetails/:itemNumber', {templateUrl: 'views/itemDetails.html',controller: 'itemDetailsController'});
-//		
-//		$routeProvider = $routeProvider.otherwise( {redirectTo: '/login'} );
-//		
-//	} ] );
+	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services', 'ui.router'] )
+	.run(['$rootScope', '$themeService', function ($rootScope, $themeService) {		
+		$rootScope.theme = $themeService.getCurrentTheme();		
+	}]);
 	
 	olApp.config(function($stateProvider, $urlRouterProvider) {
 		$urlRouterProvider.otherwise("/items");
