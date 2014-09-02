@@ -115,12 +115,12 @@
 		<backend-solution>RPC</backend-solution>
 		<frontend-solution>Integration</frontend-solution>
 	</project-type>
-<!-- 	<project-type> -->
-<!-- 		<template-name>openlegacy-ws-new</template-name> -->
-<!-- 		<is-demo>false</is-demo> -->
-<!-- 		<support-theme>false</support-theme> -->
-<!-- 		<zip-file>openlegacy-ws-new.zip</zip-file> -->
-<!-- 		<backend-solution>Screens</backend-solution> -->
-<!-- 		<frontend-solution>Integration</frontend-solution> -->
-<!-- 	</project-type> -->
+	<project-type>
+		<template-name>openlegacy-ws-new</template-name>
+		<is-demo>false</is-demo>
+		<support-theme>false</support-theme>
+		<zip-file>openlegacy-ws-new.zip</zip-file>
+		<backend-solution>Screens</backend-solution>
+		<frontend-solution>Integration</frontend-solution>
+	</project-type>
 </project-types>
