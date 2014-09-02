@@ -84,4 +84,6 @@ public interface DesignTimeExecuter {
 	public void generateScreenEntityResources(String entityName, GenerateScreenModelRequest generateScreenModelRequest);
 
 	public void renameViews(String fileNoExtension, String newName, File javaFile, String fileExtension);
+
+	public String translate(String text, File projectPath);
 }

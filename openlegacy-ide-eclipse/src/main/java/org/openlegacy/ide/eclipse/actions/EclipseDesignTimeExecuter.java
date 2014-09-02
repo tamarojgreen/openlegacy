@@ -364,4 +364,8 @@ public class EclipseDesignTimeExecuter {
 			designTimeExecuter.renameViews(fileNoExtension, newName, javaFile, resource.getFileExtension());
 		}
 	}
+
+	public String translate(String text, File projectPath) {
+		return designTimeExecuter.translate(text, projectPath);
+	}
 }

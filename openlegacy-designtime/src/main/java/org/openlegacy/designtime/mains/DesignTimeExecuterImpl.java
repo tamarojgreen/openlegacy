@@ -25,6 +25,7 @@ import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
+import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.generators.EntityPageGenerator;
 import org.openlegacy.designtime.generators.EntityServiceGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
@@ -1220,6 +1221,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
 		}
 		entityWebGenerator.renameViews(fileNoExtension, newName, projectPath);
+	}
+
+	public String translate(String text, File projectPath) {
+		TextTranslator translator = getOrCreateApplicationContext(projectPath).getBean(TextTranslator.class);
+		if (translator != null) {
+			return translator.translate(text);
+		}
+		return text;
 	}
 
 }
