@@ -183,10 +183,9 @@
             name="%openlegacy_project"
             icon="icons/openlegacy.png"
             category="org.openlegacy.ide.eclipse"
-            class="org.openlegacy.ide.eclipse.wizards.project.OpenLegacyNewProjectWizard"
+            class="org.openlegacy.ide.eclipse.wizards.project.organized.OpenLegacyNewProjectWizard"
             project="true"
-            id="org.openlegacy.ide.eclipse.wizards.OpenLegacyNewProjectWizard">
-            
+            id="org.openlegacy.ide.eclipse.wizards.organized.OpenLegacyNewProjectWizard">
       </wizard>
    </extension>
 
