@@ -43,9 +43,9 @@ public class NewProjectMetadataRetriever {
 
 	private final static Log logger = LogFactory.getLog(NewProjectMetadataRetriever.class);
 
-	private static final String RESOURCE_XML_PATH = "/templates/xml.organized";
+	private static final String RESOURCE_XML_PATH = "/templates/xml2.0";
 	private static final String RESOURCE_THEME_IMAGES_PATH = "/templates/theme-images";
-	private static final String ONLINE_XML_FOLDER = "xml.organized";
+	private static final String ONLINE_XML_FOLDER = "xml2.0";
 	private static final String ONLINE_THEME_IMAGES_FOLDER = "theme-images";
 
 	private ProjectTypeStore projectTypeStore = null;
