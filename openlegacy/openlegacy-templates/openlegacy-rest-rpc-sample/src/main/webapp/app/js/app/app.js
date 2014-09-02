@@ -39,6 +39,11 @@
 		    .state('inventoryMenu', {
 		    	url: "/inventoryMenu",
 	    		templateUrl: "views/inventoryMenu.html"		    	    	    	 
+		    })
+			.state('itemDetails', {
+		    	url: "/itemDetails/:id",
+	    		templateUrl: "views/itemDetails.html",
+	    		controller: "itemDetailsCtrl"
 		    });
 	});
 } )();

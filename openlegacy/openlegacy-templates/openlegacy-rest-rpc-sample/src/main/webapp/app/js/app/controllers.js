@@ -60,23 +60,26 @@
 						
 				});			
 		})
-	.controller('itemDetailsController',
-			function($scope, $location, $olHttp,$routeParams) {
-				$scope.read = function(){
-					$olHttp.get('ItemDetails/' + $routeParams.itemNumber, 
-						function(data) {
-							$scope.model = data.model.entity;
-						}
-					);
-				}
-				$scope.save = function(){
-					$olHttp.post('ItemDetails?action=update',$scope.model, 
-						function(data) {
-							$scope.model = data.model.entity;
-						}
-					);
-				};
-				$scope.read();
+	.controller('itemDetailsCtrl',
+			function($scope, $location, $olHttp,$routeParams, $state) {
+				$olHttp.get("ItemDetails/" + $routeParams.id, function(data) {
+					$scope.itemDetails = data.model.entity;
+					console.log(data);
+					$scope.actions = data.model.actions;
+					
+					$scope.postAction = function(actionAlias) {
+						$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
+							var entityName = data.model.entityName[0].toLowerCase() + data.model.entityName.substring(1);
+							if ($state.current.name == entityName) {
+			        			$scope.items = data.model.entity.innerRecord;
+			        			$scope.itemDetails = data.model.entity;
+			        			console.log("OK");
+			        		} else {
+			        			$state.go(entityName);
+			        		}
+						});				    	
+				    };					
+				});
 
 			})	
 	.controller('HeaderCtrl',
