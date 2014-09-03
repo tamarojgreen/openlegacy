@@ -1221,6 +1221,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
 		}
 		entityWebGenerator.renameViews(fileNoExtension, newName, projectPath);
+		String sourceFolder = getPreferences(projectPath, PreferencesConstants.API_SOURCE_FOLDER);
+		entityWebGenerator.renameMatchesInJava(fileNoExtension, newName, projectPath, sourceFolder);
 	}
 
 	public String translate(String text, File projectPath) {

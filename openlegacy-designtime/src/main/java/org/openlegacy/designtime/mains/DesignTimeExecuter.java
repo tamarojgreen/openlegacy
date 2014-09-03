@@ -86,4 +86,5 @@ public interface DesignTimeExecuter {
 	public void renameViews(String fileNoExtension, String newName, File javaFile, String fileExtension);
 
 	public String translate(String text, File projectPath);
+
 }

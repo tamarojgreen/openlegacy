@@ -22,12 +22,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.designtime.UserInteraction;
+import org.openlegacy.designtime.mains.DesignTimeExecuter;
 import org.openlegacy.designtime.mains.GenerateViewRequest;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
@@ -264,6 +267,78 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 				} finally {
 					IOUtils.closeQuietly(fos);
 				}
+			}
+		}
+	}
+
+	public void renameMatchesInJava(String oldName, String newName, File projectPath, String sourceFolder) {
+		File sourceDir = new File(projectPath, sourceFolder);
+		scanDir(sourceDir, oldName, newName);
+	}
+
+	private void scanDir(File parentDir, String oldName, String newName) {
+		if (!parentDir.exists()) {
+			return;
+		}
+		File[] listFiles = parentDir.listFiles();
+		for (File file : listFiles) {
+			if (file.isDirectory()) {
+				scanDir(file, oldName, newName);
+			} else {
+				// renamed <newName>.java
+				if (file.getName().equals(MessageFormat.format("{0}.java", newName))) {
+					BufferedWriter bw = null;
+					try {
+						List<String> lines = FileUtils.readLines(file);
+						bw = new BufferedWriter(new FileWriter(file));
+						for (String line : lines) {
+							if (line.contains(MessageFormat.format("{0}Record", StringUtils.capitalize(oldName)))
+									|| line.contains(MessageFormat.format("{0}Part", StringUtils.capitalize(oldName)))) {
+								line = line.replaceAll(StringUtils.capitalize(oldName), StringUtils.capitalize(newName)).replaceAll(
+										StringUtils.uncapitalize(oldName), StringUtils.uncapitalize(newName));
+							}
+							bw.write(line);
+							bw.newLine();
+						}
+					} catch (IOException e) {
+					} finally {
+						IOUtils.closeQuietly(bw);
+					}
+				}
+				// rename <oldName>Controller.java
+				if (file.getName().equals(MessageFormat.format("{0}Controller.java", oldName))) {
+					File newFile = new File(file.getParentFile(), MessageFormat.format("{0}Controller.java", newName));
+					if (file.renameTo(newFile)) {
+						// renamed <newName>Controller.java
+						updateControllerOrAspectFile(newFile, oldName, newName);
+					}
+				}
+				// rename <newName>Controller_Aspect.aj
+				if (file.getName().equals(MessageFormat.format("{0}Controller{1}", oldName, DesignTimeExecuter.ASPECT_SUFFIX))) {
+					// NOTE: if we delete Controller Aspect, it will not be generated again
+					File newFile = new File(file.getParentFile(), MessageFormat.format("{0}Controller{1}", newName,
+							DesignTimeExecuter.ASPECT_SUFFIX));
+					if (file.renameTo(newFile)) {
+						// renamed <newName>Controller_Aspect.aj
+						updateControllerOrAspectFile(newFile, oldName, newName);
+					}
+				}
+			}
+		}
+	}
+
+	private static void updateControllerOrAspectFile(File newFile, String oldName, String newName) {
+		if (newFile.exists()) {
+			FileOutputStream fos = null;
+			try {
+				String fileContent = FileUtils.readFileToString(newFile);
+				fileContent = fileContent.replaceAll(StringUtils.capitalize(oldName), StringUtils.capitalize(newName));
+				fileContent = fileContent.replaceAll(StringUtils.uncapitalize(oldName), StringUtils.uncapitalize(newName));
+				fos = new FileOutputStream(newFile);
+				IOUtils.write(fileContent, fos);
+			} catch (IOException e) {
+			} finally {
+				IOUtils.closeQuietly(fos);
 			}
 		}
 	}

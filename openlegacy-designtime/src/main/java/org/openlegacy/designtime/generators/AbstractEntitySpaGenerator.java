@@ -209,4 +209,8 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 		}
 	}
 
+	public void renameMatchesInJava(String fileNoExtension, String newName, File projectPath, String sourceFolder) {
+		// Auto-generated method stub
+	}
+
 }

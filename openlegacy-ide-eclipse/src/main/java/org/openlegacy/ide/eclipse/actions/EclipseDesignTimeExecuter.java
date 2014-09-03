@@ -368,4 +368,5 @@ public class EclipseDesignTimeExecuter {
 	public String translate(String text, File projectPath) {
 		return designTimeExecuter.translate(text, projectPath);
 	}
+
 }
