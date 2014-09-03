@@ -17,6 +17,7 @@ import freemarker.template.TemplateException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntityDefinition;
@@ -248,6 +249,21 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 				IOUtils.write(viewsFileContent, fos);
 			} finally {
 				IOUtils.closeQuietly(fos);
+			}
+
+			// rename entity name in .jspx
+			File file = new File(webDir, MessageFormat.format("{0}.{1}", newName, "jspx"));
+			if (file.exists()) {
+				fos = null;
+				try {
+					String fileContent = FileUtils.readFileToString(file);
+					fileContent = fileContent.replaceAll(StringUtils.capitalize(oldName), StringUtils.capitalize(newName));
+					fileContent = fileContent.replaceAll(StringUtils.uncapitalize(oldName), StringUtils.uncapitalize(newName));
+					fos = new FileOutputStream(file);
+					IOUtils.write(fileContent, fos);
+				} finally {
+					IOUtils.closeQuietly(fos);
+				}
 			}
 		}
 	}
