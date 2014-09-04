@@ -136,15 +136,9 @@
 										  </ul>
 										</div>
 									<#else>													
-										<#list part.tableDefinition.actions as action>
-											<#if action.targetEntity??>
-												<#assign keyValues = "{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
-												<#list part.tableDefinition.keyFieldNames as keyValue>
-													<#if (keyValue_index > 0)>
-														<#assign keyValues = "${keyValues} + {{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[keyValue_index]}}}">
-													</#if>
-												</#list>
-												<a href="#/${action.targetEntity.simpleName}/${keyValues}" class="${action.alias}">
+										<#list part.tableDefinition.actions as action>																														
+											<#if action.targetEntityName??>												
+												<a href="#/${action.targetEntityName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.columnDefinitions[1].name}}}" class="${action.alias}">
 													<@actionButton value=action.action.actionValue/>												
 												</a>
 											<#else>
@@ -192,13 +186,13 @@
 <#macro fieldMacro field>
 	<div class="form-group">		
 		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
-		<#if field.editable>
+		<#if field.editable>		
 			<#if field.fieldTypeDefinition??>
 				<#switch field.fieldTypeDefinition.typeName>
-					<#case 'date'>
+					<#case "date">
 						<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" datepicker />
-					<#break>	
-					<#case 'fieldWithValues'>
+						<#break>	
+					<#case "fieldWithValues">
 						<div class="input-group">
 						  <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
 						  <div class="input-group-btn">
@@ -210,11 +204,12 @@
 							  </ul>
 						  </div>
 						</div>
-					<#break>	
+						<#break>	
 					<#default>
-						<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
-					<#break>	
+						<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">						
 				</#switch>
+			<#else>
+				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">	
 			</#if>
    		<#else>
    			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>   			
