@@ -96,6 +96,9 @@ public class ScreenAnnotationsParserUtils {
 		String colSpanValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.COL_SPAN);
 		String sortIndexValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.SORT_INDEX);
 		String targetEntityClassNameValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.TARGET_ENTITY);
+		// @author Ivan Bort, refs assembla #595
+		String tableKeyValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.TABLE_KEY);
+		String forceUpdateValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.FORCE_UPDATE);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : sampleValue);
 		field.setDefaultValue(StringUtil.isEmpty(defaultValue) ? "" : defaultValue);
@@ -180,6 +183,12 @@ public class ScreenAnnotationsParserUtils {
 
 		if (targetEntityClassNameValue != null) {
 			field.setTargetEntityClassName(StringUtil.toClassName(targetEntityClassNameValue));
+		}
+		if (StringConstants.TRUE.equals(tableKeyValue)) {
+			field.setTableKey(true);
+		}
+		if (StringConstants.TRUE.equals(forceUpdateValue)) {
+			field.setForceUpdate(true);
 		}
 	}
 

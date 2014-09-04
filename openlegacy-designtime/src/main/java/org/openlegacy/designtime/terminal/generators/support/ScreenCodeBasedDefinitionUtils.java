@@ -115,6 +115,9 @@ public class ScreenCodeBasedDefinitionUtils {
 			fieldDefinition.setInternal(javaFieldModel.isInternal());
 			fieldDefinition.setGlobal(javaFieldModel.isGlobal());
 			fieldDefinition.setNullValue(javaFieldModel.getNullValue());
+			// @author Ivan Bort, refs assembla #595
+			fieldDefinition.setTableKey(javaFieldModel.isTableKey());
+			fieldDefinition.setForceUpdate(javaFieldModel.isForceUpdate());
 
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
