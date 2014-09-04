@@ -38,7 +38,7 @@
 	<#if entitiesDefinitions??>
 	<#list entitiesDefinitions as entityDefinition>	
 	module = module.controller('${entityDefinition.entityName}Controller',
-			function($scope, $location, $olHttp,$routeParams) {
+			function($scope, $location, $olHttp,$routeParams, flatMenu) {
 				$scope.noTargetScreenEntityAlert = function() {
 					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 				}; 
@@ -61,16 +61,10 @@
 						}
 					);
 				};		
-				$olHttp.get('menu/flatMenu', function(data) {
-					$scope.menuArray = [];					
-					var getMenuString = function(data) {						
-						angular.forEach(data, function(value) {							
-							$scope.menuArray.push(value);
-							getMenuString(value.menuItems);
-					    });					     
-					}
-					getMenuString(data.simpleMenuItemList);					
-				});
+
+				flatMenu(function(data) {
+					$scope.menuArray = data;
+				});	
 				
 				$scope.doAction = function(entityName, actionAlias) {					
 					$scope.model.actions = null;					
@@ -119,7 +113,7 @@
 /* Controller code place-holder start
 	<#if entityName??>
 	module = module.controller('${entityName}Controller',
-				function($scope, $location, $olHttp,$routeParams) {
+				function($scope, $location, $olHttp,$routeParams, flatMenu) {
 				$scope.noTargetScreenEntityAlert = function() {
 					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 				}; 
@@ -142,16 +136,21 @@
 						}
 					);
 				};		
-				$olHttp.get('menu/flatMenu', function(data) {
-					$scope.menuArray = [];					
-					var getMenuString = function(data) {						
-						angular.forEach(data, function(value) {							
-							$scope.menuArray.push(value);
-							getMenuString(value.menuItems);
-					    });					     
-					}
-					getMenuString(data.simpleMenuItemList);					
-				});
+//				$olHttp.get('menu/flatMenu', function(data) {
+//					$scope.menuArray = [];					
+//					var getMenuString = function(data) {						
+//						angular.forEach(data, function(value) {							
+//							$scope.menuArray.push(value);
+//							getMenuString(value.menuItems);
+//					    });					     
+//					}
+//					getMenuString(data.simpleMenuItemList);					
+//				});
+
+				flatMenu(function(data) {
+					$scope.menuArray = data;
+				});	
+	
 				
 				$scope.doAction = function(entityName, actionAlias) {					
 					$scope.model.actions = null;					
