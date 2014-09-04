@@ -13,6 +13,7 @@ package org.openlegacy.designtime.terminal.analyzer.modules.table;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.FieldFormatter;
+import org.openlegacy.definitions.AbstractTableDefinition;
 import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFact;
 import org.openlegacy.designtime.terminal.analyzer.ScreenFactProcessor;
@@ -102,7 +103,8 @@ public class ScreenTableFactProcessor implements ScreenFactProcessor {
 				screenEntityDefinition.getReferredClasses().add(RecordSelectionEntity.class.getName());
 			}
 
-			if (!isSelectionField(i, firstCellField) && tableDefinition.getKeyFieldNames().size() == 0) {
+			if (!isSelectionField(i, firstCellField)
+					&& ((AbstractTableDefinition<ScreenColumnDefinition>)tableDefinition).getNewKeyFieldNames().size() == 0) /* workaround for designtime */{
 				// mark the 1st non edit-able field as key (in design-time)
 				// TODO logic needs to be more rich to check for most populated column
 				columnDefinition.setKey(true);

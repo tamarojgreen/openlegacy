@@ -12,6 +12,7 @@ import org.openlegacy.modules.table.RecordSelectionEntity;
 public class TableScreen {
     
 
+
     
     private List<TableScreenRecord> tableScreenRecords;
 
@@ -24,15 +25,13 @@ public class TableScreen {
 	public static class TableScreenRecord {
 		@ScreenColumn(startColumn = 4, endColumn = 5, editable=true, selectionField=true ,displayName = "Action")
 		private String action_;
-		
 		@ScreenColumn(startColumn = 11, endColumn = 19, key=true ,displayName = "Column A", sampleValue="Cell 1A")
 		private String columnA;
-		
-		@ScreenColumn(startColumn = 21, endColumn = 29, mainDisplayField=true ,displayName = "Column B", sampleValue="Cell 1B")
+		@ScreenColumn(startColumn = 21, endColumn = 29 ,displayName = "Column B", sampleValue="Cell 1B")
 		private String columnB;
-		
-		@ScreenColumn(startColumn = 31, endColumn = 39 ,displayName = "Column4", sampleValue="Cell 1C")
+		@ScreenColumn(startColumn = 31, endColumn = 39, mainDisplayField=true ,displayName = "Column4", sampleValue="Cell 1C")
 		private String column4;
+		
 		
 	}    
  

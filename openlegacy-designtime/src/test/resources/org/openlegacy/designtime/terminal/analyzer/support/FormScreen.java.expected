@@ -5,6 +5,7 @@ import org.openlegacy.terminal.actions.TerminalActions;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import java.util.Date;  
 import org.openlegacy.definitions.EnumGetValue;  
+import org.openlegacy.definitions.EnumGetValue;
 
 @ScreenEntity()
 @ScreenIdentifiers(identifiers = { 
@@ -55,7 +56,8 @@ public class FormScreen {
     private Date dateField;
 	
 	@ScreenField(row = 11, column = 20, endColumn= 21 ,labelColumn= 3 ,editable= true ,displayName = "Enum field")
-    private EnumField enumField;
+	private EnumField enumField;
+
 
     
 
@@ -64,8 +66,8 @@ public class FormScreen {
 	public enum EnumField implements EnumGetValue{
 			One("1","One"),
 			Three("3","Three"),
-			Two("2","Two");
-		
+			Two("2","Two")
+		;
 		private String value;
 		private String display;
 

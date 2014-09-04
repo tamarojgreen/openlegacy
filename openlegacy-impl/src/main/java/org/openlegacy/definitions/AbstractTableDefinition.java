@@ -55,11 +55,15 @@ public abstract class AbstractTableDefinition<C extends ColumnDefinition> implem
 	}
 
 	public List<String> getKeyFieldNames() {
-		if (keyFields != null) {
-			return keyFields;
+		if (keyFields == null) {
+			keyFields = getNewKeyFieldNames();
 		}
 
-		keyFields = new ArrayList<String>();
+		return keyFields;
+	}
+
+	public List<String> getNewKeyFieldNames() {
+		List<String> keyFields = new ArrayList<String>();
 		for (C columnDefinition : columnDefinitions) {
 			if (columnDefinition.isKey()) {
 				keyFields.add(columnDefinition.getName());

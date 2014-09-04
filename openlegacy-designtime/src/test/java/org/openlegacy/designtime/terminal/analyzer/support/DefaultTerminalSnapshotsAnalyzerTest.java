@@ -30,15 +30,7 @@ import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import japa.parser.JavaParser;
-import japa.parser.ParseException;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.body.ClassOrInterfaceDeclaration;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -331,30 +323,4 @@ public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 		assertScreenContent(simpleScreenDefinition, "SimpleScreenValues.java.expected");
 	}
 
-	@Test
-	public void testNoAspectGeneration() throws TemplateException, IOException, ParseException {
-
-		List<String> tests = Arrays.asList("SimpleScreen", "TableScreen", "ItemDetails");
-		for (String test : tests) {
-			Map<String, ScreenEntityDefinition> screenEntitiesDefinitions = analyze(test + ".xml");
-			ScreenEntityDesigntimeDefinition screenDefinition = (ScreenEntityDesigntimeDefinition)screenEntitiesDefinitions.get(test);
-			screenDefinition.setGenerateAspect(false);
-			String templateName = "noAspect/" + test + ".java.expected";
-			assertScreenContent(screenDefinition, templateName);
-
-			// part 2 check no aspect is required.
-			verifyNoAspect(templateName);
-		}
-	}
-
-	private void verifyNoAspect(String templateName) throws ParseException, IOException, TemplateException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-		InputStream input = getClass().getResourceAsStream(templateName);
-
-		CompilationUnit compilationUnit = JavaParser.parse(input);
-		screenPojosAjGenerator.generateEntity(compilationUnit,
-				(ClassOrInterfaceDeclaration)compilationUnit.getTypes().get(0), baos);
-		Assert.assertEquals(0, baos.toByteArray().length);
-	}
 }

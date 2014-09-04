@@ -25,6 +25,7 @@ import org.openlegacy.annotations.screen.ScreenTable;
 public class EditLibraryList {
     
 
+
     
     private List<EditLibraryListRecord> editLibraryListRecords;
 
@@ -33,22 +34,19 @@ public class EditLibraryList {
 	public static class EditLibraryListRecord {
 		@ScreenColumn(startColumn = 4, endColumn = 7, editable=true, key=true ,displayName = "Number", sampleValue="0")
 		private Integer number;
-		
-		@ScreenColumn(startColumn = 12, endColumn = 21, editable=true, mainDisplayField=true ,displayName = "Library")
+		@ScreenColumn(startColumn = 12, endColumn = 21, editable=true ,displayName = "Library")
 		private String library;
-		
 		@ScreenColumn(startColumn = 31, endColumn = 34, editable=true ,displayName = "Number1", sampleValue="150")
 		private Integer number1;
-		
 		@ScreenColumn(startColumn = 39, endColumn = 48, editable=true ,displayName = "Library1")
 		private String library1;
-		
 		@ScreenColumn(startColumn = 58, endColumn = 61, editable=true ,displayName = "Number2", sampleValue="300")
 		private Integer number2;
-		
-		@ScreenColumn(startColumn = 66, endColumn = 75, editable=true ,displayName = "Library2")
+		@ScreenColumn(startColumn = 66, endColumn = 75, editable=true, mainDisplayField=true ,displayName = "Library2")
 		private String library2;
+		
 		
 	}    
  
 }
+
