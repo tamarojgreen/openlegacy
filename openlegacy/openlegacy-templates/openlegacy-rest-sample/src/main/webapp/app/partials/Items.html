@@ -88,14 +88,14 @@
                             <tbody>
                             	<tr ng-repeat="item in items" >
                                     <td><a href="#/ItemDetails/{{item.itemNumber}}">{{item.alphaSearch}}</a></td>
-                                    <td>{{item.itemDescription}}</td>
-                                    <td>{{item.itemNumber}}</td>
-                                    <td class="hidden-xs">
+                            		<td class="hidden-xs">
                                         <a href="#/ItemDetails/{{item.itemNumber}}"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
                                         <a href="#/ItemDetails/{{item.itemNumber}}"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
                                         <a href="#/ItemDetails/{{item.itemNumber}}"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
-                                    </td>
-                            	
+                                    </td>     
+                                    <td><a href="#/itemDetails/{{item.itemNumber}}">{{item.alphaSearch}}</a></td>
+                                    <td>{{item.itemDescription}}</td>
+                                    <td>{{item.itemNumber}}</td>                                                           	
                             	</tr>                            
                             </tbody>
                         </table>

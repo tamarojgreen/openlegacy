@@ -16,3 +16,12 @@ body {
 .row {
 	margin-top: 20px;
 }
+
+  .sidebar-nav .navbar ul {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }

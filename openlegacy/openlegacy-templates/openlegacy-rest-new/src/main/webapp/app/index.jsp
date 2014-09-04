@@ -18,7 +18,7 @@
 	<link href="bootstrap/css/datepicker.css" rel="stylesheet">
 	
 	<!-- custom style for this project -->
-	<link type="text/css" rel="stylesheet" href="css/project.css" />
+	<link type="text/css" rel="stylesheet" href="css/project.css" />	
 	
 	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	
@@ -89,8 +89,8 @@
 			</div>
 		</div>
 	</div> -->
-	<div class="container">
-		<div ng-view="true"></div>
-	</div>	
+	<!-- <div class="container"> -->
+		<div class="main" ng-view="true"></div>
+	<!-- </div>	 -->
 </body>
 </html>

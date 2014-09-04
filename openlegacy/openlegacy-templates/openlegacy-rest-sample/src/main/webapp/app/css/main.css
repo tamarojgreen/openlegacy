@@ -8,7 +8,6 @@ body{
 }
 
 .navbar ul li .glyphicon{
-/*.navbar .glyphicon{*/
     font-size:18px;
     vertical-align:text-bottom; 
 }
@@ -85,7 +84,7 @@ body{
 @media (max-width: 768px){
     .footer {
         color: #999;
-        xxtext-align: center;
+        text-align: center;
         font-size:8px;
     }
     .footer img{
