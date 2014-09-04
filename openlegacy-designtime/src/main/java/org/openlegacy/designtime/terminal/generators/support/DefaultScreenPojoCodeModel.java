@@ -91,9 +91,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private String focusField;
 		private ActionType type;
 		private int sleep;
+		private boolean global;
 
 		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey, int row, int column,
-				int length, String when, String focusField, ActionType type, int sleep) {
+				int length, String when, String focusField, ActionType type, int sleep, boolean global) {
 			this.alias = alias;
 			this.actionName = actionName;
 			this.displayName = displayName;
@@ -106,6 +107,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			this.type = type;
 			this.targetEntityName = ScreenEntity.NONE.class.getSimpleName();
 			this.sleep = sleep;
+			this.global = global;
 		}
 
 		public String getActionName() {
@@ -198,6 +200,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setSleep(int sleep) {
 			this.sleep = sleep;
+		}
+
+		public boolean isGlobal() {
+			return global;
+		}
+
+		public void setGlobal(boolean global) {
+			this.global = global;
 		}
 
 	}

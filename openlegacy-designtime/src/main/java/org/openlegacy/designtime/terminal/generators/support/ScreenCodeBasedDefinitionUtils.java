@@ -199,6 +199,7 @@ public class ScreenCodeBasedDefinitionUtils {
 			actionDefinition.setType(action.getType());
 			actionDefinition.setTargetEntityName(action.getTargetEntityName());
 			actionDefinition.setSleep(action.getSleep());
+			actionDefinition.setGlobal(action.isGlobal());
 			actionDefinitions.add(actionDefinition);
 		}
 

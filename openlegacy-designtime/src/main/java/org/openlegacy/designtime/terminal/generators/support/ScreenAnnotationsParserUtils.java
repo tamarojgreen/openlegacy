@@ -215,6 +215,7 @@ public class ScreenAnnotationsParserUtils {
 				String focusFieldValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.FOCUS_FIELD);
 				String typeValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.TYPE);
 				String sleepValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.SLEEP);
+				String globalValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.GLOBAL);
 
 				int row = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.ROW,
 						ScreenAnnotationConstants.ROW_DEFAULT_VALUE);
@@ -236,8 +237,13 @@ public class ScreenAnnotationsParserUtils {
 				if (sleepValue != null) {
 					sleep = Integer.valueOf(sleepValue);
 				}
+				boolean global = true;
+				if (StringConstants.FALSE.equals(globalValue)) {
+					global = false;
+				}
+
 				Action action = new Action(actionAlias, actionClassName, displayName, additionalKey, row, column, length, when,
-						focusFieldValue, type, sleep);
+						focusFieldValue, type, sleep, global);
 				action.setActionValue(actionValue == null ? "" : actionValue);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
 				actions.add(action);
