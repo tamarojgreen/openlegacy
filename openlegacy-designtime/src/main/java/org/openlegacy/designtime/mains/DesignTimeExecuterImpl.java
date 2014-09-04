@@ -29,6 +29,7 @@ import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.generators.EntityPageGenerator;
 import org.openlegacy.designtime.generators.EntityServiceGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
+import org.openlegacy.designtime.generators.SpaGenerateUtil;
 import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.designtime.newproject.ITemplateFetcher;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
@@ -183,6 +184,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		updatePropertiesFile(projectCreationRequest, targetPath);
 
+		updateConfigJsFile(projectCreationRequest, targetPath);
+
 		savePreference(targetPath, PreferencesConstants.API_PACKAGE, projectCreationRequest.getDefaultPackageName());
 		savePreference(targetPath, PreferencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
 		savePreference(targetPath, PreferencesConstants.DESIGNTIME_CONTEXT, "default");
@@ -193,6 +196,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 
 		templateFetcher.deleteZip();
+	}
+
+	private static void updateConfigJsFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException {
+		File configJs = new File(targetPath, SpaGenerateUtil.JS_APP_DIR + "config.js");
+		if (configJs.exists()) {
+			String fileContent = IOUtils.toString(new FileInputStream(configJs));
+
+			fileContent = fileContent.replaceFirst(projectCreationRequest.getTemplateName(),
+					projectCreationRequest.getProjectName());
+
+			FileUtils.write(fileContent, configJs);
+		}
 	}
 
 	private static void handleRightToLeft(File targetPath) throws FileNotFoundException, IOException {
@@ -235,7 +250,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void uncommentMockSettings(String provider, File targetPath) throws IOException {
-		if (!provider.equals("mock-up")) {
+		if (!provider.equals("mock-up") && !provider.equals("openlegacy-impl")) {
 			return;
 		}
 
@@ -394,18 +409,28 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		String pomFileContent = IOUtils.toString(new FileInputStream(pomFile));
 
-		if (!provider.equals("mock-up")) {
+		if (!provider.equals("mock-up") && !provider.equals("openlegacy-impl")) {
 
-			// tn5250j or impl is the default pom setting
-			pomFileContent = pomFileContent.replaceFirst(
-					"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>",
-					MessageFormat.format(
-							"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
-							provider));
-			pomFileContent = pomFileContent.replaceFirst(
-					"<groupId>org.openlegacy</groupId>\\s+<artifactId>openlegacy-impl</artifactId>", MessageFormat.format(
-							"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
-							provider));
+			if (provider.startsWith("openlegacy-")) {
+				pomFileContent = pomFileContent.replaceFirst(
+						"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>",
+						MessageFormat.format("<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>{0}</artifactId>",
+								provider));
+				pomFileContent = pomFileContent.replaceFirst(
+						"<groupId>org.openlegacy</groupId>\\s+<artifactId>openlegacy-impl</artifactId>", MessageFormat.format(
+								"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>{0}</artifactId>", provider));
+			} else {
+				// tn5250j or impl is the default pom setting
+				pomFileContent = pomFileContent.replaceFirst(
+						"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>",
+						MessageFormat.format(
+								"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
+								provider));
+				pomFileContent = pomFileContent.replaceFirst(
+						"<groupId>org.openlegacy</groupId>\\s+<artifactId>openlegacy-impl</artifactId>", MessageFormat.format(
+								"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>openlegacy-{0}</artifactId>",
+								provider));
+			}
 		}
 
 		FileUtils.write(pomFileContent, pomFile);
