@@ -4,24 +4,24 @@
 
 	/* Controllers */
 
-	var module = angular.module('controllers', [])
+	var module = angular.module('controllers', ['ui.router'])
 
 	.controller(
-		'loginController',
-		function($scope, $location, $olHttp, $rootScope, $cookies) {
-			$scope.user = {userName:"test",password:"testp"};
-			$scope.login = function() {
-				$cookies.loggedInUser = $scope.user.userName;
-				$rootScope.loggedInUser = $scope.user.userName;
-				$location.path("/items");
-
-				$olHttp.get('login?user=' + $scope.user.userName + '&password='+ $scope.user.password, 
-					function() {
-						$cookies.loggedInUser = $scope.user.userName;
-						$rootScope.loggedInUser = $scope.user.userName;
-						$location.path("/items");
-					}
-				);
+		'loginCtrl',
+		function($scope, $location, $olHttp, $rootScope, $cookies, $state) {			
+			
+			if ($cookies.loggedInUser != undefined) {
+				$state.go("items");
+			}
+			$scope.login = function(username, password) {				
+				
+				$olHttp.get('login?user=' + username + '&password='+ password, 
+						function() {
+							$cookies.loggedInUser = username;
+							$rootScope.$broadcast("olApp:login:authorized", username);
+							$state.go("items");							
+						}
+					);
 			};
 		})
 	.controller(
@@ -35,32 +35,74 @@
 				}
 			);
 		})
-	.controller('itemsController',
-		function($scope, $location, $olHttp) {
+	.controller('itemsCtrl',
+		function($state, $scope, $location, $olHttp) {
 			$olHttp.get('Items', 
-					function(data) {
-						$scope.items = data.model.entity.topLevel.innerRecord;
-					}
-				);
-			
+				function(data) {
+				
+					$scope.items = data.model.entity.innerRecord;
+					
+			        $scope.actions = data.model.actions;
+			        
+			        $scope.postAction = function(actionAlias) {			        	
+			        	$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
+			        		if ($state.current.name == data.model.entityName.toLowerCase()) {
+			        			$scope.items = data.model.entity.innerRecord;
+			        			console.log("OK");
+			        		} else {
+			        			$state.go(data.model.entityName.toLowerCase());
+			        		}
+			        		
+			        	});
+			        };
+			        
+			        $scope.exportExcelUrl = olConfig.baseUrl + data.model.entityName + "/excel";        
+						
+				});			
 		})
-	.controller('itemDetailsController',
-			function($scope, $location, $olHttp,$routeParams) {
-				$scope.read = function(){
-					$olHttp.get('ItemDetails/' + $routeParams.itemNumber, 
-						function(data) {
-							$scope.model = data.model.entity;
-						}
-					);
-				}
-				$scope.save = function(){
-					$olHttp.post('ItemDetails?action=update',$scope.model, 
-						function(data) {
-							$scope.model = data.model.entity;
-						}
-					);
-				};
-				$scope.read();
+	.controller('itemDetailsCtrl',
+			function($scope, $location, $olHttp,$routeParams, $state) {
+				$olHttp.get("ItemDetails/" + $routeParams.id, function(data) {
+					$scope.itemDetails = data.model.entity;
+					console.log(data);
+					$scope.actions = data.model.actions;
+					
+					$scope.postAction = function(actionAlias) {
+						$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
+							var entityName = data.model.entityName[0].toLowerCase() + data.model.entityName.substring(1);
+							if ($state.current.name == entityName) {
+			        			$scope.items = data.model.entity.innerRecord;
+			        			$scope.itemDetails = data.model.entity;
+			        			console.log("OK");
+			        		} else {
+			        			$state.go(entityName);
+			        		}
+						});				    	
+				    };					
+				});
 
+			})	
+	.controller('HeaderCtrl',
+		function ($cookies, $rootScope, $state, $scope, $http, $location, $themeService) {    
+			$rootScope.$on("olApp:login:authorized", function(e, value) {
+				$scope.username = value;
 			});
+			
+			if ($cookies.loggedInUser != undefined) {
+				$scope.username = $cookies.loggedInUser;
+			}
+			
+			
+			$scope.logout = function(){
+				delete $scope.username
+				delete $rootScope.loggedInUser
+				delete $cookies.loggedInUser				
+				$state.go("login");
+			}
+			
+			$scope.changeTheme = function() {
+				$themeService.changeTheme();
+			};
+		
+	});
 })();

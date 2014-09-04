@@ -1,16 +1,65 @@
-<div class="table span12">
-	<table>
-		<thead>
-			<tr>
-				<th>Item Number</th>
-				<th>Item Name</th>
-				<th>Item Description</th>
-			</tr>
-		</thead>
-		<tr data-ng-repeat="item in items">
-			<td><a title="Edit" class="rbtn revise" href="#/itemDetails/{{item.itemNumber}}">{{item.itemNumber}}<i class="icon-envelope"></i></a></td>
-			<td>{{item.itemName}}</td>
-			<td>{{item.description}}</td>
-		</tr>
-	</table>
-</div>
+<div class="container-fluid">
+    <div class="row text-center logo">
+        <img src="img/logo.png">
+    </div>
+    <div class="row">
+        
+        <div class="col-sm-3 col-md-2 no-gutters-sm"><!--      sidebar       -->
+            <div ng-include="'views/sidebar.html'"></div>
+        </div> <!--/sidebar -->
+        
+        <div class="col-sm-9 col-md-10"><!--      main       -->
+            <ol class="breadcrumb hidden-xs">
+                <li><a href="#/mainMenu">Main Menu</a></li>
+                <li><a href="#/inventoryMenu">Inventory Menu</a></li>
+                <li class="active">Items</li>
+            </ol>
+            
+            <h1>Items</h1>
+            
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <nav class="navbar navbar-default hidden-xs" role="navigation">
+                        <form class="navbar-form xnavbar-left" role="navigation">                        	
+                            <span ng-repeat="action in actions">
+           	               		<button type="button" class="btn btn-primary navbar-btn" ng-click="postAction(action.alias)">	                            		
+	                            	{{action.displayName}}
+                           		</button>                            	
+                            </span>
+                        </form>
+                    </nav>                    
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Alpha Search</th>
+                                    <th>Item Description</th>
+                                    <th>Item Number</th>
+                                    <th class="hidden-xs">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            	<tr ng-repeat="item in items" >
+                                    <td><a href="#/itemDetails/{{item.itemNumber}}">{{item.itemName}}</a></td>
+                                    <td>{{item.description}}</td>
+                                    <td>{{item.itemNumber}}</td>
+                                    <td class="hidden-xs">
+                                        <a href="#/itemDetails/{{item.itemNumber}}"><span class="label label-primary"><span class="glyphicon glyphicon-repeat"></span></span></a>
+                                        <a href="#/itemDetails/{{item.itemNumber}}"><span class="label label-danger"><span class="glyphicon glyphicon-remove-sign"></span></span></a>
+                                        <a href="#/itemDetails/{{item.itemNumber}}"><span class="label label-success"><span class="glyphicon glyphicon-share-alt"></span></span></a>
+                                    </td>
+                            	
+                            	</tr>                            
+                            </tbody>
+                        </table>
+                    </div><!-- /table responsive -->
+                </div>
+            </div><!-- /main panel -->                                                					
+            <div class="top-margin-50"></div>
+            
+        </div><!--      /main  col      -->
+        
+    </div><!--/row -->
+    
+</div><!--/container -->
