@@ -251,6 +251,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private int sortIndex;
 		private String targetEntityClassName;
 
+		// @author Ivan Bort, refs assembla #595
+		private boolean tableKey;
+		private boolean forceUpdate;
+
 		public Field(String name, String type) {
 			this.name = name;
 			this.type = type;
@@ -575,6 +579,22 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setTargetEntityClassName(String targetEntityClassName) {
 			this.targetEntityClassName = targetEntityClassName;
+		}
+
+		public boolean isTableKey() {
+			return tableKey;
+		}
+
+		public void setTableKey(boolean tableKey) {
+			this.tableKey = tableKey;
+		}
+
+		public boolean isForceUpdate() {
+			return forceUpdate;
+		}
+
+		public void setForceUpdate(boolean forceUpdate) {
+			this.forceUpdate = forceUpdate;
 		}
 
 	}
