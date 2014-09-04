@@ -33,4 +33,6 @@ public interface EntityPageGenerator {
 
 	void renameViews(String fileNoExtension, String newName, File projectPath);
 
+	void renameMatchesInJava(String oldName, String newName, File projectPath, String sourceFolder);
+
 }

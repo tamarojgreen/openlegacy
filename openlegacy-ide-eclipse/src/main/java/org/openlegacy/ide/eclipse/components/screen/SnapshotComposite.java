@@ -348,7 +348,8 @@ public class SnapshotComposite extends ImageComposite {
 					if ((field.getValue() != null) && !field.getValue().trim().isEmpty()) {
 						selectedObject.setLabelColumn(field.getPosition().getColumn());
 						selectedObject.setDisplayName(StringUtil.toDisplayName(field.getValue().trim()));
-						selectedObject.setFieldName(StringUtil.toJavaFieldName(field.getValue().trim()));
+						selectedObject.setFieldName(StringUtil.toJavaFieldName(EclipseDesignTimeExecuter.instance().translate(
+								field.getValue().trim(), projectPath)));
 						break;
 					}
 				}

@@ -25,6 +25,7 @@ import org.openlegacy.designtime.EntityUserInteraction;
 import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
+import org.openlegacy.designtime.analyzer.TextTranslator;
 import org.openlegacy.designtime.generators.EntityPageGenerator;
 import org.openlegacy.designtime.generators.EntityServiceGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
@@ -155,6 +156,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				projectCreationRequest.getProjectName(), projectCreationRequest.getBaseDir());
 
 		if (projectCreationRequest.isDemo()) {
+			templateFetcher.deleteZip();
 			return;
 		}
 
@@ -1219,6 +1221,16 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			entityWebGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityPageGenerator.class);
 		}
 		entityWebGenerator.renameViews(fileNoExtension, newName, projectPath);
+		String sourceFolder = getPreferences(projectPath, PreferencesConstants.API_SOURCE_FOLDER);
+		entityWebGenerator.renameMatchesInJava(fileNoExtension, newName, projectPath, sourceFolder);
+	}
+
+	public String translate(String text, File projectPath) {
+		TextTranslator translator = getOrCreateApplicationContext(projectPath).getBean(TextTranslator.class);
+		if (translator != null) {
+			return translator.translate(text);
+		}
+		return text;
 	}
 
 }
