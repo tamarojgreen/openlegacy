@@ -46,63 +46,6 @@
 				<h1>${entityDefinition.displayName}</h1>
 			</#if>
 			
-			    </div>
-			</div>    
-		</div>
-		
-		 <!--/sidebar -->
-		 
-		<div class="col-sm-9 col-md-10"><!--  main   -->
-		
-			<ol class="breadcrumb hidden-xs">
-				<li ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
-					<a ng-show="!$last" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
-					<span ng-show="$last">{{bc.displayName}}</span>
-				</li>
-			</ol>
-			
-			<#assign hasTable = false>			
-			<#list pageParts as part>
-				<#if part.hasTable>
-					<#assign hasTable = true>												
-				</#if>
-			</#list>			
-								
-							  </div>
-							  <#list entityDefinition.childEntitiesDefinitions as childEntity>		            			
-		            			<div class="tab-pane" id="${childEntity.entityName}">			            					            				
-								    <@navMacro entity=childEntity showExcelBtn=hasTable?string/>
-								    <#if (childEntity.partsDefinitions?size > 0)>
-								    	<#list childEntity.partsDefinitions as part>											
-											<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
-											<@pagePart entity=childEntity part=part/>
-										</#list>
-						    		<#else>						    			
-						    			<#list childEntity.fieldsDefinitions?keys as key>						    			
-								    		<@fieldMacro field=childEntity.fieldsDefinitions[key]/>
-						    			</#list>							    		
-								    </#if>
-		            			</div>
-		            		  </#list>						  
-							</div><!-- /Tab panes -->
-						</div>
-					<#else>
-						<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
-						<#list pageParts as part>											
-							<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
-							<@pagePart entity=entityDefinition part=part/>
-						</#list> 					
-	            	</#if>
-				</div>
-			</div>
-		</div><!--  /main   -->
-	</div>
-</div>									
-			
-			<#if (entityDefinition.childEntitiesDefinitions?size == 0)>
-				<h1>${entityDefinition.displayName}</h1>
-			</#if>
-			
 			<div class="panel panel-default">
 				<div class="panel-body">
 										
@@ -247,29 +190,6 @@
 </#macro>
 
 <#macro fieldMacro field>
-		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
-		<#if field.editable>
-			<#if field.fieldTypeDefinition.typeName == 'date'>
-				<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" datepicker />
-			<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
-				<div class="input-group">
-				  <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
-				  <div class="input-group-btn">
-					  <button id="dropdownMenu" class="btn dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</button>
-					  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
-					    <li class="animate-repeat" ng-repeat="${field.name} in ${field.name}s">
-					      <a ng-click="${field.name?cap_first}Click(${field.name})" href="">{{${field.name}.description}}</a>
-					    </li>
-					  </ul>
-				  </div>
-				</div>														
-			<#else>
-				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
-			</#if>
-   		<#else>
-   			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>   			
-   		</#if>		
-	</div>
 	<div class="form-group">		
 		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
 		<#if field.editable>
@@ -293,6 +213,7 @@
    		<#else>
    			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>   			
    		</#if>		
+	</div>
 </#macro>
 
 <#macro navMacro entity showExcelBtn>
@@ -303,7 +224,6 @@
 			</#list>			
 			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">	        	
             	Excel
-            </a>            
             </a>            
 	    </form>
 	</nav>    

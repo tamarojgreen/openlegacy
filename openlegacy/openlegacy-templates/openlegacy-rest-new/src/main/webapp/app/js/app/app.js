@@ -4,9 +4,14 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services', 'directives'] );
+	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services', 'directives'] ).run(['$themeService', '$rootScope', function($themeService, $rootScope) {		
+		$rootScope.changeTheme = function() {
+			$themeService.changeTheme();
+		};
+		$rootScope.theme = $themeService.getCurrentTheme();
+	}]);	
 
-	olApp.config( [ '$routeProvider', function( $routeProvider) {
+	olApp.config( [ '$routeProvider', function( $routeProvider ) {
 		
 		$routeProvider = $routeProvider.when( '/login', {templateUrl: 'views/login.html', controller: 'loginController'} );
 		$routeProvider = $routeProvider.when( '/logoff', {templateUrl: 'views/logoff.html', controller: 'logoffController'} );

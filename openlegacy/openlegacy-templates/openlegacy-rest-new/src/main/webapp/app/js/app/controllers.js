@@ -38,7 +38,7 @@
 	<#if entitiesDefinitions??>
 	<#list entitiesDefinitions as entityDefinition>	
 	module = module.controller('${entityDefinition.entityName}Controller',
-			function($scope, $location, $olHttp,$routeParams, flatMenu) {
+			function($scope, $location, $olHttp,$routeParams, flatMenu, $themeService) {
 				$scope.noTargetScreenEntityAlert = function() {
 					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 				}; 
@@ -58,20 +58,15 @@
 								});
 										
 							};
-							};							
-						}
+						}							
 					);
 				};		
 
 				flatMenu(function(data) {
 					$scope.menuArray = data;
-				});	
-				
-				$scope.doAction = function(entityName, actionAlias) {					
-					    });					     
-					}
-					getMenuString(data.simpleMenuItemList);					
 				});
+				
+				$scope.doAction = function(entityName, actionAlias) {
 					$scope.model.actions = null;					
 					$olHttp.post(entityName + '?action=' + actionAlias,$scope.model, 
 						function(data) {
@@ -109,15 +104,7 @@
 				};
 				</#if>
 				
-							}
-						});
-//				<#else>
-//					$scope.read();
-//				</#if>				
-				
-						</#if>						
-					</#list>
-				</#if>
+
 				
 				<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
 				$scope.loadTab = function(entityName) {

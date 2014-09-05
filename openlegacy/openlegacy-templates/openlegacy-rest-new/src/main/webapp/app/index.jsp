@@ -19,6 +19,7 @@
 	
 	<!-- custom style for this project -->
 	<link type="text/css" rel="stylesheet" href="css/project.css" />	
+	<link ng-href="themes/{{theme}}/{{theme}}.css" rel="stylesheet">
 	
 	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	
@@ -34,7 +35,7 @@
 	<script src="js/app/directives.js" type="text/javascript"></script>
 	<script src="js/app/config.js" type="text/javascript"></script>
 </head>
-<body>
+<body class="base" ng-class="theme">
 	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 	    <div class="container-fluid">
 	        <div class="navbar-header">
@@ -49,7 +50,7 @@
 	        <div class="navbar-collapse collapse ol-navbar-collapse">
 	            <ul class="nav navbar-nav navbar-right">	
 	                
-	                <li><a href="#"><span class="glyphicon glyphicon-eye-open"></span> Theme</a></li>
+	                <li><a href ng-click="changeTheme()"><span class="glyphicon glyphicon-eye-open"></span> Theme</a></li>
 	                <li><a href="#"><span class="glyphicon glyphicon-phone"></span> Mobile</a></li>
 	                <li><a href="#"><span class="glyphicon glyphicon-cog"></span> MVC</a></li>
 	                
@@ -91,6 +92,6 @@
 	</div> -->
 	<!-- <div class="container"> -->
 		<div class="main" ng-view="true"></div>
-	<!-- </div>	 -->
+	<!-- </div> -->
 </body>
 </html>
