@@ -25,6 +25,7 @@ import org.tn5250j.framework.tn5250.Screen5250;
 import org.tn5250j.framework.tn5250.ScreenField;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -242,7 +243,36 @@ public class Tn5250jTerminalSnapshot extends AbstractSnapshot {
 				fieldSeperators.add(SnapshotUtils.newTerminalPosition(i, getSize().getColumns()));
 			}
 		}
+		parseFieldsBuffer();
 		return fieldSeperators;
+	}
+
+	/**
+	 * Special fix for case where field has mask (e.g date field), and has no attribute to seperate the field into multiple fields
+	 */
+	private void parseFieldsBuffer() {
+		char[] chars;
+		chars = screenData.field;
+		// whether the current char is a start of an editable field. Null means no field. False mean editable but not 1st position
+		Boolean firstEditableFieldPosition = null;
+		for (int i = 0; i < chars.length; i++) {
+			// unprotected
+			if (chars[i] == 'C') {
+				if (firstEditableFieldPosition == null) {
+					firstEditableFieldPosition = true;
+				}
+				TerminalPosition newTerminalPosition = SnapshotUtils.newTerminalPosition(i - 1, getSize().getColumns());
+				if (firstEditableFieldPosition == true) {
+					if (!fieldSeperators.contains(newTerminalPosition)) {
+						fieldSeperators.add(newTerminalPosition);
+					}
+					firstEditableFieldPosition = false;
+				}
+			} else {
+				firstEditableFieldPosition = null;
+			}
+		}
+		Collections.sort(fieldSeperators);
 	}
 
 	@Override
