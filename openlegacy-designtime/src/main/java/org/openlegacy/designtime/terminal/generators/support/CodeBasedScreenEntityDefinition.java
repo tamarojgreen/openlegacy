@@ -216,4 +216,9 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 		return getCodeModel().getRoles();
 	}
 
+	public boolean isAutoMapKeyboardActions() {
+		throwNotImplemented();
+		return false;
+	}
+
 }
