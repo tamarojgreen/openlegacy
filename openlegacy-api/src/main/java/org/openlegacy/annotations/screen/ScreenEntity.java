@@ -122,4 +122,6 @@ public @interface ScreenEntity {
 	boolean rightToLeft() default false;
 
 	String[] roles() default AnnotationConstants.NULL;
+
+	boolean autoMapKeyboardActions() default false;
 }

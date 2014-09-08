@@ -15,6 +15,7 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions.SimpleTerminalMappedAction;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
 
 /**
@@ -47,4 +48,6 @@ public interface TerminalActionDefinition extends ActionDefinition, TerminalPosi
 	String getWhen();
 
 	int getSleep();
+
+	Class<? extends SimpleTerminalMappedAction> getKeyboardKey();
 }

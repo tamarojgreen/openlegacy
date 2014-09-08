@@ -22,6 +22,8 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.SimpleTerminalMappedAction;
+import org.openlegacy.terminal.actions.TerminalMappedAction;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.SimpleTerminalActionDefinition;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
@@ -88,6 +90,15 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 				actionDefinition.setSleep(action.sleep());
 				actionDefinition.setLength(action.length());
 				actionDefinition.setWhen(action.when());
+				if (action.keyboardKey() != TerminalActions.NONE.class) {
+					actionDefinition.setKeyboardKey(action.keyboardKey());
+				} else {
+					if (screenEntityDefinition.isAutoMapKeyboardActions()) {
+						if (TerminalMappedAction.class.isAssignableFrom(action.action())) {
+							actionDefinition.setKeyboardKey((Class<? extends SimpleTerminalMappedAction>)action.action());
+						}
+					}
+				}
 
 				if (action.focusField().length() > 0) {
 					actionDefinition.setFocusField(action.focusField());

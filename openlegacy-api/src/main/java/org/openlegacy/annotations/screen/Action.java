@@ -14,6 +14,7 @@ import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.actions.TerminalAction;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
 import org.openlegacy.terminal.actions.TerminalActions;
+import org.openlegacy.terminal.actions.TerminalActions.SimpleTerminalMappedAction;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -102,4 +103,12 @@ public @interface Action {
 	 * Time to wait in ms, after an action was performed
 	 **/
 	int sleep() default 0;
+
+	/**
+	 * A keyboard key to be used to invoke the action
+	 * 
+	 * @return
+	 */
+	Class<? extends SimpleTerminalMappedAction> keyboardKey() default TerminalActions.NONE.class;
+
 }

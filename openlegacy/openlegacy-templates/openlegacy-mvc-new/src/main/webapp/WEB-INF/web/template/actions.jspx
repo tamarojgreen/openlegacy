@@ -36,7 +36,7 @@
 						<c:set var="image" value="/icons/submit.png" />
 					</c:if>
 					<li>
-						<a href="${newHref}">
+						<a id="${action.alias}" href="${newHref}">
 							<span class="actions_icon actions_${action.alias}"><!--  --></span> <!--
 						This comment need to make correct margin between span and text 
 						 --><img src="${pageContext.request.contextPath}${image}" width="15" height="14" alt="${action.alias}" />
@@ -58,4 +58,35 @@
 			</c:if>
 		</ul>
 	</div>
+		<script>
+		require(["dojo/ready"], function(ready){
+			ready(function(){
+				mapKeyboardKeys();
+			});
+		});
+
+		function mapKeyboardKeys(){
+			require(["dojo/on", "dojo/_base/window", "dojo/keys"], function(on, win, keys){
+				on(win.doc, "keydown", function(e){
+					var handled = true;
+					switch (e.keyCode) {
+					<c:forEach items="${ol_actions}" var="action">
+						<c:if test="${action.keyboardKey.simpleName != null}">
+						case keys.${action.keyboardKey.simpleName}:
+							var button = document.getElementById("${action.alias}");
+							if (button != null) button.click(); 
+							break;
+						</c:if>
+					</c:forEach>
+						default:
+							handled = false;
+					}
+					if (handled){
+						dojo.stopEvent(e);
+					}
+					return !handled;
+				});
+			});
+		}
+		</script>
 </jsp:root>

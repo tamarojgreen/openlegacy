@@ -57,6 +57,8 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 
 	private boolean rightToLeft;
 
+	private boolean autoMapKeyboardActions;
+
 	private final static Log logger = LogFactory.getLog(SimpleScreenEntityDefinition.class);
 
 	public SimpleScreenEntityDefinition() {
@@ -220,5 +222,13 @@ public class SimpleScreenEntityDefinition extends AbstractEntityDefinition<Scree
 	@Override
 	public boolean isEmpty() {
 		return super.isEmpty() && getTableDefinitions().isEmpty();
+	}
+
+	public boolean isAutoMapKeyboardActions() {
+		return autoMapKeyboardActions;
+	}
+
+	public void setAutoMapKeyboardActions(boolean autoMapKeyboardActions) {
+		this.autoMapKeyboardActions = autoMapKeyboardActions;
 	}
 }

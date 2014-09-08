@@ -91,4 +91,11 @@ public interface ScreenEntityDefinition extends EntityDefinition<ScreenFieldDefi
 	boolean isPerformDefaultBinding();
 
 	boolean isRightToLeft();
+
+	/**
+	 * Whether to create keyboard shortcuts for mapped terminal actions
+	 * 
+	 * @return
+	 */
+	boolean isAutoMapKeyboardActions();
 }

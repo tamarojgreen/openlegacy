@@ -16,6 +16,7 @@ import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalActions.SimpleTerminalMappedAction;
 
 import java.io.Serializable;
 
@@ -36,6 +37,8 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 
 	private int sleep;
 
+	private Class<? extends SimpleTerminalMappedAction> keyboardKey;
+
 	public SimpleTerminalActionDefinition(SessionAction<? extends Session> action, AdditionalKey additionalKey,
 			String displayName, TerminalPosition position) {
 		super(action, displayName);
@@ -47,7 +50,7 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 		super(actionName, displayName);
 		this.position = position;
 	}
-	
+
 	public TerminalPosition getPosition() {
 		return position;
 	}
@@ -99,4 +102,13 @@ public class SimpleTerminalActionDefinition extends SimpleActionDefinition imple
 	public void setSleep(int sleep) {
 		this.sleep = sleep;
 	}
+
+	public Class<? extends SimpleTerminalMappedAction> getKeyboardKey() {
+		return keyboardKey;
+	}
+
+	public void setKeyboardKey(Class<? extends SimpleTerminalMappedAction> keyboardKey) {
+		this.keyboardKey = keyboardKey;
+	}
+
 }
