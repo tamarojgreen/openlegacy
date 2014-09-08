@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.openlegacy.terminal.mvc.rest;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.TableDefinition;
@@ -27,6 +29,7 @@ import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSendActionBuilder;
 import org.openlegacy.terminal.TerminalSession;
 import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import org.openlegacy.terminal.definitions.ScreenTableDefinition;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
@@ -43,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -103,6 +107,28 @@ public class DefaultScreensRestController extends AbstractRestController {
 	public ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			HttpServletResponse response) throws IOException {
 		return super.getEntityWithKey(entityName, key, response);
+	}
+
+	@Override
+	protected ModelAndView getEntityInner(Object entity) {
+		// fetch child entities
+		ScreenEntityDefinition entityDefinition = (ScreenEntityDefinition)getEntitiesRegistry().get(entity.getClass());
+		List<EntityDefinition<?>> childEntitiesDefinitions = entityDefinition.getChildEntitiesDefinitions();
+		if (childEntitiesDefinitions.size() > 0) {
+			PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(entity);
+			for (PropertyDescriptor propertyDescriptor : properties) {
+				for (EntityDefinition<?> childEntityDefinition : childEntitiesDefinitions) {
+					if (childEntityDefinition.getEntityName().equalsIgnoreCase(propertyDescriptor.getName())) {
+						try {
+							propertyDescriptor.getReadMethod().invoke(entity);
+						} catch (Exception e) {
+							logger.warn(e.getMessage());
+						}
+					}
+				}
+			}
+		}
+		return super.getEntityInner(entity);
 	}
 
 	@Override

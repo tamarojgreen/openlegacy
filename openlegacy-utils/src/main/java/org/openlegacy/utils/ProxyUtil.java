@@ -13,20 +13,44 @@ package org.openlegacy.utils;
 import net.sf.cglib.proxy.Enhancer;
 
 import org.aopalliance.intercept.Interceptor;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.aop.TargetClassAware;
 import org.springframework.aop.framework.Advised;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.beans.DirectFieldAccessor;
 import org.springframework.util.Assert;
+
+import java.beans.PropertyDescriptor;
 
 public class ProxyUtil {
 
-	@SuppressWarnings("unchecked")
 	public static <T> T getTargetObject(Object proxy) {
+		return getTargetObject(proxy, false);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getTargetObject(Object proxy, boolean deep) {
 		while (proxy instanceof Advised) {
 			try {
 				proxy = ((Advised)proxy).getTargetSource().getTarget();
 			} catch (Exception e) {
 				throw (new IllegalStateException(e));
+			}
+		}
+
+		if (deep) {
+			DirectFieldAccessor fieldAccessor = new DirectFieldAccessor(proxy);
+			PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(proxy);
+			for (PropertyDescriptor propertyDescriptor : properties) {
+				try {
+					Object value = propertyDescriptor.getReadMethod().invoke(proxy);
+					Object afterValue = getTargetObject(value, false);
+					if (value != afterValue) {
+						fieldAccessor.setPropertyValue(propertyDescriptor.getName(), afterValue);
+					}
+				} catch (Exception e) {
+					throw (new RuntimeException(e));
+				}
 			}
 		}
 		return (T)proxy;
