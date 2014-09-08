@@ -257,6 +257,9 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		File springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext.xml");
 		removeComment(springContextFile, mockupSessionCommentStart, mockupSessionCommentEnd);
 
+		springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext-test.xml");
+		removeComment(springContextFile, mockupSessionCommentStart, mockupSessionCommentEnd);
+
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
 		appPropertiesFileContent = appPropertiesFileContent.replaceFirst("#screenEntityUtils.returnTrueOnDifferentKeys=.*",
