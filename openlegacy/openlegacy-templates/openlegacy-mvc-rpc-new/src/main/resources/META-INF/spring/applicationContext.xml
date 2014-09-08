@@ -26,6 +26,8 @@
 	    </property>
     </bean>
 	
+	<bean id="rpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection" />
+
 <!-- Use this definition to replay a mock-up session application
  	<bean id="rpcConnectionFactory"
 		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">

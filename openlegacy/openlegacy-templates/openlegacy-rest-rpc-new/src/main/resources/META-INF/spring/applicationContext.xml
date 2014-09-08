@@ -12,10 +12,10 @@
 	
     <context:property-placeholder location="classpath*:/*.properties"/>
 	
-	<import resource="classpath:/META-INF/openlegacy-rpc-basic-context.xml" /> 
+	<import resource="classpath*:/META-INF/openlegacy-rpc-webenabling-context.xml" /> 
 
 	<bean id="openLegacyWebProperties" class="org.openlegacy.mvc.SimpleOpenLegacyWebProperties" />
-	
+			
 	<bean id="rpcRegistry" class="org.openlegacy.rpc.support.DefaultRpcEntitiesRegistry">
 	    <property name="packages">
 	        <list>
@@ -24,20 +24,16 @@
 	    </property>
     </bean>
 
-	<!--
- 	<bean id="rpcSession" parent="abstractRpcSession" scope="session">
-		<property name="connection" ref="rpcConnection" />
-	    <aop:scoped-proxy/>
+	<bean id="rpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection" />
+	 
+<!-- Use this definition to replay a mock-up session application
+End use this definition to replay a mock-up session application -->
+ 	<bean id="rpcConnectionFactory"
+		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
+		<property name="root" value="/trails" />
+		<property name="trailName" value="demo_session.trail" />
 	</bean>
-	 -->
-	 			
-	<!-- Use this definition to replay a mock-up session application
-	End use this definition to replay a mock-up session application -->
-	<bean id="rpcSession" parent="abstractRpcSession" scope="session">
-		<property name="connection" ref="rpcConnection" />
-	    <aop:scoped-proxy/>
-	</bean>
-
+	 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 
 </beans>
