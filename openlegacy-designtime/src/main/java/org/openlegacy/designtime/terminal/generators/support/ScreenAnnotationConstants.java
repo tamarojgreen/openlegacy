@@ -63,6 +63,7 @@ public class ScreenAnnotationConstants {
 	public static final String VALIDATE_KEYS = "validateKeys";
 	public static final String RIGHT_TO_LEFT = "rightToLeft";
 	public static final String ROLES = "roles";
+	public static final String AUTO_MAP_KEYBOARD_ACTIONS = "autoMapKeyboardActions";
 
 	// @ScreenFieldValues
 	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";

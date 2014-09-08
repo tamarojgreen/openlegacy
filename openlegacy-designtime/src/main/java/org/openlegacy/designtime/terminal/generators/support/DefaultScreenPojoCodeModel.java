@@ -31,6 +31,7 @@ import org.openlegacy.terminal.support.SimpleScreenSize;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.table.ScreenTableCollector;
 import org.openlegacy.utils.PropertyUtil;
+import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.TypesUtil;
 
@@ -649,6 +650,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private boolean validateKeys = true;
 	private boolean rightToLeft = false;
 	private List<String> roles = new ArrayList<String>();
+	private boolean autoMapKeyboardActions = false;
 
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -837,6 +839,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		String rightToLeftFlagFromAnnotation = null;
 		List<String> rolesFromAnnotation = null;
 		String screensCountFromAnnotation = null;
+		String autoMapKeyboardActionsFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
@@ -864,6 +867,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			rolesFromAnnotation = findAnnotationStringAttributes(ScreenAnnotationConstants.ROLES, pairs);
 
 			screensCountFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.SCREENS_COUNT, pairs);
+
+			autoMapKeyboardActionsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.AUTO_MAP_KEYBOARD_ACTIONS,
+					pairs);
 		}
 		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
@@ -907,6 +913,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		roles = rolesFromAnnotation != null ? rolesFromAnnotation : new ArrayList<String>();
 
 		screensCount = screensCountFromAnnotation != null ? Integer.valueOf(screensCountFromAnnotation) : 1;
+		autoMapKeyboardActions = StringConstants.TRUE.equals(autoMapKeyboardActionsFromAnnotation) ? true : false;
 	}
 
 	public List<Action> getActions() {
@@ -1069,4 +1076,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	public int getScreensCount() {
 		return screensCount;
 	}
+
+	public boolean isAutoMapKeyboardActions() {
+		return autoMapKeyboardActions;
+	}
+
 }
