@@ -414,6 +414,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		if (!provider.equals("mock-up") && !provider.equals("openlegacy-impl")) {
 
+			// openlegacy-impl is the default pom setting, since version 2.0
+			// leave renaming tn5250j for older version of plugin
 			if (provider.startsWith("openlegacy-")) {
 				pomFileContent = pomFileContent.replaceFirst(
 						"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>",
@@ -423,7 +425,6 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 						"<groupId>org.openlegacy</groupId>\\s+<artifactId>openlegacy-impl</artifactId>", MessageFormat.format(
 								"<groupId>org.openlegacy.providers</groupId>\n\t\t\t<artifactId>{0}</artifactId>", provider));
 			} else {
-				// tn5250j or impl is the default pom setting
 				pomFileContent = pomFileContent.replaceFirst(
 						"<groupId>org.openlegacy.providers</groupId>\\s+<artifactId>openlegacy-tn5250j</artifactId>",
 						MessageFormat.format(
