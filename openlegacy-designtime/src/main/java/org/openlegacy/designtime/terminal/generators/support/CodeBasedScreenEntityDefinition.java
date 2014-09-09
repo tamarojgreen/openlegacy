@@ -217,8 +217,7 @@ public class CodeBasedScreenEntityDefinition extends AbstractCodeBasedEntityDefi
 	}
 
 	public boolean isAutoMapKeyboardActions() {
-		throwNotImplemented();
-		return false;
+		return getCodeModel().isAutoMapKeyboardActions();
 	}
 
 }

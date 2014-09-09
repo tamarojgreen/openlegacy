@@ -191,8 +191,8 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.openlegacy.providers</groupId>
-			<artifactId>openlegacy-tn5250j</artifactId>
+			<groupId>org.openlegacy</groupId>
+			<artifactId>openlegacy-impl</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
