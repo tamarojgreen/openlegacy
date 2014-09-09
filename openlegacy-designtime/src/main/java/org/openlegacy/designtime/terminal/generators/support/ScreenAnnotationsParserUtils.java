@@ -216,6 +216,7 @@ public class ScreenAnnotationsParserUtils {
 				String typeValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.TYPE);
 				String sleepValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.SLEEP);
 				String globalValue = JavaParserUtil.getAnnotationValue(singleAction, ScreenAnnotationConstants.GLOBAL);
+				String keyboardKeyValue = JavaParserUtil.getAnnotationValue(singleAction, AnnotationConstants.KEYBOARD_KEY);
 
 				int row = JavaParserUtil.getAnnotationValueInt(singleAction, ScreenAnnotationConstants.ROW,
 						ScreenAnnotationConstants.ROW_DEFAULT_VALUE);
@@ -246,6 +247,7 @@ public class ScreenAnnotationsParserUtils {
 						focusFieldValue, type, sleep, global);
 				action.setActionValue(actionValue == null ? "" : actionValue);
 				action.setTargetEntityName(StringUtil.toClassName(targetEntityName));
+				action.setKeyboardKeyName(StringUtil.toClassName(keyboardKeyValue));
 				actions.add(action);
 			}
 		}

@@ -31,6 +31,7 @@ public class AnnotationConstants {
 	public static final String ACTIONS = "actions";
 	public static final String ACTION = "action";
 	public static final String GLOBAL = "global";
+	public static final String KEYBOARD_KEY = "keyboardKey";
 
 	// @ScreenBooleanField / @RpcBooleanField
 	public static final String TRUE_VALUE = "trueValue";

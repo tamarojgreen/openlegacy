@@ -93,6 +93,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private ActionType type;
 		private int sleep;
 		private boolean global;
+		private String keyboardKeyName;
 
 		public Action(String alias, String actionName, String displayName, AdditionalKey additionalKey, int row, int column,
 				int length, String when, String focusField, ActionType type, int sleep, boolean global) {
@@ -109,6 +110,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 			this.targetEntityName = ScreenEntity.NONE.class.getSimpleName();
 			this.sleep = sleep;
 			this.global = global;
+			this.keyboardKeyName = TerminalActions.NONE.class.getSimpleName();
 		}
 
 		public String getActionName() {
@@ -209,6 +211,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setGlobal(boolean global) {
 			this.global = global;
+		}
+
+		public String getKeyboardKeyName() {
+			return keyboardKeyName;
+		}
+
+		public void setKeyboardKeyName(String keyboardKeyName) {
+			this.keyboardKeyName = keyboardKeyName;
 		}
 
 	}

@@ -200,6 +200,7 @@ public class ScreenCodeBasedDefinitionUtils {
 			actionDefinition.setTargetEntityName(action.getTargetEntityName());
 			actionDefinition.setSleep(action.getSleep());
 			actionDefinition.setGlobal(action.isGlobal());
+			actionDefinition.setKeyboardKeyName(action.getKeyboardKeyName());
 			actionDefinitions.add(actionDefinition);
 		}
 
