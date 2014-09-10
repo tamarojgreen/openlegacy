@@ -143,7 +143,7 @@
 												class="${actionsCss}" title="${label_select}">${label_select}</a>
 										</c:if>
 									</c:when>
-									<c:when test="${fn:length(tableDefinition.actions) &gt; 5}">
+									<c:when test="${fn:length(tableDefinition.actions) &gt; 4}">
 										<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect">
 											<option value="">- Select -</option>
 											<c:forEach items="${tableDefinition.actions}" var="action">
@@ -189,7 +189,7 @@
 													value="javascript:document.getElementById('${column.name}_${rowIndex.index}').value='${action.action.actionValue}';doPost()" />
 											</c:if>
 											<a href="${target}"
-												class="${actionsCss}"
+												class="${actionsCss} ${action.alias}"
 												title="${action.displayName}">${action.displayName}
 												<span><!--  --></span>
 											</a>
@@ -232,15 +232,15 @@
 		<c:if test="${paging}">
 		  	<spring:message code="label_next" var="label_next" htmlEscape="false" />
 		  	<spring:message code="label_prev" var="label_prev" htmlEscape="false" />
-			<div class="paging1">
+			<div class="paging">
 				<div>
-					<a  id="next"
+					<a  id="next" class="next"
 						href="javascript:doAjaxPost('${formName}','${contentPaneId}','next','body',window.runOnloads)">
 						<span>${label_next} &gt;</span>
 					</a>
 				</div>
 				<div>
-					<a id="previous"
+					<a id="previous" class="previous"
 						href="javascript:doAjaxPost('${formName}','${contentPaneId}','previous','body',window.runOnloads)"><span> &lt; ${label_prev}</span>
 					</a>
 				</div>
