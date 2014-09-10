@@ -160,7 +160,8 @@ public class SnapshotComposite extends ImageComposite {
 			}
 			SimpleTerminalPosition terminalPosition = new SimpleTerminalPosition(row, col);
 			TerminalField field = terminalSnapshotCopy.getField(terminalPosition);
-			if ((field != null) && !field.isHidden()) {
+			// if ((field != null) && !field.isHidden()) {
+			if (field != null) {
 				TerminalPosition startPosition = field.getPosition();
 				TerminalPosition endPosition = field.getEndPosition();
 				this.selectedObject = new SelectedObject();
@@ -269,7 +270,8 @@ public class SnapshotComposite extends ImageComposite {
 			return;
 		}
 		TerminalField field = this.terminalSnapshotCopy.getField(fieldRectangle.getRow(), fieldRectangle.getColumn());
-		if ((field != null) && !field.isHidden()) {
+		// if ((field != null) && !field.isHidden()) {
+		if (field != null) {
 			int length = field.getLength() > 0 ? field.getLength() : fieldRectangle.getEndColumn() - fieldRectangle.getColumn()
 					+ LEFT_START_OFFSET;
 			int x = renderer.toWidth(fieldRectangle.getColumn() + LEFT_COLUMN_OFFSET + renderer.getLeftColumnsOffset());
@@ -312,7 +314,8 @@ public class SnapshotComposite extends ImageComposite {
 	}
 
 	private void fillSelectedObject() {
-		if ((terminalSnapshotCopy != null) && selectedObject.isEditable()) {
+		// if ((terminalSnapshotCopy != null) && selectedObject.isEditable()) {
+		if (terminalSnapshotCopy != null) {
 			String designtimeContext = projectPath != null ? EclipseDesignTimeExecuter.instance().getPreference(projectPath,
 					"DESIGNTIME_CONTEXT") : "";
 			boolean isRtl = StringUtils.isEmpty(designtimeContext) ? false : "rtl".equalsIgnoreCase(designtimeContext);
