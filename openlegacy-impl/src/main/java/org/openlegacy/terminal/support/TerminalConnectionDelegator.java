@@ -121,7 +121,12 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 			if (terminalField.getRightAdjust() != RightAdjust.NONE) {
 				if (terminalField.getLength() > terminalField.getValue().length()) {
 					String fillerChar = terminalField.getRightAdjust() == RightAdjust.ZERO_FILL ? "0" : " ";
-					String newValue = StringUtils.leftPad(terminalField.getValue(), terminalField.getLength(), fillerChar);
+					String newValue = null;
+					if (terminalField.isRightToLeft()) {
+						newValue = StringUtils.rightPad(terminalField.getValue(), terminalField.getLength(), fillerChar);
+					} else {
+						newValue = StringUtils.leftPad(terminalField.getValue(), terminalField.getLength(), fillerChar);
+					}
 					terminalField.setValue(newValue);
 				}
 			}
