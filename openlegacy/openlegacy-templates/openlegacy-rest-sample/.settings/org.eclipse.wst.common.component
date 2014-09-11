@@ -4,7 +4,22 @@
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <dependent-module archiveName="openlegacy-test-apps-2.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-test-apps/openlegacy-test-apps">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="openlegacy-utils-2.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="openlegacy-api-2.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-api/openlegacy-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="openlegacy-web-2.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web/openlegacy-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="openlegacy-impl-2.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-impl/openlegacy-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="management-plugin-2.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/management-plugin/management-plugin">
             <dependency-type>uses</dependency-type>
         </dependent-module>
 		<property name="java-output-path" value="target/classes"/>

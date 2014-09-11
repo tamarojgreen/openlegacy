@@ -62,6 +62,31 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${org.springframework-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jdbc</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-tx</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 
 		<!-- AspectJ -->
 		<dependency>
@@ -167,13 +192,11 @@
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
 		</dependency>
-<!-- Uncomment for OpenLegacy enterprise managemenent plugin
  		<dependency>
 			<groupId>com.openlegacy.enterprise.plugins</groupId>
 			<artifactId>management-plugin</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
-End Uncomment for OpenLegacy enterprise managemenent plugin -->
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
