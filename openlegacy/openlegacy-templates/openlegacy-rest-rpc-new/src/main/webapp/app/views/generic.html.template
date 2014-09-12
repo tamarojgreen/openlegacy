@@ -1,72 +1,240 @@
-<div class="row">
-	<div class="col-sm-4">
-		<h1>${entityDefinition.displayName}</h1>
+<div class="container-fluid">
+	<div class="row">
+	
+		<!--      sidebar       -->
+		
+		<div class="col-sm-3 col-md-2 no-gutters-sm">
+			<div class="sidebar-nav">
+			    <div class="navbar" role="navigation">
+			        <div class="navbar-header">
+			            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-sidebar-collapse">
+			                <span class="glyphicon glyphicon-chevron-down"></span>
+			            </button>
+			            <span class="visible-xs navbar-brand">Navigation</span>
+			        </div>
+			        <div class="navbar-collapse collapse ol-sidebar-collapse">
+			            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">			            
+			            	<li ng-repeat="menu in menuArray">			            				            	
+			            		<h4 ng-show="menu.menuItems.length != 0">{{menu.displayName}}</h4>
+			            		<a ng-show="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
+			            	</li>			                	                
+			            </ul>
+			        </div><!--/.nav-collapse -->
+			    </div>
+			</div>    
+		</div>
+		
+		 <!--/sidebar -->
+		 
+		<div class="col-sm-9 col-md-10"><!--  main   -->
+		
+			<ol class="breadcrumb hidden-xs">
+			<#if entityDefinition.navigationDefinition.category??>
+				<li><a href="#/${entityDefinition.navigationDefinition.category}">${entityDefinition.navigationDefinition.category}</a></li>
+			</#if>
+				<li><span class="active">${entityDefinition.entityName}</span></li>
+			</ol>
+			
+			<#assign hasTable = false>			
+			<#list pageParts as part>			
+				<#if part.hasTable>
+					<#assign hasTable = true>												
+				</#if>
+			</#list>			
+			
+			<#if (entityDefinition.childEntitiesDefinitions?size == 0)>
+				<h1>${entityDefinition.displayName}</h1>
+			</#if>
+			
+			<div class="panel panel-default">
+				<div class="panel-body">
+										
+					<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
+						<div class="tab-content top-margin-10">            	
+							<ul class="nav nav-tabs">
+			            		<li class="active"><a href="/#${entityDefinition.entityName}" data-toggle="tab" ng-click="loadTab('${entityDefinition.entityName}')">${entityDefinition.displayName}</a></li>
+			            		<#list entityDefinition.childEntitiesDefinitions as childEntity>
+			            			<li><a href="/#${childEntity.entityName}" data-toggle="tab" ng-click="loadTab('${childEntity.entityName}')">${childEntity.displayName}</a></li>
+			            		</#list>	            		
+			            	</ul>			            	
+							<div class="tab-content"><!-- Tab panes -->
+							  <div class="tab-pane active" id="${entityDefinition.entityName}">							  
+							    <@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
+								<#list pageParts as part>											
+									<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
+									<@pagePart entity=entityDefinition part=part/>
+								</#list>
+								
+							  </div>							  
+							  <#list entityDefinition.childEntitiesDefinitions as childEntity>		            			
+		            			<div class="tab-pane" id="${childEntity.entityName}">		
+		            			            					            				
+								    <@navMacro entity=childEntity showExcelBtn=hasTable?string/>
+								    <#if (childEntity.partsDefinitions?size > 0)>
+								    	<#list childEntity.partsDefinitions as part>											
+											<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
+											<@pagePart entity=childEntity part=part/>
+										</#list>
+						    		<#else>						    			
+						    			<#list childEntity.fieldsDefinitions?keys as key>						    			
+								    		<@fieldMacro field=childEntity.fieldsDefinitions[key]/>
+						    			</#list>							    		
+								    </#if>
+		            			</div>
+		            		  </#list>						  
+							</div><!-- /Tab panes -->
+						</div>
+					<#else>					
+						<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
+						<#list pageParts as part>																	
+							<#if part.displayName??><div class="panel-heading"><h3>${part.displayName}</h3></div></#if>		
+							<@pagePart entity=entityDefinition part=part/>
+						</#list> 					
+	            	</#if>
+				</div>
+			</div>
+		</div><!--  /main   -->
 	</div>
-	<div class="col-sm-8">
-		<h1>
-		<#list entityDefinition.actions as action>
-			<#if action.alias != "read">
-			<button data-ng-click="${action.alias}()" class="btn btn-lg btn-primary">${action.displayName}</button>
+</div>									
+										
+
+<#macro pagePart entity part>
+	<#if part.hasTable>
+		<#list entity.partsDefinitions?keys as key>
+			<#if key == part.tableDefinition.tableEntityName?uncap_first>
+				<#assign rowActions = entity.partsDefinitions[key].actions>
 			</#if>
 		</#list>
-		</h1>
-	</div>
-</div>
-
-<form  role="form" accept-charset="utf-8">
-	<#list pageParts as part>
-		<@pagePart part=part/>
-	</#list>
-</form>
-
-<#macro pagePart part>
-	<div class="row">
-		<div class="panel panel-default">
-			<div class="panel-heading"><#if part.displayName??>${part.displayName}</#if></div>
-			<div class="panel-body">
-			<#if part.hasTable>
-				<div class="row">
-					<table class="table">
-						<thead>
-							<tr>
-							<#list part.tableDefinition.columnDefinitions as column>
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<#if rowActions??>
+							<th>Actions</th>
+						</#if>						
+						<#list part.tableDefinition.columnDefinitions as column>									
+							<#if column_has_next>
 								<th>${column.displayName}</th>
-					  		</#list>
-							</tr>
-						</thead>
-						<tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first?replace(".","_")} in model.${part.tableDefinition.tableEntityName?uncap_first}">
-						<#list part.tableDefinition.columnDefinitions as column>
-							<td>{{${part.tableDefinition.tableEntityName?uncap_first?replace(".","_")}.${column.name}}}</td>
+							<#else>
+								<th class="hidden-xs">${column.displayName}</th>
+							</#if>
 				  		</#list>
-						</tr>
-			  		</table>
-		  		</div>		
-	  		</div>		
-			<#else>
-				<#list part.partRows as partRow> 
-				<div class="row">
-					<#list partRow.fields as field>
-						<@fieldMacro field=field/>
+					</tr>
+				</thead>
+				<tbody>				
+                    <tr data-ng-repeat="${part.tableDefinition.tableEntityName?uncap_first} in model.${part.tableDefinition.tableEntityName?uncap_first}">
+                    	<#list entityDefinition.partsDefinitions?keys as key>                    	
+								<#if rowActions??>									
+									<td class="hidden-xs">
+										<#list rowActions as action>
+											<#if action.targetEntity??>												
+												<#if entityDefinition.allFieldsDefinitionsSorted[0]??>	
+													<#if entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0]??>
+														<a href="#/${action.targetEntity.simpleName}/{{${entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0].shortName}}}" class="${action.alias}">													
+															<@actionButton actionAlias=action.alias/>												
+														</a>
+													</#if>
+												</#if>
+											<#else>
+												<a href="" ng-click="doActionNoTargetEntity($index, '${action.action.actionValue}')">
+													<@actionButton actionAlias=action.alias/>
+												</a>
+											</#if>			                                        		                                        
+                                        </#list>							
+	                            	</td>									
+								</#if>								
+							</#list>                                                  
+						<#list part.tableDefinition.columnDefinitions as column>							
+							<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
+				  		</#list>							  		
+					</tr>                            
+                </tbody>
+	  		</table>
+  		</div>
+  		
+  		 <div class="top-margin-50">
+            <button ng-click="doAction('${entity.entityName}', 'next')" type="button" class="btn btn-default navbar-btn pull-right">
+                Next
+                <span class="glyphicon glyphicon-forward"></span>
+            </button>
+            <button ng-click="doAction('${entity.entityName}', 'previous')" type="button" class="btn btn-default navbar-btn pull-left">
+                <span class="glyphicon glyphicon-backward"></span>
+                Prev
+            </button>
+        </div>                
+	<#else>
+		<form role="form">
+			<div class="row">
+				<div class="col-sm-6">
+					<#list part.partRows as partRow>					
+						<#list partRow.fields as field>										
+							<@fieldMacro field=field/>
+						</#list>				
 					</#list>
-				</div>
-				</#list>
-			</#if>
+				</div>				
 			</div>
-		</div>
-	</div>
+		</form>		
+	</#if>		
 </#macro>
 
 <#macro fieldMacro field>
-				<div class="col-sm-4">
-					<div class="form-group">
-					    <label for="${field.name}" class="col-sm-3 control-label">${field.displayName}:</label>
-					    <div class="col-sm-9">
-					    <#if field.editable>
-				   		<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}" />
-				   		<#else>
-				   			<div id="${field.name}" ng-model="model.${field.name}"></div>
-				   		</#if>
-					   	</div>
-					</div>
-				</div>
+	<div class="form-group">		
+		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
+		<#if field.editable>
+			<#if field.fieldTypeDefinition.typeName == 'date'>
+				<input type="text" id="${field.name}" class="form-control" placeholder="mm/dd/yyyy" ng-model="model.${field.name}" datepicker />
+			<#elseif field.fieldTypeDefinition.typeName == 'fieldWithValues'>				
+				<div class="input-group">
+				  <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+				  <div class="input-group-btn">
+					  <button id="dropdownMenu" class="btn dropdown-toggle" data-toggle="dropdown">&nbsp;<span class="caret"></span>&nbsp;</button>
+					  <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu">
+					    <li class="animate-repeat" ng-repeat="${field.name} in ${field.name}s">
+					      <a ng-click="${field.name?cap_first}Click(${field.name})" href="">{{${field.name}.description}}</a>
+					    </li>
+					  </ul>
+				  </div>
+				</div>														
+			<#else>
+				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">
+			</#if>
+   		<#else>
+   			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>   			
+   		</#if>		
+	</div>
+</#macro>
+
+<#macro navMacro entity showExcelBtn>
+	<nav class="navbar navbar-default hidden-xs" role="navigation">
+	    <form class="navbar-form xnavbar-left" role="navigation">
+	        <#list entity.actions as action>		
+				<button data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
+			</#list>			
+			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">	        	
+            	Excel
+            </a>            
+	    </form>
+	</nav>    
+</#macro>
+
+<#macro actionButton actionAlias>
+	<#switch actionAlias>
+	  <#case 'edit'>
+	   <span class="label label-primary">
+	   	 <span class="glyphicon glyphicon-repeat"></span>
+	   </span>
+	  <#break>
+	  <#case 'delete'>
+	   <span class="label label-danger">
+	   	 <span class="glyphicon glyphicon-remove-sign"></span>
+	   </span>
+	  <#break>															  
+	  <#case 'view'>
+	  	<span class="label label-success">
+	   		<span class="glyphicon glyphicon-share-alt"></span>
+	  	</span>
+	    <#break>
+	  <#default>
+	  	<span>${actionAlias}</span>    
+	</#switch>					
 </#macro>

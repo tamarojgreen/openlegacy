@@ -1,39 +1,10 @@
-        <div class="" id="loginModal">
-          <div class="modal-body">
-            <div class="well">
-              <div id="myTabContent" class="tab-content">
-                <div class="tab-pane active in" id="login">
-                  <form name="loginForm" role="form">
-                    <fieldset>
-                    
-                      <div id="legend">
-                        <legend class="">Login</legend>
-                      </div>
-                          
-                      <div class="row">
-	                      <div class="form-group col-sm-4">
-	                        <label for="username">User Name:</label>
-	                        <input type="text" id="username" name="username" placeholder="" class="form-control" ng-model="user.userName" ng-required="true" ng-pattern="/\w+$/">
-	                		<span class="error" ng-hide="loginForm.username.$valid">Invalid</span>
-	                      </div>
- 					  </div>
- 
- 					  <div class="row">
-	                      <div class="form-group col-sm-4">
-	                        <label for="password">Password:</label>
-	                        <input type="password" id="password" name="password" placeholder="" class="form-control" ng-model="user.password">
-	                      </div>
-                      </div>
- 
- 					  <div class="row">
-	                      <div class="form-group col-sm-4">
-	                        <!-- Button -->
-	                        <button class="btn btn-success" ng-click="login()">Login</button>
-	                      </div>
-                      </div>
-                    </fieldset>
-                  </form>                
-                </div>
-            </div>
-          </div>
-        </div>
+<form class="form-signin" role="form">
+	<img src="img/logo.png">	
+	<h2 class="form-signin-heading">Please sign in</h2>
+	<input type="text" class="form-control" placeholder="User name" required autofocus ng-model="username">
+	<input type="password" class="form-control" placeholder="Password" required ng-model="password">
+	<label class="checkbox">
+    	<input type="checkbox" value="remember-me"> Remember me
+	</label>
+	<button class="btn btn-lg btn-primary btn-block"  ng-click="login(username, password)">Sign in</button>
+</form>

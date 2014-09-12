@@ -1,25 +1,30 @@
 package com.test1;
 
-import java.math.BigInteger;
+import org.openlegacy.annotations.rpc.Action;
+import org.openlegacy.annotations.rpc.RpcActions;
+import org.openlegacy.annotations.rpc.RpcEntity;
+import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.annotations.rpc.RpcNavigation;
+import org.openlegacy.annotations.rpc.RpcNumericField;
+import org.openlegacy.annotations.rpc.RpcPart;
+import org.openlegacy.annotations.rpc.RpcPartList;
+import org.openlegacy.rpc.RpcActions.READ;
+
 import java.util.List;
 
-import org.openlegacy.annotations.rpc.*;
-import org.openlegacy.FieldType.*;
-import org.openlegacy.rpc.RpcActions.*;
-
-@RpcEntity(name="Items")
-@RpcActions(actions = { 
-				@Action(action = READ.class, path = "XX", displayName = "Read", alias = "read") 
-				})
+@RpcEntity(name = "Items")
+@RpcActions(actions = { @Action(action = READ.class, path = "XX", displayName = "Read", alias = "read") })
+@RpcNavigation(category = "Inventory Menu")
 public class Items {
 
-		@RpcPartList(count=5)
-		private List<InnerRecord> innerRecord;
+	@RpcPartList(count = 5)
+	private List<InnerRecord> innerRecord;
 
-	@RpcPart(name="InnerRecord", legacyContainerName = "TopLevel")
+	@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM", displayName = "View", targetEntity = Itemdetail.class, alias = "display") })
+	@RpcPart(name = "InnerRecord", legacyContainerName = "TopLevel")
 	public static class InnerRecord {
 
-		@RpcNumericField(minimumValue=-9999, maximumValue=9999, decimalPlaces=0)
+		@RpcNumericField(minimumValue = -9999, maximumValue = 9999, decimalPlaces = 0)
 		@RpcField(length = 4, originalName = "ITEM-NUMBER")
 		private Integer itemNumber;
 
