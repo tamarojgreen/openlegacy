@@ -1,4 +1,12 @@
 
+/openlegacy/openlegacy-templates/openlegacy-mvc-sample/target
+/openlegacy/openlegacy-templates/openlegacy-mvc-new/target
+/openlegacy/openlegacy-templates/openlegacy-mvc-rpc-sample/target
+/openlegacy/openlegacy-templates/openlegacy-mvc-rpc-new/target
+/openlegacy/openlegacy-templates/openlegacy-rest-sample/target
+/openlegacy/openlegacy-templates/openlegacy-rest-new/target
+/openlegacy/openlegacy-templates/openlegacy-rest-rpc-sample/target
+/openlegacy/openlegacy-templates/openlegacy-rest-rpc-new/target
 /openlegacy-web-resources/target
 /openlegacy-designtime/target
 /openlegacy-ide-eclipse/target
