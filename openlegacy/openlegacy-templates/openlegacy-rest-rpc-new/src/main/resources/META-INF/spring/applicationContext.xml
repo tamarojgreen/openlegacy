@@ -34,6 +34,12 @@ End use this definition to replay a mock-up session application -->
 		<property name="trailName" value="demo_session.trail" />
 	</bean>
 	 
+	 <bean id="rpcSession" parent="abstractRpcSession" scope="session" class="org.openlegacy.rpc.support.MockupRpcSession">
+		<property name="connection" ref="rpcConnection" />
+	    <aop:scoped-proxy/>
+	</bean>
+	
+	 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 
 </beans>

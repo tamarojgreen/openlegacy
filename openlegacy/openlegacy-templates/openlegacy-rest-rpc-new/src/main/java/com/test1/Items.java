@@ -9,7 +9,7 @@ import org.openlegacy.rpc.RpcActions.*;
 
 @RpcEntity(name="Items")
 @RpcActions(actions = { 
-				@Action(action = READ.class, path = "XX", displayName = "Read", alias = "read") 
+				@Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/ITEMS.PGM", displayName = "Read", alias = "read") 
 				})
 public class Items {
 
