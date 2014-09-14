@@ -42,6 +42,10 @@
 			type="annotation" />
 	</context:component-scan>
 			
+	<mvc:interceptors>
+		<bean class="org.openlegacy.terminal.mvc.web.interceptors.DesigntimeInterceptor" />
+	</mvc:interceptors>
+	
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
 	Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />

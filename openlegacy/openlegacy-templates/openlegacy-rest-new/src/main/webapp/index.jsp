@@ -67,6 +67,7 @@ function get(){
 				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
 			error : function(e) {
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 				alert(e);
 			}
 		}
@@ -85,9 +86,10 @@ function post(){
 			headers: { "Accept": requestType, "Content-Type": requestType },
 			url : url,
 			load : function(data) {
-				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
 			error : function(e) {
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 				alert(e);
 			}
 		}
@@ -97,6 +99,13 @@ function post(){
 function changeAction(){
 	var url = dojo.byId("postUrl").value.split("\?")[0];
 	dojo.byId("postUrl").value = url + "?action=" + dojo.byId("actionType").value;  
+}
+
+function prev(){
+	dojo.byId("sessionImage").setAttribute("src","sessionViewer/image/-1?ts=" + (new Date())); 
+}
+function next(){
+	dojo.byId("sessionImage").setAttribute("src","sessionViewer/image/1?ts=" + (new Date())); 
 }
 </script>
 <script src="js/dojo.custom.build.js"
@@ -122,6 +131,8 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 			data-dojo-type="dijit.form.ComboBox">
 			<option>login?user=user1&password=pwd1</option>
 			<option>emulation?KeyboardKey=ENTER</option>
+			<option>emulation?KeyboardKey=F12</option>
+			<option>emulation?KeyboardKey=ESC</option>
 			<option>current</option>
 			<option>messages</option>
 			<option>logoff</option>
@@ -165,6 +176,9 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 	</div>
 	<div data-dojo-type="dijit.TitlePane"
 		data-dojo-props="title: 'Session state',open:true">
+		<input type="button" onclick="prev()" value="<" />
+		<input type="button" onclick="next()" value=">" />
+		<br/>
 		<img id="sessionImage" width="640px" height="320px" />
 	</div>
 
