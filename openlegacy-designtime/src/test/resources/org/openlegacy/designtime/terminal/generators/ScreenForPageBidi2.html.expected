@@ -58,12 +58,15 @@
 				<div class="col-sm-6">
 	<div class="form-group">		
 		<label for="fldCol12" class="control-label">Fld Col12:</label>		
+				<input type="text" class="form-control" id="fldCol12" ng-model="model.fldCol12">	
 	</div>
 	<div class="form-group">		
 		<label for="fld2Col12" class="control-label">Fld2Col12:</label>		
+				<input type="text" class="form-control" id="fld2Col12" ng-model="model.fld2Col12">	
 	</div>
 	<div class="form-group">		
 		<label for="fld3Col12" class="control-label">Fld3Col12:</label>		
+				<input type="text" class="form-control" id="fld3Col12" ng-model="model.fld3Col12">	
 	</div>
 				</div>				
 			</div>
