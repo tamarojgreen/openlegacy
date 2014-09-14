@@ -1,5 +1,5 @@
       IDENTIFICATION DIVISION.                                           
-      PROGRAM-ID. ITEMDETAIL. 
+      PROGRAM-ID. ITEMDETAILS. 
       DATA DIVISION.                                                 
       LINKAGE SECTION.                                                         
          01 ITEM-NUM        PIC 9(8).                                          
