@@ -10,7 +10,7 @@
 	http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-1.5.xsd">
 
 	<!-- Common controllers for terminal sessions -->
-	<context:component-scan base-package="org.openlegacy.rpc.mvc"
+	<context:component-scan base-package="org.openlegacy.rpc.mvc.rest"
 		use-default-filters="false" resource-pattern="*.class">
 		<context:include-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />
