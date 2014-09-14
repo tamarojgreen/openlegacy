@@ -8,7 +8,7 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.rpc.mvc;
+package org.openlegacy.rpc.mvc.rest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
