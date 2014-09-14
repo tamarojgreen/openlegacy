@@ -41,7 +41,7 @@
 	</bean>
 End use this definition to replay a mock-up session application -->
 
-	<!-- comment when using mock-up session -->
+<!-- Delete this definition to replay a mock-up session application -->
 	<bean id="terminalSession" parent="abstractTerminalSession">
 		<!-- Use this definition to configure modules properties
    		<property name="sessionModules">
@@ -85,7 +85,8 @@ End use this definition to replay a mock-up session application -->
 		</property>
 		-->
    	</bean>
-	
+<!-- End delete this definition to replay a mock-up session application -->
+		
 	<!-- Uncomment for bidi support
  	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.RightToLeftMenuOptionFinder" />
 	<bean id="elementsProvider" scope="prototype" class="org.openlegacy.terminal.web.render.support.DefaultBidiElementsProvider">

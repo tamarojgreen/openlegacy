@@ -143,17 +143,15 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String USER_PROPERTIES_FOLDER_NAME = "userPropertiesFolderName";
 
-	private static final String TERMINAL_SESSION_BEAN = "<bean id=\"terminalSession\" parent=\"abstractTerminalSession\">";
-	private static final String TERMINAL_SESSION_BEAN_RENAMED = "<bean id=\"terminalSession_REAL_HOST_BEAN\" parent=\"abstractTerminalSession\">";
-	private static final String RPC_SESSION_BEAN = "<bean id=\"rpcSession\" parent=\"abstractRpcSession\">";
-	private static final String RPC_SESSION_BEAN_RENAMED = "<bean id=\"rpcSession_REAL_HOST_BEAN\" parent=\"abstractRpcSession\">";
-
 	private ApplicationContext defaultDesigntimeApplicationContext;
 
 	// map of project path to Spring application context
 	private Map<String, ApplicationContext> projectsDesigntimeAplicationContexts = new HashMap<String, ApplicationContext>();
 
 	private Map<File, ProjectPreferences> projectsPreferences = new HashMap<File, ProjectPreferences>();
+
+	private static final String DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION = "<!-- Delete this definition to replay a mock-up session application -->";
+	private static final String END_DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION = "<!-- End delete this definition to replay a mock-up session application -->";
 
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
 		ITemplateFetcher templateFetcher = projectCreationRequest.getTemplateFetcher();
@@ -264,7 +262,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext-test.xml");
 		removeComment(springContextFile, mockupSessionCommentStart, mockupSessionCommentEnd);
-		renameRealSession(springContextFile);
+		deleteRealSession(springContextFile);
 
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
@@ -274,10 +272,13 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	private static void renameRealSession(File springContextFile) throws IOException {
+	private static void deleteRealSession(File springContextFile) throws IOException {
 		String springTestFileContent = org.apache.commons.io.FileUtils.readFileToString(springContextFile);
-		springTestFileContent = springTestFileContent.replace(TERMINAL_SESSION_BEAN, TERMINAL_SESSION_BEAN_RENAMED);
-		springTestFileContent = springTestFileContent.replace(RPC_SESSION_BEAN, RPC_SESSION_BEAN_RENAMED);
+		int startIndex = springTestFileContent.indexOf(DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION) - 1;
+		int endIndex = springTestFileContent.indexOf(END_DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION)
+				+ END_DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION.length() + 1;
+
+		springTestFileContent = springTestFileContent.substring(0, startIndex) + springTestFileContent.substring(endIndex);
 		org.apache.commons.io.FileUtils.write(springContextFile, springTestFileContent);
 	}
 

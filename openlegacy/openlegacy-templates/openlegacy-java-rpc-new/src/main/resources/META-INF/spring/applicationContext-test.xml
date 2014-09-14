@@ -29,10 +29,11 @@
 	</bean>
 End use this definition to replay a mock-up session application -->
 
-	<!-- comment when using mock-up session -->
+<!-- Delete this definition to replay a mock-up session application -->
 	<bean id="rpcSession" parent="abstractRpcSession">
 		<property name="connection" ref="rpcConnection" />
 	</bean>
+<!-- End delete this definition to replay a mock-up session application -->
 
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>
