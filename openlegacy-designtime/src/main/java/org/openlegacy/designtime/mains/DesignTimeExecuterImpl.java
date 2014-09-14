@@ -282,8 +282,10 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		int endIndex = springTestFileContent.indexOf(END_DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION)
 				+ END_DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION.length() + 1;
 
-		springTestFileContent = springTestFileContent.substring(0, startIndex) + springTestFileContent.substring(endIndex);
-		org.apache.commons.io.FileUtils.write(springContextFile, springTestFileContent);
+		if (startIndex > 0 && endIndex > 0) {
+			springTestFileContent = springTestFileContent.substring(0, startIndex) + springTestFileContent.substring(endIndex);
+			org.apache.commons.io.FileUtils.write(springContextFile, springTestFileContent);
+		}
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,
