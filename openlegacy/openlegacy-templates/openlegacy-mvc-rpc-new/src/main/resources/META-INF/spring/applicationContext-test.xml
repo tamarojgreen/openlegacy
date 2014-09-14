@@ -11,29 +11,31 @@
     <context:property-placeholder location="classpath*:/*.properties"/>
 	
 	<import resource="classpath*:/META-INF/openlegacy-rpc-basic-context.xml"/>
-
+		
 	<bean id="rpcRegistry" class="org.openlegacy.rpc.support.DefaultRpcEntitiesRegistry">
 	    <property name="packages">
 	        <list>
-	            <value>org.openlegacy.rpc.samples.model</value>
+	            <value>com.test1</value>
             </list>
 	    </property>
     </bean>
-	
 
-<!-- Delete this definition to replay a mock-up session application -->
- 	<bean id="rpcConnectionFactory"
-		class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
+<!-- Use this definition to replay a mock-up session application
+	<bean id="rpcConnection" factory-bean="rpcConnectionFactory" factory-method="getConnection" />
+
+ 	<bean id="rpcConnectionFactory" class="org.openlegacy.rpc.mock.MockRpcConnectionFactory">
 		<property name="root" value="/trails" />
 		<property name="trailName" value="demo_session.trail" />
 	</bean>
-<!-- End delete this definition to replay a mock-up session application -->
+	<bean id="rpcSession" parent="abstractRpcSession" scope="prototype" class="org.openlegacy.rpc.support.MockupRpcSession">
+		<property name="connection" ref="rpcConnection" />
+	</bean>
+End use this definition to replay a mock-up session application -->
 
 <!-- Delete this definition to replay a mock-up session application -->
 	<bean id="rpcSession" parent="abstractRpcSession">
 		<property name="connection" ref="rpcConnection" />
 	</bean>
 <!-- End delete this definition to replay a mock-up session application -->
-
-	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
+			
 </beans>
