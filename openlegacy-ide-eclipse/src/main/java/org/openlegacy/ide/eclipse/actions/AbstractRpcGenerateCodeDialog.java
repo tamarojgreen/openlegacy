@@ -153,7 +153,7 @@ public abstract class AbstractRpcGenerateCodeDialog extends AbstractGenerateMode
 		// }
 		// });
 
-		setUseAj(false);
+		// setUseAj(false);
 		createDialogSpecific(parent);
 		return parent;
 	}
