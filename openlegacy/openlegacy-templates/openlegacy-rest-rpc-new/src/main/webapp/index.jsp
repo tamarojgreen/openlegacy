@@ -63,7 +63,6 @@ function get(){
 				dojo.byId("postRequestType").value = dojo.byId("requestType").value;
 				dojo.byId("postUrl").value = dojo.byId('getUrl').value;
 				
-				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
 			error : function(e) {
 				alert(e);
@@ -84,7 +83,6 @@ function post(){
 			headers: { "Accept": requestType, "Content-Type": requestType },
 			url : url,
 			load : function(data) {
-				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image"); 
 			},
 			error : function(e) {
 				alert(e);
@@ -158,10 +156,6 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 		</select> <br />
 		<button onclick="post()">HTTP Post</button>
 		<div id="postMessage"></div>
-	</div>
-	<div data-dojo-type="dijit.TitlePane"
-		data-dojo-props="title: 'Session state',open:true">
-		<img id="sessionImage" width="640px" height="320px" />
 	</div>
 
 </body>
