@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.rpc.render;
 
-import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
@@ -70,9 +69,8 @@ public class DefaultRpcImageRenderer implements RpcImageRenderer {
 	}
 
 	private void drawText(String source, Graphics graphics) {
-		String newline = SystemUtils.LINE_SEPARATOR;
-
-		String[] lines = source.split(newline);
+		source = source.replaceAll("\r", "");
+		String[] lines = source.split("\n");
 		int rowNumber = 1;
 		graphics.setColor(imageBackgroundColor);
 		for (String line : lines) {
