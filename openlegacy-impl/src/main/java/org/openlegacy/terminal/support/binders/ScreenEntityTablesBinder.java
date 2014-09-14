@@ -72,20 +72,25 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 				Object row = ReflectionUtil.newInstance(tableDefinition.getTableClass());
 				ScreenPojoFieldAccessor rowAccessor = new SimpleScreenPojoFieldAccessor(row);
 
-				boolean keyIsEmpty = false;
+				// 3 states boolean - null - no keys found
+				Boolean allKeysAreEmpty = null;
 
 				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
 					TerminalPosition position = SimpleTerminalPosition.newInstance(currentRow + columnDefinition.getRowsOffset(),
 							columnDefinition.getStartColumn());
 					if (columnDefinition.getAttribute() == FieldAttributeType.Value) {
 						String cellText = getCellContent(terminalSnapshot, position, columnDefinition);
-						if (columnDefinition.isKey() && cellText.length() == 0) {
-							if (logger.isDebugEnabled()) {
-								logger.debug(MessageFormat.format(
-										"Key field {0} is empty in row {1}. Aborting table rows collecting",
-										columnDefinition.getName(), position.getRow()));
+						if (columnDefinition.isKey()) {
+							if (cellText.length() == 0) {
+								if (logger.isDebugEnabled()) {
+									logger.debug(MessageFormat.format(
+											"Key field {0} is empty in row {1}. Aborting table rows collecting",
+											columnDefinition.getName(), position.getRow()));
+								}
+								allKeysAreEmpty = true;
+							} else {
+								allKeysAreEmpty = false;
 							}
-							keyIsEmpty = true;
 						}
 						rowAccessor.setFieldValue(columnDefinition.getName(), cellText);
 
@@ -105,7 +110,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 						}
 					}
 				}
-				if (!keyIsEmpty) {
+				if (allKeysAreEmpty == null || allKeysAreEmpty == false) {
 					rows.add(row);
 				}
 			}
