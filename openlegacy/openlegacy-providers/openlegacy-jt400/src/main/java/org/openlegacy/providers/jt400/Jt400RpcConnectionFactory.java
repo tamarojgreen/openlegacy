@@ -31,7 +31,8 @@ public class Jt400RpcConnectionFactory implements RpcConnectionFactory, Initiali
 
 	public RpcConnection getConnection() {
 		AS400 as400 = applicationContext.getBean(AS400.class);
-		Jt400RpcConnection rpcConnection = new Jt400RpcConnection(as400);
+		Jt400RpcConnection rpcConnection = new Jt400RpcConnection();
+		rpcConnection.setAs400Session(as400);
 		return rpcConnection;
 	}
 

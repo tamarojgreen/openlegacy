@@ -52,7 +52,7 @@ public class Jt400RpcConnection implements RpcConnection {
 
 	InvokeActionToPcmlUtil invokeActionToPcmlUtil = new InvokeActionToPcmlUtil();
 
-	public Jt400RpcConnection(AS400 as400Session) {
+	public void setAs400Session(AS400 as400Session) {
 		this.as400Session = as400Session;
 	}
 
