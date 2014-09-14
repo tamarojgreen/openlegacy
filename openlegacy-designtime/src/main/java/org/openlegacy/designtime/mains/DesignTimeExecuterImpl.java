@@ -143,6 +143,11 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	private static final String USER_PROPERTIES_FOLDER_NAME = "userPropertiesFolderName";
 
+	private static final String TERMINAL_SESSION_BEAN = "<bean id=\"terminalSession\" parent=\"abstractTerminalSession\">";
+	private static final String TERMINAL_SESSION_BEAN_RENAMED = "<bean id=\"terminalSession_REAL_HOST_BEAN\" parent=\"abstractTerminalSession\">";
+	private static final String RPC_SESSION_BEAN = "<bean id=\"rpcSession\" parent=\"abstractRpcSession\">";
+	private static final String RPC_SESSION_BEAN_RENAMED = "<bean id=\"rpcSession_REAL_HOST_BEAN\" parent=\"abstractRpcSession\">";
+
 	private ApplicationContext defaultDesigntimeApplicationContext;
 
 	// map of project path to Spring application context
@@ -259,6 +264,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext-test.xml");
 		removeComment(springContextFile, mockupSessionCommentStart, mockupSessionCommentEnd);
+		renameRealSession(springContextFile);
 
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
@@ -266,6 +272,13 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				"screenEntityUtils.returnTrueOnDifferentKeys=true");
 		FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 
+	}
+
+	private static void renameRealSession(File springContextFile) throws IOException {
+		String springTestFileContent = org.apache.commons.io.FileUtils.readFileToString(springContextFile);
+		springTestFileContent = springTestFileContent.replace(TERMINAL_SESSION_BEAN, TERMINAL_SESSION_BEAN_RENAMED);
+		springTestFileContent = springTestFileContent.replace(RPC_SESSION_BEAN, RPC_SESSION_BEAN_RENAMED);
+		org.apache.commons.io.FileUtils.write(springContextFile, springTestFileContent);
 	}
 
 	private static void updatePropertiesFile(ProjectCreationRequest projectCreationRequest, File targetPath) throws IOException,

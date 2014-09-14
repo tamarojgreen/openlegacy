@@ -31,7 +31,7 @@
 	<bean id="rpcSession" parent="abstractRpcSession" scope="prototype" class="org.openlegacy.rpc.support.MockupRpcSession">
 		<property name="connection" ref="rpcConnection" />
 	</bean>
--->
+End use this definition to replay a mock-up session application -->
 
 	<!-- comment when using mock-up session -->
 	<bean id="terminalSession" parent="abstractTerminalSession">

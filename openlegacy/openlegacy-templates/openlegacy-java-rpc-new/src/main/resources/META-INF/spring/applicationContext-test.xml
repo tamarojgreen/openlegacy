@@ -27,7 +27,8 @@
 		<property name="root" value="/trails" />
 		<property name="trailName" value="demo_session.trail" />
 	</bean>
--->
+End use this definition to replay a mock-up session application -->
+
 	<!-- comment when using mock-up session -->
 	<bean id="rpcSession" parent="abstractRpcSession">
 		<property name="connection" ref="rpcConnection" />

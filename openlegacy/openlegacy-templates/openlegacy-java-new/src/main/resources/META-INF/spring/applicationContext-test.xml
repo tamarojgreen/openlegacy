@@ -39,7 +39,8 @@
 			</bean>
 		</property>
 	</bean>
--->
+End use this definition to replay a mock-up session application -->
+
 	<!-- comment when using mock-up session -->
 	<bean id="terminalSession" parent="abstractTerminalSession">
 		<!-- Use this definition to configure modules properties
