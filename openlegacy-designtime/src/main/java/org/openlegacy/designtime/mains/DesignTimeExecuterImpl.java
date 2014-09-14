@@ -260,9 +260,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		File springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext.xml");
 		removeComment(springContextFile, mockupSessionCommentStart, mockupSessionCommentEnd);
 
-		springContextFile = new File(targetPath, "src/main/resources/META-INF/spring/applicationContext-test.xml");
-		removeComment(springContextFile, mockupSessionCommentStart, mockupSessionCommentEnd);
-		deleteRealSession(springContextFile);
+		configureMockupSession(new File(targetPath, "src/main/resources/META-INF/spring/applicationContext-test.xml"));
+		configureMockupSession(new File(targetPath, "src/main/resources/META-INF/spring/emulationContext.xml"));
 
 		File appPropertiesFile = new File(targetPath, APPLICATION_PROPERTIES);
 		String appPropertiesFileContent = IOUtils.toString(new FileInputStream(appPropertiesFile));
@@ -272,7 +271,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 	}
 
-	private static void deleteRealSession(File springContextFile) throws IOException {
+	private static void configureMockupSession(File springContextFile) throws IOException {
+		if (!springContextFile.exists()) {
+			return;
+		}
+		removeComment(springContextFile, mockupSessionCommentStart, mockupSessionCommentEnd);
+
 		String springTestFileContent = org.apache.commons.io.FileUtils.readFileToString(springContextFile);
 		int startIndex = springTestFileContent.indexOf(DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION) - 1;
 		int endIndex = springTestFileContent.indexOf(END_DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION)
