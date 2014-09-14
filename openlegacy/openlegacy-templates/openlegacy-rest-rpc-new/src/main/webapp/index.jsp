@@ -32,10 +32,12 @@ function get(){
 				if (dojo.byId("requestType").value == "json"){
 					if (data != null && data.model != null){
 						dojo.byId('result').value = JSON.stringify(data);
-						for(var i=0;i<data.model.entity.actions.length;i++){
-							var option=document.createElement("option");
-							option.text = data.model.entity.actions[i].alias;
-							dojo.byId("actionType").add(option);
+						if (data.model.entity.actions != null){
+							for(var i=0;i<data.model.entity.actions.length;i++){
+								var option=document.createElement("option");
+								option.text = data.model.entity.actions[i].alias;
+								dojo.byId("actionType").add(option);
+							}
 						}
 						data.model.entity.actions = null;
 						dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
@@ -50,10 +52,12 @@ function get(){
 						var start = data.indexOf("<entity");
 						dojo.byId('postData').innerHTML = data.substr(start,data.indexOf("</entity>")+9-start);
 						var actions = data.match(/<alias>\w+<\/alias>/g);
-						for(var i=0;i<actions.length;i++){
-							var option=document.createElement("option");
-							option.text = actions[i].substr(7,actions[i].indexOf("</")-7);
-							dojo.byId("actionType").add(option);
+						if (actions != null){
+							for(var i=0;i<actions.length;i++){
+								var option=document.createElement("option");
+								option.text = actions[i].substr(7,actions[i].indexOf("</")-7);
+								dojo.byId("actionType").add(option);
+							}
 						}
 					}
 					else{
