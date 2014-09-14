@@ -176,8 +176,8 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 	</div>
 	<div data-dojo-type="dijit.TitlePane"
 		data-dojo-props="title: 'Session state',open:true">
-		<input type="button" onclick="prev()" value="<" />
-		<input type="button" onclick="next()" value=">" />
+		<input type="button" onclick="prev()" value="&lt;" />
+		<input type="button" onclick="next()" value="&gt;" />
 		<br/>
 		<img id="sessionImage" width="640px" height="320px" />
 	</div>

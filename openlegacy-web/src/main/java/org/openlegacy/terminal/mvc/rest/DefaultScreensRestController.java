@@ -111,6 +111,10 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Override
 	protected ModelAndView getEntityInner(Object entity) {
+		if (entity == null) {
+			logger.warn("Current screen is not recognized");
+			return null;
+		}
 		// fetch child entities
 		ScreenEntityDefinition entityDefinition = (ScreenEntityDefinition)getEntitiesRegistry().get(entity.getClass());
 		List<EntityDefinition<?>> childEntitiesDefinitions = entityDefinition.getChildEntitiesDefinitions();
