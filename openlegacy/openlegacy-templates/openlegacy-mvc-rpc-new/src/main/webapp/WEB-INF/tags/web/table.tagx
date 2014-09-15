@@ -60,7 +60,9 @@
 	</c:choose>
 	
 	<c:set var="keyParts" value="${fn:split(partDefinition.keys[0].name,'.')}" />
+	<c:if test="${keyParts != null}">
 	<c:set var="keyFieldName" value="${ keyParts[1]}" />
+	</c:if>
 	
 	<div class="table"  style="${style}">
 		<table>
@@ -80,7 +82,9 @@
 	
 			<c:forEach items="${data}" var="item"  varStatus="i">
 				<tr class="${i.index % 2 == 0 ? '' : 'alt'}">
-				<spring:eval var="keyFieldValue" expression="item[keyFieldName]" />
+				<c:if test="${keyFieldName != null}">
+					<spring:eval var="keyFieldValue" expression="item[keyFieldName]" />
+				</c:if>
 			
 				<c:forEach items="${partDefinition.actions}" var="action">
 					<c:set var="target" value="${action.targetEntity.simpleName}/${keyFieldValue}" />
