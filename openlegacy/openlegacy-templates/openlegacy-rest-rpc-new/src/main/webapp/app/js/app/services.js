@@ -113,7 +113,7 @@
 			},
 			
 			'getThemeList': function() {
-				return ['light', 'emily'];
+				return ['light', 'emily', 'dynamics'];
 			}
 			
 		};

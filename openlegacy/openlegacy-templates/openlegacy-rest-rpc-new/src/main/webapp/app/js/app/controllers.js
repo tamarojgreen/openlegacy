@@ -69,9 +69,9 @@
 					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 				}; 
 				$scope.read = function(){					
-					$olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $routeParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if>,
-						function(data) {
-						console.log(data);
+					$olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $routeParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if>,					
+						function(data) {						
+						console.log(data.model.entity);
 							$scope.model = data.model.entity;							
 							$scope.baseUrl = olConfig.baseUrl;
 							
@@ -107,43 +107,8 @@
 						}
 					);
 				};
-				
-				<#if (entityDefinition.sortedFields?size > 0)>
-				<#list entityDefinition.sortedFields as field>
-					<#if field.fieldTypeDefinition.typeName == 'fieldWithValues'>						
-					$olHttp.get("${field.name?cap_first}s", function(data) {							
-						$scope.${field.name}s = data.model.entity.${field.name}sRecords;							
-						$scope.${field.name?cap_first}Click = function(${field.name}) {								
-							$scope.model.${field.name} = ${field.name}.type;			
-						}
-					});
-					</#if>						
-				</#list>
-			</#if>
-			
-			<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
-			$scope.loadTab = function(entityName) {
-				$scope.model.actions=null;
-				$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $routeParams.${entityDefinition.keys[0].name}</#if>, 
-					function(data) {
-						$scope.model = data.model.entity;																
-					});					
-			};
-			</#if>
-			
-
-			
-			<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
-			$scope.loadTab = function(entityName) {
-				$scope.model.actions=null;
-				$olHttp.get(entityName + '/' <#if (entityDefinition.keys?size > 0)>+ $routeParams.${entityDefinition.keys[0].name}</#if>, 
-					function(data) {
-						$scope.model = data.model.entity;																
-					});					
-			};
-			</#if>				
-			
-			$scope.read();
+						
+				$scope.read();
 
 			});
 	
