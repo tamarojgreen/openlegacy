@@ -9,7 +9,7 @@ import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.rpc.RpcActions.READ;
 
 @RpcEntity(name = "Itemdetail")
-@RpcActions(actions = { @Action(action = READ.class, path = "XX", displayName = "Read", alias = "read") })
+@RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM", displayName = "Read", alias = "read") })
 public class Itemdetail {
 
 	@RpcNumericField(minimumValue = -99999999, maximumValue = 99999999, decimalPlaces = 0)
