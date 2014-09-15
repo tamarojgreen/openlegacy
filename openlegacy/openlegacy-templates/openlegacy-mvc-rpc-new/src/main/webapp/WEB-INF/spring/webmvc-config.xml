@@ -62,11 +62,6 @@
  -->
  
 	<mvc:interceptors>
-		<!-- On pre-handle, resolve the device that originated the web request -->
-		<bean class="org.openlegacy.mvc.web.interceptors.OpenLegacyMobileViewSuffixingDeviceResolverHandlerInterceptor"/>
-		<!-- On pre-handle, manage the user's site preference -->
-		<bean class="org.springframework.mobile.device.site.SitePreferenceHandlerInterceptor" />
-
 		<bean class="org.openlegacy.rpc.mvc.web.interceptors.InsertEntityDefinitionsInterceptor" />
 		<bean class="org.openlegacy.rpc.mvc.web.interceptors.InsertGlobalsInterceptor" />
 		<bean class="org.openlegacy.rpc.mvc.web.interceptors.DesigntimeInterceptor" />
@@ -122,10 +117,8 @@
 		id="tilesConfigurer">
 		<property name="definitions">
 			<list>
-				<value>/WEB-INF/mobile/template/layouts.xml</value>
 				<value>/WEB-INF/web/template/layouts.xml</value>
 				<!-- Scan views directory for Tiles configurations -->
-				<value>/WEB-INF/mobile/views/**/views.xml</value>
 				<value>/WEB-INF/web/views/**/views.xml</value>
 			</list>
 		</property>
