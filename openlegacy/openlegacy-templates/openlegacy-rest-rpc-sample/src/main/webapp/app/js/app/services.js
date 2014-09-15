@@ -86,7 +86,7 @@
 			},
 			
 			'getThemeList': function() {
-				return ['default', 'emily'];
+				return ['default', 'emily', 'dynamics'];
 			}
 			
 		};

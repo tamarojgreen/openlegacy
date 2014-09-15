@@ -188,7 +188,7 @@ olApp.service('$themeService', ['$cookies', '$rootScope', function($cookies, $ro
 		},
 		
 		'getThemeList': function() {
-			return ['light', 'emily'];
+			return ['light', 'emily', 'dynamics'];
 		}
 		
 	};
