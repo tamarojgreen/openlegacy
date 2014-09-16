@@ -26,7 +26,7 @@
 					<c:if test="${ol_loggedInUser != null}">
 						<li class="welcomeUser">Welcome, ${ol_loggedInUser.userName}!</li>
 					</c:if>
-					<li class="prefs"><a href="javascript:changeTheme(['cloud','night','red','emily','dynamics']);"><span class="big_icon theme"><!--  --></span>Theme</a></li>
+					<li class="prefs"><a href="javascript:changeTheme(['cloud','night','red','emily','dynamics','orange','insurance']);"><span class="big_icon theme"><!--  --></span>Theme</a></li>
 					<li class="prefs"><a href="http://demo.openlegacy.org/openlegacy-rest-sample" title="REST API"><span class="big_icon rest"><!--  --></span>REST</a></li>
 					<li class="logout"><a href="${pageContext.request.contextPath}/logoff"><span class="big_icon logout"><!--  --></span>Logout</a></li>
 				</ul>
