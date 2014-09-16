@@ -10,14 +10,18 @@
 		'loginCtrl',
 		function($scope, $location, $olHttp, $rootScope, $cookies, $state) {			
 			
-			if ($cookies.loggedInUser != undefined) {
+			if ($.cookie('loggedInUser') != undefined) {
 				$state.go("items");
 			}
 			$scope.login = function(username, password) {				
 				
 				$olHttp.get('login?user=' + username + '&password='+ password, 
 						function() {
-							$cookies.loggedInUser = username;
+							var $expiration = new Date();
+							var minutes = 30;
+							$expiration.setTime($expiration.getTime() + minutes*60*1000)
+							
+							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
 							$rootScope.$broadcast("olApp:login:authorized", username);
 							$state.go("items");							
 						}
@@ -25,13 +29,11 @@
 			};
 		})
 	.controller(
-		'logoffController',
+		'logoffCtrl',
 		function($scope, $location, $olHttp, $rootScope, $cookies) {
 			$olHttp.get('logoff', 
 				function() {
-					delete $cookies['loggedInUser'];
-					$scope.loggedInUser = null;
-					$rootScope.loggedInUser = null;
+					$.removeCookie("loggedInUser", {path: '/'});
 				}
 			);
 		})
@@ -88,16 +90,14 @@
 				$scope.username = value;
 			});
 			
-			if ($cookies.loggedInUser != undefined) {
-				$scope.username = $cookies.loggedInUser;
+			if ($.cookie('loggedInUser') != undefined) {
+				$scope.username = $.cookie('loggedInUser');
 			}
 			
 			
 			$scope.logout = function(){
 				delete $scope.username
-				delete $rootScope.loggedInUser
-				delete $cookies.loggedInUser				
-				$state.go("login");
+				$state.go("logoff");
 			}
 			
 			$scope.changeTheme = function() {

@@ -17,6 +17,11 @@
 				templateUrl: "views/login.html",
 				controller: "loginCtrl"			    
 		    })
+		    .state('logoff', {
+				url: "/logoff",
+				templateUrl: "views/logoff.html",
+				controller: "logoffCtrl"			    
+		    })
 		    .state('items', {
 		    	url: "/items",
 	    		templateUrl: "views/items.html",
