@@ -283,4 +283,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 		return null;
 	}
 
+	public void setEnableEmulation(boolean enableEmulation) {
+		this.enableEmulation = enableEmulation;
+	}
 }
