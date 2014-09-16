@@ -59,17 +59,18 @@ public abstract class AbstractRestController {
 	 */
 	private boolean requiresLogin = false;
 
-	protected ModelAndView getEntity(String entityName, HttpServletResponse response) throws IOException {
+	protected ModelAndView getEntity(String entityName, boolean children, HttpServletResponse response) throws IOException {
 		try {
-			return getEntityRequest(entityName, null, response);
+			return getEntityRequest(entityName, null, children, response);
 		} catch (RuntimeException e) {
 			return handleException(response, e);
 		}
 	}
 
-	protected ModelAndView getEntityWithKey(String entityName, String key, HttpServletResponse response) throws IOException {
+	protected ModelAndView getEntityWithKey(String entityName, String key, boolean children, HttpServletResponse response)
+			throws IOException {
 		try {
-			return getEntityRequest(entityName, key, response);
+			return getEntityRequest(entityName, key, children, response);
 		} catch (RuntimeException e) {
 			return handleException(response, e);
 		}
@@ -81,13 +82,14 @@ public abstract class AbstractRestController {
 
 	}
 
-	protected ModelAndView getEntityRequest(String entityName, String key, HttpServletResponse response) throws IOException {
+	protected ModelAndView getEntityRequest(String entityName, String key, boolean children, HttpServletResponse response)
+			throws IOException {
 		if (!authenticate(response)) {
 			return null;
 		}
 		try {
 			Object entity = getApiEntity(entityName, key);
-			return getEntityInner(entity);
+			return getEntityInner(entity, children);
 		} catch (EntityNotFoundException e) {
 			logger.fatal(e, e);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
@@ -114,11 +116,18 @@ public abstract class AbstractRestController {
 		return entity;
 	}
 
-	protected ModelAndView getEntityInner(Object entity) {
+	/**
+	 * 
+	 * @param entity
+	 * @param child
+	 *            whether to include child entities
+	 * @return
+	 */
+	protected ModelAndView getEntityInner(Object entity, boolean children) {
 		if (entity == null) {
 			throw (new EntityNotFoundException("No entity found"));
 		}
-		entity = ProxyUtil.getTargetObject(entity, true);
+		entity = ProxyUtil.getTargetObject(entity, children);
 		Navigation navigationModule = getSession().getModule(Navigation.class);
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, navigationModule != null ? navigationModule.getPaths()
 				: null, getActions(entity));
@@ -147,10 +156,10 @@ public abstract class AbstractRestController {
 	 * @return
 	 * @throws IOException
 	 */
-	protected ModelAndView postEntityJson(String entityName, String action, String json, HttpServletResponse response)
-			throws IOException {
+	protected ModelAndView postEntityJson(String entityName, String action, boolean children, String json,
+			HttpServletResponse response) throws IOException {
 		try {
-			return postEntityJsonInner(entityName, null, action, json, response);
+			return postEntityJsonInner(entityName, null, action, children, json, response);
 		} catch (RuntimeException e) {
 			return handleException(response, e);
 		}
@@ -163,22 +172,22 @@ public abstract class AbstractRestController {
 		return null;
 	}
 
-	protected ModelAndView postEntityJsonWithKey(String entityName, String key, String action, String json,
+	protected ModelAndView postEntityJsonWithKey(String entityName, String key, String action, boolean children, String json,
 			HttpServletResponse response) throws IOException {
 		try {
-			return postEntityJsonInner(entityName, key, action, json, response);
+			return postEntityJsonInner(entityName, key, action, children, json, response);
 		} catch (RuntimeException e) {
 			return handleException(response, e);
 		}
 	}
 
-	private ModelAndView postEntityJsonInner(String entityName, String key, String action, String json,
+	private ModelAndView postEntityJsonInner(String entityName, String key, String action, boolean children, String json,
 			HttpServletResponse response) throws IOException {
 
 		Object entity = preSendEntity(entityName, key, json, response);
 
 		Object resultEntity = sendEntity(entity, action);
-		return getEntityInner(resultEntity);
+		return getEntityInner(resultEntity, children);
 	}
 
 	protected Object preSendEntity(String entityName, String key, String json, HttpServletResponse response) throws IOException {
@@ -252,7 +261,7 @@ public abstract class AbstractRestController {
 		}
 
 		Object resultEntity = sendEntity(entity, action);
-		return getEntityInner(resultEntity);
+		return getEntityInner(resultEntity, false);
 	}
 
 	private static String decode(String content, String encodeIndicator) {

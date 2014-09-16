@@ -98,20 +98,23 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
-	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response) throws IOException {
-		return super.getEntity(entityName, response);
+	public ModelAndView getEntity(@PathVariable("entity") String entityName,
+			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
+			HttpServletResponse response) throws IOException {
+		return super.getEntity(entityName, children, response);
 	}
 
 	@Override
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
 			XML })
 	public ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
+			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
 			HttpServletResponse response) throws IOException {
-		return super.getEntityWithKey(entityName, key, response);
+		return super.getEntityWithKey(entityName, key, children, response);
 	}
 
 	@Override
-	protected ModelAndView getEntityInner(Object entity) {
+	protected ModelAndView getEntityInner(Object entity, boolean children) {
 		if (entity == null) {
 			logger.warn("Current screen is not recognized");
 			return null;
@@ -119,7 +122,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 		// fetch child entities
 		ScreenEntityDefinition entityDefinition = (ScreenEntityDefinition)getEntitiesRegistry().get(entity.getClass());
 		List<EntityDefinition<?>> childEntitiesDefinitions = entityDefinition.getChildEntitiesDefinitions();
-		if (childEntitiesDefinitions.size() > 0) {
+		if (children && childEntitiesDefinitions.size() > 0) {
 			PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(entity);
 			for (PropertyDescriptor propertyDescriptor : properties) {
 				for (EntityDefinition<?> childEntityDefinition : childEntitiesDefinitions) {
@@ -133,7 +136,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 				}
 			}
 		}
-		return super.getEntityInner(entity);
+		return super.getEntityInner(entity, children);
 	}
 
 	@Override
@@ -152,9 +155,10 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
-			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-			throws IOException {
-		return super.postEntityJson(entityName, action, json, response);
+			@RequestParam(value = ACTION, required = false) String action,
+			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
+			@RequestBody String json, HttpServletResponse response) throws IOException {
+		return super.postEntityJson(entityName, action, children, json, response);
 	}
 
 	/**
@@ -168,11 +172,12 @@ public class DefaultScreensRestController extends AbstractRestController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON, params = "action=next")
-	public ModelAndView postNextJson(@PathVariable("entity") String entityName, @RequestBody String json,
-			HttpServletResponse response) throws IOException {
+	public ModelAndView postNextJson(@PathVariable("entity") String entityName,
+			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
+			@RequestBody String json, HttpServletResponse response) throws IOException {
 
 		if (!resetRowsWhenSameOnNext) {
-			return super.postEntityJson(entityName, "next", json, response);
+			return super.postEntityJson(entityName, "next", children, json, response);
 		}
 		preSendEntity(entityName, null, json, response);
 		ScreenEntity entity = terminalSession.getEntity();
@@ -184,15 +189,16 @@ public class DefaultScreensRestController extends AbstractRestController {
 		if (afterRecords.equals(beforeRecords)) {
 			afterRecords.clear();
 		}
-		return getEntityInner(resultEntity);
+		return getEntityInner(resultEntity, false);
 	}
 
 	@Override
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
-			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-			throws IOException {
-		return super.postEntityJsonWithKey(entityName, key, action, json, response);
+			@RequestParam(value = ACTION, required = false) String action,
+			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
+			@RequestBody String json, HttpServletResponse response) throws IOException {
+		return super.postEntityJsonWithKey(entityName, key, action, children, json, response);
 	}
 
 	@Override
@@ -218,7 +224,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 		}
 
 		ScreenEntity screenEntity = terminalSession.getEntity();
-		return getEntityInner(screenEntity);
+		return getEntityInner(screenEntity, false);
 
 	}
 
@@ -227,7 +233,8 @@ public class DefaultScreensRestController extends AbstractRestController {
 		if (terminalSession.getEntity() == null) {
 			return null;
 		}
-		return getEntityRequest(ProxyUtil.getTargetObject(terminalSession.getEntity()).getClass().getSimpleName(), null, response);
+		return getEntityRequest(ProxyUtil.getTargetObject(terminalSession.getEntity()).getClass().getSimpleName(), null, false,
+				response);
 	}
 
 	@RequestMapping(value = "/login", consumes = { JSON, XML })
