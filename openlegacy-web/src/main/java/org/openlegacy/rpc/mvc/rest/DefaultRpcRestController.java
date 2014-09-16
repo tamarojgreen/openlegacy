@@ -75,18 +75,16 @@ public class DefaultRpcRestController extends AbstractRestController {
 		return rpcEntitiesRegistry;
 	}
 
-	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response) throws IOException {
-		return super.getEntity(entityName, response);
+		return super.getEntity(entityName, false, response);
 	}
 
-	@Override
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
 			XML })
 	public ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			HttpServletResponse response) throws IOException {
-		return super.getEntityWithKey(entityName, key, response);
+		return super.getEntityWithKey(entityName, key, false, response);
 	}
 
 	@Override
@@ -102,20 +100,18 @@ public class DefaultRpcRestController extends AbstractRestController {
 		return super.getMenu(model);
 	}
 
-	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
 			throws IOException {
-		return super.postEntityJson(entityName, action, json, response);
+		return super.postEntityJson(entityName, action, false, json, response);
 	}
 
-	@Override
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
 			throws IOException {
-		return super.postEntityJsonWithKey(entityName, key, action, json, response);
+		return super.postEntityJsonWithKey(entityName, key, action, false, json, response);
 	}
 
 	@Override
