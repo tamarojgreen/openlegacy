@@ -68,4 +68,5 @@
 		class="org.springframework.format.support.FormattingConversionServiceFactoryBean"
 		id="applicationConversionService" />
 	
+	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 </beans>

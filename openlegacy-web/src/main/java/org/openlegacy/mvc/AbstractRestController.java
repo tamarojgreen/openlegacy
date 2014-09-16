@@ -175,6 +175,13 @@ public abstract class AbstractRestController {
 	private ModelAndView postEntityJsonInner(String entityName, String key, String action, String json,
 			HttpServletResponse response) throws IOException {
 
+		Object entity = preSendEntity(entityName, key, json, response);
+
+		Object resultEntity = sendEntity(entity, action);
+		return getEntityInner(resultEntity);
+	}
+
+	protected Object preSendEntity(String entityName, String key, String json, HttpServletResponse response) throws IOException {
 		json = decode(json, "{");
 
 		if (!authenticate(response)) {
@@ -195,9 +202,7 @@ public abstract class AbstractRestController {
 			handleDeserializationException(entityName, response, e);
 			return null;
 		}
-
-		Object resultEntity = sendEntity(entity, action);
-		return getEntityInner(resultEntity);
+		return entity;
 	}
 
 	protected ModelAndView postEntityXmlWithKey(String entityName, String key, String action, String xml,

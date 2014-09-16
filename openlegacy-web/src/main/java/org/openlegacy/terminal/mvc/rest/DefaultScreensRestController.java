@@ -94,6 +94,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Inject
 	private TerminalSendActionBuilder<HttpServletRequest> sendActionBuilder;
+	private boolean resetRowsWhenSameOnNext = true;
 
 	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
@@ -154,6 +155,36 @@ public class DefaultScreensRestController extends AbstractRestController {
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
 			throws IOException {
 		return super.postEntityJson(entityName, action, json, response);
+	}
+
+	/**
+	 * Special handling for REST paging next (load more style). If rows haven't changed, do not return table rows in the resulting
+	 * JSON
+	 * 
+	 * @param entityName
+	 * @param json
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON, params = "action=next")
+	public ModelAndView postNextJson(@PathVariable("entity") String entityName, @RequestBody String json,
+			HttpServletResponse response) throws IOException {
+
+		if (!resetRowsWhenSameOnNext) {
+			return super.postEntityJson(entityName, "next", json, response);
+		}
+		preSendEntity(entityName, null, json, response);
+		ScreenEntity entity = terminalSession.getEntity();
+
+		Object resultEntity = sendEntity(entity, "next");
+
+		List<?> beforeRecords = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, entity);
+		List<?> afterRecords = ScrollableTableUtil.getSingleScrollableTable(tablesDefinitionProvider, resultEntity);
+		if (afterRecords.equals(beforeRecords)) {
+			afterRecords.clear();
+		}
+		return getEntityInner(resultEntity);
 	}
 
 	@Override
@@ -283,4 +314,11 @@ public class DefaultScreensRestController extends AbstractRestController {
 		return null;
 	}
 
+	public void setEnableEmulation(boolean enableEmulation) {
+		this.enableEmulation = enableEmulation;
+	}
+
+	public void setResetRowsWhenSameOnNext(boolean resetRowsWhenSameOnNext) {
+		this.resetRowsWhenSameOnNext = resetRowsWhenSameOnNext;
+	}
 }
