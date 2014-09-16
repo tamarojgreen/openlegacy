@@ -33,5 +33,10 @@
         <name>openlegacy-themes-orange</name>
         <display-name>Orange</display-name>
         <image-file>orange.jpg</image-file>
-    </theme>    
+    </theme>
+    <theme>
+        <name>openlegacy-themes-insurance</name>
+        <display-name>Insurance</display-name>
+        <image-file>insurance.jpg</image-file>
+    </theme>
 </themes>
