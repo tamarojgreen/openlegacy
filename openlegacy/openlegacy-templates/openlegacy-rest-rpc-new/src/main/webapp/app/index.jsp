@@ -25,7 +25,6 @@
 	<link ng-href="themes/{{theme}}/{{theme}}.css" rel="stylesheet">
 </head>
 <body class="base" ng-class="theme">
-<<<<<<< HEAD
 	<!-- <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
 			<div class="navbar-header">
@@ -128,8 +127,6 @@
 	        </div>
 	    </div>
 	</div>
-=======
->>>>>>> refs/remotes/origin/FB_585_GEN_VIEW_JS_REST_RPC_NEW
 	<!-- /header --> 
 	<div class="main" ng-view="true" ng-cloak></div>
 	
