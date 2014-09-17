@@ -108,11 +108,11 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 
 </script>
 <link
-	href="css/tundra.css"
+	href="webapp/css/tundra.css"
 	rel="stylesheet" type="text/css" />
 </head>
 <body class="tundra">
-	<img src="css/images/logo.png"
+	<img src="webapp/css/images/logo.png"
 		width="150px" height="50px" />
 	<div><a href="app">Goto the App</a></div>
 	<div align="center" style="font-family: verdana;font-size: 1.5em;">REST API test page</div>

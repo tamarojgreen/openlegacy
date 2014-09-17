@@ -118,39 +118,54 @@
 /* Controller code place-holder start
 	<#if entityName??>
 	module = module.controller('${entityName}Controller',
-		function($scope, $location, $olHttp,$routeParams) {
-			$scope.read = function(){
-				$olHttp.get('${entityName}/' <#if keys?size &gt; 0>+ $routeParams.${keys[0].name?replace(".", "_")}</#if>,
-					function(data) {
-						$scope.model = data.model.entity;
-					}
-				);
-			};		
-			<#list actions as action>
-			<#if action.alias != "read">
-			$scope.${action.alias} = function(){
-				$olHttp.post('${entityName}?action=${action.alias}',$scope.model, 
-					function(data) {
-						if (data.model.entityName == '${entityName}'){
-							$scope.model = data.model.entity;
+			function($scope, $location, $olHttp,$routeParams, flatMenu) {
+				$scope.noTargetScreenEntityAlert = function() {
+					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
+				}; 
+				$scope.read = function(){					
+					$olHttp.get('${entityName}/' <#if keys?size &gt; 0>+ $routeParams.${keys[0].name?replace(".", "_")}</#if>,					
+						function(data) {						
+						console.log(data.model.entity);
+							$scope.model = data.model.entity;							
+							$scope.baseUrl = olConfig.baseUrl;
+							
+							$scope.doActionNoTargetEntity = function(rowIndex, actionValue) {					
+								$scope.model.actions=null;
+								$scope.model.itemsRecords[rowIndex].action_ = actionValue;
+								
+								$olHttp.post('${entityName}/', $scope.model, function(data) {
+									$scope.model = data.model.entity;									
+								});
+										
+							};
+						}							
+					);
+				};	
+				
+				flatMenu(function(data) {					
+					$scope.menuArray = data;
+				});
+				
+				$scope.doAction = function(entityName, actionAlias) {
+					
+					delete $scope.model.actions;					
+					$olHttp.post(entityName + "?action=" + actionAlias,$scope.model, 
+						function(data) {						
+							if (data.model.entityName == '${entityName}'){								
+								$scope.model = data.model.entity;								
+							}
+							else{					
+								
+								$location.path("/" + data.model.entityName);
+							}
 						}
-						else{
-							$location.path("/" + data.model.entityName);
-						}
-					}
-				);
-			};
-			</#if>
-			</#list>
-			<#if keys?size &gt; 0>
-			if ($routeParams.${keys[0].name?replace(".", "_")} != null && $routeParams.${keys[0].name?replace(".", "_")}.length > 0){
+					);
+				};
+						
 				$scope.read();
-			}
-			<#else>
-				$scope.read();
-			</#if>
 
-		});
+			});
+	
 	</#if>
 	Controller code place-holder end */
 
