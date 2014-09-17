@@ -15,7 +15,6 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
-import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.modules.trail.TrailUtil;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.rpc.RpcEntity;
@@ -135,16 +134,11 @@ public class DefaultRpcRestController extends AbstractRestController {
 		return rpcEntityUtils.sendEntity(rpcSession, (RpcEntity)entity, action);
 	}
 
+	@Override
 	@RequestMapping(value = "/login", consumes = { JSON, XML })
 	public void login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
 			throws IOException {
-		try {
-			rpcSession.login(user, password);
-		} catch (OpenLegacyRuntimeException e) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-		}
-		response.setStatus(HttpServletResponse.SC_OK);
-
+		super.login(user, password, response);
 	}
 
 	@RequestMapping(value = "/logoff", consumes = { JSON, XML })

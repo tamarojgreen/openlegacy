@@ -18,9 +18,6 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.TableDefinition;
-import org.openlegacy.exceptions.RegistryException;
-import org.openlegacy.modules.login.Login;
-import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.mvc.AbstractRestController;
@@ -70,9 +67,6 @@ public class DefaultScreensRestController extends AbstractRestController {
 	private static final String JSON = "application/json";
 	private static final String XML = "application/xml";
 
-	private static final String USER = "user";
-	private static final String PASSWORD = "password";
-
 	private final static Log logger = LogFactory.getLog(DefaultScreensRestController.class);
 
 	@Inject
@@ -95,6 +89,9 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@Inject
 	private TerminalSendActionBuilder<HttpServletRequest> sendActionBuilder;
 	private boolean resetRowsWhenSameOnNext = true;
+
+	private static final String USER = "user";
+	private static final String PASSWORD = "password";
 
 	@Override
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
@@ -237,22 +234,11 @@ public class DefaultScreensRestController extends AbstractRestController {
 				response);
 	}
 
+	@Override
 	@RequestMapping(value = "/login", consumes = { JSON, XML })
 	public void login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
 			throws IOException {
-		try {
-			Login loginModule = getSession().getModule(Login.class);
-			if (loginModule != null) {
-				loginModule.login(user, password);
-			} else {
-				logger.warn("No login module defined. Skipping login");
-			}
-		} catch (RegistryException e) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-		} catch (LoginException e) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-		}
-		response.setStatus(HttpServletResponse.SC_OK);
+		super.login(user, password, response);
 
 	}
 
@@ -328,4 +314,5 @@ public class DefaultScreensRestController extends AbstractRestController {
 	public void setResetRowsWhenSameOnNext(boolean resetRowsWhenSameOnNext) {
 		this.resetRowsWhenSameOnNext = resetRowsWhenSameOnNext;
 	}
+
 }

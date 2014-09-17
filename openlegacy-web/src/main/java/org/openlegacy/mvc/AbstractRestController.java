@@ -20,8 +20,10 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.json.EntitySerializationUtils;
 import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
@@ -58,6 +60,32 @@ public abstract class AbstractRestController {
 	 * defaultRestController.requiresLogin=true
 	 */
 	private boolean requiresLogin = false;
+
+	/**
+	 * Whether to enable login URL calls. Can be overridden from /application.properties defaultRestController.enableLogin=false
+	 */
+	private boolean enableLogin = true;
+
+	public void login(String user, String password, HttpServletResponse response) throws IOException {
+		if (!enableLogin) {
+			throw (new UnsupportedOperationException("/login is not support"));
+		}
+
+		try {
+			Login loginModule = getSession().getModule(Login.class);
+			if (loginModule != null) {
+				loginModule.login(user, password);
+			} else {
+				logger.warn("No login module defined. Skipping login");
+			}
+		} catch (RegistryException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		} catch (LoginException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		}
+		response.setStatus(HttpServletResponse.SC_OK);
+
+	}
 
 	protected ModelAndView getEntity(String entityName, boolean children, HttpServletResponse response) throws IOException {
 		try {
@@ -319,5 +347,9 @@ public abstract class AbstractRestController {
 
 	public void setRequiresLogin(boolean requiresLogin) {
 		this.requiresLogin = requiresLogin;
+	}
+
+	public void setEnableLogin(boolean enableLogin) {
+		this.enableLogin = enableLogin;
 	}
 }
