@@ -32,6 +32,7 @@ import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.modules.table.ScrollableTableUtil;
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.services.ScreenEntitiesRegistry;
+import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
@@ -79,6 +80,9 @@ public class DefaultScreensRestController extends AbstractRestController {
 	private ScreenEntityUtils screenEntityUtils;
 
 	@Inject
+	private MultyScreenTableBindUtil multyScreenTableBindUtil;
+
+	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
 	@Inject
@@ -99,6 +103,12 @@ public class DefaultScreensRestController extends AbstractRestController {
 			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
 			HttpServletResponse response) throws IOException {
 		return super.getEntity(entityName, children, response);
+	}
+
+	@Override
+	protected Object getApiEntity(String entityName, String key) {
+		Object entity = super.getApiEntity(entityName, key);
+		return multyScreenTableBindUtil.bindCollectTable(terminalSession, entity);
 	}
 
 	@Override

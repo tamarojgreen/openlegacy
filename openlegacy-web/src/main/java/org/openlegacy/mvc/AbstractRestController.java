@@ -133,7 +133,7 @@ public abstract class AbstractRestController {
 		return getApiEntity(entityName, key);
 	}
 
-	private Object getApiEntity(String entityName, String key) {
+	protected Object getApiEntity(String entityName, String key) {
 		Object entity;
 		Object[] keys = new Object[0];
 		if (key != null) {
