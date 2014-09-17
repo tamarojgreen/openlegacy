@@ -159,6 +159,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 			loggedInUser = null;
 			throw (new LoginException(message));
 		} else {
+			logger.info(MessageFormat.format("User {0} successfully logged in", loggedInUser.getUserName()));
 			getSession().getProperties().getProperties().put(Login.USER_NAME_PROPERTY, loggedInUser.getUserName());
 		}
 
@@ -177,6 +178,7 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 		logoffOnly();
 
 		getSession().disconnect();
+
 	}
 
 	private void logoffOnly() {
@@ -200,6 +202,8 @@ public class DefaultTerminalLoginModule extends TerminalSessionModuleAdapter imp
 				logger.warn("Failed to return to login screen - " + e.getMessage(), e);
 			}
 		}
+		logger.info(MessageFormat.format("User {0} successfully logged off", loggedInUser.getUserName()));
+
 		loggedInUser = null;
 	}
 
