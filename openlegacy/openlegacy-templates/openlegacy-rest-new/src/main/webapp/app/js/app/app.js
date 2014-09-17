@@ -4,7 +4,7 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services', 'directives'] ).run(['$themeService', '$rootScope', function($themeService, $rootScope) {		
+	var olApp = angular.module( 'olApp', [ 'controllers', 'services', 'directives'] ).run(['$themeService', '$rootScope', function($themeService, $rootScope) {		
 		$rootScope.changeTheme = function() {
 			$themeService.changeTheme();
 		};

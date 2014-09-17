@@ -8,57 +8,56 @@
 
 	module = module.controller(
 		'loginController',
-		function($scope, $location, $olHttp, $rootScope, $cookies) {
-			if ($cookies.loggedInUser != undefined) {
-				$location.path("/Items");					
+		function($scope, $location, $olHttp, $rootScope) {
+			if ($.cookie('loggedInUser') != undefined) {
+				$location.path("/Items");
 			}
-			$scope.login = function(username, password) {
+			$scope.login = function(username, password) {				
+				
 				$olHttp.get('login?user=' + username + '&password='+ password, 
-						function() {					
-							$cookies.loggedInUser = username;
-							$rootScope.$broadcast("olApp:login:authorized", username);							
-							$location.path("/Items");
-														
+						function() {
+							var $expiration = new Date();
+							var minutes = 30;
+							$expiration.setTime($expiration.getTime() + minutes*60*1000)
+							
+							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
+							$rootScope.$broadcast("olApp:login:authorized", username);
+							$location.path("/Items");							
 						}
 					);
-			};			
+			};		
 		});
 	module = module.controller(
 		'logoffController',
-		function($scope, $location, $olHttp, $rootScope, $cookies) {
+		function($scope, $location, $olHttp, $rootScope) {
 			$olHttp.get('logoff', 
 				function() {
-					delete $cookies['loggedInUser'];
-					$scope.loggedInUser = null;
-					$rootScope.loggedInUser = null;
+					$.removeCookie("loggedInUser", {path: '/'});
 				}
 			);
 		});
 	
 	module = module.controller('HeaderCtrl',
-			function ($cookies, $rootScope, $scope, $http, $location, $themeService) {		
-				$rootScope.$on("olApp:login:authorized", function(e, value) {
-					console.log("asd");
-					$scope.username = value;
-				});
-				
-				if ($cookies.loggedInUser != undefined) {
-					$scope.username = $cookies.loggedInUser;
-				}
-				
-				
-				$scope.logout = function(){
-					delete $scope.username
-					delete $rootScope.loggedInUser
-					delete $cookies.loggedInUser				
-					$location.path("/login");
-				}
-				
-				$scope.changeTheme = function() {
-					$themeService.changeTheme();
-				};
+		function ($rootScope, $scope, $http, $location, $themeService) {    
+			$rootScope.$on("olApp:login:authorized", function(e, value) {
+				$scope.username = value;
+			});
 			
-		});
+			if ($.cookie('loggedInUser') != undefined) {
+				$scope.username = $.cookie('loggedInUser');
+			}
+			
+			
+			$scope.logout = function(){
+				delete $scope.username
+				$location.path("/logoff");
+			}
+			
+			$scope.changeTheme = function() {
+				$themeService.changeTheme();
+			};
+		
+	});
 
 	// template for all entities	
 	<#if entitiesDefinitions??>	

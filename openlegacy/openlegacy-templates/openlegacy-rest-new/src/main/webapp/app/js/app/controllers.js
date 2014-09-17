@@ -8,31 +8,56 @@
 
 	module = module.controller(
 		'loginController',
-		function($scope, $location, $olHttp, $rootScope, $cookies) {
-			$scope.user = {userName:"",password:""};
-			$scope.login = function() {
-				$cookies.loggedInUser = $scope.user.userName;
-				$rootScope.loggedInUser = $scope.user.userName;
-				$olHttp.get('login?user=' + $scope.user.userName + '&password='+ $scope.user.password, 
-					function() {
-						$cookies.loggedInUser = $scope.user.userName;
-						$rootScope.loggedInUser = $scope.user.userName;
-						$location.path("/Items");
-					}
-				);
+		function($scope, $location, $olHttp, $rootScope) {
+			if ($.cookie('loggedInUser') != undefined) {
+				$location.path("/Items");
+			}
+			$scope.login = function(username, password) {				
+				
+				$olHttp.get('login?user=' + username + '&password='+ password, 
+						function() {
+							var $expiration = new Date();
+							var minutes = 30;
+							$expiration.setTime($expiration.getTime() + minutes*60*1000)
+							
+							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
+							$rootScope.$broadcast("olApp:login:authorized", username);
+							$location.path("/Items");							
+						}
+					);
 			};
 		});
 	module = module.controller(
 		'logoffController',
-		function($scope, $location, $olHttp, $rootScope, $cookies) {
+		function($scope, $location, $olHttp, $rootScope) {
 			$olHttp.get('logoff', 
 				function() {
-					delete $cookies['loggedInUser'];
-					$scope.loggedInUser = null;
-					$rootScope.loggedInUser = null;
+					$.removeCookie("loggedInUser", {path: '/'});
 				}
 			);
 		});
+	
+	module = module.controller('HeaderCtrl',
+		function ($rootScope, $scope, $http, $location, $themeService) {    
+			$rootScope.$on("olApp:login:authorized", function(e, value) {
+				$scope.username = value;
+			});
+			
+			if ($.cookie('loggedInUser') != undefined) {
+				$scope.username = $.cookie('loggedInUser');
+			}
+			
+			
+			$scope.logout = function(){
+				delete $scope.username
+				$location.path("/logoff");
+			}
+			
+			$scope.changeTheme = function() {
+				$themeService.changeTheme();
+			};
+		
+	});
 
 	// template for all entities 
 	<#if entitiesDefinitions??>
