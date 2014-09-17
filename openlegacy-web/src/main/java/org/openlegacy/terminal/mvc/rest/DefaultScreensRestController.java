@@ -186,7 +186,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 		if (!resetRowsWhenSameOnNext) {
 			return super.postEntityJson(entityName, "next", children, json, response);
 		}
-		preSendEntity(entityName, null, json, response);
+		preSendJsonEntity(entityName, null, json, response);
 		ScreenEntity entity = terminalSession.getEntity();
 
 		Object resultEntity = sendEntity(entity, "next");

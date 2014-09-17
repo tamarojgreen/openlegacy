@@ -21,48 +21,56 @@
         async: false
     };
 
+function loadData(data){
+	if (dojo.byId("requestType").value == "json"){
+		if (data != null && data.model != null){
+			dojo.byId('result').value = JSON.stringify(data);
+			for(var i=0;i<data.model.entity.actions.length;i++){
+				var option=document.createElement("option");
+				option.text = data.model.entity.actions[i].alias;
+				dojo.byId("actionType").add(option);
+			}
+			data.model.entity.actions = null;
+			dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
+		}
+		else{
+			dojo.byId('result').value = "OK"; 
+		}
+	}
+	else{
+		if (data != ""){
+			dojo.byId('result').value = data;
+			var start = data.indexOf("<entity");
+			dojo.byId('postData').innerHTML = data.substr(start,data.indexOf("</entity>")+9-start);
+			var actions = data.match(/<alias>\w+<\/alias>/g);
+			for(var i=0;i<actions.length;i++){
+				var option=document.createElement("option");
+				option.text = actions[i].substr(7,actions[i].indexOf("</")-7);
+				dojo.byId("actionType").add(option);
+			}
+		}
+		else{
+			dojo.byId('result').value = "OK"; 
+		}
+	}
+
+}
 function get(){
 	var requestType = "application/" + dojo.byId('requestType').value;
-	var url = location.href + dojo.byId('getUrl').value;
+	var url = location.href;
+	if (url.indexOf("jsp") > 0){
+		url = url.substr(0,location.href.lastIndexOf("/")+1);
+	}
+	url = url + dojo.byId('getUrl').value;
 	dojo.byId("getMessage").innerHTML = "GET:" + url + " ; Content-Type: " + requestType + " ; Accept: " + requestType;
 	var xhrArgs = {
 			handleAs : dojo.byId("requestType").value == "json" ? "json" : "text",
 			headers: { "Content-Type": requestType, "Accept": requestType },
 			url : url,
 			load : function(data) {
-				if (dojo.byId("requestType").value == "json"){
-					if (data != null && data.model != null){
-						dojo.byId('result').value = JSON.stringify(data);
-						for(var i=0;i<data.model.entity.actions.length;i++){
-							var option=document.createElement("option");
-							option.text = data.model.entity.actions[i].alias;
-							dojo.byId("actionType").add(option);
-						}
-						data.model.entity.actions = null;
-						dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
-					}
-					else{
-						dojo.byId('result').value = "OK"; 
-					}
-				}
-				else{
-					if (data != ""){
-						dojo.byId('result').value = data;
-						var start = data.indexOf("<entity");
-						dojo.byId('postData').innerHTML = data.substr(start,data.indexOf("</entity>")+9-start);
-						var actions = data.match(/<alias>\w+<\/alias>/g);
-						for(var i=0;i<actions.length;i++){
-							var option=document.createElement("option");
-							option.text = actions[i].substr(7,actions[i].indexOf("</")-7);
-							dojo.byId("actionType").add(option);
-						}
-					}
-					else{
-						dojo.byId('result').value = "OK"; 
-					}
-				}
+				loadData(data);
 				dojo.byId("postRequestType").value = dojo.byId("requestType").value;
-				dojo.byId("postUrl").value = dojo.byId('getUrl').value;
+				dojo.byId("postUrl").value = data.model.entityName;
 				
 				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
@@ -77,7 +85,12 @@ function get(){
 function post(){
 	var requestType = "application/" + dojo.byId('postRequestType').value;
 	var data = dojo.byId("postData").value;
-	var url= location.href + dojo.byId('postUrl').value;
+	var url = location.href;
+	if (url.indexOf("jsp") > 0){
+		url = url.substr(0,location.href.lastIndexOf("/")+1);
+	}
+	url = url + dojo.byId('postUrl').value;
+
 	dojo.byId("postMessage").innerHTML = "POST:" + url + " ; Content-Type: " + requestType;
 	
 	var xhrArgs = {
@@ -86,7 +99,10 @@ function post(){
 			headers: { "Accept": requestType, "Content-Type": requestType },
 			url : url,
 			load : function(data) {
-				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
+				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date()));
+				data = JSON.parse(data)
+				loadData(data);
+				dojo.byId("getUrl").value = data.model.entityName;
 			},
 			error : function(e) {
 				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
