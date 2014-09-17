@@ -141,6 +141,18 @@ public class DefaultRpcRestController extends AbstractRestController {
 		super.login(user, password, response);
 	}
 
+	@Override
+	@RequestMapping(value = "/login", consumes = { JSON }, method = RequestMethod.POST)
+	public void loginPostJson(@RequestBody String json, HttpServletResponse response) throws IOException {
+		super.loginPostJson(json, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/login", consumes = { XML }, method = RequestMethod.POST)
+	public void loginPostXml(@RequestBody String xml, HttpServletResponse response) throws IOException {
+		super.loginPostXml(xml, response);
+	}
+
 	@RequestMapping(value = "/logoff", consumes = { JSON, XML })
 	public void logoff(HttpServletResponse response) throws IOException {
 		try {

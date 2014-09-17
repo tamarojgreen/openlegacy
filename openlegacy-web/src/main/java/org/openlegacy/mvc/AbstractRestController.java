@@ -22,7 +22,6 @@ import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.json.EntitySerializationUtils;
-import org.openlegacy.modules.login.Login;
 import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.menu.Menu;
 import org.openlegacy.modules.menu.MenuItem;
@@ -62,17 +61,22 @@ public abstract class AbstractRestController {
 	private boolean requiresLogin = false;
 
 	/**
-	 * Whether to enable login URL calls. Can be overridden from /application.properties defaultRestController.enableLogin=false
+	 * Whether to enable /login URL calls. Can be overridden from /application.properties
 	 */
 	private boolean enableLogin = true;
 
+	/**
+	 * Whether to enable /login via URL GET calls. Can be overridden from /application.properties
+	 */
+	private boolean enableGetLogin = true;
+
 	public void login(String user, String password, HttpServletResponse response) throws IOException {
-		if (!enableLogin) {
+		if (!enableLogin || !enableGetLogin) {
 			throw (new UnsupportedOperationException("/login is not support"));
 		}
 
 		try {
-			Login loginModule = getSession().getModule(Login.class);
+			org.openlegacy.modules.login.Login loginModule = getSession().getModule(org.openlegacy.modules.login.Login.class);
 			if (loginModule != null) {
 				loginModule.login(user, password);
 			} else {
@@ -337,12 +341,47 @@ public abstract class AbstractRestController {
 		if (!requiresLogin) {
 			return true;
 		}
-		Login loginModule = getSession().getModule(Login.class);
+		org.openlegacy.modules.login.Login loginModule = getSession().getModule(org.openlegacy.modules.login.Login.class);
 		if (!loginModule.isLoggedIn()) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 		return true;
 
+	}
+
+	public void loginPostJson(String json, HttpServletResponse response) throws IOException {
+		json = decode(json, "{");
+		if (!enableLogin) {
+			throw (new UnsupportedOperationException("/login is not support"));
+		}
+
+		try {
+			LoginObject login = EntitySerializationUtils.deserialize(json, LoginObject.class);
+			getSession().getModule(org.openlegacy.modules.login.Login.class).login(login.getUser(), login.getPassword());
+		} catch (LoginException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login");
+			logger.fatal("Invalid login", e);
+		}
+	}
+
+	public void loginPostXml(String xml, HttpServletResponse response) throws IOException {
+		xml = decode(xml, "{");
+		if (!enableLogin) {
+			throw (new UnsupportedOperationException("/login is not support"));
+		}
+
+		try {
+			InputSource inputSource = new InputSource(new ByteArrayInputStream(xml.getBytes()));
+			LoginObject login = (LoginObject)Unmarshaller.unmarshal(LoginObject.class, inputSource);
+			getSession().getModule(org.openlegacy.modules.login.Login.class).login(login.getUser(), login.getPassword());
+		} catch (LoginException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login");
+			logger.fatal("Invalid login", e);
+		}
 	}
 
 	public void setRequiresLogin(boolean requiresLogin) {
@@ -351,5 +390,32 @@ public abstract class AbstractRestController {
 
 	public void setEnableLogin(boolean enableLogin) {
 		this.enableLogin = enableLogin;
+	}
+
+	public void setEnableGetLogin(boolean enableGetLogin) {
+		this.enableGetLogin = enableGetLogin;
+	}
+
+	public static class LoginObject {
+
+		private String user;
+		private String password;
+
+		public String getUser() {
+			return user;
+		}
+
+		public void setUser(String user) {
+			this.user = user;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+
 	}
 }
