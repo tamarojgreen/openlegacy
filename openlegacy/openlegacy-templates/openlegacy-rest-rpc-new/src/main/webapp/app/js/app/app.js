@@ -4,13 +4,17 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services'] );
+	var olApp = angular.module( 'olApp', [ 'ngCookies','controllers', 'services'] ).run(['$themeService', '$rootScope', function($themeService, $rootScope) {
+		$rootScope.theme = $themeService.getCurrentTheme();
+	}]);
 
 	olApp.config( [ '$routeProvider', function( $routeProvider) {
 		
 		$routeProvider = $routeProvider.when( '/login', {templateUrl: 'views/login.html', controller: 'loginController'} );
 		$routeProvider = $routeProvider.when( '/logoff', {templateUrl: 'views/logoff.html', controller: 'logoffController'} );
 		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html'} );
+		$routeProvider = $routeProvider.when( '/inventoryMenu', {templateUrl: 'inventoryMenu.html'} );
+		
 		//$routeProvider = $routeProvider.when( '/ItemDetails', {templateUrl: 'views/ItemDetails.html',controller: 'ItemDetailsController'} );
 		<#if entitiesDefinitions??>
 			<#list entitiesDefinitions as entityDefinition>

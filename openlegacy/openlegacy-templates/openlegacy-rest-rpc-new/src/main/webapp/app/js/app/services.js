@@ -33,16 +33,18 @@
 				.success(function(data, status, headers, config) {
 					callback(data);
 				}).error(function(data, status, headers, config) {
-					alert(data);
+					alert(data.error);
 				});
 				
 			},
 
 			post:function(url,model,callback){
+				console.log(url);
+				console.log(model);
 				$http(
 						{
 							method : 'POST',
-							data : JSON.stringify(model),
+							data : angular.toJson(model),
 							url : olConfig.baseUrl + url,
 							headers : {
 								'Content-Type' : 'application/json',
@@ -51,13 +53,70 @@
 						})
 				.success(function(data, status, headers, config) {
 					callback(data);
-				}).error(function(data, status, headers, config) {
-					alert(data);
+				}).error(function(data, status, headers, config) {					
+					alert(data.error);
 				});
 			}
 		
 		
 		};
-	} );
+	} )
+	.factory('flatMenu', function($http) {
+		return function(callback) {
+			$http({
+				method: 'GET',
+				data: '',				
+				url: olConfig.baseUrl + 'menu',
+				headers : {
+					'Content-Type' : 'application/json',
+					'Accept' : 'application/json'
+				}
+			}).success(function(data, status, headers, config) {				
+				var menuArray = [];					
+				var getMenuString = function(data) {						
+					angular.forEach(data, function(value) {							
+						menuArray.push(value);
+						getMenuString(value.menuItems);
+				    });					     
+				}
+				getMenuString(data.simpleMenuItem.menuItems);
+				callback(menuArray);
+			}).error(function(data, status, headers, config) {
+				alert(data);
+			});
+		};
+	})
+	.factory('$themeService', ['$cookies', '$rootScope', function($cookies, $rootScope) {
+		return {
+			'changeTheme': function() {
+				var themes = this.getThemeList();
+				if ($cookies.ol_theme == undefined) {
+					$cookies.ol_theme = themes[0];
+				}
+				var index = themes.indexOf($cookies.ol_theme);
+				if (themes.length == index + 1 ) {
+					$cookies.ol_theme = themes[0];				  
+				} else {
+					$cookies.ol_theme = themes[index + 1];			
+				} 
+				
+				$rootScope.theme = $cookies.ol_theme;
+			},
+			
+			'getCurrentTheme': function() {				
+				if ($cookies.ol_theme == undefined) {
+					$cookies.ol_theme = this.getThemeList()[0];
+					return this.getThemeList()[0];
+				} else {
+					return $cookies.ol_theme;
+				}
+			},
+			
+			'getThemeList': function() {
+				return ['light', 'emily', 'dynamics'];
+			}
+			
+		};
+	}]);
 	
 } )();

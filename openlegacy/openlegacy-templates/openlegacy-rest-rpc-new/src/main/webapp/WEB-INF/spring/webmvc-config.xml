@@ -10,7 +10,7 @@
 	http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-1.5.xsd">
 
 	<!-- Common controllers for terminal sessions -->
-	<context:component-scan base-package="org.openlegacy.rpc.mvc"
+	<context:component-scan base-package="org.openlegacy.rpc.mvc.rest"
 		use-default-filters="false" resource-pattern="*.class">
 		<context:include-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />
@@ -40,7 +40,10 @@
 	Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />
 
-
+	<mvc:resources cache-period="86400" location="classpath:/themes/" mapping="/app/themes/**"/>
+	<mvc:resources cache-period="86400" location="/app/" mapping="/app/**"/>
+	<mvc:resources cache-period="86400" location="/" mapping="/webapp/**"/>
+	
     <bean
         class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="defaultContentType" value="application/xml" />
