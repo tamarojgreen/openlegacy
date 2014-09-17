@@ -63,6 +63,9 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 		tableDefinition.setScrollable(screenTableAnnotation.scrollable());
 		tableDefinition.setRowsGap(screenTableAnnotation.rowGaps());
 		tableDefinition.setScreensCount(screenTableAnnotation.screensCount());
+		if (screenTableAnnotation.filterExpression().length() > 0) {
+			tableDefinition.setFilterExpression(screenTableAnnotation.filterExpression());
+		}
 
 		tableDefinition.setNextScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.nextScreenAction()));
 		tableDefinition.setPreviousScreenAction(ReflectionUtil.newInstance(screenTableAnnotation.previousScreenAction()));

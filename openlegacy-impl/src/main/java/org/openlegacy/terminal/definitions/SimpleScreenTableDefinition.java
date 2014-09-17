@@ -60,6 +60,8 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 
 	private int screensCount;
 
+	private String filterExpression;
+
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		super(rowClass);
 	}
@@ -256,5 +258,13 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 
 	public List<ScreenTableReferenceDefinition> getTableReferenceDefinitions() {
 		return tableReferenceDefinitions;
+	}
+
+	public String getFilterExpression() {
+		return filterExpression;
+	}
+
+	public void setFilterExpression(String filterExpression) {
+		this.filterExpression = filterExpression;
 	}
 }

@@ -121,6 +121,9 @@
 	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityActionsBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.ScreenBinderLogic" />
 	
+	<!-- ExpressionContext for ScreenFieldsExpressionBinder -->
+	<bean class="org.springframework.expression.spel.standard.SpelExpressionParser"/>
+
 	<bean id="waitConditionFactory" class="org.openlegacy.terminal.support.wait_conditions.DefaultWaitConditionFactory" p:defaultWaitInterval="250" p:defaultWaitTimeout="5000" />
 	
 	<bean id="pageBuilder" class="org.openlegacy.terminal.layout.support.DefaultScreenPageBuilder" />

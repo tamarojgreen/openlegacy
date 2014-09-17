@@ -64,4 +64,11 @@ public @interface ScreenTable {
 	int rowGaps() default 1;
 
 	int screensCount() default 1;
+
+	/**
+	 * A spring expression to define filter on current row
+	 * 
+	 * @return
+	 */
+	String filterExpression() default "";
 }

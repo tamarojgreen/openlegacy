@@ -27,6 +27,9 @@ import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
 import org.openlegacy.utils.ReflectionUtil;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -45,6 +48,9 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 	private FieldFormatter fieldFormatter;
 
 	private final static Log logger = LogFactory.getLog(ScreenEntityTablesBinder.class);
+
+	@Inject
+	private ExpressionParser expressionParser;
 
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {
 
@@ -110,8 +116,16 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 						}
 					}
 				}
+				boolean filter = false;
 				if (allKeysAreEmpty == null || allKeysAreEmpty == false) {
-					rows.add(row);
+					if (tableDefinition.getFilterExpression() != null) {
+						StandardEvaluationContext evaluationContext = new StandardEvaluationContext(row);
+						Expression expr = expressionParser.parseExpression(tableDefinition.getFilterExpression());
+						filter = expr.getValue(evaluationContext, Boolean.class);
+					}
+					if (!filter) {
+						rows.add(row);
+					}
 				}
 			}
 			fieldAccessor.setFieldValue(tableFieldName, rows);

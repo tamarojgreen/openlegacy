@@ -256,4 +256,8 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 	public List<ScreenTableReferenceDefinition> getTableReferenceDefinitions() {
 		return null;
 	}
+
+	public String getFilterExpression() {
+		return null;
+	}
 }

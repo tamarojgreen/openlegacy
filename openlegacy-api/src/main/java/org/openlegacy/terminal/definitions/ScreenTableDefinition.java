@@ -63,6 +63,13 @@ public interface ScreenTableDefinition extends TableDefinition<ScreenColumnDefin
 
 	List<ScreenTableReferenceDefinition> getTableReferenceDefinitions();
 
+	/**
+	 * A spring expression to define filter on current row
+	 * 
+	 * @return
+	 */
+	String getFilterExpression();
+
 	public interface ScreenColumnDefinition extends TableDefinition.ColumnDefinition {
 
 		boolean isSelectionField();
