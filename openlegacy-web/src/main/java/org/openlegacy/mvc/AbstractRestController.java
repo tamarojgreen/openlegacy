@@ -85,6 +85,7 @@ public abstract class AbstractRestController {
 		} catch (RegistryException e) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 		} catch (LoginException e) {
+			getSession().disconnect();
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 		}
 		response.setStatus(HttpServletResponse.SC_OK);
@@ -363,6 +364,7 @@ public abstract class AbstractRestController {
 			LoginObject login = EntitySerializationUtils.deserialize(json, LoginObject.class);
 			getSession().getModule(org.openlegacy.modules.login.Login.class).login(login.getUser(), login.getPassword());
 		} catch (LoginException e) {
+			getSession().disconnect();
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login");
@@ -381,6 +383,7 @@ public abstract class AbstractRestController {
 			LoginObject login = (LoginObject)Unmarshaller.unmarshal(LoginObject.class, inputSource);
 			getSession().getModule(org.openlegacy.modules.login.Login.class).login(login.getUser(), login.getPassword());
 		} catch (LoginException e) {
+			getSession().disconnect();
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login");
