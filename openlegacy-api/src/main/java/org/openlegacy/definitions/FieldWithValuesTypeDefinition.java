@@ -50,4 +50,6 @@ public interface FieldWithValuesTypeDefinition extends FieldTypeDefinition {
 	boolean isAsWindow();
 
 	SessionAction<?> getAutoSubmitAction();
+
+	String getSearchField();
 }

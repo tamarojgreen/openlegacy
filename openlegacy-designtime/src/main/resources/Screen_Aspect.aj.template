@@ -65,6 +65,9 @@ privileged @SuppressWarnings("unused") aspect ${className}_Aspect {
     public Map<Object,Object> ${className}.get${field.name?cap_first}Values(){
     	return ${field.name}Values;
     }
+    public Map<Object,Object> ${className}.get${field.name?cap_first}Values(String text){
+    	return ${field.name}Values;
+    }
 		</#if>
 		<#if field.hasDescription>
     public String  ${className}.get${field.name?cap_first}Description(){

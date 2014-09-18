@@ -34,6 +34,8 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 
 	private TerminalAction autoSubmitAction;
 
+	private String searchField;
+
 	public void setRecordsProvider(RecordsProvider<? extends Session, Object> recordsProvider) {
 		this.recordsProvider = recordsProvider;
 	}
@@ -116,5 +118,13 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 
 	public void setAutoSubmitAction(TerminalAction autoSubmitAction) {
 		this.autoSubmitAction = autoSubmitAction;
+	}
+
+	public String getSearchField() {
+		return searchField;
+	}
+
+	public void setSearchField(String searchField) {
+		this.searchField = searchField;
 	}
 }

@@ -90,6 +90,9 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 		if (fieldValuesAnnotation.displayFieldName().length() > 0) {
 			fieldTypeDefinition.setDisplayFieldName(fieldValuesAnnotation.displayFieldName());
 		}
+		if (fieldValuesAnnotation.searchField().length() > 0) {
+			fieldTypeDefinition.setSearchField(fieldValuesAnnotation.searchField());
+		}
 
 		fieldDefinition.setFieldTypeDefinition(fieldTypeDefinition);
 

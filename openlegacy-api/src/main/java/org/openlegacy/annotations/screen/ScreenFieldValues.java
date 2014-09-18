@@ -61,4 +61,5 @@ public @interface ScreenFieldValues {
 	 */
 	String displayFieldName() default "";
 
+	String searchField() default "";
 }

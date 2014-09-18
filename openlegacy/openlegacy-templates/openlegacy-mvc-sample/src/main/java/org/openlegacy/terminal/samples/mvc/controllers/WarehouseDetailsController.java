@@ -51,7 +51,7 @@ public class WarehouseDetailsController {
 	public String locations(@PathVariable("id") Integer itemNumber, Model uiModel) {
 		return performDrillDownAction(itemNumber, uiModel, "7");
 	}
-	
+
 	private String performDrillDownAction(Integer itemNumber, Model uiModel, String actionValue) {
 		WarehouseDetails WarehouseDetails = terminalSession.getEntity(WarehouseDetails.class, itemNumber);
 		uiModel.addAttribute("warehouseDetails", WarehouseDetails);

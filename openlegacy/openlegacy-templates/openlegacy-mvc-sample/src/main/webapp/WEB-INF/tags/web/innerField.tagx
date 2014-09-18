@@ -111,14 +111,14 @@
 									</c:when>
 									<c:otherwise>
 										<script language="JavaScript" type="text/javascript">
-											require(["dojo/data/ItemFileReadStore","dijit/form/FilteringSelect"]);
+											require(["dojo/store/JsonRest","dijit/form/ComboBox"]);
 										</script>
-										<span data-dojo-type="dojo.data.ItemFileReadStore"
-											data-dojo-props="url:'${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}Values'"
+										<span data-dojo-type="dojo.store.JsonRest"
+											data-dojo-props="target:'${pageContext.request.contextPath}/${definitions.entityClassName}/${fieldDefinition.name}Values',pathAsQueryParam:true,idProperty:'id'"
 											data-dojo-id="${fieldDefinition.name}Values"></span>
 										<input name="${fieldDefinition.name}"
-											data-dojo-type="dijit.form.FilteringSelect"
-											data-dojo-props="store:${fieldDefinition.name}Values, searchAttr:'name', pageSize:100"
+											data-dojo-type="dijit.form.ComboBox"
+											data-dojo-props="store:${fieldDefinition.name}Values, searchAttr:'name', pageSize:100, autocomplete:'true'"
 											style="width: 200px"></input>
 									</c:otherwise>
 								</c:choose>

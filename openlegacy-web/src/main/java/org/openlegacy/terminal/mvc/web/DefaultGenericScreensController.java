@@ -136,11 +136,10 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 					resultEntity.getClass());
 			if (!beforeEntityDefinition.isWindow() && afterEntityDefinition.isWindow()) {
 				urlPrefix = OpenLegacyViewResolver.WINDOW_URL_PREFIX;
-			}
-			else if (beforeEntityDefinition.isWindow() && !afterEntityDefinition.isWindow()) {
+			} else if (beforeEntityDefinition.isWindow() && !afterEntityDefinition.isWindow()) {
 				urlPrefix = MvcConstants.REDIRECT;
-			}
-			else if (!beforeEntityDefinition.isWindow() && !afterEntityDefinition.isWindow() && !beforeEntityDefinition.getEntityName().equals(afterEntityDefinition.getEntityName())) {
+			} else if (!beforeEntityDefinition.isWindow() && !afterEntityDefinition.isWindow()
+					&& !beforeEntityDefinition.getEntityName().equals(afterEntityDefinition.getEntityName())) {
 				urlPrefix = MvcConstants.REDIRECT;
 			}
 		}
@@ -222,19 +221,30 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 	 * @param fieldName
 	 * @return JSON content
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/{screen}/{field}Values", method = RequestMethod.GET, headers = "X-Requested-With=XMLHttpRequest")
 	@ResponseBody
 	public ResponseEntity<String> autoCompleteJson(@PathVariable("screen") String screenEntityName,
-			@PathVariable("field") String fieldName) {
+			@PathVariable("field") String fieldName, @RequestParam(value = "name", required = false) String text) {
 		ScreenEntity screenEntity = (ScreenEntity)getSession().getEntity(screenEntityName);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/text; charset=utf-8");
-		@SuppressWarnings("unchecked")
-		Map<Object, Object> fieldValues = (Map<Object, Object>)ReflectionUtil.invoke(screenEntity,
-				MessageFormat.format("get{0}Values", StringUtils.capitalize(fieldName)));
 
-		String result = JsonSerializationUtil.toDojoFormat(fieldValues);
+		if (text != null) {
+			text = text.replace("*", "");
+		}
+
+		Map<Object, Object> fieldValues = null;
+		if (text != null) {
+			fieldValues = (Map<Object, Object>)ReflectionUtil.invoke(screenEntity,
+					MessageFormat.format("get{0}Values", StringUtils.capitalize(fieldName)), text);
+		} else {
+			fieldValues = (Map<Object, Object>)ReflectionUtil.invoke(screenEntity,
+					MessageFormat.format("get{0}Values", StringUtils.capitalize(fieldName)));
+		}
+
+		String result = JsonSerializationUtil.toDojoFormat(fieldValues, text);
 		return new ResponseEntity<String>(result, headers, HttpStatus.OK);
 	}
 

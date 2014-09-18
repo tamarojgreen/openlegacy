@@ -26,6 +26,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 privileged @SuppressWarnings("unused") aspect WarehouseDetailsController_Aspect {
@@ -143,14 +144,15 @@ privileged @SuppressWarnings("unused") aspect WarehouseDetailsController_Aspect 
 	// handle ajax request for warehouseType field
 	@RequestMapping(value="/warehouseTypeValues", method = RequestMethod.GET)
     @ResponseBody
-	public ResponseEntity<String> WarehouseDetailsController.WarehouseTypeJson() {
+	public ResponseEntity<String> WarehouseDetailsController.WarehouseTypeJson(@RequestParam(value = "name") String name) {
+		System.out.println("Text that should be autocompleted: " + name);
     	WarehouseDetails warehouseDetails = terminalSession.getEntity(WarehouseDetails.class);
     	
 		HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/text; charset=utf-8");
 		Map<Object,Object> warehouseTypeValues = warehouseDetails.getWarehouseTypeValues();
 		
-		String result = JsonSerializationUtil.toDojoFormat(warehouseTypeValues);
+		String result = JsonSerializationUtil.toDojoFormat(warehouseTypeValues, name);
         return new ResponseEntity<String>(result, headers, HttpStatus.OK);
     }
 	
