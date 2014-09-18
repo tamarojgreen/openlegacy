@@ -36,7 +36,6 @@ import org.openlegacy.terminal.support.binders.MultyScreenTableBindUtil;
 import org.openlegacy.terminal.utils.ScreenEntityUtils;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -155,8 +154,8 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Override
 	@RequestMapping(value = "/menu", method = RequestMethod.GET, consumes = { JSON, XML })
-	public Object getMenu(ModelMap model) {
-		return super.getMenu(model);
+	public Object getMenu() {
+		return super.getMenu();
 	}
 
 	@Override
@@ -246,21 +245,23 @@ public class DefaultScreensRestController extends AbstractRestController {
 
 	@Override
 	@RequestMapping(value = "/login", consumes = { JSON, XML })
-	public void login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
+	public Object login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
 			throws IOException {
 		super.login(user, password, response);
+		return getMenu();
 	}
 
 	@Override
 	@RequestMapping(value = "/login", consumes = { JSON }, method = RequestMethod.POST)
-	public void loginPostJson(@RequestBody String json, HttpServletResponse response) throws IOException {
+	public Object loginPostJson(@RequestBody String json, HttpServletResponse response) throws IOException {
 		super.loginPostJson(json, response);
+		return getMenu();
 	}
 
 	@Override
 	@RequestMapping(value = "/login", consumes = { XML }, method = RequestMethod.POST)
-	public void loginPostXml(@RequestBody String xml, HttpServletResponse response) throws IOException {
-		super.loginPostXml(xml, response);
+	public Object loginPostXml(@RequestBody String xml, HttpServletResponse response) throws IOException {
+		return super.loginPostXml(xml, response);
 	}
 
 	@RequestMapping(value = "/emulation", consumes = { JSON, XML })

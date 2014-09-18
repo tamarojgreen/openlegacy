@@ -23,15 +23,17 @@
 
 function loadData(data){
 	if (dojo.byId("requestType").value == "json"){
-		if (data != null && data.model != null){
+		if (data != null){
 			dojo.byId('result').value = JSON.stringify(data);
-			for(var i=0;i<data.model.entity.actions.length;i++){
-				var option=document.createElement("option");
-				option.text = data.model.entity.actions[i].alias;
-				dojo.byId("actionType").add(option);
+			if (data.model != null){
+				for(var i=0;i<data.model.entity.actions.length;i++){
+					var option=document.createElement("option");
+					option.text = data.model.entity.actions[i].alias;
+					dojo.byId("actionType").add(option);
+				}
+				data.model.entity.actions = null;
+				dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
 			}
-			data.model.entity.actions = null;
-			dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
 		}
 		else{
 			dojo.byId('result').value = "OK"; 
@@ -70,7 +72,9 @@ function get(){
 			load : function(data) {
 				loadData(data);
 				dojo.byId("postRequestType").value = dojo.byId("requestType").value;
-				dojo.byId("postUrl").value = data.model.entityName;
+				if (data.model != null){
+					dojo.byId("postUrl").value = data.model.entityName;
+				}
 				
 				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date())); 
 			},
@@ -100,7 +104,7 @@ function post(){
 			url : url,
 			load : function(data) {
 				dojo.byId("sessionImage").setAttribute("src","sessionViewer/image?ts=" + (new Date()));
-				data = JSON.parse(data)
+				data = JSON.parse(data);
 				loadData(data);
 				dojo.byId("getUrl").value = data.model.entityName;
 			},

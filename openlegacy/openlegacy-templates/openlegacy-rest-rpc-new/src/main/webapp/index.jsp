@@ -20,6 +20,42 @@
         async: false
     };
 
+    function loadData(data){
+    	if (dojo.byId("requestType").value == "json"){
+    		if (data != null){
+    			dojo.byId('result').value = JSON.stringify(data);
+    			if (data.model != null){
+    				for(var i=0;i<data.model.entity.actions.length;i++){
+    					var option=document.createElement("option");
+    					option.text = data.model.entity.actions[i].alias;
+    					dojo.byId("actionType").add(option);
+    				}
+    				data.model.entity.actions = null;
+    				dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
+    			}
+    		}
+    		else{
+    			dojo.byId('result').value = "OK"; 
+    		}
+    	}
+    	else{
+    		if (data != ""){
+    			dojo.byId('result').value = data;
+    			var start = data.indexOf("<entity");
+    			dojo.byId('postData').innerHTML = data.substr(start,data.indexOf("</entity>")+9-start);
+    			var actions = data.match(/<alias>\w+<\/alias>/g);
+    			for(var i=0;i<actions.length;i++){
+    				var option=document.createElement("option");
+    				option.text = actions[i].substr(7,actions[i].indexOf("</")-7);
+    				dojo.byId("actionType").add(option);
+    			}
+    		}
+    		else{
+    			dojo.byId('result').value = "OK"; 
+    		}
+    	}
+
+    }
 function get(){
 	var requestType = "application/" + dojo.byId('requestType').value;
 	var url = location.href + dojo.byId('getUrl').value;
@@ -29,41 +65,7 @@ function get(){
 			headers: { "Content-Type": requestType, "Accept": requestType },
 			url : url,
 			load : function(data) {
-				if (dojo.byId("requestType").value == "json"){
-					if (data != null && data.model != null){
-						dojo.byId('result').value = JSON.stringify(data);
-						if (data.model.entity.actions != null){
-							for(var i=0;i<data.model.entity.actions.length;i++){
-								var option=document.createElement("option");
-								option.text = data.model.entity.actions[i].alias;
-								dojo.byId("actionType").add(option);
-							}
-						}
-						data.model.entity.actions = null;
-						dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
-					}
-					else{
-						dojo.byId('result').value = "OK"; 
-					}
-				}
-				else{
-					if (data != ""){
-						dojo.byId('result').value = data;
-						var start = data.indexOf("<entity");
-						dojo.byId('postData').innerHTML = data.substr(start,data.indexOf("</entity>")+9-start);
-						var actions = data.match(/<alias>\w+<\/alias>/g);
-						if (actions != null){
-							for(var i=0;i<actions.length;i++){
-								var option=document.createElement("option");
-								option.text = actions[i].substr(7,actions[i].indexOf("</")-7);
-								dojo.byId("actionType").add(option);
-							}
-						}
-					}
-					else{
-						dojo.byId('result').value = "OK"; 
-					}
-				}
+				loadData(data);
 				dojo.byId("postRequestType").value = dojo.byId("requestType").value;
 				dojo.byId("postUrl").value = dojo.byId('getUrl').value;
 				
@@ -87,6 +89,8 @@ function post(){
 			headers: { "Accept": requestType, "Content-Type": requestType },
 			url : url,
 			load : function(data) {
+				data = JSON.parse(data);
+				loadData(data);
 			},
 			error : function(e) {
 				alert(e);

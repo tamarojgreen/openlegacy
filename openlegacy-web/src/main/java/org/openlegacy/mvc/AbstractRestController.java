@@ -28,7 +28,6 @@ import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.xml.sax.InputSource;
 
@@ -70,7 +69,7 @@ public abstract class AbstractRestController {
 	 */
 	private boolean enableGetLogin = true;
 
-	public void login(String user, String password, HttpServletResponse response) throws IOException {
+	public Object login(String user, String password, HttpServletResponse response) throws IOException {
 		if (!enableLogin || !enableGetLogin) {
 			throw (new UnsupportedOperationException("/login is not support"));
 		}
@@ -89,6 +88,7 @@ public abstract class AbstractRestController {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 		}
 		response.setStatus(HttpServletResponse.SC_OK);
+		return getMenu();
 
 	}
 
@@ -169,7 +169,7 @@ public abstract class AbstractRestController {
 
 	protected abstract List<ActionDefinition> getActions(Object entity);
 
-	protected Object getMenu(ModelMap model) {
+	protected Object getMenu() {
 		Menu menuModule = getSession().getModule(Menu.class);
 		if (menuModule == null) {
 			return null;
@@ -354,7 +354,7 @@ public abstract class AbstractRestController {
 
 	}
 
-	public void loginPostJson(String json, HttpServletResponse response) throws IOException {
+	public Object loginPostJson(String json, HttpServletResponse response) throws IOException {
 		json = decode(json, "{");
 		if (!enableLogin) {
 			throw (new UnsupportedOperationException("/login is not support"));
@@ -370,9 +370,11 @@ public abstract class AbstractRestController {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login");
 			logger.fatal("Invalid login", e);
 		}
+
+		return getMenu();
 	}
 
-	public void loginPostXml(String xml, HttpServletResponse response) throws IOException {
+	public Object loginPostXml(String xml, HttpServletResponse response) throws IOException {
 		xml = decode(xml, "{");
 		if (!enableLogin) {
 			throw (new UnsupportedOperationException("/login is not support"));
@@ -389,6 +391,7 @@ public abstract class AbstractRestController {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid login");
 			logger.fatal("Invalid login", e);
 		}
+		return getMenu();
 	}
 
 	public void setRequiresLogin(boolean requiresLogin) {
