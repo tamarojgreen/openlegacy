@@ -10,7 +10,7 @@
 		'loginController',
 		function($scope, $location, $olHttp, $rootScope) {
 			if ($.cookie('loggedInUser') != undefined) {
-				$location.path("/Items");
+				$location.path("/menu");
 			}
 			$scope.login = function(username, password) {				
 				
@@ -22,7 +22,7 @@
 							
 							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
 							$rootScope.$broadcast("olApp:login:authorized", username);
-							$location.path("/Items");							
+							$location.path("/menu");							
 						}
 					);
 			};		
@@ -58,6 +58,14 @@
 			};
 		
 	});
+	
+	module = module.controller(
+		'menuCtrl',
+		function($scope, flatMenu) {
+			flatMenu(function(data) {					
+				$scope.menuArray = data;
+			});
+		});
 
 	// template for all entities	
 	<#if entitiesDefinitions??>	
