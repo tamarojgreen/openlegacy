@@ -23,126 +23,53 @@
 	</style>
 	<link type="text/css" rel="stylesheet" href="css/project.css" />
 	<link ng-href="themes/{{theme}}/{{theme}}.css" rel="stylesheet">
-</head>
-<body class="base" ng-class="theme">
-<<<<<<< HEAD
-	<!-- <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<div class="navbar-header">
-            	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">openLegacy</a>
-            </div>
-			<div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav navbar-right" ng-show="loggedInUser">
-					<li ng-repeat="subMenu in menu.menuItems"><a href="#/{{subMenu.targetEntityName}}">{{subMenu.displayName}}</a></li>
-					<li class="active"><a href="#">Home</a></li>                      
-				</ul>
-				<ul class="nav navbar-nav navbar-left">
-					<li><a href="#/logoff">Logoff</a></li>
-				</ul>
-			</div>
-		</div>
-=======
-	<!-- header -->
-	<div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="HeaderCtrl">
-	    <div class="container-fluid">
-	        <div class="navbar-header">
-	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-navbar-collapse">
-	                <span class="sr-only">Toggle navigation</span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	            </button>
-	            <a class="navbar-brand ol-brand" href="#">OpenLegacy.org</a>
-	        </div>
-	        <div class="navbar-collapse collapse ol-navbar-collapse">
-	            <ul class="nav navbar-nav navbar-right">
-	                
 	
-	                
-	                <li><a href ng-click="changeTheme()"><span class="glyphicon glyphicon-eye-open"></span> Theme</a></li>
-	                <li><a href="#"><span class="glyphicon glyphicon-phone"></span> Mobile</a></li>
-	                <li><a href="#"><span class="glyphicon glyphicon-cog"></span> MVC</a></li>
-	                
-	                <li class="dropdown" ng-show="username">
-	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>
-	                    	
-	                    	<span ng-bind="username"></span> 
-	                    	<b class="caret"></b>
-	                    </a>
-	                    <ul class="dropdown-menu">
-	                        <li><a href="" ng-click="logout()"><span class="glyphicon glyphicon-off clickable"></span> Logout</a></li>
-	                        <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
-	                    </ul>
-	                </li> 
-	                
-	            </ul>
-	        </div>
-	    </div>
->>>>>>> refs/remotes/origin/FB_585_GEN_VIEW_JS_REST_RPC_NEW
-	</div>
-<<<<<<< HEAD
-	<div class="container">
-		<div ng-view="true"></div>
-	</div> -->
-	
-	<!-- header -->
-	<div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="HeaderCtrl">
-	    <div class="container-fluid">
-	        <div class="navbar-header">
-	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-navbar-collapse">
-	                <span class="sr-only">Toggle navigation</span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	                <span class="icon-bar"></span>
-	            </button>
-	            <a class="navbar-brand ol-brand" href="#">OpenLegacy.org</a>
-	        </div>
-	        <div class="navbar-collapse collapse ol-navbar-collapse">
-	            <ul class="nav navbar-nav navbar-right">
-	                
-	
-	                
-	                <li><a href ng-click="changeTheme()"><span class="glyphicon glyphicon-eye-open"></span> Theme</a></li>
-	                <li><a href="#"><span class="glyphicon glyphicon-phone"></span> Mobile</a></li>
-	                <li><a href="#"><span class="glyphicon glyphicon-cog"></span> MVC</a></li>
-	                
-	                <li class="dropdown" ng-show="username">
-	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>
-	                    	
-	                    	<span ng-bind="username"></span> 
-	                    	<b class="caret"></b>
-	                    </a>
-	                    <ul class="dropdown-menu">
-	                        <li><a href="" ng-click="logout()"><span class="glyphicon glyphicon-off clickable"></span> Logout</a></li>
-	                        <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
-	                    </ul>
-	                </li> 
-	                
-	            </ul>
-	        </div>
-	    </div>
-	</div>
-=======
->>>>>>> refs/remotes/origin/FB_585_GEN_VIEW_JS_REST_RPC_NEW
-	<!-- /header --> 
-	<div class="main" ng-view="true" ng-cloak></div>
-	
-</body>
-
-
 	<script src="js/jquery-1.10.2.min.js"></script>
 	<script src="js/angular-1.0.7/angular.min.js"></script>
 	<script src="js/angular-1.0.7/angular-cookies.min.js"></script>
 	<script src="bootstrap/js/bootstrap.js"></script>
+	<script src="lib/jquery.cookie.js"></script>
 	<script src="js/app/app.js_ng" type="text/javascript"></script>
 	<script src="js/app/controllers.js_ng" type="text/javascript"></script>
 	<script src="js/app/services.js" type="text/javascript"></script>
 	<script src="js/app/config.js" type="text/javascript"></script>
+</head>
+<body class="base" ng-class="theme">
+
+	<!-- header -->
+	<div class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="HeaderCtrl">
+	    <div class="container-fluid">
+	        <div class="navbar-header">
+	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-navbar-collapse">
+	                <span class="sr-only">Toggle navigation</span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
+	            <a class="navbar-brand ol-brand" href="#">OpenLegacy.org</a>
+	        </div>
+	        <div class="navbar-collapse collapse ol-navbar-collapse">
+	            <ul class="nav navbar-nav navbar-right">
+	                
+	                <li><a href ng-click="changeTheme()"><span class="glyphicon glyphicon-eye-open"></span> Theme</a></li>	                
+	                
+	                <li class="dropdown" ng-show="username">
+	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>
+	                    	
+	                    	<span ng-bind="username"></span> 
+	                    	<b class="caret"></b>
+	                    </a>
+	                    <ul class="dropdown-menu">
+	                        <li><a href="" ng-click="logout()"><span class="glyphicon glyphicon-off clickable"></span> Logout</a></li>
+	                        <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>
+	                    </ul>
+	                </li> 
+	                
+	            </ul>
+	        </div>
+	    </div>
+	</div>
+	<!-- /header --> 
+	<div class="main" ng-view="true" ng-cloak></div>
+	
 </body>
-</html>

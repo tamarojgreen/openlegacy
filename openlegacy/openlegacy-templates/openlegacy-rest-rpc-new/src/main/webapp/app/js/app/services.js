@@ -86,29 +86,29 @@
 			});
 		};
 	})
-	.factory('$themeService', ['$cookies', '$rootScope', function($cookies, $rootScope) {
+	.factory('$themeService', ['$rootScope', function($rootScope) {
 		return {
 			'changeTheme': function() {
 				var themes = this.getThemeList();
-				if ($cookies.ol_theme == undefined) {
-					$cookies.ol_theme = themes[0];
+				if ($.cookie('ol_theme') == undefined) {
+					$.cookie('ol_theme', themes[0]);
 				}
-				var index = themes.indexOf($cookies.ol_theme);
+				var index = themes.indexOf($.cookie('ol_theme'));
 				if (themes.length == index + 1 ) {
-					$cookies.ol_theme = themes[0];				  
+					$.cookie('ol_theme', themes[0]);				  
 				} else {
-					$cookies.ol_theme = themes[index + 1];			
+					$.cookie('ol_theme', themes[index + 1]);			
 				} 
 				
-				$rootScope.theme = $cookies.ol_theme;
+				$rootScope.theme = $.cookie('ol_theme');
 			},
 			
 			'getCurrentTheme': function() {				
-				if ($cookies.ol_theme == undefined) {
-					$cookies.ol_theme = this.getThemeList()[0];
+				if ($.cookie('ol_theme') == undefined) {
+					$.cookie('ol_theme', this.getThemeList()[0]);					
 					return this.getThemeList()[0];
-				} else {
-					return $cookies.ol_theme;
+				} else {					
+					return $.cookie('ol_theme');
 				}
 			},
 			
