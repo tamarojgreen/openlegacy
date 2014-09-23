@@ -243,6 +243,11 @@ public class DefaultScreensRestController extends AbstractRestController {
 				response);
 	}
 
+	@RequestMapping(value = "/sequence", method = RequestMethod.GET, consumes = { JSON, XML })
+	public Object getSequence(HttpServletResponse response) throws IOException {
+		return terminalSession.getSequence();
+	}
+
 	@Override
 	@RequestMapping(value = "/login", consumes = { JSON, XML })
 	public Object login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
