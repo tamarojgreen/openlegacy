@@ -12,7 +12,7 @@
 	
     <context:property-placeholder location="classpath*:/*.properties"/>
 	
-	<import resource="classpath:/META-INF/openlegacy-rpc-basic-context.xml" /> 
+	<import resource="classpath*:/META-INF/openlegacy-rpc-webenabling-context.xml" /> 
 
 	<bean id="openLegacyWebProperties" class="org.openlegacy.mvc.SimpleOpenLegacyWebProperties" />
 	

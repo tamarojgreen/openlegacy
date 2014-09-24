@@ -15,10 +15,13 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.modules.trail.TrailUtil;
 import org.openlegacy.mvc.AbstractRestController;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
+import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.modules.table.RpcTableUtil;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.rpc.utils.RpcEntityUtils;
 import org.openlegacy.utils.ReflectionUtil;
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,6 +66,9 @@ public class DefaultRpcRestController extends AbstractRestController {
 
 	@Inject
 	private TrailUtil trailUtil;
+
+	@Inject
+	private TableWriter tableWriter;
 
 	@Override
 	protected Session getSession() {
@@ -101,14 +108,14 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityJson(entityName, action, false, json, response);
 	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityJsonWithKey(entityName, key, action, false, json, response);
 	}
 
@@ -116,7 +123,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -124,7 +131,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 
@@ -174,4 +181,16 @@ public class DefaultRpcRestController extends AbstractRestController {
 		return getEntitiesRegistry().get(entity.getClass()).getActions();
 	}
 
+	// export to excel
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/{entity}/excel", method = RequestMethod.GET)
+	public void excel(@PathVariable("entity") String entityName, HttpServletResponse response) throws IOException {
+		RpcEntity rpcEntity = (RpcEntity)getSession().getEntity(entityName); // should be dynamic from controller
+		RpcEntityDefinition rpcEntityDefinition = rpcEntitiesRegistry.get(rpcEntity.getClass());
+		List<? extends Object> parts = RpcTableUtil.findTopPartList(rpcEntity, rpcEntityDefinition);
+
+		response.setContentType("application/vnd.ms-excel");
+		response.addHeader("Content-Disposition", MessageFormat.format("attachment; filename=\"{0}.xls\"", entityName));
+		tableWriter.writeTable(parts, null, response.getOutputStream());
+	}
 }

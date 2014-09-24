@@ -16,6 +16,7 @@ import org.openlegacy.definitions.TableDefinition.ColumnDefinition;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.utils.DomUtils;
+import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.TypesUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -50,7 +51,13 @@ public class DefaultHtmlTableWriter implements TableWriter {
 			for (PropertyDescriptor propertyDescriptor : descriptors) {
 				if (TypesUtil.isPrimitive(propertyDescriptor.getPropertyType())) {
 					Element headerTag = createTag(rowTag, HtmlConstants.TH);
-					String displayName = tableDefinition.getColumnDefinition(propertyDescriptor.getName()).getDisplayName();
+					String displayName = "";
+					if (tableDefinition == null) {
+						displayName = StringUtil.toDisplayName(propertyDescriptor.getName());
+					} else {
+						displayName = tableDefinition.getColumnDefinition(propertyDescriptor.getName()).getDisplayName();
+					}
+
 					setCellValue(headerTag, displayName);
 				}
 

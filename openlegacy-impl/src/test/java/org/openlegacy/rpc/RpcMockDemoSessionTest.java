@@ -2,16 +2,18 @@ package org.openlegacy.rpc;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.Snapshot;
 import org.openlegacy.modules.trail.SessionTrail;
 import org.openlegacy.modules.trail.Trail;
 import org.openlegacy.modules.trail.TrailWriter;
+import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.mock.ItemDetails;
 import org.openlegacy.rpc.definitions.mock.Items;
 import org.openlegacy.rpc.definitions.mock.Items.InnerRecord;
+import org.openlegacy.rpc.modules.table.RpcTableUtil;
+import org.openlegacy.rpc.services.RpcEntitiesRegistry;
 import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.StringUtil;
 import org.springframework.context.ApplicationContext;
@@ -89,13 +91,12 @@ public class RpcMockDemoSessionTest {
 
 	}
 
-	@Ignore
 	@Test
 	public void rpcMockReconnect() {
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
 		Items items = rpcSession.getEntity(Items.class);
 		items = rpcSession.doAction(RpcActions.READ(), items);
-		ItemDetails itemDetails = rpcSession.getEntity(ItemDetails.class);
+		ItemDetails itemDetails = rpcSession.getEntity(ItemDetails.class, 1000);
 		itemDetails = rpcSession.doAction(RpcActions.READ(), itemDetails);
 		rpcSession.disconnect();
 		rpcSession.login("", "");
@@ -103,4 +104,16 @@ public class RpcMockDemoSessionTest {
 		items = rpcSession.doAction(RpcActions.READ(), items);
 
 	}
+
+	@Test
+	public void rpcTableTest() {
+		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);
+		RpcEntitiesRegistry registry = applicationContext.getBean(RpcEntitiesRegistry.class);
+		RpcEntityDefinition rpcEntityDefinition = registry.get("Items");
+		RpcEntity rpcEntity = (RpcEntity)rpcSession.getEntity("Items");
+		List<?> parts = RpcTableUtil.findTopPartList(rpcEntity, rpcEntityDefinition);
+		rpcSession.disconnect();
+
+	}
+
 }
