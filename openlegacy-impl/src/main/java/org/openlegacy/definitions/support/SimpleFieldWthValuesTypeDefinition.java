@@ -33,6 +33,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 	private boolean asWindow;
 
 	private TerminalAction autoSubmitAction;
+	private String autoSubmitActionName;
 
 	private String searchField;
 
@@ -127,4 +128,16 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 	public void setSearchField(String searchField) {
 		this.searchField = searchField;
 	}
+
+	public String getAutoSubmitActionName() {
+		if (autoSubmitActionName == null && autoSubmitAction != null) {
+			autoSubmitActionName = autoSubmitAction.getClass().getSimpleName();
+		}
+		return autoSubmitActionName;
+	}
+
+	public void setAutoSubmitActionName(String autoSubmitActionName) {
+		this.autoSubmitActionName = autoSubmitActionName;
+	}
+
 }

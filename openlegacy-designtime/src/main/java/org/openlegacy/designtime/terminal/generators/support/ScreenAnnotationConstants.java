@@ -69,6 +69,9 @@ public class ScreenAnnotationConstants {
 	public static final String SOURCE_SCREEN_ENTITY = "sourceScreenEntity";
 	public static final String COLLECT_ALL = "collectAll";
 	public static final String AS_WINDOW = "asWindow";
+	public static final String AUTO_SUBMIT_ACTION = "autoSubmitAction";
+	public static final String DISPLAY_FIELD_NAME = "displayFieldName";
+	public static final String SEARCH_FIELD = "searchField";
 
 	// @TableAction
 	public static final String ACTION_VALUE = "actionValue";

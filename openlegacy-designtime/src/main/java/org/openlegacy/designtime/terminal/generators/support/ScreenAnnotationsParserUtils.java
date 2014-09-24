@@ -12,6 +12,7 @@ package org.openlegacy.designtime.terminal.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.annotations.screen.Action.ActionType;
 import org.openlegacy.annotations.screen.AssignedField;
 import org.openlegacy.annotations.screen.Identifier;
@@ -51,6 +52,9 @@ public class ScreenAnnotationsParserUtils {
 		String sourceEntityClassName = StringUtil.toClassName(sourceScreenClassValue);
 		String collectAll = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.COLLECT_ALL);
 		String asWindow = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.AS_WINDOW);
+		String autoSubmitActionValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.AUTO_SUBMIT_ACTION);
+		String displayFieldNameValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.DISPLAY_FIELD_NAME);
+		String searchFieldValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.SEARCH_FIELD);
 
 		SimpleFieldWthValuesTypeDefinition fieldDefinition = new SimpleFieldWthValuesTypeDefinition();
 		fieldDefinition.setSourceEntityClassName(sourceEntityClassName);
@@ -60,6 +64,12 @@ public class ScreenAnnotationsParserUtils {
 		if (StringConstants.TRUE.equals((asWindow))) {
 			fieldDefinition.setAsWindow(true);
 		}
+		if (!StringUtils.isEmpty(autoSubmitActionValue)) {
+			fieldDefinition.setAutoSubmitActionName(StringUtil.toClassName(autoSubmitActionValue));
+		}
+		fieldDefinition.setDisplayFieldName(displayFieldNameValue);
+		fieldDefinition.setSearchField(searchFieldValue);
+
 		return fieldDefinition;
 	}
 
