@@ -33,6 +33,11 @@ privileged @SuppressWarnings("unused") aspect ItemsListRow_Aspect {
     }
     
 
+    public String ItemsListRow.getItemCategory(){
+    	return this.itemCategory;
+    }
+    
+
 
     public int ItemsListRow.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);
