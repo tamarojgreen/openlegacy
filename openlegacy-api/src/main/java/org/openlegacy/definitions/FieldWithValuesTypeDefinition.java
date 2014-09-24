@@ -52,4 +52,9 @@ public interface FieldWithValuesTypeDefinition extends FieldTypeDefinition {
 	SessionAction<?> getAutoSubmitAction();
 
 	String getSearchField();
+
+	/**
+	 * Used for design-time purposes
+	 */
+	String getAutoSubmitActionName();
 }
