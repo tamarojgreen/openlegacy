@@ -1,0 +1,44 @@
+<terminal-trail>
+	<snapshot type="INCOMING" sequence="1">
+	    <cursor row="6" column="53" />
+	    <row rowNumber="1">
+	        <field value="Expression Screen title" column="25" />
+	    </row>
+        <row rowNumber="6">
+            <field column="8" value="Total A" length="8"/>
+            <field column="17" value="10000" length="5" editable="false" color="WHITE" uppercase="true"/>
+        </row>
+        <row rowNumber="7">
+            <field column="8" value="Total B" length="8"/>
+            <field column="17" value="5555" length="5" editable="false" color="WHITE" uppercase="true"/>
+        </row>
+	    <row rowNumber="10">
+			<field column="10" value="Some Error" color="RED" />
+         </row>
+	    <row rowNumber="11">
+            <field column="10" value="Message: Some Error occurred!"/>
+        </row>
+	    <size rows="24" columns="80"/>
+	</snapshot>
+	<snapshot type="OUTGOING" sequence="2">
+	    <cursor row="6" column="53" />
+	    <row rowNumber="1">
+	        <field value="Expression Screen title" column="25" />
+	    </row>
+        <row rowNumber="6">
+            <field column="8" value="Total A" length="8"/>
+            <field column="17" value="10000" length="5" editable="false" color="WHITE" uppercase="true"/>
+        </row>
+        <row rowNumber="7">
+            <field column="8" value="Total B" length="8"/>
+            <field column="17" value="5555" length="5" editable="false" color="WHITE" uppercase="true"/>
+        </row>
+	    <row rowNumber="10">
+			<field column="10" value="OK"/>
+         </row>
+	    <row rowNumber="11">
+            <field column="10" value=""/>
+        </row>
+    	<size rows="24" columns="80"/>	
+	</snapshot>
+</terminal-trail>

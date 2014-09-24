@@ -52,12 +52,12 @@
     </row>
     <row rowNumber="10">
         <field column="1" value="  "/>
-        <field column="4" value=" "/>
+        <field column="4" length="1" editable="true" type="java.lang.Integer"/>
         <field column="6" value="    "/>
-        <field column="11" value="          "/>
+        <field column="11" value="----------"/>
         <field column="22" value=" "/>
-        <field column="24" value="                                        "/>
-        <field column="65" value="               "/>
+        <field column="24" value="---------------------------------------"/>
+        <field column="65" value="---------------"/>
     </row>
     <row rowNumber="11">
         <field column="1" value="  "/>

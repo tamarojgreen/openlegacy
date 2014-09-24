@@ -26,13 +26,17 @@ import org.openlegacy.terminal.definitions.ScreenTableDefinition.ScreenColumnDef
 import org.openlegacy.terminal.providers.TablesDefinitionProvider;
 import org.openlegacy.terminal.support.SimpleTerminalPosition;
 import org.openlegacy.terminal.utils.SimpleScreenPojoFieldAccessor;
+import org.openlegacy.utils.ExpressionUtils;
 import org.openlegacy.utils.ReflectionUtil;
+import org.openlegacy.utils.StringUtil;
+import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -82,10 +86,11 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 				Boolean allKeysAreEmpty = null;
 
 				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
-					TerminalPosition position = SimpleTerminalPosition.newInstance(currentRow + columnDefinition.getRowsOffset(),
-							columnDefinition.getStartColumn());
+					final TerminalPosition position = SimpleTerminalPosition.newInstance(
+							currentRow + columnDefinition.getRowsOffset(), columnDefinition.getStartColumn());
+					final TerminalField terminalField = terminalSnapshot.getField(position);
 					if (columnDefinition.getAttribute() == FieldAttributeType.Value) {
-						String cellText = getCellContent(terminalSnapshot, position, columnDefinition);
+						final String cellText = getCellContent(terminalSnapshot, position, columnDefinition);
 						if (columnDefinition.isKey()) {
 							if (cellText.length() == 0) {
 								if (logger.isDebugEnabled()) {
@@ -98,17 +103,34 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 								allKeysAreEmpty = false;
 							}
 						}
-						rowAccessor.setFieldValue(columnDefinition.getName(), cellText);
-
-						TerminalField terminalField = terminalSnapshot.getField(position);
+						final String expression = columnDefinition.getExpression();
+						if (!StringUtil.isEmpty(expression)) {
+							if (ExpressionUtils.isRegularExpression(expression)) {
+								final Object value = ExpressionUtils.applyRegularExpression(expression.trim(), cellText);
+								rowAccessor.setFieldValue(columnDefinition.getName(), value);
+							} else {
+								final Expression expr = expressionParser.parseExpression(expression);
+								final Map<String, Object> expressionVars = new HashMap<String, Object>();
+								expressionVars.put("row", row);
+								expressionVars.put("field", terminalField);
+								expressionVars.put("entity", screenEntity);
+								expressionVars.put("cellText", cellText);
+								final EvaluationContext evaluationContext = ExpressionUtils.createEvaluationContext(row,
+										expressionVars);
+								final Object value = expr.getValue(evaluationContext, columnDefinition.getJavaType());
+								rowAccessor.setFieldValue(columnDefinition.getName(), value);
+							}
+						} else {
+							rowAccessor.setFieldValue(columnDefinition.getName(), cellText);
+						}
 						rowAccessor.setTerminalField(columnDefinition.getName(), terminalField);
 					} else {
-						TerminalField terminalField = terminalSnapshot.getField(position);
 						if (terminalField == null) {
 							logger.warn(MessageFormat.format("Unable to find field in position {0} for table:{1}", position,
 									tableDefinition.getTableEntityName()));
 							break;
 						}
+
 						if (columnDefinition.getAttribute() == FieldAttributeType.Editable) {
 							rowAccessor.setFieldValue(columnDefinition.getName(), terminalField.isEditable());
 						} else if (columnDefinition.getAttribute() == FieldAttributeType.Color) {
@@ -163,7 +185,8 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 				List<ScreenColumnDefinition> columnDefinitions = tableDefinition.getColumnDefinitions();
 				ScreenPojoFieldAccessor rowAccessor = new SimpleScreenPojoFieldAccessor(row);
 				for (ScreenColumnDefinition columnDefinition : columnDefinitions) {
-					if (columnDefinition.isEditable() && columnDefinition.getAttribute() == FieldAttributeType.Value) {
+					if (columnDefinition.isEditable() && columnDefinition.getAttribute() == FieldAttributeType.Value
+							&& StringUtil.isEmpty(columnDefinition.getExpression())) {
 						Object value = rowAccessor.getFieldValue(columnDefinition.getName());
 						if (value == null) {
 							continue;

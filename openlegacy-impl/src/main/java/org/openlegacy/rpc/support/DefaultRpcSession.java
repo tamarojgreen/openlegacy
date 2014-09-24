@@ -14,6 +14,7 @@ import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.ApplicationConnection;
 import org.openlegacy.ApplicationConnectionListener;
+import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
@@ -33,6 +34,7 @@ import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.actions.RpcAction;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.services.RpcEntitiesRegistry;
+import org.openlegacy.rpc.support.binders.RpcFieldsExpressionBinder;
 import org.openlegacy.rpc.utils.HierarchyRpcPojoFieldAccessor;
 import org.openlegacy.rpc.utils.SimpleHierarchyRpcPojoFieldAccessor;
 import org.openlegacy.support.AbstractSession;
@@ -41,6 +43,7 @@ import org.openlegacy.utils.StringUtil;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -61,6 +64,9 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 
 	@Inject
 	private List<RpcFieldConverter> rpcFieldConverters;
+
+	@Inject
+	private RpcFieldsExpressionBinder rpcExpressionBinder;
 
 	public Object getDelegate() {
 		return rpcConnection;
@@ -148,6 +154,17 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 	final protected RpcResult invoke(SimpleRpcInvokeAction rpcAction, String entityName) {
 		// clone to avoid modifications by connection of fields collection
 		SimpleRpcInvokeAction clonedRpcAction = (SimpleRpcInvokeAction)SerializationUtils.clone(rpcAction);
+
+		// Determine if any fields need to be removed.
+		// Some calculated fields do not have a corresponding field on the actual RPC Call
+		final List<RpcField> fieldsToRemove = new ArrayList<RpcField>();
+		for (RpcField rpcField : rpcAction.getFields()) {
+			if (rpcField.getDirection() == Direction.NONE) {
+				fieldsToRemove.add(rpcField);
+			}
+		}
+		rpcAction.getFields().removeAll(fieldsToRemove);
+
 		RpcResult rpcResult = rpcConnection.invoke(rpcAction);
 		notifyModulesAfterSend(clonedRpcAction, rpcResult, entityName);
 		return rpcResult;
@@ -186,7 +203,6 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateAction(rpcAction, rpcEntity);
 		}
-
 	}
 
 	final protected void populateEntity(RpcEntity rpcEntity, RpcEntityDefinition rpcDefinition, RpcResult rpcResult) {
@@ -194,6 +210,7 @@ public class DefaultRpcSession extends AbstractSession implements RpcSession {
 		for (RpcEntityBinder rpcEntityBinder : rpcEntityBinders) {
 			rpcEntityBinder.populateEntity(rpcEntity, rpcResult);
 		}
+		rpcExpressionBinder.populateEntity(rpcEntity, rpcResult);
 	}
 
 	public void login(String user, String password) {

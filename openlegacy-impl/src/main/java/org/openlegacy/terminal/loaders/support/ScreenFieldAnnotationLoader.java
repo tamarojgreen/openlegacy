@@ -39,6 +39,13 @@ import java.lang.reflect.Field;
 import java.text.MessageFormat;
 import java.util.Date;
 
+/**
+ * Loads the field's {@link org.openlegacy.annotations.screen.ScreenField} annotation information to the
+ * {@link org.openlegacy.terminal.definitions.ScreenFieldDefinition}
+ * 
+ * @author Roi Mor
+ *
+ */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
@@ -167,6 +174,7 @@ public class ScreenFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 
 		}
 
+		screenFieldDefinition.setExpression(fieldAnnotation.expression());
 	}
 
 	private static void setupFieldType(Field field, SimpleScreenFieldDefinition screenFieldDefinition) {

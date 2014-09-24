@@ -14,6 +14,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.EntityDefinition;
+import org.openlegacy.annotations.rpc.Direction;
+import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
@@ -285,6 +287,13 @@ public class DefaultRegistryLoader implements RegistryLoader {
 
 			public void doWith(Field field) {
 				loadDefinition(entitiesRegistry, beanClass, fieldLoaders, field);
+				// If the direction is NONE, do not increment the field order counter
+				if (field.isAnnotationPresent(RpcField.class)) {
+					RpcField rpcFieldAnnotation = field.getAnnotation(RpcField.class);
+					if (rpcFieldAnnotation.direction() == Direction.NONE) {
+						return;
+					}
+				}
 				counterContainer.counter++;
 			}
 

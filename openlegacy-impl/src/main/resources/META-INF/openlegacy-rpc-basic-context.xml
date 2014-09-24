@@ -68,7 +68,11 @@
 	<bean class="org.openlegacy.rpc.support.binders.RpcBooleanFieldsBinder" />
 	<bean class="org.openlegacy.rpc.support.binders.RpcDateFieldsPatternBinder" />
     <bean class="org.openlegacy.rpc.support.binders.RpcEnumFieldsBinder" />
-
+	<bean class="org.openlegacy.rpc.support.binders.RpcFieldsExpressionBinder" />
+	
+	<!-- ExpressionContext for ScreenFieldsExpressionBinder -->
+	<bean class="org.springframework.expression.spel.standard.SpelExpressionParser"/>
+	
 	<!--RpcFieldConverters  -->
 	<bean class="org.openlegacy.rpc.convector.LegacyContainerRpcFieldConverter" />
 	<bean class="org.openlegacy.rpc.convector.VirtualRpcConverter" />

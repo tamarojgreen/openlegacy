@@ -111,6 +111,7 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 			}
 
 		}
+		rpcFieldDefinition.setExpression(fieldAnnotation.expression());
 	}
 
 	private static void setupFieldType(Field field, SimpleRpcFieldDefinition rpcFieldDefinition) {

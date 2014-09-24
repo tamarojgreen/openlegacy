@@ -34,7 +34,7 @@ public class ItemsList {
 	@ScreenField(row = 24, column = 2)
 	private String errorMessage;
 
-	@ScreenTable(startRow = 8, endRow = 19)
+	@ScreenTable(startRow = 8, endRow = 19, filterExpression="alphaSearch matches '--+'")
 	@ScreenTableActions(actions = { @TableAction(actionValue = "1", displayName = "View", targetEntity = ItemDetails1.class),
 			@TableAction(actionValue = "2", displayName = "Revise") })
 	@ScreenTableDrilldown
@@ -52,6 +52,8 @@ public class ItemsList {
 		@ScreenColumn(startColumn = 24, endColumn = 60)
 		private String itemDescription;
 
+		@ScreenColumn(startColumn = 24, endColumn = 60, expression = "/.*- (.+)$/$1/")
+		private String itemCategory;
 	}
 
 }

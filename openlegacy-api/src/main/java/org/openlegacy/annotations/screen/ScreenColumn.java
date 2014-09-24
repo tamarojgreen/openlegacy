@@ -63,4 +63,6 @@ public @interface ScreenColumn {
 	FieldAttributeType attribute() default FieldAttributeType.Value;
 
 	Class<?> targetEntity() default org.openlegacy.terminal.ScreenEntity.NONE.class;
+	
+	String expression() default "";
 }

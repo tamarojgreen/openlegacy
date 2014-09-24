@@ -11,6 +11,7 @@
 package org.openlegacy.rpc.support.binders;
 
 import org.openlegacy.PojoFieldAccessor;
+import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.rpc.RpcEntityBinder;
 import org.openlegacy.rpc.RpcField;
 import org.openlegacy.rpc.RpcFlatField;
@@ -99,6 +100,9 @@ public class RpcFieldsBinder implements RpcEntityBinder {
 	public boolean fieldMatch(RpcFieldDefinition rpcFieldDefinition) {
 		if (rpcFieldDefinition.getJavaType() == Boolean.class || rpcFieldDefinition.getJavaType() == java.util.Date.class
 				|| rpcFieldDefinition.getJavaType().isEnum()) {
+			return false;
+		}
+		if (rpcFieldDefinition.getDirection() == Direction.NONE) {
 			return false;
 		}
 		return true;

@@ -25,6 +25,7 @@ public class SimpleScreenColumnDefinition extends AbstractColumnDefinition imple
 	private int endColumn;
 
 	private boolean selectionField;
+	String expression;
 
 	private FieldAttributeType attribute;
 
@@ -76,6 +77,14 @@ public class SimpleScreenColumnDefinition extends AbstractColumnDefinition imple
 
 	public void setAttribute(FieldAttributeType attribute) {
 		this.attribute = attribute;
+	}
+
+	public String getExpression() {
+		return expression;
+	}
+
+	public void setExpression(String expression) {
+		this.expression = expression;
 	}
 
 }

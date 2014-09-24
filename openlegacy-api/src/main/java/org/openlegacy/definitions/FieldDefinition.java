@@ -71,4 +71,7 @@ public interface FieldDefinition extends Comparable<FieldDefinition> {
 	 * @return
 	 */
 	String getNullValue();
+
+	String getExpression();
+
 }

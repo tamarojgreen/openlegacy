@@ -64,7 +64,8 @@ public abstract class AbstractMockTerminalConnectionFactory implements TerminalC
 		try {
 			String trailClasspath = MessageFormat.format("{0}/{1}", root, trailName);
 			InputStream trailStream = getClass().getResourceAsStream(trailClasspath);
-			Assert.notNull(trailStream, "Trail file not found. In development, Verify it exist in a src/main/resources");
+			Assert.notNull(trailStream, String.format(
+					"Trail file %s not found. In development, Verify it exist in a src/main/resources%s", trailName, root));
 			trail = XmlSerializationUtil.deserialize(TerminalPersistedTrail.class, trailStream);
 		} catch (JAXBException e) {
 			throw (new IllegalArgumentException(MessageFormat.format("Faild reading XML trail:{0}", trailName), e));

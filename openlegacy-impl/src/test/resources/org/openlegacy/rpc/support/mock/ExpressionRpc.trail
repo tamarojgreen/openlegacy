@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rpc-trail>
+   <snapshot sequence="1" entityName="ExpressionRpc">
+      <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/EXPRESSION.PGM">
+         <rpcFields>
+         	<field length="1" type="java.lang.Boolean" direction="INPUT_OUTPUT" name="booleanTrue" order="0"/>
+         	<field length="10" type="java.lang.String" direction="INPUT_OUTPUT" name="expression1" order="1"/>
+         	<field length="10" type="java.lang.Integer" direction="INPUT_OUTPUT" name="intExpression" order="2"/>
+         	<field length="10" type="java.lang.Integer" direction="INPUT_OUTPUT" name="intExpression2" order="3"/>
+         	<field length="10" type="java.lang.Integer" direction="INPUT_OUTPUT" name="intExpression3" order="4"/>
+         	<field length="10" type="java.lang.String" direction="INPUT_OUTPUT" name="stringExpressionNull" order="5"/>
+         	<structure  name="partBoolean" order="6">
+         	    <field  length="1" type="java.lang.Boolean" direction="INPUT_OUTPUT" name="booleanInPart" order="5"/>
+         	</structure>
+         	
+         </rpcFields>
+      </invoke>
+      <result>
+         <rpcFields>
+         	<field value="Y" length="1" type="java.lang.Boolean" direction="INPUT_OUTPUT" name="booleanTrue" order="0"/>
+         	<field value="Msg:Here it is" length="20" type="java.lang.String" direction="INPUT_OUTPUT" name="expression1" order="1"/>
+         	<field value="123" length="10" type="java.lang.Integer" direction="INPUT_OUTPUT" name="intExpression" order="2"/>
+         	<field value="444" length="10" type="java.lang.Integer" direction="INPUT_OUTPUT" name="intExpression2" order="3"/>
+         	<field value="333" length="10" type="java.lang.Integer" direction="INPUT_OUTPUT" name="intExpression3" order="4"/>
+         	<field value="somestring" length="10" type="java.lang.String" direction="INPUT_OUTPUT" name="stringExpressionNull" order="5"/>
+         	<structure name="partBoolean" order="6">
+         	    <field value="N" length="1" type="java.lang.Boolean" direction="INPUT_OUTPUT" name="booleanInPart" order="5"/>
+         	</structure>
+         </rpcFields>
+      </result>
+    </snapshot>
+</rpc-trail>

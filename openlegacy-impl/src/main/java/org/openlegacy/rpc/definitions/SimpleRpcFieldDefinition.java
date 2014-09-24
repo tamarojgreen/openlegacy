@@ -30,6 +30,7 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private String runtimeName;
 	private String nullValue;
 	private String shortName;
+	private String expression;
 
 	private int count = 1;
 
@@ -144,6 +145,14 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
+	}
+
+	public String getExpression() {
+		return expression;
+	}
+
+	public void setExpression(String expression) {
+		this.expression = expression;
 	}
 
 }

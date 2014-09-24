@@ -28,6 +28,7 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 		Assert.assertEquals(12, rows.size());
 		Assert.assertEquals("APPLE", rows.get(0).getAlphaSearch());
 		Assert.assertEquals("Red apple - FRT", rows.get(0).getItemDescription());
+		Assert.assertEquals("FRT", rows.get(0).getItemCategory());
 		// Assert.assertNotNull(rows.get(0).getItemDescriptionField());
 		Assert.assertTrue(1007 == rows.get(0).getItemNumber());
 
@@ -35,6 +36,9 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 
 	}
 
+	/**
+	 * Includes test of filterExpression, row containing ------ is filtered out.
+	 */
 	@Test
 	public void testMultiplePagesTable() {
 		TerminalSession terminalSession = newTerminalSession();
@@ -50,6 +54,8 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 		Assert.assertEquals("TOMATO", rows.get(12).getAlphaSearch());
 
 		Assert.assertEquals("WATERMELON", rows.get(rows.size() - 1).getAlphaSearch());
-
+		for (ItemsListRow row : rows) {
+			System.out.println(row.getItemNumber() + " " + row.getItemDescription());
+		}
 	}
 }

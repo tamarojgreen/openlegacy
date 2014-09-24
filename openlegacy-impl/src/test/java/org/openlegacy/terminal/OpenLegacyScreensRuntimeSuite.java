@@ -34,6 +34,7 @@ import org.openlegacy.terminal.support.binders.DateFieldsBinderTest;
 import org.openlegacy.terminal.support.binders.ListFieldTest;
 import org.openlegacy.terminal.support.binders.ScreenEntityFieldAttributeTest;
 import org.openlegacy.terminal.support.binders.ScreenEntityTablesBinderTest;
+import org.openlegacy.terminal.support.binders.ScreenExpressionFieldsBinderTest;
 import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 
 @RunWith(Suite.class)
@@ -47,7 +48,7 @@ import org.openlegacy.terminal.utils.TerminalEqualsHashcodeTest;
 		DefaultScreenRecordsProviderTest.class, TerminalSnapshotImageRendererTest.class, CustomBinderTest.class,
 		MultyLineFieldTest.class, DefaultSessionsManagerTest.class, ListFieldTest.class, ScreenEntityFieldAttributeTest.class,
 		ConditionalFieldTest.class, ConditionalFieldTest.class, RpcRegistryTest.class, RpcMockConnectionTest.class,
-		RpcTrailSerializeTest.class, SimpleTerminalSessionPoolTest.class })
+		RpcTrailSerializeTest.class, SimpleTerminalSessionPoolTest.class, ScreenExpressionFieldsBinderTest.class })
 public class OpenLegacyScreensRuntimeSuite {
 
 }

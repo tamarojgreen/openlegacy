@@ -50,4 +50,19 @@ public @interface RpcField {
 	String nullValue() default AnnotationConstants.NULL;
 
 	int keyIndex() default 0;
+
+	/**
+	 * Calculate the value of the field using a Spring Expression. This makes the field read only. The entity class is the root
+	 * context, so you can refer to other fields by their names. Info about the current field is available in the #field variable.
+	 * So, you can refer to the value of the current field with #field.value
+	 * 
+	 * If the expression starts and ends with a /, the expression is processed as a regular expression- not a spring expression
+	 * 
+	 * @see <a href="http://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/expressions.html">Spring
+	 *      Expression Reference</a>
+	 * 
+	 * @see {@link java.util.regex.Pattern.compile}
+	 * @return the Spring expression or regular expression used for generating the value of the field
+	 */
+	String expression() default "";
 }

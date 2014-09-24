@@ -110,4 +110,6 @@ public interface ScreenFieldDefinition extends FieldDefinition, TerminalPosition
 
 	boolean isForceUpdate();
 
+	String getExpression();
+
 }
