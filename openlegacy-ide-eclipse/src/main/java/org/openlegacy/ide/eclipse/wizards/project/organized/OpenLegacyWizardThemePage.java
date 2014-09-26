@@ -23,6 +23,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TableItem;
 import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.newproject.organized.NewProjectMetadataRetriever;
 import org.openlegacy.ide.eclipse.Messages;
@@ -35,6 +36,8 @@ import java.util.List;
 
 public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 
+	public static final String PAGE_ID = "wizardThemePage";
+
 	private String[] themeNames;
 
 	private TableViewer tableViewer;
@@ -43,8 +46,10 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 
 	private List<ProjectTheme> projectThemes = null;
 
+	private List<ProjectTheme> allThemes = null;
+
 	protected OpenLegacyWizardThemePage() {
-		super("wizardThemePage");//$NON-NLS-1$
+		super(PAGE_ID);
 		setTitle(Messages.getString("title_ol_project_wizard"));//$NON-NLS-1$
 		setDescription(Messages.getString("info_ol_project_wizard"));//$NON-NLS-1$
 	}
@@ -74,13 +79,56 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 		refreshTable();
 	}
 
+	public void updateThemesData(String frontendSolution) {
+		if (getControl().isDisposed()) {
+			return;
+		}
+
+		projectThemes = getFilteredThemesByFrontendSolution(allThemes, frontendSolution);
+
+		if (projectThemes == null || projectThemes.isEmpty()) {
+			getControl().getDisplay().syncExec(new Runnable() {
+
+				public void run() {
+					updateStatus(Messages.getString("error_new_project_metadata_not_found"));//$NON-NLS-1$
+				}
+			});
+			return;
+		} else {
+			String errorMsg = getErrorMessage();
+			if (errorMsg != null && errorMsg == Messages.getString("error_new_project_metadata_not_found")) {
+				updateStatus(null);
+			}
+
+			List<String> themes = new ArrayList<String>();
+			for (ProjectTheme projectTheme : projectThemes) {
+				themes.add(projectTheme.getDisplayName());
+			}
+
+			themeNames = themes.toArray(new String[] {});
+
+			getControl().getDisplay().syncExec(new Runnable() {
+
+				public void run() {
+					tableViewer.setInput(themeNames);
+					TableItem item = tableViewer.getTable().getItem(0);
+					tableViewer.getTable().setSelection(item);
+					tableViewer.getTable().showSelection();
+					tableViewer.setSelection(tableViewer.getSelection());
+				}
+			});
+
+		}
+
+	}
+
 	@Override
 	public void updateControlsData(NewProjectMetadataRetriever retriever) {
 		if (getControl().isDisposed()) {
 			return;
 		}
-		projectThemes = retriever.getThemes();
-		if (projectThemes == null || projectThemes.isEmpty()) {
+		allThemes = retriever.getThemes();
+		if (allThemes == null || allThemes.isEmpty()) {
 			getControl().getDisplay().syncExec(new Runnable() {
 
 				public void run() {
@@ -91,7 +139,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 		}
 
 		List<String> themes = new ArrayList<String>();
-		for (ProjectTheme theme : projectThemes) {
+		for (ProjectTheme theme : allThemes) {
 			themes.add(theme.getDisplayName());
 		}
 		themeNames = themes.toArray(new String[] {});
@@ -115,6 +163,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 				if (projectThemes == null) {
 					return;
 				}
+
 				int index = tableViewer.getTable().getSelectionIndex();
 
 				BufferedInputStream in = new BufferedInputStream(
@@ -137,7 +186,10 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 			public void selectionChanged(SelectionChangedEvent e) {
 				if (projectThemes != null) {
 					canvas.redraw();
-					getWizardModel().setProjectTheme(projectThemes.get(tableViewer.getTable().getSelectionIndex()));
+					if (tableViewer.getTable().getSelectionIndex() != -1) {
+						getWizardModel().setProjectTheme(projectThemes.get(tableViewer.getTable().getSelectionIndex()));
+					}
+
 					setPageComplete(true);
 				}
 			}
@@ -159,5 +211,16 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 			return this.projectThemes.get(tableViewer.getTable().getSelectionIndex()).getDisplayName().toLowerCase();
 		}
 		return null;
+	}
+
+	private List<ProjectTheme> getFilteredThemesByFrontendSolution(List<ProjectTheme> themes, String frontendSolution) {
+		List<ProjectTheme> filteredThemes = new ArrayList<ProjectTheme>();
+		for (ProjectTheme projectTheme : themes) {
+			if (frontendSolution.equals(projectTheme.getFrontendSolution())) {
+				filteredThemes.add(projectTheme);
+			}
+		}
+
+		return filteredThemes;
 	}
 }

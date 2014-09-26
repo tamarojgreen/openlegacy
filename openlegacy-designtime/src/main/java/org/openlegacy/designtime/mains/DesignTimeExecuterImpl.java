@@ -153,6 +153,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	private static final String DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION = "<!-- Delete this definition to replay a mock-up session application -->";
 	private static final String END_DELETE_THIS_DEFINITION_TO_REPLAY_A_MOCK_UP_SESSION_APPLICATION = "<!-- End delete this definition to replay a mock-up session application -->";
 
+	private static final String INDEX_JSP_PATH = "src/main/webapp/app/index.jsp";
+
 	public void createProject(ProjectCreationRequest projectCreationRequest) throws IOException {
 		ITemplateFetcher templateFetcher = projectCreationRequest.getTemplateFetcher();
 
@@ -175,6 +177,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (projectCreationRequest.isSupportTheme()) {
 			renameThemeInPOM(projectCreationRequest.getProjectTheme(), targetPath);
 			renameThemeInAppProperties(projectCreationRequest.getProjectTheme(), targetPath);
+			renameThemeInIndexJSP(projectCreationRequest.getProjectTheme(), targetPath);
 		}
 
 		// spring files
@@ -496,6 +499,24 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 					MessageFormat.format("themeUtil.defaultTheme={0}", projectTheme.getDisplayName().toLowerCase()));
 			FileUtils.write(appPropertiesFileContent, appPropertiesFile);
 		}
+	}
+
+	private static void renameThemeInIndexJSP(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
+			IOException {
+		File indexJspFile = new File(targetPath, INDEX_JSP_PATH);
+
+		if (!indexJspFile.exists()) {
+			logger.error(MessageFormat.format("Unable to find index.jsp within {0}", targetPath));
+			return;
+		}
+
+		String IndexJspFileContent = IOUtils.toString(new FileInputStream(indexJspFile));
+
+		if (projectTheme != null) {
+			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectTheme#", projectTheme.getDisplayName().toLowerCase());
+			FileUtils.write(IndexJspFileContent, indexJspFile);
+		}
+
 	}
 
 	private static void changeOrAddContextParamInWebXml(String paramName, String paramValue, File targetPath)
