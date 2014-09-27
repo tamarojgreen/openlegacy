@@ -19,7 +19,7 @@
 	
 	<!-- custom style for this project -->
 	<link type="text/css" rel="stylesheet" href="css/project.css" />	
-	<link ng-href="themes/{{theme}}/{{theme}}.css" rel="stylesheet">
+	<link ng-href="themes/#projectTheme#/#projectTheme#.css" rel="stylesheet">
 	
 	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="lib/jquery.cookie.js" type="text/javascript"></script>
@@ -51,7 +51,7 @@
 	        <div class="navbar-collapse collapse ol-navbar-collapse">
 	            <ul class="nav navbar-nav navbar-right">	
 	                
-	                <li><a href ng-click="changeTheme()"><span class="glyphicon glyphicon-eye-open"></span> Theme</a></li>	                
+	                <!-- <li><a href ng-click="changeTheme()"><span class="glyphicon glyphicon-eye-open"></span> Theme</a></li> -->	                
 	                
 	                <li class="dropdown" ng-show="username">
 	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{username}} 

@@ -20,14 +20,16 @@ public class ProjectTheme {
 	private String displayName;
 	private String imageFile;
 	private byte[] imageData;
+	private String frontendSolution;
 
 	public ProjectTheme() {}
 
-	public ProjectTheme(String name, String displayName, String imageFile, byte[] imageData) {
+	public ProjectTheme(String name, String displayName, String imageFile, byte[] imageData, String frontendSolution) {
 		this.name = name;
 		this.displayName = displayName;
 		this.imageFile = imageFile;
 		this.imageData = imageData;
+		this.frontendSolution = frontendSolution;
 	}
 
 	public String getName() {
@@ -64,4 +66,12 @@ public class ProjectTheme {
 		this.imageData = imageData;
 	}
 
+	@XmlElement(name = "frontend-solution")
+	public String getFrontendSolution() {
+		return frontendSolution;
+	}
+
+	public void setFrontendSolution(String frontendSolution) {
+		this.frontendSolution = frontendSolution;
+	}
 }

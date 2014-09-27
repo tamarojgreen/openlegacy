@@ -48,6 +48,8 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 	private Button newRadioButton;
 	private Button demoRadioButton;
 
+	public static final String FRONTENT_SOLUTION_REST = "REST/Mobile";
+
 	protected OpenLegacyWizardGeneralPage() {
 		super("wizardFirstPage");//$NON-NLS-1$
 		setTitle(Messages.getString("title_ol_project_wizard"));//$NON-NLS-1$
@@ -83,7 +85,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		frontendCombo.setLayoutData(gd);
 		frontendCombo.setItems(new String[] { "Pending..." });//$NON-NLS-1$
 		frontendCombo.select(0);
-		frontendCombo.addSelectionListener(getDefaultSelectionListener());
+		frontendCombo.addSelectionListener(getFrontendSelectionListener());
 
 		newRadioButton = new Button(container, SWT.RADIO);
 		newRadioButton.setText(Messages.getString("btn_new_project"));//$NON-NLS-1$
@@ -224,6 +226,26 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 						getProjectType(backendCombo.getText(), frontendCombo.getText(), demoRadioButton.getSelection()));
 				// validatePage method calls setPageComplete() and after that canFlipToNextPage() will be called
 				validatePage();
+			}
+
+		};
+	}
+
+	private SelectionListener getFrontendSelectionListener() {
+		return new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				checkAvailableProjects(backendCombo.getText(), frontendCombo.getText());
+				getWizardModel().update(
+						getProjectType(backendCombo.getText(), frontendCombo.getText(), demoRadioButton.getSelection()));
+				// validatePage method calls setPageComplete() and after that canFlipToNextPage() will be called
+				validatePage();
+
+				OpenLegacyWizardThemePage themePage = (OpenLegacyWizardThemePage)getWizard().getPage(
+						OpenLegacyWizardThemePage.PAGE_ID);
+				themePage.updateThemesData(frontendCombo.getText());
+
 			}
 
 		};

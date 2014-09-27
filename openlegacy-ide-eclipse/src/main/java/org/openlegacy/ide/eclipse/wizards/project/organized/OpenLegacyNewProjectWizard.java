@@ -141,9 +141,9 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 
 			@Override
 			public void done(IJobChangeEvent event) {
+				themePage.updateControlsData(retriever);
 				generalPage.updateControlsData(retriever);
 				hostPage.updateControlsData(retriever);
-				themePage.updateControlsData(retriever);
 			}
 
 		});

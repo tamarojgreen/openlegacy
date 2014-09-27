@@ -68,7 +68,7 @@
 	<project-type>
 		<template-name>openlegacy-rest-new</template-name>
 		<is-demo>false</is-demo>
-		<support-theme>false</support-theme>
+		<support-theme>true</support-theme>
 		<zip-file>openlegacy-rest-new.zip</zip-file>
 		<backend-solution>Screens</backend-solution>
 		<frontend-solution>REST/Mobile</frontend-solution>
@@ -76,7 +76,7 @@
 	<project-type>
 		<template-name>openlegacy-rest-rpc-new</template-name>
 		<is-demo>false</is-demo>
-		<support-theme>false</support-theme>
+		<support-theme>true</support-theme>
 		<zip-file>openlegacy-rest-rpc-new.zip</zip-file>
 		<backend-solution>RPC</backend-solution>
 		<frontend-solution>REST/Mobile</frontend-solution>
