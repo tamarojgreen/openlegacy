@@ -52,6 +52,10 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 
 	private String nullValue = null;
 
+	private int keyIndex;
+
+	private String expression;
+
 	public AbstractFieldDefinition(String name, Class<? extends FieldType> type) {
 		this.name = name;
 		this.type = type;
@@ -209,4 +213,19 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.nullValue = nullValue;
 	}
 
+	public int getKeyIndex() {
+		return keyIndex;
+	}
+
+	public void setKeyIndex(int keyIndex) {
+		this.keyIndex = keyIndex;
+	}
+
+	public String getExpression() {
+		return expression;
+	}
+
+	public void setExpression(String expression) {
+		this.expression = expression;
+	}
 }
