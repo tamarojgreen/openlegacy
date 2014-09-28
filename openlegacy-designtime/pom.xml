@@ -102,10 +102,16 @@
 			<artifactId>jbpm-bpmn2</artifactId>
 			<version>5.2.0.Final</version>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>koopa</groupId>
 			<artifactId>koopa</artifactId>
 			<version>105</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>

@@ -8,16 +8,16 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.designtime.rpc.generators.support;
+package org.openlegacy.designtime.db.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
 
-import org.openlegacy.annotations.rpc.Direction;
 import org.openlegacy.annotations.rpc.Languages;
 import org.openlegacy.definitions.FieldTypeDefinition;
+import org.openlegacy.designtime.db.generators.DbPojoCodeModel;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.generators.AnnotationsParserUtils;
-import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
+import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.StringUtil;
@@ -42,7 +42,7 @@ import java.util.Map;
  * 
  * 
  */
-public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
+public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 	public static class Action {
 
@@ -91,7 +91,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 	}
 
 	/**
-	 * Model for properties of @RpcField
+	 * Model for properties of @DbField
 	 */
 	public static class Field {
 
@@ -107,19 +107,11 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private FieldTypeDefinition fieldTypeDefiniton;
 		private boolean key;
 		private boolean mainDisplayField;
-		// @author Ivan Bort refs assembla #112
 		private String fieldTypeName;
 		private boolean password;
 		private String sampleValue;
 		private boolean hasDescription;
-		// @author Ivan Bort refs assembla #235
 		private boolean rightToLeft;
-		private int length;
-		private String runtimeName;
-		private int count = 1;
-		private Direction direction;
-		// @author Ivan Bort, refs assembla #290
-		private String originalName;
 		private String defaultValue;
 
 		public Field(String name, String type) {
@@ -159,7 +151,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			if (editable != null) {
 				return editable;
 			}
-			return getDirection() != Direction.OUTPUT;
+			return false;
 		}
 
 		public boolean isHasDescription() {
@@ -258,50 +250,6 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 			this.sampleValue = sampleValue;
 		}
 
-		public int getLength() {
-			return length;
-		}
-
-		public void setLength(int length) {
-			this.length = length;
-		}
-
-		public boolean isRpcField() {
-			return length > 0;
-		}
-
-		public String getRuntimeName() {
-			return runtimeName;
-		}
-
-		public void setRuntimeName(String runtimeName) {
-			this.runtimeName = runtimeName;
-		}
-
-		public int getCount() {
-			return count;
-		}
-
-		public void setCount(int count) {
-			this.count = count;
-		}
-
-		public Direction getDirection() {
-			return direction;
-		}
-
-		public void setDirection(Direction direction) {
-			this.direction = direction;
-		}
-
-		public String getOriginalName() {
-			return originalName;
-		}
-
-		public void setOriginalName(String originalName) {
-			this.originalName = originalName;
-		}
-
 		public String getDefaultValue() {
 			return defaultValue;
 		}
@@ -332,7 +280,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 	private boolean serviceInOut = false;
 
-	public DefaultRpcPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
+	public DefaultDbPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
 		mainType = type;
@@ -356,16 +304,16 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		}
 		for (AnnotationExpr annotationExpr : annotations) {
 			String annotationName = annotationExpr.getName().getName();
-			if (annotationName.equals(RpcAnnotationConstants.RPC_ENTITY_ANNOTATION)
-					|| annotationName.equals(RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
+			if (annotationName.equals(DbAnnotationConstants.DB_ENTITY_ANNOTATION)
+					|| annotationName.equals(DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 				enabled = true;
-				populateEntityAttributes(annotationExpr);
-				if (annotationName.equals(RpcAnnotationConstants.RPC_ENTITY_SUPER_CLASS_ANNOTATION)) {
+				// populateEntityAttributes(annotationExpr);
+				if (annotationName.equals(DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					superClass = true;
 				}
 			}
-			if (annotationName.equals(RpcAnnotationConstants.RPC_ACTIONS_ANNOTATION)) {
-				actions = RpcAnnotationsParserUtils.populateRpcActions(annotationExpr);
+			if (annotationName.equals(DbAnnotationConstants.DB_ACTIONS_ANNOTATION)) {
+				actions = DbAnnotationsParserUtils.populateDbActions(annotationExpr);
 			}
 			if (annotationName.equals(AnnotationConstants.SERVICE_INPUT)
 					|| annotationName.equals(AnnotationConstants.SERVICE_OUTPUT)) {
@@ -389,28 +337,11 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 					if (fieldAnnotations != null && fieldAnnotations.size() > 0) {
 						for (AnnotationExpr annotationExpr : fieldAnnotations) {
 							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									RpcAnnotationConstants.RPC_FIELD_ANNOTATION)) {
-								RpcAnnotationsParserUtils.loadRpcFieldAnnotation(annotationExpr, field);
+									DbAnnotationConstants.DB_FIELD_ANNOTATION)) {
+								DbAnnotationsParserUtils.loadDbFieldAnnotation(annotationExpr, field);
 								if (!field.isPrimitiveType()) {
 									field.setFieldTypeDefinition(AnnotationsParserUtils.loadEnumField(mainType, fieldDeclaration));
 								}
-							}
-							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									RpcAnnotationConstants.RPC_BOOLEAN_FIELD_ANNOTATION)) {
-								field.setFieldTypeDefinition(AnnotationsParserUtils.loadBooleanField(annotationExpr));
-							}
-							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr, RpcAnnotationConstants.RPC_PART_LIST)) {
-								field.setCount(Integer.valueOf(JavaParserUtil.getAnnotationValue(annotationExpr,
-										RpcAnnotationConstants.COUNT)));
-								String runtimeName = JavaParserUtil.getAnnotationValue(annotationExpr,
-										RpcAnnotationConstants.RUNTIME_NAME);
-								if (runtimeName != null) {
-									field.setRuntimeName(runtimeName.length() > 0 ? runtimeName : field.getName());
-								}
-							}
-							if (JavaParserUtil.isOneOfAnnotationsPresent(annotationExpr,
-									RpcAnnotationConstants.RPC_NUMERIC_ANNOTATION)) {
-								field.setFieldTypeDefinition(AnnotationsParserUtils.loadNumericField(annotationExpr));
 							}
 						}
 					}

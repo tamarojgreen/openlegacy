@@ -26,6 +26,7 @@ import org.openlegacy.designtime.PreferencesConstants;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.analyzer.SnapshotsAnalyzer;
 import org.openlegacy.designtime.analyzer.TextTranslator;
+import org.openlegacy.designtime.db.generators.support.DbAnnotationConstants;
 import org.openlegacy.designtime.generators.EntityPageGenerator;
 import org.openlegacy.designtime.generators.EntityServiceGenerator;
 import org.openlegacy.designtime.generators.GenerateUtil;
@@ -901,7 +902,12 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 							RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
 				RpcPojosAjGenerator generator = applicationContext.getBean(RpcPojosAjGenerator.class);
 				return generator.generate(javaFile, compilationUnit);
-
+			} else if (JavaParserUtil.hasAnnotation(compilationUnit, DbAnnotationConstants.DB_ENTITY_ANNOTATION,
+					DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)
+					|| JavaParserUtil.hasAnnotation(compilationUnit, RpcAnnotationConstants.RPC_ENTITY_ANNOTATION,
+							RpcAnnotationConstants.RPC_PART_ANNOTATION)) {
+				RpcPojosAjGenerator generator = applicationContext.getBean(RpcPojosAjGenerator.class);
+				return generator.generate(javaFile, compilationUnit);
 			}
 		} catch (IOException e) {
 			throw (new GenerationException(e));
