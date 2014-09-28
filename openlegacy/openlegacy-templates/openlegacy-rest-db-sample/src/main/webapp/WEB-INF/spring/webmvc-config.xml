@@ -10,19 +10,12 @@
 	http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-1.5.xsd">
 
 	<!-- Common controllers for terminal sessions -->
-	<context:component-scan base-package="org.openlegacy.rpc.mvc.rest"
+	<context:component-scan base-package="org.openlegacy.db.mvc.rest"
 		use-default-filters="false" resource-pattern="*.class">
 		<context:include-filter expression="org.springframework.stereotype.Controller"
 			type="annotation" />
 	</context:component-scan>
 		
-	<!-- Common controllers -->	
-		<context:component-scan base-package="org.openlegacy.mvc"
-		use-default-filters="false" resource-pattern="*.class">
-		<context:include-filter expression="org.springframework.stereotype.Controller"
-			type="annotation" />
-	</context:component-scan>
-	
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods 
 	Also registers default Formatters and Validators for use across all @Controllers -->
 	<mvc:annotation-driven conversion-service="applicationConversionService" />
