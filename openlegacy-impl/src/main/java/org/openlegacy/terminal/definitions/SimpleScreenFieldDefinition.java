@@ -45,7 +45,6 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	private ScreenFieldDefinition descriptionFieldDefinition;
 
-	private int keyIndex;
 	private boolean internal;
 	private boolean global;
 	private String nullValue;
@@ -53,7 +52,6 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 	private boolean tableKey;
 
 	private boolean forceUpdate;
-	private String expression;
 
 	public SimpleScreenFieldDefinition() {
 		super();
@@ -167,14 +165,6 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.descriptionFieldDefinition = descriptionFieldDefinition;
 	}
 
-	public int getKeyIndex() {
-		return keyIndex;
-	}
-
-	public void setKeyIndex(int keyIndex) {
-		this.keyIndex = keyIndex;
-	}
-
 	@Override
 	public boolean isInternal() {
 		return internal;
@@ -223,14 +213,6 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 
 	public void setForceUpdate(boolean forceUpdate) {
 		this.forceUpdate = forceUpdate;
-	}
-
-	public String getExpression() {
-		return expression;
-	}
-
-	public void setExpression(String expression) {
-		this.expression = expression;
 	}
 
 }
