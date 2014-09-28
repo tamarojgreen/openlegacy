@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="org.springframework.context.*" %>
 <%@ page import="org.springframework.web.context.support.*" %>
-<%@ page import="org.openlegacy.rpc.services.*" %>
-<%@ page import="org.openlegacy.rpc.definitions.*" %>
+<%@ page import="org.openlegacy.db.services.*" %>
+<%@ page import="org.openlegacy.db.definitions.*" %>
 <%@ page import="java.util.*" %>
 <%
 	ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(pageContext.getServletContext());
-	RpcEntitiesRegistry registry = context.getBean(RpcEntitiesRegistry.class);
-	Collection<RpcEntityDefinition> entityDefinitions = registry.getEntitiesDefinitions();
+	DbEntitiesRegistry registry = context.getBean(DbEntitiesRegistry.class);
+	Collection<DbEntityDefinition> entityDefinitions = registry.getEntitiesDefinitions();
 
 %>
 
@@ -125,9 +125,8 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 
 		Available URL's: <select id="getUrl"
 			data-dojo-type="dijit.form.ComboBox">
-			<option>login?user=user1&password=pwd1</option>
 			<%
-			for (RpcEntityDefinition definition : entityDefinitions){
+			for (DbEntityDefinition definition : entityDefinitions){
 				String keyStr = "";
 				if (definition.getKeys().size() > 0){
 					keyStr = "/&lt;ID&gt;";
@@ -135,9 +134,6 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 				out.write("<option>" + definition.getEntityName() + keyStr + "</option>");
 			}
 			%>
-			<option>emulation?keyboardKey=ENTER</option>
-			<option>messages</option>
-			<option>logoff</option>
 		</select> 
 		Method: <select id="requestType">
 			<option value="json">JSON</option>
