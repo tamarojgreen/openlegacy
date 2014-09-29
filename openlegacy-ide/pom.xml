@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>openlegacy</artifactId>
 		<groupId>org.openlegacy</groupId>
-		<!-- KEEP DEFAULT --><version>2.0.0-SNAPSHOT</version>
+		<!-- KEEP DEFAULT --><version>2.0.0-RELEASE</version>
 		<relativePath>../openlegacy/pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -31,7 +31,7 @@
 	</repositories>
 
 	<properties>
-		<openlegacy.version>2.0.0-SNAPSHOT</openlegacy.version>
+		<openlegacy.version>2.0.0-RELEASE</openlegacy.version>
 		<tycho.version>0.20.0</tycho.version>
 	</properties>
 
