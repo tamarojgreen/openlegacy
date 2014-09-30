@@ -21,7 +21,7 @@
 			<c:set var="cssRtl" value="_rtl" />
 		</c:if>
 		<link href="${pageContext.request.contextPath}/themes/${ol_theme}/${ol_theme}${cssRtl}.css" rel="stylesheet" type="text/css" />
-		<link href="${pageContext.request.contextPath}/css/project.css" rel="stylesheet" type="text/css" />
+		<link href="${pageContext.request.contextPath}/css/project${cssRtl}.css" rel="stylesheet" type="text/css" />
 		
 		<script type="text/javascript">
 			dojoConfig = {

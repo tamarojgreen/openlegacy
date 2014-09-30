@@ -22,6 +22,11 @@
 		<c:set var="contentPaneId" value="window_container" />
 	</c:if>
 
+	<c:set var="dir" value="ltr" />
+	<c:if test="${openLegacyProperties.rightToLeft}">
+		<c:set var="dir" value="rtl" />
+	</c:if>
+
 	<c:set var="tableDefinition" value="${definitions.tableDefinitions[property]}" />
 	<div class="table" style="${style}">
 		<table>
@@ -41,7 +46,7 @@
 											<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayField]}');" class="${actionsCss}" title="Select ">Select</a>
 										</c:when>
 										<c:when test="${fn:length(tableDefinition.actions) &gt; 3}">
-											<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect">
+											<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect" dir="${dir}">
 												<option value="">- Select -</option>
 												<c:forEach items="${tableDefinition.actions}" var="action">
 													<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
@@ -70,7 +75,7 @@
 									</c:choose>
 								</c:when>
 								<c:when test="${column.editable}">
-									<input name="${column.name}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
+									<input name="${column.name}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" dir="${dir}"/>
 								</c:when>
 								<c:otherwise>
 									<span dir="ltr">${columnValue}</span>
