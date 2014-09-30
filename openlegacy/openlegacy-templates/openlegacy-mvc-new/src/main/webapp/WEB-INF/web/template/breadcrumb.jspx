@@ -15,7 +15,14 @@
 				<li>
 					<c:choose>
 						<c:when test="${!rowCounter.last}">
-							<a href="${pageContext.request.contextPath}/${pathItem.entityName}">${pathItem.displayName}</a> <span class="breadcrumb_separator">${seperator}</span>
+							<c:choose>
+								<c:when test="${openLegacyProperties.rightToLeft}">
+									<span class="breadcrumb_separator">${seperator}</span> <a href="${pageContext.request.contextPath}/${pathItem.entityName}">${pathItem.displayName}</a>
+								</c:when>
+								<c:otherwise>
+									<a href="${pageContext.request.contextPath}/${pathItem.entityName}">${pathItem.displayName}</a> <span class="breadcrumb_separator">${seperator}</span>
+								</c:otherwise>
+							</c:choose>
 						</c:when>
 						<c:otherwise>
 	 						${pathItem.displayName}
