@@ -41,15 +41,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.awt.image.BufferedImage;
 import java.beans.PropertyDescriptor;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.URLConnection;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -211,7 +218,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -219,7 +226,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 
@@ -310,6 +317,46 @@ public class DefaultScreensRestController extends AbstractRestController {
 		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
 				tablesDefinitionProvider, entity.getClass());
 		tableWriter.writeTable(records, (TableDefinition)tableDefinition.getValue(), response.getOutputStream());
+	}
+
+	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
+	public void uploadImage(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws IOException {
+		String fileName = file.getOriginalFilename();
+		fileName = fileName.replaceAll(" ", "_");
+		String property = "java.io.tmpdir";
+		// Get the temporary directory and print it.
+		String tempDir = System.getProperty(property);
+		file.transferTo(new File(tempDir, fileName));
+
+		response.setContentType("application/json");
+
+		PrintWriter out = response.getWriter();
+		out.print("{\"filename\":\"" + fileName + "\"}");
+		out.flush();
+	}
+
+	@RequestMapping(value = "/image", method = RequestMethod.GET)
+	public void getImage(HttpServletResponse response, @RequestParam(value = "filename", required = true) String filename)
+			throws IOException {
+
+		String property = "java.io.tmpdir";
+		// Get the temporary directory and print it.
+		String tempDir = System.getProperty(property);
+		File file = new File(tempDir, filename);
+		BufferedImage bufferedImage = ImageIO.read(file);
+
+		response.setContentType(URLConnection.guessContentTypeFromName(filename));
+		OutputStream out = response.getOutputStream();
+
+		String ext = "";
+
+		int i = filename.lastIndexOf('.');
+		if (i >= 0) {
+			ext = filename.substring(i + 1);
+		}
+
+		ImageIO.write(bufferedImage, ext, out);
+		out.close();
 	}
 
 	@Override
