@@ -4,7 +4,11 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" /> 
 
-	<div id="menu">
+	<c:set var="dir" value="ltr" />
+	<c:if test="${openLegacyProperties.rightToLeft}">
+		<c:set var="dir" value="rtl" />
+	</c:if>
+	<div id="menu" dir="${dir}">
 		<script language="JavaScript" type="text/javascript">
 			require([
 					"dijit/layout/AccordionContainer",

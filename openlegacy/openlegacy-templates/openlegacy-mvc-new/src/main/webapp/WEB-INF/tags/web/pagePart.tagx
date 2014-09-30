@@ -35,7 +35,7 @@
 	</c:if>	
 	
 	<div style="${leftStyle} ${topStyle} ${widthStyle}; ${absoluteStyle} height: auto;" data-dojo-type="dijit.TitlePane" data-dojo-props="open: ${open},title: '${title}'" class="panel">
-		<div class="content">
+		<div class="content" dir="ltr">
 			<jsp:doBody />
 		</div>
 	</div>

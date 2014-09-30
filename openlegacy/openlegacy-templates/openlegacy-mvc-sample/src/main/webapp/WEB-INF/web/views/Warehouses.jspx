@@ -6,7 +6,9 @@
 
 	<div>
 		<ol:form model="warehouses">
-			<ol:table data="${warehouses.warehousesRecords}" property="warehousesRecords" actionsAsIcons="true"/>
+			<ol:pagePart title="">
+				<ol:table data="${warehouses.warehousesRecords}" property="warehousesRecords" actionsAsIcons="true"/>
+			</ol:pagePart>
 		</ol:form>
 	</div>
 </jsp:root>
