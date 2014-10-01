@@ -5,6 +5,10 @@
 	<jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" /> 
 	<jsp:output omit-xml-declaration="yes" />
 
+	<c:set var="dir" value="ltr"/>
+	<c:if test="${openLegacyProperties.rightToLeft}">
+		<c:set var="dir" value="rtl"/>
+	</c:if>
 	<div>
 		<ol:form model="itemDetails">
 			<ol:pagePart open="true" title="Item Details">
@@ -44,7 +48,7 @@
 				<div class="field_row">
 					<label class="label">Video URL:</label>
 					<div class="field">
-						<input name="videoUrl" value="${stockItem.videoUrl}" size="60" />
+						<input name="videoUrl" value="${stockItem.videoUrl}" size="60" dir="${dir}"/>
 						<c:if test="${not empty stockItem.videoUrl}">
 							<a href="javascript:showDialog('videoDialog')" class="icon">
 								<img src="${pageContext.request.contextPath}/icons/play.png"
@@ -58,8 +62,8 @@
 			</ol:pagePart>
 			<ol:pagePart title="Full Description">
 				<div class="content">
-					<input type="hidden" id="description" name="description" />
-					<div id="fullDescrEditor" data-dojo-type="dijit.Editor" 
+					<input type="hidden" id="description" name="description" dir="${dir}"/>
+					<div id="fullDescrEditor" data-dojo-type="dijit.Editor" dir="${dir}"
 							onkeyup="require(['dojo/dom', 'dijit/registry'], function(dom, registry){dom.byId('description').value = registry.byId('fullDescrEditor').get('value');});">
 						${stockItem.description}
 					</div>

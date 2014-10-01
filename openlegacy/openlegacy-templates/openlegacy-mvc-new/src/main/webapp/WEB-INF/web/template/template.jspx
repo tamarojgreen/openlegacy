@@ -68,11 +68,11 @@
 		<![endif]-->
 		<tiles:insertAttribute name="head" ignore="true"/>
 	</head>
-	<c:set var="bodyDir" value="" />
+	<c:set var="dir" value="ltr"/>
 	<c:if test="${openLegacyProperties.rightToLeft}">
-		<c:set var="bodyDir" value="rtl" />
+		<c:set var="dir" value="rtl"/>
 	</c:if>
-	<body class="${ol_theme}" dir="${bodyDir}">
+	<body class="${ol_theme}">
 		<div id="wrap" class="page_container">
 			<div id="wrap_in">
 				<div class="container">
@@ -87,7 +87,7 @@
 						<tiles:insertAttribute name="breadcrumb" ignore="true" />
 						<tiles:insertAttribute name="actions" ignore="true" />
 	
-						<div data-dojo-type="dijit.layout.ContentPane" id="container" class="main">
+						<div data-dojo-type="dijit.layout.ContentPane" id="container" class="main" dir="${dir}">
 							<tiles:insertAttribute name="body" />
 						</div>
 					</div>

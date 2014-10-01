@@ -47,9 +47,9 @@
 	<c:if test="${fn:contains(style,'width')}">
 		<c:set var="width" value="0" />
 	</c:if>
+	<c:set var="dir" value="ltr"/>
 	<c:if test="${rightToLeft}">
-		<c:set var="style"
-			value="${style};direction:rtl;unicode-bidi: bidi-override;" />
+		<c:set var="dir" value="rtl"/>
 	</c:if>
 	<c:set var="helpText" value="${fieldDefinition.helpText}" />
 	<c:if test="${empty helpText}">
@@ -72,26 +72,27 @@
 								<span class="fieldPlaceholder" />
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width+30}px;"/></c:if>
 								<form:input type="${type}" id="${name}"
-									data-dojo-type="dijit.form.NumberSpinner" dir="ltr"
+									data-dojo-type="dijit.form.NumberSpinner"
 									constraints="{min:${fieldDefinition.fieldTypeDefinition.minimumValue},max:${fieldDefinition.fieldTypeDefinition.maximumValue},places:0}"
-									path="${name}" cssStyle="${widthString}${style}" />
+									path="${name}" cssStyle="${widthString}${style}" dir="${dir}"/>
 							</c:when>
 							<c:when test="${type == 'boolean'}">
 								<script>require("dijit/form/CheckBox");</script>
 								<span class="fieldPlaceholder" />
 								<form:checkbox name="${name}"
 									data-dojo-type="dijit.form.CheckBox" path="${name}"
-									cssStyle="${style}" />
+									cssStyle="${style}" dir="${dir}"/>
 							</c:when>
 							<c:when test="${type == 'date'}">
-								<form:input id="${name}" path="${name}" cssStyle="${style}" />
+								<form:input id="${name}" path="${name}" cssStyle="${style}" dir="${dir}"/>
 								<script type="text/javascript">
 								require(["dijit/form/DateTextBox", "dojo/dom"], 
 										function(DateTextBox, dom){
 											var dateField = new DateTextBox({ 
 													name : "${name}", 
 													value : dom.byId('${name}').value, 
-													datePattern : "yyyy-MM-dd" }, 
+													datePattern : "yyyy-MM-dd",
+													dir: '${dir}'},
 												"${name}");
 								});
 							</script>
@@ -102,7 +103,7 @@
 										<c:set var="windowUrl" value="${fieldDefinition.fieldTypeDefinition.sourceEntityClassName}" />
 										<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 										<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
-											maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" />
+											maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" dir="${dir}"/>
 										<c:if test="${not empty fieldDefinition.fieldTypeDefinition.displayFieldName}">
 											<ol:span cssClass="readonlyField" path="${fieldDefinition.fieldTypeDefinition.displayFieldName}"
 												cssStyle="${style}" />
@@ -119,7 +120,7 @@
 										<input name="${fieldDefinition.name}"
 											data-dojo-type="dijit.form.ComboBox"
 											data-dojo-props="store:${fieldDefinition.name}Values, searchAttr:'name', pageSize:100, autocomplete:'true'"
-											style="width: 200px"></input>
+											style="width: 200px" dir="${dir}"></input>
 									</c:otherwise>
 								</c:choose>
 							</c:when>
@@ -132,14 +133,13 @@
 								<c:when test="${fieldDefinition.rectangle == true}">
 									<c:set var="width" value="${(fieldDefinition.endPosition.column-fieldDefinition.position.column+1)*10}" />
 									<c:set var="widthString" value="width:${width}px" />
-									<form:textarea type="text" id="${name}" path="${name}" rows="${fieldDefinition.endPosition.row-fieldDefinition.position.row+1}" onkeyup="return (this.value.length &gt;= ${fieldDefinition.length});" cssStyle="${widthString};${style}" />
+									<form:textarea type="text" id="${name}" path="${name}" rows="${fieldDefinition.endPosition.row-fieldDefinition.position.row+1}" onkeyup="return (this.value.length &gt;= ${fieldDefinition.length});" cssStyle="${widthString};${style}" dir="${dir}"/>
 								</c:when>
 								<c:otherwise>
-									<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}"/>
+									<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" dir="${dir}"/>
 								</c:otherwise>
 								</c:choose>									
-								<a
-									href="javascript:require(['dojo/dom'], function(dom){createFormattedMap(dom.byId('${name}').value)});showDialog('mapDialog')">
+								<a href="javascript:require(['dojo/dom'], function(dom){createFormattedMap(dom.byId('${name}').value)});showDialog('mapDialog')">
 									<img src="${pageContext.request.contextPath}/icons/map.png"
 									width="26" height="28" alt="Map" style="vertical-align: top;" />
 								</a>
@@ -147,11 +147,11 @@
 							<c:when test="${type == 'password'}">
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 								<form:input type="password" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'" 
-									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" />
+									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" dir="${dir}"/>
 							</c:when>
 							<c:when test="${type == 'radio'}">
 								<div class="radio">
-									<form:radiobuttons id="${name}" path="${name}" items="${fieldDefinition.fieldTypeDefinition.displayValues}" itemValue="value" />
+									<form:radiobuttons id="${name}" path="${name}" items="${fieldDefinition.fieldTypeDefinition.displayValues}" itemValue="value" dir="${dir}"/>
 								</div>
 							</c:when>
 							<c:when test="${type == 'enum'}">
@@ -159,7 +159,7 @@
 								<span class="fieldPlaceholder" />
 								<form:select id="${name}"
 									data-dojo-type="dijit.form.FilteringSelect" path="${name}"
-									cssStyle="${style}">
+									cssStyle="${style}" dir="${dir}">
 									<form:option value="" label="--- Select ---" />
 									<form:options
 										items="${fieldDefinition.fieldTypeDefinition.displayValues}" />
@@ -168,11 +168,11 @@
 							<c:when test="${fieldDefinition.rectangle == true}">
 									<c:set var="width" value="${(fieldDefinition.endPosition.column-fieldDefinition.position.column+1)*10}" />
 									<c:set var="widthString" value="width:${width}px" />
-									<form:textarea type="text" id="${name}" path="${name}" rows="${fieldDefinition.endPosition.row-fieldDefinition.position.row+1}" onkeyup="return (this.value.length &gt;= ${fieldDefinition.length});" cssStyle="${widthString};${style}" />
+									<form:textarea type="text" id="${name}" path="${name}" rows="${fieldDefinition.endPosition.row-fieldDefinition.position.row+1}" onkeyup="return (this.value.length &gt;= ${fieldDefinition.length});" cssStyle="${widthString};${style}" dir="${dir}"/>
 							</c:when>
 							<c:when test="${type == 'email'}">
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
-								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" cssClass="${cssClass}" />
+								<form:input type="text" id="${name}" maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" cssClass="${cssClass}" dir="${dir}"/>
 								<span style="${tabletChildSpanStyle}">
 									<a href="javascript:require(['dojo/dom'], function(dom){location.href= 'mailto:' + dom.byId('${name}').value;});">
 										<img src="${pageContext.request.contextPath}/icons/mail.png" class="mail"/>
@@ -182,7 +182,7 @@
 							<c:otherwise>
 								<c:if test="${width &gt; 0}"><c:set var="widthString" value="width:${width}px;"/></c:if>
 								<form:input type="text" id="${name}" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="promptMessage:'${helpText}'"
-									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" />
+									maxlength="${maxlength}" path="${name}" cssStyle="${widthString}${style}" dir="${dir}"/>
 							</c:otherwise>
 						</c:choose>
 					</c:when>
