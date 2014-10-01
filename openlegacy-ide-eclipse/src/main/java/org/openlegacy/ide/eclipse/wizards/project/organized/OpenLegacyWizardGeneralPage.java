@@ -338,12 +338,14 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 	}
 
 	private void validatePage() {
+		// NOTE: first of all, we must update next pages. In other case canFinish() will return incorrect result
+		((OpenLegacyWizardHostPage)getNextPage()).updateControlsData(backendCombo.getText(), null);
+
 		if (!demoRadioButton.getSelection() && validateProjectName(projectNameText.getText())) {
 			validateDefaultPackage(defaultPackageText.getText());
 		} else if (demoRadioButton.getSelection()) {
 			updateStatus(null);
 		}
-		((OpenLegacyWizardHostPage)getNextPage()).updateControlsData(backendCombo.getText(), null);
 	}
 
 }
