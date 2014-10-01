@@ -19,6 +19,7 @@ import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.generators.AnnotationsParserUtils;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.StringUtil;
 import org.openlegacy.utils.TypesUtil;
@@ -332,6 +333,8 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 	private boolean serviceInOut = false;
 
+	private RpcNavigationDefinition navigationDefinition;
+
 	public DefaultRpcPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
@@ -371,7 +374,9 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 					|| annotationName.equals(AnnotationConstants.SERVICE_OUTPUT)) {
 				serviceInOut = true;
 			}
-
+			if (annotationName.equals(RpcAnnotationConstants.RPC_NAVIGATION_ANNOTATION)) {
+				navigationDefinition = RpcAnnotationsParserUtils.populateNavigation(annotationExpr);
+			}
 		}
 	}
 
@@ -571,4 +576,9 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 	public boolean isServiceInOut() {
 		return serviceInOut;
 	}
+
+	public RpcNavigationDefinition getNavigationDefinition() {
+		return navigationDefinition;
+	}
+
 }
