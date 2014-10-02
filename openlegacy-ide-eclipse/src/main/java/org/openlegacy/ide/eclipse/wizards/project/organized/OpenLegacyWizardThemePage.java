@@ -87,38 +87,26 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 		projectThemes = getFilteredThemesByFrontendSolution(allThemes, frontendSolution);
 
 		if (projectThemes == null || projectThemes.isEmpty()) {
-			getControl().getDisplay().syncExec(new Runnable() {
-
-				public void run() {
-					updateStatus(Messages.getString("error_new_project_metadata_not_found"));//$NON-NLS-1$
-				}
-			});
+			updateStatus(null);
 			return;
-		} else {
-			String errorMsg = getErrorMessage();
-			if (errorMsg != null && errorMsg == Messages.getString("error_new_project_metadata_not_found")) {
-				updateStatus(null);
-			}
-
-			List<String> themes = new ArrayList<String>();
-			for (ProjectTheme projectTheme : projectThemes) {
-				themes.add(projectTheme.getDisplayName());
-			}
-
-			themeNames = themes.toArray(new String[] {});
-
-			getControl().getDisplay().syncExec(new Runnable() {
-
-				public void run() {
-					tableViewer.setInput(themeNames);
-					TableItem item = tableViewer.getTable().getItem(0);
-					tableViewer.getTable().setSelection(item);
-					tableViewer.getTable().showSelection();
-					tableViewer.setSelection(tableViewer.getSelection());
-				}
-			});
-
 		}
+		List<String> themes = new ArrayList<String>();
+		for (ProjectTheme projectTheme : projectThemes) {
+			themes.add(projectTheme.getDisplayName());
+		}
+
+		themeNames = themes.toArray(new String[] {});
+
+		getControl().getDisplay().syncExec(new Runnable() {
+
+			public void run() {
+				tableViewer.setInput(themeNames);
+				TableItem item = tableViewer.getTable().getItem(0);
+				tableViewer.getTable().setSelection(item);
+				tableViewer.getTable().showSelection();
+				tableViewer.setSelection(tableViewer.getSelection());
+			}
+		});
 
 	}
 
@@ -213,7 +201,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 		return null;
 	}
 
-	private List<ProjectTheme> getFilteredThemesByFrontendSolution(List<ProjectTheme> themes, String frontendSolution) {
+	private static List<ProjectTheme> getFilteredThemesByFrontendSolution(List<ProjectTheme> themes, String frontendSolution) {
 		List<ProjectTheme> filteredThemes = new ArrayList<ProjectTheme>();
 		for (ProjectTheme projectTheme : themes) {
 			if (frontendSolution.equals(projectTheme.getFrontendSolution())) {

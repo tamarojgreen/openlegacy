@@ -36,7 +36,7 @@
 		<c:set var="type" value="${type}" />
 	</c:if>
 	<c:if test="${empty rightToLeft}">
-		<c:set var="rightToLeft" value="${fieldDefinition.rightToLeft}" />
+		<c:set var="rightToLeft" value="${openLegacyProperties.rightToLeft}" />
 	</c:if>
 	<c:choose>
 		<c:when test="${not empty columnWidth}">

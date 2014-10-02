@@ -40,7 +40,7 @@
 		<c:set var="type" value="${type}" />
 	</c:if>
 	<c:if test="${empty rightToLeft}">
-		<c:set var="rightToLeft" value="${fieldDefinition.rightToLeft}" />
+		<c:set var="rightToLeft" value="${openLegacyProperties.rightToLeft}" />
 	</c:if>
 	<c:if test="${empty editable}">
 		<c:set var="editable" value="${fieldDefinition.editable}" />

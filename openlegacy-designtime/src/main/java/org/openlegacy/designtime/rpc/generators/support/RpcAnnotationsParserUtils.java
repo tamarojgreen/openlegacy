@@ -17,6 +17,8 @@ import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Action;
 import org.openlegacy.designtime.rpc.generators.support.DefaultRpcPojoCodeModel.Field;
 import org.openlegacy.designtime.utils.JavaParserUtil;
+import org.openlegacy.rpc.definitions.RpcNavigationDefinition;
+import org.openlegacy.rpc.definitions.SimpleRpcNavigationDefinition;
 import org.openlegacy.utils.StringConstants;
 import org.openlegacy.utils.StringUtil;
 
@@ -116,5 +118,20 @@ public class RpcAnnotationsParserUtils {
 			}
 		}
 		return actions;
+	}
+
+	public static RpcNavigationDefinition populateNavigation(AnnotationExpr annotationExpr) {
+		SimpleRpcNavigationDefinition navigationDefinition = new SimpleRpcNavigationDefinition();
+
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			List<MemberValuePair> navigationAttributes = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			for (MemberValuePair memberValuePair : navigationAttributes) {
+				String attributeValue = memberValuePair.getValue().toString();
+				if (memberValuePair.getName().equals(RpcAnnotationConstants.CATEGORY)) {
+					navigationDefinition.setCategory(StringUtil.stripQuotes(attributeValue));
+				}
+			}
+		}
+		return navigationDefinition;
 	}
 }

@@ -15,6 +15,7 @@ import org.openlegacy.annotations.rpc.RpcBooleanField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcEntitySuperClass;
 import org.openlegacy.annotations.rpc.RpcField;
+import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
@@ -28,6 +29,7 @@ public class RpcAnnotationConstants {
 	public static final String RPC_TYPE = "rpcType";
 	public static final String RPC_FIELD_ANNOTATION = RpcField.class.getSimpleName();
 	public static final String RPC_PART_LIST = RpcPartList.class.getSimpleName();
+	public static final String RPC_NAVIGATION_ANNOTATION = RpcNavigation.class.getSimpleName();
 
 	// @RpcEntity
 	public static final String NAME = "name";
@@ -51,4 +53,7 @@ public class RpcAnnotationConstants {
 
 	// @Action
 	public static final String PATH = "path";
+
+	// @RpcNavigation
+	public static final String CATEGORY = "category";
 }
