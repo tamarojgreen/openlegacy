@@ -30,6 +30,8 @@
 	<mvc:resources cache-period="86400" location="classpath:/themes/" mapping="/app/themes/**" />
 	<mvc:resources cache-period="86400" location="/app/" mapping="/app/**" />
 	<mvc:resources cache-period="86400" location="/" mapping="/webapp/**" />
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 	
     <bean
         class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">

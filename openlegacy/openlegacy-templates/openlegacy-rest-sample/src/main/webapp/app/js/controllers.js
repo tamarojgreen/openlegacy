@@ -100,6 +100,30 @@ olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$st
 	console.log(JSON.stringify($stateParams.itemId));
 	
 	$olData.getItemDetails($stateParams.itemId,function(data){
+		$scope.uploadStockItemImage = function(files) {			
+			var formData = new FormData();
+			formData.append("file",files[0]);
+	        
+	        $http.post(olConfig.baseURL + '/uploadImage', formData, {
+	        	transformRequest: angular.identity,
+	            headers: {'Content-Type': undefined}     
+		            
+		        }).success(function(data, status) {
+		        	if (data.filename != null || data.filename != "") {
+		        		var fnameWithoutExt = data.filename.split(".")[0];
+		        		console.log(fnameWithoutExt);
+		        		if (fnameWithoutExt != null) {
+		        			$(".modal_images").append("<div id='" + fnameWithoutExt + "' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='screenshotModal' aria-hidden='true'><div class='modal-dialog modal-lg'><div class='modal-content text-center transparant'><img src='" + olConfig.baseURL + "/image?filename=" + data.filename + "' class='img-thumbnail'></div></div></div>");
+			        		$(".images").append("<div class='col-sm-4'><a  data-toggle='modal' data-target='#" + fnameWithoutExt + "' class='clickable'><img src='" + olConfig.baseURL + "/image?filename=" + data.filename + "' class='img-thumbnail'></a></div>");
+		        		} 
+		        		
+		        	}
+		        }).error(function(data, status) {
+	
+		        });
+			};
+		
+		
 		console.log(JSON.stringify(data.model.entity));
 		$scope.itemDetails = data.model.entity
 		$scope.actions = data.model.entity.actions;

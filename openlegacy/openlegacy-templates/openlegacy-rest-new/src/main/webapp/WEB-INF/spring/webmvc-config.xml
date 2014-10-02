@@ -55,7 +55,9 @@
 	<mvc:resources cache-period="86400" location="/app/" mapping="/app/**"/>
 	<mvc:resources cache-period="86400" location="/" mapping="/webapp/**"/>
 	
-    <bean
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	
+	<bean
         class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="defaultContentType" value="application/xml" />
         <property name="ignoreAcceptHeader" value="false" />

@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.beans.PropertyDescriptor;
@@ -310,6 +311,19 @@ public class DefaultScreensRestController extends AbstractRestController {
 		Entry<String, ScreenTableDefinition> tableDefinition = ScrollableTableUtil.getSingleScrollableTableDefinition(
 				tablesDefinitionProvider, entity.getClass());
 		tableWriter.writeTable(records, (TableDefinition)tableDefinition.getValue(), response.getOutputStream());
+	}
+
+	@Override
+	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
+	public void uploadImage(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws IOException {
+		super.uploadImage(file, response);
+	}
+
+	@Override
+	@RequestMapping(value = "/image", method = RequestMethod.GET)
+	public void getImage(HttpServletResponse response, @RequestParam(value = "filename", required = true) String filename)
+			throws IOException {
+		super.getImage(response, filename);
 	}
 
 	@Override

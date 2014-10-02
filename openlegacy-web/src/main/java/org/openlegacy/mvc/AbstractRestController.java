@@ -28,16 +28,23 @@ import org.openlegacy.modules.menu.MenuItem;
 import org.openlegacy.modules.navigation.Navigation;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.xml.sax.InputSource;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLConnection;
 import java.text.MessageFormat;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstractRestController {
@@ -68,6 +75,7 @@ public abstract class AbstractRestController {
 	 * Whether to enable /login via URL GET calls. Can be overridden from /application.properties
 	 */
 	private boolean enableGetLogin = true;
+	private String uploadDir;
 
 	public Object login(String user, String password, HttpServletResponse response) throws IOException {
 		if (!enableLogin || !enableGetLogin) {
@@ -394,6 +402,48 @@ public abstract class AbstractRestController {
 		return getMenu();
 	}
 
+	protected void uploadImage(MultipartFile file, HttpServletResponse response) throws IOException {
+		String fileName = file.getOriginalFilename();
+		fileName = fileName.replaceAll(" ", "_");
+
+		if (uploadDir == null) {
+			String property = "java.io.tmpdir";
+			// Get the temporary directory and print it.
+			uploadDir = System.getProperty(property);
+		}
+		file.transferTo(new File(uploadDir, fileName));
+
+		response.setContentType("application/json");
+
+		PrintWriter out = response.getWriter();
+		out.print("{\"filename\":\"" + fileName + "\"}");
+		out.flush();
+	}
+
+	protected void getImage(HttpServletResponse response, String filename) throws IOException {
+
+		if (uploadDir == null) {
+			String property = "java.io.tmpdir";
+			// Get the temporary directory and print it.
+			uploadDir = System.getProperty(property);
+		}
+		File file = new File(uploadDir, filename);
+		BufferedImage bufferedImage = ImageIO.read(file);
+
+		response.setContentType(URLConnection.guessContentTypeFromName(filename));
+		OutputStream out = response.getOutputStream();
+
+		String ext = "";
+
+		int i = filename.lastIndexOf('.');
+		if (i >= 0) {
+			ext = filename.substring(i + 1);
+		}
+
+		ImageIO.write(bufferedImage, ext, out);
+		out.close();
+	}
+
 	public void setRequiresLogin(boolean requiresLogin) {
 		this.requiresLogin = requiresLogin;
 	}
@@ -404,6 +454,10 @@ public abstract class AbstractRestController {
 
 	public void setEnableGetLogin(boolean enableGetLogin) {
 		this.enableGetLogin = enableGetLogin;
+	}
+
+	public void setUploadDir(String uploadDir) {
+		this.uploadDir = uploadDir;
 	}
 
 	public static class LoginObject {
