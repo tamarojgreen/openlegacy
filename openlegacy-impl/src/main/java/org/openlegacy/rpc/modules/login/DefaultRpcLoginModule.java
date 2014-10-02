@@ -47,7 +47,10 @@ public class DefaultRpcLoginModule extends RpcSessionModuleAdapter implements Lo
 
 	public void logoff() {
 		getSession().disconnect();
-		logger.info(MessageFormat.format("User {0} successfully logged off", loggedInUser.getUserName()));
+
+		if (loggedInUser != null) {
+			logger.info(MessageFormat.format("User {0} successfully logged off", loggedInUser.getUserName()));
+		}
 		loggedInUser = null;
 
 	}
