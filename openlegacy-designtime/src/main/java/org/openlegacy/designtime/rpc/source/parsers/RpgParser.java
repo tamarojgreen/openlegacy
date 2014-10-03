@@ -15,6 +15,7 @@ import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.designtime.DesigntimeException;
+import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
 import org.openlegacy.designtime.rpc.source.CodeParser;
 import org.openlegacy.modules.login.Login.UserField;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
@@ -130,7 +131,8 @@ public class RpgParser implements CodeParser {
 
 	public RpcEntityDefinition parse(String source) throws DesigntimeException {
 
-		SimpleRpcEntityDefinition rpcDefinition = new SimpleRpcEntityDefinition();
+		SimpleRpcEntityDefinition rpcDefinition = new SimpleRpcEntityDesigntimeDefinition();
+		// SimpleRpcEntityDefinition rpcDefinition = new SimpleRpcEntityDefinition();
 		rpcDefinition.setEntityName(rpcEntityName);
 		// final String D_LINE_FORMAT = "(.{15})([E\\s])([A-Z\\s]{2})([SU\\s])" + "(.{7})(.{7})([A-Z\\*\\s])([\\d\\s]{2})(.*)";
 		final String D_LINE_FORMAT = "(.{15})([E\\s])([\\sS])(S\\s|DS)" + "(.{7})(.{7})([A-Z\\*\\s])([\\d\\s]{2})(.*)";
@@ -162,6 +164,7 @@ public class RpgParser implements CodeParser {
 						rpcFieldDefinition.setType(UserField.class);
 						rpcFieldDefinition.setFieldTypeDefinition(getType(fieldType));
 						rpcDefinition.getFieldsDefinitions().put(javaFieldName, rpcFieldDefinition);
+						Integer asd = rpcFieldDefinition.getDecimalPlaces();
 
 					}
 
@@ -176,8 +179,10 @@ public class RpgParser implements CodeParser {
 	}
 
 	public ParseResults parse(String source, String fileName) {
-		// TODO Auto-generated method stub
-		return null;
+		RpgParseResults parseResults = new RpgParseResults();
+		RpcEntityDefinition entityDefinition = parse(source);
+		parseResults.setRpcEntityDefinition(entityDefinition);
+		return parseResults;
 	}
 
 	public ParseResults parse(String source, Map<String, InputStream> streamMap) throws IOException {
