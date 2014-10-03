@@ -1176,8 +1176,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 				((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).convertToExternal(localToExternal);
 			}
 
-			CobolNameRecognizer cobolNameRecognizer = getCobolNameRecognizer();
-
+			CobolNameRecognizer cobolNameRecognizer = getCobolNameRecognizer();			
 			((SimpleRpcEntityDesigntimeDefinition)rpcEntityDefinition).setEntityName(cobolNameRecognizer.getEntityName(
 					fileContent, sourceFile.getName()));
 		} catch (IOException e) {

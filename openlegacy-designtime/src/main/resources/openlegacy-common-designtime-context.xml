@@ -87,10 +87,14 @@
 	        <map>
 	            <entry key="cbl" value-ref="cobolParser" />
 	            <entry key="cpy" value-ref="cobolParser" />
-	            <entry key="pcml" value-ref="pcmlParser" />
+	            <entry key="pcml" value-ref="pcmlParser" />	            
+	            <entry key="rpg" value-ref="rpgParser" />
+	            
 	        </map>
 	    </property>
     </bean>
+    
+    <bean id="rpgParser" class="org.openlegacy.designtime.rpc.source.parsers.RpgParser"></bean>
 	
 	<bean id="cobolParser"
 		class="org.openlegacy.designtime.rpc.source.parsers.OpenlegacyCobolParser">

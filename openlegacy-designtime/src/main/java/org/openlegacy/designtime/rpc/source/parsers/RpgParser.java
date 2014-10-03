@@ -15,11 +15,12 @@ import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleNumericFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
 import org.openlegacy.designtime.DesigntimeException;
+import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
 import org.openlegacy.designtime.rpc.source.CodeParser;
-import org.openlegacy.modules.login.Login.UserField;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcFieldDefinition;
+import org.openlegacy.rpc.definitions.support.SimpleRpcNumericFieldTypeDefinition;
 import org.openlegacy.utils.StringUtil;
 
 import java.io.IOException;
@@ -70,8 +71,8 @@ public class RpgParser implements CodeParser {
 		fieldTypeMap.put(' ', new SimpleTextFieldTypeDefinition());
 		fieldTypeMap.put('A', new SimpleTextFieldTypeDefinition());
 		fieldTypeMap.put('D', new SimpleDateFieldTypeDefinition());
-		fieldTypeMap.put('F', new SimpleNumericFieldTypeDefinition());
-		fieldTypeMap.put('I', new SimpleNumericFieldTypeDefinition());
+		fieldTypeMap.put('F', new SimpleRpcNumericFieldTypeDefinition());
+		fieldTypeMap.put('I', new SimpleRpcNumericFieldTypeDefinition());
 		fieldTypeMap.put('S', new SimpleNumericFieldTypeDefinition());
 	}
 
@@ -130,7 +131,8 @@ public class RpgParser implements CodeParser {
 
 	public RpcEntityDefinition parse(String source) throws DesigntimeException {
 
-		SimpleRpcEntityDefinition rpcDefinition = new SimpleRpcEntityDefinition();
+		SimpleRpcEntityDefinition rpcDefinition = new SimpleRpcEntityDesigntimeDefinition();
+		// SimpleRpcEntityDefinition rpcDefinition = new SimpleRpcEntityDefinition();
 		rpcDefinition.setEntityName(rpcEntityName);
 		// final String D_LINE_FORMAT = "(.{15})([E\\s])([A-Z\\s]{2})([SU\\s])" + "(.{7})(.{7})([A-Z\\*\\s])([\\d\\s]{2})(.*)";
 		final String D_LINE_FORMAT = "(.{15})([E\\s])([\\sS])(S\\s|DS)" + "(.{7})(.{7})([A-Z\\*\\s])([\\d\\s]{2})(.*)";
@@ -159,9 +161,10 @@ public class RpgParser implements CodeParser {
 						rpcFieldDefinition.setLength(Integer.parseInt(StringUtil.leftTrim(match.group(6))));
 						Character fieldType = match.group(7).charAt(0);
 						rpcFieldDefinition.setJavaType(getJavaType(fieldType));
-						rpcFieldDefinition.setType(UserField.class);
-						rpcFieldDefinition.setFieldTypeDefinition(getType(fieldType));
+						FieldTypeDefinition type = getType(fieldType);
+						rpcFieldDefinition.setFieldTypeDefinition(type);
 						rpcDefinition.getFieldsDefinitions().put(javaFieldName, rpcFieldDefinition);
+						// Integer asd = rpcFieldDefinition.getDecimalPlaces();
 
 					}
 
@@ -176,8 +179,10 @@ public class RpgParser implements CodeParser {
 	}
 
 	public ParseResults parse(String source, String fileName) {
-		// TODO Auto-generated method stub
-		return null;
+		RpgParseResults parseResults = new RpgParseResults();
+		RpcEntityDefinition entityDefinition = parse(source);
+		parseResults.setRpcEntityDefinition(entityDefinition);
+		return parseResults;
 	}
 
 	public ParseResults parse(String source, Map<String, InputStream> streamMap) throws IOException {

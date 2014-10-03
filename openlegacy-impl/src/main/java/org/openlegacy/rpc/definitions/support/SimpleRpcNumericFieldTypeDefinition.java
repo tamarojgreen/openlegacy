@@ -34,30 +34,37 @@ public class SimpleRpcNumericFieldTypeDefinition extends SimpleNumericFieldTypeD
 		return decimalPlaces;
 	}
 
+	public void setDecimalPlaces(Integer decimalPlaces) {
+		this.decimalPlaces = decimalPlaces;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result
-				+ ((decimalPlaces == null) ? 0 : decimalPlaces.hashCode());
+		result = prime * result + ((decimalPlaces == null) ? 0 : decimalPlaces.hashCode());
 		return result;
 	}
 
-
 	@Override
 	public boolean equals(final Object object) {
-		if (this == object)
+		if (this == object) {
 			return true;
-		if (!super.equals(object))
+		}
+		if (!super.equals(object)) {
 			return false;
-		if (getClass() != object.getClass())
+		}
+		if (getClass() != object.getClass()) {
 			return false;
-		final SimpleRpcNumericFieldTypeDefinition other = (SimpleRpcNumericFieldTypeDefinition) object;
+		}
+		final SimpleRpcNumericFieldTypeDefinition other = (SimpleRpcNumericFieldTypeDefinition)object;
 		if (decimalPlaces == null) {
-			if (other.decimalPlaces != null)
+			if (other.decimalPlaces != null) {
 				return false;
-		} else if (!decimalPlaces.equals(other.decimalPlaces))
+			}
+		} else if (!decimalPlaces.equals(other.decimalPlaces)) {
 			return false;
+		}
 		return true;
 	}
 }
