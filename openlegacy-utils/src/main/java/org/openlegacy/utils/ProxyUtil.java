@@ -21,6 +21,7 @@ import org.springframework.beans.DirectFieldAccessor;
 import org.springframework.util.Assert;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 public class ProxyUtil {
 
@@ -32,6 +33,23 @@ public class ProxyUtil {
 	public static <T> T getTargetObject(Object proxy, boolean deep) {
 		while (proxy instanceof Advised) {
 			try {
+				if (deep) {
+					// invoke all getters
+					PropertyDescriptor[] properties = PropertyUtils.getPropertyDescriptors(proxy);
+					for (PropertyDescriptor propertyDescriptor : properties) {
+						try {
+							Class<?> propertyType = propertyDescriptor.getPropertyType();
+							if (propertyType != null && !TypesUtil.isPrimitive(propertyType)) {
+								Method readMethod = propertyDescriptor.getReadMethod();
+								if (readMethod != null) {
+									readMethod.invoke(proxy);
+								}
+							}
+						} catch (Exception e) {
+							throw (new RuntimeException(e));
+						}
+					}
+				}
 				proxy = ((Advised)proxy).getTargetSource().getTarget();
 			} catch (Exception e) {
 				throw (new IllegalStateException(e));
