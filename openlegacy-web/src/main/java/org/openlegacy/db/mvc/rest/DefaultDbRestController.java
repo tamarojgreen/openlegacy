@@ -20,6 +20,7 @@ import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
 import org.openlegacy.json.EntitySerializationUtils;
+import org.openlegacy.modules.login.Login;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -57,13 +59,31 @@ public class DefaultDbRestController {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	private Login login;
+
 	private final static Log logger = LogFactory.getLog(DefaultDbRestController.class);
+	private static final String USER = "user";
+	private static final String PASSWORD = "password";
+
+	@RequestMapping(value = "/login", consumes = { JSON, XML })
+	public void login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
+			throws IOException, LoginException {
+		if (login != null) {
+			login.login(user, password);
+		} else {
+			throw (new LoginException("Login not configured for DB REST controler"));
+		}
+	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
 			XML })
 	protected ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
 			HttpServletResponse response) throws IOException {
+		if (!authenticate(response)) {
+			return null;
+		}
+
 		try {
 			return getEntityRequest(entityName, key, children, response);
 		} catch (RuntimeException e) {
@@ -296,7 +316,14 @@ public class DefaultDbRestController {
 	}
 
 	protected boolean authenticate(HttpServletResponse response) throws IOException {
+		if (login != null && !login.isLoggedIn()) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+			return false;
+		}
 		return true;
 	}
 
+	public void setLogin(Login login) {
+		this.login = login;
+	}
 }
