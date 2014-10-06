@@ -12,6 +12,7 @@ package org.openlegacy.designtime.db.generators.support;
 
 import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 
 public class DbAnnotationConstants {
 
@@ -21,8 +22,11 @@ public class DbAnnotationConstants {
 	public static final String DB_ACTIONS_ANNOTATION = null;
 	public static final String DB_FIELD_ANNOTATION = null;
 
+	public static final String DB_TABLE_ANNOTATION = Table.class.getSimpleName();
+
 	// @Entity
 	public static final String NAME = "name";
+	// @Table
 	public static final String CATALOG = "catalog";
 	public static final String SCHEMA = "schema";
 }

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.openlegacy.designtime.db.generators;
 
+import org.openlegacy.db.definitions.DbTableDefinition;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.Action;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.Field;
 import org.openlegacy.designtime.generators.PojoCodeModel;
@@ -29,4 +30,6 @@ public interface DbPojoCodeModel extends PojoCodeModel {
 	List<Action> getActions();
 
 	String getName();
+
+	DbTableDefinition getTableDefinition();
 }

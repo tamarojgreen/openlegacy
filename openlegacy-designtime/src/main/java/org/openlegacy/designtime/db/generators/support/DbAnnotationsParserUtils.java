@@ -12,6 +12,9 @@ package org.openlegacy.designtime.db.generators.support;
 
 import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
+import org.apache.commons.lang.StringUtils;
+import org.openlegacy.db.definitions.DbTableDefinition;
+import org.openlegacy.db.definitions.SimpleDbTableDefinition;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.Action;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.Field;
 import org.openlegacy.designtime.generators.AnnotationConstants;
@@ -92,5 +95,24 @@ public class DbAnnotationsParserUtils {
 			}
 		}
 		return actions;
+	}
+
+	public static DbTableDefinition populateDbTable(AnnotationExpr annotationExpr) {
+		DbTableDefinition definition = new SimpleDbTableDefinition();
+
+		String nameValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.NAME);
+		String catalogValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.CATALOG);
+		String schemaValue = getAnnotationValue(annotationExpr, DbAnnotationConstants.SCHEMA);
+
+		if (!StringUtils.isEmpty(nameValue)) {
+			definition.setName(StringUtil.stripQuotes(nameValue));
+		}
+		if (!StringUtils.isEmpty(catalogValue)) {
+			definition.setCatalog(StringUtil.stripQuotes(catalogValue));
+		}
+		if (!StringUtils.isEmpty(schemaValue)) {
+			definition.setSchema(StringUtil.stripQuotes(schemaValue));
+		}
+		return definition;
 	}
 }

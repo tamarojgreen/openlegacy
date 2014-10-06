@@ -13,6 +13,7 @@ package org.openlegacy.designtime.db.generators.support;
 import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttribute;
 
 import org.openlegacy.annotations.rpc.Languages;
+import org.openlegacy.db.definitions.DbTableDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.db.generators.DbPojoCodeModel;
 import org.openlegacy.designtime.generators.AnnotationConstants;
@@ -280,6 +281,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	private boolean serviceInOut = false;
 
 	private String name = "";
+	private DbTableDefinition tableDefinition = null;
 
 	public DefaultDbPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
@@ -320,7 +322,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 					|| annotationName.equals(AnnotationConstants.SERVICE_OUTPUT)) {
 				serviceInOut = true;
 			}
-
+			if (annotationName.equals(DbAnnotationConstants.DB_TABLE_ANNOTATION)) {
+				tableDefinition = DbAnnotationsParserUtils.populateDbTable(annotationExpr);
+			}
 		}
 	}
 
@@ -492,6 +496,10 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 	public String getName() {
 		return name;
+	}
+
+	public DbTableDefinition getTableDefinition() {
+		return tableDefinition;
 	}
 
 }
