@@ -27,4 +27,6 @@ public interface DbPojoCodeModel extends PojoCodeModel {
 	Collection<Field> getFields();
 
 	List<Action> getActions();
+
+	String getName();
 }

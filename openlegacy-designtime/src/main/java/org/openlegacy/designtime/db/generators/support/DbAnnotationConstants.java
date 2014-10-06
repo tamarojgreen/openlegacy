@@ -20,4 +20,9 @@ public class DbAnnotationConstants {
 	// TODO
 	public static final String DB_ACTIONS_ANNOTATION = null;
 	public static final String DB_FIELD_ANNOTATION = null;
+
+	// @Entity
+	public static final String NAME = "name";
+	public static final String CATALOG = "catalog";
+	public static final String SCHEMA = "schema";
 }

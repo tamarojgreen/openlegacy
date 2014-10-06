@@ -17,7 +17,6 @@ import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.designtime.db.generators.DbPojoCodeModel;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.generators.AnnotationsParserUtils;
-import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.utils.PropertyUtil;
 import org.openlegacy.utils.StringUtil;
@@ -280,6 +279,8 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 	private boolean serviceInOut = false;
 
+	private String name = "";
+
 	public DefaultDbPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
@@ -307,7 +308,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			if (annotationName.equals(DbAnnotationConstants.DB_ENTITY_ANNOTATION)
 					|| annotationName.equals(DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 				enabled = true;
-				// populateEntityAttributes(annotationExpr);
+				populateEntityAttributes(annotationExpr);
 				if (annotationName.equals(DbAnnotationConstants.DB_ENTITY_SUPER_CLASS_ANNOTATION)) {
 					superClass = true;
 				}
@@ -402,29 +403,15 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	}
 
 	private void populateEntityAttributes(AnnotationExpr annotationExpr) {
-		String displayNameFromAnnotation = null;
-		String entityNameFromAnnotation = null;
-		String typeNameFromAnnotation = null;
-		String languageFromAnnotation = null;
+		String nameFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
 
-			displayNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.DISPLAY_NAME, normalAnnotationExpr.getPairs());
-			entityNameFromAnnotation = findAnnotationAttribute(AnnotationConstants.NAME, normalAnnotationExpr.getPairs());
-			typeNameFromAnnotation = findAnnotationAttribute(RpcAnnotationConstants.RPC_TYPE, normalAnnotationExpr.getPairs());
-			languageFromAnnotation = findAnnotationAttribute(RpcAnnotationConstants.LANGUAGE, normalAnnotationExpr.getPairs());
+			nameFromAnnotation = findAnnotationAttribute(DbAnnotationConstants.NAME, normalAnnotationExpr.getPairs());
 		}
-		displayName = displayNameFromAnnotation != null ? StringUtil.stripQuotes(displayNameFromAnnotation)
-				: StringUtil.toDisplayName(getClassName());
-		entityName = entityNameFromAnnotation != null ? StringUtil.stripQuotes(entityNameFromAnnotation)
-				: StringUtil.toClassName(getClassName());
+		name = nameFromAnnotation != null ? StringUtil.stripQuotes(nameFromAnnotation) : "";
 
-		typeName = typeNameFromAnnotation != null ? StringUtil.toClassName(typeNameFromAnnotation)
-				: org.openlegacy.rpc.RpcEntityType.General.class.getSimpleName();
-		if (languageFromAnnotation != null) {
-			language = Languages.valueOf(languageFromAnnotation.split("\\.")[1]);
-		}
 	}
 
 	/*
@@ -502,4 +489,9 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	public boolean isServiceInOut() {
 		return serviceInOut;
 	}
+
+	public String getName() {
+		return name;
+	}
+
 }
