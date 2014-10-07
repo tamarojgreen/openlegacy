@@ -29,4 +29,7 @@ public class DbAnnotationConstants {
 	// @Table
 	public static final String CATALOG = "catalog";
 	public static final String SCHEMA = "schema";
+	public static final String UNIQUE_CONSTRAINTS = "uniqueConstraints";
+	// @UniqueConstraint
+	public static final String COLUMN_NAMES = "columnNames";
 }

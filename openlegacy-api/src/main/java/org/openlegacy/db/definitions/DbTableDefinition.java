@@ -1,5 +1,7 @@
 package org.openlegacy.db.definitions;
 
+import java.util.List;
+
 /**
  * @author Ivan Bort
  * 
@@ -17,4 +19,14 @@ public interface DbTableDefinition {
 	String getCatalog();
 
 	String getSchema();
+
+	List<UniqueConstraintDefinition> getUniqueConstraints();
+
+	public interface UniqueConstraintDefinition {
+
+		List<String> getColumnNames();
+
+		String getName();
+
+	}
 }

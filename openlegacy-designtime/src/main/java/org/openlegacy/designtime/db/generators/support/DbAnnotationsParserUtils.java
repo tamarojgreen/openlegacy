@@ -14,7 +14,9 @@ import static org.openlegacy.designtime.utils.JavaParserUtil.getAnnotationValue;
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.db.definitions.DbTableDefinition;
+import org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition;
 import org.openlegacy.db.definitions.SimpleDbTableDefinition;
+import org.openlegacy.db.definitions.SimpleDbTableUniqueConstraintDefinition;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.Action;
 import org.openlegacy.designtime.db.generators.support.DefaultDbPojoCodeModel.Field;
 import org.openlegacy.designtime.generators.AnnotationConstants;
@@ -113,6 +115,52 @@ public class DbAnnotationsParserUtils {
 		if (!StringUtils.isEmpty(schemaValue)) {
 			definition.setSchema(StringUtil.stripQuotes(schemaValue));
 		}
+		if (annotationExpr instanceof NormalAnnotationExpr) {
+			List<MemberValuePair> pairs = ((NormalAnnotationExpr)annotationExpr).getPairs();
+			for (MemberValuePair pair : pairs) {
+				if (pair.getName().equals(DbAnnotationConstants.UNIQUE_CONSTRAINTS)) {
+					Expression expression = pair.getValue();
+					if (expression instanceof ArrayInitializerExpr) {
+						// uniqueConstraints={@UniqueConstraint(columnNames={"", ""}, name=""),
+						// @UniqueConstraint(columnNames={"",""}, name="")}
+						ArrayInitializerExpr array = (ArrayInitializerExpr)expression;
+						List<Expression> values = array.getValues();
+						for (Expression expr : values) {
+							definition.getUniqueConstraints().add(populateUniqueConstraintDefinition((NormalAnnotationExpr)expr));
+						}
+					} else if (expression instanceof NormalAnnotationExpr) {
+						// uniqueConstraints=@UniqueConstraint(columnNames="name")
+						NormalAnnotationExpr annotation = (NormalAnnotationExpr)expression;
+						definition.getUniqueConstraints().add(populateUniqueConstraintDefinition(annotation));
+					}
+					continue;
+				}
+			}
+		}
+		return definition;
+	}
+
+	private static UniqueConstraintDefinition populateUniqueConstraintDefinition(NormalAnnotationExpr annotation) {
+		SimpleDbTableUniqueConstraintDefinition definition = new SimpleDbTableUniqueConstraintDefinition();
+
+		List<MemberValuePair> pairs = annotation.getPairs();
+		for (MemberValuePair pair : pairs) {
+			if (pair.getName().equals(DbAnnotationConstants.COLUMN_NAMES)) {
+				Expression value = pair.getValue();
+				if (value instanceof ArrayInitializerExpr) {
+					ArrayInitializerExpr expr = (ArrayInitializerExpr)value;
+					List<Expression> values = expr.getValues();
+					for (Expression expression : values) {
+						definition.getColumnNames().add(StringUtil.stripQuotes(expression.toString()));
+					}
+				} else {
+					definition.getColumnNames().add(StringUtil.stripQuotes(value.toString()));
+				}
+			} else if (pair.getName().equals(DbAnnotationConstants.NAME)) {
+				definition.setName(StringUtil.stripQuotes(pair.getValue().toString()));
+			}
+		}
+
 		return definition;
 	}
 }
