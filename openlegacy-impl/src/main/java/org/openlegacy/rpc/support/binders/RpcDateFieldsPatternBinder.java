@@ -139,7 +139,7 @@ public class RpcDateFieldsPatternBinder implements RpcEntityBinder, Serializable
 
 		SimpleDateFormat dateFormater = new SimpleDateFormat(pattern, new Locale(fieldTypeDefinition.getLocale()));
 
-		if (apiFieldValue != null) {
+		if (apiFieldValue != null && !apiFieldValue.equals("")) {
 			legacyFieldValue = dateFormater.format(apiFieldValue);
 
 		} else {

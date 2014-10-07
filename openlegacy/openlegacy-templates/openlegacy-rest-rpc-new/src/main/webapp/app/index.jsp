@@ -9,6 +9,7 @@
 	
 	<!-- Bootstrap core CSS -->
 	<link href="bootstrap/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
+	<link href="bootstrap/css/datepicker.css" media="all" type="text/css" rel="stylesheet">
 	<!-- <link href="bootstrap/css/bootstrap-rtl.min.css" media="all" type="text/css" rel="stylesheet"> -->	
 	
     <!-- Bootstrap extention CSS -->
@@ -28,6 +29,7 @@
 	<script src="js/angular-1.0.7/angular.min.js"></script>
 	<script src="js/angular-1.0.7/angular-cookies.min.js"></script>
 	<script src="bootstrap/js/bootstrap.js"></script>
+	<script src="bootstrap/js/bootstrap-datepicker.js"></script>
 	<script src="lib/jquery.cookie.js"></script>
 	<script src="js/app/app.js_ng" type="text/javascript"></script>
 	<script src="js/app/controllers.js_ng" type="text/javascript"></script>

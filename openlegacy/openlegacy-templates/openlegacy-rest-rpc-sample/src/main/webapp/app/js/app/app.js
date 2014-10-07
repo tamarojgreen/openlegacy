@@ -41,6 +41,38 @@
 	    		controller: "itemDetailsCtrl"
 		    });
 	});
+	
+	olApp.directive('datepicker', function() {
+	    return {
+	        restrict: 'A',
+	        require : 'ngModel',
+	        link : function (scope, element, attrs, ngModelCtrl) {
+	            $(function(){
+	            	element.datepicker({                    
+	                }).on("changeDate", function(ev) {
+	            	    ngModelCtrl.$setViewValue(ev.date);            	    
+	                });
+	            	ngModelCtrl.$formatters.unshift(function (modelValue) {	            		
+	            		if (modelValue != null && modelValue != "" ) {
+	            			var date = new Date(modelValue);	            			
+	            			element.datepicker("setValue", date);
+	            			
+	            			console.log(date);
+	            			
+	            			return ("0" + (date.getMonth() + 1)).slice(-2) + "/" + ("0" + (date.getDate())).slice(-2) + "/" + date.getFullYear();            			
+	            		} else {
+	            			return modelValue;
+	            		}               		
+	                });
+	            	
+	            	ngModelCtrl.$parsers.push(function (viewValue) {            		
+	            		return Date.parse(viewValue)/1000;
+	            	});
+	            });
+	        }
+	    }
+	});
+	
 } )();
 
 
