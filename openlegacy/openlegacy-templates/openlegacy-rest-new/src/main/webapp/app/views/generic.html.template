@@ -145,11 +145,11 @@
 													</#if>
 												</#list>
 												<a href="#/${action.targetEntity.simpleName}/${keyValues}" class="${action.alias}">
-													<@actionButton actionAlias=action.alias/>												
+													${action.displayName}								
 												</a>
 											<#else>
 												<a href="" ng-click="doActionNoTargetEntity($index, '${column.name}', '${action.action.actionValue}')">
-													<@actionButton actionAlias=action.alias/>
+													${action.displayName}
 												</a>
 											</#if>			                                        		                                        
                                         </#list>		                              
@@ -227,24 +227,4 @@
             </a>            
 	    </form>
 	</nav>    
-</#macro>
-
-<#macro actionButton actionAlias>
-	<#switch actionAlias>
-	  <#case 'edit'>
-	   <span class="label label-primary">
-	   	 <span class="glyphicon glyphicon-repeat"></span>
-	   </span>
-	  <#break>
-	  <#case 'delete'>
-	   <span class="label label-danger">
-	   	 <span class="glyphicon glyphicon-remove-sign"></span>
-	   </span>
-	  <#break>															  
-	  <#case 'view'>
-	  <span class="label label-success">
-	   	 <span class="glyphicon glyphicon-share-alt"></span>
-	   </span>
-	    <#break>  
-	</#switch>					
 </#macro>
