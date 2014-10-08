@@ -139,11 +139,11 @@
 										<#list part.tableDefinition.actions as action>																														
 											<#if action.targetEntityName??>												
 												<a href="#/${action.targetEntityName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.columnDefinitions[1].name}}}" class="${action.alias}">
-													<@actionButton value=action.action.actionValue/>												
+													${action.displayName}												
 												</a>
 											<#else>
 												<a href="" ng-click="doActionNoTargetEntity($index, '${column.name}', '${action.action.actionValue}')">
-													<@actionButton value=action.action.actionValue/>
+													${action.displayName}
 												</a>
 											</#if>			                                        		                                        
                                         </#list>		                              
@@ -228,24 +228,4 @@
             </a>            
 	    </form>
 	</nav>    
-</#macro>
-
-<#macro actionButton value>
-	<#switch value>
-	  <#case "2">
-	   <span class="label label-primary">
-	   	 <span class="glyphicon glyphicon-repeat"></span>
-	   </span>
-	  <#break>
-	  <#case "4">
-	   <span class="label label-danger">
-	   	 <span class="glyphicon glyphicon-remove-sign"></span>
-	   </span>
-	  <#break>															  
-	  <#case "5">
-	  <span class="label label-success">
-	   	 <span class="glyphicon glyphicon-share-alt"></span>
-	   </span>
-	    <#break>  
-	</#switch>					
 </#macro>
