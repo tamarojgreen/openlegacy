@@ -2,12 +2,16 @@ package org.openlegacy.rpc.samples.model;
 
 import org.openlegacy.annotations.rpc.Action;
 import org.openlegacy.annotations.rpc.RpcActions;
+import org.openlegacy.annotations.rpc.RpcBooleanField;
+import org.openlegacy.annotations.rpc.RpcDateField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.rpc.RpcActions.READ;
 import org.openlegacy.rpc.RpcActions.UPDATE;
+
+import java.util.Date;
 
 @SuppressWarnings("unused")
 @RpcEntity(name = "ItemDetails")
@@ -35,6 +39,13 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 		@RpcField(length = 4, originalName = "WEIGHT")
 		private Integer weight;
 
+		@RpcBooleanField(falseValue = "false", trueValue = "true")
+		@RpcField(originalName = "AVAILABILITY", length = 5)
+		private Boolean availability;
+
+		@RpcDateField(pattern = "MM/dd/yyyy")
+		@RpcField(length = 10, originalName = "CREATED-DATE")
+		private Date created_date;
 	}
 
 	@RpcPart(name = "Shipping")

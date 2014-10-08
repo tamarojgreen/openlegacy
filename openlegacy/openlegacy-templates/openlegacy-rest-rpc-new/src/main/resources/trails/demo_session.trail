@@ -75,7 +75,9 @@
                 <structure order="1" name="itemRecord">
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
-                    <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>                                        																		
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/>  
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -89,7 +91,9 @@
                 <structure order="1" name="itemRecord" direction="INPUT_OUTPUT">
                     <field value="Kid Guitar" length="16" modified="true" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field value="Kids Guitar - Musical Toys" length="28" modified="true" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
-                    <field value="0200" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field value="0200" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>                    
+                    <field value="10/02/2011" length="10" modified="true" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>
+                    <field value="true" length="5"  modified="true" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/>
                 </structure>
                 <structure order="2" name="shipping" direction="INPUT_OUTPUT">
                     <field value="AIR MAIL" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -106,6 +110,8 @@
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/> 
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -120,6 +126,8 @@
                     <field value="Ball Pool" length="16" modified="true" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field value="Ball Pool - Novelty Toys" length="28" modified="true" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field value="0100" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field value="10/02/2011" length="10" modified="true" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>
+                    <field value="false" length="5"  modified="true" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/>
                 </structure>
                 <structure order="2" name="shipping" direction="INPUT_OUTPUT">
                     <field value="AIR MAIL" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -136,6 +144,8 @@
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/> 
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -150,6 +160,8 @@
                     <field value="Water Ball" length="16" modified="true" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field value="Water Ball - Balls" length="28" modified="true" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field value="1000" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field value="10/02/2011" length="10" modified="true" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>
+                    <field value="true" length="5"  modified="true" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/>
                 </structure>
                 <structure order="2" name="shipping" direction="INPUT_OUTPUT">
                     <field value="AIR MAIL" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -166,6 +178,8 @@
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/> 
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -180,6 +194,8 @@
                     <field value="Frisbee" length="16" modified="true" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field value="Dog Frisbee - Pet Toys" length="28" modified="true" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field value="5000" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field value="10/02/2011" length="10" modified="true" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>
+                    <field value="true" length="5"  modified="true" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/>
                 </structure>
                 <structure order="2" name="shipping" direction="INPUT_OUTPUT">
                     <field value="AIR MAIL" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -196,6 +212,8 @@
                     <field length="16" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field length="28" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field length="4" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field length="10" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>                  
+                    <field length="5" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/> 
                 </structure>
                 <structure order="2" name="shipping">
                     <field length="10" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
@@ -210,6 +228,8 @@
                     <field value="Pig Bank" length="16" modified="true" direction="INPUT_OUTPUT" name="ITEM-NAME" order="0"/>
                     <field value="Pig Saving Bank - Ceramics" length="28" modified="true" direction="INPUT_OUTPUT" name="DESCRIPTION" order="1"/>
                     <field value="5000" length="4" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="WEIGHT" order="2"/>
+                    <field value="10/02/2011" length="10" modified="true" direction="INPUT_OUTPUT" name="CREATED-DATE" order="3"/>
+                    <field value="true" length="5"  modified="true" direction="INPUT_OUTPUT" name="AVAILABILITY" order="4"/>
                 </structure>
                 <structure order="2" name="shipping" direction="INPUT_OUTPUT">
                     <field value="AIR MAIL" length="10" modified="true" direction="INPUT_OUTPUT" name="SHIPPING-METHOD" order="0"/>
