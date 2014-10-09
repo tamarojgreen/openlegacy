@@ -48,7 +48,7 @@
 			
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
+					<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>										
 					<#list pageParts as part>																	
 						<#if part.displayName??><div class="panel-heading"><h3>${part.displayName}</h3></div></#if>		
 						<@pagePart entity=entityDefinition part=part/>
@@ -142,8 +142,18 @@
 <#macro fieldMacro field>
 	<div class="form-group">		
 		<label for="${field.name}" class="control-label">${field.displayName}:</label>		
-		<#if field.editable>	
-			<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">
+		<#if field.editable>
+			<#switch field.fieldTypeDefinition.typeName>
+				  <#case 'boolean'>
+				   <input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.shortName}">
+				  <#break>
+				  <#case 'date'>
+				   <input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}" datepicker/>
+				  <#break>
+				  <#default>
+				  	<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.shortName}">
+				  	<#break>    
+			</#switch>
    		<#else>
    			<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>   			
    		</#if>		
