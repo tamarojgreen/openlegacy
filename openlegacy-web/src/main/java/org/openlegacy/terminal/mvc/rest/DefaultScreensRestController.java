@@ -18,6 +18,7 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.TableDefinition;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.mvc.AbstractRestController;
@@ -212,7 +213,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -220,7 +221,7 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 
@@ -253,7 +254,11 @@ public class DefaultScreensRestController extends AbstractRestController {
 	@RequestMapping(value = "/login", consumes = { JSON, XML })
 	public Object login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
 			throws IOException {
-		super.login(user, password, response);
+		try {
+			super.login(user, password, response);
+		} catch (LoginException e) {
+			return null;
+		}
 		return getMenu();
 	}
 

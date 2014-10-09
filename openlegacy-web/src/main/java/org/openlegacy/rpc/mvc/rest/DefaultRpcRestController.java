@@ -15,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.Session;
 import org.openlegacy.definitions.ActionDefinition;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.modules.table.TableWriter;
 import org.openlegacy.modules.trail.TrailUtil;
 import org.openlegacy.mvc.AbstractRestController;
@@ -109,14 +110,14 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityJson(entityName, action, false, json, response);
 	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityJsonWithKey(entityName, key, action, false, json, response);
 	}
 
@@ -124,7 +125,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -132,7 +133,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-			throws IOException {
+					throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 
@@ -145,7 +146,11 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/login", consumes = { JSON, XML })
 	public Object login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
 			throws IOException {
-		return super.login(user, password, response);
+		try {
+			return super.login(user, password, response);
+		} catch (LoginException e) {
+			return null;
+		}
 	}
 
 	@Override

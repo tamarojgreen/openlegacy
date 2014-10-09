@@ -77,7 +77,7 @@ public abstract class AbstractRestController {
 	private boolean enableGetLogin = true;
 	private String uploadDir;
 
-	public Object login(String user, String password, HttpServletResponse response) throws IOException {
+	public Object login(String user, String password, HttpServletResponse response) throws IOException, LoginException {
 		if (!enableLogin || !enableGetLogin) {
 			throw (new UnsupportedOperationException("/login is not support"));
 		}
@@ -93,7 +93,11 @@ public abstract class AbstractRestController {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
 		} catch (LoginException e) {
 			getSession().disconnect();
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+			response.resetBuffer();
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			response.setContentType("text/plain; charset=UTF-8");
+			response.getOutputStream().print(e.getMessage());
+			throw e;
 		}
 		response.setStatus(HttpServletResponse.SC_OK);
 		return getMenu();
