@@ -57,16 +57,19 @@ olApp.service('$olData', ['$http', function($http){
     
     
     olDataInstance.postAction = function(entityName, actionAlias, data, successCallback){
-    	var url = entityName + "?action=" + actionAlias;
-    	console.log(url);
-    	this.RESTpost(url, data, successCallback);
+    	if (actionAlias == "") {
+    		var url = entityName + actionAlias;
+    	} else {
+    		var url = entityName + "?action=" + actionAlias;
+    	}   	
+    	this.RESTpost(url, data, successCallback);    	
     };
     
     olDataInstance.RESTpost = function(url, data, successCallback) {
     	data.actions = null;    	
     	$http({
     		method : 'POST',
-            data : data,
+            data : angular.toJson(data),
             url : olConfig.baseURL + "/" + url,
             headers : {
                 'Content-Type' : 'application/json',

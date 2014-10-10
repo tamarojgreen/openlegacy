@@ -128,8 +128,10 @@ olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$st
 		$scope.itemDetails = data.model.entity
 		$scope.actions = data.model.entity.actions;
 		
-		$scope.postAction = function(actionAlias) {        	
-	    	$olData.postAction(data.model.entityName, actionAlias, data.model.entity, function(data) {
+		$scope.postAction = function(actionAlias) {
+			var payload_data = data.model.entity;			
+			payload_data.itemDetails2.actions = null;			
+	    	$olData.postAction(data.model.entityName, actionAlias, payload_data, function(data) {
 	    		//$state.go(data.model.entityName);	    		
 	    	});
 	    }; 
