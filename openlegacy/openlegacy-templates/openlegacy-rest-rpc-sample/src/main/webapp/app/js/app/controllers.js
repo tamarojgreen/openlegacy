@@ -43,8 +43,15 @@
 				function(data) {
 				
 					$scope.items = data.model.entity.innerRecord;
-					
-			        $scope.actions = data.model.actions;
+			        
+			        var actions = []; 
+			        angular.forEach(data.model.actions, function(value, key) {
+			        	if (value.actionName != "READ") {
+			        		actions.push(value);	
+			        	}
+		        	});
+			        
+			        $scope.actions = actions;
 			        
 			        $scope.postAction = function(actionAlias) {			        	
 			        	$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
@@ -67,7 +74,14 @@
 				$olHttp.get("ItemDetails/" + $routeParams.id, function(data) {
 					$scope.itemDetails = data.model.entity;
 					console.log(data);
-					$scope.actions = data.model.actions;
+					var actions = []; 
+			        angular.forEach(data.model.actions, function(value, key) {
+			        	if (value.actionName != "READ") {
+			        		actions.push(value);	
+			        	}
+		        	});
+			        
+			        $scope.actions = actions;
 					
 					$scope.postAction = function(actionAlias) {
 						$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
