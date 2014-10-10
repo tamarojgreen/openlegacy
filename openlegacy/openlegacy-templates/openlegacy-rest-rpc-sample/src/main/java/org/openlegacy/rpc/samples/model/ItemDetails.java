@@ -39,13 +39,13 @@ public class ItemDetails implements org.openlegacy.rpc.RpcEntity {
 		@RpcField(length = 4, originalName = "WEIGHT")
 		private Integer weight;
 
-		@RpcBooleanField(falseValue = "false", trueValue = "true")
-		@RpcField(originalName = "AVAILABILITY", length = 5)
-		private Boolean availability;
-
 		@RpcDateField(pattern = "MM/dd/yyyy")
 		@RpcField(length = 10, originalName = "CREATED-DATE")
 		private Date created_date;
+
+		@RpcBooleanField(falseValue = "false", trueValue = "true")
+		@RpcField(originalName = "AVAILABILITY", length = 5)
+		private Boolean availability;
 	}
 
 	@RpcPart(name = "Shipping")
