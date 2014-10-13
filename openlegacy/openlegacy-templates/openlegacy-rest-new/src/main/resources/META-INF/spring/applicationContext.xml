@@ -70,7 +70,6 @@
 -->
 					
 <!-- Use this definition to replay a mock-up session application
-End use this definition to replay a mock-up session application -->
  	<bean id="terminalConnectionFactory"
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/trails" />
@@ -87,6 +86,7 @@ End use this definition to replay a mock-up session application -->
 		</property>
 	    <aop:scoped-proxy/>
 	</bean>
+End use this definition to replay a mock-up session application -->
 
 	<!-- Uncomment for bidi support
  	<bean id="menuOptionFinder" class="org.openlegacy.modules.support.menu.RightToLeftMenuOptionFinder" />
