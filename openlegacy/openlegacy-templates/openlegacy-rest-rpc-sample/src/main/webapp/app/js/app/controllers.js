@@ -72,8 +72,7 @@
 	.controller('itemDetailsCtrl',
 			function($scope, $location, $olHttp,$routeParams, $state) {
 				$olHttp.get("ItemDetails/" + $routeParams.id, function(data) {
-					$scope.itemDetails = data.model.entity;
-					console.log(data);
+					$scope.itemDetails = data.model.entity;					
 					var actions = []; 
 			        angular.forEach(data.model.actions, function(value, key) {
 			        	if (value.actionName != "READ") {
@@ -83,8 +82,8 @@
 			        
 			        $scope.actions = actions;
 					
-					$scope.postAction = function(actionAlias) {
-						$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
+					$scope.postAction = function(actionAlias) {						
+						$olHttp.post(data.model.entityName + "?action=" + actionAlias, $scope.itemDetails, function(data) {
 							var entityName = data.model.entityName[0].toLowerCase() + data.model.entityName.substring(1);
 							if ($state.current.name == entityName) {
 			        			$scope.items = data.model.entity.innerRecord;
