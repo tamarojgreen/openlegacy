@@ -39,25 +39,25 @@
 		})
 	.controller('itemsCtrl',
 		function($state, $scope, $location, $olHttp) {
-			$olHttp.get('Items', 
+			$olHttp.get('StockItem', 
 				function(data) {
-				
-					$scope.items = data.model.entity.innerRecord;
-					
-			        $scope.actions = data.model.actions;
-			        
-			        $scope.postAction = function(actionAlias) {			        	
-			        	$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
-			        		if ($state.current.name == data.model.entityName.toLowerCase()) {
-			        			$scope.items = data.model.entity.innerRecord;
-			        			console.log("OK");
-			        		} else {
-			        			$state.go(data.model.entityName.toLowerCase());
-			        		}
-			        		
-			        	});
-			        };
-			        
+				console.log(data);
+//					$scope.items = data.model.entity.innerRecord;
+//					
+//			        $scope.actions = data.model.actions;
+//			        
+//			        $scope.postAction = function(actionAlias) {			        	
+//			        	$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
+//			        		if ($state.current.name == data.model.entityName.toLowerCase()) {
+//			        			$scope.items = data.model.entity.innerRecord;
+//			        			console.log("OK");
+//			        		} else {
+//			        			$state.go(data.model.entityName.toLowerCase());
+//			        		}
+//			        		
+//			        	});
+//			        };
+//			        
 			        $scope.exportExcelUrl = olConfig.baseUrl + data.model.entityName + "/excel";        
 						
 				});			

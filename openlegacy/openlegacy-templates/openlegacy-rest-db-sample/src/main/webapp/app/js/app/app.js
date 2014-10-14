@@ -23,7 +23,7 @@
 				controller: "logoffCtrl"			    
 		    })
 		    .state('items', {
-		    	url: "/items",
+		    	url: "/stockItem",
 	    		templateUrl: "views/items.html",
 		    	controller: "itemsCtrl"		    	    	 
 		    })

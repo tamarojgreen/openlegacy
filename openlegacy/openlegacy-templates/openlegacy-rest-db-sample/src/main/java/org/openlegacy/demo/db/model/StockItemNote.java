@@ -1,5 +1,7 @@
 package org.openlegacy.demo.db.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -20,6 +22,7 @@ public class StockItemNote implements Serializable {
 	private String noteId;
 
 	@ManyToOne
+	@JsonIgnore
 	private StockItem stockItem;
 
 	private String text;

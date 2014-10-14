@@ -19,7 +19,10 @@ import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.services.DbEntitiesRegistry;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.exceptions.EntityNotFoundException;
+import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.json.EntitySerializationUtils;
+import org.openlegacy.modules.login.Login;
+import org.openlegacy.modules.login.LoginException;
 import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
@@ -48,8 +51,13 @@ public class DefaultDbRestController {
 
 	public static final String JSON = "application/json";
 	public static final String XML = "application/xml";
+	public static final String USER = "user";
+	public static final String PASSWORD = "password";
 	protected static final String MODEL = "model";
 	protected static final String ACTION = "action";
+
+	@Inject
+	private Login dbLoginModule;
 
 	@Inject
 	private DbEntitiesRegistry dbEntitiesRegistry;
@@ -58,6 +66,34 @@ public class DefaultDbRestController {
 	private EntityManager entityManager;
 
 	private final static Log logger = LogFactory.getLog(DefaultDbRestController.class);
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET, consumes = { JSON, XML })
+	public Object login(@RequestParam(USER) String user, @RequestParam(PASSWORD) String password, HttpServletResponse response)
+			throws IOException {
+		try {
+			if (dbLoginModule != null) {
+				dbLoginModule.login(user, password);
+			} else {
+				logger.warn("No login module defined. Skipping login");
+			}
+		} catch (RegistryException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		} catch (LoginException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		}
+		response.setStatus(HttpServletResponse.SC_OK);
+		return null;
+	}
+
+	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
+	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response,
+			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children) throws IOException {
+		try {
+			return getEntityRequest(entityName, null, children, response);
+		} catch (RuntimeException e) {
+			return handleException(response, e);
+		}
+	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
 			XML })
@@ -102,9 +138,11 @@ public class DefaultDbRestController {
 		Object[] keys = new Object[0];
 		if (key != null) {
 			keys = key.split("\\+");
+			entity = entityManager.find(entityClass, Integer.parseInt((String)keys[0])); // TODO
+		} else {
+			entity = entityManager.createQuery(String.format("FROM %s", entityClass.getName())).getResultList();
 		}
 
-		entity = entityManager.find(entityClass, Integer.parseInt((String)keys[0])); // TODO
 		return entity;
 	}
 

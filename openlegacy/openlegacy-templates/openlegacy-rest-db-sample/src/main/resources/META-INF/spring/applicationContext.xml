@@ -45,7 +45,7 @@
         <property name="persistenceUnitName" value="persistenceUnitWeb"/>
         <property name="dataSource" ref="dataSource"/>
     </bean>
-	
+	<bean id="dbLoginModule" class="org.openlegacy.demo.db.modules.LoginModule"/>
 	<context:property-override location="classpath:application.properties" ignore-unresolvable="true"/>
 
 </beans>
