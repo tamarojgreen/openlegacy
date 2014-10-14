@@ -107,5 +107,5 @@ public class ${entityName?cap_first} {
 </#macro>
 
 <#macro numberField field type>
-<#if type="BigInteger"><#assign suffix="L"><#else><#assign suffix=""></#if>(minimumValue=${field.minimumValue}${suffix}, maximumValue=${field.maximumValue}${suffix}<#if decimalPlaces??>, decimalPlaces=${field.decimalPlaces}</#if>)</#macro>
+<#if type="BigInteger"><#assign suffix="L"><#else><#assign suffix=""></#if>(minimumValue=${field.minimumValue}${suffix}, maximumValue=${field.maximumValue}${suffix}<#if field.decimalPlaces??>, decimalPlaces=${field.decimalPlaces}</#if>)</#macro>
 <#--if type="BigInteger">(decimalPlaces=${field.decimalPlaces})</#if></#macro-->

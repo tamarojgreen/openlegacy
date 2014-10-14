@@ -45,6 +45,7 @@
 
 	<nav class="navbar navbar-default hidden-xs" role="navigation">
 	    <form class="navbar-form xnavbar-left" role="navigation">
+	    	<button data-ng-click="doAction('ScreenForPage', '')" class="btn btn-primary navbar-btn">Submit</button>
 				<button data-ng-click="doAction('ScreenForPage', 'help')" class="btn btn-primary navbar-btn">Help</button>
 				<button data-ng-click="doAction('ScreenForPage', 'exit')" class="btn btn-primary navbar-btn">Exit</button>
 			<a ng-href="{{baseUrl}}ScreenForPage{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="true">	        	
@@ -126,11 +127,10 @@
                     <tr data-ng-repeat="screenForPageRow in model.screenForPageRows">                              
 								<td class="hidden-xs">
 												<a href="" ng-click="doActionNoTargetEntity($index, 'action', '1')">
+													View
 												</a>
 												<a href="" ng-click="doActionNoTargetEntity($index, 'action', '2')">
-	   <span class="label label-primary">
-	   	 <span class="glyphicon glyphicon-repeat"></span>
-	   </span>
+													Revise
 												</a>
                             	</td>
 								<td>{{screenForPageRow.column1}}</td>											
