@@ -63,12 +63,19 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 			SimpleEntityDescriptor pathEntry = new SimpleEntityDescriptor(currentEntityDefinition.getEntityClass(),
 					currentEntityDefinition.getEntityName(), currentEntityDefinition.getDisplayName(), requiresParameters);
 			pathEntry.setCurrent(first);
-			first = false;
 
-			pathEntries.add(pathEntry);
+			if (currentEntityDefinition.isChild()) {
+				currentEntityDefinition = navigationDefinition != null ? screenEntitiesRegistry.get(navigationDefinition.getAccessedFrom())
+						: null;
+				continue;
+			}
+
+			first = false;
 
 			currentEntityDefinition = navigationDefinition != null ? screenEntitiesRegistry.get(navigationDefinition.getAccessedFrom())
 					: null;
+
+			pathEntries.add(pathEntry);
 
 			pathCount++;
 		}
