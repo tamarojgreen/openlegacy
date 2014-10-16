@@ -24,13 +24,11 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 	private Integer length;
 	private Direction direction;
 	private String originalName;
-	private int keyIndex;
 	private int order;
 	private String defaultValue;
 	private String runtimeName;
 	private String nullValue;
 	private String shortName;
-	private String expression;
 
 	private int count = 1;
 
@@ -66,14 +64,6 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 
 	public void setOriginalName(String originalName) {
 		this.originalName = originalName;
-	}
-
-	public int getKeyIndex() {
-		return keyIndex;
-	}
-
-	public void setKeyIndex(int keyIndex) {
-		this.keyIndex = keyIndex;
 	}
 
 	public int getOrder() {
@@ -145,14 +135,6 @@ public class SimpleRpcFieldDefinition extends AbstractFieldDefinition<RpcFieldDe
 
 	public void setShortName(String shortName) {
 		this.shortName = shortName;
-	}
-
-	public String getExpression() {
-		return expression;
-	}
-
-	public void setExpression(String expression) {
-		this.expression = expression;
 	}
 
 }

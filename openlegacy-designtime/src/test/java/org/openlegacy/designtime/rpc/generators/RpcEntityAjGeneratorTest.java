@@ -22,7 +22,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-@ContextConfiguration("/test-designtime-context.xml")
+@ContextConfiguration("/test-designtime-rpc-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RpcEntityAjGeneratorTest {
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+ 	<bean class="org.openlegacy.db.support.DbAnnotationProccesor">
+	    <property name="loadersPackages">
+	        <list>
+	            <value>org.openlegacy.db.loaders.support</value>
+            </list>
+	    </property>
+ 	</bean>
+
+ 	<bean id="registryLoader" class="org.openlegacy.support.DefaultRegistryLoader"/>
+ 	
+	<context:component-scan base-package="org.openlegacy"
+		use-default-filters="false">
+		<context:include-filter expression="org.springframework.stereotype.Component"
+			type="annotation" />
+		<context:exclude-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+	
+	<!-- Open legacy default beans -->
+
+
+	<bean id="sessionsRegistry" class="org.openlegacy.support.SimpleSessionsRegistry" />
+	<bean id="openLegacyProperties" class="org.openlegacy.utils.SimpleOpenLegacyProperties" />
+	<bean id="sessionPropertiesProvider" class="org.openlegacy.support.SimpleSessionPropertiesProvider" />
+	<bean id="fieldFormatter" class="org.openlegacy.support.SimpleFieldFormatter" p:trim="true" />
+	
+	<context:annotation-config />
+
+</beans>

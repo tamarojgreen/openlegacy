@@ -92,7 +92,7 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 	}
 
 	/**
-	 * Model for properties of @ScreenField or @ScreenColumn
+	 * Model for properties of @RpcField
 	 */
 	public static class Field {
 
