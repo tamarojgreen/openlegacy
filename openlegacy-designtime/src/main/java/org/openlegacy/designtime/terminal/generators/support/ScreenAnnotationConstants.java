@@ -109,6 +109,7 @@ public class ScreenAnnotationConstants {
 	public static final String NULL_VALUE = "nullValue";
 	public static final String TABLE_KEY = "tableKey";
 	public static final String FORCE_UPDATE = "forceUpdate";
+	public static final String EXPRESSION = "expression";
 
 	// @ScreenIdentifiers
 	public static final String IDENTIFIERS = "identifiers";

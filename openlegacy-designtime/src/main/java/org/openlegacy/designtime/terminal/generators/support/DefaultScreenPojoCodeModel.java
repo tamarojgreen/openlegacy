@@ -276,6 +276,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		private boolean tableKey;
 		private boolean forceUpdate;
 
+		private String expression;
+
 		public Field(String name, String type) {
 			this.name = name;
 			this.type = type;
@@ -616,6 +618,14 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		public void setForceUpdate(boolean forceUpdate) {
 			this.forceUpdate = forceUpdate;
+		}
+
+		public String getExpression() {
+			return expression;
+		}
+
+		public void setExpression(String expression) {
+			this.expression = expression;
 		}
 
 	}

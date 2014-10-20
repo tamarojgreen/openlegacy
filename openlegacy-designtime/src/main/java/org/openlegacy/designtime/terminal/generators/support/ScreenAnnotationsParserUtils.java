@@ -109,6 +109,7 @@ public class ScreenAnnotationsParserUtils {
 		// @author Ivan Bort, refs assembla #595
 		String tableKeyValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.TABLE_KEY);
 		String forceUpdateValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.FORCE_UPDATE);
+		String expressionValue = getAnnotationValue(annotationExpr, ScreenAnnotationConstants.EXPRESSION);
 
 		field.setSampleValue(StringUtil.isEmpty(sampleValue) ? "" : sampleValue);
 		field.setDefaultValue(StringUtil.isEmpty(defaultValue) ? "" : defaultValue);
@@ -199,6 +200,9 @@ public class ScreenAnnotationsParserUtils {
 		}
 		if (StringConstants.TRUE.equals(forceUpdateValue)) {
 			field.setForceUpdate(true);
+		}
+		if (expressionValue != null) {
+			field.setExpression(StringUtil.stripQuotes(expressionValue));
 		}
 	}
 

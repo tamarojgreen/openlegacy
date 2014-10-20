@@ -119,6 +119,8 @@ public class ScreenCodeBasedDefinitionUtils {
 			fieldDefinition.setTableKey(javaFieldModel.isTableKey());
 			fieldDefinition.setForceUpdate(javaFieldModel.isForceUpdate());
 
+			fieldDefinition.setExpression(javaFieldModel.getExpression());
+
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
 		return fieldDefinitions;
