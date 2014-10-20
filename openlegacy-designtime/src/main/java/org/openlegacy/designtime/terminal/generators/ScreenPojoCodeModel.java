@@ -72,4 +72,6 @@ public interface ScreenPojoCodeModel extends PojoCodeModel {
 
 	boolean isAutoMapKeyboardActions();
 
+	String getFilterExpression();
+
 }

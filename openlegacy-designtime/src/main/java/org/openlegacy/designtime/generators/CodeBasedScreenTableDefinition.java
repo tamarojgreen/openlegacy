@@ -261,6 +261,6 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 	}
 
 	public String getFilterExpression() {
-		return null;
+		return codeModel.getFilterExpression();
 	}
 }

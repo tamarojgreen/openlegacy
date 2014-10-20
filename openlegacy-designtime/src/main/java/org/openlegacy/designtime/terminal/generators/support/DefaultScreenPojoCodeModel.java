@@ -672,6 +672,9 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	private List<String> roles = new ArrayList<String>();
 	private boolean autoMapKeyboardActions = false;
 
+	// @ScreenTable, refs assembla #185
+	private String filterExpression = "";
+
 	public DefaultScreenPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
@@ -860,6 +863,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		List<String> rolesFromAnnotation = null;
 		String screensCountFromAnnotation = null;
 		String autoMapKeyboardActionsFromAnnotation = null;
+		String filterExpressionFromAnnotation = null;
 
 		if (annotationExpr instanceof NormalAnnotationExpr) {
 			NormalAnnotationExpr normalAnnotationExpr = (NormalAnnotationExpr)annotationExpr;
@@ -890,6 +894,8 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 			autoMapKeyboardActionsFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.AUTO_MAP_KEYBOARD_ACTIONS,
 					pairs);
+
+			filterExpressionFromAnnotation = findAnnotationAttribute(ScreenAnnotationConstants.FILTER_EXPRESSION, pairs);
 		}
 		supportTerminalData = supportTerminalDataString != null && supportTerminalDataString.equals(AnnotationConstants.TRUE);
 
@@ -934,6 +940,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 		screensCount = screensCountFromAnnotation != null ? Integer.valueOf(screensCountFromAnnotation) : 1;
 		autoMapKeyboardActions = StringConstants.TRUE.equals(autoMapKeyboardActionsFromAnnotation) ? true : false;
+		filterExpression = filterExpressionFromAnnotation != null ? StringUtil.stripQuotes(filterExpressionFromAnnotation) : "";
 	}
 
 	public List<Action> getActions() {
@@ -1099,6 +1106,10 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 
 	public boolean isAutoMapKeyboardActions() {
 		return autoMapKeyboardActions;
+	}
+
+	public String getFilterExpression() {
+		return filterExpression;
 	}
 
 }

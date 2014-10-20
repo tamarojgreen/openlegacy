@@ -121,6 +121,7 @@ public class ScreenAnnotationConstants {
 	public static final String SCROLLABLE = "scrollable";
 	public static final String ROW_GAPS = "rowGaps";
 	public static final String SCREENS_COUNT = "screensCount";
+	public static final String FILTER_EXPRESSION = "filterExpression";
 
 	// @PartPosition
 	public static final String WIDTH = "width";
