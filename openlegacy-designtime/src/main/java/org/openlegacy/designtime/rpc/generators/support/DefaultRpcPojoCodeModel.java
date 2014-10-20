@@ -123,6 +123,8 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 		private String originalName;
 		private String defaultValue;
 
+		private String expression;
+
 		public Field(String name, String type) {
 			this.name = name;
 			this.type = type;
@@ -309,6 +311,14 @@ public class DefaultRpcPojoCodeModel implements RpcPojoCodeModel {
 
 		public void setDefaultValue(String defaultValue) {
 			this.defaultValue = defaultValue;
+		}
+
+		public String getExpression() {
+			return expression;
+		}
+
+		public void setExpression(String expression) {
+			this.expression = expression;
 		}
 
 	}

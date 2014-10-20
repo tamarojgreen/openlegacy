@@ -49,6 +49,7 @@ public class RpcAnnotationsParserUtils {
 		String originalNameValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.ORIGINAL_NAME);
 		String directionValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DIRECTION);
 		String defaultValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.DEFAULT_VALUE);
+		String expressionValue = getAnnotationValue(annotationExpr, RpcAnnotationConstants.EXPRESSION);
 
 		field.setOriginalName(StringUtil.isEmpty(originalNameValue) ? "" : StringUtil.stripQuotes(originalNameValue));
 		if (directionValue != null) {
@@ -91,6 +92,9 @@ public class RpcAnnotationsParserUtils {
 		}
 		if (direction != null) {
 			field.setDirection(Direction.valueOf(StringUtil.toEnumValue(direction)));
+		}
+		if (expressionValue != null) {
+			field.setExpression(StringUtil.stripQuotes(expressionValue));
 		}
 	}
 

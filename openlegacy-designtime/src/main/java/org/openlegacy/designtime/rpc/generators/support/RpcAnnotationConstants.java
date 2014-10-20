@@ -47,6 +47,7 @@ public class RpcAnnotationConstants {
 	public static final String DEFAULT_VALUE = "defaultValue";
 	public static final String COUNT = "count";
 	public static final String RUNTIME_NAME = "runtimeName";
+	public static final String EXPRESSION = "expression";
 
 	public static final String RPC_BOOLEAN_FIELD_ANNOTATION = RpcBooleanField.class.getSimpleName();
 	public static final String RPC_NUMERIC_ANNOTATION = RpcNumericField.class.getSimpleName();

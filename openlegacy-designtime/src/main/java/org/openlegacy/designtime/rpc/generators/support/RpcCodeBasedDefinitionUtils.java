@@ -82,6 +82,7 @@ public class RpcCodeBasedDefinitionUtils {
 			fieldDefinition.setDirection(javaFieldModel.getDirection());
 			fieldDefinition.setDefaultValue(javaFieldModel.getDefaultValue());
 			fieldDefinition.setLength(javaFieldModel.getLength());
+			fieldDefinition.setExpression(javaFieldModel.getExpression());
 
 			fieldDefinitions.put(javaFieldModel.getName(), fieldDefinition);
 		}
