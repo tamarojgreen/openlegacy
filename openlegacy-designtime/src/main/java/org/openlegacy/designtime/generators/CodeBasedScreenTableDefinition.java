@@ -11,6 +11,7 @@
 package org.openlegacy.designtime.generators;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang.StringUtils;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.definitions.support.SimpleActionDefinition;
 import org.openlegacy.designtime.terminal.generators.ScreenPojoCodeModel;
@@ -111,6 +112,8 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 					: FieldAttributeType.Value);
 			columnDefinition.setTargetEntityClassName(field.getTargetEntityClassName() != null ? field.getTargetEntityClassName()
 					: ScreenEntity.NONE.class.getSimpleName());
+
+			columnDefinition.setExpression(StringUtils.isEmpty(field.getExpression()) ? "" : field.getExpression());
 		}
 		return columnDefinitions;
 	}
