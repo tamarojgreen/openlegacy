@@ -31,17 +31,14 @@
 							}
 						})
 				.success(function(data, status, headers, config) {
-					console.log("###s###");
-					console.log(data);
-					console.log("###e###");
 					callback(data);
-				}).error(function(data, status, headers, config) {
-					alert(data);
+				}).error(function(data, status, headers, config) {					
+					alert(data.error);
 				});
 				
 			},
 
-			post:function(url,model,callback){
+			post:function(url,model,callback){				
 				$http(
 						{
 							method : 'POST',

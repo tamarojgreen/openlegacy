@@ -1,6 +1,6 @@
 package org.openlegacy.demo.db.model;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 import java.io.Serializable;
 
@@ -22,7 +22,7 @@ public class StockItemNote implements Serializable {
 	private String noteId;
 
 	@ManyToOne
-	@JsonIgnore
+	@JsonBackReference
 	private StockItem stockItem;
 
 	private String text;

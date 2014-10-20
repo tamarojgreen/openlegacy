@@ -1,5 +1,7 @@
 package org.openlegacy.demo.db.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import java.io.Serializable;
 
 import javax.persistence.Basic;
@@ -25,6 +27,7 @@ public class StockItemImage implements Serializable {
 	private byte[] image;
 
 	@ManyToOne
+	@JsonIgnore
 	private StockItem stockItem;
 
 	public Long getId() {

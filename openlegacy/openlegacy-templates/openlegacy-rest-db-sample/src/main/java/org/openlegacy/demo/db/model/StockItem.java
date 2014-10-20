@@ -1,5 +1,7 @@
 package org.openlegacy.demo.db.model;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ public class StockItem {
 
 	private String videoUrl;
 
+	@JsonManagedReference
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "stock_item")
 	@MapKey(name = "noteId")

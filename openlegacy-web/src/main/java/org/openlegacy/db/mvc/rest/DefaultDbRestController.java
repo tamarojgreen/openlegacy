@@ -27,6 +27,7 @@ import org.openlegacy.support.SimpleEntityWrapper;
 import org.openlegacy.utils.ProxyUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,10 +41,15 @@ import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -65,6 +71,12 @@ public class DefaultDbRestController {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	private Integer pageSize = 20;
+
+	private Integer pageNumber = 1;
+
+	private Integer pageCount = 0;
+
 	private final static Log logger = LogFactory.getLog(DefaultDbRestController.class);
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET, consumes = { JSON, XML })
@@ -85,14 +97,49 @@ public class DefaultDbRestController {
 		return null;
 	}
 
+	@RequestMapping(value = "/logoff", consumes = { JSON, XML })
+	public Object logoff(HttpServletResponse response) throws IOException {
+		try {
+			if (dbLoginModule != null) {
+				dbLoginModule.logoff();
+			} else {
+				logger.warn("No login module defined. Skipping login");
+			}
+		} catch (RegistryException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		} catch (LoginException e) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+		}
+		response.setStatus(HttpServletResponse.SC_OK);
+		return null;
+	}
+
 	@RequestMapping(value = "/{entity}", method = RequestMethod.GET, consumes = { JSON, XML })
 	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response,
-			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children) throws IOException {
+			@RequestParam Map<String, String> allRequestParams) throws IOException {
 		try {
-			return getEntityRequest(entityName, null, children, response);
+			boolean children = false;
+			pageNumber = 1;
+			if (allRequestParams.containsKey("children")) {
+				children = Boolean.parseBoolean(allRequestParams.get("children"));
+				allRequestParams.remove("children");
+			} else if (allRequestParams.containsKey("page")) {
+				pageNumber = Integer.parseInt(allRequestParams.get("page"));
+				allRequestParams.remove("page");
+			}
+			return getEntityRequest(entityName, allRequestParams, null, children, response);
 		} catch (RuntimeException e) {
 			return handleException(response, e);
 		}
+	}
+
+	// TODO: implement
+	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
+	public ModelAndView postEntity(@PathVariable("entity") String entityName,
+			@RequestParam(value = ACTION, required = false) String action,
+			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
+			@RequestBody String json, HttpServletResponse response) throws IOException {
+		return postEntityJson(entityName, action, children, json, response);
 	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
@@ -101,7 +148,7 @@ public class DefaultDbRestController {
 			@RequestParam(value = "children", required = false, defaultValue = "true") boolean children,
 			HttpServletResponse response) throws IOException {
 		try {
-			return getEntityRequest(entityName, key, children, response);
+			return getEntityRequest(entityName, null, key, children, response);
 		} catch (RuntimeException e) {
 			return handleException(response, e);
 		}
@@ -113,14 +160,14 @@ public class DefaultDbRestController {
 
 	}
 
-	protected ModelAndView getEntityRequest(String entityName, String key, boolean children, HttpServletResponse response)
-			throws IOException {
+	protected ModelAndView getEntityRequest(String entityName, Map<String, String> queryConditions, String key, boolean children,
+			HttpServletResponse response) throws IOException {
 		if (!authenticate(response)) {
 			return null;
 		}
 		Class<?> entityClass = dbEntitiesRegistry.get(entityName).getEntityClass();
 		try {
-			Object entity = getApiEntity(entityClass, key);
+			Object entity = getApiEntity(entityClass, queryConditions, key);
 			return getEntityInner(entity, children);
 		} catch (EntityNotFoundException e) {
 			logger.fatal(e, e);
@@ -130,20 +177,49 @@ public class DefaultDbRestController {
 	}
 
 	protected Object postApiEntity(String entityName, Class<?> entityClass, String key) {
-		return getApiEntity(entityClass, key);
+		return getApiEntity(entityClass, null, key);
 	}
 
-	protected Object getApiEntity(Class<?> entityClass, String key) {
-		Object entity;
+	protected Object getApiEntity(Class<?> entityClass, Map<String, String> queryConditions, String key) {
 		Object[] keys = new Object[0];
 		if (key != null) {
 			keys = key.split("\\+");
-			entity = entityManager.find(entityClass, Integer.parseInt((String)keys[0])); // TODO
+			return entityManager.find(entityClass, Integer.parseInt((String)keys[0]));
 		} else {
-			entity = entityManager.createQuery(String.format("FROM %s", entityClass.getName())).getResultList();
-		}
+			if (queryConditions != null && queryConditions.size() != 0) {
+				String query = "FROM " + entityClass.getSimpleName() + " WHERE ";
+				boolean firstIteration = true;
+				for (Entry<String, String> entry : queryConditions.entrySet()) {
+					if (!firstIteration) {
+						query += " AND ";
+					} else {
+						firstIteration = false;
+					}
+					query += entry.getKey() + "=" + entry.getValue();
+				}
+				return entityManager.createQuery(query).getResultList();
+			} else {
+				CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+				CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+				countQuery.select(criteriaBuilder.count(countQuery.from(entityClass)));
+				Long count = entityManager.createQuery(countQuery).getSingleResult();
+				Query query = entityManager.createQuery(String.format("FROM %s", entityClass.getSimpleName()));
+				pageCount = (int)Math.ceil((count.intValue() * 1.0) / pageSize);
+				if (pageNumber > pageCount) {
+					pageNumber = 1;
+				}
 
-		return entity;
+				if (pageNumber == 1) {
+					query.setFirstResult(0);
+				} else if (pageNumber <= pageCount) {
+					query.setFirstResult(pageSize * (pageNumber - 1));
+				}
+
+				query.setMaxResults(pageSize);
+
+				return query.getResultList();
+			}
+		}
 	}
 
 	/**
@@ -157,8 +233,9 @@ public class DefaultDbRestController {
 		if (entity == null) {
 			throw (new EntityNotFoundException("No entity found"));
 		}
+
 		entity = ProxyUtil.getTargetObject(entity, children);
-		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity));
+		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity), pageCount);
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
 
@@ -329,12 +406,18 @@ public class DefaultDbRestController {
 	}
 
 	protected Object sendEntity(Object entity, String action) {
-		// TODO
-		return action;
+		Object resultEntity = null;
+		if (action == "") {
+			resultEntity = entityManager.merge(entity);
+		}
+		return resultEntity;
 	}
 
 	protected boolean authenticate(HttpServletResponse response) throws IOException {
 		return true;
 	}
 
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
 }

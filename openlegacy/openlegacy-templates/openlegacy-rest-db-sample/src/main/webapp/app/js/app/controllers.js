@@ -11,7 +11,7 @@
 		function($scope, $location, $olHttp, $rootScope, $cookies, $state) {			
 			
 			if ($.cookie('loggedInUser') != undefined) {
-				$state.go("items");
+				$state.go("stockItem");
 			}
 			$scope.login = function(username, password) {				
 				
@@ -23,7 +23,7 @@
 							
 							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
 							$rootScope.$broadcast("olApp:login:authorized", username);
-							$state.go("items");							
+							$state.go("stockItem");							
 						}
 					);
 			};
@@ -34,43 +34,91 @@
 			$olHttp.get('logoff', 
 				function() {
 					$.removeCookie("loggedInUser", {path: '/'});
+					console.log($.cookie('loggedInUser'));
 				}
 			);
 		})
 	.controller('itemsCtrl',
 		function($state, $scope, $location, $olHttp) {
-			$olHttp.get('StockItem', 
-				function(data) {
-				console.log(data);
-//					$scope.items = data.model.entity.innerRecord;
-//					
-//			        $scope.actions = data.model.actions;
-//			        
-//			        $scope.postAction = function(actionAlias) {			        	
-//			        	$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
-//			        		if ($state.current.name == data.model.entityName.toLowerCase()) {
-//			        			$scope.items = data.model.entity.innerRecord;
-//			        			console.log("OK");
-//			        		} else {
-//			        			$state.go(data.model.entityName.toLowerCase());
-//			        		}
-//			        		
-//			        	});
-//			        };
-//			        
+			$scope.showNext = true;
+			$scope.showPrev = true;
+			var getItems = function() {
+				var queryParamsString = "?";
+				var page = null;
+				angular.forEach($location.search(), function(value, key) {
+					queryParamsString += key + "=" + value + "&";
+					if (key == "page") {
+						page = parseInt(value);
+					}
+					
+				});
+				
+				queryParamsString = queryParamsString.substring(0, queryParamsString.length - 1);								
+				
+				$olHttp.get('StockItem' + queryParamsString, function(data) {
+					console.log(data);
+					$scope.items = data.model.entity;					
+			        $scope.actions = data.model.actions;
+			        console.log("page: " + page);
+			        console.log("pageCount: " + data.model.pageCount);
+			        if (page == parseInt(data.model.pageCount)) {
+			        	$scope.showNext = false;
+			        	$scope.showPrev = true;
+			        } else if (page > parseInt(data.model.pageCount)) {
+			        	page = 1;
+			        } else if (parseInt(data.model.pageCount) == 0 || page == null || page > parseInt(data.model.pageCount) || page == 1) {			        	
+			        	$scope.showPrev = false;
+			        	$scope.showNext = true;
+			        } else {
+			        	$scope.showPrev = true;
+			        	$scope.showNext = true;
+			        }
+			        
+			        
+			        $scope.next = function() {
+			        	if (page == 0 || page == null) {			        		
+			        		$location.url("/stockItem?page=2");
+			        		getItems();
+			        	} else {			        		
+			        		$location.url("/stockItem?page=" + (page + 1));
+			        		getItems();
+			        	}
+			        };
+			        
+			        $scope.prev = function() {			        	
+		        		$location.url("/stockItem?page=" + (page - 1));
+		        		getItems();			        	
+			        };
+			        
+			        $scope.postAction = function(actionAlias) {			        				        	
+			        	$olHttp.post("StockItem" + "?action=" + actionAlias, data.model.entity, function(data) {			        		
+			        		if ($state.current.name == data.model.entityName.toLowerCase()) {
+			        			$scope.items = data.model.entity.innerRecord;
+			        			console.log("OK");
+			        		} else {
+			        			$state.go(data.model.entityName.toLowerCase());
+			        		}
+			        		
+			        	});
+			        };
+			        
 			        $scope.exportExcelUrl = olConfig.baseUrl + data.model.entityName + "/excel";        
 						
-				});			
+				});
+			};
+			
+			getItems();
 		})
 	.controller('itemDetailsCtrl',
-			function($scope, $location, $olHttp,$routeParams, $state) {
-				$olHttp.get("ItemDetails/" + $routeParams.id, function(data) {
-					$scope.itemDetails = data.model.entity;
+			function($scope, $location, $olHttp,$stateParams, $state) {		
+				$olHttp.get("StockItem/" + $stateParams.id, function(data) {
 					console.log(data);
+					$scope.itemDetails = data.model.entity;					
 					$scope.actions = data.model.actions;
 					
 					$scope.postAction = function(actionAlias) {
 						$olHttp.post(data.model.entityName + "?action=" + actionAlias, data.model.entity, function(data) {
+							console.log(data);
 							var entityName = data.model.entityName[0].toLowerCase() + data.model.entityName.substring(1);
 							if ($state.current.name == entityName) {
 			        			$scope.items = data.model.entity.innerRecord;
