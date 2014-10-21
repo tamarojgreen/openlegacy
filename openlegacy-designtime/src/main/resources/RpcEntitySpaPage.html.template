@@ -155,7 +155,18 @@
 				  	<#break>    
 			</#switch>
    		<#else>
-   			<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>   			
+   			<#if field.fieldTypeDefinition??>
+   				<#switch field.fieldTypeDefinition.typeName>
+					<#case 'boolean'>
+				 		<input type="checkbox" class="form-control" id="${field.name}" disabled="disabled" ng-checked="model.${field.shortName}">
+					<#break>
+					<#default>
+				  		<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>
+				  	<#break>    
+				</#switch>
+   			<#else>
+   				<div id="${field.name}" ng-model="model.${field.shortName}">{{model.${field.shortName}}}</div>
+   			</#if>	   			
    		</#if>		
 	</div>
 </#macro>
