@@ -205,6 +205,9 @@
 						  </div>
 						</div>
 						<#break>	
+					<#case 'boolean'>
+				   		<input type="checkbox" class="form-control" id="${field.name}" ng-checked="model.${field.name}">
+				  		<#break>
 					<#default>
 						<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">						
 				</#switch>
@@ -212,7 +215,18 @@
 				<input type="text" class="form-control" id="${field.name}" ng-model="model.${field.name}">	
 			</#if>
    		<#else>
-   			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>   			
+	   		<#if field.fieldTypeDefinition??>
+	   			<#switch field.fieldTypeDefinition.typeName>
+					<#case 'boolean'>
+					 	<input type="checkbox" class="form-control" id="${field.name}" disabled="disabled" ng-checked="model.${field.name}">
+						<#break>
+					<#default>
+						<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
+					  	<#break>    
+				</#switch>
+	   		<#else>
+	   			<div id="${field.name}" ng-model="model.${field.name}">{{model.${field.name}}}</div>
+	   		</#if>  			
    		</#if>		
 	</div>
 </#macro>
