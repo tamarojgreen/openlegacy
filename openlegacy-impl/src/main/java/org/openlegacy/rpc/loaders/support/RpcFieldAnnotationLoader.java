@@ -17,7 +17,6 @@ import org.openlegacy.annotations.screen.AnnotationConstants;
 import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimplePasswordFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleTextFieldTypeDefinition;
-import org.openlegacy.exceptions.RegistryException;
 import org.openlegacy.loaders.support.AbstractFieldAnnotationLoader;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcPartEntityDefinition;
@@ -68,11 +67,6 @@ public class RpcFieldAnnotationLoader extends AbstractFieldAnnotationLoader {
 		}
 
 		rpcFieldDefinition.setKeyIndex(fieldAnnotation.keyIndex());
-		if (fieldAnnotation.length() % 1 > 0 && field.getType() == String.class) {
-			throw (new RegistryException(MessageFormat.format(
-					"Length with floating point cannot be set for String field {0}.{1}", containingClass.getSimpleName(),
-					field.getName())));
-		}
 		rpcFieldDefinition.setLength(fieldAnnotation.length());
 		rpcFieldDefinition.setDirection(fieldAnnotation.direction());
 		if (fieldAnnotation.originalName().length() > 0) {
