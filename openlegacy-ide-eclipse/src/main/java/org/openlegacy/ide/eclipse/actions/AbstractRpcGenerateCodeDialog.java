@@ -24,9 +24,9 @@ public abstract class AbstractRpcGenerateCodeDialog extends AbstractGenerateMode
 	}
 
 	private Text navigationText;
-	private String navigationValue;
+	private String navigationValue = "<SIDE MENU NAME TO ACCESS THE PROGRAM>";
 	private Text actionText;
-	private String actionValue;
+	private String actionValue = "<PATH TO INVOKE THE PROGRAM.PGM>";
 
 	@Override
 	protected Control createDialogArea(Composite parent) {

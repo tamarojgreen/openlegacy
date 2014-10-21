@@ -68,7 +68,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="2" entityName="Itemdetail">
+    <snapshot sequence="2" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1000" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -102,7 +102,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="3" entityName="Itemdetail">
+    <snapshot sequence="3" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1001" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -136,7 +136,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="4" entityName="Itemdetail">
+    <snapshot sequence="4" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1002" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -170,7 +170,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="5" entityName="Itemdetail">
+    <snapshot sequence="5" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1003" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
@@ -204,7 +204,7 @@
             </rpcFields>
         </result>
     </snapshot>
-    <snapshot sequence="6" entityName="Itemdetail">
+    <snapshot sequence="6" entityName="Itemdetails">
         <invoke rpcPath="/QSYS.LIB/RMR2L1.LIB/FULLDETAIL.PGM">
             <rpcFields>
                 <field value="1004" length="8" modified="true" type="java.lang.Integer" direction="INPUT_OUTPUT" name="ITEM-NUM" order="0"/>
