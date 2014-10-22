@@ -2,8 +2,8 @@ package org.openlegacy.rpc.mock;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.RpcSession;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.mock.mock.FieldsEntity;
 import org.openlegacy.rpc.mock.mock.FieldsEntity.InnerPart;
 import org.openlegacy.rpc.mock.mock.FieldsEntity.ListPart;

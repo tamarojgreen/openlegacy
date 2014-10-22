@@ -18,7 +18,7 @@ import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.designtime.rpc.generators.RpcPojoCodeModel;
 import org.openlegacy.designtime.terminal.generators.support.AbstractCodeBasedEntityDefinition;
-import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.RpcFieldDefinition;
 import org.openlegacy.rpc.definitions.RpcNavigationDefinition;

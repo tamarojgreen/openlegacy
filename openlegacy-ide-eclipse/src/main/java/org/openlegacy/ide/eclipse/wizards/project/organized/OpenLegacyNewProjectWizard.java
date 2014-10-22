@@ -102,6 +102,7 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 			projectCreationRequest.setZipFile(wizardModel.getZipFile());
 			projectCreationRequest.setTemplateFetcher(retriever.getTemplateFetcher());
 			projectCreationRequest.setRightToLeft(wizardModel.isRightToLeft());
+			projectCreationRequest.setBackendSolution(wizardModel.getBackendSolution());
 
 			EclipseDesignTimeExecuter.instance().createProject(projectCreationRequest);
 		} catch (Exception e) {

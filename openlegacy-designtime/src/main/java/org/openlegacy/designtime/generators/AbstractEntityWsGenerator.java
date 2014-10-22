@@ -13,6 +13,7 @@ package org.openlegacy.designtime.generators;
 import org.apache.commons.io.IOUtils;
 import org.openlegacy.designtime.UserInteraction;
 import org.openlegacy.designtime.mains.GenerateServiceRequest;
+import org.openlegacy.designtime.mains.GenerateServiceRequest.ServiceType;
 import org.openlegacy.exceptions.GenerationException;
 
 import java.io.File;
@@ -34,7 +35,8 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 	private static final String TEST_SUFFIX = "Test.java";
 	private static final String SERVICE_TEMPLATE = "ws/Service.java.template";
 	private static final String SERVICE_TEST_TEMPLATE = "ws/ServiceTest.java.template";
-	private static final String SERVICE_IMPL_TEMPLATE = "ws/ServiceImpl.java.template";
+	private static final String SCREEN_SERVICE_IMPL_TEMPLATE = "ws/ScreenServiceImpl.java.template";
+	private static final String RPC_SERVICE_IMPL_TEMPLATE = "ws/RpcServiceImpl.java.template";
 	private static final String SERVICE_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/serviceContext.xml";
 	private static final String TEST_CONTEXT_RELATIVE_PATH = "src/main/resources/META-INF/spring/applicationContext-test.xml";
 
@@ -80,7 +82,11 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 			}
 			if (generate) {
 				fos = new FileOutputStream(serviceImplFile);
-				getGenerateUtil().generate(generateServiceRequest, fos, SERVICE_IMPL_TEMPLATE);
+				getGenerateUtil().generate(
+						generateServiceRequest,
+						fos,
+						generateServiceRequest.getServiceType().equals(ServiceType.SCREEN) ? SCREEN_SERVICE_IMPL_TEMPLATE
+								: RPC_SERVICE_IMPL_TEMPLATE);
 			}
 
 			File serviceContextFile = new File(generateServiceRequest.getProjectPath(), SERVICE_CONTEXT_RELATIVE_PATH);

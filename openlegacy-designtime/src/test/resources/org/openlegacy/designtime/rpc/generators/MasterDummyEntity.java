@@ -33,7 +33,7 @@ public class MasterDummyEntity {
 		private List<DetailSummary> detailSumaries;
 	}
 
-	@RpcActions(actions = { @Action(action = org.openlegacy.rpc.RpcActions.READ.class, path = "", targetEntity = DetailsDummyEntity.class) })
+	@RpcActions(actions = { @Action(action = org.openlegacy.rpc.actions.RpcActions.READ.class, path = "", targetEntity = DetailsDummyEntity.class) })
 	@RpcPart
 	public static class DetailSummaries {
 

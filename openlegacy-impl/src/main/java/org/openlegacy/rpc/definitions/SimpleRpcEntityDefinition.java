@@ -15,7 +15,7 @@ import org.openlegacy.definitions.FieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.definitions.support.AbstractEntityDefinition;
-import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.support.RpcOrderFieldComparator;
 
 import java.util.ArrayList;
