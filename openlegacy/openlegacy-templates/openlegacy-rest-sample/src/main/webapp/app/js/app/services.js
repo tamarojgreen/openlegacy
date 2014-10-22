@@ -33,7 +33,11 @@
 				.success(function(data, status, headers, config) {
 					callback(data);
 				}).error(function(data, status, headers, config) {
-					alert(data);
+					if(data.error){
+						alert('Error: ' + data.error);
+					} else {
+						alert(data);
+					}
 				});
 				
 			},
@@ -52,7 +56,11 @@
 				.success(function(data, status, headers, config) {
 					callback(data);
 				}).error(function(data, status, headers, config) {
-					alert(data);
+					if(data.error){
+						alert('Error: ' + data.error);
+					} else {
+						alert(data);
+					}
 				});
 			}
 		
