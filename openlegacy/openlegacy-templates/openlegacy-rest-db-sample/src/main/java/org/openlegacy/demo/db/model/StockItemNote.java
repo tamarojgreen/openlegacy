@@ -1,7 +1,5 @@
 package org.openlegacy.demo.db.model;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -22,7 +20,6 @@ public class StockItemNote implements Serializable {
 	private String noteId;
 
 	@ManyToOne
-	@JsonBackReference
 	private StockItem stockItem;
 
 	private String text;

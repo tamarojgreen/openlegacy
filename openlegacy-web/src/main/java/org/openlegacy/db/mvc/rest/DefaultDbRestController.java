@@ -118,12 +118,14 @@ public class DefaultDbRestController {
 	public ModelAndView getEntity(@PathVariable("entity") String entityName, HttpServletResponse response,
 			@RequestParam Map<String, String> allRequestParams) throws IOException {
 		try {
-			boolean children = false;
+			boolean children = true;
 			pageNumber = 1;
 			if (allRequestParams.containsKey("children")) {
 				children = Boolean.parseBoolean(allRequestParams.get("children"));
 				allRequestParams.remove("children");
-			} else if (allRequestParams.containsKey("page")) {
+			}
+
+			if (allRequestParams.containsKey("page")) {
 				pageNumber = Integer.parseInt(allRequestParams.get("page"));
 				allRequestParams.remove("page");
 			}
@@ -133,7 +135,6 @@ public class DefaultDbRestController {
 		}
 	}
 
-	// TODO: implement
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntity(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action,
@@ -234,7 +235,8 @@ public class DefaultDbRestController {
 			throw (new EntityNotFoundException("No entity found"));
 		}
 
-		entity = ProxyUtil.getTargetObject(entity, children);
+		entity = ProxyUtil.getTargetJpaObject(entity, children);
+		// entity = ProxyUtil.getTargetObject(entity, children);
 		SimpleEntityWrapper wrapper = new SimpleEntityWrapper(entity, null, getActions(entity), pageCount);
 		return new ModelAndView(MODEL, MODEL, wrapper);
 	}
