@@ -1,9 +1,12 @@
 package org.openlegacy.db.definitions.mock;
 
+import org.openlegacy.annotations.db.DbNavigation;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
+@DbNavigation(category = "dummyCategory")
 public class DbDummyEntity {
 
 	@Id

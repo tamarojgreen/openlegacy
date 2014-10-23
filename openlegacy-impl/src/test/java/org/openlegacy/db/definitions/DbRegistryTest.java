@@ -25,4 +25,13 @@ public class DbRegistryTest {
 
 	}
 
+	@Test
+	public void testNavigation() {
+		DbEntityDefinition dbEntityDefinition = dbEntitiesRegistry.get(DbDummyEntity.class);
+		Assert.assertNotNull(dbEntityDefinition);
+
+		DbNavigationDefinition navigationDefinition = dbEntityDefinition.getNavigationDefinition();
+		Assert.assertNotNull(navigationDefinition);
+		Assert.assertEquals("dummyCategory", navigationDefinition.getCategory());
+	}
 }
