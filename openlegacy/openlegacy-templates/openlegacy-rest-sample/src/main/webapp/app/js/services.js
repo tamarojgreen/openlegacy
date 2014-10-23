@@ -1,6 +1,20 @@
 olApp.service('$olData', ['$http', function($http){
     var olDataInstance = {};
     
+    olDataInstance.logoff = function(successCallback){
+    	var url = "logoff"
+        this.RESTrequest(url,successCallback);      
+    };
+    
+    olDataInstance.login = function(url, successCallback){
+        this.RESTrequest(url,successCallback);      
+    };
+    
+    olDataInstance.getMessages = function(successCallback){        
+        var url = "messages";        
+        this.RESTrequest(url,successCallback);      
+    };
+    
     olDataInstance.getItems = function(successCallback){        
         var url = "Items";
         console.log(url);
@@ -48,7 +62,12 @@ olApp.service('$olData', ['$http', function($http){
             }
         )
         .success(function(data,status,headers,config){
-        	successCallback(angular.fromJson(data))
+        	if (data != "" && data != null && data != undefined) {
+        		data = angular.fromJson(data);
+        	}
+        	
+        	
+        	successCallback(data);
         })
         .error(function(data, status, headers, config){
             alert(data)
