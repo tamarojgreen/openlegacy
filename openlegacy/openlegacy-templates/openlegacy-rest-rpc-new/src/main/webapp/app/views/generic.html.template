@@ -178,7 +178,8 @@
 					<button data-ng-click="doAction('${entity.entityName}', '${action.alias}')" class="btn btn-primary navbar-btn">${action.displayName}</button>
 				</#if>
 			</#list>			
-			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">	        	
+			<a ng-href="{{baseUrl}}${entity.entityName}{{'/excel'}}" class="btn btn-primary navbar-btn pull-right" ng-show="${showExcelBtn}">
+			<span class="glyphicon glyphicon-export"></span>	        	
             	Excel
             </a>            
 	    </form>
