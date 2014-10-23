@@ -1,7 +1,7 @@
 package org.openlegacy.rpc.samples.mvc.controllers;
 
 import org.apache.commons.io.IOUtils;
-import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.samples.model.Items;
 import org.springframework.stereotype.Controller;
