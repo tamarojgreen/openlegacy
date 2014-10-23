@@ -8,16 +8,26 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
+
 package org.openlegacy.db.definitions;
 
-import org.openlegacy.EntityDefinition;
+import java.io.Serializable;
 
-import java.util.Map;
+/**
+ * @author Ivan Bort
+ * 
+ */
+public class SimpleDbNavigationDefinition implements DbNavigationDefinition, Serializable {
 
-public interface DbEntityDefinition extends EntityDefinition<DbFieldDefinition> {
+	private static final long serialVersionUID = 1L;
+	private String category;
 
-	Map<String, DbFieldDefinition> getColumnFieldsDefinitions();
+	public String getCategory() {
+		return category;
+	}
 
-	DbNavigationDefinition getNavigationDefinition();
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
 }

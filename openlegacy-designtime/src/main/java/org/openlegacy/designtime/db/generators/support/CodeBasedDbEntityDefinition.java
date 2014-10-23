@@ -4,6 +4,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.openlegacy.EntityDefinition;
 import org.openlegacy.db.definitions.DbEntityDefinition;
 import org.openlegacy.db.definitions.DbFieldDefinition;
+import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.db.generators.DbPojoCodeModel;
@@ -116,6 +117,10 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 			columnFields = DbCodeBasedDefinitionUtils.getColumnFieldsFromCodeModel(getCodeModel());
 		}
 		return columnFields;
+	}
+
+	public DbNavigationDefinition getNavigationDefinition() {
+		return getCodeModel().getNavigationDefinition();
 	}
 
 }
