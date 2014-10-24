@@ -96,7 +96,7 @@ public class DefaultRegistryLoader implements RegistryLoader {
 
 	public void loadSingleClass(EntitiesRegistry<?, ?, ?> entitiesRegistry, Class<?> beanClass, Boolean loadReferences) {
 
-		if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass)) {
+		if (org.openlegacy.utils.ClassUtils.isAbstract(beanClass) || beanClass.getSimpleName().contains("_Aspect")) {
 			return;
 		}
 		if (entitiesRegistry.contains(beanClass)) {
