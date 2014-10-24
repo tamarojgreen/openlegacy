@@ -18,23 +18,23 @@ olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http',
 	}
 	
 	$scope.showMessages = false;
-		$olData.getMessages(function(data){			
-			if (data != null && data != undefined && data != "") {				
-				$scope.showMessages = true;
-				
-				$scope.messages = function() {
-					var modalInstance = $modal.open({
-						template: $("#messagesModal").html(),
-						controller: "messagesModalCtrl",
-						resolve:{
-							messages: function() {
-								return data.model;
-							} 
-						}
-					});
-				};
-			}		
-		});
+	$olData.getMessages(function(data){			
+		if (data != null && data != undefined && data != "") {				
+			$scope.showMessages = true;
+			
+			$scope.messages = function() {
+				var modalInstance = $modal.open({
+					template: $("#messagesModal").html(),
+					controller: "messagesModalCtrl",
+					resolve:{
+						messages: function() {
+							return data.model;
+						} 
+					}
+				});
+			};
+		}		
+	});
 	
 	$scope.logout = function(){
 		$olData.logoff(function() {

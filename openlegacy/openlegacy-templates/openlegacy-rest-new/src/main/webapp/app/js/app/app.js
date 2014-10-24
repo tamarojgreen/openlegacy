@@ -4,7 +4,7 @@
 
 	/* App Module */
 	
-	var olApp = angular.module( 'olApp', [ 'controllers', 'services', 'directives'] ).run(['$themeService', '$rootScope', function($themeService, $rootScope) {		
+	var olApp = angular.module( 'olApp', ['controllers', 'services', 'directives', 'ngRoute']).run(['$themeService', '$rootScope', function($themeService, $rootScope) {		
 		$rootScope.changeTheme = function() {
 			$themeService.changeTheme();
 		};
@@ -43,20 +43,20 @@ $routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.
 	} ] );
 } )();
 
-function appOnLoad($cookies,$rootScope,$location,$olHttp){
-	// fix relative URL's
-	if (olConfig.baseUrl.indexOf("http" < 0)){
-		olConfig.baseUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + olConfig.baseUrl;
-	}
-	
-	if ($cookies.loggedInUser != null){
-		$rootScope.loggedInUser = $cookies.loggedInUser;
-		//$location.path("/TviotParams");
-	}
-//	$olHttp.get("menu",function(data){
-	//	$rootScope.menus = data.simpleMenuItem.menuItems;
-	//});
-}
+//function appOnLoad($cookies,$rootScope,$location,$olHttp){
+//	// fix relative URL's
+//	if (olConfig.baseUrl.indexOf("http" < 0)){
+//		olConfig.baseUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + olConfig.baseUrl;
+//	}
+//	
+//	if ($cookies.loggedInUser != null){
+//		$rootScope.loggedInUser = $cookies.loggedInUser;
+//		//$location.path("/TviotParams");
+//	}
+////	$olHttp.get("menu",function(data){
+//	//	$rootScope.menus = data.simpleMenuItem.menuItems;
+//	//});
+//}
 
 
 function search(baseUrl){
