@@ -46,6 +46,8 @@
 		</property>
 	</bean>
 	
+	<bean id="menuBuilder" class="org.openlegacy.db.modules.menu.DefaultMenuBuilder"/>
+	
 	<context:annotation-config />
 
 </beans>
