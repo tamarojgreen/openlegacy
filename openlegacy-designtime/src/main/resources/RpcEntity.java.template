@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.openlegacy.annotations.rpc.*;
 import org.openlegacy.FieldType.*;
-import org.openlegacy.rpc.RpcActions.*;
+import org.openlegacy.rpc.actions.RpcActions.*;
 
 <#if onlyPart=false>
 <#if navigation??>

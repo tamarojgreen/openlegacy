@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.openlegacy.designtime.rpc.model.support.SimpleRpcEntityDesigntimeDefinition;
 import org.openlegacy.designtime.rpc.source.parsers.OpenlegacyCobolParser;
 import org.openlegacy.designtime.rpc.source.parsers.ParseResults;
-import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.definitions.SimpleRpcActionDefinition;
 import org.openlegacy.test.utils.AssertUtils;
 import org.openlegacy.utils.FileUtils;

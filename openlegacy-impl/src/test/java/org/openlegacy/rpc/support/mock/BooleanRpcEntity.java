@@ -6,7 +6,7 @@ import org.openlegacy.annotations.rpc.RpcBooleanField;
 import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcPart;
-import org.openlegacy.rpc.RpcActions.READ;
+import org.openlegacy.rpc.actions.RpcActions.READ;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 
 import java.util.Collections;

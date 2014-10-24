@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.openlegacy.annotations.rpc.*;
 import org.openlegacy.FieldType.*;
-import org.openlegacy.rpc.RpcActions.*;
+import org.openlegacy.rpc.actions.RpcActions.*;
 
 @RpcNavigation(category = "menuNavigation")
 @RpcEntity(name="As400sample")

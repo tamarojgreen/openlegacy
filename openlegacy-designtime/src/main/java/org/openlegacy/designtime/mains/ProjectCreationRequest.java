@@ -34,6 +34,8 @@ public class ProjectCreationRequest {
 	private ITemplateFetcher templateFetcher;
 	private boolean rightTotLeft;
 
+	private String backendSolution;
+
 	public String getTemplateName() {
 		return templateName;
 	}
@@ -140,6 +142,14 @@ public class ProjectCreationRequest {
 
 	public void setRightToLeft(boolean rightTotLeft) {
 		this.rightTotLeft = rightTotLeft;
+	}
+
+	public void setBackendSolution(String backendSolution) {
+		this.backendSolution = backendSolution;
+	}
+
+	public String getBackendSolution() {
+		return backendSolution;
 	}
 
 }

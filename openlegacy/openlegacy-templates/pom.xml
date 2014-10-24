@@ -20,6 +20,7 @@
  		<module>openlegacy-ws-sample</module>
  		<module>openlegacy-ws-rpc-sample</module>
  		<module>openlegacy-ws-new</module>
+ 		<module>openlegacy-ws-rpc-new</module>
 		<!-- <module>remoting</module> -->
 		<module>openlegacy-as400-menus</module>
 	</modules>

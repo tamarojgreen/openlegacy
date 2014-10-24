@@ -6,7 +6,7 @@ package ${packageName};
 
 <#assign parentPackageLength=packageName?last_index_of(".")>
 import ${packageName?substring(0,parentPackageLength)}.${entityDefinition.entityClassName};
-import org.openlegacy.rpc.RpcActions;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.RpcEntity;
 import org.openlegacy.rpc.RpcSession;
 import org.springframework.stereotype.Controller;

@@ -38,6 +38,7 @@ import org.openlegacy.designtime.newproject.model.ProjectTheme;
 import org.openlegacy.designtime.rpc.GenerateRpcModelRequest;
 import org.openlegacy.designtime.rpc.ImportSourceRequest;
 import org.openlegacy.designtime.rpc.generators.RpcEntityPageGenerator;
+import org.openlegacy.designtime.rpc.generators.RpcEntityServiceGenerator;
 import org.openlegacy.designtime.rpc.generators.RpcPojosAjGenerator;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcCodeBasedDefinitionUtils;
@@ -62,8 +63,8 @@ import org.openlegacy.designtime.utils.JavaParserUtil;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.exceptions.OpenLegacyException;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
-import org.openlegacy.rpc.RpcActions;
 import org.openlegacy.rpc.SourceFetcher;
+import org.openlegacy.rpc.actions.RpcActions;
 import org.openlegacy.rpc.definitions.RpcEntityDefinition;
 import org.openlegacy.rpc.definitions.SimpleRpcActionDefinition;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -198,6 +199,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		savePreference(targetPath, PreferencesConstants.WEB_PACKAGE, projectCreationRequest.getDefaultPackageName() + ".web");
 		savePreference(targetPath, PreferencesConstants.DESIGNTIME_CONTEXT, "default");
 		savePreference(targetPath, PreferencesConstants.USE_AJ, "1");
+		savePreference(targetPath, PreferencesConstants.BACKEND_SOLUTION,
+				projectCreationRequest.getBackendSolution() != null ? projectCreationRequest.getBackendSolution() : "SCREEN");
 
 		if (projectCreationRequest.isRightTotLeft()) {
 			handleRightToLeft(targetPath);
@@ -985,8 +988,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (generateServiceRequest.getServiceType() == ServiceType.SCREEN) {
 			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(ScreenEntityServiceGenerator.class);
 		} else {
-			// TODO generated RPC service
-			// entityPageGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityServiceGenerator.class);
+			entityServiceGenerator = getOrCreateApplicationContext(projectPath).getBean(RpcEntityServiceGenerator.class);
 		}
 
 		if (entityServiceGenerator.isSupportServiceGeneration(generateServiceRequest.getProjectPath())) {
@@ -1307,6 +1309,14 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 			return translator.translate(text);
 		}
 		return text;
+	}
+
+	public ServiceType getServiceType(File projectPath) {
+		String backendSolution = getPreferences(projectPath).get(PreferencesConstants.BACKEND_SOLUTION);
+		if (!StringUtils.isEmpty(backendSolution) && StringUtils.equalsIgnoreCase(backendSolution, ServiceType.RPC.toString())) {
+			return ServiceType.RPC;
+		}
+		return ServiceType.SCREEN;
 	}
 
 }

@@ -8,9 +8,10 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.rpc;
+package org.openlegacy.rpc.actions;
 
-import org.openlegacy.rpc.actions.RpcAction;
+import org.openlegacy.rpc.RpcActionNotMappedException;
+import org.openlegacy.rpc.RpcSession;
 import org.openlegacy.rpc.exceptions.RpcActionException;
 
 import java.lang.reflect.Constructor;

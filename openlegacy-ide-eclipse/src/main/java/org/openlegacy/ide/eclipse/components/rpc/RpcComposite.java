@@ -24,6 +24,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.openlegacy.ide.eclipse.components.ImageComposite;
 import org.openlegacy.rpc.render.DefaultRpcImageRenderer;
@@ -180,6 +182,23 @@ public class RpcComposite extends ImageComposite {
 				}
 			}
 		});
+		// minimize image on mouse double clicked
+		shell.addListener(SWT.MouseDoubleClick, getShellMouseListener(shell));
+		// minimize image when mouse leaves image bounds
+		shell.addListener(SWT.MouseExit, getShellMouseListener(shell));
 		shell.open();
+	}
+
+	private Listener getShellMouseListener(final Shell shell) {
+		return new Listener() {
+
+			public void handleEvent(Event e) {
+				if (shell.isVisible()) {
+					shell.close();
+					shell.dispose();
+					canvas.redraw();
+				}
+			}
+		};
 	}
 }
