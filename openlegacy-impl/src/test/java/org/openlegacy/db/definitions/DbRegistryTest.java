@@ -38,7 +38,7 @@ public class DbRegistryTest {
 	@Test
 	public void testActions() {
 		DbEntityDefinition entityDefinition = assertEntityExists(DbDummyEntity.class);
-		entityDefinition.getActions().size();
+		Assert.assertEquals(1, entityDefinition.getActions().size());
 	}
 
 	private DbEntityDefinition assertEntityExists(Class<?> clazz) {

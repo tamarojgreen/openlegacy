@@ -11,63 +11,18 @@
 
 package org.openlegacy.db.definitions;
 
-import org.openlegacy.db.actions.DbAction;
+import org.openlegacy.Session;
+import org.openlegacy.SessionAction;
+import org.openlegacy.definitions.support.SimpleActionDefinition;
 
 import java.io.Serializable;
 
-public class SimpleDbActionDefinition implements DbActionDefinition, Serializable {
+public class SimpleDbActionDefinition extends SimpleActionDefinition implements DbActionDefinition, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private DbAction action;
-	private String displayName = "";
-	private boolean global = true;
-	private String alias = "";
-	private Class<?> targetEntity = void.class;
-
-	public SimpleDbActionDefinition(DbAction action, String displayName) {
-		this.action = action;
-		this.displayName = displayName;
-	}
-
-	public DbAction getAction() {
-		return action;
-	}
-
-	public void setAction(DbAction action) {
-		this.action = action;
-	}
-
-	public String getDisplayName() {
-		return displayName;
-	}
-
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	public boolean isGlobal() {
-		return global;
-	}
-
-	public void setGlobal(boolean global) {
-		this.global = global;
-	}
-
-	public String getAlias() {
-		return alias;
-	}
-
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
-
-	public Class<?> getTargetEntity() {
-		return targetEntity;
-	}
-
-	public void setTargetEntity(Class<?> targetEntity) {
-		this.targetEntity = targetEntity;
+	public SimpleDbActionDefinition(SessionAction<? extends Session> action, String displayName) {
+		super(action, displayName);
 	}
 
 }

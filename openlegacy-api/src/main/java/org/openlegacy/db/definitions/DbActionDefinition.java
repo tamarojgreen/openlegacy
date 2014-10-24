@@ -11,10 +11,12 @@
 
 package org.openlegacy.db.definitions;
 
+import org.openlegacy.definitions.ActionDefinition;
+
 /**
  * @author Ivan Bort
  * 
  */
-public interface DbActionDefinition {
+public interface DbActionDefinition extends ActionDefinition {
 
 }
