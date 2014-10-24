@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.openlegacy.designtime.db.generators.support;
 
+import org.openlegacy.annotations.db.DbNavigation;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,6 +31,8 @@ public class DbAnnotationConstants {
 	public static final String DB_COLUMN_ANNOTATION = Column.class.getSimpleName();
 	public static final String DB_ONE_TO_MANY_ANNOTATION = OneToMany.class.getSimpleName();
 	public static final String DB_ID_ANNOTATION = Id.class.getSimpleName();
+
+	public static final String DB_NAVIGATION_ANNOTATION = DbNavigation.class.getSimpleName();
 
 	// @Entity
 	public static final String NAME = "name";
@@ -54,4 +58,6 @@ public class DbAnnotationConstants {
 	public static final String MAPPED_BY = "mappedBy";
 	public static final String ORPHAN_REMOVAL = "orphanRemoval";
 	public static final String TARGET_ENTITY = "targetEntity";
+	// @DbNavigation
+	public static final String CATEGORY = "category";
 }

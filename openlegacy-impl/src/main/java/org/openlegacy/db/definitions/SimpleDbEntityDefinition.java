@@ -17,7 +17,9 @@ import java.util.Map;
 public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDefinition> implements DbEntityDefinition {
 
 	private static final long serialVersionUID = 1L;
+
 	private boolean window;
+	private DbNavigationDefinition navigationDefinition = new SimpleDbNavigationDefinition();
 
 	public SimpleDbEntityDefinition(String entityName, Class<?> containingClass) {
 		super(entityName, containingClass);
@@ -33,6 +35,10 @@ public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDe
 
 	public Map<String, DbFieldDefinition> getColumnFieldsDefinitions() {
 		return null;
+	}
+
+	public DbNavigationDefinition getNavigationDefinition() {
+		return navigationDefinition;
 	}
 
 }

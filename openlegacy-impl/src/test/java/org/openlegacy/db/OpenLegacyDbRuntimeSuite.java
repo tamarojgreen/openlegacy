@@ -8,16 +8,16 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
-package org.openlegacy.db.definitions;
 
-import org.openlegacy.EntityDefinition;
+package org.openlegacy.db;
 
-import java.util.Map;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+import org.openlegacy.db.definitions.DbRegistryTest;
 
-public interface DbEntityDefinition extends EntityDefinition<DbFieldDefinition> {
-
-	Map<String, DbFieldDefinition> getColumnFieldsDefinitions();
-
-	DbNavigationDefinition getNavigationDefinition();
+@RunWith(Suite.class)
+@SuiteClasses({ DbRegistryTest.class })
+public class OpenLegacyDbRuntimeSuite {
 
 }

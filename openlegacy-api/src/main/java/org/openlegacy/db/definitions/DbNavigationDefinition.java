@@ -8,16 +8,17 @@
  * Contributors:
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
+
 package org.openlegacy.db.definitions;
 
-import org.openlegacy.EntityDefinition;
+/**
+ * An DB navigation definitions. Define how to organize the entities categories
+ * 
+ * @author Ivan Bort
+ * 
+ */
+public interface DbNavigationDefinition {
 
-import java.util.Map;
-
-public interface DbEntityDefinition extends EntityDefinition<DbFieldDefinition> {
-
-	Map<String, DbFieldDefinition> getColumnFieldsDefinitions();
-
-	DbNavigationDefinition getNavigationDefinition();
+	String getCategory();
 
 }

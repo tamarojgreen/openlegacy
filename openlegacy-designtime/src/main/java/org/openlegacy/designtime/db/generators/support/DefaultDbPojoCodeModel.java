@@ -14,6 +14,7 @@ import static org.openlegacy.designtime.utils.JavaParserUtil.findAnnotationAttri
 
 import org.apache.commons.lang.StringUtils;
 import org.openlegacy.annotations.rpc.Languages;
+import org.openlegacy.db.definitions.DbNavigationDefinition;
 import org.openlegacy.db.definitions.DbOneToManyDefinition;
 import org.openlegacy.db.definitions.DbTableDefinition;
 import org.openlegacy.definitions.FieldTypeDefinition;
@@ -437,6 +438,8 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	private DbTableDefinition tableDefinition = null;
 	private Map<String, ColumnField> columnFields = new LinkedHashMap<String, ColumnField>();
 
+	private DbNavigationDefinition navigationDefinition;
+
 	public DefaultDbPojoCodeModel(CompilationUnit compilationUnit, ClassOrInterfaceDeclaration type, String className,
 			String parentClassName) {
 
@@ -479,6 +482,10 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 			}
 			if (annotationName.equals(DbAnnotationConstants.DB_TABLE_ANNOTATION)) {
 				tableDefinition = DbAnnotationsParserUtils.populateDbTable(annotationExpr);
+			}
+
+			if (annotationName.equals(DbAnnotationConstants.DB_NAVIGATION_ANNOTATION)) {
+				navigationDefinition = DbAnnotationsParserUtils.populateNavigation(annotationExpr);
 			}
 		}
 	}
@@ -708,6 +715,10 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 
 	public Map<String, ColumnField> getColumnFields() {
 		return columnFields;
+	}
+
+	public DbNavigationDefinition getNavigationDefinition() {
+		return navigationDefinition;
 	}
 
 }
