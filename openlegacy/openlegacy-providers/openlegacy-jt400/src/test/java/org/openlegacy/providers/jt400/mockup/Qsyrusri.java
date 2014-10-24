@@ -10,7 +10,7 @@ import org.openlegacy.annotations.rpc.RpcPart;
 import java.util.Date;
 
 @RpcEntity
-@RpcActions(actions = { @Action(action = org.openlegacy.rpc.RpcActions.READ.class, path = "/QSYS.lib/QSYRUSRI.pgm") })
+@RpcActions(actions = { @Action(action = org.openlegacy.rpc.actions.RpcActions.READ.class, path = "/QSYS.lib/QSYRUSRI.pgm") })
 public class Qsyrusri implements org.openlegacy.rpc.RpcEntity {
 
 	private UserInformation userInformation = new UserInformation();

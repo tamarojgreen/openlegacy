@@ -6,7 +6,7 @@ import org.openlegacy.annotations.rpc.RpcEntity;
 import org.openlegacy.annotations.rpc.RpcField;
 import org.openlegacy.annotations.rpc.RpcNumericField;
 import org.openlegacy.annotations.rpc.RpcPart;
-import org.openlegacy.rpc.RpcActions.READ;
+import org.openlegacy.rpc.actions.RpcActions.READ;
 
 @RpcEntity(name = "DummyGroupEntity")
 @RpcActions(actions = { @Action(action = READ.class, path = "/QSYS.LIB/RMR2L1.LIB/GROUPTEST2.PGM", global = false), })
