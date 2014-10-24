@@ -9,11 +9,10 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.db.actions;
+package org.openlegacy.db;
 
-import org.openlegacy.SessionAction;
-import org.openlegacy.db.DbSession;
+import org.openlegacy.Session;
 
-public interface DbAction extends SessionAction<DbSession> {
+public interface DbSession extends Session {
 
 }

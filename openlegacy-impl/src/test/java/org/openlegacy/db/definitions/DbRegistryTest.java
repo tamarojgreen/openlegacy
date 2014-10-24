@@ -34,4 +34,16 @@ public class DbRegistryTest {
 		Assert.assertNotNull(navigationDefinition);
 		Assert.assertEquals("dummyCategory", navigationDefinition.getCategory());
 	}
+
+	@Test
+	public void testActions() {
+		DbEntityDefinition entityDefinition = assertEntityExists(DbDummyEntity.class);
+		entityDefinition.getActions().size();
+	}
+
+	private DbEntityDefinition assertEntityExists(Class<?> clazz) {
+		DbEntityDefinition entityDefinition = dbEntitiesRegistry.get(clazz);
+		Assert.assertNotNull(entityDefinition);
+		return entityDefinition;
+	}
 }

@@ -9,11 +9,24 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.db.actions;
+package org.openlegacy.db.exceptions;
 
-import org.openlegacy.SessionAction;
-import org.openlegacy.db.DbSession;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 
-public interface DbAction extends SessionAction<DbSession> {
+/**
+ * @author Ivan Bort
+ * 
+ */
+public class DbActionException extends EntityNotAccessibleException {
+
+	private static final long serialVersionUID = 1L;
+
+	public DbActionException(Exception e) {
+		super(e);
+	}
+
+	public DbActionException(String s) {
+		super(s);
+	}
 
 }

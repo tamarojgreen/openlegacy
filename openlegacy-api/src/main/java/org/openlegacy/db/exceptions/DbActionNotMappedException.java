@@ -9,11 +9,28 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.db.actions;
+package org.openlegacy.db.exceptions;
 
-import org.openlegacy.SessionAction;
-import org.openlegacy.db.DbSession;
+import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 
-public interface DbAction extends SessionAction<DbSession> {
+/**
+ * @author Ivan Bort
+ * 
+ */
+public class DbActionNotMappedException extends OpenLegacyRuntimeException {
+
+	private static final long serialVersionUID = 1L;
+
+	public DbActionNotMappedException(Exception e) {
+		super(e);
+	}
+
+	public DbActionNotMappedException(String s, Exception e) {
+		super(s, e);
+	}
+
+	public DbActionNotMappedException(String s) {
+		super(s);
+	}
 
 }
