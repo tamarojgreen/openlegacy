@@ -87,7 +87,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 		return super.getEntity(entityName, false, response);
 	}
 
-	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
+	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[:-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.GET, consumes = { JSON,
 			XML })
 	public ModelAndView getEntityWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			HttpServletResponse response) throws IOException {
@@ -110,14 +110,14 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJson(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityJson(entityName, action, false, json, response);
 	}
 
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = JSON)
 	public ModelAndView postEntityJsonWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String json, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityJsonWithKey(entityName, key, action, false, json, response);
 	}
 
@@ -125,7 +125,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}/{key:[[\\w\\p{L}]+[-_ ]*[\\w\\p{L}]+]+}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXmlWithKey(@PathVariable("entity") String entityName, @PathVariable("key") String key,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityXmlWithKey(entityName, key, action, xml, response);
 	}
 
@@ -133,7 +133,7 @@ public class DefaultRpcRestController extends AbstractRestController {
 	@RequestMapping(value = "/{entity}", method = RequestMethod.POST, consumes = XML)
 	public ModelAndView postEntityXml(@PathVariable("entity") String entityName,
 			@RequestParam(value = ACTION, required = false) String action, @RequestBody String xml, HttpServletResponse response)
-					throws IOException {
+			throws IOException {
 		return super.postEntityXml(entityName, action, xml, response);
 	}
 
