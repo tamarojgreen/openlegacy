@@ -84,12 +84,18 @@
 							
 							$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 								$scope.model.actions=null;
-								$scope.model.itemsRecords[rowIndex].action_ = actionValue;
+								<#list entityDefinition.tableDefinitions?keys as key> 
+								$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
+							    </#list>	
 								
 								$olHttp.post('${entityDefinition.entityName}/', $scope.model, function(data) {
-									$scope.model = data.model.entity;									
+									if (data.model.entityName == '${entityDefinition.entityName}'){
+										$scope.model = data.model.entity;								
+									}
+									else{					
+										$location.path("/" + data.model.entityName);
+									}
 								});
-										
 							};
 						}							
 					);
@@ -191,12 +197,18 @@
 							
 							$scope.doActionNoTargetEntity = function(rowIndex, columnName, actionValue) {					
 								$scope.model.actions=null;
-								$scope.model.itemsRecords[rowIndex].action_ = actionValue;
+								<#list entityDefinition.tableDefinitions?keys as key> 
+								$scope.model.${entityDefinition.tableDefinitions[key].tableEntityName}s[rowIndex][columnName] = actionValue;
+							    </#list>	
 								
-								$olHttp.post('${entityName}/', $scope.model, function(data) {
-									$scope.model = data.model.entity;									
+								$olHttp.post('${entityDefinition.entityName}/', $scope.model, function(data) {
+									if (data.model.entityName == '${entityDefinition.entityName}'){
+										$scope.model = data.model.entity;								
+									}
+									else{					
+										$location.path("/" + data.model.entityName);
+									}
 								});
-										
 							};
 						}
 					);
