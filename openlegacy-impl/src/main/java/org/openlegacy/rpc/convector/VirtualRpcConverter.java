@@ -63,7 +63,7 @@ public class VirtualRpcConverter implements RpcFieldConverter {
 		}
 
 		for (String virtualGroupName : fieldCollector.keySet()) {
-			if (virtualGroupName.equals("")) {
+			if (virtualGroupName == null || virtualGroupName.equals("")) {
 				result.addAll(fieldCollector.get(virtualGroupName).values());
 			} else {
 				// only simple structures can be virtual
