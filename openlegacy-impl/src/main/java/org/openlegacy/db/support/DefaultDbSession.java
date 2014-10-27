@@ -25,6 +25,7 @@ import org.openlegacy.support.AbstractSession;
 import org.openlegacy.utils.ReflectionUtil;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 public class DefaultDbSession extends AbstractSession implements DbSession {
 
@@ -33,10 +34,14 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 	@Inject
 	private DbEntitiesRegistry dbEntitiesRegistry;
 
+	@Inject
+	private EntityManager entityManager;
+
 	public Object getDelegate() {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> entityClass, Object... keys) throws EntityNotFoundException {
 		T entity = ReflectionUtil.newInstance(entityClass);
 
@@ -66,8 +71,12 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 		return null;
 	}
 
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
 	public DbEntity doAction(DbAction action, DbEntity dbEntity) {
-		// TODO
+		action.perform(this, dbEntity);
 		return dbEntity;
 	}
 

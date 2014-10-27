@@ -13,6 +13,7 @@ package org.openlegacy.db.actions;
 
 import org.openlegacy.db.DbSession;
 import org.openlegacy.db.exceptions.DbActionException;
+import org.openlegacy.db.exceptions.DbActionNotMappedException;
 
 import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
@@ -25,7 +26,10 @@ public class DbActions {
 			return getClass().getSimpleName();
 		}
 
-		public void perform(DbSession session, Object entity, Object... keys) {}
+		public void perform(DbSession session, Object entity, Object... keys) {
+			throw new DbActionNotMappedException(MessageFormat.format("Specified action {0} is not mapped to a DB session",
+					getClass()));
+		}
 	}
 
 	public static class CREATE extends DbActionAdapter {
