@@ -1,49 +1,30 @@
                     <nav class="navbar navbar-default hidden-xs top-margin-10" role="navigation">
                         <form class="navbar-form xnavbar-left" role="navigation">
-                            <button type="button" class="btn btn-primary navbar-btn" ng-click="postAction('')">
+                            <button type="button" class="btn btn-primary navbar-btn" ng-click="doAction('')">
                                 <span class="glyphicon glyphicon-share-alt"></span>
                                  Submit
                             </button>
                             
-                            <span ng-repeat="action in actions">
+                            <span ng-repeat="action in entity.actions">
                             	<span ng-switch="action.alias">
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="postAction(action.alias)">
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="help" ng-click="doAction(action.alias)">
 	                            		<span class="glyphicon glyphicon-question-sign"></span>
 		                                {{action.displayName}}
                             		</button>
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="prompt" ng-click="postAction(action.alias)">
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="prompt" ng-click="doAction(action.alias)">
 	                            		<span class="glyphicon glyphicon-comment"></span>
 	                                	{{action.displayName}}
                             		</button>
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="cancel" ng-click="postAction(action.alias)">
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="cancel" ng-click="doAction(action.alias)">
 	                            		<span class="glyphicon glyphicon-remove-circle"></span>
 	                                 	{{action.displayName}}
                             		</button>
-                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="delete" ng-click="postAction(action.alias)">
+                            		<button type="button" class="btn btn-primary navbar-btn" ng-switch-when="delete" ng-click="doAction(action.alias)">
 	                            		<span class="glyphicon glyphicon-trash"></span>
 	                                 	{{action.displayName}}
                             		</button>                            	
                             	</span>
                             </span>
-                                                     
-                            
-                            <!-- <button type="button" class="btn btn-primary navbar-btn">
-                                <span class="glyphicon glyphicon-question-sign"></span>
-                                 Help
-                            </button>
-                            <button type="button" class="btn btn-primary navbar-btn">
-                                <span class="glyphicon glyphicon-comment"></span>
-                                 Prompt
-                            </button>
-                            <button type="button" class="btn btn-primary navbar-btn">
-                                <span class="glyphicon glyphicon-remove-circle"></span>
-                                 Cancel
-                            </button>
-                           <button type="button" class="btn btn-primary navbar-btn">
-                                <span class="glyphicon glyphicon-trash"></span>
-                                 Delete
-                            </button>                             -->
-
                         </form>
                     </nav>                
                 
@@ -53,38 +34,38 @@
 						<div class="row">
 						
 							<div class="col-sm-6">
-								<img src="img/{{itemDetails.itemNumber}}.jpg" class="img-thumbnail"></img>
+								<img src="img/{{entity.itemNumber}}.jpg" class="img-thumbnail"></img>
 							</div>	
 													
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="alphaSearch" class="control-label">Alpha Search:</label>
-									<input type="text" class="form-control" id="alphaSearch" placeholder="Alpha Search" ng-model="itemDetails.alphaSearch">
+									<input type="text" class="form-control" id="alphaSearch" placeholder="Alpha Search" ng-model="entity.alphaSearch">
 								</div>
 								<div class="form-group">
 									<label for="itemNumber" class="control-label">Item Number:</label>
-									<input type="text" class="form-control" id="itemNumber" placeholder="Item No" ng-model="itemDetails.itemNumber">
+									<input type="text" class="form-control" id="itemNumber" placeholder="Item No" ng-model="entity.itemNumber">
 								</div>
 								<div class="form-group">
 									<label for="itemDescription" class="control-label">Item Description:</label>
-									<input type="text" class="form-control" id="itemDescription" placeholder="Item Description" ng-model="itemDetails.itemDescription">
+									<input type="text" class="form-control" id="itemDescription" placeholder="Item Description" ng-model="entity.itemDescription">
 								</div>	
 								
 								<div class="form-group">
 									<label for="SupercedingItemFrom" class="control-label">Superceding Item From:</label>
-									<input type="text" class="form-control" id="SupercedingItemFrom" placeholder="Superceding Item From" ng-model="itemDetails.supercedingItemfrom">
+									<input type="text" class="form-control" id="SupercedingItemFrom" placeholder="Superceding Item From" ng-model="entity.supercedingItemfrom">
 								</div>
 								<div class="form-group">
 									<label for="supercedingItemTo" class="control-label">Superceding Item To:</label>
-									<input type="text" class="form-control" id="supercedingItemTo" placeholder="Superceding Item To" ng-model="itemDetails.supercedingItemto">
+									<input type="text" class="form-control" id="supercedingItemTo" placeholder="Superceding Item To" ng-model="entity.supercedingItemto">
 								</div>
 								<div class="form-group">
 									<label for="stockGroup" class="control-label">Stock Group:</label>
-									<input type="text" class="form-control" id=""stockGroup"" placeholder="Stock Group" ng-model="itemDetails.stockGroup">
+									<input type="text" class="form-control" id=""stockGroup"" placeholder="Stock Group" ng-model="entity.stockGroup">
 								</div>
 								<div class="form-group">
 									<label for="itemWeight" class="control-label">item Weight:</label>
-									<input type="text" class="form-control touchspin" id="itemWeight" placeholder="item Weight" ng-model="itemDetails.itemWeight">
+									<input type="text" class="form-control touchspin" id="itemWeight" placeholder="item Weight" ng-model="entity.itemWeight">
 								</div>								
 							</div>		
 						</div>	<!-- /row -->

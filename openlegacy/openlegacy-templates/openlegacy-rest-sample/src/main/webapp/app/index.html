@@ -25,6 +25,7 @@
 
 	<!-- Include jquery JS -->
 	<script type="text/javascript" src="lib/jquery/jquery-2.1.0.min.js"></script>		
+	<script type="text/javascript" src="lib/jquery/jquery.cookie.js"></script>
 
     <!-- Include the bootstrap -->    
     <script src="lib/bootstrap/js/bootstrap.js"></script>
@@ -47,20 +48,20 @@
 
 	<!-- Include project JS -->
 	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/config.js"></script>
 	<script type="text/javascript" src="js/controllers.js"></script>
 	<script type="text/javascript" src="js/directives.js"></script>
-    <script type="text/javascript" src="js/services.js"></script>
-    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/services.js"></script>    
    
     <link ng-href="themes/{{theme}}/{{theme}}.css" rel="stylesheet">
     
   </head>
   <body class="base" ng-class="theme">	  
 	<!-- this is the header -->
-	<!-- <div ng-include="'partials/header.html'"></div> -->
-	<div ui-view="header"></div>	
+	<div ng-include="'partials/header.html'" ng-controller="HeaderController"></div>
+	<!-- <div ui-view="header"></div> -->	
     <!-- this is the sidebar -->
-	<div class="main" ui-view="main"></div>
+	<div class="main" ui-view></div>
 	<!-- this is the footer -->
 	<div ng-include="'partials/footer.html'"></div>
   </body>
