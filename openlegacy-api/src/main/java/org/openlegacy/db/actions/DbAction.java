@@ -14,6 +14,10 @@ package org.openlegacy.db.actions;
 import org.openlegacy.SessionAction;
 import org.openlegacy.db.DbSession;
 
+import javax.persistence.EntityManager;
+
 public interface DbAction extends SessionAction<DbSession> {
+
+	<T> T perform(EntityManager entityManager, T entity, Object... keys);
 
 }

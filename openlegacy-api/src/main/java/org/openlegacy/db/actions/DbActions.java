@@ -18,6 +18,8 @@ import org.openlegacy.db.exceptions.DbActionNotMappedException;
 import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 
+import javax.persistence.EntityManager;
+
 public class DbActions {
 
 	public static class DbActionAdapter implements DbAction {
@@ -30,18 +32,64 @@ public class DbActions {
 			throw new DbActionNotMappedException(MessageFormat.format("Specified action {0} is not mapped to a DB session",
 					getClass()));
 		}
-	}
 
-	public static class CREATE extends DbActionAdapter {
+		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
+			throw new DbActionNotMappedException(MessageFormat.format("Specified action {0} is not mapped to a DB session",
+					getClass()));
+		}
+
 	}
 
 	public static class READ extends DbActionAdapter {
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
+			if (entityManager != null) {
+				return (T)entityManager.find(entity.getClass(), keys[0]);
+			}
+			return null;
+		}
+
+	}
+
+	public static class CREATE extends DbActionAdapter {
+
+		@Override
+		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
+			if (entityManager != null) {
+				entityManager.persist(entity);
+				entityManager.flush();
+			}
+			return entity;
+		}
+
 	}
 
 	public static class UPDATE extends DbActionAdapter {
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
+			if (entityManager != null) {
+				return (T)entityManager.find(entity.getClass(), keys[0]);
+			}
+			return null;
+		}
+
 	}
 
 	public static class DELETE extends DbActionAdapter {
+
+		@Override
+		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
+			if (entityManager != null) {
+				entityManager.remove(entity);
+				entityManager.flush();
+			}
+			return null;
+		}
+
 	}
 
 	public static CREATE CREATE() {

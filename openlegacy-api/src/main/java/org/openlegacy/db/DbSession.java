@@ -12,7 +12,9 @@
 package org.openlegacy.db;
 
 import org.openlegacy.Session;
+import org.openlegacy.db.actions.DbAction;
 
 public interface DbSession extends Session {
 
+	public Object doAction(DbAction action, Object dbEntity, Object... keys);
 }

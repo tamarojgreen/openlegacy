@@ -12,7 +12,6 @@
 package org.openlegacy.db.support;
 
 import org.openlegacy.ApplicationConnection;
-import org.openlegacy.db.DbEntity;
 import org.openlegacy.db.DbSession;
 import org.openlegacy.db.actions.DbAction;
 import org.openlegacy.db.actions.DbActions;
@@ -26,6 +25,7 @@ import org.openlegacy.utils.ReflectionUtil;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 public class DefaultDbSession extends AbstractSession implements DbSession {
 
@@ -34,8 +34,8 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 	@Inject
 	private DbEntitiesRegistry dbEntitiesRegistry;
 
-	@Inject
-	private EntityManager entityManager;
+	@PersistenceContext
+	transient EntityManager entityManager;
 
 	public Object getDelegate() {
 		return null;
@@ -52,7 +52,7 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 			throw new DbActionNotMappedException(
 					"No READ action is defined. Define @DbActions(actions = { @Action(action = READ.class, ...) })");
 		}
-		return (T)doAction(DbActions.READ(), (DbEntity)entity);
+		return (T)doAction(DbActions.READ(), entity, keys);
 	}
 
 	public Object getEntity(String entityName, Object... keys) throws EntityNotFoundException {
@@ -75,9 +75,8 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 		return entityManager;
 	}
 
-	public DbEntity doAction(DbAction action, DbEntity dbEntity) {
-		action.perform(this, dbEntity);
-		return dbEntity;
+	public Object doAction(DbAction action, Object dbEntity, Object... keys) {
+		return action.perform(getEntityManager(), dbEntity, keys);
 	}
 
 }

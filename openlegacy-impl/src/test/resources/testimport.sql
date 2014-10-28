@@ -1,0 +1,1 @@
+INSERT INTO DB_DUMMY_ENTITY (id, description) VALUES ('1', 'description');

@@ -11,11 +11,12 @@
 
 package org.openlegacy.db;
 
-
 /**
  * @author Ivan Bort
- *
+ * 
  */
 public interface DbEntity {
+
+	Object getId();
 
 }
