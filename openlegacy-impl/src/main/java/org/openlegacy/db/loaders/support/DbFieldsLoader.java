@@ -33,8 +33,11 @@ public class DbFieldsLoader implements FieldLoader {
 
 		DbEntityDefinition dbEntityDefinition = dbEntitiesRegistry.get(containingClass);
 
-		SimpleDbFieldDefinition dbFieldDefinition = new SimpleDbFieldDefinition(field.getName());
-		dbEntityDefinition.getFieldsDefinitions().put(field.getName(), dbFieldDefinition);
+		if (dbEntityDefinition != null) {
+			SimpleDbFieldDefinition dbFieldDefinition = new SimpleDbFieldDefinition(field.getName());
+			dbEntityDefinition.getFieldsDefinitions().put(field.getName(), dbFieldDefinition);
+
+		}
 
 	}
 }
