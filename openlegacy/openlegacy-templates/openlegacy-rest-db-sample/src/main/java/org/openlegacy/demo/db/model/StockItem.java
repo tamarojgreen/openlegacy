@@ -23,10 +23,15 @@ public class StockItem {
 
 	private String videoUrl;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "stock_item")
 	@MapKey(name = "noteId")
 	private Map<String, StockItemNote> notes = new TreeMap<String, StockItemNote>();
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "stock_item")
+	@MapKey(name = "noteId")
+	private Map<String, StockItemNote> notes2 = new TreeMap<String, StockItemNote>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "stock_item")
@@ -64,4 +69,9 @@ public class StockItem {
 	public void setVideoUrl(String videoUrl) {
 		this.videoUrl = videoUrl;
 	}
+
+	public Map<String, StockItemNote> getNotes2() {
+		return notes2;
+	}
+
 }
