@@ -11,13 +11,16 @@
 package org.openlegacy.designtime.rpc.generators;
 
 import org.openlegacy.EntityDefinition;
-import org.openlegacy.definitions.page.support.SimplePageDefinition;
 import org.openlegacy.designtime.generators.AbstractEntitySpaGenerator;
 import org.openlegacy.exceptions.GenerationException;
 import org.openlegacy.layout.PageDefinition;
+import org.openlegacy.rpc.definitions.RpcEntityDefinition;
+import org.openlegacy.rpc.layout.RpcPageBuilder;
 
 import java.io.OutputStream;
 import java.text.MessageFormat;
+
+import javax.inject.Inject;
 
 /**
  * Generates all angular Single Page Application web related content
@@ -26,6 +29,9 @@ import java.text.MessageFormat;
  * 
  */
 public class RpcEntitySpaGenerator extends AbstractEntitySpaGenerator implements RpcEntityPageGenerator {
+
+	@Inject
+	private RpcPageBuilder pageBuilder;
 
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)
 			throws GenerationException {
@@ -37,6 +43,7 @@ public class RpcEntitySpaGenerator extends AbstractEntitySpaGenerator implements
 
 	@Override
 	protected PageDefinition buildPage(EntityDefinition<?> entityDefinition) {
-		return new SimplePageDefinition(entityDefinition);
+		return pageBuilder.build((RpcEntityDefinition)entityDefinition);
+		// return new SimplePageDefinition(entityDefinition);
 	}
 }
