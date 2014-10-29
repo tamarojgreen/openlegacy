@@ -175,18 +175,43 @@
             </button>
         </div>                
 	<#else>
-		<form role="form">
-			<div class="row">
-				<div class="col-sm-6">
-					<#list part.partRows as partRow>					
-						<#list partRow.fields as field>										
-							<@fieldMacro field=field/>
-						</#list>				
-					</#list>
-				</div>				
-			</div>
+<form role="form">			
+			<#list part.partRows as partRow>
+				<#assign result = []>
+				<@filterFields field=partRow.fields[0] fieldsArray=partRow.fields/>				
+				
+				<#list result as rowFields>
+					<div class="row">
+						<#assign colWidth = (6/rowFields?size)?ceiling>
+						<#list rowFields as field>
+							<div class="col-sm-${colWidth}">
+								<@fieldMacro field=field/>
+							</div>
+						</#list>
+					</div>
+				</#list>								
+			</#list>
 		</form>		
 	</#if>		
+</#macro>
+
+<#macro filterFields field fieldsArray>
+	<#assign rowArray = [field]>
+	<#assign arrayToFilter = []>
+	<#list fieldsArray as el>
+		<#if field != el>
+			<#if field.position.row == el.position.row>
+				<#assign rowArray = rowArray + [el]>
+			<#else>
+				<#assign arrayToFilter = arrayToFilter + [el]>
+			</#if>
+		</#if>
+	</#list>
+	<#assign result = result + [rowArray]>
+	
+	<#if arrayToFilter?size != 0>
+		<@filterFields field=arrayToFilter[0] fieldsArray=arrayToFilter/>
+	</#if>	
 </#macro>
 
 <#macro fieldMacro field>
