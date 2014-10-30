@@ -1,0 +1,132 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.openlegacy.ide</groupId>
+		<artifactId>openlegacy-ide-plugins</artifactId>
+		<version>2.1.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>openlegacy-ide-eclipse-updatesite</artifactId>
+	<packaging>eclipse-repository</packaging>
+	<name>OpenLegacy eclipse plug-in update site</name>
+
+	<profiles>
+		<profile>
+			<id>openlegacy.skip.clean</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>2.4.1</version>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>openlegacy.deploy</id>
+			<properties>
+				<!-- Properties relative to the 
+				distant host where to upload the repo -->
+				<updatesite.ftp.url>ftp://eclipse.openlegacy.org</updatesite.ftp.url>
+				<updatesite.ftp.toDir>/updatesite/1.2/</updatesite.ftp.toDir>
+				<!-- Relative path to the repo being uploaded -->
+				<repo.path>${project.build.directory}/repository/</repo.path>
+			</properties>
+			<build>
+				<plugins>
+					<!-- Temporary disable plugin signing (failed the build on veriry - need to check) 				
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jarsigner-plugin</artifactId>
+						<version>1.2</version>
+						<executions>
+							<execution>
+								<id>sign</id>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>verify</id>
+								<goals>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<archiveDirectory>${repo.path}</archiveDirectory>
+							<excludes>
+								<exclude>**/org.apache*.jar</exclude>
+							</excludes>
+							<keystore>openlegacy.jks</keystore>
+							<alias>openlegacy</alias>
+							<storepass>${updatesite.sign.storepass}</storepass>
+							<keypass>${updatesite.sign.keypass}</keypass>
+						</configuration>
+					</plugin>
+ 					-->
+ 					<!-- Upload the repo to the server -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>wagon-maven-plugin</artifactId>
+						<version>1.0-beta-4</version>
+						<executions>
+							<execution>
+								<id>upload-repo</id>
+								<phase>deploy</phase>
+								<goals>
+									<goal>upload</goal>
+								</goals>
+								<configuration>
+									<fromDir>${repo.path}</fromDir>
+									<includes>**</includes>
+									<toDir>${updatesite.ftp.toDir}</toDir>
+									<url>${updatesite.ftp.url}</url>
+									<serverId>openlegacy-ftp</serverId>
+									<!-- Points to your settings.xml 
+									where the connection settings are 
+									stored as shown below -->
+									<!-- <server> -->
+									<!-- <id>openlegacy-ftp</id> -->
+									<!-- <username>username</username> -->
+									<!-- <password>password</password> -->
+									<!-- </server> -->
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-director-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<executions>
+					<execution>
+						<id>materialize-products</id>
+						<goals>
+							<goal>materialize-products</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>archive-products</id>
+						<goals>
+							<goal>archive-products</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
