@@ -35,7 +35,7 @@ public class ProjectTest {
 
 		try {
 
-			terminalSession.getModule(Login.class).login("user", "pwd");
+			// terminalSession.getModule(Login.class).login("user", "pwd");
 
 			// example of how to navigate to certain entity
 			// Items items = terminalSession.getEntity(Items.class);
