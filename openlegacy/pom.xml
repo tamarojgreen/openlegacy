@@ -38,6 +38,21 @@
 			</modules>
 		</profile>
 		<profile>
+			<id>test</id>
+			<modules>
+				<module>../openlegacy-api</module>
+				<module>../openlegacy-utils</module>
+				<module>../openlegacy-test-apps</module>
+				<module>../openlegacy-impl</module>
+				<module>../openlegacy-web</module>
+				<module>openlegacy-providers</module>
+				<module>openlegacy-tools</module>
+				<module>openlegacy-templates</module>
+				<module>../openlegacy-designtime</module>
+				<module>openlegacy-plugins</module>
+			</modules>
+		</profile>
+		<profile>
 			<id>infrastructure</id>
 			<modules>
 				<module>../openlegacy-api</module>

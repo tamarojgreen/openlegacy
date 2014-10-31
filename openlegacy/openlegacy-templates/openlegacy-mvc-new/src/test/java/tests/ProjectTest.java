@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openlegacy.exceptions.RegistryException;
@@ -27,6 +28,7 @@ public class ProjectTest {
 	@Inject
 	private TrailUtil trailUtil;
 
+	@Ignore
 	@Test
 	public void testProject() throws RegistryException, LoginException, FileNotFoundException {
 		TerminalSession terminalSession = applicationContext.getBean(TerminalSession.class);

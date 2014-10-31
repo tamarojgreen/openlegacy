@@ -13,4 +13,6 @@
 	<import resource="classpath*:/META-INF/openlegacy-db-basic-context.xml" />
 	<import resource="classpath:/openlegacy-default-designtime-context.xml" />
 	
+	<bean id="dbRegistry" class="org.openlegacy.db.support.DefaultDbEntitiesRegistry"/>
+	
 </beans>
