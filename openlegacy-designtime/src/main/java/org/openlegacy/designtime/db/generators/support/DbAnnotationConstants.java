@@ -60,4 +60,11 @@ public class DbAnnotationConstants {
 	public static final String TARGET_ENTITY = "targetEntity";
 	// @DbNavigation
 	public static final String CATEGORY = "category";
+	public static final String ACTIONS = "actions";
+	// @Action
+	public static final String ACTION = "action";
+	public static final String DISPLAY_NAME = "displayName";
+	public static final String GLOBAL = "global";
+	public static final String ALIAS = "alias";
+
 }

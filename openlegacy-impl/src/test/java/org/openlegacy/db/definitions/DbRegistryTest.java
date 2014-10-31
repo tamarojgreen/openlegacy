@@ -34,4 +34,5 @@ public class DbRegistryTest {
 		Assert.assertNotNull(navigationDefinition);
 		Assert.assertEquals("dummyCategory", navigationDefinition.getCategory());
 	}
+
 }

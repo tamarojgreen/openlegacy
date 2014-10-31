@@ -21,61 +21,42 @@
         async: false
     };
 
-    function createOption(optionText, parentId, value){
-    	var option=document.createElement("option");
-    	option.text = optionText;
-    	if(value){
-    		option.value = value;
-    	}
-    	dojo.byId(parentId).add(option);
-    }
+function loadData(data){
+	if (dojo.byId("requestType").value == "json"){
+		if (data != null){
+			dojo.byId('result').value = JSON.stringify(data);
+			if (data.model != null){
+				for(var i=0;i<data.model.entity.actions.length;i++){
+					var option=document.createElement("option");
+					option.text = data.model.entity.actions[i].alias;
+					dojo.byId("actionType").add(option);
+				}
+				data.model.entity.actions = null;
+				dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
+			}
+		}
+		else{
+			dojo.byId('result').value = "OK"; 
+		}
+	}
+	else{
+		if (data != ""){
+			dojo.byId('result').value = data;
+			var start = data.indexOf("<entity");
+			dojo.byId('postData').innerHTML = data.substr(start,data.indexOf("</entity>")+9-start);
+			var actions = data.match(/<alias>\w+<\/alias>/g);
+			for(var i=0;i<actions.length;i++){
+				var option=document.createElement("option");
+				option.text = actions[i].substr(7,actions[i].indexOf("</")-7);
+				dojo.byId("actionType").add(option);
+			}
+		}
+		else{
+			dojo.byId('result').value = "OK"; 
+		}
+	}
 
-    function loadData(data){
-    	if (dojo.byId("requestType").value == "json"){
-    		if (data != null){
-    			dojo.byId('result').value = JSON.stringify(data);
-    			if (data.model != null){
-    				var actions = data.model.entity != null && data.model.entity.actions != null ? data.model.entity.actions : data.model.actions;
-    				dojo.byId("actionType").innerHTML = "";
-    				createOption("Submit","actionType");
-    				createOption("Next","actionType","next");
-    				createOption("Previous","actionType","previous");
-    				if(actions != null){
-    					for(var i=0;i<actions.length;i++){
-    						createOption(actions[i].alias,"actionType");
-    					}
-    				}
-    				data.model.entity.actions = null;
-    				dojo.byId('postData').innerHTML = JSON.stringify(data.model.entity);
-    			}
-    		}
-    		else{
-    			dojo.byId('result').value = "OK"; 
-    		}
-    	}
-    	else{
-    		if (data != ""){
-    			dojo.byId('result').value = data;
-    			var start = data.indexOf("<entity");
-    			dojo.byId('postData').innerHTML = data.substr(start,data.indexOf("</entity>")+9-start);
-    			var actions = data.match(/<alias>\w+<\/alias>/g);
-    			dojo.byId("actionType").innerHTML = "";
-    			createOption("Submit","actionType");
-    			createOption("Next","actionType","next");
-    			createOption("Previous","actionType","previous");
-    			
-    			if(actions != null){
-    				for(var i=0;i<actions.length;i++){
-    					createOption(actions[i].substr(7,actions[i].indexOf("</")-7),"actionType");
-    				}
-    			}
-    		}
-    		else{
-    			dojo.byId('result').value = "OK"; 
-    		}
-    	}
-
-    }
+}
 function get(){
 	var requestType = "application/" + dojo.byId('requestType').value;
 	var url = location.href;
@@ -169,6 +150,9 @@ require(["dojo/parser", "dijit/form/ComboBox","dijit/TitlePane"]);
 		Available URL's: <select id="getUrl"
 			data-dojo-type="dijit.form.ComboBox">
 			<option>login?user=user1&password=pwd1</option>
+			<option>emulation?KeyboardKey=ENTER</option>
+			<option>emulation?KeyboardKey=F12</option>
+			<option>emulation?KeyboardKey=ESC</option>
 			<option>current</option>
 			<option>messages</option>
 			<option>logoff</option>

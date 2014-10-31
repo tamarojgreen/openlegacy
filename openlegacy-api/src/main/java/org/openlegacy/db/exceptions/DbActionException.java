@@ -9,17 +9,24 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.db;
+package org.openlegacy.db.exceptions;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.openlegacy.db.actions.DbActionsTest;
-import org.openlegacy.db.definitions.DbRegistryTest;
-import org.openlegacy.db.modules.menu.DefaultDbMenuModelTest;
+import org.openlegacy.exceptions.EntityNotAccessibleException;
 
-@RunWith(Suite.class)
-@SuiteClasses({ DbRegistryTest.class, DefaultDbMenuModelTest.class, DbActionsTest.class })
-public class OpenLegacyDbRuntimeSuite {
+/**
+ * @author Ivan Bort
+ * 
+ */
+public class DbActionException extends EntityNotAccessibleException {
+
+	private static final long serialVersionUID = 1L;
+
+	public DbActionException(Exception e) {
+		super(e);
+	}
+
+	public DbActionException(String s) {
+		super(s);
+	}
 
 }

@@ -9,17 +9,16 @@
  *     OpenLegacy Inc. - initial API and implementation
  *******************************************************************************/
 
-package org.openlegacy.db;
+package org.openlegacy.annotations.db;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.openlegacy.db.actions.DbActionsTest;
-import org.openlegacy.db.definitions.DbRegistryTest;
-import org.openlegacy.db.modules.menu.DefaultDbMenuModelTest;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@RunWith(Suite.class)
-@SuiteClasses({ DbRegistryTest.class, DefaultDbMenuModelTest.class, DbActionsTest.class })
-public class OpenLegacyDbRuntimeSuite {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface DbActions {
 
+	Action[] actions();
 }

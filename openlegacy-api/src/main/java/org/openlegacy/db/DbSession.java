@@ -11,15 +11,10 @@
 
 package org.openlegacy.db;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.openlegacy.db.actions.DbActionsTest;
-import org.openlegacy.db.definitions.DbRegistryTest;
-import org.openlegacy.db.modules.menu.DefaultDbMenuModelTest;
+import org.openlegacy.Session;
+import org.openlegacy.db.actions.DbAction;
 
-@RunWith(Suite.class)
-@SuiteClasses({ DbRegistryTest.class, DefaultDbMenuModelTest.class, DbActionsTest.class })
-public class OpenLegacyDbRuntimeSuite {
+public interface DbSession extends Session {
 
+	public Object doAction(DbAction action, Object dbEntity, Object... keys);
 }

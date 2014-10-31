@@ -11,15 +11,12 @@
 
 package org.openlegacy.db;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-import org.openlegacy.db.actions.DbActionsTest;
-import org.openlegacy.db.definitions.DbRegistryTest;
-import org.openlegacy.db.modules.menu.DefaultDbMenuModelTest;
+/**
+ * @author Ivan Bort
+ * 
+ */
+public interface DbEntity {
 
-@RunWith(Suite.class)
-@SuiteClasses({ DbRegistryTest.class, DefaultDbMenuModelTest.class, DbActionsTest.class })
-public class OpenLegacyDbRuntimeSuite {
+	Object getId();
 
 }
