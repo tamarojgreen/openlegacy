@@ -154,6 +154,10 @@
 		
 	})
 	.controller('productTreeCtrl', function ($scope, FileUploader, $olHttp) {
+		$olHttp.get("productTree", function(data) {			
+			$scope.treeElements = data.model;			
+		});
+		
 		$scope.uploader = new FileUploader({
 			autoUpload: true,
 			removeAfterUpload: true,

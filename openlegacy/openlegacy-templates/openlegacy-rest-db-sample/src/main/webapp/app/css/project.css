@@ -17,6 +17,7 @@
 
 .panel-tree .angular-ui-tree-nodes li > a {
 	margin-left: -18px;
+	display: inline-block;
 }
 
 .tree-table {

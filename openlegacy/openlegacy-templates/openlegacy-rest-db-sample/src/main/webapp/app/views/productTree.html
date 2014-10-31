@@ -23,18 +23,20 @@
 		        					<!-- Nested node template -->
 									<script type="text/ng-template" id="nodes_renderer.html">
   										<!--<div ui-tree-handle>-->
-										<a href data-nodrag="" ng-click="toggle(this)" ng-show="node.items">								
+										<a href data-nodrag="" ng-click="toggle(this)" ng-show="node.childs">
+								
 				   							<span class="glyphicon" ng-class="{'glyphicon-plus': collapsed, 'glyphicon-minus': !collapsed}"></span>
 				   						</a>
-    									<span ng-click="nodeClick($event)" style="cursor:pointer;cursor:hand;">{{node.title}}</span>										
+    									<span ng-click="nodeClick($event)" style="cursor:pointer;cursor:hand;">{{node.productName}}</span>										
   										<!--</div>-->
-  										<ol ui-tree-nodes="" ng-model="node.items" ng-class="{hidden: collapsed}">
-    										<li ng-repeat="node in node.items" ui-tree-node ng-include="'nodes_renderer.html'" collapsed="true"></li>
+  										<ol ui-tree-nodes="" ng-model="node.childs" ng-class="{hidden: collapsed}">
+    										<li ng-repeat="node in node.childs" ui-tree-node ng-include="'nodes_renderer.html'" collapsed="true"></li>
   										</ol>
 									</script>
+									
 									<div ui-tree data-drag-enabled="false" style="display: inline-block">
 									  <ol ui-tree-nodes="" ng-model="list" ng-class="{hidden: collapsed}">
-									    <li ng-repeat="node in list" ui-tree-node ng-include="'nodes_renderer.html'" collapsed="true"></li>
+									    <li ng-repeat="node in treeElements" ui-tree-node ng-include="'nodes_renderer.html'" collapsed="true"></li>
 									  </ol>
 									</div>
 		        				</td>

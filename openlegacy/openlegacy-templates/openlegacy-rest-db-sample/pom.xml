@@ -225,13 +225,7 @@
 			<artifactId>openlegacy-web</artifactId>
 			<version>${openlegacy-version}</version>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0</version>
-			<scope>compile</scope>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
