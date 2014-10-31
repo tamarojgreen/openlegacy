@@ -109,10 +109,12 @@ public class DbActionsTest {
 		Assert.assertEquals(2, resultList.size());
 	}
 
+	@Transactional
 	@Test
 	public void testUpdateAction() {
 		DbDummyEntity dummyEntity = new DbDummyEntity();
 		dummyEntity.setId(1);
+		dummyEntity.setDescription("changed description");
 
 		DbSession dbSession = applicationContext.getBean(DbSession.class);
 		DbEntityDefinition entityDefinition = assertEntityExists(DbDummyEntity.class);
@@ -130,7 +132,11 @@ public class DbActionsTest {
 		Assert.assertTrue(returnedObject instanceof DbDummyEntity);
 		DbDummyEntity entity = (DbDummyEntity)returnedObject;
 		Assert.assertEquals(1, entity.getId().intValue());
-		Assert.assertEquals("description", entity.getDescription());
+		Assert.assertEquals("changed description", entity.getDescription());
+		DbDummyEntity mergedEntity = entityManager.find(DbDummyEntity.class, entity.getId());
+		Assert.assertNotNull(mergedEntity);
+		Assert.assertEquals(entity.getId(), mergedEntity.getId());
+		Assert.assertEquals(entity.getDescription(), mergedEntity.getDescription());
 	}
 
 	@Transactional

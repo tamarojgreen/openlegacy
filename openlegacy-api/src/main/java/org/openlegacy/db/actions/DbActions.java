@@ -68,11 +68,12 @@ public class DbActions {
 
 	public static class UPDATE extends DbActionAdapter {
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
 			if (entityManager != null) {
-				return (T)entityManager.find(entity.getClass(), keys[0]);
+				T mergedEntity = entityManager.merge(entity);
+				entityManager.flush();
+				return mergedEntity;
 			}
 			return null;
 		}
