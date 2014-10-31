@@ -34,7 +34,7 @@
 				<module>openlegacy-templates</module>
 				<module>../openlegacy-designtime</module>
 				<module>openlegacy-plugins</module>
-				<module>../openlegacy-ide</module>
+				<module>../openlegacy-ide-plugins</module>
 			</modules>
 		</profile>
 		<profile>
@@ -71,7 +71,7 @@
 			<modules>
 				<module>openlegacy-templates</module>
 				<module>../openlegacy-designtime</module>
-				<module>../openlegacy-ide</module>
+				<module>../openlegacy-ide-plugins</module>
 			</modules>
 		</profile>
 	</profiles>
