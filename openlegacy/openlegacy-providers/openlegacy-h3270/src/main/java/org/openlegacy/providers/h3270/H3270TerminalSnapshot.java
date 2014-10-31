@@ -113,7 +113,7 @@ public class H3270TerminalSnapshot extends AbstractSnapshot {
 					addField(fields, field, startColumn, endColumn, i - field.getStartY());
 				}
 			} else {
-				if (field.getEndX() >= 0) {
+				if (field.getEndX() >= 0 && field.getEndY() >= field.getStartY()) {
 					addField(fields, field, startColumn, endColumn, 0);
 				}
 			}
