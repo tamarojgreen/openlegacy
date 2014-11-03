@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.db.mvc.rest;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.MarshalException;
@@ -32,17 +31,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.xml.sax.InputSource;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.MessageFormat;
@@ -83,8 +76,6 @@ public class DefaultDbRestController {
 	private Integer pageNumber = 1;
 
 	private Integer pageCount = 0;
-
-	private String defaultFileStoragePath = System.getProperty("user.home");
 
 	private final static Log logger = LogFactory.getLog(DefaultDbRestController.class);
 
@@ -430,91 +421,5 @@ public class DefaultDbRestController {
 
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
-	}
-
-	public void setDefaultFileStoragePath(String defaultFileStoragePath) {
-		this.defaultFileStoragePath = defaultFileStoragePath;
-	}
-
-	@SuppressWarnings("unused")
-	@RequestMapping(value = "/productTree", method = RequestMethod.GET)
-	public Object getEntitiesTree() {
-		// Collection<DbEntityDefinition> entitiesDefinitions = dbEntitiesRegistry.getEntitiesDefinitions();
-		// ArrayList parentEntities = new ArrayList();
-		// for (DbEntityDefinition dbEntityDefinition : entitiesDefinitions) {
-		// Map<String, DbFieldDefinition> fieldsDefinitions = dbEntityDefinition.getFieldsDefinitions();
-		// for (Entry<String, DbFieldDefinition> field : fieldsDefinitions.entrySet()) {
-		// if (!(dbEntityDefinition.getClass() == field.getValue().getClass())) {
-		//
-		// }
-		// }
-		// }
-
-		// List asd = entityManager.createQuery("select count(*) from ProductItem").getResultList();
-		return null;
-	}
-
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST, headers = "Content-Type=multipart/form-data")
-	public void fileUpload(@RequestParam("file") MultipartFile file, @RequestParam("nodeName") String nodeName) {
-		String storagePath = defaultFileStoragePath + nodeName + "/";
-		storagePath = storagePath.replace("{user.home}", System.getProperty("user.home"));
-
-		InputStream inputStream = null;
-		OutputStream outputStream = null;
-		try {
-			File filesStorageDir = new File(storagePath);
-			if (!filesStorageDir.exists()) {
-				filesStorageDir.mkdirs();
-			}
-
-			inputStream = file.getInputStream();
-			File newFile = new File(storagePath + file.getOriginalFilename());
-			if (!newFile.exists()) {
-				newFile.createNewFile();
-			}
-			outputStream = new FileOutputStream(newFile);
-			int read = 0;
-			byte[] bytes = new byte[1024];
-			while ((read = inputStream.read(bytes)) != -1) {
-				outputStream.write(bytes, 0, read);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@RequestMapping(value = "/nodeFilesList", method = RequestMethod.GET)
-	public ModelAndView getNodeFilesList(@RequestParam("nodeName") String nodeName) {
-		String storagePath = defaultFileStoragePath + nodeName + "/";
-		storagePath = storagePath.replace("{user.home}", System.getProperty("user.home"));
-
-		List<String> filesNames = new ArrayList<String>();
-
-		File nodeFolderPath = new File(storagePath);
-		if (nodeFolderPath.exists()) {
-			File[] listOfFiles = nodeFolderPath.listFiles();
-			for (File file : listOfFiles) {
-				if (file.isFile()) {
-					filesNames.add(file.getName());
-				}
-			}
-		}
-
-		return new ModelAndView("model", "model", filesNames);
-	}
-
-	@RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-	public void excel(@RequestParam("nodeName") String nodeName, @RequestParam("fileName") String fileName,
-			HttpServletResponse response) throws IOException {
-		String storagePath = defaultFileStoragePath + nodeName + "/";
-		storagePath = storagePath.replace("{user.home}", System.getProperty("user.home"));
-
-		File fileToDownload = new File(storagePath + fileName);
-		if (fileToDownload.exists()) {
-			response.setContentType("application/*");
-			response.addHeader("Content-Disposition", MessageFormat.format("attachment; filename=\"{0}\"", fileName));
-			IOUtils.copy(new FileInputStream(fileToDownload), response.getOutputStream());
-			response.flushBuffer();
-		}
 	}
 }
