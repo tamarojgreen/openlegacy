@@ -29,7 +29,7 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 	@Override
 	public void beforeAction(ApplicationConnection<?, ?> connection, RemoteAction action) {
 		if (resetBefore) {
-			resetMessages();
+			resetMessages((TerminalAction)action);
 		}
 	}
 
@@ -37,11 +37,11 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
 		if (resetAfter) {
-			resetMessages();
+			resetMessages((TerminalAction)action);
 		}
 	}
 
-	private void resetMessages() {
+	private void resetMessages(TerminalAction action) {
 		ScreenEntity entity = getSession().getEntity();
 		if (entity == null) {
 			return;
@@ -57,6 +57,10 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 		}
 		String error = (String)fieldAccessor.getFieldValue(messageField);
 		if (StringUtils.isEmpty(error)) {
+			return;
+		}
+
+		if (action.equals(terminalAction)) {
 			return;
 		}
 
