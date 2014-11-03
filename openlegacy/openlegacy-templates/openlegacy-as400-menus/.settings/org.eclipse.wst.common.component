@@ -16,12 +16,6 @@
         <dependent-module archiveName="openlegacy-utils-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-tn5250j-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-tn5250j/openlegacy-tn5250j">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="html-emulation-plugin-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/html-emulation-plugin/html-emulation-plugin">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="java-output-path" value="/openlegacy-as400-menus/target/classes"/>
         <property name="context-root" value="openlegacy-as400-menus"/>
     </wb-module>

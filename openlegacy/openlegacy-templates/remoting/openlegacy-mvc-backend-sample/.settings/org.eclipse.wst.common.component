@@ -16,9 +16,6 @@
         <dependent-module archiveName="openlegacy-web-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-web/openlegacy-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-tn5250j-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-tn5250j/openlegacy-tn5250j">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <dependent-module archiveName="openlegacy-api-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-api/openlegacy-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
