@@ -56,6 +56,11 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 
 	@Override
 	public boolean match(TerminalSnapshot terminalSnapshot) {
+		if (position.getColumn() + text.length() > terminalSnapshot.getSize().getColumns()) {
+			logger.error(MessageFormat.format("Found illegal identifier {0} in position {1}", getText(), getPosition()));
+			return false;
+		}
+
 		String foundText = terminalSnapshot.getText(position, text.length());
 		if (foundText.equals(text)) {
 			if (logger.isTraceEnabled()) {
@@ -65,8 +70,13 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 			return true;
 		}
 		if (supportRightToLeft) {
+			int identifierEnd = position.getColumn() + text.length() - 2;
+			if (identifierEnd > terminalSnapshot.getSize().getColumns()) {
+				logger.error(MessageFormat.format("Found illegal identifier {0} in position {1}", getText(), getPosition()));
+				return false;
+			}
 			foundText = terminalSnapshot.getText(new SimpleTerminalPosition(position.getRow(),
-					terminalSnapshot.getSize().getColumns() - (position.getColumn() + text.length() - 2)), text.length());
+					terminalSnapshot.getSize().getColumns() - identifierEnd), text.length());
 			foundText = StringUtils.reverse(foundText);
 			if (foundText.equals(text)) {
 				return true;
