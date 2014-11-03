@@ -7,6 +7,7 @@ import org.openlegacy.rpc.actions.RpcActions;
 
 public class Jt400KeepAliveAction implements RpcAction {
 
+	@Override
 	public void perform(RpcSession session, Object entity, Object... keys) {
 
 		session.doAction(RpcActions.READ(), new KeepAliveEntity());

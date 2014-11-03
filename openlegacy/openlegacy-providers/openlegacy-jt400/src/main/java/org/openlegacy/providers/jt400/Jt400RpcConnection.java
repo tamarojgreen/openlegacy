@@ -56,20 +56,24 @@ public class Jt400RpcConnection implements RpcConnection {
 		this.as400Session = as400Session;
 	}
 
+	@Override
 	public Object getDelegate() {
 		return as400Session;
 	}
 
+	@Override
 	public void disconnect() {
 		if (as400Session != null) {
 			as400Session.disconnectAllServices();
 		}
 	}
 
+	@Override
 	public boolean isConnected() {
 		return as400Session != null && as400Session.isConnected();
 	}
 
+	@Override
 	public RpcResult invoke(RpcInvokeAction rpcInvokeAction) {
 
 		String actionAlias = rpcInvokeAction.getRpcPath().replaceAll("/", "_").replaceAll("\\.", "_");
@@ -243,22 +247,27 @@ public class Jt400RpcConnection implements RpcConnection {
 
 	}
 
+	@Override
 	public RpcSnapshot getSnapshot() {
 		return null;
 	}
 
+	@Override
 	public RpcSnapshot fetchSnapshot() {
 		return null;
 	}
 
+	@Override
 	public void doAction(RpcInvokeAction invokeAction) {
 		invoke(invokeAction);
 	}
 
+	@Override
 	public Integer getSequence() {
 		return sequence;
 	}
 
+	@Override
 	public void login(String user, String password) {
 		try {
 			as400Session.setUserId(user);

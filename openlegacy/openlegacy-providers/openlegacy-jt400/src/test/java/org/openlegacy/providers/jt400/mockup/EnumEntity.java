@@ -29,6 +29,7 @@ public class EnumEntity implements org.openlegacy.rpc.RpcEntity {
 			this.display = display;
 		}
 
+		@Override
 		public String getValue() {
 			return value;
 		}

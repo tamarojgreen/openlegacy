@@ -39,6 +39,7 @@ public class Jt400SourceFetcher implements SourceFetcher {
 		System.out.println(fetch(host, user, password, legacyFile));
 	}
 
+	@Override
 	public String convertExtension(String legacyFileName) {
 		String oldExtension = FilenameUtils.getExtension(legacyFileName);
 		String fileName = FilenameUtils.getName(legacyFileName);
@@ -52,6 +53,7 @@ public class Jt400SourceFetcher implements SourceFetcher {
 		this.namesMappings = namesMappings;
 	}
 
+	@Override
 	public byte[] fetch(String host, String user, String password, String legacyFile) throws OpenLegacyException {
 
 		byte[] result = null;
