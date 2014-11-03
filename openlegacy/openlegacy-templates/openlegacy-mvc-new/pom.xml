@@ -205,7 +205,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.openlegacy.web</groupId>
-			<artifactId>openlegacy-themes-dynamics</artifactId>
+			<artifactId>openlegacy-themes-cloud</artifactId>
 			<version>${openlegacy-version}</version>
 		</dependency>
 		<dependency>
