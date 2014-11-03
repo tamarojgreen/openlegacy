@@ -236,7 +236,7 @@ public class DefaultGenericScreensController extends AbstractGenericEntitiesCont
 		}
 
 		Map<Object, Object> fieldValues = null;
-		if (text != null) {
+		if (text != null && text != "") {
 			fieldValues = (Map<Object, Object>)ReflectionUtil.invoke(screenEntity,
 					MessageFormat.format("get{0}Values", StringUtils.capitalize(fieldName)), text);
 		} else {
