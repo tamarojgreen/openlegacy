@@ -14,9 +14,6 @@
         <dependent-module archiveName="openlegacy-utils-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-utils/openlegacy-utils">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="openlegacy-jt400-2.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/openlegacy-jt400/openlegacy-jt400">
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
         <property name="java-output-path" value="/openlegacy-ws-rpc-sample/target/classes"/>
         <property name="context-root" value="openlegacy-ws-rpc-sample"/>
     </wb-module>
