@@ -23,6 +23,7 @@ public class RuleDefinitionBean implements RuleDefinition {
 	private String ruleId;
 	private boolean enabled = true;
 
+	@Override
 	public String getDroolsFile() {
 		return droolsFile;
 	}
@@ -31,6 +32,7 @@ public class RuleDefinitionBean implements RuleDefinition {
 		this.droolsFile = droolsFile;
 	}
 
+	@Override
 	public List<RuleParametersSet> getRuleParameterSets() {
 		return ruleParameterSets;
 	}
@@ -39,6 +41,7 @@ public class RuleDefinitionBean implements RuleDefinition {
 		this.ruleParameterSets = ruleParameterSets;
 	}
 
+	@Override
 	public String getRuleId() {
 		return ruleId;
 	}
@@ -47,6 +50,7 @@ public class RuleDefinitionBean implements RuleDefinition {
 		this.ruleId = ruleId;
 	}
 
+	@Override
 	public boolean isEnable() {
 		return enabled;
 	}

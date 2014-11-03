@@ -27,6 +27,7 @@ public class DefaultRpcMenuModule extends RpcSessionModuleAdapter implements Men
 	@Inject
 	private MenuBuilder menuBuilder;
 
+	@Override
 	public MenuItem getMenuTree() {
 		return menuBuilder.getMenuTree();
 	}
@@ -36,6 +37,7 @@ public class DefaultRpcMenuModule extends RpcSessionModuleAdapter implements Men
 
 	}
 
+	@Override
 	public List<MenuItem> getFlatMenuEntries() {
 		return menuBuilder.getFlatMenuEntries();
 	}

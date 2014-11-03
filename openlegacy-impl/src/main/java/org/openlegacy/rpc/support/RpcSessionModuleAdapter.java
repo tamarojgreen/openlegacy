@@ -30,6 +30,7 @@ public abstract class RpcSessionModuleAdapter extends SessionModuleAdapter<RpcSe
 	 */
 	public RpcSessionModuleAdapter() {}
 
+	@Override
 	public void destroy() {
 		// allow override
 	}

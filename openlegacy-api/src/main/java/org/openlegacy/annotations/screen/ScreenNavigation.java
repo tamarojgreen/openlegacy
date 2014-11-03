@@ -100,6 +100,7 @@ public @interface ScreenNavigation {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public void perform(TerminalSession session, Object entity, Object... keys) {
 			TerminalAction action = session.getModule(Navigation.class).getDefaultExitAction();
 			session.doAction(action, (org.openlegacy.terminal.ScreenEntity)entity);
@@ -110,6 +111,7 @@ public @interface ScreenNavigation {
 			return getClass().getSimpleName();
 		}
 
+		@Override
 		public boolean isMacro() {
 			return false;
 		}

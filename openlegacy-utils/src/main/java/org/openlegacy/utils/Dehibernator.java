@@ -205,7 +205,7 @@ public class Dehibernator {
 		return dirty;
 	}
 
-	private boolean isPrimitive(Object object) {
+	private static boolean isPrimitive(Object object) {
 		if (object instanceof String) {
 			return true;
 		}

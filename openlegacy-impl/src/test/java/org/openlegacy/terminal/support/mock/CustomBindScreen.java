@@ -29,12 +29,15 @@ public class CustomBindScreen implements org.openlegacy.terminal.ScreenEntity {
 		this.fieldAandB = fieldAandB;
 	}
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;
@@ -42,11 +45,13 @@ public class CustomBindScreen implements org.openlegacy.terminal.ScreenEntity {
 
 	public static class CustomBinder implements ScreenEntityBinder {
 
+		@Override
 		public void populateEntity(Object entity, TerminalSnapshot snapshot) {
 			CustomBindScreen customBindScreen = (CustomBindScreen)entity;
 			customBindScreen.setFieldAandB(snapshot.getField(3, 15).getValue() + snapshot.getField(4, 15).getValue());
 		}
 
+		@Override
 		public void populateAction(TerminalSendAction sendAction, TerminalSnapshot snapshot, Object entity) {
 			CustomBindScreen customBindScreen = (CustomBindScreen)entity;
 			String fielAandB = customBindScreen.getFieldAandB();

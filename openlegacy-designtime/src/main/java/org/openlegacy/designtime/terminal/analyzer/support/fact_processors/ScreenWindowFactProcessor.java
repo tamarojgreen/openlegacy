@@ -23,10 +23,12 @@ import java.util.List;
 
 public class ScreenWindowFactProcessor implements ScreenFactProcessor {
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return screenFact instanceof ScreenWindowFact;
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		ScreenWindowFact screenWindowFact = (ScreenWindowFact)screenFact;
 		TerminalField buttomBorderField = screenWindowFact.getButtomBorderField();

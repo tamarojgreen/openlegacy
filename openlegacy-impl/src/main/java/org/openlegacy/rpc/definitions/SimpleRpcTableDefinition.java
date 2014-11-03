@@ -15,6 +15,7 @@ public class SimpleRpcTableDefinition extends AbstractTableDefinition<ColumnDefi
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	public int getMaxRowsCount() {
 		return maxRowsCount;
 	}
@@ -28,10 +29,12 @@ public class SimpleRpcTableDefinition extends AbstractTableDefinition<ColumnDefi
 		private String name;
 		private String displayName;
 
+		@Override
 		public int compareTo(org.openlegacy.definitions.TableDefinition.ColumnDefinition o) {
 			return 0;
 		}
 
+		@Override
 		public String getName() {
 			return name;
 		}
@@ -40,14 +43,17 @@ public class SimpleRpcTableDefinition extends AbstractTableDefinition<ColumnDefi
 			this.name = name;
 		}
 
+		@Override
 		public boolean isKey() {
 			return false;
 		}
 
+		@Override
 		public boolean isEditable() {
 			return false;
 		}
 
+		@Override
 		public String getDisplayName() {
 			return displayName;
 		}
@@ -56,30 +62,37 @@ public class SimpleRpcTableDefinition extends AbstractTableDefinition<ColumnDefi
 			this.displayName = displayName;
 		}
 
+		@Override
 		public String getSampleValue() {
 			return null;
 		}
 
+		@Override
 		public Class<?> getJavaType() {
 			return String.class;
 		}
 
+		@Override
 		public int getRowsOffset() {
 			return 0;
 		}
 
+		@Override
 		public String getHelpText() {
 			return null;
 		}
 
+		@Override
 		public int getColSpan() {
 			return 0;
 		}
 
+		@Override
 		public int getSortIndex() {
 			return 0;
 		}
 
+		@Override
 		public Class<?> getTargetEntity() {
 			return null;
 		}

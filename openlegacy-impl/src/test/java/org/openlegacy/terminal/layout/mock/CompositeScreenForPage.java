@@ -15,10 +15,12 @@ public class CompositeScreenForPage implements org.openlegacy.terminal.ScreenEnt
 
 	private ScreenForPage screenForPage;
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {}
 
 	public String getFld1() {
@@ -29,6 +31,7 @@ public class CompositeScreenForPage implements org.openlegacy.terminal.ScreenEnt
 		return screenForPage;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

@@ -21,12 +21,14 @@ import java.lang.reflect.Field;
 @Component
 public class ScreenPartFieldsLoader implements FieldLoader {
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public boolean match(EntitiesRegistry entitiesRegistry, Field field) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;
 		return (screenEntitiesRegistry.getPart(field.getType()) != null);
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = (ScreenEntitiesRegistry)entitiesRegistry;

@@ -8,16 +8,19 @@ public class RpgParseResults implements ParseResults {
 
 	private RpcEntityDefinition rpcEntityDefinition;
 
+	@Override
 	public List<String> getErrors() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public List<String> getWarnings() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public RpcEntityDefinition getEntityDefinition() {
 
 		return rpcEntityDefinition;

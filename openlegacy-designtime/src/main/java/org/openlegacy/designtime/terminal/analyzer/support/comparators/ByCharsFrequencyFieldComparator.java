@@ -16,6 +16,7 @@ import org.openlegacy.utils.StringUtil;
 
 public class ByCharsFrequencyFieldComparator implements BestEntityNameFieldComparator {
 
+	@Override
 	public int compare(TerminalField field1, TerminalField field2) {
 		int field1CharsFrquency = StringUtil.getDifferentCharsCount(field1.getValue());
 		int field2CharsFrquency = StringUtil.getDifferentCharsCount(field2.getValue());

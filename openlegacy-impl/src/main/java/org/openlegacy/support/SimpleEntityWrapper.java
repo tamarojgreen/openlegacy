@@ -49,6 +49,7 @@ public class SimpleEntityWrapper implements EntityWrapper {
 		this.pageCount = pageCount;
 	}
 
+	@Override
 	public Object getEntity() {
 		return entity;
 	}
@@ -57,6 +58,7 @@ public class SimpleEntityWrapper implements EntityWrapper {
 		return entityName;
 	}
 
+	@Override
 	public List<EntityDescriptor> getPaths() {
 		return paths;
 	}

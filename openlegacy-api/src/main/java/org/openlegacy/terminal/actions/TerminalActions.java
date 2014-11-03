@@ -36,6 +36,7 @@ public class TerminalActions {
 
 		private static final long serialVersionUID = 1L;
 
+		@Override
 		public void perform(TerminalSession terminalSession, Object entity, Object... keys) {
 			// if we got here it means the actions is not mapped...
 			throw (new TerminalActionNotMappedException(MessageFormat.format(
@@ -56,6 +57,7 @@ public class TerminalActions {
 			return obj.getClass().equals(getClass());
 		}
 
+		@Override
 		public boolean isMacro() {
 			return false;
 		}

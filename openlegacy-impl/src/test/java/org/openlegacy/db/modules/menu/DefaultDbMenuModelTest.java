@@ -50,9 +50,13 @@ public class DefaultDbMenuModelTest {
 
 	@Test
 	public void testFlatMenu() {
-
 		DbSession dbSession = applicationContext.getBean(DbSession.class);
-		List<MenuItem> menuEntries = dbSession.getModule(Menu.class).getFlatMenuEntries();
+
+		Menu module = dbSession.getModule(Menu.class);
+		// should call getMenuTree to populate menuOptions inside module
+		module.getMenuTree();
+
+		List<MenuItem> menuEntries = module.getFlatMenuEntries();
 		Assert.assertEquals(1, menuEntries.size());
 		MenuItem menuItem = menuEntries.get(0);
 		List<MenuItem> menuItems = menuItem.getMenuItems();

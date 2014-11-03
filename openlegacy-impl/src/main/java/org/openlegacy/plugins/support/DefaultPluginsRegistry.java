@@ -45,6 +45,7 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 	 * @param plugin
 	 *            - OpenLegacy plugin
 	 */
+	@Override
 	public void addPlugin(Plugin plugin) throws OpenLegacyException {
 		if (cachePlugins.containsKey(plugin.getName())) {
 			throw new OpenLegacyException(MessageFormat.format(
@@ -57,6 +58,7 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 	/**
 	 * Clear registry
 	 */
+	@Override
 	public void clear() {
 		this.cachePlugins.clear();
 	}
@@ -85,6 +87,7 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 	 * @param rootPath
 	 *            - the absolute path which used like root path for storing views inside parent project
 	 */
+	@Override
 	public void extractViews(String rootPath) throws OpenLegacyException {
 		if ((rootPath == null) || (rootPath.isEmpty())) {
 			throw new OpenLegacyException("Cannot extract view files to parent. RootPath is empty.");
@@ -145,6 +148,7 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 		}
 	}
 
+	@Override
 	public Plugin getPlugin(String pluginName) {
 		if (cachePlugins.containsKey(pluginName)) {
 			return cachePlugins.get(pluginName);
@@ -155,6 +159,7 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 	/* (non-Javadoc)
 	 * @see org.openlegacy.plugins.PluginsRegistry#getPlugins()
 	 */
+	@Override
 	public List<Plugin> getPlugins() {
 		if (isEmpty()) {
 			return new ArrayList<Plugin>();
@@ -162,6 +167,7 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 		return new ArrayList<Plugin>(cachePlugins.values());
 	}
 
+	@Override
 	public List<String> getSpringContextResources() {
 		List<String> list = new ArrayList<String>();
 		Collection<Plugin> plugins = this.cachePlugins.values();
@@ -171,6 +177,7 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 		return list;
 	}
 
+	@Override
 	public List<String> getSpringWebContextResources() {
 		List<String> list = new ArrayList<String>();
 		Collection<Plugin> plugins = this.cachePlugins.values();
@@ -180,6 +187,7 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 		return list;
 	}
 
+	@Override
 	public List<String> getViewDeclarations() {
 		List<String> list = new ArrayList<String>();
 		Collection<Plugin> plugins = this.cachePlugins.values();
@@ -189,10 +197,12 @@ public class DefaultPluginsRegistry implements PluginsRegistry {
 		return list;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return cachePlugins.isEmpty();
 	}
 
+	@Override
 	public void putPlugin(Plugin plugin) {
 		cachePlugins.put(plugin.getName(), plugin);
 	}

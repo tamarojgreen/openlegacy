@@ -77,7 +77,7 @@
 	</profiles>
 
 	<properties>
-		<java-version>1.5</java-version>
+		<java-version>1.6</java-version>
 		<spring.framework.version>3.1.0.RELEASE</spring.framework.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<aspectj.version>1.6.11</aspectj.version>
@@ -175,8 +175,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
 				</configuration>
 			</plugin>
 

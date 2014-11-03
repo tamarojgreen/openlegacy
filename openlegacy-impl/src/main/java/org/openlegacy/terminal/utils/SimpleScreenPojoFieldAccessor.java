@@ -37,6 +37,7 @@ public class SimpleScreenPojoFieldAccessor extends SimplePojoFieldAccessor imple
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setTerminalField(java.lang.String,
 	 * org.openlegacy.terminal.TerminalField)
 	 */
+	@Override
 	public void setTerminalField(String fieldName, TerminalField terminalField) {
 		fieldName = getFieldPojoName(fieldName);
 		String terminalFieldName = fieldName + FIELD_SUFFIX;
@@ -54,6 +55,7 @@ public class SimpleScreenPojoFieldAccessor extends SimplePojoFieldAccessor imple
 	 * 
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setTerminalSnapshot(org.openlegacy.terminal.TerminalSnapshot)
 	 */
+	@Override
 	public void setTerminalSnapshot(TerminalSnapshot terminalSnapshot) {
 		if (directFieldAccessor.isWritableProperty(TERMINAL_SNAPSHOT)) {
 			directFieldAccessor.setPropertyValue(TERMINAL_SNAPSHOT, terminalSnapshot);
@@ -68,6 +70,7 @@ public class SimpleScreenPojoFieldAccessor extends SimplePojoFieldAccessor imple
 	 * 
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#getFieldType(java.lang.String)
 	 */
+	@Override
 	public void setFocusField(String fieldName) {
 		if (directFieldAccessor.isWritableProperty(FOCUS_FIELD)) {
 			directFieldAccessor.setPropertyValue(FOCUS_FIELD, fieldName);

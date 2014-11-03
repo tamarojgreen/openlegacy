@@ -28,20 +28,25 @@ public class RpcPersistedTrail implements RpcSessionTrail {
 	@XmlElement(name = "snapshot", type = RpcPersistedSnapshot.class)
 	private List<RpcSnapshot> snapshots = new ArrayList<RpcSnapshot>();
 
+	@Override
 	public List<RpcSnapshot> getSnapshots() {
 		return snapshots;
 	}
 
+	@Override
 	public void appendSnapshot(RpcSnapshot snapshot) {
 		snapshots.add(snapshot);
 	}
 
+	@Override
 	public void clear() {
 		snapshots.clear();
 	}
 
+	@Override
 	public void advanceCurrent(int steps) {}
 
+	@Override
 	public RpcSnapshot getCurrent() {
 		return snapshots.get(snapshots.size() - 1);
 	}

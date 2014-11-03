@@ -61,6 +61,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.type = type;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -69,6 +70,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.name = name;
 	}
 
+	@Override
 	public Class<? extends FieldType> getType() {
 		return type;
 	}
@@ -84,6 +86,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		return type.getSimpleName();
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -92,6 +95,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.displayName = displayName;
 	}
 
+	@Override
 	public FieldTypeDefinition getFieldTypeDefinition() {
 		return fieldTypeDefinition;
 	}
@@ -100,6 +104,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.fieldTypeDefinition = fieldTypeDefinition;
 	}
 
+	@Override
 	public boolean isKey() {
 		return key;
 	}
@@ -108,6 +113,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.key = key;
 	}
 
+	@Override
 	public String getHelpText() {
 		return helpText;
 	}
@@ -116,6 +122,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.helpText = helpText;
 	}
 
+	@Override
 	public String getSampleValue() {
 		return sampleValue;
 	}
@@ -124,6 +131,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.sampleValue = sampleValue;
 	}
 
+	@Override
 	public String getDefaultValue() {
 		return defaultValue;
 	}
@@ -132,6 +140,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.defaultValue = defaultValue;
 	}
 
+	@Override
 	public Class<?> getJavaType() {
 		if (javaType == null) {
 			javaType = String.class;
@@ -173,6 +182,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.editable = editable;
 	}
 
+	@Override
 	public boolean isRightToLeft() {
 		return rightToLeft;
 	}
@@ -189,6 +199,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.fieldTypeName = fieldTypeName;
 	}
 
+	@Override
 	public boolean isInternal() {
 		return internal;
 	}
@@ -197,6 +208,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.internal = internal;
 	}
 
+	@Override
 	public boolean isGlobal() {
 		return global;
 	}
@@ -205,6 +217,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.global = global;
 	}
 
+	@Override
 	public String getNullValue() {
 		return nullValue;
 	}
@@ -213,6 +226,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.nullValue = nullValue;
 	}
 
+	@Override
 	public int getKeyIndex() {
 		return keyIndex;
 	}
@@ -221,6 +235,7 @@ public abstract class AbstractFieldDefinition<D extends FieldDefinition> impleme
 		this.keyIndex = keyIndex;
 	}
 
+	@Override
 	public String getExpression() {
 		return expression;
 	}

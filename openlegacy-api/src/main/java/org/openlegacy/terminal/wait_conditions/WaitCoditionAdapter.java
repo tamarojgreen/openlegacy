@@ -21,10 +21,12 @@ public abstract class WaitCoditionAdapter implements WaitCondition {
 	private long waitInterval = 250;
 	private long waitTimeout = 2000;
 
+	@Override
 	public long getWaitInterval() {
 		return waitInterval;
 	}
 
+	@Override
 	public long getWaitTimeout() {
 		return waitTimeout;
 	}

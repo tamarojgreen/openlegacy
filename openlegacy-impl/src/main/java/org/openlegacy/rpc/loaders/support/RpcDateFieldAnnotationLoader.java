@@ -16,6 +16,7 @@ import java.util.Date;
 @Component
 public class RpcDateFieldAnnotationLoader extends AbstractDateFieldAnnotationLoader {
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == RpcDateField.class;
 	}

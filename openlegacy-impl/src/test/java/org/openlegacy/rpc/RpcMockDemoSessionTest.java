@@ -106,6 +106,7 @@ public class RpcMockDemoSessionTest {
 
 	}
 
+	@SuppressWarnings("unused")
 	@Test
 	public void rpcTableTest() {
 		RpcSession rpcSession = applicationContext.getBean(RpcSession.class);

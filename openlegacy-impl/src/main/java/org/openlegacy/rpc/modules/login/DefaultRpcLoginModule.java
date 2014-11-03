@@ -20,6 +20,7 @@ public class DefaultRpcLoginModule extends RpcSessionModuleAdapter implements Lo
 
 	private User loggedInUser = null;
 
+	@Override
 	public void login(String user, String password) throws LoginException, RegistryException {
 		if (loggedInUser != null) {
 			return;
@@ -31,20 +32,24 @@ public class DefaultRpcLoginModule extends RpcSessionModuleAdapter implements Lo
 
 	}
 
+	@Override
 	public void login(Object loginEntity) throws LoginException, RegistryException {
 		// not implemented
 
 	}
 
+	@Override
 	public boolean isLoggedIn() {
 
 		return loggedInUser != null;
 	}
 
+	@Override
 	public User getLoggedInUser() {
 		return loggedInUser;
 	}
 
+	@Override
 	public void logoff() {
 		getSession().disconnect();
 

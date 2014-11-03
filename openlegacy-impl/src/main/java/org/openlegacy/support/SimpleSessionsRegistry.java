@@ -25,6 +25,7 @@ public class SimpleSessionsRegistry<S extends Session> implements SessionsRegist
 	private Map<SessionProperties, S> sessions = new HashMap<SessionProperties, S>();
 	private Map<String, S> sessionsById = new HashMap<String, S>();
 
+	@Override
 	public void register(S session) {
 		SimpleSessionProperties sessionProperties = (SimpleSessionProperties)session.getProperties();
 		if (sessionProperties.getId() == null) {
@@ -36,16 +37,19 @@ public class SimpleSessionsRegistry<S extends Session> implements SessionsRegist
 		sessionsById.put(sessionProperties.getId(), session);
 	}
 
+	@Override
 	public void unregister(S session) {
 		sessions.remove(session.getProperties());
 		sessionsById.remove(session.getProperties().getId());
 
 	}
 
+	@Override
 	public Set<SessionProperties> getSessionsProperties() {
 		return sessions.keySet();
 	}
 
+	@Override
 	public S getSession(String sessionId) {
 		return sessionsById.get(sessionId);
 	}

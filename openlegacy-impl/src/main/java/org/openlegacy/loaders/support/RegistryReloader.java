@@ -76,6 +76,7 @@ public class RegistryReloader {
 	private static List<File> getSourcesByLastModified(File sourcesDir) {
 		File[] files = sourcesDir.listFiles(new FileFilter() {
 
+			@Override
 			public boolean accept(File file) {
 				return file.getName().endsWith(".java");
 			}
@@ -83,6 +84,7 @@ public class RegistryReloader {
 		List<File> javaSources = Arrays.asList(files);
 		Collections.sort(javaSources, new Comparator<File>() {
 
+			@Override
 			public int compare(File o1, File o2) {
 				return o1.lastModified() > o2.lastModified() ? -1 : 1;
 			}

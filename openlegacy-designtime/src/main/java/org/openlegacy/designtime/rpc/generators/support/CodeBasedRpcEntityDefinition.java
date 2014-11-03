@@ -45,6 +45,7 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 		super(codeModel, packageDir);
 	}
 
+	@Override
 	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
 		return new HashSet<EntityDefinition<?>>();
 	}
@@ -70,6 +71,7 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 		return fields;
 	}
 
+	@Override
 	public Map<String, RpcFieldDefinition> getAllFieldsDefinitions() {
 		// TODO include parts
 		return getFieldsDefinitions();
@@ -82,6 +84,7 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 		return sortedFields;
 	}
 
+	@Override
 	public boolean isWindow() {
 		return false;
 	}
@@ -91,6 +94,7 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 	 * 
 	 * @see org.openlegacy.rpc.definitions.RpcEntityDefinition#getLanguage()
 	 */
+	@Override
 	public Languages getLanguage() {
 		return getCodeModel().getLanguage();
 	}
@@ -130,19 +134,23 @@ public class CodeBasedRpcEntityDefinition extends AbstractCodeBasedEntityDefinit
 
 	}
 
+	@Override
 	public RpcNavigationDefinition getNavigationDefinition() {
 		return getCodeModel().getNavigationDefinition();
 	}
 
+	@Override
 	public boolean isValidateKeys() {
 		return true;
 	}
 
+	@Override
 	public String getSourceCode() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String getIdentification() {
 		RpcActionDefinition actionDefinition = (RpcActionDefinition)getAction(RpcActions.READ.class);
 		if (actionDefinition != null) {

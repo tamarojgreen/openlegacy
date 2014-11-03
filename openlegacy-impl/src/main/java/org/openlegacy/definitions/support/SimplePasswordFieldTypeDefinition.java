@@ -18,6 +18,7 @@ public class SimplePasswordFieldTypeDefinition implements FieldTypeDefinition, S
 
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	public String getTypeName() {
 		return "password";
 	}

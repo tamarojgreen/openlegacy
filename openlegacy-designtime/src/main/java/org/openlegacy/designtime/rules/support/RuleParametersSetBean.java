@@ -24,10 +24,12 @@ public class RuleParametersSetBean implements RuleParametersSet {
 		this.ruleId = ruleId;
 	}
 
+	@Override
 	public String getRuleId() {
 		return ruleId;
 	}
 
+	@Override
 	public Map<String, Object> getRuleParameters() {
 		return ruleParameters;
 	}

@@ -18,12 +18,14 @@ public class TerminalSessionSnapshotsImageDumper implements TerminalSnapshotDump
 
 	private TerminalSnapshotRenderer imageRenderer;
 
+	@Override
 	public byte[] getDumpContent(TerminalSnapshot snapshot) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		imageRenderer.render(snapshot, baos);
 		return baos.toByteArray();
 	}
 
+	@Override
 	public String getDumpFileExtension() {
 		return "jpg";
 	}

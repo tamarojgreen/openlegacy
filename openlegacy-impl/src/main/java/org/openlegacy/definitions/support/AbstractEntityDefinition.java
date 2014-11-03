@@ -68,22 +68,27 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		this.entityClass = screenEntityClass;
 	}
 
+	@Override
 	public String getEntityName() {
 		return entityName;
 	}
 
+	@Override
 	public Class<?> getEntityClass() {
 		return entityClass;
 	}
 
+	@Override
 	public String getEntityClassName() {
 		return getEntityClass().getSimpleName();
 	}
 
+	@Override
 	public Map<String, F> getFieldsDefinitions() {
 		return fieldsDefinitions;
 	}
 
+	@Override
 	public Map<String, F> getAllFieldsDefinitions() {
 		if (allFieldsDefinitions == null) {
 			allFieldsDefinitions = new LinkedHashMap<String, F>();
@@ -100,10 +105,12 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		this.entityClass = entityClass;
 	}
 
+	@Override
 	public Class<? extends EntityType> getType() {
 		return entityType;
 	}
 
+	@Override
 	public String getTypeName() {
 		if (getType() == null) {
 			return ScreenEntityType.General.class.getSimpleName();
@@ -115,6 +122,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		this.entityType = entityType;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public F getFirstFieldDefinition(Class<? extends FieldType> fieldType) {
 		Collection<? extends FieldDefinition> fieldValues = fieldsDefinitions.values();
@@ -131,6 +139,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		return (F)matchedFieldDefinition;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -145,6 +154,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 
 	}
 
+	@Override
 	public List<? extends FieldDefinition> getKeys() {
 		if (keys == null) {
 			Collection<F> allFields = fieldsDefinitions.values();
@@ -158,14 +168,17 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		return keys;
 	}
 
+	@Override
 	public List<EntityDefinition<?>> getChildEntitiesDefinitions() {
 		return childEntitiesDefinitions;
 	}
 
+	@Override
 	public String getPackageName() {
 		return getEntityClass().getPackage().getName();
 	}
 
+	@Override
 	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
 		@SuppressWarnings("unchecked")
 		Set<EntityDefinition<?>> childs = new ListOrderedSet();
@@ -181,10 +194,12 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		return childs;
 	}
 
+	@Override
 	public List<ActionDefinition> getActions() {
 		return actions;
 	}
 
+	@Override
 	public ActionDefinition getAction(Class<?> actionClass) {
 		for (ActionDefinition actionDefinition : actions) {
 			if (actionDefinition.getAction().getClass() == actionClass) {
@@ -194,6 +209,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		return null;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<F> getFieldDefinitions(Class<? extends FieldType> fieldType) {
 		Collection<? extends FieldDefinition> fieldValues = fieldsDefinitions.values();
@@ -206,10 +222,12 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		return (List<F>)matchedFieldsDefinitions;
 	}
 
+	@Override
 	public Map<String, PartEntityDefinition<F>> getPartsDefinitions() {
 		return partsDefinitions;
 	}
 
+	@Override
 	public boolean isValidateKeys() {
 		return validateKeys;
 	}
@@ -218,6 +236,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		this.validateKeys = validateKeys;
 	}
 
+	@Override
 	public List<String> getRoles() {
 		return roles;
 	}
@@ -226,6 +245,7 @@ public abstract class AbstractEntityDefinition<F extends FieldDefinition> implem
 		this.roles = roles;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return getFieldsDefinitions().size() == 0 && getPartsDefinitions().size() == 0;
 	}

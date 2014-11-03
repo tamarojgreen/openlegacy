@@ -46,6 +46,7 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 	 * 
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#isReadableProperty(java.lang.String)
 	 */
+	@Override
 	public boolean isExists(String fieldName) {
 		return directFieldAccessor.isReadableProperty(getFieldPojoName(fieldName));
 	}
@@ -55,6 +56,7 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 	 * 
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#isWritableProperty(java.lang.String)
 	 */
+	@Override
 	public boolean isWritable(String fieldName) {
 		return directFieldAccessor.isWritableProperty(getFieldPojoName(fieldName));
 	}
@@ -64,6 +66,7 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 	 * 
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#setFieldValue(java.lang.String, java.lang.Object)
 	 */
+	@Override
 	public void setFieldValue(String fieldName, Object value) {
 		try {
 			if (fieldName.contains(".")) {
@@ -89,6 +92,7 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 	 * 
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#getFieldType(java.lang.String)
 	 */
+	@Override
 	public Class<?> getFieldType(String fieldName) {
 		return directFieldAccessor.getPropertyType(fieldName);
 	}
@@ -98,10 +102,12 @@ public class SimplePojoFieldAccessor implements PojoFieldAccessor {
 	 * 
 	 * @see org.openlegacy.terminal.utils.ScreenEntityFieldAccessor#getFieldValue(java.lang.String)
 	 */
+	@Override
 	public Object getFieldValue(String fieldName) {
 		return directFieldAccessor.getPropertyValue(getFieldPojoName(fieldName));
 	}
 
+	@Override
 	public Object evaluateFieldValue(String fieldName) {
 		if (fieldName.contains(".")) {
 			String partName = StringUtil.getNamespace(fieldName);

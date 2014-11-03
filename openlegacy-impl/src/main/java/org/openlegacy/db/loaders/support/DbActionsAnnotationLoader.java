@@ -34,10 +34,12 @@ import java.util.List;
 @Component
 public class DbActionsAnnotationLoader extends AbstractClassAnnotationLoader {
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == DbActions.class;
 	}
 
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 

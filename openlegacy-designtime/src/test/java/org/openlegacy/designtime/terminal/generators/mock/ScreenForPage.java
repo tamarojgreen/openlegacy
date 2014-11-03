@@ -76,15 +76,18 @@ public class ScreenForPage implements org.openlegacy.terminal.ScreenEntity {
 		return screenForPageRows;
 	}
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {}
 
 	@ScreenPart

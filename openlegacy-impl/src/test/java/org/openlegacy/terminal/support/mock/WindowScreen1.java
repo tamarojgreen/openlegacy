@@ -12,12 +12,15 @@ import java.util.List;
 @ScreenIdentifiers(identifiers = { @Identifier(row = 6, column = 40, value = "Win title") })
 public class WindowScreen1 implements org.openlegacy.terminal.ScreenEntity {
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {}
 
+	@Override
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.emptyList();
 	}

@@ -35,6 +35,7 @@ public class FreeDeviceAllocator implements DeviceAllocator {
 
 	private long delayAfterDisconnect = 3000;
 
+	@Override
 	public String allocate(String pullName,SessionProperties newSessionProperties) {
 		if (pullName == null) {
 			return null;

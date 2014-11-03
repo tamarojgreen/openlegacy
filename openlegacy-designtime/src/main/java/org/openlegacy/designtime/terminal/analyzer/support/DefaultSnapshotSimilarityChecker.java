@@ -27,6 +27,7 @@ import java.util.List;
 @Component
 public class DefaultSnapshotSimilarityChecker implements SnapshotsSimilarityChecker<TerminalSnapshot> {
 
+	@Override
 	public int similarityPercent(TerminalSnapshot snapshot1, TerminalSnapshot snapshot2) {
 		if (snapshot1 == null || snapshot2 == null) {
 			return 0;

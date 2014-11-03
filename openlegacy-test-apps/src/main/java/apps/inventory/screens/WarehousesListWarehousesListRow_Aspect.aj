@@ -3,10 +3,10 @@
 
 package apps.inventory.screens;
 
-import java.util.List;
+import apps.inventory.screens.WarehousesList.WarehousesListRow;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import apps.inventory.screens.WarehousesList.WarehousesListRow;
 
 privileged @SuppressWarnings("unused") aspect WarehousesListRow_Aspect {
     

@@ -40,6 +40,7 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 
 	private int maxPath = 7;
 
+	@Override
 	public List<EntityDescriptor> getPaths() {
 
 		Object currentEntity = getSession().getEntity();
@@ -89,6 +90,7 @@ public class DefaultTerminalNavigationModule extends TerminalSessionModuleAdapte
 		this.defaultExitAction = ReflectionUtil.newInstance(defaultExitAction);
 	}
 
+	@Override
 	public TerminalAction getDefaultExitAction() {
 		return defaultExitAction;
 	}

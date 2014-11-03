@@ -70,6 +70,7 @@ public class SimpleTerminalSessionPoolTest {
 
 		private static boolean called = false;
 
+		@Override
 		public void perform(TerminalSession session, Object entity, Object... keys) {
 			called = true;
 		}
@@ -78,6 +79,7 @@ public class SimpleTerminalSessionPoolTest {
 			return called;
 		}
 
+		@Override
 		public boolean isMacro() {
 			return false;
 		}

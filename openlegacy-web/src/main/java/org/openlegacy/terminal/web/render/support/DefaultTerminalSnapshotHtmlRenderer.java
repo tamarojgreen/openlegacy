@@ -72,6 +72,7 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 	private String formActionURL = "emulation";
 	private String formMethod = HtmlConstants.POST;
 
+	@Override
 	public String render(TerminalSnapshot terminalSnapshot) {
 		String htmlContent = renderHtml(terminalSnapshot);
 

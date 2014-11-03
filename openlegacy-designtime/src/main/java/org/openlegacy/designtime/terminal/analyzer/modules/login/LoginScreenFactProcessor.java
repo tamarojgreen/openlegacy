@@ -31,6 +31,7 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 	private String passwordFieldName = Login.PASSWORD_FIELD_NAME;
 	private String errorFieldName = Login.ERROR_FIELD_NAME;
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
 		LoginScreenFact loginScreenFact = (LoginScreenFact)screenFact;
@@ -72,6 +73,7 @@ public class LoginScreenFactProcessor implements ScreenFactProcessor {
 
 	}
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return (screenFact instanceof LoginScreenFact);
 	}

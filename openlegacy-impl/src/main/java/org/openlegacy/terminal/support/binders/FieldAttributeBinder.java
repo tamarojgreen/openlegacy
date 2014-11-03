@@ -31,6 +31,7 @@ public class FieldAttributeBinder implements ScreenEntityBinder {
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
 
+	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot snapshot) {
 
 		Class<? extends Object> class1 = ProxyUtil.getOriginalClass(screenEntity.getClass());
@@ -60,6 +61,7 @@ public class FieldAttributeBinder implements ScreenEntityBinder {
 		}
 	}
 
+	@Override
 	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot snapshot, Object entity) {
 
 	}

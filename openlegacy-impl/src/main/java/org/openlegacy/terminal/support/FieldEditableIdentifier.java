@@ -41,6 +41,7 @@ public class FieldEditableIdentifier implements ScreenIdentifier, TerminalPositi
 		this.editable = editable;
 	}
 
+	@Override
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		TerminalField field = terminalSnapshot.getField(position);
 		if (field != null && field.isEditable() == editable) {
@@ -52,6 +53,7 @@ public class FieldEditableIdentifier implements ScreenIdentifier, TerminalPositi
 		return false;
 	}
 
+	@Override
 	public TerminalPosition getPosition() {
 		return position;
 	}

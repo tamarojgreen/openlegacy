@@ -29,11 +29,13 @@ public class MockStateMachineTerminalConnectionFactory extends AbstractMockTermi
 	private Map<SnapshotAndSendAction, TerminalSnapshot> snapshotsGraph = new HashMap<SnapshotAndSendAction, TerminalSnapshot>();
 	private TerminalSnapshot firstSnapshot = null;
 
+	@Override
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		initStateMachine();
 		return new MockStateMachineTerminalConnection(firstSnapshot, snapshotsGraph);
 	}
 
+	@Override
 	public void disconnect(TerminalConnection terminalConnection) {
 		((MockStateMachineTerminalConnection)terminalConnection).setCurrentSnapshot(firstSnapshot);
 	}
@@ -81,10 +83,12 @@ public class MockStateMachineTerminalConnectionFactory extends AbstractMockTermi
 			this.terminalSendAction = terminalSendAction;
 		}
 
+		@Override
 		public TerminalSnapshot getNode() {
 			return terminalSnapshot;
 		}
 
+		@Override
 		public TerminalSendAction getArc() {
 			return terminalSendAction;
 		}

@@ -25,6 +25,7 @@ public class CharReplaceTranslator implements TextTranslator, InitializingBean {
 
 	private final static Log logger = LogFactory.getLog(CharReplaceTranslator.class);
 
+	@Override
 	public String translate(String text) {
 		StringBuilder sb = new StringBuilder(text);
 		char[] chars = text.toCharArray();
@@ -45,6 +46,7 @@ public class CharReplaceTranslator implements TextTranslator, InitializingBean {
 		this.charsToReplace = charsToReplace;
 	}
 
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		Assert.notEmpty(charsToReplace);
 	}

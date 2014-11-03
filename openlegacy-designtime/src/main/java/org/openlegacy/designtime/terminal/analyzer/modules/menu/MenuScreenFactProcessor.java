@@ -31,6 +31,7 @@ public class MenuScreenFactProcessor implements ScreenFactProcessor {
 	@Inject
 	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
 		MenuScreenFact menuScreenFact = (MenuScreenFact)screenFact;
@@ -62,6 +63,7 @@ public class MenuScreenFactProcessor implements ScreenFactProcessor {
 
 	}
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return (screenFact instanceof MenuScreenFact);
 	}

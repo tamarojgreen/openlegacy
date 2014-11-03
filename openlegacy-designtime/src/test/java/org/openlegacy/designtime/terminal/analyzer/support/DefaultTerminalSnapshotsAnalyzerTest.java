@@ -9,7 +9,6 @@ import org.openlegacy.definitions.BooleanFieldTypeDefinition;
 import org.openlegacy.definitions.DateFieldTypeDefinition;
 import org.openlegacy.definitions.FieldWithValuesTypeDefinition;
 import org.openlegacy.designtime.terminal.analyzer.modules.navigation.ScreenNavigationDesignTimeDefinition;
-import org.openlegacy.designtime.terminal.generators.ScreenPojosAjGenerator;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.modules.messages.Messages;
 import org.openlegacy.terminal.TerminalSnapshot;
@@ -34,16 +33,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import junit.framework.Assert;
 
 @ContextConfiguration("/test-designtime-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DefaultTerminalSnapshotsAnalyzerTest extends AbstractAnalyzerTest {
 
-	@Inject
-	private ScreenPojosAjGenerator screenPojosAjGenerator;
+	// @Inject
+	// private ScreenPojosAjGenerator screenPojosAjGenerator;
 
 	@Test
 	public void testBasicAnalisys() {

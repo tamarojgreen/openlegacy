@@ -23,10 +23,13 @@ public interface RpcFieldDefinition extends FieldDefinition, OrderedField {
 
 	Integer getDecimalPlaces();
 
+	@Override
 	int getOrder();
 
+	@Override
 	String getDefaultValue();
 
+	@Override
 	String getNullValue();
 
 	String getShortName();

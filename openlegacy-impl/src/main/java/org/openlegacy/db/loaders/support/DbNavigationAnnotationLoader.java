@@ -29,10 +29,12 @@ import java.text.MessageFormat;
 @Component
 public class DbNavigationAnnotationLoader extends AbstractClassAnnotationLoader {
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == DbNavigation.class;
 	}
 
+	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 

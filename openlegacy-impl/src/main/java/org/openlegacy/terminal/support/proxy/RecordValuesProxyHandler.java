@@ -52,6 +52,7 @@ public class RecordValuesProxyHandler implements ScreenEntityProxyHandler, Seria
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
+	@Override
 	public Object invoke(TerminalSession terminalSession, MethodInvocation invocation) throws OpenLegacyRuntimeException {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		Object target = invocation.getThis();

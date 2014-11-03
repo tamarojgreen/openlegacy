@@ -94,6 +94,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 	@XmlAttribute
 	private RightAdjust rightAdjust = RightAdjust.NONE;
 
+	@Override
 	public TerminalPosition getPosition() {
 		if (position == null) {
 			position = SimpleTerminalPosition.newInstance(row, column);
@@ -101,6 +102,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		return position;
 	}
 
+	@Override
 	public void setPosition(TerminalPosition position) {
 		row = position.getRow();
 		column = position.getColumn();
@@ -114,6 +116,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		position = null;
 	}
 
+	@Override
 	public String getValue() {
 		// do not allow null based terminal fields. empty string if null (might be null due to XML de-serialization)
 		if (value == null) {
@@ -122,6 +125,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		return value;
 	}
 
+	@Override
 	public void setValue(String value, boolean modified) {
 		if (modified) {
 			this.originalValue = this.value;
@@ -131,10 +135,12 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 
 	}
 
+	@Override
 	public void setValue(String value) {
 		setValue(value, true);
 	}
 
+	@Override
 	public int getLength() {
 		if (length == null) {
 			return getValue().length();
@@ -142,6 +148,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		return length;
 	}
 
+	@Override
 	public void setLength(int length) {
 		this.length = length;
 	}
@@ -150,6 +157,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		length = null;
 	}
 
+	@Override
 	public boolean isEditable() {
 		return editable;
 	}
@@ -158,6 +166,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.editable = editable;
 	}
 
+	@Override
 	public boolean isModified() {
 		return modified;
 	}
@@ -166,6 +175,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.modified = modified;
 	}
 
+	@Override
 	public TerminalPosition getEndPosition() {
 		if (endPosition == null) {
 			endPosition = SnapshotUtils.getEndPosition(this);
@@ -173,6 +183,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		return endPosition;
 	}
 
+	@Override
 	public boolean isHidden() {
 		return hidden;
 	}
@@ -189,14 +200,17 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		return column;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return StringUtil.isEmpty(getValue());
 	}
 
+	@Override
 	public boolean isPassword() {
 		return isEditable() && isHidden();
 	}
 
+	@Override
 	public Color getColor() {
 		return color;
 	}
@@ -205,6 +219,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.color = color;
 	}
 
+	@Override
 	public Color getBackColor() {
 		return backColor;
 	}
@@ -232,6 +247,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		return SnapshotUtils.fieldToString(this);
 	}
 
+	@Override
 	public Class<?> getType() {
 
 		if (type != String.class) {
@@ -244,6 +260,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.type = type;
 	}
 
+	@Override
 	public boolean isBold() {
 		return bold;
 	}
@@ -252,6 +269,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.bold = bold;
 	}
 
+	@Override
 	public boolean isReversed() {
 		return getBackColor() != null && getBackColor() != Color.BLACK;
 	}
@@ -265,10 +283,12 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		}
 	}
 
+	@Override
 	public void setEndPosition(TerminalPosition endPosition) {
 		this.endPosition = endPosition;
 	}
 
+	@Override
 	public String getVisualValue() {
 		return visualValue;
 	}
@@ -277,6 +297,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.visualValue = visualValue;
 	}
 
+	@Override
 	public String getOriginalValue() {
 		if (originalValue != null) {
 			return originalValue;
@@ -284,10 +305,12 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		return getValue();
 	}
 
+	@Override
 	public Object getDelegate() {
 		return null;
 	}
 
+	@Override
 	public boolean isRightToLeft() {
 		return rightToLeft;
 	}
@@ -296,6 +319,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.rightToLeft = rightToLeft;
 	}
 
+	@Override
 	public boolean isUppercase() {
 		return uppercase;
 	}
@@ -304,10 +328,12 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.uppercase = uppercase;
 	}
 
+	@Override
 	public boolean isMultyLine() {
 		return false;
 	}
 
+	@Override
 	public boolean isUnderline() {
 		return underline;
 	}
@@ -316,6 +342,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.underline = underline;
 	}
 
+	@Override
 	public RightAdjust getRightAdjust() {
 		return rightAdjust;
 	}
@@ -324,6 +351,7 @@ public class TerminalPersistedField implements ModifiableTerminalField {
 		this.rightAdjust = rightAdjust;
 	}
 
+	@Override
 	public int compareTo(TerminalField other) {
 		return getPosition().compareTo(other.getPosition());
 	}

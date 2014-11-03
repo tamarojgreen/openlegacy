@@ -24,10 +24,12 @@ public abstract class AbstractActionFactProcessor implements ScreenFactProcessor
 	@Inject
 	private TerminalActionAnalyzer terminalActionAnalyzer;
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return screenFact.getClass() == ScreenActionFact.class;
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		ScreenActionFact screenActionFact = (ScreenActionFact)screenFact;
 

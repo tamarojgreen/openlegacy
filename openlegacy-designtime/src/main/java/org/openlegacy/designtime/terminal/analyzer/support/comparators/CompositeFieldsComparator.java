@@ -19,6 +19,7 @@ public class CompositeFieldsComparator implements BestEntityNameFieldComparator 
 
 	private List<BestEntityNameFieldComparator> comparators;
 
+	@Override
 	public int compare(TerminalField field1, TerminalField field2) {
 		for (BestEntityNameFieldComparator comparator : comparators) {
 			int result = comparator.compare(field1, field2);

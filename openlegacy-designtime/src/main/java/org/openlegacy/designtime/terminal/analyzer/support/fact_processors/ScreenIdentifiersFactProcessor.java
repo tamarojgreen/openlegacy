@@ -31,10 +31,12 @@ public class ScreenIdentifiersFactProcessor implements ScreenFactProcessor {
 	@Inject
 	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return (screenFact instanceof ScreenIdentifiersFact);
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 
 		ScreenIdentifiersFact screenIdentifiersFact = (ScreenIdentifiersFact)screenFact;

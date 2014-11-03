@@ -25,10 +25,12 @@ import java.text.MessageFormat;
 @Component
 public class ScreenTableDrilldownAnnotationLoader extends AbstractClassAnnotationLoader {
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenTableDrilldown.class;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 

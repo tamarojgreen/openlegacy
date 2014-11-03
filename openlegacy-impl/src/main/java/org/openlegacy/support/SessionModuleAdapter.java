@@ -34,22 +34,30 @@ public abstract class SessionModuleAdapter<S extends Session> implements Session
 	 */
 	public SessionModuleAdapter() {}
 
+	@Override
 	public void beforeConnect(ApplicationConnection<?, ?> connection) {
 		// allow override
 	}
 
+	@Override
 	public void afterConnect(ApplicationConnection<?, ?> connection) {
 		// allow override
 	}
 
+	@SuppressWarnings("rawtypes")
+	@Override
 	public void beforeAction(ApplicationConnection<?, ?> cconnection, RemoteAction action) {
 		// allow override
 	}
 
+	@SuppressWarnings("rawtypes")
+	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
 		// allow override
 	}
 
+	@SuppressWarnings("rawtypes")
+	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result, String entityName) {
 		// allow override
 	}

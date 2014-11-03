@@ -70,6 +70,7 @@ public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator impleme
 	/**
 	 * Generate all web page related content: jspx, controller, controller aspect file, and views.xml file
 	 */
+	@Override
 	public void generateView(GenerateViewRequest generatePageRequest, EntityDefinition<?> screenEntityDefinition)
 			throws GenerationException {
 
@@ -84,6 +85,7 @@ public class ScreenEntityMvcGenerator extends AbstractEntityMvcGenerator impleme
 	/**
 	 * Generate all controller related content: controller, controller aspect file
 	 */
+	@Override
 	public void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> screenEntityDefinition)
 			throws GenerationException {
 

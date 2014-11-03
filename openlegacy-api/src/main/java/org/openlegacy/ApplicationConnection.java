@@ -23,6 +23,7 @@ package org.openlegacy;
  * @param <A>
  *            The type of send action used
  */
+@SuppressWarnings("rawtypes")
 public interface ApplicationConnection<S extends Snapshot, A extends RemoteAction> {
 
 	S getSnapshot();

@@ -185,6 +185,7 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 		}
 	}
 
+	@Override
 	public abstract void generatePage(PageDefinition pageDefinition, OutputStream out, String typeName);
 
 	/**
@@ -202,6 +203,7 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 		return generateUtil;
 	}
 
+	@Override
 	public boolean isSupportControllerGeneration() {
 		return true;
 	}
@@ -218,6 +220,7 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 		this.helpDir = helpDir;
 	}
 
+	@Override
 	public void renameViews(String fileNoExtension, String newName, File projectPath) {
 		// web
 		try {
@@ -271,6 +274,7 @@ public abstract class AbstractEntityMvcGenerator implements EntityPageGenerator 
 		}
 	}
 
+	@Override
 	public void renameMatchesInJava(String oldName, String newName, File projectPath, String sourceFolder) {
 		File sourceDir = new File(projectPath, sourceFolder);
 		scanDir(sourceDir, oldName, newName);

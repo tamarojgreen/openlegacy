@@ -55,6 +55,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.originalName = originalName;
 	}
 
+	@Override
 	public int getOrder() {
 		return order;
 	}
@@ -63,6 +64,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.order = order;
 	}
 
+	@Override
 	public int getCount() {
 		return count;
 	}
@@ -71,6 +73,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.count = count;
 	}
 
+	@Override
 	public String getLegacyContainerName() {
 		return legacyContainerName;
 	}
@@ -79,6 +82,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.legacyContainerName = legacyContainerName;
 	}
 
+	@Override
 	public Map<String, RpcPartEntityDefinition> getInnerPartsDefinitions() {
 		return innerPartsDefinitions;
 	}
@@ -88,6 +92,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		return ToStringBuilder.reflectionToString(this);
 	}
 
+	@Override
 	public String getRuntimeName() {
 		return runtimeName;
 	}
@@ -96,10 +101,12 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.runtimeName = runtimeName;
 	}
 
+	@Override
 	public List<ActionDefinition> getActions() {
 		return actions;
 	}
 
+	@Override
 	public List<RpcFieldDefinition> getKeys() {
 
 		if (keyFirstTime.equals(true)) {
@@ -126,6 +133,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 
 		Collections.sort(result, new Comparator<OrderedField>() {
 
+			@Override
 			public int compare(OrderedField o1, OrderedField o2) {
 				return o1.getOrder() - o2.getOrder();
 			}
@@ -133,6 +141,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		return result;
 	}
 
+	@Override
 	public String getHelpText() {
 		return helpText;
 	}
@@ -141,6 +150,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.helpText = helpText;
 	}
 
+	@Override
 	public Boolean isVirtual() {
 		return isVirtual;
 	}
@@ -161,6 +171,7 @@ public class SimpleRpcPartEntityDefinition extends AbstractPartEntityDefinition<
 		this.externalName = externalName;
 	}
 
+	@Override
 	public String getPartFullName() {
 		return partFullName;
 	}

@@ -20,6 +20,7 @@ public class CompositeTerminalFieldSplitter implements TerminalFieldSplitter {
 
 	private List<TerminalFieldSplitter> terminalFieldSplitters;
 
+	@Override
 	public List<TerminalField> split(TerminalField terminalField, ScreenSize screenSize) {
 		for (TerminalFieldSplitter terminalFieldSplitter : terminalFieldSplitters) {
 			List<TerminalField> splittedFields = terminalFieldSplitter.split(terminalField, screenSize);

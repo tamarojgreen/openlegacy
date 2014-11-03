@@ -85,6 +85,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 	@XmlAttribute
 	private int order;
 
+	@Override
 	public Object getValue() {
 		if (value == null) {
 			value = persistedValue;
@@ -154,10 +155,12 @@ public class SimpleRpcFlatField implements RpcFlatField {
 
 	}
 
+	@Override
 	public void setValue(Object value) {
 		setValue(value, true);
 	}
 
+	@Override
 	public Object getDefaultValue() {
 		return defaultValue;
 	}
@@ -166,6 +169,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.defaultValue = defaultValue;
 	}
 
+	@Override
 	public Integer getLength() {
 		return length;
 	}
@@ -178,6 +182,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		length = null;
 	}
 
+	@Override
 	public Integer getDecimalPlaces() {
 		return decimalPlaces;
 	}
@@ -186,6 +191,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.decimalPlaces = decimalPlaces;
 	}
 
+	@Override
 	public boolean isEditable() {
 		return editable;
 	}
@@ -194,6 +200,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.editable = editable;
 	}
 
+	@Override
 	public boolean isModified() {
 		return modified;
 	}
@@ -202,6 +209,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.modified = modified;
 	}
 
+	@Override
 	public Class<?> getType() {
 
 		if (type != String.class) {
@@ -229,6 +237,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		}
 	}
 
+	@Override
 	public String getVisualValue() {
 		return visualValue;
 	}
@@ -237,6 +246,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.visualValue = visualValue;
 	}
 
+	@Override
 	public Object getOriginalValue() {
 		if (originalValue != null) {
 			return originalValue;
@@ -244,10 +254,12 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		return getValue();
 	}
 
+	@Override
 	public Object getDelegate() {
 		return null;
 	}
 
+	@Override
 	public boolean isRightToLeft() {
 		return rightToLeft;
 	}
@@ -256,10 +268,12 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.rightToLeft = rightToLeft;
 	}
 
+	@Override
 	public boolean isPassword() {
 		return password;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -268,6 +282,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.name = name;
 	}
 
+	@Override
 	public Direction getDirection() {
 		return direction;
 	}
@@ -276,6 +291,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.direction = direction;
 	}
 
+	@Override
 	public int getOrder() {
 		return order;
 	}
@@ -293,6 +309,7 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		this.count = count;
 	}
 
+	@Override
 	public int depth(int level, int maxDef) {
 
 		return 1;
@@ -303,25 +320,30 @@ public class SimpleRpcFlatField implements RpcFlatField {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
+	@Override
 	public String getLegacyContainerName() {
 		// Only structure can have container
 		return null;
 	}
 
+	@Override
 	public boolean isContainer() {
 		// Only structure can have container
 		return false;
 	}
 
+	@Override
 	public Boolean isVirtual() {
 		// only structure can be virtual
 		return null;
 	}
 
+	@Override
 	public String getVirtualGroup() {
 		return virtualGroup;
 	}
 
+	@Override
 	public void setVirtualGroup(String virtualGroup) {
 		this.virtualGroup = virtualGroup;
 	}

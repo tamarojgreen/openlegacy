@@ -26,10 +26,12 @@ public class BooleanFieldFactProcessor implements ScreenFactProcessor {
 
 	private final static Log logger = LogFactory.getLog(BooleanFieldFactProcessor.class);
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return screenFact instanceof BooleanFieldFact;
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		BooleanFieldFact booleanFieldFact = (BooleanFieldFact)screenFact;
 

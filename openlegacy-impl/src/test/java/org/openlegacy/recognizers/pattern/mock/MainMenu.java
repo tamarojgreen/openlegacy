@@ -9,12 +9,15 @@ import java.util.List;
 @ScreenEntity(name = "ApplinXDemoEnvironment")
 public class MainMenu implements org.openlegacy.terminal.ScreenEntity {
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

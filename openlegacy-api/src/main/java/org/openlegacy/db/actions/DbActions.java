@@ -28,11 +28,13 @@ public class DbActions {
 			return getClass().getSimpleName();
 		}
 
+		@Override
 		public void perform(DbSession session, Object entity, Object... keys) {
 			throw new DbActionNotMappedException(MessageFormat.format("Specified action {0} is not mapped to a DB session",
 					getClass()));
 		}
 
+		@Override
 		public <T> T perform(EntityManager entityManager, T entity, Object... keys) {
 			throw new DbActionNotMappedException(MessageFormat.format("Specified action {0} is not mapped to a DB session",
 					getClass()));

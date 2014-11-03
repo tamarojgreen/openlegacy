@@ -3,9 +3,11 @@
 
 package apps.inventory.screens;
 
-import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect InventoryManagement_Aspect {
 

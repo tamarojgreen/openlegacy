@@ -22,6 +22,7 @@ public class SimpleCodeParserFactory implements CodeParserFactory {
 		this.parsers = parsers;
 	}
 
+	@Override
 	public CodeParser getParser(String fileExtension) {
 		Assert.notNull(parsers, "Parsers not set");
 		return parsers.get(fileExtension);

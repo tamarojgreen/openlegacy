@@ -30,6 +30,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 	private String displayName;
 	private boolean relative = false;
 
+	@Override
 	public int getColumns() {
 		return columns;
 	}
@@ -38,18 +39,22 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 		this.columns = columns;
 	}
 
+	@Override
 	public List<PagePartRowDefinition> getPartRows() {
 		return rowParts;
 	}
 
+	@Override
 	public int getWidth() {
 		return width;
 	}
 
+	@Override
 	public int getTopMargin() {
 		return topMargin;
 	}
 
+	@Override
 	public int getLeftMargin() {
 		return leftMargin;
 	}
@@ -91,6 +96,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 		return null;
 	}
 
+	@Override
 	public String getTableFieldName() {
 		return tableFieldName;
 	}
@@ -103,6 +109,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 		this.tableDefinition = tableDefinition;
 	}
 
+	@Override
 	public TableDefinition<?> getTableDefinition() {
 		return tableDefinition;
 	}
@@ -116,6 +123,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 		return tableFieldName != null;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -124,6 +132,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 		this.displayName = displayName;
 	}
 
+	@Override
 	public boolean isRelative() {
 		return relative;
 	}
@@ -132,6 +141,7 @@ public class SimplePagePartDefinition implements PositionedPagePartDefinition {
 		this.relative = relative;
 	}
 
+	@Override
 	public List<FieldDefinition> getFields() {
 		List<FieldDefinition> fields = new ArrayList<FieldDefinition>();
 		for (PagePartRowDefinition row : getPartRows()) {

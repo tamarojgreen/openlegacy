@@ -40,6 +40,7 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 	@Inject
 	private ScreenBinderLogic screenBinderLogic;
 
+	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
@@ -61,6 +62,7 @@ public class ScreenEntityPartsBinder implements ScreenEntityBinder, Serializable
 
 	}
 
+	@Override
 	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);

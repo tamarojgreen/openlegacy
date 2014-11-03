@@ -3,11 +3,13 @@
 
 package apps.inventory.screens;
 
-import java.util.*;
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.definitions.TerminalActionDefinition;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect SignOn_Aspect {
     private TerminalSnapshot SignOn.terminalSnapshot;

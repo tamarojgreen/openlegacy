@@ -3,7 +3,6 @@
 
 package apps.inventory.screens;
 
-import java.util.*;
 import apps.inventory.screens.ItemDetails2.StockInfo;
 
 privileged @SuppressWarnings("unused") aspect StockInfoPart_Aspect {

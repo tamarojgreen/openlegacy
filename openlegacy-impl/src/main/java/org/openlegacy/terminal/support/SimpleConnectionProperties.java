@@ -17,6 +17,7 @@ public class SimpleConnectionProperties implements ConnectionProperties{
 	
 	private String deviceName;
 
+	@Override
 	public String getDeviceName() {
 		return deviceName;
 	}

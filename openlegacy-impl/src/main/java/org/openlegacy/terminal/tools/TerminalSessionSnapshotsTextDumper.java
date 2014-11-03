@@ -14,10 +14,12 @@ import org.openlegacy.terminal.TerminalSnapshot;
 
 public class TerminalSessionSnapshotsTextDumper implements TerminalSnapshotDumper {
 
+	@Override
 	public byte[] getDumpContent(TerminalSnapshot snapshot) {
 		return snapshot.toString().getBytes();
 	}
 
+	@Override
 	public String getDumpFileExtension() {
 		return "txt";
 	}

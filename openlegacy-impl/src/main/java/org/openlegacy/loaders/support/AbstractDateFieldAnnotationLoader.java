@@ -13,7 +13,8 @@ public abstract class AbstractDateFieldAnnotationLoader extends AbstractFieldAnn
 
 	protected abstract void fillTypeDefinition(Annotation fieldAnnotation, FieldDefinition fieldDefinition, String fieldName);
 
-	@SuppressWarnings({ "rawtypes" })
+	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
 			int fieldOrder) {
 

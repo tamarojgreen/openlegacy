@@ -28,18 +28,22 @@ public class SimpleBooleanFieldTypeDefinition implements BooleanFieldTypeDefinit
 		this.treatNullAsEmpty = treatNullAsEmpty;
 	}
 
+	@Override
 	public String getTrueValue() {
 		return trueValue;
 	}
 
+	@Override
 	public String getFalseValue() {
 		return falseValue;
 	}
 
+	@Override
 	public String getTypeName() {
 		return "boolean";
 	}
 
+	@Override
 	public boolean isTreatNullAsEmpty() {
 		return treatNullAsEmpty;
 	}

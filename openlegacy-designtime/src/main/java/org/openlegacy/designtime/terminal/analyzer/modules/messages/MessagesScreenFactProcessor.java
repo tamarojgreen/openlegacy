@@ -28,10 +28,12 @@ public class MessagesScreenFactProcessor implements ScreenFactProcessor {
 	@Inject
 	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
+	@Override
 	public boolean accept(ScreenFact screenFact) {
 		return (screenFact instanceof MessagesScreenFact);
 	}
 
+	@Override
 	public void process(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		MessagesScreenFact messagesScreenFact = (MessagesScreenFact)screenFact;
 

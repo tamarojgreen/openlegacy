@@ -26,6 +26,7 @@ import java.util.Date;
 @Component
 public class ScreenDateFieldAnnotationLoader extends AbstractDateFieldAnnotationLoader {
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenDateField.class;
 	}

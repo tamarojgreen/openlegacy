@@ -29,14 +29,17 @@ public class SimpleTerminalRow implements TerminalRow {
 		this.rowNumber = rowNumber;
 	}
 
+	@Override
 	public List<TerminalField> getFields() {
 		return fields;
 	}
 
+	@Override
 	public TerminalField getField(int column) {
 		return SnapshotUtils.getField(this, column);
 	}
 
+	@Override
 	public int getRowNumber() {
 		return rowNumber;
 	}
@@ -44,6 +47,7 @@ public class SimpleTerminalRow implements TerminalRow {
 	/**
 	 * Row text is calculated by the row length. Assuming row is fully populated with fields
 	 */
+	@Override
 	public String getText() {
 		String value = SnapshotUtils.getRowText(this);
 		return value;
@@ -68,10 +72,12 @@ public class SimpleTerminalRow implements TerminalRow {
 		return SnapshotUtils.rowToString(this);
 	}
 
+	@Override
 	public List<RowPart> getRowParts() {
 		return SnapshotUtils.getRowParts(this);
 	}
 
+	@Override
 	public String getText(int column, int length) {
 		return SnapshotUtils.getRowText(this, column, length);
 	}

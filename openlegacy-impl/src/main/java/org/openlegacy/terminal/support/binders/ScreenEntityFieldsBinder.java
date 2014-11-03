@@ -49,6 +49,7 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder, Serializabl
 	@Inject
 	private ScreenFieldsExpressionBinder screenFieldsExpressionBinder;
 
+	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
 			ScreenEntityNotAccessibleException {
 
@@ -62,6 +63,7 @@ public class ScreenEntityFieldsBinder implements ScreenEntityBinder, Serializabl
 		screenFieldsExpressionBinder.populatedFields(screenEntity, fieldAccessor, terminalSnapshot, fieldMappingDefinitions);
 	}
 
+	@Override
 	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		if (entity == null) {

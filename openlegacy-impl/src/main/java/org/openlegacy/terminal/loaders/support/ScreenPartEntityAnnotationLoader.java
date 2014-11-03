@@ -26,10 +26,12 @@ import java.lang.annotation.Annotation;
 @Order(2)
 public class ScreenPartEntityAnnotationLoader extends AbstractClassAnnotationLoader {
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenPart.class;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 

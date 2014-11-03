@@ -39,10 +39,12 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 	@Inject
 	private ApplicationContext applicationContext;
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenFieldValues.class;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Annotation annotation, Class<?> containingClass,
 			int fieldOrder) {
@@ -98,6 +100,7 @@ public class ScreenFieldValuesAnnotationLoader extends AbstractFieldAnnotationLo
 
 	}
 
+	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}

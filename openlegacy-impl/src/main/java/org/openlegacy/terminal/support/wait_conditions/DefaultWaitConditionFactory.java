@@ -27,6 +27,7 @@ public class DefaultWaitConditionFactory implements WaitConditionFactory, Serial
 	/**
 	 * Invoke the given waitClass constructor which matches the matching argument types
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T extends WaitCoditionAdapter> T create(Class<T> waitClass, Object... args) {
 		WaitCoditionAdapter instance;

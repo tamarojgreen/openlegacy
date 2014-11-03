@@ -52,6 +52,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 	ScreenEntitiesRegistry screenEntitiesRegistry;
 
+	@Override
 	public MenuItem getMenuTree(Class<?> menuEntityClass) {
 		if (menuEntityClass == null) {
 			return getMenuTree();
@@ -68,6 +69,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		return buildMenu(menuEntityClass, subMenuDepth);
 	}
 
+	@Override
 	public MenuItem getMenuTree() {
 
 		sortToMenus();
@@ -125,6 +127,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		menuOptions.add(screenEntityClass);
 		Collections.sort(menuOptions, new Comparator<Class<?>>() {
 
+			@Override
 			public int compare(Class<?> o1, Class<?> o2) {
 				return compareEntitiesByAssignFields(screenEntitiesRegistry.get(o1), screenEntitiesRegistry.get(o2));
 			}
@@ -239,6 +242,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 			this.screenEntitiesRegistry = screenEntitiesRegistry;
 		}
 
+		@Override
 		public int compare(Class<?> o1, Class<?> o2) {
 			NavigationDefinition menuItem1NavigationDefinition = screenEntitiesRegistry.get(o1).getNavigationDefinition();
 			NavigationDefinition menuItem2NavigationDefinition = screenEntitiesRegistry.get(o2).getNavigationDefinition();
@@ -259,6 +263,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		}
 	}
 
+	@Override
 	public List<MenuItem> getFlatMenuEntries(Class<?> menuEntityClass) {
 
 		sortToMenus();
@@ -293,6 +298,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 				Collections.sort(flatMenuEntries, new Comparator<MenuItem>() {
 
+					@Override
 					public int compare(MenuItem o1, MenuItem o2) {
 						return compareEntitiesByAssignFields(screenEntitiesRegistry.get(o1.getTargetEntity()),
 								screenEntitiesRegistry.get(o2.getTargetEntity()));
@@ -320,6 +326,7 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		}
 	}
 
+	@Override
 	public List<MenuItem> getFlatMenuEntries() {
 		return getFlatMenuEntries(null);
 	}

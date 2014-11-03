@@ -44,16 +44,19 @@ public class TerminalPersistedRow implements TerminalRow {
 	@XmlTransient
 	private int length;
 
+	@Override
 	public List<TerminalField> getFields() {
 		initFieldsRow();
 		return fields;
 	}
 
+	@Override
 	public TerminalField getField(int column) {
 		initFieldsRow();
 		return SnapshotUtils.getField(this, column);
 	}
 
+	@Override
 	public int getRowNumber() {
 		return rowNumber;
 	}
@@ -114,6 +117,7 @@ public class TerminalPersistedRow implements TerminalRow {
 		return SnapshotUtils.rowToString(this);
 	}
 
+	@Override
 	public String getText() {
 		if (value != null) {
 			return value;
@@ -122,10 +126,12 @@ public class TerminalPersistedRow implements TerminalRow {
 		return value;
 	}
 
+	@Override
 	public List<RowPart> getRowParts() {
 		return SnapshotUtils.getRowParts(this);
 	}
 
+	@Override
 	public String getText(int column, int length) {
 		return SnapshotUtils.getRowText(this, column, length);
 	}

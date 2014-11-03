@@ -10,14 +10,14 @@
  *******************************************************************************/
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.terminal.TerminalField;
+import org.openlegacy.terminal.TerminalSnapshot;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.openlegacy.terminal.TerminalField;
-import org.openlegacy.terminal.TerminalSnapshot;
 
 /**
  * Defines that the marked Java field has additional description field in the specified location. 

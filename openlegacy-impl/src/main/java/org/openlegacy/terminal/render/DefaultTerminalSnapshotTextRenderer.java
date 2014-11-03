@@ -40,6 +40,7 @@ public class DefaultTerminalSnapshotTextRenderer implements TerminalSnapshotText
 		return instance;
 	}
 
+	@Override
 	public void render(TerminalSnapshot terminalSnapshot, OutputStream outputStream) {
 		boolean decorated = true;
 
@@ -177,6 +178,7 @@ public class DefaultTerminalSnapshotTextRenderer implements TerminalSnapshotText
 		return fieldStartBufferLocation;
 	}
 
+	@Override
 	public String getFileFormat() {
 		return "txt";
 	}

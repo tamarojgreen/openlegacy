@@ -54,6 +54,7 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 		this.attribute = attribute;
 	}
 
+	@Override
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		String foundText = terminalSnapshot.getText(position, text.length());
 		if (foundText.equals(text)) {
@@ -78,6 +79,7 @@ public class SimpleScreenIdentifier implements ScreenIdentifier, TerminalPositio
 		return false;
 	}
 
+	@Override
 	public TerminalPosition getPosition() {
 		return position;
 	}

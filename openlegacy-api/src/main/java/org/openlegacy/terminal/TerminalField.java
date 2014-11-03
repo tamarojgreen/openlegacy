@@ -23,6 +23,7 @@ public interface TerminalField extends TerminalPositionContainer, Serializable, 
 	 * 
 	 * @return position of the field
 	 */
+	@Override
 	TerminalPosition getPosition();
 
 	/**

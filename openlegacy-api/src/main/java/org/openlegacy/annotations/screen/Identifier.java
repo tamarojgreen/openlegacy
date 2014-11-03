@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.terminal.FieldAttributeType;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.openlegacy.terminal.FieldAttributeType;
 
 /**
  * Defines a terminal screen identifier. A set of identifiers on {@link ScreenIdentifiers} annotation, define a unique identifier

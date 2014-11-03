@@ -25,6 +25,7 @@ public class RpcActions {
 			return getClass().getSimpleName();
 		}
 
+		@Override
 		public void perform(RpcSession rpcSession, Object entity, Object... keys) {
 			// if we got here it means the actions is not mapped...
 			throw (new RpcActionNotMappedException(MessageFormat.format("Specified action {0} is not mapped to a program",

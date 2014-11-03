@@ -69,6 +69,7 @@ public class TableColumnFact implements Serializable {
 
 	private static class FieldRowsComparator implements Comparator<TerminalField> {
 
+		@Override
 		public int compare(TerminalField o1, TerminalField o2) {
 			return (o1.getPosition().getRow() - o2.getPosition().getRow());
 		}

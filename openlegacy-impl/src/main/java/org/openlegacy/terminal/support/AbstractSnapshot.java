@@ -64,6 +64,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 		return TerminalEqualsHashcodeUtil.snapshotsEquals(this, (TerminalSnapshot)obj);
 	}
 
+	@Override
 	public List<TerminalPosition> getFieldSeperators() {
 		if (fieldSeperators == null) {
 			fieldSeperators = initFieldSeperators();
@@ -73,6 +74,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 
 	protected abstract List<TerminalPosition> initFieldSeperators();
 
+	@Override
 	public ScreenSize getSize() {
 		if (screenSize == null) {
 			screenSize = initScreenSize();
@@ -82,6 +84,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 
 	protected abstract ScreenSize initScreenSize();
 
+	@Override
 	public TerminalRow getRow(int rowNumber) {
 		List<TerminalRow> rows = getRows();
 		for (TerminalRow terminalRow : rows) {
@@ -92,6 +95,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 		return null;
 	}
 
+	@Override
 	public TerminalPosition getCursorPosition() {
 		if (cursor == null) {
 			cursor = initCursorPosition();
@@ -101,6 +105,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 
 	protected abstract TerminalPosition initCursorPosition();
 
+	@Override
 	public List<TerminalRow> getRows() {
 		if (rows != null) {
 			return rows;
@@ -123,10 +128,12 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 		return rows;
 	}
 
+	@Override
 	public String getText(TerminalPosition position, int length) {
 		return SnapshotUtils.getText(this, position, length);
 	}
 
+	@Override
 	public String getText() {
 		if (text != null) {
 			return text;
@@ -137,6 +144,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 
 	protected abstract String initText();
 
+	@Override
 	public List<TerminalField> getFields() {
 		if (fields == null) {
 			fields = initFields();
@@ -147,19 +155,23 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 
 	protected abstract List<TerminalField> initFields();
 
+	@Override
 	public TerminalField getField(TerminalPosition position) {
 		TerminalField field = SnapshotUtils.getField(this, position);
 		return field;
 	}
 
+	@Override
 	public TerminalField getField(int row, int column) {
 		return getField(SimpleTerminalPosition.newInstance(row, column));
 	}
 
+	@Override
 	public SnapshotType getSnapshotType() {
 		return SnapshotType.INCOMING;
 	}
 
+	@Override
 	public void writeExternal(ObjectOutput out) throws IOException {
 		TerminalPersistedSnapshot persistedSnapshot = SnapshotPersistanceDTO.transformSnapshot(this);
 		out.writeObject(persistedSnapshot);
@@ -167,6 +179,7 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 
 	protected abstract void readExternal(TerminalPersistedSnapshot persistedSnapshot);
 
+	@Override
 	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 		TerminalPersistedSnapshot persistedSnapshot = (TerminalPersistedSnapshot)in.readObject();
 		this.cursor = persistedSnapshot.getCursorPosition();
@@ -178,11 +191,13 @@ public abstract class AbstractSnapshot implements TerminalSnapshot, Externalizab
 		readExternal(persistedSnapshot);
 	}
 
+	@Override
 	public String getLogicalText(TerminalPosition position, int length) {
 		return getText(position, length);
 
 	};
 
+	@Override
 	public boolean isRightToLeft() {
 		return false;
 	}

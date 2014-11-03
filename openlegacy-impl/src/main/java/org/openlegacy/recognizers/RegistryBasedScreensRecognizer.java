@@ -36,6 +36,7 @@ public class RegistryBasedScreensRecognizer implements ScreensRecognizer, Serial
 
 	private final static Log logger = LogFactory.getLog(RegistryBasedScreensRecognizer.class);
 
+	@Override
 	public Class<?> match(TerminalSnapshot terminalSnapshot) {
 		DefaultScreenEntitiesRegistry screensRegistry = SpringUtil.getBean(applicationContext,
 				DefaultScreenEntitiesRegistry.class);

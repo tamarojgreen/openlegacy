@@ -35,18 +35,22 @@ public class SimpleTerminalSendAction implements TerminalSendAction, Serializabl
 		this.command = command;
 	}
 
+	@Override
 	public List<TerminalField> getFields() {
 		return modifiedFields;
 	}
 
+	@Override
 	public Object getCommand() {
 		return command;
 	}
 
+	@Override
 	public TerminalPosition getCursorPosition() {
 		return cursorPosition;
 	}
 
+	@Override
 	public void setCursorPosition(TerminalPosition cursorPosition) {
 		this.cursorPosition = cursorPosition;
 	}
@@ -56,6 +60,7 @@ public class SimpleTerminalSendAction implements TerminalSendAction, Serializabl
 		return EqualsBuilder.reflectionEquals(this, obj);
 	}
 
+	@Override
 	public int getSleep() {
 		return sleep;
 	}

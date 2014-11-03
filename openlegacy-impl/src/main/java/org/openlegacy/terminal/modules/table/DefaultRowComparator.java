@@ -33,6 +33,7 @@ public class DefaultRowComparator<T> implements RowComparator<T> {
 	@Inject
 	private ScreenEntitiesRegistry screenEntitiesRegistry;
 
+	@Override
 	public boolean isRowMatch(T tableRow, Object... rowKeys) {
 
 		ScreenTableDefinition tableDefinition = screenEntitiesRegistry.getTable(tableRow.getClass());

@@ -10,15 +10,15 @@
  *******************************************************************************/
 package org.openlegacy.annotations.screen;
 
+import org.openlegacy.terminal.ScreenEntity;
+import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.EnterDrilldownAction;
+import org.openlegacy.terminal.table.TerminalDrilldownAction;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.modules.table.TerminalDrilldownActions.EnterDrilldownAction;
-import org.openlegacy.terminal.table.TerminalDrilldownAction;
 
 /**
  * A table action for a screen table entity. Defined within {@link ScreenTableActions}<br/>

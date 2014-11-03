@@ -42,6 +42,7 @@ public class FieldColorIdentifier implements ScreenIdentifier, TerminalPositionC
 		this.color = color;
 	}
 
+	@Override
 	public boolean match(TerminalSnapshot terminalSnapshot) {
 		TerminalField field = terminalSnapshot.getField(position);
 		if (field != null && field.getColor() == color) {
@@ -53,6 +54,7 @@ public class FieldColorIdentifier implements ScreenIdentifier, TerminalPositionC
 		return false;
 	}
 
+	@Override
 	public TerminalPosition getPosition() {
 		return position;
 	}

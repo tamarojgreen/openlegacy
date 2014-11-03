@@ -66,6 +66,7 @@ public class ItemDetails1 {
 			this.display = display;
 		}
 
+		@Override
 		public String getValue() {
 			return value;
 		}

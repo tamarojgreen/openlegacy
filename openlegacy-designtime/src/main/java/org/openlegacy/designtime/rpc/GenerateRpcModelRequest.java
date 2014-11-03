@@ -37,6 +37,7 @@ public class GenerateRpcModelRequest extends AbstractGenerateRequest implements 
 		this.sourceFile = sourceFile;
 	}
 
+	@Override
 	public EntityUserInteraction<EntityDefinition<?>> getEntityUserInteraction() {
 		return entityUserInteraction;
 	}

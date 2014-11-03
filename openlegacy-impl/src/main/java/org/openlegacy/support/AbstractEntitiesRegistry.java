@@ -69,6 +69,7 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 
 	}
 
+	@Override
 	public Class<?> getEntityClass(String entityName) {
 		if (entityName.contains(".")) {
 			entityName = entityName.substring(entityName.lastIndexOf(".") + 1);
@@ -76,34 +77,41 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		return entities.get(entityName);
 	}
 
+	@Override
 	public String getEntityName(Class<?> entity) {
 		return reversedEntities.get(ProxyUtil.getOriginalClass(entity));
 	}
 
+	@Override
 	public void add(E entityDefinition) {
 		add(entityDefinition.getEntityName(), entityDefinition.getEntityClass());
 		addToTypes(entityDefinition.getType(), entityDefinition.getEntityClass());
 		entitiesDefinitions.put(entityDefinition.getEntityClass(), entityDefinition);
 	}
 
+	@Override
 	public E get(Class<?> entityClass) {
 		entityClass = ProxyUtil.getOriginalClass(entityClass);
 		return entitiesDefinitions.get(entityClass);
 	}
 
+	@Override
 	public E get(String entityName) {
 		Class<?> entityClass = getEntityClass(entityName);
 		return entitiesDefinitions.get(entityClass);
 	}
 
+	@Override
 	public Collection<E> getEntitiesDefinitions() {
 		return entitiesDefinitions.values();
 	}
 
+	@Override
 	public Set<Class<?>> getByType(Class<? extends EntityType> entityType) {
 		return entitiesByTypes.get(entityType);
 	}
 
+	@Override
 	public E getSingleEntityDefinition(Class<? extends EntityType> entityType) throws RegistryException {
 		Set<Class<?>> matchingTypes = getByType(entityType);
 
@@ -123,10 +131,12 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		this.packages = packages;
 	}
 
+	@Override
 	public List<String> getPackages() {
 		return packages;
 	}
 
+	@Override
 	public void clear() {
 		entities.clear();
 		reversedEntities.clear();
@@ -135,6 +145,7 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		allFieldsOfType.clear();
 	}
 
+	@Override
 	public boolean isDirty() {
 		return dirty;
 	}
@@ -143,18 +154,22 @@ public abstract class AbstractEntitiesRegistry<E extends EntityDefinition<D>, D 
 		this.dirty = dirty;
 	}
 
+	@Override
 	public boolean contains(Class<?> beanClass) {
 		return get(beanClass) != null;
 	}
 
+	@Override
 	public void addPart(P partEntityDefinition) {
 		partDefinitions.put(partEntityDefinition.getPartClass(), partEntityDefinition);
 	}
 
+	@Override
 	public P getPart(Class<?> containingClass) {
 		return partDefinitions.get(containingClass);
 	}
 
+	@Override
 	public Collection<? extends FieldDefinition> getAllFieldsOfType(Class<?> javaType) {
 
 		Collection<FieldDefinition> allFields = allFieldsOfType.get(javaType);

@@ -41,11 +41,13 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 		this.recordsProvider = recordsProvider;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <S extends Session, T> RecordsProvider<S, T> getRecordsProvider() {
 		return (RecordsProvider<S, T>)recordsProvider;
 	}
 
+	@Override
 	public Class<?> getSourceEntityClass() {
 		return sourceEntityClass;
 	}
@@ -66,6 +68,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 	 * @return
 	 */
 
+	@Override
 	public EntityDefinition<?> getSourceEntityDefinition() {
 		return sourceEntityDefinition;
 	}
@@ -74,6 +77,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 		this.sourceEntityDefinition = sourceEntityDefinition;
 	}
 
+	@Override
 	public boolean isCollectAll() {
 		return collectAll;
 	}
@@ -82,6 +86,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 		this.collectAll = collectAllRecords;
 	}
 
+	@Override
 	public String getTypeName() {
 		return "fieldWithValues";
 	}
@@ -90,6 +95,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 		this.sourceEntityClassName = sourceEntityClassName;
 	}
 
+	@Override
 	public String getSourceEntityClassName() {
 		if (sourceEntityClassName != null) {
 			return sourceEntityClassName;
@@ -97,6 +103,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 		return sourceEntityClass.getSimpleName();
 	}
 
+	@Override
 	public String getDisplayFieldName() {
 		return displayFieldName;
 	}
@@ -109,10 +116,12 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 		this.asWindow = asWindow;
 	}
 
+	@Override
 	public boolean isAsWindow() {
 		return asWindow;
 	}
 
+	@Override
 	public TerminalAction getAutoSubmitAction() {
 		return autoSubmitAction;
 	}
@@ -121,6 +130,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 		this.autoSubmitAction = autoSubmitAction;
 	}
 
+	@Override
 	public String getSearchField() {
 		return searchField;
 	}
@@ -129,6 +139,7 @@ public class SimpleFieldWthValuesTypeDefinition implements FieldWithValuesTypeDe
 		this.searchField = searchField;
 	}
 
+	@Override
 	public String getAutoSubmitActionName() {
 		if (autoSubmitActionName == null && autoSubmitAction != null) {
 			autoSubmitActionName = autoSubmitAction.getClass().getSimpleName();

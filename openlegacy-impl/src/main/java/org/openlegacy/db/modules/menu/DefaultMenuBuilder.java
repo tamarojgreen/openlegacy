@@ -40,10 +40,12 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 
 	private Map<String, List<Class<?>>> menuOptions = new TreeMap<String, List<Class<?>>>();
 
+	@Override
 	public MenuItem getMenuTree(Class<?> menuEntityClass) {
 		return getMenuTree();
 	}
 
+	@Override
 	public MenuItem getMenuTree() {
 		Collection<DbEntityDefinition> entityDefinitions = getEntitiesRegistry().getEntitiesDefinitions();
 		for (DbEntityDefinition dbEntityDefinition : entityDefinitions) {
@@ -64,10 +66,12 @@ public class DefaultMenuBuilder implements MenuBuilder, Serializable {
 		return menuItem;
 	}
 
+	@Override
 	public List<MenuItem> getFlatMenuEntries() {
 		return buildMenu();
 	}
 
+	@Override
 	public List<MenuItem> getFlatMenuEntries(Class<?> menuEntityClass) {
 		return getFlatMenuEntries();
 	}

@@ -26,6 +26,7 @@ public class DefaultTerminalTrailModule extends TerminalSessionModuleAdapter imp
 
 	private SessionTrail<TerminalSnapshot> sessionTrail;
 
+	@Override
 	public SessionTrail<TerminalSnapshot> getSessionTrail() {
 		return sessionTrail;
 	}

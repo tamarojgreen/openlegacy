@@ -14,10 +14,13 @@ import org.openlegacy.ApplicationConnection;
 
 public interface RpcConnection extends ApplicationConnection<RpcSnapshot, RpcInvokeAction> {
 
+	@Override
 	Object getDelegate();
 
+	@Override
 	boolean isConnected();
 
+	@Override
 	void disconnect();
 
 	RpcResult invoke(RpcInvokeAction rpcInvokeAction);

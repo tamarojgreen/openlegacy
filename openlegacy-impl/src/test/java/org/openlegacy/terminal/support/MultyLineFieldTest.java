@@ -1,9 +1,5 @@
 package org.openlegacy.terminal.support;
 
-import javax.inject.Inject;
-
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,6 +12,10 @@ import org.openlegacy.terminal.mock.MockTerminalConnectionFactory;
 import org.openlegacy.terminal.support.mock.MultyLineFieldScreen;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.inject.Inject;
+
+import junit.framework.Assert;
 
 @ContextConfiguration("MultyLineFieldTest-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)

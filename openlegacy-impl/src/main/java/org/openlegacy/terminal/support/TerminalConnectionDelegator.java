@@ -49,6 +49,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 
 	private final static Log logger = LogFactory.getLog(TerminalConnectionDelegator.class);
 
+	@Override
 	public TerminalSnapshot getSnapshot() {
 		lazyConnect();
 
@@ -93,6 +94,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		return timer;
 	}
 
+	@Override
 	public void doAction(TerminalSendAction terminalSendAction) {
 		lazyConnect();
 		terminalSnapshot = null;
@@ -133,6 +135,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		}
 	}
 
+	@Override
 	public Object getDelegate() {
 		lazyConnect();
 		return terminalConnection.getDelegate();
@@ -152,6 +155,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		}
 	}
 
+	@Override
 	public void disconnect() {
 		logger.info("Disconnecting session");
 
@@ -169,10 +173,12 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		terminalSnapshot = null;
 	}
 
+	@Override
 	public boolean isConnected() {
 		return terminalConnection != null && terminalConnection.isConnected();
 	}
 
+	@Override
 	public TerminalSnapshot fetchSnapshot() {
 		terminalSnapshot = null;
 		return getSnapshot();
@@ -186,6 +192,7 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		this.maxWaitOnEmptyScreen = maxWaitOnEmptyScreen;
 	}
 
+	@Override
 	public Integer getSequence() {
 		if (!isConnected()) {
 			return 0;
@@ -198,10 +205,12 @@ public class TerminalConnectionDelegator implements TerminalConnection, Serializ
 		return this;
 	}
 
+	@Override
 	public void flip() {
 		terminalConnection.flip();
 	}
 
+	@Override
 	public boolean isRightToLeftState() {
 		return terminalConnection.isRightToLeftState();
 	}

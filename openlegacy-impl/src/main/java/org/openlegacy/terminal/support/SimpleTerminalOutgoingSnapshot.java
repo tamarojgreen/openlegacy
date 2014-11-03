@@ -47,6 +47,7 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return terminalSnapshot;
 	}
 
+	@Override
 	public TerminalSendAction getTerminalSendAction() {
 		return terminalSendAction;
 	}
@@ -84,6 +85,7 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return SnapshotUtils.getField(terminalSnapshot, position);
 	}
 
+	@Override
 	public Object getDelegate() {
 		return terminalSnapshot.getDelegate();
 	}
@@ -103,10 +105,12 @@ public class SimpleTerminalOutgoingSnapshot extends AbstractSnapshot implements 
 		return terminalSnapshot.getRow(rowNumber);
 	}
 
+	@Override
 	public Integer getSequence() {
 		return terminalSnapshot.getSequence()+1;
 	}
 
+	@Override
 	public String getCommand() {
 		return terminalSendAction.getCommand().toString();
 	}

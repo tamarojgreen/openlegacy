@@ -63,6 +63,7 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 		sortedScreenDefinitions = new ArrayList<ScreenEntityDefinition>(screenDefinitionsValues);
 		Collections.sort(sortedScreenDefinitions, new Comparator<ScreenEntityDefinition>() {
 
+			@Override
 			public int compare(ScreenEntityDefinition o1, ScreenEntityDefinition o2) {
 				if (o1.isWindow() == o2.isWindow()) {
 					return o2.getScreenIdentification().getScreenIdentifiers().size()
@@ -79,10 +80,12 @@ public class DefaultScreenEntitiesRegistry extends AbstractEntitiesRegistry<Scre
 		});
 	}
 
+	@Override
 	public void addTable(ScreenTableDefinition tableDefinition) {
 		tableDefinitions.put(tableDefinition.getTableClass(), tableDefinition);
 	}
 
+	@Override
 	public ScreenTableDefinition getTable(Class<?> containingClass) {
 		return tableDefinitions.get(containingClass);
 	}

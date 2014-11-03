@@ -38,6 +38,7 @@ public class DefaultRowSelector<T> implements RowSelector<TerminalSession, T> {
 	@Inject
 	private TablesDefinitionProvider tablesDefinitionProvider;
 
+	@Override
 	public <D extends DrilldownAction<?>> void selectRow(TerminalSession terminalSession, T screenEntity, D drilldownAction,
 			int rowNumber) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);

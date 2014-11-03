@@ -31,12 +31,15 @@ public class DefaultDbMenuModule implements Menu, Serializable {
 	@Inject
 	private MenuBuilder menuBuilder;
 
+	@Override
 	public void destroy() {}
 
+	@Override
 	public MenuItem getMenuTree() {
 		return menuBuilder.getMenuTree();
 	}
 
+	@Override
 	public List<MenuItem> getFlatMenuEntries() {
 		return menuBuilder.getFlatMenuEntries();
 	}

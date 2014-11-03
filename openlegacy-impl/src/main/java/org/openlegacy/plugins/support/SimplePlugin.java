@@ -43,6 +43,7 @@ public class SimplePlugin implements Plugin {
 
 	public SimplePlugin() {}
 
+	@Override
 	@XmlElement
 	public String getCreator() {
 		return this.creator;
@@ -53,6 +54,7 @@ public class SimplePlugin implements Plugin {
 		return this.cssHolder;
 	}
 
+	@Override
 	public List<String> getCssItems() {
 		if (this.cssHolder != null) {
 			return this.cssHolder.getItems();
@@ -60,6 +62,7 @@ public class SimplePlugin implements Plugin {
 		return new ArrayList<String>();
 	}
 
+	@Override
 	public String getCssPath() {
 		if (this.cssHolder != null) {
 			return this.cssHolder.getPath();
@@ -67,11 +70,13 @@ public class SimplePlugin implements Plugin {
 		return null;
 	}
 
+	@Override
 	@XmlElement
 	public String getDescription() {
 		return this.description;
 	}
 
+	@Override
 	public String getExcludedViewPathPart() {
 		if (this.viewsHolder != null) {
 			return this.viewsHolder.getExcludedPath();
@@ -84,6 +89,7 @@ public class SimplePlugin implements Plugin {
 		return this.jsHolder;
 	}
 
+	@Override
 	public List<String> getJsItems() {
 		if (this.jsHolder != null) {
 			return this.jsHolder.getItems();
@@ -91,6 +97,7 @@ public class SimplePlugin implements Plugin {
 		return new ArrayList<String>();
 	}
 
+	@Override
 	public String getJsPath() {
 		if (this.jsHolder != null) {
 			return this.jsHolder.getPath();
@@ -103,6 +110,7 @@ public class SimplePlugin implements Plugin {
 		return menuHolder;
 	}
 
+	@Override
 	public List<Map<String, String>> getMenuItems() {
 		if ((this.menuHolder != null) && (this.menuHolder.getMenuEntries() != null)
 				&& (this.menuHolder.getMenuEntries().size() > 0)) {
@@ -119,28 +127,33 @@ public class SimplePlugin implements Plugin {
 		return new ArrayList<Map<String, String>>();
 	}
 
+	@Override
 	@XmlElement(required = true)
 	public String getName() {
 		return this.name;
 	}
 
+	@Override
 	@XmlElementWrapper(name = "spring-context-resources")
 	@XmlElement(name = "resource")
 	public List<String> getSpringContextResources() {
 		return springContextResources;
 	}
 
+	@Override
 	@XmlElementWrapper(name = "spring-web-context-resources")
 	@XmlElement(name = "resource")
 	public List<String> getSpringWebContextResources() {
 		return springWebContextResources;
 	}
 
+	@Override
 	@XmlElement
 	public String getVersion() {
 		return this.version;
 	}
 
+	@Override
 	public List<String> getViewDeclarations() {
 		if (this.viewsHolder != null) {
 			return this.viewsHolder.getXmls();
@@ -148,6 +161,7 @@ public class SimplePlugin implements Plugin {
 		return new ArrayList<String>();
 	}
 
+	@Override
 	public List<String> getViews() {
 		if (this.viewsHolder != null) {
 			return this.viewsHolder.getViews();
@@ -200,6 +214,7 @@ public class SimplePlugin implements Plugin {
 		this.viewsHolder = viewsHolder;
 	}
 
+	@Override
 	public boolean isViewExtractedToParent() {
 		return isViewExtractedToParent;
 	}

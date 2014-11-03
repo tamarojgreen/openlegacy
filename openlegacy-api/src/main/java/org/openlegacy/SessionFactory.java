@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.openlegacy;
 
-import org.openlegacy.Session;
-import org.openlegacy.SessionAction;
 
 public interface SessionFactory<S extends Session, A extends SessionAction<S>> {
 

@@ -72,7 +72,7 @@ public class MvcUtils {
 
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes" })
 	public static void registerEditors(DataBinder binder, EntitiesRegistry entitiesRegistry) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);

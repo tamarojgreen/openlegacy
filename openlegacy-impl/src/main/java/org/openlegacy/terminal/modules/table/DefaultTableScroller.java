@@ -47,6 +47,7 @@ public class DefaultTableScroller<T> implements ScreenTableScroller<T> {
 
 	private final static Log logger = LogFactory.getLog(DefaultTableScroller.class);
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public T scroll(TerminalSession terminalSession, Class<T> entityClass,
 			TableScrollStopConditions<T> tableScrollStopConditions, Object... rowKeys) {

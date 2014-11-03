@@ -51,6 +51,7 @@ public class FieldsQuery {
 			return instance;
 		}
 
+		@Override
 		public boolean match(TerminalField terminalField) {
 			return true;
 		}
@@ -64,6 +65,7 @@ public class FieldsQuery {
 			return instance;
 		}
 
+		@Override
 		public boolean match(TerminalField terminalField) {
 			return terminalField.isEditable();
 		}
@@ -77,6 +79,7 @@ public class FieldsQuery {
 			return instance;
 		}
 
+		@Override
 		public boolean match(TerminalField terminalField) {
 			return terminalField.isModified();
 		}

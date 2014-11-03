@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.db.definitions;
 
-import org.openlegacy.db.definitions.DbFieldDefinition;
 import org.openlegacy.definitions.PartEntityDefinition;
 
 public interface DbPartEntityDefinition extends PartEntityDefinition<DbFieldDefinition> {

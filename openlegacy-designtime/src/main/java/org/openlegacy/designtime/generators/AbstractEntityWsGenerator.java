@@ -48,6 +48,7 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 	@Inject
 	private GenerateUtil generateUtil;
 
+	@Override
 	public void generateService(GenerateServiceRequest generateServiceRequest) throws GenerationException {
 
 		getGenerateUtil().setTemplateDirectory(generateServiceRequest.getTemplatesDirectory());
@@ -121,6 +122,7 @@ public abstract class AbstractEntityWsGenerator implements EntityServiceGenerato
 
 	}
 
+	@Override
 	public boolean isSupportServiceGeneration(File projectPath) {
 		return new File(projectPath, SERVICE_CONTEXT_RELATIVE_PATH).exists();
 	}

@@ -23,6 +23,7 @@ public class CompositeScreenRecognizer implements ScreensRecognizer {
 
 	private List<ScreensRecognizer> screensRecognizers;
 
+	@Override
 	public Class<?> match(TerminalSnapshot terminalSnapshot) {
 		for (ScreensRecognizer screensRecognizer : screensRecognizers) {
 			Class<?> matchedScreen = screensRecognizer.match(terminalSnapshot);

@@ -42,11 +42,13 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 	@Inject
 	private transient ApplicationContext applicationContext;
 
+	@Override
 	public <T> List<T> collectAll(Class<?> screenEntityClass, Class<T> rowClass) {
 		TableCollector<TerminalSession, T> tableCollector = getTableCollector(screenEntityClass);
 		return tableCollector.collectAll(getSession(), screenEntityClass, rowClass);
 	}
 
+	@Override
 	public <T> List<T> collect(Class<?> screenEntityClass, Class<T> rowClass, int numberOfScreens) {
 		TableCollector<TerminalSession, T> tableCollector = getTableCollector(screenEntityClass);
 		return tableCollector.collect(getSession(), screenEntityClass, rowClass, numberOfScreens);
@@ -56,6 +58,7 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 	 * Method which should be used when NOT using open legacy navigation definitions: <code>@ScreenNavigation</code> and using a
 	 * provider session navigator
 	 */
+	@Override
 	public <T> T drillDown(Class<?> sourceEntityClass, Class<T> targetEntityClass, DrilldownAction<?> drilldownAction,
 			Object... rowKeys) {
 
@@ -77,6 +80,7 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 	/**
 	 * Method which should be used when using open legacy navigation definitions: <code>@ScreenNavigation</code>
 	 */
+	@Override
 	public <T> T drillDown(Class<T> targetClass, DrilldownAction<?> drilldownAction, Object... rowKeys) throws RegistryException {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		NavigationDefinition navigationDefinition = screenEntitiesRegistry.get(targetClass).getNavigationDefinition();
@@ -88,6 +92,7 @@ public class DefaultTerminalTableModule extends TerminalSessionModuleAdapter imp
 		return drillDown(accessedFrom, targetClass, drilldownAction, rowKeys);
 	}
 
+	@Override
 	public <T> List<T> collectOne(Class<?> screenEntityClass, Class<T> rowClass) {
 		TableCollector<TerminalSession, T> tableCollector = getTableCollector(screenEntityClass);
 		return tableCollector.collectOne(getSession(), screenEntityClass, rowClass);

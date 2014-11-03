@@ -48,14 +48,17 @@ public class ScreenFieldAttributeEntity implements org.openlegacy.terminal.Scree
 		this.redField = redField;
 	}
 
+	@Override
 	public String getFocusField() {
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {
 
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

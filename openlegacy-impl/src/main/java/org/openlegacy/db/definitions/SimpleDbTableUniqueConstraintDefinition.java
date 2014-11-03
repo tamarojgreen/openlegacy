@@ -34,6 +34,7 @@ public class SimpleDbTableUniqueConstraintDefinition implements UniqueConstraint
 	 * 
 	 * @see org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition#getColumnNames()
 	 */
+	@Override
 	public List<String> getColumnNames() {
 		return columnNames;
 	}
@@ -43,6 +44,7 @@ public class SimpleDbTableUniqueConstraintDefinition implements UniqueConstraint
 	 * 
 	 * @see org.openlegacy.db.definitions.DbTableDefinition.UniqueConstraintDefinition#getName()
 	 */
+	@Override
 	public String getName() {
 		return name;
 	}

@@ -23,6 +23,7 @@ public class WaitForEntity extends WaitCoditionAdapter {
 		this.expectedEntityClass = expectedEntityClass;
 	}
 
+	@Override
 	public boolean continueWait(TerminalSession terminalSession) {
 
 		ScreenEntity currentEntity = terminalSession.getEntity();

@@ -52,6 +52,7 @@ public class CobolFieldInformationFactory implements FieldInformationFactory {
 	 * 
 	 * @see org.openlegacy.designtime.rpc.source.parsers.FieldInformation#getObject(java.lang.String)
 	 */
+	@Override
 	public FieldInformation getFieldInformation(Object variableDeclaration, int count) {
 		CobolFieldType cobolFieldType = getCobolFieldType((String)variableDeclaration);
 		if (count > 1) {

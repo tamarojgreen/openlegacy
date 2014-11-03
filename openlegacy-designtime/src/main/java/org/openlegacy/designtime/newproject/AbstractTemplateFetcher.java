@@ -21,6 +21,7 @@ public abstract class AbstractTemplateFetcher implements ITemplateFetcher {
 
 	protected abstract File extractZip(String templateName, File baseDir) throws IOException;
 
+	@Override
 	public File fetchZip(String templateName, String projectName, File baseDir) throws IOException {
 		targetZip = extractZip(templateName, baseDir);
 		return unzipTemplate(baseDir, projectName, targetZip);
@@ -32,6 +33,7 @@ public abstract class AbstractTemplateFetcher implements ITemplateFetcher {
 		return targetPath;
 	}
 
+	@Override
 	public boolean deleteZip() {
 		return this.targetZip.delete();
 	}

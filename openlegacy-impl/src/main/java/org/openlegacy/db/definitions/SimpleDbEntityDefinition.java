@@ -25,6 +25,7 @@ public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDe
 		super(entityName, containingClass);
 	}
 
+	@Override
 	public boolean isWindow() {
 		return window;
 	}
@@ -33,10 +34,12 @@ public class SimpleDbEntityDefinition extends AbstractEntityDefinition<DbFieldDe
 		this.window = window;
 	}
 
+	@Override
 	public Map<String, DbFieldDefinition> getColumnFieldsDefinitions() {
 		return null;
 	}
 
+	@Override
 	public DbNavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
 	}

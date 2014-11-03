@@ -32,6 +32,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 * 
 	 * @see org.openlegacy.EntityDefinition#getAllFieldsDefinitions()
 	 */
+	@Override
 	public Map<String, DbFieldDefinition> getAllFieldsDefinitions() {
 		throwNotImplemented();
 		return null;
@@ -42,6 +43,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 * 
 	 * @see org.openlegacy.EntityDefinition#getAllChildEntitiesDefinitions()
 	 */
+	@Override
 	public Set<EntityDefinition<?>> getAllChildEntitiesDefinitions() {
 		throwNotImplemented();
 		return null;
@@ -52,6 +54,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 * 
 	 * @see org.openlegacy.EntityDefinition#isWindow()
 	 */
+	@Override
 	public boolean isWindow() {
 		throwNotImplemented();
 		return false;
@@ -62,6 +65,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 	 * 
 	 * @see org.openlegacy.EntityDefinition#isValidateKeys()
 	 */
+	@Override
 	public boolean isValidateKeys() {
 		throwNotImplemented();
 		return false;
@@ -112,6 +116,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 		return getCodeModel().getTableDefinition();
 	}
 
+	@Override
 	public Map<String, DbFieldDefinition> getColumnFieldsDefinitions() {
 		if (columnFields == null) {
 			columnFields = DbCodeBasedDefinitionUtils.getColumnFieldsFromCodeModel(getCodeModel());
@@ -119,6 +124,7 @@ public class CodeBasedDbEntityDefinition extends AbstractCodeBasedEntityDefiniti
 		return columnFields;
 	}
 
+	@Override
 	public DbNavigationDefinition getNavigationDefinition() {
 		return getCodeModel().getNavigationDefinition();
 	}

@@ -26,10 +26,12 @@ public class SimpleDisplayItem implements DisplayItem, Serializable {
 		this.display = display;
 	}
 
+	@Override
 	public Object getValue() {
 		return value;
 	}
 
+	@Override
 	public Object getDisplay() {
 		return display;
 	}

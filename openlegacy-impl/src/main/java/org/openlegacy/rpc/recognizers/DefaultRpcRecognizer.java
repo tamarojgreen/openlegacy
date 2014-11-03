@@ -13,6 +13,7 @@ public class DefaultRpcRecognizer implements RpcRecognizer {
 	@Inject
 	private ApplicationContext applicationContext;
 
+	@Override
 	public Class<?> match(RpcSnapshot rpcSnapshot) {
 		RpcEntitiesRegistry rpcEntitiesRegistry = SpringUtil.getBean(applicationContext, RpcEntitiesRegistry.class);
 

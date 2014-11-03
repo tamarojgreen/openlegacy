@@ -29,12 +29,14 @@ import javax.xml.bind.JAXBException;
 @Component
 public class DefaultTerminalSnapshotsLoader implements TerminalSnapshotsLoader {
 
+	@Override
 	public List<TerminalSnapshot> loadSnapshots(String root, final String... fileNames) throws UnableToLoadSnapshotException {
 		final boolean allFiles = fileNames.length > 0;
 
 		File rootFolder = new File(root);
 		File[] files = rootFolder.listFiles(new FilenameFilter() {
 
+			@Override
 			public boolean accept(File dir, String name) {
 				if (allFiles) {
 					for (String fileName : fileNames) {
@@ -57,6 +59,7 @@ public class DefaultTerminalSnapshotsLoader implements TerminalSnapshotsLoader {
 		return snapshots;
 	}
 
+	@Override
 	public TerminalSnapshot load(String path) {
 		TerminalSnapshot terminalSnapshot;
 		try {

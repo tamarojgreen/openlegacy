@@ -21,18 +21,22 @@ public class SimpleDbFieldDefinition extends AbstractFieldDefinition<DbFieldDefi
 		super(name, null);
 	}
 
+	@Override
 	public int compareTo(FieldDefinition o) {
 		return 0;
 	}
 
+	@Override
 	public DbOneToManyDefinition getOneToManyDefinition() {
 		return null;
 	}
 
+	@Override
 	public String getExpression() {
 		return null;
 	}
 
+	@Override
 	public int getKeyIndex() {
 		return 1;
 	}

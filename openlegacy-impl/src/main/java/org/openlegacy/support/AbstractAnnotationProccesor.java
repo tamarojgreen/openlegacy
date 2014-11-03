@@ -29,6 +29,7 @@ public abstract class AbstractAnnotationProccesor implements BeanFactoryPostProc
 
 	protected List<String> loadersPackages;
 
+	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		Collection<ClassAnnotationsLoader> classAnnotationsLoaders = beanFactory.getBeansOfType(ClassAnnotationsLoader.class).values();
 		Collection<FieldAnnotationsLoader> fieldAnnotationLoaders = beanFactory.getBeansOfType(FieldAnnotationsLoader.class).values();
@@ -53,6 +54,7 @@ public abstract class AbstractAnnotationProccesor implements BeanFactoryPostProc
 	private void filterByPackage(Collection<?> annotationsLoaders) {
 		CollectionUtils.filter(annotationsLoaders, new Predicate() {
 
+			@Override
 			public boolean evaluate(Object object) {
 				return loadersPackages.contains(object.getClass().getPackage().getName());
 			}

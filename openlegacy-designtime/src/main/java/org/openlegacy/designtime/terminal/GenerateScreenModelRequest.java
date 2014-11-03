@@ -49,6 +49,7 @@ public class GenerateScreenModelRequest extends AbstractGenerateRequest implemen
 		return terminalSnapshots;
 	}
 
+	@Override
 	public EntityUserInteraction<EntityDefinition<?>> getEntityUserInteraction() {
 		return entityUserInteraction;
 	}

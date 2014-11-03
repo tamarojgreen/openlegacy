@@ -15,12 +15,14 @@ import org.openlegacy.terminal.TerminalConnection;
 
 public class MockTerminalConnectionFactory extends AbstractMockTerminalConnectionFactory {
 
+	@Override
 	public TerminalConnection getConnection(ConnectionProperties connectionProperties) {
 		MockTerminalConnection connection = new MockTerminalConnection(fetchSnapshots());
 		connection.setConnected(true);
 		return connection;
 	}
 
+	@Override
 	public void disconnect(TerminalConnection terminalConnection) {
 		((MockTerminalConnection)terminalConnection).disconnect();
 	}

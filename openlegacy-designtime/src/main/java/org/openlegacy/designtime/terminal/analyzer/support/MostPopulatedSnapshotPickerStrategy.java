@@ -28,6 +28,7 @@ public class MostPopulatedSnapshotPickerStrategy implements SnapshotPickerStrate
 		this.fieldFormatter = fieldFormatter;
 	}
 
+	@Override
 	public TerminalSnapshot pickRepresenter(Set<TerminalSnapshot> group) {
 		TerminalSnapshot[] snapshots = group.toArray(new TerminalSnapshot[group.size()]);
 

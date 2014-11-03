@@ -16,6 +16,7 @@ import org.openlegacy.utils.StringUtil;
 
 public class ByPotentialClassNameLengthFieldComparator implements BestEntityNameFieldComparator {
 
+	@Override
 	public int compare(TerminalField field1, TerminalField field2) {
 		String field1Variable = StringUtil.toClassName(field1.getValue());
 		String field2Variable = StringUtil.toClassName(field2.getValue());

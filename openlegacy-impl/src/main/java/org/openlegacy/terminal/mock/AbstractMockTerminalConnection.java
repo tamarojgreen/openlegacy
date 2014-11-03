@@ -19,11 +19,13 @@ public abstract class AbstractMockTerminalConnection implements TerminalConnecti
 	private static final long serialVersionUID = 1L;
 
 	private boolean rightToLeftState;
+	@Override
 	public void flip() {
 		//throw (new UnsupportedOperationException("Not implemented flip for mockup session"));
 		rightToLeftState = !rightToLeftState;
 	}
 
+	@Override
 	public boolean isRightToLeftState() {
 		return rightToLeftState;
 	}

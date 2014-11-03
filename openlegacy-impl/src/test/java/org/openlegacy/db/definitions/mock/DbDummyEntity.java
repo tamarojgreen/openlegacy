@@ -26,6 +26,7 @@ public class DbDummyEntity implements DbEntity {
 
 	public DbDummyEntity() {}
 
+	@Override
 	public Integer getId() {
 		return id;
 	}

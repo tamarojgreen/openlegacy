@@ -49,6 +49,7 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 	@Inject
 	private ScreenEntityDefinitionsBuilderUtils screenEntityDefinitionsBuilderUtils;
 
+	@Override
 	public void selectPotentialScreenEntityName(
 			SnapshotsAnalyzerContext<TerminalSnapshot, ScreenEntityDesigntimeDefinition> snapshotsAnalyzerContext,
 			ScreenEntityDesigntimeDefinition screenEntityDefinition, List<TerminalField> possibleFields) {
@@ -97,11 +98,13 @@ public class DefaultScreenEntityDefinitionsBuilder implements ScreenEntityDefini
 
 	}
 
+	@Override
 	public ScreenFieldDefinition addField(ScreenEntityDesigntimeDefinition screenEntityDefinition, TerminalField field,
 			TerminalField labelField) {
 		return screenEntityDefinitionsBuilderUtils.addField(screenEntityDefinition, field, labelField);
 	}
 
+	@Override
 	public void processFact(ScreenEntityDesigntimeDefinition screenEntityDefinition, ScreenFact screenFact) {
 		for (ScreenFactProcessor screenFactProcessor : screenFactProcessors) {
 			if (screenFactProcessor.accept(screenFact)) {

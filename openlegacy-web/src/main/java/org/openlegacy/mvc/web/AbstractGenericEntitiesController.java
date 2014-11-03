@@ -254,6 +254,7 @@ public abstract class AbstractGenericEntitiesController<S extends Session> imple
 		return entitiesRegistry;
 	}
 
+	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (webViewsPaths.size() == 0) {
 			webViewsPaths.add("/WEB-INF/web/views");

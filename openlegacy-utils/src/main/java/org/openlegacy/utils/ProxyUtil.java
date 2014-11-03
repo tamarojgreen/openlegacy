@@ -99,6 +99,7 @@ public class ProxyUtil {
 		return (T)proxy;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static <T> T getTargetJpaObject(Object proxy, boolean children, Dehibernator dehibernator,
 			Map<Object, Object> processed) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		if (proxy == null || processed.containsKey(proxy.getClass().getSimpleName())) {
@@ -121,6 +122,7 @@ public class ProxyUtil {
 		return (T)proxy;
 	}
 
+	@SuppressWarnings("unchecked")
 	private static <T> T fetchLazyObject(Object proxy, Dehibernator dehibernator, boolean children, Map<Object, Object> processed)
 			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Field[] declaredFields = proxy.getClass().getDeclaredFields();
@@ -164,7 +166,7 @@ public class ProxyUtil {
 	}
 
 	private static void setFieldValue(Field field, Object proxy, Object value) throws IllegalAccessException,
-	IllegalArgumentException {
+			IllegalArgumentException {
 		field.setAccessible(true);
 		field.set(proxy, value);
 

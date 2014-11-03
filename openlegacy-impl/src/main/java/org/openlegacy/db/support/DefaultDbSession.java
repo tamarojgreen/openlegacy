@@ -37,10 +37,12 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 	@PersistenceContext
 	transient EntityManager entityManager;
 
+	@Override
 	public Object getDelegate() {
 		return null;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getEntity(Class<T> entityClass, Object... keys) throws EntityNotFoundException {
 		T entity = ReflectionUtil.newInstance(entityClass);
@@ -55,13 +57,16 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 		return (T)doAction(DbActions.READ(), entity, keys);
 	}
 
+	@Override
 	public Object getEntity(String entityName, Object... keys) throws EntityNotFoundException {
 		DbEntityDefinition dbEntityDefinition = dbEntitiesRegistry.get(entityName);
 		return getEntity(dbEntityDefinition.getEntityClass(), keys);
 	}
 
+	@Override
 	public void disconnect() {}
 
+	@Override
 	public boolean isConnected() {
 		return false;
 	}
@@ -75,6 +80,7 @@ public class DefaultDbSession extends AbstractSession implements DbSession {
 		return entityManager;
 	}
 
+	@Override
 	public Object doAction(DbAction action, Object dbEntity, Object... keys) {
 		return action.perform(getEntityManager(), dbEntity, keys);
 	}

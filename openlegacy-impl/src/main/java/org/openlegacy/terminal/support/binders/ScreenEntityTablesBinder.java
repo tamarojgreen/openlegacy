@@ -56,6 +56,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 	@Inject
 	private ExpressionParser expressionParser;
 
+	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) {
 
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(screenEntity);
@@ -166,6 +167,7 @@ public class ScreenEntityTablesBinder implements ScreenEntityBinder {
 		this.fieldFormatter = fieldFormatter;
 	}
 
+	@Override
 	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot terminalScreen, Object entity) {
 		ScreenPojoFieldAccessor fieldAccessor = new SimpleScreenPojoFieldAccessor(entity);
 

@@ -26,6 +26,7 @@ public class SimpleTerminalFieldsSplitter implements TerminalFieldsSplitter {
 	@Inject
 	TerminalFieldSplitter terminalFieldSplitter;
 
+	@Override
 	public List<TerminalField> splitFields(List<TerminalField> fields, ScreenSize screenSize) {
 		List<TerminalField> logicalFields = new ArrayList<TerminalField>();
 		for (TerminalField terminalField : fields) {
@@ -40,6 +41,7 @@ public class SimpleTerminalFieldsSplitter implements TerminalFieldsSplitter {
 		return logicalFields;
 	}
 
+	@Override
 	public List<TerminalField> splitFields(TerminalSnapshot terminalSnapshot) {
 		return splitFields(terminalSnapshot.getFields(), terminalSnapshot.getSize());
 	}

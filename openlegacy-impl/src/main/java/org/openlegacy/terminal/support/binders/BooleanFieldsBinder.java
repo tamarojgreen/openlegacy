@@ -49,6 +49,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 	@Inject
 	private ScreenFieldsDefinitionProvider fieldMappingsProvider;
 
+	@Override
 	public void populateEntity(Object screenEntity, TerminalSnapshot terminalSnapshot) throws EntityNotFoundException,
 			ScreenEntityNotAccessibleException {
 
@@ -88,6 +89,7 @@ public class BooleanFieldsBinder implements ScreenEntityBinder, Serializable {
 		}
 	}
 
+	@Override
 	public void populateAction(TerminalSendAction sendAction, TerminalSnapshot terminalSnapshot, Object entity) {
 
 		if (entity == null) {

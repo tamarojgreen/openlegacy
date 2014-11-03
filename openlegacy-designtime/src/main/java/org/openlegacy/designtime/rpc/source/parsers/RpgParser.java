@@ -178,6 +178,7 @@ public class RpgParser implements CodeParser {
 		return rpcDefinition;
 	}
 
+	@Override
 	public ParseResults parse(String source, String fileName) {
 		RpgParseResults parseResults = new RpgParseResults();
 		RpcEntityDefinition entityDefinition = parse(source);
@@ -185,6 +186,7 @@ public class RpgParser implements CodeParser {
 		return parseResults;
 	}
 
+	@Override
 	public ParseResults parse(String source, Map<String, InputStream> streamMap) throws IOException {
 		// TODO Auto-generated method stub
 		return null;

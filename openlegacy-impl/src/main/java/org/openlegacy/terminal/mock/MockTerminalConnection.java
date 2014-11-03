@@ -34,6 +34,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 		}
 	}
 
+	@Override
 	public TerminalSnapshot getSnapshot() {
 		setConnected(true);
 		if (currentIndex >= snapshots.size()) {
@@ -49,6 +50,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 
 	}
 
+	@Override
 	public void doAction(TerminalSendAction terminalSendAction) {
 		currentIndex++;
 		if (currentIndex >= snapshots.size()) {
@@ -62,6 +64,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 		}
 	}
 
+	@Override
 	public Object getDelegate() {
 		throw (new UnsupportedOperationException("Mock terminal session has not delegate"));
 	}
@@ -70,6 +73,7 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 		this.currentIndex = currentIndex;
 	}
 
+	@Override
 	public TerminalSnapshot fetchSnapshot() {
 		return getSnapshot();
 	}
@@ -78,16 +82,19 @@ public class MockTerminalConnection extends AbstractMockTerminalConnection imple
 		return snapshots;
 	}
 
+	@Override
 	public boolean isConnected() {
 		return connected;
 	}
 
+	@Override
 	public void disconnect() {
 		currentIndex = 0;
 		setConnected(false);
 
 	}
 
+	@Override
 	public Integer getSequence() {
 		return getSnapshot().getSequence();
 	}

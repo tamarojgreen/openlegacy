@@ -35,6 +35,7 @@ public class SimpleScreenSize implements ScreenSize {
 		this.columns = columns;
 	}
 
+	@Override
 	public int getRows() {
 		return rows;
 	}
@@ -43,6 +44,7 @@ public class SimpleScreenSize implements ScreenSize {
 		this.rows = rows;
 	}
 
+	@Override
 	public int getColumns() {
 		return columns;
 	}
@@ -56,6 +58,7 @@ public class SimpleScreenSize implements ScreenSize {
 		return MessageFormat.format("{0},{1}", rows, columns);
 	}
 
+	@Override
 	public boolean contains(TerminalPosition terminalPosition) {
 		return SnapshotUtils.contains(this, terminalPosition);
 	}

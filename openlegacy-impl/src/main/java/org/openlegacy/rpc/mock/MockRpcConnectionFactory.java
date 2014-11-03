@@ -40,6 +40,7 @@ public class MockRpcConnectionFactory implements RpcConnectionFactory {
 		this.verifySend = verifySend;
 	}
 
+	@Override
 	public RpcConnection getConnection() {
 		List<RpcSnapshot> clonedSnapshots = new ArrayList<RpcSnapshot>();
 		for (RpcSnapshot rpcSnapshot : fetchRpcSnapshots()) {
@@ -66,6 +67,7 @@ public class MockRpcConnectionFactory implements RpcConnectionFactory {
 		return snapshots;
 	}
 
+	@Override
 	public void disconnect(RpcConnection rpcConnection) {
 		rpcConnection.disconnect();
 	}

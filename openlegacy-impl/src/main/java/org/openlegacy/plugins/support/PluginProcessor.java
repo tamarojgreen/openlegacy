@@ -30,6 +30,7 @@ public class PluginProcessor implements BeanFactoryPostProcessor {
 		this.pluginsRegistry = pluginsRegistry;
 	}
 
+	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		if (pluginsRegistry == null) {
 			throw new OpenLegacyRuntimeException(

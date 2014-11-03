@@ -41,6 +41,7 @@ public abstract class AbstractPojosRecursiveAjGenerator {
 
 		private PojosAjGenerator pojosAjGenerator;
 
+		@Override
 		public boolean accept(File file) {
 			if (file.getName().endsWith("aj")) {
 				return false;
@@ -59,6 +60,7 @@ public abstract class AbstractPojosRecursiveAjGenerator {
 			pojosAjGenerator = generator;
 		}
 
+		@Override
 		public void doCommand(File file) {
 			try {
 				pojosAjGenerator.generate(file);

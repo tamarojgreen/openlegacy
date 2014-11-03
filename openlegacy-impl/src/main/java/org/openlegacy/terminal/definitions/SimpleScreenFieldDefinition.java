@@ -61,6 +61,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		super(name, fieldType);
 	}
 
+	@Override
 	public TerminalPosition getPosition() {
 		return position;
 	}
@@ -73,6 +74,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.length = length;
 	}
 
+	@Override
 	public int getLength() {
 		return length;
 	}
@@ -86,6 +88,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		return SnapshotUtils.comparePositions(this.getPosition(), o.getPosition(), false);
 	}
 
+	@Override
 	public TerminalPosition getEndPosition() {
 		if (endPosition != null) {
 			return endPosition;
@@ -97,6 +100,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.endPosition = endPosition;
 	}
 
+	@Override
 	public TerminalPosition getLabelPosition() {
 		return labelPosition;
 	}
@@ -109,10 +113,12 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.terminalField = terminalField;
 	}
 
+	@Override
 	public TerminalField getTerminalField() {
 		return terminalField;
 	}
 
+	@Override
 	public TerminalField getTerminalLabelField() {
 		return terminalLabelfield;
 	}
@@ -121,6 +127,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.terminalLabelfield = terminalLabelfield;
 	}
 
+	@Override
 	public boolean isRectangle() {
 		return rectangle;
 	}
@@ -133,6 +140,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		return getEndPosition().getRow() != getPosition().getRow();
 	}
 
+	@Override
 	public FieldAttributeType getAttribute() {
 		return attribute;
 	}
@@ -141,6 +149,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.attribute = attribute;
 	}
 
+	@Override
 	public String getWhenFilter() {
 		return whenFilter;
 	}
@@ -149,6 +158,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.whenFilter = whenFilter;
 	}
 
+	@Override
 	public String getUnlessFilter() {
 		return unlessFilter;
 	}
@@ -157,6 +167,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.unlessFilter = unlessFilter;
 	}
 
+	@Override
 	public ScreenFieldDefinition getDescriptionFieldDefinition() {
 		return descriptionFieldDefinition;
 	}
@@ -195,10 +206,12 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.nullValue = nullValue;
 	}
 
+	@Override
 	public int compareTo(FieldDefinition o) {
 		return 0;
 	}
 
+	@Override
 	public boolean isTableKey() {
 		return tableKey;
 	}
@@ -207,6 +220,7 @@ public class SimpleScreenFieldDefinition extends AbstractFieldDefinition<ScreenF
 		this.tableKey = tableKey;
 	}
 
+	@Override
 	public boolean isForceUpdate() {
 		return forceUpdate;
 	}

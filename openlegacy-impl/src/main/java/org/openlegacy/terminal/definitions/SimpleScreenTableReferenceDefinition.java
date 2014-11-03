@@ -33,14 +33,17 @@ public class SimpleScreenTableReferenceDefinition implements ScreenTableReferenc
 		this.relatedTableRecord = relatedTableRecord;
 	}
 
+	@Override
 	public String getFieldName() {
 		return fieldName;
 	}
 
+	@Override
 	public Class<?> getRelatedTableRecord() {
 		return relatedTableRecord;
 	}
 
+	@Override
 	public Class<?> getRelatedScreen() {
 		return relatedScreen;
 	}

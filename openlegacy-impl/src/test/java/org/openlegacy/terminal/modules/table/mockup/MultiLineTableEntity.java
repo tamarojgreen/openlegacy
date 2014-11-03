@@ -55,16 +55,19 @@ public class MultiLineTableEntity implements org.openlegacy.terminal.ScreenEntit
 
 	}
 
+	@Override
 	public String getFocusField() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void setFocusField(String focusField) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<TerminalActionDefinition> getActions() {
 		return Collections.EMPTY_LIST;

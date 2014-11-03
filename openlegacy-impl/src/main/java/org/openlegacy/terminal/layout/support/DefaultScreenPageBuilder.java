@@ -70,6 +70,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 	/**
 	 * Page builder entry point. Builds a page definition from a screen entity definition
 	 */
+	@Override
 	public PageDefinition build(ScreenEntityDefinition entityDefinition) {
 		Collection<ScreenFieldDefinition> fields = entityDefinition.getFieldsDefinitions().values();
 
@@ -113,6 +114,7 @@ public class DefaultScreenPageBuilder implements ScreenPageBuilder {
 		screenPartsList.addAll(screenParts);
 		Collections.sort(screenPartsList, new Comparator<ScreenPartEntityDefinition>() {
 
+			@Override
 			public int compare(ScreenPartEntityDefinition o1, ScreenPartEntityDefinition o2) {
 				return o1.getTopRow() - o2.getTopRow();
 			}

@@ -797,6 +797,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		checkHasGetterAndSetter(members);
 	}
 
+	@SuppressWarnings("unused")
 	private void checkHasGetterAndSetter(List<BodyDeclaration> members) {
 		int numberOfGetters = 0;
 		int numberOfProperties = 0;
@@ -943,6 +944,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		filterExpression = filterExpressionFromAnnotation != null ? StringUtil.stripQuotes(filterExpressionFromAnnotation) : "";
 	}
 
+	@Override
 	public List<Action> getActions() {
 		return actions;
 	}
@@ -952,18 +954,22 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#getClassName()
 	 */
+	@Override
 	public String getClassName() {
 		return className;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	@Override
 	public int getEndRow() {
 		return endRow;
 	}
 
+	@Override
 	public String getEntityName() {
 		return entityName;
 	}
@@ -973,14 +979,17 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#getFields()
 	 */
+	@Override
 	public Collection<Field> getFields() {
 		return fields.values();
 	}
 
+	@Override
 	public String getFormattedClassName() {
 		return className.replace(".", "");
 	}
 
+	@Override
 	public NavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
 	}
@@ -988,10 +997,12 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	/**
 	 * Returns name of next screen action for @ScreenTable
 	 */
+	@Override
 	public String getNextScreenActionName() {
 		return nextScreenActionName;
 	}
 
+	@Override
 	public String getPackageName() {
 		return packageName;
 	}
@@ -1000,6 +1011,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		return parentClassName;
 	}
 
+	@Override
 	public TerminalPosition getPartPosition() {
 		if (partPostition == null) {
 			partPostition = new PartPostition(0, 0, 80);
@@ -1007,6 +1019,7 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		return partPostition.getPartPosition();
 	}
 
+	@Override
 	public int getPartWidth() {
 		if (partPostition == null) {
 			partPostition = new PartPostition(0, 0, 80);
@@ -1017,18 +1030,22 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	/**
 	 * Return name of previous screen action for @ScreenTable
 	 */
+	@Override
 	public String getPreviousScreenActionName() {
 		return previousScreenActionName;
 	}
 
+	@Override
 	public int getRowGaps() {
 		return rowGaps;
 	}
 
+	@Override
 	public ScreenIdentification getScreenIdentification() {
 		return screenIdentification;
 	}
 
+	@Override
 	public int getStartRow() {
 		return startRow;
 	}
@@ -1036,14 +1053,17 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	/**
 	 * Returns name of table collector for @ScreenTable
 	 */
+	@Override
 	public String getTableCollectorName() {
 		return tableCollectorName;
 	}
 
+	@Override
 	public String getTypeName() {
 		return typeName;
 	}
 
+	@Override
 	public boolean isChildScreen() {
 		return childScreen;
 	}
@@ -1057,10 +1077,12 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#isRelevant()
 	 */
+	@Override
 	public boolean isRelevant() {
 		return enabled;
 	}
 
+	@Override
 	public boolean isScrollable() {
 		return scrollable;
 	}
@@ -1069,14 +1091,17 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		return superClass;
 	}
 
+	@Override
 	public boolean isSupportTerminalData() {
 		return supportTerminalData;
 	}
 
+	@Override
 	public boolean isWindow() {
 		return window;
 	}
 
+	@Override
 	public SimpleScreenSize getScreenSize() {
 		if (screenSize == null) {
 			screenSize = new SimpleScreenSize();
@@ -1084,30 +1109,37 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 		return screenSize;
 	}
 
+	@Override
 	public boolean isServiceInOut() {
 		return serviceInOut;
 	}
 
+	@Override
 	public boolean isValidateKeys() {
 		return validateKeys;
 	}
 
+	@Override
 	public boolean isRightToLeft() {
 		return rightToLeft;
 	}
 
+	@Override
 	public List<String> getRoles() {
 		return roles;
 	}
 
+	@Override
 	public int getScreensCount() {
 		return screensCount;
 	}
 
+	@Override
 	public boolean isAutoMapKeyboardActions() {
 		return autoMapKeyboardActions;
 	}
 
+	@Override
 	public String getFilterExpression() {
 		return filterExpression;
 	}

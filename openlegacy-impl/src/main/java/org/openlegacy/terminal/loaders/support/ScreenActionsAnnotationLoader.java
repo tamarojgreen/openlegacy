@@ -40,10 +40,12 @@ public class ScreenActionsAnnotationLoader extends AbstractClassAnnotationLoader
 
 	private final static Log logger = LogFactory.getLog(ScreenActionsAnnotationLoader.class);
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenActions.class;
 	}
 
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 

@@ -20,6 +20,7 @@ public class SimplePagePartRowDefinition implements PagePartRowDefinition {
 
 	private List<FieldDefinition> fields = new ArrayList<FieldDefinition>();
 
+	@Override
 	public List<FieldDefinition> getFields() {
 		return fields;
 	}

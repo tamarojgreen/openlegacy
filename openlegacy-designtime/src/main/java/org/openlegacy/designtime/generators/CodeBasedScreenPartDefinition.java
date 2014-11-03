@@ -58,6 +58,7 @@ public class CodeBasedScreenPartDefinition extends AbstractCodeBasedPartDefiniti
 		return getCodeModel().getEntityName();
 	}
 
+	@Override
 	public TerminalPosition getPartPosition() {
 		if (partPosition == null) {
 			partPosition = getCodeModel().getPartPosition();
@@ -65,6 +66,7 @@ public class CodeBasedScreenPartDefinition extends AbstractCodeBasedPartDefiniti
 		return partPosition;
 	}
 
+	@Override
 	public int getWidth() {
 		if (width == 0) {
 			width = getCodeModel().getPartWidth();
@@ -77,11 +79,13 @@ public class CodeBasedScreenPartDefinition extends AbstractCodeBasedPartDefiniti
 		return getCodeModel().getDisplayName();
 	}
 
+	@Override
 	public void setWidth(int width) {
 		this.width = width;
 
 	}
 
+	@Override
 	public void setPartPosition(TerminalPosition partPosition) {
 		this.partPosition = partPosition;
 	}
@@ -95,6 +99,7 @@ public class CodeBasedScreenPartDefinition extends AbstractCodeBasedPartDefiniti
 		return getCodeModel().getClassName();
 	}
 
+	@Override
 	public int getTopRow() {
 		Collection<ScreenFieldDefinition> fields = getFieldsDefinitions().values();
 		int topRow = 999;

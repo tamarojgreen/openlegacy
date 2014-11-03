@@ -33,6 +33,7 @@ public class RegistryBasedTablesDefinitionProvider implements TablesDefinitionPr
 	@Inject
 	private transient ApplicationContext applicationContext;
 
+	@Override
 	public Map<String, ScreenTableDefinition> getTableDefinitions(Class<?> screenEntity) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		ScreenEntityDefinition screenEntityDefinition = screenEntitiesRegistry.get(screenEntity);

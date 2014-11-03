@@ -33,6 +33,7 @@ public class DefaultRpcPageBuilder implements RpcPageBuilder {
 	/**
 	 * Page builder entry point. Builds a page definition from a screen entity definition
 	 */
+	@Override
 	public PageDefinition build(RpcEntityDefinition entityDefinition) {
 		PageDefinition pageDefinition = new SimplePageDefinition(entityDefinition);
 

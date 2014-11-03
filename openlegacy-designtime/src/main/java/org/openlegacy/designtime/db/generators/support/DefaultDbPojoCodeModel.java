@@ -634,14 +634,17 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#getClassName()
 	 */
+	@Override
 	public String getClassName() {
 		return className;
 	}
 
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	@Override
 	public String getEntityName() {
 		return entityName;
 	}
@@ -651,14 +654,17 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#getFields()
 	 */
+	@Override
 	public Collection<Field> getFields() {
 		return fields.values();
 	}
 
+	@Override
 	public String getFormattedClassName() {
 		return className.replace(".", "");
 	}
 
+	@Override
 	public String getPackageName() {
 		return packageName;
 	}
@@ -667,6 +673,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		return parentClassName;
 	}
 
+	@Override
 	public String getTypeName() {
 		return typeName;
 	}
@@ -676,6 +683,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 	 * 
 	 * @see org.openlegacy.designtime.generators.ScreenEntityCodeModel#isRelevant()
 	 */
+	@Override
 	public boolean isRelevant() {
 		return enabled;
 	}
@@ -684,6 +692,7 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		return superClass;
 	}
 
+	@Override
 	public List<Action> getActions() {
 		return actions;
 	}
@@ -701,22 +710,27 @@ public class DefaultDbPojoCodeModel implements DbPojoCodeModel {
 		return runtimeName;
 	}
 
+	@Override
 	public boolean isServiceInOut() {
 		return serviceInOut;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public DbTableDefinition getTableDefinition() {
 		return tableDefinition;
 	}
 
+	@Override
 	public Map<String, ColumnField> getColumnFields() {
 		return columnFields;
 	}
 
+	@Override
 	public DbNavigationDefinition getNavigationDefinition() {
 		return navigationDefinition;
 	}

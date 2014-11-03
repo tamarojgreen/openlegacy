@@ -56,6 +56,7 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 	@Inject
 	private GenerateUtil generateUtil;
 
+	@Override
 	public void generateView(GenerateViewRequest generateViewRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException {
 
@@ -113,6 +114,7 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 
 	protected abstract PageDefinition buildPage(EntityDefinition<?> entityDefinition);
 
+	@Override
 	public void generateController(GenerateControllerRequest generateControllerRequest, EntityDefinition<?> entityDefinition)
 			throws GenerationException {
 		updateAppJs(generateControllerRequest, entityDefinition);
@@ -147,10 +149,12 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 		return generateUtil;
 	}
 
+	@Override
 	public boolean isSupportControllerGeneration() {
 		return true;
 	}
 
+	@Override
 	public void renameViews(String fileNoExtension, String newName, File projectPath) {
 		// views
 		File viewsDir = new File(projectPath, SpaGenerateUtil.VIEWS_DIR);
@@ -209,6 +213,7 @@ public abstract class AbstractEntitySpaGenerator implements EntityPageGenerator 
 		}
 	}
 
+	@Override
 	public void renameMatchesInJava(String fileNoExtension, String newName, File projectPath, String sourceFolder) {
 		// Auto-generated method stub
 	}

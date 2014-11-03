@@ -22,6 +22,7 @@ public class SimpleDbNavigationDefinition implements DbNavigationDefinition, Ser
 	private static final long serialVersionUID = 1L;
 	private String category;
 
+	@Override
 	public String getCategory() {
 		return category;
 	}

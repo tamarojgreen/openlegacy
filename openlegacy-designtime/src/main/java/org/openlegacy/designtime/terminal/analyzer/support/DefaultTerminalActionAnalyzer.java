@@ -36,6 +36,7 @@ public class DefaultTerminalActionAnalyzer implements TerminalActionAnalyzer {
 	@Inject
 	private TextTranslator textTranslator;
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public TerminalActionDefinition toTerminalActionDefinition(String action, String caption, TerminalPosition position) {
 		action = action.trim().toUpperCase();

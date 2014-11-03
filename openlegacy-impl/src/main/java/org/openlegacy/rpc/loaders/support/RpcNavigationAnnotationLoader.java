@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.rpc.loaders.support;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openlegacy.EntitiesRegistry;
 import org.openlegacy.annotations.rpc.RpcNavigation;
 import org.openlegacy.loaders.support.AbstractClassAnnotationLoader;
@@ -26,12 +24,14 @@ import java.text.MessageFormat;
 @Component
 public class RpcNavigationAnnotationLoader extends AbstractClassAnnotationLoader {
 
-	private final static Log logger = LogFactory.getLog(RpcNavigationAnnotationLoader.class);
+	// private final static Log logger = LogFactory.getLog(RpcNavigationAnnotationLoader.class);
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == RpcNavigation.class;
 	}
 
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 

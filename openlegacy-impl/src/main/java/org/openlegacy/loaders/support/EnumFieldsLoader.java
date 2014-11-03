@@ -32,11 +32,13 @@ public class EnumFieldsLoader implements FieldLoader {
 
 	private final static Log logger = LogFactory.getLog(EnumFieldsLoader.class);
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public boolean match(EntitiesRegistry entitiesRegistry, Field field) {
 		return field.getType().isEnum();
 	}
 
+	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void load(EntitiesRegistry entitiesRegistry, Field field, Class<?> containingClass, int fieldOrder) {
 

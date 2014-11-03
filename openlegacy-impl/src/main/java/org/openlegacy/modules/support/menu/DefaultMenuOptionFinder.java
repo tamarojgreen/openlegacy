@@ -1,8 +1,5 @@
 package org.openlegacy.modules.support.menu;
 
-import java.text.MessageFormat;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openlegacy.modules.menu.MenuOptionFinder;
@@ -13,15 +10,20 @@ import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.FieldsCriteria;
 import org.openlegacy.utils.StringUtil;
 
+import java.text.MessageFormat;
+import java.util.List;
+
 public class DefaultMenuOptionFinder implements MenuOptionFinder{
 
 	private final static Log logger = LogFactory.getLog(DefaultMenuOptionFinder.class);
 
 	private char[] charsToRemove = {'.',' '};
 	
+	@Override
 	public String findMenuOption(TerminalSnapshot terminalSnapshot, final String text) {
 		List<TerminalField> fields = FieldsQuery.queryFields(terminalSnapshot, new FieldsCriteria() {
 			
+			@Override
 			public boolean match(TerminalField terminalField) {
 				return (terminalField.getValue().matches(text));
 			}

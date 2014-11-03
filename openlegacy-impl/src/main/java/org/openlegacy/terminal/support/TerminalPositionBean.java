@@ -38,10 +38,12 @@ public class TerminalPositionBean implements TerminalPosition {
 	@XmlAttribute
 	private int column = 1;
 
+	@Override
 	public int getRow() {
 		return row;
 	}
 
+	@Override
 	public int getColumn() {
 		return column;
 	}
@@ -81,18 +83,22 @@ public class TerminalPositionBean implements TerminalPosition {
 		return new EqualsBuilder().append(getRow(), otherPosition.getRow()).append(getColumn(), otherPosition.getColumn()).isEquals();
 	}
 
+	@Override
 	public int compareTo(TerminalPosition o) {
 		return SnapshotUtils.comparePositions(this, o, false);
 	}
 
+	@Override
 	public TerminalPosition next() {
 		return moveBy(1);
 	}
 
+	@Override
 	public TerminalPosition previous() {
 		return moveBy(-1);
 	}
 
+	@Override
 	public TerminalPosition moveBy(int columns) {
 		if (columns == 0) {
 			return this;
@@ -102,6 +108,7 @@ public class TerminalPositionBean implements TerminalPosition {
 		return SimpleTerminalPosition.newInstance(row + offsetRows, column + columns);
 	}
 
+	@Override
 	public int getAbsolutePosition(ScreenSize screenSize) {
 		return SnapshotUtils.toAbsolutePosition(this, screenSize);
 	}

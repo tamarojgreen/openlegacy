@@ -27,6 +27,7 @@ public class SimpleRowPart implements RowPart {
 		fields.add(firstField);
 	}
 
+	@Override
 	public TerminalPosition getPosition() {
 		return getFirstField().getPosition();
 	}
@@ -39,6 +40,7 @@ public class SimpleRowPart implements RowPart {
 		return fields.get(fields.size() - 1);
 	}
 
+	@Override
 	public String getValue() {
 		if (value != null) {
 			return value;
@@ -56,10 +58,12 @@ public class SimpleRowPart implements RowPart {
 		fields.add(field);
 	}
 
+	@Override
 	public int getLength() {
 		return getLastField().getPosition().getColumn() + getLastField().getLength() - getFirstField().getPosition().getColumn();
 	}
 
+	@Override
 	public boolean isEditable() {
 		return getFirstField().isEditable();
 	}

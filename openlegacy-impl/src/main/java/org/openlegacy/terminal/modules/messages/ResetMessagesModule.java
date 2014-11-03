@@ -25,6 +25,7 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 	private boolean resetBefore = true;
 	private boolean resetAfter = false;
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void beforeAction(ApplicationConnection<?, ?> connection, RemoteAction action) {
 		if (resetBefore) {
@@ -32,6 +33,7 @@ public class ResetMessagesModule extends TerminalSessionModuleAdapter {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void afterAction(ApplicationConnection<?, ?> connection, RemoteAction action, Snapshot result) {
 		if (resetAfter) {

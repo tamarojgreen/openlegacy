@@ -34,6 +34,7 @@ public class ReferredScreenEntityProxyHandler implements ScreenEntityProxyHandle
 	@Inject
 	private transient ApplicationContext applicationContext;
 
+	@Override
 	public Object invoke(TerminalSession terminalSession, MethodInvocation invocation) throws OpenLegacyRuntimeException {
 
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);

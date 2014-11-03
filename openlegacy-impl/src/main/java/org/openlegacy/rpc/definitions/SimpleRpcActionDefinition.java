@@ -30,6 +30,7 @@ public class SimpleRpcActionDefinition extends SimpleActionDefinition implements
 		super(actionName, displayName);
 	}
 
+	@Override
 	public String getProgramPath() {
 		return programPath;
 	}

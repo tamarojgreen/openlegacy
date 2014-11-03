@@ -44,6 +44,7 @@ public class PatternBasedScreensRecognizer implements ScreensRecognizer {
 
 	private char[] ignoreChars = new char[] { ' ' };
 
+	@Override
 	public Class<?> match(TerminalSnapshot terminalSnapshot) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = SpringUtil.getBean(applicationContext, ScreenEntitiesRegistry.class);
 		if (positions == null) {

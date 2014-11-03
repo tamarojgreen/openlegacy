@@ -33,6 +33,7 @@ public class RpcEntitySpaGenerator extends AbstractEntitySpaGenerator implements
 	@Inject
 	private RpcPageBuilder pageBuilder;
 
+	@Override
 	public void generatePage(PageDefinition pageDefinition, OutputStream output, String templateDirectoryPrefix)
 			throws GenerationException {
 		String typeName = MessageFormat.format("{0}{1}", templateDirectoryPrefix,

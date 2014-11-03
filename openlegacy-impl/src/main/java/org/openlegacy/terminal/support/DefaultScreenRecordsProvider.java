@@ -37,6 +37,7 @@ public class DefaultScreenRecordsProvider implements ScreenRecordsProvider, Appl
 
 	private transient ApplicationContext applicationContext;
 
+	@Override
 	public Map<Object, Object> getRecords(TerminalSession session, Class<?> entityClass, Class<Object> rowClass,
 			boolean collectAll, String searchText) {
 		List<Object> records = null;
@@ -58,6 +59,7 @@ public class DefaultScreenRecordsProvider implements ScreenRecordsProvider, Appl
 		return recordsMap;
 	}
 
+	@Override
 	public DisplayItem toDisplayItem(Object record) {
 		ScreenEntitiesRegistry screenEntitiesRegistry = applicationContext.getBean(ScreenEntitiesRegistry.class);
 		ScreenTableDefinition tableDefinition = screenEntitiesRegistry.getTable(record.getClass());
@@ -84,6 +86,7 @@ public class DefaultScreenRecordsProvider implements ScreenRecordsProvider, Appl
 		return new SimpleDisplayItem(keyValue, mainDisplayValue);
 	}
 
+	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}

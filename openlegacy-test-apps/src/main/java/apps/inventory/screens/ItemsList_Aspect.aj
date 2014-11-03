@@ -3,10 +3,13 @@
 
 package apps.inventory.screens;
 
-import java.util.*;
+import apps.inventory.screens.ItemsList.ItemsListRow;
+
 import org.openlegacy.terminal.ScreenEntity;
-import org.openlegacy.terminal.Color;
 import org.openlegacy.terminal.definitions.TerminalActionDefinition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
 

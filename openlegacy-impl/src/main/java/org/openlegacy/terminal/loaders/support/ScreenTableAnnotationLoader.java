@@ -41,10 +41,12 @@ import java.util.Comparator;
 @Order(3)
 public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
+	@Override
 	public boolean match(Annotation annotation) {
 		return annotation.annotationType() == ScreenTable.class;
 	}
 
+	@Override
 	@SuppressWarnings("rawtypes")
 	public void load(EntitiesRegistry entitiesRegistry, Annotation annotation, Class<?> containingClass) {
 
@@ -82,6 +84,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 		Collections.sort(tableDefinition.getColumnDefinitions(), new Comparator<ScreenColumnDefinition>() {
 
+			@Override
 			public int compare(ScreenColumnDefinition column1, ScreenColumnDefinition column2) {
 				if (column1.getRowsOffset() != column2.getRowsOffset()) {
 					return column1.getRowsOffset() - column2.getRowsOffset();
@@ -104,6 +107,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 
 		ReflectionUtils.doWithFields(rowClass, new FieldCallback() {
 
+			@Override
 			public void doWith(Field field) {
 
 				if (!field.isAnnotationPresent(ScreenTableReference.class)) {
@@ -121,6 +125,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 	private static void collectColumnsMetadata(final Class<?> rowClass, final SimpleScreenTableDefinition tableDefinition) {
 		ReflectionUtils.doWithFields(rowClass, new FieldCallback() {
 
+			@Override
 			public void doWith(Field field) {
 
 				if (!field.isAnnotationPresent(ScreenColumn.class)) {

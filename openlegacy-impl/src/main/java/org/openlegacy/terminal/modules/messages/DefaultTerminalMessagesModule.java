@@ -136,10 +136,12 @@ public class DefaultTerminalMessagesModule extends TerminalSessionModuleAdapter 
 		this.defaultSkipAction = defaultSkipAction;
 	}
 
+	@Override
 	public List<String> getMessages() {
 		return new ArrayList<String>(messages);
 	}
 
+	@Override
 	public void resetMessages() {
 		messages.clear();
 	}

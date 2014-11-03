@@ -15,26 +15,32 @@ public class SimpleDbOneToManyDefinition implements DbOneToManyDefinition {
 	private Class<?> targetEntity = void.class;
 	private String targetEntityClassName = void.class.getSimpleName();
 
+	@Override
 	public String[] getCascadeTypeNames() {
 		return cascadeTypeNames;
 	}
 
+	@Override
 	public String getFetchTypeName() {
 		return fetchTypeName;
 	}
 
+	@Override
 	public String getMappedBy() {
 		return mappedBy;
 	}
 
+	@Override
 	public boolean isOrphanRemoval() {
 		return orphanRemoval;
 	}
 
+	@Override
 	public Class<?> getTargetEntity() {
 		return targetEntity;
 	}
 
+	@Override
 	public String getTargetEntityClassName() {
 		return targetEntityClassName;
 	}
