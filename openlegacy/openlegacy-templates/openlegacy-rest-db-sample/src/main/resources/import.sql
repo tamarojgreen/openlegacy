@@ -33,4 +33,12 @@ INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('1', 'test_text1
 INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('2', 'test_text2', '1');
 INSERT INTO STOCK_ITEM_NOTE (note_id, text, stock_item) VALUES ('3', 'test_text3', '2');
 
-
+INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product1', null);
+INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product2', 1);
+INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product3', 2);
+INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product4', null);
+INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product5', 4);
+INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product6', 5);
+INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product7', 6);
+INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product8', null);
+INSERT INTO PRODUCT_ITEM (product_name, parent_id) VALUES ('Product9', null);

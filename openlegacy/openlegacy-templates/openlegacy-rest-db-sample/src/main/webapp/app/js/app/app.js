@@ -39,6 +39,11 @@
 		    	url: "/StockItem/:id",
 	    		templateUrl: "views/itemDetails.html",
 	    		controller: "itemDetailsCtrl"
+		    })
+		    .state('productTree', {
+				url: "/productTree",
+				templateUrl: "views/productTree.html",
+				controller: "productTreeCtrl"			    
 		    });
 	});
 } )();

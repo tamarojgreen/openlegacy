@@ -4,7 +4,7 @@
 
 	/* Controllers */
 
-	var module = angular.module('controllers', ['ui.router'])
+	var module = angular.module('controllers', ['ui.router', 'ui.tree', 'angularFileUpload'])
 
 	.controller(
 		'loginCtrl',
@@ -152,5 +152,88 @@
 				$themeService.changeTheme();
 			};
 		
+	})
+	.controller('productTreeCtrl', function ($scope, FileUploader, $olHttp) {
+		$olHttp.get("productTree", function(data) {			
+			$scope.treeElements = data.model;			
+		});
+		
+		$scope.uploader = new FileUploader({
+			autoUpload: true,
+			removeAfterUpload: true,
+			url: olConfig.baseUrl + "uploadFile",			
+			onProgressItem: function(item, progress) {
+				$scope.progressValue = progress;
+			},
+			onErrorItem: function(item, response, status, headers) {				
+				alert("Error was occured during file uploading!");				
+			},
+			onSuccessItem: function(item, response, status, headers) {
+				alert("File uploaded successfully!");
+				getFilesList($scope.nodeName);
+			}
+		});
+		
+		function getFilesList(nodeName) {			
+			$olHttp.get("nodeFilesList?nodeName=" + nodeName, function(data) {				
+				if (data != null && data.length != 0) {					
+					$scope.filesList = data.model;
+				}				
+			});
+		}
+		
+		$scope.nodeClick = function(event) {			
+			$scope.nodeName = event.target.textContent;			
+			$scope.uploader.formData = [{"nodeName":$scope.nodeName}];
+			$scope.baseUrl = olConfig.baseUrl;
+			getFilesList($scope.nodeName);
+		};
+		
+		$scope.options = {
+	    };
+		
+		$scope.toggle = function(scope) {
+			scope.toggle();	        
+	    };
+
+		
+		$scope.list = [{
+		      "id": 1,
+		      "title": "1. dragon-breath",
+		      "items": []
+		    },
+		    {
+		      "id": 2,
+		      "title": "2. moiré-vision",
+		      "items": [{
+		        "id": 21,
+		        "title": "2.1. tofu-animation",
+		        "items": [{
+		          "id": 211,
+		          "title": "2.1.1. spooky-giraffe",
+		          "items": []
+		        }, {
+		          "id": 212,
+		          "title": "2.1.2. bubble-burst",
+		          "items": []
+		        }],
+		      }, {
+		        "id": 22,
+		        "title": "2.2. barehand-atomsplitting",
+		        "items": []
+		      }],
+		    }, {
+		      "id": 3,
+		      "title": "3. unicorn-zapper",
+		      "items": [{
+		    	  "id": 1,
+			      "title": "1.TOMATO",
+			      "items": []  
+		      }]
+		    }, {
+		      "id": 4,
+		      "title": "4. romantic-transclusion",
+		      "items": []
+		    }];	    
 	});
 })();
