@@ -123,9 +123,9 @@
 											<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 											<#list part.tableDefinition.actions as action>
 												<#if action.targetEntity??>
-													<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.alias}</a></li>
+													<li><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${action.displayName}</a></li>
 												<#else>
-													<li><a href="" ng-click="noTargetScreenEntityAlert()">${action.alias}</a></li>
+													<li><a href="" ng-click="noTargetScreenEntityAlert()">${action.displayName}</a></li>
 												</#if>
 											</#list>
 										  </ul>

@@ -93,13 +93,13 @@
 												<#if entityDefinition.allFieldsDefinitionsSorted[0]??>	
 													<#if entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0]??>
 														<a href="#/${action.targetEntity.simpleName}/{{${entityDefinition.allFieldsDefinitionsSorted[0].sortedFields[0].shortName}}}" class="${action.alias}">													
-															<@actionButton actionAlias=action.alias/>												
+															<@actionButton action=action/>												
 														</a>
 													</#if>
 												</#if>
 											<#else>
 												<a href="" ng-click="doActionNoTargetEntity($index, '${action.action.actionValue}')">
-													<@actionButton actionAlias=action.alias/>
+													<@actionButton action=action/>
 												</a>
 											</#if>			                                        		                                        
                                         </#list>							
@@ -186,8 +186,8 @@
 	</nav>    
 </#macro>
 
-<#macro actionButton actionAlias>
-	<#switch actionAlias>
+<#macro actionButton action>
+	<#switch action.alias>
 	  <#case 'edit'>
 	   <span class="label label-primary">
 	   	 <span class="glyphicon glyphicon-repeat"></span>
@@ -204,6 +204,6 @@
 	  	</span>
 	    <#break>
 	  <#default>
-	  	<span>${actionAlias}</span>    
+	  	<span>${action.displayName}</span>    
 	</#switch>					
 </#macro>
