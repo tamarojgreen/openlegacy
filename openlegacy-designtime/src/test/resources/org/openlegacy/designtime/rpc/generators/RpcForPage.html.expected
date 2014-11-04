@@ -52,23 +52,23 @@
 			<div class="row">
 				<div class="col-sm-6">
 	<div class="form-group">		
-		<label for="lkCustomer.lkCustInd" class="control-label">Lk Cust Ind:</label>		
+		<label for="lkCustomer.lkCustInd" class="control-label">Lk Cust Ind:</label> 		
    				<div id="lkCustomer.lkCustInd" ng-model="model.lkCustInd">{{model.lkCustInd}}</div>
 	</div>
 	<div class="form-group">		
-		<label for="lkCustomer.lkCustId" class="control-label">Lk Cust Id:</label>		
+		<label for="lkCustomer.lkCustId" class="control-label">Lk Cust Id:</label> 		
 				  	<input type="text" class="form-control" id="lkCustomer.lkCustId" ng-model="model.lkCustId">
 	</div>
 	<div class="form-group">		
-		<label for="lkCustomer.lkCustName" class="control-label">Lk Cust Name:</label>		
+		<label for="lkCustomer.lkCustName" class="control-label">Lk Cust Name:</label> 		
    				<div id="lkCustomer.lkCustName" ng-model="model.lkCustName">{{model.lkCustName}}</div>
 	</div>
 	<div class="form-group">		
-		<label for="lkCustomer.lkCustAddress" class="control-label">Lk Cust Address:</label>		
+		<label for="lkCustomer.lkCustAddress" class="control-label">Lk Cust Address:</label> 		
    				<div id="lkCustomer.lkCustAddress" ng-model="model.lkCustAddress">{{model.lkCustAddress}}</div>
 	</div>
 	<div class="form-group">		
-		<label for="lkCustomer.lkCustPhone" class="control-label">Lk Cust Phone:</label>		
+		<label for="lkCustomer.lkCustPhone" class="control-label">Lk Cust Phone:</label> 		
    				<div id="lkCustomer.lkCustPhone" ng-model="model.lkCustPhone">{{model.lkCustPhone}}</div>
 	</div>
 				</div>				
@@ -117,5 +117,3 @@
 		</div><!--  /main   -->
 	</div>
 </div>									
-										
-
