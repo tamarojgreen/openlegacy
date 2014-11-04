@@ -1,5 +1,6 @@
 <jsp:root xmlns:ol="http://www.openlegacy.org/tags" 
 	xmlns:olt="urn:jsptagdir:/WEB-INF/tags/web" 
+	xmlns:olf="http://www.openlegacy.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core" 
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions" 
 	xmlns:spring="http://www.springframework.org/tags" 
@@ -108,6 +109,13 @@
 									<td colspan="${column.colSpan}"><c:choose>
 											<c:when test="${column.selectionField}">
 												<c:set var="foundSelectionField" value="true" />
+												<c:set var="columnFieldName" value="${column.name}Field"/>
+												<c:set var="editable" value="true" />
+												<c:if test="${olf:hasProperty(item,columnFieldName)}">
+													<c:set var="field" value="${item[columnFieldName]}"/>
+													<c:set var="editable" value="${field.editable}" />
+												</c:if>
+												<c:if test="${editable}">
 												<c:choose>
 													<c:when test="${fn:length(tableDefinition.actions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
 														<c:if test="${fn:length(tableDefinition.mainDisplayFields) &gt; 0 and definitions.window}">
@@ -168,6 +176,7 @@
 														</c:forEach>
 													</c:otherwise>
 												</c:choose>
+												</c:if>
 											</c:when>
 											<c:when test="${column.editable}">
 												<input name="${column.name}_${rowIndex.index}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
