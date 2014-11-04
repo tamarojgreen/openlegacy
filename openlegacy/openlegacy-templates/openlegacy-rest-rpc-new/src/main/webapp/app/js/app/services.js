@@ -48,7 +48,7 @@
 				$http(
 						{
 							method : 'POST',
-							data : angular.toJson(model),
+							data : encodeURIComponent(angular.toJson(model)),
 							url : olConfig.baseUrl + url,
 							headers : {
 								'Content-Type' : 'application/json',
