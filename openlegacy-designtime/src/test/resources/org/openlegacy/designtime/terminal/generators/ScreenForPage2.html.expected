@@ -52,6 +52,8 @@
 		</form>
 	</nav>
 							
+<div class="panel panel-default">
+<div class="panel-body">
 		<form role="form">
 	
 
@@ -84,7 +86,11 @@
 							</div>
 					</div>
 		</form>
+</div>
+</div>
 							
+<div class="panel panel-default">
+<div class="panel-body">
 		<form role="form">
 	
 
@@ -103,7 +109,11 @@
 							</div>
 					</div>
 		</form>
+</div>
+</div>
 							
+<div class="panel panel-default">
+<div class="panel-body">
 		<form role="form">
 	
 
@@ -116,7 +126,11 @@
 							</div>
 					</div>
 		</form>
+</div>
+</div>
 							<div class="panel-heading">Screen For Page Part</div>
+<div class="panel panel-default">
+<div class="panel-body">
 		<form role="form">
 	
 
@@ -135,7 +149,11 @@
 							</div>
 					</div>
 		</form>
+</div>
+</div>
 							
+<div class="panel panel-default">
+<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table">
 				<thead>
@@ -172,8 +190,17 @@
 				Prev
 			</button>
 		</div>
+</div>
+</div>
 				</div>
 			</div>
+			<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <img src="{{baseUrl}}sessionViewer/image" class="img-thumbnail">
+                    </div>
+                </div>
+            </div>                       		
 		</div><!--  /main   -->
 	</div>
 </div>
