@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 
+import javax.persistence.Id;
+
 @Component
 public class DbFieldsLoader implements FieldLoader {
 
@@ -37,6 +39,7 @@ public class DbFieldsLoader implements FieldLoader {
 
 		if (dbEntityDefinition != null) {
 			SimpleDbFieldDefinition dbFieldDefinition = new SimpleDbFieldDefinition(field.getName());
+			dbFieldDefinition.setKey(field.getAnnotation(Id.class) != null);
 			dbEntityDefinition.getFieldsDefinitions().put(field.getName(), dbFieldDefinition);
 
 		}
