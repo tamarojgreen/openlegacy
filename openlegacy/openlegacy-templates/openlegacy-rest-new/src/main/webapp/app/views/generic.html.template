@@ -99,7 +99,9 @@
 </div>									
 										
 
-<#macro pagePart entity part>		
+<#macro pagePart entity part>	
+<div class="panel panel-default">
+<div class="panel-body">	
 	<#if part.hasTable>
 		<div class="table-responsive">
 			<table class="table">
@@ -192,7 +194,9 @@
 				</#list>								
 			</#list>
 		</form>		
-	</#if>		
+	</#if>
+</div>
+</div>		
 </#macro>
 
 <#macro filterFields field fieldsArray>

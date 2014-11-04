@@ -61,6 +61,8 @@
 										
 
 <#macro pagePart entity part>
+<div class="panel panel-default">
+<div class="panel-body">
 	<#if part.hasTable>
 		<#list entity.partsDefinitions?keys as key>
 			<#if key == part.tableDefinition.tableEntityName?uncap_first>
@@ -136,7 +138,9 @@
 				</div>				
 			</div>
 		</form>		
-	</#if>		
+	</#if>
+</div>
+</div>	
 </#macro>
 
 <#macro fieldMacro field>
