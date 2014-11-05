@@ -1,5 +1,7 @@
 package org.openlegacy.providers.h3270;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.h3270.host.S3270;
 import org.h3270.host.S3270Screen;
 import org.openlegacy.terminal.TerminalConnection;
@@ -8,9 +10,12 @@ import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSendAction;
 import org.openlegacy.terminal.TerminalSnapshot;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 public class H3270Connection implements TerminalConnection {
+
+	private final static Log logger = LogFactory.getLog(H3270Connection.class);
 
 	private S3270 s3270Session;
 
@@ -44,7 +49,12 @@ public class H3270Connection implements TerminalConnection {
 		TerminalPosition cursor = terminalSendAction.getCursorPosition();
 		for (TerminalField modifiedField : modifiedFields) {
 			H3270TerminalField field = (H3270TerminalField)snapshot.getField(modifiedField.getPosition());
-			field.setValue(modifiedField.getValue());
+			if (field != null) {
+				field.setValue(modifiedField.getValue());
+			} else {
+				logger.warn(MessageFormat.format("Field in position {0} not found for sending modified content:{1}",
+						modifiedField.getPosition(), modifiedField.getValue()));
+			}
 		}
 		s3270Session.submitScreen();
 		if (cursor != null) {
