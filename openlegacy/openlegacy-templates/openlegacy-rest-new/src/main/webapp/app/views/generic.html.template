@@ -94,10 +94,11 @@
 	            	</#if>
 				</div>
 			</div>
+			<a data-toggle="modal" data-target=".ol-screenshot" class="clickable">Show screenshot</a>
 			<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <img src="{{baseUrl}}sessionViewer/image" class="img-thumbnail">
+                        <img src="{{baseUrl}}sessionViewer/image?random=${.now?substring(.now?length-2)}" class="img-thumbnail">
                     </div>
                 </div>
             </div>                       		
