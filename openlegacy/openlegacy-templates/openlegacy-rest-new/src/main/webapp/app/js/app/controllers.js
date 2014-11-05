@@ -59,7 +59,7 @@
 			
 			$scope.showMessages = false;
 			$olHttp.get("messages", function(data){			
-				if (data != null && data != undefined && data != "") {				
+				if (data.model != null && data.model != undefined && data.model != "") {				
 					$scope.showMessages = true;
 					
 					$scope.messages = function() {
@@ -73,6 +73,10 @@
 							}
 						});
 					};
+					
+					if (olConfig.showSystemMessages) {				
+						$scope.messages();
+					}
 				}		
 			});
 	});	

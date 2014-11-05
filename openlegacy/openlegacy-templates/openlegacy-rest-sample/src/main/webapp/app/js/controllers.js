@@ -18,11 +18,11 @@ olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http',
 	}
 	
 	$scope.showMessages = false;
-	$olData.getMessages(function(data){			
-		if (data != null && data != undefined && data != "") {				
-			$scope.showMessages = true;
+	$olData.getMessages(function(data){		
+		if (data.model != null && data.model != undefined && data.model != "") {				
+			$scope.showMessages = true;			
 			
-			$scope.messages = function() {
+			$scope.messages = function() {				
 				var modalInstance = $modal.open({
 					template: $("#messagesModal").html(),
 					controller: "messagesModalCtrl",
@@ -33,6 +33,11 @@ olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http',
 					}
 				});
 			};
+			
+			if (olConfig.showSystemMessages) {				
+				$scope.messages();
+			}
+			
 		}		
 	});
 	
@@ -51,8 +56,7 @@ olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http',
 	
 }]);
 
-olControllers.controller('messagesModalCtrl', ['$scope', '$modalInstance','messages', function($scope, $modalInstance, messages) {
-	console.log(messages);
+olControllers.controller('messagesModalCtrl', ['$scope', '$modalInstance','messages', function($scope, $modalInstance, messages) {	
 	$scope.messages = messages;	
 	$scope.close = function() {
 		$modalInstance.close();
