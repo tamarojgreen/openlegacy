@@ -22,20 +22,23 @@
 	<!-- custom style for this project -->
 	<link type="text/css" rel="stylesheet" href="css/project.css" />	
 	<link ng-href="themes/#projectTheme#/#projectTheme#.css" rel="stylesheet">
+		
+	<script src="lib/jquery/jquery-2.1.0.min.js" type="text/javascript"></script>
+	<script src="lib/jquery/jquery.cookie.js" type="text/javascript"></script>
+		
+    <!-- Include the bootstrap -->    
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
+    <script src="lib/bootstrap/js/bootstrap-datepicker.js"></script>
+ 
+	<!-- Include angular JS -->
+	<script src="lib/angular/angular.min.js"></script>
+	<script src="lib/angular/angular-route.min.js"></script>
 	
-	<script src="js/jquery-1.10.2.min.js" type="text/javascript"></script>
-	<script src="lib/jquery.cookie.js" type="text/javascript"></script>
-	
-	<script src="js/angular-1.0.7/angular.min.js"></script>
-	<script src="js/angular-1.0.7/angular-cookies.min.js"></script>	
-	
-	<script src="bootstrap/js/bootstrap.min.js"></script>	
-	<script src="bootstrap/js/bootstrap-datepicker.js"></script>
-	
+	<script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.2.min.js"></script>
 	<script src="js/app/app.js_ng" type="text/javascript"></script>
 	<script src="js/app/controllers.js_ng" type="text/javascript"></script>
-	<script src="js/app/services.js" type="text/javascript"></script>
-	<script src="js/app/directives.js" type="text/javascript"></script>
+	<script src="js/app/services.js" type="text/javascript"></script>	
+	<script src="js/app/directives.js" type="text/javascript"></script>	
 	<script src="js/app/config.js" type="text/javascript"></script>
 </head>
 <body class="base" ng-class="theme">
@@ -61,7 +64,7 @@
 	                    </a>	                    
 	                    <ul class="dropdown-menu">
 	                        <li><a href="" ng-click="logout()"><span class="glyphicon glyphicon-off clickable"></span> Logout</a></li>
-	                        <li><a href="#"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>	                      
+	                        <li><a href="" ng-click="messages()" ng-show="showMessages"><span class="glyphicon glyphicon-envelope"></span> Messages</a></li>	                      
 	                    </ul>
 	                </li>
 	                

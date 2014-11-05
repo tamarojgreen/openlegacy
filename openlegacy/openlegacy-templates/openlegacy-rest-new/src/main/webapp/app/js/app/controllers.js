@@ -4,7 +4,7 @@
 
 	/* Controllers */
 
-	var module = angular.module('controllers', []);
+	var module = angular.module('controllers', ["ui.bootstrap"]);
 
 	module = module.controller(
 		'loginController',
@@ -38,7 +38,7 @@
 		});
 	
 	module = module.controller('HeaderCtrl',
-		function ($rootScope, $scope, $http, $location, $themeService) {    
+		function ($rootScope, $scope, $http, $location, $themeService, $olHttp, $modal) {    
 			$rootScope.$on("olApp:login:authorized", function(e, value) {
 				$scope.username = value;
 			});
@@ -56,8 +56,40 @@
 			$scope.changeTheme = function() {
 				$themeService.changeTheme();
 			};
+			
+			$scope.showMessages = false;
+			$olHttp.get("messages", function(data){			
+				if (data.model != null && data.model != undefined && data.model != "") {				
+					$scope.showMessages = true;
+					
+					$scope.messages = function() {
+						var modalInstance = $modal.open({
+							templateUrl: "views/messages.html",
+							controller: "messagesModalCtrl",
+							resolve:{
+								messages: function() {
+									return data.model;
+								} 
+							}
+						});
+					};
+					
+					if (olConfig.showSystemMessages) {				
+						$scope.messages();
+					}
+				}		
+			});
+	});	
+	
+	module = module.controller('messagesModalCtrl', ['$scope', '$modalInstance','messages', function($scope, $modalInstance, messages) {
+		console.log(messages);
+		$scope.messages = messages;	
+		$scope.close = function() {
+			$modalInstance.close();
+		};
 		
-	});
+	}]);
+	
 	
 	module = module.controller(
 		'menuCtrl',

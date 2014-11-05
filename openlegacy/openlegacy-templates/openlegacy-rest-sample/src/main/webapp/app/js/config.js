@@ -1,4 +1,6 @@
 var olConfig = 
     {
-        baseURL:'/openlegacy-rest-sample'
+        baseURL:'/openlegacy-rest-sample',
+        showSystemMessages: true
     }
+

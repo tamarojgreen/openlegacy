@@ -1,26 +1,65 @@
 
-var olControllers = angular.module('olControllers', []);
+var olControllers = angular.module('olControllers', ["ui.bootstrap"]);
 
-olControllers.controller('logonCtrl', ['$rootScope', '$state', '$scope','$http', '$location', function ($rootScope, $state, $scope, $http, $location) {
-    $scope.logon = function(username){
-    	$rootScope.user = username;
-    	$state.go("Items");
-    }
+olControllers.controller('logonCtrl', ['$rootScope', '$state', '$scope','$http', '$location', '$olData', function ($rootScope, $state, $scope, $http, $location, $olData) {
+    	$scope.login = function(username, password) {
+    		$olData.login('login?user=' + username + '&password='+ password, 
+					function() {
+    					$rootScope.user = username;
+	    				$state.go("MainMenu");
+					}
+				);
+		};
 }]);
 
-olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http', '$location', '$themeService', function ($rootScope, $state, $scope, $http, $location, $themeService) {    
+olControllers.controller('HeaderCtrl', ['$rootScope', '$state','$scope','$http', '$location', '$themeService', "$olData", "$modal", function ($rootScope, $state, $scope, $http, $location, $themeService, $olData, $modal) {    
 	if ($rootScope.user != undefined) {
 		$scope.username = $rootScope.user
 	}
 	
+	$scope.showMessages = false;
+	$olData.getMessages(function(data){		
+		if (data.model != null && data.model != undefined && data.model != "") {				
+			$scope.showMessages = true;			
+			
+			$scope.messages = function() {				
+				var modalInstance = $modal.open({
+					template: $("#messagesModal").html(),
+					controller: "messagesModalCtrl",
+					resolve:{
+						messages: function() {
+							return data.model;
+						} 
+					}
+				});
+			};
+			
+			if (olConfig.showSystemMessages) {				
+				$scope.messages();
+			}
+			
+		}		
+	});
+	
 	$scope.logout = function(){
-		delete $scope.username
-		delete $rootScope.user
-		$state.go("logon")
+		$olData.logoff(function() {
+					delete $scope.username
+					delete $rootScope.user
+					$state.go("logon")
+				}
+			);		
 	}
 	
 	$scope.changeTheme = function() {
 		$themeService.changeTheme();
+	};
+	
+}]);
+
+olControllers.controller('messagesModalCtrl', ['$scope', '$modalInstance','messages', function($scope, $modalInstance, messages) {	
+	$scope.messages = messages;	
+	$scope.close = function() {
+		$modalInstance.close();
 	};
 	
 }]);
