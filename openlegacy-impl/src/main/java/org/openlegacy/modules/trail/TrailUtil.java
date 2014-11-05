@@ -48,7 +48,7 @@ public class TrailUtil {
 			return;
 		}
 
-		if (!session.isConnected()) {
+		if (session == null || !session.isConnected()) {
 			return;
 		}
 
