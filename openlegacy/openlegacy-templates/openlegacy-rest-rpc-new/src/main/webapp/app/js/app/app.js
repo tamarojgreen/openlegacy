@@ -15,24 +15,34 @@
 		$routeProvider = $routeProvider.when( '/menu', {templateUrl: 'views/menu.html'} );
 		$routeProvider = $routeProvider.when( '/inventoryMenu', {templateUrl: 'inventoryMenu.html'} );
 		
-		//$routeProvider = $routeProvider.when( '/ItemDetails', {templateUrl: 'views/ItemDetails.html',controller: 'ItemDetailsController'} );
-		<#if entitiesDefinitions??>
-			<#list entitiesDefinitions as entityDefinition>
-			$routeProvider = $routeProvider.when( '/${entityDefinition.entityName}', {templateUrl: 'views/${entityDefinition.entityName}.html', controller: '${entityDefinition.entityName}Controller'} );
-			<#if entityDefinition.keys?size &gt; 0>
-			$routeProvider = $routeProvider.when( '/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityDefinition.entityName}.html', controller: '${entityDefinition.entityName}Controller'} );
-			</#if>
-			</#list>
-		</#if>
-		
-/* Register controller place-holder start
-		<#if entityName?? & keys?size &gt; 0>
-$routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
-		</#if>
+		var urlsToFilter = [];
+
+		/* Register controller place-holder start
 		<#if entityName??>
-		$routeProvider = $routeProvider.when( '/${entityName}', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
+			<#if keys?size &gt; 0>
+				$routeProvider = $routeProvider.when( '/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );
+				urlsToFilter.push('/${entityName}/:<#list keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>');				
+			</#if>
+			$routeProvider = $routeProvider.when( '/${entityName}', {templateUrl: 'views/${entityName}.html', controller: '${entityName}Controller'} );			
+			urlsToFilter.push('/${entityName}');
 		</#if>
 		Register controller place-holder end */
+									
+		<#if entitiesDefinitions??>
+			<#list entitiesDefinitions as entityDefinition>
+					var url = "/${entityDefinition.entityName}";
+					if ($.inArray(url, urlsToFilter) == -1) {
+						$routeProvider = $routeProvider.when( url, {templateUrl: 'views/${entityDefinition.entityName}.html', controller: '${entityDefinition.entityName}Controller'} );
+					}
+					<#if entityDefinition.keys?size &gt; 0>
+						url = "/${entityDefinition.entityName}/:<#list entityDefinition.keys as key>${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list>";
+						if ($.inArray(url, urlsToFilter) == -1) {
+							$routeProvider = $routeProvider.when( url, {templateUrl: 'views/${entityDefinition.entityName}.html', controller: '${entityDefinition.entityName}Controller'} );
+						}
+					</#if>
+				
+			</#list>
+		</#if>
 		
 		$routeProvider = $routeProvider.otherwise( {redirectTo: '/login'} );
 		
