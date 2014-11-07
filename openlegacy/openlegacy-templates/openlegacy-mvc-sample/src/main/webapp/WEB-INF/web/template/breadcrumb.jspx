@@ -10,7 +10,7 @@
 				<li>
 					<c:choose>
 						<c:when test="${!rowCounter.last}">
-							<a href="${pageContext.request.contextPath}/${pathItem.entityName}">${pathItem.displayName}</a>
+							<a href="${pageContext.request.contextPath}/${pathItem.entityName}">${pathItem.displayName}</a><span class="breadcrumb_separator">&gt;</span>
 						</c:when>
 						<c:otherwise>
 	 						${pathItem.displayName}
