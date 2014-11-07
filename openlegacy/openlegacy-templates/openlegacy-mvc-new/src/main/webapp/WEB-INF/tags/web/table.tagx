@@ -40,6 +40,11 @@
 		<c:set var="contentPaneId" value="window_container" />
 	</c:if>
 
+	<c:set var="dir" value="ltr"/>
+	<c:if test="${openLegacyProperties.rightToLeft}">
+		<c:set var="dir" value="rtl"/>
+	</c:if>
+
 	<c:set var="tableDefinition" value="${definitions.tableDefinitions[property]}" />
 	<c:if test="${fn:length(data) &gt; 0}">
 		<div class="table" style="${style}">
@@ -126,7 +131,7 @@
 														</c:if>
 													</c:when>
 													<c:when test="${fn:length(tableDefinition.actions) &gt; 4}">
-														<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect">
+														<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect" dir="${dir}">
 															<option value="">- Select -</option>
 															<c:forEach items="${tableDefinition.actions}" var="action">
 																<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
@@ -179,7 +184,7 @@
 												</c:if>
 											</c:when>
 											<c:when test="${column.editable}">
-												<input name="${column.name}_${rowIndex.index}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
+												<input name="${column.name}_${rowIndex.index}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" dir="${dir}" />
 											</c:when>
 											<c:otherwise>
 												<c:if test="${fixedFont}">
@@ -190,7 +195,7 @@
 														<a href="${pageContext.request.contextPath}/${column.targetEntity.simpleName}/${columnValue}">${columnValue}</a>
 													</c:when>
 													<c:otherwise>
-														<span style="${style}" dir="ltr">${columnValue}</span>
+														<span style="${style}">${columnValue}</span>
 													</c:otherwise>
 												</c:choose>
 											</c:otherwise>
