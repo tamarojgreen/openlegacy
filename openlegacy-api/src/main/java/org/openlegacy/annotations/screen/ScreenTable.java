@@ -71,4 +71,9 @@ public @interface ScreenTable {
 	 * @return
 	 */
 	String filterExpression() default "";
+
+	/**
+	 * Determines an order of table columns
+	 */
+	boolean rtlDirection() default false;
 }

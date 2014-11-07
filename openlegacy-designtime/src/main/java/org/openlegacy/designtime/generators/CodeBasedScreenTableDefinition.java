@@ -292,4 +292,11 @@ public class CodeBasedScreenTableDefinition implements ScreenTableDefinition, Po
 	public String getFilterExpression() {
 		return codeModel.getFilterExpression();
 	}
+
+	@Override
+	public boolean isRtlDirection() {
+		throwNotImplemented();
+		return false;
+	}
+
 }
