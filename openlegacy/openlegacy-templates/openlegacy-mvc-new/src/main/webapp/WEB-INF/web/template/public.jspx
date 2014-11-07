@@ -40,11 +40,7 @@
 			</style>
 		<![endif]-->
 	</head>
-	<c:set var="bodyDir" value="ltr" />
-	<c:if test="${openLegacyProperties.rightToLeft}">
-		<c:set var="bodyDir" value="rtl" />
-	</c:if>
-	<body class="${ol_theme}" dir="${bodyDir}">
+	<body class="${ol_theme}">
 		<div id="wrap">
 			<div id="wrap_in">
 				<tiles:insertAttribute name="body" />
