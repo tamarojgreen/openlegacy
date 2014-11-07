@@ -78,7 +78,7 @@
 									<input name="${column.name}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" dir="${dir}"/>
 								</c:when>
 								<c:otherwise>
-									<span dir="ltr">${columnValue}</span>
+									<span>${columnValue}</span>
 								</c:otherwise>
 							</c:choose></td>
 					</c:forEach>

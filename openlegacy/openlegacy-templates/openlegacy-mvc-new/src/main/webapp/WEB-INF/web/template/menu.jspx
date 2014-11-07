@@ -12,11 +12,7 @@
 				"dijit/layout/ContentPane"]);
 	</script>
 
-	<c:set var="dir" value="ltr" />
-	<c:if test="${openLegacyProperties.rightToLeft}">
-		<c:set var="dir" value="rtl" />
-	</c:if>
-		<div id="menu"  dir="${dir}">
+	<div id="menu">
 		<div style="height: 100%" data-dojo-type="dijit.layout.AccordionContainer" id="accordion">
 			<c:choose>
 				<c:when test="${openLegacyWebProperties.treeMenu}">
