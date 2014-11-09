@@ -115,6 +115,7 @@
 									<spring:message code="label_select" var="label_select" htmlEscape="false" />
 									<td colspan="${column.colSpan}"><c:choose>
 											<c:when test="${column.selectionField}">
+												<input type="hidden" name="${column.name}_${rowIndex.index}" id="${column.name}_${rowIndex.index}" />
 												<c:set var="foundSelectionField" value="true" />
 												<c:set var="columnFieldName" value="${column.name}Field"/>
 												<c:set var="editable" value="true" />
@@ -138,14 +139,13 @@
 															<c:forEach items="${tableActions}" var="action">
 																<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
 																<c:if test="${action.targetEntity == null}">
-																	<c:set var="target" value="alert('No target entity specified for table action in table class @ScreenTableActions annotation')" />
+																	<c:set var="target" value="document.getElementById('${column.name}_${rowIndex.index}').value='${action.action.actionValue}';doPost()" />
 																</c:if>
 																<option value="${target}">${action.displayName}</option>
 															</c:forEach>
 														</select>
 													</c:when>
 													<c:otherwise>
-														<input type="hidden" name="${column.name}_${rowIndex.index}" id="${column.name}_${rowIndex.index}" />
 														<c:forEach items="${tableActions}" var="action" varStatus="counter">
 															<c:choose>
 																<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
