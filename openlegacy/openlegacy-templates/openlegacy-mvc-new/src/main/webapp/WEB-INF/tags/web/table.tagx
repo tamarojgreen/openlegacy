@@ -52,10 +52,10 @@
 				<tr>
 					<c:forEach items="${tableDefinition.columnDefinitions}" var="column">
 						<c:if test="${column.selectionField}">
-							<c:set var="foundSelectionField" value="true" />
+							<c:set var="selectionColumn" value="${column}" />
 						</c:if>
 					</c:forEach>
-					<c:if test="${not foundSelectionField}">
+					<c:if test="${selectionColumn == null}">
 						<th>
 							<!--  -->
 						</th>
@@ -69,10 +69,22 @@
 				<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
 				<c:set var="tableActionsProperty" value="${tableDefinition.tableEntityName}sActions" />
 				<c:set var="tableActions" value="${model[tableActionsProperty]}" />
+				<c:forEach items="${tableActions}" var="action" varStatus="counter">
+					<c:if test="${action.defaultAction}">
+						<c:set var="defaultAction" value="${action}" />
+					</c:if>
+				</c:forEach>
 				<c:forEach items="${data}" var="item" varStatus="rowIndex">
+					<c:if test="${defaultAction != null}">
+						<c:set var="rowClick" value="location.href='${pageContext.request.contextPath}/${defaultAction.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
+						<c:if test="${action.targetEntity == null}">
+							<c:set var="selectionColumnName" value="${selectionColumn.name}" />
+							<c:set var="rowClick" value="document.getElementById('${selectionColumnName}_${rowIndex.index}').value='${defaultAction.action.actionValue}';doPost()" />
+						</c:if>
+					</c:if>
 					<c:forEach begin="0" end="${tableDefinition.rowGaps-1}" var="rowGap">
-						<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}">
-							<c:if test="${not foundSelectionField}">
+						<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}" onclick="${rowClick}">
+							<c:if test="${selectionColumn == null}">
 								<td><c:forEach items="${tableActions}" var="action" varStatus="counter">
 										<c:choose>
 											<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
@@ -116,7 +128,7 @@
 									<td colspan="${column.colSpan}"><c:choose>
 											<c:when test="${column.selectionField}">
 												<input type="hidden" name="${column.name}_${rowIndex.index}" id="${column.name}_${rowIndex.index}" />
-												<c:set var="foundSelectionField" value="true" />
+												<c:set var="selectionColumn" value="${column}" />
 												<c:set var="columnFieldName" value="${column.name}Field"/>
 												<c:set var="editable" value="true" />
 												<c:if test="${olf:hasProperty(item,columnFieldName)}">
