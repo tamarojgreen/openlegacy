@@ -26,6 +26,11 @@ privileged @SuppressWarnings("unused") aspect DisplayTheLoadallSubfileRecord_Asp
     }
     
 
+    public String DisplayTheLoadallSubfileRecord.getFocusField(){
+    	return this.focusField;
+    }
+    
+
 
     public int DisplayTheLoadallSubfileRecord.hashCode(){
 		return HashCodeBuilder.reflectionHashCode(this);

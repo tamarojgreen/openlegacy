@@ -19,7 +19,7 @@
 		class="org.openlegacy.terminal.mock.MockTerminalConnectionFactory">
 		<property name="root" value="/org/openlegacy/terminal/modules/table/positiondrilldown" />
 		<property name="trailName" value="PositionDrillDownMenu.trail" />
+		<property name="verifySend" value="true" />
 	</bean>
-
 
 </beans>

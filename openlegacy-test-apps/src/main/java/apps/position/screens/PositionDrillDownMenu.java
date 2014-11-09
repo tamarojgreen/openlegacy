@@ -6,6 +6,7 @@ import org.openlegacy.annotations.screen.ScreenEntity;
 import org.openlegacy.annotations.screen.ScreenField;
 import org.openlegacy.annotations.screen.ScreenIdentifiers;
 import org.openlegacy.annotations.screen.ScreenTable;
+import org.openlegacy.annotations.screen.ScreenTableDrilldown;
 
 import java.util.List;
 
@@ -19,14 +20,25 @@ public class PositionDrillDownMenu {
 	private List<DisplayTheLoadallSubfileRecord> displayTheLoadallSubfileRecords;
 
 	@ScreenTable(startRow = 8, endRow = 12)
+	@ScreenTableDrilldown()
 	public static class DisplayTheLoadallSubfileRecord {
 
 		@ScreenColumn(startColumn = 12, endColumn = 14, key = true, displayName = "Column1", sampleValue = "123")
 		private Integer column1;
-		@ScreenColumn(startColumn = 28, endColumn = 39, mainDisplayField = true, displayName = "Column2", sampleValue = "123456789abc")
+		@ScreenColumn(startColumn = 28, endColumn = 39, mainDisplayField = true, displayName = "Column2", sampleValue = "123456789abc", selectionField = true)
 		private String column2;
 		@ScreenColumn(startColumn = 49, endColumn = 51, displayName = "Column3", sampleValue = "123")
 		private Integer column3;
+
+		private String focusField;
+
+		public void focus(String... field) {
+			if (field.length > 0) {
+				focusField = field[0];
+			} else {
+				focusField = "column1";
+			}
+		}
 
 	}
 

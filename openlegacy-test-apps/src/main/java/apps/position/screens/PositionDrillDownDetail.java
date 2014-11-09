@@ -11,7 +11,7 @@ import org.openlegacy.annotations.screen.ScreenNavigation;
 @ScreenNavigation(accessedFrom = PositionDrillDownMenu.class)
 public class PositionDrillDownDetail {
 
-	@ScreenField(column = 60, endColumn = 64, row = 1, editable = false)
+	@ScreenField(column = 60, endColumn = 64, row = 1, editable = false, key = true)
 	String rrn;
 
 }

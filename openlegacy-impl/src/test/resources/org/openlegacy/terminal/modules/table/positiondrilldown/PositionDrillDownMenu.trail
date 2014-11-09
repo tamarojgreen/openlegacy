@@ -160,7 +160,7 @@
             <field column="45" value="00000" length="5" color="BLUE"/>
         </row>
         <size rows="24" columns="80"/>
-        <cursor row="1" column="1"/>
+        <cursor row="11" column="12"/>
     </snapshot>
     <snapshot type="INCOMING" sequence="3">
         <row rowNumber="1">
