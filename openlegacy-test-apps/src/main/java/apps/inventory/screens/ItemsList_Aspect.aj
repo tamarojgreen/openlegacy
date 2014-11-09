@@ -14,7 +14,7 @@ privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
     private String ItemsList.focusField;
     private List<TerminalActionDefinition> ItemsList.actions = new ArrayList<TerminalActionDefinition>();
     
-    private List<TerminalActionDefinition> ItemsList.itemListRowActions = new ArrayList<TerminalActionDefinition>();
+    private List<TerminalActionDefinition> ItemsList.itemListRowsActions = new ArrayList<TerminalActionDefinition>();
 	
 
 	
@@ -59,8 +59,8 @@ privileged @SuppressWarnings("unused") aspect ItemsList_Aspect {
     	return actions;
     }
 
-    public List<TerminalActionDefinition> ItemsList.getItemsListRowActions(){
-    	return itemListRowActions;
+    public List<TerminalActionDefinition> ItemsList.getItemsListRowsActions(){
+    	return itemListRowsActions;
     }
   
 }

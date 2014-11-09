@@ -25,7 +25,7 @@ public class ScreenEntityTablesBinderTest extends AbstractTest {
 		ItemsList itemsList = terminalSession.getEntity(ItemsList.class);
 
 		// only 1 of 2 table action should return - since 1 is conditioned wrongly
-		Assert.assertEquals(1, itemsList.getItemsListRowActions().size());
+		Assert.assertEquals(1, itemsList.getItemsListRowsActions().size());
 
 		List<ItemsListRow> rows = itemsList.getItemListRows();
 		Assert.assertNotNull(rows);
