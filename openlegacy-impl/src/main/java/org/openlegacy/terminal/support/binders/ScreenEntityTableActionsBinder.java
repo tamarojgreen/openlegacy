@@ -11,6 +11,8 @@
 package org.openlegacy.terminal.support.binders;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.terminal.ScreenEntityBinder;
 import org.openlegacy.terminal.TerminalSendAction;
@@ -29,6 +31,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class ScreenEntityTableActionsBinder implements ScreenEntityBinder {
+
+	private final static Log logger = LogFactory.getLog(ScreenEntityTableActionsBinder.class);
 
 	@Inject
 	private ScreenEntitiesRegistry entitiesRegistry;
@@ -58,9 +62,17 @@ public class ScreenEntityTableActionsBinder implements ScreenEntityBinder {
 				}
 			}
 
-			List<ActionDefinition> tableActions = (List<ActionDefinition>)ReflectionUtil.invoke(screenEntity,
-					MessageFormat.format("get{0}sActions", StringUtils.capitalize(screenTableDefinition.getTableEntityName())));
-			tableActions.addAll(entityActions);
+			String tableName = StringUtils.capitalize(screenTableDefinition.getTableEntityName());
+			String methodName = MessageFormat.format("get{0}sActions", tableName);
+			try {
+				List<ActionDefinition> tableActions = (List<ActionDefinition>)ReflectionUtil.invoke(screenEntity, methodName);
+				if (tableActions != null) {
+					tableActions.addAll(entityActions);
+				}
+			} catch (RuntimeException e) {
+				logger.warn(MessageFormat.format("No {0} method found in entity:{1}", methodName,
+						entityDefinition.getEntityName()));
+			}
 
 		}
 	}
