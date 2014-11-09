@@ -66,17 +66,19 @@
 						</c:if>
 					</c:forEach>
 				</tr>
+				<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+				<c:set var="tableActionsProperty" value="${tableDefinition.tableEntityName}sActions" />
+				<c:set var="tableActions" value="${model[tableActionsProperty]}" />
 				<c:forEach items="${data}" var="item" varStatus="rowIndex">
 					<c:forEach begin="0" end="${tableDefinition.rowGaps-1}" var="rowGap">
 						<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}">
 							<c:if test="${not foundSelectionField}">
-								<td><c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
+								<td><c:forEach items="${tableActions}" var="action" varStatus="counter">
 										<c:choose>
 											<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
 												<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
 											</c:when>
 											<c:otherwise>
-												<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
 												<c:set var="keysValues" value="${model[tableDefinition.keyFieldNames[0]]}" />
 											</c:otherwise>
 										</c:choose>
@@ -101,7 +103,7 @@
 										<a href="${target}" class="${actionsCss}" title="${action.displayName}">${action.displayName} <span> <!--  -->
 										</span>
 										</a>
-										<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}">
+										<c:if test="${(counter.index+1) != fn:length(tableActions) and not actionsAsIcons}">
 											<span class="actions_separator"> | </span>
 										</c:if>
 									</c:forEach></td>
@@ -122,7 +124,7 @@
 												</c:if>
 												<c:if test="${editable}">
 												<c:choose>
-													<c:when test="${fn:length(tableDefinition.actions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
+													<c:when test="${fn:length(tableActions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
 														<c:if test="${fn:length(tableDefinition.mainDisplayFields) &gt; 0 and definitions.window}">
 															<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayFields[0]]}');" class="${actionsCss}" title="${label_select}">${label_select}</a>
 														</c:if>
@@ -130,10 +132,10 @@
 															<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}');" class="${actionsCss}" title="${label_select}">${label_select}</a>
 														</c:if>
 													</c:when>
-													<c:when test="${fn:length(tableDefinition.actions) &gt; 4}">
+													<c:when test="${fn:length(tableActions) &gt; 4}">
 														<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect" dir="${dir}">
 															<option value="">- Select -</option>
-															<c:forEach items="${tableDefinition.actions}" var="action">
+															<c:forEach items="${tableActions}" var="action">
 																<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
 																<c:if test="${action.targetEntity == null}">
 																	<c:set var="target" value="alert('No target entity specified for table action in table class @ScreenTableActions annotation')" />
@@ -144,7 +146,7 @@
 													</c:when>
 													<c:otherwise>
 														<input type="hidden" name="${column.name}_${rowIndex.index}" id="${column.name}_${rowIndex.index}" />
-														<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
+														<c:forEach items="${tableActions}" var="action" varStatus="counter">
 															<c:choose>
 																<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
 																	<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
@@ -175,7 +177,7 @@
 															<a href="${target}" class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName} <span> <!--  -->
 															</span>
 															</a>
-															<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}">
+															<c:if test="${(counter.index+1) != fn:length(tableActions) and not actionsAsIcons}">
 																<span class="actions_separator"> | </span>
 															</c:if>
 														</c:forEach>
@@ -184,7 +186,7 @@
 												</c:if>
 											</c:when>
 											<c:when test="${column.editable}">
-												<input name="${column.name}_${rowIndex.index}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" dir="${dir}" />
+												<input name="${column.name}_${rowIndex.index}" maxlength="${column.length}" size="${column.length}" value="${columnValue}" />
 											</c:when>
 											<c:otherwise>
 												<c:if test="${fixedFont}">

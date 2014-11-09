@@ -35,8 +35,9 @@ public class ItemsList {
 	private String errorMessage;
 
 	@ScreenTable(startRow = 8, endRow = 19, filterExpression = "alphaSearch matches '--+'")
-	@ScreenTableActions(actions = { @TableAction(actionValue = "1", displayName = "View", targetEntity = ItemDetails1.class),
-			@TableAction(actionValue = "2", displayName = "Revise") })
+	@ScreenTableActions(actions = {
+			@TableAction(actionValue = "1", displayName = "View", targetEntity = ItemDetails1.class, row = 5, column = 10, length = 8, when = "2.*"),
+			@TableAction(actionValue = "2", displayName = "Revise", row = 5, column = 4, length = 8, when = "2.*") })
 	@ScreenTableDrilldown
 	public static class ItemsListRow {
 

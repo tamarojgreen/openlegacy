@@ -119,6 +119,7 @@
 	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityFieldsBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityTablesBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityActionsBinder" />
+	<bean class="org.openlegacy.terminal.support.binders.ScreenEntityTableActionsBinder" />
 	<bean class="org.openlegacy.terminal.support.binders.ScreenBinderLogic" />
 	<bean class="org.openlegacy.terminal.support.binders.ScreenFieldsExpressionBinder" />
 	

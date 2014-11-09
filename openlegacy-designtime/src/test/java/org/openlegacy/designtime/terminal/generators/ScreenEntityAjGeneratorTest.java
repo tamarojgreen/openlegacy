@@ -63,6 +63,11 @@ public class ScreenEntityAjGeneratorTest {
 
 	@Test
 	public void testTable() throws Exception {
+		testGenerate();
+	}
+
+	@Test
+	public void testTableAspect() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream("testTable.java.resource"));
 
