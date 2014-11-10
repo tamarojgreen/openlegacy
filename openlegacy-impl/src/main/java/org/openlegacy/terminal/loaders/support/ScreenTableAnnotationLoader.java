@@ -91,7 +91,7 @@ public class ScreenTableAnnotationLoader extends AbstractClassAnnotationLoader {
 				if (column1.getRowsOffset() != column2.getRowsOffset()) {
 					return column1.getRowsOffset() - column2.getRowsOffset();
 				}
-				if (olProperties.isRightToLeft() && !tableRtlDirection) {
+				if ((olProperties.isRightToLeft() && !tableRtlDirection) || (!olProperties.isRightToLeft() && tableRtlDirection)) {
 					return column2.getStartColumn() - column1.getStartColumn();
 				}
 				return column1.getStartColumn() - column2.getStartColumn();
