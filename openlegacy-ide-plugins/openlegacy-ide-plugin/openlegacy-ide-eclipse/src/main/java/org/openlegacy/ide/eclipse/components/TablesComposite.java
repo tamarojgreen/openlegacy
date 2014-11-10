@@ -429,6 +429,7 @@ public class TablesComposite extends Composite {
 	private ISelectionChangedListener getDefaultSelectionChangedListener() {
 		return new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 				if (!selection.isEmpty()) {

@@ -61,6 +61,7 @@ public class TrailJob extends Job {
 							folder.refreshLocal(1, monitor);
 							Display.getDefault().asyncExec(new Runnable() {
 
+								@Override
 								public void run() {
 									(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(),
 											IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();

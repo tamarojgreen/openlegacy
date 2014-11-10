@@ -209,6 +209,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		screenTypeCombo.setText(screenEntityDefinition.getTypeName());
 		screenTypeCombo.addModifyListener(new ModifyListener() {
 
+			@Override
 			@SuppressWarnings("unchecked")
 			public void modifyText(ModifyEvent e) {
 				if (!(screenEntityDefinition instanceof SimpleScreenEntityDefinition)) {

@@ -54,6 +54,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 		setDescription(Messages.getString("info_ol_project_wizard"));//$NON-NLS-1$
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -99,6 +100,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 
 		getControl().getDisplay().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				tableViewer.setInput(themeNames);
 				TableItem item = tableViewer.getTable().getItem(0);
@@ -119,6 +121,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 		if (allThemes == null || allThemes.isEmpty()) {
 			getControl().getDisplay().syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					updateStatus(Messages.getString("error_new_project_metadata_not_found"));//$NON-NLS-1$
 				}
@@ -134,6 +137,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 
 		getControl().getDisplay().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				tableViewer.setInput(themeNames);
 				tableViewer.getTable().select(0);
@@ -147,6 +151,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 	private PaintListener getCanvasPaintListener() {
 		return new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				if (projectThemes == null) {
 					return;
@@ -171,6 +176,7 @@ public class OpenLegacyWizardThemePage extends AbstractOpenLegacyWizardPage {
 	private ISelectionChangedListener getTableSelectionListener() {
 		return new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent e) {
 				if (projectThemes != null) {
 					canvas.redraw();

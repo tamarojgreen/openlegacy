@@ -73,6 +73,7 @@ public class EclipseDesignTimeExecuter {
 
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				try {
 					ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
@@ -104,6 +105,7 @@ public class EclipseDesignTimeExecuter {
 
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
 			}
@@ -131,6 +133,7 @@ public class EclipseDesignTimeExecuter {
 
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
 			}
@@ -263,6 +266,7 @@ public class EclipseDesignTimeExecuter {
 
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
 			}
@@ -286,6 +290,7 @@ public class EclipseDesignTimeExecuter {
 
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
 			}
@@ -351,6 +356,7 @@ public class EclipseDesignTimeExecuter {
 
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				(new GlobalBuildAction(Activator.getActiveWorkbenchWindow(), IncrementalProjectBuilder.INCREMENTAL_BUILD)).run();
 			}

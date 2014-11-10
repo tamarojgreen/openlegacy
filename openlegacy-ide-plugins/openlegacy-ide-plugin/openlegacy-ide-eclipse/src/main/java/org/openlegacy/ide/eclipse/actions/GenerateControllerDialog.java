@@ -77,6 +77,7 @@ public class GenerateControllerDialog extends AbstractGenerateCodeDialog {
 
 				Display.getDefault().syncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						try {
 							monitor.worked(1);

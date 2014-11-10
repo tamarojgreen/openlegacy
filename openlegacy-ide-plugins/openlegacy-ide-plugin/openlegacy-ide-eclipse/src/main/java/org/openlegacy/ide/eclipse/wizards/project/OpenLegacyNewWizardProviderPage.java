@@ -44,6 +44,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		setDescription(Messages.getString("info_ol_project_wizard"));
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -80,6 +81,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 
 		hostName.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
 			}
@@ -93,6 +95,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		hostPort.setText(String.valueOf(DesignTimeExecuter.DEFAULT_PORT));
 		hostPort.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
 			}
@@ -106,6 +109,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		codePage.setText(String.valueOf(DesignTimeExecuter.DEFAULT_CODE_PAGE));
 		codePage.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
 			}
@@ -225,6 +229,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 		if (list == null || list.isEmpty()) {
 			getControl().getDisplay().syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					setEnabled(false);
 					updateStatus(Messages.getString("error_new_project_metadata_not_found"));
@@ -244,6 +249,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 
 		getControl().getDisplay().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				setEnabled(true);
 				providerName.setItems(providerNames);
@@ -251,6 +257,7 @@ public class OpenLegacyNewWizardProviderPage extends WizardPage {
 				providerName.select(0);
 				providerName.addModifyListener(new ModifyListener() {
 
+					@Override
 					public void modifyText(ModifyEvent e) {
 						dialogChanged();
 					}

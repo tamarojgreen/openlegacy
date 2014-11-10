@@ -86,6 +86,7 @@ public class GenerateServiceDialog extends AbstractGenerateCodeDialog {
 
 				Display.getDefault().syncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						try {
 							monitor.worked(1);
@@ -114,10 +115,12 @@ public class GenerateServiceDialog extends AbstractGenerateCodeDialog {
 
 		generatePool.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				setGeneratePool(true);
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setGeneratePool(!isGeneratePool());
 			}

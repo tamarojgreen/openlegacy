@@ -18,6 +18,7 @@ public class GenerateViewAction extends AbstractAction {
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		GenerateViewDialog dialog = new GenerateViewDialog(getShell(), getSelection());
 		dialog.open();

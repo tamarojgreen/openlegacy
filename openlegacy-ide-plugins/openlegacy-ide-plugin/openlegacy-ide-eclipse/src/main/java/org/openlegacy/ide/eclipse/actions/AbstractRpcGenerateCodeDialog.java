@@ -56,10 +56,12 @@ public abstract class AbstractRpcGenerateCodeDialog extends AbstractGenerateMode
 		sourceFolderButton.setText(Messages.getString("label_browse"));
 		sourceFolderButton.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleSourceFolderButtonSelected();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -73,6 +75,7 @@ public abstract class AbstractRpcGenerateCodeDialog extends AbstractGenerateMode
 
 		getPackageText().addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent paramModifyEvent) {
 				packageValue = getPackageText().getText();
 			}
@@ -87,6 +90,7 @@ public abstract class AbstractRpcGenerateCodeDialog extends AbstractGenerateMode
 		getNavigationText().setLayoutData(gd);
 		getNavigationText().addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent arg0) {
 				navigationValue = getNavigationText().getText();
 
@@ -101,6 +105,7 @@ public abstract class AbstractRpcGenerateCodeDialog extends AbstractGenerateMode
 		getActionText().setLayoutData(gd);
 		getActionText().addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent arg0) {
 				actionValue = getActionText().getText();
 
