@@ -29,6 +29,7 @@ public class OpenLegacyPerspective implements IPerspectiveFactory {
 	private static final String SCREEN_PREVIEW_ID = "org.openlegacy.ide.eclipse.preview.ScreenPreview"; //$NON-NLS-1$
 	private static final String RPC_PREVIEW_ID = "org.openlegacy.ide.eclipse.preview.RpcPreview"; //$NON-NLS-1$
 
+	@Override
 	public void createInitialLayout(IPageLayout layout) {
 		defineActions(layout);
 		defineLayout(layout);

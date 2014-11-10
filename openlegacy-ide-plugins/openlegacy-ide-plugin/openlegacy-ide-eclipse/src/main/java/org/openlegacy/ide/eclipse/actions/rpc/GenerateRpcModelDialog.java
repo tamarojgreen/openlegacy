@@ -30,6 +30,7 @@ public class GenerateRpcModelDialog extends AbstractRpcGenerateCodeDialog {
 		getActionValue(), getNavigationValue());
 	}
 
+	@Override
 	public boolean customizeEntity(EntityDefinition<?> entityDefinition, GenerateModelRequest generateModelRequest) {
 		return true;
 	}

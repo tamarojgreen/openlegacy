@@ -117,6 +117,7 @@ public class OpenLegacyNewProjectWizard extends BasicNewResourceWizard implement
 		return true;
 	}
 
+	@Override
 	public WizardModel getWizardModel() {
 		return wizardModel;
 	}

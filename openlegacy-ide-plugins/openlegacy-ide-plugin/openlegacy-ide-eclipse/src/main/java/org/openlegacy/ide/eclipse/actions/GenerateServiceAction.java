@@ -23,6 +23,7 @@ public class GenerateServiceAction extends AbstractAction {
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		IFile file = (IFile)((ICompilationUnit)((TreeSelection)selection).getFirstElement()).getResource();
 		if (!EclipseDesignTimeExecuter.instance().isSupportServiceGeneration(file.getProject())) {

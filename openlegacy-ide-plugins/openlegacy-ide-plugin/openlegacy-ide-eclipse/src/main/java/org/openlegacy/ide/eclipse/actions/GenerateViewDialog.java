@@ -156,6 +156,7 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 
 				Display.getDefault().syncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						try {
 							monitor.worked(1);
@@ -195,10 +196,12 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 		return file.getProject();
 	}
 
+	@Override
 	public boolean isOverride(final File file) {
 		final Object[] result = new Object[1];
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				result[0] = MessageDialog.openQuestion(getShell(), PluginConstants.TITLE,
 						MessageFormat.format(Messages.getString("question_override_file"), file.getName()));
@@ -208,13 +211,16 @@ public class GenerateViewDialog extends Dialog implements UserInteraction {
 		return (Boolean)result[0];
 	}
 
+	@Override
 	public void open(File file) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void open(final File file, EntityDefinition<?> entityDefinition) {
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				IPath projectLocation = getProject().getLocation();
 				if (projectLocation == null) {

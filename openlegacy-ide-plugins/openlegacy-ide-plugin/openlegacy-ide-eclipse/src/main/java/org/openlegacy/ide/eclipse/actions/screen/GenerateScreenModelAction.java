@@ -24,6 +24,7 @@ public class GenerateScreenModelAction extends AbstractAction {
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		Object firstElement = ((TreeSelection)getSelection()).getFirstElement();
 		if (!(firstElement instanceof IFile)) {

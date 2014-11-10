@@ -59,6 +59,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		setDescription(Messages.getString("info_ol_project_wizard"));
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
@@ -93,6 +94,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		projectNameTxt.setLayoutData(gd);
 		projectNameTxt.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
 			}
@@ -108,6 +110,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		defaultPackageTxt.setLayoutData(gd);
 		defaultPackageTxt.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				dialogChanged();
 			}
@@ -115,8 +118,10 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 
 		defaultPackageTxt.addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusLost(FocusEvent arg0) {}
 
+			@Override
 			public void focusGained(FocusEvent arg0) {
 				if (defaultPackageTxt.getText().isEmpty() && !projectNameTxt.getText().isEmpty()) {
 					defaultPackageTxt.setText(MessageFormat.format("com.{0}.openlegacy", projectNameTxt.getText().toLowerCase()));
@@ -131,10 +136,12 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		rightTotLeftCb.setLayoutData(gd);
 		rightTotLeftCb.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setRightTotLeft(!isRightTotLeft());
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				setRightTotLeft(true);
 			}
@@ -273,6 +280,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 		if (list == null || list.isEmpty()) {
 			getControl().getDisplay().syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					setEnabled(false);
 					updateStatus(Messages.getString("error_new_project_metadata_not_found"));
@@ -292,6 +300,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 
 		getControl().getDisplay().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				setEnabled(true);
 				templateName.setItems(projectTemplates);
@@ -299,6 +308,7 @@ public class OpenLegacyNewWizardGeneralPage extends WizardPage {
 				templateName.select(1);
 				templateName.addModifyListener(new ModifyListener() {
 
+					@Override
 					public void modifyText(ModifyEvent e) {
 						dialogChanged();
 					}

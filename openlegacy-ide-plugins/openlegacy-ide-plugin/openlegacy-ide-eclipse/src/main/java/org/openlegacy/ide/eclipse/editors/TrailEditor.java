@@ -184,6 +184,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		menuItem.setText(Messages.getString("menu_generate_model"));
 		menuItem.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				int[] selectionIndexes = tableViewer.getTable().getSelectionIndices();
 				TerminalSnapshot[] snapshots = new TerminalSnapshot[selectionIndexes.length];
@@ -197,6 +198,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				widgetSelected(arg0);
 			}
@@ -206,6 +208,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		menuItem.setText(Messages.getString("menu_new_screen"));
 		menuItem.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				int[] selectionIndexes = tableViewer.getTable().getSelectionIndices();
 				TerminalSnapshot snapshot = terminalSessionTrail.getSnapshots().get(selectionIndexes[0]);
@@ -215,6 +218,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 				dialog.open();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				widgetSelected(arg0);
 			}
@@ -265,8 +269,10 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		tableViewer.getTable().setLayoutData(data);
 		tableViewer.getTable().addKeyListener(new KeyListener() {
 
+			@Override
 			public void keyReleased(KeyEvent event) {}
 
+			@Override
 			public void keyPressed(KeyEvent event) {
 				// delete
 				if (event.keyCode == SWT.DEL) {
@@ -301,6 +307,7 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 		});
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				ISelection selection = event.getSelection();
 				Object firstElement = ((StructuredSelection)selection).getFirstElement();
@@ -406,10 +413,12 @@ public class TrailEditor extends MultiPageEditorPart implements IResourceChangeL
 	/**
 	 * Closes all project files on project close.
 	 */
+	@Override
 	public void resourceChanged(final IResourceChangeEvent event) {
 		if (event.getType() == IResourceChangeEvent.PRE_CLOSE) {
 			Display.getDefault().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					IWorkbenchPage[] pages = getSite().getWorkbenchWindow().getPages();
 					for (IWorkbenchPage page : pages) {

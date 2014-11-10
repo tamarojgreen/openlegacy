@@ -93,6 +93,7 @@ public class RpcComposite extends ImageComposite {
 	private PaintListener getRectanglePaintListener() {
 		return new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent event) {
 				drawImage(defaultImage, event.gc);
 			}
@@ -173,6 +174,7 @@ public class RpcComposite extends ImageComposite {
 		shell.setBounds(x - 1, y - 1, imageBounds.width + 2, imageBounds.height + 2);
 		shell.addPaintListener(new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				if (isVisible()) {
 					e.gc.drawImage(defaultImage, 1, 1);
@@ -192,6 +194,7 @@ public class RpcComposite extends ImageComposite {
 	private Listener getShellMouseListener(final Shell shell) {
 		return new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				if (shell.isVisible()) {
 					shell.close();

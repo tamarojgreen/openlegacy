@@ -25,6 +25,7 @@ public class CustomizeDesigntimeContextAction extends AbstractAction {
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		boolean cont = MessageDialog.openConfirm(getShell(), Messages.getString("title_openlegacy"), MessageFormat.format(
 				Messages.getString("message_customize_context"), DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH));

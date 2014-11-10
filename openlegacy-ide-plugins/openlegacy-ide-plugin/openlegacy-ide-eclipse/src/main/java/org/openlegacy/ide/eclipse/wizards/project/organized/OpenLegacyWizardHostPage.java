@@ -42,6 +42,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		setDescription(Messages.getString("info_ol_project_wizard"));
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -133,6 +134,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 				}
 				getControl().getDisplay().syncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						hostTypeCombo.setItems(hostNames.toArray(new String[] {}));
 						hostTypeCombo.select(0);
@@ -145,6 +147,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		if (!StringUtils.isEmpty(codePage)) {
 			getControl().getDisplay().syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					codePageText.setText(codePage);
 				}
@@ -161,6 +164,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 		if (!hostTypes.isEmpty()) {
 			getControl().getDisplay().syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					updateStatus(Messages.getString("error_new_project_metadata_not_found"));
 				}
@@ -195,6 +199,7 @@ public class OpenLegacyWizardHostPage extends AbstractOpenLegacyWizardPage {
 	private ModifyListener getDefaultModifyListener() {
 		return new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (validateControls()) {
 					getWizardModel().setHost(hostText.getText());
