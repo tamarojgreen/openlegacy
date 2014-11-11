@@ -25,6 +25,7 @@ import org.openlegacy.definitions.FieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleBooleanFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleDateFieldTypeDefinition;
 import org.openlegacy.definitions.support.SimpleEnumFieldTypeDefinition;
+import org.openlegacy.designtime.terminal.generators.support.ScreenAnnotationConstants;
 import org.openlegacy.ide.eclipse.Activator;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.components.providers.FieldsTableContentProvider;
@@ -35,6 +36,7 @@ import org.openlegacy.ide.eclipse.components.support.DialogEditingSupport;
 import org.openlegacy.ide.eclipse.components.support.TextEditingSupport;
 import org.openlegacy.ide.eclipse.preview.screen.SelectedObject;
 import org.openlegacy.ide.eclipse.util.PopupUtil;
+import org.openlegacy.terminal.ScreenSize;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalPositionContainer;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
@@ -67,10 +69,15 @@ public class TablesComposite extends Composite {
 	private TableViewer identifiersTableViewer;
 
 	private Control paintedControl = null;
+	private ScreenSize screenSize;
 
 	public TablesComposite(Composite parent, int style, ScreenEntityDefinition screenEntityDefinition) {
 		super(parent, style);
 		this.screenEntityDefinition = screenEntityDefinition;
+		screenSize = screenEntityDefinition.getScreenSize();
+		if (screenSize == null) {
+			screenSize = screenEntityDefinition.getSnapshot().getSize();
+		}
 		createLayout();
 	}
 
@@ -269,14 +276,14 @@ public class TablesComposite extends Composite {
 		return composite;
 	}
 
-	private static void createFieldsTableColumns(TableViewer tableViewer) {
+	private void createFieldsTableColumns(TableViewer tableViewer) {
 		// "Fields"
 		TableViewerColumn vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_fields"));
 		tcol.setResizable(false);
 		tcol.setWidth(115);
-		vcol.setEditingSupport(new TextEditingSupport(tableViewer));
+		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.FIELD, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -291,6 +298,7 @@ public class TablesComposite extends Composite {
 		tcol.setText(Messages.getString("label_col_row"));
 		tcol.setResizable(false);
 		tcol.setWidth(38);
+		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.ROW, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -305,6 +313,7 @@ public class TablesComposite extends Composite {
 		tcol.setText(Messages.getString("label_col_column"));
 		tcol.setResizable(false);
 		tcol.setWidth(40);
+		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.COLUMN, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -345,14 +354,14 @@ public class TablesComposite extends Composite {
 		});
 	}
 
-	private static void createIdentifiersTableColumns(TableViewer tableViewer) {
+	private void createIdentifiersTableColumns(TableViewer tableViewer) {
 		// "Fields"
 		TableViewerColumn vcol = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tcol = vcol.getColumn();
 		tcol.setText(Messages.getString("label_col_identifiers"));
 		tcol.setResizable(false);
 		tcol.setWidth(240);
-		vcol.setEditingSupport(new TextEditingSupport(tableViewer));
+		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.IDENTIFIERS, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -367,6 +376,7 @@ public class TablesComposite extends Composite {
 		tcol.setText(Messages.getString("label_col_row"));
 		tcol.setResizable(false);
 		tcol.setWidth(60);
+		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.ROW, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
@@ -381,6 +391,7 @@ public class TablesComposite extends Composite {
 		tcol.setText(Messages.getString("label_col_column"));
 		tcol.setResizable(false);
 		tcol.setWidth(60);
+		vcol.setEditingSupport(new TextEditingSupport(tableViewer, ScreenAnnotationConstants.COLUMN, screenSize));
 		vcol.setLabelProvider(new CellLabelProvider() {
 
 			@Override
