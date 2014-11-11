@@ -1,0 +1,18 @@
+<div class="sidebar-nav">
+    <div class="navbar" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-sidebar-collapse">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+            <span class="visible-xs navbar-brand">Navigation</span>
+        </div>
+        <div class="navbar-collapse collapse ol-sidebar-collapse">
+            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">			            
+            	<li ng-repeat="menu in menuArray">			            				            	
+            		<h4 ng-if="menu.menuItems.length != 0">{{menu.displayName}}</h4>
+            		<a ng-if="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
+            	</li>			                	                
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>    

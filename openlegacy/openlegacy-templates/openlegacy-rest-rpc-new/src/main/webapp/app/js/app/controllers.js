@@ -7,13 +7,12 @@
 	var module = angular.module('controllers', []);
 
 	module = module.controller(
-		'loginController',
-		function($scope, $location, $olHttp, $rootScope) {
+		'loginCtrl',
+		function($scope, $olHttp, $rootScope, $state) {			
 			if ($.cookie('loggedInUser') != undefined) {
-				$location.path("/menu");
+				$state.go("menu");
 			}
-			$scope.login = function(username, password) {				
-				
+			$scope.login = function(username, password) {
 				$olHttp.get('login?user=' + username + '&password='+ password, 
 						function() {
 							var $expiration = new Date();
@@ -22,14 +21,14 @@
 							
 							$.cookie('loggedInUser', username, {expires: $expiration, path: '/'});
 							$rootScope.$broadcast("olApp:login:authorized", username);
-							$location.path("/menu");							
+							$state.go("menu");
 						}
 					);
 			};		
 		});
 	module = module.controller(
-		'logoffController',
-		function($scope, $location, $olHttp, $rootScope) {
+		'logoffCtrl',
+		function($scope, $olHttp, $rootScope) {
 			$olHttp.get('logoff', 
 				function() {
 					$.removeCookie("loggedInUser", {path: '/'});
@@ -37,8 +36,8 @@
 			);
 		});
 	
-	module = module.controller('HeaderCtrl',
-		function ($rootScope, $scope, $http, $location, $themeService) {    
+	module = module.controller('headerCtrl',
+		function ($rootScope, $scope, $http, $themeService, $state) {    
 			$rootScope.$on("olApp:login:authorized", function(e, value) {
 				$scope.username = value;
 			});
@@ -47,10 +46,9 @@
 				$scope.username = $.cookie('loggedInUser');
 			}
 			
-			
 			$scope.logout = function(){
 				delete $scope.username
-				$location.path("/logoff");
+				$state.go("logoff");
 			}
 			
 			$scope.changeTheme = function() {
@@ -62,23 +60,32 @@
 	module = module.controller(
 		'menuCtrl',
 		function($scope, flatMenu) {
-			flatMenu(function(data) {					
+			flatMenu(function(data) {				
 				$scope.menuArray = data;
 			});
 		});
+	
+	module = module.controller('breadcrumbsCtrl', function($scope, $rootScope, $olHttp, $state) {
+		var entityName = $state.current.name.replace("WithKey", "");
+			$olHttp.get(entityName + "/definitions", function(data) {				
+				if (data != null && data.definitions.navigationDefinition.category != null) {					
+					$scope.navCategory = data.definitions.navigationDefinition.category;					
+					$scope.entityName = entityName;
+				}				
+			});
+	});
 
 	// template for all entities	
 	<#if entitiesDefinitions??>	
 	<#list entitiesDefinitions as entityDefinition>
-		module = module.controller('${entityDefinition.entityName}Controller',
-			function($scope, $location, $olHttp,$routeParams, flatMenu) {
+		module = module.controller('${entityDefinition.entityName}Ctrl',
+			function($scope, $olHttp,$routeParams, flatMenu, $state) {			
 				$scope.noTargetScreenEntityAlert = function() {
 					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 				}; 
 				$scope.read = function(){					
 					$olHttp.get('${entityDefinition.entityName}/' <#if entityDefinition.keys?size &gt; 0>+ $routeParams.${entityDefinition.keys[0].name?replace(".", "_")}</#if>,					
-						function(data) {						
-						console.log(data.model.entity);
+						function(data) {
 							$scope.model = data.model.entity;							
 							$scope.baseUrl = olConfig.baseUrl;
 							
@@ -108,8 +115,7 @@
 								$scope.model = data.model.entity;								
 							}
 							else{					
-								
-								$location.path("/" + data.model.entityName);
+								$state.go(data.model.entityName);								
 							}
 						}
 					);
@@ -121,18 +127,17 @@
 	
 	</#list>
 	</#if>
-	
+
 /* Controller code place-holder start
 	<#if entityName??>
-	module = module.controller('${entityName}Controller',
-			function($scope, $location, $olHttp,$routeParams, flatMenu) {
+	module = module.controller('${entityName}Ctrl',
+			function($scope, $olHttp,$routeParams, flatMenu, $state) {
 				$scope.noTargetScreenEntityAlert = function() {
 					alert('No target entity specified for table action in table class @ScreenTableActions annotation');
 				}; 
 				$scope.read = function(){					
 					$olHttp.get('${entityName}/' <#if keys?size &gt; 0>+ $routeParams.${keys[0].name?replace(".", "_")}</#if>,					
-						function(data) {						
-						console.log(data.model.entity);
+						function(data) {
 							$scope.model = data.model.entity;							
 							$scope.baseUrl = olConfig.baseUrl;
 							
@@ -162,8 +167,7 @@
 								$scope.model = data.model.entity;								
 							}
 							else{					
-								
-								$location.path("/" + data.model.entityName);
+								$state.go(data.model.entityName);
 							}
 						}
 					);
@@ -179,7 +183,7 @@
 	/* Controller with JSONP code place-holder start
 	<#if entityName??>
 	module = module.controller('${entityName}Controller',
-		function($scope, $location, $http,$routeParams,$templateCache) {
+		function($scope, $http,$routeParams,$templateCache) {
 			<#list actions as action>
 			$scope.${action.alias} = function(){
 				$http({method: 'JSONP', url: olConfig.hostUrl + '/${entityName}/${action.programPath}/'<#if keys?size &gt; 0> + </#if><#list keys as key>$routeParams.${key.name?replace(".", "_")}<#if key_has_next>+</#if></#list> + '?callback=JSON_CALLBACK', cache: $templateCache}).

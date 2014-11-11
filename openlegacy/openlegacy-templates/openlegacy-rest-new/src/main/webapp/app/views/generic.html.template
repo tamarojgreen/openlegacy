@@ -1,107 +1,21 @@
-<div class="container-fluid">
-	<div class="row">
-	
-		<!--      sidebar       -->
-		
-		<div class="col-sm-3 col-md-2 no-gutters-sm">
-			<div class="sidebar-nav">
-			    <div class="navbar" role="navigation">
-			        <div class="navbar-header">
-			            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ol-sidebar-collapse">
-			                <span class="glyphicon glyphicon-chevron-down"></span>
-			            </button>
-			            <span class="visible-xs navbar-brand">Navigation</span>
-			        </div>
-			        <div class="navbar-collapse collapse ol-sidebar-collapse">
-			            <ul class="nav navbar-nav nav-pills nav-stacked top-margin-10">			            
-			            	<li ng-repeat="menu in menuArray">			            				            	
-			            		<h4 ng-show="menu.menuItems.length != 0">{{menu.displayName}}</h4>
-			            		<a ng-show="menu.menuItems.length == 0" ng-href="#/{{menu.targetEntityName}}">{{menu.displayName}}</a>			            		
-			            	</li>			                	                
-			            </ul>
-			        </div><!--/.nav-collapse -->
-			    </div>
-			</div>    
-		</div>
-		
-		 <!--/sidebar -->
-		 
-		<div class="col-sm-9 col-md-10"><!--  main   -->
-		
-			<ol class="breadcrumb hidden-xs">
-				<li ng-repeat="bc in breadcrumbs" ng-class="{active : $last}" >
-					<a ng-show="!$last" data-ng-href="#/{{bc.entityName}}">{{bc.displayName}}</a>
-					<span ng-show="$last">{{bc.displayName}}</span>
-				</li>
-			</ol>
-			
-			<#assign hasTable = false>			
-			<#list pageParts as part>
-				<#if part.hasTable>
-					<#assign hasTable = true>												
-				</#if>
-			</#list>			
-			
-			<#if (entityDefinition.childEntitiesDefinitions?size == 0)>
-				<h1>${entityDefinition.displayName}</h1>
-			</#if>
-			
-			<div class="panel panel-default">
-				<div class="panel-body">
-										
-	
+<#assign hasTable = false>			
+<#list pageParts as part>			
+	<#if part.hasTable>
+		<#assign hasTable = true>												
+	</#if>
+</#list>			
 
-					<#if (entityDefinition.childEntitiesDefinitions?size > 0)>
-						<div class="tab-content top-margin-10">            	
-							<ul class="nav nav-tabs">
-			            		<li class="active"><a href="/#${entityDefinition.entityName}" data-toggle="tab" ng-click="loadTab('${entityDefinition.entityName}')">${entityDefinition.displayName}</a></li>
-			            		<#list entityDefinition.childEntitiesDefinitions as childEntity>
-			            			<li><a href="/#${childEntity.entityName}" data-toggle="tab" ng-click="loadTab('${childEntity.entityName}')">${childEntity.displayName}</a></li>
-			            		</#list>	            		
-			            	</ul>			            	
-							<div class="tab-content"><!-- Tab panes -->
-							  <div class="tab-pane active" id="${entityDefinition.entityName}">
-							    <@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
-								<#list pageParts as part>											
-									<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
-									<@pagePart entity=entityDefinition part=part/>
-								</#list>
-								
-							  </div>
-							  <#list entityDefinition.childEntitiesDefinitions as childEntity>		            			
-		            			<div class="tab-pane" id="${childEntity.entityName}">			            					            				
-								    <@navMacro entity=childEntity showExcelBtn=hasTable?string/>
-								    <#if (childEntity.partsDefinitions?size > 0)>
-								    	<#list childEntity.partsDefinitions as part>											
-											<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
-											<@pagePart entity=childEntity part=part/>
-										</#list>
-						    		<#else>						    			
-						    			<#list childEntity.fieldsDefinitions?keys as key>						    			
-								    		<@fieldMacro field=childEntity.fieldsDefinitions[key]/>
-						    			</#list>							    		
-								    </#if>
-		            			</div>
-		            		  </#list>						  
-							</div><!-- /Tab panes -->
-						</div>
-					<#else>
-						<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
-						<#list pageParts as part>											
-							<#if part.displayName??><div class="panel-heading">${part.displayName}</div></#if>		
-							<@pagePart entity=entityDefinition part=part/>
-						</#list> 					
-	            	</#if>
-				</div>
-			</div>
-			<div class="modal fade ol-screenshot" tabindex="-1" role="dialog" aria-labelledby="screenshotModal" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <img src="{{baseUrl}}sessionViewer/image" class="img-thumbnail">
-                    </div>
-                </div>
-            </div>                       		
-		</div><!--  /main   -->
+<#if (entityDefinition.childEntitiesDefinitions?size == 0)>
+	<h1>${entityDefinition.displayName}</h1>
+</#if>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<@navMacro entity=entityDefinition showExcelBtn=hasTable?string/>					
+		<#list pageParts as part>																	
+			<#if part.displayName??><div class="panel-heading"><h3>${part.displayName}</h3></div></#if>		
+			<@pagePart entity=entityDefinition part=part/>
+		</#list>
 	</div>
 </div>									
 										
