@@ -122,6 +122,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				columnsTableViewer.setInput(event.getSelection());
 				actionsTableViewer.setInput(event.getSelection());
@@ -134,6 +135,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		columnsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(spart, event.getSelection());
 			}
@@ -143,6 +145,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		actionsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(spart, event.getSelection());
 			}

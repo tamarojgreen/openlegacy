@@ -23,6 +23,7 @@ public class HtmlPreviewBrowser implements ProgressListener {
 	 * 
 	 * @see org.eclipse.swt.browser.ProgressListener#changed(org.eclipse.swt.browser.ProgressEvent)
 	 */
+	@Override
 	public void changed(ProgressEvent event) {
 		// do nothing
 	}
@@ -32,6 +33,7 @@ public class HtmlPreviewBrowser implements ProgressListener {
 	 * 
 	 * @see org.eclipse.swt.browser.ProgressListener#completed(org.eclipse.swt.browser.ProgressEvent)
 	 */
+	@Override
 	public void completed(ProgressEvent event) {
 		// do nothing
 	}

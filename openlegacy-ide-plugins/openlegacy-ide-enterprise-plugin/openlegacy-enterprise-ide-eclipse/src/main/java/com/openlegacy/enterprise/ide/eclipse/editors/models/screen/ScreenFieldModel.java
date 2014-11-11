@@ -489,6 +489,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		this.expression = expression;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public ScreenFieldModel convertFrom(ScreenFieldModel model) {
 		model.fillFieldsMap();
@@ -536,6 +537,7 @@ public class ScreenFieldModel extends ScreenNamedObject implements IConvertedFie
 		return this;
 	}
 
+	@Override
 	public void fillFieldsMap() {
 		fieldsMap.clear();
 		fieldsMap.put("row", row);

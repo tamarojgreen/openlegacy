@@ -193,6 +193,7 @@ public class GeneralScreenNavigationDetailsPage extends AbstractScreenDetailsPag
 		return navigationModel != null ? navigationModel.getUUID() : null;
 	}
 
+	@Override
 	public void revalidate() {}
 
 	@Override

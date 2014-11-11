@@ -109,6 +109,7 @@ public class IdentifiersPage extends AbstractPage {
 		tableViewer = new TableViewer(t);
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 				if (selection.size() == 1) {

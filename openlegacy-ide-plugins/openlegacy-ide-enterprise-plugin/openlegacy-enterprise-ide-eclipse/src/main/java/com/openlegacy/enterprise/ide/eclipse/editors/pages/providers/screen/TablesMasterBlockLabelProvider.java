@@ -22,6 +22,7 @@ public class TablesMasterBlockLabelProvider extends LabelProvider implements ITa
 	 * 
 	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object, int)
 	 */
+	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
 		ScreenTableModel model = (ScreenTableModel)element;
 		if (!model.getValidationMessages().isEmpty()) {
@@ -47,6 +48,7 @@ public class TablesMasterBlockLabelProvider extends LabelProvider implements ITa
 	 * 
 	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object, int)
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		ScreenTableModel model = (ScreenTableModel)element;
 		return model.getClassName();

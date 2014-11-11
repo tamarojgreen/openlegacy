@@ -122,6 +122,7 @@ public class PartsScreenPartDetailsPage extends AbstractScreenDetailsPage {
 		return partModel != null ? partModel.getUUID() : null;
 	}
 
+	@Override
 	public void revalidate() {}
 
 	@Override

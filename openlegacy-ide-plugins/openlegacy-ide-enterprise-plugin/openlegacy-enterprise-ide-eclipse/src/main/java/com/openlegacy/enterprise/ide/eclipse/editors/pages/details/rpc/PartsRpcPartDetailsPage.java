@@ -134,6 +134,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 		return partModel != null ? partModel.getUUID() : null;
 	}
 
+	@Override
 	public void revalidate() {}
 
 	/*

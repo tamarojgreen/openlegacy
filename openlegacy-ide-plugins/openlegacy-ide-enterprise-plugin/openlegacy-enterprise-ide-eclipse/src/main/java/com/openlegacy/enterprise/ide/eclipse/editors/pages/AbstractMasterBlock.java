@@ -38,8 +38,10 @@ public abstract class AbstractMasterBlock extends MasterDetailsBlock implements 
 	 * 
 	 * @see com.openlegacy.enterprise.ide.eclipse.editors.pages.masters.IOpenLegacyMasterBlock#refresh()
 	 */
+	@Override
 	public abstract void refresh();
 
+	@Override
 	public abstract void updateLabels();
 
 	/*

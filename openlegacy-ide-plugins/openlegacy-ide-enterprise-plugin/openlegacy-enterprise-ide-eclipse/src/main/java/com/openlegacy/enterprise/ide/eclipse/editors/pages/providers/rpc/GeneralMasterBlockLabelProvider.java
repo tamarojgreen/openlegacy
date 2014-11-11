@@ -17,6 +17,7 @@ public class GeneralMasterBlockLabelProvider extends LabelProvider implements IT
 	 * 
 	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object, int)
 	 */
+	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
 		return Activator.getDefault().getImage(Activator.IMG_ANNOTATION);
 	}
@@ -26,6 +27,7 @@ public class GeneralMasterBlockLabelProvider extends LabelProvider implements IT
 	 * 
 	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object, int)
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		return element.toString();
 	}

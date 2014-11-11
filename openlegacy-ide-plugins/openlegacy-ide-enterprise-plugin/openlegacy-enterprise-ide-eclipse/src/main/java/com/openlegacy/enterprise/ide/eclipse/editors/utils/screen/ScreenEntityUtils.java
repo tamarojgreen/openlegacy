@@ -1474,6 +1474,7 @@ public class ScreenEntityUtils {
 		if (!sortedChildEntities.isEmpty()) {
 			Collections.sort(sortedChildEntities, new Comparator<ChildEntityModel>() {
 
+				@Override
 				public int compare(ChildEntityModel o1, ChildEntityModel o2) {
 					return o1.getClassName().compareTo(o2.getClassName());
 				}

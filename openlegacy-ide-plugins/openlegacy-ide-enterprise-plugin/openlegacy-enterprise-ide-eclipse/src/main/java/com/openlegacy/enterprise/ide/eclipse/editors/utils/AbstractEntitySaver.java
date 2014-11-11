@@ -60,6 +60,7 @@ public abstract class AbstractEntitySaver {
 		// organize imports
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				OrganizeImportsAction action = new OrganizeImportsAction(site);
 				action.run((ICompilationUnit)javaElement);

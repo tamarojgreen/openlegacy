@@ -546,6 +546,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 		}
 	}
 
+	@Override
 	public void revalidate() {
 		// we need to check that validators are not null
 		if (rowValidator != null) {
@@ -565,6 +566,7 @@ public abstract class AbstractScreenFieldDetailsPage extends AbstractScreenDetai
 	private ModifyListener getFieldTypeModifyListener() {
 		return new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				getDefaultModifyListener().modifyText(e);
 				String text = ((CCombo)e.widget).getText();

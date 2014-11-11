@@ -35,6 +35,7 @@ public class GeneralRpcNavigationDetailsPage extends AbstractRpcDetailsPage {
 		super(master);
 	}
 
+	@Override
 	public void revalidate() {}
 
 	/*

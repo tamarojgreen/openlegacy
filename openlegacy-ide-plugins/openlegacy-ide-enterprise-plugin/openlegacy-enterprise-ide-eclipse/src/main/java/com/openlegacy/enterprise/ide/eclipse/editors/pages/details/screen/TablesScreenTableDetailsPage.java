@@ -211,6 +211,7 @@ public class TablesScreenTableDetailsPage extends AbstractScreenDetailsPage {
 		return tableModel != null ? tableModel.getUUID() : null;
 	}
 
+	@Override
 	public void revalidate() {
 		if (startRowValidator != null) {
 			startRowValidator.revalidate(getModelUUID());

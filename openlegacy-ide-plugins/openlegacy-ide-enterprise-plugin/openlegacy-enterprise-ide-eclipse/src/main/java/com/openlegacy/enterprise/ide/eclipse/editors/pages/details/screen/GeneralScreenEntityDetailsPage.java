@@ -218,6 +218,7 @@ public class GeneralScreenEntityDetailsPage extends AbstractScreenDetailsPage {
 		}
 	}
 
+	@Override
 	public void revalidate() {}
 
 	// *************************** PRIVATE **************************************

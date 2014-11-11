@@ -19,6 +19,7 @@ public class ScreenColumnModelPositionComparator implements Comparator<ScreenCol
 	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public int compare(ScreenColumnModel o1, ScreenColumnModel o2) {
 		if (o1.getStartColumn() != o2.getStartColumn()) {
 			return o1.getStartColumn() - o2.getStartColumn();

@@ -121,6 +121,7 @@ public class GeneralJpaTableDetailsPage extends AbstractJpaDetailsPage {
 		section.setClient(topClient);
 	}
 
+	@Override
 	public void revalidate() {}
 
 	/*

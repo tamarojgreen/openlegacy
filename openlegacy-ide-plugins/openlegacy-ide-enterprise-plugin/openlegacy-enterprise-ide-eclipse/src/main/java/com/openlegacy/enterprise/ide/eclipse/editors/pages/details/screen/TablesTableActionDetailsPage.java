@@ -135,6 +135,7 @@ public class TablesTableActionDetailsPage extends AbstractScreenDetailsPage {
 		return actionModel != null ? actionModel.getUUID() : null;
 	}
 
+	@Override
 	public void revalidate() {
 		if (displayNameValidator != null) {
 			displayNameValidator.revalidate(getModelUUID());

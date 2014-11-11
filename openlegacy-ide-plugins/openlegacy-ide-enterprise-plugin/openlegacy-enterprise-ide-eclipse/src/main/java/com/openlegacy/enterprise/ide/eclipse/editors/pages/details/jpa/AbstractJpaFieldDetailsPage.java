@@ -134,6 +134,7 @@ public abstract class AbstractJpaFieldDetailsPage extends AbstractJpaDetailsPage
 		}
 	}
 
+	@Override
 	public void revalidate() {
 		if (fieldNameValidator != null) {
 			fieldNameValidator.revalidate(getModelUUID());

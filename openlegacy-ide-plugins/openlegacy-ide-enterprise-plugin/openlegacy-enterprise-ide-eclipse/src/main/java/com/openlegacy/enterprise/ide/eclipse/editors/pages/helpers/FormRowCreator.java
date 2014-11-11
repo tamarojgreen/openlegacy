@@ -394,10 +394,12 @@ public class FormRowCreator {
 		button.setLayoutData(gd);
 		button.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				IRunnableContext context = new BusyIndicatorRunnableContext();
 				IJavaSearchScope scope = SearchEngine.createWorkspaceScope();

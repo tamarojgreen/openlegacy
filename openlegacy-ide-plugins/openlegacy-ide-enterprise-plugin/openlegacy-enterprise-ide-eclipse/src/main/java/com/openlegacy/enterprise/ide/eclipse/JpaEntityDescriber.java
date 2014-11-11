@@ -25,6 +25,7 @@ public class JpaEntityDescriber implements ITextContentDescriber {
 	 * @see org.eclipse.core.runtime.content.IContentDescriber#describe(java.io.InputStream,
 	 * org.eclipse.core.runtime.content.IContentDescription)
 	 */
+	@Override
 	public int describe(InputStream contents, IContentDescription description) throws IOException {
 		return describe(new InputStreamReader(contents), description);
 	}
@@ -34,6 +35,7 @@ public class JpaEntityDescriber implements ITextContentDescriber {
 	 * 
 	 * @see org.eclipse.core.runtime.content.IContentDescriber#getSupportedOptions()
 	 */
+	@Override
 	public QualifiedName[] getSupportedOptions() {
 		return null;
 	}
@@ -44,6 +46,7 @@ public class JpaEntityDescriber implements ITextContentDescriber {
 	 * @see org.eclipse.core.runtime.content.ITextContentDescriber#describe(java.io.Reader,
 	 * org.eclipse.core.runtime.content.IContentDescription)
 	 */
+	@Override
 	public int describe(Reader contents, IContentDescription description) throws IOException {
 		return doDescribe(contents) == null ? INVALID : VALID;
 	}

@@ -47,6 +47,7 @@ public class SplitButton extends Button {
 		super.addPaintListener(new PaintListener() {
 
 			// draw the split line and arrow
+			@Override
 			public void paintControl(PaintEvent e) {
 				// get previous foreground & background
 				Color prevForeground = e.gc.getForeground();
@@ -83,6 +84,7 @@ public class SplitButton extends Button {
 		// add listener to handle mouse down action and display drop down list if available
 		super.addListener(SWT.MouseDown, new Listener() {
 
+			@Override
 			public void handleEvent(Event event) {
 				if (isShowDropDown(event.x, event.y)) {
 					Button button = (Button)event.widget;
