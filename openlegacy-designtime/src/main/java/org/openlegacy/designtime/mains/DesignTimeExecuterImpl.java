@@ -181,7 +181,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (projectCreationRequest.isSupportTheme()) {
 			renameThemeInPOM(projectCreationRequest.getProjectTheme(), targetPath);
 			renameThemeInAppProperties(projectCreationRequest.getProjectTheme(), targetPath);
-			renameThemeInIndexJSP(projectCreationRequest.getProjectTheme(), targetPath);
+			renameThemeInIndexJSP(projectCreationRequest.getProjectTheme(), projectCreationRequest.isRightTotLeft(), targetPath);
 		}
 
 		// spring files
@@ -508,8 +508,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	private static void renameThemeInIndexJSP(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-			IOException {
+	private static void renameThemeInIndexJSP(ProjectTheme projectTheme, boolean rightToLeft, File targetPath)
+			throws FileNotFoundException, IOException {
 		File indexJspFile = new File(targetPath, INDEX_JSP_PATH);
 
 		if (!indexJspFile.exists()) {
@@ -519,8 +519,19 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		String IndexJspFileContent = IOUtils.toString(new FileInputStream(indexJspFile));
 
+		String bootstrapRtlSuffix = "";
+		if (rightToLeft) {
+			bootstrapRtlSuffix = "-rtl";
+		}
+		IndexJspFileContent = IndexJspFileContent.replaceAll("#rtlSuffix#", bootstrapRtlSuffix);
+
 		if (projectTheme != null) {
-			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectTheme#", projectTheme.getDisplayName().toLowerCase());
+			String theme = projectTheme.getDisplayName().toLowerCase();
+			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectThemeRoot#", theme);
+			if (rightToLeft) {
+				theme = theme + "_rtl";
+			}
+			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectTheme#", theme);
 			FileUtils.write(IndexJspFileContent, indexJspFile);
 		}
 
