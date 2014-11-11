@@ -34,8 +34,8 @@ public class ScreenTableModel extends ScreenNamedObject {
 	private int startRow;
 	private int endRow;
 	private String name = "";
-	private Class<? extends TerminalAction> nextScreenAction = TerminalActions.PAGEDOWN.class;
-	private Class<? extends TerminalAction> previousScreenAction = TerminalActions.PAGEUP.class;
+	private Class<? extends TerminalAction> nextScreenAction = TerminalActions.PAGE_DOWN.class;
+	private Class<? extends TerminalAction> previousScreenAction = TerminalActions.PAGE_UP.class;
 	private boolean supportTerminalData = false;
 	private boolean scrollable = true;
 	@SuppressWarnings("rawtypes")
@@ -49,8 +49,8 @@ public class ScreenTableModel extends ScreenNamedObject {
 	private List<ScreenColumnModel> sortedColumns = new ArrayList<ScreenColumnModel>();
 	private List<TableActionModel> sortedActions = new ArrayList<TableActionModel>();
 
-	private String nextScreenActionName = TerminalActions.PAGEDOWN.class.getSimpleName();
-	private String previousScreenActionName = TerminalActions.PAGEUP.class.getSimpleName();
+	private String nextScreenActionName = TerminalActions.PAGE_DOWN.class.getSimpleName();
+	private String previousScreenActionName = TerminalActions.PAGE_UP.class.getSimpleName();
 	private String tableCollectorName = ScreenTableCollector.class.getSimpleName();
 
 	private String className = "";
@@ -324,12 +324,12 @@ public class ScreenTableModel extends ScreenNamedObject {
 	}
 
 	public void setNextScreenActionDefaultValue() {
-		nextScreenAction = TerminalActions.PAGEDOWN.class;
+		nextScreenAction = TerminalActions.PAGE_DOWN.class;
 		nextScreenActionName = nextScreenAction.getSimpleName();
 	}
 
 	public void setPreviousScreenActionDefaultValue() {
-		previousScreenAction = TerminalActions.PAGEUP.class;
+		previousScreenAction = TerminalActions.PAGE_UP.class;
 		previousScreenActionName = previousScreenAction.getSimpleName();
 	}
 
