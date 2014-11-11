@@ -538,6 +538,7 @@ public class TablesComposite extends Composite {
 			definition.setDisplayName(selectedObject.getDisplayName());
 			definition.setLength(selectedObject.getFieldRectangle().getEndColumn()
 					- selectedObject.getFieldRectangle().getColumn() + 1);
+			definition.setEditable(selectedObject.isEditable());
 
 			FieldTypeDefinition fieldTypeDefinition = null;
 			if (javaType.isAssignableFrom(Boolean.class)) {
