@@ -26,7 +26,7 @@ when
 	// with a leading label before the field which is in the format of a label regex and not far then $maxDistance 
 	$labelField: TerminalField(position.row == $field.position.row, position.column > $field.position.column, 
 								position.column - $maxDistance < $field.endPosition.column,  
-								editable == false,length <= $maximumLabelLength, value matches $labelRegex) from $snapshot.getFields()
+								editable == false,length <= $maximumLabelLength, visualValue matches $labelRegex) from $snapshot.getFields()
 then
 	screenEntityDefinitionsBuilder.addField($screenEntityDefinition,$field,$labelField);
 	$snapshot.getFields().remove($field);
