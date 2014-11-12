@@ -3,6 +3,7 @@ package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.RpcActionDefinition;
+import org.openlegacy.rpc.RpcEntity;
 
 /**
  * @author Ivan Bort
@@ -16,6 +17,7 @@ public class ActionModel implements RpcActionDefinition {
 	private String prevAlias;
 	private String prevPath;
 	private boolean prevGlobal;
+	private String prevTargetEntityName;
 
 	// annotation attributes
 	private SessionAction<? extends Session> action;
@@ -23,46 +25,39 @@ public class ActionModel implements RpcActionDefinition {
 	private String path;
 	private boolean global = true;
 	private String alias = "";
+	private Class<?> targetEntity = RpcEntity.NONE.class;
+	private String targetEntityName = RpcEntity.NONE.class.getSimpleName();
 
 	public ActionModel(String actionName, String displayName, String alias, String path, boolean global) {
+		this(actionName, displayName, alias, path, global, RpcEntity.NONE.class.getSimpleName());
+	}
+
+	public ActionModel(String actionName, String displayName, String alias, String path, boolean global, String targetEntityName) {
 		this.actionName = actionName;
 		this.displayName = displayName;
 		this.alias = alias;
 		this.path = path;
 		this.global = global;
+		this.targetEntityName = targetEntityName;
 
 		this.prevActionName = actionName;
 		this.prevDisplayName = displayName;
 		this.prevAlias = alias;
 		this.prevPath = path;
 		this.prevGlobal = global;
+		this.prevTargetEntityName = targetEntityName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.openlegacy.definitions.ActionDefinition#getAction()
-	 */
 	@Override
 	public SessionAction<? extends Session> getAction() {
 		return action;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.openlegacy.definitions.ActionDefinition#getActionName()
-	 */
 	@Override
 	public String getActionName() {
 		return actionName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.openlegacy.definitions.ActionDefinition#getDisplayName()
-	 */
 	@Override
 	public String getDisplayName() {
 		return displayName;
@@ -72,11 +67,6 @@ public class ActionModel implements RpcActionDefinition {
 		this.displayName = displayName;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.openlegacy.definitions.ActionDefinition#getAlias()
-	 */
 	@Override
 	public String getAlias() {
 		return alias;
@@ -86,21 +76,11 @@ public class ActionModel implements RpcActionDefinition {
 		this.alias = alias;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.openlegacy.definitions.ActionDefinition#isDefaultAction()
-	 */
 	@Override
 	public boolean isDefaultAction() {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.openlegacy.definitions.ActionDefinition#isGlobal()
-	 */
 	@Override
 	public boolean isGlobal() {
 		return global;
@@ -110,21 +90,11 @@ public class ActionModel implements RpcActionDefinition {
 		this.global = global;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.openlegacy.definitions.ActionDefinition#getTargetEntity()
-	 */
 	@Override
 	public Class<?> getTargetEntity() {
-		return null;
+		return targetEntity;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.openlegacy.definitions.RpcActionDefinition#getProgramPath()
-	 */
 	@Override
 	public String getProgramPath() {
 		return path;
@@ -160,6 +130,22 @@ public class ActionModel implements RpcActionDefinition {
 
 	public boolean isPrevGlobal() {
 		return prevGlobal;
+	}
+
+	public String getTargetEntityName() {
+		return targetEntityName;
+	}
+
+	public void setTargetEntityClassName(String targetEntityClassName) {
+		this.targetEntityName = targetEntityClassName;
+	}
+
+	public void setTargetEntity(Class<?> targetEntity) {
+		this.targetEntity = targetEntity;
+	}
+
+	public String getPrevTargetEntityClassName() {
+		return prevTargetEntityName;
 	}
 
 }

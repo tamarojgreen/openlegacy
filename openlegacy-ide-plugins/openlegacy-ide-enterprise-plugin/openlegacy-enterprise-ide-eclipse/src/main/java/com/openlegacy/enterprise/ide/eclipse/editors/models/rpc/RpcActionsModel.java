@@ -1,5 +1,6 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 
+import org.openlegacy.EntityDefinition;
 import org.openlegacy.annotations.rpc.RpcActions;
 import org.openlegacy.definitions.ActionDefinition;
 import org.openlegacy.designtime.rpc.generators.support.CodeBasedRpcEntityDefinition;
@@ -31,9 +32,17 @@ public class RpcActionsModel extends RpcNamedObject {
 		List<ActionDefinition> list = entityDefinition.getActions();
 		for (ActionDefinition actionDefinition : list) {
 			if (actionDefinition instanceof SimpleRpcActionDefinition) {
-				this.actions.add(new ActionModel(actionDefinition.getActionName(), actionDefinition.getDisplayName(),
-						actionDefinition.getAlias(), ((SimpleRpcActionDefinition)actionDefinition).getProgramPath(),
-						actionDefinition.isGlobal()));
+				EntityDefinition<?> targetEntityDefinition = ((SimpleRpcActionDefinition)actionDefinition).getTargetEntityDefinition();
+				if (targetEntityDefinition != null) {
+					String targetEntityName = targetEntityDefinition.getEntityName();
+					this.actions.add(new ActionModel(actionDefinition.getActionName(), actionDefinition.getDisplayName(),
+							actionDefinition.getAlias(), ((SimpleRpcActionDefinition)actionDefinition).getProgramPath(),
+							actionDefinition.isGlobal(), targetEntityName));
+				} else {
+					this.actions.add(new ActionModel(actionDefinition.getActionName(), actionDefinition.getDisplayName(),
+							actionDefinition.getAlias(), ((SimpleRpcActionDefinition)actionDefinition).getProgramPath(),
+							actionDefinition.isGlobal()));
+				}
 			}
 		}
 	}
@@ -45,7 +54,7 @@ public class RpcActionsModel extends RpcNamedObject {
 		List<ActionModel> list = new ArrayList<ActionModel>();
 		for (ActionModel item : this.actions) {
 			ActionModel newAction = new ActionModel(item.getActionName(), item.getDisplayName(), item.getAlias(),
-					item.getProgramPath(), item.isGlobal());
+					item.getProgramPath(), item.isGlobal(), item.getTargetEntityName());
 			list.add(newAction);
 		}
 		model.setActions(list);

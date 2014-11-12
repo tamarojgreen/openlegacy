@@ -1,6 +1,7 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc;
 
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcActionsModel;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -38,6 +39,11 @@ public class ActionsPageTableContentProvider implements IStructuredContentProvid
 		if (inputElement instanceof RpcActionsModel) {
 			RpcActionsModel model = (RpcActionsModel)inputElement;
 			if ((model != null) && (!model.getActions().isEmpty())) {
+				return model.getActions().toArray();
+			}
+		} else if (inputElement instanceof RpcPartModel) {
+			RpcPartModel model = (RpcPartModel)inputElement;
+			if (!model.getActions().isEmpty()) {
 				return model.getActions().toArray();
 			}
 		}
