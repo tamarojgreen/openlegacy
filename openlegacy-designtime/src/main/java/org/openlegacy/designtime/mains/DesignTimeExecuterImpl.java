@@ -223,6 +223,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void handleRightToLeft(File targetPath) throws FileNotFoundException, IOException {
+		File designtimeContext = new File(targetPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
+
+		if (designtimeContext.exists()) {
+			String designtimeContextFileContent = IOUtils.toString(new FileInputStream(designtimeContext));
+
+			designtimeContextFileContent = designtimeContextFileContent.replaceFirst("openlegacy-default-designtime-context",
+					"openlegacy-rtl-designtime-context");
+			FileUtils.write(designtimeContextFileContent, designtimeContext);
+		} else {
+			logger.error(MessageFormat.format("Unable to find openlegacy-designtime-context.xml within {0}", targetPath));
+		}
+
 		removeComment(new File(targetPath, "pom.xml"), bidiCommentStart, bidiCommentEnd);
 		removeComment(new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
 		removeComment(new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
