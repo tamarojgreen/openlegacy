@@ -164,15 +164,17 @@
 								<#elseif (part.tableDefinition.actions?size > 1 )>
 									<#list part.tableDefinition.actions as action>
 										<#if action.defaultAction == true>
-											<#if action.targetEntity??>											    	
-									    		<td class="td-link"><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
-									    			{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
-									    		</a></td>
-										    <#else>
-										    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
-										    </#if>	
+											<#assign defaultAction = action>									    	
 										</#if>
 									</#list>
+									
+									<#if defaultAction?? && defaultAction.targetEntity??>											    	
+							    		<td class="td-link"><a href="#/${defaultAction.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
+							    			{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
+							    		</a></td>
+								    <#else>
+								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
+								    </#if>	
 								<#else>
 									<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
 								</#if>	
