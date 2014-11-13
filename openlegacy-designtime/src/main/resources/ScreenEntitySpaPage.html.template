@@ -155,7 +155,27 @@
 									</#if>
 								</td>
 							<#else>
-								<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
+								<#if part.tableDefinition.actions?size == 1>
+									<#if part.tableDefinition.actions?first.targetEntity??>
+								    	<td class="td-link"><a href="#/${part.tableDefinition.actions?first.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">${part.tableDefinition.actions?first.displayName}</a></td>
+								    <#else>
+								    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">${part.tableDefinition.actions?first.displayName}</a></td>
+								    </#if>	
+								<#elseif (part.tableDefinition.actions?size > 1 )>
+									<#list part.tableDefinition.actions as action>
+										<#if action.defaultAction == true>
+											<#if action.targetEntity??>											    	
+									    		<td class="td-link"><a href="#/${action.targetEntity.simpleName}/{{${part.tableDefinition.tableEntityName?uncap_first}.${part.tableDefinition.keyFieldNames[0]}}}">
+									    			{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}
+									    		</a></td>
+										    <#else>
+										    	<td class="td-link"><a href="" ng-click="noTargetScreenEntityAlert()">{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</a></td>
+										    </#if>	
+										</#if>
+									</#list>
+								<#else>
+									<td>{{${part.tableDefinition.tableEntityName?uncap_first}.${column.name}}}</td>
+								</#if>	
 							</#if>
 						</#list>
 					</tr>
