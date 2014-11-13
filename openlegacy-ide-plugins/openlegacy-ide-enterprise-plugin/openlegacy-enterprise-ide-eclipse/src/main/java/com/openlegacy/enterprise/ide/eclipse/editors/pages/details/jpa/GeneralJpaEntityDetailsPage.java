@@ -100,6 +100,7 @@ public class GeneralJpaEntityDetailsPage extends AbstractJpaDetailsPage {
 	 * 
 	 * @see com.openlegacy.enterprise.ide.eclipse.editors.pages.IOpenLegacyDetailsPage#revalidate()
 	 */
+	@Override
 	public void revalidate() {}
 
 	/*

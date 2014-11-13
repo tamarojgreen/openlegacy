@@ -62,10 +62,13 @@ public abstract class AbstractDetailsPage implements IOpenLegacyDetailsPage, IDe
 		this.master = master;
 	}
 
+	@Override
 	public abstract Class<?> getDetailsModel();
 
+	@Override
 	public abstract void createContents(Composite parent);
 
+	@Override
 	public abstract UUID getModelUUID();
 
 	protected abstract void updateControls();
@@ -76,6 +79,7 @@ public abstract class AbstractDetailsPage implements IOpenLegacyDetailsPage, IDe
 
 	protected abstract void selectionChanged(IStructuredSelection selection);
 
+	@Override
 	public void removeValidationMarkers() {
 		// if the inheritor is using validators, he can override this method to remove validation markers
 	}
@@ -84,34 +88,43 @@ public abstract class AbstractDetailsPage implements IOpenLegacyDetailsPage, IDe
 		// if the inheritor is using validators, he can override this method to update his validators
 	};
 
+	@Override
 	public void selectionChanged(IFormPart part, ISelection selection) {
 		IStructuredSelection structuredSelection = (IStructuredSelection)selection;
 		selectionChanged(structuredSelection);
 		refresh();
 	}
 
+	@Override
 	public void commit(boolean onSave) {}
 
+	@Override
 	public void initialize(IManagedForm form) {
 		this.managedForm = form;
 	}
 
+	@Override
 	public void dispose() {};
 
+	@Override
 	public boolean isDirty() {
 		return isDirty;
 	}
 
+	@Override
 	public boolean setFormInput(Object input) {
 		return false;
 	}
 
+	@Override
 	public void setFocus() {}
 
+	@Override
 	public boolean isStale() {
 		return false;
 	}
 
+	@Override
 	public void refresh() {
 		updatingControls = true;
 		updateValidators(getModelUUID());
@@ -154,6 +167,7 @@ public abstract class AbstractDetailsPage implements IOpenLegacyDetailsPage, IDe
 	protected ModifyListener getDefaultModifyListener() {
 		return new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent event) {
 				if (!updatingControls) {
 					String key = (String)event.widget.getData(FormRowCreator.ID_KEY);
@@ -166,6 +180,7 @@ public abstract class AbstractDetailsPage implements IOpenLegacyDetailsPage, IDe
 	protected VerifyListener getDefaultVerifyListener() {
 		return new VerifyListener() {
 
+			@Override
 			public void verifyText(VerifyEvent e) {
 				if (updatingControls) {
 					return;
@@ -190,6 +205,7 @@ public abstract class AbstractDetailsPage implements IOpenLegacyDetailsPage, IDe
 	protected VerifyListener getDefaultDoubleVerifyListener() {
 		return new VerifyListener() {
 
+			@Override
 			public void verifyText(VerifyEvent e) {
 				if (updatingControls) {
 					return;
@@ -234,8 +250,10 @@ public abstract class AbstractDetailsPage implements IOpenLegacyDetailsPage, IDe
 	protected KeyListener getDefaultComboBoxKeyListener() {
 		return new KeyListener() {
 
+			@Override
 			public void keyReleased(KeyEvent e) {}
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.keyCode) {
 					case SWT.BS:

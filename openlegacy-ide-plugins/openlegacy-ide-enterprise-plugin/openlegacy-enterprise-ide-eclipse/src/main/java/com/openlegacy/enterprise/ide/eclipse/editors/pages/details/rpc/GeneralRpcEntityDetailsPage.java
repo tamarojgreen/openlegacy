@@ -105,6 +105,7 @@ public class GeneralRpcEntityDetailsPage extends AbstractRpcDetailsPage {
 		return entityModel != null ? entityModel.getUUID() : null;
 	}
 
+	@Override
 	public void revalidate() {}
 
 	/*

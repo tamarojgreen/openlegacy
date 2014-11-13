@@ -19,6 +19,7 @@ import org.openlegacy.ide.eclipse.preview.AbstractEntityPreview;
 
 public class ZoomInHandler extends AbstractHandler {
 
+	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchPart activePart = HandlerUtil.getActivePart(event);
 		if (activePart instanceof AbstractEntityPreview) {

@@ -41,4 +41,27 @@ public @interface TableAction {
 	String alias() default "";
 
 	Class<?> targetEntity() default ScreenEntity.NONE.class;
+
+	/**
+	 * Along with column, length, when - specify content in row,column in given length which matched when regex
+	 */
+	int row() default 0;
+
+	/**
+	 * Along with row, length, when - specify content in row,column in given length which matched when regex
+	 */
+	int column() default 0;
+
+	/**
+	 * Along with row, column, when - specify content in row,column in given length which matched when regex
+	 */
+	int length() default 0;
+
+	/**
+	 * A regex condition that defines a certain text pattern on the screen in which to include the action. Need to define row,
+	 * column, length to be affective
+	 * 
+	 * @return
+	 */
+	String when() default ".*";
 }

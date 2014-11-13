@@ -62,6 +62,7 @@ public class RpcEntityActionsSorter implements IEntityActionsSorter {
 		return actions;
 	}
 
+	@Override
 	public int getOrderIndex(AbstractAction action, int defaultIndex) {
 		if (action instanceof RpcEntityAction) {
 			return RPC_ENTITY_ORDER.contains(action.getKey()) ? RPC_ENTITY_ORDER.indexOf(action.getKey()) : defaultIndex;

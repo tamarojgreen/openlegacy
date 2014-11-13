@@ -85,6 +85,7 @@ public class GeneralMasterBlock extends AbstractScreenEntityMasterBlock {
 		tableViewer = new TableViewer(t);
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(spart, event.getSelection());
 			}

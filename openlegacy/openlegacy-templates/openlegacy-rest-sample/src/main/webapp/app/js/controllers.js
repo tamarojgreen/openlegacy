@@ -73,8 +73,7 @@ olControllers.controller('sidebarCtrl', ['$scope','$http', '$location', function
 }]);
 
 olControllers.controller('warehouseListCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {    
-    $olData.getWarehouses(function(data){
-        console.log(JSON.stringify(data.model.entity.warehousesRecords));
+    $olData.getWarehouses(function(data){        
         $scope.warehouses = data.model.entity.warehousesRecords
         $scope.actions = data.model.entity.actions;
         
@@ -89,9 +88,8 @@ olControllers.controller('warehouseListCtrl', ['$scope','$http', '$location', '$
 }]);
 
 olControllers.controller('warehouseDetailsCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {
-	$olData.getWarehouseDetails($stateParams.warehouseId,function(data){
-		console.log(JSON.stringify(data.model.entity));
-		$scope.warehouseDetails = data.model.entity;
+	$olData.getWarehouseDetails($stateParams.warehouseId,function(data){		
+		$scope.warehouseDetails = data.model.entity;		
 		$scope.actions = data.model.entity.actions;
 		
 		$scope.postAction = function(actionAlias) {        	
@@ -101,8 +99,7 @@ olControllers.controller('warehouseDetailsCtrl', ['$scope','$http', '$location',
 	    };
 	});
 	
-	$olData.getWarehouseTypes(function(data) {
-		console.log(JSON.stringify(data.model.entity.warehouseTypesRecords));
+	$olData.getWarehouseTypes(function(data) {		
 		$scope.types = data.model.entity.warehouseTypesRecords;
 		$scope.WhTypeClick = function(type) {
 			$scope.warehouseDetails.warehouseType = type.type;			
@@ -114,8 +111,7 @@ olControllers.controller('warehouseDetailsCtrl', ['$scope','$http', '$location',
 
 
 olControllers.controller('itemListCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {	
-	$olData.getItems(function(data){
-        console.log(JSON.stringify(data.model.entity.itemsRecords));        
+	$olData.getItems(function(data){                
         $scope.items = data.model.entity.itemsRecords
         $scope.actions = data.model.entity.actions;
         
@@ -135,9 +131,7 @@ olControllers.controller('itemListCtrl', ['$scope','$http', '$location', '$state
 
 
 
-olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {    
-	console.log(JSON.stringify($stateParams.itemId));
-	
+olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$stateParams', '$state', '$olData', function ($scope, $http, $location, $stateParams, $state, $olData) {
 	$olData.getItemDetails($stateParams.itemId,function(data){
 		$scope.uploadStockItemImage = function(files) {			
 			var formData = new FormData();
@@ -150,7 +144,6 @@ olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$st
 		        }).success(function(data, status) {
 		        	if (data.filename != null || data.filename != "") {
 		        		var fnameWithoutExt = data.filename.split(".")[0];
-		        		console.log(fnameWithoutExt);
 		        		if (fnameWithoutExt != null) {
 		        			$(".modal_images").append("<div id='" + fnameWithoutExt + "' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='screenshotModal' aria-hidden='true'><div class='modal-dialog modal-lg'><div class='modal-content text-center transparant'><img src='" + olConfig.baseURL + "/image?filename=" + data.filename + "' class='img-thumbnail'></div></div></div>");
 			        		$(".images").append("<div class='col-sm-4'><a  data-toggle='modal' data-target='#" + fnameWithoutExt + "' class='clickable'><img src='" + olConfig.baseURL + "/image?filename=" + data.filename + "' class='img-thumbnail'></a></div>");
@@ -162,8 +155,6 @@ olControllers.controller('itemDetailsCtrl', ['$scope','$http', '$location', '$st
 		        });
 			};
 		
-		
-		console.log(JSON.stringify(data.model.entity));
 		$scope.itemDetails = data.model.entity
 		$scope.actions = data.model.entity.actions;
 		

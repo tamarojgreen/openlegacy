@@ -19,6 +19,7 @@ public class ScreenFieldModelPositionComparator implements Comparator<ScreenFiel
 	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public int compare(ScreenFieldModel o1, ScreenFieldModel o2) {
 		if (o1.getRow() != o2.getRow()) {
 			return o1.getRow() - o2.getRow();

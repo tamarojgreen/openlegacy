@@ -63,6 +63,11 @@ public class ScreenEntityAjGeneratorTest {
 
 	@Test
 	public void testTable() throws Exception {
+		testGenerate();
+	}
+
+	@Test
+	public void testTableAspect() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		CompilationUnit compilationUnit = JavaParser.parse(getClass().getResourceAsStream("testTable.java.resource"));
 
@@ -70,7 +75,7 @@ public class ScreenEntityAjGeneratorTest {
 		List<BodyDeclaration> members = mainType.getMembers();
 		BodyDeclaration lastMember = members.get(members.size() - 1);
 		screenPojosAjGenerator.generateScreenTable(compilationUnit, (ClassOrInterfaceDeclaration)lastMember, baos, "TestClass");
-		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("testTable_Aspect.aj.expected"));
+		byte[] expectedBytes = IOUtils.toByteArray(getClass().getResourceAsStream("testTable2_Aspect.aj.expected"));
 		AssertUtils.assertContent(expectedBytes, baos.toByteArray());
 	}
 

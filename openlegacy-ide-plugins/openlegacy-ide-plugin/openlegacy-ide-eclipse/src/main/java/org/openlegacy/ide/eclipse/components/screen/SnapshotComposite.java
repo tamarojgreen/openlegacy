@@ -376,6 +376,7 @@ public class SnapshotComposite extends ImageComposite {
 	private PaintListener getCursorPaintListener() {
 		return new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				if (rectangleDrawActions.isEmpty()) {
 					return;
@@ -403,6 +404,7 @@ public class SnapshotComposite extends ImageComposite {
 	private DragDetectListener getDragDetectListener() {
 		return new DragDetectListener() {
 
+			@Override
 			public void dragDetected(DragDetectEvent e) {
 				isDragging = true;
 				calcSelectedRectangle(e.x, e.y, 0, 0, DND_START);
@@ -433,6 +435,7 @@ public class SnapshotComposite extends ImageComposite {
 	private KeyListener getKeyListener() {
 		return new KeyListener() {
 
+			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.keyCode) {
 					case SWT.ARROW_UP:
@@ -478,6 +481,7 @@ public class SnapshotComposite extends ImageComposite {
 				setSnapshot(null);
 			}
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				return;
 			}
@@ -546,6 +550,7 @@ public class SnapshotComposite extends ImageComposite {
 	private MouseMoveListener getMouseMoveListener() {
 		return new MouseMoveListener() {
 
+			@Override
 			public void mouseMove(MouseEvent e) {
 				if (isDragging) {
 					calcSelectedRectangle(0, 0, e.x, e.y, DND_MOVE);
@@ -558,6 +563,7 @@ public class SnapshotComposite extends ImageComposite {
 	private PaintListener getRectanglePaintListener() {
 		return new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				if (rectangleDrawActions.isEmpty()) {
 					return;
@@ -586,6 +592,7 @@ public class SnapshotComposite extends ImageComposite {
 	private Listener getShellMouseListener(final Shell shell) {
 		return new Listener() {
 
+			@Override
 			public void handleEvent(Event e) {
 				if (shell.isVisible()) {
 					shell.close();
@@ -599,6 +606,7 @@ public class SnapshotComposite extends ImageComposite {
 	private PaintListener getTerminalPaintListener() {
 		return new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				drawImage(defaultImage, e.gc);
 			}
@@ -747,6 +755,7 @@ public class SnapshotComposite extends ImageComposite {
 		shell.setBounds(x - 1, y - 1, imageBounds.width + 2, imageBounds.height + 2);
 		shell.addPaintListener(new PaintListener() {
 
+			@Override
 			public void paintControl(PaintEvent e) {
 				if (isVisible()) {
 					e.gc.drawImage(defaultImage, 1, 1);

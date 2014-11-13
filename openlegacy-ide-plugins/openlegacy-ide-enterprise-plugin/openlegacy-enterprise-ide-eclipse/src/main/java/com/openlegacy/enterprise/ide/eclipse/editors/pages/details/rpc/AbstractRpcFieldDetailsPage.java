@@ -174,6 +174,7 @@ public abstract class AbstractRpcFieldDetailsPage extends AbstractRpcDetailsPage
 		}
 	}
 
+	@Override
 	public void revalidate() {
 		if (fieldNameValidator != null) {
 			fieldNameValidator.revalidate(getModelUUID());

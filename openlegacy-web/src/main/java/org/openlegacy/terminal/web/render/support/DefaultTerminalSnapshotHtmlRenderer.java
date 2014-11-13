@@ -11,10 +11,15 @@
 package org.openlegacy.terminal.web.render.support;
 
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONObject;
 import org.openlegacy.exceptions.OpenLegacyRuntimeException;
 import org.openlegacy.terminal.TerminalField;
 import org.openlegacy.terminal.TerminalPosition;
 import org.openlegacy.terminal.TerminalSnapshot;
+import org.openlegacy.terminal.actions.CombinedTerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction;
+import org.openlegacy.terminal.actions.TerminalAction.AdditionalKey;
+import org.openlegacy.terminal.actions.TerminalMappedAction;
 import org.openlegacy.terminal.utils.FieldsQuery;
 import org.openlegacy.terminal.utils.FieldsQuery.EditableFieldsCriteria;
 import org.openlegacy.terminal.web.render.ElementsProvider;
@@ -32,8 +37,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -71,6 +79,10 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	private String formActionURL = "emulation";
 	private String formMethod = HtmlConstants.POST;
+
+	private boolean renderKeyboardMappings = true;
+
+	private Map<TerminalAction, String> keyboardMappings;
 
 	@Override
 	public String render(TerminalSnapshot terminalSnapshot) {
@@ -115,6 +127,8 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 			calculateWidthHeight(terminalSnapshot, formTag);
 
+			createMappings(formTag);
+
 			// generate style before the document. cause non aligned page when it's part of the document
 			styleSettings = MessageFormat.format("<style>{0}</style>", styleSettings);
 			return generate(styleSettings, doc);
@@ -125,6 +139,33 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 			throw (new OpenLegacyRuntimeException(e));
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	private void createMappings(Element formTag) {
+		if (!renderKeyboardMappings || keyboardMappings == null) {
+			return;
+		}
+		Set<TerminalAction> actions = keyboardMappings.keySet();
+		JSONObject jsonRoot = new JSONObject();
+		List<JSONObject> jsonMappings = new ArrayList<JSONObject>();
+		jsonRoot.put("mappings", jsonMappings);
+		for (TerminalAction terminalAction : actions) {
+			if (terminalAction instanceof CombinedTerminalAction) {
+				CombinedTerminalAction combined = (CombinedTerminalAction)terminalAction;
+				JSONObject jsonMapping = new JSONObject();
+				jsonMapping.put("additionalKey", combined.getAdditionalKey().toString());
+				jsonMapping.put("KeyboardKey", combined.getTerminalAction().getSimpleName());
+				jsonMappings.add(jsonMapping);
+			} else if (terminalAction instanceof TerminalMappedAction) {
+				JSONObject jsonMapping = new JSONObject();
+				jsonMapping.put("additionalKey", AdditionalKey.NONE.toString());
+				jsonMapping.put("KeyboardKey", terminalAction.getClass().getSimpleName());
+				jsonMappings.add(jsonMapping);
+			}
+		}
+
+		elementsProvider.createScriptTag(formTag, "var keyboardMappings = " + jsonRoot.toJSONString());
 	}
 
 	private static String getCursorFieldName(TerminalSnapshot terminalSnapshot) {
@@ -259,5 +300,13 @@ public class DefaultTerminalSnapshotHtmlRenderer implements TerminalSnapshotHtml
 
 	public void setCompleteStyleSettings(String completeStyleSettings) {
 		this.completeStyleSettings = completeStyleSettings;
+	}
+
+	public void setRenderKeyboardMappings(boolean renderKeyboardMappings) {
+		this.renderKeyboardMappings = renderKeyboardMappings;
+	}
+
+	public void setKeyboardMappings(Map<TerminalAction, String> keyboardMappings) {
+		this.keyboardMappings = keyboardMappings;
 	}
 }

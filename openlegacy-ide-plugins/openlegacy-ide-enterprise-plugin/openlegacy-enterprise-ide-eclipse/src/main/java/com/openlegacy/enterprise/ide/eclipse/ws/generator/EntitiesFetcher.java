@@ -62,6 +62,7 @@ public class EntitiesFetcher {
 			this.serviceType = serviceType;
 		}
 
+		@Override
 		public boolean visit(IResource resource) throws CoreException {
 			monitor.worked(1);
 			if (checkResource(resource)) {

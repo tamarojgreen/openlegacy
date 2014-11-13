@@ -10,8 +10,7 @@
 			
 		
 		<!-- Bootstrap core CSS -->
-		<link href="bootstrap/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">	
-		<!-- <link href="bootstrap/css/bootstrap-rtl.min.css" media="all" type="text/css" rel="stylesheet"> -->	
+	<link href="bootstrap/css/bootstrap#rtlSuffix#.min.css" media="all" type="text/css" rel="stylesheet">	
 		
 	    <!-- Bootstrap extention CSS -->
 	    <link href="bootstrap/css/font-awesome.min.css" rel="stylesheet">	
@@ -20,7 +19,7 @@
 		
 		<!-- custom style for this project -->
 		<link type="text/css" rel="stylesheet" href="css/project.css" />	
-		<link ng-href="themes/#projectTheme#/#projectTheme#.css" rel="stylesheet">
+	<link ng-href="themes/#projectThemeRoot#/#projectTheme#.css" rel="stylesheet">
 			
 		<script src="lib/jquery/jquery-2.1.0.min.js" type="text/javascript"></script>
 		<script src="lib/jquery/jquery.cookie.js" type="text/javascript"></script>

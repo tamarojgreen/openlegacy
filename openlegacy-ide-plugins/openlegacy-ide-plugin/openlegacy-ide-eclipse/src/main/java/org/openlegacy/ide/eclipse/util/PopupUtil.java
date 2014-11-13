@@ -52,6 +52,7 @@ public class PopupUtil {
 		}
 		getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				Shell shell = new Shell();
 				String theTitle = title;
@@ -119,6 +120,7 @@ public class PopupUtil {
 		}
 		getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				Shell shell = new Shell();
 				MessageDialog.openError(shell, title, message);
@@ -139,6 +141,7 @@ public class PopupUtil {
 
 		getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				Shell shell = new Shell();
 				ErrorDialog.openError(shell, MESSAGE_DIALOG_TITLE, message, ex);
@@ -157,6 +160,7 @@ public class PopupUtil {
 		}
 		getDisplay().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				Shell shell = new Shell();
 				MessageDialog.openWarning(shell, title, message);
@@ -256,10 +260,12 @@ public class PopupUtil {
 			btnDoNotShowMessage.setSelection(false);
 			btnDoNotShowMessage.addSelectionListener(new SelectionListener() {
 
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					doNotShowAgain = btnDoNotShowMessage.getSelection();
 				}
 
+				@Override
 				public void widgetDefaultSelected(SelectionEvent e) {
 					widgetSelected(e);
 				}

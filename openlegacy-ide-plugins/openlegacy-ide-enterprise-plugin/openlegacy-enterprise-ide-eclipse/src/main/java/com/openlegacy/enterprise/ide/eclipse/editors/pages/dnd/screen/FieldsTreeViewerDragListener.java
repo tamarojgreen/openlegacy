@@ -32,6 +32,7 @@ public class FieldsTreeViewerDragListener implements DragSourceListener {
 	 * 
 	 * @see org.eclipse.swt.dnd.DragSourceListener#dragStart(org.eclipse.swt.dnd.DragSourceEvent)
 	 */
+	@Override
 	public void dragStart(DragSourceEvent event) {
 		IStructuredSelection selection = (IStructuredSelection)viewer.getSelection();
 		if (selection.size() == 1) {
@@ -49,6 +50,7 @@ public class FieldsTreeViewerDragListener implements DragSourceListener {
 	 * 
 	 * @see org.eclipse.swt.dnd.DragSourceListener#dragSetData(org.eclipse.swt.dnd.DragSourceEvent)
 	 */
+	@Override
 	public void dragSetData(DragSourceEvent event) {}
 
 	/*
@@ -56,6 +58,7 @@ public class FieldsTreeViewerDragListener implements DragSourceListener {
 	 * 
 	 * @see org.eclipse.swt.dnd.DragSourceListener#dragFinished(org.eclipse.swt.dnd.DragSourceEvent)
 	 */
+	@Override
 	public void dragFinished(DragSourceEvent event) {
 		if (dropListener != null) {
 			dropListener.dragFinished();

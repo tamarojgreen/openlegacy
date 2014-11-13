@@ -5,11 +5,11 @@
     </row>
     <row rowNumber="4">
         <field value="אבגד  " editable="true" column="13" />
-        <field value=":שדה א" column="23" />
+        <field value="שדה א:" column="23" visualValue=":א שדה"/>
     </row>
     <row rowNumber="5">
         <field value="בגדה  " column="13" />
-        <field value=":שדה ב" column="20" />
+        <field value="שדה ב:" column="20" visualValue=":שדה ב"/>
     </row>
     <!-- FIX test -->
 <!--     <row rowNumber="6">

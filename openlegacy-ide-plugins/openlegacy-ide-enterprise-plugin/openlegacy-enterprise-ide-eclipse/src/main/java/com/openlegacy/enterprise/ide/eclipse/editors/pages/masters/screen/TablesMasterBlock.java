@@ -122,6 +122,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				columnsTableViewer.setInput(event.getSelection());
 				actionsTableViewer.setInput(event.getSelection());
@@ -134,6 +135,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		columnsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(spart, event.getSelection());
 			}
@@ -143,6 +145,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 
 		actionsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(spart, event.getSelection());
 			}
@@ -588,6 +591,7 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 				newTableName = getUniqueTableClassName(entity, 1, newTableName);
 
 				ScreenTableModel newModel = new ScreenTableModel(newTableName);
+				fillNewModel(newModel);
 
 				entity.addScreenTableModel(newModel);
 				entity.addAction(new ScreenTableAction(newModel.getUUID(), newModel, ActionType.ADD, ASTNode.TYPE_DECLARATION,
@@ -701,6 +705,18 @@ public class TablesMasterBlock extends AbstractScreenEntityMasterBlock {
 			this.removeButton = removeButton;
 		}
 
+	}
+
+	private static void fillNewModel(ScreenTableModel model) {
+		ScreenPreview screenPreview = (ScreenPreview)PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(
+				ScreenPreview.ID);
+		if (screenPreview != null) {
+			SelectedObject selectedObject = screenPreview.getSelectedObject();
+			if ((selectedObject != null) && (selectedObject.getFieldRectangle() != null)) {
+				model.setStartRow(selectedObject.getFieldRectangle().getRow());
+				model.setEndRow(selectedObject.getFieldRectangle().getEndRow());
+			}
+		}
 	}
 
 }

@@ -916,12 +916,12 @@ public class ScreenEntityUtils {
 					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.NAME, model.getName());
 			// @ScreenTable.nextScreenAction: default TerminalActions.PAGEDOWN.class;
 			isPrevious = entityModel.getNextScreenActionName().equals(model.getNextScreenActionName());
-			isDefault = model.getNextScreenActionName().equals(TerminalActions.PAGEDOWN.class.getSimpleName());
+			isDefault = model.getNextScreenActionName().equals(TerminalActions.PAGE_DOWN.class.getSimpleName());
 			PrivateMethods.addRemoveScreenTableAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.NEXT_SCREEN_ACTION, model.getNextScreenAction());
 			// @ScreenTable.previousScreenAction: default TerminalActions.PAGEUP.class;
 			isPrevious = entityModel.getPreviousScreenActionName().equals(model.getPreviousScreenActionName());
-			isDefault = model.getPreviousScreenActionName().equals(TerminalActions.PAGEUP.class.getSimpleName());
+			isDefault = model.getPreviousScreenActionName().equals(TerminalActions.PAGE_UP.class.getSimpleName());
 			PrivateMethods.addRemoveScreenTableAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, ScreenAnnotationConstants.PREV_SCREEN_ACTION, model.getPreviousScreenAction());
 			// @ScreenTable.supportTerminalData: default false;
@@ -1474,6 +1474,7 @@ public class ScreenEntityUtils {
 		if (!sortedChildEntities.isEmpty()) {
 			Collections.sort(sortedChildEntities, new Comparator<ChildEntityModel>() {
 
+				@Override
 				public int compare(ChildEntityModel o1, ChildEntityModel o2) {
 					return o1.getClassName().compareTo(o2.getClassName());
 				}

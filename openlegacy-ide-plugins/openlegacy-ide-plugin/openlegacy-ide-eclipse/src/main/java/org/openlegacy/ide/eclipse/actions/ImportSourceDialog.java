@@ -222,10 +222,12 @@ public class ImportSourceDialog extends Dialog implements UserInteraction {
 		super.okPressed();
 	}
 
+	@Override
 	public boolean isOverride(final File file) {
 		final Object[] result = new Object[1];
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				result[0] = MessageDialog.openQuestion(getShell(), PluginConstants.TITLE,
 						MessageFormat.format(Messages.getString("question_override_file"), file.getName()));
@@ -235,10 +237,12 @@ public class ImportSourceDialog extends Dialog implements UserInteraction {
 		return (Boolean)result[0];
 	}
 
+	@Override
 	public void open(File file) {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void open(File file, EntityDefinition<?> entityDefinition) {
 		// TODO Auto-generated method stub
 	}

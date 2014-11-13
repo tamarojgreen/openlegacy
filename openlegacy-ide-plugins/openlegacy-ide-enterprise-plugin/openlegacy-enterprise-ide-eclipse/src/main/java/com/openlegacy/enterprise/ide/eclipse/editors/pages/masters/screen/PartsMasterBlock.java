@@ -118,6 +118,7 @@ public class PartsMasterBlock extends AbstractScreenEntityMasterBlock implements
 
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.getMessageManager().removeAllMessages();
 				if (((IStructuredSelection)event.getSelection()).size() == 1) {
@@ -141,6 +142,7 @@ public class PartsMasterBlock extends AbstractScreenEntityMasterBlock implements
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				if (treeViewer.getSelection().isEmpty()) {
 					return;
@@ -312,6 +314,7 @@ public class PartsMasterBlock extends AbstractScreenEntityMasterBlock implements
 		});
 	}
 
+	@Override
 	public void reassignMasterBlockViewerInput(UUID selectUUID) {
 		treeViewer.setInput(getEntity());
 		treeViewer.expandAll();
@@ -484,14 +487,17 @@ public class PartsMasterBlock extends AbstractScreenEntityMasterBlock implements
 		item.addSelectionListener(new ConvertMenuItemSelectionAdapter(ScreenFieldValuesModel.class));
 	}
 
+	@Override
 	public AbstractEntity getAbstractEntity() {
 		return getEntity();
 	}
 
+	@Override
 	public IStructuredSelection getMasterBlockViewerSelection() {
 		return (IStructuredSelection)treeViewer.getSelection();
 	}
 
+	@Override
 	public void removeValidationMarkers(UUID uuid) {
 		for (IDetailsPage detailsPage : detailsPages) {
 			if (((IOpenLegacyDetailsPage)detailsPage).getModelUUID() != null
@@ -502,6 +508,7 @@ public class PartsMasterBlock extends AbstractScreenEntityMasterBlock implements
 		}
 	}
 
+	@Override
 	public void removePartsValidationMarkers() {
 		for (IDetailsPage detailsPage : detailsPages) {
 			if (detailsPage instanceof PartsScreenPartDetailsPage) {

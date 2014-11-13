@@ -231,6 +231,7 @@ public class TablesScreenColumnDetailsPage extends AbstractScreenDetailsPage {
 		return columnModel != null ? columnModel.getUUID() : null;
 	}
 
+	@Override
 	public void revalidate() {
 		if (startColumnValidator != null) {
 			startColumnValidator.revalidate(getModelUUID());

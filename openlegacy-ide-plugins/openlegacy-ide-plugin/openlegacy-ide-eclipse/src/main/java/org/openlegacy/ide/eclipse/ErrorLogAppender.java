@@ -20,6 +20,7 @@ public class ErrorLogAppender extends AppenderSkeleton {
 	 * 
 	 * @see org.apache.log4j.Appender#close()
 	 */
+	@Override
 	public void close() {}
 
 	/*
@@ -27,6 +28,7 @@ public class ErrorLogAppender extends AppenderSkeleton {
 	 * 
 	 * @see org.apache.log4j.Appender#requiresLayout()
 	 */
+	@Override
 	public boolean requiresLayout() {
 		return false;
 	}

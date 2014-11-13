@@ -197,6 +197,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		toolBar.setCursor(cursor);
 		toolBar.addDisposeListener(new DisposeListener() {
 
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				cursor.dispose();
 			}
@@ -231,10 +232,12 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		setDialogLocation();
 	}
 
+	@Override
 	public boolean isOverride(final File file) {
 		final Object[] result = new Object[1];
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				result[0] = MessageDialog.openQuestion(getShell(), Messages.getString("title.openlegacy"),
 						MessageFormat.format(Messages.getString("question.override.file"), file.getName()));
@@ -244,8 +247,10 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		return (Boolean)result[0];
 	}
 
+	@Override
 	public void open(File file) {}
 
+	@Override
 	public void open(File file, EntityDefinition<?> entityDefinition) {}
 
 	public void setTreeViewerInput(TreeViewerModel treeViewerModel) {
@@ -283,6 +288,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 		text.setLayoutData(gd);
 		text.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				serviceName = ((Text)e.widget).getText();
 			}
@@ -625,6 +631,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 	private ISelectionChangedListener getTreeViewerSelectionListener() {
 		return new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 				if (selection != null && selection.size() == 1) {
@@ -892,6 +899,7 @@ public class GenerateServiceDialog extends Dialog implements UserInteraction {
 
 				Display.getDefault().syncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						try {
 							monitor.worked(1);

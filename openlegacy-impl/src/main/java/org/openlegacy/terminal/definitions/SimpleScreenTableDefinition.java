@@ -61,6 +61,8 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 
 	private String filterExpression;
 
+	private boolean rtlDirection = false;
+
 	public SimpleScreenTableDefinition(Class<?> rowClass) {
 		super(rowClass);
 	}
@@ -295,4 +297,14 @@ public class SimpleScreenTableDefinition extends AbstractTableDefinition<ScreenC
 	public void setFilterExpression(String filterExpression) {
 		this.filterExpression = filterExpression;
 	}
+
+	@Override
+	public boolean isRtlDirection() {
+		return rtlDirection;
+	}
+
+	public void setRtlDirection(boolean rtlDirection) {
+		this.rtlDirection = rtlDirection;
+	}
+
 }

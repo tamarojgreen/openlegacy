@@ -21,6 +21,7 @@ public class TableActionsMasterBlockLabelProvider extends LabelProvider implemen
 	 * 
 	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnImage(java.lang.Object, int)
 	 */
+	@Override
 	public Image getColumnImage(Object element, int columnIndex) {
 		if (element instanceof NamedObject) {
 			NamedObject model = (NamedObject)element;
@@ -36,6 +37,7 @@ public class TableActionsMasterBlockLabelProvider extends LabelProvider implemen
 	 * 
 	 * @see org.eclipse.jface.viewers.ITableLabelProvider#getColumnText(java.lang.Object, int)
 	 */
+	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		return MessageFormat.format("{0}-{1}", ((TableActionModel)element).getActionValue(),//$NON-NLS-1$ 
 				((TableActionModel)element).getDisplayName());

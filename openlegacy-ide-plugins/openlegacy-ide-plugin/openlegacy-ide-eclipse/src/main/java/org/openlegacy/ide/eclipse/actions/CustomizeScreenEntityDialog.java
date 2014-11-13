@@ -39,6 +39,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.openlegacy.EntityType;
+import org.openlegacy.FieldType;
 import org.openlegacy.designtime.terminal.model.ScreenEntityDesigntimeDefinition;
 import org.openlegacy.ide.eclipse.Messages;
 import org.openlegacy.ide.eclipse.PluginConstants;
@@ -55,7 +56,9 @@ import org.openlegacy.modules.table.LookupEntity;
 import org.openlegacy.modules.table.RecordSelectionEntity;
 import org.openlegacy.terminal.ScreenEntityType;
 import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
+import org.openlegacy.terminal.definitions.ScreenFieldDefinition;
 import org.openlegacy.terminal.definitions.SimpleScreenEntityDefinition;
+import org.openlegacy.utils.ClassUtils;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -63,6 +66,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +142,8 @@ public class CustomizeScreenEntityDialog extends Dialog {
 			return;
 		}
 		((ScreenEntityDesigntimeDefinition)screenEntityDefinition).setEntityName(entityNameTxt.getText());
+		// should organize imports for newly created or deleted fields
+		organizeImports();
 		super.okPressed();
 	}
 
@@ -209,6 +215,7 @@ public class CustomizeScreenEntityDialog extends Dialog {
 		screenTypeCombo.setText(screenEntityDefinition.getTypeName());
 		screenTypeCombo.addModifyListener(new ModifyListener() {
 
+			@Override
 			@SuppressWarnings("unchecked")
 			public void modifyText(ModifyEvent e) {
 				if (!(screenEntityDefinition instanceof SimpleScreenEntityDefinition)) {
@@ -295,6 +302,33 @@ public class CustomizeScreenEntityDialog extends Dialog {
 			}
 
 		};
+	}
+
+	private void organizeImports() {
+		if (screenEntityDefinition instanceof ScreenEntityDesigntimeDefinition) {
+			ScreenEntityDesigntimeDefinition designtimeDefinition = (ScreenEntityDesigntimeDefinition)screenEntityDefinition;
+
+			designtimeDefinition.getReferredClasses().clear();
+			Class<?> entityType = designtimeDefinition.getType();
+			if (entityType != null) {
+				designtimeDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(entityType));
+			}
+			Collection<ScreenFieldDefinition> fields = designtimeDefinition.getFieldsDefinitions().values();
+			// java types
+			for (ScreenFieldDefinition fieldDefinition : fields) {
+				Class<?> javaType = fieldDefinition.getJavaType();
+				if (javaType != null && javaType.isAssignableFrom(Date.class)) {
+					designtimeDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(javaType));
+				}
+			}
+			// field types
+			for (ScreenFieldDefinition fieldDefinition : fields) {
+				Class<? extends FieldType> type = fieldDefinition.getType();
+				if (type != null) {
+					designtimeDefinition.getReferredClasses().add(ClassUtils.getImportDeclaration(type));
+				}
+			}
+		}
 	}
 
 }

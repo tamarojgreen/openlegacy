@@ -56,6 +56,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		setDescription(Messages.getString("info_ol_project_wizard"));//$NON-NLS-1$
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout gl = new GridLayout();
@@ -107,6 +108,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		projectNameText.setLayoutData(gd);
 		projectNameText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				validatePage();
 			}
@@ -123,14 +125,17 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		defaultPackageText.setLayoutData(gd);
 		defaultPackageText.addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				validatePage();
 			}
 		});
 		defaultPackageText.addFocusListener(new FocusListener() {
 
+			@Override
 			public void focusLost(FocusEvent e) {}
 
+			@Override
 			public void focusGained(FocusEvent e) {
 				if (StringUtils.isEmpty(defaultPackageText.getText()) && !StringUtils.isEmpty(projectNameText.getText())) {
 					defaultPackageText.setText(MessageFormat.format("com.{0}.openlegacy", projectNameText.getText().toLowerCase()));
@@ -183,6 +188,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		if (backendSolutions.isEmpty() || frontendSolutions.isEmpty() || projectTypes.isEmpty()) {
 			getControl().getDisplay().syncExec(new Runnable() {
 
+				@Override
 				public void run() {
 					setControlsEnabled(false);
 					updateStatus(Messages.getString("error_new_project_metadata_not_found"));
@@ -192,6 +198,7 @@ public class OpenLegacyWizardGeneralPage extends AbstractOpenLegacyWizardPage {
 		}
 		getControl().getDisplay().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				backendCombo.setItems(backendSolutions.toArray(new String[] {}));
 				backendCombo.select(0);

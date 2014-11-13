@@ -12,6 +12,7 @@ import org.eclipse.ui.ide.IDE;
 
 public class ImportSourceAction extends AbstractAction {
 
+	@Override
 	public void run(IAction arg0) {
 		// TODO Auto-generated method stub
 		Object firstElement = ((TreeSelection)getSelection()).getFirstElement();

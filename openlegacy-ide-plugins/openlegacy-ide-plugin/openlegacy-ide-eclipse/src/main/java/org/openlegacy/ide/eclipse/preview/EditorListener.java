@@ -39,11 +39,13 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#dirtyStateChanged(org.eclipse.core.filebuffers.IFileBuffer, boolean)
 	 */
+	@Override
 	public void dirtyStateChanged(final IFileBuffer buffer, final boolean isDirty) {
 		if (isSupportedBuffer(buffer)) {
 			if (!isDirty) {
 				Runnable runnable = new Runnable() {
 
+					@Override
 					public void run() {
 						view.handleBufferIsDirty(buffer);
 					}
@@ -62,6 +64,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.ui.IPartListener2#partClosed(org.eclipse.ui.IWorkbenchPartReference)
 	 */
+	@Override
 	public void partClosed(IWorkbenchPartReference partRef) {
 		view.handlePartClosed(partRef.getPart(false));
 	}
@@ -69,6 +72,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.ui.IPartListener2#partHidden(org.eclipse.ui.IWorkbenchPartReference)
 	 */
+	@Override
 	public void partHidden(IWorkbenchPartReference partRef) {
 		view.handlePartHidden(partRef.getPart(false));
 	}
@@ -76,6 +80,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.ui.IPartListener2#partOpened(org.eclipse.ui.IWorkbenchPartReference)
 	 */
+	@Override
 	public void partOpened(IWorkbenchPartReference partRef) {
 		// is not used here
 	}
@@ -83,6 +88,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.ui.IPartListener2#partVisible(org.eclipse.ui.IWorkbenchPartReference)
 	 */
+	@Override
 	public void partVisible(IWorkbenchPartReference partRef) {
 		view.handlePartVisible(partRef.getPart(false));
 	}
@@ -90,6 +96,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#bufferDisposed(org.eclipse.core.filebuffers.IFileBuffer)
 	 */
+	@Override
 	public void bufferDisposed(IFileBuffer buffer) {
 		// is not used here
 	}
@@ -97,6 +104,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#bufferCreated(org.eclipse.core.filebuffers.IFileBuffer)
 	 */
+	@Override
 	public void bufferCreated(IFileBuffer buffer) {
 		// is not used here
 	}
@@ -104,6 +112,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#bufferContentAboutToBeReplaced(org.eclipse.core.filebuffers.IFileBuffer)
 	 */
+	@Override
 	public void bufferContentAboutToBeReplaced(IFileBuffer buffer) {
 		// is not used here
 	}
@@ -111,6 +120,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#bufferContentReplaced(org.eclipse.core.filebuffers.IFileBuffer)
 	 */
+	@Override
 	public void bufferContentReplaced(IFileBuffer buffer) {
 		// is not used here
 	}
@@ -118,6 +128,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#stateChanging(org.eclipse.core.filebuffers.IFileBuffer)
 	 */
+	@Override
 	public void stateChanging(IFileBuffer buffer) {
 		// is not used here
 	}
@@ -126,6 +137,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#stateValidationChanged(org.eclipse.core.filebuffers.IFileBuffer,
 	 *      boolean)
 	 */
+	@Override
 	public void stateValidationChanged(IFileBuffer buffer, boolean isStateValidated) {
 		// is not used here
 	}
@@ -134,6 +146,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#underlyingFileMoved(org.eclipse.core.filebuffers.IFileBuffer,
 	 *      org.eclipse.core.runtime.IPath)
 	 */
+	@Override
 	public void underlyingFileMoved(IFileBuffer buffer, IPath path) {
 		// is not used here
 	}
@@ -141,6 +154,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#underlyingFileDeleted(org.eclipse.core.filebuffers.IFileBuffer)
 	 */
+	@Override
 	public void underlyingFileDeleted(IFileBuffer buffer) {
 		// is not used here
 	}
@@ -148,6 +162,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.core.filebuffers.IFileBufferListener#stateChangeFailed(org.eclipse.core.filebuffers.IFileBuffer)
 	 */
+	@Override
 	public void stateChangeFailed(IFileBuffer buffer) {
 		// is not used here
 	}
@@ -155,6 +170,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.ui.IPartListener2#partInputChanged(org.eclipse.ui.IWorkbenchPartReference)
 	 */
+	@Override
 	public void partInputChanged(IWorkbenchPartReference partRef) {
 		// is not used here
 	}
@@ -162,6 +178,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.ui.IPartListener2#partActivated(org.eclipse.ui.IWorkbenchPartReference)
 	 */
+	@Override
 	public void partActivated(IWorkbenchPartReference partRef) {
 		view.handlePartActivated(partRef.getPart(false));
 	}
@@ -169,6 +186,7 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.ui.IPartListener2#partBroughtToTop(org.eclipse.ui.IWorkbenchPartReference)
 	 */
+	@Override
 	public void partBroughtToTop(IWorkbenchPartReference partRef) {
 		// is not used here
 	}
@@ -176,14 +194,17 @@ public class EditorListener implements IFileBufferListener, IPartListener2, Care
 	/**
 	 * @see org.eclipse.ui.IPartListener2#partDeactivated(org.eclipse.ui.IWorkbenchPartReference)
 	 */
+	@Override
 	public void partDeactivated(IWorkbenchPartReference partRef) {
 		// is not used here
 	}
 
+	@Override
 	public void caretMoved(CaretEvent caretEvent) {
 		view.handleCaretMoved(caretEvent);
 	}
 
+	@Override
 	public void modifyText(ModifyEvent event) {
 		view.handleModifyText(event);
 	}

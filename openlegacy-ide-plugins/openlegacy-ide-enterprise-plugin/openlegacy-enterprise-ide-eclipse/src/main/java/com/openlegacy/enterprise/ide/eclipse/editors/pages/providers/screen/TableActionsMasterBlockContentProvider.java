@@ -17,6 +17,7 @@ public class TableActionsMasterBlockContentProvider implements IStructuredConten
 	 * 
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
+	@Override
 	public void dispose() {}
 
 	/*
@@ -25,6 +26,7 @@ public class TableActionsMasterBlockContentProvider implements IStructuredConten
 	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object,
 	 * java.lang.Object)
 	 */
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {}
 
 	/*
@@ -32,6 +34,7 @@ public class TableActionsMasterBlockContentProvider implements IStructuredConten
 	 * 
 	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		if (inputElement instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection)inputElement;

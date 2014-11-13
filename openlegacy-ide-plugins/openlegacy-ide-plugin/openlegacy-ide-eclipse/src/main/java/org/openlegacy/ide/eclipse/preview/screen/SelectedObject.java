@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.openlegacy.ide.eclipse.preview.screen;
 
-import org.openlegacy.ide.eclipse.preview.screen.FieldRectangle;
-
 import java.text.MessageFormat;
 
 public class SelectedObject {

@@ -64,5 +64,10 @@
 		<display-name>Light</display-name>
 		<image-file>light.jpg</image-file>
 	</theme>
-
+	<theme>
+		<frontend-solution>REST/Mobile</frontend-solution>
+		<name>openlegacy-themes-rest-light</name>
+		<display-name>Healthcare</display-name>
+		<image-file>healthcare.jpg</image-file>
+	</theme>
 </themes>

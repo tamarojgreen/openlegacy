@@ -834,10 +834,23 @@ public class DefaultScreenPojoCodeModel implements ScreenPojoCodeModel {
 						}
 					}
 				}
-
 			} else {
 				if (bodyDeclaration instanceof FieldDeclaration) {
+					FieldDeclaration fieldDeclaration = (FieldDeclaration)bodyDeclaration;
 					numberOfProperties++;
+					if (java.lang.reflect.Modifier.isStatic(fieldDeclaration.getModifiers())
+							|| java.lang.reflect.Modifier.isFinal(fieldDeclaration.getModifiers())) {
+						List<VariableDeclarator> variables = fieldDeclaration.getVariables();
+						if (variables.size() > 0) {
+							String fieldName = variables.get(0).getId().getName();
+							Field field = fields.get(fieldName);
+							if (field != null) {
+								field.setHasGetter(true);
+								field.setHasSetter(true);
+								field.setEditable(false);
+							}
+						}
+					}
 				}
 			}
 		}

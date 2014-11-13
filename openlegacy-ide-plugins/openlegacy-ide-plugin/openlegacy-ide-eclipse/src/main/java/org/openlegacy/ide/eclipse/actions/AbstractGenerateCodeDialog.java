@@ -67,7 +67,6 @@ import org.openlegacy.terminal.definitions.ScreenEntityDefinition;
 import java.io.File;
 import java.text.MessageFormat;
 
-@SuppressWarnings("restriction")
 public abstract class AbstractGenerateCodeDialog extends Dialog implements UserInteraction {
 
 	private final static Logger logger = Logger.getLogger(AbstractGenerateCodeDialog.class);
@@ -116,10 +115,12 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		sourceFolderButton.setText(Messages.getString("label_browse"));
 		sourceFolderButton.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handleSourceFolderButtonSelected();
 			}
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -133,6 +134,7 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 		getPackageText().addModifyListener(new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent paramModifyEvent) {
 				packageValue = getPackageText().getText();
 			}
@@ -151,11 +153,13 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 		useAjButton.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				setUseAj(true);
 
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setUseAj(!isUseAj());
 			}
@@ -175,10 +179,12 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 		generateTest.addSelectionListener(new SelectionListener() {
 
+			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 				setGenerateTest(true);
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setGenerateTest(!isGenerateTest());
 			}
@@ -323,10 +329,12 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 
 	protected abstract void executeGenerate();
 
+	@Override
 	public boolean isOverride(final File file) {
 		final Object[] result = new Object[1];
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				result[0] = MessageDialog.openQuestion(getShell(), PluginConstants.TITLE,
 						MessageFormat.format(Messages.getString("question_override_file"), file.getName()));
@@ -376,14 +384,17 @@ public abstract class AbstractGenerateCodeDialog extends Dialog implements UserI
 		return generateTest;
 	}
 
+	@Override
 	public void open(File file) {
 		open(file, null);
 	}
 
+	@Override
 	public void open(final File file, final EntityDefinition<?> entityDefinition) {
 
 		Display.getDefault().asyncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				final IFolder folder = getProject().getFolder(
 						getSourceFolder().getPath() + "/" + PathsUtil.packageToPath(getPackageValue()));

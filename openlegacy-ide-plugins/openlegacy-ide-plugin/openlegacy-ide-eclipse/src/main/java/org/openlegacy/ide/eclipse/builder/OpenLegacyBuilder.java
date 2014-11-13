@@ -52,6 +52,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 		 * 
 		 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse.core.resources.IResourceDelta)
 		 */
+		@Override
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			IResource resource = delta.getResource();
 			switch (delta.getKind()) {
@@ -118,6 +119,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 			final IFile trailFile = (IFile)resource;
 			Display.getDefault().asyncExec(new Runnable() {
 
+				@Override
 				public void run() {
 
 					if (EclipseUtils.isEditorOpen(trailFile)) {
@@ -150,6 +152,7 @@ public class OpenLegacyBuilder extends IncrementalProjectBuilder {
 
 	class OpenLegacyResourceVisitor implements IResourceVisitor {
 
+		@Override
 		public boolean visit(IResource resource) {
 			checkAspectGenerate(resource, false);
 			// return true to continue visiting children.

@@ -181,7 +181,7 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		if (projectCreationRequest.isSupportTheme()) {
 			renameThemeInPOM(projectCreationRequest.getProjectTheme(), targetPath);
 			renameThemeInAppProperties(projectCreationRequest.getProjectTheme(), targetPath);
-			renameThemeInIndexJSP(projectCreationRequest.getProjectTheme(), targetPath);
+			renameThemeInIndexJSP(projectCreationRequest.getProjectTheme(), projectCreationRequest.isRightTotLeft(), targetPath);
 		}
 
 		// spring files
@@ -223,6 +223,18 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 	}
 
 	private static void handleRightToLeft(File targetPath) throws FileNotFoundException, IOException {
+		File designtimeContext = new File(targetPath, DesignTimeExecuter.CUSTOM_DESIGNTIME_CONTEXT_RELATIVE_PATH);
+
+		if (designtimeContext.exists()) {
+			String designtimeContextFileContent = IOUtils.toString(new FileInputStream(designtimeContext));
+
+			designtimeContextFileContent = designtimeContextFileContent.replaceFirst("openlegacy-default-designtime-context",
+					"openlegacy-rtl-designtime-context");
+			FileUtils.write(designtimeContextFileContent, designtimeContext);
+		} else {
+			logger.error(MessageFormat.format("Unable to find openlegacy-designtime-context.xml within {0}", targetPath));
+		}
+
 		removeComment(new File(targetPath, "pom.xml"), bidiCommentStart, bidiCommentEnd);
 		removeComment(new File(targetPath, DEFAULT_SPRING_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
 		removeComment(new File(targetPath, DEFAULT_SPRING_TEST_CONTEXT_FILE), bidiCommentStart, bidiCommentEnd);
@@ -508,8 +520,8 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 		}
 	}
 
-	private static void renameThemeInIndexJSP(ProjectTheme projectTheme, File targetPath) throws FileNotFoundException,
-			IOException {
+	private static void renameThemeInIndexJSP(ProjectTheme projectTheme, boolean rightToLeft, File targetPath)
+			throws FileNotFoundException, IOException {
 		File indexJspFile = new File(targetPath, INDEX_JSP_PATH);
 
 		if (!indexJspFile.exists()) {
@@ -519,8 +531,19 @@ public class DesignTimeExecuterImpl implements DesignTimeExecuter {
 
 		String IndexJspFileContent = IOUtils.toString(new FileInputStream(indexJspFile));
 
+		String bootstrapRtlSuffix = "";
+		if (rightToLeft) {
+			bootstrapRtlSuffix = "-rtl";
+		}
+		IndexJspFileContent = IndexJspFileContent.replaceAll("#rtlSuffix#", bootstrapRtlSuffix);
+
 		if (projectTheme != null) {
-			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectTheme#", projectTheme.getDisplayName().toLowerCase());
+			String theme = projectTheme.getDisplayName().toLowerCase();
+			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectThemeRoot#", theme);
+			if (rightToLeft) {
+				theme = theme + "_rtl";
+			}
+			IndexJspFileContent = IndexJspFileContent.replaceAll("#projectTheme#", theme);
 			FileUtils.write(IndexJspFileContent, indexJspFile);
 		}
 

@@ -23,6 +23,7 @@ public class JpaEntityActionsSorter implements IEntityActionsSorter {
 		return actions;
 	}
 
+	@Override
 	public int getOrderIndex(AbstractAction action, int defaultIndex) {
 		return defaultIndex;
 	}

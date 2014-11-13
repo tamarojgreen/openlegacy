@@ -22,6 +22,7 @@ public class CustomizeCodeTemplatesAction extends AbstractAction {
 	/**
 	 * @see IActionDelegate#run(IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		boolean cont = MessageDialog.openConfirm(getShell(), Messages.getString("title_openlegacy"),
 				Messages.getString("message_customize_templates"));

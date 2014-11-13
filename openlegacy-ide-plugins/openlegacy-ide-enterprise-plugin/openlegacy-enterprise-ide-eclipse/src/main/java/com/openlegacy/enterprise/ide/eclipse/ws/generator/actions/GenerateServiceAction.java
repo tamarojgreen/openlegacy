@@ -37,6 +37,7 @@ public class GenerateServiceAction extends AbstractAction {
 	 * 
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
+	@Override
 	public void run(IAction action) {
 		final IProject project = getProject();
 		File projectPath = PathsUtil.toOsLocation(project);
@@ -62,6 +63,7 @@ public class GenerateServiceAction extends AbstractAction {
 				final List<AbstractEntityModel> entities = fetcher.fetch(project, monitor, serviceType);
 				Display.getDefault().asyncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						dialog.setTreeViewerInput(new TreeViewerModel(entities));
 					}

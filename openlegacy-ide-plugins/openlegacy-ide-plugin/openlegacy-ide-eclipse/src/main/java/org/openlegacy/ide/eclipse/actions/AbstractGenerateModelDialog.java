@@ -56,6 +56,7 @@ public abstract class AbstractGenerateModelDialog extends AbstractGenerateCodeDi
 				monitor.worked(fileSize - 4);
 				Display.getDefault().syncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						try {
 							monitor.worked(1);

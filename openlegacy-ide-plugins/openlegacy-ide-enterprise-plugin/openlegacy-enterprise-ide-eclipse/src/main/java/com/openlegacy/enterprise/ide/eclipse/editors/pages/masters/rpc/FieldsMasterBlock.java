@@ -165,6 +165,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (!event.getSelection().isEmpty()) {
 					btnRemove.setEnabled(true);
@@ -203,6 +204,7 @@ public class FieldsMasterBlock extends AbstractRpcEntityMasterBlock {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 
+			@Override
 			public void menuAboutToShow(IMenuManager manager) {
 				if (treeViewer.getSelection().isEmpty()) {
 					return;

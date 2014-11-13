@@ -118,6 +118,7 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		tableViewer = new TableViewer(t);
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(spart, event.getSelection());
 			}
@@ -185,10 +186,12 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		}
 	}
 
+	@Override
 	public AbstractEntity getAbstractEntity() {
 		return getEntity();
 	}
 
+	@Override
 	public void reassignMasterBlockViewerInput(UUID selectUUID) {
 		tableViewer.setInput(getEntity());
 		if (selectUUID != null) {
@@ -225,10 +228,12 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		tableViewer.setSelection(tableViewer.getSelection());
 	}
 
+	@Override
 	public IStructuredSelection getMasterBlockViewerSelection() {
 		return (IStructuredSelection)tableViewer.getSelection();
 	}
 
+	@Override
 	public void removeValidationMarkers(UUID uuid) {
 		for (IDetailsPage detailsPage : detailsPages) {
 			if (((IOpenLegacyDetailsPage)detailsPage).getModelUUID() != null
@@ -239,6 +244,7 @@ public class FieldsMasterBlock extends AbstractJpaEntityMasterBlock implements I
 		}
 	}
 
+	@Override
 	public void removePartsValidationMarkers() {
 		// relevant for ScreenEntity editor
 	}

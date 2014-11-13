@@ -49,12 +49,14 @@ public class GenerateScreenModelDialog extends AbstractGenerateModelDialog {
 		}
 	}
 
+	@Override
 	public boolean customizeEntity(final EntityDefinition<?> screenEntityDefinition,
 			final GenerateModelRequest generateModelRequest) {
 
 		final BooleanContainer generate = new BooleanContainer();
 		Display.getDefault().syncExec(new Runnable() {
 
+			@Override
 			public void run() {
 				CustomizeScreenEntityDialog customizeDialog = new CustomizeScreenEntityDialog(getShell(),
 						(ScreenEntityDefinition)screenEntityDefinition, generateModelRequest.getProjectPath());

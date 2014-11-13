@@ -91,6 +91,7 @@ public class GeneralMasterBlock extends AbstractJpaEntityMasterBlock {
 		tableViewer = new TableViewer(t);
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(spart, event.getSelection());
 			}

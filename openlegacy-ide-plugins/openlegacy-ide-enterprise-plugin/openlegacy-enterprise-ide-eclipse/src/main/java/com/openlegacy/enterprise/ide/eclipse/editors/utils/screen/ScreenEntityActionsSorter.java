@@ -57,6 +57,7 @@ public class ScreenEntityActionsSorter implements IEntityActionsSorter {
 		return actions;
 	}
 
+	@Override
 	public int getOrderIndex(AbstractAction action, int defaultIndex) {
 		if (action instanceof ScreenEntityAction) {
 			return SCREEN_ENTITY_ORDER.contains(action.getKey()) ? SCREEN_ENTITY_ORDER.indexOf(action.getKey()) : defaultIndex;

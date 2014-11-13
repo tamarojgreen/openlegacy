@@ -28,6 +28,7 @@ public abstract class AbstractPage extends FormPage implements IOpenLegacyPage {
 
 	public abstract void createFormContent();
 
+	@Override
 	public abstract void refresh();
 
 	@Override

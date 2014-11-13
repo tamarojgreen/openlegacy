@@ -22,6 +22,7 @@ public class ActionsComparator implements Comparator<AbstractAction> {
 		return INSTANCE;
 	}
 
+	@Override
 	public int compare(AbstractAction o1, AbstractAction o2) {
 		if (this.order == null) {
 			return 0;

@@ -100,6 +100,7 @@ public class ActionModel implements ActionDefinition {
 	 * 
 	 * @see org.openlegacy.definitions.ActionDefinition#getAction()
 	 */
+	@Override
 	public SessionAction<? extends Session> getAction() {
 		return action;
 	}
@@ -109,6 +110,7 @@ public class ActionModel implements ActionDefinition {
 	 * 
 	 * @see org.openlegacy.definitions.ActionDefinition#getActionName()
 	 */
+	@Override
 	public String getActionName() {
 		return actionName;
 	}
@@ -122,6 +124,7 @@ public class ActionModel implements ActionDefinition {
 	 * 
 	 * @see org.openlegacy.definitions.ActionDefinition#getAlias()
 	 */
+	@Override
 	public String getAlias() {
 		return alias;
 	}
@@ -131,6 +134,7 @@ public class ActionModel implements ActionDefinition {
 	 * 
 	 * @see org.openlegacy.definitions.ActionDefinition#getDisplayName()
 	 */
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -156,10 +160,12 @@ public class ActionModel implements ActionDefinition {
 	 * 
 	 * @see org.openlegacy.definitions.ActionDefinition#isDefaultAction()
 	 */
+	@Override
 	public boolean isDefaultAction() {
 		return false;
 	}
 
+	@Override
 	public boolean isGlobal() {
 		return global;
 	}
@@ -184,6 +190,7 @@ public class ActionModel implements ActionDefinition {
 		this.displayName = displayName;
 	}
 
+	@Override
 	public Class<?> getTargetEntity() {
 		return targetEntity;
 	}

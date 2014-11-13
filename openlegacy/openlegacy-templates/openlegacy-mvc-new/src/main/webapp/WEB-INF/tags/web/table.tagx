@@ -40,6 +40,11 @@
 		<c:set var="contentPaneId" value="window_container" />
 	</c:if>
 
+	<c:set var="dir" value="ltr"/>
+	<c:if test="${openLegacyProperties.rightToLeft}">
+		<c:set var="dir" value="rtl"/>
+	</c:if>
+
 	<c:set var="tableDefinition" value="${definitions.tableDefinitions[property]}" />
 	<c:if test="${fn:length(data) &gt; 0}">
 		<div class="table" style="${style}">
@@ -47,10 +52,10 @@
 				<tr>
 					<c:forEach items="${tableDefinition.columnDefinitions}" var="column">
 						<c:if test="${column.selectionField}">
-							<c:set var="foundSelectionField" value="true" />
+							<c:set var="selectionColumn" value="${column}" />
 						</c:if>
 					</c:forEach>
-					<c:if test="${not foundSelectionField}">
+					<c:if test="${selectionColumn == null}">
 						<th>
 							<!--  -->
 						</th>
@@ -61,17 +66,31 @@
 						</c:if>
 					</c:forEach>
 				</tr>
+				<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
+				<c:set var="tableActionsProperty" value="${tableDefinition.tableEntityName}sActions" />
+				<c:set var="tableActions" value="${model[tableActionsProperty]}" />
+				<c:forEach items="${tableActions}" var="action" varStatus="counter">
+					<c:if test="${action.defaultAction}">
+						<c:set var="defaultAction" value="${action}" />
+					</c:if>
+				</c:forEach>
 				<c:forEach items="${data}" var="item" varStatus="rowIndex">
+					<c:if test="${defaultAction != null}">
+						<c:set var="rowClick" value="location.href='${pageContext.request.contextPath}/${defaultAction.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
+						<c:if test="${action.targetEntity == null}">
+							<c:set var="selectionColumnName" value="${selectionColumn.name}" />
+							<c:set var="rowClick" value="document.getElementById('${selectionColumnName}_${rowIndex.index}').value='${defaultAction.action.actionValue}';doPost()" />
+						</c:if>
+					</c:if>
 					<c:forEach begin="0" end="${tableDefinition.rowGaps-1}" var="rowGap">
-						<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}">
-							<c:if test="${not foundSelectionField}">
-								<td><c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
+						<tr class="${rowIndex.index % 2 == 0 or !alternate ? '' : 'alt'}" onclick="${rowClick}">
+							<c:if test="${selectionColumn == null}">
+								<td><c:forEach items="${tableActions}" var="action" varStatus="counter">
 										<c:choose>
 											<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
 												<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
 											</c:when>
 											<c:otherwise>
-												<c:set var="model" value="${requestScope[ol:uncapFirst(definitions.entityName)]}" />
 												<c:set var="keysValues" value="${model[tableDefinition.keyFieldNames[0]]}" />
 											</c:otherwise>
 										</c:choose>
@@ -96,7 +115,7 @@
 										<a href="${target}" class="${actionsCss}" title="${action.displayName}">${action.displayName} <span> <!--  -->
 										</span>
 										</a>
-										<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}">
+										<c:if test="${(counter.index+1) != fn:length(tableActions) and not actionsAsIcons}">
 											<span class="actions_separator"> | </span>
 										</c:if>
 									</c:forEach></td>
@@ -108,7 +127,8 @@
 									<spring:message code="label_select" var="label_select" htmlEscape="false" />
 									<td colspan="${column.colSpan}"><c:choose>
 											<c:when test="${column.selectionField}">
-												<c:set var="foundSelectionField" value="true" />
+												<input type="hidden" name="${column.name}_${rowIndex.index}" id="${column.name}_${rowIndex.index}" />
+												<c:set var="selectionColumn" value="${column}" />
 												<c:set var="columnFieldName" value="${column.name}Field"/>
 												<c:set var="editable" value="true" />
 												<c:if test="${olf:hasProperty(item,columnFieldName)}">
@@ -117,7 +137,7 @@
 												</c:if>
 												<c:if test="${editable}">
 												<c:choose>
-													<c:when test="${fn:length(tableDefinition.actions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
+													<c:when test="${fn:length(tableActions) == 0 and fn:length(tableDefinition.keyFieldNames) &gt; 0}">
 														<c:if test="${fn:length(tableDefinition.mainDisplayFields) &gt; 0 and definitions.window}">
 															<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}','${item[tableDefinition.mainDisplayFields[0]]}');" class="${actionsCss}" title="${label_select}">${label_select}</a>
 														</c:if>
@@ -125,21 +145,20 @@
 															<a href="javascript:closeAndUpdateLookup('${item[tableDefinition.keyFieldNames[0]]}');" class="${actionsCss}" title="${label_select}">${label_select}</a>
 														</c:if>
 													</c:when>
-													<c:when test="${fn:length(tableDefinition.actions) &gt; 4}">
-														<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect">
+													<c:when test="${fn:length(tableActions) &gt; 4}">
+														<select onchange="eval(this.value)" name="${column.name}" data-dojo-type="dijit/form/FilteringSelect" dir="${dir}">
 															<option value="">- Select -</option>
-															<c:forEach items="${tableDefinition.actions}" var="action">
+															<c:forEach items="${tableActions}" var="action">
 																<c:set var="target" value="location.href='${pageContext.request.contextPath}/${action.targetEntity.simpleName}/${item[tableDefinition.keyFieldNames[0]]}'" />
 																<c:if test="${action.targetEntity == null}">
-																	<c:set var="target" value="alert('No target entity specified for table action in table class @ScreenTableActions annotation')" />
+																	<c:set var="target" value="document.getElementById('${column.name}_${rowIndex.index}').value='${action.action.actionValue}';doPost()" />
 																</c:if>
 																<option value="${target}">${action.displayName}</option>
 															</c:forEach>
 														</select>
 													</c:when>
 													<c:otherwise>
-														<input type="hidden" name="${column.name}_${rowIndex.index}" id="${column.name}_${rowIndex.index}" />
-														<c:forEach items="${tableDefinition.actions}" var="action" varStatus="counter">
+														<c:forEach items="${tableActions}" var="action" varStatus="counter">
 															<c:choose>
 																<c:when test="${ol:hasProperty(item,tableDefinition.keyFieldNames[0])}">
 																	<c:set var="keysValues" value="${item[tableDefinition.keyFieldNames[0]]}" />
@@ -170,7 +189,7 @@
 															<a href="${target}" class="${actionsCss} ${action.alias}" title="${action.displayName}">${action.displayName} <span> <!--  -->
 															</span>
 															</a>
-															<c:if test="${(counter.index+1) != fn:length(tableDefinition.actions) and not actionsAsIcons}">
+															<c:if test="${(counter.index+1) != fn:length(tableActions) and not actionsAsIcons}">
 																<span class="actions_separator"> | </span>
 															</c:if>
 														</c:forEach>
@@ -190,7 +209,7 @@
 														<a href="${pageContext.request.contextPath}/${column.targetEntity.simpleName}/${columnValue}">${columnValue}</a>
 													</c:when>
 													<c:otherwise>
-														<span style="${style}" dir="ltr">${columnValue}</span>
+														<span style="${style}">${columnValue}</span>
 													</c:otherwise>
 												</c:choose>
 											</c:otherwise>

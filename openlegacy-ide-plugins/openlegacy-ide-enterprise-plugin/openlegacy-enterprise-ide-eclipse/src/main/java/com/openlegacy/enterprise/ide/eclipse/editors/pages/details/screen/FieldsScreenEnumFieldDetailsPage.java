@@ -266,6 +266,7 @@ public class FieldsScreenEnumFieldDetailsPage extends AbstractScreenFieldDetails
 		// try to remove action that responsible for creating a new enum class
 		return new ModifyListener() {
 
+			@Override
 			public void modifyText(ModifyEvent e) {
 				if (!updatingControls) {
 					getEntity().removeAction(fieldModel.getUUID(), Constants.ENUM_FIELD_NEW_TYPE_DECLARATION);

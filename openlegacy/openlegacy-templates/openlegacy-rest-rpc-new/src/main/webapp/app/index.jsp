@@ -10,9 +10,8 @@
 	<link href="../favicon.ico" rel="shortcut icon" />	
 	
 	<!-- Bootstrap core CSS -->
-	<link href="bootstrap/css/bootstrap.min.css" media="all" type="text/css" rel="stylesheet">
+	<link href="bootstrap/css/bootstrap#rtlSuffix#.min.css" media="all" type="text/css" rel="stylesheet">
 	<link href="bootstrap/css/datepicker.css" media="all" type="text/css" rel="stylesheet">
-	<!-- <link href="bootstrap/css/bootstrap-rtl.min.css" media="all" type="text/css" rel="stylesheet"> -->	
 	
     <!-- Bootstrap extention CSS -->
     <link href="bootstrap/css/font-awesome.min.css" rel="stylesheet">	
@@ -25,7 +24,7 @@
 		}
 	</style>
 	<link type="text/css" rel="stylesheet" href="css/project.css" />
-	<link ng-href="themes/#projectTheme#/#projectTheme#.css" rel="stylesheet">
+	<link ng-href="themes/#projectThemeRoot#/#projectTheme#.css" rel="stylesheet">
 	
 	<script src="js/jquery-1.10.2.min.js"></script>
 	<script src="lib/angular/angular.min.js"></script>
