@@ -1,9 +1,13 @@
 package com.openlegacy.enterprise.ide.eclipse.editors.models.rpc;
 
+import org.drools.core.util.StringUtils;
 import org.openlegacy.Session;
 import org.openlegacy.SessionAction;
 import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.rpc.RpcEntity;
+import org.openlegacy.utils.StringUtil;
+
+import java.util.UUID;
 
 /**
  * @author Ivan Bort
@@ -11,13 +15,7 @@ import org.openlegacy.rpc.RpcEntity;
  */
 public class ActionModel implements RpcActionDefinition {
 
-	private String actionName;
-	private String prevActionName;
-	private String prevDisplayName;
-	private String prevAlias;
-	private String prevPath;
-	private boolean prevGlobal;
-	private String prevTargetEntityName;
+	private static final Class<?> DEFAULT_TARGET_ENTITY = RpcEntity.NONE.class;
 
 	// annotation attributes
 	private SessionAction<? extends Session> action;
@@ -25,27 +23,39 @@ public class ActionModel implements RpcActionDefinition {
 	private String path;
 	private boolean global = true;
 	private String alias = "";
-	private Class<?> targetEntity = RpcEntity.NONE.class;
-	private String targetEntityName = RpcEntity.NONE.class.getSimpleName();
+	private Class<?> targetEntity = DEFAULT_TARGET_ENTITY;
+	private String targetEntityClassName = RpcEntity.NONE.class.getSimpleName();
+
+	// other
+	private String actionName;
+	private String prevActionName;
+	private String prevDisplayName;
+	private String prevAlias;
+	private String prevPath;
+	private boolean prevGlobal;
+	private String prevTargetEntityClassName;
+
+	private UUID uuid = UUID.randomUUID();
 
 	public ActionModel(String actionName, String displayName, String alias, String path, boolean global) {
 		this(actionName, displayName, alias, path, global, RpcEntity.NONE.class.getSimpleName());
 	}
 
-	public ActionModel(String actionName, String displayName, String alias, String path, boolean global, String targetEntityName) {
+	public ActionModel(String actionName, String displayName, String alias, String path, boolean global,
+			String targetEntityClassName) {
 		this.actionName = actionName;
 		this.displayName = displayName;
 		this.alias = alias;
 		this.path = path;
 		this.global = global;
-		this.targetEntityName = targetEntityName;
+		this.targetEntityClassName = targetEntityClassName;
 
 		this.prevActionName = actionName;
-		this.prevDisplayName = displayName;
-		this.prevAlias = alias;
+		this.prevDisplayName = (displayName == null) ? StringUtil.toDisplayName(actionName.toLowerCase()) : displayName;
+		this.prevAlias = (alias == null) ? actionName.toLowerCase() : alias;
 		this.prevPath = path;
 		this.prevGlobal = global;
-		this.prevTargetEntityName = targetEntityName;
+		this.prevTargetEntityClassName = targetEntityClassName;
 	}
 
 	@Override
@@ -132,12 +142,12 @@ public class ActionModel implements RpcActionDefinition {
 		return prevGlobal;
 	}
 
-	public String getTargetEntityName() {
-		return targetEntityName;
+	public String getTargetEntityClassName() {
+		return targetEntityClassName;
 	}
 
 	public void setTargetEntityClassName(String targetEntityClassName) {
-		this.targetEntityName = targetEntityClassName;
+		this.targetEntityClassName = targetEntityClassName;
 	}
 
 	public void setTargetEntity(Class<?> targetEntity) {
@@ -145,7 +155,22 @@ public class ActionModel implements RpcActionDefinition {
 	}
 
 	public String getPrevTargetEntityClassName() {
-		return prevTargetEntityName;
+		return prevTargetEntityClassName;
 	}
 
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public Class<?> getDefaultTargetEntity() {
+		return DEFAULT_TARGET_ENTITY;
+	}
+
+	public String getDefaultDisplayName() {
+		return StringUtils.isEmpty(actionName) ? "" : StringUtil.toDisplayName(actionName.toLowerCase());
+	}
+
+	public String getDefaultAlias() {
+		return StringUtils.isEmpty(actionName) ? "" : actionName.toLowerCase();
+	}
 }

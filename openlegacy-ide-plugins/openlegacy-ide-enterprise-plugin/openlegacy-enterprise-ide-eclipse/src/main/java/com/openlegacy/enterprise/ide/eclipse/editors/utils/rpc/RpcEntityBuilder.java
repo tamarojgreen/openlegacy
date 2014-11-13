@@ -51,6 +51,8 @@ import org.openlegacy.annotations.rpc.RpcPart;
 import org.openlegacy.annotations.rpc.RpcPartList;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
+import org.openlegacy.rpc.RpcEntity;
+import org.openlegacy.utils.StringUtil;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -87,16 +89,26 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 				// get current @Action attributes: action name, display name, alias, path, global
 				String actionName = "";//$NON-NLS-1$
 				MemberValuePair actionPair = null;
-				String displayName = "";//$NON-NLS-1$
-				String alias = "";//$NON-NLS-1$
+				String displayName = null;
+				String alias = null;
 				String path = "";//$NON-NLS-1$
 				boolean global = true;
+				String targetEntityName = RpcEntity.NONE.class.getSimpleName();
+				MemberValuePair targetEntityPair = null;
+
 				for (MemberValuePair pair : pairs) {
 					if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.ACTION)) {
 						String[] split = ((SimpleType)((TypeLiteral)pair.getValue()).getType()).getName().getFullyQualifiedName().split(
 								"\\.");//$NON-NLS-1$
 						actionName = split[split.length - 1];
 						actionPair = pair;
+						// set displayName and alias into accordance of SimpleActionDefinition getters logic
+						if (displayName == null) {
+							displayName = StringUtil.toDisplayName(actionName.toLowerCase());
+						}
+						if (alias == null) {
+							alias = actionName.toLowerCase();
+						}
 					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.DISPLAY_NAME)) {
 						displayName = ((StringLiteral)pair.getValue()).getLiteralValue();
 					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.ALIAS)) {
@@ -105,13 +117,19 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 						path = ((StringLiteral)pair.getValue()).getLiteralValue();
 					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.GLOBAL)) {
 						global = ((BooleanLiteral)pair.getValue()).booleanValue();
+					} else if (pair.getName().getFullyQualifiedName().equals(AnnotationConstants.TARGET_ENTITY)) {
+						String[] split = ((SimpleType)((TypeLiteral)pair.getValue()).getType()).getName().getFullyQualifiedName().split(
+								"\\.");//$NON-NLS-1$
+						targetEntityName = split[split.length - 1];
+						targetEntityPair = pair;
 					}
 				}
 				for (ActionModel model : models) {
 					// check, if model represents current @Action annotation
 					if (actionName.equals(model.getPrevActionName()) && displayName.equals(model.getPrevDisplayName())
 							&& alias.equals(model.getPrevAlias()) && path.equals(model.getPrevPath())
-							&& (global == model.isPrevGlobal())) {
+							&& (global == model.isPrevGlobal())
+							&& StringUtils.equals(targetEntityName, model.getPrevTargetEntityClassName())) {
 						NormalAnnotation newAnnotation = ast.newNormalAnnotation();
 						newAnnotation.setTypeName(ast.newSimpleName(Action.class.getSimpleName()));
 						// determine what should we do, change existing or create new @Action annotation
@@ -129,12 +147,13 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 											model.getAction().getClass()));
 							ASTUtils.addImport(ast, cu, rewriter, model.getAction().getClass());
 						}
-						if (!model.getDisplayName().isEmpty()) {
+						if (!model.getDisplayName().isEmpty()
+								&& !StringUtils.equals(model.getDisplayName(), model.getDefaultDisplayName())) {
 							newAnnotation.values().add(
 									RpcEntityASTUtils.INSTANCE.createStringPair(ast, AnnotationConstants.DISPLAY_NAME,
 											model.getDisplayName()));
 						}
-						if (!model.getAlias().isEmpty()) {
+						if (!model.getAlias().isEmpty() && !StringUtils.equals(model.getAlias(), model.getDefaultAlias())) {
 							newAnnotation.values().add(
 									RpcEntityASTUtils.INSTANCE.createStringPair(ast, AnnotationConstants.ALIAS, model.getAlias()));
 						}
@@ -145,6 +164,20 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 							newAnnotation.values().add(
 									RpcEntityASTUtils.INSTANCE.createBooleanPair(ast, AnnotationConstants.GLOBAL,
 											model.isGlobal()));
+						}
+						if ((model.getTargetEntity() == null || model.getTargetEntityClassName().equals(
+								model.getPrevTargetEntityClassName()))
+								&& targetEntityPair != null) {
+							// get existing action type
+							MemberValuePair newPair = ast.newMemberValuePair();
+							newAnnotation.values().add(ASTNode.copySubtree(newPair.getAST(), targetEntityPair));
+						} else if (model.getTargetEntity() != null
+								&& !model.getTargetEntityClassName().equals(model.getPrevTargetEntityClassName())) {
+							// add new
+							newAnnotation.values().add(
+									RpcEntityASTUtils.INSTANCE.createTypePair(ast, AnnotationConstants.TARGET_ENTITY,
+											model.getTargetEntity()));
+							ASTUtils.addImport(ast, cu, rewriter, model.getTargetEntity());
 						}
 						newValue.expressions().add(newAnnotation);
 						toRemove.add(model);
@@ -178,6 +211,14 @@ public class RpcEntityBuilder extends AbstractEntityBuilder {
 				if (!model.isGlobal()) {
 					newAnnotation.values().add(
 							RpcEntityASTUtils.INSTANCE.createBooleanPair(ast, AnnotationConstants.GLOBAL, model.isGlobal()));
+				}
+				// 'targetEntity' attribute
+				if (model.getTargetEntity() != null
+						&& !model.getTargetEntity().getName().equals(model.getDefaultTargetEntity().getName())) {
+					newAnnotation.values().add(
+							RpcEntityASTUtils.INSTANCE.createTypePair(ast, AnnotationConstants.TARGET_ENTITY,
+									model.getTargetEntity()));
+					ASTUtils.addImport(ast, cu, rewriter, model.getTargetEntity());
 				}
 
 				newValue.expressions().add(newAnnotation);

@@ -54,7 +54,7 @@ public class RpcActionsModel extends RpcNamedObject {
 		List<ActionModel> list = new ArrayList<ActionModel>();
 		for (ActionModel item : this.actions) {
 			ActionModel newAction = new ActionModel(item.getActionName(), item.getDisplayName(), item.getAlias(),
-					item.getProgramPath(), item.isGlobal(), item.getTargetEntityName());
+					item.getProgramPath(), item.isGlobal(), item.getTargetEntityClassName());
 			list.add(newAction);
 		}
 		model.setActions(list);

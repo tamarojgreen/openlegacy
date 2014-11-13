@@ -383,7 +383,8 @@ public class RpcEntityUtils {
 				ActionModel bClass = b.get(i);
 				if (!aClass.getActionName().equals(bClass.getActionName()) || !aClass.getAlias().equals(bClass.getAlias())
 						|| !aClass.getDisplayName().equals(bClass.getDisplayName())
-						|| !aClass.getProgramPath().equals(bClass.getProgramPath()) || (aClass.isGlobal() != bClass.isGlobal())) {
+						|| !aClass.getProgramPath().equals(bClass.getProgramPath()) || (aClass.isGlobal() != bClass.isGlobal())
+						|| !StringUtils.equals(aClass.getTargetEntityClassName(), bClass.getTargetEntityClassName())) {
 					return false;
 				}
 			}
