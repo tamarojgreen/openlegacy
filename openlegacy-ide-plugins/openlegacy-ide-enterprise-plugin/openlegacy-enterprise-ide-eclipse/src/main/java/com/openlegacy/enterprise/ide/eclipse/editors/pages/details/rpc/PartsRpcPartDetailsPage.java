@@ -43,7 +43,9 @@ import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 
+import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -298,7 +300,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 
 		FormRowCreator.createSpacer(toolkit, client, 2);
 
-		Table t = toolkit.createTable(client, SWT.FULL_SELECTION);
+		Table t = toolkit.createTable(client, SWT.FULL_SELECTION | SWT.H_SCROLL);
 		gd = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gd.heightHint = 200;
 		t.setLayoutData(gd);
@@ -363,7 +365,7 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 		});
 	}
 
-	private static void createColumns(TableViewer viewer) {
+	private void createColumns(TableViewer viewer) {
 		// "action" column
 		TableViewerColumn vcol = new TableViewerColumn(viewer, SWT.NONE);
 		TableColumn tcol = vcol.getColumn();
@@ -457,5 +459,48 @@ public class PartsRpcPartDetailsPage extends AbstractRpcDetailsPage {
 				// updateModel();
 			}
 		});
+
+		// "target entity" column
+		vcol = new TableViewerColumn(viewer, SWT.FILL);
+		tcol = vcol.getColumn();
+		tcol.setText(Messages.getString("rpc.actions.page.col.target.entity"));//$NON-NLS-1$
+		tcol.setResizable(false);
+		tcol.setWidth(150);
+
+		vcol.setEditingSupport(new ActionsDialogCellEditingSupport(viewer, AnnotationConstants.TARGET_ENTITY));
+		vcol.setLabelProvider(new CellLabelProvider() {
+
+			@Override
+			public void update(ViewerCell cell) {
+				ActionModel action = (ActionModel)cell.getElement();
+				cell.setText(action.getTargetEntityClassName());
+				// updateModel();
+				validateTargetEntityColumn(action);
+			}
+		});
+	}
+
+	private void validateTargetEntityColumn(ActionModel model) {
+		Class<?> targetEntity = model.getTargetEntity();
+		boolean isRpcEntity = false;
+		for (Annotation annotation : targetEntity.getDeclaredAnnotations()) {
+			if (annotation.annotationType().getName().equals(org.openlegacy.annotations.rpc.RpcEntity.class.getName())) {
+				isRpcEntity = true;
+				break;
+			}
+		}
+		String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "targetEntity");//$NON-NLS-1$ //$NON-NLS-2$
+		// RpcEntityEditor editor = (RpcEntityEditor)getEntityEditor();
+		if (isRpcEntity || targetEntity.getName().equals(org.openlegacy.rpc.RpcEntity.NONE.class.getName())) {
+			// remove validation marker
+			managedForm.getMessageManager().removeMessage(validationMarkerKey);
+			// editor.removeValidationMarker(validationMarkerKey);
+		} else {
+			// add validation marker
+			String message = MessageFormat.format("Target entity: {0} \n {1}", targetEntity.getName(),//$NON-NLS-1$
+					Messages.getString("validation.selected.class.is.not.rpc.entity"));//$NON-NLS-1$
+			managedForm.getMessageManager().addMessage(validationMarkerKey, message, null, IMessageProvider.ERROR);
+			// editor.addValidationMarker(validationMarkerKey, message);
+		}
 	}
 }
