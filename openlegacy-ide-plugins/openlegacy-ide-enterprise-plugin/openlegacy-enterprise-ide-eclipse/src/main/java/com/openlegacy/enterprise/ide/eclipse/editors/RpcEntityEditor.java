@@ -1,5 +1,6 @@
 package com.openlegacy.enterprise.ide.eclipse.editors;
 
+import com.openlegacy.enterprise.ide.eclipse.Activator;
 import com.openlegacy.enterprise.ide.eclipse.Messages;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.pages.rpc.ActionsPage;
@@ -8,6 +9,9 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.rpc.GeneralPage;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.rpc.RpcEntitySaver;
 
 import org.apache.commons.lang.CharEncoding;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -114,6 +118,34 @@ public class RpcEntityEditor extends AbstractEditor {
 	protected PageDefinition getPageDefinitionForHtmlPreview() {
 		SimplePageDefinition definition = new SimplePageDefinition(entity.getEntityDefinition());
 		return definition;
+	}
+
+	public void removeValidationMarker(String key) {
+		if (markers.containsKey(key)) {
+			try {
+				markers.get(key).delete();
+				markers.remove(key);
+				if (markers.isEmpty()) {
+					setTitleImage(Activator.getDefault().getImage(Activator.IMG_EDITOR_NORMAL));
+				}
+			} catch (CoreException e) {
+			}
+		}
+	}
+
+	public void addValidationMarker(String key, String text) {
+		if (!markers.containsKey(key)) {
+			IResource resource = (IResource)getEditorInput().getAdapter(IResource.class);
+			try {
+				IMarker marker = resource.createMarker(IMarker.PROBLEM);
+				marker.setAttribute(IMarker.MESSAGE, text);
+				marker.setAttribute(IMarker.PRIORITY, IMarker.PRIORITY_HIGH);
+				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+				markers.put(key, marker);
+				setTitleImage(Activator.getDefault().getImage(Activator.IMG_EDITOR_ERROR));
+			} catch (CoreException e) {
+			}
+		}
 	}
 
 }

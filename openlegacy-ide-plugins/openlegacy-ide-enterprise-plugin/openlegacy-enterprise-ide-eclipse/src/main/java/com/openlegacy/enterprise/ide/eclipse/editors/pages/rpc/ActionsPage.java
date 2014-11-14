@@ -16,14 +16,17 @@ import com.openlegacy.enterprise.ide.eclipse.editors.pages.providers.rpc.Actions
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -42,6 +45,8 @@ import org.openlegacy.definitions.RpcActionDefinition;
 import org.openlegacy.designtime.generators.AnnotationConstants;
 import org.openlegacy.designtime.rpc.generators.support.RpcAnnotationConstants;
 
+import java.lang.annotation.Annotation;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,12 +102,22 @@ public class ActionsPage extends AbstractPage {
 		gl.numColumns = 2;
 		client.setLayout(gl);
 
-		Table t = toolkit.createTable(client, SWT.FULL_SELECTION);
+		ScrolledComposite scrolledComposite = new ScrolledComposite(client, SWT.NONE);
 		GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-		gd.heightHint = 300;
-		t.setLayoutData(gd);
+		gd.heightHint = 200;
+		Point size = client.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		gd.widthHint = size.x;
+		scrolledComposite.setLayoutData(gd);
+
+		Table t = toolkit.createTable(scrolledComposite, SWT.FULL_SELECTION);
 		t.setHeaderVisible(true);
 		t.setLinesVisible(true);
+
+		scrolledComposite.setContent(t);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+		scrolledComposite.setMinSize(t.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
 		// add buttons
 		addPanelWithButtons(toolkit, client);
 
@@ -117,11 +132,6 @@ public class ActionsPage extends AbstractPage {
 		section.setClient(client);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.openlegacy.enterprise.ide.eclipse.editors.pages.AbstractPage#refresh()
-	 */
 	@Override
 	public void refresh() {
 		actionsModel = ((RpcEntityEditor)getEntityEditor()).getEntity().getActionsModel().clone();
@@ -271,6 +281,25 @@ public class ActionsPage extends AbstractPage {
 				updateModel();
 			}
 		});
+
+		// "target entity" column
+		vcol = new TableViewerColumn(viewer, SWT.FILL);
+		tcol = vcol.getColumn();
+		tcol.setText(Messages.getString("rpc.actions.page.col.target.entity"));//$NON-NLS-1$
+		tcol.setResizable(false);
+		tcol.setWidth(150);
+
+		vcol.setEditingSupport(new ActionsDialogCellEditingSupport(viewer, AnnotationConstants.TARGET_ENTITY));
+		vcol.setLabelProvider(new CellLabelProvider() {
+
+			@Override
+			public void update(ViewerCell cell) {
+				ActionModel action = (ActionModel)cell.getElement();
+				cell.setText(action.getTargetEntityClassName());
+				updateModel();
+				validateTargetEntityColumn(action);
+			}
+		});
 	}
 
 	private void updateModel() {
@@ -282,6 +311,30 @@ public class ActionsPage extends AbstractPage {
 							IStatus.ERROR, Activator.PLUGIN_ID, e.getMessage()));
 		}
 		setDirty(((RpcEntityEditor)getEntityEditor()).getEntity().isDirty());
+	}
+
+	private void validateTargetEntityColumn(ActionModel model) {
+		Class<?> targetEntity = model.getTargetEntity();
+		boolean isRpcEntity = false;
+		for (Annotation annotation : targetEntity.getDeclaredAnnotations()) {
+			if (annotation.annotationType().getName().equals(org.openlegacy.annotations.rpc.RpcEntity.class.getName())) {
+				isRpcEntity = true;
+				break;
+			}
+		}
+		String validationMarkerKey = MessageFormat.format("{0}-{1}", model.getUuid(), "targetEntity");//$NON-NLS-1$ //$NON-NLS-2$
+		RpcEntityEditor editor = (RpcEntityEditor)getEntityEditor();
+		if (isRpcEntity || targetEntity.getName().equals(org.openlegacy.rpc.RpcEntity.NONE.class.getName())) {
+			// remove validation marker
+			managedForm.getMessageManager().removeMessage(validationMarkerKey);
+			editor.removeValidationMarker(validationMarkerKey);
+		} else {
+			// add validation marker
+			String message = MessageFormat.format("Target entity: {0} \n {1}", targetEntity.getName(),//$NON-NLS-1$
+					Messages.getString("validation.selected.class.is.not.rpc.entity"));//$NON-NLS-1$
+			managedForm.getMessageManager().addMessage(validationMarkerKey, message, null, IMessageProvider.ERROR);
+			editor.addValidationMarker(validationMarkerKey, message);
+		}
 	}
 
 }

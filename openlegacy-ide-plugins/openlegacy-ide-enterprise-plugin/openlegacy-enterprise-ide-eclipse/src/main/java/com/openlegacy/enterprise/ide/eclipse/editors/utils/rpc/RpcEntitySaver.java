@@ -9,9 +9,11 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNumericFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartListAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.AbstractEntity;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcEntity;
+import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcPartModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.utils.AbstractEntitySaver;
 
 import org.eclipse.jdt.core.dom.AST;
@@ -63,11 +65,11 @@ public class RpcEntitySaver extends AbstractEntitySaver {
 		// add new annotations to entity
 		RpcEntityBuilder.INSTANCE.addEntityTopLevelAnnotations(ast, cu, rewriter, listRewriter,
 				RpcEntityUtils.<AbstractAction> getActionList(entity, ASTNode.NORMAL_ANNOTATION,
-						new ActionType[] { ActionType.ADD }));
+						new ActionType[] { ActionType.ADD }), null);
 
 		// remove annotations from entity
 		RpcEntityBuilder.INSTANCE.removeEntityTopLevelAnnotations(listRewriter, RpcEntityUtils.<AbstractAction> getActionList(
-				entity, ASTNode.NORMAL_ANNOTATION, new ActionType[] { ActionType.REMOVE }));
+				entity, ASTNode.NORMAL_ANNOTATION, new ActionType[] { ActionType.REMOVE }), null);
 
 		// handle existing annotations
 		List<ASTNode> nodeList = listRewriter.getRewrittenList();
@@ -230,7 +232,7 @@ public class RpcEntitySaver extends AbstractEntitySaver {
 
 		// Note: logic looks like we are processing root in general
 
-		// process top level screen part annotations: @RpcPart
+		// process top level screen part annotations: @RpcPart, @RpcActions
 		processRpcPartTopLevelAnnotations(ast, cu, rewriter, root, entity);
 
 		// process annotations that located inside part: @RpcField
@@ -243,6 +245,15 @@ public class RpcEntitySaver extends AbstractEntitySaver {
 
 		ListRewrite listRewriter = rewriter.getListRewrite(root, TypeDeclaration.MODIFIERS2_PROPERTY);
 		String rootName = root.getName().getFullyQualifiedName();
+
+		// add new annotations to part
+		RpcEntityBuilder.INSTANCE.addEntityTopLevelAnnotations(ast, cu, rewriter, listRewriter,
+				RpcEntityUtils.<AbstractAction> getActionList(entity, ASTNode.NORMAL_ANNOTATION,
+						new ActionType[] { ActionType.ADD }), RpcPartModel.class);
+
+		// remove annotations from part
+		RpcEntityBuilder.INSTANCE.removeEntityTopLevelAnnotations(listRewriter, RpcEntityUtils.<AbstractAction> getActionList(
+				entity, ASTNode.NORMAL_ANNOTATION, new ActionType[] { ActionType.REMOVE }), RpcPartModel.class);
 
 		List<ASTNode> nodeList = listRewriter.getRewrittenList();
 		for (ASTNode node : nodeList) {
@@ -259,6 +270,10 @@ public class RpcEntitySaver extends AbstractEntitySaver {
 					// @RpcPart
 					RpcEntityBuilder.INSTANCE.processRpcPartAnnotation(ast, cu, rewriter, listRewriter, annotation, rootName,
 							RpcEntityUtils.getActionList(entity, RpcPartAction.class));
+				} else if (RpcActions.class.getSimpleName().equals(fullyQualifiedName)) {
+					// @RpcActions
+					RpcEntityBuilder.INSTANCE.processRpcActionsAnnotation(ast, cu, rewriter, listRewriter, annotation,
+							RpcEntityUtils.getActionList(entity, RpcPartActionsAction.class));
 				}
 			}
 		}

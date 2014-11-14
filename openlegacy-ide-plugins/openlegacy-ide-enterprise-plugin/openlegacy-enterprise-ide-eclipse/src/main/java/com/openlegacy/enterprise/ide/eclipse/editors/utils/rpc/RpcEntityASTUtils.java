@@ -48,6 +48,9 @@ public class RpcEntityASTUtils extends ASTUtils {
 		if (!model.isGlobal()) {
 			annotation.values().add(createBooleanPair(ast, AnnotationConstants.GLOBAL, model.isGlobal()));
 		}
+		if (model.getTargetEntity() != null && !model.getTargetEntity().equals(model.getDefaultTargetEntity())) {
+			annotation.values().add(createTypePair(ast, AnnotationConstants.TARGET_ENTITY, model.getTargetEntity()));
+		}
 		return annotation;
 	}
 

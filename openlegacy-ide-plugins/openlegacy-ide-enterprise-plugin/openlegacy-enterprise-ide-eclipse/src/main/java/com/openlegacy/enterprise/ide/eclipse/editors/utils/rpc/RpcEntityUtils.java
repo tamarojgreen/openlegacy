@@ -10,6 +10,7 @@ import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNavigationAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcNumericFieldAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartAction;
+import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartActionsAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.actions.rpc.RpcPartListAction;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.ActionModel;
 import com.openlegacy.enterprise.ide.eclipse.editors.models.rpc.RpcActionsModel;
@@ -282,6 +283,40 @@ public class RpcEntityUtils {
 			PrivateMethods.addRemoveRpaPartListAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
 					| ASTNode.MEMBER_VALUE_PAIR, RpcAnnotationConstants.COUNT, model.getCount());
 		}
+
+		public static void generateRpcPartActionsAction(RpcEntity entity, RpcActionsModel model) {
+			boolean isPrevious = true;
+			boolean isDefault = true;
+			if (!(model.getParent() instanceof RpcPartModel)) {
+				return;
+			}
+			RpcPartModel partModel = (RpcPartModel)model.getParent();
+			RpcPartModel entityModel = entity.getPartByUUID(partModel.getUUID());
+			if (entityModel == null) {
+				return;
+			}
+			// add @RpcActions annotation
+			if (entityModel.getActionsModel().getActions().isEmpty() && (model.getActions() != null)
+					&& (!model.getActions().isEmpty())) {
+				entity.addAction(new RpcPartActionsAction(model.getUUID(), model, ActionType.ADD, ASTNode.NORMAL_ANNOTATION,
+						RpcAnnotationConstants.RPC_ACTIONS_ANNOTATION, null));
+			}
+			// remove @RpcActions annotation
+			if (!entityModel.getActionsModel().getActions().isEmpty()
+					&& ((model.getActions() == null) || (model.getActions().isEmpty()))) {
+				entity.addAction(new RpcPartActionsAction(model.getUUID(), model, ActionType.REMOVE, ASTNode.NORMAL_ANNOTATION,
+						RpcAnnotationConstants.RPC_ACTIONS_ANNOTATION, null));
+			}
+			// remove addAnnotation action if all of actions were deleted
+			if (entityModel.getActionsModel().getActions().isEmpty() && model.getActions().isEmpty()) {
+				entity.removeAction(model.getUUID(), RpcAnnotationConstants.RPC_ACTIONS_ANNOTATION);
+			}
+			// @RpcActions.actions: default {}
+			isPrevious = PrivateMethods.compareActionsModels(model.getActions(), entityModel.getActionsModel().getActions());
+			isDefault = ((model.getActions() == null) || (model.getActions().isEmpty()));
+			PrivateMethods.addRemoveRpcPartActionsAction(entity, model, isPrevious, isDefault, ASTNode.NORMAL_ANNOTATION
+					| ASTNode.MEMBER_VALUE_PAIR, AnnotationConstants.ACTIONS, model.getActions());
+		}
 	}
 
 	private final static class PrivateMethods {
@@ -374,6 +409,17 @@ public class RpcEntityUtils {
 			}
 		}
 
+		private static void addRemoveRpcPartActionsAction(RpcEntity entity, RpcActionsModel model, boolean isPrevious,
+				boolean isDefault, int target, String key, Object value) {
+			if (!isPrevious && !isDefault) {
+				entity.addAction(new RpcPartActionsAction(model.getUUID(), model, ActionType.MODIFY, target, key, value));
+			} else if (!isPrevious && isDefault) {
+				entity.addAction(new RpcPartActionsAction(model.getUUID(), model, ActionType.REMOVE, target, key, null));
+			} else {
+				entity.removeAction(model.getUUID(), key);
+			}
+		}
+
 		private static boolean compareActionsModels(List<ActionModel> a, List<ActionModel> b) {
 			if (a.size() != b.size()) {
 				return false;
@@ -383,7 +429,8 @@ public class RpcEntityUtils {
 				ActionModel bClass = b.get(i);
 				if (!aClass.getActionName().equals(bClass.getActionName()) || !aClass.getAlias().equals(bClass.getAlias())
 						|| !aClass.getDisplayName().equals(bClass.getDisplayName())
-						|| !aClass.getProgramPath().equals(bClass.getProgramPath()) || (aClass.isGlobal() != bClass.isGlobal())) {
+						|| !aClass.getProgramPath().equals(bClass.getProgramPath()) || (aClass.isGlobal() != bClass.isGlobal())
+						|| !StringUtils.equals(aClass.getTargetEntityClassName(), bClass.getTargetEntityClassName())) {
 					return false;
 				}
 			}
@@ -511,7 +558,7 @@ public class RpcEntityUtils {
 			if (!map.isEmpty()) {
 				Collection<AbstractAction> values2 = map.values();
 				for (AbstractAction action : values2) {
-					if (actionClass.isAssignableFrom(action.getClass())) {
+					if (actionClass.getName().equals(action.getClass().getName())) {
 						list.add((T)action);
 					}
 				}
